@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Tysta"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Det gick inte att uppdatera Signal. {retry} eller besök {url} för att installera det manuellt. Därefter, {support} om detta problem"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal kunde inte uppdateras. <retryUpdateButton>Försök uppdatera igen</retryUpdateButton> eller besök {url} för att installera manuellt. <contactSupportLink>Kontakta sedan supporten</contactSupportLink> om detta problem"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal kunde inte uppdateras. Besök {url} för att installera det manuellt. Sedan, {support} om det här problemet"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal kunde inte uppdateras. Besök {url} för att installera manuellt. <contactSupportLink>Kontakta sedan supporten</contactSupportLink> om detta problem"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Försök att uppdatera igen"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "kontakta supporten"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Klicka för att starta om Signal"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tryck på \"Donera till Signal\" och prenumerera"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Fäll ut"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Klicka på <newStoryIcon>Lägg till en story</newStoryIcon> för att lägga till en uppdatering."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} till {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Reagerade på storyn"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Du kan inte svara på den här storyn eftersom du inte längre är medlem i den här gruppen."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Klicka på <newCallIcon>Nytt samtal</newCallIcon> för att starta ett nytt röst- eller videosamtal."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Sök"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Avfärdat"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Gruppsamtal"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Samtalslänk"
@@ -5620,10 +5629,13 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Vi har åtgärdat en bugg som ibland gjorde att förloppsraden hängde sig när du visade en Story."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal Desktop kan nu automatiskt återuppta avbrutna nedladdningar av bilagor."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

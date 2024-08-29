@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "ஒலியடக்கு"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "சிக்னலைப் புதுப்பிக்க முடியவில்லை. அதை கைமுறையாக நிறுவ{retry} அல்லது {url}-ஐ பார்வையிடவும். பின்னர், இந்த பிரச்சனை பற்றி {support}"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "சிக்னலை புதுப்பிக்க இயலவில்லை. <retryUpdateButton>புதுப்பிப்பை மீண்டும் முயற்சிக்கவும்</retryUpdateButton> அல்லது கைமுறையாக நிறுவ, {url} என்ற இணைப்பைப் பார்வையிடவும். பின்னர், இந்தச் சிக்கலுக்காக <contactSupportLink>ஆதரவைத் தொடர்பு கொள்ளவும்</contactSupportLink>"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "சிக்னலைப் புதுப்பிக்க முடியவில்லை. அதை கைமுறையாக நிறுவ {url}-ஐ பார்வையிடவும். பின்னர், இந்த பிரச்சனை பற்றி {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "சிக்னலைப் புதுப்பிக்க இயலவில்லை. கைமுறையாக நிறுவ, {url} என்ற இணைப்பைப் பார்வையிடவும். பின்னர், இந்தச் சிக்கலுக்காக <contactSupportLink>ஆதரவைத் தொடர்பு கொள்ளவும்</contactSupportLink>"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "புதுப்பிப்பை மீண்டும் முயற்சிக்கவும்"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "உதவி மையத்தை தொடர்பு கொள்ளவும்"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "சிக்னலை மறுதொடக்கம் செய்ய கிளிக் செய்யவும்"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"சிக்னலுக்கு நன்கொடை அளி\" என்பதைத் தட்டி சப்ஸ்கிரைப் செய்யவும்"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "விரிவாக்கு"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "ஒரு புதுப்பிப்பைச் சேர்க்க <newStoryIcon>ஒரு ஸ்டோரியைச் சேர்</newStoryIcon> என்பதைக் கிளிக் செய்யவும்."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} - {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "ஸ்டோரிக்கு எதிர்வினையாற்றினார்"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "புதிய குரல் அல்லது வீடியோ அழைப்பைத் தொடங்க <newCallIcon>புதிய அழைப்பு</newCallIcon> என்பதைக் கிளிக் செய்யவும்."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "தேடல்"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "மறுக்கப்பட்டது"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "குழு அழைப்பு"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "அழைப்பு இணைப்பு"
@@ -5620,10 +5629,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "ஸ்டோரியைப் பார்க்கும்போது சில சமயங்களில் செயலாக்கப் பட்டியைச் செயலிழக்கச்செய்யும் பிழையை நாங்கள் சரிசெய்துள்ளோம்."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "சிக்னல் டெஸ்க்டாப்பால் இப்போது குறுக்கிடப்பட்ட இணைப்புப் பதிவிறக்கங்களை தானாகத் தொடர முடியும்."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

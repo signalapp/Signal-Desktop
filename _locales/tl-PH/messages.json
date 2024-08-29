@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "I-mute"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Hindi ma-update ang Signal. {retry} o i-visit ang {url} para ma-install ito manually. Pagkatapos, {support} tungkol sa problem na ito."
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Hindi ma-update ang Signal. <retryUpdateButton>Subukan ulit ang pag-update</retryUpdateButton> o pumunta ang {url} para i-install ito manually. Pagkatapos, <contactSupportLink>kontakin ang support</contactSupportLink> tungkol sa problemang ito"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Hindi ma-update ang Signal. I-visit ang {url} para ma-install ito manually. Pagkatapos, {support} tungkol sa problem na ito."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Hindi ma-update ang Signal. Puntahan ang {url} para i-install ito manually. Pagkatapos, <contactSupportLink>kontakin ang support</contactSupportLink> tungkol sa problemang ito"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Retry update"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "Makipag-ugnayan sa Suporta"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Click to restart Signal"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "I-tap ang \"Donate to Signal\" at mag-subscribe"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "I-expand"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "I-click ang <newStoryIcon>Add a story</newStoryIcon> para maglagay ng update."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} para sa {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Nag-react sa story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Hindi ka pwedeng mag-reply sa story na ito dahil hindi ka na member ng group."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "I-click ang <newCallIcon>New Call</newCallIcon> para magsimula ng bagong voice o video call."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Maghanap"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Hindi sinagot"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Group call"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Call link"
@@ -5620,10 +5629,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "May inayos kaming bug na minsang nagiging dahilan ng pag-freeze ng progress bar habang tumitingin ng Story."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Kaya nang automatic na ituloy ng Signal Desktop ang naputol na attachment downloads."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

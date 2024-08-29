@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "بی‌صدا"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "سیگنال به‌روزرسانی نمی‌تواند بشود. {retry} یا برای نصب دستی به {url} مراحعه کنید. سپس، {support} در مورد این مشکل"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "سیگنال به‌روزرسانی نشد. برای نصب دستی، <retryUpdateButton>به‌روزرسانی را دوباره امتحان کنید</retryUpdateButton> یا به {url} مراجعه کنید. سپس برای رفع این مشکل، با <contactSupportLink>پشتیبانی تماس بگیرید</contactSupportLink>"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "سیگنال به‌روزرسانی نشد. برای نصب دستی به {url} مراجعه کنید. سپس در مورد این مشکل{support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "سیگنال به‌روزرسانی نشد. برای نصب دستی به {url} مراجعه کنید. سپس برای رفع این مشکل، با <contactSupportLink>پشتیبانی تماس بگیرید</contactSupportLink>"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "دوباره به‌روزرسانی کنید"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "تماس با پشتیبانی"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "برای راه‌اندازی دوبارهٔ سیگنال کلیک کنید"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "روی «کمک مالی به سیگنال» ضربه بزنید و مشترک شوید"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "گسترش"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "برای به‌روزرسانی، روی <newStoryIcon>افزودن استوری</newStoryIcon> کلیک کنید."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} به {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "به استوری واکنش نشان داد"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "شما نمی‌توانید به این استوری پاسخ دهید زیرا دیگر عضو این گروه نیستید."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "برای شروع تماس صوتی یا تصویری جدید، روی <newCallIcon>تماس جدید</newCallIcon> کلیک کنید."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "جستجو"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "رد شد"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "تماس گروهی"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "پیوند تماس"
@@ -5620,10 +5629,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "اشکالی را که گاهی باعث متوقف شدن نوار پیشرفت هنگام مشاهده استوری می‌شد برطرف کردیم."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "سیگنال دسک‌تاپ اکنون می‌تواند دانلود‌های مختل‌شده پیوست‌ها را به‌طور خودکار از سر بگیرد."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

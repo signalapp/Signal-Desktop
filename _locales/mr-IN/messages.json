@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "मूक करा"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal अद्यतनित होऊ शकत नाही. हस्तचलित पद्धतीने त्याला स्थापित करण्यासाठी {retry} किंवा t {url} ला भेट द्या. नंतर,  या समस्येबद्दल {support} भेट द्या"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal अद्यतनित होऊ शकत नाही. <retryUpdateButton>अद्यतनित करण्याचा पुन्हा प्रयत्न करा</retryUpdateButton> किंवा हस्तचलित पद्धतीने त्याला इन्स्टॉल करण्यासाठी {url} ला भेट द्या. नंतर, या समस्येसाठी <contactSupportLink>सपोर्टशी संपर्क</contactSupportLink> साधा"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal अद्यतनित होऊ शकत नाही. त्याला हस्तचलित पद्धतीने स्थापित करण्यास  {url}ला भेट द्या. नंतर या समस्येबद्दल, {support} ला"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal अद्यतनित होऊ शकत नाही. हस्तचलित पद्धतीने इन्स्टॉल करण्यासाठी {url} ला भेट द्या. नंतर, या समस्येसाठी <contactSupportLink>सपोर्ट शी संपर्क</contactSupportLink> साधा"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "अद्यतनाचा पुन्हा प्रयत्न करा"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "सहाय्यता शी संपर्क साधा"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Signal पुन्हा सुरू करण्यासाठी क्लिक करा"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal ला देणगी द्या\" वर टॅप करा आणि सदस्यत्व घ्या"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "विस्तारित करा"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "एक अद्यतन जोडण्यासाठी <newStoryIcon>स्टोरीज जोडा</newStoryIcon> वर क्लिक करा."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} कडून {group}ला"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "स्टोरीला प्रतिक्रिया दिली"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "आपण या स्टोरीज ला उत्तर देऊ शकणार नाही कारण आपण यापुढे या ग्रुपचे सदस्य नाही."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "नवीन व्हॉइस किंवा व्हिडिओ कॉल सुरू करण्यासाठी <newCallIcon>नवीन कॉल</newCallIcon> वर क्लिक करा."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "शोध"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "नाकारलेले"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "गट कॉल"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "कॉल लिंक"
@@ -5620,10 +5629,13 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "प्रत्येकाला चांगली स्टोरी खूप आवडते, आणि आम्ही तुम्हाला एका बगची कथा सांगतो ज्यामुळे कधीकधी चांगली कथा पाहताना मध्यभागीच प्रगती बार अडकून बसतो — परंतु त्या बगच्या साहसाचा आधीच अंत झाला आहे कारण आम्ही त्याचे या रिलीजमध्ये निराकरण केले आहे."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal डेक्सटॉप आता स्वयंचलितपणे व्यत्यय आलेली अटॅचमेंट डाउनलोड तेथून पुन्हा सुरू करू शकतो, त्यामुळे आपल्या मित्राने पाठवलेला मिम ट्रान्सफर होण्यापूर्वी आपण आपल्या लॅटटॉपला बंद केले तरी आपणाला त्यावर हसण्यासाठी फार वेळ वाट पाहावी लागणार नाही."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

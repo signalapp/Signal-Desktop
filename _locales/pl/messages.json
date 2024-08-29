@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Wycisz"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Aktualizacja Signal nie powiodła się. {retry} lub odwiedź {url}, aby zainstalować ręcznie. Następnie, {support} w sprawie tego problemu"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Aktualizacja Signal nie powiodła się. <retryUpdateButton>Ponów próbę</retryUpdateButton> lub odwiedź {url}, aby zainstalować aktualizację ręcznie. Następnie <contactSupportLink>skontaktuj się z pomocą techniczną</contactSupportLink> w sprawie tego problemu"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Aktualizacja Signal nie powiodła się. Odwiedź {url}, aby zainstalować aplikację ręcznie. Następnie, {support} w sprawie tego problemu"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Aktualizacja Signal nie powiodła się. Odwiedź {url}, aby zainstalować aktualizację ręcznie. Następnie <contactSupportLink>skontaktuj się z pomocą techniczną</contactSupportLink> w sprawie tego problemu"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Ponów aktualizację"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "skontaktuj się z pomocą techniczną"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Kliknij, aby ponownie uruchomić Signal"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Stuknij w opcję „Przekaż darowiznę na rzecz Signal” i zasubskrybuj"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Powiększ"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Jeśli chcesz coś opublikować, kliknij opcję <newStoryIcon>Dodaj relację</newStoryIcon>."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} do {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Zareagowano na relację"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Nie możesz wysyłać wiadomości w odpowiedzi na tę relację, ponieważ nie jesteś już członkiem tej grupy."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Kliknij opcję <newCallIcon>Nowe połączenie</newCallIcon>, aby rozpocząć nowe połączenie głosowe lub wideo."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Szukaj"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Odrzucono"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Połączenie grupowe"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Link do połączenia"
@@ -5620,10 +5629,13 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Dawno dawno temu był sobie błąd, który sprawiał, że pasek postępu zatrzymywał się w połowie oglądania relacji — na szczęście ta bajka dobrze się kończy, bo błąd został już naprawiony."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal Desktop od teraz automatycznie wznawia pobieranie załączników od miejsca, w którym zostało ono przerwane. Koniec z długim czekaniem na otwarcie memów od znajomych — możesz śmiało zamknąć laptopa, a one i tak pobiorą się po otwarciu."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

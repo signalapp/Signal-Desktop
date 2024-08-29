@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "အသံပိတ်ရန်"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ {retry} သို့မဟုတ် ကိုယ်တိုင် ထည့်သွင်းရန် {url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ {support}"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ <retryUpdateButton>အပ်ဒိတ် ထပ်လုပ်ကြည့်ပါ</retryUpdateButton> သို့မဟုတ် ၎င်းကို ကိုယ်တိုင်ထည့်သွင်းရန် {url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ <contactSupportLink>ပံ့ပိုးမှုသို့ ဆက်သွယ်ပါ။</contactSupportLink>"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ ကိုယ်တိုင် ထည့်သွင်းရန်{url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ ကိုယ်တိုင် ထည့်သွင်းရန် {url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ <contactSupportLink>ပံ့ပိုးမှုသို့ ဆက်သွယ်ပါ။</contactSupportLink>"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "အပ်ဒိတ်လုပ်ဆောင်မှု ပြန်ကြိုးစားရန်"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "အကူအညီ ရယူရန် ဆက်သွယ်ပါ"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Signal ကို ပြန်စတင်ရန် နှိပ်ပါ"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal အတွက် လှူရန်\" ကို နှိပ်ပြီး ပုံမှန်လှူဒါန်းပါ"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "ဖြန့်ရန်"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "အပ်ဒိတ်တစ်ခုထည့်ရန် <newStoryIcon>စတိုရီတစ်ခု ပေါင်းထည့်ရန်</newStoryIcon>ကို နှိပ်ပါ။"
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} မှ {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "အသံ သို့မဟုတ် ဗီဒီယိုကောလ် အသစ်တစ်ခုစတင်ရန် <newCallIcon>ကောလ်အသစ်</newCallIcon> ကိုနှိပ်ပါ။"
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ရှာရန်"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "ငြင်းပယ်သည်"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "အဖွဲ့လိုက် ခေါ်ဆိုမှု"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "ကောလ်လင့်ခ်"
@@ -5620,10 +5629,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "စတိုရီကြည့်နေစဉ် တိုးတက်မှုခြေပြဘားအား တစ်ခါတစ်ရံ ရပ်တန့်သွားစေသည့် ပြစ်ချက်ကို ပြုပြင်ထားသည်။"
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "ယခုအခါ Signal Desktop သည် ဒေါင်းလုဒ် လုပ်လက်စဖြင့် ပြတ်တောက်သွားသော ပူးတွဲဖိုင်များကို အလိုအလျောက် ဆက်၍ဒေါင်းလုဒ်လုပ်နိုင်ပါပြီ။"
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Silenciar"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal não foi atualizado. {retry} ou visite {url} para você instalar a atualização. Em seguida, {support} sobre esse problema"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Não foi possível atualizar o Signal. <retryUpdateButton>Tente atualizar novamente</retryUpdateButton> ou acesse {url} para instalar manualmente. Depois, <contactSupportLink>fale com o suporte</contactSupportLink> sobre este problema"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal não foi atualizado. Visite {url} para instalá-lo manualmente. Em seguida, {support} sobre esse problema"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Não foi possível atualizar o Signal. Acesse {url} para instalar manualmente. Depois, <contactSupportLink>fale com o suporte</contactSupportLink> sobre este problema"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Tente atualizar novamente"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "entre em contato com o suporte"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Clique para reiniciar o Signal"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Toque em \"Doar para o Signal\" e assine"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Clique em <newStoryIcon>Adicionar um story</newStoryIcon> para postar uma atualização."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} em {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Reagiu ao story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Você não pode responder a este story porque não faz mais parte do grupo."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Clique em <newCallIcon>Nova chamada</newCallIcon> para iniciar uma nova chamada de voz ou vídeo."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Pesquisar"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Chamada recusada"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Chamada em grupo"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Link da chamada"
@@ -5620,10 +5629,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Corrigimos um erro que, em alguns casos, fazia a barra de progresso travar ao visualizar um Story."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Precisa fechar o computador no meio de um download? Sem problemas! O Signal Desktop retoma o download automaticamente de onde parou, então você pode fechar o notebook sem a preocupação de perder o arquivo."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "মিউট"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal আপডেট করা যায়নি। {retry} অথবা ম্যানুয়ালি ইন্সটল করতে ভিজিট করুন {url}। তারপর, এই সমস্যা সম্পর্কে {support}"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal আপডেট করা যায়নি। <retryUpdateButton>পুনরায় আপডেট করার চেষ্টা করুন</retryUpdateButton> অথবা ম্যানুয়ালি ইনস্টল করতে {url} ভিজিট করুন। তারপর, এই সমস্যার ব্যাপারে <contactSupportLink>সাপোর্টের সাথে যোগাযোগ করুন</contactSupportLink>"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal আপডেট করা যায়নি। ম্যানুয়ালি ইন্সটল করতে ভিজিট করুন {url}। তারপর, এই সমস্যা সম্পর্কে {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal আপডেট করা যায়নি। ম্যানুয়ালি ইন্সটল করতে ভিজিট করুন {url}। তারপর, এই সমস্যা সম্পর্কে <contactSupportLink>সাপোর্টের সাথে যোগাযোগ করুন</contactSupportLink>"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "পুনরায় আপডেট করার চেষ্টা করুন"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "সাপোর্ট-এর সাথে যোগাযোগ করুন"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Signal পুনরায় চালু করতে ক্লিক করুন"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal-এ অনুদান দিন\" ট্যাপ করুন এবং সাবস্ক্রাইব করুন"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "প্রসারিত করুন"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "কোনও আপডেট যোগ করতে <newStoryIcon>স্টোরি যোগ করুন</newStoryIcon>-এ ক্লিক করুন।"
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} থেকে {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "স্টোরিতে রিঅ্যাক্ট করেছেন"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "আপনি এই স্টোরি-র উত্তর দিতে পারবেন না, কারণ আপনি আর এই গ্রুপের সদস্য নন।"
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "নতুন ভয়েস বা ভিডিও কল শুরু করতে <newCallIcon>নতুন কল</newCallIcon>-এ ক্লিক করুন।"
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "অনুসন্ধান"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "প্রত্যাখ্যান করা হয়েছে"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "গ্রুপ কল"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "কলের লিংক"
@@ -5620,10 +5629,13 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "একটি ভাল স্টোরি সবাই পছন্দ করে এবং আমরা আপনাকে একটি স্টোরি বলতে পারি যেখানে একটি বাগ-এর কারণে কখনও কখনও একটি ভাল স্টোরি দেখার মাঝখানে প্রগ্রেসবার স্থির হয়ে যেত — কিন্তু বাগ নিয়ে সেই অ্যাডভেঞ্চারের ইতিমধ্যেই একটি শুভ পরিণতি ঘটেছে, কারণ আমরা এই রিলিজে সেই বাগটি ঠিক করেছি।"
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal ডেস্কটপ এখন বাধাপ্রাপ্ত সংযুক্তি ডাউনলোড স্বয়ংক্রিয়ভাবে পুনরায় শুরু করতে পারবে।"
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "음소거"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal을 업데이트하지 못했습니다. {retry} 또는 {url}을(를) 방문하여 수동으로 설치하세요. 그다음 {support}에 이 문제에 관해 문의하세요."
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal을 업데이트하지 못했습니다. <retryUpdateButton>업데이트를 다시 시도</retryUpdateButton>하거나 {url}을(를) 방문하여 수동으로 설치하세요. 그런 다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의하세요."
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal을 업데이트하지 못했습니다. {url}을(를) 방문하여 수동으로 설치하세요. 그다음 {support}에 이 문제에 관해 문의하세요."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal을 업데이트하지 못했습니다. {url}을(를) 방문하여 수동으로 설치하세요. 그런 다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의하세요."
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "업데이트 다시 시도"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "고객 지원팀에 문의"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "클릭하여 Signal 다시 시작"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "'Singal에 기부'를 탭하여 구독하세요."
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "확장"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "<newStoryIcon>스토리 추가</newStoryIcon>를 클릭하여 업데이트하세요."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "보낸 사람: {name} 님, 받는 사람: {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "스토리에 반응했습니다."
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "더 이상 이 그룹의 멤버가 아니므로 이 스토리에 답장할 수 없습니다."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "<newCallIcon>새 통화</newCallIcon>를 클릭하여 새로운 음성 또는 영상 통화를 시작하세요."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "검색"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "거부됨"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "그룹 통화"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "통화 링크"
@@ -5620,10 +5629,13 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "스토리를 보는 동안 진행률 막대가 고정되는 버그를 해결했습니다."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal 데스크톱이 이제 끊겼던 첨부 파일 다운로드를 자동으로 계속할 수 있습니다."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

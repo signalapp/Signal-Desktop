@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Tắt tiếng"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal không thể cập nhật. {retry} hoặc truy cập {url} để cài thủ công. Sau đó, {support} về vấn đề này"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal không thể cập nhật. <retryUpdateButton>Thử cập nhật lại</retryUpdateButton> hoặc truy cập {url} để cài thủ công. Sau đó, <contactSupportLink>liên hệ bộ phận hỗ trợ</contactSupportLink> về vấn đề này"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal không thể cập nhật. Truy cập {url} để cài thủ công. Sau đó, {support} về vấn đề này"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal không thể cập nhật. Truy cập {url} để cài thủ công. Sau đó, <contactSupportLink>liên hệ bộ phận hỗ trợ</contactSupportLink> về vấn đề này"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Thử cập nhật lại"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "liên hệ bộ phận hỗ trợ"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Nhấp để khởi động lại Signal"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Nhấn nút \"Ủng hộ Signal\" và đăng ký ủng hộ"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Mở rộng"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Bấm <newStoryIcon>Thêm một story</newStoryIcon> để thêm một cập nhật."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} đến {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Đã bày tỏ cảm xúc với story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Bạn không thể trả lời story này vì bạn không còn là thành viên của nhóm này."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Bấm <newCallIcon>Cuộc gọi mới</newCallIcon> để bắt đầu một cuộc gọi thoại hoặc cuộc gọi video."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Tìm kiếm"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Đã từ chối"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Cuộc gọi nhóm"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Đường dẫn cuộc gọi"
@@ -5620,10 +5629,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Chúng tôi đã sửa lỗi thanh tiến trình đôi khi bị đứng khi đang xem một Story."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Giờ đây Signal Desktop có thể tự động tiếp tục quá trình tải xuống tập tin đính kèm bị gián đoạn."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

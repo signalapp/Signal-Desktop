@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Үнүн басуу"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal жаңыртылган жок. {retry} же кол менен орнотуу үчүн {url} дарегине баш багыңыз. Андан кийин, бул көйгөй жөнүндө {support} кызматына билдириңиз"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal'ды жаңыртуу мүмкүн болбой жатат. <retryUpdateButton>Кайталап көрүңүз</retryUpdateButton> же бул жерге өтүп {url}, кол менен орнотуңуз. Андан соң, бул көйгөй тууралуу <contactSupportLink>кардарларды тейлөө кызматына</contactSupportLink> кабарлаңыз"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal жаңыртылган жок. Кол менен орнотуу үчүн {url} дарегине баш багыңыз. Андан кийин, бул көйгөй жөнүндө {support} кызматына билдириңиз"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal'ды жаңыртуу мүмкүн болбой жатат. Бул жерге өтүп {url}, аны кол менен орнотуп көрүңүз. Андан соң, бул көйгөй тууралуу <contactSupportLink>кардарларды тейлөө кызматына</contactSupportLink> кабарлаңыз"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Жаңыртууну кайра аракет кылуу"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "Кардарларды колдоо кызматына кайрылуу"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Signal'ды кайра иштетүү үчүн басыңыз"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal'га колдоо көрсөтүү\" дегенди басып туруп, жазылыңыз"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Кеңейтүү"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Жаңыртуу үчүн <newStoryIcon>окуя кошуу</newStoryIcon> дегенди басыңыз."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} -> {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Окуяга сезимин билдирди"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Бул топтон чыгып кеткениңизден улам, бул окуяга жооп бере албайсыз."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Аудио же видео режиминде чалып баштоо үчүн <newCallIcon>Жаңы чалуу</newCallIcon> дегенди басыңыз."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Издөө"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Четке кагылды"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Топтук чалуу"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Чалуу шилтемеси"
@@ -5620,10 +5629,13 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Баары тең эле жакшы окуяларга кызыгышат. Окуяларды жагымдуу шарттарда көрүү мүмкүнчүлүгүн берүү үчүн аны орто жерден үзгүлтүккө учураткан мүчүлүштүктү жоюп салдык."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Тиркеме жүктөлүп жатып үзгүлтүккө учураса, Signal Desktop токтогон жерден улантып кетет."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

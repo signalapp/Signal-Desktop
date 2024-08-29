@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Hiqi zërin"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal-i s’u përditësua dot. {retry}, ose vizitoni {url} që ta instaloni dorazi. Mandej, {support} rreth këtij problemi"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal nuk mund të përditësohej. <retryUpdateButton>Riprovo përditësimin</retryUpdateButton> ose vizito {url} për ta instaluar manualisht. Pastaj, <contactSupportLink>kontakto ndihmën</contactSupportLink> në lidhje me këtë problem"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal-i s’u përditësua dot. Vizitoni {url}, që ta instaloni dorazi. Mandej, {support} rreth këtij problemi"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal nuk mund të përditësohej. Vizito {url} për ta instaluar manualisht. Pastaj, <contactSupportLink>kontakto ndihmën</contactSupportLink> në lidhje me këtë problem"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Riprovoni përditësim"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "lidhuni me asistencën"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Klikoni që të riniset Signal-i"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Prek “Dhuro për Signal” dhe pajtohu"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Zgjeroje"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Kliko <newStoryIcon>Shto një postim të përkohshëm</newStoryIcon> për të shtuar një përditësim."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} për {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Reagoi ndaj postimit të përkohshëm"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Kliko <newCallIcon>Thirrje e re</newCallIcon> për të nisur një thirrje të re zanore ose me video."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Kërko"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Refuzuar"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Thirrje grupi"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Lidhja e thirrjes"
@@ -5620,10 +5629,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Të gjithëve u pëlqen një postim i përkohshëm i mirë dhe mund t'ju tregojmë përrallën e një defekti që nganjëherë shkaktonte ngrirjen e shiritit të progresit pikërisht në mes të shikimit të një postimi të përkohshëm të mirë — por aventura e këtij defekti ka tashmë fund të lumtur sepse e rregulluam në këtë version."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal Desktop tani mund të rifillojë automatikisht shkarkimet e ndërprera të bashkëngjitjes nga aty ku kanë ngecur, kështu që nuk do të duhet të presësh aq gjatë të qeshësh edhe nëse e mbyll kapakun e laptopit përpara se të përfundojë transferimi i memes që të dërgoi shoku yt."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

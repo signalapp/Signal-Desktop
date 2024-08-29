@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Silenciar"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "No se ha podido actualizar Signal. {retry} o ve a {url} para instalar la aplicación manualmente. Luego, {support} para solucionar el problema."
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "No se ha podido actualizar Signal. <retryUpdateButton>Intenta actualizar de nuevo</retryUpdateButton> o ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>contacta con el equipo de asistencia</contactSupportLink> para informarles sobre el problema."
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "No se ha podido actualizar Signal. Ve a {url} para instalar la aplicación manualmente. Luego, {support} para solucionar el problema."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "No se ha podido actualizar Signal. Ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>contacta con el equipo de asistencia</contactSupportLink> para informarles sobre el problema."
@@ -1119,7 +1113,7 @@
     "messageformat": "Abre Signal en tu teléfono"
   },
   "icu:Install__instructions__2": {
-    "messageformat": "Toca en «{settings}», después en «{linkedDevices}»"
+    "messageformat": "Toca {settings} y luego {linkedDevices}"
   },
   "icu:Install__instructions__2__settings": {
     "messageformat": "Ajustes"
@@ -1149,7 +1143,7 @@
     "messageformat": "Este nombre aparecerá en \"Dispositivos vinculados\" en tu teléfono"
   },
   "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "Computadora/ordenador"
+    "messageformat": "Mi PC"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Número de teléfono"
@@ -1158,19 +1152,19 @@
     "messageformat": "Nombre del dispositivo"
   },
   "icu:chooseDeviceName": {
-    "messageformat": "Selecciona un nombre para este dispositivo"
+    "messageformat": "Elige el nombre de este dispositivo"
   },
   "icu:finishLinkingPhone": {
-    "messageformat": "Completar proceso"
+    "messageformat": "Completar vinculación del teléfono"
   },
   "icu:initialSync": {
-    "messageformat": "Sincronizando personas y grupos"
+    "messageformat": "Sincronizando contactos y grupos"
   },
   "icu:initialSync__subtitle": {
     "messageformat": "Aviso: tus chats previos no se sincronizarán con este dispositivo"
   },
   "icu:installConnectionFailed": {
-    "messageformat": "Fallo al conectar con el servidor."
+    "messageformat": "No se ha podido conectar con el servidor."
   },
   "icu:installTooManyDevices": {
     "messageformat": "Tienes demasiados dispositivos vinculados. Prueba a eliminar alguno."
@@ -1179,7 +1173,7 @@
     "messageformat": "Actualiza Signal en este dispositivo para vincularlo con tu teléfono."
   },
   "icu:installErrorHeader": {
-    "messageformat": "¡Algo ha salido mal!"
+    "messageformat": "Se ha producido un error"
   },
   "icu:installUnknownError": {
     "messageformat": "Ha ocurrido un error inesperado. Inténtalo de nuevo."
@@ -1206,7 +1200,7 @@
     "messageformat": "Volver a la llamada"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "messageformat": "Micrófono silenciado en llamada de grupo numerosa"
+    "messageformat": "Se ha silenciado tu micrófono porque hay muchos participantes en la llamada"
   },
   "icu:calling__toasts--aria-label": {
     "messageformat": "Notificaciones de llamadas"
@@ -1290,13 +1284,13 @@
     "messageformat": "Comenzar presentación"
   },
   "icu:calling__button--presenting-off": {
-    "messageformat": "Terminar presentación"
+    "messageformat": "Detener presentación"
   },
   "icu:calling__button--react": {
     "messageformat": "Reaccionar"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
-    "messageformat": "El grupo es demasiado grande para notificar a tod@s l@s participantes."
+    "messageformat": "No se puede realizar la llamada porque el grupo es demasiado grande."
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "Desactivar el sonido"
@@ -1359,16 +1353,16 @@
     "messageformat": "No hay nadie más"
   },
   "icu:calling__pre-call-info--1-person-in-call": {
-    "messageformat": "{first} participa en esta llamada"
+    "messageformat": "{first} está en esta llamada"
   },
   "icu:calling__pre-call-info--another-device-in-call": {
     "messageformat": "Te has unido a esta llamada en uno de tus otros dispositivos"
   },
   "icu:calling__pre-call-info--2-people-in-call": {
-    "messageformat": "{first} y {second} participan en esta llamada"
+    "messageformat": "{first} y {second} están en esta llamada"
   },
   "icu:calling__pre-call-info--3-people-in-call": {
-    "messageformat": "{first}, {second} y {third} participan en esta llamada"
+    "messageformat": "{first}, {second} y {third} están en esta llamada"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} y {others,number} más están en esta llamada} other {{first}, {second} y {others,number} más están en esta llamada}}"
@@ -1413,7 +1407,7 @@
     "messageformat": "No recibirás el audio ni el vídeo de esta persona y ella no recibirá los tuyos."
   },
   "icu:calling__missing-media-keys": {
-    "messageformat": "No se puede recibir ni audio ni vídeo de {name}"
+    "messageformat": "No se puede recibir audio ni vídeo de {name}"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Esto puede deberse a que no han verificado el cambio de tu número de seguridad, hay un problema con su dispositivo o te han bloqueado."
@@ -1428,7 +1422,7 @@
     "messageformat": "Estás presentando al grupo."
   },
   "icu:calling__presenting--notification-body": {
-    "messageformat": "Haz clic aquí para volver a la llamada cuando hayas terminado tu presentación."
+    "messageformat": "Haz clic aquí para volver a la llamada cuando quieras detener tu presentación."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
     "messageformat": "Volviendo a conectar…"
@@ -1443,31 +1437,31 @@
     "messageformat": "Volviendo a conectar…"
   },
   "icu:calling__presenting--stop": {
-    "messageformat": "Terminar de compartir"
+    "messageformat": "Dejar de compartir"
   },
   "icu:calling__presenting--you-stopped": {
-    "messageformat": "Has terminado de presentar"
+    "messageformat": "Has dejado de presentar"
   },
   "icu:calling__presenting--person-ongoing": {
     "messageformat": "{name} está presentando"
   },
   "icu:calling__presenting--person-stopped": {
-    "messageformat": "{name} ha terminado de presentar"
+    "messageformat": "{name} ha dejado de presentar"
   },
   "icu:calling__presenting--permission-title": {
-    "messageformat": "Necesitas activar los permisos"
+    "messageformat": "Se necesita permiso"
   },
   "icu:calling__presenting--macos-permission-description": {
-    "messageformat": "Signal necesita acceso a la grabación de pantalla."
+    "messageformat": "Signal necesita acceso a la grabación de pantalla de tu dispositivo."
   },
   "icu:calling__presenting--permission-instruction-step1": {
     "messageformat": "Ve a Ajustes del sistema."
   },
   "icu:calling__presenting--permission-instruction-step2": {
-    "messageformat": "Haz clic sobre el candado en la esquina inferior izquierda e introduce la contraseña de tu usuari@."
+    "messageformat": "Haz clic sobre el candado en la esquina inferior izquierda e introduce la contraseña de tu dispositivo."
   },
   "icu:calling__presenting--permission-instruction-step3": {
-    "messageformat": "A la derecha, marca la casilla al lado de Signal. Si no ves el icono de Signal en la lista, haz clic sobre + para añadirla."
+    "messageformat": "A la derecha, marca la casilla al lado de Signal. Si no ves el icono de Signal en la lista, haz clic en el signo + para añadirlo."
   },
   "icu:calling__presenting--permission-open": {
     "messageformat": "Abrir Ajustes del sistema"
@@ -1479,16 +1473,16 @@
     "messageformat": "Redirigir llamadas siempre"
   },
   "icu:alwaysRelayCallsDetail": {
-    "messageformat": "Redirige todas las llamadas a través del servidor de Signal para evitar revelar tu dirección IP. Activar la opción reducirá la calidad de las llamadas."
+    "messageformat": "Redirige todas las llamadas a través del servidor de Signal para evitar revelar tu dirección IP. Si activas esta opción, se reducirá la calidad de las llamadas."
   },
   "icu:permissions": {
     "messageformat": "Permisos"
   },
   "icu:mediaPermissionsDescription": {
-    "messageformat": "Permitir acesso al micrófono"
+    "messageformat": "Permitir acceso al micrófono"
   },
   "icu:mediaCameraPermissionsDescription": {
-    "messageformat": "Permitir acesso a la cámara"
+    "messageformat": "Permitir acceso a la cámara"
   },
   "icu:spellCheckDescription": {
     "messageformat": "Revisar la ortografía al escribir un mensaje"
@@ -1497,16 +1491,16 @@
     "messageformat": "Mostrar ventana emergente de formato de texto al seleccionar texto"
   },
   "icu:spellCheckWillBeEnabled": {
-    "messageformat": "El corrector ortográfico se activará al reiniciar Signal."
+    "messageformat": "El corrector ortográfico se activará la próxima vez que se inicie Signal."
   },
   "icu:spellCheckWillBeDisabled": {
-    "messageformat": "El corrector ortográfico se desactivará al reiniciar Signal."
+    "messageformat": "El corrector ortográfico se desactivará la próxima vez que se inicie Signal."
   },
   "icu:SystemTraySetting__minimize-to-system-tray": {
     "messageformat": "Minimizar a la bandeja del sistema"
   },
   "icu:SystemTraySetting__minimize-to-and-start-in-system-tray": {
-    "messageformat": "Arrancar minimizada en la barra de tareas"
+    "messageformat": "Iniciar minimizada en la barra de tareas"
   },
   "icu:autoLaunchDescription": {
     "messageformat": "Abrir al iniciar sesión en este dispositivo"
@@ -1527,10 +1521,10 @@
     "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? Siempre puedes volver a vincular esta aplicación de escritorio, pero tus mensajes no se restaurarán. No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Desconectando y borrando datos"
+    "messageformat": "Desconectando aplicación y eliminando datos"
   },
   "icu:deleteOldIndexedDBData": {
-    "messageformat": "Hemos encontrado datos antiguos de una versión obsoleta de Signal Desktop. Si decides continuar, se eliminarán esos datos y tu nueva instalación de Signal no los mostrará."
+    "messageformat": "Hemos encontrado datos obsoletos de una versión anterior de Signal Desktop. Si decides continuar, se eliminarán esos datos y se instalará Signal desde cero."
   },
   "icu:deleteOldData": {
     "messageformat": "Eliminar datos antiguos"
@@ -1545,10 +1539,10 @@
     "messageformat": "Solo nombre"
   },
   "icu:newMessage": {
-    "messageformat": "Mensaje nuevo"
+    "messageformat": "Nuevo mensaje"
   },
   "icu:notificationSenderInGroup": {
-    "messageformat": "{sender} en «{group}»"
+    "messageformat": "{sender} en \"{group}\""
   },
   "icu:notificationReaction": {
     "messageformat": "{sender} reaccionó con {emoji} a tu mensaje"
@@ -1557,10 +1551,10 @@
     "messageformat": "{sender} reaccionó con {emoji} a: {message}"
   },
   "icu:sendFailed": {
-    "messageformat": "Fallo al enviar"
+    "messageformat": "No se ha podido enviar"
   },
   "icu:deleteFailed": {
-    "messageformat": "Fallo al eliminar"
+    "messageformat": "No se ha podido eliminar"
   },
   "icu:editFailed": {
     "messageformat": "Falló al editar. Haz clic para más detalles"
@@ -1569,7 +1563,7 @@
     "messageformat": "Envío pausado"
   },
   "icu:partiallySent": {
-    "messageformat": "No se ha enviado a tod@s, toca para ver más"
+    "messageformat": "Enviado parcialmente. Haz clic para ver más."
   },
   "icu:partiallyDeleted": {
     "messageformat": "Eliminado parcialmente, haz clic para intentarlo de nuevo"
@@ -1578,7 +1572,7 @@
     "messageformat": "Esta versión de Signal Desktop ha caducado. Actualiza a la última versión para seguir enviando mensajes."
   },
   "icu:upgrade": {
-    "messageformat": "Haz clic para abrir signal.org/download"
+    "messageformat": "Haz clic para ir a signal.org/download"
   },
   "icu:mediaMessage": {
     "messageformat": "Mensaje multimedia"
@@ -1593,7 +1587,7 @@
     "messageformat": "Importar ahora"
   },
   "icu:syncing": {
-    "messageformat": "Importando …"
+    "messageformat": "Importando…"
   },
   "icu:syncFailed": {
     "messageformat": "No se ha podido importar. Asegúrate de que tu ordenador y tu teléfono estén conectados a Internet."
@@ -1626,10 +1620,10 @@
     "messageformat": "Mensaje demasiado largo."
   },
   "icu:unblockToSend": {
-    "messageformat": "Desbloquea a esta persona para enviar mensajes."
+    "messageformat": "Desbloquea a esta persona para enviarle un mensaje."
   },
   "icu:unblockGroupToSend": {
-    "messageformat": "Desbloquea este grupo para enviar mensajes."
+    "messageformat": "Desbloquea este grupo para enviar un mensaje."
   },
   "icu:youChangedTheTimer": {
     "messageformat": "Has establecido la duración de los mensajes temporales en {time}."
@@ -1662,25 +1656,25 @@
     "messageformat": "Has desactivado los mensajes temporales."
   },
   "icu:timerSetTo": {
-    "messageformat": "Caducidad de mensajes fijada en {time}"
+    "messageformat": "Duración de los mensajes: {time}"
   },
   "icu:audioNotificationDescription": {
     "messageformat": "Sonidos de las notificaciones push"
   },
   "icu:callRingtoneNotificationDescription": {
-    "messageformat": "Tono de llamada"
+    "messageformat": "Emitir sonido de llamada"
   },
   "icu:callSystemNotificationDescription": {
     "messageformat": "Mostrar notificaciones de llamada"
   },
   "icu:incomingCallNotificationDescription": {
-    "messageformat": "Activar llamadas entrantes"
+    "messageformat": "Habilitar llamadas entrantes"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "{sender} ha cambiado su nombre de perfil de {oldProfile} a {newProfile}."
+    "messageformat": "{sender} ha cambiado su nombre de perfil de \"{oldProfile}\" a \"{newProfile}\"."
   },
   "icu:changedProfileName": {
-    "messageformat": "{oldProfile} ha cambiado su nombre de perfil a {newProfile}."
+    "messageformat": "{oldProfile} ha cambiado su nombre de perfil a \"{newProfile}\"."
   },
   "icu:SafetyNumberModal__title": {
     "messageformat": "Verificar número de seguridad"
@@ -1704,7 +1698,7 @@
     "messageformat": "Ver número de seguridad"
   },
   "icu:cannotGenerateSafetyNumber": {
-    "messageformat": "Solo puedes verificar a esta persona una vez que hayáis intercambiado mensajes."
+    "messageformat": "Solo puedes verificar a esta persona una vez que se hayan intercambiado mensajes."
   },
   "icu:themeLight": {
     "messageformat": "Claro"
@@ -1737,7 +1731,7 @@
     "messageformat": "Nombre de perfil, alias o número"
   },
   "icu:noContactsFound": {
-    "messageformat": "No se encontraron contactos"
+    "messageformat": "No se han encontrado contactos"
   },
   "icu:noGroupsFound": {
     "messageformat": "No se han encontrado grupos"
@@ -1749,10 +1743,10 @@
     "messageformat": "Se ha eliminado a {title}."
   },
   "icu:Toast--error": {
-    "messageformat": "Se ha producido un fallo"
+    "messageformat": "Se ha producido un error"
   },
   "icu:Toast--error--action": {
-    "messageformat": "Enviar el registro de depuración"
+    "messageformat": "Enviar registro"
   },
   "icu:Toast--failed-to-fetch-username": {
     "messageformat": "No se ha podido recuperar el alias. Comprueba tu conexión e inténtalo de nuevo."
@@ -1767,13 +1761,13 @@
     "messageformat": "{atUsername} no usa Signal. Asegúrate de haber introducido el alias completo."
   },
   "icu:startConversation--phone-number-not-found": {
-    "messageformat": "Alias no encontrado. {phoneNumber} no utiliza Signal."
+    "messageformat": "Persona no encontrada. {phoneNumber} no utiliza Signal."
   },
   "icu:startConversation--phone-number-not-valid": {
-    "messageformat": "Número no encontrado. {phoneNumber} no está registrado en Signal."
+    "messageformat": "Persona no encontrada. {phoneNumber} no es un número de teléfono válido."
   },
   "icu:chooseGroupMembers__title": {
-    "messageformat": "Seleccionar participantes"
+    "messageformat": "Elegir participantes"
   },
   "icu:chooseGroupMembers__back-button": {
     "messageformat": "Atrás"
@@ -1788,7 +1782,7 @@
     "messageformat": "Se alcanzó el número máximo de participantes en el grupo"
   },
   "icu:chooseGroupMembers__maximum-group-size__body": {
-    "messageformat": "Los grupos de Signal pueden tener hasta un máximo de {max,number} participantes."
+    "messageformat": "Los grupos de Signal pueden tener hasta un máximo de {max,number} participantes."
   },
   "icu:chooseGroupMembers__maximum-recommended-group-size__title": {
     "messageformat": "Se alcanzó el límite máximo recomendado"
@@ -1797,13 +1791,13 @@
     "messageformat": "Los grupos de Signal funcionan mejor con {max,number} o menos participantes. Añadir más participantes causará retrasos al enviar y recibir mensajes."
   },
   "icu:setGroupMetadata__title": {
-    "messageformat": "Pon un nombre a este grupo"
+    "messageformat": "Asigna un nombre a este grupo"
   },
   "icu:setGroupMetadata__back-button": {
     "messageformat": "Volver a selección de participantes"
   },
   "icu:setGroupMetadata__group-name-placeholder": {
-    "messageformat": "Nombre del grupo (necesario)"
+    "messageformat": "Nombre del grupo (obligatorio)"
   },
   "icu:setGroupMetadata__group-description-placeholder": {
     "messageformat": "Descripción"
@@ -1818,7 +1812,7 @@
     "messageformat": "No se ha podido crear este grupo. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:updateGroupAttributes__title": {
-    "messageformat": "Modificar grupo"
+    "messageformat": "Editar grupo"
   },
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "No se ha podido actualizar el grupo. Comprueba tu conexión e inténtalo de nuevo."
@@ -1835,9 +1829,6 @@
   "icu:autoUpdateRetry": {
     "messageformat": "Intenta actualizar de nuevo"
   },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "contactar con asistencia"
-  },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Haz clic para reiniciar Signal"
   },
@@ -1845,7 +1836,7 @@
     "messageformat": "Haz clic para descargar la actualización"
   },
   "icu:downloadFullNewVersionMessage": {
-    "messageformat": "No hemos podido podido actualizar Signal. Haz clic para intentarlo de nuevo."
+    "messageformat": "No hemos podido actualizar Signal. Haz clic para intentarlo de nuevo."
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Reiniciar Signal"
@@ -1857,7 +1848,7 @@
     "messageformat": "{name} ha abandonado el grupo."
   },
   "icu:multipleLeftTheGroup": {
-    "messageformat": "{name} ha abandonado el grupo."
+    "messageformat": "{name} han abandonado el grupo."
   },
   "icu:updatedTheGroup": {
     "messageformat": "{name} ha actualizado el grupo."
@@ -1869,13 +1860,13 @@
     "messageformat": "La imagen del grupo se ha actualizado."
   },
   "icu:titleIsNow": {
-    "messageformat": "Ahora el nombre del grupo es «{name}»."
+    "messageformat": "Ahora el nombre del grupo es \"{name}\"."
   },
   "icu:youJoinedTheGroup": {
     "messageformat": "Te has unido al grupo."
   },
   "icu:joinedTheGroup": {
-    "messageformat": "{name} se han unido al grupo."
+    "messageformat": "{name} se ha unido al grupo."
   },
   "icu:multipleJoinedTheGroup": {
     "messageformat": "{names} se han unido al grupo."
@@ -1884,7 +1875,7 @@
     "messageformat": "{unreadCount, plural, one {Chat con {title}: {unreadCount,number} mensaje nuevo, último mensaje: {lastMessage}.} other {Chat con {title}: {unreadCount,number} mensajes nuevos, último mensaje: {lastMessage}.}}"
   },
   "icu:ConversationList__last-message-undefined": {
-    "messageformat": "Probablemente se ha eliminado el último mensaje."
+    "messageformat": "Es posible que se haya eliminado el último mensaje."
   },
   "icu:BaseConversationListItem__aria-label": {
     "messageformat": "Ir al chat con {title}"
@@ -1911,10 +1902,10 @@
     "messageformat": "Vídeo"
   },
   "icu:message--getNotificationText--voice-message": {
-    "messageformat": "Nota de voz"
+    "messageformat": "Mensaje de voz"
   },
   "icu:message--getNotificationText--audio-message": {
-    "messageformat": "Nota de voz"
+    "messageformat": "Mensaje de audio"
   },
   "icu:message--getNotificationText--file": {
     "messageformat": "Archivo"
@@ -1929,13 +1920,13 @@
     "messageformat": "Mensaje incompatible"
   },
   "icu:message--getDescription--disappearing-media": {
-    "messageformat": "Multimedia para ver solo una vez"
+    "messageformat": "Archivo de visualización única"
   },
   "icu:message--getDescription--disappearing-photo": {
-    "messageformat": "Fotografía para ver solo una vez"
+    "messageformat": "Foto de visualización única"
   },
   "icu:message--getDescription--disappearing-video": {
-    "messageformat": "Vídeo para ver solo una vez"
+    "messageformat": "Vídeo de visualización única"
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "Mensaje eliminado."
@@ -1983,10 +1974,10 @@
     "messageformat": "Donación"
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days, plural, one {{days,number} día restante} other {{days,number} días restantes}}"
+    "messageformat": "{days, plural, one {{days,number} día más} other {{days,number} días más}}"
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours, plural, one {{hours,number} hora restante} other {{hours,number} horas restantes}}"
+    "messageformat": "{hours, plural, one {{hours,number} hora más} other {{hours,number} horas más}}"
   },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {1 minuto restante} other {{minutes,number} minutos restantes}}"
@@ -2013,19 +2004,19 @@
     "messageformat": "Has hecho una donación a Signal en nombre de {name}. Tendrá la opción de mostrar su apoyo en su perfil."
   },
   "icu:stickers--toast--InstallFailed": {
-    "messageformat": "Fallo al instalar el paquete de stickers"
+    "messageformat": "No se ha podido instalar el paquete de stickers"
   },
   "icu:stickers--StickerManager--Available": {
-    "messageformat": "Disponible"
+    "messageformat": "Disponibles"
   },
   "icu:stickers--StickerManager--InstalledPacks": {
-    "messageformat": "Instalado"
+    "messageformat": "Instalados"
   },
   "icu:stickers--StickerManager--InstalledPacks--Empty": {
     "messageformat": "No hay ningún paquete de stickers instalado"
   },
   "icu:stickers--StickerManager--BlessedPacks": {
-    "messageformat": "Paquetes de artistas de Signal"
+    "messageformat": "Stickers de artistas de Signal"
   },
   "icu:stickers--StickerManager--BlessedPacks--Empty": {
     "messageformat": "No hay stickers de artistas de Signal disponibles"
@@ -2034,7 +2025,7 @@
     "messageformat": "Stickers recibidos"
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
-    "messageformat": "Los stickers recibidos en mensajes aparecerán aquí"
+    "messageformat": "Los stickers que recibas en mensajes aparecerán aquí"
   },
   "icu:stickers--StickerManager--Install": {
     "messageformat": "Instalar"
@@ -2043,10 +2034,10 @@
     "messageformat": "Desinstalar"
   },
   "icu:stickers--StickerManager--UninstallWarning": {
-    "messageformat": "No podrás reinstalar este paquete de stickers si no conservas el mensaje en el que se recibió."
+    "messageformat": "Es posible que no puedas reinstalar este paquete de stickers si no conservas el mensaje en el que se recibió."
   },
   "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "¡Los stickers han llegado a Signal!"
+    "messageformat": "Los stickers han llegado a Signal: Bandit el gato"
   },
   "icu:stickers--StickerManager--Introduction--Title": {
     "messageformat": "¡Los stickers han llegado a Signal!"
@@ -2055,10 +2046,10 @@
     "messageformat": "¿Por qué usar palabras si puedes usar stickers?"
   },
   "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Abrir cajón de stickers"
+    "messageformat": "Abrir el selector de stickers"
   },
   "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Agregar paquete de stickers"
+    "messageformat": "Añadir un paquete de stickers"
   },
   "icu:stickers--StickerPicker--NextPage": {
     "messageformat": "Página siguiente"
@@ -2073,16 +2064,16 @@
     "messageformat": "No se han podido descargar algunos stickers."
   },
   "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Instalando paquete de stickers …"
+    "messageformat": "Instalando paquete de stickers…"
   },
   "icu:stickers--StickerPicker--Empty": {
     "messageformat": "No se han encontrado stickers"
   },
   "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Hay paquetes de stickers disponibles en tus mensajes listos para instalar"
+    "messageformat": "Hay nuevos paquetes de stickers disponibles en tus mensajes listos para instalar"
   },
   "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "No se encontraron paquetes de stickers"
+    "messageformat": "No se han encontrado paquetes de stickers"
   },
   "icu:stickers--StickerPicker--NoRecents": {
     "messageformat": "Aquí se mostrarán los stickers usados recientemente."
@@ -2115,22 +2106,22 @@
     "messageformat": "Tono de piel {tone}"
   },
   "icu:EmojiPicker__button--recents": {
-    "messageformat": "Más usados"
+    "messageformat": "Recientes"
   },
   "icu:EmojiPicker__button--emoji": {
     "messageformat": "Emojis"
   },
   "icu:EmojiPicker__button--animal": {
-    "messageformat": "Animales y naturaleza"
+    "messageformat": "Animales"
   },
   "icu:EmojiPicker__button--food": {
-    "messageformat": "Comida y bebida"
+    "messageformat": "Comida"
   },
   "icu:EmojiPicker__button--activity": {
     "messageformat": "Actividades"
   },
   "icu:EmojiPicker__button--travel": {
-    "messageformat": "Viajes y destinos"
+    "messageformat": "Viajes"
   },
   "icu:EmojiPicker__button--object": {
     "messageformat": "Objectos"
@@ -2160,19 +2151,19 @@
     "messageformat": "Más información"
   },
   "icu:MessageBody--message-too-long": {
-    "messageformat": "Mensaje demasiado largo para mostrar más"
+    "messageformat": "El mensaje es demasiado largo para mostrar más."
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} te ha enviado un mensaje que no se puede procesar ni mostrar, ya que usa una función nueva de Signal."
   },
   "icu:Message--unsupported-message-ask-to-resend": {
-    "messageformat": "Puedes solicitar a {contact} que reenvíe su mensaje ahora que ya usas la versión actual de Signal."
+    "messageformat": "Puedes pedirle a {contact} que te vuelva a enviar el mensaje ahora que ya usas una versión actualizada de Signal."
   },
   "icu:Message--from-me-unsupported-message": {
     "messageformat": "Has enviado un mensaje desde uno de tus dispositivos que no se puede procesar ni mostrar, ya que usa una función nueva de Signal."
   },
   "icu:Message--from-me-unsupported-message-ask-to-resend": {
-    "messageformat": "Futuros mensajes como éste se podrán sincronizar ahora que usas la versión actual de Signal."
+    "messageformat": "Si recibes más mensajes como este, se podrán sincronizar ahora que usas una versión actualizada de Signal."
   },
   "icu:Message--update-signal": {
     "messageformat": "Actualizar Signal"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Toca \"Donar a Signal\" para suscribirte"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
   },
@@ -4245,7 +4245,7 @@
     "messageformat": "Ha habido un problema con tu alias; ya no está asignado a tu cuenta. Puedes intentar configurarlo de nuevo o elegir uno distinto."
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
-    "messageformat": "Corregirlo ahora"
+    "messageformat": "Corregir ahora"
   },
   "icu:ProfileEditor__username-link": {
     "messageformat": "Código QR o enlace"
@@ -4278,10 +4278,10 @@
     "messageformat": "{max, plural, one {Los alias deben contener como máximo {max,number} carácter.} other {Los alias deben contener como máximo {max,number} caracteres.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
-    "messageformat": "Alias no válido, ingresa un mínimo de 2 dígitos."
+    "messageformat": "Alias no válido. Ingresa un mínimo de 2 dígitos."
   },
   "icu:ProfileEditor--username--check-discriminator-all-zero": {
-    "messageformat": "Este número no puede ser 00. Introduce un dígito del 1 al 9"
+    "messageformat": "Este número no puede ser 00. Introduce un dígito del 1 al 9."
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
     "messageformat": "Los números con más de 2 dígitos no pueden comenzar con 0"
@@ -4353,7 +4353,7 @@
     "messageformat": "Tu alias, código QR y enlace no se muestran en tu perfil. Compártelos solo con personas de confianza."
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "Ahora, la gente puede enviarte mensajes usando tu alias opcional, con lo que no necesitas dar tu número de teléfono."
+    "messageformat": "Ahora, las personas pueden enviarte mensajes usando tu alias opcional, con lo que no necesitas dar tu número de teléfono."
   },
   "icu:Bio--speak-freely": {
     "messageformat": "Habla con libertad"
@@ -4446,7 +4446,7 @@
     "messageformat": "Para cambiar este ajuste, abre Signal en tu dispositivo móvil y ve a Ajustes > Chats"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convertir emoticones escritos en emoji"
+    "messageformat": "Convertir emoticones escritos en emojis"
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "Por ejemplo, :-) se convertirá en <emojify>🙂</emojify>"
@@ -4479,7 +4479,7 @@
     "messageformat": "Quién puede ver mi número"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Tu número de teléfono será visible para la gente a quien envíes mensajes y para lxs participantes de tus grupos."
+    "messageformat": "Tu número de teléfono será visible para las personas y los grupos a los que envíes mensajes."
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
     "messageformat": "Tu número de teléfono no será visible para nadie a menos que lo tenga guardado en los contactos de su teléfono."
@@ -4500,7 +4500,7 @@
     "messageformat": "Quién puede encontrarme con mi número"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Cualquiera que tenga tu número de teléfono verá que estás en Signal y podrá iniciar conversaciones contigo."
+    "messageformat": "Cualquiera que tenga tu número de teléfono verá que estás en Signal y podrá iniciar chats contigo."
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
     "messageformat": "Nadie podrá ver que estás en Signal a menos que le envíes un mensaje o ya tengas un chat con esa persona."
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Haz clic en <newStoryIcon>Añadir una historia</newStoryIcon> para añadir una actualización."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} a «{group}»"
   },
@@ -5117,6 +5120,12 @@
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Reaccionó a la historia"
   },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
+  },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "No puedes responder a esta historia porque ya no formas parte de este grupo."
   },
@@ -5280,7 +5289,7 @@
     "messageformat": "Si recuperas tu alias, se restablecerán tu código QR y tu enlace. ¿Quieres hacerlo de todos modos?"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
-    "messageformat": "Tu código QR y tu enlace se han restablecido y tu alias es {username}"
+    "messageformat": "Tu código QR y enlace se han restablecido y tu alias es {username}"
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "Escanea este código QR con tu teléfono para chatear conmigo en Signal.",
@@ -5308,19 +5317,19 @@
     "messageformat": "Color del enlace del alias, {index,number} de {total,number}"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "Si reinicias tu código QR y tu enlace, tu código QR y tu enlace actuales dejarán de funcionar."
+    "messageformat": "Si reinicias tu código QR y enlace, tu código QR y tu enlace actuales dejarán de funcionar."
   },
   "icu:UsernameLinkModalBody__resetting-link": {
     "messageformat": "Restableciendo enlace…"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "Hubo un problema con tu código QR y enlace; ya no es válido. Intenta restablecerlo para crear un nuevo código QR y enlace."
+    "messageformat": "Hubo un problema con tu código QR y enlace; ya no son válidos. Intenta restablecerlos para crear un código QR y enlace nuevos."
   },
   "icu:UsernameLinkModalBody__error__fix-now": {
-    "messageformat": "Reparalo ahora"
+    "messageformat": "Corregir ahora"
   },
   "icu:UsernameLinkModalBody__recovered__text": {
-    "messageformat": "Tu código QR y tu enlace se han restablecido, y se han creado un código QR y enlace nuevos."
+    "messageformat": "Tu código QR y enlace se han restablecido, y se han creado un código QR y enlace nuevos."
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Nuevas formas de conectarte"
@@ -5335,7 +5344,7 @@
     "messageformat": "Alias"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "Ahora, la gente puede enviarte mensajes usando tu alias opcional, con lo que no necesitas dar tu número de teléfono. Los alias no son visibles en tu perfil."
+    "messageformat": "Ahora, las personas pueden enviarte mensajes usando tu alias opcional, con lo que no necesitas dar tu número de teléfono. El alias no se muestra en tu perfil."
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
     "messageformat": "Códigos QR y enlaces"
@@ -5344,7 +5353,7 @@
     "messageformat": "Los alias tienen un código QR único que puedes compartir con otras personas para que inicien un chat contigo."
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Configurar alias"
+    "messageformat": "Crear alias"
   },
   "icu:UsernameOnboardingModalBody__skip": {
     "messageformat": "Ahora no"
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Haz clic en <newCallIcon>Nueva llamada</newCallIcon> para iniciar una nueva llamada de voz o videollamada."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Buscar"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Rechazada"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Llamada grupal"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Enlace de llamada"
@@ -5620,10 +5629,13 @@
     "messageformat": "Pequeños ajustes, soluciones a errores y mejoras al desempeño. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "¿A quién no le gusta una buena historia? Érase una vez un bichito llamado \"error informático\" que hacía que la barra de progreso se congelase mientras se disfrutaba de una buena historia… por suerte, las aventuras de ese bichito han terminado felizmente, ya que lo hemos solucionado en esta actualización."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Ahora, Signal Desktop puede reanudar automáticamente las descargas de archivos interrumpidas desde donde se quedaron, así que no tendrás que aguantar la risa si cierras el portátil antes de que el meme llegue a tu pantalla."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

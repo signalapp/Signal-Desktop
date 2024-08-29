@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Stlmiť"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal sa nepodarilo aktualizovať. {retry} alebo navštívte {url} a nainštalujte ho manuálne. Potom {support} s týmto problémom"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal sa nepodarilo aktualizovať. <retryUpdateButton>Skúste aktualizáciu vykonať znova</retryUpdateButton> alebo navštívte stránku {url} a nainštalujte ho manuálne. Potom o tomto probléme <contactSupportLink>kontaktujte podporu</contactSupportLink>"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal sa nepodarilo aktualizovať. Navštívte {url} a nainštalujte ho manuálne. Potom kontaktujte {support} o tomto probléme"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal sa nepodarilo aktualizovať. Navštívte stránku {url} a nainštalujte ho manuálne. Potom o tomto probléme <contactSupportLink>kontaktujte podporu</contactSupportLink>"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Skúste aktualizáciu znova"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "kontaktujte podporu"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Kliknutím reštartujete Signal"
@@ -3530,6 +3521,15 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Ťuknite na „Prispieť na Signal“ a prihláste sa na odber"
   },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Rozbaliť"
   },
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Pridajte niečo nové kliknutím na <newStoryIcon>Pridať príbeh</newStoryIcon>."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} do {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Reagoval/a na príbeh"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Na tento príbeh nemôžete odpovedať, pretože už nie ste členom tejto skupiny."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Kliknite na <newCallIcon>Nový hovor</newCallIcon> a zahájte nový hlasový hovor alebo videohovor."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Hľadať"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Odmietnuté"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Skupinový hovor"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Odkaz na hovor"
@@ -5620,10 +5629,13 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Opravili sme chybu, ktorá niekedy spôsobovala zamrznutie indikátora priebehu pri prezeraní príbehu."
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal Desktop teraz môže automaticky pokračovať v prerušenom sťahovaní príloh."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }
