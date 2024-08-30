@@ -22,6 +22,7 @@ const GROUP_V2_ID_PATTERN = /(groupv2\()([^=)]+)(=?=?\))/g;
 const CALL_LINK_ROOM_ID_PATTERN = /[0-9A-F]{61}([0-9A-F]{3})/gi;
 const CALL_LINK_ROOT_KEY_PATTERN =
   /([A-Z]{4})-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}/gi;
+const ATTACHMENT_URL_KEY_PATTERN = /(attachment:\/\/[^\s]+key=)([^\s]+)/gi;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
 export type RedactFunction = (value: string) => string;
@@ -163,12 +164,30 @@ export const redactCallLinkRootKeys = (text: string): string => {
   return text.replace(CALL_LINK_ROOT_KEY_PATTERN, `${REDACTION_PLACEHOLDER}$1`);
 };
 
+export const redactAttachmentUrlKeys = (text: string): string => {
+  if (!isString(text)) {
+    throw new TypeError("'text' must be a string");
+  }
+
+  return text.replace(ATTACHMENT_URL_KEY_PATTERN, `$1${REDACTION_PLACEHOLDER}`);
+};
+
 export const redactCdnKey = (cdnKey: string): string => {
   return `${REDACTION_PLACEHOLDER}${cdnKey.slice(-3)}`;
 };
 
 export const redactGenericText = (text: string): string => {
   return `${REDACTION_PLACEHOLDER}${text.slice(-3)}`;
+};
+
+export const redactAttachmentUrl = (urlString: string): string => {
+  try {
+    const url = new URL(urlString);
+    url.search = '';
+    return url.toString();
+  } catch {
+    return REDACTION_PLACEHOLDER;
+  }
 };
 
 const createRedactSensitivePaths = (
@@ -194,7 +213,8 @@ export const redactAll: RedactFunction = compose(
   redactPhoneNumbers,
   redactUuids,
   redactCallLinkRoomIds,
-  redactCallLinkRootKeys
+  redactCallLinkRootKeys,
+  redactAttachmentUrlKeys
 );
 
 const removeNewlines: RedactFunction = text => text.replace(/\r?\n|\r/g, '');
