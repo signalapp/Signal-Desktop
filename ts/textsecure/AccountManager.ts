@@ -21,9 +21,6 @@ import type {
   KyberPreKeyType,
   PniKeyMaterialType,
 } from './Types.d';
-import ProvisioningCipher from './ProvisioningCipher';
-import type { IncomingWebSocketRequest } from './WebsocketResources';
-import { ServerRequestType } from './WebsocketResources';
 import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
@@ -46,7 +43,6 @@ import {
 import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
 import {
   isUntaggedPniString,
-  normalizePni,
   ServiceIdKind,
   toTaggedPni,
 } from '../types/ServiceId';
@@ -61,7 +57,6 @@ import { missingCaseError } from '../util/missingCaseError';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { StorageAccessType } from '../types/Storage';
-import { linkDeviceRoute } from '../util/signalRoutes';
 import { getRelativePath, createName } from '../util/attachmentPath';
 import { isBackupEnabled } from '../util/isBackupEnabled';
 
@@ -116,7 +111,7 @@ const SIGNED_PRE_KEY_UPDATE_TIME_KEY: StorageKeyByServiceIdKind = {
   [ServiceIdKind.PNI]: 'signedKeyUpdateTimePNI',
 };
 
-enum AccountType {
+export enum AccountType {
   Primary = 'Primary',
   Linked = 'Linked',
 }
@@ -146,7 +141,7 @@ type CreatePrimaryDeviceOptionsType = Readonly<{
 }> &
   CreateAccountSharedOptionsType;
 
-type CreateLinkedDeviceOptionsType = Readonly<{
+export type CreateLinkedDeviceOptionsType = Readonly<{
   type: AccountType.Linked;
 
   deviceName: string;
@@ -327,146 +322,26 @@ export default class AccountManager extends EventTarget {
       const accessKey = deriveAccessKey(profileKey);
       const masterKey = getRandomBytes(MASTER_KEY_LENGTH);
 
-      const registrationBaton = this.server.startRegistration();
-      try {
-        await this.createAccount({
-          type: AccountType.Primary,
-          number,
-          verificationCode,
-          sessionId,
-          aciKeyPair,
-          pniKeyPair,
-          profileKey,
-          accessKey,
-          masterKey,
-          readReceipts: true,
-        });
-      } finally {
-        this.server.finishRegistration(registrationBaton);
-      }
-      await this.registrationDone();
+      await this.createAccount({
+        type: AccountType.Primary,
+        number,
+        verificationCode,
+        sessionId,
+        aciKeyPair,
+        pniKeyPair,
+        profileKey,
+        accessKey,
+        masterKey,
+        readReceipts: true,
+      });
     });
   }
 
   async registerSecondDevice(
-    setProvisioningUrl: (url: string) => void,
-    confirmNumber: (number?: string) => Promise<ConfirmNumberResultType>
+    options: CreateLinkedDeviceOptionsType
   ): Promise<void> {
-    const provisioningCipher = new ProvisioningCipher();
-    const pubKey = await provisioningCipher.getPublicKey();
-
-    let envelopeCallbacks:
-      | {
-          resolve(data: Proto.ProvisionEnvelope): void;
-          reject(error: Error): void;
-        }
-      | undefined;
-    const envelopePromise = new Promise<Proto.ProvisionEnvelope>(
-      (resolve, reject) => {
-        envelopeCallbacks = { resolve, reject };
-      }
-    );
-
-    const wsr = await this.server.getProvisioningResource({
-      handleRequest(request: IncomingWebSocketRequest) {
-        if (
-          request.requestType === ServerRequestType.ProvisioningAddress &&
-          request.body
-        ) {
-          const proto = Proto.ProvisioningUuid.decode(request.body);
-          const { uuid } = proto;
-          if (!uuid) {
-            throw new Error('registerSecondDevice: expected a UUID');
-          }
-          const url = linkDeviceRoute
-            .toAppUrl({
-              uuid,
-              pubKey: Bytes.toBase64(pubKey),
-            })
-            .toString();
-
-          window.SignalCI?.setProvisioningURL(url);
-
-          setProvisioningUrl(url);
-          request.respond(200, 'OK');
-        } else if (
-          request.requestType === ServerRequestType.ProvisioningMessage &&
-          request.body
-        ) {
-          const envelope = Proto.ProvisionEnvelope.decode(request.body);
-          request.respond(200, 'OK');
-          wsr.close();
-          envelopeCallbacks?.resolve(envelope);
-        } else {
-          log.error('Unknown websocket message', request.requestType);
-        }
-      },
-    });
-
-    log.info('provisioning socket open');
-
-    wsr.addEventListener('close', ({ code, reason }) => {
-      log.info(`provisioning socket closed. Code: ${code} Reason: ${reason}`);
-
-      // Note: if we have resolved the envelope already - this has no effect
-      envelopeCallbacks?.reject(new Error('websocket closed'));
-    });
-
-    const envelope = await envelopePromise;
-    const provisionMessage = await provisioningCipher.decrypt(envelope);
-
     await this.queueTask(async () => {
-      const { deviceName, backupFile } = await confirmNumber(
-        provisionMessage.number
-      );
-      if (typeof deviceName !== 'string' || deviceName.length === 0) {
-        throw new Error(
-          'AccountManager.registerSecondDevice: Invalid device name'
-        );
-      }
-      if (
-        !provisionMessage.number ||
-        !provisionMessage.provisioningCode ||
-        !provisionMessage.aciKeyPair ||
-        !provisionMessage.pniKeyPair ||
-        !provisionMessage.aci ||
-        !Bytes.isNotEmpty(provisionMessage.profileKey) ||
-        !Bytes.isNotEmpty(provisionMessage.masterKey) ||
-        !isUntaggedPniString(provisionMessage.untaggedPni)
-      ) {
-        throw new Error(
-          'AccountManager.registerSecondDevice: Provision message was missing key data'
-        );
-      }
-
-      const ourAci = normalizeAci(provisionMessage.aci, 'provisionMessage.aci');
-      const ourPni = normalizePni(
-        toTaggedPni(provisionMessage.untaggedPni),
-        'provisionMessage.pni'
-      );
-
-      const registrationBaton = this.server.startRegistration();
-      try {
-        await this.createAccount({
-          type: AccountType.Linked,
-          number: provisionMessage.number,
-          verificationCode: provisionMessage.provisioningCode,
-          aciKeyPair: provisionMessage.aciKeyPair,
-          pniKeyPair: provisionMessage.pniKeyPair,
-          profileKey: provisionMessage.profileKey,
-          deviceName,
-          backupFile,
-          userAgent: provisionMessage.userAgent,
-          ourAci,
-          ourPni,
-          readReceipts: Boolean(provisionMessage.readReceipts),
-          masterKey: provisionMessage.masterKey,
-        });
-      } finally {
-        this.server.finishRegistration(registrationBaton);
-      }
-
-      await this.registrationDone();
+      await this.createAccount(options);
     });
   }
 
@@ -1020,6 +895,18 @@ export default class AccountManager extends EventTarget {
   }
 
   private async createAccount(
+    options: CreateAccountOptionsType
+  ): Promise<void> {
+    const registrationBaton = this.server.startRegistration();
+    try {
+      await this.doCreateAccount(options);
+    } finally {
+      this.server.finishRegistration(registrationBaton);
+    }
+    await this.registrationDone();
+  }
+
+  private async doCreateAccount(
     options: CreateAccountOptionsType
   ): Promise<void> {
     const {

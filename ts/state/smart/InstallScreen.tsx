@@ -12,7 +12,7 @@ import { hasExpired as hasExpiredSelector } from '../selectors/expiration';
 import * as log from '../../logging/log';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
-import { assertDev } from '../../util/assert';
+import { assertDev, strictAssert } from '../../util/assert';
 import { explodePromise } from '../../util/explodePromise';
 import { missingCaseError } from '../../util/missingCaseError';
 import * as Registration from '../../util/registration';
@@ -26,7 +26,7 @@ import { MAX_DEVICE_NAME_LENGTH } from '../../components/installScreen/InstallSc
 import { WidthBreakpoint } from '../../components/_util';
 import { HTTPError } from '../../textsecure/Errors';
 import { isRecord } from '../../util/isRecord';
-import type { ConfirmNumberResultType } from '../../textsecure/AccountManager';
+import { Provisioner } from '../../textsecure/Provisioner';
 import * as Errors from '../../types/errors';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
 import OS from '../../util/os/osMain';
@@ -89,8 +89,8 @@ function classifyError(
         return { loadError: LoadError.Unknown };
     }
   }
-  // AccountManager.registerSecondDevice uses this specific "websocket closed" error
-  //   message.
+  // AccountManager.registerSecondDevice uses this specific "websocket closed"
+  // error message.
   if (isRecord(err) && err.message === 'websocket closed') {
     return { installError: InstallError.ConnectionFailed };
   }
@@ -197,82 +197,80 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
 
   useEffect(() => {
     let hasCleanedUp = false;
-    const qrCodeResolution = explodePromise<void>();
 
+    const { server } = window.textsecure;
+    strictAssert(server, 'Expected a server');
+
+    let provisioner = new Provisioner(server);
     const accountManager = window.getAccountManager();
-    assertDev(accountManager, 'Expected an account manager');
-
-    const updateProvisioningUrl = (value: string): void => {
-      if (hasCleanedUp) {
-        return;
-      }
-      qrCodeResolution.resolve();
-      setProvisioningUrl(value);
-    };
-
-    const confirmNumber = async (): Promise<ConfirmNumberResultType> => {
-      if (hasCleanedUp) {
-        throw new Error('Cannot confirm number; the component was unmounted');
-      }
-      onQrCodeScanned();
-
-      let deviceName: string;
-      let backupFileData: Uint8Array | undefined;
-      if (window.SignalCI) {
-        ({ deviceName, backupData: backupFileData } = window.SignalCI);
-      } else {
-        deviceName = await chooseDeviceNamePromiseWrapperRef.current.promise;
-        const backupFile =
-          await chooseBackupFilePromiseWrapperRef.current.promise;
-
-        backupFileData = backupFile ? await fileToBytes(backupFile) : undefined;
-      }
-
-      if (hasCleanedUp) {
-        throw new Error('Cannot confirm number; the component was unmounted');
-      }
-
-      // Delete all data from the database unless we're in the middle of a re-link.
-      //   Without this, the app restarts at certain times and can cause weird things to
-      //   happen, like data from a previous light import showing up after a new install.
-      const shouldRetainData = Registration.everDone();
-      if (!shouldRetainData) {
-        try {
-          await window.textsecure.storage.protocol.removeAllData();
-        } catch (error) {
-          log.error(
-            'confirmNumber: error clearing database',
-            Errors.toLogFormat(error)
-          );
-        }
-      }
-
-      if (hasCleanedUp) {
-        throw new Error('Cannot confirm number; the component was unmounted');
-      }
-
-      return { deviceName, backupFile: backupFileData };
-    };
+    strictAssert(accountManager, 'Expected an account manager');
 
     async function getQRCode(): Promise<void> {
       const sleepError = new TimeoutError();
       try {
-        const qrCodePromise = accountManager.registerSecondDevice(
-          updateProvisioningUrl,
-          confirmNumber
-        );
+        const qrCodePromise = provisioner.getURL();
         const sleepMs = qrCodeBackOff.getAndIncrement();
         log.info(`InstallScreen/getQRCode: race to ${sleepMs}ms`);
-        await Promise.all([
-          pTimeout(qrCodeResolution.promise, sleepMs, sleepError),
 
-          // Note that `registerSecondDevice` resolves once the registration
-          // is fully complete and thus should not be subjected to a timeout.
-          qrCodePromise,
-        ]);
+        const url = await pTimeout(qrCodePromise, sleepMs, sleepError);
+        if (hasCleanedUp) {
+          return;
+        }
 
         window.IPC.removeSetupMenuItems();
+        setProvisioningUrl(url);
+
+        await provisioner.waitForEnvelope();
+        onQrCodeScanned();
+
+        let deviceName: string;
+        let backupFileData: Uint8Array | undefined;
+        if (window.SignalCI) {
+          ({ deviceName, backupData: backupFileData } = window.SignalCI);
+        } else {
+          deviceName = await chooseDeviceNamePromiseWrapperRef.current.promise;
+          const backupFile =
+            await chooseBackupFilePromiseWrapperRef.current.promise;
+
+          backupFileData = backupFile
+            ? await fileToBytes(backupFile)
+            : undefined;
+        }
+
+        if (hasCleanedUp) {
+          throw new Error('Cannot confirm number; the component was unmounted');
+        }
+
+        // Delete all data from the database unless we're in the middle of a
+        //   re-link. Without this, the app restarts at certain times and can
+        //   cause weird things to happen, like data from a previous light
+        //   import showing up after a new install.
+        const shouldRetainData = Registration.everDone();
+        if (!shouldRetainData) {
+          try {
+            await window.textsecure.storage.protocol.removeAllData();
+          } catch (error) {
+            log.error(
+              'confirmNumber: error clearing database',
+              Errors.toLogFormat(error)
+            );
+          }
+        }
+
+        if (hasCleanedUp) {
+          throw new Error('Cannot confirm number; the component was unmounted');
+        }
+
+        const data = provisioner.prepareLinkData({
+          deviceName,
+          backupFile: backupFileData,
+        });
+        await accountManager.registerSecondDevice(data);
       } catch (error) {
+        provisioner.close();
+        strictAssert(server, 'Expected a server');
+        provisioner = new Provisioner(server);
+
         log.error(
           'account.registerSecondDevice: got an error',
           Errors.toLogFormat(error)
