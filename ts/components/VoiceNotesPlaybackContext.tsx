@@ -7,6 +7,7 @@ import LRU from 'lru-cache';
 
 import type { WaveformCache } from '../types/Audio';
 import * as log from '../logging/log';
+import { redactAttachmentUrl } from '../util/privacy';
 
 const MAX_WAVEFORM_COUNT = 1000;
 const MAX_PARALLEL_COMPUTE = 8;
@@ -43,7 +44,7 @@ async function getAudioDuration(
 ): Promise<number> {
   const blob = new Blob([buffer]);
   const blobURL = URL.createObjectURL(blob);
-
+  const urlForLogging = redactAttachmentUrl(url);
   const audio = new Audio();
   audio.muted = true;
   audio.src = blobURL;
@@ -55,14 +56,14 @@ async function getAudioDuration(
 
     audio.addEventListener('error', event => {
       const error = new Error(
-        `Failed to load audio from: ${url} due to error: ${event.type}`
+        `Failed to load audio from: ${urlForLogging} due to error: ${event.type}`
       );
       reject(error);
     });
   });
 
   if (Number.isNaN(audio.duration)) {
-    throw new Error(`Invalid audio duration for: ${url}`);
+    throw new Error(`Invalid audio duration for: ${urlForLogging}`);
   }
   return audio.duration;
 }
@@ -83,12 +84,15 @@ async function doComputePeaks(
 ): Promise<ComputePeaksResult> {
   const cacheKey = `${url}:${barCount}`;
   const existing = waveformCache.get(cacheKey);
+  const urlForLogging = redactAttachmentUrl(url);
+
+  const logId = `GlobalAudioContext(${urlForLogging})`;
   if (existing) {
-    log.info('GlobalAudioContext: waveform cache hit', url);
+    log.info(`${logId}: waveform cache hit`);
     return Promise.resolve(existing);
   }
 
-  log.info('GlobalAudioContext: waveform cache miss', url);
+  log.info(`${logId}: waveform cache miss`);
 
   // Load and decode `url` into a raw PCM
   const response = await fetch(url);
@@ -98,9 +102,7 @@ async function doComputePeaks(
 
   const peaks = new Array(barCount).fill(0);
   if (duration > MAX_AUDIO_DURATION) {
-    log.info(
-      `GlobalAudioContext: audio ${url} duration ${duration}s is too long`
-    );
+    log.info(`${logId}: duration ${duration}s is too long`);
     const emptyResult = { peaks, duration };
     waveformCache.set(cacheKey, emptyResult);
     return emptyResult;
@@ -153,17 +155,15 @@ export async function computePeaks(
   barCount: number
 ): Promise<ComputePeaksResult> {
   const computeKey = `${url}:${barCount}`;
+  const logId = `VoiceNotesPlaybackContext(${redactAttachmentUrl(url)})`;
 
   const pending = inProgressMap.get(computeKey);
   if (pending) {
-    log.info(
-      'VoiceNotesPlaybackContext: already computing peaks for',
-      computeKey
-    );
+    log.info(`${logId}: already computing peaks`);
     return pending;
   }
 
-  log.info('VoiceNotesPlaybackContext: queue computing peaks for', computeKey);
+  log.info(`${logId}: queueing computing peaks`);
   const promise = computeQueue.add(() => doComputePeaks(url, barCount));
 
   inProgressMap.set(computeKey, promise);
