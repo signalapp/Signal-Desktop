@@ -1,4 +1,4 @@
-FROM ubuntu:jammy-20230624@sha256:b060fffe8e1561c9c3e6dea6db487b900100fc26830b9ea2ec966c151ab4c020
+FROM ubuntu:focal-20240530@sha256:fa17826afb526a9fc7250e0fbcbfd18d03fe7a54849472f86879d8bf562c629e
 
 # Allows package builders like FPM (used for creating the .deb package
 # on linux) to make their build timestamps determistic. Otherwise, a fresh
@@ -30,7 +30,11 @@ RUN apt install -oAcquire::https::Verify-Peer=false -y ca-certificates
 
 # Back to normal, verification back on
 RUN apt update
-RUN apt install -y git curl g++ gcc make python3 tar
+RUN apt install -y git curl g++ g++-10 gcc gcc-10 make python3 tar
+
+# On Ubuntu 20 GCC 9 is the default but we need 10 to build
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 \
+    --slave /usr/bin/g++ g++ /usr/bin/g++-10
 # ---
 
 # Install nvm
