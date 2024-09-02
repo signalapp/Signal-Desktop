@@ -454,7 +454,7 @@
         "StartupWMClass": "Signal"
       },
       "target": [
-        "deb"
+        "rpm"
       ],
       "icon": "build/icons/png",
       "publish": []
@@ -470,6 +470,19 @@
         "libgtk-3-0",
         "libgbm1",
         "libx11-xcb1"
+      ]
+    },
+   "rpm": {
+      "depends": [
+        "libnotify",
+        "libXtst",
+        "nss",
+        "alsa-lib",
+        "libXScrnSaver",
+        "glibc",
+        "gtk3",
+        "mesa-libgbm",
+        "libxcb"
       ]
     },
     "protocols": {
