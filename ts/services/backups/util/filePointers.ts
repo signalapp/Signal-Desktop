@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import Long from 'long';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import { omit } from 'lodash';
 
 import {
   APPLICATION_OCTET_STREAM,
@@ -39,9 +40,12 @@ import { redactGenericText } from '../../../util/privacy';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { toLogFormat } from '../../../types/errors';
 import { bytesToUuid } from '../../../util/uuidToBytes';
+import { createName } from '../../../util/attachmentPath';
 
 export function convertFilePointerToAttachment(
-  filePointer: Backups.FilePointer
+  filePointer: Backups.FilePointer,
+  // Only for testing
+  { _createName: doCreateName = createName } = {}
 ): AttachmentType {
   const {
     contentType,
@@ -70,6 +74,7 @@ export function convertFilePointerToAttachment(
       ? Bytes.toBase64(incrementalMac)
       : undefined,
     incrementalMacChunkSize: incrementalMacChunkSize ?? undefined,
+    downloadPath: doCreateName(),
   };
 
   if (attachmentLocator) {
@@ -117,7 +122,7 @@ export function convertFilePointerToAttachment(
 
   if (invalidAttachmentLocator) {
     return {
-      ...commonProps,
+      ...omit(commonProps, 'downloadPath'),
       error: true,
       size: 0,
     };
