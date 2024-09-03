@@ -18,6 +18,7 @@
   "updatesEnabled": false,
   "ciMode": false,
   "ciBackupPath": null,
+  "ciIsPlaintextBackup": false,
   "forcePreloadBundle": false,
   "openDevTools": false,
   "buildCreation": 0,

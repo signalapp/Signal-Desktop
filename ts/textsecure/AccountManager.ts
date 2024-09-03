@@ -25,7 +25,7 @@ import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
 import { senderCertificateService } from '../services/senderCertificate';
-import { backupsService } from '../services/backups';
+import { backupsService, BackupType } from '../services/backups';
 import {
   decryptDeviceName,
   deriveAccessKey,
@@ -123,7 +123,10 @@ type CreateAccountSharedOptionsType = Readonly<{
   pniKeyPair: KeyPairType;
   profileKey: Uint8Array;
   masterKey: Uint8Array;
+
+  // Test-only
   backupFile?: Uint8Array;
+  isPlaintextBackup?: boolean;
 }>;
 
 type CreatePrimaryDeviceOptionsType = Readonly<{
@@ -217,6 +220,7 @@ function signedPreKeyToUploadSignedPreKey({
 export type ConfirmNumberResultType = Readonly<{
   deviceName: string;
   backupFile: Uint8Array | undefined;
+  isPlaintextBackup: boolean;
 }>;
 
 export default class AccountManager extends EventTarget {
@@ -919,6 +923,7 @@ export default class AccountManager extends EventTarget {
       readReceipts,
       userAgent,
       backupFile,
+      isPlaintextBackup,
     } = options;
 
     const { storage } = window.textsecure;
@@ -963,7 +968,9 @@ export default class AccountManager extends EventTarget {
       }
       if (backupFile !== undefined) {
         log.warn(
-          'createAccount: Restoring from backup; deleting all previous data'
+          'createAccount: Restoring from ' +
+            `${isPlaintextBackup ? 'plaintext' : 'ciphertext'} backup; ` +
+            'deleting all previous data'
         );
       }
 
@@ -1222,7 +1229,10 @@ export default class AccountManager extends EventTarget {
     ]);
 
     if (backupFile !== undefined) {
-      await backupsService.importBackup(() => Readable.from([backupFile]));
+      await backupsService.importBackup(
+        () => Readable.from([backupFile]),
+        isPlaintextBackup ? BackupType.TestOnlyPlaintext : BackupType.Ciphertext
+      );
     }
   }
 

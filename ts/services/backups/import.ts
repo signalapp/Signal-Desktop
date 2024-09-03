@@ -14,7 +14,7 @@ import { DataWriter } from '../../sql/Client';
 import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
-import { StorySendMode } from '../../types/Stories';
+import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import type { ServiceIdString, AciString } from '../../types/ServiceId';
 import {
   fromAciObject,
@@ -942,7 +942,7 @@ export class BackupImportStream extends Writable {
       'Missing distribution list id'
     );
 
-    const id = bytesToUuid(listItem.distributionId);
+    const id = bytesToUuid(listItem.distributionId) || MY_STORY_ID;
     strictAssert(isStoryDistributionId(id), 'Invalid distribution list id');
 
     const commonFields = {
@@ -2987,17 +2987,20 @@ export class BackupImportStream extends Writable {
   }
 }
 
-function rgbIntToHSL(intValue: number): { hue: number; saturation: number } {
-  const { h: hue, s: saturation } = rgbToHSL(
-    // eslint-disable-next-line no-bitwise
-    (intValue >>> 16) & 0xff,
-    // eslint-disable-next-line no-bitwise
-    (intValue >>> 8) & 0xff,
-    // eslint-disable-next-line no-bitwise
-    intValue & 0xff
-  );
+function rgbIntToHSL(intValue: number): {
+  hue: number;
+  saturation: number;
+  luminance: number;
+} {
+  // eslint-disable-next-line no-bitwise
+  const r = (intValue >>> 16) & 0xff;
+  // eslint-disable-next-line no-bitwise
+  const g = (intValue >>> 8) & 0xff;
+  // eslint-disable-next-line no-bitwise
+  const b = intValue & 0xff;
+  const { h: hue, s: saturation, l: luminance } = rgbToHSL(r, g, b);
 
-  return { hue, saturation };
+  return { hue, saturation, luminance };
 }
 
 function fromGroupCallStateProto(

@@ -43,6 +43,7 @@ export const rendererConfigSchema = z.object({
   disableIPv6: z.boolean(),
   dnsFallback: DNSFallbackSchema,
   ciBackupPath: configOptionalStringSchema,
+  ciIsPlaintextBackup: z.boolean(),
   environment: environmentSchema,
   isMockTestEnvironment: z.boolean(),
   homePath: configRequiredStringSchema,

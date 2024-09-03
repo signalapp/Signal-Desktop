@@ -225,8 +225,13 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
 
         let deviceName: string;
         let backupFileData: Uint8Array | undefined;
+        let isPlaintextBackup = false;
         if (window.SignalCI) {
-          ({ deviceName, backupData: backupFileData } = window.SignalCI);
+          ({
+            deviceName,
+            backupData: backupFileData,
+            isPlaintextBackup = false,
+          } = window.SignalCI);
         } else {
           deviceName = await chooseDeviceNamePromiseWrapperRef.current.promise;
           const backupFile =
@@ -264,6 +269,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
         const data = provisioner.prepareLinkData({
           deviceName,
           backupFile: backupFileData,
+          isPlaintextBackup,
         });
         await accountManager.registerSecondDevice(data);
       } catch (error) {

@@ -2721,6 +2721,7 @@ ipc.on('get-config', async event => {
     dnsFallback: await getDNSFallback(),
     disableIPv6: DISABLE_IPV6,
     ciBackupPath: config.get<string | null>('ciBackupPath') || undefined,
+    ciIsPlaintextBackup: config.get<boolean>('ciIsPlaintextBackup'),
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
     osRelease: os.release(),
