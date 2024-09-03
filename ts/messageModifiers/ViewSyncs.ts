@@ -127,7 +127,7 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
       if (!attachments?.every(isDownloaded)) {
         const updatedFields = await queueAttachmentDownloads(
           message.attributes,
-          AttachmentDownloadUrgency.STANDARD
+          { urgency: AttachmentDownloadUrgency.STANDARD }
         );
         if (updatedFields) {
           message.set(updatedFields);

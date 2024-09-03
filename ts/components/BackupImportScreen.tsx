@@ -7,6 +7,7 @@ import type { LocalizerType } from '../types/Util';
 import { formatFileSize } from '../util/formatFileSize';
 import { TitlebarDragArea } from './TitlebarDragArea';
 import { InstallScreenSignalLogo } from './installScreen/InstallScreenSignalLogo';
+import { ProgressBar } from './ProgressBar';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
@@ -36,12 +37,7 @@ export function BackupImportScreen({
 
     progress = (
       <>
-        <div className="BackupImportScreen__progressbar">
-          <div
-            className="BackupImportScreen__progressbar__fill"
-            style={{ transform: `translateX(${(percentage - 1) * 100}%)` }}
-          />
-        </div>
+        <ProgressBar fractionComplete={percentage} />
         <div className="BackupImportScreen__progressbar-hint">
           {i18n('icu:BackupImportScreen__progressbar-hint', {
             currentSize: formatFileSize(currentBytes),
@@ -54,7 +50,7 @@ export function BackupImportScreen({
   } else {
     progress = (
       <>
-        <div className="BackupImportScreen__progressbar" />
+        <ProgressBar fractionComplete={0} />
         <div className="BackupImportScreen__progressbar-hint BackupImportScreen__progressbar-hint--hidden">
           {i18n('icu:BackupImportScreen__progressbar-hint', {
             currentSize: '',

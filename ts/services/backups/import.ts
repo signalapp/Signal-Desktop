@@ -11,7 +11,10 @@ import { CallLinkRootKey } from '@signalapp/ringrtc';
 
 import { Backups, SignalService } from '../../protobuf';
 import { DataWriter } from '../../sql/Client';
-import type { StoryDistributionWithMembersType } from '../../sql/Interface';
+import {
+  AttachmentDownloadSource,
+  type StoryDistributionWithMembersType,
+} from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
@@ -169,7 +172,11 @@ async function processMessagesBatch(
       );
     }
 
-    drop(queueAttachmentDownloads(attributes));
+    drop(
+      queueAttachmentDownloads(attributes, {
+        source: AttachmentDownloadSource.BACKUP_IMPORT,
+      })
+    );
   }
 }
 

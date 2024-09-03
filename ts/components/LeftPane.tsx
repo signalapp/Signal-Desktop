@@ -1,7 +1,13 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useCallback, useMemo, useRef } from 'react';
+import React, {
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import { isNumber } from 'lodash';
 
@@ -56,8 +62,10 @@ import {
 import { ContextMenu } from './ContextMenu';
 import { EditState as ProfileEditorEditState } from './ProfileEditor';
 import type { UnreadStats } from '../util/countUnreadStats';
+import { BackupMediaDownloadProgressBanner } from './BackupMediaDownloadProgress';
 
 export type PropsType = {
+  backupMediaDownloadProgress: { totalBytes: number; downloadedBytes: number };
   otherTabsUnreadStats: UnreadStats;
   hasExpiredDialog: boolean;
   hasFailedStorySends: boolean;
@@ -173,6 +181,7 @@ export type PropsType = {
 } & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
+  backupMediaDownloadProgress,
   otherTabsUnreadStats,
   blockConversation,
   challengeStatus,
@@ -632,6 +641,34 @@ export function LeftPane({
 
   if (maybeBanner) {
     dialogs.push({ key: 'banner', dialog: maybeBanner });
+  }
+
+  // We'll show the backup media download progress banner if the download is currently or
+  // was ongoing at some point during the lifecycle of this component
+  const [
+    hasMediaBackupDownloadBeenOngoing,
+    setHasMediaBackupDownloadBeenOngoing,
+  ] = useState(false);
+
+  const isMediaBackupDownloadOngoing =
+    backupMediaDownloadProgress?.totalBytes > 0 &&
+    backupMediaDownloadProgress.downloadedBytes <
+      backupMediaDownloadProgress.totalBytes;
+
+  if (isMediaBackupDownloadOngoing && !hasMediaBackupDownloadBeenOngoing) {
+    setHasMediaBackupDownloadBeenOngoing(true);
+  }
+
+  if (hasMediaBackupDownloadBeenOngoing) {
+    dialogs.push({
+      key: 'backupMediaDownload',
+      dialog: (
+        <BackupMediaDownloadProgressBanner
+          i18n={i18n}
+          {...backupMediaDownloadProgress}
+        />
+      ),
+    });
   }
 
   const hideHeader =

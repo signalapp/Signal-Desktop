@@ -20,6 +20,8 @@ import { MINUTE } from '../../util/durations';
 import { type AciString } from '../../types/ServiceId';
 import { type AttachmentType, AttachmentVariant } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
+import { AttachmentDownloadSource } from '../../sql/Interface';
+import { getAttachmentCiphertextLength } from '../../AttachmentCrypto';
 
 function composeJob({
   messageId,
@@ -38,11 +40,13 @@ function composeJob({
     attachmentType: 'attachment',
     digest,
     size,
+    ciphertextSize: getAttachmentCiphertextLength(size),
     contentType,
     active: false,
     attempts: 0,
     retryAfter: null,
     lastAttemptTimestamp: null,
+    source: AttachmentDownloadSource.STANDARD,
     attachment: {
       contentType,
       size,
@@ -114,8 +118,8 @@ describe('AttachmentDownloadManager/JobManager', () => {
       }
     );
     await downloadManager?.addJob({
-      ...job,
       urgency,
+      ...job,
     });
   }
   async function addJobs(
@@ -419,7 +423,7 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         dependencies: { downloadAttachment },
       });
 
-      assert.strictEqual(result.onlyAttemptedBackupThumbnail, false);
+      assert.strictEqual(result.downloadedVariant, AttachmentVariant.Default);
       assert.strictEqual(downloadAttachment.callCount, 1);
       assert.deepStrictEqual(downloadAttachment.getCall(0).args[0], {
         attachment: job.attachment,
@@ -444,8 +448,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
       });
 
       strictAssert(
-        result.onlyAttemptedBackupThumbnail === true,
-        'only attempted backup thumbnail'
+        result.downloadedVariant === AttachmentVariant.ThumbnailFromBackup,
+        'downloaded thumbnail'
       );
       assert.deepStrictEqual(
         omit(result.attachmentWithThumbnail, 'thumbnailFromBackup'),
@@ -485,7 +489,7 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         isForCurrentlyVisibleMessage: true,
         dependencies: { downloadAttachment },
       });
-      assert.strictEqual(result.onlyAttemptedBackupThumbnail, false);
+      assert.strictEqual(result.downloadedVariant, AttachmentVariant.Default);
       assert.strictEqual(downloadAttachment.callCount, 1);
       assert.deepStrictEqual(downloadAttachment.getCall(0).args[0], {
         attachment: job.attachment,
@@ -544,7 +548,7 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         isForCurrentlyVisibleMessage: false,
         dependencies: { downloadAttachment },
       });
-      assert.strictEqual(result.onlyAttemptedBackupThumbnail, false);
+      assert.strictEqual(result.downloadedVariant, AttachmentVariant.Default);
       assert.strictEqual(downloadAttachment.callCount, 1);
       assert.deepStrictEqual(downloadAttachment.getCall(0).args[0], {
         attachment: job.attachment,
@@ -578,7 +582,10 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         isForCurrentlyVisibleMessage: false,
         dependencies: { downloadAttachment },
       });
-      assert.strictEqual(result.onlyAttemptedBackupThumbnail, false);
+      assert.strictEqual(
+        result.downloadedVariant,
+        AttachmentVariant.ThumbnailFromBackup
+      );
       assert.strictEqual(downloadAttachment.callCount, 2);
       assert.deepStrictEqual(downloadAttachment.getCall(0).args[0], {
         attachment: job.attachment,

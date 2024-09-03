@@ -4687,6 +4687,15 @@
     "messageformat": "This may take a few minutes depending on the size of your backup",
     "description": "Description at the bottom of backup import screen"
   },
+
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media",
+    "description": "Label above a progress bar showing media (attachment) download progress after restoring from backup"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete, number, percent})",
+    "description": "Hint under the progressbar showing media (attachment) download progress after restoring from backup"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Expand",
     "description": "Aria label for expanding composition area"

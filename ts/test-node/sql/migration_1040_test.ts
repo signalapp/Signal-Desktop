@@ -27,7 +27,7 @@ function getAttachmentDownloadJobs(db: ReadableDB) {
 
 type UnflattenedAttachmentDownloadJobType = Omit<
   AttachmentDownloadJobType,
-  'digest' | 'contentType' | 'size'
+  'digest' | 'contentType' | 'size' | 'source' | 'ciphertextSize'
 >;
 function insertNewJob(
   db: WritableDB,
@@ -304,24 +304,25 @@ describe('SQL/updateToSchemaVersion1040', () => {
     });
 
     it('respects foreign key constraint on messageId', () => {
-      const job: AttachmentDownloadJobType = {
-        messageId: 'message1',
-        attachmentType: 'attachment',
-        attachment: {
+      const job: Omit<AttachmentDownloadJobType, 'source' | 'ciphertextSize'> =
+        {
+          messageId: 'message1',
+          attachmentType: 'attachment',
+          attachment: {
+            digest: 'digest1',
+            contentType: IMAGE_JPEG,
+            size: 128,
+          },
+          receivedAt: 1970,
           digest: 'digest1',
           contentType: IMAGE_JPEG,
           size: 128,
-        },
-        receivedAt: 1970,
-        digest: 'digest1',
-        contentType: IMAGE_JPEG,
-        size: 128,
-        sentAt: 2070,
-        active: false,
-        retryAfter: null,
-        attempts: 0,
-        lastAttemptTimestamp: null,
-      };
+          sentAt: 2070,
+          active: false,
+          retryAfter: null,
+          attempts: 0,
+          lastAttemptTimestamp: null,
+        };
       // throws if we don't add the message first
       assert.throws(() => insertNewJob(db, job, false));
       insertNewJob(db, job, true);

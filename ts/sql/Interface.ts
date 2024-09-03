@@ -446,6 +446,11 @@ export type GetRecentStoryRepliesOptionsType = {
   sentAt?: number;
 };
 
+export enum AttachmentDownloadSource {
+  BACKUP_IMPORT = 'backup_import',
+  STANDARD = 'standard',
+}
+
 type ReadableInterface = {
   close: () => void;
 
@@ -642,6 +647,7 @@ type ReadableInterface = {
   getMaxMessageCounter(): number | undefined;
 
   getStatisticsForLogging(): Record<string, string>;
+  getSizeOfPendingBackupAttachmentDownloadJobs(): number;
 };
 
 type WritableInterface = {
@@ -840,6 +846,7 @@ type WritableInterface = {
   saveAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
   resetAttachmentDownloadActive: () => void;
   removeAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
+  removeAllBackupAttachmentDownloadJobs: () => void;
 
   getNextAttachmentBackupJobs: (options: {
     limit: number;

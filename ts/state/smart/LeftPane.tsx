@@ -58,6 +58,7 @@ import {
 import { getCrashReportCount } from '../selectors/crashReports';
 import { hasExpired } from '../selectors/expiration';
 import {
+  getBackupMediaDownloadProgress,
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
   getUsernameCorrupted,
@@ -115,6 +116,7 @@ function renderUpdateDialog(
 ): JSX.Element {
   return <SmartUpdateDialog {...props} />;
 }
+
 function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
   return <SmartCaptchaDialog onSkip={onSkip} />;
 }
@@ -289,7 +291,9 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const theme = useSelector(getTheme);
   const usernameCorrupted = useSelector(getUsernameCorrupted);
   const usernameLinkCorrupted = useSelector(getUsernameLinkCorrupted);
-
+  const backupMediaDownloadProgress = useSelector(
+    getBackupMediaDownloadProgress
+  );
   const {
     blockConversation,
     clearGroupCreationError,
@@ -360,6 +364,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
 
   return (
     <LeftPane
+      backupMediaDownloadProgress={backupMediaDownloadProgress}
       blockConversation={blockConversation}
       challengeStatus={challengeStatus}
       clearConversationSearch={clearConversationSearch}

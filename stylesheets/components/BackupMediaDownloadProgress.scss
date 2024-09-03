@@ -1,0 +1,96 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.BackupMediaDownloadProgressBanner {
+  @include font-body-2;
+
+  border-radius: 10px;
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  padding-inline-end: 16px;
+  margin-inline: 10px;
+  user-select: none;
+
+  @include light-theme {
+    background-color: $color-white;
+    border: 1px solid $color-gray-20;
+  }
+  @include dark-theme {
+    background: $color-gray-75;
+    border: 1px solid $color-gray-60;
+  }
+}
+
+.BackupMediaDownloadProgressBanner__icon {
+  background: rgba($color-ultramarine, 0.2);
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  border-radius: 50%;
+  @include dark-theme {
+    background: $color-gray-60;
+  }
+  &::after {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/backup/backup-bold.svg',
+        $color-ultramarine
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/backup/backup-bold.svg',
+        $color-ultramarine-pale
+      );
+    }
+  }
+}
+
+.BackupMediaDownloadProgressBanner__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 7px;
+}
+
+.BackupMediaDownloadProgressBanner .Progressbar {
+  overflow: hidden;
+
+  background: rgba($color-ultramarine, 0.2);
+  height: 5px;
+  border-radius: 2px;
+}
+
+.BackupMediaDownloadProgressBanner__progressbar__fill {
+  background-color: $color-ultramarine;
+  border-radius: 2px;
+  display: block;
+  height: 100%;
+  width: 100%;
+  &:dir(ltr) {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+    transform: translateX(-100%);
+  }
+  &:dir(rtl) {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+    transform: translateX(100%);
+  }
+  transition: transform 500ms ease-out;
+}
+
+.BackupMediaDownloadProgressBanner__progressbar-hint {
+  @include font-caption;
+
+  @include light-theme {
+    color: rgba($color-gray-60, 0.8);
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
