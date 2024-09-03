@@ -46,14 +46,17 @@ export function getHSL(
   {
     hue,
     saturation,
+    luminance,
   }: {
     hue: number;
     saturation: number;
+    luminance?: number;
   },
   adjustedLightness = 0
 ): string {
-  return `hsl(${hue}, ${saturation}%, ${adjustLightnessValue(
-    calculateLightness(hue),
-    adjustedLightness
-  )}%)`;
+  return `hsl(${hue}, ${saturation}%, ${
+    luminance == null
+      ? adjustLightnessValue(calculateLightness(hue), adjustedLightness)
+      : luminance * 100
+  }%)`;
 }

@@ -179,6 +179,13 @@ export class App extends EventEmitter {
     );
   }
 
+  public async exportPlaintextBackupToDisk(path: string): Promise<Uint8Array> {
+    const window = await this.getWindow();
+    return window.evaluate(
+      `window.SignalCI.exportPlaintextBackupToDisk(${JSON.stringify(path)})`
+    );
+  }
+
   public async unlink(): Promise<void> {
     const window = await this.getWindow();
     return window.evaluate('window.SignalCI.unlink()');

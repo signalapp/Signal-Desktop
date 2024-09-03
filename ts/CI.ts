@@ -8,7 +8,7 @@ import type { MessageAttributesType } from './model-types.d';
 import * as log from './logging/log';
 import { explodePromise } from './util/explodePromise';
 import { AccessType, ipcInvoke } from './sql/channels';
-import { backupsService } from './services/backups';
+import { backupsService, BackupType } from './services/backups';
 import { SECOND } from './util/durations';
 import { isSignalRoute } from './util/signalRoutes';
 import { strictAssert } from './util/assert';
@@ -18,6 +18,7 @@ type ResolveType = (data: unknown) => void;
 export type CIType = {
   deviceName: string;
   backupData?: Uint8Array;
+  isPlaintextBackup?: boolean;
   getConversationId: (address: string | null) => string | null;
   getMessagesBySentAt(
     sentAt: number
@@ -34,15 +35,21 @@ export type CIType = {
   ) => unknown;
   openSignalRoute(url: string): Promise<void>;
   exportBackupToDisk(path: string): Promise<void>;
+  exportPlaintextBackupToDisk(path: string): Promise<void>;
   unlink: () => void;
 };
 
 export type GetCIOptionsType = Readonly<{
   deviceName: string;
   backupData?: Uint8Array;
+  isPlaintextBackup?: boolean;
 }>;
 
-export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
+export function getCI({
+  deviceName,
+  backupData,
+  isPlaintextBackup,
+}: GetCIOptionsType): CIType {
   const eventListeners = new Map<string, Array<ResolveType>>();
   const completedEvents = new Map<string, Array<unknown>>();
 
@@ -164,6 +171,14 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
     await backupsService.exportToDisk(path);
   }
 
+  async function exportPlaintextBackupToDisk(path: string) {
+    await backupsService.exportToDisk(
+      path,
+      undefined,
+      BackupType.TestOnlyPlaintext
+    );
+  }
+
   function unlink() {
     window.Whisper.events.trigger('unlinkAndDisconnect');
   }
@@ -171,6 +186,7 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
   return {
     deviceName,
     backupData,
+    isPlaintextBackup,
     getConversationId,
     getMessagesBySentAt,
     handleEvent,
@@ -179,6 +195,7 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
     waitForEvent,
     openSignalRoute,
     exportBackupToDisk,
+    exportPlaintextBackupToDisk,
     unlink,
   };
 }
