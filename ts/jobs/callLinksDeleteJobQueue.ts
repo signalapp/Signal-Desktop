@@ -66,5 +66,5 @@ export class CallLinksDeleteJobQueue extends JobQueue<CallLinksDeleteJobData> {
 export const callLinksDeleteJobQueue = new CallLinksDeleteJobQueue({
   store: jobQueueDatabaseStore,
   queueType: 'callLinksDelete',
-  maxAttempts: 25,
+  maxAttempts: 5,
 });
