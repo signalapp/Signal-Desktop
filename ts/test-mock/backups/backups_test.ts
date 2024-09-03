@@ -211,13 +211,22 @@ describe('backups', function (this: Mocha.Suite) {
 
         await snapshot('styled bubbles');
 
+        debug('Waiting for unread count');
+        const unreadCount = await leftPane
+          .locator(
+            '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages'
+          )
+          .last();
+        await unreadCount.waitFor();
+
         debug('Going into the conversation');
         await contactElem.click();
         await window
           .locator('.ConversationView .module-message >> "respond 4"')
           .waitFor();
 
-        await snapshot('conversation');
+        debug('Waiting for conversation to be marked read');
+        await unreadCount.waitFor({ state: 'hidden' });
 
         debug('Switching to stories nav tab');
         await window.getByTestId('NavTabsItem--Stories').click();
