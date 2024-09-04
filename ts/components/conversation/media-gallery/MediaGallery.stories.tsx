@@ -22,13 +22,20 @@ export default {
 } satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  i18n,
+
   conversationId: '123',
   documents: overrideProps.documents || [],
-  i18n,
-  loadMediaItems: action('loadMediaItems'),
+  haveOldestDocument: overrideProps.haveOldestDocument || false,
+  haveOldestMedia: overrideProps.haveOldestMedia || false,
+  loading: overrideProps.loading || false,
   media: overrideProps.media || [],
+
+  initialLoad: action('initialLoad'),
+  loadMoreDocuments: action('loadMoreDocuments'),
+  loadMoreMedia: action('loadMoreMedia'),
   saveAttachment: action('saveAttachment'),
-  showLightboxWithMedia: action('showLightboxWithMedia'),
+  showLightbox: action('showLightbox'),
 });
 
 export function Populated(): JSX.Element {

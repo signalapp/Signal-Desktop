@@ -2374,6 +2374,7 @@ button.ConversationDetails__action-button {
 // Module: Media Gallery
 
 .module-media-gallery {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -2387,6 +2388,19 @@ button.ConversationDetails__action-button {
   flex-grow: 1;
   overflow-y: auto;
   padding: 20px;
+}
+
+.module-media-gallery__scroll-observer {
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  width: 100%;
+
+  &::after {
+    content: '';
+    height: 1px; // Always show the element to not mess with the height of the scroll area
+    display: block;
+  }
 }
 
 .module-media-gallery__sections {

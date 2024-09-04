@@ -15,19 +15,26 @@ export type PropsType = {
 export const SmartAllMedia = memo(function SmartAllMedia({
   conversationId,
 }: PropsType) {
-  const { media, documents } = useSelector(getMediaGalleryState);
-  const { loadMediaItems } = useMediaGalleryActions();
+  const { media, documents, haveOldestDocument, haveOldestMedia, loading } =
+    useSelector(getMediaGalleryState);
+  const { initialLoad, loadMoreMedia, loadMoreDocuments } =
+    useMediaGalleryActions();
   const { saveAttachment } = useConversationsActions();
-  const { showLightboxWithMedia } = useLightboxActions();
+  const { showLightbox } = useLightboxActions();
 
   return (
     <MediaGallery
       conversationId={conversationId}
+      haveOldestDocument={haveOldestDocument}
+      haveOldestMedia={haveOldestMedia}
       i18n={window.i18n}
-      loadMediaItems={loadMediaItems}
+      initialLoad={initialLoad}
+      loading={loading}
+      loadMoreMedia={loadMoreMedia}
+      loadMoreDocuments={loadMoreDocuments}
       media={media}
       documents={documents}
-      showLightboxWithMedia={showLightboxWithMedia}
+      showLightbox={showLightbox}
       saveAttachment={saveAttachment}
     />
   );

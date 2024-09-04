@@ -3733,8 +3733,12 @@ function loadRecentMediaItems(
 ): ThunkAction<void, RootStateType, unknown, SetRecentMediaItemsActionType> {
   return async dispatch => {
     const messages: Array<MessageAttributesType> =
-      await DataReader.getMessagesWithVisualMediaAttachments(conversationId, {
+      await DataReader.getOlderMessagesByConversation({
+        conversationId,
         limit,
+        requireVisualMediaAttachments: true,
+        storyId: undefined,
+        includeStoryReplies: false,
       });
 
     // Cache these messages in memory to ensure Lightbox can find them
@@ -3772,9 +3776,9 @@ function loadRecentMediaItems(
                     window.ConversationController.get(message.sourceServiceId)
                       ?.id || message.conversationId,
                   id: message.id,
-                  received_at: message.received_at,
-                  received_at_ms: Number(message.received_at_ms),
-                  sent_at: message.sent_at,
+                  receivedAt: message.received_at,
+                  receivedAtMs: Number(message.received_at_ms),
+                  sentAt: message.sent_at,
                 },
               };
 

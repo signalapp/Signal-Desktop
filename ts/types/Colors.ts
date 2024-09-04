@@ -88,7 +88,7 @@ export const AvatarColorMap = new Map([
   ],
 ]);
 
-export const AvatarColors = Array.from(AvatarColorMap.keys());
+export const AvatarColors = Array.from(AvatarColorMap.keys()).sort();
 
 export const AVATAR_COLOR_COUNT = AvatarColors.length;
 
