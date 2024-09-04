@@ -3522,13 +3522,13 @@
     "messageformat": "點選「捐款給 Signal」並定期贊助我們"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "同步訊息"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "正在下載 {totalSize} 中的 {currentSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "可能需時幾分鐘，視你的備份大小而定"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "擴充"
@@ -4875,7 +4875,7 @@
     "messageformat": "點擊「<newStoryIcon>新增限時動態</newStoryIcon>」以新增最新資訊。"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "點擊 <newStoryButtonIcon></newStoryButtonIcon> 以新增最新資訊。"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} 傳送給 {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "對限時動態表達了心情回應"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "對限時動態表達了心情回應"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "對限時動態表達了心情回應"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "由於你不再是這群組的成員，因此你無法回覆此限時動態。"
@@ -5428,7 +5428,7 @@
     "messageformat": "點擊「<newCallIcon>新通話</newCallIcon>」以開始新的語音或視訊通話。"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "點擊 <newCallButtonIcon></newCallButtonIcon> 以開始新的語音或視訊通話。"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "搜尋"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal 桌面版現在可以從中斷的位置自動恢復下載附件，因此即使你在朋友發來的 meme 傳輸完成之前蓋上筆電，也無需等待太久就能開懷大笑。"
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "由於新一輪的效能改進，現在開啟聊天的速度比以往更快，只要按一下群組，大家說什麼都能立即看到。"
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "我們還修正了一些錯誤，包括有時會在發起通話後，聊天清單摘要中出現「未知聯絡人開始視訊通話」的問題。從此你不會對自己感到「陌生」了。"
   }
 }

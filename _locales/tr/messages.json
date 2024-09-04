@@ -3522,13 +3522,13 @@
     "messageformat": "\"Signal'a Bağış Yap\"a dokun ve abone ol"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Mesajlar senkronize ediliyor"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent}) indiriliyor..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Yedeklemenin boyutuna bağlı olarak birkaç dakika sürebilir"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişlet"
@@ -4875,7 +4875,7 @@
     "messageformat": "Bir güncelleme eklemek için <newStoryIcon>Bir kısa hikaye ekleyin</newStoryIcon> ifadesine tıklayın."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Güncelleme eklemek için <newStoryButtonIcon></newStoryButtonIcon> ögesine tıkla."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{group} grubunda {name}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Hikayeye tepki verildi"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Kısa hikayeye tepki verdin"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Kısa hikayeye tepki verdi"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Artık bu grubun bir üyesi olmadığın için bu hikayeye yanıt veremezsin."
@@ -5428,7 +5428,7 @@
     "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallIcon>Yeni Arama</newCallIcon> ögesine tıklayın."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallButtonIcon></newCallButtonIcon> ögesine tıkla."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Ara"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop artık yarıda kesilen ek indirme işlemlerine kaldığı yerden otomatik olarak devam edebiliyor."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Yeni bir grup performans iyileştirmesi sayesinde, sohbetler artık her zamankinden daha hızlı açılıyor."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Aramayı başlattıktan sonra bazen sohbet listesi özetinde \"Bilinmeyen bir kişi görüntülü arama başlattı\" hatasının görünmesine neden olan bir hata da dahil olmak üzere birkaç hatayı düzelttik. Böylece kafan karışmadan, rahatça görüşmelerini yapabileceksin."
   }
 }

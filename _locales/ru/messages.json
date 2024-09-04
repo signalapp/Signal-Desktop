@@ -3522,13 +3522,13 @@
     "messageformat": "Нажмите на «Поддержать Signal» и подпишитесь"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Синхронизация сообщений"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Загрузка {currentSize} из {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Это может занять несколько минут в зависимости от размера резервной копии"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Развернуть"
@@ -4875,7 +4875,7 @@
     "messageformat": "Нажмите <newStoryIcon>Добавить историю</newStoryIcon>, чтобы добавить обновление."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Нажмите <newStoryButtonIcon></newStoryButtonIcon>, чтобы добавить обновление."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} для {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Отреагировал(-а) на историю"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Отреагировали на историю"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Отреагировал(-а) на историю"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Вы не можете отвечать на эту историю, потому что уже не являетесь участником группы."
@@ -5428,7 +5428,7 @@
     "messageformat": "Нажмите <newCallIcon>Новый звонок</newCallIcon>, чтобы начать новый аудио- или видеозвонок."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Нажмите <newCallButtonIcon></newCallButtonIcon>, чтобы начать новый аудио- или видеозвонок."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Поиск"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop теперь может автоматически возобновлять загрузку вложений с того места, где она была прервана, так что вам не придётся долго ждать, чтобы посмеяться, даже если вы закроете крышку ноутбука до того, как придёт мем, отправленный вам другом."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Чаты теперь открываются быстрее, чем когда-либо, благодаря очередному раунду улучшения производительности, так что вы можете кликать на целую клику друзей и через мгновение видеть, что они говорят."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Мы также разобрались с немногочисленными ошибками, в том числе с той, из-за которой сообщение «Неизвестный контакт начал видеозвонок» иногда появлялось в сводке чатов после того, как вы начали звонок. Даже если вы всё еще находитесь на пути к самопознанию, вы уже что-то о себе да знаете."
   }
 }

@@ -3522,13 +3522,13 @@
     "messageformat": "\"Signal'га колдоо көрсөтүү\" дегенди басып туруп, жазылыңыз"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Билдирүүлөр шайкештирилүүдө"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} ичинен {currentSize} жүктөлүп алынууда ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Камдык көчүрмөңүздүн көлөмүнө жараша бир нече мүнөт кетиши мүмкүн"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Кеңейтүү"
@@ -4875,7 +4875,7 @@
     "messageformat": "Жаңыртуу үчүн <newStoryIcon>окуя кошуу</newStoryIcon> дегенди басыңыз."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Жаңыртууну кошуу үчүн <newStoryButtonIcon></newStoryButtonIcon> дегенди басыңыз."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} -> {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Окуяга сезимин билдирди"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Окуяга сезимиңизди билдирдиңиз"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Окуяга сезимин билдирди"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Бул топтон чыгып кеткениңизден улам, бул окуяга жооп бере албайсыз."
@@ -5428,7 +5428,7 @@
     "messageformat": "Аудио же видео режиминде чалып баштоо үчүн <newCallIcon>Жаңы чалуу</newCallIcon> дегенди басыңыз."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Жаңы аудио же видео чалуу баштоо үчүн <newCallButtonIcon></newCallButtonIcon> дегенди басыңыз."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Издөө"
@@ -5633,9 +5633,9 @@
     "messageformat": "Тиркеме жүктөлүп жатып үзгүлтүккө учураса, Signal Desktop токтогон жерден улантып кетет."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Бир катар жакшыртуулардын аркасы менен эми маектер оңой ачылат. Жөн гана топту басып коюп, эмне жөнүндө сүйлөшүп жатканын көрө аласыз."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Мындан тышкары, бир катар каталарды оңдоп койдук. Эми маектер тизмесинде \"Белгисиз байланыш видео режиминде чалып баштады\" деген нерсе көрүнбөйт. Өзүңүздү түшүнгөнгө канчалык аракет кылбаңыз, баары бир көп жагыңыз сыр бойдон кала берет."
   }
 }

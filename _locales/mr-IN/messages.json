@@ -3522,13 +3522,13 @@
     "messageformat": "\"Signal ला देणगी द्या\" वर टॅप करा आणि सदस्यत्व घ्या"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "संदेश समक्रमित करत आहे"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} ({fractionComplete,number,percent}) पैकी {currentSize} डाउनलोड करत आहे..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "आपल्या बॅकअप आकारावर अवलंबून याला काही मिनिटे लागू शकतात"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "विस्तारित करा"
@@ -4875,7 +4875,7 @@
     "messageformat": "एक अद्यतन जोडण्यासाठी <newStoryIcon>स्टोरीज जोडा</newStoryIcon> वर क्लिक करा."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "अद्यतनित करण्यासाठी <newStoryButtonIcon></newStoryButtonIcon> क्लिक करा."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} कडून {group}ला"
@@ -5121,10 +5121,10 @@
     "messageformat": "स्टोरीला प्रतिक्रिया दिली"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "स्टोरीला प्रतिक्रिया दिली"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "स्टोरीला प्रतिक्रिया दिली"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "आपण या स्टोरीज ला उत्तर देऊ शकणार नाही कारण आपण यापुढे या ग्रुपचे सदस्य नाही."
@@ -5428,7 +5428,7 @@
     "messageformat": "नवीन व्हॉइस किंवा व्हिडिओ कॉल सुरू करण्यासाठी <newCallIcon>नवीन कॉल</newCallIcon> वर क्लिक करा."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "नवीन व्हॉईस किंवा व्हिडिओ कॉल सुरू करण्यासाठी <newCallButtonIcon></newCallButtonIcon> क्लिक करा."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "शोध"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal डेक्सटॉप आता स्वयंचलितपणे व्यत्यय आलेली अटॅचमेंट डाउनलोड तेथून पुन्हा सुरू करू शकतो, त्यामुळे आपल्या मित्राने पाठवलेला मिम ट्रान्सफर होण्यापूर्वी आपण आपल्या लॅटटॉपला बंद केले तरी आपणाला त्यावर हसण्यासाठी फार वेळ वाट पाहावी लागणार नाही."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "कामगिरी सुधारण्यासाठीच्या आणखी एका फेरीमुळे चॅट्स आता अधिक वेगाने उघडतात, आता आपण आपल्या क्लिक्सवर क्लिक करू शकता आणि ते काय बोलत आहेत ते लगेचच पाहू शकता."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "आपण कॉलला सुरूवात केल्यानंतर चॅट सूचीच्या सारांशात \"अज्ञात संपर्काने एक व्हिडिओ कॉल सुरू केला\" असे दिसण्यास कारणीभूत होतो त्याच्या समावेशासह, आम्ही आणखी काही दोषांचे निराकरण केलेले आहे. आपण जर अद्याप स्वतःच्या शोधण्याच्या प्रवासात असल्यास, आपण स्वतःला कधीही पूर्णपणे अनोळखी नसाल."
   }
 }

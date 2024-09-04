@@ -3522,13 +3522,13 @@
     "messageformat": "Tippe auf »An Signal spenden« und wähle einen Geldbetrag aus."
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Nachrichten synchronisieren"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} von {totalSize} ({fractionComplete,number,percent}) werden heruntergeladen ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Das kann, abhängig von der Größe deiner Datensicherung, ein paar Minuten dauern."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Erweitern"
@@ -4875,7 +4875,7 @@
     "messageformat": "Klicke auf <newStoryIcon>Eine Story hinzufügen</newStoryIcon>, um eine Aktualisierung hinzuzufügen."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Klicke auf <newStoryButtonIcon></newStoryButtonIcon>, um ein Update hinzuzufügen."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} an {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Hat auf Story reagiert"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "hast auf die Story reagiert"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "hat auf die Story reagiert"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Du kannst nicht auf diese Story antworten, weil du nicht mehr Mitglied dieser Gruppe bist."
@@ -5428,7 +5428,7 @@
     "messageformat": "Klicke auf <newCallIcon>Neuer Anruf</newCallIcon>, um einen neuen Sprach- oder Videoanruf zu starten."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Klicke auf <newCallButtonIcon></newCallButtonIcon>, um einen neuen Sprach- oder Videoanruf zu starten."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Suchen"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop kann jetzt unterbrochene Downloads von Anhängen automatisch an der Stelle fortsetzen, an der sie unterbrochen wurden. Auch wenn du den Laptop schließt, bevor das Meme von deinem Freund oder deiner Freundin fertig übertragen wurde, musst du jetzt nicht mehr so lange warten, bis du dich darüber amüsieren kannst."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Chats öffnen sich jetzt dank weiterer Leistungsverbesserungen schneller als je zuvor. Du kannst jetzt also auf deine Cliquen klicken und blitzschnell sehen, was sie sagen."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Wir haben auch eine Handvoll Fehler behoben, darunter einen, der manchmal dazu führte, dass in der Zusammenfassung der Chatliste »Unbekannter Kontakt hat einen Videoanruf gestartet« erschien, nachdem du den Anruf gestartet hast. Auch wenn du noch dabei bist, dich selbst zu finden, bist du für dich selbst doch nie komplett unbekannt."
   }
 }

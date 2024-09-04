@@ -3522,13 +3522,13 @@
     "messageformat": "Ťuknite na „Prispieť na Signal“ a prihláste sa na odber"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Synchronizácia správ"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Sťahuje sa {currentSize} z {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "V závislosti od veľkosti zálohy to môže trvať niekoľko minút"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Rozbaliť"
@@ -4875,7 +4875,7 @@
     "messageformat": "Pridajte niečo nové kliknutím na <newStoryIcon>Pridať príbeh</newStoryIcon>."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Pridajte niečo nové kliknutím na <newStoryButtonIcon></newStoryButtonIcon>."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} do {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Reagoval/a na príbeh"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagovali ste na príbeh"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagoval/a na príbeh"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Na tento príbeh nemôžete odpovedať, pretože už nie ste členom tejto skupiny."
@@ -5428,7 +5428,7 @@
     "messageformat": "Kliknite na <newCallIcon>Nový hovor</newCallIcon> a zahájte nový hlasový hovor alebo videohovor."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Kliknite na <newCallButtonIcon></newCallButtonIcon> a zahájte nový hlasový hovor alebo videohovor."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Hľadať"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop teraz môže automaticky pokračovať v prerušenom sťahovaní príloh."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Čety sa teraz otvárajú rýchlejšie než kedykoľvek predtým vďaka ďalším vylepšeniam výkonu."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Opravili sme tiež niekoľko chýb vrátane tej, ktorá občas spôsobovala, že sa po začatí hovoru v zozname četov objavil text „Neznámy kontakt zahájil videohovor“."
   }
 }

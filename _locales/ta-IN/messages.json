@@ -3522,13 +3522,13 @@
     "messageformat": "\"சிக்னலுக்கு நன்கொடை அளி\" என்பதைத் தட்டி சப்ஸ்கிரைப் செய்யவும்"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "மெசேஜ்களை ஒத்திசைக்கிறது"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} இல் {currentSize} ஐப் பதிவிறக்குகிறது({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "உங்கள் காப்புப்பிரதியின் அளவைப் பொறுத்து இதற்குச் சில நிமிடங்கள் ஆகலாம்"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "விரிவாக்கு"
@@ -4875,7 +4875,7 @@
     "messageformat": "ஒரு புதுப்பிப்பைச் சேர்க்க <newStoryIcon>ஒரு ஸ்டோரியைச் சேர்</newStoryIcon> என்பதைக் கிளிக் செய்யவும்."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "புதுப்பிப்பைச் சேர்க்க <newStoryButtonIcon></newStoryButtonIcon> ஐக் க்ளிக் செய்யவும்."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} - {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "ஸ்டோரிக்கு எதிர்வினையாற்றினார்"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "ஸ்டோரிக்கு ரியாக்ட் செய்துள்ளார்"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "ஸ்டோரிக்கு ரியாக்ட் செய்துள்ளார்"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5428,7 @@
     "messageformat": "புதிய குரல் அல்லது வீடியோ அழைப்பைத் தொடங்க <newCallIcon>புதிய அழைப்பு</newCallIcon> என்பதைக் கிளிக் செய்யவும்."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "புதிய குரல் அல்லது வீடியோ அழைப்பை மேற்கொள்ள <newCallButtonIcon></newCallButtonIcon> ஐக் க்ளிக் செய்யவும்."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "தேடல்"
@@ -5633,9 +5633,9 @@
     "messageformat": "சிக்னல் டெஸ்க்டாப்பால் இப்போது குறுக்கிடப்பட்ட இணைப்புப் பதிவிறக்கங்களை தானாகத் தொடர முடியும்."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "மற்றொரு சுற்று செயல்திறன் மேம்பாடுகளால் சாட்ஸ் முன்பை விட இப்போது வேகமாக திறக்கப்படுகின்றன."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "நீங்கள் அழைப்பைத் தொடங்கிய பிறகு, சில சமயங்களில் சாட் பட்டியலின் சுருக்கத்தில் தெரியப்படும் \"அறியப்படாத தொடர்பு வீடியோ அழைப்பைத் தொடங்கினார்\" உட்பட சில பிழைகளை நாங்கள் சரிசெய்துள்ளோம்."
   }
 }

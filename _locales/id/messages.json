@@ -3522,13 +3522,13 @@
     "messageformat": "Ketuk \"Donasi ke Signal\" dan berlangganan"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Menyinkronkan pesan"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Mengunduh {currentSize} dari {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Butuh waktu beberapa menit tergantung ukuran cadangan Anda"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Lebarkan"
@@ -4875,7 +4875,7 @@
     "messageformat": "Klik <newStoryIcon>Tambahkan cerita</newStoryIcon> untuk menambahkan pembaruan terkini."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Klik <newStoryButtonIcon></newStoryButtonIcon> untuk menambahkan Cerita."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ke {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Menanggapi cerita"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Menanggapi cerita"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Menanggapi cerita"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Anda tidak dapat membalas cerita ini karena Anda bukan lagi anggota grup ini."
@@ -5428,7 +5428,7 @@
     "messageformat": "Klik <newCallIcon>Panggilan Baru</newCallIcon> untuk memulai panggilan suara atau video baru."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Klik <newCallButtonIcon></newCallButtonIcon> untuk memulai panggilan suara atau panggilan video baru."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cari"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop kini bisa otomatis melanjutkan pengunduhan lampiran yang sempat terhenti."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Obrolan kini bisa terbuka lebih cepat berkat peningkatan kinerja yang kami lakukan."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Kami juga memperbaiki beberapa bug, termasuk bug penyebab munculnya pesan \"Kontak tidak dikenal memulai panggilan video\" di ringkasan daftar obrolan setelah Anda memulai panggilan."
   }
 }

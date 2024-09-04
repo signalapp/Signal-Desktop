@@ -3522,13 +3522,13 @@
     "messageformat": "Toque em \"Doar para o Signal\" e assine"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Sincronizando mensagens"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Baixando {currentSize} de {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Isso pode demorar alguns minutos, dependendo do tamanho do seu backup"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
@@ -4875,7 +4875,7 @@
     "messageformat": "Clique em <newStoryIcon>Adicionar um story</newStoryIcon> para postar uma atualização."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Clique em <newStoryButtonIcon></newStoryButtonIcon> para adicionar uma atualização."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} em {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Reagiu ao story"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagiu ao story"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagiu ao story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Você não pode responder a este story porque não faz mais parte do grupo."
@@ -5428,7 +5428,7 @@
     "messageformat": "Clique em <newCallIcon>Nova chamada</newCallIcon> para iniciar uma nova chamada de voz ou vídeo."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Clique em <newCallButtonIcon></newCallButtonIcon> para iniciar uma nova chamada de voz ou de vídeo."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Pesquisar"
@@ -5633,9 +5633,9 @@
     "messageformat": "Precisa fechar o computador no meio de um download? Sem problemas! O Signal Desktop retoma o download automaticamente de onde parou, então você pode fechar o notebook sem a preocupação de perder o arquivo."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "As conversas agora abrem ainda mais rápido, graças a mais uma série de melhorias de desempenho que implementamos."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Também resolvemos alguns problemas, incluindo um que, em algumas ocasiões, exibia “Contato desconhecido iniciou uma chamada de vídeo” no resumo da lista de conversas após você ter iniciado a chamada."
   }
 }

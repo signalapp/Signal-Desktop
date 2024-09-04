@@ -3522,13 +3522,13 @@
     "messageformat": "Toksa \"Anneta Signalile\" ja liitu"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Sõnumite sünkroniseerimine"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Allalaadimine: {currentSize} kogumahust {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Olenevalt sinu varukoopia suurusest võib see mõne minuti aega võtta"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laienda"
@@ -4875,7 +4875,7 @@
     "messageformat": "Uuenduse lisamiseks klõpsa <newStoryIcon>Lisa lugu</newStoryIcon>."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Loo lisamiseks klõpsa <newStoryButtonIcon></newStoryButtonIcon>."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "Kasutajalt {name} grupile {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Reageeris loole"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reageerisid loole"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reageeris loole"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5428,7 @@
     "messageformat": "Uue hääl- või videokõne alustamiseks klõpsa <newCallIcon>Uus kõne</newCallIcon>."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Uue hääl- või videokõne alustamiseks klõpsa <newCallButtonIcon></newCallButtonIcon>."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Otsi"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signali töölauaversioon jätkab nüüd automaatselt poolelijäänud manuste allalaadimist."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Tänu järjekordsetele täiustustele avanevad vestlused nüüd kiiremini kui kunagi varem."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Parandasime ka mõned vead, sh selle, mis andis mõnikord pärast kõne alustamist vestluste loendi kokkuvõttes teate „Tundmatu kontakt alustas videokõnet“"
   }
 }

@@ -3522,13 +3522,13 @@
     "messageformat": "Tryck på \"Donera till Signal\" och prenumerera"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Synkronisera meddelanden"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Laddar ned {currentSize} av {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Detta kan ta några minuter beroende på storleken på din säkerhetskopia"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fäll ut"
@@ -4875,7 +4875,7 @@
     "messageformat": "Klicka på <newStoryIcon>Lägg till en story</newStoryIcon> för att lägga till en uppdatering."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Klicka <newStoryButtonIcon></newStoryButtonIcon> för att lägga till en uppdatering."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} till {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Reagerade på storyn"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagerade på storyn"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagerade på storyn"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Du kan inte svara på den här storyn eftersom du inte längre är medlem i den här gruppen."
@@ -5428,7 +5428,7 @@
     "messageformat": "Klicka på <newCallIcon>Nytt samtal</newCallIcon> för att starta ett nytt röst- eller videosamtal."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Klicka <newCallButtonIcon></newCallButtonIcon> för att starta ett nytt röst- eller videosamtal."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Sök"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop kan nu automatiskt återuppta avbrutna nedladdningar av bilagor."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Chattar öppnas nu snabbare än någonsin tack vare ytterligare en omgång prestandaförbättringar."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Vi har också åtgärdat en handfull buggar, bland annat en som ibland gjorde att ”Okänd kontakt startade ett videosamtal” visades i sammanfattningen av chattlistan efter att du hade startat samtalet."
   }
 }

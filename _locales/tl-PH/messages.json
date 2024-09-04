@@ -3522,13 +3522,13 @@
     "messageformat": "I-tap ang \"Donate to Signal\" at mag-subscribe"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Sini-sync ang messages"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Dina-download ang {currentSize} ng {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Maaaring tumagal ito nang ilang minuto depende sa laki ng iyong backup"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "I-expand"
@@ -4875,7 +4875,7 @@
     "messageformat": "I-click ang <newStoryIcon>Add a story</newStoryIcon> para maglagay ng update."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "I-click ang <newStoryButtonIcon></newStoryButtonIcon> para magdagdag ng update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} para sa {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Nag-react sa story"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Nag-react sa story"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Nag-react sa story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Hindi ka pwedeng mag-reply sa story na ito dahil hindi ka na member ng group."
@@ -5428,7 +5428,7 @@
     "messageformat": "I-click ang <newCallIcon>New Call</newCallIcon> para magsimula ng bagong voice o video call."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "I-click ang <newCallButtonIcon></newCallButtonIcon> para magsimula ng bagong voice o video call."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Maghanap"
@@ -5633,9 +5633,9 @@
     "messageformat": "Kaya nang automatic na ituloy ng Signal Desktop ang naputol na attachment downloads."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Mas mabilis nang buksan ang Chats sa tulong ng karagdagang performance improvements."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "May inayos din kaming ilang bugs, kasama ang isang nagiging sanhi minsan ng paglabas ng message na \"Unknown contact started a video call\" sa chat list summary pagkatapos mong magsimula ng call."
   }
 }

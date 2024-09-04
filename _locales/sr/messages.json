@@ -3522,13 +3522,13 @@
     "messageformat": "Додирните „Донирајте за Signal“ и претплатите се"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Синхронизовање порука"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Преузимање {currentSize} од {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "То може потрајати неколико минута у зависности од величине ваше резервне копије"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Прошири"
@@ -4875,7 +4875,7 @@
     "messageformat": "Кликните на <newStoryIcon>Додајте причу</newStoryIcon> да додате ажурирање."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Кликните на <newStoryButtonIcon></newStoryButtonIcon> да додате причу."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} у групи {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Реаговао/ла је на причу"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Реаговао/ла си на причу"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Реаговао/ла је на причу"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Не можете да одговорите на ову причу јер више нисте члан ове групе."
@@ -5428,7 +5428,7 @@
     "messageformat": "Кликните на <newCallIcon>Нови позив</newCallIcon> да започнете нови гласовни позив или видео-позив."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Кликните на <newCallButtonIcon></newCallButtonIcon> да започнете нови гласовни или видео-позив."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Тражи"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop сада може аутоматски да настави са прекинутим преузимањима прилога."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Ћаскања се сада отварају брже него икад захваљујући још једној рунди побољшања перформанси."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Такође смо поправили неколико грешака, укључујући и ону која је понекад узроковала да се обавештење: „Непознати контакт је започео видео позив“, појави у резимеу листе за ћаскање након што сте започели позив."
   }
 }

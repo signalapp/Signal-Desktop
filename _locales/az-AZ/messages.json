@@ -3522,13 +3522,13 @@
     "messageformat": "\"Signal-a ianə verin\" üzərinə toxunun və abunə olun"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Mesajlar sinxronlaşdırılır"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} / {totalSize} endirilir ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Ehtiyat nüsxənizin həcmindən asılı olaraq bu, bir qədər çəkə bilər"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişləndir"
@@ -4875,7 +4875,7 @@
     "messageformat": "Yeniləmə əlavə etmək üçün <newStoryIcon>Hekayə əlavə et</newStoryIcon> üzərinə klikləyin."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Yeniləmə əlavə etmək üçün <newStoryButtonIcon></newStoryButtonIcon> üzərinə klikləyin."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}, {group} qrupuna"
@@ -5121,10 +5121,10 @@
     "messageformat": "Hekayəyə reaksiya verildi"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Hekayəyə reaksiya verildi"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Hekayəyə reaksiya verildi"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5428,7 @@
     "messageformat": "Yeni audio və ya video zəng etmək üçün <newCallIcon>Yeni zəng</newCallIcon> üzərinə klikləyin."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Yeni bir audio və ya video zəng başlamaq üçün <newCallButtonIcon></newCallButtonIcon> üzərinə klikləyin."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Axtar"
@@ -5633,9 +5633,9 @@
     "messageformat": "Artıq Signal Desktop yarıda kəsilmiş qoşma endirmələrini qaldığı yerdən avtomatik olaraq yenidən aça bilər, beləliklə, dostunuzun sizə göndərdiyi mem ötürməni tamamlamamışdan əvvəl laptopunuzun qapağını bağlasanız belə, gülmək üçün uzun müddət gözləməyinizə ehtiyac qalmayacaq."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Digər bir təkmilləşdirmə mərhələsi sayəsində artıq çatlar hər zamankından daha tez açılır, beləliklə siz öz kliklərinizə klikləyərək onların nə dediklərini tez görə bilərsiniz."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Bundan başqa, siz zəng etdikdən sonra çat siyahısı xülasəsində bəzən \"Naməlum kontakt video zəng etdi\" ifadəsinin görünməsinə səbəb olan bir neçə səhvi də aradan qaldırdıq. Zənn edirik ki, özünü hələ tam tanımayan kontaktlar belə \"naməlum kontakt\" kimi təqdim olunmamalıdır."
   }
 }

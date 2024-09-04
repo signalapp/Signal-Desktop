@@ -3522,13 +3522,13 @@
     "messageformat": "დააჭირე \"Signal-ისთვის დონაციის გაკეთება“ და გამოიწერე"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "მიმდინარეობს წერილების სინქრონიზება"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "იწერება {currentSize} {totalSize}-დან ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "ამას შეიძლება რამდენიმე წუთი დასჭირდეს იმის მიხედვით, თუ რა ზომაა შენი სათადარიგო ასლი"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "გაფართოება"
@@ -4875,7 +4875,7 @@
     "messageformat": "განახლების დასამატებლად დააჭირე <newStoryIcon>Story-ის დამატება</newStoryIcon>."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "დააწკაპუნე <newStoryButtonIcon></newStoryButtonIcon> განახლების დასამატებლად."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} {group}-ს"
@@ -5121,10 +5121,10 @@
     "messageformat": "Story-ის გამოეხმაურა"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Story-ის გამოეხმაურა"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Story-ის გამოეხმაურა"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "ამ Story-ის ვერ უპასუხებ, რადგან ამ ჯგუფის წევრი აღარ ხარ."
@@ -5428,7 +5428,7 @@
     "messageformat": "ახალი ხმოვანი ან ვიდეო ზარის დასაწყებად დააჭირე <newCallIcon>ახალი ზარი</newCallIcon>."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "დააწკაპუნე <newCallButtonIcon></newCallButtonIcon> ახალი ხმოვანი ან ვიდეო ზარის წამოსაწყებად."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ძიება"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop-ს ახლა უკვე შეუძლია ავტომატურად განაგრძოს შეჩერებული მიმაგრებული ფაილების გადმოწერა."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "პერფორმანსის გაუმჯობესების კიდევ ერთი რაუნდის წყალობით, ჩატები ახლა უფრო სწრაფად იხსნება."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "ასევე გამოვასწორეთ რამდენიმე ხარვეზი, მათ შორის ის, ზოგჯერ ზარის დაწყების შემდეგ ჩატის სიის შეჯამებაში რომ გიწერდა, „უცნობმა კონტაქტმა ვიდეო ზარი წამოიწყოო“. მაშინაც კი, თუ შენი თავის აღმოჩენის გზაზე ხარ, საკუთარი თავისთვის უცნობი არასდროს იქნები."
   }
 }

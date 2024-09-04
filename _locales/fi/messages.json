@@ -3522,13 +3522,13 @@
     "messageformat": "Napauta Lahjoita Signalille ja tilaa"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Synkronoidaan viestejä"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Ladataan {currentSize} / {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Tämä voi kestää muutamia minuutteja varmuuskopion koosta riippuen"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laajenna"
@@ -4875,7 +4875,7 @@
     "messageformat": "Napsauta <newStoryIcon>Lisää tarina</newStoryIcon> lisätäksesi päivityksen."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Napsauta <newStoryButtonIcon></newStoryButtonIcon> lisätäksesi päivityksen."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ryhmälle {group}"
@@ -5121,10 +5121,10 @@
     "messageformat": "Reagoi tarinaan"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagoit tarinaan"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagoi tarinaan"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Et voi vastata tähän tarinaan, koska et ole enää tämän ryhmän jäsen."
@@ -5428,7 +5428,7 @@
     "messageformat": "Napsauta <newCallIcon>Uusi puhelu</newCallIcon> aloittaaksesi uuden ääni- tai videopuhelun."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Napsauta <newCallButtonIcon></newCallButtonIcon> aloittaaksesi uuden ääni- tai videopuhelun."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Hae"
@@ -5633,9 +5633,9 @@
     "messageformat": "Signal Desktop voi nyt jatkaa liitteiden keskeytettyjä latauksia automaattisesti."
   },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Keskustelut avautuvat nyt nopeammin kuin koskaan uusien suorituskyvyn parannusten ansiosta."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Korjasimme myös muutaman virheen, mukaan lukien sellaisen, joka saattoi aiheuttaa ilmoituksen ”Tuntematon yhteystieto aloitti videopuhelun” keskusteluluettelon yhteenvedossa puhelun aloittamisen jälkeen."
   }
 }
