@@ -3492,7 +3492,12 @@ function clearCallHistory(
   target: CallLogEventTarget
 ): ReadonlyArray<string> {
   return db.transaction(() => {
-    const timestamp = getMessageTimestampForCallLogEventTarget(db, target);
+    const callHistory = getCallHistoryForCallLogEventTarget(db, target);
+    if (callHistory == null) {
+      logger.error('clearCallHistory: Target call not found');
+      return [];
+    }
+    const { timestamp } = callHistory;
 
     const [selectCallsQuery, selectCallsParams] = sql`
       SELECT callsHistory.callId
@@ -3651,12 +3656,13 @@ function markCallHistoryRead(db: WritableDB, callId: string): void {
   db.prepare(query).run(params);
 }
 
-function getMessageTimestampForCallLogEventTarget(
+function getCallHistoryForCallLogEventTarget(
   db: ReadableDB,
   target: CallLogEventTarget
-): number {
-  let { callId, peerId } = target;
-  const { timestamp } = target;
+): CallHistoryDetails | null {
+  const { callId, peerId, timestamp } = target;
+
+  let row: unknown;
 
   if (callId == null || peerId == null) {
     const predicate =
@@ -3666,7 +3672,7 @@ function getMessageTimestampForCallLogEventTarget(
 
     // Get the most recent call history timestamp for the target.timestamp
     const [selectQuery, selectParams] = sql`
-      SELECT callsHistory.callId, callsHistory.peerId
+      SELECT *
       FROM callsHistory
       WHERE ${predicate}
         AND callsHistory.timestamp <= ${timestamp}
@@ -3674,54 +3680,130 @@ function getMessageTimestampForCallLogEventTarget(
       LIMIT 1
     `;
 
-    const row = db.prepare(selectQuery).get(selectParams);
-    if (row == null) {
-      logger.warn('getTimestampForCallLogEventTarget: Target call not found');
-      return timestamp;
-    }
-    callId = row.callId as string;
-    peerId = row.peerId as AciString;
+    row = db.prepare(selectQuery).get(selectParams);
+  } else {
+    const [selectQuery, selectParams] = sql`
+      SELECT *
+      FROM callsHistory
+      WHERE callsHistory.peerId IS ${target.peerId}
+        AND callsHistory.callId IS ${target.callId}
+      LIMIT 1
+    `;
+
+    row = db.prepare(selectQuery).get(selectParams);
   }
 
+  if (row == null) {
+    return null;
+  }
+
+  return callHistoryDetailsSchema.parse(row);
+}
+
+function getConversationIdForCallHistory(
+  db: ReadableDB,
+  callHistory: CallHistoryDetails
+): string | null {
+  const { peerId, mode } = callHistory;
+
+  if (mode === CallMode.Adhoc) {
+    throw new Error(
+      'getConversationIdForCallHistory: Adhoc calls do not have conversations'
+    );
+  }
+
+  const predicate =
+    mode === CallMode.Direct
+      ? sqlFragment`serviceId IS ${peerId}`
+      : sqlFragment`groupId IS ${peerId}`;
+
+  const [selectConversationIdQuery, selectConversationIdParams] = sql`
+    SELECT id FROM conversations
+    WHERE ${predicate}
+  `;
+
+  const conversationId = db
+    .prepare(selectConversationIdQuery)
+    .pluck()
+    .get(selectConversationIdParams);
+
+  if (typeof conversationId !== 'string') {
+    logger.warn('getConversationIdForCallHistory: Unknown conversation');
+    return null;
+  }
+
+  return conversationId ?? null;
+}
+
+function getMessageReceivedAtForCall(
+  db: ReadableDB,
+  callId: string,
+  conversationId: string
+): number | null {
   const [selectQuery, selectParams] = sql`
-    SELECT messages.sent_at
+    SELECT messages.received_at
     FROM messages
     WHERE messages.type IS 'call-history'
-      AND messages.conversationId IS ${peerId}
+      AND messages.conversationId IS ${conversationId}
       AND messages.callId IS ${callId}
     LIMIT 1
   `;
 
-  const messageTimestamp = db.prepare(selectQuery).pluck().get(selectParams);
-
-  if (messageTimestamp == null) {
-    logger.warn(
-      'getTimestampForCallLogEventTarget: Target call message not found'
-    );
+  const receivedAt = db.prepare(selectQuery).pluck().get(selectParams);
+  if (receivedAt == null) {
+    logger.warn('getMessageReceivedAtForCall: Target call message not found');
   }
 
-  return messageTimestamp ?? target.timestamp;
+  return receivedAt ?? null;
 }
 
 export function markAllCallHistoryRead(
   db: WritableDB,
   target: CallLogEventTarget,
   inConversation = false
-): void {
+): number {
   if (inConversation) {
     strictAssert(target.peerId, 'peerId is required');
   }
 
-  db.transaction(() => {
+  return db.transaction(() => {
+    const callHistory = getCallHistoryForCallLogEventTarget(db, target);
+    if (callHistory == null) {
+      logger.warn('markAllCallHistoryRead: Target call not found');
+      return 0;
+    }
+
+    const { callId } = callHistory;
+
+    strictAssert(
+      target.callId == null || callId === target.callId,
+      'Call ID must be the same as target if supplied'
+    );
+
+    const conversationId = getConversationIdForCallHistory(db, callHistory);
+    if (conversationId == null) {
+      logger.warn('markAllCallHistoryRead: Conversation not found for call');
+      return 0;
+    }
+    logger.info(`markAllCallHistoryRead: Found conversation ${conversationId}`);
+    const receivedAt = getMessageReceivedAtForCall(db, callId, conversationId);
+
+    if (receivedAt == null) {
+      logger.warn('markAllCallHistoryRead: Message not found for call');
+      return 0;
+    }
+
+    const predicate = inConversation
+      ? sqlFragment`messages.conversationId IS ${conversationId}`
+      : sqlFragment`TRUE`;
+
     const jsonPatch = JSON.stringify({
       seenStatus: SeenStatus.Seen,
     });
 
-    const timestamp = getMessageTimestampForCallLogEventTarget(db, target);
-
-    const predicate = inConversation
-      ? sqlFragment`messages.conversationId IS ${target.peerId}`
-      : sqlFragment`TRUE`;
+    logger.warn(
+      `markAllCallHistoryRead: Marking calls before ${receivedAt} read`
+    );
 
     const [updateQuery, updateParams] = sql`
       UPDATE messages
@@ -3731,19 +3813,20 @@ export function markAllCallHistoryRead(
       WHERE messages.type IS 'call-history'
         AND ${predicate}
         AND messages.seenStatus IS ${SEEN_STATUS_UNSEEN}
-        AND messages.sent_at <= ${timestamp}
+        AND messages.received_at <= ${receivedAt};
     `;
 
-    db.prepare(updateQuery).run(updateParams);
+    const result = db.prepare(updateQuery).run(updateParams);
+    return result.changes;
   })();
 }
 
 function markAllCallHistoryReadInConversation(
   db: WritableDB,
   target: CallLogEventTarget
-): void {
+): number {
   strictAssert(target.peerId, 'peerId is required');
-  markAllCallHistoryRead(db, target, true);
+  return markAllCallHistoryRead(db, target, true);
 }
 
 function getCallHistoryGroupData(

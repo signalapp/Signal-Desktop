@@ -39,7 +39,10 @@ export async function onCallLogEventSync(
   } else if (type === CallLogEvent.MarkedAsRead) {
     log.info('onCallLogEventSync: Marking call history read');
     try {
-      await DataWriter.markAllCallHistoryRead(target);
+      const count = await DataWriter.markAllCallHistoryRead(target);
+      log.info(
+        `onCallLogEventSync: Marked ${count} call history messages read`
+      );
     } finally {
       window.reduxActions.callHistory.updateCallHistoryUnreadCount();
     }
@@ -48,7 +51,11 @@ export async function onCallLogEventSync(
     log.info('onCallLogEventSync: Marking call history read in conversation');
     try {
       strictAssert(peerId, 'Missing peerId');
-      await DataWriter.markAllCallHistoryReadInConversation(target);
+      const count =
+        await DataWriter.markAllCallHistoryReadInConversation(target);
+      log.info(
+        `onCallLogEventSync: Marked ${count} call history messages read`
+      );
     } finally {
       window.reduxActions.callHistory.updateCallHistoryUnreadCount();
     }

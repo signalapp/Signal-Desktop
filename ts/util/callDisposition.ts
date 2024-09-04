@@ -1324,11 +1324,16 @@ export async function markAllCallHistoryReadAndSync(
     log.info(
       `markAllCallHistoryReadAndSync: Marking call history read before (${latestCall.callId}, ${latestCall.timestamp})`
     );
+    let count: number;
     if (inConversation) {
-      await DataWriter.markAllCallHistoryReadInConversation(latestCall);
+      count = await DataWriter.markAllCallHistoryReadInConversation(latestCall);
     } else {
-      await DataWriter.markAllCallHistoryRead(latestCall);
+      count = await DataWriter.markAllCallHistoryRead(latestCall);
     }
+
+    log.info(
+      `markAllCallHistoryReadAndSync: Marked ${count} call history messages read`
+    );
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
 
