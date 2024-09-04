@@ -85,7 +85,7 @@ export function initialize(): void {
 // A modern logging interface for the browser
 
 function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
-  if (getEnvironment() !== Environment.Production) {
+  if (getEnvironment() !== Environment.PackagedApp) {
     const prefix = getLogLevelString(level)
       .toUpperCase()
       .padEnd(levelMaxLength, ' ');

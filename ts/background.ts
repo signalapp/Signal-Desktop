@@ -126,6 +126,7 @@ import { SendStatus } from './messages/MessageSendState';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
 import { InstallScreenStep } from './types/InstallScreen';
+import { getEnvironment } from './environment';
 import { SignalService as Proto } from './protobuf';
 import {
   onRetryRequest,
@@ -348,7 +349,7 @@ export async function startApp(): Promise<void> {
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
   log.info('background page reloaded');
-  log.info('environment:', window.getEnvironment());
+  log.info('environment:', getEnvironment());
 
   let newVersion = false;
   let lastVersion: string | undefined;

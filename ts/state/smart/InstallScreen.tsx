@@ -17,6 +17,7 @@ import { WidthBreakpoint } from '../../components/_util';
 import { InstallScreenStep } from '../../types/InstallScreen';
 import OS from '../../util/os/osMain';
 import { fileToBytes } from '../../util/fileToBytes';
+import { isStagingServer } from '../../util/isStagingServer';
 import * as log from '../../logging/log';
 import { SmartToastManager } from './ToastManager';
 
@@ -70,6 +71,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
           startUpdate,
           retryGetQrCode: startInstaller,
           OS: OS.getName(),
+          isStaging: isStagingServer(),
         },
       };
       break;

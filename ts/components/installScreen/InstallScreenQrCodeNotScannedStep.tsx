@@ -19,7 +19,6 @@ import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
 import type { UpdatesStateType } from '../../state/ducks/updates';
-import { Environment, getEnvironment } from '../../environment';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
@@ -31,6 +30,7 @@ export type PropsType = Readonly<{
   updates: UpdatesStateType;
   currentVersion: string;
   OS: string;
+  isStaging: boolean;
   retryGetQrCode: () => void;
   startUpdate: () => void;
 }>;
@@ -46,6 +46,7 @@ export function InstallScreenQrCodeNotScannedStep({
   currentVersion,
   hasExpired,
   i18n,
+  isStaging,
   OS,
   provisioningUrl,
   retryGetQrCode,
@@ -102,12 +103,12 @@ export function InstallScreenQrCodeNotScannedStep({
               />
             </li>
           </ol>
-          {getEnvironment() !== Environment.Staging ? (
+          {isStaging ? (
+            'THIS IS A STAGING DESKTOP'
+          ) : (
             <a target="_blank" rel="noreferrer" href={SUPPORT_PAGE}>
               {i18n('icu:Install__support-link')}
             </a>
-          ) : (
-            'THIS IS A STAGING DESKTOP'
           )}
         </div>
       </div>

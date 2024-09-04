@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { Environment, getEnvironment } from '../environment';
 import type { LocalizerType } from '../types/I18N';
 import type { NavTabPanelProps } from './NavTabs';
 import { WhatsNewLink } from './WhatsNewLink';
@@ -11,6 +10,7 @@ import type { UnreadStats } from '../util/countUnreadStats';
 type ChatsTabProps = Readonly<{
   otherTabsUnreadStats: UnreadStats;
   i18n: LocalizerType;
+  isStaging: boolean;
   hasPendingUpdate: boolean;
   hasFailedStorySends: boolean;
   navTabsCollapsed: boolean;
@@ -25,6 +25,7 @@ type ChatsTabProps = Readonly<{
 export function ChatsTab({
   otherTabsUnreadStats,
   i18n,
+  isStaging,
   hasPendingUpdate,
   hasFailedStorySends,
   navTabsCollapsed,
@@ -60,9 +61,9 @@ export function ChatsTab({
             {renderMiniPlayer({ shouldFlow: false })}
             <div className="module-splash-screen__logo module-img--80 module-logo-blue" />
             <h3 className="Inbox__welcome">
-              {getEnvironment() !== Environment.Staging
-                ? i18n('icu:welcomeToSignal')
-                : 'THIS IS A STAGING DESKTOP'}
+              {isStaging
+                ? 'THIS IS A STAGING DESKTOP'
+                : i18n('icu:welcomeToSignal')}
             </h3>
             <p className="Inbox__whatsnew">
               <WhatsNewLink i18n={i18n} showWhatsNewModal={showWhatsNewModal} />

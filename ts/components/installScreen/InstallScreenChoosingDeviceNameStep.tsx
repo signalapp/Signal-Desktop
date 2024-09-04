@@ -42,7 +42,7 @@ export function InstallScreenChoosingDeviceNameStep({
     normalizedName.length <= MAX_DEVICE_NAME_LENGTH;
 
   let maybeBackupInput: JSX.Element | undefined;
-  if (getEnvironment() !== Environment.Production) {
+  if (getEnvironment() !== Environment.PackagedApp) {
     maybeBackupInput = (
       <label className="module-InstallScreenChoosingDeviceNameStep__input">
         {/* Since this is only for testing - we don't require translation */}

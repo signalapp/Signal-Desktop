@@ -70,8 +70,8 @@ import * as log from '../logging/log';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url';
 import { SECOND } from '../util/durations';
 import { safeParseNumber } from '../util/numbers';
+import { isStagingServer } from '../util/isStagingServer';
 import type { IWebSocketResource } from './WebsocketResources';
-import { Environment, getEnvironment } from '../environment';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -81,26 +81,11 @@ const DEFAULT_TIMEOUT = 30 * SECOND;
 
 // Libsignal has internally configured values for domain names
 // (and other connectivity params) of the services.
-function resolveLibsignalNetEnvironment(
-  appEnv: Environment,
-  url: string
-): Net.Environment {
-  switch (appEnv) {
-    case Environment.Production:
-      return Net.Environment.Production;
-    case Environment.Development:
-      // In the case of the `Development` Desktop env,
-      // we should be checking the provided string value
-      // of `libsignalNetEnv`
-      if (/staging/i.test(url)) {
-        return Net.Environment.Staging;
-      }
-      return Net.Environment.Production;
-    case Environment.Test:
-    case Environment.Staging:
-    default:
-      return Net.Environment.Staging;
+function resolveLibsignalNetEnvironment(url: string): Net.Environment {
+  if (isStagingServer(url)) {
+    return Net.Environment.Staging;
   }
+  return Net.Environment.Production;
 }
 
 function _createRedactor(
@@ -1609,7 +1594,7 @@ export function initialize({
   // for providing network layer API and related functionality.
   // It's important to have a single instance of this class as it holds
   // resources that are shared across all other use cases.
-  const env = resolveLibsignalNetEnvironment(getEnvironment(), url);
+  const env = resolveLibsignalNetEnvironment(url);
   log.info(`libsignal net environment resolved to [${Net.Environment[env]}]`);
   const libsignalNet = new Net.Net(env, getUserAgent(version));
   libsignalNet.setIpv6Enabled(!disableIPv6);

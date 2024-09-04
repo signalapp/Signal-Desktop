@@ -29,7 +29,7 @@ export function assertDev(
 ): asserts condition {
   if (!condition) {
     const err = new Error(message);
-    if (getEnvironment() !== Environment.Production) {
+    if (getEnvironment() !== Environment.PackagedApp) {
       if (getEnvironment() === Environment.Development) {
         debugger; // eslint-disable-line no-debugger
       }

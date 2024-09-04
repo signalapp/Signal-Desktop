@@ -61,7 +61,7 @@ export const hasExpired = createSelector(
   getAutoDownloadUpdate,
   (_: StateType, { now = Date.now() }: HasExpiredOptionsType = {}) => now,
   (buildExpiration: number, autoDownloadUpdate: boolean, now: number) => {
-    if (getEnvironment() !== Environment.Production && buildExpiration === 0) {
+    if (getEnvironment() !== Environment.PackagedApp && buildExpiration === 0) {
       return false;
     }
 

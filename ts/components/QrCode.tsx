@@ -34,7 +34,7 @@ export function QrCode(props: PropsType): ReactElement {
   // simulator primary, which has a debug-only option to paste the linking URL instead of
   // scanning it. (By the time you read this comment Android may have a similar feature.)
   const onDoubleClick = () => {
-    if (getEnvironment() === Environment.Production) {
+    if (getEnvironment() === Environment.PackagedApp) {
       return;
     }
     if (data instanceof Uint8Array) {

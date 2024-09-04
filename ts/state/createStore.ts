@@ -16,6 +16,7 @@ import { reducer } from './reducer';
 import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware';
 import { isOlderThan } from '../util/timestamp';
 import { SECOND } from '../util/durations';
+import { getEnvironment } from '../environment';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -25,7 +26,7 @@ declare global {
   }
 }
 
-const env = window.getEnvironment();
+const env = getEnvironment();
 
 // So Redux logging doesn't go to disk, and so we can get colors/styles
 const directConsole = {

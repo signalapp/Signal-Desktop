@@ -7,6 +7,7 @@ import type { StateType as RootStateType } from '../reducer';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import * as log from '../../logging/log';
+import { getEnvironment, Environment } from '../../environment';
 import {
   START_INSTALLER,
   type StartInstallerActionType,
@@ -90,7 +91,7 @@ function openStandalone(): ThunkAction<
   OpenStandaloneActionType
 > {
   return dispatch => {
-    if (window.getEnvironment() === 'production') {
+    if (getEnvironment() === Environment.PackagedApp) {
       return;
     }
 

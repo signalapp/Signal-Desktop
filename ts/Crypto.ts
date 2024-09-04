@@ -12,7 +12,7 @@ import { HashType, CipherType, UUID_BYTE_SIZE } from './types/Crypto';
 import { ProfileDecryptError } from './types/errors';
 import { getBytesSubarray } from './util/uuidToBytes';
 import { logPadSize } from './util/logPadding';
-import { Environment } from './environment';
+import { Environment, getEnvironment } from './environment';
 
 export { HashType, CipherType };
 
@@ -636,7 +636,7 @@ export function encryptAttachment({
     throw new Error(`${logId}: invalid length attachment keys`);
   }
 
-  if (dangerousTestOnlyIv && window.getEnvironment() !== Environment.Test) {
+  if (dangerousTestOnlyIv && getEnvironment() !== Environment.Test) {
     throw new Error(`${logId}: Used dangerousTestOnlyIv outside tests!`);
   }
 

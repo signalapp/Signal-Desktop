@@ -7,7 +7,7 @@ import * as log from './logging/log';
 // Many places rely on this enum being a string.
 export enum Environment {
   Development = 'development',
-  Production = 'production',
+  PackagedApp = 'production',
   Staging = 'staging',
   Test = 'test',
 }
@@ -20,7 +20,7 @@ export function getEnvironment(): Environment {
     // This should never happen—we should always have initialized the environment by this
     //   point. It'd be nice to log here but the logger depends on the environment and we
     //   can't have circular dependencies.
-    return Environment.Production;
+    return Environment.PackagedApp;
   }
   return environment;
 }
@@ -42,7 +42,7 @@ export function setEnvironment(env: Environment, isMockTestEnv: boolean): void {
 
 export const parseEnvironment = makeEnumParser(
   Environment,
-  Environment.Production
+  Environment.PackagedApp
 );
 
 export const isTestEnvironment = (env: Environment): boolean =>

@@ -11,23 +11,23 @@ import {
 
 describe('environment utilities', () => {
   describe('parseEnvironment', () => {
-    it('returns Environment.Production for non-strings', () => {
-      assert.equal(parseEnvironment(undefined), Environment.Production);
-      assert.equal(parseEnvironment(0), Environment.Production);
+    it('returns Environment.PackagedApp for non-strings', () => {
+      assert.equal(parseEnvironment(undefined), Environment.PackagedApp);
+      assert.equal(parseEnvironment(0), Environment.PackagedApp);
     });
 
-    it('returns Environment.Production for invalid strings', () => {
-      assert.equal(parseEnvironment(''), Environment.Production);
-      assert.equal(parseEnvironment(' development '), Environment.Production);
-      assert.equal(parseEnvironment('PRODUCTION'), Environment.Production);
+    it('returns Environment.PackagedApp for invalid strings', () => {
+      assert.equal(parseEnvironment(''), Environment.PackagedApp);
+      assert.equal(parseEnvironment(' development '), Environment.PackagedApp);
+      assert.equal(parseEnvironment('PRODUCTION'), Environment.PackagedApp);
     });
 
     it('parses "development" as Environment.Development', () => {
       assert.equal(parseEnvironment('development'), Environment.Development);
     });
 
-    it('parses "production" as Environment.Production', () => {
-      assert.equal(parseEnvironment('production'), Environment.Production);
+    it('parses "production" as Environment.PackagedApp', () => {
+      assert.equal(parseEnvironment('production'), Environment.PackagedApp);
     });
 
     it('parses "staging" as Environment.Staging', () => {
@@ -42,7 +42,7 @@ describe('environment utilities', () => {
   describe('isTestEnvironment', () => {
     it('returns false for non-test environments', () => {
       assert.isFalse(isTestEnvironment(Environment.Development));
-      assert.isFalse(isTestEnvironment(Environment.Production));
+      assert.isFalse(isTestEnvironment(Environment.PackagedApp));
       assert.isFalse(isTestEnvironment(Environment.Staging));
     });
 

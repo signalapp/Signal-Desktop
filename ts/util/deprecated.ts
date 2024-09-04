@@ -5,7 +5,7 @@ import { getEnvironment, Environment } from '../environment';
 import * as log from '../logging/log';
 
 export function deprecated(message?: string): void {
-  if (getEnvironment() === Environment.Development) {
+  if (getEnvironment() !== Environment.PackagedApp) {
     log.error(`This method is deprecated: ${message}`);
   }
 }
