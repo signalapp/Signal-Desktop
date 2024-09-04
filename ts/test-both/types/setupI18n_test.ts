@@ -54,13 +54,10 @@ describe('setupI18n', () => {
       const intl = i18n.getIntl();
       assert.isObject(intl);
       const result = intl.formatMessage(
-        { id: 'icu:emptyInboxMessage' },
-        { composeIcon: 'ICONIC' }
+        { id: 'icu:contactAvatarAlt' },
+        { name: 'NAME' }
       );
-      assert.equal(
-        result,
-        'Click the ICONIC above and search for your contacts or groups to message.'
-      );
+      assert.equal(result, 'Avatar for contact NAME');
     });
   });
 });
