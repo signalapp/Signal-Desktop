@@ -10,16 +10,10 @@ import { Button, ButtonVariant } from '../Button';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 import { LINK_SIGNAL_DESKTOP } from '../../types/support';
-
-export enum InstallError {
-  TooManyDevices,
-  TooOld,
-  ConnectionFailed,
-  QRCodeFailed,
-}
+import { InstallScreenError } from '../../types/InstallScreen';
 
 export type Props = Readonly<{
-  error: InstallError;
+  error: InstallScreenError;
   i18n: LocalizerType;
   quit: () => unknown;
   tryAgain: () => unknown;
@@ -37,10 +31,10 @@ export function InstallScreenErrorStep({
   let shouldShowQuitButton = false;
 
   switch (error) {
-    case InstallError.TooManyDevices:
+    case InstallScreenError.TooManyDevices:
       errorMessage = i18n('icu:installTooManyDevices');
       break;
-    case InstallError.TooOld:
+    case InstallScreenError.TooOld:
       errorMessage = i18n('icu:installTooOld');
       buttonText = i18n('icu:upgrade');
       onClickButton = () => {
@@ -48,10 +42,10 @@ export function InstallScreenErrorStep({
       };
       shouldShowQuitButton = true;
       break;
-    case InstallError.ConnectionFailed:
+    case InstallScreenError.ConnectionFailed:
       errorMessage = i18n('icu:installConnectionFailed');
       break;
-    case InstallError.QRCodeFailed:
+    case InstallScreenError.QRCodeFailed:
       buttonText = i18n('icu:Install__learn-more');
       errorMessage = i18n('icu:installUnknownError');
       onClickButton = () => {

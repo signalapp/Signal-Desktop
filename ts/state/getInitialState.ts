@@ -15,6 +15,7 @@ import { getEmptyState as emojiEmptyState } from './ducks/emojis';
 import { getEmptyState as expirationEmptyState } from './ducks/expiration';
 import { getEmptyState as globalModalsEmptyState } from './ducks/globalModals';
 import { getEmptyState as inboxEmptyState } from './ducks/inbox';
+import { getEmptyState as installerEmptyState } from './ducks/installer';
 import { getEmptyState as itemsEmptyState } from './ducks/items';
 import { getEmptyState as lightboxEmptyState } from './ducks/lightbox';
 import { getEmptyState as linkPreviewsEmptyState } from './ducks/linkPreviews';
@@ -133,6 +134,7 @@ function getEmptyState(): StateType {
     expiration: expirationEmptyState(),
     globalModals: globalModalsEmptyState(),
     inbox: inboxEmptyState(),
+    installer: installerEmptyState(),
     items: itemsEmptyState(),
     lightbox: lightboxEmptyState(),
     linkPreviews: linkPreviewsEmptyState(),

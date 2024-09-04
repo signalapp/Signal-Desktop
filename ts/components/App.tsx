@@ -8,17 +8,14 @@ import classNames from 'classnames';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import type { VerificationTransport } from '../types/VerificationTransport';
 import { ThemeType } from '../types/Util';
-import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 import { type AppStateType, AppViewType } from '../state/ducks/app';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
-import { BackupImportScreen } from './BackupImportScreen';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 type PropsType = {
-  i18n: LocalizerType;
   state: AppStateType;
   openInbox: () => void;
   getCaptchaToken: () => Promise<string>;
@@ -53,7 +50,6 @@ type PropsType = {
 };
 
 export function App({
-  i18n,
   state,
   getCaptchaToken,
   hasSelectedStoryData,
@@ -96,10 +92,8 @@ export function App({
     contents = renderInbox();
   } else if (state.appView === AppViewType.Blank) {
     contents = undefined;
-  } else if (state.appView === AppViewType.BackupImport) {
-    contents = <BackupImportScreen i18n={i18n} {...state} />;
   } else {
-    throw missingCaseError(state);
+    throw missingCaseError(state.appView);
   }
 
   // This are here so that themes are properly applied to anything that is

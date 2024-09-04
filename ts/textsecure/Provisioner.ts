@@ -8,12 +8,14 @@ import {
 import { linkDeviceRoute } from '../util/signalRoutes';
 import { strictAssert } from '../util/assert';
 import { normalizeAci } from '../util/normalizeAci';
+import { normalizeDeviceName } from '../util/normalizeDeviceName';
+import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen';
+import * as Errors from '../types/errors';
 import {
   isUntaggedPniString,
   normalizePni,
   toTaggedPni,
 } from '../types/ServiceId';
-import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
 import * as Bytes from '../Bytes';
 import * as log from '../logging/log';
@@ -204,7 +206,10 @@ export class Provisioner {
       aciKeyPair,
       pniKeyPair,
       profileKey,
-      deviceName,
+      deviceName: normalizeDeviceName(deviceName).slice(
+        0,
+        MAX_DEVICE_NAME_LENGTH
+      ),
       backupFile,
       isPlaintextBackup,
       userAgent,

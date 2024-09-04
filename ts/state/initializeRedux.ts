@@ -42,6 +42,7 @@ export function initializeRedux(data: ReduxInitData): void {
   window.reduxActions = {
     accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
     app: bindActionCreators(actionCreators.app, store.dispatch),
+    installer: bindActionCreators(actionCreators.installer, store.dispatch),
     audioPlayer: bindActionCreators(actionCreators.audioPlayer, store.dispatch),
     audioRecorder: bindActionCreators(
       actionCreators.audioRecorder,

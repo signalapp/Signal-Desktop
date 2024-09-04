@@ -125,6 +125,7 @@ import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
+import { InstallScreenStep } from './types/InstallScreen';
 import { SignalService as Proto } from './protobuf';
 import {
   onRetryRequest,
@@ -1242,7 +1243,7 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('setupAsNewDevice', () => {
     window.IPC.readyForUpdates();
-    window.reduxActions.app.openInstaller();
+    window.reduxActions.installer.startInstaller();
   });
 
   window.Whisper.events.on('setupAsStandalone', () => {
@@ -1461,13 +1462,13 @@ export async function startApp(): Promise<void> {
     if (isCoreDataValid && Registration.everDone()) {
       drop(connect());
       if (window.storage.get('backupDownloadPath')) {
-        window.reduxActions.app.openBackupImport();
+        window.reduxActions.installer.showBackupImport();
       } else {
         window.reduxActions.app.openInbox();
       }
     } else {
       window.IPC.readyForUpdates();
-      window.reduxActions.app.openInstaller();
+      window.reduxActions.installer.startInstaller();
     }
 
     const { activeWindowService } = window.SignalContext;
@@ -1518,6 +1519,8 @@ export async function startApp(): Promise<void> {
     afterStart();
   }
 
+  const backupReady = explodePromise<void>();
+
   function afterStart() {
     strictAssert(messageReceiver, 'messageReceiver must be initialized');
     strictAssert(server, 'server must be initialized');
@@ -1553,13 +1556,17 @@ export async function startApp(): Promise<void> {
       drop(messageReceiver?.drain());
 
       if (hasAppEverBeenRegistered) {
-        if (
-          window.reduxStore.getState().app.appView === AppViewType.Installer
-        ) {
-          log.info(
-            'background: offline, but app has been registered before; opening inbox'
-          );
-          window.reduxActions.app.openInbox();
+        const state = window.reduxStore.getState();
+        if (state.app.appView === AppViewType.Installer) {
+          if (state.installer.step === InstallScreenStep.LinkInProgress) {
+            log.info(
+              'background: offline, but app has been registered before; opening inbox'
+            );
+            window.reduxActions.app.openInbox();
+          } else if (state.installer.step === InstallScreenStep.BackupImport) {
+            log.warn('background: offline, but app has needs to import backup');
+            // TODO: DESKTOP-7584
+          }
         }
 
         if (!hasInitialLoadCompleted) {
@@ -1580,44 +1587,43 @@ export async function startApp(): Promise<void> {
       onOffline();
     }
 
-    if (window.storage.get('backupDownloadPath')) {
-      log.info(
-        'background: not running storage service while downloading backup'
-      );
-      drop(downloadBackup());
-      return;
-    }
-
-    server.registerRequestHandler(messageReceiver);
+    drop(downloadBackup());
   }
 
   async function downloadBackup() {
+    strictAssert(server != null, 'server must be initialized');
+    strictAssert(
+      messageReceiver != null,
+      'MessageReceiver must be initialized'
+    );
+
     const backupDownloadPath = window.storage.get('backupDownloadPath');
     if (!backupDownloadPath) {
-      log.warn('No backup download path, cannot download backup');
+      log.warn('downloadBackup: no backup download path, skipping');
+      backupReady.resolve();
+      server.registerRequestHandler(messageReceiver);
+      drop(runStorageService());
       return;
     }
 
     const absoluteDownloadPath =
       window.Signal.Migrations.getAbsoluteDownloadsPath(backupDownloadPath);
-    log.info('downloadBackup: downloading to', absoluteDownloadPath);
-    await backupsService.download(absoluteDownloadPath, {
+    log.info('downloadBackup: downloading...');
+    const hasBackup = await backupsService.download(absoluteDownloadPath, {
       onProgress: (currentBytes, totalBytes) => {
-        window.reduxActions.app.updateBackupImportProgress({
+        window.reduxActions.installer.updateBackupImportProgress({
           currentBytes,
           totalBytes,
         });
       },
     });
     await window.storage.remove('backupDownloadPath');
-    window.reduxActions.app.openInbox();
 
+    log.info(`downloadBackup: done, had backup=${hasBackup}`);
+
+    // Start storage service sync, etc
     log.info('downloadBackup: processing websocket messages, storage service');
-    strictAssert(server != null, 'server must be initialized');
-    strictAssert(
-      messageReceiver != null,
-      'MessageReceiver must be initialized'
-    );
+    backupReady.resolve();
     server.registerRequestHandler(messageReceiver);
     drop(runStorageService());
   }
@@ -1717,6 +1723,8 @@ export async function startApp(): Promise<void> {
     }
 
     strictAssert(server !== undefined, 'WebAPI not connected');
+
+    await backupReady.promise;
 
     try {
       connectPromise = explodePromise();
@@ -1923,9 +1931,8 @@ export async function startApp(): Promise<void> {
         setIsInitialSync(false);
 
         // Switch to inbox view even if contact sync is still running
-        if (
-          window.reduxStore.getState().app.appView === AppViewType.Installer
-        ) {
+        const state = window.reduxStore.getState();
+        if (state.app.appView === AppViewType.Installer) {
           log.info('firstRun: opening inbox');
           window.reduxActions.app.openInbox();
         } else {
@@ -1961,6 +1968,17 @@ export async function startApp(): Promise<void> {
         }
 
         log.info('firstRun: done');
+      } else {
+        const state = window.reduxStore.getState();
+        if (
+          state.app.appView === AppViewType.Installer &&
+          state.installer.step === InstallScreenStep.BackupImport
+        ) {
+          log.info('notFirstRun: opening inbox after backup import');
+          window.reduxActions.app.openInbox();
+        } else {
+          log.info('notFirstRun: not opening inbox');
+        }
       }
 
       window.storage.onready(async () => {

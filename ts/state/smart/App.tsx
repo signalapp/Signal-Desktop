@@ -18,7 +18,6 @@ import {
   getIsMainWindowMaximized,
   getIsMainWindowFullScreen,
   getTheme,
-  getIntl,
 } from '../selectors/user';
 import { hasSelectedStoryData as getHasSelectedStoryData } from '../selectors/stories';
 import { useAppActions } from '../ducks/app';
@@ -111,7 +110,6 @@ async function uploadProfile({
 }
 
 export const SmartApp = memo(function SmartApp() {
-  const i18n = useSelector(getIntl);
   const state = useSelector(getApp);
   const isMaximized = useSelector(getIsMainWindowMaximized);
   const isFullScreen = useSelector(getIsMainWindowFullScreen);
@@ -126,7 +124,6 @@ export const SmartApp = memo(function SmartApp() {
 
   return (
     <App
-      i18n={i18n}
       state={state}
       isMaximized={isMaximized}
       isFullScreen={isFullScreen}
