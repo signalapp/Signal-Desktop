@@ -12,6 +12,10 @@ import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { LocalizerType } from '../../types/Util';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
 import { isImageAttachment } from '../../types/Attachment';
+import { isCallLink } from '../../types/LinkPreview';
+import { Avatar } from '../Avatar';
+import { getColorForCallLink } from '../../util/getColorForCallLink';
+import { getKeyFromCallLink } from '../../util/callLinks';
 
 export type Props = LinkPreviewType & {
   i18n: LocalizerType;
@@ -20,18 +24,9 @@ export type Props = LinkPreviewType & {
   onClose?: () => void;
 };
 
-export function StagedLinkPreview({
-  date,
-  description,
-  domain,
-  i18n,
-  image,
-  imageSize,
-  moduleClassName,
-  onClose,
-  title,
-}: Props): JSX.Element {
-  const isImage = isImageAttachment(image);
+export function StagedLinkPreview(props: Props): JSX.Element {
+  const { date, description, domain, i18n, moduleClassName, onClose, title } =
+    props;
   const isLoaded = Boolean(domain);
 
   const getClassName = getClassNamesFor(
@@ -79,30 +74,7 @@ export function StagedLinkPreview({
         !isLoaded ? getClassName('--is-loading') : null
       )}
     >
-      {!isLoaded ? (
-        <div className={getClassName('__loading')}>
-          {i18n('icu:loadingPreview')}
-        </div>
-      ) : null}
-      {isLoaded && image && isImage && domain ? (
-        <div className={getClassName('__icon-container')}>
-          <Image
-            alt={i18n('icu:stagedPreviewThumbnail', {
-              domain,
-            })}
-            attachment={image}
-            curveBottomLeft={CurveType.Tiny}
-            curveBottomRight={CurveType.Tiny}
-            curveTopLeft={CurveType.Tiny}
-            curveTopRight={CurveType.Tiny}
-            height={imageSize || 72}
-            i18n={i18n}
-            url={image.url}
-            width={imageSize || 72}
-          />
-        </div>
-      ) : null}
-      {isLoaded && !image && <div className={getClassName('__no-image')} />}
+      <Thumbnail {...props} />
       {maybeContent}
       {onClose && (
         <button
@@ -114,4 +86,78 @@ export function StagedLinkPreview({
       )}
     </div>
   );
+}
+
+export function Thumbnail({
+  domain,
+  i18n,
+  image,
+  imageSize,
+  moduleClassName,
+  title,
+  url,
+}: Pick<
+  Props,
+  | 'domain'
+  | 'i18n'
+  | 'image'
+  | 'imageSize'
+  | 'moduleClassName'
+  | 'title'
+  | 'url'
+>): JSX.Element {
+  const isImage = isImageAttachment(image);
+  const getClassName = getClassNamesFor(
+    'module-staged-link-preview',
+    moduleClassName
+  );
+
+  if (!domain) {
+    return (
+      <div className={getClassName('__loading')}>
+        {i18n('icu:loadingPreview')}
+      </div>
+    );
+  }
+
+  if (isCallLink(url)) {
+    return (
+      <div className={getClassName('__icon-container-call-link')}>
+        <Avatar
+          acceptedMessageRequest
+          badge={undefined}
+          color={getColorForCallLink(getKeyFromCallLink(url))}
+          conversationType="callLink"
+          i18n={i18n}
+          isMe={false}
+          sharedGroupNames={[]}
+          size={64}
+          title={title ?? i18n('icu:calling__call-link-default-title')}
+        />
+      </div>
+    );
+  }
+
+  if (image && isImage) {
+    return (
+      <div className={getClassName('__icon-container')}>
+        <Image
+          alt={i18n('icu:stagedPreviewThumbnail', {
+            domain,
+          })}
+          attachment={image}
+          curveBottomLeft={CurveType.Tiny}
+          curveBottomRight={CurveType.Tiny}
+          curveTopLeft={CurveType.Tiny}
+          curveTopRight={CurveType.Tiny}
+          height={imageSize || 72}
+          i18n={i18n}
+          url={image.url}
+          width={imageSize || 72}
+        />
+      </div>
+    );
+  }
+
+  return <div className={getClassName('__no-image')} />;
 }
