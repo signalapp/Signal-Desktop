@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Không thể tham gia cuộc gọi"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Bạn hiện đang ở trong một cuộc gọi."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Không thể lấy thông tin đường dẫn cuộc gọi. Vui lòng kiểm tra kết nối mạng của bạn và thử lại."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Nhấn nút \"Ủng hộ Signal\" và đăng ký ủng hộ"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Đang đồng bộ tin nhắn"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Hiện tải được {currentSize} của tổng {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Quá trình này có thể mất vài phút tùy vào dung lượng của bản sao lưu"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Mở rộng"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Nhấn {composeIcon} ở trên và tìm các liên hệ hoặc nhóm của bạn để nhắn tin."
-  },
-  "icu:composeIcon": {
-    "messageformat": "nút soạn thảo"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Không có cuộc trò chuyện"
@@ -4875,7 +4872,7 @@
     "messageformat": "Bấm <newStoryIcon>Thêm một story</newStoryIcon> để thêm một cập nhật."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Bấm <newStoryButtonIcon></newStoryButtonIcon> để cập nhật."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} đến {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Đã bày tỏ cảm xúc với story"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Đã bày tỏ cảm xúc với story"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Đã bày tỏ cảm xúc với story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Bạn không thể trả lời story này vì bạn không còn là thành viên của nhóm này."
@@ -5428,7 +5425,7 @@
     "messageformat": "Bấm <newCallIcon>Cuộc gọi mới</newCallIcon> để bắt đầu một cuộc gọi thoại hoặc cuộc gọi video."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Bấm <newCallButtonIcon></newCallButtonIcon> để bắt đầu một cuộc gọi thoại hoặc cuộc gọi video mới."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Tìm kiếm"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Quay về"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Bạn phải rời khỏi cuộc gọi hiện tại trước khi tham gia một cuộc gọi mới"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Cuộc gọi thoại đi} other {Cuộc gọi thoại đến}}} Video {{direction, select, Outgoing {Cuộc gọi video đang gọi đi} other {Cuộc gọi video đang đến}}} Group {{direction, select, Outgoing {Cuộc gọi nhóm đi} other {Cuộc gọi nhóm đến}}} other {{direction, select, Outgoing {Cuộc gọi đi} other {Cuộc gọi đến}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Cuộc gọi thoại bị nhỡ} Video {Cuộc gọi video bị nhỡ} Group {Cuộc gọi nhóm bị nhỡ} other {Cuộc gọi nhỡ}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Cuộc gọi thoại không được trả lời} Video {Cuộc gọi video không được trả lời} Group {Cuộc gọi nhóm không được trả lời} other {Cuộc gọi không được trả lời}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Cuộc gọi thoại đã từ chối} Video {Cuộc gọi video đã từ chối} Group {Cuộc gọi nhóm đã từ chối} other {Cuộc gọi đã từ chối}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Đường dẫn cuộc gọi"
@@ -5629,13 +5611,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Giờ đây Signal Desktop có thể tự động tiếp tục quá trình tải xuống tập tin đính kèm bị gián đoạn."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Các cuộc trò chuyện giờ đây mở ra nhanh hơn sau khi ứng dụng được cải thiện hiệu suất."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Chúng tôi cũng đã sửa xong nhiều lỗi, trong đó có lỗi xuất hiện \"Liên hệ không rõ đã bắt đầu một cuộc gọi video\" trong danh sách cuộc trò chuyện sau khi bạn bắt đầu cuộc gọi."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

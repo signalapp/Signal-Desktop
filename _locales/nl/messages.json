@@ -9,13 +9,13 @@
     "messageformat": "Toevoegen"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "‘{contact}’ toevoegen aan de groep ‘{group}’"
+    "messageformat": "{contact} toevoegen aan de groep ‘{group}’"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
     "messageformat": "Zoeken"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "{contact} is aan de groep ‘{group}’ toegevoegd"
+    "messageformat": "{contact} is toegevoegd aan de groep ‘{group}’"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "{contact} toevoegen…"
@@ -384,7 +384,7 @@
     "messageformat": "Weergeven"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "Je bent niet langer lid van deze groep."
+    "messageformat": "Je bent geen lid meer van deze groep."
   },
   "icu:invalidConversation": {
     "messageformat": "Deze groep is ongeldig. Maak een nieuwe groep aan."
@@ -837,7 +837,7 @@
     "messageformat": "Annuleren"
   },
   "icu:discard": {
-    "messageformat": "Verwerpen"
+    "messageformat": "Verwijderen"
   },
   "icu:error": {
     "messageformat": "Fout"
@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Kan niet deelnemen aan oproep"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Je neemt op dit moment al aan een oproep deel."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Kon informatie van oproeplink niet ophalen. Controleer je internetverbinding en probeer het opnieuw."
   },
@@ -1320,10 +1317,10 @@
     "messageformat": "{count, plural, one {{count,number} verzoek afwijzen?} other {{count,number} verzoeken afwijzen?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} persoon wordt aan de oproep toegevoegd.} other {{count,number} personen worden aan de oproep toegevoegd.}}"
+    "messageformat": "{count, plural, one {{count,number} persoon wordt toegevoegd aan de oproep.} other {{count,number} personen worden toegevoegd aan de oproep.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} persoon wordt niet aan de oproep toegevoegd.} other {{count,number} personen worden niet aan de oproep toegevoegd.}}"
+    "messageformat": "{count, plural, one {{count,number} persoon wordt niet toegevoegd aan de oproep.} other {{count,number} personen worden niet toegevoegd aan de oproep.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} verzoek om deel te nemen aan de oproep} other {{count,number} verzoeken om deel te nemen aan de oproep}}"
@@ -1335,7 +1332,7 @@
     "messageformat": "{count, plural, one {+ {count,number} verzoek} other {+ {count,number} verzoeken}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} persoon is aan de oproep toegevoegd} other {{count,number} personen zijn aan de oproep toegevoegd}}"
+    "messageformat": "{count, plural, one {{count,number} persoon is toegevoegd aan de oproep } other {{count,number} personen zijn toegevoegd aan de oproep}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} opgestoken hand} other {{count,number} opgestoken handen}}"
@@ -1551,7 +1548,7 @@
     "messageformat": "{sender} reageerde met {emoji} op: {message}"
   },
   "icu:sendFailed": {
-    "messageformat": "Verzenden mislukt"
+    "messageformat": "Verzenden is mislukt"
   },
   "icu:deleteFailed": {
     "messageformat": "Verwijderen is mislukt"
@@ -1809,7 +1806,7 @@
     "messageformat": "Leden"
   },
   "icu:setGroupMetadata__error-message": {
-    "messageformat": "Deze groep kan niet worden aangemaakt. Controleer je internetverbinding en probeer het opnieuw."
+    "messageformat": "Deze groep kon niet worden aangemaakt. Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:updateGroupAttributes__title": {
     "messageformat": "Groep bewerken"
@@ -1818,7 +1815,7 @@
     "messageformat": "Het bijwerken van de groep is mislukt. Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:unlinkedWarning": {
-    "messageformat": "Klik hier om Signal Desktop te koppelen aan de Signal-app op je telefoon. Dit is nodig om Signal Desktop te kunnen gebruiken."
+    "messageformat": "Klik hier om Signal Desktop opnieuw te koppelen aan de Signal-app op je telefoon. Dit is nodig om Signal Desktop te kunnen gebruiken."
   },
   "icu:unlinked": {
     "messageformat": "Ontkoppeld"
@@ -2175,7 +2172,7 @@
     "messageformat": "Media"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
-    "messageformat": "Je hebt dit bericht al weergegeven."
+    "messageformat": "Je hebt dit bericht al bekeken."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Eenmalig te bekijken berichten worden niet opgeslagen in je chatgeschiedenis."
@@ -2505,7 +2502,7 @@
     "messageformat": "Jullie zullen weer berichten naar elkaar kunnen sturen en met elkaar kunnen bellen."
   },
   "icu:MessageRequests--unblock-group-confirm-body": {
-    "messageformat": "Groepsleden zullen je weer aan deze groep kunnen toevoegen."
+    "messageformat": "Groepsleden zullen je weer kunnen toevoegen aan deze groep."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Gemeld als spam en geblokkeerd."
@@ -2520,7 +2517,7 @@
     "messageformat": "{title} blokkeren en verlaten?"
   },
   "icu:MessageRequests--block-group-confirm-body": {
-    "messageformat": "Je zult niet langer berichten of meldingen van deze groep ontvangen, en de leden kunnen je niet opnieuw aan de groep toevoegen."
+    "messageformat": "Je zult niet langer berichten of meldingen van deze groep ontvangen, en de leden kunnen je niet opnieuw toevoegen aan de groep."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Rapporteren"
@@ -2595,7 +2592,7 @@
     "messageformat": "Lid van {group1}, {group2} en {group3}"
   },
   "icu:member-of-more-than-3-groups--one-more": {
-    "messageformat": "Lid van {group1}, {group2}, {group3} en nog een groep"
+    "messageformat": "Lid van {group1}, {group2}, {group3} en nog een andere groep"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {Lid van {group1}, {group2}, {group3} en {remainingCount,number} andere groep} other {Lid van {group1}, {group2}, {group3} en {remainingCount,number} andere groepen}}"
@@ -2664,7 +2661,7 @@
     "messageformat": "Uitgaande video-oproep"
   },
   "icu:incomingGroupCall__ringing-you": {
-    "messageformat": "{ringer} belt je"
+    "messageformat": "{ringer} belt jou"
   },
   "icu:incomingGroupCall__ringing-1-other": {
     "messageformat": "{ringer} belt jou en {otherMember}"
@@ -2964,7 +2961,7 @@
     "messageformat": "Een beheerder van deze groep moet eerst je verzoek om lid te worden goedkeuren voordat je lid kunt worden van deze groep. Wanneer je verzoekt om lid te worden zullen je profielnaam, -foto en -omschrijving direct zichtbaar zijn voor de groepsleden."
   },
   "icu:GroupV2--join--join-button": {
-    "messageformat": "Deelnemen"
+    "messageformat": "Lid worden"
   },
   "icu:GroupV2--join--request-to-join-button": {
     "messageformat": "Verzoeken om lid te worden"
@@ -3000,7 +2997,7 @@
     "messageformat": "Uitsluitend beheerders"
   },
   "icu:GroupV2--all-members": {
-    "messageformat": "Alle groepsleden"
+    "messageformat": "Alle leden"
   },
   "icu:updating": {
     "messageformat": "Aan het bijwerken…"
@@ -3060,13 +3057,13 @@
     "messageformat": "Een beheerder heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Uitsluitend beheerders’ ingesteld."
   },
   "icu:GroupV2--access-attributes--all--other": {
-    "messageformat": "{adminName} heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Alle groepsleden’ ingesteld."
+    "messageformat": "{adminName} heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Alle leden’ ingesteld."
   },
   "icu:GroupV2--access-attributes--all--you": {
-    "messageformat": "Je hebt de instelling voor wie de groepsinformatie kan bewerken op ‘Alle groepsleden’ ingesteld."
+    "messageformat": "Je hebt de instelling voor wie de groepsinformatie kan bewerken op ‘Alle leden’ ingesteld."
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Een beheerder heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Alle groepsleden’ ingesteld."
+    "messageformat": "Een beheerder heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Alle leden’ ingesteld."
   },
   "icu:GroupV2--access-members--admins--other": {
     "messageformat": "{adminName} heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld."
@@ -3078,13 +3075,13 @@
     "messageformat": "Een beheerder heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld."
   },
   "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle groepsleden’ ingesteld."
+    "messageformat": "{adminName} heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle leden’ ingesteld."
   },
   "icu:GroupV2--access-members--all--you": {
-    "messageformat": "Je hebt de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle groepsleden’ ingesteld."
+    "messageformat": "Je hebt de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle leden’ ingesteld."
   },
   "icu:GroupV2--access-members--all--unknown": {
-    "messageformat": "Een beheerder heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle groepsleden’ ingesteld."
+    "messageformat": "Een beheerder heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle leden’ ingesteld."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Je hebt beheerdersgoedkeuring van nieuwe leden uitgeschakeld voor de groepslink."
@@ -3144,7 +3141,7 @@
     "messageformat": "Je bent lid geworden van de groep."
   },
   "icu:GroupV2--member-add--you--unknown": {
-    "messageformat": "Je bent aan de groep toegevoegd."
+    "messageformat": "Je bent toegevoegd aan de groep."
   },
   "icu:GroupV2--member-add-from-link--you--you": {
     "messageformat": "Je bent via de groepslink lid geworden van de groep."
@@ -3153,19 +3150,19 @@
     "messageformat": "{memberName} is lid geworden via de groepslink."
   },
   "icu:GroupV2--member-add-from-admin-approval--you--other": {
-    "messageformat": "{adminName} heeft je verzoek om lid te worden van de groep gehonoreerd."
+    "messageformat": "{adminName} heeft je verzoek om lid te worden van de groep goedgekeurd."
   },
   "icu:GroupV2--member-add-from-admin-approval--you--unknown": {
-    "messageformat": "Je verzoek om lid te worden van de groep is door een beheerder gehonoreerd."
+    "messageformat": "Je verzoek om lid te worden van de groep is door een beheerder goedgekeurd."
   },
   "icu:GroupV2--member-add-from-admin-approval--other--you": {
-    "messageformat": "Je hebt een verzoek van {joinerName} om lid te worden van de groep gehonoreerd."
+    "messageformat": "Je hebt een verzoek van {joinerName} om lid te worden van de groep goedgekeurd."
   },
   "icu:GroupV2--member-add-from-admin-approval--other--other": {
-    "messageformat": "{adminName} heeft het verzoek van {joinerName} om lid te worden van de groep gehonoreerd."
+    "messageformat": "{adminName} heeft het verzoek van {joinerName} om lid te worden van de groep goedgekeurd."
   },
   "icu:GroupV2--member-add-from-admin-approval--other--unknown": {
-    "messageformat": "Een verzoek van {joinerName} om lid te worden van de groep is gehonoreerd."
+    "messageformat": "Een verzoek van {joinerName} om lid te worden van de groep is goedgekeurd."
   },
   "icu:GroupV2--member-remove--other--other": {
     "messageformat": "{adminName} heeft {memberName} verwijderd."
@@ -3411,13 +3408,13 @@
     "messageformat": "De groepsinstellingen zijn aangepast zodat uitsluitend beheerders berichten kunnen verzenden en oproepen kunnen beginnen."
   },
   "icu:GroupV2--announcements--member--you": {
-    "messageformat": "Je hebt de groepsinstellingen aangepast zodat alle groepsleden berichten kunnen verzenden en oproepen kunnen beginnen."
+    "messageformat": "Je hebt de groepsinstellingen aangepast zodat alle leden berichten kunnen verzenden en oproepen kunnen beginnen."
   },
   "icu:GroupV2--announcements--member--other": {
-    "messageformat": "{memberName} heeft de groepsinstellingen aangepast zodat alle groepsleden berichten kunnen verzenden en oproepen kunnen beginnen."
+    "messageformat": "{memberName} heeft de groepsinstellingen aangepast zodat alle leden berichten kunnen verzenden en oproepen kunnen beginnen."
   },
   "icu:GroupV2--announcements--member--unknown": {
-    "messageformat": "De groepsinstellingen zijn aangepast zodat alle groepsleden berichten kunnen verzenden en oproepen kunnen beginnen."
+    "messageformat": "De groepsinstellingen zijn aangepast zodat alle leden berichten kunnen verzenden en oproepen kunnen beginnen."
   },
   "icu:GroupV2--summary": {
     "messageformat": "De leden of instellingen van deze groep zijn gewijzigd."
@@ -3453,31 +3450,31 @@
     "messageformat": "Om weer lid te worden van deze groep zul je een uitnodiging moeten accepteren. Je zult geen berichten van deze groep ontvangen zolang je dat nog niet hebt gedaan."
   },
   "icu:GroupV1--Migration--info--invited--many": {
-    "messageformat": "Deze groepsleden zullen opnieuw een uitnodiging ontvangen om tot de groep toe te treden en ze zullen geen berichten ontvangen zolang ze deze niet geaccepteerd hebben:"
+    "messageformat": "Deze leden zullen opnieuw een uitnodiging ontvangen om tot de groep toe te treden en ze zullen geen berichten ontvangen zolang ze deze niet geaccepteerd hebben:"
   },
   "icu:GroupV1--Migration--info--invited--one": {
-    "messageformat": "Dit groepslid zal opnieuw een uitnodiging ontvangen om tot de groep toe te treden en deze persoon zal geen berichten ontvangen totdat die de uitnodiging heeft geaccepteerd:"
+    "messageformat": "Dit lid zal opnieuw een uitnodiging ontvangen om tot de groep toe te treden en deze persoon zal geen berichten ontvangen totdat die de uitnodiging heeft geaccepteerd:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} groepslid moet een uitnodiging om opnieuw lid te worden van de groep accepteren en deze persoon zal geen groepsberichten ontvangen tot deze de uitnodiging heeft geaccepteerd.} other {{count,number} groepsleden moeten een uitnodiging om opnieuw lid te worden van de groep accepteren en deze personen zullen geen groepsberichten ontvangen tot ze de uitnodiging hebben geaccepteerd.}}"
+    "messageformat": "{count, plural, one {{count,number} lid moet een uitnodiging om opnieuw lid te worden van de groep accepteren en deze persoon zal geen groepsberichten ontvangen tot deze de uitnodiging heeft geaccepteerd.} other {{count,number} leden moeten een uitnodiging om opnieuw lid te worden van de groep accepteren en deze personen zullen geen groepsberichten ontvangen tot ze de uitnodiging hebben geaccepteerd.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
-    "messageformat": "Deze groepsleden zijn niet in staat om tot nieuwe-stijl groepen toe te treden en worden daarom verwijderd uit de groep:"
+    "messageformat": "Deze leden zijn niet in staat om tot nieuwe-stijl groepen toe te treden en worden daarom verwijderd uit de groep:"
   },
   "icu:GroupV1--Migration--info--removed--before--one": {
-    "messageformat": "Dit groepslid is niet in staat om tot nieuwe-stijl groepen toe te treden en wordt daarom verwijderd uit de groep:"
+    "messageformat": "Dit lid is niet in staat om tot nieuwe-stijl groepen toe te treden en wordt daarom verwijderd uit de groep:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} groepslid kan niet lid worden van de nieuwe-stijl groepen en zal daarom uit de groep worden verwijderd.} other {{count,number} groepsleden kunnen niet lid worden van de nieuwe-stijl groepen en zullen daarom uit de groep worden verwijderd.}}"
+    "messageformat": "{count, plural, one {{count,number} lid kan niet lid worden van de nieuwe-stijl groepen en wordt daarom verwijderd uit de groep.} other {{count,number} leden kunnen niet lid worden van de nieuwe-stijl groepen en worden daarom verwijderd uit de groep.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
-    "messageformat": "Deze groepsleden zijn niet in staat om tot nieuwe-stijl groepen toe te treden en zijn daarom verwijderd uit de groep:"
+    "messageformat": "Deze leden zijn niet in staat om tot nieuwe-stijl groepen toe te treden en zijn daarom verwijderd uit de groep:"
   },
   "icu:GroupV1--Migration--info--removed--after--one": {
-    "messageformat": "Dit groepslid is niet in staat om tot nieuwe-stijl groepen toe te treden en is daarom verwijderd uit de groep:"
+    "messageformat": "Dit lid is niet in staat om tot nieuwe-stijl groepen toe te treden en is daarom verwijderd uit de groep:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} groepslid kon niet lid worden van de nieuwe-stijl groepen en is daarom uit de groep verwijderd.} other {{count,number} groepsleden konden niet lid worden van de nieuwe-stijl groepen en zijn daarom uit de groep verwijderd.}}"
+    "messageformat": "{count, plural, one {{count,number} lid kon niet lid worden van de nieuwe-stijl groepen en is daarom verwijderd uit de groep.} other {{count,number} leden konden niet lid worden van de nieuwe-stijl groepen en zijn daarom verwijderd uit de groep.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Je kon niet worden toegevoegd aan de nieuwe-stijl groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden."
@@ -3486,13 +3483,13 @@
     "messageformat": "{contact} kon niet worden toegevoegd aan de nieuwe-stijl groep en heeft daarom een uitnodiging gekregen om opnieuw lid te worden."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {Een groepslid kon niet worden toegevoegd aan de nieuwe groep en heeft een uitnodiging gekregen om lid te worden.} other {{count,number} groepsleden konden niet worden toegevoegd aan de nieuwe groep en hebben een uitnodiging gekregen om lid te worden.}}"
+    "messageformat": "{count, plural, one {Een lid kon niet worden toegevoegd aan de nieuwe groep en heeft een uitnodiging gekregen om lid te worden.} other {{count,number} leden konden niet worden toegevoegd aan de nieuwe groep en hebben een uitnodiging gekregen om lid te worden.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
-    "messageformat": "{contact} is uit de groep verwijderd."
+    "messageformat": "{contact} is verwijderd uit de groep."
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, one {{count,number} lid is uit de groep verwijderd.} other {{count,number} leden zijn uit de groep verwijderd.}}"
+    "messageformat": "{count, plural, one {{count,number} lid is verwijderd uit de groep.} other {{count,number} leden zijn verwijderd uit de groep.}}"
   },
   "icu:close": {
     "messageformat": "Sluiten"
@@ -3522,13 +3519,19 @@
     "messageformat": "Tik op ‘Doneren aan Signal’ en meld je aan"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Berichten synchroniseren"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent}) aan het downloaden..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je back-up"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Vergroten"
@@ -3579,7 +3582,7 @@
     "messageformat": "Uit de groep verwijderen"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "Je neemt op dit moment al deel aan een oproep"
+    "messageformat": "Je neemt op dit moment al aan een oproep deel"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chatkleur"
@@ -3630,7 +3633,7 @@
     "messageformat": "Kies wie de groepsnaam, -afbeelding, -omschrijving en de timer voor verdwijnende berichten kan bewerken."
   },
   "icu:ConversationDetails--add-members-label": {
-    "messageformat": "Groepsleden toevoegen"
+    "messageformat": "Leden toevoegen"
   },
   "icu:ConversationDetails--add-members-info": {
     "messageformat": "Kies wie leden mogen toevoegen aan deze groep."
@@ -3678,7 +3681,7 @@
     "messageformat": "Blokkeren"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Je contacten zullen je aan deze groep kunnen toevoegen."
+    "messageformat": "Je contacten zullen je kunnen toevoegen aan deze groep."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Deblokkeren"
@@ -3696,7 +3699,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
-    "messageformat": "Groepsleden toevoegen"
+    "messageformat": "Leden toevoegen"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Alles weergeven"
@@ -3774,7 +3777,7 @@
     "messageformat": "Uitnodigingen ({count,number})"
   },
   "icu:PendingRequests--approve-for": {
-    "messageformat": "Verzoek van ‘{name}’ honoreren?"
+    "messageformat": "Verzoek van ‘{name}’ goedkeuren?"
   },
   "icu:PendingRequests--deny-for": {
     "messageformat": "Verzoek van ‘{name}’ afwijzen?"
@@ -3804,7 +3807,7 @@
     "messageformat": "Uitnodiging intrekken"
   },
   "icu:PendingRequests--approve": {
-    "messageformat": "Verzoek honoreren"
+    "messageformat": "Verzoek goedkeuren"
   },
   "icu:PendingRequests--deny": {
     "messageformat": "Verzoek afwijzen"
@@ -3822,7 +3825,7 @@
     "messageformat": "Verzoek blokkeren?"
   },
   "icu:PendingRequests--block--contents": {
-    "messageformat": "{name} zal niet langer via de groepslink lid kunnen worden of kunnen verzoeken om lid te worden van deze groep. Deze persoon kan nog wel handmatig aan de groep worden toegevoegd."
+    "messageformat": "{name} zal niet langer via de groepslink lid kunnen worden of kunnen verzoeken om lid te worden van deze groep. Deze persoon kan nog wel handmatig worden toegevoegd aan de groep."
   },
   "icu:PendingRequests--block--confirm": {
     "messageformat": "Verzoek blokkeren"
@@ -3879,10 +3882,10 @@
     "messageformat": "{count, plural, one {Uitnodiging verstuurd} other {{count,number} uitnodigingen verstuurd}}"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-    "messageformat": "{name} kan door jou niet direct aan deze groep worden toegevoegd."
+    "messageformat": "{name} kan door jou niet direct worden toegevoegd aan deze groep."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-    "messageformat": "Deze personen kunnen door jou niet direct aan de groep worden toegevoegd."
+    "messageformat": "Deze personen kunnen door jou niet direct worden toegevoegd aan de groep."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
     "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging heeft geaccepteerd."
@@ -3891,22 +3894,22 @@
     "messageformat": "Meer informatie"
   },
   "icu:AddGroupMembersModal--title": {
-    "messageformat": "Groepsleden toevoegen"
+    "messageformat": "Leden toevoegen"
   },
   "icu:AddGroupMembersModal--continue-to-confirm": {
     "messageformat": "Bijwerken"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
-    "messageformat": "{person} toevoegen aan ‘{group}’?"
+    "messageformat": "{person} toevoegen aan de groep ‘{group}’?"
   },
   "icu:AddGroupMembersModal--confirm-title--many": {
-    "messageformat": "{count,number} leden toevoegen aan ‘{group}’?"
+    "messageformat": "{count,number} leden toevoegen aan de groep ‘{group}’?"
   },
   "icu:AddGroupMembersModal--confirm-button--one": {
-    "messageformat": "Voeg groepslid toe"
+    "messageformat": "Lid toevoegen"
   },
   "icu:AddGroupMembersModal--confirm-button--many": {
-    "messageformat": "Groepsleden toevoegen"
+    "messageformat": "Leden toevoegen"
   },
   "icu:createNewGroupButton": {
     "messageformat": "Nieuwe groep"
@@ -3950,12 +3953,6 @@
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0,5"
   },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Klik op de {composeIcon} hierboven en zoek een contact of groep om een bericht naar te verzenden."
-  },
-  "icu:composeIcon": {
-    "messageformat": "Opstelknop"
-  },
   "icu:emptyInbox__title": {
     "messageformat": "Geen chats"
   },
@@ -3993,10 +3990,10 @@
     "messageformat": "Beoordeel verzoeken zorgvuldig. Signal heeft een ander contact gevonden met dezelfde naam. <reviewRequestLink>Verzoek bekijken</reviewRequestLink>"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} groepslid heeft dezelfde naam. <reviewRequestLink>Leden bekijken</reviewRequestLink>} other {{count,number} groepsleden hebben dezelfde naam. <reviewRequestLink>Leden bekijken</reviewRequestLink>}}"
+    "messageformat": "{count, plural, one {{count,number} groepslid heeft dezelfde naam. <reviewRequestLink>Leden vergelijken</reviewRequestLink>} other {{count,number} groepsleden hebben dezelfde naam. <reviewRequestLink>Leden vergelijken</reviewRequestLink>}}"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {Er is {count,number} naamconflict gevonden in deze groep. <reviewRequestLink>Leden bekijken</reviewRequestLink>} other {Er zijn {count,number} naamconflicten gevonden in deze groep. <reviewRequestLink>Leden bekijken</reviewRequestLink>}}"
+    "messageformat": "{count, plural, one {Er is {count,number} naamconflict gevonden in deze groep. <reviewRequestLink>Leden vergelijken</reviewRequestLink>} other {Er zijn {count,number} naamconflicten gevonden in deze groep. <reviewRequestLink>Leden vergelijken</reviewRequestLink>}}"
   },
   "icu:ContactSpoofingReviewDialog__title": {
     "messageformat": "Personen vergelijken"
@@ -4011,13 +4008,13 @@
     "messageformat": "Persoon die in je contactenlijst staat"
   },
   "icu:ContactSpoofingReviewDialog__group__title": {
-    "messageformat": "Groepsleden vergelijken"
+    "messageformat": "Leden vergelijken"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} groepslid heeft dezelfde naam. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.} other {{count,number} groepsleden hebben dezelfde naam. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als iemand anders.}}"
+    "messageformat": "{count, plural, one {{count,number} groepslid heeft dezelfde naam. Vergelijk de leden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.} other {{count,number} groepsleden hebben dezelfde naam. Vergelijk de leden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als iemand anders.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {Er is {count,number} naamconflict gevonden in deze groep. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.} other {Er zijn {count,number} naamconflicten gevonden in deze groep. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als iemand anders.}}"
+    "messageformat": "{count, plural, one {Er is {count,number} naamconflict gevonden in deze groep. Vergelijk de leden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.} other {Er zijn {count,number} naamconflicten gevonden in deze groep. Vergelijk de leden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als iemand anders.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "Geen andere gemeenschappelijke groepen"
@@ -4032,10 +4029,10 @@
     "messageformat": "Uit de groep verwijderen"
   },
   "icu:RemoveGroupMemberConfirmation__description": {
-    "messageformat": "‘{name}’ uit deze groep verwijderen?"
+    "messageformat": "{name} uit deze groep verwijderen?"
   },
   "icu:RemoveGroupMemberConfirmation__description__with-link": {
-    "messageformat": "Wil je ‘{name}’ uit de groep verwijderen? Als je dit doet kan deze persoon niet opnieuw lid te worden van de groep via de groepslink."
+    "messageformat": "Wil je {name} verwijderen uit de groep? Als je dit doet kan deze persoon niet opnieuw lid te worden van de groep via de groepslink."
   },
   "icu:CaptchaDialog__title": {
     "messageformat": "Verifieer om door te kunnen gaan met het verzenden van berichten"
@@ -4335,7 +4332,7 @@
     "messageformat": "Achternaam (optioneel)"
   },
   "icu:ConfirmDiscardDialog--discard": {
-    "messageformat": "Wil je de wijzigingen verwerpen?"
+    "messageformat": "Wil je de wijzigingen verwijderen?"
   },
   "icu:ConfirmationDialog__Title--in-call-close-requested": {
     "messageformat": "Signal sluiten en de oproep beëindigen?"
@@ -4860,7 +4857,7 @@
     "messageformat": "Versturen…"
   },
   "icu:Stories__list--send_failed": {
-    "messageformat": "Verzenden mislukt"
+    "messageformat": "Verzenden is mislukt"
   },
   "icu:Stories__list--partially-sent": {
     "messageformat": "Gedeeltelijk verstuurd"
@@ -4875,7 +4872,7 @@
     "messageformat": "Klik op <newStoryIcon>Een verhaal toevoegen</newStoryIcon> om een update toe te voegen."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Klik op <newStoryButtonIcon></newStoryButtonIcon> om een update toe te voegen."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} naar {group}"
@@ -5121,13 +5118,13 @@
     "messageformat": "Reageerde op dit verhaal"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reageerde op dit verhaal"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reageerde op dit verhaal"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Je kunt niet reageren op dit verhaal, omdat je geen lid van deze groep meer bent."
+    "messageformat": "Je kunt niet reageren op dit verhaal, omdat je geen lid meer bent van deze groep."
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
     "messageformat": "Verwijderen voor mezelf"
@@ -5428,7 +5425,7 @@
     "messageformat": "Klik op <newCallIcon>Nieuwe Oproep</newCallIcon> om een nieuwe spraak- of video-oproep te starten."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Klik op <newCallButtonIcon></newCallButtonIcon> om een nieuwe spraak- of video-oproep te starten."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Zoeken"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Terugkeren"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Je moet de huidige oproep verlaten voordat je kunt deelnemen aan een nieuwe oproep"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Uitgaande spraakoproep} other {Inkomende spraakoproep}}} Video {{direction, select, Outgoing {Uitgaande video-oproep} other {Inkomende video-oproep}}} Group {{direction, select, Outgoing {Uitgaande groepsoproep} other {Inkomende groepsoproep}}} other {{direction, select, Outgoing {Uitgaande oproep} other {Inkomende oproep}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Gemiste spraakoproep} Video {Gemiste video-oproep} Group {Gemiste groepsoproep} other {Gemiste oproep}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Onbeantwoorde spraakoproep} Video {Onbeantwoorde video-oproep} Group {Onbeantwoorde groepsoproep} other {Onbeantwoorde oproep}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Spraakoproep geweigerd} Video {Video-oproep geweigerd} Group {Groepsoproep geweigerd} other {Oproep geweigerd}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Oproeplink"
@@ -5629,13 +5611,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop kan nu automatisch onderbroken downloads van bijlagen hervatten vanaf het punt waar ze zijn onderbroken, dus je hoeft niet meer zo lang te wachten om te kunnen lachen, zelfs als je je laptop sluit voordat de meme die je vriend je heeft gestuurd klaar is met downloaden."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Chats openen nu sneller dan ooit dankzij een nieuwe ronde prestatieverbeteringen."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "We hebben ook een aantal bugs opgelost, waaronder een bug die er soms voor zorgde dat ‘Onbekend contact is een video-oproep gestart’ werd weergegeven in de chatlijst terwijl je zelf de oproep was gestart.Zelfs als je jezelf nog aan het ontdekken bent, ben je nooit helemaal een onbekende voor jezelf."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

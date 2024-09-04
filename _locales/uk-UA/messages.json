@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Не вдається приєднатися до виклику"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Ви вже берете участь у виклику."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Не вдалось отримати інформацію щодо посилання на виклик. Перевірте з'єднання з мережею і спробуйте знову."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Натисніть на «Підтримати Signal» і оформте підписку"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Синхронізація повідомлень"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Завантаження: {currentSize} з {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Воно може зайняти кілька хвилин — швидкість залежить від розміру резервної копії"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Розкрити"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0,5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Натисніть на {composeIcon} вище і пошукайте ваші контакти або групи для спілкування."
-  },
-  "icu:composeIcon": {
-    "messageformat": "Kнопка “Нова розмова”"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Чатів немає"
@@ -4875,7 +4872,7 @@
     "messageformat": "Натисніть <newStoryIcon>Додати історію</newStoryIcon>, щоб опублікувати щось нове."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Натисніть <newStoryButtonIcon></newStoryButtonIcon>, щоб опублікувати щось нове."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} до {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Реакція на історію"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Ваша реакція на історію"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Реакція на історію"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Ви не можете відповісти на цю історію, тому що ви вже не учасник цієї групи."
@@ -5428,7 +5425,7 @@
     "messageformat": "Натисніть <newCallIcon>Новий виклик</newCallIcon>, щоб почати новий аудіо- чи відеовиклик."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Натисніть <newCallButtonIcon></newCallButtonIcon>, щоб почати новий аудіо- чи відеовиклик."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Пошук"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Назад"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Щоб приєднатися до іншого виклику, потрібно спочатку покинути поточний"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеовиклик} other {Вхідний відеовиклик}}} Group {{direction, select, Outgoing {Вихідний груповий виклик} other {Вхідний груповий виклик}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Пропущений аудіовиклик} Video {Пропущений відеовиклик} Group {Пропущений груповий виклик} other {Пропущений виклик}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Аудіовиклик без відповіді} Video {Відеовиклик без відповіді} Group {Груповий виклик без відповіді} other {Виклик без відповіді}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Відхилений аудіовиклик} Video {Відхилений відеовиклик} Group {Відхилений груповий виклик} other {Відхилений виклик}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Посилання на виклик"
@@ -5629,13 +5611,13 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Тепер Signal Desktop може автоматично відновлювати завантаження вкладень з місця, на якому воно перервалося. Тож ви зможете побачити смішний мем від друга трошки швидше, навіть якщо закриєте ноутбук до того, як жарт завантажиться."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Більше ніякого чатування на відкриття чатів, адже тепер вони відкриваються ще швидше завдяки черговому покращенню продуктивності."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Ми також виправили кілька помилок. Наприклад, почавши виклик, тепер ви не побачите оповістки «Користувач Невідомий контакт почав відеовиклик» на панелі зі списком чатів. Ми згодні, що пошук себе може тривати все життя, та все ж для самої себе людина не буває геть невідома."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

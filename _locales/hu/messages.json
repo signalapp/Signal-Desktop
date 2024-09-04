@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Nem lehet csatlakozni a híváshoz"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Már csatlakoztál egy híváshoz."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Nem sikerült lehívni a híváskapcsolati információkat. Kérjük, ellenőrizd a hálózati kapcsolatot és próbáld újra."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Koppints az „Adományozás a Signalnak” lehetőségre, és iratkozz fel"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Üzenetek szinkronizálása"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize}/{currentSize} ({fractionComplete,number,percent}) letöltése..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Ez a biztonsági másolat méretétől függően eltarthat néhány percig"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Bővítés"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ",5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Kattints az {composeIcon}ra a címzettnek szánt kontakt vagy csoport kikereséséhez!"
-  },
-  "icu:composeIcon": {
-    "messageformat": "új üzenet gomb"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Nincs csevegés"
@@ -4875,7 +4872,7 @@
     "messageformat": "Kattints a <newStoryIcon>Történet hozzáadása</newStoryIcon> lehetőségre frissítés hozzáadásához."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Kattints a <newStoryButtonIcon></newStoryButtonIcon> lehetőségre frissítés hozzáadásához."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} → {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Reagált a Történetre"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagáltál a történetre"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagált a történetre"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Nem válaszolhatsz erre a Történetre, mert már nem vagy tagja ennek a csoportnak."
@@ -5428,7 +5425,7 @@
     "messageformat": "Kattints az <newCallIcon>Új hívás</newCallIcon> lehetőségre új hang- vagy videohívás indításához."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Kattints a <newCallButtonIcon></newCallButtonIcon> lehetőségre új hang- vagy videohívás indításához."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Keresés"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Vissza"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Egy új híváshoz való csatlakozáshoz előbb ki kell lépned az aktuális hívásból"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Kimenő hanghívás} other {Bejövő hanghívás}}} Video {{direction, select, Outgoing {Kimenő videóhívás} other {Bejövő videóhívás}}} Group {{direction, select, Outgoing {Kimenő csoportos hívás} other {Bejövő csoportos hívás}}} other {{direction, select, Outgoing {Kimenő hívás} other {Bejövő hívás}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Nem fogadott hanghívás} Video {Nem fogadott videóhívás} Group {Nem fogadott csoporthívás} other {Nem fogadott hívás}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Nem fogadott hanghívás} Video {Nem fogadott videóhívás} Group {Nem fogadott csoporthívás} other {Nem fogadott hívás}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Elutasított hanghívás} Video {Elutasított videohívás} Group {Elutasított csoporthívás} other {Elutasított hívás}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Híváshivatkozás"
@@ -5629,13 +5611,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "A Signal Desktop mostantól automatikusan folytathatja a megszakított mellékletletöltéseket."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Az újabb teljesítményfejlesztéseknek hála a csevegés gyorsabban megnyílik, mint valaha."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Kijavítottunk néhány olyan hibát is, amely miatt a hívás indítása után néha az „Ismeretlen névjegy indított videohívást” üzenet jelent meg a csevegőlista összefoglalójában."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

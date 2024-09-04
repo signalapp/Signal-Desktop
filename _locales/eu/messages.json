@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Ezin zara sartu deian"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Deian zaude."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Ezin izan da eskuratu deiaren estekari buruzko informazioa. Egiaztatu sareko konexioa eta saiatu berriro."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Sakatu \"Egin dohaintza Signal-i\" eta harpidetu"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Mezuak sinkronizatzen"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize}/{totalSize} deskargatzen ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Zure babeskopiaren tamainaren arabera, baliteke minutu batzuk behar izatea"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zabaldu"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0,5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Egin klik {composeIcon}goiko aldean eta bilatu zure kontaktuak edo taldeak bidaltzeko."
-  },
-  "icu:composeIcon": {
-    "messageformat": "idazteko botoia"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Txatik ez"
@@ -4875,7 +4872,7 @@
     "messageformat": "Sakatu <newStoryIcon>Istorio bat gehitu</newStoryIcon> eguneraketa bat gehitzeko."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Egin klik hemen: <newStoryButtonIcon></newStoryButtonIcon> eguneraketa bat gehitzeko."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} erabiltzaileak hona: {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Erreakzio bat bidali dio istorioari"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Erreakzio bat bidali dio istorioari"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Erreakzio bat bidali dio istorioari"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5425,7 @@
     "messageformat": "Sakatu <newCallIcon>Dei berria</newCallIcon> dei edo bideodei berri bat hasteko."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Egin klik hemen: <newCallButtonIcon></newCallButtonIcon> beste dei edo bideodei bat hasteko."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Bilatu"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Itzuli"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Beste dei batean sartzeko, oraingo deitik irten behar duzu"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Irteerako ahots-deia} other {Sarrerako ahots-deia}}} Video {{direction, select, Outgoing {Irteerako bideodeia} other {Sarrerako bideodeia}}} Group {{direction, select, Outgoing {Irteerako talde-deia} other {Sarrerako talde-deia}}} other {{direction, select, Outgoing {Irteerako deia} other {Sarrerako dei}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Ahots-dei galdua} Video {Bideodei galdua} Group {Talde-deia galdua} other {Erantzun gabeko deia}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Erantzun gabeko ahots-deia} Video {Erantzun gabeo bideodeia} Group {Erantzun gabeko taldeko deia} other {Erantzun gabeko deia}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Ahots-deia baztertu da} Video {Bideodeia baztertu da} Group {Talde-deia baztertu da} other {Deia baztertu da}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Deiaren esteka"
@@ -5629,13 +5611,13 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop-ek automatikoki berrekin ditzake eten diren eranskinen deskargak utzi zituzten lekutik, beraz, ez duzu barre egiteko hainbeste itxaron beharko ordenagailu eramangarriaren estalkia itxi baduzu zure lagunak bidali dizun memea transferitzen amaitu baino lehen."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Orain, txatak inoiz baino azkarrago irekitzen dira beste errendimendu-hobekuntza bati esker, zure taldeetan klik egin dezakezu eta esaten dutena azkar ikus dezakezu."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Akats batzuk ere konpondu ditugu, tartean deia hasi eta gero \"Kontaktu ezezagunak bideo-deia hasi du\" txat-zerrendaren laburpenean agertzea eragiten zuena. Oraindik auto-aurkikuntzarako bidaian bazabiltza ere, inoiz ez zara guztiz ezezaguna zeure buruarentzat."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

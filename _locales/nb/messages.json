@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Kunne ikke bli med i samtalen"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Du har allerede en samtale på gang."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Kunne ikke hente samtalelenken. Sjekk internettilkoblingen, og prøv igjen."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Trykk på «Gi penger til Signal» for å abonnere"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Synkroniserer meldinger"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Laster ned {currentSize} av {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Dette kan ta et par minutter, avhengig av størrelsen på sikkerhetskopien"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ekspander"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0.5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Klikk på {composeIcon} ovenfor og søk etter kontakter eller grupper å melde til."
-  },
-  "icu:composeIcon": {
-    "messageformat": "opprett-knapp"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Ingen samtaler"
@@ -4875,7 +4872,7 @@
     "messageformat": "Trykk på <newStoryIcon>Legg til en story</newStoryIcon> for å legge ut en oppdatering."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Trykk på <newStoryButtonIcon></newStoryButtonIcon> for å legge ut en oppdatering."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} til {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Reagerte på storyen"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagerte på storyen"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagerte på storyen"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Du kan ikke svare på denne storyen fordi du ikke er medlem av denne gruppen lenger."
@@ -5428,7 +5425,7 @@
     "messageformat": "Trykk på <newCallIcon>Nytt anrop</newCallIcon> for å starte en ny lyd- eller videosamtale."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Trykk på <newCallButtonIcon></newCallButtonIcon> for å starte en ny lyd- eller videosamtale."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Søk"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Tilbake"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Du må forlate denne samtalen før du kan bli med i en annen"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Utgående taleanrop} other {Innkommende taleanrop}}} Video {{direction, select, Outgoing {Utgående videosamtale} other {Innkommende videosamtale}}} Group {{direction, select, Outgoing {Utgående gruppeanrop} other {Innkommende gruppeanrop}}} other {{direction, select, Outgoing {Utgående anrop} other {Innkommende anrop}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Tapt taleanrop} Video {Tapt videosamtale} Group {Ubesvart gruppeanrop} other {Tapt anrop}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Ubesvart taleanrop} Video {Ubesvart videosamtale} Group {Ubesvart gruppeanrop} other {Ubesvart anrop}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Avvist taleanrop} Video {Avvist videoanrop} Group {Avvist gruppeanrop} other {Avvist anrop}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Samtalelenke"
@@ -5629,13 +5611,13 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Nå blir avbrutte nedlastinger av vedlegg automatisk gjenopptatt i Signal Desktop."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Takket være en rekke ytelsesforbedringer har det blitt enklere og kjappere å åpne samtalevinduer."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Vi har også rettet opp i et par feil, blant annet et problem som fører til at meldingen «ukjent kontakt startet en videosamtale» dukker opp i videosamtaler — selv når det er du selv som starter dem."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

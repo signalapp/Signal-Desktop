@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "אי אפשר להצטרף לשיחה"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "את/ה כבר בשיחה."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "לא ניתן למשוך את המידע של לינק השיחה. כדאי לבדוק את חיבור הרשת שלך ולנסות שוב."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "יש ללחוץ על ״תרומה ל-Signal״ ולעשות מנוי"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "מסנכרן הודעות"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "מורידים {currentSize} מתוך {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "זה עשוי לקחת מספר דקות בהתאם לגודל הגיבוי שלך"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "הרחב"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0.5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "לחץ על {composeIcon} למעלה וחפש אחר אנשי הקשר או הקבוצות שלך כדי לשלוח הודעה."
-  },
-  "icu:composeIcon": {
-    "messageformat": "כפתור חַבֵּר"
   },
   "icu:emptyInbox__title": {
     "messageformat": "אין צ׳אטים"
@@ -4875,7 +4872,7 @@
     "messageformat": "יש ללחוץ על <newStoryIcon>הוספת סטורי</newStoryIcon> כדי להוסיף עדכון."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "יש ללחוץ <newStoryButtonIcon></newStoryButtonIcon> כדי להוסיף עדכון."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} אל {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "הגיב/ה לסטורי"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "הגבת לסטורי"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "הגיב/ה לסטורי"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "אין לך אפשרות להשיב לסטורי הזה בגלל שאינך חלק מהקבוצה הזו יותר."
@@ -5428,7 +5425,7 @@
     "messageformat": "יש ללחוץ על <newCallIcon>שיחה חדשה</newCallIcon> כדי להתחיל שיחה קולית או שיחת וידאו חדשה."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "יש ללחוץ על <newCallButtonIcon></newCallButtonIcon> כדי להתחיל שיחה קולית או שיחת וידאו חדשה."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "חיפוש"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "חזור"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "צריך לעזוב את השיחה הנוכחית לפני הצטרפות לשיחה חדשה"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {שיחה קולית יוצאת} other {שיחה קולית נכנסת}}} Video {{direction, select, Outgoing {שיחת וידאו יוצאת} other {שיחת וידאו נכנסת}}} Group {{direction, select, Outgoing {שיחה קבוצתית יוצאת} other {שיחה קבוצתית נכנסת}}} other {{direction, select, Outgoing {שיחה יוצאת} other {שיחה נכנסת}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {שיחה קולית שלא נענתה} Video {שיחת וידאו שלא נענתה} Group {שיחה קבוצתית שלא נענתה} other {שיחה שלא נענתה}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {שיחה קולית שלא נענתה} Video {שיחת וידאו שלא נענתה} Group {שיחה קבוצתית לא נענתה} other {שיחה  לא נענתה}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {שיחה קולית נדחתה} Video {שיחת וידאו נדחתה} Group {שיחה קבוצתית נדחתה} other {שיחה  נדחתה}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "לינק לשיחה"
@@ -5629,13 +5611,13 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal לשולחן העבודה יכולה עכשיו לחדש אוטומטית הורדות קבצים מצורפים שנקטעו."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "הודות לסבב נוסף של שיפורי ביצועים, הצ׳אטים נפתחים כעת מהר יותר מאי פעם."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "תיקנו גם כמה באגים, כולל אחד שגרם לפעמים לכיתוב ״איש קשר לא ידוע התחיל שיחת וידאו״ להופיע בסיכום הצ׳אט לאחר שהתחלת שיחה."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

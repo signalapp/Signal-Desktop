@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "No pots unir-te a la trucada"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Ja estàs en una trucada."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "No s'ha pogut obtenir la informació de l'enllaç de trucada. Comprova la connexió de xarxa i torna-ho a provar."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Toca sobre \"Fer donació a Signal\" per a subscriure't"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Sincronitzant missatges"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Descarregant {currentSize} de {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "En funció de la mida de la teva còpia de seguretat, això pot trigar uns quants minuts."
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandeix"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0,5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Cliqueu el {composeIcon} i cerqueu contactes i grups a qui enviar missatges."
-  },
-  "icu:composeIcon": {
-    "messageformat": "botó per a escriure"
   },
   "icu:emptyInbox__title": {
     "messageformat": "No hi ha xats"
@@ -4875,7 +4872,7 @@
     "messageformat": "Fes clic a <newStoryIcon>Afegir una història</newStoryIcon> per afegir una actualització."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Fes clic a <newStoryButtonIcon> </newStoryButtonIcon>per afegir una actualització."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} a {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Ha reaccionat a la història"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Ha reaccionat a la història"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Ha reaccionat a la història"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "No pots respondre a aquesta història perquè ja no pertanys a aquest grup."
@@ -5428,7 +5425,7 @@
     "messageformat": "Fes clic a <newCallIcon>Nova trucada</newCallIcon> per iniciar una nova trucada de veu o vídeo."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Fes clic a <newCallButtonIcon></newCallButtonIcon> per iniciar una nova trucada de veu o vídeo."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cerca"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Torna"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Has de sortir de la trucada actual abans d'unir-te a una nova trucada"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Trucada sortint} other {Trucada entrant}}} Video {{direction, select, Outgoing {Trucada de vídeo sortint} other {Trucada de vídeo entrant}}} Group {{direction, select, Outgoing {Trucada grupal sortint} other {Trucada grupal entrant}}} other {{direction, select, Outgoing {Telefonada feta} other {Telefonada rebuda}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Trucada perduda} Video {Trucada de vídeo perduda} Group {Trucada grupal perduda} other {Telefonada perduda}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Trucada sense contestar} Video {Trucada de vídeo sense contestar} Group {Trucada de grup sense contestar} other {Trucada sense contestar}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Trucada de veu rebutjada} Video {Videotrucada rebutjada} Group {Trucada de grup rebutjada} other {Trucada rebutjada}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Enllaç de trucada"
@@ -5629,13 +5611,13 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Ara, Signal Desktop pot reprendre automàticament les descàrregues interrompudes de fitxers adjunts des del punt on es van aturar."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Ara, els xats s'obren més ràpidament que mai gràcies a noves millores del rendiment."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "També hem corregit una sèrie d'errors, inclòs un que de vegades provocava que, un cop iniciada una trucada, aparegués \"Contacte desconegut ha iniciat una videotrucada\" al llistat de xats."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

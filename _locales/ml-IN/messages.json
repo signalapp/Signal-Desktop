@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "കോളിൽ ചേരാനാകില്ല"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "നിങ്ങൾ ഇതിനകം തന്നെ ഒരു കോളിലാണ്."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "കോൾ ലിങ്ക് വിവരങ്ങൾ ലഭ്യമാക്കാനായില്ല. നിങ്ങളുടെ നെറ്റ്‌വർക്ക് കണക്ഷൻ പരിശോധിച്ചശേഷം വീണ്ടും ശ്രമിക്കുക."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "\"Signal-ന് സംഭാവന ചെയ്യുക\" എന്നതിൽ ടാപ്പ് ചെയ്‌ത് സബ്സ്ക്രൈബ് ചെയ്യുക"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "സന്ദേശങ്ങൾ സമന്വയിപ്പിക്കുന്നു"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent}) ഡൗൺലോഡ് ചെയ്യുന്നു..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പിൻ്റെ വലുപ്പം അനുസരിച്ച് ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "വികസിപ്പിക്കുക"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "മുകളിലുള്ള {composeIcon}'ക്ലിക്ക് ചെയ്ത് സന്ദേശം-മയയ്‌ക്കാൻ നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ളോ ഗ്രൂപ്പുകളോ തിരയുക."
-  },
-  "icu:composeIcon": {
-    "messageformat": "കമ്പോസ് ബട്ടൺ"
   },
   "icu:emptyInbox__title": {
     "messageformat": "ചാറ്റുകളൊന്നുമില്ല"
@@ -4875,7 +4872,7 @@
     "messageformat": "ഒരു അപ്ഡേറ്റ് ചേർക്കാൻ <newStoryIcon>ഒരു സ്റ്റോറി ചേർക്കുക</newStoryIcon> ക്ലിക്ക് ചെയ്യുക."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "ഒരു അപ്ഡേറ്റ് ചേർക്കാൻ <newStoryButtonIcon></newStoryButtonIcon> ക്ലിക്ക് ചെയ്യുക."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}  {group} എന്നതിലേക്ക് അയച്ചു"
@@ -5121,10 +5118,10 @@
     "messageformat": "സ്റ്റോറിയോട് പ്രതികരിച്ചു"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "സ്റ്റോറിയോട് പ്രതികരിച്ചു"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "സ്റ്റോറിയോട് പ്രതികരിച്ചു"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5425,7 @@
     "messageformat": "ഒരു പുതിയ വോയ്‌സ് അല്ലെങ്കിൽ വീഡിയോ കോൾ ആരംഭിക്കാൻ <newCallIcon>പുതിയ കോൾ</newCallIcon> ക്ലിക്ക് ചെയ്യുക."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "ഒരു പുതിയ വോയ്‌സ് അല്ലെങ്കിൽ വീഡിയോ കോൾ ആരംഭിക്കാൻ <newCallButtonIcon></newCallButtonIcon> ക്ലിക്ക് ചെയ്യുക."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "തിരയൽ"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "മടങ്ങുക"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "ഒരു പുതിയ കോളിൽ ചേരുന്നതിന് മുമ്പ് നിങ്ങൾ നിലവിലെ കോൾ ഉപേക്ഷിക്കണം"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {ഔട്ട്ഗോയിംഗ് വോയ്‌സ് കോൾ} other {ഇൻകമിംഗ് വോയ്‌സ് കോൾ}}} Video {{direction, select, Outgoing {ഔട്ട്ഗോയിംഗ് വീഡിയോ കോൾ} other {ഇൻകമിംഗ് വീഡിയോ കോൾ}}} Group {{direction, select, Outgoing {ഔട്ട്‌ഗോയിംഗ് ഗ്രൂപ്പ് കോൾ} other {ഇൻകമിംഗ് ഗ്രൂപ്പ് കോൾ}}} other {{direction, select, Outgoing {ഔട്ട് ഗോയിംഗ് കോൾ} other {ഇൻകമിംഗ് കോൾ}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {മിസ്‌ഡ് വോയ്‌സ് കോൾ} Video {വീഡിയോ കോൾ നഷ്‌ടമായി} Group {മിസ്‌ഡ് ഗ്രൂപ്പ് കോൾ} other {മിസ്ഡ് കോൾ}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {ഉത്തരം ലഭിക്കാത്ത വോയ്‌സ് കോൾ} Video {ഉത്തരം ലഭിക്കാത്ത വീഡിയോ കോൾ} Group {ഉത്തരം നൽകാത്ത ഗ്രൂപ്പ് കോൾ} other {ഉത്തരം നൽകാത്ത  കോൾ}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {നിരസിച്ച വോയിസ് കോൾ} Video {നിരസിച്ച വീഡിയോ കോൾ} Group {നിരസിച്ച ഗ്രൂപ്പ് കോൾ} other {നിരസിച്ച  കോൾ}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "കോൾ ലിങ്ക്"
@@ -5629,13 +5611,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal ഡെസ്‌ക്‌ടോപ്പിന് ഇപ്പോൾ തടസ്സപ്പെട്ട അറ്റാച്ച്‌മെൻ്റ് ഡൗൺലോഡുകൾ അവ നിർത്തിയിടത്ത് നിന്ന് സ്വയമേവ പുനരാരംഭിക്കാൻ കഴിയും, അതിനാൽ നിങ്ങളുടെ സുഹൃത്ത് അയച്ച മീമിന്റെ കൈമാറ്റം പൂർത്തിയാകുന്നതിന് മുമ്പ് നിങ്ങൾ ലാപ്‌ടോപ്പ് അടച്ചാലും സന്തോഷിക്കാൻ നിങ്ങൾക്ക് ഇനി കാത്തിരിക്കേണ്ടിവരില്ല."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "മറ്റൊരു റൗണ്ട് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വഴി, ചാറ്റുകൾ ഇപ്പോൾ എന്നത്തേക്കാളും വേഗത്തിൽ തുറക്കുന്നു, അതിനാൽ നിങ്ങൾക്ക് നിങ്ങളുടെ ഗ്രൂപ്പുകളിൽ ക്ലിക്കുചെയ്ത് അവർ എന്താണ് പറയുന്നതെന്ന് ഉടനടി കാണാൻ കഴിയും."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "നിങ്ങൾ കോൾ ആരംഭിച്ചതിന് ശേഷം ചാറ്റ് ലിസ്റ്റ് സംഗ്രഹത്തിൽ ചിലപ്പോൾ \"അജ്ഞാത കോൺടാക്റ്റ് ഒരു വീഡിയോ കോൾ ആരംഭിച്ചു\" എന്നതിന് കാരണമായത് ഉൾപ്പെടെയുള്ള ഒരുപിടി ബഗുകളും ഞങ്ങൾ പരിഹരിച്ചു. നിങ്ങൾ ഇപ്പോഴും സ്വയം കണ്ടെത്താനുള്ള ഒരു യാത്രയിലാണെങ്കിലും, നിങ്ങൾ ഒരിക്കലും നിങ്ങൾക്ക് പൂർണ്ണമായും അജ്ഞാതനല്ല."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

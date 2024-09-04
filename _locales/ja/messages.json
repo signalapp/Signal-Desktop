@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "通話に参加できません"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "すでに通話中です。"
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "通話リンク情報を取得できませんでした。ネットワーク接続を確認して再度試してください。"
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "「シグナルに寄付する」をタップして申し込む"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "メッセージを同期しています"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} のうち {currentSize}（{fractionComplete,number,percent}）"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "バックアップのサイズによっては、数分かかる場合があります"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "大きく"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "上にある{composeIcon}をクリックして、メッセージを送りたい相手やグループを探してください。"
-  },
-  "icu:composeIcon": {
-    "messageformat": "作成ボタン"
   },
   "icu:emptyInbox__title": {
     "messageformat": "チャットがありません"
@@ -4875,7 +4872,7 @@
     "messageformat": "<newStoryIcon>ストーリーを追加</newStoryIcon> をクリックして更新を追加します。"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "<newStoryButtonIcon></newStoryButtonIcon> をクリックしてストーリーに追加する。"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} から {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "ストーリーにリアクションがありました"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "ストーリーにリアクションしました"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "ストーリーにリアクションがありました"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "このグループのメンバーではなくなったので、このストーリーに返信することはできません。"
@@ -5428,7 +5425,7 @@
     "messageformat": "<newCallIcon>通話する</newCallIcon> をクリックして、音声通話またはビデオ通話を開始します。"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "<newCallButtonIcon></newCallButtonIcon>をクリックして新しい音声通話またはビデオ通話を開始する。"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "検索"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "戻る"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "新しい通話に参加するには、現在の通話を終了する必要があります"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {音声通話発信} other {音声通話着信}}} Video {{direction, select, Outgoing {ビデオ通話発信} other {ビデオ通話着信}}} Group {{direction, select, Outgoing {グループ通話発信} other {グループ通話着信}}} other {{direction, select, Outgoing {発信} other {着信}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {音声通話着信あり} Video {ビデオ通話着信あり} Group {グループ通話着信あり} other {不在着信}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {音声通話応答なし} Video {ビデオ通話応答なし} Group {グループ通話に応答がありませんでした} other {音声通話に応答がありませんでした}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {音声通話が拒否されました} Video {ビデオ通話が拒否されました} Group {グループ通話が拒否されました} other {ビデオ通話が拒否されました}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "通話リンク"
@@ -5629,13 +5611,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktopで、中断された添付ファイルのダウンロードが自動的に再開されるようになりました。"
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "さらなるパフォーマンス改善により、チャットがこれまで以上に速く開けるようになりました。"
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "通話開始後に、チャットリストの概要に「不明な連絡先がビデオ通話を開始しました」と表示されることがあったいくつかのバグなども修正しました。"
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

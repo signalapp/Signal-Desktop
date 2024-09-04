@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Nuk mund t'i bashkohesh thirrjes"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Je tashmë në telefonatë."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Nuk gjendet informacioni i lidhjes së telefonatës. Kontrollo lidhjen e rrjetit dhe riprovo."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Prek “Dhuro për Signal” dhe pajtohu"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Po sinkronizohen mesazhet"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Po shkarkohen {currentSize} nga {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Kjo mund të zgjasë disa minuta në varësi të madhësisë së kopjeruajtjes"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zgjeroje"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ",5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Klikoni {composeIcon} më sipër dhe kërkoni për kontaktet ose grupet tuaja për t’u dërguar mesazh."
-  },
-  "icu:composeIcon": {
-    "messageformat": "buton hartimi"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Asnjë bisedë"
@@ -4875,7 +4872,7 @@
     "messageformat": "Kliko <newStoryIcon>Shto një postim të përkohshëm</newStoryIcon> për të shtuar një përditësim."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Kliko <newStoryButtonIcon></newStoryButtonIcon> për të shtuar një përditësim."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} për {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Reagoi ndaj postimit të përkohshëm"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagove ndaj postimit të përkohshëm"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagoi ndaj postimit të përkohshëm"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5425,7 @@
     "messageformat": "Kliko <newCallIcon>Thirrje e re</newCallIcon> për të nisur një thirrje të re zanore ose me video."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Kliko <newCallButtonIcon></newCallButtonIcon> për të nisur një thirrje të re zanore ose me video."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Kërko"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Kthehu"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Duhet të largohesh nga thirrja aktuale përpara se t'i bashkohesh një thirrjeje të re"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Thirrje zanore dalëse} other {Thirrje zanore hyrëse}}} Video {{direction, select, Outgoing {Thirrje video nga ju} other {Thirrje video ardhëse}}} Group {{direction, select, Outgoing {Thirrje dalëse në grup} other {Thirrje hyrëse në grup}}} other {{direction, select, Outgoing {Thirrje nga ju} other {Thirrje ardhëse}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Thirrje zanore e humbur} Video {Humbët thirrje video} Group {Thirrje e humbur në grup} other {Thirrje e humbur}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Thirrje zanore pa përgjigje} Video {Thirrje video pa përgjigje} Group {Thirrje në grup pa përgjigje} other {Thirrje  pa përgjigje}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Thirrje zanore e refuzuar} Video {Thirrje me video e refuzuar} Group {Thirrje në grup e refuzuar} other {Thirrje  e refuzuar}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Lidhja e thirrjes"
@@ -5629,13 +5611,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop tani mund të rifillojë automatikisht shkarkimet e ndërprera të bashkëngjitjes nga aty ku kanë ngecur, kështu që nuk do të duhet të presësh aq gjatë të qeshësh edhe nëse e mbyll kapakun e laptopit përpara se të përfundojë transferimi i memes që të dërgoi shoku yt."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Bisedat hapen tani më shpejt se kurrë falë një raundi tjetër përmirësimesh të performancës, kështu që mund të klikosh klikat e tua dhe të shohësh se çfarë po thonë shumë shpejt."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Rregulluam edhe disa defekte, duke përfshirë atë, i cili ndonjëherë shkaktonte shfaqjen e mesazhit \"Kontakti i panjohur filloi një telefonatë video\" në përmbledhjen e listës së bisedave pasi të kesh filluar thirrjen. Edhe nëse je ende në udhëtim vetë-zbulues, nuk je kurrë plotësisht i panjohur për veten."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

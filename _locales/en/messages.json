@@ -1609,10 +1609,6 @@
     "messageformat": "Can't join call",
     "description": "Modal dialog title when you can't join a call"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "You are already in a call.",
-    "description": "(Deleted 2024/07/31) Error message when clicking a call link to join a call, but you're in a call already."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
     "description": "Error message when unable to fetch call link info from server."
@@ -4687,7 +4683,6 @@
     "messageformat": "This may take a few minutes depending on the size of your backup",
     "description": "Description at the bottom of backup import screen"
   },
-
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Restoring media",
     "description": "Label above a progress bar showing media (attachment) download progress after restoring from backup"
@@ -5255,14 +5250,6 @@
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Click the {composeIcon} above and search for your contacts or groups to message.",
-    "description": "(Deleted 2024/08/05) Shown in the left-pane when the inbox is empty"
-  },
-  "icu:composeIcon": {
-    "messageformat": "compose button",
-    "description": "(Deleted 2024/08/05) Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
   "icu:emptyInbox__title": {
     "messageformat": "No chats",
@@ -7313,26 +7300,6 @@
   "icu:CallsNewCallButton--return": {
     "messageformat": "Return",
     "description": "Calls Tab button label for returning to the call you're currently in"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call",
-    "description": "(Deleted 2024/07/31) Calls Tab button tooltip for the join call button when you are already in a different call."
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing} other {Incoming}} {type, select, Audio {voice} Video {video} Group {group} other {}} call",
-    "description": "(Deleted 2024/07/30) Call History > Short description of call > When call was not missed or declined (generally accepted)"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "Missed {type, select, Audio {voice} Video {video} Group {group} other {}} call",
-    "description": "(Deleted 2024/07/30) Call History > Short description of call > When incoming call was missed"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "Unanswered {type, select, Audio {voice} Video {video} Group {group} other {}} call",
-    "description": "(Deleted 2024/07/30) Call History > Short description of call > When outgoing call was unanswered"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "Declined {type, select, Audio {voice} Video {video} Group {group} other {}} call",
-    "description": "(Deleted 2024/07/30) Call History > Short description of call > When call was declined"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Call link",

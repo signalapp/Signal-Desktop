@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Не може да се приклучите на повикот"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Веќе сте на повик."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Не можат да се преземат податоци за линкот за повикот. Ве молиме проверете ја вашата интернет конекција и обидете се повторно."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Допри на „Донирај на Signal“ и претплати се"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Пораките се синхронизираат"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Се преземаат {currentSize} од {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Ова може да потрае неколку минути, во зависност од големината на вашата резервна копија"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Прошири"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Кликнете на {composeIcon} погоре и пребарајте контакти или групи на кои сакате да им пишете"
-  },
-  "icu:composeIcon": {
-    "messageformat": "копче за составување нова порака"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Нема разговори"
@@ -4875,7 +4872,7 @@
     "messageformat": "Кликнете на <newStoryIcon>Додај приказна</newStoryIcon> за да додадете новост."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Кликнете на <newStoryButtonIcon></newStoryButtonIcon> за да додадете новост."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} до {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Реагираше на приказната"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Реагиравте на приказната"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Реагираше на приказната"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5425,7 @@
     "messageformat": "Кликнете на <newCallIcon>Нов повик</newCallIcon> за да започнете нов гласовен или видео повик."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Кликнете на <newCallButtonIcon></newCallButtonIcon> за да започнете нов гласовен или видео повик."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Барај"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Вратете се"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Мора да го напуштите тековниот повик пред да се приклучите на нов"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Појдовен гласовен повик} other {Дојдовен гласовен повик}}} Video {{direction, select, Outgoing {Појдовен видео повик} other {Дојдовен видео повик}}} Group {{direction, select, Outgoing {Појдовен групен повик} other {Дојдовен групен повик}}} other {{direction, select, Outgoing {Појдовен повик} other {Дојдовен повик}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Пропуштен гласовен повик} Video {Испуштен видео повик} Group {Пропуштен групен повик} other {Пропуштен повик}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Неодговорен гласовен повик} Video {Неодоговорен видео повик} Group {Неодговорен групен повик} other {Неодговорен  повик}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Одбиен гласовен повик} Video {Одбиен видео повик} Group {Одбиен групен повик} other {Одбиен  повик}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Линк за повик"
@@ -5629,13 +5611,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop сега може автоматски да продолжи со прекинати преземања на прилози."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Разговорите сега се отвораат побрзо од кога било, благодарение на уште една рунда подобрувања на перформансот."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Исто така решивме и грст багови, вклучувајќи и еден што понекогаш предизвикуваше да се појави „Непознат контакт започна видео повик“ во прегледот на разговори откако сте започнале повик."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

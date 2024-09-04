@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Ní féidir dul isteach sa ghlao"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Tá tú i mbun glao cheana féin."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Níorbh fhéidir faisnéis faoin nasc glao a fháil. Seiceáil do nasc líonra agus triail arís."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Tapáil \"Tabhair airgead do Signal\" agus glac síntiús"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Teachtaireachtaí á sioncronú"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} as {totalSize} ({fractionComplete,number,percent}) á n-íoslódáil…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do chúltaca"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fairsingigh"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Cliceáil an deilbhín {composeIcon} thuas agus cuardaigh do theagmhálaithe nó grúpaí chun teachtaireacht a sheoladh chucu."
-  },
-  "icu:composeIcon": {
-    "messageformat": "an cnaipe: Cum"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Níl aon chomhráite ann"
@@ -4875,7 +4872,7 @@
     "messageformat": "Cliceáil <newStoryIcon>Cuir scéal leis</newStoryIcon> le nuashonrú a chur leis."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Cliceáil <newStoryButtonIcon></newStoryButtonIcon> le nuashonrú a chur leis."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} chuig {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Tugadh freagairt don scéal"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Tugadh freagairt don scéal"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Tugadh freagairt don scéal"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Ní féidir leat freagairt don scéal seo mar níl tú i do bhall den ghrúpa seo a thuilleadh."
@@ -5428,7 +5425,7 @@
     "messageformat": "Cliceáil <newCallIcon>Glao Nua</newCallIcon> le tosú ar ghuthghlao nó ar fhísghlao nua."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Cliceáil <newCallButtonIcon></newCallButtonIcon> le tosú ar ghuthghlao nó ar fhísghlao nua."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cuardaigh"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Fill ar an nglao"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Ní mór duit imeacht as an nglao reatha chun dul isteach i nglao nua"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Guthghlao amach} other {Guthghlao isteach}}} Video {{direction, select, Outgoing {Físghlao amach} other {Físghlao isteach}}} Group {{direction, select, Outgoing {Grúpghlao amach} other {Grúpghlao isteach}}} other {{direction, select, Outgoing {Glao amach} other {Glao isteach}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Guthghlao caillte} Video {Físghlao caillte} Group {Grúpghlao caillte} other {Glao caillte}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Guthghlao nár freagraíodh} Video {Físghlao nár freagraíodh} Group {Grúpghlao nár freagraíodh} other {Glao nár freagraíodh}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Guthghlao a diúltaíodh dó} Video {Físghlao a diúltaíodh dó} Group {Grúpghlao a diúltaíodh dó} other {Glao a diúltaíodh dó}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Nasc glao"
@@ -5629,13 +5611,13 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Anois is féidir le Signal Desktop filleadh go huathoibríoch ar íoslódálacha ceangaltán ar cuireadh isteach orthu."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Osclaítear comhráite níos gasta anois ná riamh cheana féin, a bhuí le babhta eile feabhsuithe ar fheidhmíocht."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Réitíomar dornán fabhtanna freisin, ina measc, ceann a bhí ina chúis uaireanta le \"Thosaigh teagmhálaí anaithnid ar fhísghlao\" a bheith ar taispeáint in achoimre an liosta comhráite tar éis duit féin tús a chur leis an nglao."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

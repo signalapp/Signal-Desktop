@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "加入唔到通話"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "你已經參與緊另一個通話。"
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "攞唔到通話連結資料。請檢查你嘅網絡連線，然後再試多次啦。"
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "㩒一下「捐款俾 Signal」定期贊助"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "同步訊息"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "下載緊 {currentSize} / {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "視乎你嘅備份大小，過程可能需時幾分鐘"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "展開"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "㩒上面嘅 {composeIcon}，就可以搵聯絡人或者群組然後傳送訊息。"
-  },
-  "icu:composeIcon": {
-    "messageformat": "撰寫按鈕"
   },
   "icu:emptyInbox__title": {
     "messageformat": "唔見有聊天"
@@ -4875,7 +4872,7 @@
     "messageformat": "㩒一吓「<newStoryIcon>新增限時動態</newStoryIcon>」嚟加入更新。"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "㩒一吓 <newStoryButtonIcon></newStoryButtonIcon> 加入更新。"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "由 {name} 傳送俾 {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "對限時動態傳送咗心情回應"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "對限時動態傳送咗心情回應"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "對限時動態傳送咗心情回應"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5425,7 @@
     "messageformat": "㩒一吓「<newCallIcon>新通話</newCallIcon>」嚟開始新嘅語音或者視像通話。"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "㩒一吓 <newCallButtonIcon></newCallButtonIcon> 開始新嘅語音或者視像通話。"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "搜尋"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "返轉頭"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "喺加入新通話之前，你要退出而家嘅通話"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {打出嘅語音通話} other {語音通話來電}}} Video {{direction, select, Outgoing {打出去嘅視像通話} other {打入嚟嘅視像通話}}} Group {{direction, select, Outgoing {打出嘅群組通話} other {群組通話來電}}} other {{direction, select, Outgoing {打出嘅  通話} other {打入嚟嘅  通話}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {未接嘅語音通話} Video {未接嘅視像通話} Group {未接嘅群組通話} other {未接來電}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {未接嘅語音通話} Video {未接嘅視像通話} Group {未接嘅群組通話} other {未接嘅  通話}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {拒接嘅語音通話} Video {拒接嘅視像通話} Group {拒接嘅群組通話} other {拒接嘅  通話}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "通話連結"
@@ -5629,13 +5611,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal 桌面版而家可以自動恢復下載中斷咗嘅附件，所以就算你喺朋友傳緊張 meme 圖俾你嗰陣冚埋咗個電腦，都唔使等咁耐先有得笑。"
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "經過新一輪系統性能提升之後，打開聊天嘅速度變得前所未有咁快，方便你即時睇到你啲死黨有咩想講。"
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "我哋仲修正咗其他錯誤，包括有時會喺你發起通話之後，喺聊天清單摘要度出現「不明聯絡人開始咗視像通話」嘅問題。"
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

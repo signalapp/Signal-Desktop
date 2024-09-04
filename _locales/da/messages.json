@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Kan ikke deltage i opkald"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Du er allerede i et opkald."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Kunne ikke hente oplysninger om opkaldslink. Tjek din netværksforbindelse, og prøv igen."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Tryk på \"Donér til Signal\", og abonnér"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Synkroniserer beskeder"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Downloader {currentSize} af {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Det kan tage et par minutter afhængigt af sikkerhedskopiens størrelse"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Udvid"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ",5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Klik på {composeIcon} ovenstående for at skrive en besked, og søg efter dine kontakter eller grupper."
-  },
-  "icu:composeIcon": {
-    "messageformat": "skriv-knappen"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Ingen chats"
@@ -4875,7 +4872,7 @@
     "messageformat": "Klik på <newStoryIcon>Tilføj en historie</newStoryIcon> for at tilføje en opdatering."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Klik <newStoryButtonIcon></newStoryButtonIcon> for at tilføje en opdatering."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} til {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Reagerede på historien"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagerede på historien"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Reagerede på historien"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Du kan ikke svare på denne historie, da du ikke længere er medlem af gruppen."
@@ -5428,7 +5425,7 @@
     "messageformat": "Klik <newCallIcon>Nyt opkald</newCallIcon> for at starte et nyt tale- eller videoopkald."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Klik <newCallButtonIcon></newCallButtonIcon> for at starte et nyt tale- eller videoopkald."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Søg"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Tilbage"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Du skal forlade det aktuelle opkald, før du deltager dig et nyt opkald"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Udgående stemmeopkald} other {Indgående stemmeopkald}}} Video {{direction, select, Outgoing {Udgående videoopkald} other {Indgående videoopkald}}} Group {{direction, select, Outgoing {Udgående gruppeopkald} other {Indgående gruppeopkald}}} other {{direction, select, Outgoing {Udgående opkald} other {Indkommende opkald}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Ubesvaret stemmeopkald} Video {Ubesvaret videoopkald} Group {Ubesvaret gruppeopkald} other {Ubesvaret opkald}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Ubesvaret stemmeopkald} Video {Ubesvaret videoopkald} Group {Ubesvaret gruppeopkald} other {Ubesvaret opkald}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Afvist taleopkald} Video {Afvist videoopkald} Group {Afvist gruppeopkald} other {Afvist opkald}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Opkaldslink"
@@ -5629,13 +5611,13 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop kan nu automatisk genoptage afbrudte downloads af vedhæftede filer, hvor de slap, så du behøver ikke at vente så længe med at grine, selvom du lukker din bærbare computer, før det meme, din ven sendte dig, er downloadet."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Chats åbner nu hurtigere end nogensinde, takket være endnu en runde af præstationsforbedringer, så du kan klikke på dine grupper og se, hvad de siger – rigtig hurtigt."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Vi har også rettet en håndfuld fejl, herunder en, der nogle gange forårsagede, at \"Ukendt kontakt startede et videoopkald\" til at blive vist i chatlisteoversigten, efter du startede opkaldet. Selvom du stadig er på en selvopdagelsesrejse, er du aldrig helt ukendt for dig selv."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

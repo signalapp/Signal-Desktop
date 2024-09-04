@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "ზარზე შესვლა ვერ მოხერხდა"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "შენ უკვე ამ ზარზე იმყოფები."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "ზარის ბმულის ინფორმაციის მიღება ვერ მოხერხდა. გთხოვთ, შეამოწმო შენი ქსელის კავშირი და თავიდან სცადო."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "დააჭირე \"Signal-ისთვის დონაციის გაკეთება“ და გამოიწერე"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "მიმდინარეობს წერილების სინქრონიზება"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "იწერება {currentSize} {totalSize}-დან ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "ამას შეიძლება რამდენიმე წუთი დასჭირდეს იმის მიხედვით, თუ რა ზომაა შენი სათადარიგო ასლი"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "გაფართოება"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "დააჭირე {composeIcon} -ზე ზემოთ და მოძებნე შენი კონტაქტები ან ჯგუფები შეტყობინების გასაგზავნად."
-  },
-  "icu:composeIcon": {
-    "messageformat": "შეტყობინების შედგენის ღილაკი"
   },
   "icu:emptyInbox__title": {
     "messageformat": "ჩატები ვერ მოიძებნა"
@@ -4875,7 +4872,7 @@
     "messageformat": "განახლების დასამატებლად დააჭირე <newStoryIcon>Story-ის დამატება</newStoryIcon>."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "დააწკაპუნე <newStoryButtonIcon></newStoryButtonIcon> განახლების დასამატებლად."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} {group}-ს"
@@ -5121,10 +5118,10 @@
     "messageformat": "Story-ის გამოეხმაურა"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Story-ის გამოეხმაურა"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Story-ის გამოეხმაურა"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "ამ Story-ის ვერ უპასუხებ, რადგან ამ ჯგუფის წევრი აღარ ხარ."
@@ -5428,7 +5425,7 @@
     "messageformat": "ახალი ხმოვანი ან ვიდეო ზარის დასაწყებად დააჭირე <newCallIcon>ახალი ზარი</newCallIcon>."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "დააწკაპუნე <newCallButtonIcon></newCallButtonIcon> ახალი ხმოვანი ან ვიდეო ზარის წამოსაწყებად."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ძიება"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "დაბრუნება"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "ახალ ზარზე შესასვლელად მიმდინარე ზარიდან უნდა გახვიდე"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {გამავალი ხმოვანი ზარი} other {შემომავალი ხმოვანი ზარი}}} Video {{direction, select, Outgoing {გამავალი ვიდეო ზარი} other {შემომავალი ვიდეო ზარი}}} Group {{direction, select, Outgoing {ჯგუფის გამავალი ზარი} other {ჯგუფის შემომავალი ზარი}}} other {{direction, select, Outgoing {გამავალი  ზარი} other {შემომავალი ზარი}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {გამოტოვებული ხმოვანი ზარი} Video {გამოტოვებული ვიდეო ზარი} Group {ჯგუფის გამოტოვებული ზარი} other {გამოტოვებული  ზარი}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {უპასუხო ხმოვანი ზარი} Video {უპასუხო ვიდეო ზარი} Group {უპასუხო ჯგუფური ზარი} other {უპასუხო  ზარი}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {უარყოფილი ხმოვანი ზარი} Video {უარყოფილი ვიდეო ზარი} Group {უარყოფილი ჯგუფური ზარი} other {უარყოფილი  ზარი}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "ზარის ბმული"
@@ -5629,13 +5611,13 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop-ს ახლა უკვე შეუძლია ავტომატურად განაგრძოს შეჩერებული მიმაგრებული ფაილების გადმოწერა."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "პერფორმანსის გაუმჯობესების კიდევ ერთი რაუნდის წყალობით, ჩატები ახლა უფრო სწრაფად იხსნება."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "ასევე გამოვასწორეთ რამდენიმე ხარვეზი, მათ შორის ის, ზოგჯერ ზარის დაწყების შემდეგ ჩატის სიის შეჯამებაში რომ გიწერდა, „უცნობმა კონტაქტმა ვიდეო ზარი წამოიწყოო“. მაშინაც კი, თუ შენი თავის აღმოჩენის გზაზე ხარ, საკუთარი თავისთვის უცნობი არასდროს იქნები."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }
