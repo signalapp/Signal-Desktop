@@ -1,21 +1,22 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import type { MessageModel } from '../models/messages';
+import type {
+  ReadonlyMessageAttributesType,
+  MessageAttributesType,
+} from '../model-types.d';
 import type { SignalService as Proto } from '../protobuf';
 import type { AciString } from '../types/ServiceId';
 import { DataReader } from '../sql/Client';
 import * as log from '../logging/log';
 import { normalizeAci } from './normalizeAci';
-import { filter } from './iterables';
 import { getAuthorId } from '../messages/helpers';
 import { getTimestampFromLong } from './timestampLongUtils';
 
 export async function findStoryMessages(
   conversationId: string,
   storyContext?: Proto.DataMessage.IStoryContext
-): Promise<Array<MessageModel>> {
+): Promise<Array<MessageAttributesType>> {
   if (!storyContext) {
     return [];
   }
@@ -32,25 +33,6 @@ export async function findStoryMessages(
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
 
-  const inMemoryMessages =
-    window.MessageCache.__DEPRECATED$filterBySentAt(sentAt);
-  const matchingMessages = [
-    ...filter(inMemoryMessages, item =>
-      isStoryAMatch(
-        item.attributes,
-        conversationId,
-        ourConversationId,
-        authorAci,
-        sentAt
-      )
-    ),
-  ];
-
-  if (matchingMessages.length > 0) {
-    return matchingMessages;
-  }
-
-  log.info('findStoryMessages: db lookup needed', sentAt);
   const messages = await DataReader.getMessagesBySentAt(sentAt);
   const found = messages.filter(item =>
     isStoryAMatch(item, conversationId, ourConversationId, authorAci, sentAt)
@@ -61,14 +43,7 @@ export async function findStoryMessages(
     return [];
   }
 
-  const result = found.map(attributes =>
-    window.MessageCache.__DEPRECATED$register(
-      attributes.id,
-      attributes,
-      'findStoryMessages'
-    )
-  );
-  return result;
+  return found;
 }
 
 function isStoryAMatch(
@@ -77,7 +52,7 @@ function isStoryAMatch(
   ourConversationId: string,
   authorAci: AciString,
   sentTimestamp: number
-): message is ReadonlyMessageAttributesType {
+): boolean {
   if (!message) {
     return false;
   }

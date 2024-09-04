@@ -4,16 +4,14 @@
 import { omit } from 'lodash';
 
 import * as log from '../logging/log';
-import { DataReader, DataWriter } from '../sql/Client';
 import type { QuotedMessageType } from '../model-types';
-import type { MessageModel } from '../models/messages';
+import type { MessageAttributesType } from '../model-types.d';
 import { SignalService } from '../protobuf';
 import { isGiftBadge, isTapToView } from '../state/selectors/message';
 import type { ProcessedQuote } from '../textsecure/Types';
 import { IMAGE_JPEG } from '../types/MIME';
 import { strictAssert } from '../util/assert';
 import { getQuoteBodyText } from '../util/getQuoteBodyText';
-import { find } from '../util/iterables';
 import { isQuoteAMatch, messageHasPaymentEvent } from './helpers';
 import * as Errors from '../types/errors';
 import { isDownloadable } from '../types/Attachment';
@@ -40,32 +38,13 @@ export const copyFromQuotedMessage = async (
     messageId: '',
   };
 
-  const inMemoryMessages = window.MessageCache.__DEPRECATED$filterBySentAt(id);
-  const matchingMessage = find(inMemoryMessages, item =>
-    isQuoteAMatch(item.attributes, conversationId, result)
+  const queryMessage = await window.MessageCache.findBySentAt(id, attributes =>
+    isQuoteAMatch(attributes, conversationId, result)
   );
 
-  let queryMessage: undefined | MessageModel;
-
-  if (matchingMessage) {
-    queryMessage = matchingMessage;
-  } else {
-    log.info('copyFromQuotedMessage: db lookup needed', id);
-    const messages = await DataReader.getMessagesBySentAt(id);
-    const found = messages.find(item =>
-      isQuoteAMatch(item, conversationId, result)
-    );
-
-    if (!found) {
-      result.referencedMessageNotFound = true;
-      return result;
-    }
-
-    queryMessage = window.MessageCache.__DEPRECATED$register(
-      found.id,
-      found,
-      'copyFromQuotedMessage'
-    );
+  if (queryMessage == null) {
+    result.referencedMessageNotFound = true;
+    return result;
   }
 
   if (queryMessage) {
@@ -76,18 +55,20 @@ export const copyFromQuotedMessage = async (
 };
 
 export const copyQuoteContentFromOriginal = async (
-  originalMessage: MessageModel,
+  providedOriginalMessage: MessageAttributesType,
   quote: QuotedMessageType
 ): Promise<void> => {
+  let originalMessage = providedOriginalMessage;
+
   const { attachments } = quote;
   const firstAttachment = attachments ? attachments[0] : undefined;
 
-  if (messageHasPaymentEvent(originalMessage.attributes)) {
+  if (messageHasPaymentEvent(originalMessage)) {
     // eslint-disable-next-line no-param-reassign
-    quote.payment = originalMessage.get('payment');
+    quote.payment = originalMessage.payment;
   }
 
-  if (isTapToView(originalMessage.attributes)) {
+  if (isTapToView(originalMessage)) {
     // eslint-disable-next-line no-param-reassign
     quote.text = undefined;
     // eslint-disable-next-line no-param-reassign
@@ -102,7 +83,7 @@ export const copyQuoteContentFromOriginal = async (
     return;
   }
 
-  const isMessageAGiftBadge = isGiftBadge(originalMessage.attributes);
+  const isMessageAGiftBadge = isGiftBadge(originalMessage);
   if (isMessageAGiftBadge !== quote.isGiftBadge) {
     log.warn(
       `copyQuoteContentFromOriginal: Quote.isGiftBadge: ${quote.isGiftBadge}, isGiftBadge(message): ${isMessageAGiftBadge}`
@@ -123,30 +104,20 @@ export const copyQuoteContentFromOriginal = async (
   quote.isViewOnce = false;
 
   // eslint-disable-next-line no-param-reassign
-  quote.text = getQuoteBodyText(originalMessage.attributes, quote.id);
+  quote.text = getQuoteBodyText(originalMessage, quote.id);
 
   // eslint-disable-next-line no-param-reassign
-  quote.bodyRanges = originalMessage.attributes.bodyRanges;
+  quote.bodyRanges = originalMessage.bodyRanges;
 
   if (!firstAttachment || !firstAttachment.contentType) {
     return;
   }
 
   try {
-    const schemaVersion = originalMessage.get('schemaVersion');
-    if (
-      schemaVersion &&
-      schemaVersion < window.Signal.Types.Message.VERSION_NEEDED_FOR_DISPLAY
-    ) {
-      const upgradedMessage =
-        await window.Signal.Migrations.upgradeMessageSchema(
-          originalMessage.attributes
-        );
-      originalMessage.set(upgradedMessage);
-      await DataWriter.saveMessage(upgradedMessage, {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
-      });
-    }
+    originalMessage = await window.MessageCache.upgradeSchema(
+      originalMessage,
+      window.Signal.Types.Message.VERSION_NEEDED_FOR_DISPLAY
+    );
   } catch (error) {
     log.error(
       'Problem upgrading message quoted message from database',
@@ -155,7 +126,12 @@ export const copyQuoteContentFromOriginal = async (
     return;
   }
 
-  const queryAttachments = originalMessage.get('attachments') || [];
+  const {
+    attachments: queryAttachments = [],
+    preview: queryPreview = [],
+    sticker,
+  } = originalMessage;
+
   if (queryAttachments.length > 0) {
     const queryFirst = queryAttachments[0];
     const { thumbnail } = queryFirst;
@@ -175,7 +151,6 @@ export const copyQuoteContentFromOriginal = async (
     }
   }
 
-  const queryPreview = originalMessage.get('preview') || [];
   if (queryPreview.length > 0) {
     const queryFirst = queryPreview[0];
     const { image } = queryFirst;
@@ -188,7 +163,6 @@ export const copyQuoteContentFromOriginal = async (
     }
   }
 
-  const sticker = originalMessage.get('sticker');
   if (sticker && sticker.data && sticker.data.path) {
     firstAttachment.thumbnail = {
       ...sticker.data,

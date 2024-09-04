@@ -18,7 +18,7 @@ import type {
   MessageAttributesType,
   MessageReactionType,
 } from '../model-types.d';
-import { filter, find, map, repeat, zipObject } from '../util/iterables';
+import { filter, map, repeat, zipObject } from '../util/iterables';
 import * as GoogleChrome from '../util/GoogleChrome';
 import type { DeleteAttributesType } from '../messageModifiers/Deletes';
 import type { SentEventData } from '../textsecure/messageReceiverEvents';
@@ -454,25 +454,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         quoteAttachment: quote.attachments.at(0),
       })
     ) {
-      const inMemoryMessages = window.MessageCache.__DEPRECATED$filterBySentAt(
-        Number(sentAt)
+      const matchingMessage = await window.MessageCache.findBySentAt(
+        Number(sentAt),
+        attributes =>
+          isQuoteAMatch(attributes, this.get('conversationId'), quote)
       );
-      let matchingMessage = find(inMemoryMessages, message =>
-        isQuoteAMatch(message.attributes, this.get('conversationId'), quote)
-      );
-      if (!matchingMessage) {
-        const messages = await DataReader.getMessagesBySentAt(Number(sentAt));
-        const found = messages.find(item =>
-          isQuoteAMatch(item, this.get('conversationId'), quote)
-        );
-        if (found) {
-          matchingMessage = window.MessageCache.__DEPRECATED$register(
-            found.id,
-            found,
-            'doubleCheckMissingQuoteReference'
-          );
-        }
-      }
 
       if (!matchingMessage) {
         log.info(
@@ -1737,11 +1723,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const storyQuote = storyQuotes.find(candidateQuote => {
         const sendStateByConversationId =
-          candidateQuote.get('sendStateByConversationId') || {};
+          candidateQuote.sendStateByConversationId || {};
         const sendState = sendStateByConversationId[sender.id];
 
         const storyQuoteIsFromSelf =
-          candidateQuote.get('sourceServiceId') ===
+          candidateQuote.sourceServiceId ===
           window.storage.user.getCheckedAci();
 
         if (!storyQuoteIsFromSelf) {
@@ -1776,9 +1762,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       if (storyQuote) {
-        const storyDistributionListId = storyQuote.get(
-          'storyDistributionListId'
-        );
+        const { storyDistributionListId } = storyQuote;
 
         if (storyDistributionListId) {
           const storyDistribution =
@@ -1904,7 +1888,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
 
         if (storyQuote) {
-          await this.hydrateStoryContext(storyQuote.attributes, {
+          await this.hydrateStoryContext(storyQuote, {
             shouldSave: true,
           });
         }
@@ -1940,10 +1924,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           // expiration timer
           if (isGroupStoryReply && storyQuote) {
             message.set({
-              expireTimer: storyQuote.get('expireTimer'),
-              expirationStartTimestamp: storyQuote.get(
-                'expirationStartTimestamp'
-              ),
+              expireTimer: storyQuote.expireTimer,
+              expirationStartTimestamp: storyQuote.expirationStartTimestamp,
             });
           }
 
