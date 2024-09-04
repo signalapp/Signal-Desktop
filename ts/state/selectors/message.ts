@@ -1892,6 +1892,7 @@ function canReplyOrReact(
     | 'deletedForEveryone'
     | 'payment'
     | 'sendStateByConversationId'
+    | 'sms'
     | 'type'
   >,
   ourConversationId: string | undefined,
@@ -1930,6 +1931,10 @@ function canReplyOrReact(
     return false;
   }
 
+  if (message.sms) {
+    return false;
+  }
+
   if (isOutgoing(message)) {
     return (
       isMessageJustForMe(sendStateByConversationId ?? {}, ourConversationId) ||
@@ -1964,6 +1969,7 @@ export function canReply(
     | 'conversationId'
     | 'deletedForEveryone'
     | 'sendStateByConversationId'
+    | 'sms'
     | 'type'
   >,
   ourConversationId: string | undefined,
@@ -1985,6 +1991,7 @@ export function canReact(
     | 'conversationId'
     | 'deletedForEveryone'
     | 'sendStateByConversationId'
+    | 'sms'
     | 'type'
   >,
   ourConversationId: string | undefined,
@@ -2003,11 +2010,17 @@ export function canCopy(
 export function canDeleteForEveryone(
   message: Pick<
     MessageWithUIFieldsType,
-    'type' | 'deletedForEveryone' | 'sent_at' | 'sendStateByConversationId'
+    | 'type'
+    | 'deletedForEveryone'
+    | 'sent_at'
+    | 'sendStateByConversationId'
+    | 'sms'
   >,
   isMe: boolean
 ): boolean {
   return (
+    // Is this an SMS restored from backup?
+    !message.sms &&
     // Is this a message I sent?
     isOutgoing(message) &&
     // Has the message already been deleted?
