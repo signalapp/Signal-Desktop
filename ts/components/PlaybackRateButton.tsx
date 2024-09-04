@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import type { LocalizerType } from '../types/Util';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const SPRING_CONFIG = {
   mass: 0.5,
@@ -30,10 +31,12 @@ export function PlaybackRateButton({
   onClick,
 }: Props): JSX.Element {
   const [isDown, setIsDown] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [animProps] = useSpring(
     {
+      immediate: reducedMotion,
       config: SPRING_CONFIG,
       to: isDown ? { scale: 1.3 } : { scale: visible ? 1 : 0 },
     },

@@ -14,6 +14,7 @@ import { ModalHost } from './ModalHost';
 import { drop } from '../util/drop';
 import * as log from '../logging/log';
 import { usePrevious } from '../hooks/usePrevious';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export type PropsType = {
   readonly i18n: LocalizerType;
@@ -174,6 +175,8 @@ export function CallingRaisedHandsListButton({
 }: CallingRaisedHandsListButtonPropsType): JSX.Element | null {
   const [isVisible, setIsVisible] = React.useState(raisedHandsCount > 0);
 
+  const reducedMotion = useReducedMotion();
+
   // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [opacitySpringProps, opacitySpringApi] = useSpring(
     {
@@ -186,6 +189,7 @@ export function CallingRaisedHandsListButton({
   // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [scaleSpringProps, scaleSpringApi] = useSpring(
     {
+      immediate: reducedMotion,
       from: { scale: 0.9 },
       to: { scale: 1 },
       config: BUTTON_SCALE_SPRING_CONFIG,

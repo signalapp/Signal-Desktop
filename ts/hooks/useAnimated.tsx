@@ -4,6 +4,7 @@
 import { useState, useCallback } from 'react';
 import type { SpringValues } from '@react-spring/web';
 import { useChain, useSpring, useSpringRef } from '@react-spring/web';
+import { useReducedMotion } from './useReducedMotion';
 
 export type ModalConfigType = {
   opacity: number;
@@ -33,6 +34,7 @@ export function useAnimated(
   modalStyles: SpringValues<ModalConfigType>;
   overlayStyles: SpringValues<ModalConfigType>;
 } {
+  const reducedMotion = useReducedMotion();
   const [state, setState] = useState(ModalState.Opening);
   const shouldShowModal =
     state === ModalState.Open || state === ModalState.Opening;
@@ -41,6 +43,7 @@ export function useAnimated(
   const modalRef = useSpringRef();
 
   const modalStyles = useSpring({
+    immediate: reducedMotion,
     from: getFrom(shouldShowModal),
     to: getTo(shouldShowModal),
     onRest: () => {

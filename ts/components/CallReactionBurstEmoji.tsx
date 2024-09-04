@@ -6,6 +6,7 @@ import { animated, useSpring } from '@react-spring/web';
 import { random } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { Emojify } from './conversation/Emojify';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export type PropsType = {
   values: Array<string>;
@@ -124,7 +125,9 @@ export function AnimatedEmoji({
 }: AnimatedEmojiProps): JSX.Element {
   const height = EMOJI_HEIGHT * toScale;
 
+  const reducedMotion = useReducedMotion();
   const { rotate, x, y } = useSpring({
+    immediate: reducedMotion,
     from: {
       rotate: fromRotate,
       x: fromX,
@@ -142,6 +145,7 @@ export function AnimatedEmoji({
   // These styles animate faster than Y.
   // Reactions toasts animate with opacity so harmonize with that.
   const { scale } = useSpring({
+    immediate: reducedMotion,
     from: {
       scale: 0.5,
     },
