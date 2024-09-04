@@ -11,6 +11,10 @@ export const MESSAGE_MAX_EDIT_COUNT = 10;
 export function canEditMessage(
   message: ReadonlyMessageAttributesType
 ): boolean {
+  if (message.sms) {
+    return false;
+  }
+
   const result =
     !message.deletedForEveryone &&
     isOutgoing(message) &&
