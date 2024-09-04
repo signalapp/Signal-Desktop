@@ -4,5 +4,5 @@
 import * as RemoteConfig from '../RemoteConfig';
 
 export function isAdhocCallingEnabled(): boolean {
-  return RemoteConfig.isEnabled('desktop.internalUser');
+  return Boolean(RemoteConfig.isEnabled('desktop.calling.adhoc'));
 }
