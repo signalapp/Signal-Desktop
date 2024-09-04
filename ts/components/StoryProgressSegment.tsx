@@ -29,10 +29,6 @@ export const StoryProgressSegment = memo(function StoryProgressSegment({
 
   const [progressBarStyle] = useSpring(() => {
     return {
-      // Override default value from `Globals` to ignore "Reduce Motion" setting.
-      // This animation is important for progressing through stories and is minor
-      // enough that it shouldn't cause issues for users with sensitivity to motion.
-      skipAnimation: false,
       immediate: index !== currentIndex,
       // Pause while we are waiting for a valid duration
       pause: !playing || !isValidDuration(duration),

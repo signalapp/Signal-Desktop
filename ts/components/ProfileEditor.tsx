@@ -47,6 +47,7 @@ import { isWhitespace, trim } from '../util/whitespaceStringUtil';
 import { UserText } from './UserText';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { offsetDistanceModifier } from '../util/popperUtil';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export enum EditState {
   None = 'None',
@@ -824,8 +825,9 @@ function UsernameLinkTooltip({
   children: React.ReactNode;
   i18n: LocalizerType;
 }) {
+  const reducedMotion = useReducedMotion();
   const animatedStyles = useSpring({
-    from: { opacity: 0, scale: 0.25 },
+    from: { opacity: 0, scale: reducedMotion ? 1 : 0.25 },
     to: { opacity: 1, scale: 1 },
     config: { mass: 1, tension: 280, friction: 25 },
     delay: 200,
