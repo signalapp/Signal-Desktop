@@ -67,6 +67,7 @@ import type { ConversationModel } from '../models/conversations';
 import { drop } from './drop';
 import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync';
 import { callLinksDeleteJobQueue } from '../jobs/callLinksDeleteJobQueue';
+import { storageServiceUploadJob } from '../services/storage';
 
 // utils
 // -----
@@ -1303,6 +1304,7 @@ export async function clearCallHistoryDataAndSync(
     );
     const messageIds = await DataWriter.clearCallHistory(latestCall);
     await DataWriter.beginDeleteAllCallLinks();
+    storageServiceUploadJob();
     updateDeletedMessages(messageIds);
     log.info('clearCallHistory: Queueing sync message');
     await singleProtoJobQueue.add(

@@ -136,6 +136,10 @@ export function callLinkFromRecord(record: CallLinkRecord): CallLinkType {
     restrictions: toCallLinkRestrictions(record.restrictions),
     revoked: record.revoked === 1,
     expiration: record.expiration,
+    storageID: record.storageID || undefined,
+    storageVersion: record.storageVersion || undefined,
+    storageUnknownFields: record.storageUnknownFields || undefined,
+    storageNeedsSync: record.storageNeedsSync === 1,
   };
 }
 
@@ -156,5 +160,9 @@ export function callLinkToRecord(callLink: CallLinkType): CallLinkRecord {
     restrictions: callLink.restrictions,
     revoked: callLink.revoked ? 1 : 0,
     expiration: callLink.expiration,
+    storageID: callLink.storageID || null,
+    storageVersion: callLink.storageVersion || null,
+    storageUnknownFields: callLink.storageUnknownFields || null,
+    storageNeedsSync: callLink.storageNeedsSync ? 1 : 0,
   });
 }

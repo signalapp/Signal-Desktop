@@ -115,4 +115,27 @@ describe('Proto#$unknownFields', () => {
     assert.strictEqual(decoded.c, 42);
     assert.strictEqual(Buffer.from(decoded.d).toString(), 'ohai');
   });
+
+  it('should not set unknown fields if all fields were known', () => {
+    const encoded = Partial.encode({
+      a: 'hello',
+      c: 42,
+    }).finish();
+    const decoded = Full.decode(encoded);
+
+    assert.strictEqual(decoded.a, 'hello');
+    assert.strictEqual(decoded.c, 42);
+    assert.isUndefined(decoded.$unknownFields);
+
+    const encodedWithEmptyArray = Partial.encode({
+      a: 'hi',
+      c: 69,
+      $unkownFields: [],
+    }).finish();
+    const decodedWithEmptyArray = Full.decode(encodedWithEmptyArray);
+
+    assert.strictEqual(decodedWithEmptyArray.a, 'hi');
+    assert.strictEqual(decodedWithEmptyArray.c, 69);
+    assert.isUndefined(decodedWithEmptyArray.$unknownFields);
+  });
 });

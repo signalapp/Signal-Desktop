@@ -54,6 +54,7 @@ function getCallLink(overrideProps: Partial<CallLinkType> = {}): CallLinkType {
     restrictions: CallLinkRestrictions.None,
     revoked: false,
     expiration: Date.now() + 30 * 24 * 60 * 60 * 1000,
+    storageNeedsSync: false,
     ...overrideProps,
   };
 }

@@ -1074,6 +1074,7 @@ export class BackupImportStream extends Writable {
       restrictions: fromCallLinkRestrictionsProto(restrictions),
       revoked: false,
       expiration: expirationMs?.toNumber() || null,
+      storageNeedsSync: false,
     };
 
     this.recipientIdToCallLink.set(recipientId, callLink);

@@ -31,12 +31,17 @@ import type {
   CallHistoryPagination,
   CallLogEventTarget,
 } from '../types/CallDisposition';
-import type { CallLinkStateType, CallLinkType } from '../types/CallLink';
+import type {
+  CallLinkRecord,
+  CallLinkStateType,
+  CallLinkType,
+} from '../types/CallLink';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 import type { GroupSendEndorsementsData } from '../types/GroupSendEndorsements';
 import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
 import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import type { DeleteCallLinkOptions } from './server/callLinks';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -568,6 +573,8 @@ type ReadableInterface = {
   callLinkExists(roomId: string): boolean;
   getAllCallLinks: () => ReadonlyArray<CallLinkType>;
   getCallLinkByRoomId: (roomId: string) => CallLinkType | undefined;
+  getCallLinkRecordByRoomId: (roomId: string) => CallLinkRecord | undefined;
+  getAllCallLinkRecordsWithAdminKey(): ReadonlyArray<CallLinkRecord>;
   getAllMarkedDeletedCallLinks(): ReadonlyArray<CallLinkType>;
   getMessagesBetween: (
     conversationId: string,
@@ -799,13 +806,14 @@ type WritableInterface = {
   markCallHistoryMissed(callIds: ReadonlyArray<string>): void;
   getRecentStaleRingsAndMarkOlderMissed(): ReadonlyArray<MaybeStaleCallHistory>;
   insertCallLink(callLink: CallLinkType): void;
+  updateCallLink(callLink: CallLinkType): void;
   updateCallLinkAdminKeyByRoomId(roomId: string, adminKey: string): void;
   updateCallLinkState(
     roomId: string,
     callLinkState: CallLinkStateType
   ): CallLinkType;
   beginDeleteAllCallLinks(): void;
-  beginDeleteCallLink(roomId: string): void;
+  beginDeleteCallLink(roomId: string, options: DeleteCallLinkOptions): void;
   finalizeDeleteCallLink(roomId: string): void;
   _removeAllCallLinks(): void;
   deleteCallLinkFromSync(roomId: string): void;

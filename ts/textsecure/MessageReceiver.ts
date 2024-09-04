@@ -3557,10 +3557,6 @@ export default class MessageReceiver
       callLinkUpdate.type === Proto.SyncMessage.CallLinkUpdate.Type.UPDATE
     ) {
       callLinkUpdateSyncType = CallLinkUpdateSyncType.Update;
-    } else if (
-      callLinkUpdate.type === Proto.SyncMessage.CallLinkUpdate.Type.DELETE
-    ) {
-      callLinkUpdateSyncType = CallLinkUpdateSyncType.Delete;
     } else {
       throw new Error(
         `MessageReceiver.handleCallLinkUpdate: unknown type ${callLinkUpdate.type}`

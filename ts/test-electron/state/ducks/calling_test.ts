@@ -1368,6 +1368,10 @@ describe('calling duck', () => {
               roomId,
               rootKey,
               adminKey,
+              storageID: undefined,
+              storageVersion: undefined,
+              storageUnknownFields: undefined,
+              storageNeedsSync: false,
             },
           },
         });
@@ -1388,6 +1392,10 @@ describe('calling duck', () => {
               roomId,
               rootKey,
               adminKey: 'banana',
+              storageID: undefined,
+              storageVersion: undefined,
+              storageUnknownFields: undefined,
+              storageNeedsSync: false,
             },
           },
         });
