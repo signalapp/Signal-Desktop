@@ -3,11 +3,9 @@
 
 import React from 'react';
 
-import type { ReadonlyDeep } from 'type-fest';
 import type { LocalizerType } from '../../../types/Util';
-
-import type { MediaItemType } from '../../../types/MediaItem';
 import type { ConversationType } from '../../../state/ducks/conversations';
+import type { AttachmentType } from '../../../types/Attachment';
 
 import { PanelSection } from './PanelSection';
 import { bemGenerator } from './util';
@@ -18,10 +16,10 @@ export type Props = {
   i18n: LocalizerType;
   loadRecentMediaItems: (id: string, limit: number) => void;
   showAllMedia: () => void;
-  showLightboxWithMedia: (
-    selectedIndex: number,
-    media: ReadonlyArray<ReadonlyDeep<MediaItemType>>
-  ) => void;
+  showLightbox: (options: {
+    attachment: AttachmentType;
+    messageId: string;
+  }) => void;
 };
 
 const MEDIA_ITEM_LIMIT = 6;
@@ -33,7 +31,7 @@ export function ConversationDetailsMediaList({
   i18n,
   loadRecentMediaItems,
   showAllMedia,
-  showLightboxWithMedia,
+  showLightbox,
 }: Props): JSX.Element | null {
   const mediaItems = conversation.recentMediaItems || [];
 
@@ -66,7 +64,12 @@ export function ConversationDetailsMediaList({
             key={`${mediaItem.message.id}-${mediaItem.index}`}
             mediaItem={mediaItem}
             i18n={i18n}
-            onClick={() => showLightboxWithMedia(mediaItem.index, mediaItems)}
+            onClick={() =>
+              showLightbox({
+                attachment: mediaItem.attachment,
+                messageId: mediaItem.message.id,
+              })
+            }
           />
         ))}
       </div>

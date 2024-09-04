@@ -130,8 +130,8 @@ export type PropsActionsType = {
   onSearchInConversation: () => void;
   onSelectModeEnter: () => void;
   onShowMembers: () => void;
+  onViewAllMedia: () => void;
   onViewConversationDetails: () => void;
-  onViewRecentMedia: () => void;
   onViewUserStories: () => void;
 };
 
@@ -180,8 +180,8 @@ export const ConversationHeader = memo(function ConversationHeader({
   onSearchInConversation,
   onSelectModeEnter,
   onShowMembers,
+  onViewAllMedia,
   onViewConversationDetails,
-  onViewRecentMedia,
   onViewUserStories,
   outgoingCallButtonStyle,
   setLocalDeleteWarningShown,
@@ -380,7 +380,7 @@ export const ConversationHeader = memo(function ConversationHeader({
                 setHasCustomDisappearingTimeoutModal(true);
               }}
               onShowMembers={onShowMembers}
-              onViewRecentMedia={onViewRecentMedia}
+              onViewAllMedia={onViewAllMedia}
               onViewConversationDetails={onViewConversationDetails}
               triggerId={triggerId}
             />
@@ -544,7 +544,7 @@ function HeaderMenu({
   onSelectModeEnter,
   onSetupCustomDisappearingTimeout,
   onShowMembers,
-  onViewRecentMedia,
+  onViewAllMedia,
   onViewConversationDetails,
   triggerId,
 }: {
@@ -570,7 +570,7 @@ function HeaderMenu({
   onSelectModeEnter: () => void;
   onSetupCustomDisappearingTimeout: () => void;
   onShowMembers: () => void;
-  onViewRecentMedia: () => void;
+  onViewAllMedia: () => void;
   onViewConversationDetails: () => void;
   triggerId: string;
 }) {
@@ -639,8 +639,8 @@ function HeaderMenu({
     return (
       <ContextMenu id={triggerId}>
         <MenuItem onClick={onShowMembers}>{i18n('icu:showMembers')}</MenuItem>
-        <MenuItem onClick={onViewRecentMedia}>
-          {i18n('icu:viewRecentMedia')}
+        <MenuItem onClick={onViewAllMedia}>
+          {i18n('icu:allMediaMenuItem')}
         </MenuItem>
         <MenuItem divider />
         {conversation.isArchived ? (
@@ -750,8 +750,8 @@ function HeaderMenu({
                 : i18n('icu:showConversationDetails--direct')}
             </MenuItem>
           ) : null}
-          <MenuItem onClick={onViewRecentMedia}>
-            {i18n('icu:viewRecentMedia')}
+          <MenuItem onClick={onViewAllMedia}>
+            {i18n('icu:allMediaMenuItem')}
           </MenuItem>
           <MenuItem divider />
           <MenuItem onClick={onSelectModeEnter}>

@@ -128,7 +128,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     toggleEditNicknameAndNoteModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
-  const { showLightboxWithMedia } = useLightboxActions();
+  const { showLightbox } = useLightboxActions();
 
   const conversation = conversationSelector(conversationId);
   assertDev(
@@ -215,7 +215,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       setMuteExpiration={setMuteExpiration}
       showContactModal={showContactModal}
       showConversation={showConversation}
-      showLightboxWithMedia={showLightboxWithMedia}
+      showLightbox={showLightbox}
       theme={theme}
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}

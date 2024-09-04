@@ -8,7 +8,6 @@ import type { LocalizerType } from '../../../types/Util';
 import type { MediaItemType } from '../../../types/MediaItem';
 import { DocumentListItem } from './DocumentListItem';
 import { MediaGridItem } from './MediaGridItem';
-import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 import { missingCaseError } from '../../../util/missingCaseError';
 
 export type Props = {
@@ -35,7 +34,7 @@ export function AttachmentSection({
           const { message, index, attachment } = mediaItem;
 
           const onClick = () => {
-            onItemClick({ type, message, attachment, index: mediaItem.index });
+            onItemClick({ type, message, attachment });
           };
 
           switch (type) {
@@ -56,7 +55,7 @@ export function AttachmentSection({
                   fileSize={attachment.size}
                   shouldShowSeparator={shouldShowSeparator}
                   onClick={onClick}
-                  timestamp={getMessageTimestamp(message)}
+                  timestamp={message.receivedAtMs || message.receivedAt}
                 />
               );
             default:

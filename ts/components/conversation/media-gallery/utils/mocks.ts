@@ -32,10 +32,10 @@ function createRandomFile(
     message: {
       conversationId: '123',
       id: random(Date.now()).toString(),
-      received_at: Math.floor(Math.random() * 10),
-      received_at_ms: random(startTime, startTime + timeWindow),
+      receivedAt: Math.floor(Math.random() * 10),
+      receivedAtMs: random(startTime, startTime + timeWindow),
       attachments: [],
-      sent_at: Date.now(),
+      sentAt: Date.now(),
     },
     attachment: {
       url: '',
@@ -86,6 +86,6 @@ export function createPreparedMediaItems(
       ...fn(now - days(30), days(15)),
       ...fn(now - days(365), days(300)),
     ],
-    (item: MediaItemType) => -item.message.received_at
+    (item: MediaItemType) => -item.message.receivedAt
   );
 }

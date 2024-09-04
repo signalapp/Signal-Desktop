@@ -6,7 +6,6 @@ import { compact, groupBy, sortBy } from 'lodash';
 
 import * as log from '../../../logging/log';
 import type { MediaItemType } from '../../../types/MediaItem';
-import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 
 import { missingCaseError } from '../../../util/missingCaseError';
 
@@ -27,12 +26,12 @@ export const groupMediaItemsByDate = (
   timestamp: number,
   mediaItems: ReadonlyArray<MediaItemType>
 ): Array<Section> => {
-  const referenceDateTime = moment.utc(timestamp);
+  const referenceDateTime = moment(timestamp);
 
   const sortedMediaItem = sortBy(mediaItems, mediaItem => {
     const { message } = mediaItem;
 
-    return -message.received_at;
+    return -message.receivedAt;
   });
   const messagesWithSection = sortedMediaItem.map(
     withSection(referenceDateTime)
@@ -105,40 +104,38 @@ type MediaItemWithSection =
   | MediaItemWithStaticSection
   | MediaItemWithYearMonthSection;
 
-const withSection =
-  (referenceDateTime: moment.Moment) =>
-  (mediaItem: MediaItemType): MediaItemWithSection => {
-    const today = moment(referenceDateTime).startOf('day');
-    const yesterday = moment(referenceDateTime)
-      .subtract(1, 'day')
-      .startOf('day');
-    const thisWeek = moment(referenceDateTime).startOf('isoWeek');
-    const thisMonth = moment(referenceDateTime).startOf('month');
+const withSection = (referenceDateTime: moment.Moment) => {
+  const today = moment(referenceDateTime).startOf('day');
+  const yesterday = moment(referenceDateTime).subtract(1, 'day').startOf('day');
+  const thisWeek = moment(referenceDateTime).subtract(7, 'day').startOf('day');
+  const thisMonth = moment(referenceDateTime).startOf('month');
 
+  return (mediaItem: MediaItemType): MediaItemWithSection => {
     const { message } = mediaItem;
-    const mediaItemReceivedDate = moment.utc(getMessageTimestamp(message));
-    if (mediaItemReceivedDate.isAfter(today)) {
+    const messageTimestamp = moment(message.receivedAtMs || message.receivedAt);
+
+    if (messageTimestamp.isAfter(today)) {
       return {
         order: 0,
         type: 'today',
         mediaItem,
       };
     }
-    if (mediaItemReceivedDate.isAfter(yesterday)) {
+    if (messageTimestamp.isAfter(yesterday)) {
       return {
         order: 1,
         type: 'yesterday',
         mediaItem,
       };
     }
-    if (mediaItemReceivedDate.isAfter(thisWeek)) {
+    if (messageTimestamp.isAfter(thisWeek)) {
       return {
         order: 2,
         type: 'thisWeek',
         mediaItem,
       };
     }
-    if (mediaItemReceivedDate.isAfter(thisMonth)) {
+    if (messageTimestamp.isAfter(thisMonth)) {
       return {
         order: 3,
         type: 'thisMonth',
@@ -146,8 +143,8 @@ const withSection =
       };
     }
 
-    const month: number = mediaItemReceivedDate.month();
-    const year: number = mediaItemReceivedDate.year();
+    const month: number = messageTimestamp.month();
+    const year: number = messageTimestamp.year();
 
     return {
       order: year * 100 + month,
@@ -157,3 +154,4 @@ const withSection =
       mediaItem,
     };
   };
+};

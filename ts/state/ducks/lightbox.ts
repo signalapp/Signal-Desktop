@@ -150,22 +150,6 @@ function setPlaybackDisabled(
   };
 }
 
-function showLightboxWithMedia(
-  selectedIndex: number | undefined,
-  media: ReadonlyArray<ReadonlyDeep<MediaItemType>>
-): ShowLightboxActionType {
-  return {
-    type: SHOW_LIGHTBOX,
-    payload: {
-      isViewOnce: false,
-      media,
-      selectedIndex,
-      hasPrevMessage: false,
-      hasNextMessage: false,
-    },
-  };
-}
-
 function showLightboxForViewOnceMedia(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, ShowLightboxActionType> {
@@ -224,9 +208,9 @@ function showLightboxForViewOnceMedia(
           attachments: message.get('attachments') || [],
           id: message.get('id'),
           conversationId: message.get('conversationId'),
-          received_at: message.get('received_at'),
-          received_at_ms: Number(message.get('received_at_ms')),
-          sent_at: message.get('sent_at'),
+          receivedAt: message.get('received_at'),
+          receivedAtMs: Number(message.get('received_at_ms')),
+          sentAt: message.get('sent_at'),
         },
       },
     ];
@@ -313,9 +297,9 @@ function showLightbox(opts: {
         attachments: message.get('attachments') || [],
         id: messageId,
         conversationId: authorId,
-        received_at: receivedAt,
-        received_at_ms: Number(message.get('received_at_ms')),
-        sent_at: sentAt,
+        receivedAt,
+        receivedAtMs: Number(message.get('received_at_ms')),
+        sentAt,
       },
       attachment: item,
       thumbnailObjectUrl:
@@ -401,11 +385,7 @@ function showLightboxForAdjacentMessage(
     }
 
     const [media] = lightbox.media;
-    const {
-      id: messageId,
-      received_at: receivedAt,
-      sent_at: sentAt,
-    } = media.message;
+    const { id: messageId, receivedAt, sentAt } = media.message;
 
     const message = await __DEPRECATED$getMessageById(messageId);
     if (!message) {
@@ -511,7 +491,6 @@ export const actions = {
   closeLightbox,
   showLightbox,
   showLightboxForViewOnceMedia,
-  showLightboxWithMedia,
   showLightboxForPrevMessage,
   showLightboxForNextMessage,
   setSelectedLightboxIndex,

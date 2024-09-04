@@ -87,7 +87,7 @@ const createProps = (
   showContactModal: action('showContactModal'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showConversation: action('showConversation'),
-  showLightboxWithMedia: action('showLightboxWithMedia'),
+  showLightbox: action('showLightbox'),
   updateGroupAttributes: async () => {
     action('updateGroupAttributes')();
   },

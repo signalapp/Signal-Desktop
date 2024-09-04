@@ -144,7 +144,7 @@ type ActionProps = {
       onFailure?: () => unknown;
     }
   ) => unknown;
-} & Pick<ConversationDetailsMediaListPropsType, 'showLightboxWithMedia'>;
+} & Pick<ConversationDetailsMediaListPropsType, 'showLightbox'>;
 
 export type Props = StateProps & ActionProps;
 
@@ -203,7 +203,7 @@ export function ConversationDetails({
   setMuteExpiration,
   showContactModal,
   showConversation,
-  showLightboxWithMedia,
+  showLightbox,
   theme,
   toggleAboutContactModal,
   toggleSafetyNumberModal,
@@ -702,7 +702,7 @@ export function ConversationDetails({
             type: PanelType.AllMedia,
           })
         }
-        showLightboxWithMedia={showLightboxWithMedia}
+        showLightbox={showLightbox}
       />
 
       {!isGroup && !conversation.isMe && (

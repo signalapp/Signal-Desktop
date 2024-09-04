@@ -336,8 +336,6 @@ export const DataReader: ServerReadableInterface = {
   _getAllStoryReads,
   getLastStoryReadsForAuthor,
   getMessagesNeedingUpgrade,
-  getMessagesWithVisualMediaAttachments,
-  getMessagesWithFileAttachments,
   getMessageServerGuidsForSpam,
 
   getJobsInQueue,
@@ -2872,6 +2870,7 @@ function getAdjacentMessagesByConversation(
     receivedAt = direction === AdjacentDirection.Older ? Number.MAX_VALUE : 0,
     sentAt = direction === AdjacentDirection.Older ? Number.MAX_VALUE : 0,
     requireVisualMediaAttachments,
+    requireFileAttachments,
     storyId,
   }: AdjacentMessagesByConversationOptionsType
 ): Array<MessageTypeUnhydrated> {
@@ -2893,7 +2892,9 @@ function getAdjacentMessagesByConversation(
   }
 
   const requireDifferentMessage =
-    direction === AdjacentDirection.Older || requireVisualMediaAttachments;
+    direction === AdjacentDirection.Older ||
+    requireVisualMediaAttachments ||
+    requireFileAttachments;
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT json FROM messages WHERE
@@ -2906,6 +2907,11 @@ function getAdjacentMessagesByConversation(
       ${
         requireVisualMediaAttachments
           ? sqlFragment`hasVisualMediaAttachments IS 1 AND`
+          : sqlFragment``
+      }
+      ${
+        requireFileAttachments
+          ? sqlFragment`hasFileAttachments IS 1 AND`
           : sqlFragment``
       }
       isStory IS 0 AND
@@ -2933,6 +2939,20 @@ function getAdjacentMessagesByConversation(
           FROM json_each(messages.json ->> 'attachments') AS attachment
           WHERE
             attachment.value ->> 'thumbnail' IS NOT NULL AND
+            attachment.value ->> 'pending' IS NOT 1 AND
+            attachment.value ->> 'error' IS NULL
+        ) > 0
+      LIMIT ${limit};
+    `;
+  } else if (requireFileAttachments) {
+    template = sqlFragment`
+      SELECT json
+      FROM (${template}) as messages
+      WHERE
+        (
+          SELECT COUNT(*)
+          FROM json_each(messages.json ->> 'attachments') AS attachment
+          WHERE
             attachment.value ->> 'pending' IS NOT 1 AND
             attachment.value ->> 'error' IS NULL
         ) > 0
@@ -6513,60 +6533,6 @@ export function incrementMessagesMigrationAttempts(
       `;
     db.prepare(sqlQuery).run(sqlParams);
   });
-}
-
-function getMessagesWithVisualMediaAttachments(
-  db: ReadableDB,
-  conversationId: string,
-  { limit }: { limit: number }
-): Array<MessageType> {
-  const rows: JSONRows = db
-    .prepare<Query>(
-      `
-      SELECT json FROM messages
-      INDEXED BY messages_hasVisualMediaAttachments
-      WHERE
-        isStory IS 0 AND
-        storyId IS NULL AND
-        conversationId = $conversationId AND
-        -- Note that this check has to use 'IS' to utilize
-        -- 'messages_hasVisualMediaAttachments' INDEX
-        hasVisualMediaAttachments IS 1
-      ORDER BY received_at DESC, sent_at DESC
-      LIMIT $limit;
-      `
-    )
-    .all({
-      conversationId,
-      limit,
-    });
-
-  return rows.map(row => jsonToObject(row.json));
-}
-
-function getMessagesWithFileAttachments(
-  db: ReadableDB,
-  conversationId: string,
-  { limit }: { limit: number }
-): Array<MessageType> {
-  const rows = db
-    .prepare<Query>(
-      `
-      SELECT json FROM messages WHERE
-        isStory IS 0 AND
-        storyId IS NULL AND
-        conversationId = $conversationId AND
-        hasFileAttachments = 1
-      ORDER BY received_at DESC, sent_at DESC
-      LIMIT $limit;
-      `
-    )
-    .all({
-      conversationId,
-      limit,
-    });
-
-  return map(rows, row => jsonToObject(row.json));
 }
 
 function getMessageServerGuidsForSpam(

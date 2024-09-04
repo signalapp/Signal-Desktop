@@ -7,13 +7,12 @@ import type { MIMEType } from './MIME';
 
 export type MediaItemMessageType = Pick<
   ReadonlyMessageAttributesType,
-  | 'attachments'
-  | 'conversationId'
-  | 'id'
-  | 'received_at'
-  | 'received_at_ms'
-  | 'sent_at'
->;
+  'attachments' | 'conversationId' | 'id'
+> & {
+  receivedAt: number;
+  receivedAtMs?: number;
+  sentAt: number;
+};
 
 export type MediaItemType = {
   attachment: AttachmentType;

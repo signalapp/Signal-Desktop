@@ -55,6 +55,7 @@ export type AdjacentMessagesByConversationOptionsType = Readonly<{
   sentAt?: number;
   storyId: string | undefined;
   requireVisualMediaAttachments?: boolean;
+  requireFileAttachments?: boolean;
 }>;
 
 export type GetNearbyMessageFromDeletedSetOptionsType = Readonly<{
@@ -636,14 +637,6 @@ type ReadableInterface = {
   getMessagesNeedingUpgrade: (
     limit: number,
     options: { maxVersion: number }
-  ) => Array<MessageType>;
-  getMessagesWithVisualMediaAttachments: (
-    conversationId: string,
-    options: { limit: number }
-  ) => Array<MessageType>;
-  getMessagesWithFileAttachments: (
-    conversationId: string,
-    options: { limit: number }
   ) => Array<MessageType>;
   getMessageServerGuidsForSpam: (conversationId: string) => Array<string>;
 

@@ -37,9 +37,9 @@ const createMediaItem = (
     attachments: [],
     conversationId: '1234',
     id: 'id',
-    received_at: Date.now(),
-    received_at_ms: Date.now(),
-    sent_at: Date.now(),
+    receivedAt: Date.now(),
+    receivedAtMs: Date.now(),
+    sentAt: Date.now(),
   },
 });
 
