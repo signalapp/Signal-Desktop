@@ -10,7 +10,7 @@ import { isNumber } from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 
 import { Backups, SignalService } from '../../protobuf';
-import { DataWriter } from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import {
   AttachmentDownloadSource,
   type StoryDistributionWithMembersType,
@@ -78,7 +78,7 @@ import type { GroupV2ChangeDetailType } from '../../groups';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { drop } from '../../util/drop';
 import { isNotNil } from '../../util/isNotNil';
-import { isGroup, isGroupV2 } from '../../util/whatTypeOfConversation';
+import { isGroup } from '../../util/whatTypeOfConversation';
 import { rgbToHSL } from '../../util/rgbToHSL';
 import {
   convertBackupMessageAttachmentToAttachment,
@@ -88,6 +88,7 @@ import { filterAndClean } from '../../types/BodyRange';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../../types/MIME';
 import { copyFromQuotedMessage } from '../../messages/copyQuote';
 import { groupAvatarJobQueue } from '../../jobs/groupAvatarJobQueue';
+import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager';
 import {
   AdhocCallStatus,
   CallDirection,
@@ -99,9 +100,10 @@ import {
 import type { CallHistoryDetails } from '../../types/CallDisposition';
 import { CallLinkRestrictions } from '../../types/CallLink';
 import type { CallLinkType } from '../../types/CallLink';
-
 import { fromAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
+import { reinitializeRedux } from '../../state/reinitializeRedux';
+import { getParametersForRedux, loadAll } from '../allLoaders';
 
 const MAX_CONCURRENCY = 10;
 
@@ -283,9 +285,19 @@ export class BackupImportStream extends Writable {
   private customColorById = new Map<number, CustomColorDataType>();
   private releaseNotesRecipientId: Long | undefined;
   private releaseNotesChatId: Long | undefined;
+  private pendingGroupAvatars = new Map<string, string>();
 
-  constructor() {
+  private constructor() {
     super({ objectMode: true });
+  }
+
+  public static async create(): Promise<BackupImportStream> {
+    await AttachmentDownloadManager.stop();
+    await DataWriter.removeAllBackupAttachmentDownloadJobs();
+    await window.storage.put('backupAttachmentsSuccessfullyDownloadedSize', 0);
+    await window.storage.put('backupAttachmentsTotalSizeToDownload', 0);
+
+    return new BackupImportStream();
   }
 
   override async _write(
@@ -359,11 +371,10 @@ export class BackupImportStream extends Writable {
 
       // Schedule group avatar download.
       await pMap(
-        allConversations.filter(({ attributes: convo }) => {
-          const { avatar } = convo;
-          return isGroupV2(convo) && avatar?.url && !avatar.path;
-        }),
-        convo => groupAvatarJobQueue.add({ conversationId: convo.id }),
+        [...this.pendingGroupAvatars.entries()],
+        ([conversationId, newAvatarUrl]) => {
+          return groupAvatarJobQueue.add({ conversationId, newAvatarUrl });
+        },
         { concurrency: MAX_CONCURRENCY }
       );
 
@@ -375,6 +386,16 @@ export class BackupImportStream extends Writable {
           })
           .map(([, id]) => id)
       );
+
+      await loadAll();
+      reinitializeRedux(getParametersForRedux());
+
+      await window.storage.put(
+        'backupAttachmentsTotalSizeToDownload',
+        await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
+      );
+
+      await AttachmentDownloadManager.start();
 
       done();
     } catch (error) {
@@ -843,12 +864,6 @@ export class BackupImportStream extends Writable {
       // Snapshot
       name: dropNull(title?.title),
       description: dropNull(description?.descriptionText),
-      avatar: avatarUrl
-        ? {
-            url: avatarUrl,
-            path: '',
-          }
-        : undefined,
       expireTimer: expirationTimerS
         ? DurationInSeconds.fromSeconds(expirationTimerS)
         : undefined,
@@ -937,6 +952,9 @@ export class BackupImportStream extends Writable {
         : undefined,
       announcementsOnly: dropNull(announcementsOnly),
     };
+    if (avatarUrl) {
+      this.pendingGroupAvatars.set(attrs.id, avatarUrl);
+    }
 
     return attrs;
   }

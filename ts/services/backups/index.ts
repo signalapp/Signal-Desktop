@@ -31,7 +31,6 @@ import * as Errors from '../../types/errors';
 import { HTTPError } from '../../textsecure/Errors';
 import { constantTimeEqual } from '../../Crypto';
 import { measureSize } from '../../AttachmentCrypto';
-import { reinitializeRedux } from '../../state/reinitializeRedux';
 import { isTestOrMockEnvironment } from '../../environment';
 import { BackupExportStream } from './export';
 import { BackupImportStream } from './import';
@@ -39,8 +38,6 @@ import { getKeyMaterial } from './crypto';
 import { BackupCredentials } from './credentials';
 import { BackupAPI, type DownloadOptionsType } from './api';
 import { validateBackup } from './validator';
-import { getParametersForRedux, loadAll } from '../allLoaders';
-import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager';
 
 const IV_LENGTH = 16;
 
@@ -151,7 +148,7 @@ export class BackupsService {
   public async download(
     downloadPath: string,
     { onProgress }: Omit<DownloadOptionsType, 'downloadOffset'>
-  ): Promise<void> {
+  ): Promise<boolean> {
     let downloadOffset = 0;
     try {
       ({ size: downloadOffset } = await stat(downloadPath));
@@ -187,7 +184,7 @@ export class BackupsService {
     } catch (error) {
       // No backup on the server
       if (error instanceof HTTPError && error.code === 404) {
-        return;
+        return false;
       }
 
       try {
@@ -197,6 +194,8 @@ export class BackupsService {
       }
       throw error;
     }
+
+    return true;
   }
 
   public async importBackup(
@@ -209,6 +208,7 @@ export class BackupsService {
     this.isRunning = true;
 
     try {
+      const importStream = await BackupImportStream.create();
       if (backupType === BackupType.Ciphertext) {
         const { aesKey, macKey } = getKeyMaterial();
 
@@ -237,15 +237,13 @@ export class BackupsService {
         // Second pass - decrypt (but still check the mac at the end)
         hmac = createHmac(HashType.size256, macKey);
 
-        await this.prepareForImport();
-
         await pipeline(
           createBackupStream(),
           getMacAndUpdateHmac(hmac, noop),
           getIvAndDecipher(aesKey),
           createGunzip(),
           new DelimitedStream(),
-          new BackupImportStream()
+          importStream
         );
 
         strictAssert(
@@ -260,13 +258,11 @@ export class BackupsService {
         await pipeline(
           createBackupStream(),
           new DelimitedStream(),
-          new BackupImportStream()
+          importStream
         );
       } else {
         throw missingCaseError(backupType);
       }
-
-      await this.resetStateAfterImport();
 
       log.info('importBackup: finished...');
     } catch (error) {
@@ -279,27 +275,6 @@ export class BackupsService {
         window.SignalCI.handleEvent('backupImportComplete', null);
       }
     }
-  }
-
-  public async prepareForImport(): Promise<void> {
-    await AttachmentDownloadManager.stop();
-    await DataWriter.removeAllBackupAttachmentDownloadJobs();
-    await window.storage.put('backupAttachmentsSuccessfullyDownloadedSize', 0);
-    await window.storage.put('backupAttachmentsTotalSizeToDownload', 0);
-  }
-
-  public async resetStateAfterImport(): Promise<void> {
-    window.ConversationController.reset();
-    await window.ConversationController.load();
-    await loadAll();
-    reinitializeRedux(getParametersForRedux());
-
-    await window.storage.put(
-      'backupAttachmentsTotalSizeToDownload',
-      await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
-    );
-
-    await AttachmentDownloadManager.start();
   }
 
   public async fetchAndSaveBackupCdnObjectMetadata(): Promise<void> {

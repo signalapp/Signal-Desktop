@@ -5,17 +5,13 @@ import type { ReactElement } from 'react';
 import React, { useRef } from 'react';
 
 import type { LocalizerType } from '../../types/Util';
+import { MAX_DEVICE_NAME_LENGTH } from '../../types/InstallScreen';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
 import { getEnvironment, Environment } from '../../environment';
 
 import { Button, ButtonVariant } from '../Button';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
-
-// This is the string's `.length`, which is the number of UTF-16 code points. Instead, we
-//   want this to be either 50 graphemes or 256 encrypted bytes, whichever is smaller. See
-//   DESKTOP-2844.
-export const MAX_DEVICE_NAME_LENGTH = 50;
 
 export type PropsType = {
   deviceName: string;

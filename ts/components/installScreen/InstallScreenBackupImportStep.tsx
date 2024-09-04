@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { formatFileSize } from '../util/formatFileSize';
-import { TitlebarDragArea } from './TitlebarDragArea';
-import { InstallScreenSignalLogo } from './installScreen/InstallScreenSignalLogo';
-import { ProgressBar } from './ProgressBar';
+import type { LocalizerType } from '../../types/Util';
+import { formatFileSize } from '../../util/formatFileSize';
+import { TitlebarDragArea } from '../TitlebarDragArea';
+import { ProgressBar } from '../ProgressBar';
+import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
@@ -18,7 +18,7 @@ export type PropsType = Readonly<{
   totalBytes?: number;
 }>;
 
-export function BackupImportScreen({
+export function InstallScreenBackupImportStep({
   i18n,
   currentBytes,
   totalBytes,

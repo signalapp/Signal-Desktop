@@ -6,6 +6,7 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../../types/Util';
+import { InstallScreenQRCodeError } from '../../types/InstallScreen';
 import { missingCaseError } from '../../util/missingCaseError';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
@@ -20,18 +21,12 @@ import { getClassNamesFor } from '../../util/getClassNamesFor';
 import type { UpdatesStateType } from '../../state/ducks/updates';
 import { Environment, getEnvironment } from '../../environment';
 
-export enum LoadError {
-  Timeout = 'Timeout',
-  Unknown = 'Unknown',
-  NetworkIssue = 'NetworkIssue',
-}
-
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
-  provisioningUrl: Loadable<string, LoadError>;
+  provisioningUrl: Loadable<string, InstallScreenQRCodeError>;
   hasExpired?: boolean;
   updates: UpdatesStateType;
   currentVersion: string;
@@ -121,7 +116,7 @@ export function InstallScreenQrCodeNotScannedStep({
 }
 
 function InstallScreenQrCode(
-  props: Loadable<string, LoadError> & {
+  props: Loadable<string, InstallScreenQRCodeError> & {
     i18n: LocalizerType;
     retryGetQrCode: () => void;
   }
@@ -135,7 +130,7 @@ function InstallScreenQrCode(
       break;
     case LoadingState.LoadFailed:
       switch (props.error) {
-        case LoadError.Timeout:
+        case InstallScreenQRCodeError.Timeout:
           contents = (
             <>
               <span
@@ -147,7 +142,7 @@ function InstallScreenQrCode(
             </>
           );
           break;
-        case LoadError.Unknown:
+        case InstallScreenQRCodeError.Unknown:
           contents = (
             <>
               <span
@@ -163,7 +158,7 @@ function InstallScreenQrCode(
             </>
           );
           break;
-        case LoadError.NetworkIssue:
+        case InstallScreenQRCodeError.NetworkIssue:
           contents = (
             <>
               <span

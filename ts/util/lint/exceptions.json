@@ -3089,21 +3089,6 @@
     "updated": "2023-08-20T22:14:52.008Z"
   },
   {
-    "rule": "React-useRef",
-    "path": "ts/state/smart/InstallScreen.tsx",
-    "line": "  const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());",
-    "reasonCategory": "testCode",
-    "updated": "2023-11-16T23:39:21.322Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/state/smart/InstallScreen.tsx",
-    "line": "    useRef(explodePromise<File | undefined>());",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-12-06T23:07:28.947Z",
-    "reasonDetail": "Doesn't touch the DOM."
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "ts/windows/loading/start.ts",
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",

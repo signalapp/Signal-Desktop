@@ -3669,6 +3669,7 @@ export function initialize({
           currentBytes += chunk.byteLength;
           onProgress(currentBytes, totalBytes);
         });
+        onProgress(0, totalBytes);
       }
 
       return combinedStream;

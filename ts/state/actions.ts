@@ -15,6 +15,7 @@ import { actions as emojis } from './ducks/emojis';
 import { actions as expiration } from './ducks/expiration';
 import { actions as globalModals } from './ducks/globalModals';
 import { actions as inbox } from './ducks/inbox';
+import { actions as installer } from './ducks/installer';
 import { actions as items } from './ducks/items';
 import { actions as lightbox } from './ducks/lightbox';
 import { actions as linkPreviews } from './ducks/linkPreviews';
@@ -46,6 +47,7 @@ export const actionCreators: ReduxActions = {
   expiration,
   globalModals,
   inbox,
+  installer,
   items,
   lightbox,
   linkPreviews,

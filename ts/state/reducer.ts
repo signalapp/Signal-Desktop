@@ -17,6 +17,7 @@ import { reducer as emojis } from './ducks/emojis';
 import { reducer as expiration } from './ducks/expiration';
 import { reducer as globalModals } from './ducks/globalModals';
 import { reducer as inbox } from './ducks/inbox';
+import { reducer as installer } from './ducks/installer';
 import { reducer as items } from './ducks/items';
 import { reducer as lightbox } from './ducks/lightbox';
 import { reducer as linkPreviews } from './ducks/linkPreviews';
@@ -49,6 +50,7 @@ export const reducer = combineReducers({
   expiration,
   globalModals,
   inbox,
+  installer,
   items,
   lightbox,
   linkPreviews,
