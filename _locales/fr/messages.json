@@ -9,7 +9,7 @@
     "messageformat": "Ajouter"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "Ajouter « {contact} » au groupe « {group} »"
+    "messageformat": "Ajouter {contact} au groupe \"{group}\""
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
     "messageformat": "Rechercher"
@@ -915,7 +915,7 @@
     "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
   },
   "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
-    "messageformat": "« {title} » est le nom de profil que cette personne s’est attribué dans Signal."
+    "messageformat": "\"{title}\" est le nom de profil que cette personne s’est attribué dans Signal."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Confirmé"
@@ -1210,9 +1210,6 @@
   },
   "icu:calling__cant-join": {
     "messageformat": "Impossible de participer à l’appel"
-  },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Vous êtes déjà en communication."
   },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Impossible de récupérer les informations associées au lien de l’appel. Vérifiez votre connexion réseau et réessayez."
@@ -2451,7 +2448,7 @@
     "messageformat": "Les messages au contenu vague ou insignifiant"
   },
   "icu:SafetyTipsModal__TipDescription--Vague": {
-    "messageformat": "Pour attirer votre attention, les spammeurs commencent souvent par un simple « Salut » par exemple. Si vous répondez, ils risquent de continuer la conversation."
+    "messageformat": "Pour attirer votre attention, les spammeurs commencent souvent par un simple \"Salut\" par exemple. Si vous répondez, ils risquent de poursuivre la conversation."
   },
   "icu:SafetyTipsModal__TipTitle--Links": {
     "messageformat": "Les messages contenant des liens"
@@ -3015,13 +3012,13 @@
     "messageformat": "Le groupe a été créé."
   },
   "icu:GroupV2--title--change--other": {
-    "messageformat": "{memberName} a remplacé le nom du groupe par « {newTitle} »."
+    "messageformat": "{memberName} a remplacé le nom du groupe par \"{newTitle}\"."
   },
   "icu:GroupV2--title--change--you": {
-    "messageformat": "Vous avez remplacé le nom du groupe par « {newTitle} »."
+    "messageformat": "Vous avez remplacé le nom du groupe par \"{newTitle}\"."
   },
   "icu:GroupV2--title--change--unknown": {
-    "messageformat": "Un membre a remplacé le nom du groupe par « {newTitle} »."
+    "messageformat": "Un membre a remplacé le nom du groupe par \"{newTitle}\"."
   },
   "icu:GroupV2--title--remove--other": {
     "messageformat": "{memberName} a supprimé le nom du groupe."
@@ -3054,7 +3051,7 @@
     "messageformat": "{adminName} a changé qui peut modifier les informations du groupe en « Les administrateurs »."
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "Vous avez changé qui peut modifier les informations du groupe en « Les administrateurs »."
+    "messageformat": "Vous avez défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
     "messageformat": "Un administrateur a changé qui peut modifier les informations du groupe en « Les administrateurs »."
@@ -3063,7 +3060,7 @@
     "messageformat": "{adminName} a changé qui peut modifier les informations du groupe en « Tous les membres »."
   },
   "icu:GroupV2--access-attributes--all--you": {
-    "messageformat": "Vous avez changé qui peut modifier les informations du groupe en « Tous les membres »."
+    "messageformat": "Vous avez défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Un administrateur a changé qui peut modifier les informations du groupe en « Tous les membres »."
@@ -3072,7 +3069,7 @@
     "messageformat": "{adminName} a changé qui peut modifier les membres du groupe en « Les administrateurs »."
   },
   "icu:GroupV2--access-members--admins--you": {
-    "messageformat": "Vous avez changé qui peut modifier les membres du groupe en « Les administrateurs »."
+    "messageformat": "Vous avez défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Un administrateur a changé qui peut modifier les membres du groupe en « Les administrateurs »."
@@ -3081,7 +3078,7 @@
     "messageformat": "{adminName} a changé qui peut modifier les membres du groupe en « Tous les membres »."
   },
   "icu:GroupV2--access-members--all--you": {
-    "messageformat": "Vous avez changé qui peut modifier les membres du groupe en « Tous les membres »."
+    "messageformat": "Vous avez défini l'autorisation d'ajouter des membres sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Un administrateur a changé qui peut modifier les membres du groupe en « Tous les membres »."
@@ -3522,13 +3519,19 @@
     "messageformat": "Appuyez sur « Faire un don à Signal » et inscrivez-vous"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Synchronisation des messages"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Téléchargement en cours : {currentSize} sur {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Cela peut prendre quelques minutes en fonction de la taille de votre sauvegarde."
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Étendre"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0,5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Cliquez sur l’icône {composeIcon} ci-dessus et recherchez des contacts ou des groupes à joindre."
-  },
-  "icu:composeIcon": {
-    "messageformat": "bouton « Nouveau message »"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Aucune conversation"
@@ -4515,7 +4512,7 @@
     "messageformat": "Voulez-vous vraiment continuer ?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "Si vous définissez le paramètre « {settingTitle} » sur « {nobodyLabel} », les autres utilisateurs auront plus de difficulté à vous trouver sur Signal."
+    "messageformat": "Si vous définissez le paramètre \"{settingTitle}\" sur \"{nobodyLabel}\", les autres utilisateurs auront plus de difficulté à vous trouver sur Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Messagerie"
@@ -4875,7 +4872,7 @@
     "messageformat": "Cliquez sur <newStoryIcon>Ajouter une story</newStoryIcon> pour partager un nouveau contenu."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Cliquez sur <newStoryButtonIcon></newStoryButtonIcon> pour partager un nouveau contenu."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} à {group}"
@@ -4980,7 +4977,7 @@
     "messageformat": "Qui peut voir cette story ?"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Les membres de la conversation de groupe « {groupTitle} » peuvent afficher cette story et y réagir. Vous pouvez ajouter ou retirer des spectateurs depuis les paramètres du groupe."
+    "messageformat": "Les membres de la conversation de groupe \"{groupTitle}\" peuvent afficher cette story et y réagir. Vous pouvez ajouter ou retirer des spectateurs depuis les paramètres du groupe."
   },
   "icu:GroupStorySettingsModal__remove_group": {
     "messageformat": "Supprimer la story de groupe"
@@ -5121,10 +5118,10 @@
     "messageformat": "a réagi à la story"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "avez réagi à la story"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "a réagi à la story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Vous ne pouvez pas interagir avec cette story, car vous n'êtes plus membre de ce groupe."
@@ -5428,7 +5425,7 @@
     "messageformat": "Cliquez sur l’icône <newCallIcon>Nouvel appel</newCallIcon> pour passer un appel vocal ou vidéo."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Cliquez sur <newCallButtonIcon></newCallButtonIcon> pour passer un appel vocal ou vidéo."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Rechercher"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Revenir"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Pour rejoindre un nouvel appel, quittez d’abord l’appel en cours."
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Appel vocal sortant} other {Appel vocal entrant}}} Video {{direction, select, Outgoing {Appel vidéo sortant} other {Appel vidéo entrant}}} Group {{direction, select, Outgoing {Appel de groupe sortant} other {Appel de groupe entrant}}} other {{direction, select, Outgoing {Appel sortant} other {Appel entrant}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Appel vocal manqué} Video {Appel vidéo manqué} Group {Appel de groupe manqué} other {Appel manqué}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Appel vocal sans réponse} Video {Appel vidéo sans réponse} Group {Appel de groupe sans réponse} other {Appel sans réponse}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Appel vocal rejeté} Video {Appel vidéo rejeté} Group {Appel de groupe rejeté} other {Appel rejeté}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Lien d’appel"
@@ -5596,7 +5578,7 @@
     "messageformat": "Experimental WebSocket Transport is seeing too many errors. Please submit a debug log"
   },
   "icu:WhoCanFindMeReadOnlyToast": {
-    "messageformat": "Pour changer ce paramètre, réglez l’option « Qui peut voir mon numéro » sur « Personne »."
+    "messageformat": "Pour modifier ce paramètre, définissez l’option \"Qui peut voir mon numéro\" sur \"Personne\"."
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Les nouveautés"
@@ -5629,13 +5611,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Désormais, Signal Desktop reprend automatiquement le téléchargement de pièces jointes là où il s’est arrêté. Un ami vous a envoyé un mème ? Plus besoin de regarder la barre de téléchargement repartir de zéro avant de vous taper un fou rire !"
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Il vous arrivait de trépigner d'impatience en attendant que s'affiche le message de votre crush ? Quelques améliorations et hop ! Vos conversations s'ouvrent maintenant à la vitesse de la lumière. "
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Et ce n'est pas tout : le message \" Contact inconnu a lancé un appel vidéo \" ne s’affiche plus dans le résumé des conversations lorsque vous avez lancé l'appel. Parce que même si vous apprenez encore à vous connaître, ça ne veut pas dire que vous ne savez pas du tout qui vous êtes."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

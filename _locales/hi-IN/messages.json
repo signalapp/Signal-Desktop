@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "कॉल से नहीं जुड़ सकते"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "आप पहले ही एक कॉल में हैं।"
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "कॉल लिंक जानकारी प्राप्त नहीं कर सका। कृपया अपना नेटवर्क जाँचें और फिर से प्रयास करें।"
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "\"Signal को दान दें\" पर टैप करके सब्सक्राइब करें"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "संदेश सिंक किए जा रहे हैं"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} में से {currentSize} डाउनलोड किया जा रहा है({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "आपके बैकअप के आकार के आधार पर, इसमें कुछ मिनट लग सकते हैं"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "बड़ा करें"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "ऊपर दिए गए {composeIcon} पर क्लिक करें और संदेश भेजने के लिए अपने संपर्कों या समूहों को खोजें।"
-  },
-  "icu:composeIcon": {
-    "messageformat": "लिखें बटन"
   },
   "icu:emptyInbox__title": {
     "messageformat": "कोई चैट नहीं"
@@ -4875,7 +4872,7 @@
     "messageformat": "कोई अपडेट जोड़ने के लिए, <newStoryIcon>स्टोरी जोड़ें</newStoryIcon> पर क्लिक करें।"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "अपडेट जोड़ने के लिए, <newStoryButtonIcon></newStoryButtonIcon> पर क्लिक करें।"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} से {group} को"
@@ -5121,10 +5118,10 @@
     "messageformat": "स्टोरी पर प्रतिक्रिया दी"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "स्टोरी पर प्रतिक्रिया दी"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "स्टोरी पर प्रतिक्रिया दी"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "आप इस स्टोरी का जवाब नहीं दे सकते क्योंकि अब आप इस ग्रुप के सदस्य नहीं हैं।"
@@ -5428,7 +5425,7 @@
     "messageformat": "नया वॉइस या वीडियो कॉल शुरू करने के लिए, <newCallIcon>नया कॉल</newCallIcon> पर क्लिक करें।"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "नया वॉइस या वीडियो कॉल शुरू करने के लिए, <newCallButtonIcon></newCallButtonIcon> पर क्लिक करें।"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "सर्च"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "वापस जाएँ"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "नई कॉल में शामिल होने से पहले आपको चल रहे कॉल को छोड़ना पड़ेगा"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {आउटगोइंग वॉयस कॉल} other {इनकमिंग वॉयस कॉल}}} Video {{direction, select, Outgoing {वीडियो कॉल की जा रही है} other {वीडियो कॉल आ रही है}}} Group {{direction, select, Outgoing {आउटगोइंग ग्रुप कॉल} other {इनकमिंग ग्रुप कॉल}}} other {{direction, select, Outgoing {जाने वाली कॉल} other {आने वाली कॉल}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {छूटी हुई वॉयस कॉल} Video {मिस हुई वीडियो कॉल} Group {मिस्ड ग्रुप कॉल} other {मिस कॉल}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {अनुत्तरित वॉयस कॉल} Video {वीडियो कॉल जो उठाई नहीं गई} Group {अनुत्तरित ग्रुप कॉल} other {अनुत्तरित  कॉल}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {अस्वीकृत वॉयस कॉल} Video {अस्वीकृत वीडियो कॉल} Group {अस्वीकृत ग्रुप कॉल} other {अस्वीकृत  कॉल}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "कॉल लिंक"
@@ -5629,13 +5611,13 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "अब Signal डेस्कटॉप में, अटैचमेंट के डाउनलोड में रुकावट आने पर ऑटोमैटिक तरीके से उसे फिर से वहीं से चालू किया जा सकता है जहाँ वह रुका था, इसलिए आपको हँसने के लिए ज़्यादा इंतज़ार नहीं करना पड़ेगा, भले ही आप अपने दोस्त के भेजे गए मीम का ट्रांसफ़र पूरा होने से पहले ही लैपटॉप की लिड बंद करें।"
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "प्रदर्शन में एक और बार सुधार होने की वजह से, अब चैट पहले से कहीं ज़्यादा तेज़ी से खुलती हैं, तो अब आप अपने दोस्तों की चैट पर तेज़ी से क्लिक करके देख सकते हैं कि वे क्या कह रहे हैं।"
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "हमने कुछ गड़बड़ियाँ भी ठीक की हैं, जिनमें वह गड़बड़ी शामिल है जिसकी वजह से कभी-कभी आपके कोई कॉल शुरू करने के बाद, चैट सूची के सारांश में \"अज्ञात संपर्क ने वीडियो कॉल शुरू किया\" दिखाई देता था। चाहे आप खुद को खोजने के सफ़र पर हों, फिर भी आप अपने लिए पूरी तरह से अनजान नहीं हैं।"
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

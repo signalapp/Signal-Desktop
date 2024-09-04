@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Hindi maka-join sa call"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Nasa call ka na."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Hindi makuha ang call link information. Paki check ang iyong network connection at subukan ulit."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "I-tap ang \"Donate to Signal\" at mag-subscribe"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Sini-sync ang messages"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Dina-download ang {currentSize} ng {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Maaaring tumagal ito nang ilang minuto depende sa laki ng iyong backup"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "I-expand"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "I-click ang {composeIcon} sa taas at i-search ang contacts o groups na gusto mong i-message."
-  },
-  "icu:composeIcon": {
-    "messageformat": "compose button"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Walang chats"
@@ -4875,7 +4872,7 @@
     "messageformat": "I-click ang <newStoryIcon>Add a story</newStoryIcon> para maglagay ng update."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "I-click ang <newStoryButtonIcon></newStoryButtonIcon> para magdagdag ng update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} para sa {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Nag-react sa story"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Nag-react sa story"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Nag-react sa story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Hindi ka pwedeng mag-reply sa story na ito dahil hindi ka na member ng group."
@@ -5428,7 +5425,7 @@
     "messageformat": "I-click ang <newCallIcon>New Call</newCallIcon> para magsimula ng bagong voice o video call."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "I-click ang <newCallButtonIcon></newCallButtonIcon> para magsimula ng bagong voice o video call."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Maghanap"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Bumalik"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Kailangan mong umalis sa current call bago sumali sa bagong call"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Outgoing voice call} other {Incoming voice call}}} Video {{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}} Group {{direction, select, Outgoing {Outgoing group call} other {Incoming group call}}} other {{direction, select, Outgoing {Outgoing  call} other {Incoming  call}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Missed voice call} Video {Missed video call} Group {Missed group call} other {Missed  call}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {'Di nasagot na voice call} Video {Unanswered video call} Group {Unanswered group call} other {Unanswered  call}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Declined voice call} Video {Declined video call} Group {Declined group call} other {Declined  call}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Call link"
@@ -5629,13 +5611,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Kaya nang automatic na ituloy ng Signal Desktop ang naputol na attachment downloads."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Mas mabilis nang buksan ang Chats sa tulong ng karagdagang performance improvements."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "May inayos din kaming ilang bugs, kasama ang isang nagiging sanhi minsan ng paglabas ng message na \"Unknown contact started a video call\" sa chat list summary pagkatapos mong magsimula ng call."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

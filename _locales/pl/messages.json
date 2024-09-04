@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Nie można dołączyć do połączenia"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Uczestniczysz już w rozmowie."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Nie udało się pobrać informacji o linku do połączenia. Sprawdź swoje połączenie sieciowe i spróbuj ponownie."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Stuknij w opcję „Przekaż darowiznę na rzecz Signal” i zasubskrybuj"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Synchronizowanie wiadomości"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Pobieranie {currentSize} z {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "W zależności od wielkości kopii zapasowej może to potrwać kilka minut"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Powiększ"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0,5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Kliknij {composeIcon} powyżej i wyszukaj kontakty l;ub grupy, aby wysłać wiadomość."
-  },
-  "icu:composeIcon": {
-    "messageformat": "przycisk nowej wiadomości"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Brak czatów"
@@ -4875,7 +4872,7 @@
     "messageformat": "Jeśli chcesz coś opublikować, kliknij opcję <newStoryIcon>Dodaj relację</newStoryIcon>."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Kliknij <newStoryButtonIcon></newStoryButtonIcon>, aby dodać aktualizację."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} do {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Zareagowano na relację"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Zareagowałeś(-aś) na relację"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Zareagował(a) na relację"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Nie możesz wysyłać wiadomości w odpowiedzi na tę relację, ponieważ nie jesteś już członkiem tej grupy."
@@ -5428,7 +5425,7 @@
     "messageformat": "Kliknij opcję <newCallIcon>Nowe połączenie</newCallIcon>, aby rozpocząć nowe połączenie głosowe lub wideo."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Kliknij <newCallButtonIcon></newCallButtonIcon>, aby rozpocząć nowe połączenie głosowe lub wideo."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Szukaj"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Wróć"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Zanim dołączysz do nowego połączenia, musisz opuścić bieżące"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Wychodzące połączenie głosowe} other {Przychodzące połączenie głosowe}}} Video {{direction, select, Outgoing {Wychodzące połączenie wideo} other {Przychodzące połączenie wideo}}} Group {{direction, select, Outgoing {Wychodzące połączenie grupowe} other {Nadchodzące połączenie grupowe}}} other {{direction, select, Outgoing {Połączenie wychodzące} other {Połączenie przychodzące}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Nieodebrane połączenie głosowe} Video {Nieodebrane połączenie wideo} Group {Nieodebrane połączenie grupowe} other {Nieodebrane połączenie}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Nieodebrane połączenie głosowe} Video {Nieodebrane połączenie wideo} Group {Nieodebrane połączenie grupowe} other {Nieodebrane połączenie}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Odrzucone połączenie głosowe} Video {Odrzucone połączenie wideo} Group {Odrzucone połączenie grupowe} other {Odrzucone połączenie}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Link do połączenia"
@@ -5629,13 +5611,13 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop od teraz automatycznie wznawia pobieranie załączników od miejsca, w którym zostało ono przerwane. Koniec z długim czekaniem na otwarcie memów od znajomych — możesz śmiało zamknąć laptopa, a one i tak pobiorą się po otwarciu."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Czaty otwierają się teraz szybciej niż kiedykolwiek przedtem dzięki kolejnym poprawkom wydajności, dzięki czemu możesz teraz bardzo szybko klikać na swoje grupki i sprawdzać, co ciekawego mówią."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Naprawiliśmy także parę błędów, w tym jeden, który niekiedy powodował wyświetlanie komunikatu „Nieznany kontakt rozpoczął połączenie wideo” w podsumowaniu listy czatów po rozpoczęciu połączenia. Nawet jeśli wciąż jesteś w trakcie podróży ku samopoznaniu, zawsze znasz siebie choć odrobinę."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

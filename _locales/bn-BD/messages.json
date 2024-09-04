@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "কলে যোগ দেওয়া যাচ্ছে না"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "আপনি ইতোমধ্যেই একটি কলে আছেন।"
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "কল লিংকের তথ্য আনা যায়নি। অনুগ্রহ করে আপনার নেটওয়ার্ক সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন।"
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "\"Signal-এ অনুদান দিন\" ট্যাপ করুন এবং সাবস্ক্রাইব করুন"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "মেসেজ সিঙ্ক করা হচ্ছে"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize}-এর মধ্যে {currentSize} ({fractionComplete,number,percent}) ডাউনলোড হচ্ছে..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "আপনার ব্যাকআপের আকারের উপর নির্ভর করে এতে কয়েক মিনিট সময় নিতে পারে"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "প্রসারিত করুন"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "উপরের {composeIcon}-এ ক্লিক করুন এবং মেসেজ পাঠানোর জন্য আপনার কন্ট্যাক্ট বা গ্রুপ খুঁজুন।"
-  },
-  "icu:composeIcon": {
-    "messageformat": "লিখুন বোতাম"
   },
   "icu:emptyInbox__title": {
     "messageformat": "কোন চ্যাট নেই"
@@ -4875,7 +4872,7 @@
     "messageformat": "কোনও আপডেট যোগ করতে <newStoryIcon>স্টোরি যোগ করুন</newStoryIcon>-এ ক্লিক করুন।"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "একটি আপডেট যোগ করতে <newStoryButtonIcon></newStoryButtonIcon>-এ ক্লিক করুন।"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} থেকে {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "স্টোরিতে রিঅ্যাক্ট করেছেন"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "স্টোরিতে রিঅ্যাক্ট করেছেন"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "স্টোরিতে রিঅ্যাক্ট করেছেন"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "আপনি এই স্টোরি-র উত্তর দিতে পারবেন না, কারণ আপনি আর এই গ্রুপের সদস্য নন।"
@@ -5428,7 +5425,7 @@
     "messageformat": "নতুন ভয়েস বা ভিডিও কল শুরু করতে <newCallIcon>নতুন কল</newCallIcon>-এ ক্লিক করুন।"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "একটি নতুন ভয়েস বা ভিডিও কল শুরু করতে <newCallButtonIcon></newCallButtonIcon>এ ক্লিক করুন।"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "অনুসন্ধান"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "ফিরে যান"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "কোনো নতুন কলে যোগ দেওয়ার আগে আপনাকে অবশ্যই বর্তমান কলটি কেটে দিতে হবে"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {ভয়েস কল যাচ্ছে} other {ভয়েস কল আসছে}}} Video {{direction, select, Outgoing {ভিডিও কল যাচ্ছে} other {ভিডিও কল আসছে}}} Group {{direction, select, Outgoing {আউটগোয়িং গ্রুপ কল} other {ইনকামিং গ্রুপ কল}}} other {{direction, select, Outgoing {আউটগোয়িং কল} other {আগত কল}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {মিসড ভয়েস কল} Video {ভিডিও কল মিস হয়েছে} Group {মিসড গ্রুপ কল} other {ব্যর্থ কল}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {উত্তর না দেওয়া ভয়েস কল} Video {উত্তর না দেওয়া ভিডিও কল} Group {উত্তর দেওয়া হয়নি এমন গ্ৰুপ কল} other {উত্তর দেওয়া হয়নি এমন কল}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {প্রত্যাখ্যান করা হয়েছে এমন ভয়েস কল} Video {প্রত্যাখ্যান করা হয়েছে এমন ভিডিও কল} Group {প্রত্যাখ্যান করা হয়েছে এমন গ্ৰুপ কল} other {প্রত্যাখ্যান করা হয়েছে এমন কল}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "কলের লিংক"
@@ -5629,13 +5611,13 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal ডেস্কটপ এখন বাধাপ্রাপ্ত সংযুক্তি ডাউনলোড স্বয়ংক্রিয়ভাবে পুনরায় শুরু করতে পারবে।"
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "আরেক রাউন্ড পারফরম্যান্সের উন্নতির সুবাদে চ্যাট এখন আগের চেয়ে দ্রুত খোলে।"
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "আমরা আরো কিছু বাগও সংশোধন করেছি, যার মধ্যে একটি হলো - কখনো কখনো \"অচেনা কন্টাক্ট একটি ভিডিও কল শুরু করেছে\" নোটিফিকেশনটি আপনি কল শুরু করার পরে চ্যাট তালিকার সারাংশে দেখা যেতো।"
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

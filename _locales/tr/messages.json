@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Aramaya katılamıyor"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Zaten bir aramadasın."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Arama bağlantısı bilgileri alınamadı. Lütfen ağ bağlantını kontrol edip tekrar dene."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "\"Signal'a Bağış Yap\"a dokun ve abone ol"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Mesajlar senkronize ediliyor"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent}) indiriliyor..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Yedeklemenin boyutuna bağlı olarak birkaç dakika sürebilir"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişlet"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ",5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Yukarıdaki {composeIcon} simgesine tıklayın ve ileti göndermek için kişilerinizi veya gruplarınızı arayın."
-  },
-  "icu:composeIcon": {
-    "messageformat": "oluştur butonu"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Sohbet yok"
@@ -4875,7 +4872,7 @@
     "messageformat": "Bir güncelleme eklemek için <newStoryIcon>Bir kısa hikaye ekleyin</newStoryIcon> ifadesine tıklayın."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Güncelleme eklemek için <newStoryButtonIcon></newStoryButtonIcon> ögesine tıkla."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{group} grubunda {name}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Hikayeye tepki verildi"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Kısa hikayeye tepki verdin"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Kısa hikayeye tepki verdi"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Artık bu grubun bir üyesi olmadığın için bu hikayeye yanıt veremezsin."
@@ -5428,7 +5425,7 @@
     "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallIcon>Yeni Arama</newCallIcon> ögesine tıklayın."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallButtonIcon></newCallButtonIcon> ögesine tıkla."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Ara"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Geri Dön"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Yeni bir aramaya katılmadan önce mevcut aramadan ayrılmalısın"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Giden sesli arama} other {Gelen sesli arama}}} Video {{direction, select, Outgoing {Giden görüntülü arama} other {Gelen görüntülü arama}}} Group {{direction, select, Outgoing {Giden grup araması} other {Gelen grup araması}}} other {{direction, select, Outgoing {Giden arama} other {Gelen arama}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Cevapsız sesli arama} Video {Cevapsız görüntülü arama} Group {Cevapsız grup araması} other {Cevapsız arama}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Cevapsız sesli arama} Video {Cevaplanmamış görüntülü arama} Group {Grup araması cevaplanmadı} other {Arama cevaplanmadı}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Sesli arama reddedildi} Video {Görüntülü arama reddedildi} Group {Grup araması reddedildi} other {Arama reddedildi}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Arama bağlantısı"
@@ -5629,13 +5611,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop artık yarıda kesilen ek indirme işlemlerine kaldığı yerden otomatik olarak devam edebiliyor."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Yeni bir grup performans iyileştirmesi sayesinde, sohbetler artık her zamankinden daha hızlı açılıyor."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Aramayı başlattıktan sonra bazen sohbet listesi özetinde \"Bilinmeyen bir kişi görüntülü arama başlattı\" hatasının görünmesine neden olan bir hata da dahil olmak üzere birkaç hatayı düzelttik. Böylece kafan karışmadan, rahatça görüşmelerini yapabileceksin."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

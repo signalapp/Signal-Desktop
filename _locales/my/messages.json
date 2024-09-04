@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "ကောလ်တွင် ပါဝင်၍ မရနိုင်ပါ"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "သင်သည် ကောလ်ထဲတွင် ရှိပြီးဖြစ်သည်။"
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "ကောလ်လင့်ခ် အချက်အလက်ကို ရယူနိုင်ခြင်းမရှိပါ။ သင့်ကွန်ရက် ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။"
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "\"Signal အတွက် လှူရန်\" ကို နှိပ်ပြီး ပုံမှန်လှူဒါန်းပါ"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "မက်ဆေ့ချ်များကို တူအောင်ညှိနေသည်"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} ({fractionComplete,number,percent}) မှ {currentSize} ကို ဒေါင်းလုဒ်လုပ်နေသည်..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "သင့် ဘက်ခ်အပ်အရွယ်အစားပေါ်မူတည်၍ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ဖြန့်ရန်"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "အထက်ပါ {composeIcon} ကို နှိပ်ပြီး မက်ဆေ့ချ်ပို့ရန် သင့်အဆက်အသွယ်များ သို့မဟုတ် အဖွဲ့များကို ရှာပါ။"
-  },
-  "icu:composeIcon": {
-    "messageformat": "ရေးသားရန် ခလုတ်"
   },
   "icu:emptyInbox__title": {
     "messageformat": "ချက်(တ်)များမရှိပါ"
@@ -4875,7 +4872,7 @@
     "messageformat": "အပ်ဒိတ်တစ်ခုထည့်ရန် <newStoryIcon>စတိုရီတစ်ခု ပေါင်းထည့်ရန်</newStoryIcon>ကို နှိပ်ပါ။"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "အပ်ဒိတ်တစ်ခုထည့်ရန် <newStoryButtonIcon></newStoryButtonIcon> ကို နှိပ်ပါ။"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} မှ {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5425,7 @@
     "messageformat": "အသံ သို့မဟုတ် ဗီဒီယိုကောလ် အသစ်တစ်ခုစတင်ရန် <newCallIcon>ကောလ်အသစ်</newCallIcon> ကိုနှိပ်ပါ။"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "အသံ သို့မဟုတ် ဗီဒီယိုကောလ်ခေါ်ဆိုမှုအသစ်တစ်ခု စတင်ရန် <newCallButtonIcon></newCallButtonIcon> ကို နှိပ်ပါ။"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ရှာရန်"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "နောက်ပြန်သွားရန်"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "ခေါ်ဆိုမှုအသစ်တစ်ခုတွင် မပါဝင်မီ လက်ရှိခေါ်ဆိုမှုကို ရပ်နားရပါမည်"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {အထွက် အော်ဒီယိုကောလ်} other {အဝင် အော်ဒီယိုကောလ်}}} Video {{direction, select, Outgoing {ဗီဒီယိုကောလ် အထွက်} other {ဗီဒီယိုကောလ် အဝင်}}} Group {{direction, select, Outgoing {အထွက် အဖွဲ့ကောလ်} other {အဝင် အဖွဲ့ကောလ်}}} other {{direction, select, Outgoing {ဖုန်းခေါ်ဆိုမှု} other {အဝင်ဖုန်းလာသည်}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {လွတ်သွားသော အော်ဒီယိုကောလ်} Video {ဗီဒီယိုခေါ်ဆိုမှုလွဲချော်} Group {လွတ်သွားသော အဖွဲ့ကောလ်} other {လွတ်သွားသော ဖုန်းခေါ်ဆိုမှု}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {မဖြေဆိုသော အော်ဒီယိုကောလ်} Video {မဖြေဆိုသော ဗီဒီယိုကောလ်} Group {မဖြေဆိုခဲ့သော အဖွဲ့ကောလ်} other {မဖြေဆိုခဲ့သော  ကောလ်}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {ငြင်းပယ်ခဲ့သော အော်ဒီယိုကောလ်} Video {ငြင်းပယ်ခဲ့သော ဗီဒီယိုကောလ်} Group {ငြင်းပယ်ခဲ့သော အဖွဲ့ကောလ်} other {ငြင်းပယ်ခဲ့သော  ကောလ်}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "ကောလ်လင့်ခ်"
@@ -5629,13 +5611,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "ယခုအခါ Signal Desktop သည် ဒေါင်းလုဒ် လုပ်လက်စဖြင့် ပြတ်တောက်သွားသော ပူးတွဲဖိုင်များကို အလိုအလျောက် ဆက်၍ဒေါင်းလုဒ်လုပ်နိုင်ပါပြီ။"
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "နောက်ထပ် စွမ်းဆောင်ရည် မြှင့်တင်မှုများကြောင့် ယခုအခါ ချက်(တ်)များကို ယခင်ကထက် ပိုမိုမြန်ဆန်စွာ ဖွင့်နိုင်ပါပြီ။"
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "တစ်ခါတစ်ရံ သင်ခေါ်ဆိုမှုစတင်ပြီးနောက် ချက်(တ်)စာရင်းအကျဉ်းချုပ်တွင် \"အမည်မသိအဆက်အသွယ်မှ ဗီဒီယိုကောလ်ခေါ်ဆိုမှုတစ်ခု စတင်ခဲ့သည်\" ဟုပေါ်လာစေသည့် အရာအပါအဝင် ချွတ်ယွင်းချက်အချို့ကိုလည်း ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

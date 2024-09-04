@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Zəngə qoşulmaq mümkün deyil"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Artıq zəngə qoşulmusunuz."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Zəng keçidi məlumatını əldə etmək mümkün olmadı. Şəbəkə bağlantınızı yoxlayıb yenidən sınayın."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "\"Signal-a ianə verin\" üzərinə toxunun və abunə olun"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Mesajlar sinxronlaşdırılır"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} / {totalSize} endirilir ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Ehtiyat nüsxənizin həcmindən asılı olaraq bu, bir qədər çəkə bilər"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişləndir"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ",5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Yuxarıdakı {composeIcon} düyməsinə klikləyin və mesaj göndəriləcək əlaqə və ya qrupları axtarın."
-  },
-  "icu:composeIcon": {
-    "messageformat": "yarat düyməsi"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Çat yoxdur"
@@ -4875,7 +4872,7 @@
     "messageformat": "Yeniləmə əlavə etmək üçün <newStoryIcon>Hekayə əlavə et</newStoryIcon> üzərinə klikləyin."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Yeniləmə əlavə etmək üçün <newStoryButtonIcon></newStoryButtonIcon> üzərinə klikləyin."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}, {group} qrupuna"
@@ -5121,10 +5118,10 @@
     "messageformat": "Hekayəyə reaksiya verildi"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Hekayəyə reaksiya verildi"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Hekayəyə reaksiya verildi"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group."
@@ -5428,7 +5425,7 @@
     "messageformat": "Yeni audio və ya video zəng etmək üçün <newCallIcon>Yeni zəng</newCallIcon> üzərinə klikləyin."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Yeni bir audio və ya video zəng başlamaq üçün <newCallButtonIcon></newCallButtonIcon> üzərinə klikləyin."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Axtar"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Qayıt"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Yeni bir zəngə qoşulmazdan əvvəl cari zəngdən çıxmalısan"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Gedən audio zəng} other {Gələn audio zəng}}} Video {{direction, select, Outgoing {Gedən görüntülü zəng} other {Görüntülü zəng gəlir}}} Group {{direction, select, Outgoing {Gedən qrup zəngi} other {Gələn qrup zəngi}}} other {{direction, select, Outgoing {Gedən zəng} other {Gələn zəng}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Buraxılmış audio zəng} Video {Cavabsız görüntülü zəng} Group {Cavabsız qrup zəngi} other {Cavab verilməmiş zəng}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Cavablanmamış audio zəng} Video {Cavablanmamış görüntülü zəng} Group {Cavablanmamış qrup zəngi} other {Cavablanmamış zəng}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {İmtina edilmiş audio-zəng} Video {İmtina edilmiş video-zəng} Group {İmtina edilmiş qrup zəngi} other {İmtina edilmiş zəng}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Zəng keçidi"
@@ -5629,13 +5611,13 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Artıq Signal Desktop yarıda kəsilmiş qoşma endirmələrini qaldığı yerdən avtomatik olaraq yenidən aça bilər, beləliklə, dostunuzun sizə göndərdiyi mem ötürməni tamamlamamışdan əvvəl laptopunuzun qapağını bağlasanız belə, gülmək üçün uzun müddət gözləməyinizə ehtiyac qalmayacaq."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Digər bir təkmilləşdirmə mərhələsi sayəsində artıq çatlar hər zamankından daha tez açılır, beləliklə siz öz kliklərinizə klikləyərək onların nə dediklərini tez görə bilərsiniz."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Bundan başqa, siz zəng etdikdən sonra çat siyahısı xülasəsində bəzən \"Naməlum kontakt video zəng etdi\" ifadəsinin görünməsinə səbəb olan bir neçə səhvi də aradan qaldırdıq. Zənn edirik ki, özünü hələ tam tanımayan kontaktlar belə \"naməlum kontakt\" kimi təqdim olunmamalıdır."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

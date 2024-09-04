@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "કૉલમાં જોડાઈ શકતાં નથી"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "તમે પહેલેથી જ કૉલમાં છો."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "કૉલ લિંકની માહિતી લઈ શક્યા નહીં. કૃપા કરીને તમારું નેટવર્ક કનેક્શન તપાસો અને ફરી પ્રયાસ કરો."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "\"Signalમાં દાન કરો\" પર ટૅપ કરો અને સબ્સ્ક્રાઇબ કરો"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "મેસેજ સિંક થઈ રહ્યાં છે"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} માંથી {currentSize} ડાઉનલોડ થઈ રહ્યું છે ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "તમારા બેકઅપની સાઇઝના આધારે આમાં થોડો સમય લાગી શકે છે"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "વિસ્તૃત કરો"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0.5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "{composeIcon} પર ક્લિક કરો અને મેસેજ માટે તમારા સંપર્કો અથવા ગ્રુપ શોધો."
-  },
-  "icu:composeIcon": {
-    "messageformat": "કંપોઝ બટન"
   },
   "icu:emptyInbox__title": {
     "messageformat": "કોઈ ચેટ નથી"
@@ -4875,7 +4872,7 @@
     "messageformat": "એક અપડેટ ઉમેરવા માટે <newStoryIcon>સ્ટોરી ઉમેરો</newStoryIcon> પર ક્લિક કરો."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "અપડેટ ઉમેરવા માટે <newStoryButtonIcon></newStoryButtonIcon> ક્લિક કરો."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}એ {group}માં"
@@ -5121,10 +5118,10 @@
     "messageformat": "સ્ટોરી પર પ્રતિક્રિયા આપી"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "સ્ટોરી પર પ્રતિક્રિયા આપી"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "સ્ટોરી પર પ્રતિક્રિયા આપી"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "તમે આ સ્ટોરીનો જવાબ આપી શકતા નથી કારણ કે તમે હવે આ ગ્રુપના સભ્ય નથી."
@@ -5428,7 +5425,7 @@
     "messageformat": "નવો વૉઇસ અથવા વીડિયો કૉલ શરૂ કરવા માટે <newCallIcon>નવો કૉલ</newCallIcon> પર ક્લિક કરો."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "નવો વૉઇસ અથવા વીડિયો કૉલ શરૂ કરવા માટે <newCallButtonIcon></newCallButtonIcon> ક્લિક કરો."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "શોધો"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "પાછા ફરો"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "નવા કૉલમાં જોડાતા પહેલાં તમારે હાલના કૉલને છોડવો આવશ્યક છે"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {આઉટગોઇંગ વૉઇસ કૉલ} other {ઇનકમિંગ વૉઇસ કૉલ}}} Video {{direction, select, Outgoing {આઉટગોઈંગ વિડિયો કૉલ} other {ઈનકમિંગ વિડિયો કૉલ}}} Group {{direction, select, Outgoing {આઉટગોઇંગ ગ્રૂપ કૉલ} other {ઇનકમિંગ ગ્રૂપ કૉલ}}} other {{direction, select, Outgoing {આઉટગોઇંગ કૉલ} other {આવી રહેલ કોલ}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {મિસ્ડ વૉઇસ કૉલ} Video {મિસ્ડ વિડિયો કૉલ} Group {મિસ્ડ ગ્રૂપ કૉલ} other {મિસ કૉલ}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {અનુત્તરિત વૉઇસ કૉલ} Video {અનુત્તરિત વિડિયો કૉલ} Group {ન ઉપાડેલો ગ્રૂપ કૉલ} other {ન ઉપાડેલો કૉલ}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {નકારેલ વૉઇસ કૉલ} Video {નકારેલ વીડિયો કૉલ} Group {નકારેલ ગ્રૂપ કૉલ} other {નકારેલ કૉલ}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "કૉલ લિંક"
@@ -5629,13 +5611,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal ડેસ્કટોપ હવે વિક્ષેપિત થયેલ જોડાણને આપમેળે ડાઉનલોડ કરવાનું શરૂ કરી શકે છે."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "પ્રદર્શન સુધારણાઓના બીજા રાઉન્ડને કારણે ચેટ હવે પહેલાં કરતાં વધુ ઝડપથી ખુલે છેે."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "અમે થોડા એવા બગને પણ ઠીક કર્યા છે, જેમાં એક બગ એવો શામેલ હતો જેના કારણે તમે કૉલ શરૂ કર્યા પછી ચેટ સૂચિ સારાંશમાં ક્યારેક \"અજાણ્યા સંપર્કે વીડિયો કૉલ શરૂ કર્યો\" એવું દેખાતું હતું."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

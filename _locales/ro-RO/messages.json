@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Nu se poate realiza alăturarea la apel"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Ești deja într-un apel."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Nu s-au putut prelua informații despre linkul de apel. Te rugăm să verifici conexiunea și să încerci din nou."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Atinge „Donează pentru Signal” și abonează-te"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Se sincronizează mesajele"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Se descarcă {currentSize} din {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Poate dura câteva minute, în funcție de dimensiunea backup-ului"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Extinde"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Apasă {composeIcon} de mai sus și caută contactele sau grupurile cu care vrei să comunici."
-  },
-  "icu:composeIcon": {
-    "messageformat": "buton compunere"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Fără conversații"
@@ -4875,7 +4872,7 @@
     "messageformat": "Dă clic pe <newStoryIcon>Adaugă o poveste</newStoryIcon> și adaugă o actualizare."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Clic <newStoryButtonIcon></newStoryButtonIcon> pentru a adăuga o actualizare."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} către {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Ai reacționat la poveste"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Ai reacționat la poveste"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "A reacționat la poveste"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Nu poți răspunde la această poveste pentru că nu mai ești membru al acestui grup."
@@ -5428,7 +5425,7 @@
     "messageformat": "Dă clic pe <newCallIcon>Apel nou</newCallIcon> pentru a începe un nou apel vocal sau video."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Dă clic pe <newCallButtonIcon></newCallButtonIcon> pentru a începe un nou apel video sau vocal."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Caută"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Întoarce-te"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Trebuie să părăsești apelul curent înainte de a intra într-un nou apel"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Apel de ieșire vocal} other {Apel de intrare vocal}}} Video {{direction, select, Outgoing {Apel de ieșire video} other {Apel de intrare video}}} Group {{direction, select, Outgoing {Apel de ieșire de grup} other {Apel de intrare de grup}}} other {{direction, select, Outgoing {Apel de ieșire} other {Apel de intrare}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Apel vocal nepreluat} Video {Apel video nepreluat} Group {Apel de grup ratat} other {Apel ratat}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Apel vocal nepreluat} Video {Apel video nepreluat} Group {Apel de grup fără răspuns} other {Apel  fără răspuns}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Apel video respins} Video {Apel video respins} Group {Apel de grup respins} other {Respinge apelul}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Link de apel"
@@ -5629,13 +5611,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop poate relua acum automat descărcările de atașamente întrerupte de unde au rămas, așa că nu va trebui să aștepți atât de mult ca să râzi, chiar dacă închizi laptopul înainte ca meme-ul pe care ți l-a trimis prietenul tău să se termine de încărcat."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Conversațiile se deschid acum mai repede ca oricând datorită unei alte runde de îmbunătățiri ale performanței, astfel încât să poți da clic pe conversații și să vezi ce spun ele foarte repede."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Am remediat câteva erori, inclusiv una care făcea ca uneori să apară „Un contact necunoscut a început un apel video” în rezumatul listei de conversații, după ce ai început apelul. Chiar dacă încă ești într-o călătorie de descoperire de sine, nu ești niciodată complet necunoscut ție însuți."
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

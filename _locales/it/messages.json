@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "Impossibile unirsi alla chiamata"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "Sei già in una chiamata."
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Impossibile recuperare le informazioni legate al link della chiamata. Controlla la tua connessione e riprova."
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "Tocca su \"Dona a Signal\" per diventare un supporter di Signal"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "Sincronizzazione messaggi"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "Download {currentSize} di {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "Questo processo potrebbe richiedere qualche minuto a seconda della dimensione del tuo backup"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Espandi"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": "0.5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "Clicca il {composeIcon} sopra e cerca i tuoi contatti o gruppi a cui inviare messaggi."
-  },
-  "icu:composeIcon": {
-    "messageformat": "pulsante composizione"
   },
   "icu:emptyInbox__title": {
     "messageformat": "Nessuna chat"
@@ -4875,7 +4872,7 @@
     "messageformat": "Clicca su <newStoryIcon>Aggiungi una storia</newStoryIcon> per condividere qualcosa di tuo."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "Clicca <newStoryButtonIcon></newStoryButtonIcon> per inserire un aggiornamento."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} a {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "Ha reagito alla Storia"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Ha reagito alla Storia"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "Ha reagito alla Storia"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Non puoi rispondere o reagire a questa Storia perché non fai più parte di questo gruppo."
@@ -5428,7 +5425,7 @@
     "messageformat": "Clicca su <newCallIcon>Nuova chiamata</newCallIcon> per iniziare una chiamata vocale o una videochiamata."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "Clicca <newCallButtonIcon></newCallButtonIcon> per iniziare una nuova chiamata vocale o videochiamata."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cerca"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Ritorna"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Per unirti a una nuova chiamata, devi prima uscire da quella in corso"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Chiamata in uscita} other {Chiamata in arrivo}}} Video {{direction, select, Outgoing {Videochiamata in uscita} other {Videochiamata in arrivo}}} Group {{direction, select, Outgoing {Chiamata di gruppo in uscita} other {Chiamata di gruppo in entrata}}} other {{direction, select, Outgoing {Chiamata in uscita} other {Chiamata in entrata}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Chiamata persa} Video {Videochiamata persa} Group {Chiamata di gruppo persa} other {Chiamata persa}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Chiamata senza risposta} Video {Videochiamata senza risposta} Group {Chiamata di gruppo persa} other {Chiamata persa}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Chiamata vocale rifiutata} Video {Videochiamata rifiutata} Group {Chiamata di gruppo rifiutata} other {Chiamata rifiutata}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Link chiamata"
@@ -5629,13 +5611,13 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Da ora Signal Desktop può riprendere in automatico il download degli allegati inviati via chat: finalmente si riduce l'attesa per vedere i tuoi nuovi meme giornalieri."
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "Dopo l'ultimo aggiornamento, le chat si apriranno così velocemente che anche Flash farà fatica a stargli dietro."
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "Abbiamo anche risolto una serie di bug, tra cui uno che poteva causare la comparsa della scritta \"Un contatto sconosciuto ha iniziato una videochiamata\" nel riepilogo di una chat dopo aver iniziato la chiamata. D'altronde, meglio fare una chiamata con persone conosciute, no?"
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }

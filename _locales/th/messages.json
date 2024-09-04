@@ -1211,9 +1211,6 @@
   "icu:calling__cant-join": {
     "messageformat": "ไม่สามารถเข้าร่วมการโทรได้"
   },
-  "icu:calling__dialog-already-in-call": {
-    "messageformat": "คุณอยู่ในสายแล้ว"
-  },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "ไม่สามารถเรียกดูข้อมูลลิงก์การโทรได้ โปรดตรวจสอบการเชื่อมต่อเครือข่ายแล้วลองอีกครั้ง"
   },
@@ -3522,13 +3519,19 @@
     "messageformat": "แตะที่ \"บริจาคให้ Signal\" แล้วสมัคร"
   },
   "icu:BackupImportScreen__title": {
-    "messageformat": "Syncing messages"
+    "messageformat": "กำลังซิงค์ข้อความ"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "กำลังดาวน์โหลด {currentSize} จาก {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup"
+    "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่ โดยขึ้นอยู่กับขนาดข้อมูลสำรองของคุณ"
+  },
+  "icu:BackupMediaDownloadProgress__title": {
+    "messageformat": "Restoring media"
+  },
+  "icu:BackupMediaDownloadProgress__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ขยาย"
@@ -3949,12 +3952,6 @@
   },
   "icu:MessageAudio--playbackRatep5": {
     "messageformat": ".5"
-  },
-  "icu:emptyInboxMessage": {
-    "messageformat": "คลิก {composeIcon} ด้านบน และค้นหาผู้ติดต่อหรือกลุ่มของคุณเพื่อส่งข้อความ"
-  },
-  "icu:composeIcon": {
-    "messageformat": "ปุ่มเขียนข้อความ"
   },
   "icu:emptyInbox__title": {
     "messageformat": "ไม่มีแชท"
@@ -4875,7 +4872,7 @@
     "messageformat": "คลิก<newStoryIcon>เพิ่มสตอรี่</newStoryIcon>เพื่อเพิ่มสตอรี่ใหม่"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+    "messageformat": "คลิก <newStoryButtonIcon></newStoryButtonIcon> เพื่อเพิ่มสตอรี่ใหม่"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ส่งไปยัง {group}"
@@ -5121,10 +5118,10 @@
     "messageformat": "แสดงความรู้สึกต่อสตอรี่"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "แสดงความรู้สึกต่อสตอรี่"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "Reacted to the story"
+    "messageformat": "แสดงความรู้สึกต่อสตอรี่"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "คุณไม่สามารถตอบกลับสตอรี่นี้ได้ เนื่องจากคุณไม่ได้เป็นสมาชิกในกลุ่มนี้แล้ว"
@@ -5428,7 +5425,7 @@
     "messageformat": "คลิก<newCallIcon>การโทรใหม่</newCallIcon>เพื่อเริ่มต้นการโทรด้วยเสียงหรือวิดีโอคอล"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
-    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+    "messageformat": "คลิก <newCallButtonIcon></newCallButtonIcon> เพื่อเริ่มต้นการโทรด้วยเสียงหรือวิดีโอคอล"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ค้นหา"
@@ -5495,21 +5492,6 @@
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "กลับไปที่การโทรกลุ่ม"
-  },
-  "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "คุณต้องออกจากสายที่กำลังใช้งานอยู่ก่อนที่จะเข้าร่วมการโทรสายใหม่"
-  },
-  "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {การโทรด้วยเสียงขาออก} other {การโทรด้วยเสียงขาเข้า}}} Video {{direction, select, Outgoing {สายวิดีโอโทรออก} other {สายวิดีโอเรียกเข้า}}} Group {{direction, select, Outgoing {สายโทรกลุ่มขาออก} other {สายโทรกลุ่มขาเข้า}}} other {{direction, select, Outgoing {สายโทรออก} other {สายโทรเข้า}}}}"
-  },
-  "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {การโทรด้วยเสียงที่ไม่ได้รับ} Video {โทรวิดีโอที่พลาด} Group {สายโทรกลุ่มที่ไม่ได้รับ} other {สายที่พลาด}}"
-  },
-  "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {การโทรด้วยเสียงที่ปลายสายไม่ได้รับ} Video {โทรวิดีโอที่ไม่ได้รับ} Group {การโทรกลุ่มที่ไม่ได้รับ} other {การโทรที่ไม่ได้รับ}}"
-  },
-  "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {การโทรด้วยเสียงที่ถูกปฏิเสธ} Video {วิดีโอคอลที่ถูกปฏิเสธ} Group {การโทรกลุ่มที่ถูกปฏิเสธ} other {การโทรที่ถูกปฏิเสธ}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "ลิงก์การโทร"
@@ -5629,13 +5611,13 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.22--0": {
-    "messageformat": "เน็ตหลุดหรือคอมสะดุดก็ไม่หวั่น เพราะจากนี้ไป Signal เดสก์ท็อปจะสามารถดำเนินการดาวน์โหลดไฟล์แนบต่อให้คุณได้แบบอัตโนมัติ"
-  },
   "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+    "messageformat": "การปรับปรุงประสิทธิภาพครั้งใหม่นี้ทำให้คุณเปิดแชทได้เร็วขึ้นอีกขั้น ทันใจยิ่งกว่าเดิม"
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
+    "messageformat": "เรายังจัดการแก้ไขบั๊กหลายตัว รวมถึงบั๊กที่เคยทำให้หน้ารายการแชทขึ้นสถานะว่า \"ผู้ติดต่อที่ไม่รู้จักเริ่มวิดีโอคอล\" เมื่อคุณเป็นคนเริ่มต้นการโทรนั้น"
+  },
+  "icu:WhatsNew__v7.24--0": {
+    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
   }
 }
