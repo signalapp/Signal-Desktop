@@ -454,7 +454,9 @@
         "StartupWMClass": "Signal"
       },
       "target": [
-        "deb"
+        "deb",
+        "rpm",
+        "appimage"
       ],
       "icon": "build/icons/png",
       "publish": []
