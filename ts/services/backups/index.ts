@@ -40,6 +40,7 @@ import { BackupCredentials } from './credentials';
 import { BackupAPI, type DownloadOptionsType } from './api';
 import { validateBackup } from './validator';
 import { getParametersForRedux, loadAll } from '../allLoaders';
+import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager';
 
 const IV_LENGTH = 16;
 
@@ -236,6 +237,8 @@ export class BackupsService {
         // Second pass - decrypt (but still check the mac at the end)
         hmac = createHmac(HashType.size256, macKey);
 
+        await this.prepareForImport();
+
         await pipeline(
           createBackupStream(),
           getMacAndUpdateHmac(hmac, noop),
@@ -278,11 +281,25 @@ export class BackupsService {
     }
   }
 
+  public async prepareForImport(): Promise<void> {
+    await AttachmentDownloadManager.stop();
+    await DataWriter.removeAllBackupAttachmentDownloadJobs();
+    await window.storage.put('backupAttachmentsSuccessfullyDownloadedSize', 0);
+    await window.storage.put('backupAttachmentsTotalSizeToDownload', 0);
+  }
+
   public async resetStateAfterImport(): Promise<void> {
     window.ConversationController.reset();
     await window.ConversationController.load();
     await loadAll();
     reinitializeRedux(getParametersForRedux());
+
+    await window.storage.put(
+      'backupAttachmentsTotalSizeToDownload',
+      await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
+    );
+
+    await AttachmentDownloadManager.start();
   }
 
   public async fetchAndSaveBackupCdnObjectMetadata(): Promise<void> {

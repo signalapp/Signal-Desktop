@@ -1344,7 +1344,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async queueAttachmentDownloads(
     urgency?: AttachmentDownloadUrgency
   ): Promise<boolean> {
-    const value = await queueAttachmentDownloads(this.attributes, urgency);
+    const value = await queueAttachmentDownloads(this.attributes, { urgency });
     if (!value) {
       return false;
     }

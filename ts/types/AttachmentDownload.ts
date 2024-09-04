@@ -7,6 +7,7 @@ import {
   type JobManagerJobType,
   jobManagerJobSchema,
 } from '../jobs/JobManager';
+import { AttachmentDownloadSource } from '../sql/Interface';
 
 export enum MediaTier {
   STANDARD = 'standard',
@@ -35,6 +36,8 @@ export type CoreAttachmentDownloadJobType = {
   digest: string;
   contentType: MIMEType;
   size: number;
+  ciphertextSize: number;
+  source: AttachmentDownloadSource;
 };
 
 export type AttachmentDownloadJobType = CoreAttachmentDownloadJobType &
@@ -51,7 +54,9 @@ export const coreAttachmentDownloadJobSchema = z.object({
   digest: z.string(),
   contentType: MIMETypeSchema,
   size: z.number(),
+  ciphertextSize: z.number(),
   messageIdForLogging: z.string().optional(),
+  source: z.nativeEnum(AttachmentDownloadSource),
 });
 
 export const attachmentDownloadJobSchema = coreAttachmentDownloadJobSchema.and(

@@ -145,6 +145,7 @@ import type {
   StoredKyberPreKeyType,
   BackupCdnMediaObjectType,
 } from './Interface';
+import { AttachmentDownloadSource } from './Interface';
 import { SeenStatus } from '../MessageSeenStatus';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
@@ -200,6 +201,7 @@ import {
   attachmentBackupJobSchema,
 } from '../types/AttachmentBackup';
 import { redactGenericText } from '../util/privacy';
+import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -340,6 +342,7 @@ export const DataReader: ServerReadableInterface = {
   getStatisticsForLogging,
 
   getBackupCdnObjectMetadata,
+  getSizeOfPendingBackupAttachmentDownloadJobs,
 
   // Server-only
   getKnownMessageAttachments,
@@ -463,6 +466,7 @@ export const DataWriter: ServerWritableInterface = {
   saveAttachmentDownloadJob,
   resetAttachmentDownloadActive,
   removeAttachmentDownloadJob,
+  removeAllBackupAttachmentDownloadJobs,
 
   getNextAttachmentBackupJobs,
   saveAttachmentBackupJob,
@@ -4733,6 +4737,20 @@ function getAttachmentDownloadJob(
   return db.prepare(query).get(params);
 }
 
+function removeAllBackupAttachmentDownloadJobs(db: WritableDB): void {
+  const [query, params] = sql`
+    DELETE FROM attachment_downloads 
+    WHERE source = ${AttachmentDownloadSource.BACKUP_IMPORT};`;
+  db.prepare(query).run(params);
+}
+
+function getSizeOfPendingBackupAttachmentDownloadJobs(db: ReadableDB): number {
+  const [query, params] = sql`
+    SELECT SUM(ciphertextSize) FROM attachment_downloads 
+    WHERE source = ${AttachmentDownloadSource.BACKUP_IMPORT};`;
+  return db.prepare(query).pluck().get(params);
+}
+
 function getNextAttachmentDownloadJobs(
   db: WritableDB,
   {
@@ -4799,6 +4817,9 @@ function getNextAttachmentDownloadJobs(
           ...row,
           active: Boolean(row.active),
           attachment: jsonToObject(row.attachmentJson),
+          ciphertextSize:
+            row.ciphertextSize ||
+            getAttachmentCiphertextLength(row.attachment.size),
         });
       } catch (error) {
         logger.error(
@@ -4839,7 +4860,9 @@ function saveAttachmentDownloadJob(
       attempts,
       retryAfter,
       lastAttemptTimestamp,
-      attachmentJson
+      attachmentJson,
+      ciphertextSize,
+      source
     ) VALUES (
       ${job.messageId},
       ${job.attachmentType},
@@ -4852,7 +4875,9 @@ function saveAttachmentDownloadJob(
       ${job.attempts},
       ${job.retryAfter},
       ${job.lastAttemptTimestamp},
-      ${objectToJSON(job.attachment)}
+      ${objectToJSON(job.attachment)},
+      ${job.ciphertextSize},
+      ${job.source}
     );
   `;
   db.prepare(query).run(params);

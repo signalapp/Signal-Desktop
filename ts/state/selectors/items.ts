@@ -248,3 +248,11 @@ export const getLocalDeleteWarningShown = createSelector(
   (state: ItemsStateType): boolean =>
     Boolean(state.localDeleteWarningShown ?? false)
 );
+
+export const getBackupMediaDownloadProgress = createSelector(
+  getItems,
+  (state: ItemsStateType): { totalBytes: number; downloadedBytes: number } => ({
+    totalBytes: state.backupAttachmentsTotalSizeToDownload ?? 0,
+    downloadedBytes: state.backupAttachmentsSuccessfullyDownloadedSize ?? 0,
+  })
+);

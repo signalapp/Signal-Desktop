@@ -141,6 +141,8 @@ export type StorageAccessType = {
   callLinkAuthCredentials: ReadonlyArray<GroupCredentialType>;
   backupCredentials: ReadonlyArray<BackupCredentialType>;
   backupCredentialsLastRequestTime: number;
+  backupAttachmentsSuccessfullyDownloadedSize: number;
+  backupAttachmentsTotalSizeToDownload: number;
   setBackupSignatureKey: boolean;
   lastReceivedAtCounter: number;
   preferredReactionEmoji: ReadonlyArray<string>;

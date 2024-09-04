@@ -11,6 +11,7 @@ import {
 } from '../../types/AttachmentDownload';
 import type { AttachmentType } from '../../types/Attachment';
 import { jsonToObject, objectToJSON, sql } from '../util';
+import { AttachmentDownloadSource } from '../Interface';
 
 export const version = 1040;
 
@@ -133,6 +134,9 @@ export function updateToSchemaVersion1040(
           attempts: existingJobData.attempts ?? 0,
           retryAfter: null,
           lastAttemptTimestamp: null,
+          // adding due to changes in the schema
+          source: AttachmentDownloadSource.STANDARD,
+          ciphertextSize: 0,
         };
 
         const parsed = attachmentDownloadJobSchema.parse(updatedJob);
