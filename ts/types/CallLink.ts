@@ -5,6 +5,7 @@ import { z } from 'zod';
 import type { ConversationType } from '../state/ducks/conversations';
 import { safeParseInteger } from '../util/numbers';
 import { byteLength } from '../Bytes';
+import type { StorageServiceFieldsType } from '../sql/Interface';
 
 export enum CallLinkUpdateSyncType {
   Update = 'Update',
@@ -61,7 +62,8 @@ export type CallLinkType = Readonly<{
   // Guaranteed from RingRTC readCallLink, but locally may be null immediately after
   // CallLinkUpdate sync and before readCallLink
   expiration: number | null;
-}>;
+}> &
+  StorageServiceFieldsType;
 
 export type CallLinkStateType = Pick<
   CallLinkType,
@@ -86,6 +88,12 @@ export type CallLinkRecord = Readonly<{
   restrictions: number;
   expiration: number | null;
   revoked: 1 | 0; // sqlite's version of boolean
+  deleted?: 1 | 0;
+  deletedAt?: number | null;
+  storageID: string | null;
+  storageVersion: number | null;
+  storageUnknownFields: Uint8Array | null;
+  storageNeedsSync: 1 | 0;
 }>;
 
 export const callLinkRecordSchema = z.object({
@@ -98,6 +106,12 @@ export const callLinkRecordSchema = z.object({
   restrictions: callLinkRestrictionsSchema,
   expiration: z.number().int().nullable(),
   revoked: z.union([z.literal(1), z.literal(0)]),
+  deleted: z.union([z.literal(1), z.literal(0)]).optional(),
+  deletedAt: z.number().int().nullable().optional(),
+  storageID: z.string().nullable(),
+  storageVersion: z.number().int().nullable(),
+  storageUnknownFields: z.instanceof(Uint8Array).nullable(),
+  storageNeedsSync: z.union([z.literal(1), z.literal(0)]),
 }) satisfies z.ZodType<CallLinkRecord>;
 
 export function isCallLinkAdmin(callLink: CallLinkType): boolean {

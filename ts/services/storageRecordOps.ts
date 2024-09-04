@@ -4,6 +4,7 @@
 import { isEqual, isNumber } from 'lodash';
 import Long from 'long';
 
+import { CallLinkRootKey } from '@signalapp/ringrtc';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
 import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import * as Bytes from '../Bytes';
@@ -65,6 +66,18 @@ import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboa
 import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
 import { drop } from '../util/drop';
 import { redactExtendedStorageID } from '../util/privacy';
+import type { CallLinkRecord } from '../types/CallLink';
+import {
+  callLinkFromRecord,
+  fromRootKeyBytes,
+  getRoomIdFromRootKey,
+} from '../util/callLinksRingrtc';
+import {
+  CALL_LINK_DELETED_STORAGE_RECORD_TTL,
+  fromAdminKeyBytes,
+  toCallHistoryFromUnusedCallLink,
+} from '../util/callLinks';
+import { isOlderThan } from '../util/timestamp';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
@@ -601,6 +614,35 @@ export function toStickerPackRecord(
   }
 
   return stickerPackRecord;
+}
+
+// callLinkDbRecord exposes additional fields not available on CallLinkType
+export function toCallLinkRecord(
+  callLinkDbRecord: CallLinkRecord
+): Proto.CallLinkRecord {
+  strictAssert(callLinkDbRecord.rootKey, 'toCallLinkRecord: no rootKey');
+
+  const callLinkRecord = new Proto.CallLinkRecord();
+
+  callLinkRecord.rootKey = callLinkDbRecord.rootKey;
+  if (callLinkDbRecord.deleted === 1) {
+    // adminKey is intentionally omitted for deleted call links.
+    callLinkRecord.deletedAtTimestampMs = Long.fromNumber(
+      callLinkDbRecord.deletedAt || new Date().getTime()
+    );
+  } else {
+    strictAssert(
+      callLinkDbRecord.adminKey,
+      'toCallLinkRecord: no adminPasskey'
+    );
+    callLinkRecord.adminPasskey = callLinkDbRecord.adminKey;
+  }
+
+  if (callLinkDbRecord.storageUnknownFields) {
+    callLinkRecord.$unknownFields = [callLinkDbRecord.storageUnknownFields];
+  }
+
+  return callLinkRecord;
 }
 
 type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV1Record;
@@ -1902,6 +1944,155 @@ export async function mergeStickerPackRecord(
   return {
     details: [...details, ...conflictDetails],
     hasConflict,
+    oldStorageID,
+    oldStorageVersion,
+  };
+}
+
+export async function mergeCallLinkRecord(
+  storageID: string,
+  storageVersion: number,
+  callLinkRecord: Proto.ICallLinkRecord
+): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
+  // callLinkRecords must have rootKey
+  if (!callLinkRecord.rootKey) {
+    return { hasConflict: false, shouldDrop: true, details: ['no rootKey'] };
+  }
+
+  const details: Array<string> = [];
+
+  const rootKeyString = fromRootKeyBytes(callLinkRecord.rootKey);
+  const adminKeyString = callLinkRecord.adminPasskey
+    ? fromAdminKeyBytes(callLinkRecord.adminPasskey)
+    : null;
+
+  const callLinkRootKey = CallLinkRootKey.parse(rootKeyString);
+  const roomId = getRoomIdFromRootKey(callLinkRootKey);
+  const logId = `mergeCallLinkRecord(${redactedStorageID}, ${roomId})`;
+
+  const localCallLinkDbRecord =
+    await DataReader.getCallLinkRecordByRoomId(roomId);
+
+  const deletedAt: number | null =
+    callLinkRecord.deletedAtTimestampMs != null
+      ? getTimestampFromLong(callLinkRecord.deletedAtTimestampMs)
+      : null;
+  const shouldDrop =
+    deletedAt != null &&
+    isOlderThan(deletedAt, CALL_LINK_DELETED_STORAGE_RECORD_TTL);
+  if (shouldDrop) {
+    details.push('expired deleted call link; scheduling for removal');
+  }
+
+  const callLinkDbRecord: CallLinkRecord = {
+    roomId,
+    rootKey: callLinkRecord.rootKey,
+    adminKey: callLinkRecord.adminPasskey ?? null,
+    name: localCallLinkDbRecord?.name ?? '',
+    restrictions: localCallLinkDbRecord?.restrictions ?? 0,
+    expiration: localCallLinkDbRecord?.expiration ?? null,
+    revoked: localCallLinkDbRecord?.revoked === 1 ? 1 : 0,
+    deleted: deletedAt ? 1 : 0,
+    deletedAt,
+
+    storageID,
+    storageVersion,
+    storageUnknownFields: callLinkRecord.$unknownFields
+      ? Bytes.concatenate(callLinkRecord.$unknownFields)
+      : null,
+    storageNeedsSync: localCallLinkDbRecord?.storageNeedsSync === 1 ? 1 : 0,
+  };
+
+  if (!localCallLinkDbRecord) {
+    if (deletedAt) {
+      log.info(
+        `${logId}: Found deleted call link with no matching local record, skipping`
+      );
+    } else {
+      log.info(`${logId}: Discovered new call link, creating locally`);
+      details.push('creating call link');
+
+      // Create CallLink and call history item
+      const callLink = callLinkFromRecord(callLinkDbRecord);
+      const callHistory = toCallHistoryFromUnusedCallLink(callLink);
+      await Promise.all([
+        DataWriter.insertCallLink(callLink),
+        DataWriter.saveCallHistory(callHistory),
+      ]);
+
+      // Refresh call link state via RingRTC and update in redux
+      window.reduxActions.calling.handleCallLinkUpdate({
+        rootKey: rootKeyString,
+        adminKey: adminKeyString,
+      });
+      window.reduxActions.callHistory.addCallHistory(callHistory);
+    }
+
+    return {
+      details,
+      hasConflict: false,
+      shouldDrop,
+    };
+  }
+
+  const oldStorageID = localCallLinkDbRecord.storageID || undefined;
+  const oldStorageVersion = localCallLinkDbRecord.storageVersion || undefined;
+
+  const needsToClearUnknownFields =
+    !callLinkRecord.$unknownFields &&
+    localCallLinkDbRecord.storageUnknownFields;
+  if (needsToClearUnknownFields) {
+    details.push('clearing unknown fields');
+  }
+
+  const isBadRemoteData = Boolean(deletedAt && adminKeyString);
+  if (isBadRemoteData) {
+    log.warn(
+      `${logId}: Found bad remote data: deletedAtTimestampMs and adminPasskey were both present. Assuming deleted.`
+    );
+  }
+
+  const { hasConflict, details: conflictDetails } = doRecordsConflict(
+    toCallLinkRecord(callLinkDbRecord),
+    callLinkRecord
+  );
+
+  // First update local record
+  details.push('updated');
+  const callLink = callLinkFromRecord(callLinkDbRecord);
+  await DataWriter.updateCallLink(callLink);
+
+  // Deleted in storage but we have it locally: Delete locally too and update redux
+  if (deletedAt && localCallLinkDbRecord.deleted !== 1) {
+    // Another device deleted the link and uploaded to storage, and we learned about it
+    log.info(`${logId}: Discovered deleted call link, deleting locally`);
+    details.push('deleting locally');
+    await DataWriter.beginDeleteCallLink(roomId, {
+      storageNeedsSync: false,
+      deletedAt,
+    });
+    // No need to delete via RingRTC as we assume the originating device did that already
+    await DataWriter.finalizeDeleteCallLink(roomId);
+    window.reduxActions.calling.handleCallLinkDelete({ roomId });
+  } else if (!deletedAt && localCallLinkDbRecord.deleted === 1) {
+    // Not deleted in storage, but we've marked it as deleted locally.
+    // Skip doing anything, we will update things locally after sync.
+    log.warn(`${logId}: Found call link, but it was marked deleted locally.`);
+  } else {
+    window.reduxActions.calling.handleCallLinkUpdate({
+      rootKey: rootKeyString,
+      adminKey: adminKeyString,
+    });
+  }
+
+  return {
+    details: [...details, ...conflictDetails],
+    hasConflict,
+    shouldDrop,
     oldStorageID,
     oldStorageVersion,
   };

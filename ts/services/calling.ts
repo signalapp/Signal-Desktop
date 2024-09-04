@@ -153,10 +153,7 @@ import {
 import type { CallLinkType, CallLinkStateType } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
 import { getConversationIdForLogging } from '../util/idForLogging';
-import {
-  sendCallLinkDeleteSync,
-  sendCallLinkUpdateSync,
-} from '../util/sendCallLinkUpdateSync';
+import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
 import { createIdenticon } from '../util/createIdenticon';
 import { getColorForCallLink } from '../util/getColorForCallLink';
 
@@ -677,6 +674,7 @@ export class CallingClass {
       roomId: roomIdHex,
       rootKey: rootKey.toString(),
       adminKey: adminKey.toString('base64'),
+      storageNeedsSync: true,
       ...state,
     };
 
@@ -716,8 +714,6 @@ export class CallingClass {
       log.error(`${logId}: ${message}`);
       throw new Error(message);
     }
-
-    drop(sendCallLinkDeleteSync(callLink));
   }
 
   async updateCallLinkName(

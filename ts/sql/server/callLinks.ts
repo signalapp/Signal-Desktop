@@ -2,7 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import type { CallLinkStateType, CallLinkType } from '../../types/CallLink';
+import type {
+  CallLinkRecord,
+  CallLinkStateType,
+  CallLinkType,
+} from '../../types/CallLink';
 import {
   callLinkRestrictionsSchema,
   callLinkRecordSchema,
@@ -31,6 +35,19 @@ export function getCallLinkByRoomId(
   db: ReadableDB,
   roomId: string
 ): CallLinkType | undefined {
+  const callLinkRecord = getCallLinkRecordByRoomId(db, roomId);
+  if (!callLinkRecord) {
+    return undefined;
+  }
+
+  return callLinkFromRecord(callLinkRecord);
+}
+
+// When you need to access all the fields (such as deleted and storage fields)
+export function getCallLinkRecordByRoomId(
+  db: ReadableDB,
+  roomId: string
+): CallLinkRecord | undefined {
   const row = prepare(db, 'SELECT * FROM callLinks WHERE roomId = $roomId').get(
     {
       roomId,
@@ -41,7 +58,7 @@ export function getCallLinkByRoomId(
     return undefined;
   }
 
-  return callLinkFromRecord(callLinkRecordSchema.parse(row));
+  return callLinkRecordSchema.parse(row);
 }
 
 export function getAllCallLinks(db: ReadableDB): ReadonlyArray<CallLinkType> {
@@ -69,7 +86,11 @@ function _insertCallLink(db: WritableDB, callLink: CallLinkType): void {
       name,
       restrictions,
       revoked,
-      expiration
+      expiration,
+      storageID,
+      storageVersion,
+      storageUnknownFields,
+      storageNeedsSync
     ) VALUES (
       $roomId,
       $rootKey,
@@ -77,7 +98,11 @@ function _insertCallLink(db: WritableDB, callLink: CallLinkType): void {
       $name,
       $restrictions,
       $revoked,
-      $expiration
+      $expiration,
+      $storageID,
+      $storageVersion,
+      $storageUnknownFields,
+      $storageNeedsSync
     )
     `
   ).run(data);
@@ -85,6 +110,30 @@ function _insertCallLink(db: WritableDB, callLink: CallLinkType): void {
 
 export function insertCallLink(db: WritableDB, callLink: CallLinkType): void {
   _insertCallLink(db, callLink);
+}
+
+export function updateCallLink(db: WritableDB, callLink: CallLinkType): void {
+  const { roomId, rootKey } = callLink;
+  assertRoomIdMatchesRootKey(roomId, rootKey);
+
+  const data = callLinkToRecord(callLink);
+  // Do not write roomId or rootKey since they should never change
+  db.prepare(
+    `
+    UPDATE callLinks
+    SET
+      adminKey = $adminKey,
+      name = $name,
+      restrictions = $restrictions,
+      revoked = $revoked,
+      expiration = $expiration,
+      storageID = $storageID,
+      storageVersion = $storageVersion,
+      storageUnknownFields = $storageUnknownFields,
+      storageNeedsSync = $storageNeedsSync
+    WHERE roomId = $roomId
+    `
+  ).run(data);
 }
 
 export function updateCallLinkState(
@@ -167,7 +216,16 @@ export function deleteCallLinkFromSync(db: WritableDB, roomId: string): void {
   })();
 }
 
-export function beginDeleteCallLink(db: WritableDB, roomId: string): void {
+export type DeleteCallLinkOptions = {
+  storageNeedsSync: boolean;
+  deletedAt?: number;
+};
+
+export function beginDeleteCallLink(
+  db: WritableDB,
+  roomId: string,
+  options: DeleteCallLinkOptions
+): void {
   db.transaction(() => {
     // If adminKey is null, then we should delete the call link
     const [deleteNonAdminCallLinksQuery, deleteNonAdminCallLinksParams] = sql`
@@ -182,11 +240,17 @@ export function beginDeleteCallLink(db: WritableDB, roomId: string): void {
 
     // Skip this query if the call is already deleted
     if (result.changes === 0) {
+      const { storageNeedsSync } = options;
+      const deletedAt = options.deletedAt ?? new Date().getTime();
+
       // If the admin key is not null, we should mark it for deletion
       const [markAdminCallLinksDeletedQuery, markAdminCallLinksDeletedParams] =
         sql`
           UPDATE callLinks
-          SET deleted = 1
+          SET
+            deleted = 1,
+            deletedAt = ${deletedAt},
+            storageNeedsSync = ${storageNeedsSync ? 1 : 0}
           WHERE adminKey IS NOT NULL
           AND roomId = ${roomId};
         `;
@@ -201,14 +265,21 @@ export function beginDeleteCallLink(db: WritableDB, roomId: string): void {
 }
 
 export function beginDeleteAllCallLinks(db: WritableDB): void {
+  const deletedAt = new Date().getTime();
   db.transaction(() => {
-    const [markAdminCallLinksDeletedQuery] = sql`
+    const [markAdminCallLinksDeletedQuery, markAdminCallLinksDeletedParams] =
+      sql`
       UPDATE callLinks
-      SET deleted = 1
+      SET
+        deleted = 1,
+        deletedAt = ${deletedAt},
+        storageNeedsSync = 1
       WHERE adminKey IS NOT NULL;
     `;
 
-    db.prepare(markAdminCallLinksDeletedQuery).run();
+    db.prepare(markAdminCallLinksDeletedQuery).run(
+      markAdminCallLinksDeletedParams
+    );
 
     const [deleteNonAdminCallLinksQuery] = sql`
       DELETE FROM callLinks
@@ -217,6 +288,21 @@ export function beginDeleteAllCallLinks(db: WritableDB): void {
 
     db.prepare(deleteNonAdminCallLinksQuery).run();
   })();
+}
+
+// When you need to access the deleted field
+export function getAllCallLinkRecordsWithAdminKey(
+  db: ReadableDB
+): ReadonlyArray<CallLinkRecord> {
+  const [query] = sql`
+    SELECT * FROM callLinks
+      WHERE adminKey IS NOT NULL
+      AND rootKey IS NOT NULL;
+  `;
+  return db
+    .prepare(query)
+    .all()
+    .map(item => callLinkRecordSchema.parse(item));
 }
 
 export function getAllMarkedDeletedCallLinks(
@@ -231,9 +317,13 @@ export function getAllMarkedDeletedCallLinks(
     .map(item => callLinkFromRecord(callLinkRecordSchema.parse(item)));
 }
 
+// TODO: Run this after uploading storage records, maybe periodically on startup
 export function finalizeDeleteCallLink(db: WritableDB, roomId: string): void {
   const [query, params] = sql`
-    DELETE FROM callLinks WHERE roomId = ${roomId} AND deleted = 1;
+    DELETE FROM callLinks
+      WHERE roomId = ${roomId}
+      AND deleted = 1
+      AND storageNeedsSync = 0;
   `;
   db.prepare(query).run(params);
 }

@@ -73,6 +73,10 @@ describe('backup/calling', () => {
       restrictions: CallLinkRestrictions.AdminApproval,
       revoked: false,
       expiration: null,
+      storageID: undefined,
+      storageVersion: undefined,
+      storageUnknownFields: undefined,
+      storageNeedsSync: false,
     };
 
     await DataWriter.insertCallLink(callLink);
@@ -201,6 +205,10 @@ describe('backup/calling', () => {
         restrictions: CallLinkRestrictions.AdminApproval,
         revoked: false,
         expiration: null,
+        storageID: undefined,
+        storageVersion: undefined,
+        storageUnknownFields: undefined,
+        storageNeedsSync: false,
       };
       await DataWriter.insertCallLink(callLinkNoAdmin);
 

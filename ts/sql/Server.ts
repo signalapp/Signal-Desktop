@@ -174,10 +174,13 @@ import {
   callLinkExists,
   getAllCallLinks,
   getCallLinkByRoomId,
+  getCallLinkRecordByRoomId,
   insertCallLink,
+  updateCallLink,
   updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
   beginDeleteAllCallLinks,
+  getAllCallLinkRecordsWithAdminKey,
   getAllMarkedDeletedCallLinks,
   finalizeDeleteCallLink,
   beginDeleteCallLink,
@@ -304,6 +307,8 @@ export const DataReader: ServerReadableInterface = {
   callLinkExists,
   getAllCallLinks,
   getCallLinkByRoomId,
+  getCallLinkRecordByRoomId,
+  getAllCallLinkRecordsWithAdminKey,
   getAllMarkedDeletedCallLinks,
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
@@ -439,6 +444,7 @@ export const DataWriter: ServerWritableInterface = {
   saveCallHistory,
   markCallHistoryMissed,
   insertCallLink,
+  updateCallLink,
   updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
   beginDeleteAllCallLinks,
@@ -6440,6 +6446,14 @@ function eraseStorageServiceState(db: WritableDB): void {
 
     -- Story Distribution Lists
     UPDATE storyDistributions
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+
+    -- Call links
+    UPDATE callLinks
     SET
       storageID = null,
       storageVersion = null,

@@ -47,6 +47,7 @@ message ManifestRecord {
       ACCOUNT = 4;
       STORY_DISTRIBUTION_LIST = 5;
       STICKER_PACK = 6;
+      CALL_LINK = 7;
     }
 
     optional bytes raw  = 1;
@@ -67,6 +68,7 @@ message StorageRecord {
     AccountRecord account = 4;
     StoryDistributionListRecord storyDistributionList = 5;
     StickerPackRecord stickerPack = 6;
+    CallLinkRecord callLink = 7;
   }
 }
 
@@ -240,4 +242,11 @@ message StickerPackRecord {
   optional uint64 deletedAtTimestamp = 4; // Timestamp in milliseconds. When present and
                                           // non-zero - `packKey` and `position` should
                                           // be unset
+}
+
+message CallLinkRecord {
+  optional bytes rootKey = 1; // 16 bytes
+  optional bytes adminPasskey = 2; // Non-empty when the current user is an admin
+  optional uint64 deletedAtTimestampMs = 3; // When present and non-zero, `adminPasskey`
+                                            // should be cleared
 }

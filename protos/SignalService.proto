@@ -622,7 +622,7 @@ message SyncMessage {
   message CallLinkUpdate {
     enum Type {
       UPDATE = 0;
-      DELETE = 1;
+      reserved 1; // was DELETE, superseded by storage service
     }
 
     optional bytes rootKey      = 1;

@@ -29,6 +29,8 @@ import {
   toGroupV2Record,
   toStoryDistributionListRecord,
   toStickerPackRecord,
+  toCallLinkRecord,
+  mergeCallLinkRecord,
 } from './storageRecordOps';
 import type { MergeResultType } from './storageRecordOps';
 import { MAX_READ_KEYS } from './storageConstants';
@@ -68,6 +70,8 @@ import { MY_STORY_ID } from '../types/Stories';
 import { isNotNil } from '../util/isNotNil';
 import { isSignalConversation } from '../util/isSignalConversation';
 import { redactExtendedStorageID, redactStorageID } from '../util/privacy';
+import type { CallLinkRecord } from '../types/CallLink';
+import { callLinkFromRecord } from '../util/callLinksRingrtc';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -90,6 +94,7 @@ const validRecordTypes = new Set([
   4, // ACCOUNT
   5, // STORY_DISTRIBUTION_LIST
   6, // STICKER_PACK
+  7, // CALL_LINK
 ]);
 
 const backOff = new BackOff([
@@ -326,6 +331,7 @@ async function generateManifest(
   }
 
   const {
+    callLinkDbRecords,
     storyDistributionLists,
     installedStickerPacks,
     uninstalledStickerPacks,
@@ -459,6 +465,57 @@ async function generateManifest(
       });
     }
   });
+
+  log.info(
+    `storageService.upload(${version}): ` +
+      `adding callLinks=${callLinkDbRecords.length}`
+  );
+
+  for (const callLinkDbRecord of callLinkDbRecords) {
+    const { roomId } = callLinkDbRecord;
+    if (callLinkDbRecord.adminKey == null || callLinkDbRecord.rootKey == null) {
+      log.warn(
+        `storageService.upload(${version}): ` +
+          `call link ${roomId} has empty rootKey`
+      );
+      continue;
+    }
+
+    const storageRecord = new Proto.StorageRecord();
+    storageRecord.callLink = toCallLinkRecord(callLinkDbRecord);
+
+    const callLink = callLinkFromRecord(callLinkDbRecord);
+    const { isNewItem, storageID } = processStorageRecord({
+      currentStorageID: callLink.storageID,
+      currentStorageVersion: callLink.storageVersion,
+      identifierType: ITEM_TYPE.CALL_LINK,
+      storageNeedsSync: callLink.storageNeedsSync,
+      storageRecord,
+    });
+
+    const storageFields = {
+      storageID,
+      storageVersion: version,
+      storageNeedsSync: false,
+    };
+
+    if (isNewItem) {
+      postUploadUpdateFunctions.push(async () => {
+        const freshCallLink = await DataReader.getCallLinkByRoomId(roomId);
+        if (freshCallLink == null) {
+          log.warn(
+            `storageService.upload(${version}): ` +
+              `call link ${roomId} removed locally from DB while we were uploading to storage`
+          );
+          return;
+        }
+
+        const callLinkToSave = { ...freshCallLink, ...storageFields };
+        await DataWriter.updateCallLink(callLinkToSave);
+        window.reduxActions.calling.handleCallLinkUpdateLocal(callLinkToSave);
+      });
+    }
+  }
 
   const unknownRecordsArray: ReadonlyArray<UnknownRecord> = (
     window.storage.get('storage-service-unknown-records') || []
@@ -1023,6 +1080,12 @@ async function mergeRecord(
         storageVersion,
         storageRecord.stickerPack
       );
+    } else if (itemType === ITEM_TYPE.CALL_LINK && storageRecord.callLink) {
+      mergeResult = await mergeCallLinkRecord(
+        storageID,
+        storageVersion,
+        storageRecord.callLink
+      );
     } else {
       isUnsupported = true;
       log.warn(
@@ -1077,6 +1140,7 @@ async function mergeRecord(
 }
 
 type NonConversationRecordsResultType = Readonly<{
+  callLinkDbRecords: ReadonlyArray<CallLinkRecord>;
   installedStickerPacks: ReadonlyArray<StickerPackType>;
   uninstalledStickerPacks: ReadonlyArray<UninstalledStickerPackType>;
   storyDistributionLists: ReadonlyArray<StoryDistributionWithMembersType>;
@@ -1085,16 +1149,19 @@ type NonConversationRecordsResultType = Readonly<{
 // TODO: DESKTOP-3929
 async function getNonConversationRecords(): Promise<NonConversationRecordsResultType> {
   const [
+    callLinkDbRecords,
     storyDistributionLists,
     uninstalledStickerPacks,
     installedStickerPacks,
   ] = await Promise.all([
+    DataReader.getAllCallLinkRecordsWithAdminKey(),
     DataReader.getAllStoryDistributionsWithMembers(),
     DataReader.getUninstalledStickerPacks(),
     DataReader.getInstalledStickerPacks(),
   ]);
 
   return {
+    callLinkDbRecords,
     storyDistributionLists,
     uninstalledStickerPacks,
     installedStickerPacks,
@@ -1130,6 +1197,7 @@ async function processManifest(
 
   {
     const {
+      callLinkDbRecords,
       storyDistributionLists,
       installedStickerPacks,
       uninstalledStickerPacks,
@@ -1143,6 +1211,11 @@ async function processManifest(
         localVersions.set(storageID, storageVersion);
       }
     };
+
+    callLinkDbRecords.forEach(dbRecord =>
+      collectLocalKeysFromFields(callLinkFromRecord(dbRecord))
+    );
+    localRecordCount += callLinkDbRecords.length;
 
     storyDistributionLists.forEach(collectLocalKeysFromFields);
     localRecordCount += storyDistributionLists.length;
@@ -1264,6 +1337,7 @@ async function processManifest(
   // Refetch various records post-merge
   {
     const {
+      callLinkDbRecords,
       storyDistributionLists,
       installedStickerPacks,
       uninstalledStickerPacks,
@@ -1352,6 +1426,30 @@ async function processManifest(
 
       conflictCount += 1;
     }
+
+    callLinkDbRecords.forEach(callLinkDbRecord => {
+      const { storageID, storageVersion } = callLinkDbRecord;
+      if (!storageID || remoteKeys.has(storageID)) {
+        return;
+      }
+
+      const missingKey = redactStorageID(
+        storageID,
+        storageVersion || undefined
+      );
+      log.info(
+        `storageService.process(${version}): localKey=${missingKey} was not ` +
+          'in remote manifest'
+      );
+      const callLink = callLinkFromRecord(callLinkDbRecord);
+      drop(
+        DataWriter.updateCallLink({
+          ...callLink,
+          storageID: undefined,
+          storageVersion: undefined,
+        })
+      );
+    });
   }
 
   log.info(

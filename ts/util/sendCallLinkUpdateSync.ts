@@ -21,15 +21,6 @@ export async function sendCallLinkUpdateSync(
   return _sendCallLinkUpdateSync(callLink, CallLinkUpdateSyncType.Update);
 }
 
-/**
- * Underlying sync message is CallLinkUpdate with type set to DELETE.
- */
-export async function sendCallLinkDeleteSync(
-  callLink: sendCallLinkUpdateSyncCallLinkType
-): Promise<void> {
-  return _sendCallLinkUpdateSync(callLink, CallLinkUpdateSyncType.Delete);
-}
-
 async function _sendCallLinkUpdateSync(
   callLink: sendCallLinkUpdateSyncCallLinkType,
   type: CallLinkUpdateSyncType
@@ -37,8 +28,6 @@ async function _sendCallLinkUpdateSync(
   let protoType: Proto.SyncMessage.CallLinkUpdate.Type;
   if (type === CallLinkUpdateSyncType.Update) {
     protoType = Proto.SyncMessage.CallLinkUpdate.Type.UPDATE;
-  } else if (type === CallLinkUpdateSyncType.Delete) {
-    protoType = Proto.SyncMessage.CallLinkUpdate.Type.DELETE;
   } else {
     throw new Error(`sendCallLinkUpdateSync: unknown type ${type}`);
   }
