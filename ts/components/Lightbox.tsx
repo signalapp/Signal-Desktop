@@ -30,6 +30,7 @@ import { drop } from '../util/drop';
 import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
 import { ForwardMessagesModalType } from './ForwardMessagesModal';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export type PropsType = {
   children?: ReactNode;
@@ -322,9 +323,12 @@ export function Lightbox({
   const thumbnailsMarginInlineStart =
     0 - (selectedIndex * THUMBNAIL_FULL_WIDTH + THUMBNAIL_WIDTH / 2);
 
+  const reducedMotion = useReducedMotion();
+
   // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [thumbnailsStyle, thumbnailsAnimation] = useSpring(
     {
+      immediate: reducedMotion,
       config: THUMBNAIL_SPRING_CONFIG,
       to: {
         marginInlineStart: thumbnailsMarginInlineStart,

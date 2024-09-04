@@ -5,6 +5,7 @@ import React from 'react';
 import { animated, to as interpolate, useSprings } from '@react-spring/web';
 import { random } from 'lodash';
 import { Emojify } from './conversation/Emojify';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export type PropsType = {
   emoji: string;
@@ -38,9 +39,11 @@ export function AnimatedEmojiGalore({
   emoji,
   onAnimationEnd,
 }: PropsType): JSX.Element {
+  const reducedMotion = useReducedMotion();
   const [springs] = useSprings(NUM_EMOJIS, i => ({
     ...to(i, onAnimationEnd),
     from: from(i),
+    immediate: reducedMotion,
     config: {
       mass: 20,
       tension: 120,

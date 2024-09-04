@@ -13,6 +13,7 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { drop } from '../../util/drop';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 const MAX_AVATARS_COUNT = 3;
 
@@ -87,9 +88,11 @@ function TypingBubbleAvatar({
   i18n: LocalizerType;
   theme: ThemeType;
 }): ReactElement | null {
+  const reducedMotion = useReducedMotion();
   // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [springProps, springApi] = useSpring(
     {
+      immediate: reducedMotion,
       config: SPRING_CONFIG,
       from: shouldAnimate
         ? AVATAR_ANIMATION_PROPS[visible ? 'hidden' : 'visible']

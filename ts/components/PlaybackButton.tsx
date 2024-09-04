@@ -4,6 +4,7 @@
 import { animated, useSpring } from '@react-spring/web';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const SPRING_CONFIG = {
   mass: 0.5,
@@ -27,9 +28,11 @@ export type ButtonProps = {
 export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function ButtonInner(props, ref) {
     const { mod, label, variant, onClick, context, visible = true } = props;
+    const reducedMotion = useReducedMotion();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
     const [animProps] = useSpring(
       {
+        immediate: reducedMotion,
         config: SPRING_CONFIG,
         to: { scale: visible ? 1 : 0 },
       },

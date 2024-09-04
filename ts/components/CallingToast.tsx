@@ -18,6 +18,7 @@ import { useIsMounted } from '../hooks/useIsMounted';
 import type { LocalizerType } from '../types/I18N';
 import { usePrevious } from '../hooks/usePrevious';
 import { difference } from '../util/setUtil';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const DEFAULT_LIFETIME = 5000;
 const DEFAULT_TRANSITION_FROM = {
@@ -225,7 +226,10 @@ export function CallingToastProvider({
   const toastsRemoved = difference(prevToasts, curToasts);
   const toastsAdded = difference(curToasts, prevToasts);
 
+  const reducedMotion = useReducedMotion();
+
   const transitions = useTransition(toasts, {
+    immediate: reducedMotion,
     from: item => {
       const enteringItemIndex = toasts.findIndex(
         toast => toast.key === item.key
