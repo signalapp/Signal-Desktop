@@ -146,7 +146,7 @@ export class ParseContactsTransform extends Transform {
             reader.pos,
             reader.pos + attachmentSize
           );
-          const hash = computeHash(data);
+          const hash = computeHash(avatarData);
 
           const local =
             // eslint-disable-next-line no-await-in-loop
