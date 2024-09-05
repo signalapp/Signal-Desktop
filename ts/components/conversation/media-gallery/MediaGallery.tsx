@@ -160,12 +160,24 @@ export function MediaGallery({
   }, []);
 
   useEffect(() => {
-    if (media.length > 0 || documents.length > 0) {
+    if (
+      media.length > 0 ||
+      documents.length > 0 ||
+      haveOldestDocument ||
+      haveOldestMedia
+    ) {
       return;
     }
     initialLoad(conversationId);
     loadingRef.current = true;
-  }, [conversationId, initialLoad, media, documents]);
+  }, [
+    conversationId,
+    haveOldestDocument,
+    haveOldestMedia,
+    initialLoad,
+    media,
+    documents,
+  ]);
 
   const previousLoading = usePrevious(loading, loading);
   if (previousLoading && !loading) {

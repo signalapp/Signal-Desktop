@@ -410,12 +410,14 @@ export function reducer(
   }
 
   if (action.type === INITIAL_LOAD) {
+    const { payload } = action;
+
     return {
       ...state,
       loading: false,
-      ...action.payload,
-      haveOldestDocument: false,
-      haveOldestMedia: false,
+      ...payload,
+      haveOldestMedia: payload.media.length === 0,
+      haveOldestDocument: payload.documents.length === 0,
     };
   }
 
