@@ -6,7 +6,7 @@ import type { ReadonlyDeep } from 'type-fest';
 
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
-import { DataReader, DataWriter } from '../../sql/Client';
+import { DataReader } from '../../sql/Client';
 import {
   CONVERSATION_UNLOADED,
   MESSAGE_CHANGED,
@@ -17,6 +17,7 @@ import { VERSION_NEEDED_FOR_DISPLAY } from '../../types/Message2';
 import { isDownloading, hasFailed } from '../../types/Attachment';
 import { isNotNil } from '../../util/isNotNil';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
+import { getMessageIdForLogging } from '../../util/idForLogging';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { AttachmentType } from '../../types/Attachment';
@@ -191,34 +192,21 @@ function _cleanFileAttachments(
 async function _upgradeMessages(
   messages: ReadonlyArray<MessageAttributesType>
 ): Promise<ReadonlyArray<MessageAttributesType>> {
-  const { upgradeMessageSchema } = window.Signal.Migrations;
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
-
   // We upgrade these messages so they are sure to have thumbnails
   const upgraded = await Promise.all(
     messages.map(async message => {
-      const { schemaVersion } = message;
-      const model = window.MessageCache.__DEPRECATED$register(
-        message.id,
-        message,
-        'loadMediaItems'
-      );
-
       try {
-        if (schemaVersion && schemaVersion < VERSION_NEEDED_FOR_DISPLAY) {
-          const upgradedMsgAttributes = await upgradeMessageSchema(message);
-          model.set(upgradedMsgAttributes);
-
-          await DataWriter.saveMessage(upgradedMsgAttributes, { ourAci });
-        }
+        return await window.MessageCache.upgradeSchema(
+          message,
+          VERSION_NEEDED_FOR_DISPLAY
+        );
       } catch (error) {
         log.warn(
-          `_upgradeMessages: Failed to upgrade message ${model.idForLogging()}: ${Errors.toLogFormat(error)}`
+          '_upgradeMessages: Failed to upgrade message ' +
+            `${getMessageIdForLogging(message)}: ${Errors.toLogFormat(error)}`
         );
         return undefined;
       }
-
-      return model.attributes;
     })
   );
 
