@@ -61,7 +61,7 @@ The last step is to run the `./build.sh` script, passing the `public` arg becaus
 > If your user is not in Docker's `docker` group, then you may need to run the script as `sudo`.
 
 ```bash
-$ chmod +x ./build.sh public
+$ chmod +x ./build.sh
 $ ./build.sh public
 ```
 
