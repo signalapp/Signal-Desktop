@@ -55,7 +55,7 @@ if (!isProduction(window.SignalContext.getVersion())) {
     getSelectedConversation: () => {
       return window.ConversationController.get(
         window.reduxStore.getState().conversations.selectedConversationId
-      );
+      )?.attributes;
     },
     getConversation: (id: string) => window.ConversationController.get(id),
     getMessageById: (id: string) =>
