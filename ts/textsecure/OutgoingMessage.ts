@@ -281,20 +281,21 @@ export default class OutgoingMessage {
 
   async getKeysForServiceId(
     serviceId: ServiceIdString,
-    updateDevices?: Array<number>
+    updateDevices: Array<number> | null
   ): Promise<void> {
     const { sendMetadata } = this;
     const info =
       sendMetadata && sendMetadata[serviceId]
         ? sendMetadata[serviceId]
-        : { accessKey: undefined };
+        : { accessKey: null };
     const { accessKey } = info;
 
     const { accessKeyFailed } = await getKeysForServiceId(
       serviceId,
       this.server,
-      updateDevices,
-      accessKey
+      updateDevices ?? null,
+      accessKey,
+      null
     );
     if (accessKeyFailed && !this.failoverServiceIds.includes(serviceId)) {
       this.failoverServiceIds.push(serviceId);
@@ -607,8 +608,8 @@ export default class OutgoingMessage {
           return p.then(async () => {
             const resetDevices =
               error.code === 410
-                ? response.staleDevices
-                : response.missingDevices;
+                ? (response.staleDevices ?? null)
+                : (response.missingDevices ?? null);
             return this.getKeysForServiceId(serviceId, resetDevices).then(
               // We continue to retry as long as the error code was 409; the assumption is
               //   that we'll request new device info and the next request will succeed.
@@ -677,7 +678,7 @@ export default class OutgoingMessage {
         serviceId,
       });
       if (deviceIds.length === 0) {
-        await this.getKeysForServiceId(serviceId);
+        await this.getKeysForServiceId(serviceId, null);
       }
       await this.reloadDevicesAndSend(serviceId, true)();
     } catch (error) {

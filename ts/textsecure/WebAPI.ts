@@ -72,6 +72,7 @@ import { SECOND } from '../util/durations';
 import { safeParseNumber } from '../util/numbers';
 import { isStagingServer } from '../util/isStagingServer';
 import type { IWebSocketResource } from './WebsocketResources';
+import type { GroupSendToken } from '../types/GroupSendEndorsements';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -184,10 +185,12 @@ type PromiseAjaxOptionsType = {
   | {
       unauthenticated?: false;
       accessKey?: string;
+      groupSendToken?: GroupSendToken;
     }
   | {
       unauthenticated: true;
       accessKey: undefined | string;
+      groupSendToken: undefined | GroupSendToken;
     }
 );
 
@@ -330,11 +333,13 @@ async function _promiseAjax(
     fetchOptions.headers['Content-Length'] = contentLength.toString();
   }
 
-  const { accessKey, basicAuth, unauthenticated } = options;
+  const { accessKey, basicAuth, groupSendToken, unauthenticated } = options;
   if (basicAuth) {
     fetchOptions.headers.Authorization = `Basic ${basicAuth}`;
   } else if (unauthenticated) {
-    if (accessKey) {
+    if (groupSendToken != null) {
+      fetchOptions.headers['Group-Send-Token'] = Bytes.toBase64(groupSendToken);
+    } else if (accessKey != null) {
       // Access key is already a Base64 string
       fetchOptions.headers['Unidentified-Access-Key'] = accessKey;
     }
@@ -708,10 +713,12 @@ type AjaxOptionsType = {
   | {
       unauthenticated?: false;
       accessKey?: string;
+      groupSendToken?: GroupSendToken;
     }
   | {
       unauthenticated: true;
       accessKey: undefined | string;
+      groupSendToken: undefined | GroupSendToken;
     }
 );
 
@@ -1279,7 +1286,7 @@ export type WebAPIType = {
   getKeysForServiceIdUnauth: (
     serviceId: ServiceIdString,
     deviceId?: number,
-    options?: { accessKey?: string }
+    options?: { accessKey?: string; groupSendToken?: GroupSendToken }
   ) => Promise<ServerKeysType>;
   getMyKeyCounts: (serviceIdKind: ServiceIdKind) => Promise<ServerKeyCountType>;
   getOnboardingStoryManifest: () => Promise<{
@@ -1398,7 +1405,8 @@ export type WebAPIType = {
   ) => Promise<void>;
   sendWithSenderKey: (
     payload: Uint8Array,
-    accessKeys: Uint8Array,
+    accessKeys: Uint8Array | undefined,
+    groupSendToken: GroupSendToken | undefined,
     timestamp: number,
     options: {
       online?: boolean;
@@ -1868,6 +1876,7 @@ export function initialize({
         version,
         unauthenticated: param.unauthenticated,
         accessKey: param.accessKey,
+        groupSendToken: param.groupSendToken,
         abortSignal: param.abortSignal,
       };
 
@@ -2204,6 +2213,7 @@ export function initialize({
           redactUrl: _createRedactor(hashBase64),
           unauthenticated: true,
           accessKey: undefined,
+          groupSendToken: undefined,
         })
       );
     }
@@ -2246,6 +2256,7 @@ export function initialize({
         responseType: 'json',
         unauthenticated: true,
         accessKey,
+        groupSendToken: undefined,
         redactUrl: _createRedactor(
           serviceId,
           profileKeyVersion,
@@ -2418,6 +2429,7 @@ export function initialize({
           responseType: 'json',
           unauthenticated: true,
           accessKey: undefined,
+          groupSendToken: undefined,
         })
       );
     }
@@ -2454,6 +2466,7 @@ export function initialize({
           },
           unauthenticated: true,
           accessKey: undefined,
+          groupSendToken: undefined,
         })
       );
 
@@ -2469,6 +2482,7 @@ export function initialize({
           },
           unauthenticated: true,
           accessKey: undefined,
+          groupSendToken: undefined,
         })
       );
 
@@ -2491,6 +2505,7 @@ export function initialize({
           },
           unauthenticated: true,
           accessKey: undefined,
+          groupSendToken: undefined,
         })
       );
 
@@ -2506,6 +2521,7 @@ export function initialize({
           urlParameters: `/${serviceId}`,
           unauthenticated: true,
           accessKey: undefined,
+          groupSendToken: undefined,
         });
         return true;
       } catch (error) {
@@ -2595,6 +2611,7 @@ export function initialize({
           },
           unauthenticated: true,
           accessKey: undefined,
+          groupSendToken: undefined,
         })
       );
 
@@ -2801,6 +2818,7 @@ export function initialize({
         httpType: 'GET',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
         responseType: 'json',
       });
@@ -2836,6 +2854,7 @@ export function initialize({
         httpType: 'GET',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
         responseType: 'json',
       });
@@ -2887,6 +2906,7 @@ export function initialize({
         httpType: 'GET',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
         responseType: 'json',
       });
@@ -2900,6 +2920,7 @@ export function initialize({
         httpType: 'POST',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
       });
     }
@@ -2931,6 +2952,7 @@ export function initialize({
         httpType: 'GET',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
         urlParameters: `?cdn=${cdn}`,
         responseType: 'json',
@@ -2962,6 +2984,7 @@ export function initialize({
         httpType: 'PUT',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
         jsonData: {
           backupIdPublicKey: Bytes.toBase64(backupIdPublicKey),
@@ -2978,6 +3001,7 @@ export function initialize({
         httpType: 'PUT',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
         responseType: 'json',
         jsonData: {
@@ -3018,6 +3042,7 @@ export function initialize({
         httpType: 'POST',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
         jsonData: {
           mediaToDelete: mediaToDelete.map(({ cdn, mediaId }) => {
@@ -3047,6 +3072,7 @@ export function initialize({
         httpType: 'GET',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         headers,
         responseType: 'json',
         urlParameters: `?${params.join('&')}`,
@@ -3194,7 +3220,10 @@ export function initialize({
     async function getKeysForServiceIdUnauth(
       serviceId: ServiceIdString,
       deviceId?: number,
-      { accessKey }: { accessKey?: string } = {}
+      {
+        accessKey,
+        groupSendToken,
+      }: { accessKey?: string; groupSendToken?: GroupSendToken } = {}
     ) {
       const keys = (await _ajax({
         call: 'keys',
@@ -3204,6 +3233,7 @@ export function initialize({
         validateResponse: { identityKey: 'string', devices: 'object' },
         unauthenticated: true,
         accessKey,
+        groupSendToken,
       })) as ServerKeyResponseType;
       return handleKeys(keys);
     }
@@ -3239,6 +3269,7 @@ export function initialize({
         responseType: 'json',
         unauthenticated: true,
         accessKey,
+        groupSendToken: undefined,
       });
     }
 
@@ -3274,7 +3305,8 @@ export function initialize({
 
     async function sendWithSenderKey(
       data: Uint8Array,
-      accessKeys: Uint8Array,
+      accessKeys: Uint8Array | undefined,
+      groupSendToken: GroupSendToken | undefined,
       timestamp: number,
       {
         online,
@@ -3298,7 +3330,8 @@ export function initialize({
         urlParameters: `?ts=${timestamp}${onlineParam}${urgentParam}${storyParam}`,
         responseType: 'json',
         unauthenticated: true,
-        accessKey: Bytes.toBase64(accessKeys),
+        accessKey: accessKeys != null ? Bytes.toBase64(accessKeys) : undefined,
+        groupSendToken,
       });
       const parseResult = multiRecipient200ResponseSchema.safeParse(response);
       if (parseResult.success) {
@@ -4240,6 +4273,7 @@ export function initialize({
         responseType: 'json',
         unauthenticated: true,
         accessKey: undefined,
+        groupSendToken: undefined,
         redactUrl: _createRedactor(formattedId),
       });
 

@@ -9,7 +9,6 @@ import {
   EnvelopeType,
   ReceiptType,
 } from '@signalapp/mock-server';
-
 import {
   Bootstrap,
   debug,
@@ -18,6 +17,7 @@ import {
   CONVERSATION_SIZE,
   DISCARD_COUNT,
   GROUP_DELIVERY_RECEIPTS,
+  BLOCKED_COUNT,
 } from './fixtures';
 import { stats } from '../../util/benchmark/stats';
 import { sleep } from '../../util/sleep';
@@ -72,13 +72,31 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     );
   }
 
+  assert.ok(
+    BLOCKED_COUNT < members.length - 1,
+    'Must block fewer members than are in the group'
+  );
+
+  const unblockedMembers = members.slice(0, members.length - BLOCKED_COUNT);
+  const blockedMembers = members.slice(members.length - BLOCKED_COUNT);
+
+  if (blockedMembers.length > 0) {
+    let state = await phone.expectStorageState('blocking');
+
+    for (const member of blockedMembers) {
+      state = state.addContact(member, {
+        blocked: true,
+      });
+    }
+    await phone.setStorageState(state);
+  }
+
   // Fill group
   for (let i = 0; i < CONVERSATION_SIZE; i += 1) {
-    const contact = members[i % members.length];
+    const contact = unblockedMembers[i % unblockedMembers.length];
     const messageTimestamp = bootstrap.getTimestamp();
 
     const isLast = i === CONVERSATION_SIZE - 1;
-
     messages.push(
       await contact.encryptText(
         desktop,
@@ -90,17 +108,20 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
         }
       )
     );
-    messages.push(
-      await phone.encryptSyncRead(desktop, {
-        timestamp: bootstrap.getTimestamp(),
-        messages: [
-          {
-            senderAci: contact.device.aci,
-            timestamp: messageTimestamp,
-          },
-        ],
-      })
-    );
+    // Last message should trigger an unread indicator
+    if (!isLast) {
+      messages.push(
+        await phone.encryptSyncRead(desktop, {
+          timestamp: bootstrap.getTimestamp(),
+          messages: [
+            {
+              senderAci: contact.device.aci,
+              timestamp: messageTimestamp,
+            },
+          ],
+        })
+      );
+    }
   }
   debug('encrypted');
 
@@ -114,12 +135,29 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
     const item = leftPane
       .locator(
-        '.module-conversation-list__item--contact-or-conversation' +
-          `>> text="${GROUP_NAME}"`
+        `.module-conversation-list__item--contact-or-conversation[data-testid="${group.id}"]`
       )
       .first();
+
+    // Wait for unread indicator to give desktop time to process messages without
+    // the timeline open
+    await item
+      .locator(
+        '.module-conversation-list__item--contact-or-conversation__content'
+      )
+      .locator(
+        '.module-conversation-list__item--contact-or-conversation__unread-indicator'
+      )
+      .first()
+      .waitFor();
+
     await item.click();
   }
+
+  debug('scrolling to bottom of timeline');
+  await window
+    .locator('.module-timeline__messages__at-bottom-detector')
+    .scrollIntoViewIfNeeded();
 
   debug('finding message in timeline');
   {

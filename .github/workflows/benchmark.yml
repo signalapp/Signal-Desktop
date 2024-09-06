@@ -98,6 +98,26 @@ jobs:
         # DEBUG: 'mock:benchmarks'
         ARTIFACTS_DIR: artifacts/group-send
 
+    - name: Run large group send benchmarks with blocks
+      run: |
+        set -o pipefail
+        rm -rf /tmp/mock
+        xvfb-run --auto-servernum node \
+          ts/test-mock/benchmarks/group_send_bench.js | \
+          tee benchmark-group-send.log
+      timeout-minutes: 10
+      env:
+        NODE_ENV: production
+        GROUP_SIZE: 500
+        CONTACT_COUNT: 500
+        BLOCKED_COUNT: 10
+        DISCARD_COUNT: 2
+        RUN_COUNT: 50
+        CONVERSATION_SIZE: 500
+        ELECTRON_ENABLE_STACK_DUMPING: on
+        # DEBUG: 'mock:benchmarks'
+        ARTIFACTS_DIR: artifacts/group-send
+
     - name: Run large group send benchmarks with delivery receipts
       run: |
         set -o pipefail

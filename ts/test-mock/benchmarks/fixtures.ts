@@ -35,6 +35,10 @@ export const DISCARD_COUNT = process.env.DISCARD_COUNT
   ? parseInt(process.env.DISCARD_COUNT, 10)
   : 5;
 
+export const BLOCKED_COUNT = process.env.BLOCKED_COUNT
+  ? parseInt(process.env.BLOCKED_COUNT, 10)
+  : 0;
+
 // Can happen if electron exits prematurely
 process.on('unhandledRejection', reason => {
   console.error('Unhandled rejection:');

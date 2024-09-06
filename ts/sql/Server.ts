@@ -191,7 +191,9 @@ import {
   replaceAllEndorsementsForGroup,
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
-} from './server/groupEndorsements';
+  getGroupSendEndorsementsData,
+  getGroupSendMemberEndorsement,
+} from './server/groupSendEndorsements';
 import {
   attachmentDownloadJobSchema,
   type AttachmentDownloadJobType,
@@ -265,6 +267,8 @@ export const DataReader: ServerReadableInterface = {
   getAllGroupsInvolvingServiceId,
 
   getGroupSendCombinedEndorsementExpiration,
+  getGroupSendEndorsementsData,
+  getGroupSendMemberEndorsement,
 
   searchMessages,
 

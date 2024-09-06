@@ -33,6 +33,7 @@ export enum ToastType {
   FailedToDeleteUsername = 'FailedToDeleteUsername',
   FailedToFetchPhoneNumber = 'FailedToFetchPhoneNumber',
   FailedToFetchUsername = 'FailedToFetchUsername',
+  FailedToSendWithEndorsements = 'FailedToSendWithEndorsements',
   FileSaved = 'FileSaved',
   FileSize = 'FileSize',
   GroupLinkCopied = 'GroupLinkCopied',
@@ -105,6 +106,7 @@ export type AnyToast =
   | { toastType: ToastType.FailedToDeleteUsername }
   | { toastType: ToastType.FailedToFetchPhoneNumber }
   | { toastType: ToastType.FailedToFetchUsername }
+  | { toastType: ToastType.FailedToSendWithEndorsements }
   | { toastType: ToastType.FileSaved; parameters: { fullPath: string } }
   | {
       toastType: ToastType.FileSize;

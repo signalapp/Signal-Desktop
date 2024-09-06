@@ -374,6 +374,10 @@ export type ConversationAttributesType = {
   lastProfile?: ConversationLastProfileType;
   needsTitleTransition?: boolean;
   quotedMessageId?: string | null;
+  /**
+   * TODO: Rename this key to be specific to the accessKey on the conversation
+   * It's not used for group endorsements.
+   */
   sealedSender?: unknown;
   sentMessageCount?: number;
   sharedGroupNames?: ReadonlyArray<string>;

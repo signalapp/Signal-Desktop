@@ -154,7 +154,7 @@ port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const method = (DataInterface as any)[request.method];
       if (typeof method !== 'function') {
-        throw new Error(`Invalid sql method: ${method}`);
+        throw new Error(`Invalid sql method: ${request.method} ${method}`);
       }
 
       const start = performance.now();

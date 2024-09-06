@@ -285,6 +285,20 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.FailedToSendWithEndorsements) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:Toast__ActionLabel--SubmitLog'),
+          onClick: onShowDebugLog,
+        }}
+      >
+        {i18n('icu:Toast--FailedToSendWithEndorsements')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.FileSaved) {
     return (
       <Toast
@@ -335,7 +349,7 @@ export function renderToast({
         onClose={hideToast}
         style={{ maxWidth: '500px' }}
         toastAction={{
-          label: i18n('icu:decryptionErrorToastAction'),
+          label: i18n('icu:Toast__ActionLabel--SubmitLog'),
           onClick: onShowDebugLog,
         }}
       >

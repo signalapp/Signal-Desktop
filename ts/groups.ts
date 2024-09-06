@@ -96,7 +96,10 @@ import { SeenStatus } from './MessageSeenStatus';
 import { incrementMessageCounter } from './util/incrementMessageCounter';
 import { sleep } from './util/sleep';
 import { groupInvitesRoute } from './util/signalRoutes';
-import { decodeGroupSendEndorsementResponse } from './util/groupSendEndorsements';
+import {
+  decodeGroupSendEndorsementResponse,
+  isValidGroupSendEndorsementsExpiration,
+} from './util/groupSendEndorsements';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -3980,6 +3983,16 @@ async function updateGroupViaLogs({
 
   let cachedEndorsementsExpiration =
     await DataReader.getGroupSendCombinedEndorsementExpiration(groupId);
+
+  if (
+    cachedEndorsementsExpiration != null &&
+    !isValidGroupSendEndorsementsExpiration(cachedEndorsementsExpiration)
+  ) {
+    log.info(
+      `updateGroupViaLogs/${logId}: Group had invalid endorsements expiration (${cachedEndorsementsExpiration}), fetching new endorsements`
+    );
+    cachedEndorsementsExpiration = null;
+  }
 
   let response: GroupLogResponseType;
   let groupSendEndorsementResponse: Uint8Array | null = null;

@@ -306,6 +306,11 @@ declare global {
   interface SharedArrayBuffer {
     __arrayBuffer: never;
   }
+
+  interface Set<T> {
+    // Needed until TS upgrade
+    difference<U>(other: ReadonlySet<U>): Set<T>;
+  }
 }
 
 export type WhisperType = {

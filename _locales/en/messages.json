@@ -784,6 +784,14 @@
     "messageformat": "Submit log",
     "description": "Label for the decryption error toast button"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Submit log",
+    "description": "Label for the submit log button in decryption errors or other important error types"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements",
+    "description": "An error popup when we attempted and failed to send a message using endorsements, only for internal users."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"

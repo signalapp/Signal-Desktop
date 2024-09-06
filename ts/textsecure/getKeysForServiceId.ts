@@ -23,18 +23,22 @@ import type { ServiceIdString } from '../types/ServiceId';
 import type { ServerKeysType, WebAPIType } from './WebAPI';
 import * as log from '../logging/log';
 import { isRecord } from '../util/isRecord';
+import type { GroupSendToken } from '../types/GroupSendEndorsements';
+import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements';
 
 export async function getKeysForServiceId(
   serviceId: ServiceIdString,
   server: WebAPIType,
-  devicesToUpdate?: Array<number>,
-  accessKey?: string
+  devicesToUpdate: Array<number> | null,
+  accessKey: string | null,
+  groupSendToken: GroupSendToken | null
 ): Promise<{ accessKeyFailed?: boolean }> {
   try {
     const { keys, accessKeyFailed } = await getServerKeys(
       serviceId,
       server,
-      accessKey
+      accessKey,
+      groupSendToken
     );
 
     await handleServerKeys(serviceId, keys, devicesToUpdate);
@@ -53,44 +57,67 @@ export async function getKeysForServiceId(
   }
 }
 
+function isUnauthorizedError(error: unknown) {
+  return (
+    isRecord(error) &&
+    typeof error.code === 'number' &&
+    (error.code === 401 || error.code === 403)
+  );
+}
+
 async function getServerKeys(
   serviceId: ServiceIdString,
   server: WebAPIType,
-  accessKey?: string
-): Promise<{ accessKeyFailed?: boolean; keys: ServerKeysType }> {
-  try {
-    if (!accessKey) {
-      return {
-        keys: await server.getKeysForServiceId(serviceId),
-      };
-    }
+  accessKey: string | null,
+  groupSendToken: GroupSendToken | null
+): Promise<{ accessKeyFailed: boolean; keys: ServerKeysType }> {
+  // Return true only when attempted with access key
+  let accessKeyFailed = false;
 
-    return {
-      keys: await server.getKeysForServiceIdUnauth(serviceId, undefined, {
-        accessKey,
-      }),
-    };
-  } catch (error: unknown) {
-    if (
-      accessKey &&
-      isRecord(error) &&
-      typeof error.code === 'number' &&
-      (error.code === 401 || error.code === 403)
-    ) {
-      return {
-        accessKeyFailed: true,
-        keys: await server.getKeysForServiceId(serviceId),
-      };
+  if (accessKey != null) {
+    // Try the access key first
+    try {
+      const keys = await server.getKeysForServiceIdUnauth(
+        serviceId,
+        undefined,
+        { accessKey }
+      );
+      return { keys, accessKeyFailed };
+    } catch (error) {
+      accessKeyFailed = true;
+      if (!isUnauthorizedError(error)) {
+        throw error;
+      }
     }
-
-    throw error;
   }
+
+  if (groupSendToken != null) {
+    try {
+      const keys = await server.getKeysForServiceIdUnauth(
+        serviceId,
+        undefined,
+        { groupSendToken }
+      );
+      return { keys, accessKeyFailed };
+    } catch (error) {
+      if (!isUnauthorizedError(error)) {
+        throw error;
+      } else {
+        onFailedToSendWithEndorsements(error);
+      }
+    }
+  }
+
+  return {
+    keys: await server.getKeysForServiceId(serviceId),
+    accessKeyFailed,
+  };
 }
 
 async function handleServerKeys(
   serviceId: ServiceIdString,
   response: ServerKeysType,
-  devicesToUpdate?: Array<number>
+  devicesToUpdate: Array<number> | null
 ): Promise<void> {
   const ourAci = window.textsecure.storage.user.getCheckedAci();
   const sessionStore = new Sessions({ ourServiceId: ourAci });
@@ -100,10 +127,7 @@ async function handleServerKeys(
     response.devices.map(async device => {
       const { deviceId, registrationId, pqPreKey, preKey, signedPreKey } =
         device;
-      if (
-        devicesToUpdate !== undefined &&
-        !devicesToUpdate.includes(deviceId)
-      ) {
+      if (devicesToUpdate != null && !devicesToUpdate.includes(deviceId)) {
         return;
       }
 

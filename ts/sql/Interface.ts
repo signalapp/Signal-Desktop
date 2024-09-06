@@ -37,7 +37,10 @@ import type {
   CallLinkType,
 } from '../types/CallLink';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
-import type { GroupSendEndorsementsData } from '../types/GroupSendEndorsements';
+import type {
+  GroupSendEndorsementsData,
+  GroupSendMemberEndorsementRecord,
+} from '../types/GroupSendEndorsements';
 import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
 import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
@@ -481,6 +484,13 @@ type ReadableInterface = {
   ) => Array<ConversationType>;
 
   getGroupSendCombinedEndorsementExpiration: (groupId: string) => number | null;
+  getGroupSendEndorsementsData: (
+    groupId: string
+  ) => GroupSendEndorsementsData | null;
+  getGroupSendMemberEndorsement: (
+    groupId: string,
+    memberAci: AciString
+  ) => GroupSendMemberEndorsementRecord | null;
 
   getMessageCount: (conversationId?: string) => number;
   getStoryCount: (conversationId: string) => number;
