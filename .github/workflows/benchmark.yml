@@ -104,7 +104,7 @@ jobs:
         rm -rf /tmp/mock
         xvfb-run --auto-servernum node \
           ts/test-mock/benchmarks/group_send_bench.js | \
-          tee benchmark-group-send.log
+          tee benchmark-large-group-send-with-blocks.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
@@ -179,6 +179,7 @@ jobs:
         node ./bin/publish.js ../benchmark-startup.log desktop.ci.performance.startup
         node ./bin/publish.js ../benchmark-send.log desktop.ci.performance.send
         node ./bin/publish.js ../benchmark-group-send.log desktop.ci.performance.groupSend
+        node ./bin/publish.js ../benchmark-large-group-send-with-blocks.log desktop.ci.performance.largeGroupSendWithBlocks
         node ./bin/publish.js ../benchmark-large-group-send.log desktop.ci.performance.largeGroupSend
         node ./bin/publish.js ../benchmark-convo-open.log desktop.ci.performance.convoOpen
       env:
