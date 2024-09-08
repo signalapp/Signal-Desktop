@@ -85,7 +85,7 @@
     "build:esbuild:prod": "node scripts/esbuild.js --prod",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build:release": "cross-env SIGNAL_ENV=production npm run build:electron -- --config.directories.output=release",
-    "build:preload-cache": "electron --js-args=\"--predictable --random-seed 1\" ts/scripts/generate-preload-cache.js",
+    "build:preload-cache": "node ts/scripts/generate-preload-cache.js",
     "verify": "run-p --print-label verify:*",
     "verify:ts": "tsc --noEmit",
     "electron:install-app-deps": "electron-builder install-app-deps"

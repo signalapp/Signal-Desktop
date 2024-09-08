@@ -5,9 +5,10 @@
 // https://github.com/zertosh/v8-compile-cache/blob/b6bc035d337fbda0e6e3ec7936499048fc9deafc/v8-compile-cache.js
 
 import { Module } from 'node:module';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { Script } from 'node:vm';
+import { ipcRenderer } from 'electron';
 
 const srcPath = join(__dirname, 'preload.bundle.js');
 const cachePath = join(__dirname, 'preload.bundle.cache');
@@ -22,6 +23,8 @@ try {
   }
 }
 
+let script: Script | undefined;
+
 function compile(
   filename: string,
   content: string
@@ -31,7 +34,7 @@ function compile(
   // create wrapper function
   const wrapper = Module.wrap(content);
 
-  const script = new Script(wrapper, {
+  script = new Script(wrapper, {
     filename,
     lineOffset: 0,
     cachedData,
@@ -124,3 +127,9 @@ ModuleInternals.prototype._compile = function _compile(
 
 // eslint-disable-next-line import/no-dynamic-require
 require(srcPath);
+
+// See `ts/scripts/generate-preload-cache.ts`
+if (script && process.env.GENERATE_PRELOAD_CACHE) {
+  writeFileSync(cachePath, script.createCachedData());
+  ipcRenderer.send('shutdown');
+}

@@ -2567,6 +2567,9 @@ ipc.on('restart', () => {
   app.quit();
 });
 ipc.on('shutdown', () => {
+  if (process.env.GENERATE_PRELOAD_CACHE) {
+    windowState.markReadyForShutdown();
+  }
   app.quit();
 });
 

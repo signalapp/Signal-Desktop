@@ -38,6 +38,7 @@ if (getEnvironment() === Environment.PackagedApp) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
   process.env.SIGNAL_ENABLE_HTTP = '';
   process.env.SIGNAL_CI_CONFIG = '';
+  process.env.GENERATE_PRELOAD_CACHE = '';
 }
 
 // We load config after we've made our modifications to NODE_ENV
