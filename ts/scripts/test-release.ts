@@ -15,14 +15,14 @@ let archive: string;
 let exe: string;
 if (process.platform === 'darwin') {
   archive = join(
-    'mac',
+    'mac-arm64',
     `${packageJson.productName}.app`,
     'Contents',
     'Resources',
     'app.asar'
   );
   exe = join(
-    'mac',
+    'mac-arm64',
     `${packageJson.productName}.app`,
     'Contents',
     'MacOS',

@@ -52,6 +52,7 @@ js/calling-tools/**
 stylesheets/_intlTelInput.scss
 
 preload.bundle.*
+preload.wrapper.js
 bundles/**
 
 # Sticker Creator has its own prettier config

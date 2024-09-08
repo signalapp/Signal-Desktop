@@ -54,6 +54,8 @@ jobs:
       run: npm run generate
     - name: Bundle
       run: npm run build:esbuild:prod
+    - name: Create preload cache
+      run: xvfb-run --auto-servernum npm run build:preload-cache
 
     - name: Run startup benchmarks
       run: |

@@ -709,7 +709,7 @@ async function createWindow() {
       preload: join(
         __dirname,
         usePreloadBundle
-          ? '../preload.bundle.js'
+          ? '../preload.wrapper.js'
           : '../ts/windows/main/preload.js'
       ),
       spellcheck: await getSpellCheckSetting(),

@@ -103,12 +103,15 @@ async function main() {
       ...nodeDefaults,
       format: 'cjs',
       mainFields: ['browser', 'main'],
-      entryPoints: glob
-        .sync('{app,ts}/**/*.{ts,tsx}', {
-          nodir: true,
-          root: ROOT_DIR,
-        })
-        .filter(file => !file.endsWith('.d.ts')),
+      entryPoints: [
+        'preload.wrapper.ts',
+        ...glob
+          .sync('{app,ts}/**/*.{ts,tsx}', {
+            nodir: true,
+            root: ROOT_DIR,
+          })
+          .filter(file => !file.endsWith('.d.ts')),
+      ],
       outdir: path.join(ROOT_DIR),
     },
     preloadConfig: {

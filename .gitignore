@@ -29,6 +29,7 @@ stylesheets/*.css
 !stylesheets/webrtc_internals.css
 /storybook-static/
 preload.bundle.*
+preload.wrapper.js
 bundles/
 ts/sql/mainWorker.bundle.js.LICENSE.txt
 build/ICUMessageParams.d.ts

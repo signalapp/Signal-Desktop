@@ -165,6 +165,8 @@ jobs:
 
     - name: Create bundle
       run: npm run build:esbuild:prod
+    - name: Create preload cache
+      run: xvfb-run --auto-servernum npm run build:preload-cache
 
     - name: Build with packaging .deb file
       run: npm run build:release -- --publish=never
@@ -249,6 +251,8 @@ jobs:
 
     - name: Create bundle
       run: npm run build:esbuild:prod
+    - name: Create preload cache
+      run: npm run build:preload-cache
 
     - name: Build with NSIS
       run: npm run build:release
@@ -359,6 +363,8 @@ jobs:
       run: npm run generate
     - name: Bundle
       run: npm run build:esbuild:prod
+    - name: Create preload cache
+      run: xvfb-run --auto-servernum npm run build:preload-cache
 
     - name: Run mock server tests
       run: |
