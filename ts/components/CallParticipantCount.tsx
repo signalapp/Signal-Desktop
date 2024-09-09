@@ -6,7 +6,7 @@ import type { LocalizerType } from '../types/Util';
 import { CallMode } from '../types/CallDisposition';
 
 export type PropsType = {
-  callMode: CallMode;
+  callMode: CallMode.Group | CallMode.Adhoc;
   i18n: LocalizerType;
   isAdhocJoinRequestPending?: boolean;
   groupMemberCount?: number;
@@ -18,13 +18,15 @@ export function CallParticipantCount({
   callMode,
   i18n,
   isAdhocJoinRequestPending,
-  groupMemberCount,
   participantCount,
   toggleParticipants,
 }: PropsType): JSX.Element {
   const isToggleVisible =
     Boolean(participantCount) || callMode === CallMode.Adhoc;
-  const count = participantCount || groupMemberCount || 1;
+
+  // 1 is for yourself, when the call has started but no peek info is available
+  const count = participantCount || 1;
+
   let innerText: string | undefined;
   if (callMode === CallMode.Adhoc) {
     if (isAdhocJoinRequestPending) {
@@ -34,7 +36,10 @@ export function CallParticipantCount({
     } else if (!participantCount) {
       innerText = i18n('icu:CallControls__InfoDisplay--adhoc-call');
     }
+  } else if (!participantCount) {
+    innerText = i18n('icu:CallControls__InfoDisplay--group-call');
   }
+
   if (!innerText) {
     innerText = i18n('icu:CallControls__InfoDisplay--participants', {
       count,

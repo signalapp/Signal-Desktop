@@ -3587,6 +3587,10 @@
     "messageformat": "Call link",
     "description": "Shown in the call lobby for a call link."
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call",
+    "description": "Shown in the call lobby before starting a group call."
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Waiting to be let in",
     "description": "Shown in the call lobby for call link calls when requesting to join a call which requires admin approval."
@@ -4762,6 +4766,10 @@
   "icu:ContactModal--already-in-call": {
     "messageformat": "You are already in a call",
     "description": "(Deleted 2024/08/28) Tooltip text for video or voice call button in Contact Details modal"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice",
+    "description": "Text for button to start a new voice call in the Contact Details modal"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color",

@@ -156,7 +156,7 @@ export function ContactModal({
             onOutgoingAudioCallInConversation(conversationId);
           }}
         >
-          {i18n('icu:audio')}
+          {i18n('icu:ContactModal--voice')}
         </Button>
       );
 
