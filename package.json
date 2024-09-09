@@ -283,7 +283,6 @@
     "chai-as-promised": "7.1.1",
     "chalk": "4.1.2",
     "chokidar-cli": "3.0.0",
-    "core-js": "2.6.9",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "csv-parse": "5.5.2",
