@@ -14,6 +14,7 @@ import {
   clickOnConversation,
   typeIntoInput,
   expectSystemMessages,
+  waitForEnabledComposer,
 } from '../helpers';
 
 export const debug = createDebug('mock:test:safetyNumber');
@@ -108,7 +109,7 @@ describe('safety number', function (this: Mocha.Suite) {
 
     await clickOnConversation(window, alice);
 
-    const input = await app.waitForEnabledComposer();
+    const input = await waitForEnabledComposer(window);
     await typeIntoInput(input, 'Hello Alice!');
 
     await changeIdentityKey();
