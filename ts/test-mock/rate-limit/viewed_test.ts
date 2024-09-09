@@ -10,7 +10,7 @@ import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import { ReceiptType } from '../../types/Receipt';
 import { toUntaggedPni } from '../../types/ServiceId';
-import { typeIntoInput } from '../helpers';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers';
 
 export const debug = createDebug('mock:test:challenge:receipts');
 
@@ -121,7 +121,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     debug('Sending a message back to user - will trigger captcha!');
     {
-      const input = await app.waitForEnabledComposer();
+      const input = await waitForEnabledComposer(window);
       await typeIntoInput(input, 'Hi, good to hear from you!');
       await input.press('Enter');
     }
@@ -201,7 +201,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     debug('Sending a message back to ContactB - will trigger captcha!');
     {
-      const input = await app.waitForEnabledComposer();
+      const input = await waitForEnabledComposer(window);
       await typeIntoInput(input, 'Hi, good to hear from you!');
       await input.press('Enter');
     }

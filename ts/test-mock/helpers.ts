@@ -1,6 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import createDebug from 'debug';
 import {
   type Device,
   type Group,
@@ -12,6 +13,10 @@ import { assert } from 'chai';
 import Long from 'long';
 import type { Locator, Page } from 'playwright';
 import { expect } from 'playwright/test';
+import type { SignalService } from '../protobuf';
+import { strictAssert } from '../util/assert';
+
+const debug = createDebug('mock:test:helpers');
 
 export function bufferToUuid(buffer: Buffer): string {
   const hex = buffer.toString('hex');
@@ -279,4 +284,86 @@ export function getMessageInTimelineByTimestamp(
   timestamp: number
 ): Locator {
   return getTimeline(page).getByTestId(`${timestamp}`);
+}
+
+export function getTimelineMessageWithText(page: Page, text: string): Locator {
+  return getTimeline(page).locator('.module-message').filter({ hasText: text });
+}
+
+export async function composerAttachImages(
+  page: Page,
+  filePaths: ReadonlyArray<string>
+): Promise<void> {
+  const AttachmentInput = page.getByTestId('attachfile-input');
+
+  const AttachmentsList = page.locator('.module-attachments');
+  const AttachmentsListImage = AttachmentsList.locator('.module-image');
+  const AttachmentsListImageLoaded = AttachmentsListImage.locator(
+    '.module-image__image'
+  );
+
+  debug('setting input files');
+  await AttachmentInput.setInputFiles(filePaths);
+
+  debug(`waiting for ${filePaths.length} items`);
+  await AttachmentsListImage.nth(filePaths.length - 1).waitFor();
+
+  await Promise.all(
+    filePaths.map(async (_, index) => {
+      debug(`waiting for ${index} image to render in attachments list`);
+      await AttachmentsListImageLoaded.nth(index).waitFor({
+        state: 'visible',
+      });
+    })
+  );
+}
+
+export async function sendMessageWithAttachments(
+  page: Page,
+  receiver: PrimaryDevice,
+  text: string,
+  filePaths: Array<string>
+): Promise<Array<SignalService.IAttachmentPointer>> {
+  await composerAttachImages(page, filePaths);
+
+  debug('sending message');
+  const input = await waitForEnabledComposer(page);
+  await typeIntoInput(input, text);
+  await input.press('Enter');
+
+  const Message = getTimelineMessageWithText(page, text);
+  const MessageImageLoaded = Message.locator('.module-image__image');
+
+  await Message.waitFor();
+
+  await Promise.all(
+    filePaths.map(async (_, index) => {
+      debug(`waiting for ${index} image to render in timeline`);
+      await MessageImageLoaded.nth(index).waitFor({
+        state: 'visible',
+      });
+    })
+  );
+
+  debug('get received message data');
+  const receivedMessage = await receiver.waitForMessage();
+  const attachments = receivedMessage.dataMessage.attachments ?? [];
+  strictAssert(
+    attachments.length === filePaths.length,
+    'attachments must exist'
+  );
+
+  return attachments;
+}
+
+export async function waitForEnabledComposer(page: Page): Promise<Locator> {
+  const composeArea = page.locator(
+    '.composition-area-wrapper, .Inbox__conversation .ConversationView'
+  );
+  const composeContainer = composeArea.locator(
+    '[data-testid=CompositionInput][data-enabled=true]'
+  );
+  await composeContainer.waitFor();
+
+  return composeContainer.locator('.ql-editor');
 }

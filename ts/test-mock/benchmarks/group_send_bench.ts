@@ -21,7 +21,7 @@ import {
 } from './fixtures';
 import { stats } from '../../util/benchmark/stats';
 import { sleep } from '../../util/sleep';
-import { typeIntoInput } from '../helpers';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers';
 import { MINUTE } from '../../util/durations';
 
 const LAST_MESSAGE = 'start sending messages now';
@@ -169,7 +169,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   }
 
   const deltaList = new Array<number>();
-  const input = await app.waitForEnabledComposer();
+  const input = await waitForEnabledComposer(window);
 
   function sendReceiptsInBatches({
     receipts,

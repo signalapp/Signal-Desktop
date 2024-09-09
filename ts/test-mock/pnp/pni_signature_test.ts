@@ -23,7 +23,11 @@ import {
   RECEIPT_BATCHER_WAIT_MS,
 } from '../../types/Receipt';
 import { sleep } from '../../util/sleep';
-import { expectSystemMessages, typeIntoInput } from '../helpers';
+import {
+  expectSystemMessages,
+  typeIntoInput,
+  waitForEnabledComposer,
+} from '../helpers';
 
 export const debug = createDebug('mock:test:pni-signature');
 
@@ -147,7 +151,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     }
     debug('Enter first message text');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'first');
       await compositionInput.press('Enter');
@@ -175,7 +179,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     }
     debug('Enter second message text');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'second');
       await compositionInput.press('Enter');
@@ -209,7 +213,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     debug('Enter third message text');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'third');
       await compositionInput.press('Enter');
@@ -373,7 +377,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     {
       debug('Wait for composition input to clear');
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       debug('Enter an ACI message text');
       await typeIntoInput(compositionInput, 'Hello ACI');

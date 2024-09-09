@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ElectronApplication, Locator, Page } from 'playwright';
+import type { ElectronApplication, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
 import { EventEmitter } from 'events';
 import pTimeout from 'p-timeout';
@@ -87,19 +87,6 @@ export class App extends EventEmitter {
     }
 
     this.privApp.on('close', () => this.emit('close'));
-  }
-
-  public async waitForEnabledComposer(): Promise<Locator> {
-    const window = await this.getWindow();
-    const composeArea = window.locator(
-      '.composition-area-wrapper, .Inbox__conversation .ConversationView'
-    );
-    const composeContainer = composeArea.locator(
-      '[data-testid=CompositionInput][data-enabled=true]'
-    );
-    await composeContainer.waitFor();
-
-    return composeContainer.locator('.ql-editor');
   }
 
   public async waitForProvisionURL(): Promise<string> {

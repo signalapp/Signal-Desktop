@@ -15,7 +15,11 @@ import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { expectSystemMessages, typeIntoInput } from '../helpers';
+import {
+  expectSystemMessages,
+  typeIntoInput,
+  waitForEnabledComposer,
+} from '../helpers';
 
 export const debug = createDebug('mock:test:messaging');
 
@@ -259,7 +263,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
 
       debug('Send message to merged contact');
       {
-        const compositionInput = await app.waitForEnabledComposer();
+        const compositionInput = await waitForEnabledComposer(window);
 
         await typeIntoInput(compositionInput, 'Hello');
         await compositionInput.press('Enter');

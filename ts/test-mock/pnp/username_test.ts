@@ -12,7 +12,11 @@ import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { bufferToUuid, typeIntoInput } from '../helpers';
+import {
+  bufferToUuid,
+  typeIntoInput,
+  waitForEnabledComposer,
+} from '../helpers';
 import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 export const debug = createDebug('mock:test:username');
@@ -97,7 +101,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
       debug('Send message to username');
       {
-        const compositionInput = await app.waitForEnabledComposer();
+        const compositionInput = await waitForEnabledComposer(window);
 
         await typeIntoInput(compositionInput, 'Hello username');
         await compositionInput.press('Enter');
@@ -317,7 +321,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('sending a message');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'Hello Carl');
       await compositionInput.press('Enter');
@@ -374,7 +378,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('sending a message');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'Hello Carl');
       await compositionInput.press('Enter');

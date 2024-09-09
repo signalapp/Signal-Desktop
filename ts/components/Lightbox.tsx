@@ -558,6 +558,7 @@ export function Lightbox({
               <img
                 alt={i18n('icu:lightboxImageAlt')}
                 className="Lightbox__object"
+                data-testid={attachment.fileName}
                 onContextMenu={(ev: React.MouseEvent<HTMLImageElement>) => {
                   // These are the only image types supported by Electron's NativeImage
                   if (

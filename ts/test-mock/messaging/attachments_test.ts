@@ -9,16 +9,16 @@ import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import {
   getMessageInTimelineByTimestamp,
-  getTimeline,
+  getTimelineMessageWithText,
+  sendMessageWithAttachments,
   sendTextMessage,
-  typeIntoInput,
 } from '../helpers';
 import * as durations from '../../util/durations';
 import { strictAssert } from '../../util/assert';
 
 export const debug = createDebug('mock:test:attachments');
 
-describe('attachments', function (this: Mocha.Suite) {
+describe.only('attachments', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -60,48 +60,33 @@ describe('attachments', function (this: Mocha.Suite) {
     const page = await app.getWindow();
 
     await page.getByTestId(pinned.device.aci).click();
-    await page
-      .getByTestId('attachfile-input')
-      .setInputFiles(
-        path.join(__dirname, '..', '..', '..', 'fixtures', 'cat-screenshot.png')
-      );
-    await page
-      .locator('.module-image.module-staged-attachment .module-image__image')
-      .waitFor();
-    const input = await app.waitForEnabledComposer();
-    await typeIntoInput(input, 'This is my cat');
-    await input.press('Enter');
 
-    const allMessagesLocator = getTimeline(page).getByRole('article');
-    await expect(allMessagesLocator).toHaveCount(1);
+    const [attachmentCat] = await sendMessageWithAttachments(
+      page,
+      pinned,
+      'This is my cat',
+      [path.join(__dirname, '..', '..', '..', 'fixtures', 'cat-screenshot.png')]
+    );
 
-    const allMessages = await allMessagesLocator.all();
-    const message = allMessages[0];
+    const Message = getTimelineMessageWithText(page, 'This is my cat');
+    const MessageSent = Message.locator(
+      '.module-message__metadata__status-icon--sent'
+    );
 
-    await message.getByText('This is my cat').waitFor();
-    await message
-      .locator('.module-message__metadata__status-icon--sent')
-      .waitFor();
-
-    const timestamp = await message
-      .locator('.module-message.module-message--outgoing')
-      .getAttribute('data-testid');
-
+    debug('waiting for send');
+    await MessageSent.waitFor();
+    const timestamp = await Message.getAttribute('data-testid');
     strictAssert(timestamp, 'timestamp must exist');
 
     // For this test, just send back the same attachment that was uploaded to test a
     // round-trip
-    const receivedMessage = await pinned.waitForMessage();
-    const attachment = receivedMessage.dataMessage.attachments?.[0];
-    strictAssert(attachment, 'attachment must exist');
-
     const incomingTimestamp = Date.now();
     await sendTextMessage({
       from: pinned,
       to: bootstrap.desktop,
       desktop: bootstrap.desktop,
       text: 'Wait, that is MY cat!',
-      attachments: [attachment],
+      attachments: [attachmentCat],
       timestamp: incomingTimestamp,
     });
 

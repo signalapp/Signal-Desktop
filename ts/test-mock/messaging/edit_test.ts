@@ -16,7 +16,7 @@ import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import { generateAci } from '../../types/ServiceId';
 import { IMAGE_GIF } from '../../types/MIME';
-import { typeIntoInput } from '../helpers';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers';
 import type { MessageAttributesType } from '../../model-types';
 import { sleep } from '../../util/sleep';
 
@@ -105,7 +105,7 @@ describe('editing', function (this: Mocha.Suite) {
       .locator('.module-message__buttons__menu')
       .click();
     await page.getByRole('menuitem', { name: 'Edit' }).click();
-    const input = await app.waitForEnabledComposer();
+    const input = await waitForEnabledComposer(page);
     await typeIntoInput(input, additionalText);
     await input.press('Enter');
   }
@@ -321,7 +321,7 @@ describe('editing', function (this: Mocha.Suite) {
 
       debug('finding composition input and clicking it');
       {
-        const input = await app.waitForEnabledComposer();
+        const input = await waitForEnabledComposer(window);
 
         debug('entering original message text');
         await typeIntoInput(input, 'edit message 1');
@@ -542,7 +542,7 @@ describe('editing', function (this: Mocha.Suite) {
       const originalText = '1';
       debug('finding composition input and clicking it');
       {
-        const input = await app.waitForEnabledComposer();
+        const input = await waitForEnabledComposer(page);
 
         debug('sending message desktop -> friend');
         await typeIntoInput(input, originalText);

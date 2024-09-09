@@ -10,7 +10,11 @@ import * as durations from '../../util/durations';
 import { generatePni, toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { expectSystemMessages, typeIntoInput } from '../helpers';
+import {
+  expectSystemMessages,
+  typeIntoInput,
+  waitForEnabledComposer,
+} from '../helpers';
 
 export const debug = createDebug('mock:test:pni-change');
 
@@ -103,7 +107,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
     debug('Send message to contactA');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'message to contactA');
       await compositionInput.press('Enter');
@@ -202,7 +206,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
     debug('Send message to contactA');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'message to contactA');
       await compositionInput.press('Enter');
@@ -304,7 +308,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
     debug('Send message to contactA');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'message to contactA');
       await compositionInput.press('Enter');
@@ -360,7 +364,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
     debug('Send message to contactB');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'message to contactB');
       await compositionInput.press('Enter');
@@ -435,7 +439,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
     debug('Send message to contactA');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'message to contactA');
       await compositionInput.press('Enter');
@@ -521,7 +525,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
     debug('Send message to contactA');
     {
-      const compositionInput = await app.waitForEnabledComposer();
+      const compositionInput = await waitForEnabledComposer(window);
 
       await typeIntoInput(compositionInput, 'second message to contactA');
       await compositionInput.press('Enter');

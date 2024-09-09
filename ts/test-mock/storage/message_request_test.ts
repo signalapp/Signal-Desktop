@@ -6,7 +6,7 @@ import { assert } from 'chai';
 import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
-import { typeIntoInput } from '../helpers';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers';
 
 describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
@@ -117,7 +117,7 @@ describe('storage service', function (this: Mocha.Suite) {
     }
 
     debug('Enter message text');
-    const input = await app.waitForEnabledComposer();
+    const input = await waitForEnabledComposer(window);
     await typeIntoInput(input, 'hello stranger!');
     await input.press('Enter');
 
