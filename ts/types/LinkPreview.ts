@@ -146,6 +146,14 @@ export function findLinks(text: string, caretLocation?: number): Array<string> {
   );
 }
 
+export function getSafeDomain(href: string): string | undefined {
+  try {
+    return getDomain(href);
+  } catch {
+    return undefined;
+  }
+}
+
 export function getDomain(href: string): string {
   const url = maybeParseUrl(href);
   if (!url || !url.hostname) {

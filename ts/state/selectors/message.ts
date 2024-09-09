@@ -43,7 +43,11 @@ import type {
 } from '../../components/conversation/GroupNotification';
 import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
 
-import { getDomain, isCallLink, isStickerPack } from '../../types/LinkPreview';
+import {
+  getSafeDomain,
+  isCallLink,
+  isStickerPack,
+} from '../../types/LinkPreview';
 import type {
   AciString,
   PniString,
@@ -390,7 +394,7 @@ const getPreviewsForMessage = ({
     ...preview,
     isStickerPack: isStickerPack(preview.url),
     isCallLink: isCallLink(preview.url),
-    domain: getDomain(preview.url),
+    domain: getSafeDomain(preview.url),
     image: preview.image ? getPropsForAttachment(preview.image) : undefined,
   }));
 };

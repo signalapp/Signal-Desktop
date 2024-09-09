@@ -4,7 +4,7 @@
 import { createSelector } from 'reselect';
 
 import { assertDev } from '../../util/assert';
-import { getDomain } from '../../types/LinkPreview';
+import { getSafeDomain } from '../../types/LinkPreview';
 
 import type { LinkPreviewSourceType } from '../../types/LinkPreview';
 import type { StateType } from '../reducer';
@@ -21,7 +21,7 @@ export const getLinkPreview = createSelector(
         return;
       }
 
-      const domain = getDomain(linkPreview.url);
+      const domain = getSafeDomain(linkPreview.url);
       assertDev(
         domain !== undefined,
         "Domain of linkPreview can't be undefined"
