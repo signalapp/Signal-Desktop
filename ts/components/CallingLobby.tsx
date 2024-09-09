@@ -237,7 +237,6 @@ export function CallingLobby({
           callMode={callMode}
           i18n={i18n}
           isAdhocJoinRequestPending={isAdhocJoinRequestPending}
-          groupMemberCount={groupMembers?.length ?? 0}
           participantCount={peekedParticipants.length}
           toggleParticipants={toggleParticipants}
         />
@@ -258,7 +257,6 @@ export function CallingLobby({
     i18n,
     hasLocalVideo,
     hasLocalAudio,
-    groupMembers?.length,
     toggleParticipants,
   ]);
 
