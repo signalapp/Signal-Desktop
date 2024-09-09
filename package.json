@@ -74,7 +74,7 @@
     "test:storybook": "npm run build:storybook && run-p --race test:storybook:*",
     "test:storybook:serve": "http-server storybook-static --port 6006 --silent",
     "test:storybook:test": "wait-on http://127.0.0.1:6006/ --timeout 5000 && test-storybook",
-    "build": "run-s --print-label generate build:esbuild:prod build:preload-cache build:release",
+    "build": "run-s --print-label generate build:esbuild:prod build:release",
     "build-linux": "run-s generate build:esbuild:prod && npm run build:release -- --publish=never",
     "build:acknowledgments": "node scripts/generate-acknowledgments.js",
     "build:dns-fallback": "node ts/scripts/generate-dns-fallback.js",
