@@ -356,53 +356,10 @@
 }
 
 .CallsNewCall__ItemActionButton--join-call {
-  $background: $color-accent-green;
-
-  @include font-body-2-bold;
-  @include rounded-corners;
-
-  display: flex;
-  width: auto;
+  @include button-active-call;
   height: 26px;
   padding-block: 4px;
   padding-inline: 10px;
-  align-items: center;
-  background-color: $background;
-  color: $color-white;
-  outline: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  user-select: none;
-
-  &:before {
-    $icon-size: 16px;
-
-    @include color-svg(
-      '../images/icons/v3/video/video-compact-fill.svg',
-      $color-white
-    );
-    content: '';
-    display: block;
-    height: $icon-size;
-    margin-inline-end: 4px;
-    min-width: $icon-size;
-    width: $icon-size;
-  }
-
-  &:not(:disabled) {
-    &:hover {
-      @include any-theme {
-        background-color: darken($background, 16%);
-      }
-    }
-
-    &:focus {
-      @include keyboard-mode {
-        background-color: darken($background, 16%);
-      }
-    }
-  }
 }
 
 .CallsNewCall__ItemActionButton--join-call-disabled {

@@ -9,6 +9,7 @@ import type { LocalizerType } from '../types/I18N';
 import { Select } from './Select';
 
 export type CallLinkRestrictionsSelectProps = Readonly<{
+  disabled?: boolean;
   i18n: LocalizerType;
   id?: string;
   value: CallLinkRestrictions;
@@ -16,6 +17,7 @@ export type CallLinkRestrictionsSelectProps = Readonly<{
 }>;
 
 export function CallLinkRestrictionsSelect({
+  disabled,
   i18n,
   id,
   value,
@@ -23,6 +25,7 @@ export function CallLinkRestrictionsSelect({
 }: CallLinkRestrictionsSelectProps): JSX.Element {
   return (
     <Select
+      disabled={disabled}
       id={id}
       value={String(value)}
       moduleClassName="CallLinkRestrictionsSelect"
