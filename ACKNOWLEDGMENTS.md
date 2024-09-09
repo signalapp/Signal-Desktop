@@ -11502,7 +11502,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-core 0.1.0, mrp 2.46.2, protobuf 2.46.2, ringrtc 2.46.2, regex-aot 0.1.0, partial-default-derive 0.1.0
+## libsignal-core 0.1.0, mrp 2.47.0, protobuf 2.47.0, ringrtc 2.47.0, regex-aot 0.1.0, partial-default-derive 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -13983,7 +13983,7 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.1, anyhow 1.0.86, displaydoc 0.2.5, fastrand 2.1.0, itoa 1.0.11, linux-raw-sys 0.4.14, num_enum 0.6.1, num_enum 0.7.2, num_enum_derive 0.6.1, num_enum_derive 0.7.2, once_cell 1.19.0, pin-project-lite 0.2.14, prettyplease 0.2.20, proc-macro-crate 1.3.1, proc-macro-crate 3.1.0, proc-macro2 1.0.86, quote 1.0.36, rustix 0.38.34, semver 1.0.23, send_wrapper 0.6.0, serde 1.0.204, serde_derive 1.0.204, serde_json 1.0.120, syn-mid 0.6.0, syn 1.0.109, syn 2.0.71, thiserror-impl 1.0.62, thiserror 1.0.62, unicode-ident 1.0.12
+## curve25519-dalek-derive 0.1.1, anyhow 1.0.86, displaydoc 0.2.5, fastrand 2.1.0, itoa 1.0.11, linux-raw-sys 0.4.14, num_enum 0.6.1, num_enum 0.7.2, num_enum_derive 0.6.1, num_enum_derive 0.7.2, once_cell 1.19.0, pin-project-lite 0.2.14, prettyplease 0.2.20, proc-macro-crate 1.3.1, proc-macro-crate 3.1.0, proc-macro2 1.0.86, quote 1.0.36, rustix 0.38.34, semver 1.0.23, send_wrapper 0.6.0, serde 1.0.208, serde_derive 1.0.208, serde_json 1.0.120, syn-mid 0.6.0, syn 1.0.109, syn 2.0.71, thiserror-impl 1.0.62, thiserror 1.0.62, unicode-ident 1.0.12
 
 ```
 Permission is hereby granted, free of charge, to any
