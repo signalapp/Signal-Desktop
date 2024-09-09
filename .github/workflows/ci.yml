@@ -109,6 +109,7 @@ jobs:
       env:
         DISABLE_INSPECT_FUSE: on
         SIGN_MACOS_SCRIPT: noop.sh
+        ARTIFACTS_DIR: artifacts/macos
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
       run: |
@@ -167,6 +168,8 @@ jobs:
       run: npm run build:esbuild:prod
     - name: Create preload cache
       run: xvfb-run --auto-servernum npm run build:preload-cache
+      env:
+        ARTIFACTS_DIR: artifacts/linux
 
     - name: Build with packaging .deb file
       run: npm run build:release -- --publish=never
@@ -253,6 +256,8 @@ jobs:
       run: npm run build:esbuild:prod
     - name: Create preload cache
       run: npm run build:preload-cache
+      env:
+        ARTIFACTS_DIR: artifacts/win
 
     - name: Build with NSIS
       run: npm run build:release
@@ -365,6 +370,8 @@ jobs:
       run: npm run build:esbuild:prod
     - name: Create preload cache
       run: xvfb-run --auto-servernum npm run build:preload-cache
+      env:
+        ARTIFACTS_DIR: artifacts/linux
 
     - name: Run mock server tests
       run: |
