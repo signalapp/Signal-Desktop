@@ -124,11 +124,6 @@ export function isQuoteAMatch(
   }
 
   const { authorAci, id } = quote;
-  const authorConversation = window.ConversationController.lookupOrCreate({
-    e164: 'author' in quote ? quote.author : undefined,
-    serviceId: authorAci,
-    reason: 'helpers.isQuoteAMatch',
-  });
 
   const isSameTimestamp =
     message.sent_at === id ||
@@ -138,7 +133,7 @@ export function isQuoteAMatch(
   return (
     isSameTimestamp &&
     message.conversationId === conversationId &&
-    getAuthorId(message) === authorConversation?.id
+    getSourceServiceId(message) === authorAci
   );
 }
 

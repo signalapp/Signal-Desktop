@@ -84,6 +84,7 @@ import {
   convertBackupMessageAttachmentToAttachment,
   convertFilePointerToAttachment,
 } from './util/filePointers';
+import { CircularMessageCache } from './util/CircularMessageCache';
 import { filterAndClean } from '../../types/BodyRange';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../../types/MIME';
 import { copyFromQuotedMessage } from '../../messages/copyQuote';
@@ -106,6 +107,9 @@ import { reinitializeRedux } from '../../state/reinitializeRedux';
 import { getParametersForRedux, loadAll } from '../allLoaders';
 
 const MAX_CONCURRENCY = 10;
+
+// Keep 1000 recent messages in memory to speed up quote lookup.
+const RECENT_MESSAGES_CACHE_SIZE = 1000;
 
 type ConversationOpType = Readonly<{
   isUpdate: boolean;
@@ -152,8 +156,6 @@ async function processMessagesBatch(
       ...rawAttributes,
       id: ids[index],
     };
-
-    window.MessageCache.__DEPRECATED$unregister(attributes.id);
 
     const { editHistory } = attributes;
 
@@ -286,6 +288,10 @@ export class BackupImportStream extends Writable {
   private releaseNotesRecipientId: Long | undefined;
   private releaseNotesChatId: Long | undefined;
   private pendingGroupAvatars = new Map<string, string>();
+  private recentMessages = new CircularMessageCache({
+    size: RECENT_MESSAGES_CACHE_SIZE,
+    flush: () => this.saveMessageBatcher.flushAndWait(),
+  });
 
   private constructor() {
     super({ objectMode: true });
@@ -491,28 +497,15 @@ export class BackupImportStream extends Writable {
   }
 
   private saveConversation(attributes: ConversationAttributesType): void {
-    // add the conversation into memory without saving it to DB (that will happen in
-    // batcher); if we didn't do this, when we register messages to MessageCache, it would
-    // automatically create (and save to DB) a duplicate conversation which would have to
-    // be later merged
-    window.ConversationController.dangerouslyCreateAndAdd(attributes);
     this.conversationOpBatcher.add({ isUpdate: false, attributes });
   }
 
   private updateConversation(attributes: ConversationAttributesType): void {
-    const existing = window.ConversationController.get(attributes.id);
-    if (existing) {
-      existing.set(attributes);
-    }
     this.conversationOpBatcher.add({ isUpdate: true, attributes });
   }
 
   private saveMessage(attributes: MessageAttributesType): void {
-    window.MessageCache.__DEPRECATED$register(
-      attributes.id,
-      attributes,
-      'import.saveMessage'
-    );
+    this.recentMessages.push(attributes);
     this.saveMessageBatcher.add(attributes);
   }
 
@@ -1593,7 +1586,10 @@ export class BackupImportStream extends Writable {
           }) ?? [],
         type: this.convertQuoteType(quote.type),
       },
-      conversationId
+      conversationId,
+      {
+        messageCache: this.recentMessages,
+      }
     );
   }
 
