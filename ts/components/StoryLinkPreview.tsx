@@ -9,7 +9,7 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { LocalizerType } from '../types/Util';
 import { CurveType, Image } from './conversation/Image';
 import { isImageAttachment } from '../types/Attachment';
-import { getDomain } from '../types/LinkPreview';
+import { getSafeDomain } from '../types/LinkPreview';
 
 export type Props = LinkPreviewType & {
   forceCompactMode?: boolean;
@@ -26,7 +26,7 @@ export function StoryLinkPreview({
   url,
 }: Props): JSX.Element {
   const isImage = isImageAttachment(image);
-  const location = domain || getDomain(String(url));
+  const location = domain || getSafeDomain(String(url));
   const isCompact = forceCompactMode || !image;
 
   let content: JSX.Element | undefined;
@@ -74,7 +74,7 @@ export function StoryLinkPreview({
         <div className="StoryLinkPreview__icon-container">
           <Image
             alt={i18n('icu:stagedPreviewThumbnail', {
-              domain: location,
+              domain: location || '',
             })}
             attachment={image}
             curveBottomLeft={CurveType.Tiny}
