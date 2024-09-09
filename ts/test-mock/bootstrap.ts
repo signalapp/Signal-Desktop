@@ -260,6 +260,15 @@ export class Bootstrap {
     return path.join(this.storagePath, 'logs');
   }
 
+  public get ephemeralConfigPath(): string {
+    assert(
+      this.storagePath !== undefined,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+
+    return path.join(this.storagePath, 'ephemeral.json');
+  }
+
   public getBackupPath(fileName: string): string {
     assert(
       this.backupPath !== undefined,
