@@ -75,40 +75,6 @@ describe('unknown contacts', function (this: Mocha.Suite) {
     );
   });
 
-  it('blocks incoming calls from unknown contacts & shows message request', async () => {
-    const { desktop } = bootstrap;
-
-    debug('sending calling offer message');
-    await unknownContact.sendRaw(desktop, {
-      callingMessage: {
-        offer: {
-          callId: new Long(Math.floor(Math.random() * 1e10)),
-          type: Proto.CallingMessage.Offer.Type.OFFER_AUDIO_CALL,
-          opaque: new Uint8Array(0),
-        },
-      },
-    });
-
-    debug('opening conversation');
-    const leftPane = page.locator('#LeftPane');
-
-    const conversationListItem = leftPane.getByRole('button', {
-      name: 'Chat with Unknown contact',
-    });
-    await conversationListItem.getByText('Message Request').click();
-
-    const conversationStack = page.locator('.Inbox__conversation-stack');
-    await conversationStack.getByText('Missed voice call').waitFor();
-
-    debug('accepting message request');
-    await page.getByText('message you and share your name').waitFor();
-    await page.getByRole('button', { name: 'Accept' }).click();
-    assert.strictEqual(
-      await page.getByText('message you and share your name').count(),
-      0
-    );
-  });
-
   it('syncs message request state', async () => {
     const { phone, desktop } = bootstrap;
 

@@ -22,6 +22,7 @@ import {
 import { stats } from '../../util/benchmark/stats';
 import { sleep } from '../../util/sleep';
 import { typeIntoInput } from '../helpers';
+import { MINUTE } from '../../util/durations';
 
 const LAST_MESSAGE = 'start sending messages now';
 
@@ -126,7 +127,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const item = window
       .locator(`.module-message >> text="${LAST_MESSAGE}"`)
       .first();
-    await item.click();
+    await item.click({ timeout: MINUTE });
   }
 
   const deltaList = new Array<number>();

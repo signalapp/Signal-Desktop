@@ -258,4 +258,112 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       );
     }
   });
+
+  it('should show a toast and not another challenge if completion results in 413', async () => {
+    const { server, desktop } = bootstrap;
+
+    debug(
+      `Rate limiting (desktop: ${desktop.aci}) -> (contact: ${contact.device.aci})`
+    );
+    server.rateLimit({ source: desktop.aci, target: contact.device.aci });
+    server.rateLimit({ source: desktop.aci, target: contactB.device.aci });
+
+    const timestamp = bootstrap.getTimestamp();
+
+    debug('Sending a message from contact');
+    await contact.sendText(desktop, 'Hello there!', {
+      timestamp,
+    });
+
+    const window = await app.getWindow();
+    const leftPane = window.locator('#LeftPane');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
+
+    debug(`Opening conversation with contact (${contact.toContact().aci})`);
+    await leftPane
+      .locator(`[data-testid="${contact.toContact().aci}"]`)
+      .click();
+
+    debug('Accept conversation from contact - does not trigger captcha!');
+    await conversationStack
+      .locator('.module-message-request-actions button >> "Accept"')
+      .click();
+
+    debug('Sending a message back to user - will trigger captcha!');
+    {
+      const input = await app.waitForEnabledComposer();
+      await typeIntoInput(input, 'Hi, good to hear from you!');
+      await input.press('Enter');
+    }
+
+    debug('Waiting for challenge');
+    const request = await app.waitForChallenge();
+
+    server.respondToChallengesWith(413);
+
+    debug('Solving challenge');
+    await app.solveChallenge({
+      seq: request.seq,
+      data: { captcha: 'anything' },
+    });
+
+    debug('Waiting for verification failure toast');
+    await window
+      .locator('.Toast__content >> "Verification failed. Please retry later."')
+      .isVisible();
+
+    debug('Sending another message - this time it should not trigger captcha!');
+    {
+      const input = await app.waitForEnabledComposer();
+      await typeIntoInput(input, 'How have you been lately?');
+      await input.press('Enter');
+    }
+
+    debug('Sending a message from Contact B');
+    await contactB.sendText(desktop, 'Wanna buy a cow?', {
+      timestamp,
+    });
+
+    debug(`Opening conversation with Contact B (${contactB.toContact().aci})`);
+    await leftPane
+      .locator(`[data-testid="${contactB.toContact().aci}"]`)
+      .click();
+
+    debug('Accept conversation from Contact B - does not trigger captcha!');
+    await conversationStack
+      .locator('.module-message-request-actions button >> "Accept"')
+      .click();
+
+    debug(
+      'Sending to Contact B - we should not pop captcha because we are waiting!'
+    );
+    {
+      const input = await app.waitForEnabledComposer();
+      await typeIntoInput(input, 'You the cow guy from craigslist?');
+      await input.press('Enter');
+    }
+
+    debug('Checking for no other captcha dialogs');
+    assert.equal(
+      await app.getPendingEventCount('captchaDialog'),
+      1,
+      'Just one captcha dialog, the first one'
+    );
+
+    const requests = server.stopRateLimiting({
+      source: desktop.aci,
+      target: contact.device.aci,
+    });
+
+    debug(`Rate-limited requests: ${requests}`);
+    assert.strictEqual(requests, 1, 'rate limit requests');
+
+    const requestsContactB = server.stopRateLimiting({
+      source: desktop.aci,
+      target: contactB.device.aci,
+    });
+
+    debug(`Rate-limited requests to Contact B: ${requests}`);
+    assert.strictEqual(requestsContactB, 1, 'Contact B rate limit requests');
+  });
 });
