@@ -7357,6 +7357,10 @@
     "messageformat": "Approve all members",
     "description": "Call History > Call Link Details > Approve All Members > Label"
   },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active",
+    "description": "Call History > Call Link Details > Approve All Members > Tooltip when disabled due to active call"
+  },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copy link",
     "description": "Call History > Call Link Details > Copy Link Button"
@@ -7384,6 +7388,10 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Delete",
     "description": "Call History > Call Link Details > Delete Link Modal > Delete Button"
+  },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active",
+    "description": "Call History > Call Link Details > Delete Link Button > Tooltip when disabled due to active call"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Call link details",

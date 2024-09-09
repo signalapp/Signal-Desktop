@@ -23,7 +23,9 @@ export default {
     i18n,
     callHistoryGroup: getFakeCallLinkHistoryGroup(),
     callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
-    hasActiveCall: false,
+    isAnybodyInCall: false,
+    isInCall: false,
+    isInAnotherCall: false,
     onDeleteCallLink: action('onDeleteCallLink'),
     onOpenCallLinkAddNameModal: action('onOpenCallLinkAddNameModal'),
     onStartCallLinkLobby: action('onStartCallLinkLobby'),
@@ -36,10 +38,39 @@ export function Admin(args: CallLinkDetailsProps): JSX.Element {
   return <CallLinkDetails {...args} />;
 }
 
+export function AdminAndCallActive(args: CallLinkDetailsProps): JSX.Element {
+  return <CallLinkDetails {...args} isAnybodyInCall />;
+}
+
+export function AdminAndInCall(args: CallLinkDetailsProps): JSX.Element {
+  return <CallLinkDetails {...args} isAnybodyInCall isInCall />;
+}
+
 export function NonAdmin(args: CallLinkDetailsProps): JSX.Element {
   return <CallLinkDetails {...args} callLink={FAKE_CALL_LINK} />;
 }
 
+export function NonAdminAndCallActive(args: CallLinkDetailsProps): JSX.Element {
+  return (
+    <CallLinkDetails {...args} callLink={FAKE_CALL_LINK} isAnybodyInCall />
+  );
+}
+
 export function InAnotherCall(args: CallLinkDetailsProps): JSX.Element {
-  return <CallLinkDetails {...args} callLink={FAKE_CALL_LINK} hasActiveCall />;
+  return (
+    <CallLinkDetails {...args} callLink={FAKE_CALL_LINK} isInAnotherCall />
+  );
+}
+
+export function InAnotherCallAndCallActive(
+  args: CallLinkDetailsProps
+): JSX.Element {
+  return (
+    <CallLinkDetails
+      {...args}
+      callLink={FAKE_CALL_LINK}
+      isAnybodyInCall
+      isInAnotherCall
+    />
+  );
 }

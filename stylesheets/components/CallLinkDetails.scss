@@ -46,6 +46,10 @@
   font-weight: 600;
 }
 
+.CallLinkDetails__HeaderButton--active-call {
+  @include button-active-call;
+}
+
 .CallLinkDetails__DeleteLink {
   // Override the default icon color
   .ConversationDetails-icon__icon--trash::after {
@@ -58,4 +62,20 @@
   .ConversationDetails-panel-row__label {
     color: $color-accent-red;
   }
+}
+
+.CallLinkDetails__DeleteLink--disabled-for-active-call {
+  .ConversationDetails-icon__icon--trash::after {
+    @include any-theme {
+      background-color: $color-gray-45;
+    }
+  }
+  .ConversationDetails-panel-row__label {
+    color: $color-gray-45;
+  }
+}
+
+.CallLinkDetails__ApproveAllMembersDisabledTooltip,
+.CallLinkDetails__DeleteLinkTooltip {
+  @include tooltip;
 }
