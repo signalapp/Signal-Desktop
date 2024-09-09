@@ -133,6 +133,8 @@ export class ChallengeHandler {
 
   private isOnline = false;
 
+  private challengeRateLimitRetryAt: undefined | number;
+
   private readonly responseHandlers = new Map<number, Handler>();
 
   private readonly registeredConversations = new Map<
@@ -194,10 +196,6 @@ export class ChallengeHandler {
     log.info(`challenge: online, starting ${pending.length} queues`);
 
     // Start queues for challenges that matured while we were offline
-    await Promise.all(
-      pending.map(conversationId => this.startQueue(conversationId))
-    );
-
     await this.startAllQueues();
   }
 
@@ -211,8 +209,53 @@ export class ChallengeHandler {
       return;
     }
 
+    if (this.challengeRateLimitRetryAt) {
+      return;
+    }
+
     if (challenge.token) {
       drop(this.solve({ reason, token: challenge.token }));
+    }
+  }
+
+  public scheduleRetry(
+    conversationId: string,
+    retryAt: number,
+    reason: string
+  ): void {
+    const waitTime = Math.max(0, retryAt - Date.now());
+    const oldTimer = this.startTimers.get(conversationId);
+    if (oldTimer) {
+      clearTimeoutIfNecessary(oldTimer);
+    }
+    this.startTimers.set(
+      conversationId,
+      setTimeout(() => {
+        this.startTimers.delete(conversationId);
+
+        this.challengeRateLimitRetryAt = undefined;
+
+        drop(this.startQueue(conversationId));
+      }, waitTime)
+    );
+    log.info(
+      `scheduleRetry(${reason}): tracking ${conversationId} with waitTime=${waitTime}`
+    );
+  }
+
+  public forceWaitOnAll(retryAt: number): void {
+    this.challengeRateLimitRetryAt = retryAt;
+
+    for (const conversationId of this.registeredConversations.keys()) {
+      const existing = this.registeredConversations.get(conversationId);
+      if (!existing) {
+        continue;
+      }
+      this.registeredConversations.set(conversationId, {
+        ...existing,
+        retryAt,
+      });
+      this.scheduleRetry(conversationId, retryAt, 'forceWaitOnAll');
     }
   }
 
@@ -238,23 +281,14 @@ export class ChallengeHandler {
       return;
     }
 
-    if (challenge.retryAt) {
-      const waitTime = Math.max(0, challenge.retryAt - Date.now());
-      const oldTimer = this.startTimers.get(conversationId);
-      if (oldTimer) {
-        clearTimeoutIfNecessary(oldTimer);
-      }
-      this.startTimers.set(
+    if (this.challengeRateLimitRetryAt) {
+      this.scheduleRetry(
         conversationId,
-        setTimeout(() => {
-          this.startTimers.delete(conversationId);
-
-          drop(this.startQueue(conversationId));
-        }, waitTime)
+        this.challengeRateLimitRetryAt,
+        'register-challengeRateLimit'
       );
-      log.info(
-        `${logId}: tracking ${conversationId} with waitTime=${waitTime}`
-      );
+    } else if (challenge.retryAt) {
+      this.scheduleRetry(conversationId, challenge.retryAt, 'register');
     } else {
       log.info(`${logId}: tracking ${conversationId} with no waitTime`);
     }
@@ -436,6 +470,9 @@ export class ChallengeHandler {
       );
 
       log.info(`challenge: retry after ${retryAfter}ms`);
+      const retryAt = retryAfter + Date.now();
+      this.forceWaitOnAll(retryAt);
+
       this.options.onChallengeFailed(retryAfter);
 
       throw error;

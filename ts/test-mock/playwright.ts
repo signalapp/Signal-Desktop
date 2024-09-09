@@ -218,6 +218,15 @@ export class App extends EventEmitter {
     return super.emit(type, ...args);
   }
 
+  public async getPendingEventCount(event: string): Promise<number> {
+    const window = await this.getWindow();
+    const result = await window.evaluate(
+      `window.SignalCI.getPendingEventCount(${JSON.stringify(event)})`
+    );
+
+    return Number(result);
+  }
+
   //
   // Private
   //

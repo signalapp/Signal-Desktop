@@ -81,6 +81,9 @@ function relinkDevice(): RelinkDeviceActionType {
 function setChallengeStatus(
   challengeStatus: NetworkStateType['challengeStatus']
 ): SetChallengeStatusActionType {
+  if (challengeStatus === 'required') {
+    window.SignalCI?.handleEvent('captchaDialog', null);
+  }
   return {
     type: SET_CHALLENGE_STATUS,
     payload: { challengeStatus },

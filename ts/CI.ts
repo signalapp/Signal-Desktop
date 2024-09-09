@@ -23,6 +23,7 @@ export type CIType = {
   getMessagesBySentAt(
     sentAt: number
   ): Promise<ReadonlyArray<MessageAttributesType>>;
+  getPendingEventCount: (event: string) => number;
   handleEvent: (event: string, data: unknown) => unknown;
   setProvisioningURL: (url: string) => unknown;
   solveChallenge: (response: ChallengeResponseType) => unknown;
@@ -99,6 +100,11 @@ export function getCI({
     });
 
     return promise;
+  }
+
+  function getPendingEventCount(event: string): number {
+    const completed = completedEvents.get(event) || [];
+    return completed.length;
   }
 
   function setProvisioningURL(url: string): void {
@@ -197,5 +203,6 @@ export function getCI({
     exportBackupToDisk,
     exportPlaintextBackupToDisk,
     unlink,
+    getPendingEventCount,
   };
 }

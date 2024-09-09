@@ -261,6 +261,9 @@ describe('ChallengeHandler', () => {
     // Go back online
     await handler.onOnline();
 
+    // startQueue awaits this.unregister() before calling options.startQueue
+    await this.clock.nextAsync();
+
     assert.isFalse(isInStorage(one.conversationId));
     assert.deepEqual(queuesStarted, [one.conversationId]);
     assert.equal(challengeStatus, 'idle');
