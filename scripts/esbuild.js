@@ -13,7 +13,7 @@ const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
 
 const nodeDefaults = {
   platform: 'node',
-  target: 'esnext',
+  target: 'es2023',
   // Disabled even in dev because the debugger is broken
   sourcemap: false,
   // Otherwise React components get renamed
