@@ -14,6 +14,8 @@ import type {
   GroupCallStateType,
 } from './calling';
 
+export const MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE = 8;
+
 // In theory, there could be multiple incoming calls, or an incoming call while there's
 //   an active call. In practice, the UI is not ready for this, and RingRTC doesn't
 //   support it for direct calls.

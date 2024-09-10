@@ -137,6 +137,28 @@ describe('calling duck', () => {
     },
   };
 
+  const stateWithNotJoinedGroupCall: CallingStateType = {
+    ...getEmptyState(),
+    callsByConversation: {
+      'fake-group-call-conversation-id': {
+        callMode: CallMode.Group,
+        conversationId: 'fake-group-call-conversation-id',
+        connectionState: GroupCallConnectionState.NotConnected,
+        joinState: GroupCallJoinState.NotJoined,
+        localDemuxId: 1,
+        peekInfo: {
+          acis: [],
+          pendingAcis: [],
+          creatorAci,
+          eraId: 'xyz',
+          maxDevices: 16,
+          deviceCount: 0,
+        },
+        remoteParticipants: [],
+      } satisfies GroupCallStateType,
+    },
+  };
+
   const stateWithIncomingGroupCall: CallingStateType = {
     ...stateWithGroupCall,
     callsByConversation: {
@@ -151,21 +173,23 @@ describe('calling duck', () => {
     },
   };
 
+  const groupCallActiveCallState: ActiveCallStateType = {
+    callMode: CallMode.Group,
+    conversationId: 'fake-group-call-conversation-id',
+    hasLocalAudio: true,
+    hasLocalVideo: false,
+    localAudioLevel: 0,
+    viewMode: CallViewMode.Paginated,
+    showParticipantsList: false,
+    outgoingRing: false,
+    pip: false,
+    settingsDialogOpen: false,
+    joinedAt: null,
+  };
+
   const stateWithActiveGroupCall: CallingStateTypeWithActiveCall = {
     ...stateWithGroupCall,
-    activeCallState: {
-      callMode: CallMode.Group,
-      conversationId: 'fake-group-call-conversation-id',
-      hasLocalAudio: true,
-      hasLocalVideo: false,
-      localAudioLevel: 0,
-      viewMode: CallViewMode.Paginated,
-      showParticipantsList: false,
-      outgoingRing: false,
-      pip: false,
-      settingsDialogOpen: false,
-      joinedAt: null,
-    },
+    activeCallState: groupCallActiveCallState,
   };
 
   const ourAci = generateAci();
@@ -1318,6 +1342,84 @@ describe('calling duck', () => {
         );
 
         assert.isFalse(result.activeCallState?.outgoingRing);
+      });
+
+      it('mutes self in lobby when getting peek info with a lot of devices', () => {
+        const result = reducer(
+          {
+            ...stateWithNotJoinedGroupCall,
+            activeCallState: groupCallActiveCallState,
+          },
+          getAction({
+            callMode: CallMode.Group,
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connecting,
+            joinState: GroupCallJoinState.NotJoined,
+            localDemuxId: 1,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            peekInfo: {
+              acis: Array(20).map(generateAci),
+              pendingAcis: [],
+              maxDevices: 16,
+              deviceCount: 20,
+            },
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isFalse(result.activeCallState?.hasLocalAudio);
+      });
+
+      it('does not mute self when getting peek info with few devices', () => {
+        const result = reducer(
+          {
+            ...stateWithNotJoinedGroupCall,
+            activeCallState: groupCallActiveCallState,
+          },
+          getAction({
+            callMode: CallMode.Group,
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connecting,
+            joinState: GroupCallJoinState.NotJoined,
+            localDemuxId: 1,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            peekInfo: {
+              acis: [ACI_1],
+              pendingAcis: [],
+              maxDevices: 16,
+              deviceCount: 1,
+            },
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isTrue(result.activeCallState?.hasLocalAudio);
+      });
+
+      it('does not mute self when connected with many devices', () => {
+        const result = reducer(
+          stateWithActiveGroupCall,
+          getAction({
+            callMode: CallMode.Group,
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            localDemuxId: 1,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            peekInfo: {
+              acis: Array(20).map(generateAci),
+              pendingAcis: [],
+              maxDevices: 16,
+              deviceCount: 20,
+            },
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isTrue(result.activeCallState?.hasLocalAudio);
       });
     });
 
