@@ -2853,14 +2853,18 @@ export class BackupImportStream extends Writable {
       return;
     }
 
+    const order = new Array<string>();
     const customColors: CustomColorsItemType = {
       version: 1,
       colors: {},
+      order,
     };
 
     for (const color of customChatColors) {
       const uuid = generateUuid();
       let value: CustomColorType;
+
+      order.push(uuid);
 
       if (color.solid) {
         value = {

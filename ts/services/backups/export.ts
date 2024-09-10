@@ -20,6 +20,7 @@ import {
 import type { PageMessagesCursorType } from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
+import { type CustomColorType } from '../../types/Colors';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import {
   isPniString,
@@ -37,6 +38,7 @@ import type {
   QuotedMessageType,
 } from '../../model-types.d';
 import { drop } from '../../util/drop';
+import { isNotNil } from '../../util/isNotNil';
 import { explodePromise } from '../../util/explodePromise';
 import {
   isDirectConversation,
@@ -2405,8 +2407,29 @@ export class BackupExportStream extends Readable {
       return [];
     }
 
-    const result = new Array<Backups.ChatStyle.ICustomChatColor>();
+    const { order = [] } = customColors;
+    const map = new Map(
+      order
+        .map((id: string): [string, CustomColorType] | undefined => {
+          const color = customColors.colors[id];
+          if (color == null) {
+            return undefined;
+          }
+          return [id, color];
+        })
+        .filter(isNotNil)
+    );
+
+    // Add colors not present in the order list
     for (const [uuid, color] of Object.entries(customColors.colors)) {
+      if (map.has(uuid)) {
+        continue;
+      }
+      map.set(uuid, color);
+    }
+
+    const result = new Array<Backups.ChatStyle.ICustomChatColor>();
+    for (const [uuid, color] of map.entries()) {
       const id = Long.fromNumber(result.length);
       this.customColorIdByUuid.set(uuid, id);
 
