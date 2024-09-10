@@ -1105,6 +1105,7 @@ export class BackupImportStream extends Writable {
       chat.expirationTimerMs && !chat.expirationTimerMs.isZero()
         ? DurationInSeconds.fromMillis(chat.expirationTimerMs.toNumber())
         : undefined;
+    conversation.expireTimerVersion = chat.expireTimerVersion || 1;
     conversation.muteExpiresAt =
       chat.muteUntilMs && !chat.muteUntilMs.isZero()
         ? getTimestampFromLong(chat.muteUntilMs)

@@ -422,6 +422,7 @@ export class BackupExportStream extends Readable {
                   DurationInSeconds.toMillis(attributes.expireTimer)
                 )
               : null,
+          expireTimerVersion: attributes.expireTimerVersion,
           muteUntilMs: getSafeLongFromTimestamp(attributes.muteExpiresAt),
           markedUnread: attributes.markedUnread === true,
           dontNotifyForMentionsIfMuted:

@@ -244,6 +244,7 @@ message Chat {
   bool markedUnread = 7;
   bool dontNotifyForMentionsIfMuted = 8;
   ChatStyle style = 9;
+  uint32 expireTimerVersion = 10;
 }
 
 /**
