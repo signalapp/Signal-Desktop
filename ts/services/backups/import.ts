@@ -54,6 +54,7 @@ import type {
 import { assertDev, strictAssert } from '../../util/assert';
 import { getTimestampFromLong } from '../../util/timestampLongUtils';
 import { DurationInSeconds, SECOND } from '../../util/durations';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { dropNull } from '../../util/dropNull';
 import {
   deriveGroupID,
@@ -249,6 +250,7 @@ function addressToContactAddressType(
 }
 
 export class BackupImportStream extends Writable {
+  private now = Date.now();
   private parsedBackupInfo = false;
   private logId = 'BackupImportStream(unknown)';
   private aboutMe: AboutMe | undefined;
@@ -777,7 +779,7 @@ export class BackupImportStream extends Writable {
 
     if (contact.notRegistered) {
       const timestamp =
-        contact.notRegistered.unregisteredTimestamp?.toNumber() ?? Date.now();
+        contact.notRegistered.unregisteredTimestamp?.toNumber() ?? this.now;
       attrs.discoveredUnregisteredAt = timestamp;
       attrs.firstUnregisteredAt = timestamp;
     } else {
@@ -1182,6 +1184,25 @@ export class BackupImportStream extends Writable {
       chatConvo.unreadCount = (chatConvo.unreadCount ?? 0) + 1;
     }
 
+    const expirationStartTimestamp =
+      item.expireStartDate && !item.expireStartDate.isZero()
+        ? getTimestampFromLong(item.expireStartDate)
+        : undefined;
+    const expireTimer =
+      item.expiresInMs && !item.expiresInMs.isZero()
+        ? DurationInSeconds.fromMillis(item.expiresInMs.toNumber())
+        : undefined;
+
+    const expirationTimestamp = calculateExpirationTimestamp({
+      expireTimer,
+      expirationStartTimestamp,
+    });
+
+    if (expirationTimestamp != null && expirationTimestamp < this.now) {
+      // Drop expired messages
+      return;
+    }
+
     let attributes: MessageAttributesType = {
       id: generateUuid(),
       conversationId: chatConvo.id,
@@ -1191,14 +1212,8 @@ export class BackupImportStream extends Writable {
       sourceServiceId: authorConvo?.serviceId,
       timestamp,
       type: item.outgoing != null ? 'outgoing' : 'incoming',
-      expirationStartTimestamp:
-        item.expireStartDate && !item.expireStartDate.isZero()
-          ? getTimestampFromLong(item.expireStartDate)
-          : undefined,
-      expireTimer:
-        item.expiresInMs && !item.expiresInMs.isZero()
-          ? DurationInSeconds.fromMillis(item.expiresInMs.toNumber())
-          : undefined,
+      expirationStartTimestamp,
+      expireTimer,
       sms: item.sms === true ? true : undefined,
       ...directionDetails,
     };
@@ -1400,7 +1415,7 @@ export class BackupImportStream extends Writable {
       };
     }
     if (incoming) {
-      const receivedAtMs = incoming.dateReceived?.toNumber() ?? Date.now();
+      const receivedAtMs = incoming.dateReceived?.toNumber() ?? this.now;
 
       const unidentifiedDeliveryReceived = incoming.sealedSender === true;
 
