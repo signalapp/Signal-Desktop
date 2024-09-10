@@ -1714,6 +1714,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           `${storyContext.authorAci})`;
       }
 
+      // Ensure that quote author's conversation exist
+      if (initialMessage.quote) {
+        window.ConversationController.lookupOrCreate({
+          serviceId: initialMessage.quote.authorAci,
+          reason: 'handleDataMessage.quote.author',
+        });
+      }
+
       const [quote, storyQuotes] = await Promise.all([
         initialMessage.quote
           ? copyFromQuotedMessage(initialMessage.quote, conversation.id)

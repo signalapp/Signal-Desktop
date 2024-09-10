@@ -5,7 +5,10 @@ import { omit } from 'lodash';
 
 import * as log from '../logging/log';
 import type { QuotedMessageType } from '../model-types';
-import type { MessageAttributesType } from '../model-types.d';
+import type {
+  MessageAttributesType,
+  ReadonlyMessageAttributesType,
+} from '../model-types.d';
 import { SignalService } from '../protobuf';
 import { isGiftBadge, isTapToView } from '../state/selectors/message';
 import type { ProcessedQuote } from '../textsecure/Types';
@@ -16,10 +19,27 @@ import { isQuoteAMatch, messageHasPaymentEvent } from './helpers';
 import * as Errors from '../types/errors';
 import { isDownloadable } from '../types/Attachment';
 
+export type MinimalMessageCache = Readonly<{
+  findBySentAt(
+    sentAt: number,
+    predicate: (attributes: ReadonlyMessageAttributesType) => boolean
+  ): Promise<MessageAttributesType | undefined>;
+  upgradeSchema(
+    attributes: MessageAttributesType,
+    minSchemaVersion: number
+  ): Promise<MessageAttributesType>;
+}>;
+
+export type CopyQuoteOptionsType = Readonly<{
+  messageCache?: MinimalMessageCache;
+}>;
+
 export const copyFromQuotedMessage = async (
   quote: ProcessedQuote,
-  conversationId: string
+  conversationId: string,
+  options: CopyQuoteOptionsType = {}
 ): Promise<QuotedMessageType> => {
+  const { messageCache = window.MessageCache } = options;
   const { id } = quote;
   strictAssert(id, 'Quote must have an id');
 
@@ -38,7 +58,7 @@ export const copyFromQuotedMessage = async (
     messageId: '',
   };
 
-  const queryMessage = await window.MessageCache.findBySentAt(id, attributes =>
+  const queryMessage = await messageCache.findBySentAt(id, attributes =>
     isQuoteAMatch(attributes, conversationId, result)
   );
 
@@ -48,7 +68,7 @@ export const copyFromQuotedMessage = async (
   }
 
   if (queryMessage) {
-    await copyQuoteContentFromOriginal(queryMessage, result);
+    await copyQuoteContentFromOriginal(queryMessage, result, options);
   }
 
   return result;
@@ -56,7 +76,8 @@ export const copyFromQuotedMessage = async (
 
 export const copyQuoteContentFromOriginal = async (
   providedOriginalMessage: MessageAttributesType,
-  quote: QuotedMessageType
+  quote: QuotedMessageType,
+  { messageCache = window.MessageCache }: CopyQuoteOptionsType = {}
 ): Promise<void> => {
   let originalMessage = providedOriginalMessage;
 
@@ -114,7 +135,7 @@ export const copyQuoteContentFromOriginal = async (
   }
 
   try {
-    originalMessage = await window.MessageCache.upgradeSchema(
+    originalMessage = await messageCache.upgradeSchema(
       originalMessage,
       window.Signal.Types.Message.VERSION_NEEDED_FOR_DISPLAY
     );
