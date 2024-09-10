@@ -19,7 +19,7 @@ import type { SignalService } from '../../protobuf';
 
 const debug = createDebug('mock:test:lightbox');
 
-describe.only('lightbox', function (this: Mocha.Suite) {
+describe('lightbox', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;

@@ -18,7 +18,7 @@ import { strictAssert } from '../../util/assert';
 
 export const debug = createDebug('mock:test:attachments');
 
-describe.only('attachments', function (this: Mocha.Suite) {
+describe('attachments', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
