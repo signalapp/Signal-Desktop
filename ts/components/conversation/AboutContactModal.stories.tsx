@@ -38,6 +38,12 @@ const conversationWithAbout = getDefaultConversation({
   aboutText: '😀 About Me',
   hasMessages: true,
 });
+const conversationWithSharedGroups = getDefaultConversation({
+  acceptedMessageRequest: true,
+  aboutText: 'likes to chat',
+  hasMessages: true,
+  sharedGroupNames: ['Axolotl lovers'],
+});
 const systemContact = getDefaultConversation({
   acceptedMessageRequest: true,
   systemGivenName: 'Alice',
@@ -106,6 +112,16 @@ export function SystemContact(args: PropsType): JSX.Element {
     <AboutContactModal
       {...args}
       conversation={systemContact}
+      isSignalConnection
+    />
+  );
+}
+
+export function WithSharedGroups(args: PropsType): JSX.Element {
+  return (
+    <AboutContactModal
+      {...args}
+      conversation={conversationWithSharedGroups}
       isSignalConnection
     />
   );

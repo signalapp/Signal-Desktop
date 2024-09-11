@@ -7429,6 +7429,14 @@
     "messageformat": "Require admin approval",
     "description": "Call Link Edit Modal > Require admin approval checkbox > Label"
   },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry",
+    "description": "Call Link Pending Participant Modal > Approve Join Request Button Label"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry",
+    "description": "Call Link Pending Participant Modal > Deny Join Request Button Label"
+  },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Off",
     "description": "Call Link Edit Modal > Require admin approval checkbox > Option > Off"
