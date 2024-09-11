@@ -8,10 +8,12 @@ import { useSelector } from 'react-redux';
 import { getIntl } from '../selectors/user';
 import { getUpdatesState } from '../selectors/updates';
 import { getInstallerState } from '../selectors/installer';
+import { useAppActions } from '../ducks/app';
 import { useInstallerActions } from '../ducks/installer';
 import { useUpdatesActions } from '../ducks/updates';
 import { hasExpired as hasExpiredSelector } from '../selectors/expiration';
 import { missingCaseError } from '../../util/missingCaseError';
+import { backupsService } from '../../services/backups';
 import { InstallScreen } from '../../components/InstallScreen';
 import { WidthBreakpoint } from '../../components/_util';
 import { InstallScreenStep } from '../../types/InstallScreen';
@@ -27,6 +29,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
   const i18n = useSelector(getIntl);
   const installerState = useSelector(getInstallerState);
   const updates = useSelector(getUpdatesState);
+  const { openInbox } = useAppActions();
   const { startInstaller, finishInstall } = useInstallerActions();
   const { startUpdate } = useUpdatesActions();
   const hasExpired = useSelector(hasExpiredSelector);
@@ -42,6 +45,13 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
       finishInstall({ deviceName, backupFile: undefined });
     }
   }, [backupFile, deviceName, finishInstall]);
+
+  const onCancelBackupImport = useCallback((): void => {
+    backupsService.cancelDownload();
+    if (installerState.step === InstallScreenStep.BackupImport) {
+      openInbox();
+    }
+  }, [installerState.step, openInbox]);
 
   const suggestedDeviceName =
     installerState.step === InstallScreenStep.ChoosingDeviceName
@@ -100,6 +110,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
           i18n,
           currentBytes: installerState.currentBytes,
           totalBytes: installerState.totalBytes,
+          onCancel: onCancelBackupImport,
         },
       };
       break;

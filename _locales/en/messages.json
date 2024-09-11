@@ -4695,9 +4695,33 @@
     "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete, number, percent})...",
     "description": "Hint under the progressbar in the backup import screen"
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download...",
+    "description": "Hint under the progressbar in the backup import screen when download size is not yet known"
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "This may take a few minutes depending on the size of your backup",
     "description": "Description at the bottom of backup import screen"
+  },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer",
+    "description": "Text of the cancel button at the bottom of backup import screen"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?",
+    "description": "Title of the cancel confirmation modal in the backup import screen"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings.",
+    "description": "Body of the cancel confirmation modal in the backup import screen"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer",
+    "description": "Text of the continue button of the cancel confirmation modal in the backup import screen"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer",
+    "description": "Text of the confirmation button of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Restoring media",

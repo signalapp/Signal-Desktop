@@ -17,6 +17,7 @@ import { uploadFile } from '../../util/uploadAttachment';
 export type DownloadOptionsType = Readonly<{
   downloadOffset: number;
   onProgress: (currentBytes: number, totalBytes: number) => void;
+  abortSignal?: AbortSignal;
 }>;
 
 export class BackupAPI {
@@ -75,6 +76,7 @@ export class BackupAPI {
   public async download({
     downloadOffset,
     onProgress,
+    abortSignal,
   }: DownloadOptionsType): Promise<Readable> {
     const { cdn, backupDir, backupName } = await this.getInfo();
     const { headers } = await this.credentials.getCDNReadCredentials(cdn);
@@ -86,6 +88,7 @@ export class BackupAPI {
       headers,
       downloadOffset,
       onProgress,
+      abortSignal,
     });
   }
 

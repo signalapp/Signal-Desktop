@@ -1,8 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-.BackupImportScreen {
+.InstallScreenBackupImportStep {
+  position: relative;
   display: flex;
+
   width: 100vw;
   height: 100vh;
 
@@ -10,20 +12,20 @@
   align-items: center;
 }
 
-.BackupImportScreen__content {
+.InstallScreenBackupImportStep__content {
   text-align: center;
 }
 
-.BackupImportScreen__title {
+.InstallScreenBackupImportStep__title {
   @include font-title-2;
   margin-block: 0 20px;
 }
 
-.BackupImportScreen .ProgressBar {
+.InstallScreenBackupImportStep .ProgressBar {
   margin-block-end: 14px;
 }
 
-.BackupImportScreen__progressbar-hint {
+.InstallScreenBackupImportStep__progressbar-hint {
   @include font-caption;
   margin-block-end: 22px;
 
@@ -36,11 +38,7 @@
   }
 }
 
-.BackupImportScreen__progressbar-hint--hidden {
-  visibility: hidden;
-}
-
-.BackupImportScreen__description {
+.InstallScreenBackupImportStep__description {
   @include font-body-1;
 
   @include light-theme {
@@ -49,5 +47,22 @@
 
   @include dark-theme {
     color: $color-gray-25;
+  }
+}
+
+.InstallScreenBackupImportStep__cancel {
+  @include button-reset();
+  @include button-focus-outline;
+  @include font-body-1-bold;
+
+  position: absolute;
+  bottom: 48px;
+
+  @include light-theme() {
+    color: $color-ultramarine;
+  }
+
+  @include dark-theme() {
+    color: $color-ultramarine-light;
   }
 }

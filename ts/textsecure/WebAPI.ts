@@ -1182,6 +1182,7 @@ export type GetBackupStreamOptionsType = Readonly<{
   headers: Record<string, string>;
   downloadOffset: number;
   onProgress: (currentBytes: number, totalBytes: number) => void;
+  abortSignal?: AbortSignal;
 }>;
 
 export const getBackupInfoResponseSchema = z.object({
@@ -2833,6 +2834,7 @@ export function initialize({
       backupName,
       downloadOffset,
       onProgress,
+      abortSignal,
     }: GetBackupStreamOptionsType): Promise<Readable> {
       return _getAttachment({
         cdnPath: `/backups/${encodeURIComponent(backupDir)}/${encodeURIComponent(backupName)}`,
@@ -2842,6 +2844,7 @@ export function initialize({
         options: {
           downloadOffset,
           onProgress,
+          abortSignal,
         },
       });
     }
@@ -3583,6 +3586,7 @@ export function initialize({
         timeout?: number;
         downloadOffset?: number;
         onProgress?: (currentBytes: number, totalBytes: number) => void;
+        abortSignal?: AbortSignal;
       };
     }): Promise<Readable> {
       const abortController = new AbortController();
@@ -3593,6 +3597,8 @@ export function initialize({
       const cancelRequest = () => {
         abortController.abort();
       };
+
+      options?.abortSignal?.addEventListener('abort', cancelRequest);
 
       registerInflightRequest(cancelRequest);
 

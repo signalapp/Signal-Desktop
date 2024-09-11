@@ -51,6 +51,7 @@ export enum BackupType {
 export class BackupsService {
   private isStarted = false;
   private isRunning = false;
+  private downloadController: AbortController | undefined;
 
   public readonly credentials = new BackupCredentials();
   public readonly api = new BackupAPI(this.credentials);
@@ -145,10 +146,26 @@ export class BackupsService {
     return backupsService.importBackup(() => createReadStream(backupFile));
   }
 
+  public cancelDownload(): void {
+    if (this.downloadController) {
+      log.warn('importBackup: canceling download');
+      this.downloadController.abort();
+      this.downloadController = undefined;
+    } else {
+      log.error('importBackup: not canceling download, not running');
+    }
+  }
+
   public async download(
     downloadPath: string,
     { onProgress }: Omit<DownloadOptionsType, 'downloadOffset'>
   ): Promise<boolean> {
+    const controller = new AbortController();
+
+    // Abort previous download
+    this.downloadController?.abort();
+    this.downloadController = controller;
+
     let downloadOffset = 0;
     try {
       ({ size: downloadOffset } = await stat(downloadPath));
@@ -163,10 +180,19 @@ export class BackupsService {
     try {
       await ensureFile(downloadPath);
 
+      if (controller.signal.aborted) {
+        return false;
+      }
+
       const stream = await this.api.download({
         downloadOffset,
         onProgress,
+        abortSignal: controller.signal,
       });
+
+      if (controller.signal.aborted) {
+        return false;
+      }
 
       await pipeline(
         stream,
@@ -176,12 +202,24 @@ export class BackupsService {
         })
       );
 
+      if (controller.signal.aborted) {
+        return false;
+      }
+
+      this.downloadController = undefined;
+
+      // Too late to cancel now
       try {
         await this.importFromDisk(downloadPath);
       } finally {
         await unlink(downloadPath);
       }
     } catch (error) {
+      // Download canceled
+      if (error.name === 'AbortError') {
+        return false;
+      }
+
       // No backup on the server
       if (error instanceof HTTPError && error.code === 404) {
         return false;
