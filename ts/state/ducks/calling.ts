@@ -76,7 +76,11 @@ import { ToastType } from '../../types/Toast';
 import type { ShowToastActionType } from './toast';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
-import { isAnybodyElseInGroupCall } from './callingHelpers';
+import {
+  isAnybodyElseInGroupCall,
+  isAnybodyInGroupCall,
+  MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
+} from './callingHelpers';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import {
   isGroupOrAdhocCallMode,
@@ -2215,7 +2219,8 @@ const _startCallLinkLobby = async ({
   const callLobbyData = await calling.startCallLinkLobby({
     callLinkRootKey,
     adminPasskey,
-    hasLocalAudio: groupCallDeviceCount < 8,
+    hasLocalAudio:
+      groupCallDeviceCount < MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
   });
   if (!callLobbyData) {
     return;
@@ -2314,7 +2319,8 @@ function startCallingLobby({
 
     const callLobbyData = await calling.startCallingLobby({
       conversation,
-      hasLocalAudio: groupCallDeviceCount < 8,
+      hasLocalAudio:
+        groupCallDeviceCount < MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
       hasLocalVideo: isVideoCall,
     });
     if (!callLobbyData) {
@@ -3114,6 +3120,17 @@ export function reducer(
               hasLocalAudio,
               hasLocalVideo,
             };
+
+      // The first time we detect call participants in the lobby, check participant count
+      // and mute ourselves if over the threshold.
+      if (
+        joinState === GroupCallJoinState.NotJoined &&
+        !isAnybodyInGroupCall(existingCall?.peekInfo) &&
+        newPeekInfo.deviceCount >= MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE &&
+        newActiveCallState?.hasLocalAudio
+      ) {
+        newActiveCallState.hasLocalAudio = false;
+      }
     } else {
       newActiveCallState = state.activeCallState;
     }
