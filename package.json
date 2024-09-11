@@ -291,7 +291,7 @@
     "electron-builder": "24.13.3",
     "electron-mocha": "12.2.0",
     "endanger": "7.0.4",
-    "esbuild": "0.17.11",
+    "esbuild": "0.23.1",
     "eslint": "8.56.0",
     "eslint-config-airbnb-typescript-prettier": "5.0.0",
     "eslint-config-prettier": "8.5.0",
