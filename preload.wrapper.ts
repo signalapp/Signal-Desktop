@@ -71,59 +71,61 @@ const ModuleInternals = Module as unknown as {
   _extensions: unknown;
 };
 
-const previousModuleCompile = ModuleInternals.prototype._compile;
-ModuleInternals.prototype._compile = function _compile(
-  content: string,
-  filename: string
-) {
-  if (filename !== srcPath) {
-    throw new Error(`Unexpected filename: ${filename}`);
-  }
+if (cachedData || process.env.GENERATE_PRELOAD_CACHE) {
+  const previousModuleCompile = ModuleInternals.prototype._compile;
+  ModuleInternals.prototype._compile = function _compile(
+    content: string,
+    filename: string
+  ) {
+    if (filename !== srcPath) {
+      throw new Error(`Unexpected filename: ${filename}`);
+    }
 
-  // Immediately restore
-  ModuleInternals.prototype._compile = previousModuleCompile;
+    // Immediately restore
+    ModuleInternals.prototype._compile = previousModuleCompile;
 
-  const require = (id: string) => {
-    return this.require(id);
+    const require = (id: string) => {
+      return this.require(id);
+    };
+
+    // https://github.com/nodejs/node/blob/v10.15.3/lib/internal/modules/cjs/helpers.js#L28
+    const resolve = (request: unknown, options: unknown) => {
+      return ModuleInternals._resolveFilename(request, this, false, options);
+    };
+    require.resolve = resolve;
+
+    resolve.paths = (request: unknown) => {
+      return ModuleInternals._resolveLookupPaths(request, this, true);
+    };
+
+    require.main = process.mainModule;
+
+    // Enable support to add extra extension types
+    require.extensions = ModuleInternals._extensions;
+    require.cache = ModuleInternals._cache;
+
+    const dir = dirname(filename);
+
+    const compiledWrapper = compile(filename, content);
+
+    // We skip the debugger setup because by the time we run, node has already
+    // done that itself.
+
+    // `Buffer` is included for Electron.
+    // See https://github.com/zertosh/v8-compile-cache/pull/10#issuecomment-518042543
+    const args = [
+      this.exports,
+      require,
+      this,
+      filename,
+      dir,
+      process,
+      global,
+      Buffer,
+    ];
+    return compiledWrapper.apply(this.exports, args);
   };
-
-  // https://github.com/nodejs/node/blob/v10.15.3/lib/internal/modules/cjs/helpers.js#L28
-  const resolve = (request: unknown, options: unknown) => {
-    return ModuleInternals._resolveFilename(request, this, false, options);
-  };
-  require.resolve = resolve;
-
-  resolve.paths = (request: unknown) => {
-    return ModuleInternals._resolveLookupPaths(request, this, true);
-  };
-
-  require.main = process.mainModule;
-
-  // Enable support to add extra extension types
-  require.extensions = ModuleInternals._extensions;
-  require.cache = ModuleInternals._cache;
-
-  const dir = dirname(filename);
-
-  const compiledWrapper = compile(filename, content);
-
-  // We skip the debugger setup because by the time we run, node has already
-  // done that itself.
-
-  // `Buffer` is included for Electron.
-  // See https://github.com/zertosh/v8-compile-cache/pull/10#issuecomment-518042543
-  const args = [
-    this.exports,
-    require,
-    this,
-    filename,
-    dir,
-    process,
-    global,
-    Buffer,
-  ];
-  return compiledWrapper.apply(this.exports, args);
-};
+}
 
 // eslint-disable-next-line import/no-dynamic-require
 require(srcPath);
