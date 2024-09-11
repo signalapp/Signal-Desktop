@@ -45,7 +45,7 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
     const editModal = window.locator('.CallLinkEditModal');
     await editModal.waitFor();
 
-    const restrictionsInput = editModal.getByLabel('Approve all members');
+    const restrictionsInput = editModal.getByLabel('Require admin approval');
 
     await expect(restrictionsInput).toHaveJSProperty('value', '0');
     await restrictionsInput.selectOption({ label: 'On' });

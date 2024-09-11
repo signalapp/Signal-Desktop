@@ -5012,12 +5012,12 @@
     "description": "This lets users generate a new group link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Approve new members",
-    "description": "Title for the approve new members select area"
+    "messageformat": "Require admin approval",
+    "description": "Title for the require new member admin approval select area"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Require an admin to approve new members joining via the group link",
-    "description": "Description for the approve new members select area"
+    "description": "Description for the require new member admin approval select area"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Requests ({count, number})",
@@ -7346,8 +7346,8 @@
     "description": "Call History > Call Link Details > Edit Call Name Button > Label"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members",
-    "description": "Call History > Call Link Details > Approve All Members > Label"
+    "messageformat": "Require admin approval",
+    "description": "Call History > Call Link Details > Require admin approval > Label"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
     "messageformat": "This setting can't be changed while the call is active",
@@ -7402,16 +7402,16 @@
     "description": "Call Link Edit Modal > Edit Call Name Button > Label"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members",
-    "description": "Call Link Edit Modal > Approve All Members Checkbox > Label"
+    "messageformat": "Require admin approval",
+    "description": "Call Link Edit Modal > Require admin approval checkbox > Label"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Off",
-    "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > Off"
+    "description": "Call Link Edit Modal > Require admin approval checkbox > Option > Off"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
     "messageformat": "On",
-    "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > On"
+    "description": "Call Link Edit Modal > Require admin approval checkbox > Option > On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Add call name",
