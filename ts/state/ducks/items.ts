@@ -142,6 +142,7 @@ function getDefaultCustomColorData() {
   return {
     colors: {} as Record<string, CustomColorType>,
     version: 1,
+    order: [],
   };
 }
 
@@ -157,12 +158,17 @@ function addCustomColor(
       uuid = getGuid();
     }
 
+    const order = new Set(customColors.order ?? []);
+    order.delete(uuid);
+    order.add(uuid);
+
     const nextCustomColors = {
       ...customColors,
       colors: {
         ...customColors.colors,
         [uuid]: customColor,
       },
+      order: [...order],
     };
 
     dispatch(putItem('customColors', nextCustomColors));
@@ -220,6 +226,7 @@ function removeCustomColor(
     const nextCustomColors = {
       ...customColors,
       colors: omit(customColors.colors, payload),
+      order: customColors.order?.filter(id => id !== payload),
     };
 
     dispatch(putItem('customColors', nextCustomColors));

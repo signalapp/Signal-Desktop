@@ -187,6 +187,7 @@ export const DEFAULT_CONVERSATION_COLOR: DefaultConversationColorType = {
 export type CustomColorsItemType = {
   readonly colors: Record<string, CustomColorType>;
   readonly version: number;
+  readonly order?: ReadonlyArray<string>;
 };
 
 export function getAvatarColor(color?: AvatarColorType): AvatarColorType {
