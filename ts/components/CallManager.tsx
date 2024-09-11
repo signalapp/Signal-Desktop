@@ -139,6 +139,7 @@ export type PropsType = {
   switchFromPresentationView: () => void;
   hangUpActiveCall: (reason: string) => void;
   togglePip: () => void;
+  toggleCallLinkPendingParticipantModal: (contactId: string) => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
   isConversationTooBigToRing: boolean;
@@ -199,6 +200,7 @@ function ActiveCallManager({
   startCall,
   switchToPresentationView,
   switchFromPresentationView,
+  toggleCallLinkPendingParticipantModal,
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
@@ -475,6 +477,9 @@ function ActiveCallManager({
         stickyControls={showParticipantsList}
         switchToPresentationView={switchToPresentationView}
         switchFromPresentationView={switchFromPresentationView}
+        toggleCallLinkPendingParticipantModal={
+          toggleCallLinkPendingParticipantModal
+        }
         toggleScreenRecordingPermissionsDialog={
           toggleScreenRecordingPermissionsDialog
         }
@@ -571,6 +576,7 @@ export function CallManager({
   switchToPresentationView,
   toggleParticipants,
   togglePip,
+  toggleCallLinkPendingParticipantModal,
   toggleScreenRecordingPermissionsDialog,
   toggleSettings,
 }: PropsType): JSX.Element | null {
@@ -661,6 +667,9 @@ export function CallManager({
           startCall={startCall}
           switchFromPresentationView={switchFromPresentationView}
           switchToPresentationView={switchToPresentationView}
+          toggleCallLinkPendingParticipantModal={
+            toggleCallLinkPendingParticipantModal
+          }
           toggleParticipants={toggleParticipants}
           togglePip={togglePip}
           toggleScreenRecordingPermissionsDialog={

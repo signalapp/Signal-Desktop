@@ -139,6 +139,9 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   stopRingtone: action('stop-ringtone'),
   switchToPresentationView: action('switch-to-presentation-view'),
   switchFromPresentationView: action('switch-from-presentation-view'),
+  toggleCallLinkPendingParticipantModal: action(
+    'toggle-call-link-pending-participant-modal'
+  ),
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleScreenRecordingPermissionsDialog: action(

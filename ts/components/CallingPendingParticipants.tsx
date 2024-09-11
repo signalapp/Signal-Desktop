@@ -35,6 +35,9 @@ export type PropsType = {
   readonly approveUser: (payload: PendingUserActionPayloadType) => void;
   readonly batchUserAction: (payload: BatchUserActionPayloadType) => void;
   readonly denyUser: (payload: PendingUserActionPayloadType) => void;
+  readonly toggleCallLinkPendingParticipantModal: (
+    conversationId: string
+  ) => void;
 };
 
 export function CallingPendingParticipants({
@@ -44,6 +47,7 @@ export function CallingPendingParticipants({
   approveUser,
   batchUserAction,
   denyUser,
+  toggleCallLinkPendingParticipantModal,
 }: PropsType): JSX.Element | null {
   const [isExpanded, setIsExpanded] = useState(defaultIsExpanded ?? false);
   const [confirmDialogState, setConfirmDialogState] =
@@ -241,7 +245,15 @@ export function CallingPendingParticipants({
               className="module-calling-participants-list__contact"
               key={index}
             >
-              <div className="module-calling-participants-list__avatar-and-name">
+              <button
+                type="button"
+                onClick={ev => {
+                  ev.preventDefault();
+                  ev.stopPropagation();
+                  toggleCallLinkPendingParticipantModal(participant.id);
+                }}
+                className="module-calling-participants-list__avatar-and-name CallingPendingParticipants__ParticipantButton"
+              >
                 <Avatar
                   acceptedMessageRequest={participant.acceptedMessageRequest}
                   avatarUrl={participant.avatarUrl}
@@ -268,7 +280,7 @@ export function CallingPendingParticipants({
                     />
                   </span>
                 ) : null}
-              </div>
+              </button>
               {renderApprovalButtons(participant)}
             </li>
           ))}
@@ -303,7 +315,15 @@ export function CallingPendingParticipants({
   return (
     <div className="CallingPendingParticipants CallingPendingParticipants--Compact module-calling-participants-list">
       <div className="CallingPendingParticipants__CompactParticipant">
-        <div className="module-calling-participants-list__avatar-and-name">
+        <button
+          type="button"
+          onClick={ev => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            toggleCallLinkPendingParticipantModal(participant.id);
+          }}
+          className="module-calling-participants-list__avatar-and-name CallingPendingParticipants__ParticipantButton"
+        >
           <Avatar
             acceptedMessageRequest={participant.acceptedMessageRequest}
             avatarUrl={participant.avatarUrl}
@@ -326,12 +346,13 @@ export function CallingPendingParticipants({
                   i18n={i18n}
                 />
               ) : null}
+              <span className="CallingPendingParticipants__ParticipantAboutIcon" />
             </div>
             <div className="CallingPendingParticipants__WouldLikeToJoin">
               {i18n('icu:CallingPendingParticipants__WouldLikeToJoin')}
             </div>
           </div>
-        </div>
+        </button>
         {renderApprovalButtons(participant)}
       </div>
       {participants.length > 1 && (

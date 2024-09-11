@@ -125,6 +125,7 @@ export type PropsType = {
   stickyControls: boolean;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
+  toggleCallLinkPendingParticipantModal: (contactId: string) => void;
   toggleParticipants: () => void;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
@@ -214,6 +215,7 @@ export function CallScreen({
   stickyControls,
   switchToPresentationView,
   switchFromPresentationView,
+  toggleCallLinkPendingParticipantModal,
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
@@ -864,6 +866,9 @@ export function CallScreen({
           approveUser={approveUser}
           batchUserAction={batchUserAction}
           denyUser={denyUser}
+          toggleCallLinkPendingParticipantModal={
+            toggleCallLinkPendingParticipantModal
+          }
         />
       ) : null}
       {/* We render the local preview first and set the footer flex direction to row-reverse

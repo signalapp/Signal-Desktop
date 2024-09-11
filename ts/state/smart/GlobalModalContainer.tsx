@@ -29,6 +29,7 @@ import { SmartNotePreviewModal } from './NotePreviewModal';
 import { SmartCallLinkEditModal } from './CallLinkEditModal';
 import { SmartCallLinkAddNameModal } from './CallLinkAddNameModal';
 import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal';
+import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal';
 
 function renderCallLinkAddNameModal(): JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -36,6 +37,10 @@ function renderCallLinkAddNameModal(): JSX.Element {
 
 function renderCallLinkEditModal(): JSX.Element {
   return <SmartCallLinkEditModal />;
+}
+
+function renderCallLinkPendingParticipantModal(): JSX.Element {
+  return <SmartCallLinkPendingParticipantModal />;
 }
 
 function renderConfirmLeaveCallModal(): JSX.Element {
@@ -107,6 +112,7 @@ export const SmartGlobalModalContainer = memo(
       addUserToAnotherGroupModalContactId,
       callLinkAddNameModalRoomId,
       callLinkEditModalRoomId,
+      callLinkPendingParticipantContactId,
       confirmLeaveCallModalState,
       contactModalState,
       deleteMessagesProps,
@@ -188,6 +194,9 @@ export const SmartGlobalModalContainer = memo(
         }
         callLinkAddNameModalRoomId={callLinkAddNameModalRoomId}
         callLinkEditModalRoomId={callLinkEditModalRoomId}
+        callLinkPendingParticipantContactId={
+          callLinkPendingParticipantContactId
+        }
         confirmLeaveCallModalState={confirmLeaveCallModalState}
         contactModalState={contactModalState}
         editHistoryMessages={editHistoryMessages}
@@ -213,6 +222,9 @@ export const SmartGlobalModalContainer = memo(
         renderAddUserToAnotherGroup={renderAddUserToAnotherGroup}
         renderCallLinkAddNameModal={renderCallLinkAddNameModal}
         renderCallLinkEditModal={renderCallLinkEditModal}
+        renderCallLinkPendingParticipantModal={
+          renderCallLinkPendingParticipantModal
+        }
         renderConfirmLeaveCallModal={renderConfirmLeaveCallModal}
         renderContactModal={renderContactModal}
         renderEditHistoryMessagesModal={renderEditHistoryMessagesModal}

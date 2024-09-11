@@ -18,6 +18,9 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   approveUser: action('approve-user'),
   batchUserAction: action('batch-user-action'),
   denyUser: action('deny-user'),
+  toggleCallLinkPendingParticipantModal: action(
+    'toggle-call-link-pending-participant-modal'
+  ),
   ...storyProps,
 });
 

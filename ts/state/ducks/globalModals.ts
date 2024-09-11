@@ -94,6 +94,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   aboutContactModalContactId?: string;
   callLinkAddNameModalRoomId: string | null;
   callLinkEditModalRoomId: string | null;
+  callLinkPendingParticipantContactId: string | undefined;
   confirmLeaveCallModalState: StartCallData | null;
   contactModalState?: ContactModalStateType;
   deleteMessagesProps?: DeleteMessagesPropsType;
@@ -149,6 +150,8 @@ const TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL =
 const TOGGLE_CALL_LINK_ADD_NAME_MODAL =
   'globalModals/TOGGLE_CALL_LINK_ADD_NAME_MODAL';
 const TOGGLE_CALL_LINK_EDIT_MODAL = 'globalModals/TOGGLE_CALL_LINK_EDIT_MODAL';
+const TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL =
+  'globalModals/TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL';
 const TOGGLE_ABOUT_MODAL = 'globalModals/TOGGLE_ABOUT_MODAL';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
   'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
@@ -264,6 +267,11 @@ type ToggleCallLinkAddNameModalActionType = ReadonlyDeep<{
 type ToggleCallLinkEditModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_CALL_LINK_EDIT_MODAL;
   payload: string | null;
+}>;
+
+type ToggleCallLinkPendingParticipantModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL;
+  payload: string | undefined;
 }>;
 
 type ToggleAboutContactModalActionType = ReadonlyDeep<{
@@ -393,6 +401,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleAddUserToAnotherGroupModalActionType
   | ToggleCallLinkAddNameModalActionType
   | ToggleCallLinkEditModalActionType
+  | ToggleCallLinkPendingParticipantModalActionType
   | ToggleConfirmationModalActionType
   | ToggleConfirmLeaveCallModalActionType
   | ToggleDeleteMessagesModalActionType
@@ -435,6 +444,7 @@ export const actions = {
   toggleAddUserToAnotherGroupModal,
   toggleCallLinkAddNameModal,
   toggleCallLinkEditModal,
+  toggleCallLinkPendingParticipantModal,
   toggleConfirmationModal,
   toggleConfirmLeaveCallModal,
   toggleDeleteMessagesModal,
@@ -757,6 +767,15 @@ function toggleCallLinkEditModal(
   };
 }
 
+function toggleCallLinkPendingParticipantModal(
+  contactId?: string
+): ToggleCallLinkPendingParticipantModalActionType {
+  return {
+    type: TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL,
+    payload: contactId,
+  };
+}
+
 function toggleAboutContactModal(
   contactId?: string
 ): ToggleAboutContactModalActionType {
@@ -974,6 +993,7 @@ export function getEmptyState(): GlobalModalsStateType {
     hasConfirmationModal: false,
     callLinkAddNameModalRoomId: null,
     callLinkEditModalRoomId: null,
+    callLinkPendingParticipantContactId: undefined,
     confirmLeaveCallModalState: null,
     editNicknameAndNoteModalProps: null,
     isProfileEditorVisible: false,
@@ -1106,6 +1126,13 @@ export function reducer(
     return {
       ...state,
       callLinkEditModalRoomId: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL) {
+    return {
+      ...state,
+      callLinkPendingParticipantContactId: action.payload,
     };
   }
 

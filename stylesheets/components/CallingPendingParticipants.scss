@@ -34,9 +34,34 @@
   margin-inline-start: 8px;
 }
 
+.CallingPendingParticipants__ParticipantButton {
+  @include button-reset();
+}
+
+.CallingPendingParticipants__ParticipantButton:focus {
+  @include keyboard-mode {
+    outline: 3px solid $color-ultramarine;
+    outline-offset: 1px;
+  }
+}
+
 .CallingPendingParticipants__ParticipantName {
   @include font-body-1-bold;
   color: $color-gray-15;
+}
+
+.CallingPendingParticipants__ParticipantAboutIcon {
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+
+  position: relative;
+  inset-block-start: 3px;
+
+  @include color-svg(
+    '../images/icons/v3/chevron/chevron-right-bold.svg',
+    $color-gray-05
+  );
 }
 
 .CallingPendingParticipants__WouldLikeToJoin {
