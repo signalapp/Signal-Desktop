@@ -3,6 +3,7 @@
 
 import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { PropsType } from './InstallScreenBackupImportStep';
@@ -16,7 +17,11 @@ export default {
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = (args: PropsType) => (
-  <InstallScreenBackupImportStep {...args} i18n={i18n} />
+  <InstallScreenBackupImportStep
+    {...args}
+    i18n={i18n}
+    onCancel={action('onCancel')}
+  />
 );
 
 export const NoBytes = Template.bind({});
@@ -27,6 +32,12 @@ NoBytes.args = {
 
 export const Bytes = Template.bind({});
 Bytes.args = {
-  currentBytes: 500,
+  currentBytes: 500 * 1024,
+  totalBytes: 1024 * 1024,
+};
+
+export const Full = Template.bind({});
+Full.args = {
+  currentBytes: 1024,
   totalBytes: 1024,
 };
