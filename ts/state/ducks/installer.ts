@@ -199,7 +199,6 @@ function startInstaller(): ThunkAction<
         return;
       }
 
-      window.IPC.removeSetupMenuItems();
       dispatch({
         type: SET_PROVISIONING_URL,
         payload: url,
@@ -357,6 +356,7 @@ function finishInstall(
     try {
       const data = provisioner.prepareLinkData(options);
       await accountManager.registerSecondDevice(data);
+      window.IPC.removeSetupMenuItems();
     } catch (error) {
       if (error instanceof HTTPError) {
         switch (error.code) {
