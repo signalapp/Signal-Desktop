@@ -69,6 +69,7 @@ export type StorageAccessType = {
   defaultWallpaperPhotoPointer: Uint8Array;
   defaultWallpaperPreset: number;
   defaultDimWallpaperInDarkMode: boolean;
+  defaultAutoBubbleColor: boolean;
 
   customColors: CustomColorsItemType;
   device_name: string;

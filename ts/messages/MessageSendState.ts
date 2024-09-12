@@ -33,6 +33,7 @@ export enum SendStatus {
   Delivered = 'Delivered',
   Read = 'Read',
   Viewed = 'Viewed',
+  Skipped = 'Skipped',
 }
 
 export const parseMessageSendStatus = makeEnumParser(
@@ -45,6 +46,14 @@ export const UNDELIVERED_SEND_STATUSES = [
   SendStatus.Failed,
 ];
 
+export type VisibleSendStatus =
+  | SendStatus.Failed
+  | SendStatus.Pending
+  | SendStatus.Sent
+  | SendStatus.Delivered
+  | SendStatus.Read
+  | SendStatus.Viewed;
+
 const STATUS_NUMBERS: Record<SendStatus, number> = {
   [SendStatus.Failed]: 0,
   [SendStatus.Pending]: 1,
@@ -52,6 +61,7 @@ const STATUS_NUMBERS: Record<SendStatus, number> = {
   [SendStatus.Delivered]: 3,
   [SendStatus.Read]: 4,
   [SendStatus.Viewed]: 5,
+  [SendStatus.Skipped]: 6,
 };
 
 export const maxStatus = (a: SendStatus, b: SendStatus): SendStatus =>
@@ -69,6 +79,8 @@ export const isSent = (status: SendStatus): boolean =>
   STATUS_NUMBERS[status] >= STATUS_NUMBERS[SendStatus.Sent];
 export const isFailed = (status: SendStatus): boolean =>
   status === SendStatus.Failed;
+export const isSkipped = (status: SendStatus): boolean =>
+  status === SendStatus.Skipped;
 
 /**
  * `SendState` combines `SendStatus` and a timestamp. You can use it to show things to the
@@ -88,7 +100,8 @@ export type SendState = Readonly<{
     | SendStatus.Sent
     | SendStatus.Delivered
     | SendStatus.Read
-    | SendStatus.Viewed;
+    | SendStatus.Viewed
+    | SendStatus.Skipped;
   updatedAt?: number;
 }>;
 

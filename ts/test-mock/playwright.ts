@@ -3,7 +3,7 @@
 
 import type { ElectronApplication, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
-import { EventEmitter } from 'events';
+import { EventEmitter, once } from 'events';
 import pTimeout from 'p-timeout';
 
 import type {
@@ -12,6 +12,7 @@ import type {
 } from '../challenge';
 import type { ReceiptType } from '../types/Receipt';
 import { SECOND } from '../util/durations';
+import { drop } from '../util/drop';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -87,6 +88,8 @@ export class App extends EventEmitter {
     }
 
     this.privApp.on('close', () => this.emit('close'));
+
+    drop(this.printLoop());
   }
 
   public async waitForProvisionURL(): Promise<string> {
@@ -238,5 +241,37 @@ export class App extends EventEmitter {
     }
 
     return this.privApp;
+  }
+
+  private async printLoop(): Promise<void> {
+    const kClosed: unique symbol = Symbol('kClosed');
+    const onClose = (async (): Promise<typeof kClosed> => {
+      try {
+        await once(this, 'close');
+      } catch {
+        // Ignore
+      }
+      return kClosed;
+    })();
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const value = await Promise.race([
+          this.waitForEvent<string>('print', 0),
+          onClose,
+        ]);
+
+        if (value === kClosed) {
+          break;
+        }
+
+        // eslint-disable-next-line no-console
+        console.error(`CI.print: ${value}`);
+      } catch {
+        // Ignore errors
+      }
+    }
   }
 }

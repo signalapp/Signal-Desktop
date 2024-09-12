@@ -215,6 +215,9 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   }
 
   static async start(): Promise<void> {
+    if (window.SignalCI?.isBackupIntegration) {
+      return;
+    }
     await AttachmentDownloadManager.instance.start();
   }
 
