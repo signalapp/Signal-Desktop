@@ -3528,10 +3528,10 @@
     "messageformat": "バックアップのサイズによっては、数分かかる場合があります"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "メディアを復元中"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} のうち{currentSize}（{fractionComplete,number,percent}）"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "大きく"
@@ -5618,6 +5618,6 @@
     "messageformat": "通話開始後に、チャットリストの概要に「不明な連絡先がビデオ通話を開始しました」と表示されることがあったいくつかのバグなども修正しました。"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "このアップデートでは、ある端末で不在着信を表示しても、他の端末でその不在着信のお知らせが自動的にクリアされないというバグが修正されました。"
   }
 }

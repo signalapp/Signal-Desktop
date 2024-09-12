@@ -357,7 +357,7 @@
     "messageformat": "Kan {title} niet verwijderen"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "Deze persoon is opgeslagen in de contactenlijst van je apparaat. Verwijder hem of haar uit je Contacten op je mobiele apparaat en probeer het opnieuw."
+    "messageformat": "Deze persoon is opgeslagen in de contactenlijst van je apparaat. Verwijder deze persoon uit Contacten op je telefoon en probeer het opnieuw."
   },
   "icu:moveConversationToInbox": {
     "messageformat": "Dearchiveren"
@@ -1059,7 +1059,7 @@
     "messageformat": "Je chatgeschiedenis met {conversationTitle} en het nummer {obsoleteConversationNumber} zijn samengevoegd."
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "Je chatgeschiedenis met {conversationTitle} en een andere chat met hem of haar zijn samengevoegd."
+    "messageformat": "Je chatgeschiedenis met {conversationTitle} en een andere chat met deze persoon zijn samengevoegd."
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Meer lezen"
@@ -1248,7 +1248,7 @@
     "messageformat": "Deelnemen"
   },
   "icu:CallingLobbyJoinButton--start": {
-    "messageformat": "Beginnen"
+    "messageformat": "Oproep beginnen"
   },
   "icu:CallingLobbyJoinButton--call-full": {
     "messageformat": "Oproep vol"
@@ -1617,10 +1617,10 @@
     "messageformat": "Berichtinhoud is te lang"
   },
   "icu:unblockToSend": {
-    "messageformat": "Deblokkeer dit contact om een bericht te versturen."
+    "messageformat": "Deblokkeer dit contact om een bericht te sturen."
   },
   "icu:unblockGroupToSend": {
-    "messageformat": "Deblokkeer deze groep om een bericht te versturen."
+    "messageformat": "Deblokkeer deze groep om een bericht te sturen."
   },
   "icu:youChangedTheTimer": {
     "messageformat": "Je hebt de timer voor verdwijnende berichten op {time} ingesteld."
@@ -1695,7 +1695,7 @@
     "messageformat": "Veiligheidsnummer weergeven"
   },
   "icu:cannotGenerateSafetyNumber": {
-    "messageformat": "Deze persoon kan niet geverifieerd worden zolang je nog geen berichten met hem of haar hebt uitgewisseld."
+    "messageformat": "Deze persoon kan niet geverifieerd worden zolang je nog geen berichten hebt uitgewisseld."
   },
   "icu:themeLight": {
     "messageformat": "Licht"
@@ -1839,7 +1839,7 @@
     "messageformat": "Signal herstarten"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
-    "messageformat": "Nieuwe versie negeren"
+    "messageformat": "Update negeren"
   },
   "icu:leftTheGroup": {
     "messageformat": "{name} heeft de groep verlaten."
@@ -2388,7 +2388,7 @@
     "messageformat": "Video-oproep beginnen"
   },
   "icu:Keyboard--decline-call": {
-    "messageformat": "Oproep afwijzen"
+    "messageformat": "Oproep weigeren"
   },
   "icu:Keyboard--hang-up": {
     "messageformat": "Oproep beëindigen"
@@ -2475,19 +2475,19 @@
     "messageformat": "Klaar"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "Wil je berichten van {name} ontvangen, en sta je toe dat diegene je profielnaam, -foto en -omschrijving kan zien? Personen weten niet dat je hun berichten hebt gezien totdat je het gespreksverzoek hebt geaccepteerd."
+    "messageformat": "Wil je berichten van {name} ontvangen en je profielnaam, -foto en -omschrijving met diegene delen? Personen weten niet dat je hun berichten hebt gezien totdat je het gespreksverzoek hebt geaccepteerd."
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Wil je berichten van {name} ontvangen, en sta je toe dat diegene je profielnaam, -foto en -omschrijving kan zien? Je hebt deze persoon in het verleden verwijderd."
+    "messageformat": "Wil je berichten van {name} ontvangen en je profielnaam, -foto en -omschrijving met diegene delen? Je hebt deze persoon in het verleden verwijderd."
   },
   "icu:MessageRequests--message-direct-blocked": {
-    "messageformat": "Wil je berichten van {name} ontvangen, en sta je toe dat diegene je profielnaam, -foto en -omschrijving kan zien? Totdat je deze persoon hebt gedeblokkeerd, zul je geen berichten ontvangen."
+    "messageformat": "Wil je berichten van {name} ontvangen en je profielnaam, -foto en -omschrijving met diegene delen? Totdat je deze persoon hebt gedeblokkeerd, zul je geen berichten ontvangen."
   },
   "icu:MessageRequests--message-group": {
-    "messageformat": "Wil je lid worden van deze groep, en sta je toe dat alle leden van de groep je profielnaam, -foto en -omschrijving kunnen zien? Leden van de groep weten niet dat je hun berichten hebt gezien totdat je het gespreksverzoek hebt geaccepteerd."
+    "messageformat": "Wil je lid worden van deze groep en je profielnaam, -foto en -omschrijving met de andere leden delen? Leden van de groep weten niet dat je hun berichten hebt gezien totdat je het gespreksverzoek hebt geaccepteerd."
   },
   "icu:MessageRequests--message-group-blocked": {
-    "messageformat": "Wil je weer berichten van deze groep ontvangen en sta je toe dat alle leden van de groep je profielnaam, -foto en -omschrijving kunnen zien? Totdat je de groep hebt gedeblokkeerd, zul je geen berichten of oproepen ontvangen en kunnen leden van deze groep veranderingen van je profiel niet zien."
+    "messageformat": "Wil je deze groep deblokkeren en je profielnaam, -foto en -omschrijving met de leden delen? Totdat je de groep hebt gedeblokkeerd, zul je geen berichten ontvangen."
   },
   "icu:MessageRequests--block": {
     "messageformat": "Blokkeren"
@@ -2574,7 +2574,7 @@
     "messageformat": "Doorgaan"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Wil je je profielnaam, -foto en -omschrijving voor deze groep zichtbaar maken om je chat met de groep voort te kunnen zetten? <learnMoreLink>Meer informatie.</learnMoreLink>"
+    "messageformat": "Wil je je profielnaam, -foto en -omschrijving met de andere leden delen om je chat met de groep voort te kunnen zetten? <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
     "messageformat": "Doorgaan met deze chat met {firstName} en je naam en profielfoto met hen delen? <learnMoreLink>Meer informatie</learnMoreLink>"
@@ -2607,7 +2607,7 @@
     "messageformat": "Oproep beantwoorden"
   },
   "icu:acceptCallWithoutVideo": {
-    "messageformat": "Beantwoord oproep zonder video"
+    "messageformat": "Oproep beantwoorden zonder video"
   },
   "icu:declineCall": {
     "messageformat": "Weigeren"
@@ -2688,7 +2688,7 @@
     "messageformat": "Aan oproep deelnemen"
   },
   "icu:callNeedPermission": {
-    "messageformat": "{title} zal van jou een gespreksverzoek ontvangen. Je kunt bellen zodra je gespreksverzoek door hem of haar is geaccepteerd."
+    "messageformat": "{title} zal van jou een gespreksverzoek ontvangen. Je kunt bellen vanaf het moment dat je gespreksverzoek is geaccepteerd."
   },
   "icu:callReconnecting": {
     "messageformat": "Opnieuw aan het verbinden…"
@@ -2928,10 +2928,10 @@
     "messageformat": "Ongeldige link"
   },
   "icu:GroupV2--join--invalid-link": {
-    "messageformat": "Dit is geen geldige groepslink. Ga na dat je de volledige link gebruikt met de juiste karakters voordat je probeert lid te worden van de groep."
+    "messageformat": "Dit is geen geldige groepslink. Zorg dat je de volledige link gebruikt met de juiste karakters voordat je probeert lid te worden van de groep."
   },
   "icu:GroupV2--join--prompt": {
-    "messageformat": "Wil je lid worden van deze groep en je naam en profielfoto met de andere leden delen?"
+    "messageformat": "Wil je lid worden van deze groep en je profielnaam, -foto en -omschrijving met de andere leden delen?"
   },
   "icu:GroupV2--join--already-in-group": {
     "messageformat": "Je bent al lid van deze groep."
@@ -3528,10 +3528,10 @@
     "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je back-up"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Media aan het herstellen"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Vergroten"
@@ -3642,7 +3642,7 @@
     "messageformat": "Berichten verzenden & oproepen beginnen"
   },
   "icu:ConversationDetails--announcement-info": {
-    "messageformat": "Kies wie berichten aan de groep mogen verzenden en oproepen mogen beginnen."
+    "messageformat": "Kies wie in deze groep berichten mogen verzenden en oproepen mogen beginnen."
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Verzoeken & uitnodigingen"
@@ -3747,10 +3747,10 @@
     "messageformat": "Meldingen ontvangen wanneer je wordt vermeld in een gedempte chat"
   },
   "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Altijd een melding bij vermeldingen"
+    "messageformat": "Geef me altijd een melding"
   },
   "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Geef me geen melding als gedempt"
+    "messageformat": "Geen meldingen als gedempt"
   },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Groepslink gekopieerd."
@@ -3801,7 +3801,7 @@
     "messageformat": "Groepsuitnodiging voor ‘{name}’ intrekken?"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {{number,number} uitnodiging die door {name} is verstuurd intrekken?} other {{number,number} uitnodigingen die door {name} zijn verstuurd intrekken?}}"
+    "messageformat": "{number, plural, one {Wil je de uitnodiging die door {name} is verstuurd intrekken?} other {Wil je {number,number} uitnodigingen die door {name} zijn verstuurd intrekken?}}"
   },
   "icu:PendingInvites--revoke": {
     "messageformat": "Uitnodiging intrekken"
@@ -4176,7 +4176,7 @@
     "messageformat": "Zodra je een bericht verzendt zal de timer voor verdwijnende berichten op {timeValue} worden ingesteld."
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "Je hebt deze persoon verwijderd. Als je hem of haar opnieuw een bericht stuurt, wordt diegene weer aan je lijst toegevoegd."
+    "messageformat": "Je hebt deze persoon verwijderd. Als je opnieuw een bericht stuurt, wordt diegene weer aan je lijst toegevoegd."
   },
   "icu:ErrorBoundaryNotification__text": {
     "messageformat": "Dit bericht kan niet worden weergegeven. Klik hier om een foutopsporingslog te uploaden."
@@ -4599,7 +4599,7 @@
     "messageformat": "Start Signal opnieuw om de update te installeren."
   },
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
-    "messageformat": "Signal Desktop kon niet worden geüpdatet, maar er is een nieuwe versie beschikbaar. Ga naar {downloadUrl}, installeer de nieuwe versie handmatig en neem vervolgens contact op met ondersteuning of dien een bug in over dit probleem."
+    "messageformat": "Signal Desktop kon niet worden bijgewerkt, maar er is een nieuwe versie beschikbaar. Ga naar {downloadUrl} en installeer de nieuwe versie handmatig. Neem vervolgens contact op met ondersteuning of dien een foutrapport in over dit probleem."
   },
   "icu:NSIS__retry-dialog--first-line": {
     "messageformat": "Signal kan niet automatisch worden afgesloten.",
@@ -5618,6 +5618,6 @@
     "messageformat": "We hebben ook een aantal bugs opgelost, waaronder een bug die er soms voor zorgde dat ‘Onbekend contact is een video-oproep gestart’ werd weergegeven in de chatlijst terwijl je zelf de oproep was gestart.Zelfs als je jezelf nog aan het ontdekken bent, ben je nooit helemaal een onbekende voor jezelf."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "In deze update is een fout opgelost, waardoor de indicator van een gemiste oproep nu weer automatisch op andere apparaten wordt gewist zodra je de gemiste oproep op één apparaat hebt gezien. Maar als je deze fout hebt gemist, dan heb je niks gemist."
   }
 }

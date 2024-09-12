@@ -3528,10 +3528,10 @@
     "messageformat": "Сақтық көшірменің көлеміне қарай ол бірнеше минутқа созылуы мүмкін."
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Мультимедианы қалпына келтіру"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize}/{totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Кеңейту"
@@ -5618,6 +5618,6 @@
     "messageformat": "Сондай-ақ бірнеше қатені түзеттік, соның ішінде сіз қоңырау шала бастағанда, кейде чатта \"Белгісіз контакт видеоқоңырауды бастады\" деп шығатын қате түзетілді. Өмірде өзін-өзі тану жолында жүрсеңіз де, өзіңізге мәлім тұстардың әрқашан болатыны анық."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Бұл жаңа нұсқада қабылданбаған қоңыраулар тізіміне қатысты ақау түзетілді. Енді бір құрылғыда қабылданбаған қоңырауды көргенде, басқа құрылғылардағы қабылданбаған қоңырау белгісі автоматты түрде өшірілетін болады."
   }
 }

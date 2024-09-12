@@ -3528,10 +3528,10 @@
     "messageformat": "Dit kan 'n paar minute neem, na gelang van die grootte van jou rugsteun"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Besig om media te herstel"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Vou uit"
@@ -5618,6 +5618,6 @@
     "messageformat": "Ons het ook 'n handvol foute reggemaak, met inbegrip van een wat soms veroorsaak het dat \"Onbekende kontak het 'n video-oproep begin\" in die kletslys-opsomming verskyn nadat jy die oproep begin het."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Hierdie opdatering maak 'n fout reg waar die bekyk van 'n gemiste oproep op een toestel nie outomaties die aanduiding van daardie gemiste oproep op jou ander toestelle sou uitvee nie."
   }
 }

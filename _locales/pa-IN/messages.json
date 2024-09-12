@@ -3528,10 +3528,10 @@
     "messageformat": "ਤੁਹਾਡੇ ਬੈਕਅੱਪ ਦੇ ਆਕਾਰ 'ਤੇ ਨਿਰਭਰ ਕਰਦੇ ਹੋਏ ਇਸ ਵਿੱਚ ਕੁਝ ਮਿੰਟ ਲੱਗ ਸਕਦੇ ਹਨ"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "ਮੀਡੀਆ ਰੀਸਟੋਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ਫੈਲਾਓ"
@@ -5618,6 +5618,6 @@
     "messageformat": "ਅਸੀਂ ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ, ਜਿਸ ਵਿੱਚ ਕਈ ਵਾਰ ਤੁਹਾਡੇ ਦੁਆਰਾ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਤੋਂ ਬਾਅਦ ਚੈਟ ਸੂਚੀ ਦੇ ਸੰਖੇਪ ਵਿੱਚ \"ਅਣਜਾਣ ਸੰਪਰਕ ਨੇ ਇੱਕ ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕੀਤੀ\" ਦਿਖਾਈ ਦਿੰਦਾ ਸੀ।"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "ਪਹਿਲਾਂ ਇੱਕ ਡਿਵਾਈਸ 'ਤੇ ਮਿਸਡ ਕਾਲ ਦੀ ਸੂਚਨਾ ਦੇਖਣ ਤੋਂ ਬਾਅਦ ਤੁਹਾਡੇ ਦੂਜੇ ਡਿਵਾਈਸਾਂ 'ਤੇ ਮਿਸਡ ਕਾਲ ਦੀ ਸੂਚਨਾ ਆਪਣੇ-ਆਪ ਕਲੀਅਰ ਨਹੀਂ ਹੁੰਦੀ ਸੀ, ਇਹ ਅੱਪਡੇਟ ਉਸ ਖ਼ਰਾਬੀ ਨੂੰ ਠੀਕ ਕਰਦੀ ਹੈ।"
   }
 }

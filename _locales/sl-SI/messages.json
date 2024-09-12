@@ -3528,10 +3528,10 @@
     "messageformat": "To lahko traja nekaj minut, odvisno od velikosti varnostne kopije"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Obnovitev medijev"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} od {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Razširi"
@@ -5618,6 +5618,6 @@
     "messageformat": "Odpravili smo tudi nekaj hroščev, med drugim tistega, ki je včasih povzročil, da se je napis \"Neznani stik je začel video klic\" pojavil v povzetku seznama klepeta po tem, ko ste začeli klic. Čeprav ste še vedno na poti samospoznavanja, si nikoli niste povsem neznani."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Ta posodobitev odpravlja napako, zaradi katere se ob ogledu neodgovorjenega klica v eni napravi kazalnik neodgovorjenega klica ni samodejno izbrisal v drugih napravah."
   }
 }

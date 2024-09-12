@@ -3528,10 +3528,10 @@
     "messageformat": "Det kan tage et par minutter afhængigt af sikkerhedskopiens størrelse"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Gendanner medier"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} af {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Udvid"
@@ -5618,6 +5618,6 @@
     "messageformat": "Vi har også rettet en håndfuld fejl, herunder en, der nogle gange forårsagede, at \"Ukendt kontakt startede et videoopkald\" til at blive vist i chatlisteoversigten, efter du startede opkaldet. Selvom du stadig er på en selvopdagelsesrejse, er du aldrig helt ukendt for dig selv."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Denne opdatering retter en fejl, hvor visning af et ubesvaret opkald på én enhed ikke automatisk ville rydde indikatoren for det ubesvarede opkald på dine andre enheder, hvilket var en mistet mulighed for, at din liste med ubesvarede opkald bedre kunne eksistere side om side."
   }
 }

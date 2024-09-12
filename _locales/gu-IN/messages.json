@@ -3528,10 +3528,10 @@
     "messageformat": "તમારા બેકઅપની સાઇઝના આધારે આમાં થોડો સમય લાગી શકે છે"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "મીડિયા રિસ્ટોર થાય છે"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} માંથી {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "વિસ્તૃત કરો"
@@ -5618,6 +5618,6 @@
     "messageformat": "અમે થોડા એવા બગને પણ ઠીક કર્યા છે, જેમાં એક બગ એવો શામેલ હતો જેના કારણે તમે કૉલ શરૂ કર્યા પછી ચેટ સૂચિ સારાંશમાં ક્યારેક \"અજાણ્યા સંપર્કે વીડિયો કૉલ શરૂ કર્યો\" એવું દેખાતું હતું."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "આ અપડેટ એક એવા બગને ઠીક કરે છે જ્યાં એક ડિવાઇસ પર મિસ્ડ કૉલ જોવાથી તમારા અન્ય ડિવાઇસ પર તે મિસ્ડ કૉલ માટેનું સૂચક આપમેળે દૂર થતું ન હતું."
   }
 }

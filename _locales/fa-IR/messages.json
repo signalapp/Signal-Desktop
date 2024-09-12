@@ -1089,7 +1089,7 @@
     "messageformat": "تصویر ارسال‌شده در گفتگو"
   },
   "icu:imageCaptionIconAlt": {
-    "messageformat": "آیکون نشان می‌دهد که این تصویر دارای یک عنوان است"
+    "messageformat": "آیکون نشان می‌دهد که این تصویر دارای یک متن است"
   },
   "icu:save": {
     "messageformat": "ذخیره"
@@ -2091,13 +2091,13 @@
     "messageformat": "خطا در باز کردن بسته‌ی استیکر. ارتباط اینترنت خود را بررسی کنید و دوباره تلاش کنید."
   },
   "icu:EmojiPicker--empty": {
-    "messageformat": "شکلکی پیدا نشد"
+    "messageformat": "ایموجی پیدا نشد"
   },
   "icu:EmojiPicker--search-close": {
     "messageformat": "بستن جستجوی ایموجی"
   },
   "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "جستجوی شکلک"
+    "messageformat": "جستجوی ایموجی"
   },
   "icu:EmojiPicker--skin-tone": {
     "messageformat": "رنگ پوست {tone}"
@@ -2106,7 +2106,7 @@
     "messageformat": "موارد اخیر"
   },
   "icu:EmojiPicker__button--emoji": {
-    "messageformat": "شکلک"
+    "messageformat": "ایموجی"
   },
   "icu:EmojiPicker__button--animal": {
     "messageformat": "حیوان"
@@ -2898,7 +2898,7 @@
     "messageformat": "بی‌صدا تا {duration}"
   },
   "icu:EmojiButton__label": {
-    "messageformat": "شکلک"
+    "messageformat": "ایموجی"
   },
   "icu:ErrorModal--title": {
     "messageformat": "خطایی رخ‌ داد!"
@@ -3528,10 +3528,10 @@
     "messageformat": "بسته به حجم نسخۀ پشتیبان شما، این پردازش ممکن است چند دقیقه طول بکشد"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "در حال بازیابی رسانه"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "‏{currentSize} از {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "گسترش"
@@ -4443,7 +4443,7 @@
     "messageformat": "برای تغییر این تنظیم، برنامهٔ سیگنال را روی دستگاه تلفن همراه باز کنید و به تنظیمات > گفتگوها بروید"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "تبدیل شکلک‌های تایپی به ایموجی"
+    "messageformat": "تبدیل ایموجی‌های تایپی به ایموجی"
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "مثلاً :-) به <emojify>🙂</emojify> تبدیل خواهد شد"
@@ -5618,6 +5618,6 @@
     "messageformat": "همچنین تعدادی از اشکالات را برطرف کردیم، از جمله اشکالی که گاهی باعث می‌شد پیام «مخاطب ناشناس یک تماس تصویری شروع کرد» پس از شروع تماس در خلاصه فهرست گفتگوها ظاهر شود."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "این به‌روزرسانی اشکالی را برطرف می‌کند که اجازه نمی‌داد هنگام مشاهده تماس بی‌پاسخ در یک دستگاه، نشانگر آن تماس از دست‌رفته به‌طور خودکار در دستگاه‌های دیگر شما پاک شود."
   }
 }

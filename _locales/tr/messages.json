@@ -3528,10 +3528,10 @@
     "messageformat": "Yedeklemenin boyutuna bağlı olarak birkaç dakika sürebilir"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Medya geri yükleniyor"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişlet"
@@ -5618,6 +5618,6 @@
     "messageformat": "Aramayı başlattıktan sonra bazen sohbet listesi özetinde \"Bilinmeyen bir kişi görüntülü arama başlattı\" hatasının görünmesine neden olan bir hata da dahil olmak üzere birkaç hatayı düzelttik. Böylece kafan karışmadan, rahatça görüşmelerini yapabileceksin."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Bu güncellemede, cevapsız bir aramanın bir cihazda görüntülenmesinin, diğer cihazlarındaki cevapsız arama göstergesini otomatik olarak silmemesine neden olan bir hatayı düzelttik."
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "Hii inaweza kuchukua sekunde kadhaa kulingana na ukubwa wa mchakato wako wa uhifadhi nakala"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Inarejesha video na picha"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} ya {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Panua"
@@ -5618,6 +5618,6 @@
     "messageformat": "Pia tumerekebisha hitilafu kadhaa, ikiwemo moja ambayo wakati mwingine husababisha \"Mwasiliani asiyejulikana amepiga simu ya video\" kuonekana kwenye mhtasari wa orodha ya gumzo baada ya simu kupigwa. Hata kama bado upo kwenye safari ya kujitambua, ila sio kwamba haujitambui kabisa."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Sasisho hili hurekebisha hitilafu ambapo kutazama simu ambayo hukujibiwa kwenye kifaa kimoja hakutafuta kiotomatiki kiashirio cha simu ambayo haikujibiwa kwenye vifaa vyako vingine, ambayo ilikuwa fursa iliyokosekana katika orodha yako ya simu ambazo hukujibu kufanya kazi vyema kwa pamoja."
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "మీ బ్యాకప్ పరిమాణాన్ని బట్టి దీనికి ఇంకాస్త సమయం పట్టవచ్చు"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "మీడియాను పునరుద్ధరిస్తోంది"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} ({fractionComplete,number,percent})లో {currentSize}"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "విస్తరించండి"
@@ -5618,6 +5618,6 @@
     "messageformat": "మీరు కాల్‌ని ప్రారంభించిన తర్వాత చాట్ జాబితా సారాంశంలో కొన్నిసార్లు \"తెలియని పరిచయం వీడియో కాల్‌ను ప్రారంభించింది\" అని కనిపించడానికి కారణం అయిన దానితో సహా మేము మరి కొన్ని బగ్‌లను కూడా పరిష్కరించాము. ఇంకా మీరు మిమ్మల్ని కనుగొనే పయనంలో ఉన్నప్పటికీ, మీకు మీరేమి పూర్తిగా అపరిచితులు కాదు."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "ఈ అప్‌డేట్, మీరు మిస్డ్ కాల్ వివరాలు ఒక పరికరంలో చూసినప్పుడు, మీ ఇతర పరికరాలలో ఆ మిస్డ్ కాల్ కోసం దాని ఇండికేటర్ ఆటోమేటిక్‌గా క్లియర్ అవ్వడానికి కారణం అయిన బగ్‌ను పరిష్కరిస్తుంది."
   }
 }

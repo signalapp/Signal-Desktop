@@ -3528,10 +3528,10 @@
     "messageformat": "Poate dura câteva minute, în funcție de dimensiunea backup-ului"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Se restaurează fișierele"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Extinde"
@@ -5618,6 +5618,6 @@
     "messageformat": "Am remediat câteva erori, inclusiv una care făcea ca uneori să apară „Un contact necunoscut a început un apel video” în rezumatul listei de conversații, după ce ai început apelul. Chiar dacă încă ești într-o călătorie de descoperire de sine, nu ești niciodată complet necunoscut ție însuți."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Această actualizare remediază o eroare prin care dacă vizualizai un apel pierdut pe un dispozitiv nu se ștergea automat indicatorul de apel pierdut pe alte dispozitive, ceea ce împiedica buna conviețuire a listelor de apeluri pierdute."
   }
 }

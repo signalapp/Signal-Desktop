@@ -3528,10 +3528,10 @@
     "messageformat": "اس پر چند منٹ لگ سکتے ہیں جس کا انحصار آپ کے کنکشن پر ہے"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "میڈیا بحال ہو رہا ہے"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} کا {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "پھیلائیں"
@@ -5618,6 +5618,6 @@
     "messageformat": "ہم نے آپ کی جانب سے کال شروع کرنے کے بعد چیٹ لسٹ کے خلاصے میں ظاہر ہونے والے چند ایک نقائص کو بھی صحیح کیا ہے، بشمول اس کی جو بعض اوقات \"نامعلوم رابطہ کی جانب سے ویڈیو کال شروع کی گئی\" کا سبب ہوتا تھا۔"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "یہ اپ ڈیٹ اس بگ کو ٹھیک کرتی ہے جہاں ایک ڈیوائس پر مسڈ کال دیکھنے سی بھی آپ کی دوسری ڈیوائسز پر اس مسڈ کال کا انڈیکیٹر خودکار طور پر ختم نہیں ہوتا تھا۔"
   }
 }

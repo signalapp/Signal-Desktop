@@ -3528,10 +3528,10 @@
     "messageformat": "Olenevalt sinu varukoopia suurusest võib see mõne minuti aega võtta"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Meedia taastamine"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} kogumahust {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laienda"
@@ -5618,6 +5618,6 @@
     "messageformat": "Parandasime ka mõned vead, sh selle, mis andis mõnikord pärast kõne alustamist vestluste loendi kokkuvõttes teate „Tundmatu kontakt alustas videokõnet“"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Selle uuendusega parandati viga, mille tõttu ühes seadmes vastamata kõne vaatamine ei kõrvaldanud teistes seadmetes vastamata kõne teadet."
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "Zure babeskopiaren tamainaren arabera, baliteke minutu batzuk behar izatea"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Multimedia-edukia leheneratzen"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zabaldu"
@@ -5618,6 +5618,6 @@
     "messageformat": "Akats batzuk ere konpondu ditugu, tartean deia hasi eta gero \"Kontaktu ezezagunak bideo-deia hasi du\" txat-zerrendaren laburpenean agertzea eragiten zuena. Oraindik auto-aurkikuntzarako bidaian bazabiltza ere, inoiz ez zara guztiz ezezaguna zeure buruarentzat."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Eguneratze honen bidez, gailu batean dei galdu bat ikusteak beste gailuetan dei galdu horren adierazlea automatikoki desagertzea galarazten zuen akats bat konpondu da."
   }
 }

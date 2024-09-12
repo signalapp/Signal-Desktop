@@ -3528,10 +3528,10 @@
     "messageformat": "Ez a biztonsági másolat méretétől függően eltarthat néhány percig"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Médiafájl visszaállítása"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize}/{totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Bővítés"
@@ -5618,6 +5618,6 @@
     "messageformat": "Kijavítottunk néhány olyan hibát is, amely miatt a hívás indítása után néha az „Ismeretlen névjegy indított videohívást” üzenet jelent meg a csevegőlista összefoglalójában."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Ez a frissítés kijavítja azt a hibát, amely miatt egy nem fogadott hívás megtekintése az egyik eszközön nem törli automatikusan a nem fogadott hívás jelzését a többi eszközödön."
   }
 }

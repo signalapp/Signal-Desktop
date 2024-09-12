@@ -3528,10 +3528,10 @@
     "messageformat": "Process var aizņemt dažas minūtes atkarībā no rezerves kopijas izmēra"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Multivide tiek atjaunota"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} no {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Izvērst"
@@ -5618,6 +5618,6 @@
     "messageformat": "Tāpat novērsām saujiņu kļūdu, tostarp vienu, kuras dēļ pēc zvana uzsākšanas sarunas saraksta kopsavilkumā reizēm parādījās paziņojums \"Nezināma kontaktpersona uzsāka video zvanu\". Pat tad ja joprojām esat sevis iepazīšanas procesā, vismaz video zvanu ietvaros jums šādu jautājumu vairs nebūs."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Šajā atjauninājumā ir novērsta kļūda, kuras dēļ, apskatot neatbildētu zvanu vienā ierīcē, neatbildētā zvana indikators netika automātiski notīrīts citās ierīcēs. Tagad jūsu neatbildēto zvanu saraksti darbosies unisonā."
   }
 }

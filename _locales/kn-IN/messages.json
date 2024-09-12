@@ -3528,10 +3528,10 @@
     "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್‌ನ ಗಾತ್ರವನ್ನು ಆಧರಿಸಿ ಇದು ಕೆಲವು ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಬಹುದು"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "ಮೀಡಿಯಾ ರಿಸ್ಟೋರ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} ರಲ್ಲಿ {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ವಿಸ್ತರಿಸಿ"
@@ -5618,6 +5618,6 @@
     "messageformat": "ನೀವು ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿದ ನಂತರ ಚಾಟ್ ಲಿಸ್ಟ್‌ನ ಸಾರಾಂಶದಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳಲು ಕೆಲವೊಮ್ಮೆ \"ಅಪರಿಚಿತ ಸಂಪರ್ಕವು ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿದೆ\" ಎಂಬುದನ್ನೂ ಒಳಗೊಂಡಂತೆ ನಾವು ಕೆಲವು ದೋಷಗಳನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ನೀವು ಇನ್ನೂ ಸ್ವಯಂ ಅನ್ವೇಷಣೆಯ ಪ್ರಯಾಣದಲ್ಲಿದ್ದರೂ, ನೀವು ಎಂದಿಗೂ ನಿಮಗೆ ಸಂಪೂರ್ಣವಾಗಿ ಅಪರಿಚಿತರಲ್ಲ."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "ಒಂದು ಸಾಧನದಲ್ಲಿ ಮಿಸ್ಡ್ ಕಾಲ್ ಅನ್ನು ವೀಕ್ಷಿಸುವುದರಿಂದ ನಿಮ್ಮ ಇತರ ಸಾಧನಗಳಲ್ಲಿನ ಮಿಸ್ಡ್ ಕಾಲ್‌ನ ಸೂಚಕವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆರವುಗೊಳಿಸದಿರುವ ಕಡೆ ಈ ಅಪ್‌ಡೇಟ್ ದೋಷವನ್ನು ಸರಿಪಡಿಸುತ್ತದೆ, ಅದು ನಿಮ್ಮ ಮಿಸ್ಡ್ ಕಾಲ್ ಪಟ್ಟಿಯು ಏಕಕಾಲಕ್ಕೆ ಉತ್ತಮವಾಗಿ ಸಮನ್ವಯ ಸಾಧಿಸಲು ತಪ್ಪಿಹೋದ ಅವಕಾಶವಾಗಿದೆ."
   }
 }

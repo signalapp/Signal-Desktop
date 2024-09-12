@@ -3528,10 +3528,10 @@
     "messageformat": "Maaaring tumagal ito nang ilang minuto depende sa laki ng iyong backup"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Nire-restore ang media"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} ng {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "I-expand"
@@ -5618,6 +5618,6 @@
     "messageformat": "May inayos din kaming ilang bugs, kasama ang isang nagiging sanhi minsan ng paglabas ng message na \"Unknown contact started a video call\" sa chat list summary pagkatapos mong magsimula ng call."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Inaayos ng update na ito ang bug kung saan hindi automatically nawawala ang missed call indicator sa ibang devices mo kahit na na-view mo na ang missed call na ito sa isang device."
   }
 }

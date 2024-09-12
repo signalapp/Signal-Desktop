@@ -3528,10 +3528,10 @@
     "messageformat": "Isto pode demorar alguns minutos, dependendo do tamanho da sua cópia de segurança"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "A restaurar os ficheiros"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
@@ -5618,6 +5618,6 @@
     "messageformat": "Também corrigimos uma série de erros, incluindo um que fazia aparecer \"Contacto desconhecido iniciou uma videochamada\" no resumo da lista do chat após iniciar uma chamada de voz."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Esta atualização corrige um erro em que ver uma chamada perdida num dispositivo não apagava automaticamente o indicador dessa chamada perdida nos seus outros dispositivos."
   }
 }

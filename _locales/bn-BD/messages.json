@@ -3528,10 +3528,10 @@
     "messageformat": "আপনার ব্যাকআপের আকারের উপর নির্ভর করে এতে কয়েক মিনিট সময় নিতে পারে"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "মিডিয়া পুনরুদ্ধার করা হচ্ছে"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} এর {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "প্রসারিত করুন"
@@ -5618,6 +5618,6 @@
     "messageformat": "আমরা আরো কিছু বাগও সংশোধন করেছি, যার মধ্যে একটি হলো - কখনো কখনো \"অচেনা কন্টাক্ট একটি ভিডিও কল শুরু করেছে\" নোটিফিকেশনটি আপনি কল শুরু করার পরে চ্যাট তালিকার সারাংশে দেখা যেতো।"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "এই আপডেটটি এমন একটি বাগ সংশোধন করেছে, যে বাগের ফলে আপনার একটি ডিভাইসে কোনো মিসড কল দেখার পর সেই মিসড কলের নোটিফিকেশনটি আপনার অন্য ডিভাইসগুলো থেকে স্বয়ংক্রিয়ভাবে মুছে ফেলে না।"
   }
 }

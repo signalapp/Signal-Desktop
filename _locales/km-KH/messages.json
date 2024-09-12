@@ -3528,10 +3528,10 @@
     "messageformat": "វាអាចចំណាយពេលពីរបីនាទី អាស្រ័យលើទំហំនៃការបម្រុងទុករបស់អ្នក"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "កំពុងស្ដារមេឌៀឡើងវិញ"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} នៃ {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ពង្រីក"
@@ -5618,6 +5618,6 @@
     "messageformat": "យើងក៏បានដោះស្រាយបញ្ហាមួយចំនួនផងដែរ រួមទាំងបញ្ហាមួយដែលជួនកាលធ្វើឱ្យ \"ទំនាក់ទំនងមិនស្គាល់បានចាប់ផ្តើមការហៅជាវីដេអូ\" បង្ហាញនៅក្នុងសេចក្តីសង្ខេបនៃបញ្ជីជជែក បន្ទាប់ពីអ្នកចាប់ផ្តើមការហៅទូរសព្ទ។ ទោះបីជាអ្នកកំពុងស្ថិតនៅក្នុងដំណើរស្វែងរកខ្លួនឯងក៏ដោយ ក៏អ្នកមិនប្រាកដថាមិនស្គាល់ខ្លួនឯងសោះដែរ។"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "កំណែថ្មីនេះបានដោះស្រាយបញ្ហាមួយដែលទោះបីជាអ្នកមើលការហៅដែលខកមិនបានទទួលនៅលើឧបករណ៍មួយក៏ដោយ ក៏វាមិនអាចលុបដោយស្វ័យប្រវត្តិបាននូវសញ្ញាបង្ហាញការហៅដែលខកមិនបានទទួលនោះនៅលើឧបករណ៍ផ្សេងទៀតរបស់អ្នកដែរ ដែលបានធ្វើឱ្យខកខានឱកាសក្នុងការបង្ហាញព្រមគ្នានូវបញ្ជីនៃការហៅដែលខកមិនបានទទួលរបស់អ្នក ឱ្យកាន់តែប្រសើរឡើង។"
   }
 }

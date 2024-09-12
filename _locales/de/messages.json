@@ -3528,10 +3528,10 @@
     "messageformat": "Das kann, abhängig von der Größe deiner Datensicherung, ein paar Minuten dauern."
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Medien werden wiederhergestellt"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} von {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Erweitern"
@@ -3585,7 +3585,7 @@
     "messageformat": "Du nimmst bereits an einem Anruf teil"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "Chatfarbe"
+    "messageformat": "Chat-Farbe"
   },
   "icu:showConversationDetails": {
     "messageformat": "Gruppeneinstellungen"
@@ -3855,13 +3855,13 @@
     "messageformat": "{count, plural, one {Diese Nachricht wird von all deinen Geräten gelöscht.} other {Diese Nachrichten werden von all deinen Geräten gelöscht.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
-    "messageformat": "Löschen für mich"
+    "messageformat": "Für mich löschen"
   },
   "icu:DeleteMessagesModal--deleteFromThisDevice": {
     "messageformat": "Von diesem Gerät löschen"
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
-    "messageformat": "Löschen für alle"
+    "messageformat": "Für alle löschen"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Von allen Geräten löschen"
@@ -4068,16 +4068,16 @@
     "messageformat": "{num, plural, one {Diese personalisierte Farbe wird in {num,number} Chat verwendet. Möchtest du sie für alle Chats löschen?} other {Diese personalisierte Farbe wird in {num,number} Chats verwendet. Möchtest du sie für alle Chats löschen?}}"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Chatfarbe"
+    "messageformat": "Chat-Farbe"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Chatfarbe zurücksetzen"
+    "messageformat": "Chat-Farbe zurücksetzen"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Chatfarben zurücksetzen"
+    "messageformat": "Chat-Farben zurücksetzen"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Alle Chatfarben zurücksetzen"
+    "messageformat": "Alle Chat-Farben zurücksetzen"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
     "messageformat": "Standard zurücksetzen"
@@ -4086,13 +4086,13 @@
     "messageformat": "Zurücksetzen"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Möchtest du alle Chatfarben zurücksetzen?"
+    "messageformat": "Möchtest du alle Chat-Farben zurücksetzen?"
   },
   "icu:ChatColorPicker__custom-color--label": {
     "messageformat": "Farbeditor anzeigen"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "Hier ist eine Vorschau der Chatfarbe."
+    "messageformat": "Hier ist eine Vorschau der Chat-Farbe."
   },
   "icu:ChatColorPicker__sampleBubble2": {
     "messageformat": "Eine andere Nachricht."
@@ -5618,6 +5618,6 @@
     "messageformat": "Wir haben auch eine Handvoll Fehler behoben, darunter einen, der manchmal dazu führte, dass in der Zusammenfassung der Chatliste »Unbekannter Kontakt hat einen Videoanruf gestartet« erschien, nachdem du den Anruf gestartet hast. Auch wenn du noch dabei bist, dich selbst zu finden, bist du für dich selbst doch nie komplett unbekannt."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Dieses Update behebt einen Fehler, bei dem das Anzeigen eines verpassten Anrufs auf einem Gerät nicht automatisch die Anzeige für diesen verpassten Anruf auf anderen Geräten löschte – sozusagen eine verpasste Gelegenheit für die perfekte Koexistenz deiner Liste verpasster Anrufe auf verschiedenen Geräten."
   }
 }

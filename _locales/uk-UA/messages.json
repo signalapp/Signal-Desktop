@@ -3528,10 +3528,10 @@
     "messageformat": "Воно може зайняти кілька хвилин — швидкість залежить від розміру резервної копії"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Відновлення медіафайлів"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} з {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Розкрити"
@@ -5618,6 +5618,6 @@
     "messageformat": "Ми також виправили кілька помилок. Наприклад, почавши виклик, тепер ви не побачите оповістки «Користувач Невідомий контакт почав відеовиклик» на панелі зі списком чатів. Ми згодні, що пошук себе може тривати все життя, та все ж для самої себе людина не буває геть невідома."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "У цьому оновленні ми виправили помилку, через яку індикатор пропущеного виклику не зникав з усіх пристроїв, коли ви переглядали сповіщення на якомусь з них. Іноді таємниці доречні, але ваш акаунт Signal точно має ділитися подробицями з усіма зв’язаними пристроями."
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "നിങ്ങളുടെ ബാക്കപ്പിൻ്റെ വലുപ്പം അനുസരിച്ച് ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "മീഡിയ പുനഃസ്ഥാപിക്കുന്നു"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "വികസിപ്പിക്കുക"
@@ -5618,6 +5618,6 @@
     "messageformat": "നിങ്ങൾ കോൾ ആരംഭിച്ചതിന് ശേഷം ചാറ്റ് ലിസ്റ്റ് സംഗ്രഹത്തിൽ ചിലപ്പോൾ \"അജ്ഞാത കോൺടാക്റ്റ് ഒരു വീഡിയോ കോൾ ആരംഭിച്ചു\" എന്നതിന് കാരണമായത് ഉൾപ്പെടെയുള്ള ഒരുപിടി ബഗുകളും ഞങ്ങൾ പരിഹരിച്ചു. നിങ്ങൾ ഇപ്പോഴും സ്വയം കണ്ടെത്താനുള്ള ഒരു യാത്രയിലാണെങ്കിലും, നിങ്ങൾ ഒരിക്കലും നിങ്ങൾക്ക് പൂർണ്ണമായും അജ്ഞാതനല്ല."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "ഒരു ഉപകരണത്തിൽ മിസ്‌ഡ് കോൾ കാണുന്നത് നിങ്ങളുടെ മറ്റ് ഉപകരണങ്ങളിൽ ആ മിസ്‌ഡ് കോളിന്റെ സൂചന ഓട്ടോമാറ്റിയ്ക്കായി മായ്‌ക്കാത്ത ഒരു ബഗ് ഈ അപ്‌ഡേറ്റ് പരിഹരിക്കുന്നു, ഇത് നിങ്ങളുടെ മിസ്‌ഡ് കോൾ ലിസ്റ്റിന്റെ നിലവിലെ അവസ്ഥയെ എല്ലാ ഉപകരണങ്ങളിലും ഒരുപോലെ ശരിയായ രീതിയിൽ കാണിക്കാൻ സഹായിക്കുന്നു."
   }
 }

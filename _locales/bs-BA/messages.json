@@ -3528,10 +3528,10 @@
     "messageformat": "Ovo može potrajati nekoliko minuta ovisno o veličini vaše sigurnosne kopije"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Obnova medijskih sadržaja"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} od {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Proširi"
@@ -5618,6 +5618,6 @@
     "messageformat": "Također smo popravili pregršt grešaka, uključujući onu koja je ponekad uzrokovala pojavljivanje \"Nepoznati kontakt započeo je videopoziv\" u sažetku popisa za razgovor nakon što ste započeli poziv."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Ovo ažuriranje popravlja grešku u kojoj gledanje propuštenog poziva na jednom uređaju ne bi automatski očistilo indikator za taj propušteni poziv na drugim uređajima."
   }
 }

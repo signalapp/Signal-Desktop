@@ -3528,10 +3528,10 @@
     "messageformat": "可能需時幾分鐘，視你的備份大小而定"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "正在還原媒體"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "共 {totalSize} 中的 {currentSize} ( {fractionComplete,number,percent} )"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "擴充"
@@ -5618,6 +5618,6 @@
     "messageformat": "我們還修正了一些錯誤，包括有時會在發起通話後，聊天清單摘要中出現「未知聯絡人開始視訊通話」的問題。從此你不會對自己感到「陌生」了。"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "此更新修正了一個錯誤，即在某個裝置上查看未接來電時，不會自動清除其他裝置上的未接來電標記。"
   }
 }

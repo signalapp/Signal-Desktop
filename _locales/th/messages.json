@@ -3528,10 +3528,10 @@
     "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่ โดยขึ้นอยู่กับขนาดข้อมูลสำรองของคุณ"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "กำลังกู้คืนไฟล์สื่อ"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} จาก {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ขยาย"
@@ -5618,6 +5618,6 @@
     "messageformat": "เรายังจัดการแก้ไขบั๊กหลายตัว รวมถึงบั๊กที่เคยทำให้หน้ารายการแชทขึ้นสถานะว่า \"ผู้ติดต่อที่ไม่รู้จักเริ่มวิดีโอคอล\" เมื่อคุณเป็นคนเริ่มต้นการโทรนั้น"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กเพื่อการใช้งานที่ไม่สะดุด โดยเมื่อคุณเปิดดูสายที่ไม่ได้รับบนอุปกรณ์เครื่องหนึ่ง ระบบจะซิงค์ให้สถานะบนอุปกรณ์อีกเครื่องเปลี่ยนตามแบบอัตโนมัติ"
   }
 }

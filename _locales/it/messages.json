@@ -3528,10 +3528,10 @@
     "messageformat": "Questo processo potrebbe richiedere qualche minuto a seconda della dimensione del tuo backup"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Ripristino dei media in corso"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} di {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Espandi"
@@ -5618,6 +5618,6 @@
     "messageformat": "Abbiamo anche risolto una serie di bug, tra cui uno che poteva causare la comparsa della scritta \"Un contatto sconosciuto ha iniziato una videochiamata\" nel riepilogo di una chat dopo aver iniziato la chiamata. D'altronde, meglio fare una chiamata con persone conosciute, no?"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Questo aggiornamento risolve un bug molto fastidioso: quando vedevi una chiamata persa su un dispositivo, a volte l'indicatore con il numero di chiamate perse non veniva aggiornato sugli altri dispositivi… avremo perso qualche chiamata ma non l'opportunità di risolvere il bug!"
   }
 }

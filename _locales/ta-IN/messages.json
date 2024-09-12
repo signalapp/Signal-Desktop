@@ -3528,10 +3528,10 @@
     "messageformat": "உங்கள் காப்புப்பிரதியின் அளவைப் பொறுத்து இதற்குச் சில நிமிடங்கள் ஆகலாம்"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "மீடியாவை மீட்டமைக்கிறது"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} இல் {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "விரிவாக்கு"
@@ -5618,6 +5618,6 @@
     "messageformat": "நீங்கள் அழைப்பைத் தொடங்கிய பிறகு, சில சமயங்களில் சாட் பட்டியலின் சுருக்கத்தில் தெரியப்படும் \"அறியப்படாத தொடர்பு வீடியோ அழைப்பைத் தொடங்கினார்\" உட்பட சில பிழைகளை நாங்கள் சரிசெய்துள்ளோம்."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "இந்தப் புதுப்பிப்பு ஒரு சாதனத்தில் தவறவிட்ட அழைப்பைப் பார்ப்பதன் மூலம், அதே தவறவிட்ட அழைப்புகளை மற்ற சாதனங்களில் தானாக அழிக்காமல் காண்பிக்கும் பிழையைச் சரிசெய்கிறது."
   }
 }

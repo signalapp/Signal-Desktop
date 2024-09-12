@@ -498,7 +498,7 @@
     "messageformat": "Enviar"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
-    "messageformat": "Marcar persona como verificada"
+    "messageformat": "Verificar identidad"
   },
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Retirar marca de verificación"
@@ -3528,10 +3528,10 @@
     "messageformat": "Dependiendo del tamaño de tu copia de seguridad, esto puede llevar algunos minutos."
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Restaurando archivos multimedia"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
@@ -5277,7 +5277,7 @@
     "messageformat": "Estos dígitos te ayudarán a mantener tu alias en privado para así evitar que recibas mensajes no deseados. Comparte tu alias solo con aquellas personas y grupos con los que quieras charlar. Si cambias tu alias, recibirás una nueva serie de dígitos."
   },
   "icu:EditUsernameModalBody__change-confirmation": {
-    "messageformat": "Si cambias tu alias, se restablecerán tu código QR y tu enlace.¿Quieres cambiarlo de todos modos?"
+    "messageformat": "Si cambias tu alias, se restablecerán tu código QR y tu enlace actuales. ¿Quieres cambiarlo de todos modos?"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
     "messageformat": "Adelante"
@@ -5615,9 +5615,9 @@
     "messageformat": "Ahora, los chats se abren más rápido que nunca gracias a nuevas mejoras en el rendimiento de la app. ¡Se acabó el hacer clic y esperar para enterarte de las últimas novedades en tus chats!"
   },
   "icu:WhatsNew__v7.23--1": {
-    "messageformat": "También hemos corregido una serie de errores, incluido uno que a veces hacía que apareciese \"Contacto desconocido ha iniciado una videollamada\" en la lista de chats una vez iniciabas una llamada. Incluso si estás en pleno proceso de autodescubrimiento, eso no significa que no tengas idea de quién eres."
+    "messageformat": "También hemos corregido una serie de errores, incluido uno que a veces hacía que apareciese \"Contacto desconocido ha iniciado una videollamada\" en el resumen de chats una vez iniciabas una llamada. Incluso si estás en pleno proceso de autodescubrimiento, eso no significa que no tengas idea de quién eres."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Esta actualización corrige un error que hacía que cuando veías una llamada perdida en un dispositivo no se borrase automáticamente la notificación de esa llamada en tus otros dispositivos vinculados (lo que era una oportunidad perdida para aligerar tu lista de llamadas perdidas)."
   }
 }

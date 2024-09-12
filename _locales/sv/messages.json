@@ -3528,10 +3528,10 @@
     "messageformat": "Detta kan ta några minuter beroende på storleken på din säkerhetskopia"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Återställer media"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} av {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fäll ut"
@@ -5618,6 +5618,6 @@
     "messageformat": "Vi har också åtgärdat en handfull buggar, bland annat en som ibland gjorde att ”Okänd kontakt startade ett videosamtal” visades i sammanfattningen av chattlistan efter att du hade startat samtalet."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Den här uppdateringen åtgärdar en bugg där visning av ett missat samtal på en enhet inte automatiskt rensade indikatorn för det missade samtalet på dina andra enheter."
   }
 }

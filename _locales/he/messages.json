@@ -3528,10 +3528,10 @@
     "messageformat": "זה עשוי לקחת מספר דקות בהתאם לגודל הגיבוי שלך"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "מדיה בשחזור"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} מתוך {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "הרחב"
@@ -5618,6 +5618,6 @@
     "messageformat": "תיקנו גם כמה באגים, כולל אחד שגרם לפעמים לכיתוב ״איש קשר לא ידוע התחיל שיחת וידאו״ להופיע בסיכום הצ׳אט לאחר שהתחלת שיחה."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "העדכון הזה מתקן באג שמנע ממחוון שיחה שלא נענתה להיעלם אוטומטית במכשירים האחרים שלך לאחר צפייה בשיחה במכשיר אחד."
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "आपल्या बॅकअप आकारावर अवलंबून याला काही मिनिटे लागू शकतात"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "मिडीया पुर्नस्थापित करत आहे"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} ({fractionComplete,number,percent}) पैकी {currentSize}"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "विस्तारित करा"
@@ -5618,6 +5618,6 @@
     "messageformat": "आपण कॉलला सुरूवात केल्यानंतर चॅट सूचीच्या सारांशात \"अज्ञात संपर्काने एक व्हिडिओ कॉल सुरू केला\" असे दिसण्यास कारणीभूत होतो त्याच्या समावेशासह, आम्ही आणखी काही दोषांचे निराकरण केलेले आहे. आपण जर अद्याप स्वतःच्या शोधण्याच्या प्रवासात असल्यास, आपण स्वतःला कधीही पूर्णपणे अनोळखी नसाल."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "हे अद्यतन एका डिव्हाइसवर मिस्ड कॉल पाहिल्याने आपल्या इतर डिव्हाइसवरील त्या मिस्ड कॉलचा निदर्शक आपोआप साफ होत नाही या बगचे निराकरण करते, जी आपल्या मिस्ड कॉल सूचीसाठी चांगल्या प्रकारे एकत्र आणण्याची चुकलेली संधी होती."
   }
 }

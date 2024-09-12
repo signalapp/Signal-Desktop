@@ -3528,10 +3528,10 @@
     "messageformat": "Může trvat několik minut v závislosti na velikosti vaší zálohy"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Obnovování médií"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} z {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Rozbalit"
@@ -5618,6 +5618,6 @@
     "messageformat": "Také jsme opravili několik chyb včetně té, která způsobovala, že se v přehledu chatu po zahájení hovoru objevilo sdělení „Videohovor zahájil neznámý kontakt“."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Tato aktualizace opravuje chybu, kdy se při zobrazení zmeškaného hovoru na jednom zařízení automaticky neodstranilo upozornění na tento zmeškaný hovor na jiném zařízení."
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "En funció de la mida de la teva còpia de seguretat, això pot trigar uns quants minuts."
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Restaurant els arxius"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandeix"
@@ -5618,6 +5618,6 @@
     "messageformat": "També hem corregit una sèrie d'errors, inclòs un que de vegades provocava que, un cop iniciada una trucada, aparegués \"Contacte desconegut ha iniciat una videotrucada\" al llistat de xats."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Aquesta actualització corregeix un error que feia que un cop s'obria en un dispositiu una notificació de trucada perduda, aquesta no s'esborrés automàticament de la resta de dispositius vinculats."
   }
 }

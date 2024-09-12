@@ -3528,10 +3528,10 @@
     "messageformat": "Tai gali užtrukti kelias minutes, priklausomai nuo atsarginės kopijos dydžio"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Įrašai atkuriami"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} iš {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Išskleisti"
@@ -5618,6 +5618,6 @@
     "messageformat": "Taip pat ištaisėme keletą klaidų, įskaitant tą, dėl kurios, pradėjus skambutį, pokalbių sąrašo suvestinėje kartais būdavo rodomas pranešimas „Nežinomas kontaktas pradėjo vaizdo skambutį“."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Šiuo naujinimu ištaisoma klaida, kai peržiūrėjus praleistą skambutį viename įrenginyje to praleisto skambučio indikatorius automatiškai neišvalomas kituose įrenginiuose."
   }
 }

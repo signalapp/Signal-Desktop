@@ -3528,10 +3528,10 @@
     "messageformat": "Μπορεί να διαρκέσει μερικά λεπτά, ανάλογα με το μέγεθος του αντιγράφου ασφαλείας σου"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Επαναφορά πολυμέσων"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} από {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ανάπτυξη"
@@ -5618,6 +5618,6 @@
     "messageformat": "Διορθώσαμε επίσης ορισμένα σφάλματα, συμπεριλαμβανομένου ενός που μερικές φορές προκαλούσε την εμφάνιση της ειδοποίησης «Άγνωστη επαφή ξεκίνησε βιντεοκλήση» στη σύνοψη της λίστας συνομιλιών μετά την έναρξη της κλήσης."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα κατά το οποίο η προβολή μιας αναπάντητης κλήσης σε μια συσκευή δεν εκκαθάριζε αυτόματα την ένδειξη για την εν λόγω αναπάντητη κλήση στις άλλες συσκευές σου."
   }
 }

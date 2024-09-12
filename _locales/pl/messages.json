@@ -3528,10 +3528,10 @@
     "messageformat": "W zależności od wielkości kopii zapasowej może to potrwać kilka minut"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Przywracanie multimediów"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} z {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Powiększ"
@@ -5618,6 +5618,6 @@
     "messageformat": "Naprawiliśmy także parę błędów, w tym jeden, który niekiedy powodował wyświetlanie komunikatu „Nieznany kontakt rozpoczął połączenie wideo” w podsumowaniu listy czatów po rozpoczęciu połączenia. Nawet jeśli wciąż jesteś w trakcie podróży ku samopoznaniu, zawsze znasz siebie choć odrobinę."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Ta aktualizacja naprawia błąd, który powodował, że wyczyszczenie powiadomienia o nieodebranym połączeniu na jednym urządzeniu nie czyściło tego powiadomienia na innych urządzeniach, przez co odebrane Ci zostało poczucie bezstresowego nieodbierania połączeń."
   }
 }

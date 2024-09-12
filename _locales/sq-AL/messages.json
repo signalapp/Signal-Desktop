@@ -3528,10 +3528,10 @@
     "messageformat": "Kjo mund të zgjasë disa minuta në varësi të madhësisë së kopjeruajtjes"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Duke rikthyer median"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} nga {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zgjeroje"
@@ -5618,6 +5618,6 @@
     "messageformat": "Rregulluam edhe disa defekte, duke përfshirë atë, i cili ndonjëherë shkaktonte shfaqjen e mesazhit \"Kontakti i panjohur filloi një telefonatë video\" në përmbledhjen e listës së bisedave pasi të kesh filluar thirrjen. Edhe nëse je ende në udhëtim vetë-zbulues, nuk je kurrë plotësisht i panjohur për veten."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Përditësimi rregullon defektin ku hapja e njoftimit të një telefonate të humbur në një pajisje nuk do të fshinte automatikisht njoftimin e asaj telefonate të humbur në pajisje të tjera, gjë që ishte një mundësi e humbur për bashkëjetesën e mirë të listës së telefonatave të humbura."
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "Это может занять несколько минут в зависимости от размера резервной копии"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Восстановление медиафайлов"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} из {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Развернуть"
@@ -5618,6 +5618,6 @@
     "messageformat": "Мы также разобрались с немногочисленными ошибками, в том числе с той, из-за которой сообщение «Неизвестный контакт начал видеозвонок» иногда появлялось в сводке чатов после того, как вы начали звонок. Даже если вы всё еще находитесь на пути к самопознанию, вы уже что-то о себе да знаете."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "В этом обновлении исправлена ошибка, из-за которой при просмотре пропущенного звонка на одном устройстве индикатор этого пропущенного звонка не удалялся автоматически на других устройствах, что приводило к путанице в списках пропущенных вызовов."
   }
 }

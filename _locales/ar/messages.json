@@ -3528,10 +3528,10 @@
     "messageformat": "قد يستغرق هذا بضع دقائق حسب حجم نسختك الاحتياطية"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "جارٍ استرجاع الوسائط"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} من {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "عرض المزيد"
@@ -5618,6 +5618,6 @@
     "messageformat": "لقد أصلحنا عددًا من الأخطاء، بما في ذلك خطأ كان يتسبب في ظهور رسالة \"جهة اتصال غير معروفة بدأت مكالمة بالفيديو\" في مُلخص قائمة الدردشة بعد بدء المكالمة."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "يُصلِح هذا التحديث ذلك الخطأ التقني المُتمثِّل في عدم مَسح علامة المُكالمة الفائتة تلقائيًا على أجهزتك الأخرى على الرغم من استعراضك لها سلفًا على أحد أجهزتك، وذلك بحد ذاته يُمثِّل لقائمة المكالمات الفائتة لديك فرصة فائتة للتعايش مع بعضها بشكٍل أفضل."
   }
 }

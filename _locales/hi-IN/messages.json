@@ -3528,10 +3528,10 @@
     "messageformat": "आपके बैकअप के आकार के आधार पर, इसमें कुछ मिनट लग सकते हैं"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "मीडिया रीस्टोर किया जा रहा है"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} में से {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "बड़ा करें"
@@ -5618,6 +5618,6 @@
     "messageformat": "हमने कुछ गड़बड़ियाँ भी ठीक की हैं, जिनमें वह गड़बड़ी शामिल है जिसकी वजह से कभी-कभी आपके कोई कॉल शुरू करने के बाद, चैट सूची के सारांश में \"अज्ञात संपर्क ने वीडियो कॉल शुरू किया\" दिखाई देता था। चाहे आप खुद को खोजने के सफ़र पर हों, फिर भी आप अपने लिए पूरी तरह से अनजान नहीं हैं।"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "यह अपडेट उस गड़बड़ी को ठीक करता है जिसकी वजह से एक डिवाइस पर मिस्ड कॉल देखने से आपके दूसरे डिवाइस पर उस मिस्ड कॉल का इंडिकेटर अपने-आप नहीं हटता था, जिससे आपकी मिस्ड कॉल वाली लिस्ट सभी डिवाइस पर एक जैसी नहीं दिख पाती थी।"
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "Ini mungkin mengambil masa beberapa minit bergantung pada saiz sandaran anda"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Memulihkan media"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} daripada {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Kembangkan"
@@ -5618,6 +5618,6 @@
     "messageformat": "Kami juga membaiki beberapa pepijat, termasuk yang kadangkala menyebabkan \"Kenalan tidak diketahui memulakan panggilan video\" untuk muncul dalam ringkasan senarai sembang selepas memulakan panggilan."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Kemas kini ini membaiki pepijat di mana melihat panggilan tidak dijawab pada satu peranti tidak akan secara automatik menghapuskan penunjuk untuk panggilan tidak dijawab tersebut pada peranti anda yang lain."
   }
 }

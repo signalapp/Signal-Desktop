@@ -3528,10 +3528,10 @@
     "messageformat": "Tämä voi kestää muutamia minuutteja varmuuskopion koosta riippuen"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Palautetaan mediaa"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize}/{totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laajenna"
@@ -5618,6 +5618,6 @@
     "messageformat": "Korjasimme myös muutaman virheen, mukaan lukien sellaisen, joka saattoi aiheuttaa ilmoituksen ”Tuntematon yhteystieto aloitti videopuhelun” keskusteluluettelon yhteenvedossa puhelun aloittamisen jälkeen."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Päivitys korjaa virheen, jossa vastaamatta jääneen puhelun tarkasteleminen yhdellä laitteella ei nollannut vastaamattoman puhelun ilmaisinta muissa laitteissasi automaattisesti."
   }
 }

@@ -3528,10 +3528,10 @@
     "messageformat": "Камдык көчүрмөңүздүн көлөмүнө жараша бир нече мүнөт кетиши мүмкүн"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Медиа файлдарыңыз калыбына келүүдө"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} ичинен {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Кеңейтүү"
@@ -5618,6 +5618,6 @@
     "messageformat": "Мындан тышкары, бир катар каталарды оңдоп койдук. Эми маектер тизмесинде \"Белгисиз байланыш видео режиминде чалып баштады\" деген нерсе көрүнбөйт. Өзүңүздү түшүнгөнгө канчалык аракет кылбаңыз, баары бир көп жагыңыз сыр бойдон кала берет."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Бул жаңыртууда жооп бербей калган чалууну караганыңызда, башка түзмөктөрдөгү жооп берилбей калган чалуулар индикатору көрүнбөй калат."
   }
 }

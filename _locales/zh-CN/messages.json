@@ -3528,10 +3528,10 @@
     "messageformat": "这可能需要几分钟时间，视您的备份大小而定"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "正在恢复媒体"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize}/{totalSize}（{fractionComplete,number,percent}）"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "扩展"
@@ -5618,6 +5618,6 @@
     "messageformat": "我们还修复了一些错误，包括一个有时会导致“未知联系人发起了一个视频通话”在您开始通话后出现在聊天列表摘要中的错误。"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "此次更新修复了一个漏洞：当用户在一台设备上查看未接来电时，该操作不会自动清除其他设备上的未接来电提示。"
   }
 }

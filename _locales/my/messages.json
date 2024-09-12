@@ -3528,10 +3528,10 @@
     "messageformat": "သင့် ဘက်ခ်အပ်အရွယ်အစားပေါ်မူတည်၍ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "မီဒီယာကို ပြန်လည်ရယူနေသည်"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize} မှ {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ဖြန့်ရန်"
@@ -5618,6 +5618,6 @@
     "messageformat": "တစ်ခါတစ်ရံ သင်ခေါ်ဆိုမှုစတင်ပြီးနောက် ချက်(တ်)စာရင်းအကျဉ်းချုပ်တွင် \"အမည်မသိအဆက်အသွယ်မှ ဗီဒီယိုကောလ်ခေါ်ဆိုမှုတစ်ခု စတင်ခဲ့သည်\" ဟုပေါ်လာစေသည့် အရာအပါအဝင် ချွတ်ယွင်းချက်အချို့ကိုလည်း ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "ဤအပ်ဒိတ်သည် လွတ်သွားသောခေါ်ဆိုမှုကို စက်တစ်ခုတွင် ကြည့်ပြီးဖြစ်သော်လည်း သင့်အခြားစက်များတွင် ထိုခေါ်ဆိုမှုအတွက် ညွှန်ပြချက်အား အလိုအလျောက် မဖယ်ရှားသည့် ချွတ်ယွင်းချက်ကို ပြင်ဆင်ထားသည်။"
   }
 }

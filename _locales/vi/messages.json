@@ -3528,10 +3528,10 @@
     "messageformat": "Quá trình này có thể mất vài phút tùy vào dung lượng của bản sao lưu"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Đang khôi phục tập tin đa phương tiện"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} của tổng số {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Mở rộng"
@@ -5618,6 +5618,6 @@
     "messageformat": "Chúng tôi cũng đã sửa xong nhiều lỗi, trong đó có lỗi xuất hiện \"Liên hệ không rõ đã bắt đầu một cuộc gọi video\" trong danh sách cuộc trò chuyện sau khi bạn bắt đầu cuộc gọi."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Bản cập nhật này sửa lỗi thông báo cuộc gọi nhỡ không mất đi trên một thiết bị khi bạn đã xem thông báo đó trên các thiết bị khác."
   }
 }

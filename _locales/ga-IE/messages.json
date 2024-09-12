@@ -3528,10 +3528,10 @@
     "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do chúltaca"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Meáin á n-aischur"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} as {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fairsingigh"
@@ -5618,6 +5618,6 @@
     "messageformat": "Réitíomar dornán fabhtanna freisin, ina measc, ceann a bhí ina chúis uaireanta le \"Thosaigh teagmhálaí anaithnid ar fhísghlao\" a bheith ar taispeáint in achoimre an liosta comhráite tar éis duit féin tús a chur leis an nglao."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Réitíonn an nuashonrú seo fabht nach nglantar táscaire ar ghlao caillte ar do ghléasanna eile nuair a fhéachann tú ar ghlao chaillte ar ghléas amháin."
   }
 }

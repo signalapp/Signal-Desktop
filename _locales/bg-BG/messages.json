@@ -3528,10 +3528,10 @@
     "messageformat": "Това може да отнеме няколко минути в зависимост от размера на резервното копие"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Възстановяване на мултимедия"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} от {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Разшири"
@@ -5618,6 +5618,6 @@
     "messageformat": "Отстранихме и няколко грешки, включително и тази, която понякога караше \"Неизвестен контакт започна видеоразговор\" да се появи в обобщението на списъка с чатове, след като сте започнали разговора."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "С тази актуализация се отстранява грешка, при която прегледът на пропуснато повикване на едно устройство не изчистваше автоматично индикатора за това пропуснато повикване на другите ви устройства."
   }
 }

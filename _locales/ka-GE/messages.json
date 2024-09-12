@@ -3528,10 +3528,10 @@
     "messageformat": "ამას შეიძლება რამდენიმე წუთი დასჭირდეს იმის მიხედვით, თუ რა ზომაა შენი სათადარიგო ასლი"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "მედია ფაილების აღდგენა"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{totalSize}-დან {currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "გაფართოება"
@@ -5618,6 +5618,6 @@
     "messageformat": "ასევე გამოვასწორეთ რამდენიმე ხარვეზი, მათ შორის ის, ზოგჯერ ზარის დაწყების შემდეგ ჩატის სიის შეჯამებაში რომ გიწერდა, „უცნობმა კონტაქტმა ვიდეო ზარი წამოიწყოო“. მაშინაც კი, თუ შენი თავის აღმოჩენის გზაზე ხარ, საკუთარი თავისთვის უცნობი არასდროს იქნები."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "ახალ ვერსიაში გამოსწორებულია ბაგი, რომლის გამოც შენს ერთ მოწყობილობაზე გამოტოვებული ზარის ნახვისას, მეორე მოწყობილობაზე ავტომატურად არ ქრებოდა გამოტოვებული ზარის მაჩვენებელი. ამიერიდან შენი გამოტოვებული ზარების მაჩვენებლები სრულ ჰარმონიაში იქნება."
   }
 }

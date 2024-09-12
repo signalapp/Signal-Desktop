@@ -3528,10 +3528,10 @@
     "messageformat": "Dette kan ta et par minutter, avhengig av størrelsen på sikkerhetskopien"
   },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Gjenoppretter mediefiler"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} av {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ekspander"
@@ -5618,6 +5618,6 @@
     "messageformat": "Vi har også rettet opp i et par feil, blant annet et problem som fører til at meldingen «ukjent kontakt startet en videosamtale» dukker opp i videosamtaler — selv når det er du selv som starter dem."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Fra nå av, hvis du åpner et varsel om et tapt anrop på en av enhetene dine, forsvinner varslene om det samme anropet automatisk fra alle de andre enhetene dine."
   }
 }
