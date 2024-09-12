@@ -7527,5 +7527,9 @@
   "icu:WhatsNew__v7.24--0": {
     "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist.",
     "description": "Release notes for version 7.24"
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries.",
+    "description": "Release notes for version 7.25"
   }
 }
