@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "مشاهدهٔ رسانه‌های اخیر"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "بازگشت"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "پیوند تماس"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "در انتظار اجازۀ ورود"
   },
@@ -3524,8 +3530,26 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "در حال دانلود {currentSize} از {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "بسته به حجم نسخۀ پشتیبان شما، این پردازش ممکن است چند دقیقه طول بکشد"
+  },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "در حال بازیابی رسانه"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "شما در حال حاضر در یک تماس هستید"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "رنگ گفتگو"
@@ -3765,7 +3792,7 @@
     "messageformat": "بازنشانی پیوند"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "تأیید اعضای جدید"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "نیاز به یک مدیر برای تأیید اعضای جدیدی که از طریق پیوند گروه می‌پیوندند"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "سوابق تماس‌ها پاک شد."
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "برای مشاهده یا شروع تماس کلیک کنید"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "برای شروع تماس صوتی یا تصویری جدید، روی <newCallIcon>تماس جدید</newCallIcon> کلیک کنید."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "تعویض"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "بدون تماس های جدید. با تماس با یک دوست شروع کنید."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "هیچ تماسی وجود ندارد."
@@ -5518,7 +5539,10 @@
     "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "تأیید همه اعضا"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "کپی کردن پیوند"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "پاک کردن"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "جزئیات پیوند تماس"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "تأیید همه اعضا"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "خاموش"
@@ -5619,5 +5652,8 @@
   },
   "icu:WhatsNew__v7.24--0": {
     "messageformat": "این به‌روزرسانی اشکالی را برطرف می‌کند که اجازه نمی‌داد هنگام مشاهده تماس بی‌پاسخ در یک دستگاه، نشانگر آن تماس از دست‌رفته به‌طور خودکار در دستگاه‌های دیگر شما پاک شود."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

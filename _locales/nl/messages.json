@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Recente media weergeven"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Terug"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Oproeplink"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Aan het wachten op toelating"
   },
@@ -3102,13 +3108,13 @@
     "messageformat": "Beheerdersgoedkeuring van nieuwe leden is ingeschakeld voor de groepslink."
   },
   "icu:GroupV2--member-add--invited--you": {
-    "messageformat": "Je hebt uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "Je hebt uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--invited--other": {
-    "messageformat": "{memberName} heeft uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "{memberName} heeft uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--invited--unknown": {
-    "messageformat": "Een lid van de groep heeft uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "Een lid van de groep heeft uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--from-invite--other": {
     "messageformat": "{inviteeName} heeft de groepsuitnodiging van {inviterName} geaccepteerd."
@@ -3524,8 +3530,26 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent}) aan het downloaden..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je back-up"
+  },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Media aan het herstellen"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Je neemt op dit moment al aan een oproep deel"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chatkleur"
@@ -3765,7 +3792,7 @@
     "messageformat": "Link vernieuwen"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Nieuwe leden goedkeuren"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Vereis voor iedere persoon die via de groepslink lid wil worden eerst goedkeuring van een beheerder"
@@ -3888,7 +3915,7 @@
     "messageformat": "Deze personen kunnen door jou niet direct worden toegevoegd aan de groep."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-    "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging heeft geaccepteerd."
+    "messageformat": "Ze zijn uitgenodigd om lid te worden van de groep, en ze zullen geen groepsberichten ontvangen totdat ze de uitnodiging hebben geaccepteerd."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
     "messageformat": "Meer informatie"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Oproepgeschiedenis gewist"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Klik op een oproep om details te bekijken of start een oproep"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Klik op <newCallIcon>Nieuwe Oproep</newCallIcon> om een nieuwe spraak- of video-oproep te starten."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Schuifschakelaar"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Geen recente oproepen. Begin door een contact te bellen."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Geen oproepen"
@@ -5518,7 +5539,10 @@
     "messageformat": "Oproepnaam bewerken"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Alle deelnemers goedkeuren"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Link kopiëren"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Verwijderen"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oproeplinkdetails"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Oproepnaam bewerken"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Alle deelnemers goedkeuren"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Uit"
@@ -5619,5 +5652,8 @@
   },
   "icu:WhatsNew__v7.24--0": {
     "messageformat": "In deze update is een fout opgelost, waardoor de indicator van een gemiste oproep nu weer automatisch op andere apparaten wordt gewist zodra je de gemiste oproep op één apparaat hebt gezien. Maar als je deze fout hebt gemist, dan heb je niks gemist."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

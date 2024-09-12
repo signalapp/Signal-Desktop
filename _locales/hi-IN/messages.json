@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "हाल का मीडिया देखें"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "पीछे जाएं"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "कॉल लिंक"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "अंदर जाने देने की प्रतीक्षा में"
   },
@@ -3524,8 +3530,26 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{totalSize} में से {currentSize} डाउनलोड किया जा रहा है({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "आपके बैकअप के आकार के आधार पर, इसमें कुछ मिनट लग सकते हैं"
+  },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "मीडिया रीस्टोर किया जा रहा है"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "आप पहले ही एक कॉल में हैं"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "चैट का रंग"
@@ -3765,7 +3792,7 @@
     "messageformat": "रीसेट लिंक"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "नए सदस्यों का अनुमोदन करें"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "समूह लिंक के माध्यम से शामिल होने वाले नए सदस्यों को स्वीकृति देने के लिए एक व्यवस्थापक की आवश्यकता है"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "कॉल इतिहास साफ किया गया"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "कॉल देखने या शुरू करने के लिए क्लिक करें"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "नया वॉइस या वीडियो कॉल शुरू करने के लिए, <newCallIcon>नया कॉल</newCallIcon> पर क्लिक करें।"
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "टॉगल करें"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "कोई नवीनतम कॉल नहीं। किसी दोस्त को कॉल करके शुरू करें।"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "कोई कॉल नहीं"
@@ -5518,7 +5539,10 @@
     "messageformat": "कॉल नाम संपादित करें"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "सभी सदस्य स्वीकृत करें"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "लिंक कॉपी करें"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "डिलीट करें"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "कॉल लिंक की जानकारी"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "कॉल नाम संपादित करें"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "सभी सदस्य स्वीकृत करें"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "बंद"
@@ -5619,5 +5652,8 @@
   },
   "icu:WhatsNew__v7.24--0": {
     "messageformat": "यह अपडेट उस गड़बड़ी को ठीक करता है जिसकी वजह से एक डिवाइस पर मिस्ड कॉल देखने से आपके दूसरे डिवाइस पर उस मिस्ड कॉल का इंडिकेटर अपने-आप नहीं हटता था, जिससे आपकी मिस्ड कॉल वाली लिस्ट सभी डिवाइस पर एक जैसी नहीं दिख पाती थी।"
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

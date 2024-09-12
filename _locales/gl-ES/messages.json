@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Ver contido multimedia recente"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Volver"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Ligazón de chamada"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Agardando o acceso"
   },
@@ -3524,8 +3530,26 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Descargando {currentSize} de {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dependendo do tamaño da túa copia, pode tardar uns minutos"
+  },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Restaurando arquivos multimedia"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Estás xa nunha chamada"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Cor das conversas"
@@ -3765,7 +3792,7 @@
     "messageformat": "Restablecer ligazón"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Aprobar novos membros"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "É necesario que un administrador acepte os novos membros que se unan a través da ligazón do grupo"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Historial de chamadas eliminado"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Premer para ver ou comezar unha chamada"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Preme en <newCallIcon>Nova chamada</newCallIcon> para iniciar unha nova chamada de voz ou videochamada."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Cambiar"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Sen chamadas recentes. Comeza chamando a un amigo."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Sen chamadas"
@@ -5518,7 +5539,10 @@
     "messageformat": "Editar nome de chamada"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Aprobar todos os membros"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiar ligazón"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Eliminar"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Información da ligazón da chamada"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Editar nome de chamada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Aprobar todos os membros"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Desactivado"
@@ -5619,5 +5652,8 @@
   },
   "icu:WhatsNew__v7.24--0": {
     "messageformat": "Esta actualización soluciona un erro no que, ao visualizar unha chamada perdida nun dispositivo non se eliminaba automaticamente o indicador desa chamada perdida nos teus outros dispositivos."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

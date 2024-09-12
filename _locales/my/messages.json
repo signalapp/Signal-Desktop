@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "မကြာမီက မီဒီယာကို ကြည့်ရန်"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "နောက်သို့"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "ကောလ်လင့်ခ်"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "ပါဝင်ခွင့်ရရန် စောင့်ဆိုင်းနေဆဲ"
   },
@@ -3524,8 +3530,26 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{totalSize} ({fractionComplete,number,percent}) မှ {currentSize} ကို ဒေါင်းလုဒ်လုပ်နေသည်..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "သင့် ဘက်ခ်အပ်အရွယ်အစားပေါ်မူတည်၍ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
+  },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "မီဒီယာကို ပြန်လည်ရယူနေသည်"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "သင်သည် ကောလ်ထဲတွင် ရှိပြီးဖြစ်သည်"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ချက်(တ်)အရောင်"
@@ -3765,7 +3792,7 @@
     "messageformat": "link ကိုပြန်လည်သတ်မှတ်"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "အဖွဲ့ဝင်အသစ်များကိုလက်ခံပါ"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "အဖွဲ့လင့်ခ်မှတစ်ဆင့် ပါဝင်သည့် မန်ဘာအသစ်များအား အတည်ပြုရန် အက်ဒ်မင် လိုအပ်ပါသည်"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "ကောလ်မှတ်တမ်း ရှင်းလင်းပြီး"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "ကောလ်တစ်ခုကို ကြည့်ရှုရန် သို့မဟုတ် စတင်ရန် နှိပ်ပါ"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "အသံ သို့မဟုတ် ဗီဒီယိုကောလ် အသစ်တစ်ခုစတင်ရန် <newCallIcon>ကောလ်အသစ်</newCallIcon> ကိုနှိပ်ပါ။"
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "ပုံစံပြောင်းရန်"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "လတ်တလော ခေါ်ဆိုမှုများမရှိ။ သူငယ်ချင်းတစ်ယောက်ကို ခေါ်ဆိုခြင်းဖြင့် စတင်လိုက်ပါ။"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "ကောလ်များ မရှိပါ"
@@ -5518,7 +5539,10 @@
     "messageformat": "ကောလ်အမည် ပြင်ဆင်ရန်"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "မန်ဘာအားလုံးကို အတည်ပြုရန်"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "လင့်ခ် ကူးရန်"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "ဖျက်ရန်"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Signal ဖြင့်ဖုန်းခေါ်ဆိုရန် လင့်ခ်အသေးစိတ်"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "ကောလ်အမည် ပြင်ဆင်ရန်"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "မန်ဘာအားလုံးကို အတည်ပြုရန်"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "ပိတ်မည်"
@@ -5619,5 +5652,8 @@
   },
   "icu:WhatsNew__v7.24--0": {
     "messageformat": "ဤအပ်ဒိတ်သည် လွတ်သွားသောခေါ်ဆိုမှုကို စက်တစ်ခုတွင် ကြည့်ပြီးဖြစ်သော်လည်း သင့်အခြားစက်များတွင် ထိုခေါ်ဆိုမှုအတွက် ညွှန်ပြချက်အား အလိုအလျောက် မဖယ်ရှားသည့် ချွတ်ယွင်းချက်ကို ပြင်ဆင်ထားသည်။"
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "I-view ang recent media"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Bumalik"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Call link"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Naghihintay na papasukin"
   },
@@ -3524,8 +3530,26 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Dina-download ang {currentSize} ng {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Maaaring tumagal ito nang ilang minuto depende sa laki ng iyong backup"
+  },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Nire-restore ang media"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Nasa call ka na"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color"
@@ -3765,7 +3792,7 @@
     "messageformat": "I-reset ang link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "I-approve ang bagong members"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "I-require ang admin na mag-approve ng bagong members na nag-join gamit ang group link."
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Call history cleared"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "I-click para makita o magsimula ng call"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "I-click ang <newCallIcon>New Call</newCallIcon> para magsimula ng bagong voice o video call."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Toggle"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Walang recent calls. Magsimula sa pamamagitan ng pagtawag sa kaibigan mo."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Walang calls"
@@ -5518,7 +5539,10 @@
     "messageformat": "I-edit ang pangalan ng call"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "I-approve ang lahat ng members"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopyahin ang link"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Burahin"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalye ng call link"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "I-edit ang pangalan ng call"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "I-approve ang lahat ng members"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Off"
@@ -5619,5 +5652,8 @@
   },
   "icu:WhatsNew__v7.24--0": {
     "messageformat": "Inaayos ng update na ito ang bug kung saan hindi automatically nawawala ang missed call indicator sa ibang devices mo kahit na na-view mo na ang missed call na ito sa isang device."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }
