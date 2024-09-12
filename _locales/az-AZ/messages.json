@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Son mediaya bax"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Geri"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Zəng keçidi"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Zəngə qoşulmaq üçün icazə gözləyir"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{currentSize} / {totalSize} endirilir ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Ehtiyat nüsxənizin həcmindən asılı olaraq bu, bir qədər çəkə bilər"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Media faylı bərpa olunur"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişləndir"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Artıq zəngdəsiniz"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Çatın rəngi"
@@ -3765,7 +3792,7 @@
     "messageformat": "Bağlantını sıfırla"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Yeni üzvləri təsdiqlə"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Qrup bağlantısı vasitəsilə qoşulan yeni üzvlərin admin tərəfindən təsdiqlənməsi tələb olunsun."
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Zəng tarixçəsi təmizləndi"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Baxmaq və ya zəng başlatmaq üçün klikləyin"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Yeni audio və ya video zəng etmək üçün <newCallIcon>Yeni zəng</newCallIcon> üzərinə klikləyin."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Aç/bağla"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Yeni zəng yoxdur. Bir dosta zəng edərək başlayın."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Zəng yoxdur"
@@ -5518,7 +5539,10 @@
     "messageformat": "Zəngin adını redaktə et"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Bütün üzvləri təsdiqlə"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Keçidi kopyala"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Sil"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Zəng keçidi təfərrüatları"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Zəngin adını redaktə et"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Bütün üzvləri təsdiqlə"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Bağlı"
@@ -5618,6 +5651,9 @@
     "messageformat": "Bundan başqa, siz zəng etdikdən sonra çat siyahısı xülasəsində bəzən \"Naməlum kontakt video zəng etdi\" ifadəsinin görünməsinə səbəb olan bir neçə səhvi də aradan qaldırdıq. Zənn edirik ki, özünü hələ tam tanımayan kontaktlar belə \"naməlum kontakt\" kimi təqdim olunmamalıdır."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Bu yeniləmə buraxılmış zəngə bir cihazda baxmaqla digər cihazlarınızda həmin buraxılmış zəng göstəricisinin avtomatik silinməməsi ilə bağlı xətanı aradan qaldırır (bu, buraxılmış zənglər siyahısının daha yaxşı bir yerdə görünməsinə imkan vermirdi)."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

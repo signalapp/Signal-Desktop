@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "បង្ហាញឯកសារមេឌាថ្មីៗ"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "ត្រលប់ក្រោយ"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "តំណសម្រាប់ការហៅ"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "កំពុងរង់ចាំការអនុញ្ញាតឱ្យចូល"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "កំពុងទាញយក {currentSize} នៃ {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "វាអាចចំណាយពេលពីរបីនាទី អាស្រ័យលើទំហំនៃការបម្រុងទុករបស់អ្នក"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "កំពុងស្ដារមេឌៀឡើងវិញ"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} នៃ {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ពង្រីក"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "អ្នកស្ថិតនៅក្នុងការហៅទូរសព្ទស្រាប់ហើយ"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ពណ៌ការជជែក"
@@ -3765,7 +3792,7 @@
     "messageformat": "តំណភ្ជាប់កំណត់ឡើងវិញ"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "អនុម័តសមាជិកថ្មី"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "តម្រូវឲ្យអ្នកគ្រប់គ្រងឯកភាពលើសមាជិកថ្មីៗដែលចូល​រួម​តាម​រយៈ​តំណ​ក្រុម"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "បានសម្អាតប្រវត្តិហៅ"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "ចុចដើម្បីមើល ឬចាប់ផ្តើមការហៅ"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "ចុច <newCallIcon>ការហៅថ្មី</newCallIcon> ដើម្បីចាប់ផ្តើមការហៅជាសំឡេង ឬវីដេអូថ្មី។"
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "កុងតាក់"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "គ្មានការហៅថ្មីៗនេះទេ។ ចាប់ផ្តើមដោយហៅទៅមិត្តភក្តិណាម្នាក់។"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "មិនមានការហៅទេ"
@@ -5518,7 +5539,10 @@
     "messageformat": "កែឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "អនុញ្ញាតសមាជិកទាំងអស់"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ចម្លងតំណ"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "លុប"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ព័ត៌មានលម្អិតអំពីតំណហៅទូរសព្ទ"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "កែឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "អនុញ្ញាតសមាជិកទាំងអស់"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "បិទ"
@@ -5618,6 +5651,9 @@
     "messageformat": "យើងក៏បានដោះស្រាយបញ្ហាមួយចំនួនផងដែរ រួមទាំងបញ្ហាមួយដែលជួនកាលធ្វើឱ្យ \"ទំនាក់ទំនងមិនស្គាល់បានចាប់ផ្តើមការហៅជាវីដេអូ\" បង្ហាញនៅក្នុងសេចក្តីសង្ខេបនៃបញ្ជីជជែក បន្ទាប់ពីអ្នកចាប់ផ្តើមការហៅទូរសព្ទ។ ទោះបីជាអ្នកកំពុងស្ថិតនៅក្នុងដំណើរស្វែងរកខ្លួនឯងក៏ដោយ ក៏អ្នកមិនប្រាកដថាមិនស្គាល់ខ្លួនឯងសោះដែរ។"
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "កំណែថ្មីនេះបានដោះស្រាយបញ្ហាមួយដែលទោះបីជាអ្នកមើលការហៅដែលខកមិនបានទទួលនៅលើឧបករណ៍មួយក៏ដោយ ក៏វាមិនអាចលុបដោយស្វ័យប្រវត្តិបាននូវសញ្ញាបង្ហាញការហៅដែលខកមិនបានទទួលនោះនៅលើឧបករណ៍ផ្សេងទៀតរបស់អ្នកដែរ ដែលបានធ្វើឱ្យខកខានឱកាសក្នុងការបង្ហាញព្រមគ្នានូវបញ្ជីនៃការហៅដែលខកមិនបានទទួលរបស់អ្នក ឱ្យកាន់តែប្រសើរឡើង។"
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }
