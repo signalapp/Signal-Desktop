@@ -3108,13 +3108,13 @@
     "messageformat": "Beheerdersgoedkeuring van nieuwe leden is ingeschakeld voor de groepslink."
   },
   "icu:GroupV2--member-add--invited--you": {
-    "messageformat": "Je hebt uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "Je hebt uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--invited--other": {
-    "messageformat": "{memberName} heeft uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "{memberName} heeft uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--invited--unknown": {
-    "messageformat": "Een lid van de groep heeft uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "Een lid van de groep heeft uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--from-invite--other": {
     "messageformat": "{inviteeName} heeft de groepsuitnodiging van {inviterName} geaccepteerd."
@@ -3915,7 +3915,7 @@
     "messageformat": "Deze personen kunnen door jou niet direct worden toegevoegd aan de groep."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-    "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging heeft geaccepteerd."
+    "messageformat": "Ze zijn uitgenodigd om lid te worden van de groep, en ze zullen geen groepsberichten ontvangen totdat ze de uitnodiging hebben geaccepteerd."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
     "messageformat": "Meer informatie"

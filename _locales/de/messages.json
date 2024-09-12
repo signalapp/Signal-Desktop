@@ -2880,16 +2880,16 @@
     "messageformat": "Nicht stumm"
   },
   "icu:muteHour": {
-    "messageformat": "Für eine Stunde"
+    "messageformat": "Für 1 Stunde"
   },
   "icu:muteEightHours": {
     "messageformat": "Für 8 Stunden"
   },
   "icu:muteDay": {
-    "messageformat": "Für einen Tag"
+    "messageformat": "Für 1 Tag"
   },
   "icu:muteWeek": {
-    "messageformat": "Für eine Woche"
+    "messageformat": "Für 1 Woche"
   },
   "icu:muteAlways": {
     "messageformat": "Für immer"
@@ -3651,7 +3651,7 @@
     "messageformat": "Dies wird diesen Spitznamen und die Notiz unwiderruflich löschen."
   },
   "icu:ConversationDetails--notifications": {
-    "messageformat": "Mitteilungen"
+    "messageformat": "Benachrichtigungen"
   },
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Wer kann Gruppendetails bearbeiten"
@@ -4449,7 +4449,7 @@
     "messageformat": "Anrufe"
   },
   "icu:Preferences__button--notifications": {
-    "messageformat": "Mitteilungen"
+    "messageformat": "Benachrichtigungen"
   },
   "icu:Preferences__button--privacy": {
     "messageformat": "Datenschutz"
