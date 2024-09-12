@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Afișare media recente"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Înapoi"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Link de apel"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Așteaptă să fie lăsat să intre"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Se descarcă {currentSize} din {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Poate dura câteva minute, în funcție de dimensiunea backup-ului"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Se restaurează fișierele"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Extinde"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Ești deja într-un apel"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Culoare conversație"
@@ -3765,7 +3792,7 @@
     "messageformat": "Resetare link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Aprobare membrii noi"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Solicită unui administrator să aprobe membrii noi care se alătură prin linkul grupului"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Istoria apelurilor a fost ștearsă"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Dă clic și vezi sau începe un apel"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Dă clic pe <newCallIcon>Apel nou</newCallIcon> pentru a începe un nou apel vocal sau video."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Comutare"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Nu exista apeluri recente. Începe prin a suna un prieten."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Nu aveți apeluri"
@@ -5518,7 +5539,10 @@
     "messageformat": "Editează numele apelului"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Aprobă toți membrii"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiază linkul"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Șterge"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalii despre linkul apelului"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Editează numele apelului"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Aprobă toți membrii"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Dezactivat"
@@ -5618,6 +5651,9 @@
     "messageformat": "Am remediat câteva erori, inclusiv una care făcea ca uneori să apară „Un contact necunoscut a început un apel video” în rezumatul listei de conversații, după ce ai început apelul. Chiar dacă încă ești într-o călătorie de descoperire de sine, nu ești niciodată complet necunoscut ție însuți."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Această actualizare remediază o eroare prin care dacă vizualizai un apel pierdut pe un dispozitiv nu se ștergea automat indicatorul de apel pierdut pe alte dispozitive, ceea ce împiedica buna conviețuire a listelor de apeluri pierdute."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

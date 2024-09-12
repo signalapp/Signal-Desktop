@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "സമീപകാല മീഡിയ കാണുക"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "തിരികെ പോകുക"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "കോൾ ലിങ്ക്"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "പ്രവേശനം അനുവദിക്കാൻ കാത്തിരിക്കുന്നു"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent}) ഡൗൺലോഡ് ചെയ്യുന്നു..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "നിങ്ങളുടെ ബാക്കപ്പിൻ്റെ വലുപ്പം അനുസരിച്ച് ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "മീഡിയ പുനഃസ്ഥാപിക്കുന്നു"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "വികസിപ്പിക്കുക"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "നിങ്ങൾ ഇതിനകം ഒരു കോളിൽ ഉണ്ട്"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ചാറ്റ് നിറം"
@@ -3765,7 +3792,7 @@
     "messageformat": "ലിങ്ക് പുനഃസജ്ജമാക്കുക്ക"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "പുതിയ അംഗങ്ങളെ അംഗീകരിക്കുക"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "ഗ്രൂപ്പ് ലിങ്ക് വഴി പുതിയ അംഗങ്ങൾ ചേരുന്നത് അംഗീകരിക്കാൻ ഒരു അഡ്മിൻ ആവശ്യമാണ്"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "കോൾ ചരിത്രം ക്ലിയർ ചെയ്തു"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "കാണാനോ കോൾ തുടങ്ങാനോ ക്ലിക്ക് ചെയ്യുക"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "ഒരു പുതിയ വോയ്‌സ് അല്ലെങ്കിൽ വീഡിയോ കോൾ ആരംഭിക്കാൻ <newCallIcon>പുതിയ കോൾ</newCallIcon> ക്ലിക്ക് ചെയ്യുക."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "ടോഗിൾ ചെയ്യുക"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "സമീപകാല കോളുകളൊന്നുമില്ല. ഒരു സുഹൃത്തിനെ വിളിച്ച് തുടങ്ങൂ."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "കോളുകളൊന്നുമില്ല"
@@ -5518,7 +5539,10 @@
     "messageformat": "കോളിന്റെ പേര് എഡിറ്റ് ചെയ്യുക"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "എല്ലാ അംഗങ്ങളെയും അംഗീകരിക്കൂ"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ലിങ്ക് പകർത്തുക"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "ഇല്ലാതാക്കൂ"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "കോൾ ലിങ്ക് വിശദാംശങ്ങൾ"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "കോളിന്റെ പേര് എഡിറ്റ് ചെയ്യുക"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "എല്ലാ അംഗങ്ങളെയും അംഗീകരിക്കൂ"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "ഓഫ്"
@@ -5618,6 +5651,9 @@
     "messageformat": "നിങ്ങൾ കോൾ ആരംഭിച്ചതിന് ശേഷം ചാറ്റ് ലിസ്റ്റ് സംഗ്രഹത്തിൽ ചിലപ്പോൾ \"അജ്ഞാത കോൺടാക്റ്റ് ഒരു വീഡിയോ കോൾ ആരംഭിച്ചു\" എന്നതിന് കാരണമായത് ഉൾപ്പെടെയുള്ള ഒരുപിടി ബഗുകളും ഞങ്ങൾ പരിഹരിച്ചു. നിങ്ങൾ ഇപ്പോഴും സ്വയം കണ്ടെത്താനുള്ള ഒരു യാത്രയിലാണെങ്കിലും, നിങ്ങൾ ഒരിക്കലും നിങ്ങൾക്ക് പൂർണ്ണമായും അജ്ഞാതനല്ല."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "ഒരു ഉപകരണത്തിൽ മിസ്‌ഡ് കോൾ കാണുന്നത് നിങ്ങളുടെ മറ്റ് ഉപകരണങ്ങളിൽ ആ മിസ്‌ഡ് കോളിന്റെ സൂചന ഓട്ടോമാറ്റിയ്ക്കായി മായ്‌ക്കാത്ത ഒരു ബഗ് ഈ അപ്‌ഡേറ്റ് പരിഹരിക്കുന്നു, ഇത് നിങ്ങളുടെ മിസ്‌ഡ് കോൾ ലിസ്റ്റിന്റെ നിലവിലെ അവസ്ഥയെ എല്ലാ ഉപകരണങ്ങളിലും ഒരുപോലെ ശരിയായ രീതിയിൽ കാണിക്കാൻ സഹായിക്കുന്നു."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

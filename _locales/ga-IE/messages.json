@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Amharc ar na meáin le déanaí"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Ar Ais"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Nasc glao"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Ag fanacht le go ligfear isteach"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{currentSize} as {totalSize} ({fractionComplete,number,percent}) á n-íoslódáil…"
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do chúltaca"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Meáin á n-aischur"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} as {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fairsingigh"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Tá tú i mbun glao cheana féin"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Dath an chomhrá"
@@ -3765,7 +3792,7 @@
     "messageformat": "Reset Link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Ceadaigh comhaltaí nua"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Éiligh faomhadh riarthóra i gcás ball nua a théann isteach tríd an nasc grúpa"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Stair na nglaonna glanta"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Cliceáil le féachaint ar ghlao nó le tosú air"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Cliceáil <newCallIcon>Glao Nua</newCallIcon> le tosú ar ghuthghlao nó ar fhísghlao nua."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Scoránaigh"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Níl glaonna le déanaí ann. Glaoigh ar chara le tosú air."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Níl aon ghlaonna ann"
@@ -5518,7 +5539,10 @@
     "messageformat": "Cuir ainm an ghlao in eagar"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Faomh gach ball"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Cóipeáil an nasc"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Scrios"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Sonraí ar an nasc glao"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Cuir ainm an ghlao in eagar"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Faomh gach ball"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "As"
@@ -5618,6 +5651,9 @@
     "messageformat": "Réitíomar dornán fabhtanna freisin, ina measc, ceann a bhí ina chúis uaireanta le \"Thosaigh teagmhálaí anaithnid ar fhísghlao\" a bheith ar taispeáint in achoimre an liosta comhráite tar éis duit féin tús a chur leis an nglao."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Réitíonn an nuashonrú seo fabht nach nglantar táscaire ar ghlao caillte ar do ghléasanna eile nuair a fhéachann tú ar ghlao chaillte ar ghléas amháin."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

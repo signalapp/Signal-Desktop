@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Недавні медіафайли"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Назад"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Посилання на виклик"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Чекайте на дозвіл"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Завантаження: {currentSize} з {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Воно може зайняти кілька хвилин — швидкість залежить від розміру резервної копії"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Відновлення медіафайлів"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} з {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Розкрити"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Ви вже берете участь у виклику"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Колір чату"
@@ -3765,7 +3792,7 @@
     "messageformat": "Скинути посилання"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Затверджувати нових учасників"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Нових учасників, які приєднуються до групи за посиланням, повинен затверджувати адміністратор."
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Історію викликів очищено"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Натисніть, щоб переглянути або розпочати виклик"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Натисніть <newCallIcon>Новий виклик</newCallIcon>, щоб почати новий аудіо- чи відеовиклик."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Переключити"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Викликів не було. Подзвоніть комусь із друзів."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Викликів немає"
@@ -5518,7 +5539,10 @@
     "messageformat": "Змінити назву виклику"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Затверджувати всіх учасників"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Копіювати посилання"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Видалити"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Додатково про посилання на виклик"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Змінити назву виклику"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Затверджувати всіх учасників"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Вимк."
@@ -5618,6 +5651,9 @@
     "messageformat": "Ми також виправили кілька помилок. Наприклад, почавши виклик, тепер ви не побачите оповістки «Користувач Невідомий контакт почав відеовиклик» на панелі зі списком чатів. Ми згодні, що пошук себе може тривати все життя, та все ж для самої себе людина не буває геть невідома."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "У цьому оновленні ми виправили помилку, через яку індикатор пропущеного виклику не зникав з усіх пристроїв, коли ви переглядали сповіщення на якомусь з них. Іноді таємниці доречні, але ваш акаунт Signal точно має ділитися подробицями з усіма зв’язаними пристроями."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

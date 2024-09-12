@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Shihni media së fundi"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Mbrapsht"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Lidhja e thirrjes"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Në pritje për të hyrë"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Po shkarkohen {currentSize} nga {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Kjo mund të zgjasë disa minuta në varësi të madhësisë së kopjeruajtjes"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Duke rikthyer median"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} nga {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zgjeroje"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Jeni tashmë në një thirrje"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Ngjyra e sfondit të bisedës"
@@ -3765,7 +3792,7 @@
     "messageformat": "Ricaktoni lidhje"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Miratoni anëtarë të rinj"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Kërko doemos që një përgjegjës të miratojë anëtarë të rinj që vijnë prej një lidhjeje grupi"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Historia e thirrjeve u fshi"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Kliko për të parë ose nisur një telefonatë"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Kliko <newCallIcon>Thirrje e re</newCallIcon> për të nisur një thirrje të re zanore ose me video."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Shfaqe/Fshihe"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Nuk ka thirrje së voni. Fillo duke telefonuar një mik."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Nuk ka thirrje"
@@ -5518,7 +5539,10 @@
     "messageformat": "Përpuno emrin e telefonuesit"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Mirato të gjithë anëtarët"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopjo linkun"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Fshije"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Të dhënat e lidhjes së thirrjes"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Përpuno emrin e telefonuesit"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Mirato të gjithë anëtarët"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Joaktiv"
@@ -5618,6 +5651,9 @@
     "messageformat": "Rregulluam edhe disa defekte, duke përfshirë atë, i cili ndonjëherë shkaktonte shfaqjen e mesazhit \"Kontakti i panjohur filloi një telefonatë video\" në përmbledhjen e listës së bisedave pasi të kesh filluar thirrjen. Edhe nëse je ende në udhëtim vetë-zbulues, nuk je kurrë plotësisht i panjohur për veten."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Përditësimi rregullon defektin ku hapja e njoftimit të një telefonate të humbur në një pajisje nuk do të fshinte automatikisht njoftimin e asaj telefonate të humbur në pajisje të tjera, gjë që ishte një mundësi e humbur për bashkëjetesën e mirë të listës së telefonatave të humbura."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

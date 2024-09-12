@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "رؤية الوسائط الحديثة"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "الرجوع"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "اتصال بالرابط"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "في انتظار السماح بالانضمام"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "يتم تنزيل {currentSize} من أصل {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "قد يستغرق هذا بضع دقائق حسب حجم نسختك الاحتياطية"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "جارٍ استرجاع الوسائط"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} من {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "عرض المزيد"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "إنك بالفعل في مكالمة"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "لون الدردشة"
@@ -3765,7 +3792,7 @@
     "messageformat": "إعادة تعيين الوصلة"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "الموافقة على الأعضاء الجدد"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "إلزام المشرف الموافقة على الأعضاء الطالبين للانضمام عبر وصلة المجموعة."
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "تم مسح سِّجِلّ الاتصالات"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "انقر لعرض أو بدء مكالمة"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "انقر على <newCallIcon>مكالمة جديدة</newCallIcon> لبدء مكالمة صوتية أو مكالمة فيديو جديدة."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "تبديل"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "لا توجد مكالمات حديثة. ابدأ بالاتصال بصديق."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "لا توجد مكالمات"
@@ -5518,7 +5539,10 @@
     "messageformat": "تعديل اسم المكالمة"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "الموافقة على جميع الأعضاء"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "نسخ الرابط"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "حذف"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "تفاصيل رابط المكالمة"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "تعديل اسم المكالمة"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "الموافقة على جميع الأعضاء"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "مُعطَّل"
@@ -5618,6 +5651,9 @@
     "messageformat": "لقد أصلحنا عددًا من الأخطاء، بما في ذلك خطأ كان يتسبب في ظهور رسالة \"جهة اتصال غير معروفة بدأت مكالمة بالفيديو\" في مُلخص قائمة الدردشة بعد بدء المكالمة."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "يُصلِح هذا التحديث ذلك الخطأ التقني المُتمثِّل في عدم مَسح علامة المُكالمة الفائتة تلقائيًا على أجهزتك الأخرى على الرغم من استعراضك لها سلفًا على أحد أجهزتك، وذلك بحد ذاته يُمثِّل لقائمة المكالمات الفائتة لديك فرصة فائتة للتعايش مع بعضها بشكٍل أفضل."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

@@ -7237,10 +7237,6 @@
     "messageformat": "Call history cleared",
     "description": "Calls Tab > Clear Call History > Toast"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Click to view or start a call",
-    "description": "(Deleted 2024/08/12) Calls Tab > When no call is selected > Empty state > Call to action text"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call.",
     "description": "(Deleted 2024/08/22) Calls Tab > When no call is selected > Empty state > Call to action text"
@@ -7260,10 +7256,6 @@
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Toggle",
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "No recent calls. Get started by calling a friend.",
-    "description": "(Deleted 2024/08/12) Calls Tab > Calls List > When no results found > With no search query"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "No calls",
@@ -7518,7 +7510,7 @@
   },
   "icu:WhatsNew__v7.24--0": {
     "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist.",
-    "description": "Release notes for version 7.24"
+    "description": "(Deleted 2024/09/12) Release notes for version 7.24"
   },
   "icu:WhatsNew__v7.25--0": {
     "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries.",

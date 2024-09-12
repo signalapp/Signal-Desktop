@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "최근 미디어 보기"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "뒤로"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "통화 링크"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "승인을 기다리는 중"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{currentSize}/{totalSize}을(를) 다운로드하는 중({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "백업 크기에 따라 다소 시간이 걸릴 수 있습니다."
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "미디어 복원 중"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize}/{totalSize}({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "확장"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "이미 통화에 참여 중입니다."
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "대화창 색상"
@@ -3765,7 +3792,7 @@
     "messageformat": "링크 초기화"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "새 멤버 승인"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "그룹 링크를 통해 참가하는 새로운 멤버들이 관리자 승인을 받도록 하기"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "통화 기록을 정리함"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "클릭하여 통화 보기 또는 시작"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "<newCallIcon>새 통화</newCallIcon>를 클릭하여 새로운 음성 또는 영상 통화를 시작하세요."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "토글"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "최근 통화 없음 친구에게 전화를 걸어 시작하세요."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "통화 없음"
@@ -5518,7 +5539,10 @@
     "messageformat": "통화 이름 수정"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "모든 멤버 승인"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "링크 복사"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "삭제"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "통화 링크 세부 정보"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "통화 이름 수정"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "모든 멤버 승인"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "꺼짐"
@@ -5618,6 +5651,9 @@
     "messageformat": "또한 때로 내가 통화를 시작한 경우 '알 수 없는 연락처가 영상 통화를 시작함'이 표시되는 버그를 비롯해 몇몇 오류도 수정했습니다."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "해당 업데이트는 기기에서 부재중 통화 확인 시 다른 기기에서 해당 부재중 통화에 대한 표시가 자동으로 사라지지 않는 문제를 해결합니다."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

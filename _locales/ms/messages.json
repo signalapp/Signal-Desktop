@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Lihat media terkini"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Kembali"
   },
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Pautan panggilan"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Menunggu untuk dibenarkan masuk"
   },
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Memuat turun {currentSize} daripada {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Ini mungkin mengambil masa beberapa minit bergantung pada saiz sandaran anda"
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Memulihkan media"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} daripada {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Kembangkan"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Anda sudah berada dalam panggilan"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Warna sembang"
@@ -3765,7 +3792,7 @@
     "messageformat": "Pautan tetapan semula"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Luluskan ahli baharu"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Memerlukan pentadbir untuk meluluskan ahli baharu yang menyertai kumpulan melalui pautan kumpulan"
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Sejarah panggilan dikosongkan"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Klik untuk melihat atau memulakan panggilan"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Klik <newCallIcon>Panggilan Baharu</newCallIcon> untuk memulakan panggilan suara atau video baharu."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Togol"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Tiada panggilan terbaru. Mulakan dengan menghubungi rakan."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Tiada panggilan"
@@ -5518,7 +5539,10 @@
     "messageformat": "Edit nama panggilan"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Luluskan semua ahli"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Salin pautan"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Padam"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Butiran pautan panggilan"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Edit nama panggilan"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Luluskan semua ahli"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Mati"
@@ -5618,6 +5651,9 @@
     "messageformat": "Kami juga membaiki beberapa pepijat, termasuk yang kadangkala menyebabkan \"Kenalan tidak diketahui memulakan panggilan video\" untuk muncul dalam ringkasan senarai sembang selepas memulakan panggilan."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Kemas kini ini membaiki pepijat di mana melihat panggilan tidak dijawab pada satu peranti tidak akan secara automatik menghapuskan penunjuk untuk panggilan tidak dijawab tersebut pada peranti anda yang lain."
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }

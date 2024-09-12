@@ -941,6 +941,9 @@
   "icu:viewRecentMedia": {
     "messageformat": "Afficher les médias récents"
   },
+  "icu:allMediaMenuItem": {
+    "messageformat": "All media"
+  },
   "icu:back": {
     "messageformat": "Retour"
   },
@@ -984,7 +987,7 @@
     "messageformat": "Transférer"
   },
   "icu:MessageContextMenu__info": {
-    "messageformat": "Info"
+    "messageformat": "Infos"
   },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Supprimer les messages"
@@ -2250,7 +2253,7 @@
     "messageformat": "Action par défaut pour le message sélectionné"
   },
   "icu:Keyboard--view-details-for-selected-message": {
-    "messageformat": "Visualiser les détails du message sélectionné"
+    "messageformat": "Afficher les informations associées au message sélectionné"
   },
   "icu:Keyboard--toggle-reply": {
     "messageformat": "Ouvrir ou fermer la réponse au message sélectionné"
@@ -2702,6 +2705,9 @@
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Lien d’appel"
   },
+  "icu:CallControls__InfoDisplay--group-call": {
+    "messageformat": "Group call"
+  },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "En attente d’admission"
   },
@@ -3048,40 +3054,40 @@
     "messageformat": "Un membre a retiré l’avatar du groupe."
   },
   "icu:GroupV2--access-attributes--admins--other": {
-    "messageformat": "{adminName} a changé qui peut modifier les informations du groupe en « Les administrateurs »."
+    "messageformat": "{adminName} a défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--admins--you": {
     "messageformat": "Vous avez défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "Un administrateur a changé qui peut modifier les informations du groupe en « Les administrateurs »."
+    "messageformat": "Un administrateur a défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--all--other": {
-    "messageformat": "{adminName} a changé qui peut modifier les informations du groupe en « Tous les membres »."
+    "messageformat": "{adminName} a défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-attributes--all--you": {
     "messageformat": "Vous avez défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Un administrateur a changé qui peut modifier les informations du groupe en « Tous les membres »."
+    "messageformat": "Un administrateur a défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} a changé qui peut modifier les membres du groupe en « Les administrateurs »."
+    "messageformat": "{adminName} a défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Vous avez défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-members--admins--unknown": {
-    "messageformat": "Un administrateur a changé qui peut modifier les membres du groupe en « Les administrateurs »."
+    "messageformat": "Un administrateur a défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} a changé qui peut modifier les membres du groupe en « Tous les membres »."
+    "messageformat": "{adminName} a défini l'autorisation d'ajouter des membres sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Vous avez défini l'autorisation d'ajouter des membres sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-members--all--unknown": {
-    "messageformat": "Un administrateur a changé qui peut modifier les membres du groupe en « Tous les membres »."
+    "messageformat": "Un administrateur a défini l'autorisation d'ajouter des membres sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Vous avez désactivé l’approbation d’un administrateur pour le lien du groupe."
@@ -3524,14 +3530,32 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Téléchargement en cours : {currentSize} sur {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--preparing": {
+    "messageformat": "Preparing to download..."
+  },
   "icu:BackupImportScreen__description": {
     "messageformat": "Cela peut prendre quelques minutes en fonction de la taille de votre sauvegarde."
   },
+  "icu:BackupImportScreen__cancel": {
+    "messageformat": "Cancel transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__title": {
+    "messageformat": "Cancel transfer?"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__body": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+  },
+  "icu:BackupImportScreen__cancel-confirmation__cancel": {
+    "messageformat": "Continue transfer"
+  },
+  "icu:BackupImportScreen__cancel-confirmation__confirm": {
+    "messageformat": "Cancel transfer"
+  },
   "icu:BackupMediaDownloadProgress__title": {
-    "messageformat": "Restoring media"
+    "messageformat": "Restauration des médias en cours"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} sur {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Étendre"
@@ -3583,6 +3607,9 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "Vous êtes déjà en communication"
+  },
+  "icu:ContactModal--voice": {
+    "messageformat": "Voice"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Couleur de la conversation"
@@ -3672,7 +3699,7 @@
     "messageformat": "Débloquer le groupe « {groupName} » ?"
   },
   "icu:ConversationDetailsActions--block-group-modal-title": {
-    "messageformat": "Bloquer le groupe « {groupName} » et le quitter ?"
+    "messageformat": "Bloquer et quitter le groupe \"{groupName}\" ?"
   },
   "icu:ConversationDetailsActions--block-group-modal-content": {
     "messageformat": "Vous ne recevrez plus ni messages ni mises à jour de ce groupe."
@@ -3765,7 +3792,7 @@
     "messageformat": "Réinitialiser le lien"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Approuver de nouveaux membres"
+    "messageformat": "Require admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Un administrateur doit approuver les nouveaux membres qui rejoignent le groupe via le lien."
@@ -4173,7 +4200,7 @@
     "messageformat": "Délai avant disparition"
   },
   "icu:UniversalTimerNotification__text": {
-    "messageformat": "Lorsque vous enverrez des messages à ce contact, le délai avant disparition des messages éphémères sera défini sur {timeValue}."
+    "messageformat": "Lorsque vous enverrez des messages à ce contact, le délai avant disparition des messages éphémères sera défini sur {timeValue}."
   },
   "icu:ContactRemovedNotification__text": {
     "messageformat": "Vous avez supprimé ce contact. Si vous écrivez de nouveau à ce contact, il apparaîtra sur votre liste."
@@ -4449,7 +4476,7 @@
     "messageformat": "Par exemple, :-) deviendra <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
-    "messageformat": "Avancés"
+    "messageformat": "Paramètres avancés"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Contenu des notifications"
@@ -5151,7 +5178,7 @@
     "messageformat": "Supprimer"
   },
   "icu:StoryListItem__info": {
-    "messageformat": "Info"
+    "messageformat": "Infos"
   },
   "icu:StoryListItem__hide-modal--body": {
     "messageformat": "Masquer la story ? Les nouveaux contenus postés dans la story de {name} ne s’afficheront plus en haut de la liste des stories."
@@ -5418,9 +5445,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Historique des appels supprimé"
   },
-  "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Cliquer sur un appel pour l’afficher ou passer un nouvel appel"
-  },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Cliquez sur l’icône <newCallIcon>Nouvel appel</newCallIcon> pour passer un appel vocal ou vidéo."
   },
@@ -5435,9 +5459,6 @@
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "Activer/désactiver"
-  },
-  "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Aucun appel récent. Pour commencer, appelez un ami."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Aucun appel"
@@ -5518,7 +5539,10 @@
     "messageformat": "Renommer l’appel"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approuver tous les membres"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
+    "messageformat": "This setting can't be changed while the call is active"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copier le lien"
@@ -5541,6 +5565,9 @@
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Supprimer"
   },
+  "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
+    "messageformat": "This link can't be deleted while the call is active"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Détails du lien d’appel"
   },
@@ -5554,7 +5581,13 @@
     "messageformat": "Renommer l’appel"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approuver tous les membres"
+    "messageformat": "Require admin approval"
+  },
+  "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
+    "messageformat": "Approve entry"
+  },
+  "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
+    "messageformat": "Deny entry"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Désactivé"
@@ -5618,6 +5651,9 @@
     "messageformat": "Et ce n'est pas tout : le message \" Contact inconnu a lancé un appel vidéo \" ne s’affiche plus dans le résumé des conversations lorsque vous avez lancé l'appel. Parce que même si vous apprenez encore à vous connaître, ça ne veut pas dire que vous ne savez pas du tout qui vous êtes."
   },
   "icu:WhatsNew__v7.24--0": {
-    "messageformat": "This update fixes a bug where viewing a missed call on one device wouldn't automatically clear the indicator for that missed call on your other devices, which was a missed opportunity for your missed call list to better coexist."
+    "messageformat": "Jusqu'ici, lorsque vous affichiez un appel manqué sur un appareil, l'indicateur qui signalait cet appel manqué ne disparaissait pas automatiquement de tous vos appareils. Voilà un bug qui ne va pas vous manquer. "
+  },
+  "icu:WhatsNew__v7.25--0": {
+    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
   }
 }
