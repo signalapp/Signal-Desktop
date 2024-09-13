@@ -881,18 +881,21 @@ export class CallingClass {
     hasLocalAudio: boolean,
     hasLocalVideo: boolean
   ): Promise<void> {
-    const logId = 'CallingClass.startOutgoingDirectCall';
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      log.error(
+        `startOutgoingCall: Could not find conversation ${conversationId}, cannot start call`
+      );
+      this.stopCallingLobby();
+      return;
+    }
+
+    const idForLogging = getConversationIdForLogging(conversation.attributes);
+    const logId = `startOutgoingDirectCall(${idForLogging}`;
     log.info(logId);
 
     if (!this.reduxInterface) {
       throw new Error(`${logId}: Redux actions not available`);
-    }
-
-    const conversation = window.ConversationController.get(conversationId);
-    if (!conversation) {
-      log.error(`${logId}: Could not find conversation, cannot start call`);
-      this.stopCallingLobby();
-      return;
     }
 
     const remoteUserId = this.getRemoteUserIdFromConversation(conversation);
@@ -1226,21 +1229,25 @@ export class CallingClass {
       return;
     }
 
+    const logId = `joinGroupCall(${getConversationIdForLogging(conversation)})`;
+    log.info(logId);
+
     if (
       !conversation.groupId ||
       !conversation.publicParams ||
       !conversation.secretParams
     ) {
       log.error(
-        'Conversation is missing required parameters. Cannot join group call'
+        `${logId}: Conversation is missing required parameters. Cannot join group call`
       );
       return;
     }
 
-    const logId = `joinGroupCall(${getConversationIdForLogging(conversation)})`;
     const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
-      log.info('Permissions were denied, but allow joining group call');
+      log.info(
+        `${logId}: Permissions were denied, but allow joining group call`
+      );
     }
 
     await this.startDeviceReselectionTimer();
@@ -1259,6 +1266,7 @@ export class CallingClass {
       groupCall.ringAll();
     }
 
+    log.info(`${logId}: Joining in RingRTC`);
     groupCall.join();
   }
 
@@ -1553,9 +1561,14 @@ export class CallingClass {
     hasLocalAudio: boolean;
     hasLocalVideo: boolean;
   }): Promise<void> {
+    const logId = `joinCallLinkCall(${roomId})`;
+    log.info(logId);
+
     const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
-      log.info('Permissions were denied, but allow joining call link call');
+      log.info(
+        `${logId}: Permissions were denied, but allow joining call link call`
+      );
     }
 
     await this.startDeviceReselectionTimer();
@@ -1577,6 +1590,7 @@ export class CallingClass {
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
     drop(this.enableCaptureAndSend(groupCall));
 
+    log.info(`${logId}: Joining in RingRTC`);
     groupCall.join();
   }
 

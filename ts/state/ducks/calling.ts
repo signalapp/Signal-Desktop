@@ -2342,8 +2342,14 @@ function startCall(
   payload: StartCallType
 ): ThunkAction<void, RootStateType, unknown, StartDirectCallActionType> {
   return async (dispatch, getState) => {
-    const { conversationId, hasLocalAudio, hasLocalVideo } = payload;
-    switch (payload.callMode) {
+    const { callMode, conversationId, hasLocalAudio, hasLocalVideo } = payload;
+
+    const state = getState();
+    const { activeCallState } = state.calling;
+
+    log.info(`startCall for conversation ${conversationId}, mode ${callMode}`);
+
+    switch (callMode) {
       case CallMode.Direct:
         await calling.startOutgoingDirectCall(
           conversationId,
@@ -2358,8 +2364,6 @@ function startCall(
       case CallMode.Group: {
         let outgoingRing: boolean;
 
-        const state = getState();
-        const { activeCallState } = state.calling;
         if (activeCallState?.outgoingRing) {
           const conversation = getOwn(
             state.conversations.conversationLookup,
@@ -2383,8 +2387,6 @@ function startCall(
         break;
       }
       case CallMode.Adhoc: {
-        const state = getState();
-
         const callLink = getOwn(state.calling.callLinks, conversationId);
         if (!callLink) {
           log.error(
@@ -2406,7 +2408,7 @@ function startCall(
         break;
       }
       default:
-        throw missingCaseError(payload.callMode);
+        throw missingCaseError(callMode);
     }
   };
 }
