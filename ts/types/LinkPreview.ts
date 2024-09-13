@@ -48,6 +48,19 @@ export type AddLinkPreviewOptionsType = Readonly<{
 
 const linkify = LinkifyIt();
 
+export function isValidLink(maybeUrl: string | undefined): boolean {
+  if (maybeUrl == null) {
+    return false;
+  }
+
+  try {
+    const url = new URL(maybeUrl);
+    return url.protocol === 'https:';
+  } catch (_error) {
+    return false;
+  }
+}
+
 export function shouldPreviewHref(href: string): boolean {
   const url = maybeParseUrl(href);
   return Boolean(
