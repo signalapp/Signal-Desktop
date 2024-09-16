@@ -43,7 +43,7 @@ describe('backup/non-bubble messages', () => {
     contactA = await window.ConversationController.getOrCreateAndWait(
       CONTACT_A,
       'private',
-      { systemGivenName: 'CONTACT_A' }
+      { systemGivenName: 'CONTACT_A', active_at: 1 }
     );
 
     group = await window.ConversationController.getOrCreateAndWait(
@@ -53,6 +53,7 @@ describe('backup/non-bubble messages', () => {
         groupVersion: 2,
         masterKey: Bytes.toBase64(getRandomBytes(32)),
         name: 'Rock Enthusiasts',
+        active_at: 1,
       }
     );
 
@@ -345,7 +346,6 @@ describe('backup/non-bubble messages', () => {
             fromId: contactA.id,
             targetTimestamp: 1,
             timestamp: 1,
-            receivedAtDate: 1,
           },
         ],
       },
@@ -385,7 +385,6 @@ describe('backup/non-bubble messages', () => {
             fromId: contactA.id,
             targetTimestamp: 1,
             timestamp: 1,
-            receivedAtDate: 1,
           },
         ],
       },

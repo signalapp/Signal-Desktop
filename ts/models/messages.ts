@@ -2257,7 +2257,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       fromId: reaction.fromId,
       targetTimestamp: reaction.targetTimestamp,
       timestamp: reaction.timestamp,
-      receivedAtDate: reaction.receivedAtDate,
       isSentByConversationId: isFromThisDevice
         ? zipObject(conversation.getMemberConversationIds(), repeat(false))
         : undefined,

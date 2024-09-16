@@ -119,7 +119,6 @@ export type MessageReactionType = {
   fromId: string;
   targetTimestamp: number;
   timestamp: number;
-  receivedAtDate: undefined | number;
   isSentByConversationId?: Record<string, boolean>;
 };
 
@@ -337,6 +336,7 @@ export type ConversationAttributesType = {
   wallpaperPhotoPointerBase64?: string;
   wallpaperPreset?: number;
   dimWallpaperInDarkMode?: boolean;
+  autoBubbleColor?: boolean;
 
   discoveredUnregisteredAt?: number;
   firstUnregisteredAt?: number;

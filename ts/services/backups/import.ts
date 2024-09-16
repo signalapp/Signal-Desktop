@@ -380,8 +380,10 @@ export class BackupImportStream extends Writable {
       // Schedule group avatar download.
       await pMap(
         [...this.pendingGroupAvatars.entries()],
-        ([conversationId, newAvatarUrl]) => {
-          return groupAvatarJobQueue.add({ conversationId, newAvatarUrl });
+        async ([conversationId, newAvatarUrl]) => {
+          if (!window.SignalCI?.isBackupIntegration) {
+            await groupAvatarJobQueue.add({ conversationId, newAvatarUrl });
+          }
         },
         { concurrency: MAX_CONCURRENCY }
       );
@@ -403,7 +405,9 @@ export class BackupImportStream extends Writable {
         await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
       );
 
-      await AttachmentDownloadManager.start();
+      if (!window.SignalCI?.isBackupIntegration) {
+        await AttachmentDownloadManager.start();
+      }
 
       done();
     } catch (error) {
@@ -724,6 +728,12 @@ export class BackupImportStream extends Writable {
         defaultChatStyle.dimWallpaperInDarkMode
       );
     }
+    if (defaultChatStyle.autoBubbleColor != null) {
+      await window.storage.put(
+        'defaultAutoBubbleColor',
+        defaultChatStyle.autoBubbleColor
+      );
+    }
 
     this.updateConversation(me);
   }
@@ -855,6 +865,11 @@ export class BackupImportStream extends Writable {
       profileSharing: group.whitelisted === true,
       hideStory: group.hideStory === true,
       storySendMode,
+      avatar: avatarUrl
+        ? {
+            url: avatarUrl,
+          }
+        : undefined,
 
       // Snapshot
       name: dropNull(title?.title),
@@ -1098,8 +1113,12 @@ export class BackupImportStream extends Writable {
 
     this.chatIdToConvo.set(chat.id.toNumber(), conversation);
 
+    // Make sure conversation appears in left pane
+    if (conversation.active_at == null) {
+      conversation.active_at = Math.max(chat.id.toNumber(), 1);
+    }
     conversation.isArchived = chat.archived === true;
-    conversation.isPinned = chat.pinnedOrder != null;
+    conversation.isPinned = (chat.pinnedOrder || 0) !== 0;
 
     conversation.expireTimer =
       chat.expirationTimerMs && !chat.expirationTimerMs.isZero()
@@ -1133,6 +1152,9 @@ export class BackupImportStream extends Writable {
     }
     if (chatStyle.dimWallpaperInDarkMode != null) {
       conversation.dimWallpaperInDarkMode = chatStyle.dimWallpaperInDarkMode;
+    }
+    if (chatStyle.autoBubbleColor) {
+      conversation.autoBubbleColor = chatStyle.autoBubbleColor;
     }
 
     this.updateConversation(conversation);
@@ -1334,10 +1356,6 @@ export class BackupImportStream extends Writable {
           'status target conversation not found'
         );
 
-        // Desktop does not keep track of users we did not attempt to send to
-        if (status.skipped) {
-          continue;
-        }
         const { serviceId } = target;
 
         let sendStatus: SendStatus;
@@ -1379,7 +1397,6 @@ export class BackupImportStream extends Writable {
               });
               break;
             case Backups.SendStatus.Failed.FailureReason.NETWORK:
-            case Backups.SendStatus.Failed.FailureReason.UNKNOWN:
               errors.push({
                 serviceId,
                 name: 'OutgoingMessageError',
@@ -1387,9 +1404,19 @@ export class BackupImportStream extends Writable {
                 message: 'no http error',
               });
               break;
+            case Backups.SendStatus.Failed.FailureReason.UNKNOWN:
+              errors.push({
+                serviceId,
+                name: 'UnknownError',
+                message: 'unknown error',
+              });
+              break;
             default:
               throw missingCaseError(status.failed.reason);
           }
+          // Desktop does not keep track of users we did not attempt to send to
+        } else if (status.skipped) {
+          sendStatus = SendStatus.Skipped;
         } else {
           throw new Error(`Unknown sendStatus received: ${status}`);
         }
@@ -1416,7 +1443,8 @@ export class BackupImportStream extends Writable {
       };
     }
     if (incoming) {
-      const receivedAtMs = incoming.dateReceived?.toNumber() ?? this.now;
+      const receivedAtMs = incoming.dateReceived?.toNumber() || this.now;
+      const serverTimestamp = incoming.dateServerSent?.toNumber() || undefined;
 
       const unidentifiedDeliveryReceived = incoming.sealedSender === true;
 
@@ -1426,6 +1454,7 @@ export class BackupImportStream extends Writable {
             readStatus: ReadStatus.Read,
             seenStatus: SeenStatus.Seen,
             received_at_ms: receivedAtMs,
+            serverTimestamp,
             unidentifiedDeliveryReceived,
           },
           newActiveAt: receivedAtMs,
@@ -1437,6 +1466,7 @@ export class BackupImportStream extends Writable {
           readStatus: ReadStatus.Unread,
           seenStatus: SeenStatus.Unseen,
           received_at_ms: receivedAtMs,
+          serverTimestamp,
           unidentifiedDeliveryReceived,
         },
         newActiveAt: receivedAtMs,
@@ -1574,10 +1604,10 @@ export class BackupImportStream extends Writable {
       {
         id: getTimestampFromLong(quote.targetSentTimestamp),
         authorAci: authorConvo.serviceId,
-        text: dropNull(quote.text),
-        bodyRanges: quote.bodyRanges?.length
+        text: dropNull(quote.text?.body),
+        bodyRanges: quote.text?.bodyRanges?.length
           ? filterAndClean(
-              quote.bodyRanges.map(range => ({
+              quote.text?.bodyRanges.map(range => ({
                 ...range,
                 mentionAci: range.mentionAci
                   ? Aci.parseFromServiceIdBinary(
@@ -1623,16 +1653,12 @@ export class BackupImportStream extends Writable {
         }
         return 0;
       })
-      .map(({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
+      .map(({ emoji, authorId, sentTimestamp }) => {
         strictAssert(emoji != null, 'reaction must have an emoji');
         strictAssert(authorId != null, 'reaction must have authorId');
         strictAssert(
           sentTimestamp != null,
           'reaction must have a sentTimestamp'
-        );
-        strictAssert(
-          receivedTimestamp != null,
-          'reaction must have a receivedTimestamp'
         );
 
         const authorConvo = this.recipientIdToConvo.get(authorId.toNumber());
@@ -1645,7 +1671,6 @@ export class BackupImportStream extends Writable {
           emoji,
           fromId: authorConvo.id,
           targetTimestamp: getTimestampFromLong(sentTimestamp),
-          receivedAtDate: getTimestampFromLong(receivedTimestamp),
           timestamp: getTimestampFromLong(sentTimestamp),
         };
       });
@@ -1681,7 +1706,6 @@ export class BackupImportStream extends Writable {
                     prefix: dropNull(name.prefix),
                     suffix: dropNull(name.suffix),
                     middleName: dropNull(name.middleName),
-                    displayName: dropNull(name.displayName),
                   }
                 : undefined,
               number: number?.length
@@ -2909,9 +2933,10 @@ export class BackupImportStream extends Writable {
       return {
         wallpaperPhotoPointer: undefined,
         wallpaperPreset: undefined,
-        color: 'ultramarine',
+        color: undefined,
         customColorData: undefined,
         dimWallpaperInDarkMode: undefined,
+        autoBubbleColor: true,
       };
     }
 
@@ -2929,11 +2954,13 @@ export class BackupImportStream extends Writable {
 
     let color: ConversationColorType | undefined;
     let customColorData: CustomColorDataType | undefined;
+    let autoBubbleColor = false;
     if (chatStyle.autoBubbleColor) {
+      autoBubbleColor = true;
       if (wallpaperPreset != null) {
-        color = WALLPAPER_TO_BUBBLE_COLOR.get(wallpaperPreset) || 'ultramarine';
+        color = WALLPAPER_TO_BUBBLE_COLOR.get(wallpaperPreset);
       } else {
-        color = 'ultramarine';
+        color = undefined;
       }
     } else if (chatStyle.bubbleColorPreset != null) {
       const { BubbleColorPreset } = Backups.ChatStyle;
@@ -3025,6 +3052,7 @@ export class BackupImportStream extends Writable {
       color,
       customColorData,
       dimWallpaperInDarkMode,
+      autoBubbleColor,
     };
   }
 }

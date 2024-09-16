@@ -86,32 +86,35 @@ describe('backup/groupv2/notifications', () => {
     await window.ConversationController.getOrCreateAndWait(
       CONTACT_A,
       'private',
-      { pni: CONTACT_A_PNI, systemGivenName: 'CONTACT_A' }
+      { pni: CONTACT_A_PNI, systemGivenName: 'CONTACT_A', active_at: 1 }
     );
     await window.ConversationController.getOrCreateAndWait(
       CONTACT_B,
       'private',
-      { systemGivenName: 'CONTACT_B' }
+      { systemGivenName: 'CONTACT_B', active_at: 1 }
     );
     await window.ConversationController.getOrCreateAndWait(
       CONTACT_C,
       'private',
-      { systemGivenName: 'CONTACT_C' }
+      { systemGivenName: 'CONTACT_C', active_at: 1 }
     );
     await window.ConversationController.getOrCreateAndWait(ADMIN_A, 'private', {
       systemGivenName: 'ADMIN_A',
+      active_at: 1,
     });
     await window.ConversationController.getOrCreateAndWait(
       INVITEE_A,
       'private',
       {
         systemGivenName: 'INVITEE_A',
+        active_at: 1,
       }
     );
     await window.ConversationController.getOrCreateAndWait(GROUP_ID, 'group', {
       groupVersion: 2,
       masterKey: Bytes.toBase64(getRandomBytes(32)),
       name: 'Rock Enthusiasts',
+      active_at: 1,
     });
 
     await loadAll();

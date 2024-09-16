@@ -276,7 +276,7 @@ message AdHocCall {
   }
 
   uint64 callId = 1;
-  // Refers to a Recipient with the `callLink` field set
+  // Refers to a `CallLink` recipient.
   uint64 recipientId = 2;
   State state = 3;
   uint64 callTimestamp = 4;
@@ -477,7 +477,6 @@ message ContactAttachment {
     optional string prefix = 3;
     optional string suffix = 4;
     optional string middleName = 5;
-    optional string displayName = 6;
   }
 
   message Phone {
@@ -652,10 +651,9 @@ message Quote {
 
   optional uint64 targetSentTimestamp = 1; // null if the target message could not be found at time of quote insert
   uint64 authorId = 2;
-  optional string text = 3;
+  optional Text text = 3;
   repeated QuotedAttachment attachments = 4;
-  repeated BodyRange bodyRanges = 5;
-  Type type = 6;
+  Type type = 5;
 }
 
 message BodyRange {
@@ -681,11 +679,9 @@ message Reaction {
   string emoji = 1;
   uint64 authorId = 2;
   uint64 sentTimestamp = 3;
-  // Optional because some clients may not track this data
-  optional uint64 receivedTimestamp = 4;
   // A higher sort order means that a reaction is more recent. Some clients may export this as
   // incrementing numbers (e.g. 1, 2, 3), others as timestamps.
-  uint64 sortOrder = 5;
+  uint64 sortOrder = 4;
 }
 
 message ChatUpdateMessage {
@@ -1069,7 +1065,7 @@ message StickerPack {
 message ChatStyle {
   message Gradient {
     uint32 angle = 1; // degrees
-    repeated fixed32 colors = 2;
+    repeated fixed32 colors = 2; // 0xAARRGGBB
     repeated float positions = 3; // percent from 0 to 1
   }
 
@@ -1077,7 +1073,7 @@ message ChatStyle {
     uint64 id = 1;
 
     oneof color {
-      fixed32 solid = 2;
+      fixed32 solid = 2; // 0xAARRGGBB
       Gradient gradient = 3;
     }
   }

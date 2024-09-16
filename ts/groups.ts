@@ -5656,7 +5656,7 @@ export async function applyNewAvatar(
     // Group has avatar; has it changed?
     if (
       newAvatarUrl &&
-      (!attributes.avatar || attributes.avatar.url !== newAvatarUrl)
+      (!attributes.avatar?.path || attributes.avatar.url !== newAvatarUrl)
     ) {
       if (!attributes.secretParams) {
         throw new Error('applyNewAvatar: group was missing secretParams!');
