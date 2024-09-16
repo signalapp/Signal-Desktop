@@ -100,9 +100,9 @@ import { addCallHistory, reloadCallHistory } from './callHistory';
 import { saveDraftRecordingIfNeeded } from './composer';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
-import { callLinksDeleteJobQueue } from '../../jobs/callLinksDeleteJobQueue';
 import { getCallLinksByRoomId } from '../selectors/calling';
 import { storageServiceUploadJob } from '../../services/storage';
+import { CallLinkDeleteManager } from '../../jobs/CallLinkDeleteManager';
 
 // State
 
@@ -2031,7 +2031,8 @@ function deleteCallLink(
   return async dispatch => {
     await DataWriter.beginDeleteCallLink(roomId, { storageNeedsSync: true });
     storageServiceUploadJob();
-    await callLinksDeleteJobQueue.add({ source: 'deleteCallLink' });
+    // Wait for storage service sync before finalizing delete
+    drop(CallLinkDeleteManager.addJob({ roomId }, { delay: 10000 }));
     dispatch(handleCallLinkDelete({ roomId }));
   };
 }

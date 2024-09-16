@@ -305,16 +305,13 @@ export function getAllCallLinkRecordsWithAdminKey(
     .map(item => callLinkRecordSchema.parse(item));
 }
 
-export function getAllMarkedDeletedCallLinks(
+export function getAllMarkedDeletedCallLinkRoomIds(
   db: ReadableDB
-): ReadonlyArray<CallLinkType> {
+): ReadonlyArray<string> {
   const [query] = sql`
-    SELECT * FROM callLinks WHERE deleted = 1;
+    SELECT roomId FROM callLinks WHERE deleted = 1;
   `;
-  return db
-    .prepare(query)
-    .all()
-    .map(item => callLinkFromRecord(callLinkRecordSchema.parse(item)));
+  return db.prepare(query).pluck().all();
 }
 
 // TODO: Run this after uploading storage records, maybe periodically on startup

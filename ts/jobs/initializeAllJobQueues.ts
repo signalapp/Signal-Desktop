@@ -3,7 +3,7 @@
 
 import type { WebAPIType } from '../textsecure/WebAPI';
 import { drop } from '../util/drop';
-import { callLinksDeleteJobQueue } from './callLinksDeleteJobQueue';
+import { CallLinkDeleteManager } from './CallLinkDeleteManager';
 
 import { conversationJobQueue } from './conversationJobQueue';
 import { groupAvatarJobQueue } from './groupAvatarJobQueue';
@@ -41,7 +41,7 @@ export function initializeAllJobQueues({
   // Other queues
   drop(removeStorageKeyJobQueue.streamJobs());
   drop(reportSpamJobQueue.streamJobs());
-  drop(callLinksDeleteJobQueue.streamJobs());
+  drop(CallLinkDeleteManager.start());
 }
 
 export async function shutdownAllJobQueues(): Promise<void> {
@@ -54,6 +54,6 @@ export async function shutdownAllJobQueues(): Promise<void> {
     viewOnceOpenJobQueue.shutdown(),
     removeStorageKeyJobQueue.shutdown(),
     reportSpamJobQueue.shutdown(),
-    callLinksDeleteJobQueue.shutdown(),
+    CallLinkDeleteManager.stop(),
   ]);
 }

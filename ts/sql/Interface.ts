@@ -586,7 +586,7 @@ type ReadableInterface = {
   getCallLinkByRoomId: (roomId: string) => CallLinkType | undefined;
   getCallLinkRecordByRoomId: (roomId: string) => CallLinkRecord | undefined;
   getAllCallLinkRecordsWithAdminKey(): ReadonlyArray<CallLinkRecord>;
-  getAllMarkedDeletedCallLinks(): ReadonlyArray<CallLinkType>;
+  getAllMarkedDeletedCallLinkRoomIds(): ReadonlyArray<string>;
   getMessagesBetween: (
     conversationId: string,
     options: GetMessagesBetweenOptions

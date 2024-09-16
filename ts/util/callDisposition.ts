@@ -66,8 +66,8 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationModel } from '../models/conversations';
 import { drop } from './drop';
 import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync';
-import { callLinksDeleteJobQueue } from '../jobs/callLinksDeleteJobQueue';
 import { storageServiceUploadJob } from '../services/storage';
+import { CallLinkDeleteManager } from '../jobs/CallLinkDeleteManager';
 
 // utils
 // -----
@@ -1305,14 +1305,13 @@ export async function clearCallHistoryDataAndSync(
     const messageIds = await DataWriter.clearCallHistory(latestCall);
     await DataWriter.beginDeleteAllCallLinks();
     storageServiceUploadJob();
+    // Wait for storage sync before finalizing delete
+    drop(CallLinkDeleteManager.enqueueAllDeletedCallLinks({ delay: 10000 }));
     updateDeletedMessages(messageIds);
     log.info('clearCallHistory: Queueing sync message');
     await singleProtoJobQueue.add(
       MessageSender.getClearCallHistoryMessage(latestCall)
     );
-    await callLinksDeleteJobQueue.add({
-      source: 'clearCallHistoryDataAndSync',
-    });
   } catch (error) {
     log.error('clearCallHistory: Failed to clear call history', error);
   }
