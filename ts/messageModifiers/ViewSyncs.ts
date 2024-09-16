@@ -40,7 +40,9 @@ export type ViewSyncAttributesType = {
 const viewSyncs = new Map<string, ViewSyncAttributesType>();
 
 async function remove(sync: ViewSyncAttributesType): Promise<void> {
-  await DataWriter.removeSyncTaskById(sync.syncTaskId);
+  const { syncTaskId } = sync;
+  viewSyncs.delete(syncTaskId);
+  await DataWriter.removeSyncTaskById(syncTaskId);
 }
 
 export async function forMessage(

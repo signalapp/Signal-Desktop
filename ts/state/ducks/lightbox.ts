@@ -232,7 +232,7 @@ function filterValidAttachments(
   attributes: ReadonlyMessageAttributesType
 ): Array<AttachmentType> {
   return (attributes.attachments ?? []).filter(
-    item => item.thumbnail && !item.pending && !item.error
+    item => !item.pending && !item.error
   );
 }
 
