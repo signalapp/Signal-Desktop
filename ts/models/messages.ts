@@ -2008,14 +2008,22 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             ) {
               conversation.set({ profileSharing: true });
             } else if (isDirectConversation(conversation.attributes)) {
-              void conversation.setProfileKey(profileKey);
+              drop(
+                conversation.setProfileKey(profileKey, {
+                  reason: 'handleDataMessage',
+                })
+              );
             } else {
               const local = window.ConversationController.lookupOrCreate({
                 e164: source,
                 serviceId: sourceServiceId,
                 reason: 'handleDataMessage:setProfileKey',
               });
-              void local?.setProfileKey(profileKey);
+              drop(
+                local?.setProfileKey(profileKey, {
+                  reason: 'handleDataMessage',
+                })
+              );
             }
           }
 

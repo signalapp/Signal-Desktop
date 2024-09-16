@@ -329,7 +329,12 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
             throw error;
           }
 
-          await c.setProfileKey(undefined);
+          log.warn(
+            `getProfile: Got 401/403 when using accessKey for ${idForLogging}, removing profileKey`
+          );
+          await c.setProfileKey(undefined, {
+            reason: 'doGetProfile/accessKey/401+403',
+          });
 
           // Retry fetch using last known profileKeyVersion or fetch
           // unversioned profile.
@@ -555,7 +560,9 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
             `getProfile: Got 401/403 when using accessKey for ${idForLogging}, removing profileKey`
           );
           if (!isMe(c.attributes)) {
-            await c.setProfileKey(undefined);
+            await c.setProfileKey(undefined, {
+              reason: 'doGetProfile/accessKey/401+403',
+            });
           }
         }
         if (c.get('sealedSender') === SEALED_SENDER.UNKNOWN) {

@@ -3191,7 +3191,7 @@ async function updateGroup(
       contact.get('profileKey') !== profileKey
     ) {
       contactsWithoutProfileKey.push(contact);
-      drop(contact.setProfileKey(profileKey));
+      drop(contact.setProfileKey(profileKey, { reason: 'updateGroup' }));
     }
   }
 
