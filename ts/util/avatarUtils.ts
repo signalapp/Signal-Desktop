@@ -62,7 +62,7 @@ export function getRawAvatarPath(
 export function getLocalProfileAvatarUrl(
   conversationAttrs: ConversationAttributesType
 ): string | undefined {
-  const avatar = conversationAttrs.profileAvatar;
+  const avatar = conversationAttrs.profileAvatar || conversationAttrs.avatar;
   return avatar?.path ? getLocalAttachmentUrl(avatar) : undefined;
 }
 

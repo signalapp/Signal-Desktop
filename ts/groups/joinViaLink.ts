@@ -356,6 +356,7 @@ export async function joinViaLink(value: string): Promise<void> {
               tempConversation.set({
                 // We want to keep this conversation around, since the join succeeded
                 isTemporary: undefined,
+                profileSharing: true,
               });
               await DataWriter.updateConversation(tempConversation.attributes);
             }
