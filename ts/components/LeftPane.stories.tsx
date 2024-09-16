@@ -137,7 +137,12 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       unreadMentionsCount: 0,
       markedUnread: false,
     },
-    backupMediaDownloadProgress: { totalBytes: 0, downloadedBytes: 0 },
+    backupMediaDownloadProgress: {
+      downloadBannerDismissed: false,
+      isPaused: false,
+      totalBytes: 0,
+      downloadedBytes: 0,
+    },
     clearConversationSearch: action('clearConversationSearch'),
     clearGroupCreationError: action('clearGroupCreationError'),
     clearSearch: action('clearSearch'),
@@ -147,6 +152,12 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     composeReplaceAvatar: action('composeReplaceAvatar'),
     composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
     createGroup: action('createGroup'),
+    dismissBackupMediaDownloadBanner: action(
+      'dismissBackupMediaDownloadBanner'
+    ),
+    pauseBackupMediaDownload: action('pauseBackupMediaDownload'),
+    resumeBackupMediaDownload: action('resumeBackupMediaDownload'),
+    cancelBackupMediaDownload: action('cancelBackupMediaDownload'),
     endConversationSearch: action('endConversationSearch'),
     endSearch: action('endSearch'),
     getPreferredBadge: () => undefined,

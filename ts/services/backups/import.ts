@@ -302,8 +302,8 @@ export class BackupImportStream extends Writable {
   public static async create(): Promise<BackupImportStream> {
     await AttachmentDownloadManager.stop();
     await DataWriter.removeAllBackupAttachmentDownloadJobs();
-    await window.storage.put('backupAttachmentsSuccessfullyDownloadedSize', 0);
-    await window.storage.put('backupAttachmentsTotalSizeToDownload', 0);
+    await window.storage.put('backupMediaDownloadCompletedBytes', 0);
+    await window.storage.put('backupMediaDownloadTotalBytes', 0);
 
     return new BackupImportStream();
   }
@@ -401,7 +401,7 @@ export class BackupImportStream extends Writable {
       reinitializeRedux(getParametersForRedux());
 
       await window.storage.put(
-        'backupAttachmentsTotalSizeToDownload',
+        'backupMediaDownloadTotalBytes',
         await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
       );
 

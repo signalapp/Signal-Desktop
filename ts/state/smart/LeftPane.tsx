@@ -97,6 +97,12 @@ import { SmartToastManager } from './ToastManager';
 import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog';
 import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
+import {
+  cancelBackupMediaDownload,
+  dismissBackupMediaDownloadBanner,
+  pauseBackupMediaDownload,
+  resumeBackupMediaDownload,
+} from '../../util/backupMediaDownload';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
@@ -366,6 +372,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
     <LeftPane
       backupMediaDownloadProgress={backupMediaDownloadProgress}
       blockConversation={blockConversation}
+      cancelBackupMediaDownload={cancelBackupMediaDownload}
       challengeStatus={challengeStatus}
       clearConversationSearch={clearConversationSearch}
       clearGroupCreationError={clearGroupCreationError}
@@ -377,6 +384,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       composeSaveAvatarToDisk={composeSaveAvatarToDisk}
       crashReportCount={crashReportCount}
       createGroup={createGroup}
+      dismissBackupMediaDownloadBanner={dismissBackupMediaDownloadBanner}
       endConversationSearch={endConversationSearch}
       endSearch={endSearch}
       getPreferredBadge={getPreferredBadge}
@@ -396,6 +404,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       openUsernameReservationModal={openUsernameReservationModal}
       otherTabsUnreadStats={otherTabsUnreadStats}
+      pauseBackupMediaDownload={pauseBackupMediaDownload}
       preferredWidthFromStorage={preferredWidthFromStorage}
       preloadConversation={preloadConversation}
       removeConversation={removeConversation}
@@ -408,6 +417,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       renderToastManager={renderToastManager}
       renderUnsupportedOSDialog={renderUnsupportedOSDialog}
       renderUpdateDialog={renderUpdateDialog}
+      resumeBackupMediaDownload={resumeBackupMediaDownload}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       searchInConversation={searchInConversation}
       selectedConversationId={selectedConversationId}

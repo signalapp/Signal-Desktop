@@ -4723,13 +4723,53 @@
     "messageformat": "Cancel transfer",
     "description": "Text of the confirmation button of the cancel confirmation modal in the backup import screen"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restoring media",
-    "description": "Label above a progress bar showing media (attachment) download progress after restoring from backup"
+    "description": "Label next to a progress bar showing active media (attachment) download progress after restoring from backup"
+  },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused",
+    "description": "Label indicating media (attachment) download progress has been paused (due to user interaction)"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer",
+    "description": "Text for button to pause media (attachment) download after backup impor"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer",
+    "description": "Text for button to resume media (attachment) download after backup import"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Cancel transfer",
+    "description": "Text for button to cancel (pause) media (attachment) download after backup import"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "More options",
+    "description": "Alt text for button that opens menu to allow user to select to pause or cancel media download"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Restore complete",
+    "description": "Label above a progress bar showing active media (attachment) download progress after restoring from backup"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete, number, percent})",
+    "messageformat": "{currentSize} of {totalSize}",
     "description": "Hint under the progressbar showing media (attachment) download progress after restoring from backup"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?",
+    "description": "Text for button to cancel (pause) media (attachment) download after backup import"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings.",
+    "description": "Text for button to cancel (pause) media (attachment) download after backup import"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Continue transfer",
+    "description": "Text for button to close confirmation dialog and continue media (attachment) download"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Cancel transfer",
+    "description": "Text for button to confirm cancellation of media (attachment) download"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expand",

@@ -95,10 +95,11 @@ import { updateToSchemaVersion1150 } from './1150-expire-timer-version';
 import { updateToSchemaVersion1160 } from './1160-optimize-calls-unread-count';
 import { updateToSchemaVersion1170 } from './1170-update-call-history-unread-index';
 import { updateToSchemaVersion1180 } from './1180-add-attachment-download-source';
+import { updateToSchemaVersion1190 } from './1190-call-links-storage';
 import {
-  updateToSchemaVersion1190,
+  updateToSchemaVersion1200,
   version as MAX_VERSION,
-} from './1190-call-links-storage';
+} from './1200-attachment-download-source-index';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2062,6 +2063,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1170,
   updateToSchemaVersion1180,
   updateToSchemaVersion1190,
+  updateToSchemaVersion1200,
 ];
 
 export class DBVersionFromFutureError extends Error {
