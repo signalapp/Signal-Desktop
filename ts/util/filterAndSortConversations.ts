@@ -121,10 +121,6 @@ function searchConversations(
 
   const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
 
-  const currentConversations = conversations.filter(conversation => {
-    return !conversation.left;
-  });
-
   // Escape the search term
   let extendedSearchTerm = removeDiacritics(searchTerm);
 
@@ -133,7 +129,7 @@ function searchConversations(
     extendedSearchTerm += ` | ${phoneNumber.e164}`;
   }
 
-  const index = getCachedFuseIndex(currentConversations, FUSE_OPTIONS);
+  const index = getCachedFuseIndex(conversations, FUSE_OPTIONS);
 
   return index.search(extendedSearchTerm);
 }
