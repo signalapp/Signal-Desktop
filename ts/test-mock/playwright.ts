@@ -144,8 +144,24 @@ export class App extends EventEmitter {
     );
   }
 
+  private async checkForFatalTestErrors(): Promise<void> {
+    const count = await this.getPendingEventCount('fatalTestError');
+    if (count === 0) {
+      return;
+    }
+    for (let i = 0; i < count; i += 1) {
+      // eslint-disable-next-line no-await-in-loop, no-console
+      console.error(await this.waitForEvent('fatalTestError'));
+    }
+    throw new Error('App had fatal test errors');
+  }
+
   public async close(): Promise<void> {
-    await this.app.close();
+    try {
+      await this.checkForFatalTestErrors();
+    } finally {
+      await this.app.close();
+    }
   }
 
   public async getWindow(): Promise<Page> {
