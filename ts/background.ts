@@ -1744,7 +1744,9 @@ export async function startApp(): Promise<void> {
       if (firstRun && profileKey) {
         const me = window.ConversationController.getOurConversation();
         strictAssert(me !== undefined, "Didn't find newly created ourselves");
-        await me.setProfileKey(Bytes.toBase64(profileKey));
+        await me.setProfileKey(Bytes.toBase64(profileKey), {
+          reason: 'connect/firstRun',
+        });
       }
 
       if (isBackupEnabled()) {
@@ -2290,7 +2292,9 @@ export async function startApp(): Promise<void> {
 
     if (sender) {
       // Will do the save for us
-      await sender.setProfileKey(profileKey);
+      await sender.setProfileKey(profileKey, {
+        reason: 'handleMessageReceivedProfileUpdate',
+      });
     }
 
     return confirm();
@@ -2572,13 +2576,9 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    log.info(
-      `${logId}: updating profileKey for ${idForLogging}`,
-      data.sourceAci,
-      data.source
-    );
-
-    const hasChanged = await conversation.setProfileKey(data.profileKey);
+    const hasChanged = await conversation.setProfileKey(data.profileKey, {
+      reason: `onProfileKey/${reason}`,
+    });
 
     if (hasChanged) {
       drop(conversation.getProfiles());
@@ -2615,7 +2615,9 @@ export async function startApp(): Promise<void> {
     );
 
     // Will do the save for us if needed
-    await me.setProfileKey(profileKey);
+    await me.setProfileKey(profileKey, {
+      reason: 'handleMessageSentProfileUpdate',
+    });
 
     return confirm();
   }

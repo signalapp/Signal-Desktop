@@ -1142,7 +1142,9 @@ export class ConversationController {
         const profileKey = obsolete.get('profileKey');
 
         if (profileKey) {
-          await current.setProfileKey(profileKey);
+          await current.setProfileKey(profileKey, {
+            reason: 'doCombineConversations ',
+          });
         }
       }
 

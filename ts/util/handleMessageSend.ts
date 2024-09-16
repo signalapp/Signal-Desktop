@@ -115,7 +115,9 @@ function processError(error: unknown): void {
           `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, removing profile key`
         );
 
-        void conversation.setProfileKey(undefined);
+        void conversation.setProfileKey(undefined, {
+          reason: 'handleMessageSend/processError',
+        });
       }
       if (conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN) {
         log.warn(

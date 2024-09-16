@@ -1137,7 +1137,7 @@ export async function mergeContactRecord(
   if (contactRecord.profileKey && contactRecord.profileKey.length > 0) {
     needsProfileFetch = await conversation.setProfileKey(
       Bytes.toBase64(contactRecord.profileKey),
-      { viaStorageServiceSync: true }
+      { viaStorageServiceSync: true, reason: 'mergeContactRecord' }
     );
   }
 
@@ -1660,7 +1660,7 @@ export async function mergeAccountRecord(
   if (profileKey && profileKey.length > 0) {
     needsProfileFetch = await conversation.setProfileKey(
       Bytes.toBase64(profileKey),
-      { viaStorageServiceSync: true }
+      { viaStorageServiceSync: true, reason: 'mergeAccountRecord' }
     );
 
     const avatarUrl = dropNull(accountRecord.avatarUrl);
