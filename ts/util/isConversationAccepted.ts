@@ -35,12 +35,26 @@ export function isConversationAccepted(
     return true;
   }
 
-  const { sentMessageCount } = conversationAttrs;
+  const {
+    sentMessageCount,
+    messageCount,
+    messageCountBeforeMessageRequests,
+    pendingAdminApprovalV2,
+    profileSharing,
+  } = conversationAttrs;
+
+  const ourAci = window.storage.user.getAci();
+  const hasRequestedToJoin =
+    Boolean(ourAci) &&
+    (pendingAdminApprovalV2 || []).some(item => item.aci === ourAci);
+  if (hasRequestedToJoin) {
+    return true;
+  }
 
   const hasSentMessages = (sentMessageCount || 0) > 0;
   const hasMessagesBeforeMessageRequests =
-    (conversationAttrs.messageCountBeforeMessageRequests || 0) > 0;
-  const hasNoMessages = (conversationAttrs.messageCount || 0) === 0;
+    (messageCountBeforeMessageRequests || 0) > 0;
+  const hasNoMessages = (messageCount || 0) === 0;
 
   // We don't want to show the message request UI in an empty conversation.
   const isEmptyPrivateConvo =
@@ -50,7 +64,7 @@ export function isConversationAccepted(
   const isEmptyWhitelistedGroup =
     hasNoMessages &&
     !isDirectConversation(conversationAttrs) &&
-    Boolean(conversationAttrs.profileSharing);
+    Boolean(profileSharing);
 
   return (
     isFromOrAddedByTrustedContact(conversationAttrs) ||
