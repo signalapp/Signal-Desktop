@@ -5,12 +5,36 @@ import { assert } from 'chai';
 
 import {
   findLinks,
+  isLinkSneaky,
+  isValidLink,
   shouldLinkifyMessage,
   shouldPreviewHref,
-  isLinkSneaky,
 } from '../../types/LinkPreview';
 
 describe('Link previews', () => {
+  describe('#isValidLink', () => {
+    it('returns false for random, non-https URLs', () => {
+      assert.isFalse(isValidLink(''));
+      assert.isFalse(isValidLink('signal.com'));
+      assert.isFalse(isValidLink('signal.org'));
+      assert.isFalse(isValidLink('https'));
+      assert.isFalse(isValidLink('https://'));
+      assert.isFalse(isValidLink('https://bad url'));
+      assert.isFalse(isValidLink('http://signal.org'));
+    });
+
+    it('returns true for https:// URLs', () => {
+      assert.isTrue(isValidLink('https://signal.org'));
+      assert.isTrue(isValidLink('https://somewhere.someplace.signal.org/'));
+      assert.isTrue(isValidLink('https://signal.org/something/another/#thing'));
+      assert.isTrue(
+        isValidLink(
+          'https://signal.org/something/another/?one=two&three=four#thing'
+        )
+      );
+    });
+  });
+
   describe('#shouldPreviewHref', () => {
     it('returns false for invalid URLs', () => {
       assert.isFalse(shouldPreviewHref(''));
