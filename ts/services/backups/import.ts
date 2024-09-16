@@ -102,6 +102,7 @@ import {
 import type { CallHistoryDetails } from '../../types/CallDisposition';
 import { CallLinkRestrictions } from '../../types/CallLink';
 import type { CallLinkType } from '../../types/CallLink';
+import type { RawBodyRange } from '../../types/BodyRange';
 import { fromAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { reinitializeRedux } from '../../state/reinitializeRedux';
@@ -788,10 +789,9 @@ export class BackupImportStream extends Writable {
     };
 
     if (contact.notRegistered) {
-      const timestamp =
-        contact.notRegistered.unregisteredTimestamp?.toNumber() ?? this.now;
-      attrs.discoveredUnregisteredAt = timestamp;
-      attrs.firstUnregisteredAt = timestamp;
+      const timestamp = contact.notRegistered.unregisteredTimestamp?.toNumber();
+      attrs.discoveredUnregisteredAt = timestamp || this.now;
+      attrs.firstUnregisteredAt = timestamp || undefined;
     } else {
       strictAssert(
         contact.registered,
@@ -1026,6 +1026,11 @@ export class BackupImportStream extends Writable {
         default:
           throw missingCaseError(list.privacyMode);
       }
+
+      strictAssert(
+        !isBlockList || id === MY_STORY_ID,
+        'Block list can be set only for my story'
+      );
 
       result = {
         ...commonFields,
@@ -1489,6 +1494,7 @@ export class BackupImportStream extends Writable {
   ): Promise<Partial<MessageAttributesType>> {
     return {
       body: data.text?.body || undefined,
+      bodyRanges: this.fromBodyRanges(data.text),
       attachments: data.attachments?.length
         ? data.attachments
             .map(convertBackupMessageAttachmentToAttachment)
@@ -1605,18 +1611,7 @@ export class BackupImportStream extends Writable {
         id: getTimestampFromLong(quote.targetSentTimestamp),
         authorAci: authorConvo.serviceId,
         text: dropNull(quote.text?.body),
-        bodyRanges: quote.text?.bodyRanges?.length
-          ? filterAndClean(
-              quote.text?.bodyRanges.map(range => ({
-                ...range,
-                mentionAci: range.mentionAci
-                  ? Aci.parseFromServiceIdBinary(
-                      Buffer.from(range.mentionAci)
-                    ).getServiceIdString()
-                  : undefined,
-              }))
-            )
-          : undefined,
+        bodyRanges: this.fromBodyRanges(quote.text),
         attachments:
           quote.attachments?.map(quotedAttachment => {
             const { fileName, contentType, thumbnail } = quotedAttachment;
@@ -1636,6 +1631,29 @@ export class BackupImportStream extends Writable {
       {
         messageCache: this.recentMessages,
       }
+    );
+  }
+
+  private fromBodyRanges(
+    text: Backups.IText | null | undefined
+  ): ReadonlyArray<RawBodyRange> | undefined {
+    if (text == null) {
+      return undefined;
+    }
+    const { bodyRanges } = text;
+    if (!bodyRanges?.length) {
+      return undefined;
+    }
+
+    return filterAndClean(
+      bodyRanges.map(range => ({
+        ...range,
+        mentionAci: range.mentionAci
+          ? Aci.parseFromServiceIdBinary(
+              Buffer.from(range.mentionAci)
+            ).getServiceIdString()
+          : undefined,
+      }))
     );
   }
 
@@ -1938,6 +1956,7 @@ export class BackupImportStream extends Writable {
         updateMessage.simpleUpdate,
         options
       );
+
       if (!message) {
         return undefined;
       }
@@ -2801,6 +2820,21 @@ export class BackupImportStream extends Writable {
         return {
           type: 'message-request-response-event',
           messageRequestResponseEvent: MessageRequestResponseEvent.SPAM,
+        };
+      case Type.BLOCKED:
+        return {
+          type: 'message-request-response-event',
+          messageRequestResponseEvent: MessageRequestResponseEvent.BLOCK,
+        };
+      case Type.UNBLOCKED:
+        return {
+          type: 'message-request-response-event',
+          messageRequestResponseEvent: MessageRequestResponseEvent.UNBLOCK,
+        };
+      case Type.MESSAGE_REQUEST_ACCEPTED:
+        return {
+          type: 'message-request-response-event',
+          messageRequestResponseEvent: MessageRequestResponseEvent.ACCEPT,
         };
       default:
         throw new Error(`Unsupported update type: ${simpleUpdate.type}`);

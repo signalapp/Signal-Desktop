@@ -2094,7 +2094,9 @@ export async function startApp(): Promise<void> {
         storage,
       });
 
-      void routineProfileRefresher.start();
+      if (!window.SignalCI?.isBackupIntegration) {
+        void routineProfileRefresher.start();
+      }
     }
 
     drop(usernameIntegrity.start());

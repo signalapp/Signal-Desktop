@@ -47,7 +47,6 @@ import {
   isGroupV2,
   isMe,
 } from '../../util/whatTypeOfConversation';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { strictAssert } from '../../util/assert';
 import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils';
@@ -118,7 +117,6 @@ import {
   type AttachmentType,
   isGIF,
   isDownloaded,
-  isVoiceMessage as isVoiceMessageAttachment,
 } from '../../types/Attachment';
 import {
   getFilePointerForAttachment,
@@ -813,7 +811,7 @@ export class BackupExportStream extends Readable {
           ? window.storage.blocked.isServiceIdBlocked(convo.serviceId)
           : null,
         visibility,
-        ...(isConversationUnregistered(convo)
+        ...(convo.discoveredUnregisteredAt
           ? {
               notRegistered: {
                 unregisteredTimestamp: convo.firstUnregisteredAt
@@ -892,7 +890,7 @@ export class BackupExportStream extends Readable {
               member: {
                 userId: this.serviceIdToBytes(member.serviceId),
                 role: member.role,
-                profileKey: ZERO_PROFILE_KEY,
+                profileKey: null,
                 joinedAtVersion: 0,
               },
               addedByUserId: this.aciToBytes(member.addedByUserId),
@@ -1056,6 +1054,7 @@ export class BackupExportStream extends Readable {
       const { payment } = message;
       switch (payment.kind) {
         case PaymentEventKind.ActivationRequest: {
+          result.directionless = {};
           result.updateMessage = {
             simpleUpdate: {
               type: Backups.SimpleChatUpdate.Type.PAYMENT_ACTIVATION_REQUEST,
@@ -1064,6 +1063,7 @@ export class BackupExportStream extends Readable {
           break;
         }
         case PaymentEventKind.Activation: {
+          result.directionless = {};
           result.updateMessage = {
             simpleUpdate: {
               type: Backups.SimpleChatUpdate.Type.PAYMENTS_ACTIVATED,
@@ -1073,7 +1073,7 @@ export class BackupExportStream extends Readable {
         }
         case PaymentEventKind.Notification:
           result.paymentNotification = {
-            note: payment.note || undefined,
+            note: payment.note ?? null,
             amountMob: payment.amountMob,
             feeMob: payment.feeMob,
             transactionDetails: payment.transactionDetailsBase64
@@ -1456,12 +1456,17 @@ export class BackupExportStream extends Readable {
       let type: Backups.SimpleChatUpdate.Type;
       const { Type } = Backups.SimpleChatUpdate;
       switch (event) {
-        case MessageRequestResponseEvent.ACCEPT:
-        case MessageRequestResponseEvent.BLOCK:
-        case MessageRequestResponseEvent.UNBLOCK:
-          return { kind: NonBubbleResultKind.Drop };
         case MessageRequestResponseEvent.SPAM:
           type = Type.REPORTED_SPAM;
+          break;
+        case MessageRequestResponseEvent.BLOCK:
+          type = Type.BLOCKED;
+          break;
+        case MessageRequestResponseEvent.UNBLOCK:
+          type = Type.UNBLOCKED;
+          break;
+        case MessageRequestResponseEvent.ACCEPT:
+          type = Type.MESSAGE_REQUEST_ACCEPTED;
           break;
         default:
           throw missingCaseError(event);
@@ -1539,7 +1544,7 @@ export class BackupExportStream extends Readable {
 
       updateMessage.simpleUpdate = simpleUpdate;
 
-      return { kind: NonBubbleResultKind.Directed, patch };
+      return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isGroupV1Migration(message)) {
@@ -1603,7 +1608,7 @@ export class BackupExportStream extends Readable {
 
       updateMessage.simpleUpdate = simpleUpdate;
 
-      return { kind: NonBubbleResultKind.Directed, patch };
+      return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isChatSessionRefreshed(message)) {
@@ -2101,7 +2106,9 @@ export class BackupExportStream extends Readable {
   private getMessageAttachmentFlag(
     attachment: AttachmentType
   ): Backups.MessageAttachment.Flag {
-    if (isVoiceMessageAttachment(attachment)) {
+    const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
+    // eslint-disable-next-line no-bitwise
+    if (((attachment.flags || 0) & flag) === flag) {
       return Backups.MessageAttachment.Flag.VOICE_MESSAGE;
     }
     if (isGIF([attachment])) {
@@ -2342,9 +2349,6 @@ export class BackupExportStream extends Readable {
     >,
     backupLevel: BackupLevel
   ): Promise<Backups.IStandardMessage> {
-    const isVoiceMessage = message.attachments?.some(isVoiceMessageAttachment);
-    const includeText = !isVoiceMessage;
-
     return {
       quote: await this.toQuote({
         quote: message.quote,
@@ -2362,17 +2366,18 @@ export class BackupExportStream extends Readable {
             })
           )
         : undefined,
-      text: includeText
-        ? {
-            // TODO (DESKTOP-7207): handle long message text attachments
-            // Note that we store full text on the message model so we have to
-            // trim it before serializing.
-            body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
-            bodyRanges: message.bodyRanges?.map(range =>
-              this.toBodyRange(range)
-            ),
-          }
-        : undefined,
+      text:
+        message.body != null
+          ? {
+              // TODO (DESKTOP-7207): handle long message text attachments
+              // Note that we store full text on the message model so we have to
+              // trim it before serializing.
+              body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
+              bodyRanges: message.bodyRanges?.map(range =>
+                this.toBodyRange(range)
+              ),
+            }
+          : undefined,
       linkPreview: message.preview
         ? await Promise.all(
             message.preview.map(async preview => {
