@@ -72,6 +72,7 @@ import {
 } from './groupSendEndorsements';
 import { maybeUpdateGroup } from '../groups';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
+import { isAciString } from './isAciString';
 
 const UNKNOWN_RECIPIENT = 404;
 const INCORRECT_AUTH_KEY = 401;
@@ -361,16 +362,18 @@ export async function sendToGroupViaSenderKey(
 
   let groupSendEndorsementState: GroupSendEndorsementState | null = null;
   if (groupId != null) {
+    strictAssert(conversation, 'Must have conversation for endorsements');
+
     const data = await DataReader.getGroupSendEndorsementsData(groupId);
     if (data == null) {
-      onFailedToSendWithEndorsements(
-        new Error(
-          `sendToGroupViaSenderKey/${logId}: Missing all endorsements for group`
-        )
-      );
+      if (conversation.isMember(ourAci)) {
+        onFailedToSendWithEndorsements(
+          new Error(
+            `sendToGroupViaSenderKey/${logId}: Missing all endorsements for group`
+          )
+        );
+      }
     } else {
-      strictAssert(conversation, 'Must have conversation for endorsements');
-
       log.info(
         `sendToGroupViaSenderKey/${logId}: Loaded endorsements for ${data.memberEndorsements.length} members`
       );
@@ -572,9 +575,13 @@ export async function sendToGroupViaSenderKey(
   let accessKeys: Buffer | undefined;
   if (groupSendEndorsementState != null) {
     strictAssert(conversation, 'Must have conversation for endorsements');
-    groupSendToken = groupSendEndorsementState.buildToken(
-      new Set(senderKeyRecipients)
-    );
+    try {
+      groupSendToken = groupSendEndorsementState.buildToken(
+        new Set(senderKeyRecipients)
+      );
+    } catch (error) {
+      onFailedToSendWithEndorsements(error);
+    }
   } else {
     accessKeys = getXorOfAccessKeys(devicesForSenderKey, { story });
   }
@@ -687,6 +694,10 @@ export async function sendToGroupViaSenderKey(
           'error: invalid registration id'
         );
       }
+    }
+
+    if (groupSendEndorsementState != null) {
+      onFailedToSendWithEndorsements(error);
     }
 
     log.error(
@@ -1259,8 +1270,7 @@ function isValidSenderKeyRecipient(
   }
 
   if (groupSendEndorsementState != null) {
-    const memberEndorsement = groupSendEndorsementState.hasMember(serviceId);
-    if (memberEndorsement == null) {
+    if (!groupSendEndorsementState.hasMember(serviceId)) {
       onFailedToSendWithEndorsements(
         new Error(
           `isValidSenderKeyRecipient: Sending to ${serviceId}, missing endorsement`
@@ -1429,6 +1439,12 @@ async function fetchKeysForServiceId(
     'private'
   );
 
+  let useGroupSendEndorsement = isAciString(serviceId);
+  if (!groupSendEndorsementState?.hasMember(serviceId)) {
+    log.error(`fetchKeysForServiceId: ${serviceId} does not have endorsements`);
+    useGroupSendEndorsement = false;
+  }
+
   try {
     // Note: we have no way to make an unrestricted unauthenticated key fetch as part of a
     //   story send, so we hardcode story=false.
@@ -1436,8 +1452,13 @@ async function fetchKeysForServiceId(
       story: false,
     });
 
-    const groupSendToken =
-      groupSendEndorsementState?.buildToken(new Set([serviceId])) ?? null;
+    let groupSendToken: GroupSendToken | null = null;
+
+    if (useGroupSendEndorsement && groupSendEndorsementState != null) {
+      groupSendToken = groupSendEndorsementState.buildToken(
+        new Set([serviceId])
+      );
+    }
 
     const { accessKeyFailed } = await getKeysForServiceId(
       serviceId,
@@ -1456,6 +1477,9 @@ async function fetchKeysForServiceId(
       await DataWriter.updateConversation(emptyConversation.attributes);
     }
   } catch (error: unknown) {
+    if (useGroupSendEndorsement) {
+      onFailedToSendWithEndorsements(error as Error);
+    }
     if (error instanceof UnregisteredUserError) {
       await markServiceIdUnregistered(serviceId);
       return;

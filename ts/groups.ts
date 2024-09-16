@@ -3986,7 +3986,7 @@ async function updateGroupViaLogs({
 
   if (
     cachedEndorsementsExpiration != null &&
-    !isValidGroupSendEndorsementsExpiration(cachedEndorsementsExpiration)
+    !isValidGroupSendEndorsementsExpiration(cachedEndorsementsExpiration * 1000)
   ) {
     log.info(
       `updateGroupViaLogs/${logId}: Group had invalid endorsements expiration (${cachedEndorsementsExpiration}), fetching new endorsements`

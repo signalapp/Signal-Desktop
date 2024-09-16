@@ -25,6 +25,8 @@ import type { GroupV2MemberType } from '../model-types';
 import { DurationInSeconds } from './durations';
 import { ToastType } from '../types/Toast';
 import * as Errors from '../types/errors';
+import { isTestOrMockEnvironment } from '../environment';
+import { isAlpha } from './version';
 
 export function decodeGroupSendEndorsementResponse({
   groupId,
@@ -116,6 +118,14 @@ export function decodeGroupSendEndorsementResponse({
 const TWO_DAYS = DurationInSeconds.fromDays(2);
 const TWO_HOURS = DurationInSeconds.fromHours(2);
 
+function logServiceIds(list: Iterable<string>) {
+  const items = Array.from(list);
+  if (items.length <= 5) {
+    return items.join(', ');
+  }
+  return `${items.slice(0, 4).join(', ')}, and ${items.length - 4} others`;
+}
+
 export function isValidGroupSendEndorsementsExpiration(
   expiration: number
 ): boolean {
@@ -127,11 +137,11 @@ export function isValidGroupSendEndorsementsExpiration(
 
 export class GroupSendEndorsementState {
   #combinedEndorsement: GroupSendCombinedEndorsementRecord;
-  #memberEndorsements = new Map<
+  #otherMemberEndorsements = new Map<
     ServiceIdString,
     GroupSendMemberEndorsementRecord
   >();
-  #memberEndorsementsAcis = new Set<AciString>();
+  #otherMemberEndorsementsAcis = new Set<AciString>();
   #groupSecretParamsBase64: string;
   #endorsementCache = new WeakMap<Uint8Array, GroupSendEndorsement>();
 
@@ -140,11 +150,15 @@ export class GroupSendEndorsementState {
     groupSecretParamsBase64: string
   ) {
     this.#combinedEndorsement = data.combinedEndorsement;
-    for (const endorsement of data.memberEndorsements) {
-      this.#memberEndorsements.set(endorsement.memberAci, endorsement);
-      this.#memberEndorsementsAcis.add(endorsement.memberAci);
-    }
     this.#groupSecretParamsBase64 = groupSecretParamsBase64;
+
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    for (const endorsement of data.memberEndorsements) {
+      if (endorsement.memberAci !== ourAci) {
+        this.#otherMemberEndorsements.set(endorsement.memberAci, endorsement);
+        this.#otherMemberEndorsementsAcis.add(endorsement.memberAci);
+      }
+    }
   }
 
   isSafeExpirationRange(): boolean {
@@ -158,7 +172,7 @@ export class GroupSendEndorsementState {
   }
 
   hasMember(serviceId: ServiceIdString): boolean {
-    return this.#memberEndorsements.has(serviceId);
+    return this.#otherMemberEndorsements.has(serviceId);
   }
 
   #toEndorsement(contents: Uint8Array) {
@@ -173,19 +187,12 @@ export class GroupSendEndorsementState {
   // Strategy 1: Faster when we're sending to most of the group members
   // `combined.byRemoving(combine(difference(members, sends)))`
   #subtractMemberEndorsements(
-    serviceIds: Set<ServiceIdString>
+    difference: Set<ServiceIdString>
   ): GroupSendEndorsement {
-    const difference = this.#memberEndorsementsAcis.difference(serviceIds);
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
-
     const toRemove: Array<GroupSendEndorsement> = [];
-    for (const serviceId of difference) {
-      if (serviceId === ourAci) {
-        // Note: Combined endorsement does not include our aci
-        continue;
-      }
 
-      const memberEndorsement = this.#memberEndorsements.get(serviceId);
+    for (const serviceId of difference) {
+      const memberEndorsement = this.#otherMemberEndorsements.get(serviceId);
       strictAssert(
         memberEndorsement,
         'serializeGroupSendEndorsementFullToken: Missing endorsement'
@@ -204,7 +211,7 @@ export class GroupSendEndorsementState {
     serviceIds: Set<ServiceIdString>
   ): GroupSendEndorsement {
     const memberEndorsements = Array.from(serviceIds).map(serviceId => {
-      const memberEndorsement = this.#memberEndorsements.get(serviceId);
+      const memberEndorsement = this.#otherMemberEndorsements.get(serviceId);
       strictAssert(
         memberEndorsement,
         'serializeGroupSendEndorsementFullToken: Missing endorsement'
@@ -217,17 +224,28 @@ export class GroupSendEndorsementState {
 
   buildToken(serviceIds: Set<ServiceIdString>): GroupSendToken {
     const sendCount = serviceIds.size;
-    const memberCount = this.#memberEndorsements.size;
-    const logId = `GroupSendEndorsementState.buildToken(${sendCount} of ${memberCount})`;
+    const otherMemberCount = this.#otherMemberEndorsements.size;
+    const logId = `GroupSendEndorsementState.buildToken(${sendCount} of ${otherMemberCount})`;
+
+    const missing = serviceIds.difference(this.#otherMemberEndorsementsAcis);
+    if (missing.size !== 0) {
+      throw new Error(
+        `Attempted to build token with memberAcis we don't have endorsements for (${logServiceIds(missing)})`
+      );
+    }
+
+    const difference = this.#otherMemberEndorsementsAcis.difference(serviceIds);
+    log.info(
+      `buildToken: Endorsements without sends ${difference.size}: ${logServiceIds(difference)})`
+    );
 
     let endorsement: GroupSendEndorsement;
-    if (sendCount === memberCount - 1) {
+    if (difference.size === 0) {
       log.info(`${logId}: combinedEndorsement`);
-      // Note: Combined endorsement does not include our aci
       endorsement = this.#toEndorsement(this.#combinedEndorsement.endorsement);
-    } else if (sendCount > (memberCount - 1) / 2) {
+    } else if (difference.size < otherMemberCount / 2) {
       log.info(`${logId}: subtractMemberEndorsements`);
-      endorsement = this.#subtractMemberEndorsements(serviceIds);
+      endorsement = this.#subtractMemberEndorsements(difference);
     } else {
       log.info(`${logId}: combineMemberEndorsements`);
       endorsement = this.#combineMemberEndorsements(serviceIds);
@@ -251,8 +269,13 @@ export class GroupSendEndorsementState {
 
 export function onFailedToSendWithEndorsements(error: Error): void {
   log.error('onFailedToSendWithEndorsements', Errors.toLogFormat(error));
-  window.reduxActions.toast.showToast({
-    toastType: ToastType.FailedToSendWithEndorsements,
-  });
+  if (isTestOrMockEnvironment() || isAlpha(window.getVersion())) {
+    window.reduxActions.toast.showToast({
+      toastType: ToastType.FailedToSendWithEndorsements,
+    });
+  }
+  if (window.SignalCI) {
+    window.SignalCI.handleEvent('fatalTestError', error);
+  }
   assertDev(false, 'We should never fail to send with endorsements');
 }
