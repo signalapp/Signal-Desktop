@@ -1,13 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  useEffect,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import { isNumber } from 'lodash';
 
@@ -62,10 +56,15 @@ import {
 import { ContextMenu } from './ContextMenu';
 import { EditState as ProfileEditorEditState } from './ProfileEditor';
 import type { UnreadStats } from '../util/countUnreadStats';
-import { BackupMediaDownloadProgressBanner } from './BackupMediaDownloadProgress';
+import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress';
 
 export type PropsType = {
-  backupMediaDownloadProgress: { totalBytes: number; downloadedBytes: number };
+  backupMediaDownloadProgress: {
+    totalBytes: number;
+    downloadedBytes: number;
+    isPaused: boolean;
+    downloadBannerDismissed: boolean;
+  };
   otherTabsUnreadStats: UnreadStats;
   hasExpiredDialog: boolean;
   hasFailedStorySends: boolean;
@@ -128,6 +127,10 @@ export type PropsType = {
   composeReplaceAvatar: ReplaceAvatarActionType;
   composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
   createGroup: () => void;
+  dismissBackupMediaDownloadBanner: () => void;
+  pauseBackupMediaDownload: () => void;
+  resumeBackupMediaDownload: () => void;
+  cancelBackupMediaDownload: () => void;
   endConversationSearch: () => void;
   endSearch: () => void;
   navTabsCollapsed: boolean;
@@ -184,6 +187,7 @@ export function LeftPane({
   backupMediaDownloadProgress,
   otherTabsUnreadStats,
   blockConversation,
+  cancelBackupMediaDownload,
   challengeStatus,
   clearConversationSearch,
   clearGroupCreationError,
@@ -214,6 +218,7 @@ export function LeftPane({
   onOutgoingVideoCallInConversation,
 
   openUsernameReservationModal,
+  pauseBackupMediaDownload,
   preferredWidthFromStorage,
   preloadConversation,
   removeConversation,
@@ -226,6 +231,7 @@ export function LeftPane({
   renderRelinkDialog,
   renderUpdateDialog,
   renderToastManager,
+  resumeBackupMediaDownload,
   savePreferredLeftPaneWidth,
   searchInConversation,
   selectedConversationId,
@@ -256,6 +262,7 @@ export function LeftPane({
   usernameCorrupted,
   usernameLinkCorrupted,
   updateSearchTerm,
+  dismissBackupMediaDownloadBanner,
 }: PropsType): JSX.Element {
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
@@ -645,27 +652,25 @@ export function LeftPane({
 
   // We'll show the backup media download progress banner if the download is currently or
   // was ongoing at some point during the lifecycle of this component
-  const [
-    hasMediaBackupDownloadBeenOngoing,
-    setHasMediaBackupDownloadBeenOngoing,
-  ] = useState(false);
 
-  const isMediaBackupDownloadOngoing =
+  const isMediaBackupDownloadIncomplete =
     backupMediaDownloadProgress?.totalBytes > 0 &&
     backupMediaDownloadProgress.downloadedBytes <
       backupMediaDownloadProgress.totalBytes;
-
-  if (isMediaBackupDownloadOngoing && !hasMediaBackupDownloadBeenOngoing) {
-    setHasMediaBackupDownloadBeenOngoing(true);
-  }
-
-  if (hasMediaBackupDownloadBeenOngoing) {
+  if (
+    isMediaBackupDownloadIncomplete &&
+    !backupMediaDownloadProgress.downloadBannerDismissed
+  ) {
     dialogs.push({
       key: 'backupMediaDownload',
       dialog: (
-        <BackupMediaDownloadProgressBanner
+        <BackupMediaDownloadProgress
           i18n={i18n}
           {...backupMediaDownloadProgress}
+          handleClose={dismissBackupMediaDownloadBanner}
+          handlePause={pauseBackupMediaDownload}
+          handleResume={resumeBackupMediaDownload}
+          handleCancel={cancelBackupMediaDownload}
         />
       ),
     });

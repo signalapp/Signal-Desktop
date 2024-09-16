@@ -57,3 +57,23 @@ export function safeParseBigint(
   }
   return BigInt(value);
 }
+
+export function roundFractionForProgressBar(fractionComplete: number): number {
+  if (fractionComplete <= 0) {
+    return 0;
+  }
+
+  if (fractionComplete >= 1) {
+    return 1;
+  }
+
+  if (fractionComplete <= 0.01) {
+    return 0.01;
+  }
+
+  if (fractionComplete >= 0.99) {
+    return 0.99;
+  }
+
+  return Math.round(fractionComplete * 100) / 100;
+}

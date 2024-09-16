@@ -2,26 +2,65 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { type ComponentProps } from 'react';
-import type { Meta, StoryFn } from '@storybook/react';
+import type { Meta } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
-import { BackupMediaDownloadProgressBanner } from './BackupMediaDownloadProgress';
+import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress';
+import { KIBIBYTE } from '../types/AttachmentSize';
 
 const i18n = setupI18n('en', enMessages);
 
-type PropsType = ComponentProps<typeof BackupMediaDownloadProgressBanner>;
+type PropsType = ComponentProps<typeof BackupMediaDownloadProgress>;
 
 export default {
   title: 'Components/BackupMediaDownloadProgress',
+  args: {
+    isPaused: false,
+    downloadedBytes: 600 * KIBIBYTE,
+    totalBytes: 1000 * KIBIBYTE,
+    handleClose: action('handleClose'),
+    handlePause: action('handlePause'),
+    handleResume: action('handleResume'),
+    handleCancel: action('handleCancel'),
+    i18n,
+  },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
-const Template: StoryFn<PropsType> = (args: PropsType) => (
-  <BackupMediaDownloadProgressBanner {...args} i18n={i18n} />
-);
+export function InProgress(args: PropsType): JSX.Element {
+  return <BackupMediaDownloadProgress {...args} />;
+}
 
-export const InProgress = Template.bind({});
-InProgress.args = {
-  downloadedBytes: 92048023,
-  totalBytes: 1024102532,
-};
+export function Increasing(args: PropsType): JSX.Element {
+  return (
+    <BackupMediaDownloadProgress
+      {...args}
+      {...useIncreasingFractionComplete()}
+    />
+  );
+}
+
+export function Paused(args: PropsType): JSX.Element {
+  return <BackupMediaDownloadProgress {...args} isPaused />;
+}
+
+export function Complete(args: PropsType): JSX.Element {
+  return (
+    <BackupMediaDownloadProgress {...args} downloadedBytes={args.totalBytes} />
+  );
+}
+
+function useIncreasingFractionComplete() {
+  const [fractionComplete, setFractionComplete] = React.useState(0);
+  React.useEffect(() => {
+    if (fractionComplete >= 1) {
+      return;
+    }
+    const timeout = setTimeout(() => {
+      setFractionComplete(cur => Math.min(1, cur + 0.1));
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [fractionComplete]);
+  return { downloadedBytes: 1e10 * fractionComplete, totalBytes: 1e10 };
+}

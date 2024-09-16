@@ -42,7 +42,7 @@ import {
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
 import type { MIMEType } from '../types/MIME';
-import type { AttachmentDownloadSource } from '../sql/Interface';
+import { AttachmentDownloadSource } from '../sql/Interface';
 import { drop } from '../util/drop';
 import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
 
@@ -84,6 +84,7 @@ type AttachmentDownloadManagerParamsType = Omit<
   getNextJobs: (options: {
     limit: number;
     prioritizeMessageIds?: Array<string>;
+    sources?: Array<AttachmentDownloadSource>;
     timestamp?: number;
   }) => Promise<Array<AttachmentDownloadJobType>>;
   runDownloadAttachmentJob: (args: {
@@ -139,6 +140,9 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
         return params.getNextJobs({
           limit,
           prioritizeMessageIds: [...this.visibleTimelineMessages],
+          sources: window.storage.get('backupMediaDownloadPaused')
+            ? [AttachmentDownloadSource.STANDARD]
+            : undefined,
           timestamp: Date.now(),
         });
       },
@@ -274,10 +278,10 @@ async function runDownloadAttachmentJob({
 
     if (job.attachment.backupLocator?.mediaName) {
       const currentDownloadedSize =
-        window.storage.get('backupAttachmentsSuccessfullyDownloadedSize') ?? 0;
+        window.storage.get('backupMediaDownloadCompletedBytes') ?? 0;
       drop(
         window.storage.put(
-          'backupAttachmentsSuccessfullyDownloadedSize',
+          'backupMediaDownloadCompletedBytes',
           currentDownloadedSize + job.ciphertextSize
         )
       );

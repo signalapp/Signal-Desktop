@@ -4785,17 +4785,27 @@ function getNextAttachmentDownloadJobs(
   db: WritableDB,
   {
     limit = 3,
+    sources,
     prioritizeMessageIds,
     timestamp = Date.now(),
     maxLastAttemptForPrioritizedMessages,
   }: {
     limit: number;
     prioritizeMessageIds?: Array<string>;
+    sources?: Array<AttachmentDownloadSource>;
     timestamp?: number;
     maxLastAttemptForPrioritizedMessages?: number;
   }
 ): Array<AttachmentDownloadJobType> {
   let priorityJobs = [];
+
+  const sourceWhereFragment = sources
+    ? sqlFragment`
+      source IN (${sqlJoin(sources)})
+    `
+    : sqlFragment`
+      TRUE
+    `;
 
   // First, try to get jobs for prioritized messages (e.g. those currently user-visible)
   if (prioritizeMessageIds?.length) {
@@ -4813,6 +4823,8 @@ function getNextAttachmentDownloadJobs(
         })
       AND
         messageId IN (${sqlJoin(prioritizeMessageIds)})
+      AND 
+        ${sourceWhereFragment}
       -- for priority messages, let's load them oldest first; this helps, e.g. for stories where we
       -- want the oldest one first
       ORDER BY receivedAt ASC
@@ -4831,6 +4843,8 @@ function getNextAttachmentDownloadJobs(
         active = 0
       AND
         (retryAfter is NULL OR retryAfter <= ${timestamp})
+      AND 
+        ${sourceWhereFragment}
       ORDER BY receivedAt DESC
       LIMIT ${numJobsRemaining}
     `;

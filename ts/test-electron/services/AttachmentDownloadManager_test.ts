@@ -27,8 +27,10 @@ function composeJob({
   messageId,
   receivedAt,
   attachmentOverrides,
+  jobOverrides,
 }: Pick<NewAttachmentDownloadJobType, 'messageId' | 'receivedAt'> & {
   attachmentOverrides?: Partial<AttachmentType>;
+  jobOverrides?: Partial<AttachmentDownloadJobType>;
 }): AttachmentDownloadJobType {
   const digest = `digestFor${messageId}`;
   const size = 128;
@@ -53,6 +55,7 @@ function composeJob({
       digest: `digestFor${messageId}`,
       ...attachmentOverrides,
     },
+    ...jobOverrides,
   };
 }
 
@@ -123,13 +126,19 @@ describe('AttachmentDownloadManager/JobManager', () => {
     });
   }
   async function addJobs(
-    num: number
+    num: number,
+    jobOverrides?:
+      | Partial<AttachmentDownloadJobType>
+      | ((idx: number) => Partial<AttachmentDownloadJobType>)
   ): Promise<Array<AttachmentDownloadJobType>> {
-    const jobs = new Array(num)
-      .fill(null)
-      .map((_, idx) =>
-        composeJob({ messageId: `message-${idx}`, receivedAt: idx })
-      );
+    const jobs = new Array(num).fill(null).map((_, idx) =>
+      composeJob({
+        messageId: `message-${idx}`,
+        receivedAt: idx,
+        jobOverrides:
+          typeof jobOverrides === 'function' ? jobOverrides(idx) : jobOverrides,
+      })
+    );
     for (const job of jobs) {
       // eslint-disable-next-line no-await-in-loop
       await addJob(job, AttachmentDownloadUrgency.STANDARD);
@@ -391,6 +400,35 @@ describe('AttachmentDownloadManager/JobManager', () => {
 
     // Ensure it's been removed
     assert.isUndefined(await DataReader.getAttachmentDownloadJob(jobs[0]));
+  });
+
+  it('only selects backup_import jobs if the mediaDownload is not paused', async () => {
+    await window.storage.put('backupMediaDownloadPaused', true);
+    const jobs = await addJobs(6, idx => ({
+      source:
+        idx % 2 === 0
+          ? AttachmentDownloadSource.BACKUP_IMPORT
+          : AttachmentDownloadSource.STANDARD,
+    }));
+    // make one of the backup job messages visible to test that code path as well
+    downloadManager?.updateVisibleTimelineMessages(['message-0', 'message-1']);
+    await downloadManager?.start();
+    await waitForJobToBeCompleted(jobs[3]);
+    assertRunJobCalledWith([jobs[1], jobs[5], jobs[3]]);
+    await advanceTime((downloadManager?.tickInterval ?? MINUTE) * 5);
+    assertRunJobCalledWith([jobs[1], jobs[5], jobs[3]]);
+
+    // resume backups
+    await window.storage.put('backupMediaDownloadPaused', false);
+    await advanceTime((downloadManager?.tickInterval ?? MINUTE) * 5);
+    assertRunJobCalledWith([
+      jobs[1],
+      jobs[5],
+      jobs[3],
+      jobs[0],
+      jobs[4],
+      jobs[2],
+    ]);
   });
 });
 

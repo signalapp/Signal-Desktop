@@ -9,6 +9,7 @@ import { TitlebarDragArea } from '../TitlebarDragArea';
 import { ProgressBar } from '../ProgressBar';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
+import { roundFractionForProgressBar } from '../../util/numbers';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
@@ -41,29 +42,26 @@ export function InstallScreenBackupImportStep({
     setIsConfirmingCancel(false);
   }, [onCancel]);
 
-  let percentage = 0;
   let progress: JSX.Element;
   let isCancelPossible = true;
   if (currentBytes != null && totalBytes != null) {
     isCancelPossible = currentBytes !== totalBytes;
 
-    percentage = Math.max(0, Math.min(1, currentBytes / totalBytes));
-    if (percentage > 0 && percentage <= 0.01) {
-      percentage = 0.01;
-    } else if (percentage >= 0.99 && percentage < 1) {
-      percentage = 0.99;
-    } else {
-      percentage = Math.round(percentage * 100) / 100;
-    }
+    const fractionComplete = roundFractionForProgressBar(
+      currentBytes / totalBytes
+    );
 
     progress = (
       <>
-        <ProgressBar fractionComplete={percentage} />
+        <ProgressBar
+          fractionComplete={fractionComplete}
+          isRTL={i18n.getLocaleDirection() === 'rtl'}
+        />
         <div className="InstallScreenBackupImportStep__progressbar-hint">
           {i18n('icu:BackupImportScreen__progressbar-hint', {
             currentSize: formatFileSize(currentBytes),
             totalSize: formatFileSize(totalBytes),
-            fractionComplete: percentage,
+            fractionComplete,
           })}
         </div>
       </>
@@ -71,7 +69,10 @@ export function InstallScreenBackupImportStep({
   } else {
     progress = (
       <>
-        <ProgressBar fractionComplete={0} />
+        <ProgressBar
+          fractionComplete={0}
+          isRTL={i18n.getLocaleDirection() === 'rtl'}
+        />
         <div className="InstallScreenBackupImportStep__progressbar-hint">
           {i18n('icu:BackupImportScreen__progressbar-hint--preparing')}
         </div>
