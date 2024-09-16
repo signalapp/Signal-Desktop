@@ -38,8 +38,9 @@ export type DeleteForMeAttributesType = {
 const deletes = new Map<string, DeleteForMeAttributesType>();
 
 async function remove(item: DeleteForMeAttributesType): Promise<void> {
-  await removeSyncTaskById(item.syncTaskId);
-  deletes.delete(item.envelopeId);
+  const { syncTaskId } = item;
+  await removeSyncTaskById(syncTaskId);
+  deletes.delete(syncTaskId);
 }
 
 export async function forMessage(
@@ -84,7 +85,7 @@ export async function onDelete(item: DeleteForMeAttributesType): Promise<void> {
 
     const logId = `DeletesForMe.onDelete(sentAt=${message.sentAt},timestamp=${item.timestamp},envelopeId=${item.envelopeId})`;
 
-    deletes.set(item.envelopeId, item);
+    deletes.set(item.syncTaskId, item);
 
     if (!conversation) {
       log.warn(`${logId}: Conversation not found!`);
