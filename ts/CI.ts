@@ -1,7 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { format } from 'node:util';
 import { ipcRenderer } from 'electron';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 
 import type { IPCResponse as ChallengeResponseType } from './challenge';
 import type { MessageAttributesType } from './model-types.d';
@@ -18,7 +20,7 @@ type ResolveType = (data: unknown) => void;
 export type CIType = {
   deviceName: string;
   backupData?: Uint8Array;
-  isPlaintextBackup?: boolean;
+  isBackupIntegration?: boolean;
   getConversationId: (address: string | null) => string | null;
   getMessagesBySentAt(
     sentAt: number
@@ -38,18 +40,19 @@ export type CIType = {
   exportBackupToDisk(path: string): Promise<void>;
   exportPlaintextBackupToDisk(path: string): Promise<void>;
   unlink: () => void;
+  print: (...args: ReadonlyArray<unknown>) => void;
 };
 
 export type GetCIOptionsType = Readonly<{
   deviceName: string;
   backupData?: Uint8Array;
-  isPlaintextBackup?: boolean;
+  isBackupIntegration?: boolean;
 }>;
 
 export function getCI({
   deviceName,
   backupData,
-  isPlaintextBackup,
+  isBackupIntegration,
 }: GetCIOptionsType): CIType {
   const eventListeners = new Map<string, Array<ResolveType>>();
   const completedEvents = new Map<string, Array<unknown>>();
@@ -174,13 +177,13 @@ export function getCI({
   }
 
   async function exportBackupToDisk(path: string) {
-    await backupsService.exportToDisk(path);
+    await backupsService.exportToDisk(path, BackupLevel.Media);
   }
 
   async function exportPlaintextBackupToDisk(path: string) {
     await backupsService.exportToDisk(
       path,
-      undefined,
+      BackupLevel.Media,
       BackupType.TestOnlyPlaintext
     );
   }
@@ -189,10 +192,14 @@ export function getCI({
     window.Whisper.events.trigger('unlinkAndDisconnect');
   }
 
+  function print(...args: ReadonlyArray<unknown>) {
+    handleEvent('print', format(...args));
+  }
+
   return {
     deviceName,
     backupData,
-    isPlaintextBackup,
+    isBackupIntegration,
     getConversationId,
     getMessagesBySentAt,
     handleEvent,
@@ -204,5 +211,6 @@ export function getCI({
     exportPlaintextBackupToDisk,
     unlink,
     getPendingEventCount,
+    print,
   };
 }

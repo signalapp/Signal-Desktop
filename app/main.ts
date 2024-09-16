@@ -997,7 +997,9 @@ async function createWindow() {
     mainWindow.webContents.send('ci:event', 'db-initialized', {});
 
     const shouldShowWindow =
-      !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
+      !app.getLoginItemSettings().wasOpenedAsHidden &&
+      !startInTray &&
+      !config.get<boolean>('ciIsBackupIntegration');
 
     if (shouldShowWindow) {
       getLogger().info('showing main window');
@@ -2724,7 +2726,7 @@ ipc.on('get-config', async event => {
     dnsFallback: await getDNSFallback(),
     disableIPv6: DISABLE_IPV6,
     ciBackupPath: config.get<string | null>('ciBackupPath') || undefined,
-    ciIsPlaintextBackup: config.get<boolean>('ciIsPlaintextBackup'),
+    ciIsBackupIntegration: config.get<boolean>('ciIsBackupIntegration'),
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
     osRelease: os.release(),

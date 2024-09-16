@@ -51,12 +51,12 @@ describe('backup/bubble messages', () => {
     contactA = await window.ConversationController.getOrCreateAndWait(
       CONTACT_A,
       'private',
-      { systemGivenName: 'CONTACT_A' }
+      { systemGivenName: 'CONTACT_A', active_at: 1 }
     );
     contactB = await window.ConversationController.getOrCreateAndWait(
       CONTACT_B,
       'private',
-      { systemGivenName: 'CONTACT_B' }
+      { systemGivenName: 'CONTACT_B', active_at: 1 }
     );
 
     gv1 = await window.ConversationController.getOrCreateAndWait(
@@ -64,6 +64,7 @@ describe('backup/bubble messages', () => {
       'group',
       {
         groupVersion: 1,
+        active_at: 1,
       }
     );
 

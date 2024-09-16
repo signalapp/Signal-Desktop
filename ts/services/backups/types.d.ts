@@ -15,4 +15,5 @@ export type LocalChatStyle = Readonly<{
   color: ConversationColorType | undefined;
   customColorId: string | undefined;
   dimWallpaperInDarkMode: boolean | undefined;
+  autoBubbleColor: boolean | undefined;
 }>;

@@ -51,7 +51,7 @@ describe('backup/calling', () => {
     contactA = await window.ConversationController.getOrCreateAndWait(
       CONTACT_A,
       'private',
-      { systemGivenName: 'CONTACT_A' }
+      { systemGivenName: 'CONTACT_A', active_at: 1 }
     );
     groupA = await window.ConversationController.getOrCreateAndWait(
       GROUP_ID_STRING,
@@ -60,6 +60,7 @@ describe('backup/calling', () => {
         groupVersion: 2,
         masterKey: Bytes.toBase64(GROUP_MASTER_KEY),
         name: 'Rock Enthusiasts',
+        active_at: 1,
       }
     );
 

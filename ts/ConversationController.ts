@@ -182,6 +182,10 @@ export class ConversationController {
     // we can reset the mute state on the model. If the mute has already expired
     // then we reset the state right away.
     this._conversations.on('add', (model: ConversationModel): void => {
+      // Don't modify conversations in backup integration testing
+      if (window.SignalCI?.isBackupIntegration) {
+        return;
+      }
       model.startMuteTimer();
     });
   }

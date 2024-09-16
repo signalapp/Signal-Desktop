@@ -126,7 +126,7 @@ type CreateAccountSharedOptionsType = Readonly<{
 
   // Test-only
   backupFile?: Uint8Array;
-  isPlaintextBackup?: boolean;
+  isBackupIntegration?: boolean;
 }>;
 
 type CreatePrimaryDeviceOptionsType = Readonly<{
@@ -220,7 +220,7 @@ function signedPreKeyToUploadSignedPreKey({
 export type ConfirmNumberResultType = Readonly<{
   deviceName: string;
   backupFile: Uint8Array | undefined;
-  isPlaintextBackup: boolean;
+  isBackupIntegration: boolean;
 }>;
 
 export default class AccountManager extends EventTarget {
@@ -923,7 +923,7 @@ export default class AccountManager extends EventTarget {
       readReceipts,
       userAgent,
       backupFile,
-      isPlaintextBackup,
+      isBackupIntegration,
     } = options;
 
     const { storage } = window.textsecure;
@@ -969,7 +969,7 @@ export default class AccountManager extends EventTarget {
       if (backupFile !== undefined) {
         log.warn(
           'createAccount: Restoring from ' +
-            `${isPlaintextBackup ? 'plaintext' : 'ciphertext'} backup; ` +
+            `${isBackupIntegration ? 'plaintext' : 'ciphertext'} backup; ` +
             'deleting all previous data'
         );
       }
@@ -1231,7 +1231,9 @@ export default class AccountManager extends EventTarget {
     if (backupFile !== undefined) {
       await backupsService.importBackup(
         () => Readable.from([backupFile]),
-        isPlaintextBackup ? BackupType.TestOnlyPlaintext : BackupType.Ciphertext
+        isBackupIntegration
+          ? BackupType.TestOnlyPlaintext
+          : BackupType.Ciphertext
       );
     }
   }
