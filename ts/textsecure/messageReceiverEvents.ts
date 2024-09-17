@@ -16,8 +16,8 @@ import type {
   ProcessedEnvelope,
   ProcessedDataMessage,
   ProcessedSent,
+  ProcessedAttachment,
 } from './Types.d';
-import type { ContactDetailsWithAvatar } from './ContactsParser';
 import type {
   CallEventDetails,
   CallLogEventDetails,
@@ -84,7 +84,7 @@ export class ErrorEvent extends Event {
 
 export class ContactSyncEvent extends Event {
   constructor(
-    public readonly contacts: ReadonlyArray<ContactDetailsWithAvatar>,
+    public readonly contactAttachment: ProcessedAttachment,
     public readonly complete: boolean,
     public readonly receivedAtCounter: number,
     public readonly sentAt: number

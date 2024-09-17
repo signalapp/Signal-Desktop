@@ -8,7 +8,6 @@ import Long from 'long';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
 import { IncomingWebSocketRequestLegacy } from '../textsecure/WebsocketResources';
-import type { WebAPIType } from '../textsecure/WebAPI';
 import type { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
 import { generateAci } from '../types/ServiceId';
 import type { AciString } from '../types/ServiceId';
@@ -39,7 +38,6 @@ describe('MessageReceiver', () => {
   describe('connecting', () => {
     it('generates decryption-error event when it cannot decrypt', async () => {
       const messageReceiver = new MessageReceiver({
-        server: {} as WebAPIType,
         storage: window.storage,
         serverTrustRoot: 'AAAAAAAA',
       });
