@@ -1572,7 +1572,7 @@ export default class MessageReceiver
         !isDeleteForEveryone
       ) {
         log.warn(
-          `${logId}: Dropping story message - story=true on envelope, but message was not a group story send or delete`
+          `${logId}: Dropping story message - story=true on envelope, but message was not a story send or delete`
         );
         this.removeFromCache(envelope);
         return { plaintext: undefined, envelope };
@@ -1580,7 +1580,7 @@ export default class MessageReceiver
 
       if (!envelope.story && (isGroupStoryReply || isStory)) {
         log.warn(
-          `${logId}: Malformed story - story=false on envelope, but was a group story send`
+          `${logId}: Malformed story - story=false on envelope, but was a story send`
         );
       }
 
@@ -2290,7 +2290,7 @@ export default class MessageReceiver
     };
 
     if (sentMessage && message.groupV2) {
-      log.warn(`${logId}: envelope is a sent group story`);
+      log.info(`${logId}: envelope is a sent group story`);
       const ev = new SentEvent(
         {
           envelopeId: envelope.id,
@@ -2322,7 +2322,7 @@ export default class MessageReceiver
     }
 
     if (sentMessage) {
-      log.warn(`${logId}: envelope is a sent distribution list story`);
+      log.info(`${logId}: envelope is a sent distribution list story`);
       const { storyMessageRecipients } = sentMessage;
       const recipients = storyMessageRecipients ?? [];
 
@@ -2389,7 +2389,7 @@ export default class MessageReceiver
       return;
     }
 
-    log.warn(`${logId}: envelope is a received story`);
+    log.info(`${logId}: envelope is a received story`);
     const ev = new MessageEvent(
       {
         envelopeId: envelope.id,
