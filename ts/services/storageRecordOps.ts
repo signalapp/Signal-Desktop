@@ -78,6 +78,7 @@ import {
   toCallHistoryFromUnusedCallLink,
 } from '../util/callLinks';
 import { isOlderThan } from '../util/timestamp';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
@@ -2024,11 +2025,7 @@ export async function mergeCallLinkRecord(
         DataWriter.saveCallHistory(callHistory),
       ]);
 
-      // Refresh call link state via RingRTC and update in redux
-      window.reduxActions.calling.handleCallLinkUpdate({
-        rootKey: rootKeyString,
-        adminKey: adminKeyString,
-      });
+      drop(callLinkRefreshJobQueue.add({ roomId: callLink.roomId }));
       window.reduxActions.callHistory.addCallHistory(callHistory);
     }
 
