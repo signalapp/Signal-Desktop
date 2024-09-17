@@ -700,6 +700,19 @@ function openAndSetUpSQLCipher(
     throw error;
   }
 
+  try {
+    // fullfsync is only supported on macOS
+    db.pragma('fullfsync = false');
+
+    // a lower-impact approach, if fullfsync is too impactful
+    db.pragma('checkpoint_fullfsync = true');
+  } catch (error) {
+    logger.warn(
+      'openAndSetUpSQLCipher: Unable to set fullfsync',
+      Errors.toLogFormat(error)
+    );
+  }
+
   return db;
 }
 
