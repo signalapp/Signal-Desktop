@@ -486,6 +486,7 @@ export const DataWriter: ServerWritableInterface = {
   saveBackupCdnObjectMetadata,
 
   createOrUpdateStickerPack,
+  createOrUpdateStickerPacks,
   updateStickerPackStatus,
   updateStickerPackInfo,
   createOrUpdateSticker,
@@ -495,6 +496,7 @@ export const DataWriter: ServerWritableInterface = {
   deleteStickerPackReference,
   deleteStickerPack,
   addUninstalledStickerPack,
+  addUninstalledStickerPacks,
   removeUninstalledStickerPack,
   installStickerPack,
   uninstallStickerPack,
@@ -5249,6 +5251,16 @@ function createOrUpdateStickerPack(
     `
   ).run(payload);
 }
+function createOrUpdateStickerPacks(
+  db: WritableDB,
+  packs: ReadonlyArray<StickerPackType>
+): void {
+  db.transaction(() => {
+    for (const pack of packs) {
+      createOrUpdateStickerPack(db, pack);
+    }
+  })();
+}
 function updateStickerPackStatus(
   db: WritableDB,
   id: string,
@@ -5642,6 +5654,16 @@ function addUninstalledStickerPack(
     unknownFields: pack.storageUnknownFields ?? null,
     storageNeedsSync: pack.storageNeedsSync ? 1 : 0,
   });
+}
+function addUninstalledStickerPacks(
+  db: WritableDB,
+  packs: ReadonlyArray<UninstalledStickerPackType>
+): void {
+  return db.transaction(() => {
+    for (const pack of packs) {
+      addUninstalledStickerPack(db, pack);
+    }
+  })();
 }
 function removeUninstalledStickerPack(db: WritableDB, packId: string): void {
   db.prepare<Query>(

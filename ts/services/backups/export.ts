@@ -22,6 +22,7 @@ import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { type CustomColorType } from '../../types/Colors';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
+import { getStickerPacksForBackup } from '../../types/Stickers';
 import {
   isPniString,
   type AciString,
@@ -384,7 +385,7 @@ export class BackupExportStream extends Readable {
       stats.callLinks += 1;
     }
 
-    const stickerPacks = await DataReader.getInstalledStickerPacks();
+    const stickerPacks = await getStickerPacksForBackup();
 
     for (const { id, key } of stickerPacks) {
       this.pushFrame({
@@ -1142,27 +1143,33 @@ export class BackupExportStream extends Readable {
       const { giftBadge } = message;
       strictAssert(giftBadge != null, 'Message must have gift badge');
 
-      let state: Backups.GiftBadge.State;
-      switch (giftBadge.state) {
-        case GiftBadgeStates.Unopened:
-          state = Backups.GiftBadge.State.UNOPENED;
-          break;
-        case GiftBadgeStates.Opened:
-          state = Backups.GiftBadge.State.OPENED;
-          break;
-        case GiftBadgeStates.Redeemed:
-          state = Backups.GiftBadge.State.REDEEMED;
-          break;
-        default:
-          throw missingCaseError(giftBadge.state);
-      }
+      if (giftBadge.state === GiftBadgeStates.Failed) {
+        result.giftBadge = {
+          state: Backups.GiftBadge.State.FAILED,
+        };
+      } else {
+        let state: Backups.GiftBadge.State;
+        switch (giftBadge.state) {
+          case GiftBadgeStates.Unopened:
+            state = Backups.GiftBadge.State.UNOPENED;
+            break;
+          case GiftBadgeStates.Opened:
+            state = Backups.GiftBadge.State.OPENED;
+            break;
+          case GiftBadgeStates.Redeemed:
+            state = Backups.GiftBadge.State.REDEEMED;
+            break;
+          default:
+            throw missingCaseError(giftBadge);
+        }
 
-      result.giftBadge = {
-        receiptCredentialPresentation: Bytes.fromBase64(
-          giftBadge.receiptCredentialPresentation
-        ),
-        state,
-      };
+        result.giftBadge = {
+          receiptCredentialPresentation: Bytes.fromBase64(
+            giftBadge.receiptCredentialPresentation
+          ),
+          state,
+        };
+      }
     } else {
       result.standardMessage = await this.toStandardMessage(
         message,

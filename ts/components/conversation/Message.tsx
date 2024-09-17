@@ -196,14 +196,22 @@ export enum GiftBadgeStates {
   Unopened = 'Unopened',
   Opened = 'Opened',
   Redeemed = 'Redeemed',
+  Failed = 'Failed',
 }
 
-export type GiftBadgeType = {
-  expiration: number;
-  id: string | undefined;
-  level: number;
-  state: GiftBadgeStates;
-};
+export type GiftBadgeType =
+  | {
+      state:
+        | GiftBadgeStates.Unopened
+        | GiftBadgeStates.Opened
+        | GiftBadgeStates.Redeemed;
+      expiration: number;
+      id: string | undefined;
+      level: number;
+    }
+  | {
+      state: GiftBadgeStates.Failed;
+    };
 
 export type PropsData = {
   id: string;
@@ -1385,7 +1393,10 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    if (giftBadge.state === GiftBadgeStates.Unopened) {
+    if (
+      giftBadge.state === GiftBadgeStates.Unopened ||
+      giftBadge.state === GiftBadgeStates.Failed
+    ) {
       const description =
         direction === 'incoming'
           ? i18n('icu:message--donation--unopened--incoming')

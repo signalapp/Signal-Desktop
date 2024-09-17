@@ -136,6 +136,9 @@ export type EditHistoryType = {
   timestamp: number;
   received_at: number;
   received_at_ms?: number;
+  serverTimestamp?: number;
+  readStatus?: ReadStatus;
+  unidentifiedDeliveryReceived?: boolean;
 };
 
 type MessageType =
@@ -225,13 +228,20 @@ export type MessageAttributesType = {
     targetAuthorAci: AciString;
     targetTimestamp: number;
   };
-  giftBadge?: {
-    expiration: number;
-    level: number;
-    id: string | undefined;
-    receiptCredentialPresentation: string;
-    state: GiftBadgeStates;
-  };
+  giftBadge?:
+    | {
+        state:
+          | GiftBadgeStates.Unopened
+          | GiftBadgeStates.Opened
+          | GiftBadgeStates.Redeemed;
+        expiration: number;
+        level: number;
+        id: string | undefined;
+        receiptCredentialPresentation: string;
+      }
+    | {
+        state: GiftBadgeStates.Failed;
+      };
 
   expirationTimerUpdate?: {
     expireTimer?: DurationInSeconds;

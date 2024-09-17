@@ -2009,6 +2009,13 @@ GiftBadgeUnopened.args = {
   },
 };
 
+export const GiftBadgeFailed = Template.bind({});
+GiftBadgeFailed.args = {
+  giftBadge: {
+    state: GiftBadgeStates.Failed,
+  },
+};
+
 const getPreferredBadge = () => ({
   category: BadgeCategory.Donor,
   descriptionTemplate: 'This is a description of the badge',

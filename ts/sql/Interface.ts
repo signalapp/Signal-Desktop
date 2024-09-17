@@ -875,6 +875,7 @@ type WritableInterface = {
   ) => void;
 
   createOrUpdateStickerPack: (pack: StickerPackType) => void;
+  createOrUpdateStickerPacks: (packs: ReadonlyArray<StickerPackType>) => void;
   updateStickerPackStatus: (
     id: string,
     status: StickerPackStatusType,
@@ -895,6 +896,9 @@ type WritableInterface = {
   ) => ReadonlyArray<string> | undefined;
   deleteStickerPack: (packId: string) => Array<string>;
   addUninstalledStickerPack: (pack: UninstalledStickerPackType) => void;
+  addUninstalledStickerPacks: (
+    pack: ReadonlyArray<UninstalledStickerPackType>
+  ) => void;
   removeUninstalledStickerPack: (packId: string) => void;
   installStickerPack: (packId: string, timestamp: number) => void;
   uninstallStickerPack: (packId: string, timestamp: number) => void;

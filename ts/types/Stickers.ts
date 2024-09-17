@@ -19,6 +19,7 @@ import type {
   StickerType as StickerFromDBType,
   StickerPackType,
   StickerPackStatusType,
+  UninstalledStickerPackType,
 } from '../sql/Interface';
 import { DataReader, DataWriter } from '../sql/Client';
 import { SignalService as Proto } from '../protobuf';
@@ -61,6 +62,11 @@ export type DownloadMap = Record<
     status?: StickerPackStatusType;
   }
 >;
+
+export type StickerPackPointerType = Readonly<{
+  id: string;
+  key: string;
+}>;
 
 export const STICKERPACK_ID_BYTE_LEN = 16;
 export const STICKERPACK_KEY_BYTE_LEN = 32;
@@ -135,9 +141,65 @@ export async function load(): Promise<void> {
   packsToDownload = capturePacksToDownload(packs);
 }
 
+export async function createPacksFromBackup(
+  packs: ReadonlyArray<StickerPackPointerType>
+): Promise<void> {
+  const known = new Set(packs.map(({ id }) => id));
+  const pairs = packs.slice();
+  const uninstalled = new Array<UninstalledStickerPackType>();
+
+  for (const [id, { key }] of Object.entries(BLESSED_PACKS)) {
+    if (known.has(id)) {
+      continue;
+    }
+
+    // Blessed packs that are not in the backup were uninstalled
+    pairs.push({ id, key });
+    uninstalled.push({
+      id,
+      key: undefined,
+      uninstalledAt: Date.now(),
+      storageNeedsSync: false,
+    });
+  }
+
+  const packsToStore = pairs.map(
+    ({ id, key }): StickerPackType => ({
+      ...STICKER_PACK_DEFAULTS,
+
+      id,
+      key,
+      status: 'known' as const,
+    })
+  );
+
+  await DataWriter.createOrUpdateStickerPacks(packsToStore);
+  await DataWriter.addUninstalledStickerPacks(uninstalled);
+
+  packsToDownload = capturePacksToDownload(makeLookup(packsToStore, 'id'));
+}
+
+export async function getStickerPacksForBackup(): Promise<
+  Array<StickerPackPointerType>
+> {
+  const result = new Array<StickerPackPointerType>();
+  const stickerPacks = await DataReader.getAllStickerPacks();
+  const uninstalled = new Set(
+    (await DataReader.getUninstalledStickerPacks()).map(({ id }) => id)
+  );
+  for (const { id, key } of stickerPacks) {
+    if (uninstalled.has(id)) {
+      continue;
+    }
+
+    result.push({ id, key });
+  }
+  return result;
+}
+
 export function getDataFromLink(
   link: string
-): undefined | { id: string; key: string } {
+): undefined | StickerPackPointerType {
   const url = maybeParseUrl(link);
   if (!url) {
     return undefined;

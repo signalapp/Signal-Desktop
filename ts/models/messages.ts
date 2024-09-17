@@ -158,6 +158,7 @@ import {
 } from '../messages/copyQuote';
 import { getRoomIdFromCallLink } from '../util/callLinksRingrtc';
 import { explodePromise } from '../util/explodePromise';
+import { GiftBadgeStates } from '../components/conversation/Message';
 
 /* eslint-disable more/no-then */
 
@@ -2076,7 +2077,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         await DataWriter.updateConversation(conversation.attributes);
 
         const giftBadge = message.get('giftBadge');
-        if (giftBadge) {
+        if (giftBadge && giftBadge.state !== GiftBadgeStates.Failed) {
           const { level } = giftBadge;
           const { updatesUrl } = window.SignalContext.config;
           strictAssert(
