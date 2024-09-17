@@ -44,11 +44,13 @@ export async function commonShouldJobContinue({
   }
 
   const sleepTime = exponentialBackoffSleepTime(attempt);
-  log.info(`sleeping for ${sleepTime}`);
-  await sleeper.sleep(
-    sleepTime,
-    `commonShouldJobContinue: attempt ${attempt}, skipWait ${skipWait}`
-  );
+  if (sleepTime > 0) {
+    log.info(`sleeping for ${sleepTime}`);
+    await sleeper.sleep(
+      sleepTime,
+      `commonShouldJobContinue: attempt ${attempt}, skipWait ${skipWait}`
+    );
+  }
 
   return true;
 }
