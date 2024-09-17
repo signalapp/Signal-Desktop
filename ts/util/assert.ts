@@ -6,15 +6,21 @@ import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 
 /**
+ * In development, starts the debugger.
+ */
+export function devDebugger(): void {
+  if (getEnvironment() === Environment.Development) {
+    debugger; // eslint-disable-line no-debugger
+  }
+}
+
+/**
  * In production and beta, logs a warning and continues. For development it
  * starts the debugger.
  */
 export function softAssert(condition: unknown, message: string): void {
   if (!condition) {
-    if (getEnvironment() === Environment.Development) {
-      debugger; // eslint-disable-line no-debugger
-    }
-
+    devDebugger();
     const err = new Error(message);
     log.warn('softAssert failure:', Errors.toLogFormat(err));
   }
@@ -30,9 +36,7 @@ export function assertDev(
   if (!condition) {
     const err = new Error(message);
     if (getEnvironment() !== Environment.PackagedApp) {
-      if (getEnvironment() === Environment.Development) {
-        debugger; // eslint-disable-line no-debugger
-      }
+      devDebugger();
       throw err;
     }
     log.error('assert failure:', Errors.toLogFormat(err));
