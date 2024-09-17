@@ -138,7 +138,7 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
     }
 
     const giftBadge = message.get('giftBadge');
-    if (giftBadge) {
+    if (giftBadge && giftBadge.state !== GiftBadgeStates.Failed) {
       didChangeMessage = true;
       message.set({
         giftBadge: {

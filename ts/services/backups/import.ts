@@ -35,7 +35,8 @@ import {
 import {
   STICKERPACK_ID_BYTE_LEN,
   STICKERPACK_KEY_BYTE_LEN,
-  downloadStickerPack,
+  createPacksFromBackup,
+  type StickerPackPointerType,
 } from '../../types/Stickers';
 import type {
   ConversationColorType,
@@ -285,6 +286,7 @@ export class BackupImportStream extends Writable {
       return processMessagesBatch(ourAci, batch);
     },
   });
+  private readonly stickerPacks = new Array<StickerPackPointerType>();
   private ourConversation?: ConversationAttributesType;
   private pinnedConversations = new Array<[number, string]>();
   private customColorById = new Map<number, CustomColorDataType>();
@@ -356,6 +358,9 @@ export class BackupImportStream extends Writable {
       // Finish saving remaining conversations/messages
       await this.conversationOpBatcher.flushAndWait();
       await this.saveMessageBatcher.flushAndWait();
+
+      // Store sticker packs and schedule downloads
+      await createPacksFromBackup(this.stickerPacks);
 
       // Reset and reload conversations and storage again
       window.ConversationController.reset();
@@ -1537,8 +1542,14 @@ export class BackupImportStream extends Writable {
           const timestamp = getTimestampFromLong(rev.dateSent);
 
           const {
-            // eslint-disable-next-line camelcase
-            patch: { sendStateByConversationId, received_at_ms },
+            patch: {
+              sendStateByConversationId,
+              // eslint-disable-next-line camelcase
+              received_at_ms,
+              serverTimestamp,
+              readStatus,
+              unidentifiedDeliveryReceived,
+            },
           } = this.fromDirectionDetails(rev, timestamp);
 
           return {
@@ -1551,6 +1562,9 @@ export class BackupImportStream extends Writable {
             sendStateByConversationId,
             // eslint-disable-next-line camelcase
             received_at_ms,
+            serverTimestamp,
+            readStatus,
+            unidentifiedDeliveryReceived,
           };
         })
         // Fix order: from newest to oldest
@@ -1572,6 +1586,9 @@ export class BackupImportStream extends Writable {
       timestamp: mainMessage.timestamp,
       received_at: mainMessage.received_at,
       received_at_ms: mainMessage.received_at_ms,
+      serverTimestamp: mainMessage.serverTimestamp,
+      readStatus: mainMessage.readStatus,
+      unidentifiedDeliveryReceived: mainMessage.unidentifiedDeliveryReceived,
     });
 
     return result;
@@ -1863,6 +1880,17 @@ export class BackupImportStream extends Writable {
     }
     if (chatItem.giftBadge) {
       const { giftBadge } = chatItem;
+      if (giftBadge.state === Backups.GiftBadge.State.FAILED) {
+        return {
+          message: {
+            giftBadge: {
+              state: GiftBadgeStates.Failed,
+            },
+          },
+          additionalMessages: [],
+        };
+      }
+
       strictAssert(
         Bytes.isNotEmpty(giftBadge.receiptCredentialPresentation),
         'Gift badge must have a presentation'
@@ -1874,15 +1902,11 @@ export class BackupImportStream extends Writable {
           state = GiftBadgeStates.Opened;
           break;
 
-        case Backups.GiftBadge.State.FAILED:
         case Backups.GiftBadge.State.REDEEMED:
           state = GiftBadgeStates.Redeemed;
           break;
 
         case Backups.GiftBadge.State.UNOPENED:
-          state = GiftBadgeStates.Unopened;
-          break;
-
         default:
           state = GiftBadgeStates.Unopened;
           break;
@@ -2842,25 +2866,23 @@ export class BackupImportStream extends Writable {
   }
 
   private async fromStickerPack({
-    packId: id,
-    packKey: key,
+    packId: packIdBytes,
+    packKey: packKeyBytes,
   }: Backups.IStickerPack): Promise<void> {
     strictAssert(
-      id?.length === STICKERPACK_ID_BYTE_LEN,
+      packIdBytes?.length === STICKERPACK_ID_BYTE_LEN,
       'Sticker pack must have a valid pack id'
     );
 
-    const logId = `fromStickerPack(${Bytes.toHex(id).slice(-2)})`;
+    const id = Bytes.toHex(packIdBytes);
+    const logId = `fromStickerPack(${id.slice(-2)})`;
     strictAssert(
-      key?.length === STICKERPACK_KEY_BYTE_LEN,
+      packKeyBytes?.length === STICKERPACK_KEY_BYTE_LEN,
       `${logId}: must have a valid pack key`
     );
+    const key = Bytes.toBase64(packKeyBytes);
 
-    drop(
-      downloadStickerPack(Bytes.toHex(id), Bytes.toBase64(key), {
-        fromBackup: true,
-      })
-    );
+    this.stickerPacks.push({ id, key });
   }
 
   private async fromAdHocCall({

@@ -14,6 +14,7 @@ import {
 } from '@signalapp/libsignal-client/dist/MessageBackup';
 
 import { FileStream } from '../../services/backups/util/FileStream';
+import { drop } from '../../util/drop';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 
@@ -96,11 +97,16 @@ async function runOne(filePath: string): Promise<void> {
     await bootstrap.saveLogs(app, basename(filePath));
     fail(filePath, error.stack);
   } finally {
-    try {
-      await bootstrap.teardown();
-    } catch (error) {
-      console.error(`Failed to teardown ${basename(filePath)}`, error);
-    }
+    // No need to block on this
+    drop(
+      (async () => {
+        try {
+          await bootstrap.teardown();
+        } catch (error) {
+          console.error(`Failed to teardown ${basename(filePath)}`, error);
+        }
+      })()
+    );
   }
 }
 
