@@ -542,7 +542,6 @@ export async function startApp(): Promise<void> {
 
     log.info('Initializing MessageReceiver');
     messageReceiver = new MessageReceiver({
-      server,
       storage: window.storage,
       serverTrustRoot: window.getServerTrustRoot(),
     });

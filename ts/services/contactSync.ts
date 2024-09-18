@@ -5,7 +5,10 @@ import PQueue from 'p-queue';
 
 import { DataWriter } from '../sql/Client';
 import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents';
-import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser';
+import {
+  parseContactsV2,
+  type ContactDetailsWithAvatar,
+} from '../textsecure/ContactsParser';
 import { normalizeAci } from '../util/normalizeAci';
 import * as Conversation from '../types/Conversation';
 import * as Errors from '../types/errors';
@@ -15,6 +18,11 @@ import { validateConversation } from '../util/validateConversation';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
 import * as log from '../logging/log';
 import { dropNull } from '../util/dropNull';
+import type { ProcessedAttachment } from '../textsecure/Types';
+import { downloadAttachment } from '../textsecure/downloadAttachment';
+import { strictAssert } from '../util/assert';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
+import { SECOND } from '../util/durations';
 
 // When true - we are running the very first storage and contact sync after
 // linking.
@@ -86,8 +94,34 @@ async function updateConversationFromContactSync(
 
 const queue = new PQueue({ concurrency: 1 });
 
+async function downloadAndParseContactAttachment(
+  contactAttachment: ProcessedAttachment
+) {
+  strictAssert(window.textsecure.server, 'server must exist');
+  let downloaded: ReencryptedAttachmentV2 | undefined;
+  try {
+    downloaded = await downloadAttachment(
+      window.textsecure.server,
+      contactAttachment,
+      {
+        disableRetries: true,
+        timeout: 90 * SECOND,
+      }
+    );
+
+    return await parseContactsV2({
+      ...contactAttachment,
+      ...downloaded,
+    });
+  } finally {
+    if (downloaded?.path) {
+      await window.Signal.Migrations.deleteAttachmentData(downloaded.path);
+    }
+  }
+}
+
 async function doContactSync({
-  contacts,
+  contactAttachment,
   complete: isFullSync,
   receivedAtCounter,
   sentAt,
@@ -95,8 +129,11 @@ async function doContactSync({
   const logId =
     `doContactSync(sent=${sentAt}, ` +
     `receivedAt=${receivedAtCounter}, isFullSync=${isFullSync})`;
-  log.info(`${logId}: got ${contacts.length} contacts`);
 
+  log.info(`${logId}: downloading contact attachment`);
+  const contacts = await downloadAndParseContactAttachment(contactAttachment);
+
+  log.info(`${logId}: got ${contacts.length} contacts`);
   const updatedConversations = new Set<ConversationModel>();
 
   let promises = new Array<Promise<void>>();
@@ -195,5 +232,12 @@ export async function onContactSync(ev: ContactSyncEvent): Promise<void> {
   log.info(
     `onContactSync(sent=${ev.sentAt}, receivedAt=${ev.receivedAtCounter}): queueing sync`
   );
-  await queue.add(() => doContactSync(ev));
+
+  const promise = queue.add(() => doContactSync(ev));
+
+  // Returning the promise blocks MessageReceiver.appQueue, which we only want to do on
+  // initial sync
+  if (isInitialSync) {
+    return promise;
+  }
 }
