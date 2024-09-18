@@ -980,7 +980,7 @@ export function CallsList({
                   ref={infiniteLoaderRef}
                   isRowLoaded={isRowLoaded}
                   loadMoreRows={loadMoreRows}
-                  rowCount={rowCount}
+                  rowCount={searchState.results?.count ?? Infinity}
                   minimumBatchSize={100}
                   threshold={30}
                 >
