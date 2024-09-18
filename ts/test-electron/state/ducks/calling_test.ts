@@ -44,6 +44,7 @@ import {
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getCallLinkState,
 } from '../../../test-both/helpers/fakeCallLink';
+import { strictAssert } from '../../../util/assert';
 
 const ACI_1 = generateAci();
 const NOW = new Date('2020-01-23T04:56:00.000');
@@ -71,6 +72,7 @@ describe('calling duck', () => {
   const stateWithActiveDirectCall: CallingStateTypeWithActiveCall = {
     ...stateWithDirectCall,
     activeCallState: {
+      state: 'Active',
       callMode: CallMode.Direct,
       conversationId: directCallState.conversationId,
       hasLocalAudio: true,
@@ -174,6 +176,7 @@ describe('calling duck', () => {
   };
 
   const groupCallActiveCallState: ActiveCallStateType = {
+    state: 'Active',
     callMode: CallMode.Group,
     conversationId: 'fake-group-call-conversation-id',
     hasLocalAudio: true,
@@ -383,6 +386,10 @@ describe('calling duck', () => {
         const nextState = reducer(getState().calling, action);
 
         assert.isDefined(nextState.activeCallState);
+        strictAssert(
+          nextState.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.equal(
           nextState.activeCallState?.presentingSource,
           presentedSource
@@ -410,6 +417,10 @@ describe('calling duck', () => {
         const nextState = reducer(getState().calling, action);
 
         assert.isDefined(nextState.activeCallState);
+        strictAssert(
+          nextState.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isUndefined(nextState.activeCallState?.presentingSource);
         assert.isUndefined(
           nextState.activeCallState?.presentingSourcesAvailable
@@ -506,6 +517,7 @@ describe('calling duck', () => {
           const result = reducer(stateWithIncomingDirectCall, action);
 
           assert.deepEqual(result.activeCallState, {
+            state: 'Active',
             callMode: CallMode.Direct,
             conversationId: 'fake-direct-call-conversation-id',
             hasLocalAudio: true,
@@ -600,6 +612,7 @@ describe('calling duck', () => {
           const result = reducer(stateWithIncomingGroupCall, action);
 
           assert.deepEqual(result.activeCallState, {
+            state: 'Active',
             callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             hasLocalAudio: true,
@@ -893,6 +906,10 @@ describe('calling duck', () => {
         });
         const result = reducer(stateWithActiveGroupCall, action);
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.strictEqual(
           result.activeCallState?.localAudioLevel,
           truncateAudioLevel(0.8)
@@ -1228,6 +1245,7 @@ describe('calling duck', () => {
         );
 
         assert.deepEqual(result.activeCallState, {
+          state: 'Active',
           callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
           hasLocalAudio: true,
@@ -1278,6 +1296,10 @@ describe('calling duck', () => {
           result.activeCallState?.conversationId,
           'fake-group-call-conversation-id'
         );
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isTrue(result.activeCallState?.hasLocalAudio);
         assert.isTrue(result.activeCallState?.hasLocalVideo);
       });
@@ -1310,6 +1332,10 @@ describe('calling duck', () => {
           })
         );
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isTrue(result.activeCallState?.outgoingRing);
       });
 
@@ -1341,6 +1367,10 @@ describe('calling duck', () => {
           })
         );
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isFalse(result.activeCallState?.outgoingRing);
       });
 
@@ -1368,6 +1398,10 @@ describe('calling duck', () => {
           })
         );
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isFalse(result.activeCallState?.hasLocalAudio);
       });
 
@@ -1395,6 +1429,10 @@ describe('calling duck', () => {
           })
         );
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isTrue(result.activeCallState?.hasLocalAudio);
       });
 
@@ -1419,6 +1457,10 @@ describe('calling duck', () => {
           })
         );
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isTrue(result.activeCallState?.hasLocalAudio);
       });
     });
@@ -1549,7 +1591,13 @@ describe('calling duck', () => {
         const { roomId, rootKey } = FAKE_CALL_LINK;
         const { dispatch } = await doAction({ rootKey });
 
-        sinon.assert.calledOnce(dispatch);
+        sinon.assert.calledTwice(dispatch);
+        sinon.assert.calledWith(dispatch, {
+          type: 'calling/WAITING_FOR_CALL_LINK_LOBBY',
+          payload: {
+            roomId,
+          },
+        });
         sinon.assert.calledWith(dispatch, {
           type: 'calling/START_CALL_LINK_LOBBY',
           payload: {
@@ -1789,6 +1837,11 @@ describe('calling duck', () => {
           ],
         });
         const firstResult = reducer(getState().calling, firstAction);
+
+        strictAssert(
+          firstResult.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.deepEqual(firstResult.activeCallState?.reactions, [
           {
             timestamp: NOW.getTime(),
@@ -1810,6 +1863,11 @@ describe('calling duck', () => {
           ],
         });
         const secondResult = reducer(firstResult, secondAction);
+
+        strictAssert(
+          secondResult.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.deepEqual(secondResult.activeCallState?.reactions, [
           {
             timestamp: NOW.getTime(),
@@ -1840,6 +1898,11 @@ describe('calling duck', () => {
           ],
         });
         const result = reducer(getState().calling, action);
+
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.deepEqual(result.activeCallState?.reactions, [
           {
             timestamp: NOW.getTime(),
@@ -1892,6 +1955,10 @@ describe('calling duck', () => {
         });
         const result = reducer(getState().calling, action);
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.deepEqual(result.activeCallState?.reactions, [
           {
             timestamp: NOW.getTime(),
@@ -1981,6 +2048,10 @@ describe('calling duck', () => {
 
         const result = reducer(stateWithActiveDirectCall, action);
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isFalse(result.activeCallState?.hasLocalAudio);
       });
     });
@@ -1992,6 +2063,10 @@ describe('calling duck', () => {
         const action = setOutgoingRing(true);
         const result = reducer(stateWithActiveGroupCall, action);
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isTrue(result.activeCallState?.outgoingRing);
       });
 
@@ -1999,6 +2074,10 @@ describe('calling duck', () => {
         const action = setOutgoingRing(false);
         const result = reducer(stateWithActiveDirectCall, action);
 
+        strictAssert(
+          result.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.isFalse(result.activeCallState?.outgoingRing);
       });
     });
@@ -2092,7 +2171,7 @@ describe('calling duck', () => {
           });
         });
 
-        it('dispatches an action if the calling lobby returns something', async () => {
+        it('dispatches two actions if the calling lobby returns something', async () => {
           startCallingLobbyStub.resolves({
             callMode: CallMode.Direct,
             hasLocalAudio: true,
@@ -2101,23 +2180,55 @@ describe('calling duck', () => {
 
           const dispatch = sinon.stub();
 
+          const conversationId = 'fake-conversation-id';
           await startCallingLobby({
-            conversationId: 'fake-conversation-id',
+            conversationId,
             isVideoCall: true,
           })(dispatch, () => rootState, null);
 
-          sinon.assert.calledOnce(dispatch);
+          sinon.assert.calledTwice(dispatch);
+
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/WAITING_FOR_CALLING_LOBBY',
+            payload: {
+              conversationId,
+            },
+          });
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/START_CALLING_LOBBY',
+            payload: {
+              callMode: 'Direct',
+              hasLocalAudio: true,
+              hasLocalVideo: true,
+              conversationId,
+              isConversationTooBigToRing: false,
+            },
+          });
         });
 
-        it("doesn't dispatch an action if the calling lobby returns nothing", async () => {
+        it('dispatches two actions if the calling lobby returns nothing', async () => {
           const dispatch = sinon.stub();
 
+          const conversationId = 'fake-conversation-id';
           await startCallingLobby({
-            conversationId: 'fake-conversation-id',
+            conversationId,
             isVideoCall: true,
           })(dispatch, () => rootState, null);
 
-          sinon.assert.notCalled(dispatch);
+          sinon.assert.calledTwice(dispatch);
+
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/WAITING_FOR_CALLING_LOBBY',
+            payload: {
+              conversationId,
+            },
+          });
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/CALL_LOBBY_FAILED',
+            payload: {
+              conversationId,
+            },
+          });
         });
       });
 
@@ -2138,7 +2249,10 @@ describe('calling duck', () => {
             isVideoCall: true,
           })(dispatch, () => ({ ...rootState, calling: callingState }), null);
 
-          const action = dispatch.getCall(0).args[0];
+          const waitingAction = dispatch.getCall(0).args[0];
+          assert.equal(waitingAction.type, 'calling/WAITING_FOR_CALLING_LOBBY');
+
+          const action = dispatch.getCall(1).args[0];
 
           return reducer(callingState, action);
         };
@@ -2157,6 +2271,7 @@ describe('calling duck', () => {
             isVideoCall: true,
           });
           assert.deepEqual(result.activeCallState, {
+            state: 'Active',
             callMode: CallMode.Direct,
             conversationId: 'fake-conversation-id',
             hasLocalAudio: true,
@@ -2230,6 +2345,10 @@ describe('calling duck', () => {
           assert.deepEqual(
             result.activeCallState?.conversationId,
             'fake-conversation-id'
+          );
+          strictAssert(
+            result.activeCallState?.state === 'Active',
+            'state is active'
           );
           assert.isFalse(result.activeCallState?.outgoingRing);
         });
@@ -2397,6 +2516,10 @@ describe('calling duck', () => {
             remoteParticipants: [],
           });
 
+          strictAssert(
+            result.activeCallState?.state === 'Active',
+            'state is active'
+          );
           assert.isTrue(result.activeCallState?.outgoingRing);
         });
       });
@@ -2470,6 +2593,7 @@ describe('calling duck', () => {
           isVideoCall: false,
         });
         assert.deepEqual(result.activeCallState, {
+          state: 'Active',
           callMode: CallMode.Direct,
           conversationId: 'fake-conversation-id',
           hasLocalAudio: true,
@@ -2508,8 +2632,22 @@ describe('calling duck', () => {
         const afterTwoToggles = reducer(afterOneToggle, toggleSettings());
         const afterThreeToggles = reducer(afterTwoToggles, toggleSettings());
 
+        strictAssert(
+          afterOneToggle.activeCallState?.state === 'Active',
+          'state is active #1'
+        );
         assert.isTrue(afterOneToggle.activeCallState?.settingsDialogOpen);
+
+        strictAssert(
+          afterTwoToggles.activeCallState?.state === 'Active',
+          'state is active #2'
+        );
         assert.isFalse(afterTwoToggles.activeCallState?.settingsDialogOpen);
+
+        strictAssert(
+          afterThreeToggles.activeCallState?.state === 'Active',
+          'state is active #3'
+        );
         assert.isTrue(afterThreeToggles.activeCallState?.settingsDialogOpen);
       });
     });
@@ -2528,8 +2666,22 @@ describe('calling duck', () => {
           toggleParticipants()
         );
 
+        strictAssert(
+          afterOneToggle.activeCallState?.state === 'Active',
+          'state is active #1'
+        );
         assert.isTrue(afterOneToggle.activeCallState?.showParticipantsList);
+
+        strictAssert(
+          afterTwoToggles.activeCallState?.state === 'Active',
+          'state is active #2'
+        );
         assert.isFalse(afterTwoToggles.activeCallState?.showParticipantsList);
+
+        strictAssert(
+          afterThreeToggles.activeCallState?.state === 'Active',
+          'state is active #3'
+        );
         assert.isTrue(afterThreeToggles.activeCallState?.showParticipantsList);
       });
     });
@@ -2542,8 +2694,22 @@ describe('calling duck', () => {
         const afterTwoToggles = reducer(afterOneToggle, togglePip());
         const afterThreeToggles = reducer(afterTwoToggles, togglePip());
 
+        strictAssert(
+          afterOneToggle.activeCallState?.state === 'Active',
+          'state is active #1'
+        );
         assert.isTrue(afterOneToggle.activeCallState?.pip);
+
+        strictAssert(
+          afterTwoToggles.activeCallState?.state === 'Active',
+          'state is active #2'
+        );
         assert.isFalse(afterTwoToggles.activeCallState?.pip);
+
+        strictAssert(
+          afterThreeToggles.activeCallState?.state === 'Active',
+          'state is active #3'
+        );
         assert.isTrue(afterThreeToggles.activeCallState?.pip);
       });
     });
@@ -2569,13 +2735,27 @@ describe('calling duck', () => {
           switchFromPresentationView()
         );
 
+        strictAssert(
+          afterOneToggle.activeCallState?.state === 'Active',
+          'state is active #1'
+        );
         assert.strictEqual(
           afterOneToggle.activeCallState?.viewMode,
           CallViewMode.Presentation
         );
+
+        strictAssert(
+          afterTwoToggles.activeCallState?.state === 'Active',
+          'state is active #2'
+        );
         assert.strictEqual(
           afterTwoToggles.activeCallState?.viewMode,
           CallViewMode.Presentation
+        );
+
+        strictAssert(
+          afterThreeToggles.activeCallState?.state === 'Active',
+          'state is active #3'
         );
         assert.strictEqual(
           afterThreeToggles.activeCallState?.viewMode,
@@ -2597,6 +2777,10 @@ describe('calling duck', () => {
           switchFromPresentationView()
         );
 
+        strictAssert(
+          stateAfterPresentation.activeCallState?.state === 'Active',
+          'state is active'
+        );
         assert.strictEqual(
           stateAfterPresentation.activeCallState?.viewMode,
           CallViewMode.Overflow

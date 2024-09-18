@@ -11,6 +11,7 @@ import type {
   CallLinksByRoomIdType,
   DirectCallStateType,
   GroupCallStateType,
+  ActiveCallStateType,
 } from '../ducks/calling';
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/callingHelpers';
 import { CallMode } from '../../types/CallDisposition';
@@ -55,7 +56,13 @@ export const getSelectedCamera = createSelector(
 
 export const getActiveCallState = createSelector(
   getCalling,
-  (state: CallingStateType) => state.activeCallState
+  (state: CallingStateType) => {
+    if (state.activeCallState?.state !== 'Active') {
+      return undefined;
+    }
+
+    return state.activeCallState;
+  }
 );
 
 export const getCallsByConversation = createSelector(
@@ -134,9 +141,9 @@ export const isInCall = createSelector(
 );
 
 export const isInFullScreenCall = createSelector(
-  getCalling,
-  (state: CallingStateType): boolean =>
-    Boolean(state.activeCallState && !state.activeCallState.pip)
+  getActiveCallState,
+  (activeCallState: undefined | ActiveCallStateType): boolean =>
+    Boolean(activeCallState?.pip)
 );
 
 export const getIncomingCall = createSelector(

@@ -46,6 +46,7 @@ import type { ConversationType } from '../ducks/conversations';
 import type { StateType } from '../reducer';
 import { getHasInitialLoadCompleted } from '../selectors/app';
 import {
+  getActiveCallState,
   getAvailableCameras,
   getCallLinkSelector,
   getIncomingCall,
@@ -122,7 +123,7 @@ const mapStateToActiveCallProp = (
   state: StateType
 ): undefined | ActiveCallType => {
   const { calling } = state;
-  const { activeCallState } = calling;
+  const activeCallState = getActiveCallState(state);
 
   if (!activeCallState) {
     return undefined;
