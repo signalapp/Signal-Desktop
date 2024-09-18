@@ -942,7 +942,7 @@
     "messageformat": "Соңғы мультимедианы көру"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Барлық мультимедиа"
   },
   "icu:back": {
     "messageformat": "Артқа"
@@ -2706,7 +2706,7 @@
     "messageformat": "Қоңырау сілтемесі"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Топтық қоңырау"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Рұқсат берілгені күтілуде"
@@ -3531,25 +3531,25 @@
     "messageformat": "{currentSize}/{totalSize} ({fractionComplete,number,percent}) жүктеп алынып жатыр..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Жүктеп алуға дайындалып жатыр..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Сақтық көшірменің көлеміне қарай ол бірнеше минутқа созылуы мүмкін."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Тасымалдаудан бас тарту"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Тасымалдаудан бас тарту керек пе?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Хабарларыңыз бен мультимедиаңызды қалпына келтіру процесі аяқталған жоқ. Оларды тасымалдаудан бас тартсаңыз, \"Параметрлер\" бөлімінен қайта тасымалдай аласыз."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Тасымалдауды жалғастыру"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Тасымалдаудан бас тарту"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Мультимедианы қалпына келтіру"
@@ -3609,7 +3609,7 @@
     "messageformat": "Сіздің қоңырауға қатысып жатырсыз"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Дауыс"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Чат түсі"
@@ -3792,7 +3792,7 @@
     "messageformat": "Сілтемені қалпына келтіру"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Админнің мақұлдауы керек"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Әкімші топ сілтемесі арқылы жаңа мүшелердің қосылуын мақұлдауын сұраңыз"
@@ -5539,10 +5539,10 @@
     "messageformat": "Қоңырау атын өңдеу"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Админнің мақұлдауы керек"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Қоңырау жүріп жатқанда, бұл параметрді өзгерту мүмкін емес."
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Сілтемені көшіру"
@@ -5566,7 +5566,7 @@
     "messageformat": "Жою"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Қоңырау жүріп жатқанда, бұл сілтемені жою мүмкін емес."
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Қоңырауға сілтеме мәліметтері"
@@ -5581,13 +5581,13 @@
     "messageformat": "Қоңырау атын өңдеу"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Админнің мақұлдауы керек"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Қоңырауға қосу"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Қоңырауға қоспау"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Өшіру"
@@ -5654,6 +5654,6 @@
     "messageformat": "Бұл жаңа нұсқада қабылданбаған қоңыраулар тізіміне қатысты ақау түзетілді. Енді бір құрылғыда қабылданбаған қоңырауды көргенде, басқа құрылғылардағы қабылданбаған қоңырау белгісі автоматты түрде өшірілетін болады."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Жаңа әрі жақсартылған \"Барлық мультимедиа\" көрінісімен естеліктерге оралыңыз. Енді чат тақырыбын түртіп, ортақ мультимедиа бөліміндегі \"Барлығын көру\" опциясын таңдасаңыз, соңғы фотосуреттер мен бейнелер ғана емес, бұрынғылары да экранды сырғытқан сайын автоматты түрде көрсетіле береді."
   }
 }

@@ -942,7 +942,7 @@
     "messageformat": "ಇತ್ತೀಚಿನ ಮಾಧ್ಯಮವನ್ನು ನೋಡಿ"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "ಎಲ್ಲಾ ಮೀಡಿಯಾ"
   },
   "icu:back": {
     "messageformat": "ಹಿಂದಕ್ಕೆ"
@@ -2706,7 +2706,7 @@
     "messageformat": "ಕರೆ ಲಿಂಕ್"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "ಗ್ರೂಪ್ ಕಾಲ್"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "ಒಳಬರಲು ಕಾಯುತ್ತಿದೆ"
@@ -3531,25 +3531,25 @@
     "messageformat": "{totalSize}ಯಲ್ಲಿ {currentSize} ಅನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಿದ್ಧವಾಗುತ್ತಿದೆ..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್‌ನ ಗಾತ್ರವನ್ನು ಆಧರಿಸಿ ಇದು ಕೆಲವು ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಬಹುದು"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಿ"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಬೇಕೇ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳು ಮತ್ತು ಮೀಡಿಯಾ ರೀಸ್ಟೋರ್ ಆಗುವುದನ್ನು ಪೂರ್ಣಗೊಳಿಸಿಲ್ಲ. ನೀವು ರದ್ದುಗೊಳಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ನೀವು ಪುನಃ ವರ್ಗಾಯಿಸಬಹುದು."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ಮುಂದುವರಿಸಿ"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಿ"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "ಮೀಡಿಯಾ ರಿಸ್ಟೋರ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
@@ -3609,7 +3609,7 @@
     "messageformat": "ನೀವು ಈಗಾಗಲೇ ಕಾಲ್‌ನಲ್ಲಿದ್ದೀರಿ"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "ಧ್ವನಿ"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ಚಾಟ್ ಬಣ್ಣ"
@@ -3792,7 +3792,7 @@
     "messageformat": "ರೀಸೆಟ್ ಲಿಂಕ್"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ಅಡ್ಮಿನ್ ಅನುಮೋದನೆ ಅಗತ್ಯವಿದೆ"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "ಗುಂಪಿನ ಲಿಂಕ್ ಮೂಲಕ ಹೊಸ ಸದಸ್ಯರು ಸೇರುವುದನ್ನು ಅನುಮೋದಿಸಲು ಅಡ್ಮಿನ್ ಅಗತ್ಯವಿರುತ್ತದೆ"
@@ -5539,10 +5539,10 @@
     "messageformat": "ಕರೆ ಹೆಸರು ಎಡಿಟ್ ಮಾಡಿ"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ಅಡ್ಮಿನ್ ಅನುಮೋದನೆ ಅಗತ್ಯವಿದೆ"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "ಕರೆಯು ಸಕ್ರಿಯವಾಗಿರುವಾಗ ಈ ಸೆಟ್ಟಿಂಗ್ ಅನ್ನು ಬದಲಾಯಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ಲಿಂಕ್ ನಕಲಿಸಿ"
@@ -5566,7 +5566,7 @@
     "messageformat": "ಅಳಿಸಿ"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "ಕರೆಯು ಸಕ್ರಿಯವಾಗಿರುವಾಗ ಈ ಲಿಂಕ್ ಅನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ಕಾಲ್ ಲಿಂಕ್ ವಿವರಗಳು"
@@ -5581,13 +5581,13 @@
     "messageformat": "ಕರೆ ಹೆಸರು ಎಡಿಟ್ ಮಾಡಿ"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ಅಡ್ಮಿನ್ ಅನುಮೋದನೆ ಅಗತ್ಯವಿದೆ"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "ಪ್ರವೇಶವನ್ನು ಅನುಮೋದಿಸಿ"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "ಪ್ರವೇಶವನ್ನು ನಿರಾಕರಿಸಿ"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "ಆಫ಼್"
@@ -5654,6 +5654,6 @@
     "messageformat": "ಒಂದು ಸಾಧನದಲ್ಲಿ ಮಿಸ್ಡ್ ಕಾಲ್ ಅನ್ನು ವೀಕ್ಷಿಸುವುದರಿಂದ ನಿಮ್ಮ ಇತರ ಸಾಧನಗಳಲ್ಲಿನ ಮಿಸ್ಡ್ ಕಾಲ್‌ನ ಸೂಚಕವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆರವುಗೊಳಿಸದಿರುವ ಕಡೆ ಈ ಅಪ್‌ಡೇಟ್ ದೋಷವನ್ನು ಸರಿಪಡಿಸುತ್ತದೆ, ಅದು ನಿಮ್ಮ ಮಿಸ್ಡ್ ಕಾಲ್ ಪಟ್ಟಿಯು ಏಕಕಾಲಕ್ಕೆ ಉತ್ತಮವಾಗಿ ಸಮನ್ವಯ ಸಾಧಿಸಲು ತಪ್ಪಿಹೋದ ಅವಕಾಶವಾಗಿದೆ."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "ಹೊಸ ಮತ್ತು ಸುಧಾರಿತ \"ಎಲ್ಲಾ ಮೀಡಿಯಾ\" ವೀಕ್ಷಣೆಯೊಂದಿಗೆ ಹಿಂದಿನ ನೆನಪುಗಳಲ್ಲಿ ವಿಹರಿಸಿ. ಈಗ ನೀವು ಚಾಟ್ ಹೆಡರ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಮತ್ತು ಹಂಚಿಕೊಂಡ ಮೀಡಿಯಾ ವಿಭಾಗದಲ್ಲಿ \"ಎಲ್ಲವನ್ನೂ ನೋಡಿ\" ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿದಾಗ, ನೀವು ಸ್ಕ್ರಾಲ್ ಮಾಡುವಾಗ ಇತ್ತೀಚಿನ ನಮೂದುಗಳಿಗೆ ಸೀಮಿತವಾಗಿರದೆ ಹಳೆಯ ಫೋಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಗೋಚರಿಸುತ್ತವೆ."
   }
 }

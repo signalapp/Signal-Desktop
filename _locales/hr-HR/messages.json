@@ -942,7 +942,7 @@
     "messageformat": "Prikaži nedavne medijske zapise"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Svi medijski zapisi"
   },
   "icu:back": {
     "messageformat": "Natrag"
@@ -2706,7 +2706,7 @@
     "messageformat": "Poveznica na poziv"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Grupni poziv"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Čekanje potvrde za pridruživanje"
@@ -3531,25 +3531,25 @@
     "messageformat": "Preuzimanje: {currentSize} od {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Pripremamo datoteke za preuzimanje…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Ovo može potrajati nekoliko minuta. Brzina preuzimanja ovisi o veličini vaše sigurnosne kopije."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Prekini prijenos"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Želite li prekinuti prijenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Vraćanje vaših poruka i medijskih zapisa nije dovršeno. Ako sada prekinete prijenos, moći ćete ga ponovno pokrenuti u postavkama."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Nastavi prijenos"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Prekini prijenos"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Vraćanje medijskih zapisa"
@@ -3609,7 +3609,7 @@
     "messageformat": "Već ste na pozivu"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Glasovni poziv"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Boja razgovora"
@@ -3792,7 +3792,7 @@
     "messageformat": "Poništi poveznicu"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Zatraži odobrenje administratora"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Zahtjeva da administrator odobri pridruživanje novih članova putem poveznice grupe"
@@ -5539,10 +5539,10 @@
     "messageformat": "Uredi naziv poziva"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Zatraži odobrenje administratora"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Ovu postavku nije moguće promijeniti dok je poziv u tijeku"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopiraj poveznicu"
@@ -5566,7 +5566,7 @@
     "messageformat": "Izbriši"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Ovu poveznicu nije moguće izbrisati dok je poziv u tijeku"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Pojedinosti poveznice na poziv"
@@ -5581,13 +5581,13 @@
     "messageformat": "Uredi naziv poziva"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Zatraži odobrenje administratora"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Odobri ulazak"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Odbij ulazak"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Isključeno"
@@ -5654,6 +5654,6 @@
     "messageformat": "Ovo ažuriranje ispravlja pogrešku zbog koje pregledavanje propuštenog poziva na jednom uređaju ne bi automatski uklonilo indikator istog propuštenog poziva s vaših drugih uređaja."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Kada kliknete na zaglavlje razgovora i odaberete \"Prikaži sve\" u odjeljku dijeljenih medijskih zapisa, starije fotografije i videozapisi više neće biti ograničeni samo na najnovije zapise, već će se automatski nastaviti prikazivati dok listate."
   }
 }

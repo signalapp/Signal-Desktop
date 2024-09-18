@@ -942,7 +942,7 @@
     "messageformat": "Προβολή πρόσφατων πολυμέσων"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Όλα τα πολυμέσα"
   },
   "icu:back": {
     "messageformat": "Πίσω"
@@ -2706,7 +2706,7 @@
     "messageformat": "Σύνδεσμος κλήσης"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Ομαδική κλήση"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Σε αναμονή για προσθήκη"
@@ -3531,25 +3531,25 @@
     "messageformat": "Λήψη {currentSize} από {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Προετοιμασία για λήψη..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Μπορεί να διαρκέσει μερικά λεπτά, ανάλογα με το μέγεθος του αντιγράφου ασφαλείας σου"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Ακύρωση μεταφοράς"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Ακύρωση μεταφοράς;"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Η επαναφορά των μηνυμάτων και των πολυμέσων σου δεν έχει ολοκληρωθεί. Εάν επιλέξεις να την ακυρώσεις, μπορείς να τα μεταφέρεις ξανά από τις Ρυθμίσεις."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Συνέχεια μεταφοράς"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Ακύρωση μεταφοράς"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Επαναφορά πολυμέσων"
@@ -3609,7 +3609,7 @@
     "messageformat": "Είσαι ήδη σε κάποια κλήση"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Φωνή"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Χρώμα συνομιλίας"
@@ -3792,7 +3792,7 @@
     "messageformat": "Επαναφορά συνδέσμου"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Απαιτείται έγκριση διαχειριστή"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Να απαιτείται η έγκριση απο διαχειριστή/τρια για νέα μέλη που μπαίνουν από το σύνδεσμο της ομάδας."
@@ -5539,10 +5539,10 @@
     "messageformat": "Επεξεργασία ονόματος κλήσης"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Απαιτείται έγκριση διαχειριστή"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Αυτή η ρύθμιση δεν μπορεί να αλλάξει όσο η κλήση είναι ενεργή"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Αντιγραφή συνδέσμου"
@@ -5566,7 +5566,7 @@
     "messageformat": "Διαγραφή"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Αυτός ο σύνδεσμος δεν μπορεί να διαγραφεί όσο η κλήση είναι ενεργή"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Λεπτομέρειες συνδέσμου κλήσης"
@@ -5581,13 +5581,13 @@
     "messageformat": "Επεξεργασία ονόματος κλήσης"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Απαιτείται έγκριση διαχειριστή"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Έγκριση εισόδου"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Απαγόρευση εισόδου"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Ανενεργό"
@@ -5654,6 +5654,6 @@
     "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα κατά το οποίο η προβολή μιας αναπάντητης κλήσης σε μια συσκευή δεν εκκαθάριζε αυτόματα την ένδειξη για την εν λόγω αναπάντητη κλήση στις άλλες συσκευές σου."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Τώρα, όταν κάνεις κλικ στην κεφαλίδα μιας συνομιλίας και επιλέγεις «Προβολή όλων» στην ενότητα των κοινόχρηστων πολυμέσων, οι παλαιότερες φωτογραφίες και τα βίντεο θα εμφανίζονται αυτόματα καθώς κάνεις κύλιση, αντί να περιορίζεσαι στις πιο πρόσφατες καταχωρήσεις."
   }
 }

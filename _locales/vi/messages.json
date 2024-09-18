@@ -942,7 +942,7 @@
     "messageformat": "Xem các tập đa phương tiện gần đây"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Tất cả tập tin đa phương tiện"
   },
   "icu:back": {
     "messageformat": "Trở lại"
@@ -2706,7 +2706,7 @@
     "messageformat": "Đường dẫn cuộc gọi"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Cuộc gọi nhóm"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Đang chờ để được tham gia"
@@ -3531,25 +3531,25 @@
     "messageformat": "Hiện tải được {currentSize} của tổng {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Đang chuẩn bị tải xuống..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Quá trình này có thể mất vài phút tùy vào dung lượng của bản sao lưu"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Hủy chuyển"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Hủy chuyển?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Tin nhắn và tập tin đa phương tiện của bạn chưa được hoàn tất khôi phục. Nếu bạn chọn hủy, bạn có thể tiến hành chuyển dữ liệu lại từ mục Cài đặt."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Tiếp tục chuyển"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Hủy chuyển"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Đang khôi phục tập tin đa phương tiện"
@@ -3609,7 +3609,7 @@
     "messageformat": "Bạn đã đang ở trong một cuộc gọi"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Thoại"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Màu cuộc trò chuyện"
@@ -3792,7 +3792,7 @@
     "messageformat": "Đặt lại đường dẫn"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Cần chấp thuận từ quản trị viên"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Yêu cầu người quản lý chấp duyệt thành viên mới tham gia qua đường dẫn nhóm"
@@ -5539,10 +5539,10 @@
     "messageformat": "Sửa tên cuộc gọi"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Cần chấp thuận từ quản trị viên"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Không thể thay đổi cài đặt này khi đang có cuộc gọi"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Sao chép đường dẫn"
@@ -5566,7 +5566,7 @@
     "messageformat": "Xóa"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Không thể xóa đường dẫn này khi đang có cuộc gọi"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Chi tiết đường dẫn cuộc gọi"
@@ -5581,13 +5581,13 @@
     "messageformat": "Sửa tên cuộc gọi"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Cần chấp thuận từ quản trị viên"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Chấp thuận"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Từ chối"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Tắt"
@@ -5654,6 +5654,6 @@
     "messageformat": "Bản cập nhật này sửa lỗi thông báo cuộc gọi nhỡ không mất đi trên một thiết bị khi bạn đã xem thông báo đó trên các thiết bị khác."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Giờ đây khi bạn bấm vào thanh phía trên của cuộc trò chuyện và chọn \"Tất cả\" ở mục tập tin đa phương tiện được chia sẻ, ảnh và video cũ sẽ tự động xuất hiện khi bạn cuộn và không còn bị giới hạn ở những tập tin mới nhất."
   }
 }

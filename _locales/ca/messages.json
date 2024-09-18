@@ -942,7 +942,7 @@
     "messageformat": "Mostra el contingut recent"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Tot el contingut"
   },
   "icu:back": {
     "messageformat": "Enrere"
@@ -2706,7 +2706,7 @@
     "messageformat": "Enllaç de trucada"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Trucada de grup"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Esperant per a entrar"
@@ -3531,25 +3531,25 @@
     "messageformat": "Descarregant {currentSize} de {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Preparant per descarregar…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "En funció de la mida de la teva còpia de seguretat, això pot trigar uns quants minuts."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Cancel·lar la transferència"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Cancel·lar la transferència?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "No s'ha completat la restauració dels teus missatges i arxius multimèdia. Si decideixes cancel·lar, podràs tornar-los a transferir des d'Ajustos."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Continuar la transferència"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Cancel·lar la transferència"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Restaurant els arxius"
@@ -3609,7 +3609,7 @@
     "messageformat": "Ja ets a una trucada."
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Veu"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Color del xat"
@@ -3792,7 +3792,7 @@
     "messageformat": "Restableix l'enllaç"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Sol·licitar l'aprovació de l'administrador"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Requereix que un administrador aprovi els membres nous que s’afegeixin per l’enllaç del grup."
@@ -5539,10 +5539,10 @@
     "messageformat": "Editar nom de trucada"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Sol·licitar l'aprovació de l'administrador"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Aquesta configuració no es pot canviar mentre la trucada està activa"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiar l'enllaç"
@@ -5566,7 +5566,7 @@
     "messageformat": "Suprimeix"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Aquest enllaç no es pot eliminar mentre la trucada està activa"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalls de l'enllaç de trucada"
@@ -5581,13 +5581,13 @@
     "messageformat": "Editar nom de trucada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Sol·licitar l'aprovació de l'administrador"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Aprovar l'entrada"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Denegar l'entrada"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Inactiu"
@@ -5654,6 +5654,6 @@
     "messageformat": "Aquesta actualització corregeix un error que feia que un cop s'obria en un dispositiu una notificació de trucada perduda, aquesta no s'esborrés automàticament de la resta de dispositius vinculats."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Ara, quan facis clic a la capçalera d'un xat i seleccionis \"Veure tot\" a la secció d'arxius compartits, les fotos i els vídeos més antics aniran apareixent automàticament a mesura que et desplacis en comptes de limitar-se al contingut més recent."
   }
 }

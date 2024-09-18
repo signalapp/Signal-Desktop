@@ -942,7 +942,7 @@
     "messageformat": "Tazama media za hivi majuzi"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Picha na video zote"
   },
   "icu:back": {
     "messageformat": "Rudi nyuma"
@@ -2706,7 +2706,7 @@
     "messageformat": "Kiungo cha simu"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Mazungumzo ya simu ya kikundi"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Unasubiri kuruhusiwa kuingia"
@@ -3531,25 +3531,25 @@
     "messageformat": "Inapakua {currentSize} ya {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Inajiandaa kupakua..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Hii inaweza kuchukua sekunde kadhaa kulingana na ukubwa wa mchakato wako wa uhifadhi nakala"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Ghairi uhamishaji"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Je, ghairi uhamishaji?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Jumbe na picha na video zako hazijakamilika kurejeshwa. Ukichagua kughairi, unaweza kuhamisha tena kutoka kwenye Mipangilio."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Endelea na uhamishaji"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Ghairi uhamishaji"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Inarejesha video na picha"
@@ -3609,7 +3609,7 @@
     "messageformat": "Tayari uko kwenye mazungumzo ya simu"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Sauti"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Rangi ya gumzo"
@@ -3792,7 +3792,7 @@
     "messageformat": "Weka upya kiungo"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Inahitaji idhini ya admin"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Itisha ruhusa ya msimamizi kuidhinisha wanachama wapya wanaojiunga kupitia kiungo cha kikundi"
@@ -5539,10 +5539,10 @@
     "messageformat": "Hariri jina la simu"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Inahitaji idhini ya admin"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Mipangilio hii haiwezi kubadilishwa wakati simu inatumika"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Nakili kiungo"
@@ -5566,7 +5566,7 @@
     "messageformat": "Futa"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Kiungo hiki hakiwezi kufutwa wakati simu inatumika"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Maelezo ya kiungo cha simu"
@@ -5581,13 +5581,13 @@
     "messageformat": "Hariri jina la simu"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Inahitaji idhini ya admin"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Idhinisha kuingia"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Kataa kuingia"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Zima"
@@ -5654,6 +5654,6 @@
     "messageformat": "Sasisho hili hurekebisha hitilafu ambapo kutazama simu ambayo hukujibiwa kwenye kifaa kimoja hakutafuta kiotomatiki kiashirio cha simu ambayo haikujibiwa kwenye vifaa vyako vingine, ambayo ilikuwa fursa iliyokosekana katika orodha yako ya simu ambazo hukujibu kufanya kazi vyema kwa pamoja."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Chukua safari kwa makumbusho na mtazamo mpya na ulioboreshwa \"Picha na video zote\". Sasa unapobofya kwenye kichwa cha gumzo kisha uchague \"Angalia vyote\" kwenye sehemu ya pamoja ya picha na video, picha za zamani na video zitaonekana kiotomatiki badala ya kuonyeshwa picha za hivi karibuni tu."
   }
 }

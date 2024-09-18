@@ -942,7 +942,7 @@
     "messageformat": "अलीकडील मिडिया बघा"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "सर्व मिडिया"
   },
   "icu:back": {
     "messageformat": "मागे"
@@ -2706,7 +2706,7 @@
     "messageformat": "कॉल लिंक"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "गट कॉल"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "आत येण्याची वाट पाहत आहे"
@@ -3531,25 +3531,25 @@
     "messageformat": "{totalSize} ({fractionComplete,number,percent}) पैकी {currentSize} डाउनलोड करत आहे..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "डाउनलोड करण्याची तयारी करत आहे..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "आपल्या बॅकअप आकारावर अवलंबून याला काही मिनिटे लागू शकतात"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "हस्तांतरण रद्द करा"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "हस्तांतरण रद्द करायचे?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "आपले ,संदेश आणि मिडीया यांचे पुनर्संचयन पूर्ण झालेले नाहीत. आपण रद्द करणे निवडल्यास, आपण सेटिंग्ज मधून हस्तांतरण पुन्हा करू शकता."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "हस्तांतरण सुरू ठेवा"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "हस्तांतरण रद्द करा"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "मिडीया पुर्नस्थापित करत आहे"
@@ -3609,7 +3609,7 @@
     "messageformat": "आपण आधीच एक कॉलमध्ये आहात"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "व्हॉईस"
   },
   "icu:showChatColorEditor": {
     "messageformat": "चॅट रंग"
@@ -3792,7 +3792,7 @@
     "messageformat": "लिंक रीसेट करा"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "प्रशासकाची मंजुरी आवश्यक आहे"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "गट लिंक द्वारे सामील होण्यासाठी नवीन सदस्यांना प्रशासकाने स्वीकार करणे आवश्यक आहे"
@@ -5539,10 +5539,10 @@
     "messageformat": "कॉल नाव संपादित करा"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "प्रशासकाची मंजुरी आवश्यक आहे"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "कॉल सक्रिय असताना हे सेटिंग बदलले जाऊ शकत नाही"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "लिंक कॉपी करा"
@@ -5566,7 +5566,7 @@
     "messageformat": "हटवा"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "कॉल सक्रिय असताना ही लिंक हटवली जाऊ शकत नाही"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "कॉल लिंक तपशील"
@@ -5581,13 +5581,13 @@
     "messageformat": "कॉल नाव संपादित करा"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "प्रशासकाची मंजुरी आवश्यक आहे"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "प्रवेश मंजूर करा"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "प्रवेश नाकारा"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "बंद"
@@ -5654,6 +5654,6 @@
     "messageformat": "हे अद्यतन एका डिव्हाइसवर मिस्ड कॉल पाहिल्याने आपल्या इतर डिव्हाइसवरील त्या मिस्ड कॉलचा निदर्शक आपोआप साफ होत नाही या बगचे निराकरण करते, जी आपल्या मिस्ड कॉल सूचीसाठी चांगल्या प्रकारे एकत्र आणण्याची चुकलेली संधी होती."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "नवीन आणि सुधारित \"सर्व मिडीया\" दृश्यासह आठवणीमध्ये रमून जा. आता जेव्हा आपण शेअर केलेल्या मिडीया विभागात \"सर्व पहा\" निवडता आणि चॅट शीर्षलेखावर क्लिक करता, तेव्हा सर्वात अलीकडील नोंदींपुरते मर्यादित न राहता आपण जेव्हा स्क्रोल करता तेव्हा जुने फोटो आणि व्हिडिओ आपोआप दिसतील."
   }
 }

@@ -942,7 +942,7 @@
     "messageformat": "Näita hiljutist meediat"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Kogu meedia"
   },
   "icu:back": {
     "messageformat": "Tagasi"
@@ -2706,7 +2706,7 @@
     "messageformat": "Kõne link"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Grupikõne"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Sisselaskmise ootel"
@@ -3531,25 +3531,25 @@
     "messageformat": "Allalaadimine: {currentSize} kogumahust {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Allalaadimise ettevalmistamine …"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Olenevalt sinu varukoopia suurusest võib see mõne minuti aega võtta"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Tühista edastus"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Kas tühistada edastus?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Sinu sõnumite ja meedia taastamine ei ole lõppenud. Kui valid tühistamise, saad edastuse uuesti käivitada Sätete alt."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Jätka edastust"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Tühista edastus"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Meedia taastamine"
@@ -3609,7 +3609,7 @@
     "messageformat": "Sa oled juba kõnes"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Hääl"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Vestluse värv"
@@ -3792,7 +3792,7 @@
     "messageformat": "Lähtesta link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Küsi administraatori nõusolekut"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Nõua grupilingi kaudu liituvate uute liikmete kinnitamist administraatori poolt"
@@ -5539,10 +5539,10 @@
     "messageformat": "Muuda kõne nime"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Küsi administraatori nõusolekut"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Seda sätet ei saa muuta poolelioleva kõne ajal"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopeeri link"
@@ -5566,7 +5566,7 @@
     "messageformat": "Kustuta"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Seda linki ei saa kustutada poolelioleva kõne ajal"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Kõnelingi andmed"
@@ -5581,13 +5581,13 @@
     "messageformat": "Muuda kõne nime"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Küsi administraatori nõusolekut"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Kinnita sisenemine"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Keela sisenemine"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Väljas"
@@ -5654,6 +5654,6 @@
     "messageformat": "Selle uuendusega parandati viga, mille tõttu ühes seadmes vastamata kõne vaatamine ei kõrvaldanud teistes seadmetes vastamata kõne teadet."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Nüüd saad klõpsata vestluse päisele ja valida jagatud meedia jaotises „Vaata kõiki“. Vanemad fotod ja videod kuvatakse automaatselt kerimise ajal ega ole piiratud vaid uusimatele."
   }
 }

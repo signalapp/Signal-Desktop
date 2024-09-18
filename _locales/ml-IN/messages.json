@@ -942,7 +942,7 @@
     "messageformat": "സമീപകാല മീഡിയ കാണുക"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "എല്ലാ മീഡിയയും"
   },
   "icu:back": {
     "messageformat": "തിരികെ പോകുക"
@@ -2706,7 +2706,7 @@
     "messageformat": "കോൾ ലിങ്ക്"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "ഗ്രൂപ്പ് കോൾ"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "പ്രവേശനം അനുവദിക്കാൻ കാത്തിരിക്കുന്നു"
@@ -3531,25 +3531,25 @@
     "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent}) ഡൗൺലോഡ് ചെയ്യുന്നു..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "ഡൗൺലോഡ് ചെയ്യാൻ തയ്യാറെടുക്കുന്നു..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "നിങ്ങളുടെ ബാക്കപ്പിൻ്റെ വലുപ്പം അനുസരിച്ച് ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "കൈമാറ്റം റദ്ദാക്കുക"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "കൈമാറ്റം റദ്ദാക്കണോ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "നിങ്ങളുടെ സന്ദേശങ്ങളും മീഡിയയും പുനഃസ്ഥാപിക്കൽ പൂർത്തിയാക്കിയിട്ടില്ല. നിങ്ങൾ റദ്ദാക്കാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, ക്രമീകരണങ്ങളിൽ നിന്ന് നിങ്ങൾക്ക് വീണ്ടും കൈമാറാനാകും."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "കൈമാറ്റം തുടരുക"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "കൈമാറ്റം റദ്ദാക്കുക"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "മീഡിയ പുനഃസ്ഥാപിക്കുന്നു"
@@ -3609,7 +3609,7 @@
     "messageformat": "നിങ്ങൾ ഇതിനകം ഒരു കോളിൽ ഉണ്ട്"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "ശബ്ദം"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ചാറ്റ് നിറം"
@@ -3792,7 +3792,7 @@
     "messageformat": "ലിങ്ക് പുനഃസജ്ജമാക്കുക്ക"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "അഡ്മിൻ അംഗീകാരം ആവശ്യമാണ്"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "ഗ്രൂപ്പ് ലിങ്ക് വഴി പുതിയ അംഗങ്ങൾ ചേരുന്നത് അംഗീകരിക്കാൻ ഒരു അഡ്മിൻ ആവശ്യമാണ്"
@@ -5539,10 +5539,10 @@
     "messageformat": "കോളിന്റെ പേര് എഡിറ്റ് ചെയ്യുക"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "അഡ്മിൻ അംഗീകാരം ആവശ്യമാണ്"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "കോൾ സജീവമായിരിക്കുമ്പോൾ ഈ ക്രമീകരണം മാറ്റാനാകില്ല"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ലിങ്ക് പകർത്തുക"
@@ -5566,7 +5566,7 @@
     "messageformat": "ഇല്ലാതാക്കൂ"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "കോൾ സജീവമായിരിക്കുമ്പോൾ ഈ ലിങ്ക് ഇല്ലാതാക്കാൻ കഴിയില്ല"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "കോൾ ലിങ്ക് വിശദാംശങ്ങൾ"
@@ -5581,13 +5581,13 @@
     "messageformat": "കോളിന്റെ പേര് എഡിറ്റ് ചെയ്യുക"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "അഡ്മിൻ അംഗീകാരം ആവശ്യമാണ്"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "പ്രവേശനം അനുവദിക്കുക"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "പ്രവേശനം നിഷേധിക്കുക"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "ഓഫ്"
@@ -5654,6 +5654,6 @@
     "messageformat": "ഒരു ഉപകരണത്തിൽ മിസ്‌ഡ് കോൾ കാണുന്നത് നിങ്ങളുടെ മറ്റ് ഉപകരണങ്ങളിൽ ആ മിസ്‌ഡ് കോളിന്റെ സൂചന ഓട്ടോമാറ്റിയ്ക്കായി മായ്‌ക്കാത്ത ഒരു ബഗ് ഈ അപ്‌ഡേറ്റ് പരിഹരിക്കുന്നു, ഇത് നിങ്ങളുടെ മിസ്‌ഡ് കോൾ ലിസ്റ്റിന്റെ നിലവിലെ അവസ്ഥയെ എല്ലാ ഉപകരണങ്ങളിലും ഒരുപോലെ ശരിയായ രീതിയിൽ കാണിക്കാൻ സഹായിക്കുന്നു."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "പുതിയതും മെച്ചപ്പെടുത്തിയതുമായ \"എല്ലാ മീഡിയ\" കാഴ്‌ച ഉപയോഗിച്ച് മെമ്മറിയിലൂടെ ഒരു യാത്ര നടത്തുക. ഇപ്പോൾ നിങ്ങൾ ഒരു ചാറ്റ് ഹെഡറിൽ ക്ലിക്കുചെയ്‌ത് പങ്കിട്ട മീഡിയ വിഭാഗത്തിലെ \"എല്ലാം കാണുക\" തിരഞ്ഞെടുക്കുമ്പോൾ, ഏറ്റവും പുതിയ എൻട്രികളിലേക്ക് പരിമിതപ്പെടുത്തുന്നതിന് പകരം നിങ്ങൾ സ്ക്രോൾ ചെയ്യുമ്പോൾ പഴയ ഫോട്ടോകളും വീഡിയോകളും സ്വയമേവ ദൃശ്യമാകും."
   }
 }

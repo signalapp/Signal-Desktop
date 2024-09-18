@@ -942,7 +942,7 @@
     "messageformat": "查看最近媒体"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "全部媒体"
   },
   "icu:back": {
     "messageformat": "返回"
@@ -2706,7 +2706,7 @@
     "messageformat": "通话链接"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "群组通话"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "正在等待通过"
@@ -3531,25 +3531,25 @@
     "messageformat": "正在下载 {currentSize}/{totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "正在准备下载…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "这可能需要几分钟时间，视您的备份大小而定"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "取消转移"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "要取消转移吗？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "您的消息和媒体未完成恢复。如果您选择取消，您可以在设置中再次进行转移。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "继续转移"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "取消转移"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "正在恢复媒体"
@@ -3609,7 +3609,7 @@
     "messageformat": "您已在通话中"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "语音"
   },
   "icu:showChatColorEditor": {
     "messageformat": "聊天颜色"
@@ -3792,7 +3792,7 @@
     "messageformat": "重置链接"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "需要管理员批准"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "新成员通过群组链接加入时，需管理员批准。"
@@ -5539,10 +5539,10 @@
     "messageformat": "编辑通话名称"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "需要管理员批准"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "通话期间此设置无法更改"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "复制链接"
@@ -5566,7 +5566,7 @@
     "messageformat": "删除"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "通话期间此链接无法删除"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通话链接详情"
@@ -5581,13 +5581,13 @@
     "messageformat": "编辑通话名称"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "需要管理员批准"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "同意加入"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "拒绝加入"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "关"
@@ -5654,6 +5654,6 @@
     "messageformat": "此次更新修复了一个漏洞：当用户在一台设备上查看未接来电时，该操作不会自动清除其他设备上的未接来电提示。"
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "现在当您点击聊天标头并在共享媒体部分中选择“查看全部”时，旧照片和视频将会在您滚动屏幕时自动出现，而不仅限于最近的照片和视频。"
   }
 }

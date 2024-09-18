@@ -942,7 +942,7 @@
     "messageformat": "Zobrazit nedávná média"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Všechna média"
   },
   "icu:back": {
     "messageformat": "Zpět"
@@ -2706,7 +2706,7 @@
     "messageformat": "Odkaz na hovor"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Skupinový hovor"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Čeká se na vpuštění"
@@ -3531,25 +3531,25 @@
     "messageformat": "Stahování {currentSize} z {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Příprava ke stažení…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Může trvat několik minut v závislosti na velikosti vaší zálohy"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Zrušit přenos"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Zrušit přenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Obnova vašich zpráv a médií nebyla dokončena. Pokud jste se rozhodli přenos zrušit, můžete jej znovu spustit v Nastavení."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Pokračovat v přenosu"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Zrušit přenos"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Obnovování médií"
@@ -3609,7 +3609,7 @@
     "messageformat": "Již jste v hovoru"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Hlasový"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Barva chatu"
@@ -3792,7 +3792,7 @@
     "messageformat": "Obnovit odkaz"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vyžadovat schválení správcem"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Vyžadovat, aby správce schvaloval nové členy, kteří se připojí přes odkaz skupiny"
@@ -5539,10 +5539,10 @@
     "messageformat": "Upravit název hovoru"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vyžadovat schválení správcem"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Toto nastavení nelze změnit, pokud je hovor aktivní"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Zkopírovat odkaz"
@@ -5566,7 +5566,7 @@
     "messageformat": "Odstranit"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Tento odkaz nelze odstranit, pokud je hovor aktivní"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Podrobnosti odkazu na hovor"
@@ -5581,13 +5581,13 @@
     "messageformat": "Upravit název hovoru"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vyžadovat schválení správcem"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Povolit vstup"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Zamítnout vstup"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Vypnout"
@@ -5654,6 +5654,6 @@
     "messageformat": "Tato aktualizace opravuje chybu, kdy se při zobrazení zmeškaného hovoru na jednom zařízení automaticky neodstranilo upozornění na tento zmeškaný hovor na jiném zařízení."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Když nyní kliknete na záhlaví chatu a v sekci sdílených médií vyberete možnost „Zobrazit vše“, zobrazí se při procházení automaticky starší fotografie a videa, nikoli jen nejnovější záznamy."
   }
 }

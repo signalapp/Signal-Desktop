@@ -942,7 +942,7 @@
     "messageformat": "睇吓最近嘅媒體"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "所有媒體"
   },
   "icu:back": {
     "messageformat": "返轉頭"
@@ -2706,7 +2706,7 @@
     "messageformat": "通話連結"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "群組通話"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "等緊入去"
@@ -3531,25 +3531,25 @@
     "messageformat": "下載緊 {currentSize} / {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "準備緊下載..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "視乎你嘅備份大小，過程可能需時幾分鐘"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "取消轉移"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "係咪要取消轉移？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "你嘅訊息同媒體仲未還原晒喎。如果你揀取消，可以喺「設定」度再轉移過。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "繼續轉移"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "取消轉移"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "還原緊媒體"
@@ -3609,7 +3609,7 @@
     "messageformat": "你已經參與緊另一個通話"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "語音"
   },
   "icu:showChatColorEditor": {
     "messageformat": "聊天色彩"
@@ -3792,7 +3792,7 @@
     "messageformat": "重設連結"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "需要管理員核准"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "用群組連結加入嘅新成員需要經過管理員嘅批准"
@@ -5539,10 +5539,10 @@
     "messageformat": "編輯通話名稱"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "需要管理員核准"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "通話期間更改唔到設定"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "複製連結"
@@ -5566,7 +5566,7 @@
     "messageformat": "刪除"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "通話期間刪除唔到連結"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話連結詳情"
@@ -5581,13 +5581,13 @@
     "messageformat": "編輯通話名稱"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "需要管理員核准"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "批准加入"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "拒絕加入"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "閂"
@@ -5654,6 +5654,6 @@
     "messageformat": "今次更新修正咗一個錯誤，以後當你喺其中一部機度睇咗啲未接來電之後，其他裝置嘅未接來電標記就會自動清除，唔會再卡住喺度。"
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "用經改善嘅全新「所有媒體」檢視方式，搵返你嘅美麗回憶。而家，只要你㩒入聊天標題，同埋喺共享媒體度揀咗「全部睇晒」，就唔單止睇到最近嘅項目，連舊嘅相同影片都會喺你向下碌嘅時候自動出現。"
   }
 }

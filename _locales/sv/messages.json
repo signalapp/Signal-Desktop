@@ -942,7 +942,7 @@
     "messageformat": "Visa senaste media"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Alla media"
   },
   "icu:back": {
     "messageformat": "Tillbaka"
@@ -2706,7 +2706,7 @@
     "messageformat": "Samtalslänk"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Gruppsamtal"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Väntar på att släppas in"
@@ -3531,25 +3531,25 @@
     "messageformat": "Laddar ned {currentSize} av {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Förbereder nedladdning …"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Detta kan ta några minuter beroende på storleken på din säkerhetskopia"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Avbryt överföringen"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Vill du avbryta överföringen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Återställningen av dina meddelanden och media har inte slutförts. Om du väljer att avbryta kan du överföra igen från Inställningar."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Fortsätt överföringen"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Avbryt överföringen"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Återställer media"
@@ -3609,7 +3609,7 @@
     "messageformat": "Du är redan i ett samtal"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Röst"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chattfärg"
@@ -3792,7 +3792,7 @@
     "messageformat": "Återställ länk"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Kräv godkännande av administratör"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Kräv att en administratör ska godkänna nya medlemmar som går med via grupplänken"
@@ -5539,10 +5539,10 @@
     "messageformat": "Redigera samtalsnamn"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Kräv godkännande av administratör"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Den här inställningen kan inte ändras medan samtalet är aktivt"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopiera länk"
@@ -5566,7 +5566,7 @@
     "messageformat": "Ta bort"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Den här länken kan inte tas bort medan samtalet är aktivt"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Uppgifter om samtalslänk"
@@ -5581,13 +5581,13 @@
     "messageformat": "Redigera samtalsnamn"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Kräv godkännande av administratör"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Godkänn post"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Neka post"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Av"
@@ -5654,6 +5654,6 @@
     "messageformat": "Den här uppdateringen åtgärdar en bugg där visning av ett missat samtal på en enhet inte automatiskt rensade indikatorn för det missade samtalet på dina andra enheter."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "När du klickar på en chattrubrik och väljer Se alla i sektionen för delade media visas nu äldre foton och videor automatiskt när du skrollar, istället för att vara begränsat till de senaste posterna."
   }
 }

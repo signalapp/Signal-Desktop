@@ -942,7 +942,7 @@
     "messageformat": "Afficher les médias récents"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Tous les médias"
   },
   "icu:back": {
     "messageformat": "Retour"
@@ -2706,7 +2706,7 @@
     "messageformat": "Lien d’appel"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Appel de groupe"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "En attente d’admission"
@@ -3531,25 +3531,25 @@
     "messageformat": "Téléchargement en cours : {currentSize} sur {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Préparation du téléchargement…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Cela peut prendre quelques minutes en fonction de la taille de votre sauvegarde."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Annuler le transfert"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Annuler le transfert ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Signal n'a pas terminé de restaurer vos messages et médias. Si vous décidez d'annuler ce transfert, vous pourrez en effectuer un nouveau depuis les paramètres."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Poursuivre le transfert"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Annuler le transfert"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Restauration des médias en cours"
@@ -3609,7 +3609,7 @@
     "messageformat": "Vous êtes déjà en communication"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Audio"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Couleur de la conversation"
@@ -3792,7 +3792,7 @@
     "messageformat": "Réinitialiser le lien"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Exiger l'approbation d'un admin"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Un administrateur doit approuver les nouveaux membres qui rejoignent le groupe via le lien."
@@ -5539,10 +5539,10 @@
     "messageformat": "Renommer l’appel"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Exiger l'approbation d'un admin"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Vous ne pouvez pas modifier ce paramètre pendant l'appel"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copier le lien"
@@ -5566,7 +5566,7 @@
     "messageformat": "Supprimer"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Vous ne pouvez pas supprimer ce lien pendant l'appel"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Détails du lien d’appel"
@@ -5581,13 +5581,13 @@
     "messageformat": "Renommer l’appel"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Exiger l'approbation d'un admin"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Accepter la demande"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Refuser la demande"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Désactivé"
@@ -5654,6 +5654,6 @@
     "messageformat": "Jusqu'ici, lorsque vous affichiez un appel manqué sur un appareil, l'indicateur qui signalait cet appel manqué ne disparaissait pas automatiquement de tous vos appareils. Voilà un bug qui ne va pas vous manquer. "
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Souvenirs, souvenirs ! Le nouvel écran \"Tous les médias\" va faire des heureux. Désormais, lorsque vous cliquez sur l'en-tête d'une conversation, puis sur \"Tout afficher\" dans la section \"Médias partagés\", toutes les photos et vidéos s'affichent à mesure que vous faites défiler l'écran. Fini, le temps où Signal se limitait aux médias les plus récents ! "
   }
 }

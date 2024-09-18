@@ -942,7 +942,7 @@
     "messageformat": "Skatīt jaunāko multivides saturu"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Visa multivide"
   },
   "icu:back": {
     "messageformat": "Atpakaļ"
@@ -2706,7 +2706,7 @@
     "messageformat": "Zvana saite"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Grupas zvans"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Gaida pievienošanu"
@@ -3531,25 +3531,25 @@
     "messageformat": "Lejupielādē {currentSize} no {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Gatavo lejupielādi…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Process var aizņemt dažas minūtes atkarībā no rezerves kopijas izmēra"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Atcelt pārsūtīšanu"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Vai atcelt pārsūtīšanu?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Ziņu un multivides atjaunošana nav pabeigta. Ja atcelsiet to, pārsūtīšanu varēsiet veikt vēlreiz iestatījumos."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Turpināt pārsūtīšanu"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Atcelt pārsūtīšanu"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Multivide tiek atjaunota"
@@ -3609,7 +3609,7 @@
     "messageformat": "Jūs jau esat zvanā"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Balss"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Sarunas krāsa"
@@ -3792,7 +3792,7 @@
     "messageformat": "Atstatīt saiti"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Administratora apstiprinājuma pieprasīšana"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Pieprasiet, lai administrators apstiprina jaunu dalībnieku pievienošanos, izmantojot grupas saiti."
@@ -5539,10 +5539,10 @@
     "messageformat": "Rediģēt zvana nosaukumu"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Administratora apstiprinājuma pieprasīšana"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Šo iestatījumu nevar mainīt, kamēr zvans ir aktīvs"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopēt saiti"
@@ -5566,7 +5566,7 @@
     "messageformat": "Dzēst"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Šo saiti nevar dzēst, kamēr zvans ir aktīvs"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Zvana saites informācija"
@@ -5581,13 +5581,13 @@
     "messageformat": "Rediģēt zvana nosaukumu"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Administratora apstiprinājuma pieprasīšana"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Apstiprināt pieeju"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Noraidīt pieeju"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Izslēgts"
@@ -5654,6 +5654,6 @@
     "messageformat": "Šajā atjauninājumā ir novērsta kļūda, kuras dēļ, apskatot neatbildētu zvanu vienā ierīcē, neatbildētā zvana indikators netika automātiski notīrīts citās ierīcēs. Tagad jūsu neatbildēto zvanu saraksti darbosies unisonā."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Pakavējieties atmiņās ar jauno un uzlaboto skatu \"Visa multivide\". Tagad, noklikšķinot uz sarunas galvenes un kopīgotās multivides sadaļā atlasot \"Skatīt visu\", vairs netiks rādīta tikai jaunākā multivide, bet arī vecāki fotoattēli un videoklipi."
   }
 }

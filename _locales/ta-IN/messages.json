@@ -942,7 +942,7 @@
     "messageformat": "சமீபத்திய ஊடகங்களைக் காண்க"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "அனைத்து மீடியா"
   },
   "icu:back": {
     "messageformat": "மீண்டும்"
@@ -2706,7 +2706,7 @@
     "messageformat": "அழைப்பு இணைப்பு"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "குழு அழைப்பு"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "அனுமதிக்கக் காத்திருக்கிறது"
@@ -3531,25 +3531,25 @@
     "messageformat": "{totalSize} இல் {currentSize} ஐப் பதிவிறக்குகிறது({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "பதிவிறக்கத் தயாராகிறது..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "உங்கள் காப்புப்பிரதியின் அளவைப் பொறுத்து இதற்குச் சில நிமிடங்கள் ஆகலாம்"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "பரிமாற்றத்தை ரத்துசெய்க"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "பரிமாற்றத்தை ரத்து செய்ய வேண்டுமா?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "உங்கள் மெசேஜ்களும் மீடியாவும் முழுமையாக மீட்டடைமைக்கப்படவில்லை. ரத்துசெய்க என்பதை நீங்கள் தேர்ந்தெடுத்தால், நீங்கள் மீண்டும் அமைப்புகளில் இருந்து பரிமாற்றம் செய்யலாம்."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "பரிமாற்றத்தைத் தொடர்க"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "பரிமாற்றத்தை ரத்துசெய்க"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "மீடியாவை மீட்டமைக்கிறது"
@@ -3609,7 +3609,7 @@
     "messageformat": "நீங்கள் ஏற்கனவே அழைப்பில் உள்ளீர்கள்"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "குரல்"
   },
   "icu:showChatColorEditor": {
     "messageformat": "சாட் கலர்"
@@ -3792,7 +3792,7 @@
     "messageformat": "இணைப்பை மீட்டமைக்கவும்"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "நிர்வாகி அனுமதி தேவை"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "வழியாக புதிய உறுப்பினர்களை அனுமதிக்க நிர்வாகி தேவை குழு இணைப்பு"
@@ -5539,10 +5539,10 @@
     "messageformat": "அழைப்பின் பெயரைத் திருத்தவும்"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "நிர்வாகி அனுமதி தேவை"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "அழைப்பு செயலில் இருக்கும்போது இந்த அமைப்பை மாற்ற முடியாது"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "இணைப்பை நகலெடு"
@@ -5566,7 +5566,7 @@
     "messageformat": "நீக்கு"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "அழைப்பு செயலில் இருக்கும்போது இந்த இணைப்பை அழிக்க முடியாது"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "அழைப்பு இணைப்பு விவரங்கள்"
@@ -5581,13 +5581,13 @@
     "messageformat": "அழைப்பின் பெயரைத் திருத்தவும்"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "நிர்வாகி அனுமதி தேவை"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "நுழைவை அங்கீகரி"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "நுழைவை மறு"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "அணை"
@@ -5654,6 +5654,6 @@
     "messageformat": "இந்தப் புதுப்பிப்பு ஒரு சாதனத்தில் தவறவிட்ட அழைப்பைப் பார்ப்பதன் மூலம், அதே தவறவிட்ட அழைப்புகளை மற்ற சாதனங்களில் தானாக அழிக்காமல் காண்பிக்கும் பிழையைச் சரிசெய்கிறது."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "இப்போது நீங்கள் சாட் தலைப்பைக் க்ளிக் செய்து, பகிரப்பட்ட மீடியா பிரிவில் \"அனைத்தையும் பார்\" என்பதைத் தேர்ந்தெடுக்கும்போது, மிகச் சமீபத்திய உள்ளீடுகளுக்கு மட்டும் தோன்றாமல் நீங்கள் ஸ்க்ரோல் செய்யும் போது பழைய புகைப்படங்களும் மீடியாவும் தானாகவே தோன்றும்."
   }
 }

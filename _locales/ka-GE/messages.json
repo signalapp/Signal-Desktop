@@ -942,7 +942,7 @@
     "messageformat": "ბოლო მედია-ფაილების ნახვა"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "ყველა მედია ფაილი"
   },
   "icu:back": {
     "messageformat": "უკან"
@@ -2706,7 +2706,7 @@
     "messageformat": "ზარის ბმული"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "ჯგუფური ზარი"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "ელოდება შეშვებას"
@@ -3531,25 +3531,25 @@
     "messageformat": "იწერება {currentSize} {totalSize}-დან ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "მზადება ჩამოსატვირთად..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "ამას შეიძლება რამდენიმე წუთი დასჭირდეს იმის მიხედვით, თუ რა ზომაა შენი სათადარიგო ასლი"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "გადატანის გაუქმება"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "გსურს გადატანის გაუქმება?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "შენი შეტყობინებების და მედია ფაილების აღდგენა არ დასრულებულა. თუ გაუქმებას გადაწყვეტ, პარამეტრებიდან გადატანას ისევ შეძლებ."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "გადატანის გაგრძელება"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "გადატანის გაუქმება"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "მედია ფაილების აღდგენა"
@@ -3609,7 +3609,7 @@
     "messageformat": "შენ უკვე ამ ზარზე იმყოფები"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "ხმოვანი ზარი"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ჩატის ფერი"
@@ -3792,7 +3792,7 @@
     "messageformat": "ბმულის განახლება"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ადმინისტრატორის დასტურის მოთხოვნა"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "მოითხოვე, რომ ადმინმა დაადასტუროს ახალი წევრები, ვინც ჯგუფის ბმულით ცდილობს გაწევრიანებას"
@@ -5539,10 +5539,10 @@
     "messageformat": "ზარის სახელის რედაქტირება"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ადმინისტრატორის დასტურის მოთხოვნა"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "პარამეტრებს ვერ შეცვლი, სანამ ზარი არ მორჩება"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ბმულის დაკოპირება"
@@ -5566,7 +5566,7 @@
     "messageformat": "წაშლა"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "ბმულს ვერ წაშლი, სანამ ზარი არ მორჩება"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ზარის ბმულის დეტალები"
@@ -5581,13 +5581,13 @@
     "messageformat": "ზარის სახელის რედაქტირება"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ადმინისტრატორის დასტურის მოთხოვნა"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "დადასტურება"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "უარყოფა"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "გამორთული"
@@ -5654,6 +5654,6 @@
     "messageformat": "ახალ ვერსიაში გამოსწორებულია ბაგი, რომლის გამოც შენს ერთ მოწყობილობაზე გამოტოვებული ზარის ნახვისას, მეორე მოწყობილობაზე ავტომატურად არ ქრებოდა გამოტოვებული ზარის მაჩვენებელი. ამიერიდან შენი გამოტოვებული ზარების მაჩვენებლები სრულ ჰარმონიაში იქნება."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "იმოგზაურე მოგონებებში ახალი და გაუმჯობესებული \"ყველა მედია ფაილის\" ნახვით ამიერიდან, როცა ჩატის სათაურს დააჭერ და „ყველას ნახვას“ აირჩევ გაზიარებული მედიის განყოფილებაში, სქროლვისას ძველი ფოტოები და ვიდეოები ავტომატურად გამოჩნდება და მხოლოდ უახლესი ჩანაწერებით არ იქნება შეზღუდული."
   }
 }

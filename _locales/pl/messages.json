@@ -942,7 +942,7 @@
     "messageformat": "Pokaż ostatnie multimedia"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Wszystkie multimedia"
   },
   "icu:back": {
     "messageformat": "Wróć"
@@ -2706,7 +2706,7 @@
     "messageformat": "Link do połączenia"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Połączenie grupowe"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Oczekiwanie na wpuszczenie"
@@ -3531,25 +3531,25 @@
     "messageformat": "Pobieranie {currentSize} z {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Przygotowywanie do pobrania…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "W zależności od wielkości kopii zapasowej może to potrwać kilka minut"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Anuluj przenoszenie"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Anulować przenoszenie?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Przywracanie wiadomości i multimediów nie zostało zakończone. Jeśli anulujesz ten proces, możesz uruchomić go ponownie w Ustawieniach."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Kontynuuj przenoszenie"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Anuluj przenoszenie"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Przywracanie multimediów"
@@ -3609,7 +3609,7 @@
     "messageformat": "Uczestniczysz już w rozmowie"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Zadzwoń"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Kolor czatu"
@@ -3792,7 +3792,7 @@
     "messageformat": "Zresetuj link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Wymagaj potwierdzenia administratora"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Wymagaj akceptacji nowych członków, dołączających do grupy przez link, przez administratora"
@@ -5539,10 +5539,10 @@
     "messageformat": "Edytuj nazwę połączenia"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Wymagaj potwierdzenia administratora"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Tego ustawienia nie można zmienić, gdy trwa połączenie"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopiuj link"
@@ -5566,7 +5566,7 @@
     "messageformat": "Usuń"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Tego linku nie można usunąć, gdy trwa połączenie"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Szczegóły linku do połączenia"
@@ -5581,13 +5581,13 @@
     "messageformat": "Edytuj nazwę połączenia"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Wymagaj potwierdzenia administratora"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Zatwierdź wejście"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Odrzuć wejście"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Wyłączone"
@@ -5654,6 +5654,6 @@
     "messageformat": "Ta aktualizacja naprawia błąd, który powodował, że wyczyszczenie powiadomienia o nieodebranym połączeniu na jednym urządzeniu nie czyściło tego powiadomienia na innych urządzeniach, przez co odebrane Ci zostało poczucie bezstresowego nieodbierania połączeń."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Wybierz się w podróż w czasie i poznaj nowy, ulepszony widok „Wszystkie multimedia”. Od teraz gdy klikniesz na nagłówek czatu i wybierzesz „Zobacz wszystko” w sekcji udostępnionych multimediów, starsze zdjęcia i filmy będą się automatycznie wyświetlać podczas przewijania i nie będą już ograniczane tylko do najnowszych pozycji."
   }
 }

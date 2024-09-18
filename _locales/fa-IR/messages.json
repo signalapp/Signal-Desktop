@@ -942,7 +942,7 @@
     "messageformat": "مشاهدهٔ رسانه‌های اخیر"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "همه رسانه‌ها"
   },
   "icu:back": {
     "messageformat": "بازگشت"
@@ -2706,7 +2706,7 @@
     "messageformat": "پیوند تماس"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "تماس گروهی"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "در انتظار اجازۀ ورود"
@@ -3531,25 +3531,25 @@
     "messageformat": "در حال دانلود {currentSize} از {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "در حال آماده‌سازی برای دانلود..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "بسته به حجم نسخۀ پشتیبان شما، این پردازش ممکن است چند دقیقه طول بکشد"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "لغو انتقال"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "انتقال لغو شود؟"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "پیام‌ها و رسانه شما کامل بازیابی نشده است. اگر لغو را انتخاب کردید، می‌توانید از قسمت تنظیمات، دوباره انتقال دهید."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "ادامه انتقال"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "لغو انتقال"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "در حال بازیابی رسانه"
@@ -3609,7 +3609,7 @@
     "messageformat": "شما در حال حاضر در یک تماس هستید"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "صوتی"
   },
   "icu:showChatColorEditor": {
     "messageformat": "رنگ گفتگو"
@@ -3792,7 +3792,7 @@
     "messageformat": "بازنشانی پیوند"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "الزام تأیید مدیر"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "نیاز به یک مدیر برای تأیید اعضای جدیدی که از طریق پیوند گروه می‌پیوندند"
@@ -5539,10 +5539,10 @@
     "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "الزام تأیید مدیر"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "وقتی تماس فعال است، این تنظیم قابل تغییر نیست"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "کپی کردن پیوند"
@@ -5566,7 +5566,7 @@
     "messageformat": "پاک کردن"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "وقتی تماس فعال است، این پیوند قابل حذف نیست"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "جزئیات پیوند تماس"
@@ -5581,13 +5581,13 @@
     "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "الزام تأیید مدیر"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "تأیید ورود"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "رد ورود"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "خاموش"
@@ -5654,6 +5654,6 @@
     "messageformat": "این به‌روزرسانی اشکالی را برطرف می‌کند که اجازه نمی‌داد هنگام مشاهده تماس بی‌پاسخ در یک دستگاه، نشانگر آن تماس از دست‌رفته به‌طور خودکار در دستگاه‌های دیگر شما پاک شود."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "اکنون وقتی روی سربرگ گفتگو کلیک می‌کنید و گزینه «مشاهده همه» را در بخش رسانه اشتراک‌گذاری‌شده انتخاب می‌کنید، به‌جای اینکه فقط جدیدترین رسانه‌ها را ببینید، عکس‌ها و ویدیوهای قدیمی‌تر نیز به‌طور خودکار هنگام پیمایش ظاهر می‌شوند."
   }
 }

@@ -942,7 +942,7 @@
     "messageformat": "Rodyti paskiausią mediją"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Visi įrašai"
   },
   "icu:back": {
     "messageformat": "Atgal"
@@ -2706,7 +2706,7 @@
     "messageformat": "Skambučio nuoroda"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Grupės skambutis"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Laukiama, kol įleis"
@@ -3531,25 +3531,25 @@
     "messageformat": "Atsisiunčiama {currentSize} iš {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Ruošiamasi atsisiųsti..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Tai gali užtrukti kelias minutes, priklausomai nuo atsarginės kopijos dydžio"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Atšaukti perkėlimą"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Atšaukti perkėlimą?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Jūsų žinučių ir įrašų atkūrimas nebaigtas. Jei nuspręsite atšaukti, vėl galėsite perkelti iš nustatymų."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Tęsti perkėlimą"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Atšaukti perkėlimą"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Įrašai atkuriami"
@@ -3609,7 +3609,7 @@
     "messageformat": "Jūs jau esate skambutyje"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Skambutis"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Pokalbio spalva"
@@ -3792,7 +3792,7 @@
     "messageformat": "Atstatyti nuorodą"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Reikalauti administratoriaus patvirtinimo"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Reikalauti, kad administratorius patvirtintų naujus, per grupės nuorodą prisijungiančius, narius"
@@ -5539,10 +5539,10 @@
     "messageformat": "Redaguoti skambučio pavadinimą"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Reikalauti administratoriaus patvirtinimo"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Šio nustatymo negalima pakeisti, kol vyksta skambutis"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopijuoti nuorodą"
@@ -5566,7 +5566,7 @@
     "messageformat": "Ištrinti"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Šios nuorodos negalima ištrinti, kol vyksta skambutis"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Skambučio nuorodos informacija"
@@ -5581,13 +5581,13 @@
     "messageformat": "Redaguoti skambučio pavadinimą"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Reikalauti administratoriaus patvirtinimo"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Patvirtinti ir įleisti"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Atmesti ir neįleisti"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Išjungta"
@@ -5654,6 +5654,6 @@
     "messageformat": "Šiuo naujinimu ištaisoma klaida, kai peržiūrėjus praleistą skambutį viename įrenginyje to praleisto skambučio indikatorius automatiškai neišvalomas kituose įrenginiuose."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Nuo šiol spustelėjus pokalbio antraštę ir bendrinamų įrašų skiltyje pasirinkus „Rodyti visus“, slenkant bus automatiškai rodomi ne vien naujausi įrašai, bet ir senesnės nuotraukos bei vaizdo įrašai."
   }
 }

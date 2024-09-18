@@ -942,7 +942,7 @@
     "messageformat": "Vis seneste medier"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Alle medier"
   },
   "icu:back": {
     "messageformat": "Tilbage"
@@ -2706,7 +2706,7 @@
     "messageformat": "Opkaldslink"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Gruppeopkald"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Venter på at blive lukket ind"
@@ -3531,25 +3531,25 @@
     "messageformat": "Downloader {currentSize} af {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Forbereder download..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Det kan tage et par minutter afhængigt af sikkerhedskopiens størrelse"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Annuller overførsel"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Vil du annullere overførslen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Dine beskeder og medier er ikke gendannet endnu. Hvis du vælger at annullere, kan du overføre igen fra Indstillinger."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Fortsæt overførsel"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Annuller overførsel"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Gendanner medier"
@@ -3609,7 +3609,7 @@
     "messageformat": "Du er allerede i et opkald"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Stemme"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chatfarve"
@@ -3792,7 +3792,7 @@
     "messageformat": "Nulstil link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Kræv godkendelse af administrator"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Det kræves at en administrator godkender nye medlemmer via gruppelinket"
@@ -5539,10 +5539,10 @@
     "messageformat": "Rediger opkaldsnavn"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Kræv godkendelse af administrator"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Denne indstilling kan ikke ændres, mens opkaldet er aktivt"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopiér link"
@@ -5566,7 +5566,7 @@
     "messageformat": "Slet"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Dette link kan ikke slettes, mens opkaldet er aktivt"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oplysninger om opkaldslink"
@@ -5581,13 +5581,13 @@
     "messageformat": "Rediger opkaldsnavn"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Kræv godkendelse af administrator"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Godkend adgang"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Afvis adgang"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Fra"
@@ -5654,6 +5654,6 @@
     "messageformat": "Denne opdatering retter en fejl, hvor visning af et ubesvaret opkald på én enhed ikke automatisk ville rydde indikatoren for det ubesvarede opkald på dine andre enheder, hvilket var en mistet mulighed for, at din liste med ubesvarede opkald bedre kunne eksistere side om side."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Tag en tur ned ad memory lane med den nye og forbedrede visning \"Alle medier\". Når du nu klikker på en chatoverskrift og vælger \"Se alle\" i sektionen med delte medier, vises ældre billeder og videoer automatisk, mens du ruller – i stedet for at være begrænset til de seneste medier."
   }
 }

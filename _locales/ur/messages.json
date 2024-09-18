@@ -942,7 +942,7 @@
     "messageformat": "حالیہ میڈیا دیکھیں"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "تمام میڈیا"
   },
   "icu:back": {
     "messageformat": "واپس جائیں"
@@ -2706,7 +2706,7 @@
     "messageformat": "کال کا لنک"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "گروپ کال"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "شامل ہونے کی اجازت کے منتظر"
@@ -3531,25 +3531,25 @@
     "messageformat": "{totalSize} ({fractionComplete,number,percent}) کا {currentSize} ڈاؤن لوڈ ہو رہا ہے..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "ڈاؤن لوڈ کرنے کے لیے تیار کیا جا رہا ہے..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "اس پر چند منٹ لگ سکتے ہیں جس کا انحصار آپ کے کنکشن پر ہے"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "منتقل کرنے کو منسوخ کریں"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "منتقل کرنے کو منسوخ کریں؟"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "آپ کے میسجز اور میڈیا کی بحالی مکمل نہیں ہوئی۔ اگر آپ منسوخ کرنے کا انتخاب کرتے ہیں، تو آپ سیٹنگز سے دوبارہ منتقل کر سکتے ہیں۔"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "منتقل کرنا جاری رکھیں"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "منتقل کرنے کو منسوخ کریں"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "میڈیا بحال ہو رہا ہے"
@@ -3609,7 +3609,7 @@
     "messageformat": "آپ پہلے ہی کال میں ہیں"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "آواز"
   },
   "icu:showChatColorEditor": {
     "messageformat": "چیٹ کا رنگ"
@@ -3792,7 +3792,7 @@
     "messageformat": "لنک کو دوبارہ ترتیب دیں"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ایڈمن کی منظوری درکار ہے"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "کسی منتظم سے گروپ لینک کے ذریعے نئے ممبران کی شمولیت کی منظوری کی ضرورت ہے"
@@ -5539,10 +5539,10 @@
     "messageformat": "کال نیم میں ترمیم کریں"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ایڈمن کی منظوری درکار ہے"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "فعال کال کے دوران اس سیٹنگ کو تبدیل نہیں کیا جا سکتا"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "لنک کاپی کریں"
@@ -5566,7 +5566,7 @@
     "messageformat": "حذف کریں"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "فعال کال کے دوران اس لنک کو حذف نہیں کیا جا سکتا"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "کال لنک کی تفصیلات"
@@ -5581,13 +5581,13 @@
     "messageformat": "کال نیم میں ترمیم کریں"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ایڈمن کی منظوری درکار ہے"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "اندراج منظور کریں"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "اندراج مسترد کریں"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "بند کریں"
@@ -5654,6 +5654,6 @@
     "messageformat": "یہ اپ ڈیٹ اس بگ کو ٹھیک کرتی ہے جہاں ایک ڈیوائس پر مسڈ کال دیکھنے سی بھی آپ کی دوسری ڈیوائسز پر اس مسڈ کال کا انڈیکیٹر خودکار طور پر ختم نہیں ہوتا تھا۔"
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "اب جب آپ کسی چیٹ ہیڈر پر کلک کرتے ہیں اور شئیر کردہ میڈیا سیکشن میں \"سب کچھ دیکھیں\" کا انتخاب کر کے، آپ سب سے حالیہ اندراجات پر محدود رہنے کے بجائے اسکرول کرتے ہیں تو پرانی تصاویر اور ویڈیوز خود کار طور پر ظاہر ہو جائیں گی۔"
   }
 }

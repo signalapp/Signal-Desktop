@@ -942,7 +942,7 @@
     "messageformat": "Son içerikleri görüntüle"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Tüm medya"
   },
   "icu:back": {
     "messageformat": "Geri"
@@ -2706,7 +2706,7 @@
     "messageformat": "Arama bağlantısı"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Grup görüşmesi"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "İçeri alınmayı bekliyor"
@@ -3531,25 +3531,25 @@
     "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent}) indiriliyor..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "İndirmeye hazırlanıyor..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Yedeklemenin boyutuna bağlı olarak birkaç dakika sürebilir"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Transferi iptal et"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Transfer iptal edilsin mi?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Mesajlarının ve medyanın geri yüklenmesi tamamlanmadı. İptal etmeyi seçersen, Ayarlar'dan tekrar transfer yapabilirsin."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Transfere devam et"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Transferi iptal et"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Medya geri yükleniyor"
@@ -3609,7 +3609,7 @@
     "messageformat": "Zaten bir aramadasınız"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Sesli"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Sohbet rengi"
@@ -3792,7 +3792,7 @@
     "messageformat": "Bağlantıyı sıfırla"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Yönetici onayı iste"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Grup bağlantısı üzerinden katılan yeni üyelerin yönetici tarafından onaylanması gereksin"
@@ -5539,10 +5539,10 @@
     "messageformat": "Arama adını düzenle"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Yönetici onayı iste"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Arama etkinken bu ayar değiştirilemez"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Bağlantıyı kopyala"
@@ -5566,7 +5566,7 @@
     "messageformat": "Sil"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Arama etkinken bu bağlantı silinemez"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Arama bağlantısı detayları"
@@ -5581,13 +5581,13 @@
     "messageformat": "Arama adını düzenle"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Yönetici onayı iste"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Girişi onayla"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Girişi reddet"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Kapalı"
@@ -5654,6 +5654,6 @@
     "messageformat": "Bu güncellemede, cevapsız bir aramanın bir cihazda görüntülenmesinin, diğer cihazlarındaki cevapsız arama göstergesini otomatik olarak silmemesine neden olan bir hatayı düzelttik."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Yeni ve geliştirilmiş \"Tüm Medya\" görünümüyle anılarında bir yolculuğa çık. Artık bir sohbet başlığına tıkladığında ve paylaşılan medya bölümünde \"Tümünü gör\" öğesini seçtiğinde, en son girdilerle sınırlı kalmak yerine eski fotoğraflar ve videolar sen kaydırdıkça otomatik olarak görünür."
   }
 }

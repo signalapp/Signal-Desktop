@@ -942,7 +942,7 @@
     "messageformat": "Kyk na onlangse media"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Alle media"
   },
   "icu:back": {
     "messageformat": "Terug"
@@ -2706,7 +2706,7 @@
     "messageformat": "Oproepskakel"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Groepoproep"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Wag om ingelaat te word"
@@ -3531,25 +3531,25 @@
     "messageformat": "Besig om {currentSize} van {totalSize} ({fractionComplete,number,percent}) af te laai…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Berei tans voor om af te laai…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dit kan 'n paar minute neem, na gelang van die grootte van jou rugsteun"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Kanselleer oordrag"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Kanselleer oordrag?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Jou boodskappe en media is nog nie klaar herstel nie. As jy verkies om te kanselleer, kan jy dit weer vanaf Instellings oordra."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Gaan voort met oordrag"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Kanselleer oordrag"
   },
   "icu:BackupMediaDownloadProgress__title": {
     "messageformat": "Besig om media te herstel"
@@ -3609,7 +3609,7 @@
     "messageformat": "Jy is reeds in 'n oproep"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Stem"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Kletskleur"
@@ -3792,7 +3792,7 @@
     "messageformat": "Stel skakel terug"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vereis admin-goedkeuring"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "’n Admin moet nuwe lede goedkeur wat d.m.v. die groepskakel aansluit"
@@ -5539,10 +5539,10 @@
     "messageformat": "Wysig oproepnaam"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vereis admin-goedkeuring"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Hierdie instelling kan nie verander word terwyl die oproep aktief is nie"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopieer skakel"
@@ -5566,7 +5566,7 @@
     "messageformat": "Skrap"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Hierdie skakel kan nie geskrap word terwyl die oproep aktief is nie"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oproepskakelbesonderhede"
@@ -5581,13 +5581,13 @@
     "messageformat": "Wysig oproepnaam"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vereis admin-goedkeuring"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Keur toegang goed"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Weier toegang"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Af"
@@ -5654,6 +5654,6 @@
     "messageformat": "Hierdie opdatering maak 'n fout reg waar die bekyk van 'n gemiste oproep op een toestel nie outomaties die aanduiding van daardie gemiste oproep op jou ander toestelle sou uitvee nie."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Wanneer jy nou op 'n kletsopskrif klik en \"Sien alles\" in die gedeeldemedia-afdeling kies, sal ouer foto's en video's outomaties verskyn terwyl jy ondertoe of boontoe rol in plaas daarvan om beperk te word tot die mees onlangse inskrywings."
   }
 }
