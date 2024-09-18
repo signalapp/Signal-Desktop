@@ -13,7 +13,6 @@ import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { DAY, SECOND } from '../util/durations';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { DataReader, DataWriter } from '../sql/Client';
-import { storageServiceUploadJob } from '../services/storage';
 import type { CallLinkType } from '../types/CallLink';
 import { calling } from '../services/calling';
 import { sleeper } from '../util/sleeper';
@@ -94,10 +93,11 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
         log.info(
           `${logId}: Call link not found on server, deleting local call link`
         );
+        // This will leave a storage service record, and it's up to primary to delete it
         await DataWriter.beginDeleteCallLink(roomId, {
-          storageNeedsSync: true,
+          storageNeedsSync: false,
         });
-        storageServiceUploadJob();
+        await DataWriter.finalizeDeleteCallLink(roomId);
         window.reduxActions.calling.handleCallLinkDelete({ roomId });
       }
     } catch (err) {
