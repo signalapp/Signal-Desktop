@@ -62,6 +62,7 @@ describe('state/selectors/calling', () => {
   const stateWithActiveDirectCall: CallingStateType = {
     ...stateWithDirectCall,
     activeCallState: {
+      state: 'Active',
       callMode: CallMode.Direct,
       conversationId: 'fake-direct-call-conversation-id',
       hasLocalAudio: true,
