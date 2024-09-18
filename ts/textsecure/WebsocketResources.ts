@@ -36,7 +36,7 @@ import { clearInterval } from 'timers';
 import { random } from 'lodash';
 import type { ChatServiceDebugInfo } from '@signalapp/libsignal-client/Native';
 
-import type { LibSignalError, Net } from '@signalapp/libsignal-client';
+import type { Net } from '@signalapp/libsignal-client';
 import { Buffer } from 'node:buffer';
 import type {
   ChatServerMessageAck,
@@ -345,12 +345,12 @@ export function connectUnauthenticatedLibsignal({
   const listener: LibsignalWebSocketResourceHolder & ConnectionEventsListener =
     {
       resource: undefined,
-      onConnectionInterrupted(cause: LibSignalError | null): void {
+      onConnectionInterrupted(): void {
         if (!this.resource) {
           logDisconnectedListenerWarn(logId, 'onConnectionInterrupted');
           return;
         }
-        this.resource.onConnectionInterrupted(cause);
+        this.resource.onConnectionInterrupted();
         this.resource = undefined;
       },
     };
@@ -404,12 +404,12 @@ export function connectAuthenticatedLibsignal({
       );
       handler(request);
     },
-    onConnectionInterrupted(cause): void {
+    onConnectionInterrupted(): void {
       if (!this.resource) {
         logDisconnectedListenerWarn(logId, 'onConnectionInterrupted');
         return;
       }
-      this.resource.onConnectionInterrupted(cause);
+      this.resource.onConnectionInterrupted();
       this.resource = undefined;
     },
   };
@@ -506,7 +506,7 @@ export class LibsignalWebSocketResource
     //   lost the internet connection. On the order of minutes. This speeds that
     //   process up.
     Timers.setTimeout(
-      () => this.onConnectionInterrupted(null),
+      () => this.onConnectionInterrupted(),
       5 * durations.SECOND
     );
   }
@@ -515,7 +515,7 @@ export class LibsignalWebSocketResource
     this.close(3000, 'Shutdown');
   }
 
-  onConnectionInterrupted(cause: LibSignalError | null): void {
+  onConnectionInterrupted(): void {
     if (this.closed) {
       log.warn(
         `${this.logId}.onConnectionInterrupted called after resource is closed`
@@ -524,15 +524,10 @@ export class LibsignalWebSocketResource
     }
     this.closed = true;
     log.warn(`${this.logId}: connection closed`);
-
-    let event;
-    if (cause) {
-      event = new CloseEvent(3000, cause.message);
-    } else {
-      // The cause was an intentional disconnect. Report normal closure.
-      event = new CloseEvent(1000, 'normal');
-    }
-    this.dispatchEvent(event);
+    // TODO: DESKTOP-7519. `reason` should be eventually resolved from the
+    // disconnect reason error object coming from libsignal.
+    const reason = undefined;
+    this.dispatchEvent(new CloseEvent(3000, reason || 'normal'));
   }
 
   public forceKeepAlive(): void {
