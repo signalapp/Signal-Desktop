@@ -11,7 +11,7 @@ import {
   toGroupSendToken,
   type GroupSendEndorsementsData,
 } from '../types/GroupSendEndorsements';
-import { assertDev, strictAssert } from './assert';
+import { devDebugger, strictAssert } from './assert';
 import {
   GroupSecretParams,
   GroupSendEndorsement,
@@ -277,5 +277,5 @@ export function onFailedToSendWithEndorsements(error: Error): void {
   if (window.SignalCI) {
     window.SignalCI.handleEvent('fatalTestError', error);
   }
-  assertDev(false, 'We should never fail to send with endorsements');
+  devDebugger();
 }

@@ -1477,12 +1477,12 @@ async function fetchKeysForServiceId(
       await DataWriter.updateConversation(emptyConversation.attributes);
     }
   } catch (error: unknown) {
-    if (useGroupSendEndorsement) {
-      onFailedToSendWithEndorsements(error as Error);
-    }
     if (error instanceof UnregisteredUserError) {
       await markServiceIdUnregistered(serviceId);
       return;
+    }
+    if (useGroupSendEndorsement) {
+      onFailedToSendWithEndorsements(error as Error);
     }
     log.error(
       `fetchKeysForServiceId: Error fetching ${
