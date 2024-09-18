@@ -44,9 +44,15 @@
   @include button-reset;
   @include font-body-2;
   display: flex;
+  width: 100%;
   padding-block: 8px;
   padding-inline: 10px 2px;
   align-items: center;
+  border-radius: 6px;
+}
+
+.CallingAdhocCallInfo__MenuItem:hover {
+  background-color: $color-gray-62;
 }
 
 .CallingAdhocCallInfo__MenuItemIcon {
