@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "লগ জমা দিন"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "লগ জমা দিন"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "আপনি ফাইল সহ ছবি এবং ভিডিও নির্বাচন করতে পারবেন না।"
   },
@@ -942,7 +948,7 @@
     "messageformat": "সাম্প্রতিক মিডিয়া দেখুন"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "সকল মিডিয়া"
   },
   "icu:back": {
     "messageformat": "ফিরে যান"
@@ -2706,7 +2712,7 @@
     "messageformat": "কলের লিংক"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "গ্রুপ কল"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "প্রবেশ করার জন্য অপেক্ষা চলছে"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "গ্রুপটিতে যোগদানের জন্য {joinerName}-এর অনুরোধ প্রত্যাখ্যান করা হয়েছে।"
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} গ্রুপ লিঙ্কের মাধ্যমে যোগ দেয়ার জন্য অনুরোধ করেছেন এবং অনুরোধ বাতিল করেছেন৷"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "গ্রুপ লিঙ্কের মাধ্যমে যোগ দেয়ার জন্য {joinerName} অনুরোধ করেছেন এবং {numberOfRequests,number}-গুলো অনুরোধ বাতিল করেছেন৷"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} গ্রুপ লিংকের মাধ্যমে যোগ দেওয়ার অনুরোধ পাঠিয়েছেন এবং বাতিল করেছেন} other {{joinerName} গ্রুপ লিংকের মাধ্যমে যোগ দেওয়ার {numberOfRequests,number}-টি অনুরোধ পাঠিয়েছেন এবং বাতিল করেছেন}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "{totalSize}-এর মধ্যে {currentSize} ({fractionComplete,number,percent}) ডাউনলোড হচ্ছে..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "ডাউনলোড করার জন্য প্রস্তুতি নিচ্ছে..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "আপনার ব্যাকআপের আকারের উপর নির্ভর করে এতে কয়েক মিনিট সময় নিতে পারে"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "স্থানান্তর বাতিল করুন"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "স্থানান্তর বাতিল করবেন?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "আপনার মেসেজ এবং মিডিয়া পুনর্বহাল সম্পন্ন হয়নি। আপনি যদি বাতিল করতে চান, তবে আপনি সেটিংস থেকে আবার স্থানান্তর করতে পারবেন।"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "স্থানান্তর চালিয়ে যান"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "স্থানান্তর বাতিল করুন"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "মিডিয়া পুনরুদ্ধার করা হচ্ছে"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "স্থানান্তর বাতিল করুন"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "আরো অপশন"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "পুনরুদ্ধার সম্পূর্ণ"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} এর {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} এর {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "আপনার মেসেজ এবং মিডিয়া পুনর্বহাল সম্পন্ন হয়নি। আপনি যদি বাতিল করতে চান, তবে আপনি সেটিংস থেকে আবার স্থানান্তর করতে পারবেন।"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "স্থানান্তর চালিয়ে যান"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "স্থানান্তর বাতিল করুন"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "প্রসারিত করুন"
@@ -3609,7 +3639,7 @@
     "messageformat": "আপনি ইতিমধ্যেই একটি কলে আছেন"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "ভয়েস"
   },
   "icu:showChatColorEditor": {
     "messageformat": "চ্যাট-এর রং"
@@ -3792,7 +3822,7 @@
     "messageformat": "লিঙ্ক রিসেট করুন"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "অ্যাডমিনের অনুমোদন প্রয়োজন"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "গ্রুপ লিংক ব্যবহার করে যোগদান করার জন্য অনুমোদন পেতে নতুন সদস্যদের একজন অ্যাডমিনের প্রয়োজন হয়"
@@ -5539,10 +5569,10 @@
     "messageformat": "কলের নাম এডিট করুন"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "অ্যাডমিনের অনুমোদন প্রয়োজন"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "কল সক্রিয় থাকাকালীন এই সেটিং পরিবর্তন করা যাবে না"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "লিংক কপি করুন"
@@ -5566,7 +5596,7 @@
     "messageformat": "মুছে ফেলুন"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "কল সক্রিয় থাকাকালীন এই লিংকটি মুছে ফেলা যাবে না"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "কল লিংকের বিস্তারিত"
@@ -5581,13 +5611,13 @@
     "messageformat": "কলের নাম এডিট করুন"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "অ্যাডমিনের অনুমোদন প্রয়োজন"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "এট্রি অনুমোদন করুন"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "এট্রি প্রত্যাখ্যান করুন"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "বন্ধ"
@@ -5654,6 +5684,9 @@
     "messageformat": "এই আপডেটটি এমন একটি বাগ সংশোধন করেছে, যে বাগের ফলে আপনার একটি ডিভাইসে কোনো মিসড কল দেখার পর সেই মিসড কলের নোটিফিকেশনটি আপনার অন্য ডিভাইসগুলো থেকে স্বয়ংক্রিয়ভাবে মুছে ফেলে না।"
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "এখন থেকে যখন আপনি একটি চ্যাট হেডারে ক্লিক করেন এবং শেয়ার করা মিডিয়া বিভাগে \"সব দেখুন\" নির্বাচন করেন, তখন আপনি সাম্প্রতিক এন্ট্রিগুলো দেখার মধ্যে সীমাবদ্ধ না থেকে, স্ক্রল করার সাথে সাথে পুরানো ছবি এবং ভিডিও স্বয়ংক্রিয়ভাবে দেখতে পাবেন।"
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

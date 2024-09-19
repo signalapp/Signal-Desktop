@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Trimite jurnalul"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Trimite jurnalul"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Nu poți selecta fotografii și videoclipuri împreună cu fișiere."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Afișare media recente"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Toate fișierele media"
   },
   "icu:back": {
     "messageformat": "Înapoi"
@@ -2706,7 +2712,7 @@
     "messageformat": "Link de apel"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Apel de grup"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Așteaptă să fie lăsat să intre"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "O solicitare de aderare la grup de la {joinerName} a fost respinsă."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} a solicitat și apoi a anulat solicitarea de alăturare folosind linkul grupului"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} a solicitat și apoi a anulat {numberOfRequests,number} solicitări de alăturare folosind linkul grupului"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} a solicitat și apoi a anulat solicitarea de alăturare folosind linkul grupului} few {{joinerName} a solicitat și apoi a anulat {numberOfRequests,number} solicitări de alăturare folosind linkul grupului} other {{joinerName} a cerut și a anulat {numberOfRequests,number} de solicitări pentru a se alătura prin linkul de grup}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Se descarcă {currentSize} din {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Se pregătește descărcarea..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Poate dura câteva minute, în funcție de dimensiunea backup-ului"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Anulează transferul"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Anulezi transferul?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Nu s-a finalizat restabilirea mesajelor și ale fișierelor. Dacă alegi să anulezi, poți transfera din nou din Setări."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Continuă transferul"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Anulează transferul"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Se restaurează fișierele"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Anulează transferul"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Mai multe opțiuni"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Restaurarea a fost finalizată"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} din {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Nu s-a finalizat restabilirea mesajelor și ale fișierelor. Dacă alegi să anulezi, poți transfera din nou din Setări."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Continuă transferul"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Anulează transferul"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Extinde"
@@ -3609,7 +3639,7 @@
     "messageformat": "Ești deja într-un apel"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Voce"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Culoare conversație"
@@ -3792,7 +3822,7 @@
     "messageformat": "Resetare link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Necesită aprobarea administratorului"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Solicită unui administrator să aprobe membrii noi care se alătură prin linkul grupului"
@@ -5539,10 +5569,10 @@
     "messageformat": "Editează numele apelului"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Necesită aprobarea administratorului"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Această setare nu poate fi modificată în timp ce apelul este activ"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiază linkul"
@@ -5566,7 +5596,7 @@
     "messageformat": "Șterge"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Acest link nu poate fi șters în timp ce apelul este activ"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalii despre linkul apelului"
@@ -5581,13 +5611,13 @@
     "messageformat": "Editează numele apelului"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Necesită aprobarea administratorului"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Aprobă intrarea"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Respinge intrarea"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Dezactivat"
@@ -5654,6 +5684,9 @@
     "messageformat": "Această actualizare remediază o eroare prin care dacă vizualizai un apel pierdut pe un dispozitiv nu se ștergea automat indicatorul de apel pierdut pe alte dispozitive, ceea ce împiedica buna conviețuire a listelor de apeluri pierdute."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Vezi amintirile tale, cu noua vizualizare îmbunătățită „Toate fișierele media”. Acum, când dai clic pe un antet de conversație și selectezi „Vezi tot” în secțiunea fișiere transmise, fotografiile și videoclipurile mai vechi vor apărea automat pe măsură ce derulezi, în loc să fie limitate la cele mai recente intrări."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Pateikti žurnalą"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Pateikti žurnalą"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Nuotraukų ir vaizdo įrašų negalima pasirinkti kartu su failais."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Rodyti paskiausią mediją"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Visi įrašai"
   },
   "icu:back": {
     "messageformat": "Atgal"
@@ -2706,7 +2712,7 @@
     "messageformat": "Skambučio nuoroda"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Grupės skambutis"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Laukiama, kol įleis"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Naudotojo {joinerName} prašymas prisijungti prie grupės buvo atmestas."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} paprašė ir panaikino savo prašymą prisijungti per grupės nuorodą"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} paprašė ir panaikino {numberOfRequests,number} prašymus(-ų) prisijungti per grupės nuorodą"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} paprašė ir atšaukė savo prašymą prisijungti per grupės nuorodą.} few {{joinerName} paprašė ir atšaukė {numberOfRequests,number} prašymus prisijungti per grupės nuorodą.} many {{joinerName} paprašė ir atšaukė {numberOfRequests,number} prašymo prisijungti per grupės nuorodą.} other {{joinerName} paprašė ir atšaukė {numberOfRequests,number} prašymų prisijungti per grupės nuorodą.}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Atsisiunčiama {currentSize} iš {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Ruošiamasi atsisiųsti..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Tai gali užtrukti kelias minutes, priklausomai nuo atsarginės kopijos dydžio"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Atšaukti perkėlimą"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Atšaukti perkėlimą?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Jūsų žinučių ir įrašų atkūrimas nebaigtas. Jei nuspręsite atšaukti, vėl galėsite perkelti iš nustatymų."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Tęsti perkėlimą"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Atšaukti perkėlimą"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Įrašai atkuriami"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Atšaukti perkėlimą"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Daugiau parinkčių"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Atkūrimas užbaigtas"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} iš {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} iš {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Jūsų žinučių ir įrašų atkūrimas nebaigtas. Jei nuspręsite atšaukti, vėl galėsite perkelti iš nustatymų."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Tęsti perkėlimą"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Atšaukti perkėlimą"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Išskleisti"
@@ -3609,7 +3639,7 @@
     "messageformat": "Jūs jau esate skambutyje"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Skambutis"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Pokalbio spalva"
@@ -3792,7 +3822,7 @@
     "messageformat": "Atstatyti nuorodą"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Reikalauti administratoriaus patvirtinimo"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Reikalauti, kad administratorius patvirtintų naujus, per grupės nuorodą prisijungiančius, narius"
@@ -5539,10 +5569,10 @@
     "messageformat": "Redaguoti skambučio pavadinimą"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Reikalauti administratoriaus patvirtinimo"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Šio nustatymo negalima pakeisti, kol vyksta skambutis"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopijuoti nuorodą"
@@ -5566,7 +5596,7 @@
     "messageformat": "Ištrinti"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Šios nuorodos negalima ištrinti, kol vyksta skambutis"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Skambučio nuorodos informacija"
@@ -5581,13 +5611,13 @@
     "messageformat": "Redaguoti skambučio pavadinimą"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Reikalauti administratoriaus patvirtinimo"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Patvirtinti ir įleisti"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Atmesti ir neįleisti"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Išjungta"
@@ -5654,6 +5684,9 @@
     "messageformat": "Šiuo naujinimu ištaisoma klaida, kai peržiūrėjus praleistą skambutį viename įrenginyje to praleisto skambučio indikatorius automatiškai neišvalomas kituose įrenginiuose."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Nuo šiol spustelėjus pokalbio antraštę ir bendrinamų įrašų skiltyje pasirinkus „Rodyti visus“, slenkant bus automatiškai rodomi ne vien naujausi įrašai, bet ir senesnės nuotraukos bei vaizdo įrašai."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

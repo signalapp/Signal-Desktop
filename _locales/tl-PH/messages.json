@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Submit log"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Submit log"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Hindi ka pwedeng pumili ng photos at videos kasabay ng files."
   },
@@ -942,7 +948,7 @@
     "messageformat": "I-view ang recent media"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Lahat ng media"
   },
   "icu:back": {
     "messageformat": "Bumalik"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Hindi tinanggap ang request ni {joinerName} na sumali sa group."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "Si {joinerName} ay nag-request at kinansela rin pagkatapos ang kanyang request to join gamit ang group link."
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "Si {joinerName} ay nag-request at kinansela rin pagkatapos ang {numberOfRequests,number} requests to join gamit ang group link."
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {Nag-request si {joinerName} at kinansela ang kanyang request na sumali via group link.} other {Nag-request si {joinerName} at kinansela ang kanyang {numberOfRequests,number} requests na sumali via group link.}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Dina-download ang {currentSize} ng {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Naghahandang mag-download..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Maaaring tumagal ito nang ilang minuto depende sa laki ng iyong backup"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "I-cancel ang transfer"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Gusto mo bang i-cancel ang transfer?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Hindi pa tapos ang pag-restore ng messages at media mo. Kapag kinancel mo ito, maaari mong ulitin ang pag-transfer mula sa Settings."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Ituloy ang pag-transfer"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "I-cancel ang transfer"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Nire-restore ang media"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "I-cancel ang transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Karagdagang options"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Restore complete"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} ng {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} sa {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Hindi pa tapos ang pag-restore ng messages at media mo. Kapag kinancel mo ito, maaari mong ulitin ang pag-transfer mula sa Settings."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Ituloy ang pag-transfer"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "I-cancel ang transfer"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "I-expand"
@@ -3792,7 +3822,7 @@
     "messageformat": "I-reset ang link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Mag-require ng admin approval"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "I-require ang admin na mag-approve ng bagong members na nag-join gamit ang group link."
@@ -5539,10 +5569,10 @@
     "messageformat": "I-edit ang pangalan ng call"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Mag-require ng admin approval"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Hindi pwedeng baguhin ang setting na ito habang active ang call"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopyahin ang link"
@@ -5566,7 +5596,7 @@
     "messageformat": "Burahin"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Hindi pwedeng burahin ang link na ito habang active ang call"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalye ng call link"
@@ -5581,13 +5611,13 @@
     "messageformat": "I-edit ang pangalan ng call"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Mag-require ng admin approval"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Aprubahan ang pagsali"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Tanggihan ang pagsali"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Off"
@@ -5654,6 +5684,9 @@
     "messageformat": "Inaayos ng update na ito ang bug kung saan hindi automatically nawawala ang missed call indicator sa ibang devices mo kahit na na-view mo na ang missed call na ito sa isang device."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Kapag nag-click ka ng chat header at pinili mo ang \"See all\" sa shared media section, automatic nang lalabas ang older photos at videos habang nag-so-scroll ka at hindi na lang ang pinaka-recent na entries."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

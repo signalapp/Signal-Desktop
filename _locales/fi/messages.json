@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Lähetä loki"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Lähetä loki"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Valokuvia ja videoita ei voi valita yhdessä tiedostojen kanssa."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Näytä äskeinen media"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Kaikki mediatiedostot"
   },
   "icu:back": {
     "messageformat": "Takaisin"
@@ -2706,7 +2712,7 @@
     "messageformat": "Puhelulinkki"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Ryhmäpuhelu"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Odotetaan sisäänpääsyä"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Henkilön {joinerName} pyyntö liittyä ryhmään on hylätty."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} pyysi ja perui jäsenyyspyyntönsä ryhmälinkin välityksellä"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} pyysi ja perui {numberOfRequests,number} jäsenyyspyyntöä ryhmälinkin välityksellä"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} pyysi ja peruutti liittymispyyntönsä ryhmälinkin kautta} other {{joinerName} pyysi ja peruutti {numberOfRequests,number} liittymispyyntöä ryhmälinkin kautta}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Ladataan {currentSize} / {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Valmistellaan latausta..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Tämä voi kestää muutamia minuutteja varmuuskopion koosta riippuen"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Peruuta siirto"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Perutaanko siirto?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Viestejä ja mediaa ei ole vielä kokonaan palautettu. Jos peruutat toiminnot nyt, voit käynnistää siirron uudelleen Asetuksista."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Jatka siirtoa"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Peruuta siirto"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Palautetaan mediaa"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Peruuta siirto"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Lisää valintoja"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Palautus suoritettu"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize}/{totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} / {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Viestejä ja mediaa ei ole vielä kokonaan palautettu. Jos peruutat toiminnot nyt, voit käynnistää siirron uudelleen Asetuksista."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Jatka siirtoa"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Peruuta siirto"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laajenna"
@@ -3609,7 +3639,7 @@
     "messageformat": "Olet jo puhelussa"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Ääni"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Keskustelun väri"
@@ -3792,7 +3822,7 @@
     "messageformat": "Uudelleenaseta linkki"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vaadi järjestelmänvalvojan hyväksyntä"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Ylläpitäjän on hyväksyttävä ryhmälinkin kautta liittyvät uudet jäsenet."
@@ -5539,10 +5569,10 @@
     "messageformat": "Muokkaa puhelun nimeä"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vaadi järjestelmänvalvojan hyväksyntä"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Tätä asetusta ei voi muuttaa, kun puhelu on käynnissä"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopioi linkki"
@@ -5566,7 +5596,7 @@
     "messageformat": "Poista"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Tätä linkkiä ei voi poistaa, kun puhelu on käynnissä"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Puhelulinkin tiedot"
@@ -5581,13 +5611,13 @@
     "messageformat": "Muokkaa puhelun nimeä"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vaadi järjestelmänvalvojan hyväksyntä"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Hyväksy pääsy"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Estä pääsy"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Ei käytössä"
@@ -5654,6 +5684,9 @@
     "messageformat": "Päivitys korjaa virheen, jossa vastaamatta jääneen puhelun tarkasteleminen yhdellä laitteella ei nollannut vastaamattoman puhelun ilmaisinta muissa laitteissasi automaattisesti."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Nyt kun napsautat keskustelun otsikkoa ja valitset Näytä kaikki jaetun median osiossa, vanhemmat valokuvat ja videot tulevat automaattisesti näkyviin vierittäessä, kun aiemmin vain uusimmat sisällöt näkyivät."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

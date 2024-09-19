@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Enviar rexistro"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Enviar rexistro"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Non podes seleccionar fotos e vídeos conxuntamente con arquivos."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Ver contido multimedia recente"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Todo o contido multimedia"
   },
   "icu:back": {
     "messageformat": "Volver"
@@ -2706,7 +2712,7 @@
     "messageformat": "Ligazón de chamada"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Chamada en grupo"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Agardando o acceso"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "A request to join the group from {joinerName} was denied."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} enviou e cancelou unha solicitude para unirse ao grupo a través da ligazón."
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} enviou e cancelou {numberOfRequests,number} solicitudes para unirse ao grupo a través da ligazón."
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} solicitou e cancelou a súa solicitude para unirse a través da ligazón de grupo.} other {{joinerName} solicitou e cancelou {numberOfRequests,number} solicitudes para unirse a través da ligazón de grupo.}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Descargando {currentSize} de {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Preparando a descarga…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dependendo do tamaño da túa copia, pode tardar uns minutos"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Cancelar transferencia"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Cancelar transferencia?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Non se completou a recuperación das túas mensaxes e arquivos multimedia. Se cancelas o proceso, podes volver a facelo dende Configuración."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Continuar a transferencia"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Cancelar transferencia"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restaurando arquivos multimedia"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Cancelar transferencia"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Máis opcións"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Restablecemento completo"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} de {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Non se completou a recuperación das túas mensaxes e arquivos multimedia. Se cancelas o proceso, podes volver a facelo dende Configuración."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Continuar a transferencia"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Cancelar transferencia"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
@@ -3609,7 +3639,7 @@
     "messageformat": "Estás xa nunha chamada"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Voz"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Cor das conversas"
@@ -3792,7 +3822,7 @@
     "messageformat": "Restablecer ligazón"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Solicitar aprobación dun administrador"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "É necesario que un administrador acepte os novos membros que se unan a través da ligazón do grupo"
@@ -5539,10 +5569,10 @@
     "messageformat": "Editar nome de chamada"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Solicitar aprobación dun administrador"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Non se pode cambiar esta configuración mentres a chamada siga en curso"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiar ligazón"
@@ -5566,7 +5596,7 @@
     "messageformat": "Eliminar"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Esta ligazón non se pode eliminar mentres a chamada siga en curso"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Información da ligazón da chamada"
@@ -5581,13 +5611,13 @@
     "messageformat": "Editar nome de chamada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Solicitar aprobación dun administrador"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Aprobar a entrada"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Denegar a entrada"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Desactivado"
@@ -5654,6 +5684,9 @@
     "messageformat": "Esta actualización soluciona un erro no que, ao visualizar unha chamada perdida nun dispositivo non se eliminaba automaticamente o indicador desa chamada perdida nos teus outros dispositivos."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Agora, cando fagas clic na cabeceira dunha conversa e selecciones «Ver todo» na sección de arquivos multimedia compartidos, as fotos e vídeos máis antigos aparecerán automaticamente mentres subas e baixes, en lugar de estar limitados aos arquivos máis recentes."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

@@ -782,7 +782,7 @@
   },
   "icu:decryptionErrorToastAction": {
     "messageformat": "Submit log",
-    "description": "Label for the decryption error toast button"
+    "description": "(Deleted 2024/09/19) Label for the decryption error toast button"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Submit log",
@@ -4442,14 +4442,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "A request to join the group from {joinerName} was denied.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
-  },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} requested and cancelled their request to join via the group link",
-    "description": "(Deleted 2024/08/20) Shown in timeline or conversation preview when v2 group changes"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} requested and cancelled {numberOfRequests, number} requests to join via the group link",
-    "description": "(Deleted 2024/08/20) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{joinerName} requested and cancelled {numberOfRequests, plural, one {their request} other {# requests}} to join via the group link",

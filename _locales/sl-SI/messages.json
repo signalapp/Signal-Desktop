@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Oddaj sistemsko zabeležbo"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Oddaj sistemsko zabeležbo"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Poleg datotek ne morete izbrati fotografij in videoposnetkov."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Nedavne medijske datoteke"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Vsi mediji"
   },
   "icu:back": {
     "messageformat": "Nazaj"
@@ -2706,7 +2712,7 @@
     "messageformat": "Povezava do klica"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Skupinski klic"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Čakanje na dostop"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Prošnja osebe {joinerName} za pridružitev skupini je bila zavrnjena."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} je zaprosil_a in nato prekinil_a svojo prošnjo za pridružitev skupini preko povezave"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} je zaprosil_a in nato prekinil_a {numberOfRequests,number} svojih prošenj za pridružitev skupini preko povezave"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} je zaprosil_a in nato preklical_a svojo prošnjo za pridružitev preko povezave skupine} two {{joinerName} je zaprosil_a in nato preklical_a {numberOfRequests,number} prošnji za pridružitev preko povezave skupine} few {{joinerName} je zaprosil_a in nato preklical_a {numberOfRequests,number} prošnje za pridružitev preko povezave skupine} other {{joinerName} je zaprosil_a in nato preklical_a {numberOfRequests,number} prošenj za pridružitev preko povezave skupine}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Prenos {currentSize} od {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Priprava na prenos ..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "To lahko traja nekaj minut, odvisno od velikosti varnostne kopije"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Prekliči prenos"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Želite preklicati prenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Vaša sporočila in mediji se še niso obnovili. Če se odločite za preklic, lahko prenos ponovno izvedete v nastavitvah."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Nadaljuj prenos"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Prekliči prenos"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Obnovitev medijev"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Prekliči prenos"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Več možnosti"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Obnovitev uspešna"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} od {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} od {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Vaša sporočila in mediji se še niso obnovili. Če se odločite za preklic, lahko prenos ponovno izvedete v nastavitvah."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Nadaljuj prenos"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Prekliči prenos"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Razširi"
@@ -3609,7 +3639,7 @@
     "messageformat": "Ste že v tem klicu"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Zvočni klic"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Barva klepeta"
@@ -3792,7 +3822,7 @@
     "messageformat": "Ponastavi povezavo"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Zahtevajte odobritev administratorja"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Za pridružitev tej skupini preko deljene povezave je potrebna odobritev skrbnika_ce."
@@ -5539,10 +5569,10 @@
     "messageformat": "Uredi ime klica"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Zahtevajte odobritev administratorja"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Te nastavitve ni mogoče spremeniti, ko je klic aktiven"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopiraj povezavo"
@@ -5566,7 +5596,7 @@
     "messageformat": "Izbriši"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Te povezave ni mogoče izbrisati, ko je klic aktiven"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Podrobnosti o klicni povezavi"
@@ -5581,13 +5611,13 @@
     "messageformat": "Uredi ime klica"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Zahtevajte odobritev administratorja"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Odobri vnos"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Zavrni vnos"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Izklopljeno"
@@ -5654,6 +5684,9 @@
     "messageformat": "Ta posodobitev odpravlja napako, zaradi katere se ob ogledu neodgovorjenega klica v eni napravi kazalnik neodgovorjenega klica ni samodejno izbrisal v drugih napravah."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Z novim in izboljšanim prikazom vseh medijev se odpravite na potovanje po spominih. Ko kliknete na naslov klepeta in izberete \"Prikaži vse\" v razdelku medijev v skupni rabi, se med pomikanjem samodejno prikažejo starejše fotografije in videoposnetki, namesto da bi bili omejeni na najnovejše vnose."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

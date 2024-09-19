@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Hantar log"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Hantar log"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Anda tidak boleh memilih foto dan video bersama-sama dengan fail."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Lihat media terkini"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Semua media"
   },
   "icu:back": {
     "messageformat": "Kembali"
@@ -2706,7 +2712,7 @@
     "messageformat": "Pautan panggilan"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Panggilan kumpulan"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Menunggu untuk dibenarkan masuk"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Permintaan untuk menyertai kumpulan daripada {joinerName} telah ditolak."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} meminta dan membatalkan permintaan mereka untuk menyertai melalui pautan kumpulan"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} meminta dan membatalkan {numberOfRequests,number} permintaan untuk menyertai melalui pautan kumpulan"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, other {{joinerName} meminta dan telah membatalkan {numberOfRequests,number} permintaan untuk menyertai melalui pautan kumpulan}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Memuat turun {currentSize} daripada {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Bersedia untuk memuat turun..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Ini mungkin mengambil masa beberapa minit bergantung pada saiz sandaran anda"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Batalkan pemindahan"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Batalkan pemindahan?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Mesej dan media anda belum selesai dipulihkan. Jika anda memilih untuk membatalkan, anda boleh memindahkan sekali lagi daripada Tetapan."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Teruskan pemindahan"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Batalkan pemindahan"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Memulihkan media"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Batalkan pemindahan"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Lebih pilihan"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Restore selesai"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} daripada {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} daripada {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Mesej dan media anda belum selesai dipulihkan. Jika anda memilih untuk membatalkan, anda boleh memindahkan sekali lagi daripada Tetapan."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Teruskan pemindahan"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Batalkan pemindahan"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Kembangkan"
@@ -3609,7 +3639,7 @@
     "messageformat": "Anda sudah berada dalam panggilan"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Suara"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Warna sembang"
@@ -3792,7 +3822,7 @@
     "messageformat": "Pautan tetapan semula"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Memerlukan Kelulusan Pentadbir"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Memerlukan pentadbir untuk meluluskan ahli baharu yang menyertai kumpulan melalui pautan kumpulan"
@@ -5539,10 +5569,10 @@
     "messageformat": "Edit nama panggilan"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Memerlukan Kelulusan Pentadbir"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Tetapan ini tidak boleh diubah semasa panggilan aktif"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Salin pautan"
@@ -5566,7 +5596,7 @@
     "messageformat": "Padam"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Pautan ini tidak boleh dipadamkan semasa panggilan aktif"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Butiran pautan panggilan"
@@ -5581,13 +5611,13 @@
     "messageformat": "Edit nama panggilan"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Memerlukan Kelulusan Pentadbir"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Luluskan kemasukan"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Tolak kemasukan"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Mati"
@@ -5654,6 +5684,9 @@
     "messageformat": "Kemas kini ini membaiki pepijat di mana melihat panggilan tidak dijawab pada satu peranti tidak akan secara automatik menghapuskan penunjuk untuk panggilan tidak dijawab tersebut pada peranti anda yang lain."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Kini, apabila anda klik di bahagian atas sembang dan memilih \"Lihat semua\" dalam bahagian media kongsi, foto dan video lama akan muncul secara automatik semasa anda menatal dan bukannya terhad kepada entri terbaharu."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }
