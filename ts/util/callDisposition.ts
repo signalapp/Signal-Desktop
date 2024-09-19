@@ -495,10 +495,12 @@ export function getCallDetailsFromDirectCall(
   peerId: AciString | string,
   call: Call
 ): CallDetails {
+  const ringerId = call.isIncoming ? call.remoteUserId : null;
   return callDetailsSchema.parse({
     callId: Long.fromValue(call.callId).toString(),
     peerId,
-    ringerId: call.isIncoming ? call.remoteUserId : null,
+    ringerId,
+    startedById: ringerId,
     mode: CallMode.Direct,
     type: call.isVideoCall ? CallType.Video : CallType.Audio,
     direction: call.isIncoming
