@@ -36,7 +36,7 @@ import { clearInterval } from 'timers';
 import { random } from 'lodash';
 import type { ChatServiceDebugInfo } from '@signalapp/libsignal-client/Native';
 
-import type { Net } from '@signalapp/libsignal-client';
+import type { LibSignalError, Net } from '@signalapp/libsignal-client';
 import { Buffer } from 'node:buffer';
 import type {
   ChatServerMessageAck,
@@ -61,6 +61,7 @@ import { isProduction } from '../util/version';
 import { ToastType } from '../types/Toast';
 import { AbortableProcess } from '../util/AbortableProcess';
 import type { WebAPICredentials } from './Types';
+import { NORMAL_DISCONNECT_CODE } from './SocketManager';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
@@ -334,6 +335,8 @@ type LibsignalWebSocketResourceHolder = {
   resource: LibsignalWebSocketResource | undefined;
 };
 
+const UNEXPECTED_DISCONNECT_CODE = 3001;
+
 export function connectUnauthenticatedLibsignal({
   libsignalNet,
   name,
@@ -345,12 +348,12 @@ export function connectUnauthenticatedLibsignal({
   const listener: LibsignalWebSocketResourceHolder & ConnectionEventsListener =
     {
       resource: undefined,
-      onConnectionInterrupted(): void {
+      onConnectionInterrupted(cause: LibSignalError | null): void {
         if (!this.resource) {
           logDisconnectedListenerWarn(logId, 'onConnectionInterrupted');
           return;
         }
-        this.resource.onConnectionInterrupted();
+        this.resource.onConnectionInterrupted(cause);
         this.resource = undefined;
       },
     };
@@ -404,12 +407,12 @@ export function connectAuthenticatedLibsignal({
       );
       handler(request);
     },
-    onConnectionInterrupted(): void {
+    onConnectionInterrupted(cause): void {
       if (!this.resource) {
         logDisconnectedListenerWarn(logId, 'onConnectionInterrupted');
         return;
       }
-      this.resource.onConnectionInterrupted();
+      this.resource.onConnectionInterrupted(cause);
       this.resource = undefined;
     },
   };
@@ -495,7 +498,7 @@ export class LibsignalWebSocketResource
     return super.addEventListener(name, handler);
   }
 
-  public close(code = 3000, reason?: string): void {
+  public close(code = NORMAL_DISCONNECT_CODE, reason?: string): void {
     if (this.closed) {
       log.info(`${this.logId}.close: Already closed! ${code}/${reason}`);
       return;
@@ -506,16 +509,16 @@ export class LibsignalWebSocketResource
     //   lost the internet connection. On the order of minutes. This speeds that
     //   process up.
     Timers.setTimeout(
-      () => this.onConnectionInterrupted(),
+      () => this.onConnectionInterrupted(null),
       5 * durations.SECOND
     );
   }
 
   public shutdown(): void {
-    this.close(3000, 'Shutdown');
+    this.close(NORMAL_DISCONNECT_CODE, 'Shutdown');
   }
 
-  onConnectionInterrupted(): void {
+  onConnectionInterrupted(cause: LibSignalError | null): void {
     if (this.closed) {
       log.warn(
         `${this.logId}.onConnectionInterrupted called after resource is closed`
@@ -524,10 +527,15 @@ export class LibsignalWebSocketResource
     }
     this.closed = true;
     log.warn(`${this.logId}: connection closed`);
-    // TODO: DESKTOP-7519. `reason` should be eventually resolved from the
-    // disconnect reason error object coming from libsignal.
-    const reason = undefined;
-    this.dispatchEvent(new CloseEvent(3000, reason || 'normal'));
+
+    let event;
+    if (cause) {
+      event = new CloseEvent(UNEXPECTED_DISCONNECT_CODE, cause.message);
+    } else {
+      // The cause was an intentional disconnect. Report normal closure.
+      event = new CloseEvent(NORMAL_DISCONNECT_CODE, 'normal');
+    }
+    this.dispatchEvent(event);
   }
 
   public forceKeepAlive(): void {
@@ -860,7 +868,7 @@ export default class WebSocketResource
       let timer = options.timeout
         ? Timers.setTimeout(() => {
             this.removeActive(idString);
-            this.close(3001, 'Request timed out');
+            this.close(UNEXPECTED_DISCONNECT_CODE, 'Request timed out');
             reject(new Error(`Request timed out; id: [${idString}]`));
           }, options.timeout)
         : undefined;
@@ -890,7 +898,7 @@ export default class WebSocketResource
     drop(this.keepalive.send(timeout));
   }
 
-  public close(code = 3000, reason?: string): void {
+  public close(code = NORMAL_DISCONNECT_CODE, reason?: string): void {
     if (this.closed) {
       log.info(`${this.logId}.close: Already closed! ${code}/${reason}`);
       return;
@@ -925,7 +933,7 @@ export default class WebSocketResource
 
     if (this.activeRequests.size === 0) {
       log.info(`${this.logId}.shutdown: no active requests, closing`);
-      this.close(3000, 'Shutdown');
+      this.close(NORMAL_DISCONNECT_CODE, 'Shutdown');
       return;
     }
 
@@ -938,7 +946,7 @@ export default class WebSocketResource
       }
 
       log.warn(`${this.logId}.shutdown: Failed to shutdown gracefully`);
-      this.close(3000, 'Shutdown');
+      this.close(NORMAL_DISCONNECT_CODE, 'Shutdown');
     }, THIRTY_SECONDS);
   }
 
@@ -1038,7 +1046,7 @@ export default class WebSocketResource
     }
 
     log.info(`${this.logId}.removeActive: shutdown complete`);
-    this.close(3000, 'Shutdown');
+    this.close(NORMAL_DISCONNECT_CODE, 'Shutdown');
   }
 
   private static intoResponse(sendRequestResult: SendRequestResult): Response {
@@ -1116,7 +1124,7 @@ class KeepAlive {
     if (isStale) {
       log.info(`${this.logId}.send: disconnecting due to stale state`);
       this.wsr.close(
-        3001,
+        UNEXPECTED_DISCONNECT_CODE,
         `Last keepalive request was too far in the past: ${this.lastAliveAt}`
       );
       return;
@@ -1136,11 +1144,17 @@ class KeepAlive {
 
       if (status < 200 || status >= 300) {
         log.warn(`${this.logId}.send: keepalive response status ${status}`);
-        this.wsr.close(3001, `keepalive response with ${status} code`);
+        this.wsr.close(
+          UNEXPECTED_DISCONNECT_CODE,
+          `keepalive response with ${status} code`
+        );
         return;
       }
     } catch (error) {
-      this.wsr.close(3001, 'No response to keepalive request');
+      this.wsr.close(
+        UNEXPECTED_DISCONNECT_CODE,
+        'No response to keepalive request'
+      );
       return;
     }
 

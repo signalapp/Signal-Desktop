@@ -51,6 +51,8 @@ export const UNAUTHENTICATED_CHANNEL_NAME = 'unauthenticated';
 
 export const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
 
+export const NORMAL_DISCONNECT_CODE = 3000;
+
 export type SocketManagerOptions = Readonly<{
   url: string;
   certificateAuthority: string;
@@ -309,7 +311,7 @@ export class SocketManager extends EventListener {
       );
       this.dropAuthenticated(process);
 
-      if (code === 3000) {
+      if (code === NORMAL_DISCONNECT_CODE) {
         // Intentional disconnect
         return;
       }
