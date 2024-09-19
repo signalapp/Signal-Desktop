@@ -117,10 +117,12 @@ export type CallDetails = Readonly<{
   callId: string;
   peerId: AciString | string;
   ringerId: AciString | string | null;
+  startedById: AciString | string | null;
   mode: CallMode;
   type: CallType;
   direction: CallDirection;
   timestamp: number;
+  endedTimestamp: number | null;
 }>;
 
 export type CallLogEventTarget = Readonly<{
@@ -147,7 +149,10 @@ export type CallHistoryDetails = CallDetails &
     status: CallStatus;
   }>;
 
-export type CallHistoryGroup = Omit<CallHistoryDetails, 'callId' | 'ringerId'> &
+export type CallHistoryGroup = Omit<
+  CallHistoryDetails,
+  'callId' | 'ringerId' | 'startedById' | 'endedTimestamp'
+> &
   Readonly<{
     children: ReadonlyArray<{
       callId: string;
@@ -200,10 +205,12 @@ export const callDetailsSchema = z.object({
   callId: z.string(),
   peerId: z.string(),
   ringerId: ringerIdSchema,
+  startedById: aciSchema.or(z.null()),
   mode: callModeSchema,
   type: callTypeSchema,
   direction: callDirectionSchema,
   timestamp: z.number(),
+  endedTimestamp: z.number().or(z.null()),
 }) satisfies z.ZodType<CallDetails>;
 
 export const callEventDetailsSchema = callDetailsSchema.extend({

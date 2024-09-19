@@ -96,11 +96,13 @@ describe('backup/calling', () => {
         callId,
         peerId: CONTACT_A,
         ringerId: CONTACT_A,
+        startedById: null,
         mode: CallMode.Direct,
         type: CallType.Audio,
         status: DirectCallStatus.Missed,
         direction: CallDirection.Incoming,
         timestamp: now,
+        endedTimestamp: null,
       };
       await DataWriter.saveCallHistory(callHistory);
       await loadAll();
@@ -143,11 +145,13 @@ describe('backup/calling', () => {
         callId,
         peerId: GROUP_ID_STRING,
         ringerId: CONTACT_A,
+        startedById: CONTACT_A,
         mode: CallMode.Group,
         type: CallType.Group,
         status: GroupCallStatus.Declined,
         direction: CallDirection.Incoming,
         timestamp: now,
+        endedTimestamp: null,
       };
       await DataWriter.saveCallHistory(callHistory);
       await loadAll();
@@ -232,11 +236,13 @@ describe('backup/calling', () => {
         callId,
         peerId: callLink.roomId,
         ringerId: null,
+        startedById: null,
         mode: CallMode.Adhoc,
         type: CallType.Adhoc,
         status: AdhocCallStatus.Generic,
         direction: CallDirection.Unknown,
         timestamp: now,
+        endedTimestamp: null,
       };
       await DataWriter.saveCallHistory(callHistory);
       await loadAll();
@@ -256,11 +262,13 @@ describe('backup/calling', () => {
         callId,
         peerId: 'nonexistent',
         ringerId: null,
+        startedById: null,
         mode: CallMode.Adhoc,
         type: CallType.Adhoc,
         status: AdhocCallStatus.Generic,
         direction: CallDirection.Unknown,
         timestamp: now,
+        endedTimestamp: null,
       };
       await DataWriter.saveCallHistory(callHistory);
       await loadAll();

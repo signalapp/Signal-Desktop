@@ -93,10 +93,12 @@ export function toCallHistoryFromUnusedCallLink(
     callId: generateUuid(),
     peerId: callLink.roomId,
     ringerId: null,
+    startedById: null,
     mode: CallMode.Adhoc,
     type: CallType.Adhoc,
     direction: CallDirection.Incoming,
     timestamp: Date.now(),
+    endedTimestamp: null,
     status: AdhocCallStatus.Pending,
   };
 }

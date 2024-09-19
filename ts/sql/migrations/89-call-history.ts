@@ -171,6 +171,10 @@ function convertLegacyCallDetails(
     direction,
     status,
     timestamp,
+
+    // Not present at the time of this migration
+    startedById: null,
+    endedTimestamp: null,
   };
 
   const result = callHistoryDetailsSchema.safeParse(callHistory);

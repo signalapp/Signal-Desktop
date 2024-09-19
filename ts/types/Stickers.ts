@@ -169,7 +169,7 @@ export async function createPacksFromBackup(
 
       id,
       key,
-      status: 'known' as const,
+      status: 'installed' as const,
     })
   );
 
@@ -187,8 +187,12 @@ export async function getStickerPacksForBackup(): Promise<
   const uninstalled = new Set(
     (await DataReader.getUninstalledStickerPacks()).map(({ id }) => id)
   );
-  for (const { id, key } of stickerPacks) {
+  for (const { id, key, status } of stickerPacks) {
     if (uninstalled.has(id)) {
+      continue;
+    }
+
+    if (status === 'known' || status === 'ephemeral') {
       continue;
     }
 
