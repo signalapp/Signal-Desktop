@@ -142,8 +142,6 @@ const FLUSH_TIMEOUT = 30 * MINUTE;
 // Threshold for reporting slow flushes
 const REPORTING_THRESHOLD = SECOND;
 
-const ZERO_PROFILE_KEY = new Uint8Array(32);
-
 type GetRecipientIdOptionsType =
   | Readonly<{
       serviceId: ServiceIdString;
@@ -874,15 +872,9 @@ export class BackupExportStream extends Readable {
           accessControl: convo.accessControl,
           version: convo.revision || 0,
           members: convo.membersV2?.map(member => {
-            const memberConvo = window.ConversationController.get(member.aci);
-            const { profileKey } = memberConvo?.attributes ?? {};
-
             return {
               userId: this.aciToBytes(member.aci),
               role: member.role,
-              profileKey: profileKey
-                ? Bytes.fromBase64(profileKey)
-                : ZERO_PROFILE_KEY,
               joinedAtVersion: member.joinedAtVersion,
             };
           }),
@@ -891,7 +883,6 @@ export class BackupExportStream extends Readable {
               member: {
                 userId: this.serviceIdToBytes(member.serviceId),
                 role: member.role,
-                profileKey: null,
                 joinedAtVersion: 0,
               },
               addedByUserId: this.aciToBytes(member.addedByUserId),
@@ -900,13 +891,8 @@ export class BackupExportStream extends Readable {
           }),
           membersPendingAdminApproval: convo.pendingAdminApprovalV2?.map(
             member => {
-              const memberConvo = window.ConversationController.get(member.aci);
-              const { profileKey } = memberConvo?.attributes ?? {};
               return {
                 userId: this.aciToBytes(member.aci),
-                profileKey: profileKey
-                  ? Bytes.fromBase64(profileKey)
-                  : ZERO_PROFILE_KEY,
                 timestamp: getSafeLongFromTimestamp(member.timestamp),
               };
             }
@@ -1254,7 +1240,7 @@ export class BackupExportStream extends Readable {
           return { kind: NonBubbleResultKind.Drop };
         }
 
-        const { ringerId } = callHistory;
+        const { ringerId, startedById } = callHistory;
         if (ringerId) {
           const ringerConversation =
             window.ConversationController.get(ringerId);
@@ -1268,13 +1254,28 @@ export class BackupExportStream extends Readable {
             ringerConversation.attributes
           );
           groupCall.ringerRecipientId = recipientId;
+        }
+
+        if (startedById) {
+          const startedByConvo = window.ConversationController.get(startedById);
+          if (!startedByConvo) {
+            throw new Error(
+              'toChatItemUpdate/callHistory: startedById conversation not found!'
+            );
+          }
+
+          const recipientId = this.getRecipientId(startedByConvo.attributes);
           groupCall.startedCallRecipientId = recipientId;
         }
 
         groupCall.callId = Long.fromString(callId);
         groupCall.state = toGroupCallStateProto(callHistory.status);
         groupCall.startedCallTimestamp = Long.fromNumber(callHistory.timestamp);
-        groupCall.endedCallTimestamp = Long.fromNumber(0);
+        if (callHistory.endedTimestamp != null) {
+          groupCall.endedCallTimestamp = Long.fromNumber(
+            callHistory.endedTimestamp
+          );
+        }
         groupCall.read = message.seenStatus === SeenStatus.Seen;
 
         updateMessage.groupCall = groupCall;

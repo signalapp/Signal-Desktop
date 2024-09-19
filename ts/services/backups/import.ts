@@ -2074,16 +2074,20 @@ export class BackupImportStream extends Writable {
       const {
         callId: callIdLong,
         state,
-        ringerRecipientId,
-        startedCallRecipientId,
+        ringerRecipientId: ringerRecipientIdLong,
+        startedCallRecipientId: startedCallRecipientIdLong,
         startedCallTimestamp,
+        endedCallTimestamp,
         read,
       } = updateMessage.groupCall;
 
-      const initiator =
-        ringerRecipientId?.toNumber() || startedCallRecipientId?.toNumber();
-      const ringer = isNumber(initiator)
-        ? this.recipientIdToConvo.get(initiator)
+      const ringerRecipientId = ringerRecipientIdLong?.toNumber();
+      const startedCallRecipientId = startedCallRecipientIdLong?.toNumber();
+      const ringer = isNumber(ringerRecipientId)
+        ? this.recipientIdToConvo.get(ringerRecipientId)
+        : undefined;
+      const startedBy = isNumber(startedCallRecipientId)
+        ? this.recipientIdToConvo.get(startedCallRecipientId)
         : undefined;
 
       if (!callIdLong) {
@@ -2101,9 +2105,13 @@ export class BackupImportStream extends Writable {
         mode: CallMode.Group,
         type: CallType.Group,
         ringerId: ringer?.serviceId ?? null,
+        startedById: isAciString(startedBy?.serviceId)
+          ? startedBy.serviceId
+          : null,
         peerId: groupId,
         direction: isRingerMe ? CallDirection.Outgoing : CallDirection.Incoming,
         timestamp: startedCallTimestamp.toNumber(),
+        endedTimestamp: endedCallTimestamp?.toNumber() || null,
       };
 
       await this.saveCallHistory(callHistory);
@@ -2154,9 +2162,11 @@ export class BackupImportStream extends Writable {
         mode: CallMode.Direct,
         type: fromIndividualCallTypeProto(type),
         ringerId,
+        startedById: null,
         peerId,
         direction,
         timestamp: startedCallTimestamp.toNumber(),
+        endedTimestamp: null,
       };
 
       await this.saveCallHistory(callHistory);
@@ -2913,11 +2923,13 @@ export class BackupImportStream extends Writable {
       callId,
       peerId: callLink.roomId,
       ringerId: null,
+      startedById: null,
       mode: CallMode.Adhoc,
       type: CallType.Adhoc,
       direction: CallDirection.Unknown,
       timestamp: callTimestamp.toNumber(),
       status: fromAdHocCallStateProto(state),
+      endedTimestamp: null,
     };
 
     await this.saveCallHistory(callHistory);

@@ -20,7 +20,8 @@ describe('SQL/updateToSchemaVersion1100', () => {
   beforeEach(() => {
     db = createDB();
     // index updated in 1170
-    updateToVersion(db, 1170);
+    // columns updated in 1210
+    updateToVersion(db, 1210);
   });
 
   afterEach(() => {

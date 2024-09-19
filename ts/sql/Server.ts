@@ -4181,20 +4181,24 @@ function saveCallHistory(
       callId,
       peerId,
       ringerId,
+      startedById,
       mode,
       type,
       direction,
       status,
-      timestamp
+      timestamp,
+      endedTimestamp
     ) VALUES (
       ${callHistory.callId},
       ${callHistory.peerId},
       ${callHistory.ringerId},
+      ${callHistory.startedById},
       ${callHistory.mode},
       ${callHistory.type},
       ${callHistory.direction},
       ${callHistory.status},
-      ${callHistory.timestamp}
+      ${callHistory.timestamp},
+      ${callHistory.endedTimestamp}
     );
   `;
 

@@ -40,10 +40,12 @@ describe('sql/getRecentStaleRingsAndMarkOlderMissed', () => {
       callId,
       peerId,
       ringerId: generateAci(),
+      startedById: generateAci(),
       mode: CallMode.Group,
       type: CallType.Group,
       direction: CallDirection.Incoming,
       timestamp,
+      endedTimestamp: null,
       status,
     };
     await saveCallHistory(call);

@@ -105,7 +105,7 @@
     "@react-aria/utils": "3.16.0",
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.8.1",
-    "@signalapp/libsignal-client": "0.57.1",
+    "@signalapp/libsignal-client": "0.58.0",
     "@signalapp/ringrtc": "2.47.1",
     "@types/fabric": "4.5.3",
     "backbone": "1.4.0",

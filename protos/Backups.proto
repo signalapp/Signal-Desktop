@@ -192,8 +192,8 @@ message Group {
 
     bytes userId = 1;
     Role role = 2;
-    bytes profileKey = 3;
-    reserved /*presentation*/ 4; // The field is deprecated in the context of static group state
+    reserved /*profileKey*/ 3; // This field is ignored in Backups, in favor of Contact frames for members
+    reserved /*presentation*/ 4; // This field is deprecated in the context of static group state
     uint32 joinedAtVersion = 5;
   }
 
@@ -205,8 +205,8 @@ message Group {
 
   message MemberPendingAdminApproval {
     bytes userId = 1;
-    bytes profileKey = 2;
-    reserved /*presentation*/ 3; // The field is deprecated in the context of static group state
+    reserved /*profileKey*/ 2; // This field is ignored in Backups, in favor of Contact frames for members
+    reserved /*presentation*/ 3; // This field is deprecated in the context of static group state
     uint64 timestamp = 4;
   }
 
@@ -1137,6 +1137,8 @@ message ChatStyle {
 
   oneof wallpaper {
     WallpaperPreset wallpaperPreset = 1;
+    // This `FilePointer` is expected not to contain a `fileName`, `width`,
+    // `height`, or `caption`.
     FilePointer wallpaperPhoto = 2;
   }
 

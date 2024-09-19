@@ -2816,7 +2816,7 @@ export class CallingClass {
       const callId = getCallIdFromRing(ringId);
       const callDetails = getCallDetailsFromGroupCallMeta(groupId, {
         callId,
-        ringerId: ringerUuid,
+        ringerId: ringerAci,
       });
       let localEventForCall;
       if (localEventFromRing === LocalCallEvent.Missed) {
