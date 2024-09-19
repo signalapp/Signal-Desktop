@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Naplófájl küldése"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Naplófájl küldése"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Nem választhatsz ki képeket és videókat fájlokkal együtt."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Friss médiafájlok megtekintése"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Összes médiafájl"
   },
   "icu:back": {
     "messageformat": "Vissza"
@@ -2706,7 +2712,7 @@
     "messageformat": "Híváshivatkozás"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Csoporthívás"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Beengedésre vár"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "{joinerName} csoport csatlakozási igénye elutasításra került."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} csatlakozási kérést küldött a csoporthivatkozás segítségével, majd visszavonta"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} csatlakozási kérést küldött a csoporthivatkozás segítségével, majd visszavonta {numberOfRequests,number} alkalommal"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} jelezte, majd visszavonta csatlakozási igényét a csoporthivatkozás használatával.} other {{joinerName} {numberOfRequests,number} alkalommal jelezte, majd visszavonta csatlakozási igényét a csoporthivatkozás használatával.}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "{totalSize}/{currentSize} ({fractionComplete,number,percent}) letöltése..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Felkészülés a letöltésre..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Ez a biztonsági másolat méretétől függően eltarthat néhány percig"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Átvitel törlése"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Átvitel törlése?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Az üzenetek és a médiafájl helyreállítása nem fejeződött be. Ha a törlés mellett döntesz, újra átviheted a fájljaid a Beállításokból."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Átvitel folytatása"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Átvitel törlése"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Médiafájl visszaállítása"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Átvitel törlése"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "További lehetőségek"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Visszaállítás kész"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize}/{totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} / {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Az üzenetek és a médiafájl helyreállítása nem fejeződött be. Ha a törlés mellett döntesz, újra átviheted a fájljaid a Beállításokból."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Átvitel folytatása"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Átvitel törlése"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Bővítés"
@@ -3609,7 +3639,7 @@
     "messageformat": "Már beléptél a hívásba"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Hang"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Csevegés színe"
@@ -3792,7 +3822,7 @@
     "messageformat": "Hivatkozás cseréje"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Adminisztrátori jóváhagyás szükséges"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Admin általi jóváhagyás szükséges csoporthivatkozással csatlakozó tagok felvételéhez."
@@ -5539,10 +5569,10 @@
     "messageformat": "Hívás nevének szerkesztése"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Adminisztrátori jóváhagyás szükséges"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Ez a beállítás nem módosítható, amíg a hívás aktív"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Hivatkozás másolása"
@@ -5566,7 +5596,7 @@
     "messageformat": "Törlés"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Ez a hivatkozás nem törölhető, amíg a hívás aktív"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Híváslink részletei"
@@ -5581,13 +5611,13 @@
     "messageformat": "Hívás nevének szerkesztése"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Adminisztrátori jóváhagyás szükséges"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Csatlakozás jóváhagyása"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Csatlakozás megtagadása"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Ki"
@@ -5654,6 +5684,9 @@
     "messageformat": "Ez a frissítés kijavítja azt a hibát, amely miatt egy nem fogadott hívás megtekintése az egyik eszközön nem törli automatikusan a nem fogadott hívás jelzését a többi eszközödön."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Mostantól, ha rákattintasz egy csevegés fejlécére, és kiválasztod az „Összes megtekintése” lehetőséget a megosztott médiafájl részben, görgetés közben automatikusan megjelennek a régebbi fotók és videók ahelyett, hogy a legfrissebb bejegyzésekre korlátozódnának."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

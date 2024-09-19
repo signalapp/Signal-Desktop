@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "ส่งปูม"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "ส่งปูม"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ไม่สามารถเลือกรูปภาพและวิดีโอพร้อมกับไฟล์อื่นได้"
   },
@@ -942,7 +948,7 @@
     "messageformat": "ดูสื่อครั้งล่าสุด"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "สื่อทั้งหมด"
   },
   "icu:back": {
     "messageformat": "กลับ"
@@ -2706,7 +2712,7 @@
     "messageformat": "ลิงก์การโทร"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "โทรกลุ่ม"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "กำลังรออนุมัติให้เข้าร่วม"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "คำขอเข้ากลุ่ม {joinerName} ถูกปฏิเสธ"
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} ส่งคำขอและยกเลิกคำขอเพื่อเข้าร่วมผ่านลิงก์กลุ่มนี้"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} ส่งคำขอและยกเลิก {numberOfRequests,number} คำขอเพื่อเข้าร่วมผ่านลิงก์กลุ่มนี้"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, other {{joinerName} ส่งและยกเลิกคำขอ {numberOfRequests,number} รายการในการเข้าร่วมผ่านลิงก์กลุ่มนี้}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "กำลังดาวน์โหลด {currentSize} จาก {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "กำลังเตรียมการดาวน์โหลด..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่ โดยขึ้นอยู่กับขนาดข้อมูลสำรองของคุณ"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "ยกเลิกการถ่ายโอน"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "ยกเลิกการถ่ายโอนใช่หรือไม่"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "ยังกู้คืนข้อความและไฟล์สื่อของคุณไม่เสร็จสมบูรณ์ โดยหากยกเลิก คุณยังสามารถเลือกถ่ายโอนข้อมูลได้อีกจากเมนูการตั้งค่า"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "ถ่ายโอนต่อ"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "ยกเลิกการถ่ายโอน"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "กำลังกู้คืนไฟล์สื่อ"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "ยกเลิกการถ่ายโอน"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "ตัวเลือกเพิ่มเติม"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "กู้คืนเสร็จสิ้น"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} จาก {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} ของ {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "ยังกู้คืนข้อความและไฟล์สื่อของคุณไม่เสร็จสมบูรณ์ โดยหากยกเลิก คุณยังสามารถเลือกถ่ายโอนข้อมูลได้อีกจากเมนูการตั้งค่า"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "ถ่ายโอนต่อ"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "ยกเลิกการถ่ายโอน"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ขยาย"
@@ -3609,7 +3639,7 @@
     "messageformat": "คุณอยู่ในสายแล้ว"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "เสียง"
   },
   "icu:showChatColorEditor": {
     "messageformat": "สีแชท"
@@ -3792,7 +3822,7 @@
     "messageformat": "ตั้งค่าลิงก์ใหม่"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ต้องได้รับการอนุมัติจากผู้ดูแล"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "กําหนดให้ผู้ดูแลอนุมัติให้สมาชิกใหม่เข้าร่วมกลุ่มผ่านลิงก์กลุ่ม"
@@ -5539,10 +5569,10 @@
     "messageformat": "แก้ไขชื่อการโทร"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ต้องได้รับการอนุมัติจากผู้ดูแล"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "ไม่สามารถเปลี่ยนการตั้งค่านี้ได้ขณะกำลังอยู่ในสาย"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "คัดลอกลิงก์"
@@ -5566,7 +5596,7 @@
     "messageformat": "ลบ"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "ไม่สามารถลบลิงก์นี้ได้ขณะกำลังอยู่ในสาย"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "รายละเอียดลิงก์การโทร"
@@ -5581,13 +5611,13 @@
     "messageformat": "แก้ไขชื่อการโทร"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "ต้องได้รับการอนุมัติจากผู้ดูแล"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "อนุมัติให้เข้าร่วม"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "ปฏิเสธการเข้าร่วม"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "ปิด"
@@ -5654,6 +5684,9 @@
     "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กเพื่อการใช้งานที่ไม่สะดุด โดยเมื่อคุณเปิดดูสายที่ไม่ได้รับบนอุปกรณ์เครื่องหนึ่ง ระบบจะซิงค์ให้สถานะบนอุปกรณ์อีกเครื่องเปลี่ยนตามแบบอัตโนมัติ"
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "พัฒนารูปแบบในการแสดงสื่อให้ดียิ่งขึ้นอีก โดยเมื่อคลิกที่แถบด้านบนของแชท แล้วเลือก \"ดูทั้งหมด\" ตรงหัวข้อไฟล์สื่อ รูปภาพและวิดีโอที่เคยแชร์จะปรากฏเพิ่มขึ้นเรื่อยๆ โดยอัตโนมัติขณะที่คุณเลื่อนดู"
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

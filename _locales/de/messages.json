@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Diagnoseprotokoll übermitteln"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Diagnoseprotokoll übermitteln"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Du kannst keine Fotos und Videos zusammen mit Dateien auswählen."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Letzte Medieninhalte anzeigen"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Medienübersicht"
   },
   "icu:back": {
     "messageformat": "Zurück"
@@ -2706,7 +2712,7 @@
     "messageformat": "Anruflink"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Gruppenanruf"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Warten auf Einlass"
@@ -2880,16 +2886,16 @@
     "messageformat": "Nicht stumm"
   },
   "icu:muteHour": {
-    "messageformat": "Für eine Stunde"
+    "messageformat": "Für 1 Stunde"
   },
   "icu:muteEightHours": {
     "messageformat": "Für 8 Stunden"
   },
   "icu:muteDay": {
-    "messageformat": "Für einen Tag"
+    "messageformat": "Für 1 Tag"
   },
   "icu:muteWeek": {
-    "messageformat": "Für eine Woche"
+    "messageformat": "Für 1 Woche"
   },
   "icu:muteAlways": {
     "messageformat": "Für immer"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Eine Gruppenbeitrittsanfrage von {joinerName} wurde abgelehnt."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} hat eine Beitrittsanfrage über den Gruppen-Link gestellt und zurückgezogen."
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} hat {numberOfRequests,number} Beitrittsanfragen über den Gruppen-Link gestellt und zurückgezogen."
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} hat eine Beitrittsanfrage über den Gruppen-Link gestellt und zurückgezogen.} other {{joinerName} hat {numberOfRequests,number} Beitrittsanfragen über den Gruppen-Link gestellt und zurückgezogen.}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "{currentSize} von {totalSize} ({fractionComplete,number,percent}) werden heruntergeladen ..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Herunterladen wird vorbereitet..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Das kann, abhängig von der Größe deiner Datensicherung, ein paar Minuten dauern."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Übertragung abbrechen"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Übertragung abbrechen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Die Wiederherstellung deiner Nachrichten und Medien ist noch nicht abgeschlossen. Wenn du jetzt abbrichst, kannst du unter »Einstellungen« erneut eine Übertragung vornehmen."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Übertragung fortsetzen"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Übertragung abbrechen"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Medien werden wiederhergestellt"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Übertragung abbrechen"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Weitere Optionen"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Wiederherstellung abgeschlossen"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} von {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} von {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Die Wiederherstellung deiner Nachrichten und Medien ist noch nicht abgeschlossen. Wenn du jetzt abbrichst, kannst du unter »Einstellungen« erneut eine Übertragung vornehmen."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Übertragung fortsetzen"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Übertragung abbrechen"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Erweitern"
@@ -3609,7 +3639,7 @@
     "messageformat": "Du nimmst bereits an einem Anruf teil"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Audio"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chat-Farbe"
@@ -3651,7 +3681,7 @@
     "messageformat": "Dies wird diesen Spitznamen und die Notiz unwiderruflich löschen."
   },
   "icu:ConversationDetails--notifications": {
-    "messageformat": "Mitteilungen"
+    "messageformat": "Benachrichtigungen"
   },
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Wer kann Gruppendetails bearbeiten"
@@ -3792,7 +3822,7 @@
     "messageformat": "Link zurücksetzen"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Administrator-Genehmigung benötigt"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Ein Admin muss Beitrittsanfragen von neuen Mitgliedern über den Gruppen-Link bestätigen."
@@ -4449,7 +4479,7 @@
     "messageformat": "Anrufe"
   },
   "icu:Preferences__button--notifications": {
-    "messageformat": "Mitteilungen"
+    "messageformat": "Benachrichtigungen"
   },
   "icu:Preferences__button--privacy": {
     "messageformat": "Datenschutz"
@@ -5539,10 +5569,10 @@
     "messageformat": "Anrufnamen bearbeiten"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Administrator-Genehmigung benötigt"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Diese Einstellung kann nicht geändert werden, solange der Anruf aktiv ist"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Link kopieren"
@@ -5566,7 +5596,7 @@
     "messageformat": "Löschen"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Dieser Link kann nicht gelöscht werden, solange der Anruf aktiv ist"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Details zum Anruflink"
@@ -5581,13 +5611,13 @@
     "messageformat": "Anrufnamen bearbeiten"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Administrator-Genehmigung benötigt"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Beitritt zulassen"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Beitritt ablehnen"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Aus"
@@ -5654,6 +5684,9 @@
     "messageformat": "Dieses Update behebt einen Fehler, bei dem das Anzeigen eines verpassten Anrufs auf einem Gerät nicht automatisch die Anzeige für diesen verpassten Anruf auf anderen Geräten löschte – sozusagen eine verpasste Gelegenheit für die perfekte Koexistenz deiner Liste verpasster Anrufe auf verschiedenen Geräten."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Unternimm eine Reise in die Vergangenheit mit der neuen und verbesserten Medienübersicht. Wenn du jetzt auf eine Chat-Überschrift klickst und im Bereich »Geteilte Medieninhalte« die Option »Alle anzeigen« auswählst, werden beim Scrollen auch ältere Fotos und Videos automatisch angezeigt statt nur die neuesten Einträge."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

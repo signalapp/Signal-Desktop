@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Изпращане на регистър"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Изпращане на регистър"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Не можете да избирате снимки и видеоклипове заедно с файлове."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Разгледай последната мултимедия"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Всички мултимедия файлове"
   },
   "icu:back": {
     "messageformat": "Обратно"
@@ -2706,7 +2712,7 @@
     "messageformat": "Линк за повикване"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Групов разговор"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "В очакване да ви допуснат"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "A request to join the group from {joinerName} was denied."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} заяви и отмени заявката си за присъединяване чрез линка на групата"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} заяви и отмени {numberOfRequests,number} заявки за присъединяване чрез линка на групата"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} поиска и отмени своята заявка за присъединяване чрез линка на групата} other {{joinerName} поиска и отмени {numberOfRequests,number} заявки за присъединяване чрез линка на групата}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Изтегляне на {currentSize} от {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Подготвяне за изтегляне…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Това може да отнеме няколко минути в зависимост от размера на резервното копие"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Отмяна на трансфера"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Отмяна на трансфера?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Възстановяването на съобщенията и мултимедията ви не е приключило. Ако решите да отмените, можете да извършите прехвърлянето отново от „Настройки“."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Продължаване на трансфера"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Отмяна на трансфера"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Възстановяване на мултимедия"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Отмяна на трансфера"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Още опции"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Възстановяването е завършено"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} от {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} от {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Възстановяването на съобщенията и мултимедията ви не е приключило. Ако решите да отмените, можете да извършите прехвърлянето отново от „Настройки“."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Продължаване на трансфера"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Отмяна на трансфера"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Разшири"
@@ -3609,7 +3639,7 @@
     "messageformat": "Вече сте в обаждане"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Обаждане"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Цвят на чата"
@@ -3792,7 +3822,7 @@
     "messageformat": "Промяна на връзката"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Изискване на одобрение от администратор"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Изискване администратор да одобрява нови членове, които се присъединяват чрез линка на групата"
@@ -5539,10 +5569,10 @@
     "messageformat": "Редактиране на име на обаждането"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Изискване на одобрение от администратор"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Тази настройка не може да се променя, докато повикването е активно"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Копиране на линка"
@@ -5566,7 +5596,7 @@
     "messageformat": "Изтриване"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Този линк не може да бъде изтрит, докато повикването е активно"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Подробности за линк за разговор"
@@ -5581,13 +5611,13 @@
     "messageformat": "Редактиране на име на обаждането"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Изискване на одобрение от администратор"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Одобряване на вход"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Отхвърляне на вход"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Изкл."
@@ -5654,6 +5684,9 @@
     "messageformat": "С тази актуализация се отстранява грешка, при която прегледът на пропуснато повикване на едно устройство не изчистваше автоматично индикатора за това пропуснато повикване на другите ви устройства."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Сега, когато кликнете върху заглавието на даден чат и изберете „Виж всичко“ в раздела за споделени прикачени файлове, по-старите снимки и видеоклипове ще се появяват автоматично, когато превъртате, вместо да бъдете ограничени до най-новите записи."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

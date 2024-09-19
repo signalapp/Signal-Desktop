@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Cuir isteach loga"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Cuir isteach loga"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Níl féidir leat grianghraif agus comhaid a roghnú in éineacht le comhaid."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Amharc ar na meáin le déanaí"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Na meáin go léir"
   },
   "icu:back": {
     "messageformat": "Ar Ais"
@@ -2706,7 +2712,7 @@
     "messageformat": "Nasc glao"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Grúpghlao"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Ag fanacht le go ligfear isteach"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "A request to join the group from {joinerName} was denied."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "Rinne {joinerName} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí ar ceal é"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "Rinne {joinerName} an líon seo iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí ar ceal iad: {numberOfRequests,number}"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {Rinne {joinerName} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí an t-iarratas sin ar ceal} two {Rinne {joinerName} {numberOfRequests,number} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí na hiarratais sin ar ceal} few {Rinne {joinerName} {numberOfRequests,number} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí na hiarratais sin ar ceal} many {Rinne {joinerName} {numberOfRequests,number} n-iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí na hiarratais sin ar ceal} other {Rinne {joinerName} {numberOfRequests,number} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí na hiarratais sin ar ceal}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "{currentSize} as {totalSize} ({fractionComplete,number,percent}) á n-íoslódáil…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Íoslódáil á hullmhú..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do chúltaca"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Cuir an t-aistriú ar ceal"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Cuir an t-aistriú ar ceal?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Níl aischur na dteachtaireachtaí agus na meán agat críochnaithe. Má roghnaíonn tú é a chur ar ceal, is féidir leat an t-aistriú a dhéanamh arís ó Shocruithe."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Lean leis an aistriú"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Cuir an t-aistriú ar ceal"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Meáin á n-aischur"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Cuir an t-aistriú ar ceal"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Tuilleadh roghanna"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Tá an t-aischur críochnaithe"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} as {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} as {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Níl aischur na dteachtaireachtaí agus na meán agat críochnaithe. Má roghnaíonn tú é a chur ar ceal, is féidir leat an t-aistriú a dhéanamh arís ó Shocruithe."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Lean leis an aistriú"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Cuir an t-aistriú ar ceal"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fairsingigh"
@@ -3609,7 +3639,7 @@
     "messageformat": "Tá tú i mbun glao cheana féin"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Guthghlao"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Dath an chomhrá"
@@ -3792,7 +3822,7 @@
     "messageformat": "Reset Link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Éiligh faomhadh riarthóra"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Éiligh faomhadh riarthóra i gcás ball nua a théann isteach tríd an nasc grúpa"
@@ -5539,10 +5569,10 @@
     "messageformat": "Cuir ainm an ghlao in eagar"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Éiligh faomhadh riarthóra"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Ní féidir an socrú seo a athrú nuair a bhíonn an glao gníomhach"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Cóipeáil an nasc"
@@ -5566,7 +5596,7 @@
     "messageformat": "Scrios"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Ní féidir an nasc seo a scriosadh nuair a bhíonn an glao gníomhach"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Sonraí ar an nasc glao"
@@ -5581,13 +5611,13 @@
     "messageformat": "Cuir ainm an ghlao in eagar"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Éiligh faomhadh riarthóra"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Faomh dul isteach"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Diúltaigh do dhul isteach"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "As"
@@ -5654,6 +5684,9 @@
     "messageformat": "Réitíonn an nuashonrú seo fabht nach nglantar táscaire ar ghlao caillte ar do ghléasanna eile nuair a fhéachann tú ar ghlao chaillte ar ghléas amháin."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Anois nuair a chliceálann tú ar cheanntásc comhrá agus nuair a roghnaíonn tú \"Féach ar gach rud\" i gcuid na meán comhroinnte, taispeánfar sean-ghrianghraif agus seanfhíseáin go huathoibríoch agus tú ag scrolláil, in ionad na n-iontrálacha is déanaí amháin."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

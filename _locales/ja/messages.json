@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "ログを送信"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "ログを送信"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "写真や動画をファイルと一緒に選択することはできません。"
   },
@@ -942,7 +948,7 @@
     "messageformat": "最近使用したメディア"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "すべてのメディア"
   },
   "icu:back": {
     "messageformat": "戻る"
@@ -2706,7 +2712,7 @@
     "messageformat": "通話リンク"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "グループ通話"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "承認待ちです"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "{joinerName} からのグループ参加申請が拒否されました。"
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} は、グループリンクからの参加申請をキャンセルしました。"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} は、グループリンクからの参加申請を{numberOfRequests,number}件キャンセルしました。"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, other {{joinerName} がグループリンクから参加を申請して、{numberOfRequests,number}件の申請をキャンセルしました。}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "{totalSize} のうち {currentSize}（{fractionComplete,number,percent}）"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "ダウンロード中..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "バックアップのサイズによっては、数分かかる場合があります"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "転送をキャンセルする"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "転送をキャンセルしますか？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "メッセージとメディアの復元が完了していません。キャンセルした場合は、設定からもう一度転送できます。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "転送を続行する"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "転送をキャンセルする"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "メディアを復元中"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "転送をキャンセルする"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "その他のオプション"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "復元が完了しました"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{totalSize} のうち{currentSize}（{fractionComplete,number,percent}）"
+    "messageformat": "{currentSize}/{totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "メッセージとメディアの復元が完了していません。キャンセルした場合は、設定からもう一度転送できます。"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "転送を続行する"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "転送をキャンセルする"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "大きく"
@@ -3609,7 +3639,7 @@
     "messageformat": "あなたはすでに通話中です"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "音声通話"
   },
   "icu:showChatColorEditor": {
     "messageformat": "チャットの色"
@@ -3792,7 +3822,7 @@
     "messageformat": "リンクをリセット"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "管理者の承認を必要とする"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "グループリンク経由での新メンバー参加時に、管理者の承認を要求します。"
@@ -5539,10 +5569,10 @@
     "messageformat": "通話名を編集する"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "管理者の承認を必要とする"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "通話中は、この設定を変更できません"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "リンクをコピーします"
@@ -5566,7 +5596,7 @@
     "messageformat": "消去"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "通話中は、このリンクを消去できません"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話リンク詳細"
@@ -5581,13 +5611,13 @@
     "messageformat": "通話名を編集する"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "管理者の承認を必要とする"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "承認する"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "拒否する"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "オフ"
@@ -5654,6 +5684,9 @@
     "messageformat": "このアップデートでは、ある端末で不在着信を表示しても、他の端末でその不在着信のお知らせが自動的にクリアされないというバグが修正されました。"
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "今後は、チャットのヘッダーをクリックして「共有されたメディア」で「すべて表示」を選択すると、過去の写真や動画が自動で表示されるようになります。"
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

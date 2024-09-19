@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Передати журнал"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Передати журнал"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Неможливо вибрати фото і відео разом із файлами."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Недавні медіафайли"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Усі медіафайли"
   },
   "icu:back": {
     "messageformat": "Назад"
@@ -2706,7 +2712,7 @@
     "messageformat": "Посилання на виклик"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Груповий виклик"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Чекайте на дозвіл"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Користувачеві {joinerName} не дозволено приєднатися до групи."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} надіслав і скасував запит на приєднання до групи за посиланням"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} надіслав та скасував запити: {numberOfRequests,number} на приєднання до групи за посиланням"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {Користувач {joinerName} надіслав і скасував запит на приєднання до групи за посиланням} few {Користувач {joinerName} надіслав і скасував {numberOfRequests,number} запити на приєднання до групи за посиланням} many {Користувач {joinerName} надіслав і скасував {numberOfRequests,number} запитів на приєднання до групи за посиланням} other {Користувач {joinerName} надіслав і скасував {numberOfRequests,number} запиту на приєднання до групи за посиланням}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Завантаження: {currentSize} з {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Підготовка до завантаження…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Воно може зайняти кілька хвилин — швидкість залежить від розміру резервної копії"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Скасувати передачу даних"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Скасувати передачу даних?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Відновлення повідомлень і медіафайлів не завершено. У разі скасування ви зможете перенести дані пізніше, зайшовши в налаштування."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Продовжити передачу"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Скасувати передачу"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Відновлення медіафайлів"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Скасувати передачу"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Інші дії"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Відновлення завершено"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} з {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} з {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Відновлення повідомлень і медіафайлів не завершено. У разі скасування ви зможете перенести дані пізніше, зайшовши в налаштування."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Продовжити передачу"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Скасувати передачу"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Розкрити"
@@ -3609,7 +3639,7 @@
     "messageformat": "Ви вже берете участь у виклику"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Аудіо"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Колір чату"
@@ -3792,7 +3822,7 @@
     "messageformat": "Скинути посилання"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Адміністратор затверджує учасників"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Нових учасників, які приєднуються до групи за посиланням, повинен затверджувати адміністратор."
@@ -5539,10 +5569,10 @@
     "messageformat": "Змінити назву виклику"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Адміністратор затверджує учасників"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Поки триває виклик, це налаштування не можна змінити"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Копіювати посилання"
@@ -5566,7 +5596,7 @@
     "messageformat": "Видалити"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Поки триває виклик, це посилання не можна видалити"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Додатково про посилання на виклик"
@@ -5581,13 +5611,13 @@
     "messageformat": "Змінити назву виклику"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Адміністратор затверджує учасників"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Дозволити приєднатися"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Не дозволити приєднатися"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Вимк."
@@ -5654,6 +5684,9 @@
     "messageformat": "У цьому оновленні ми виправили помилку, через яку індикатор пропущеного виклику не зникав з усіх пристроїв, коли ви переглядали сповіщення на якомусь з них. Іноді таємниці доречні, але ваш акаунт Signal точно має ділитися подробицями з усіма зв’язаними пристроями."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Пориньте в спогади в новому, поліпшеному вікні «Усі медіафайли». Раніше ви натискали назву чату, вибирали «Показати всі» в розділі надісланих медіафайлів і бачили лише нещодавні файли. А тепер старіші фото й відео автоматично з'являтимуться під час прокручування галереї вниз."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

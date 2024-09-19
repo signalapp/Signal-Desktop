@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Foutopsporingslog indienen"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Foutopsporingslog indienen"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Je kunt geen foto's en video's samen met bestanden selecteren."
   },
@@ -771,7 +777,7 @@
     "messageformat": "Opname spraakbericht beginnen"
   },
   "icu:voiceRecordingInterruptedMax": {
-    "messageformat": "Het opnemen van een spraakbericht is gestopt omdat het maximumlengte-limiet was bereikt."
+    "messageformat": "Het opnemen van een spraakbericht is gestopt omdat de maximumlengte van een uur is bereikt."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Spraakberichten hebben een lengtelimiet van een uur. De opname wordt gestopt als je een andere app aandacht geeft."
@@ -870,7 +876,7 @@
     "messageformat": "Uit"
   },
   "icu:deleteWarning": {
-    "messageformat": "Dit bericht zal alleen van dit apparaat verwijderd worden."
+    "messageformat": "Dit bericht zal alleen van dit apparaat worden verwijderd."
   },
   "icu:deleteForEveryoneWarning": {
     "messageformat": "Dit bericht wordt verwijderd voor iedereen in de chat als ze een recente versie van Signal gebruiken. Ze kunnen zien dat je een bericht hebt verwijderd."
@@ -942,7 +948,7 @@
     "messageformat": "Recente media weergeven"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Alle media"
   },
   "icu:back": {
     "messageformat": "Terug"
@@ -972,7 +978,7 @@
     "messageformat": "Bericht doorsturen"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reageren"
+    "messageformat": "Antwoorden"
   },
   "icu:MessageContextMenu__react": {
     "messageformat": "Reageren"
@@ -2046,7 +2052,7 @@
     "messageformat": "Waarom zou je woorden gebruiken als je ook stickers kunt gebruiken?"
   },
   "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Open de sticker-kiezer"
+    "messageformat": "Open de stickerkiezer"
   },
   "icu:stickers--StickerPicker--AddPack": {
     "messageformat": "Voeg een stickerpakket toe"
@@ -2706,7 +2712,7 @@
     "messageformat": "Oproeplink"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Groepsoproep"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Aan het wachten op toelating"
@@ -2928,7 +2934,7 @@
     "messageformat": "Je kunt naar die groep geen berichten doorsturen."
   },
   "icu:GroupV2--cannot-start-group-call": {
-    "messageformat": "Alleen beheerders van deze groep kunnen een groepsoproep beginnen."
+    "messageformat": "Alleen beheerders kunnen in deze groep oproepen beginnen."
   },
   "icu:GroupV2--join--invalid-link--title": {
     "messageformat": "Ongeldige link"
@@ -3108,13 +3114,13 @@
     "messageformat": "Beheerdersgoedkeuring van nieuwe leden is ingeschakeld voor de groepslink."
   },
   "icu:GroupV2--member-add--invited--you": {
-    "messageformat": "Je hebt uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "Je hebt uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--invited--other": {
-    "messageformat": "{memberName} heeft uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "{memberName} heeft uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--invited--unknown": {
-    "messageformat": "Een lid van de groep heeft uitgenodigd persoon {inviteeName} toegevoegd."
+    "messageformat": "Een lid van de groep heeft uitgenodigde {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--from-invite--other": {
     "messageformat": "{inviteeName} heeft de groepsuitnodiging van {inviterName} geaccepteerd."
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Een verzoek van {joinerName} om lid te worden van de groep is afgewezen."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} heeft via de groepslink verzocht lid te worden van de groep en heeft dat verzoek weer ingetrokken"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} heeft {numberOfRequests,number} keer verzocht om lid te worden van de groep en die verzoeken weer ingetrokken."
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {{joinerName} heeft verzocht om lid te worden van de groep en dat verzoek weer ingetrokken} other {{joinerName} heeft verzocht om lid te worden van de groep en {numberOfRequests,number} verzoeken weer ingetrokken}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent}) aan het downloaden..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Download voorbereiden..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je back-up"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Overzetten annuleren"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Overzetten annuleren?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Het herstellen van je berichten en media is nog niet voltooid. Als je besluit te annuleren, kun je opnieuw overzetten via Instellingen."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Doorgaan met overzetten"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Overzetten annuleren"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Media aan het herstellen"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Overzetten annuleren"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Meer opties"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Gegevens herstellen vanuit een back-up is voltooid"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} van {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Het herstellen van je berichten en media is nog niet voltooid. Als je besluit te annuleren, kun je opnieuw overzetten via Instellingen."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Doorgaan met overzetten"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Overzetten annuleren"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Vergroten"
@@ -3609,7 +3639,7 @@
     "messageformat": "Je neemt op dit moment al aan een oproep deel"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Audio"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chatkleur"
@@ -3696,7 +3726,7 @@
     "messageformat": "Verlaten"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
-    "messageformat": "De groep {groupName} deblokkeren?"
+    "messageformat": "De groep ‘{groupName}’ deblokkeren?"
   },
   "icu:ConversationDetailsActions--block-group-modal-title": {
     "messageformat": "De groep ‘{groupName}’ blokkeren en verlaten?"
@@ -3792,7 +3822,7 @@
     "messageformat": "Link vernieuwen"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Nieuwe deelnemers goedkeuren"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Vereis voor iedere persoon die via de groepslink lid wil worden eerst goedkeuring van een beheerder"
@@ -3915,7 +3945,7 @@
     "messageformat": "Deze personen kunnen door jou niet direct worden toegevoegd aan de groep."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-    "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging heeft geaccepteerd."
+    "messageformat": "Ze zijn uitgenodigd om lid te worden van de groep, en ze zullen geen groepsberichten ontvangen totdat ze de uitnodiging hebben geaccepteerd."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
     "messageformat": "Meer informatie"
@@ -4122,7 +4152,7 @@
     "messageformat": "Hier zie je een voorbeeld van de chatkleur."
   },
   "icu:ChatColorPicker__sampleBubble2": {
-    "messageformat": "Een andere berichtbubbel."
+    "messageformat": "Een andere berichtballon."
   },
   "icu:ChatColorPicker__sampleBubble3": {
     "messageformat": "De kleur is alleen voor jou zichtbaar."
@@ -4633,7 +4663,7 @@
     "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
-    "messageformat": "Sluit zelf de Signal-app en klik vervolgens op ‘Opnieuw proberen’.",
+    "messageformat": "Sluit Signal handmatig en klik vervolgens op ‘Opnieuw proberen’.",
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
@@ -4656,7 +4686,7 @@
     "messageformat": "De applicatie is gecrasht"
   },
   "icu:CrashReportDialog__body": {
-    "messageformat": "Signal is herstart nadat het is gecrasht. Je kunt een crashrapport uploaden om de ontwikkelaars te helpen het probleem te vinden en te verhelpen."
+    "messageformat": "Signal is opnieuw opgestart nadat het is gecrasht. Je kunt een crashrapport uploaden om de ontwikkelaars te helpen het probleem te vinden en te verhelpen."
   },
   "icu:CrashReportDialog__submit": {
     "messageformat": "Uploaden"
@@ -4665,7 +4695,7 @@
     "messageformat": "Niet uploaden"
   },
   "icu:CustomizingPreferredReactions__title": {
-    "messageformat": "Reactie-balk personaliseren"
+    "messageformat": "Reactiebalk personaliseren"
   },
   "icu:CustomizingPreferredReactions__subtitle": {
     "messageformat": "Klik op een emoji om die te vervangen"
@@ -4758,7 +4788,7 @@
     "messageformat": "Meer opties"
   },
   "icu:MyStories__views": {
-    "messageformat": "{views, plural, one {Door {views,number} persoon gezien} other {Door {views,number} personen gezien}}"
+    "messageformat": "{views, plural, one {{views,number} weergave} other {{views,number} weergaven}}"
   },
   "icu:MyStories__views--strong": {
     "messageformat": "{views, plural, one {<strong>{views,number}</strong> weergave} other {<strong>{views,number}</strong> weergaven}}"
@@ -4767,7 +4797,7 @@
     "messageformat": "Weergaven uit"
   },
   "icu:MyStories__replies": {
-    "messageformat": "{replyCount, plural, one {<strong>{replyCount,number}</strong> antwoord} other {<strong>{replyCount,number}</strong> antwoorden}}"
+    "messageformat": "{replyCount, plural, one {<strong>{replyCount,number}</strong> reactie} other {<strong>{replyCount,number}</strong> reacties}}"
   },
   "icu:MyStories__delete": {
     "messageformat": "Dit verhaal verwijderen? Het zal ook worden verwijderd voor iedereen die het al heeft ontvangen."
@@ -4989,7 +5019,7 @@
     "messageformat": "Alleen delen met…"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Kies wie dit verhaal kan bekijken. Wijzigingen hebben geen invloed op verhalen die je al hebt verstuurd. <learnMoreLink>Meer informatie.</learnMoreLink>"
+    "messageformat": "Kies wie dit verhaal kan bekijken. Wijzigingen hebben geen invloed op verhalen die je al hebt gedeeld. <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
   "icu:StoriesSettings__context-menu": {
     "messageformat": "Verhaalprivacy"
@@ -5052,7 +5082,7 @@
     "messageformat": "Delen naar een bestaande Signal-groep"
   },
   "icu:SendStoryModal__choose-groups": {
-    "messageformat": "Groepen kiezen"
+    "messageformat": "Groep kiezen"
   },
   "icu:SendStoryModal__my-stories-privacy": {
     "messageformat": "Mijn verhaalprivacy"
@@ -5214,7 +5244,7 @@
     "messageformat": "De tekst heeft geen achtergrondkleur"
   },
   "icu:StoryCreator__story-bg": {
-    "messageformat": "Verander achtergrondkleur van verhaal"
+    "messageformat": "Wijzig de achtergrondkleur van het verhaal"
   },
   "icu:StoryCreator__next": {
     "messageformat": "Volgende"
@@ -5458,7 +5488,7 @@
     "messageformat": "Filteren op gemist"
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
-    "messageformat": "Schuifschakelaar"
+    "messageformat": "Schakelaar"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Geen oproepen"
@@ -5539,10 +5569,10 @@
     "messageformat": "Oproepnaam bewerken"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Nieuwe deelnemers goedkeuren"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Deze instelling kan niet worden gewijzigd als de oproep actief is"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Link kopiëren"
@@ -5566,7 +5596,7 @@
     "messageformat": "Verwijderen"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Deze link kan niet worden verwijderd als de oproep actief is"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oproeplinkdetails"
@@ -5581,13 +5611,13 @@
     "messageformat": "Oproepnaam bewerken"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Nieuwe deelnemers goedkeuren"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Deelnameverzoek goedkeuren"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Deelnameverzoek afwijzen"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Uit"
@@ -5654,6 +5684,9 @@
     "messageformat": "In deze update is een fout opgelost, waardoor de indicator van een gemiste oproep nu weer automatisch op andere apparaten wordt gewist zodra je de gemiste oproep op één apparaat hebt gezien. Maar als je deze fout hebt gemist, dan heb je niks gemist."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Duik in het verleden met de nieuwe en verbeterde weergave ‘Alle media’. Als je nu op een chatkop tikt en bij de gedeelde media ‘Alles weergeven’ selecteert, verschijnen tijdens het scrollen automatisch oudere foto's en video's en niet alleen de meest recente."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

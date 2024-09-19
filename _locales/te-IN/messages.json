@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "లాగ్ సబ్మిట్ చేయండి"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "లాగ్ సబ్మిట్ చేయండి"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "మీరు ఫైళ్ళతో పాటుగా ఫోటోలు మరియు వీడియోలను ఎంపిక చేసుకోలేరు."
   },
@@ -942,7 +948,7 @@
     "messageformat": "ఇటీవలి మీడియాను చూడండి"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "అన్ని మీడియా"
   },
   "icu:back": {
     "messageformat": "తిరిగి"
@@ -2706,7 +2712,7 @@
     "messageformat": "కాల్ లింక్"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "సమూహ కాల్"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "లోపలికి అనుమతించబడేందుకు వేచి ఉన్నారు"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "{joinerName} నుండి సమూహంలో చేరాలని అభ్యర్థన తిరస్కరించబడింది."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} అభ్యర్ధించారు మరియు గ్రూపు లింక్ ద్వారా చేరాలనే వారి అభ్యర్ధనను రద్దు చేశారు"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} అభ్యర్ధించారు మరియు గ్రూపు లింక్ ద్వారా చేరడానికి {numberOfRequests,number} అభ్యర్ధనలను రద్దు చేశారు."
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {గ్రూప్ లింక్ ద్వారా చేరాలనే వారి అభ్యర్ధనను {joinerName} అభ్యర్ధించారు మరియు రద్దు చేశారు} other {గ్రూప్ లింక్ ద్వారా చేరడానికి {joinerName} అభ్యర్ధించారు మరియు {numberOfRequests,number} అభ్యర్ధనలను రద్దు చేశారు}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "{totalSize} లో {currentSize} ({fractionComplete,number,percent}) డౌన్‌లోడ్ అవుతోంది..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "డౌన్‌లోడ్ చేయడానికి సిద్ధమవుతోంది..."
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "మీ బ్యాకప్ పరిమాణాన్ని బట్టి దీనికి ఇంకాస్త సమయం పట్టవచ్చు"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "బదిలీని రద్దు చేయండి"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "బదిలీని రద్దు చేసేదా?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీరు మళ్ళీ సెట్టింగ్‌ల నుండి బదిలీ చేయవచ్చు."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "బదిలీని కొనసాగించండి"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "బదిలీని రద్దు చేయండి"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "మీడియాను పునరుద్ధరిస్తోంది"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "బదిలీని రద్దు చేయండి"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "మరిన్ని ఎంపికలు"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "పునరుద్ధరణ పూర్తయింది"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{totalSize} ({fractionComplete,number,percent})లో {currentSize}"
+    "messageformat": "{currentSize} ఆఫ్ {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీరు మళ్ళీ సెట్టింగ్‌ల నుండి బదిలీ చేయవచ్చు."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "బదిలీని కొనసాగించండి"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "బదిలీని రద్దు చేయండి"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "విస్తరించండి"
@@ -3609,7 +3639,7 @@
     "messageformat": "మీరు ఇప్పటికే కాల్‌లో ఉన్నారు"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "స్వరం"
   },
   "icu:showChatColorEditor": {
     "messageformat": "చాట్ రంగు"
@@ -3792,7 +3822,7 @@
     "messageformat": "లింక్‌ను రీసెట్ చేయండి"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "అడ్మిన్ ఆమోదం అవసరం"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "సమూహ లింక్ ద్వారా చేరిన కొత్త సభ్యులను ఆమోదించడానికి నిర్వాహకుడు అవసరం"
@@ -5539,10 +5569,10 @@
     "messageformat": "కాల్ పేరును సవరించండి"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "అడ్మిన్ ఆమోదం అవసరం"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "కాల్ యాక్టివ్‌గా ఉన్నప్పుడు ఈ సెట్టింగ్ మార్చడం కుదరదు"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "లింక్‌ను కాపీ చేయండి"
@@ -5566,7 +5596,7 @@
     "messageformat": "తొలగించండి"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "కాల్ యాక్టివ్‌గా ఉన్నప్పుడు ఈ లింక్ తొలగించడం కుదరదు"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "కాల్ లింక్ వివరాలు"
@@ -5581,13 +5611,13 @@
     "messageformat": "కాల్ పేరును సవరించండి"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "అడ్మిన్ ఆమోదం అవసరం"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "ప్రవేశాన్ని ఆమోదించండి"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "ప్రవేశాన్ని నిరాకరించండి"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "ఆఫ్"
@@ -5654,6 +5684,9 @@
     "messageformat": "ఈ అప్‌డేట్, మీరు మిస్డ్ కాల్ వివరాలు ఒక పరికరంలో చూసినప్పుడు, మీ ఇతర పరికరాలలో ఆ మిస్డ్ కాల్ కోసం దాని ఇండికేటర్ ఆటోమేటిక్‌గా క్లియర్ అవ్వడానికి కారణం అయిన బగ్‌ను పరిష్కరిస్తుంది."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "కొత్త మరియు మెరుగైన \"ఆల్ మీడియా\" వీక్షణతో జ్ఞాపకాలను స్మరించుకోండి. ఇప్పుడు మీరు చాట్ హెడర్‌పై క్లిక్ చేసి, పంచుకోబడిన మీడియా విభాగంలో \"అన్నీ చూడండి\" ని ఎంచుకున్నప్పుడు, మీరు ఇటీవలి ఎంట్రీలకు పరిమితం కాకుండా స్క్రోల్ చేస్తున్నప్పుడు పాత ఫోటోలు మరియు వీడియోలు ఆటోమేటిక్‌గా కనిపిస్తాయి."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }

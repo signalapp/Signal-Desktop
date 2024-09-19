@@ -578,6 +578,12 @@
   "icu:decryptionErrorToastAction": {
     "messageformat": "Odoslať denník"
   },
+  "icu:Toast__ActionLabel--SubmitLog": {
+    "messageformat": "Odoslať denník"
+  },
+  "icu:Toast--FailedToSendWithEndorsements": {
+    "messageformat": "Failed to send message with endorsements"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Fotografie a videá nie je možné vybrať spolu so súbormi."
   },
@@ -942,7 +948,7 @@
     "messageformat": "Zobraziť nedávne médiá"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "All media"
+    "messageformat": "Všetky médiá"
   },
   "icu:back": {
     "messageformat": "Späť"
@@ -2706,7 +2712,7 @@
     "messageformat": "Odkaz na hovor"
   },
   "icu:CallControls__InfoDisplay--group-call": {
-    "messageformat": "Group call"
+    "messageformat": "Skupinový hovor"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
     "messageformat": "Čakajú na pridanie sa k hovoru"
@@ -3341,12 +3347,6 @@
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "Žiadosť o členstvo v skupine od {joinerName} bola odmietnutá."
   },
-  "icu:GroupV2--admin-approval-bounce--one": {
-    "messageformat": "{joinerName} požiadal a zrušil svoju žiadosť o pripojenie prostredníctvom odkazu na skupinu"
-  },
-  "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} vyžiadaných a zrušených {numberOfRequests,number} žiadostí o pripojenie cez odkaz na skupinu"
-  },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
     "messageformat": "{numberOfRequests, plural, one {Používateľ {joinerName} vyžiadal a zrušil svoju žiadosť o pripojenie cez odkaz na skupinu} few {Používateľ {joinerName} vyžiadal a zrušil {numberOfRequests,number} žiadosti o pripojenie cez odkaz na skupinu} many {Používateľ {joinerName} vyžiadal a zrušil {numberOfRequests,number} žiadosti o pripojenie cez odkaz na skupinu} other {Používateľ {joinerName} vyžiadal a zrušil {numberOfRequests,number} žiadostí o pripojenie cez odkaz na skupinu}}"
   },
@@ -3531,31 +3531,61 @@
     "messageformat": "Sťahuje sa {currentSize} z {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Preparing to download..."
+    "messageformat": "Pripravuje sa sťahovanie…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "V závislosti od veľkosti zálohy to môže trvať niekoľko minút"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Zrušiť prenos"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?"
+    "messageformat": "Zrušiť prenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings."
+    "messageformat": "Obnovenie vašich správ a médií sa nedokončilo. Ak sa rozhodnete prenos zrušiť, môžete ho znova začať v Nastaveniach."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer"
+    "messageformat": "Pokračovať v prenose"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer"
+    "messageformat": "Zrušiť prenos"
   },
-  "icu:BackupMediaDownloadProgress__title": {
+  "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Obnovujú sa médiá"
   },
+  "icu:BackupMediaDownloadProgress__title-paused": {
+    "messageformat": "Restore paused"
+  },
+  "icu:BackupMediaDownloadProgress__button-pause": {
+    "messageformat": "Pause transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-resume": {
+    "messageformat": "Resume transfer"
+  },
+  "icu:BackupMediaDownloadProgress__button-cancel": {
+    "messageformat": "Zrušiť prenos"
+  },
+  "icu:BackupMediaDownloadProgress__button-more": {
+    "messageformat": "Viac možností"
+  },
+  "icu:BackupMediaDownloadProgress__title-complete": {
+    "messageformat": "Obnova dokončená"
+  },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} z {totalSize} ({fractionComplete,number,percent})"
+    "messageformat": "{currentSize} z {totalSize}"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__title": {
+    "messageformat": "Cancel media transfer?"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__description": {
+    "messageformat": "Obnovenie vašich správ a médií sa nedokončilo. Ak sa rozhodnete prenos zrušiť, môžete ho znova začať v Nastaveniach."
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
+    "messageformat": "Pokračovať v prenose"
+  },
+  "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
+    "messageformat": "Zrušiť prenos"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Rozbaliť"
@@ -3609,7 +3639,7 @@
     "messageformat": "Už ste v hovore"
   },
   "icu:ContactModal--voice": {
-    "messageformat": "Voice"
+    "messageformat": "Hlas"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Farba četu"
@@ -3792,7 +3822,7 @@
     "messageformat": "Zresetovať odkaz"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vyžadovať schválenie administrátorom"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Vyžadujte od správcu, aby schválil pripojenie nových členov cez odkaz na skupinu"
@@ -5539,10 +5569,10 @@
     "messageformat": "Upraviť názov hovoru"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vyžadovať schválenie administrátorom"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "This setting can't be changed while the call is active"
+    "messageformat": "Toto nastavenie nie je možné zmeniť, kým je hovor aktívny"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Skopírovať odkaz"
@@ -5566,7 +5596,7 @@
     "messageformat": "Vymazať"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "This link can't be deleted while the call is active"
+    "messageformat": "Tento odkaz nie je možné vymazať, kým je hovor aktívny"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Podrobnosti odkazu na hovor"
@@ -5581,13 +5611,13 @@
     "messageformat": "Upraviť názov hovoru"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Require admin approval"
+    "messageformat": "Vyžadovať schválenie administrátorom"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
-    "messageformat": "Approve entry"
+    "messageformat": "Povoliť vstup"
   },
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
-    "messageformat": "Deny entry"
+    "messageformat": "Zakázať vstup"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Vyp."
@@ -5654,6 +5684,9 @@
     "messageformat": "Táto aktualizácia opravuje chybu, ktorá spôsobovala, že sa pri zobrazení zmeškaného hovoru na jednom zariadení automaticky nevymazal indikátor toho istého zmeškaného hovoru na ostatných zariadeniach."
   },
   "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Take a trip down memory lane with the new and improved \"All Media\" view. Now when you click on a chat header and select \"See all\" in the shared media section, older photos and videos will automatically appear as you scroll instead of being limited to the most recent entries."
+    "messageformat": "Keď teraz kliknete na hlavičku četu a vyberiete možnosť „Zobraziť všetko“ v sekcii zdieľaných médií, staršie fotografie a videá sa automaticky zobrazia pri posúvaní namiesto toho, aby boli obmedzené iba na najnovšie položky."
+  },
+  "icu:WhatsNew__v7.26--0": {
+    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
   }
 }
