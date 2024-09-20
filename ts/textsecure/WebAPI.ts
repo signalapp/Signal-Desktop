@@ -1668,6 +1668,10 @@ export function initialize({
       window.Whisper.events.trigger('unlinkAndDisconnect');
     });
 
+    socketManager.on('firstEnvelope', incoming => {
+      window.Whisper.events.trigger('firstEnvelope', incoming);
+    });
+
     if (useWebSocket) {
       void socketManager.authenticate({ username, password });
     }

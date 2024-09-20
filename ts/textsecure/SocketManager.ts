@@ -34,6 +34,7 @@ import type {
 import WebSocketResource, {
   connectAuthenticatedLibsignal,
   connectUnauthenticatedLibsignal,
+  ServerRequestType,
   TransportOption,
   WebSocketResourceWithShadowing,
 } from './WebsocketResources';
@@ -105,6 +106,8 @@ export class SocketManager extends EventListener {
   private hasStoriesDisabled: boolean;
 
   private reconnectController: AbortController | undefined;
+
+  private envelopeCount = 0;
 
   constructor(
     private readonly libsignalNet: Net.Net,
@@ -298,6 +301,7 @@ export class SocketManager extends EventListener {
     );
 
     window.logAuthenticatedConnect?.();
+    this.envelopeCount = 0;
     this.backOff.reset();
 
     authenticated.addEventListener('close', ({ code, reason }): void => {
@@ -860,6 +864,12 @@ export class SocketManager extends EventListener {
   }
 
   private queueOrHandleRequest(req: IncomingWebSocketRequest): void {
+    if (req.requestType === ServerRequestType.ApiMessage) {
+      this.envelopeCount += 1;
+      if (this.envelopeCount === 1) {
+        this.emit('firstEnvelope', req);
+      }
+    }
     if (this.requestHandlers.size === 0) {
       this.incomingRequestQueue.push(req);
       log.info(
@@ -924,6 +934,10 @@ export class SocketManager extends EventListener {
   public override on(type: 'statusChange', callback: () => void): this;
   public override on(type: 'online', callback: () => void): this;
   public override on(type: 'offline', callback: () => void): this;
+  public override on(
+    type: 'firstEnvelope',
+    callback: (incoming: IncomingWebSocketRequest) => void
+  ): this;
 
   public override on(
     type: string | symbol,
@@ -937,6 +951,10 @@ export class SocketManager extends EventListener {
   public override emit(type: 'statusChange'): boolean;
   public override emit(type: 'online'): boolean;
   public override emit(type: 'offline'): boolean;
+  public override emit(
+    type: 'firstEnvelope',
+    incoming: IncomingWebSocketRequest
+  ): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public override emit(type: string | symbol, ...args: Array<any>): boolean {
