@@ -2025,7 +2025,15 @@ export async function mergeCallLinkRecord(
         DataWriter.saveCallHistory(callHistory),
       ]);
 
-      drop(callLinkRefreshJobQueue.add({ roomId: callLink.roomId }));
+      // The local DB record is a placeholder until confirmed refreshed. If it's gone from
+      // the calling server then delete the local record.
+      drop(
+        callLinkRefreshJobQueue.add({
+          roomId: callLink.roomId,
+          deleteLocallyIfMissingOnCallingServer: true,
+          source: 'storage.mergeCallLinkRecord',
+        })
+      );
       window.reduxActions.callHistory.addCallHistory(callHistory);
     }
 

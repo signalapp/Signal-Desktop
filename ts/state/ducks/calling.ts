@@ -107,6 +107,7 @@ import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
 import { getCallLinksByRoomId } from '../selectors/calling';
 import { storageServiceUploadJob } from '../../services/storage';
 import { CallLinkDeleteManager } from '../../jobs/CallLinkDeleteManager';
+import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue';
 
 // State
 
@@ -1508,33 +1509,12 @@ function handleCallLinkUpdate(
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
     const logId = `handleCallLinkUpdate(${roomId})`;
 
-    const freshCallLinkState = await calling.readCallLink(callLinkRootKey);
     const existingCallLink = await DataReader.getCallLinkByRoomId(roomId);
-
-    // Only give up when server confirms the call link is gone. If we fail to fetch
-    // state due to unexpected errors, continue to save rootKey and adminKey.
-    if (freshCallLinkState == null) {
-      log.info(`${logId}: Call link not found on server`);
-      if (!existingCallLink) {
-        return;
-      }
-
-      // If the call link is gone remotely (for example if it expired on the server),
-      // then delete local call link.
-      log.info(`${logId}: Deleting existing call link`);
-      await DataWriter.beginDeleteCallLink(roomId, {
-        storageNeedsSync: true,
-      });
-      storageServiceUploadJob();
-      handleCallLinkDelete({ roomId });
-      return;
-    }
 
     const callLink: CallLinkType = {
       ...CALL_LINK_DEFAULT_STATE,
       storageNeedsSync: false,
       ...existingCallLink,
-      ...freshCallLinkState,
       roomId,
       rootKey,
       adminKey,
@@ -1544,21 +1524,16 @@ function handleCallLinkUpdate(
 
     if (existingCallLink) {
       if (adminKey && adminKey !== existingCallLink.adminKey) {
+        log.info(`${logId}: Updating existing call link with new adminKey`);
         await DataWriter.updateCallLinkAdminKeyByRoomId(roomId, adminKey);
-        log.info(`${logId}: Updated existing call link with new adminKey`);
-      }
-
-      if (freshCallLinkState) {
-        await DataWriter.updateCallLinkState(roomId, freshCallLinkState);
-        log.info(`${logId}: Updated existing call link state`);
       }
     } else {
+      log.info(`${logId}: Saving new call link`);
       await DataWriter.insertCallLink(callLink);
       if (adminKey != null) {
         callHistory = toCallHistoryFromUnusedCallLink(callLink);
         await DataWriter.saveCallHistory(callHistory);
       }
-      log.info(`${logId}: Saved new call link`);
     }
 
     dispatch({
@@ -1569,6 +1544,16 @@ function handleCallLinkUpdate(
     if (callHistory != null) {
       dispatch(addCallHistory(callHistory));
     }
+
+    // Schedule async refresh. It's possible to get a big batch of sync messages.
+    // This job will throttle requests to the calling server.
+    drop(
+      callLinkRefreshJobQueue.add({
+        roomId: callLink.roomId,
+        deleteLocallyIfMissingOnCallingServer: false,
+        source: 'handleCallLinkUpdate',
+      })
+    );
   };
 }
 

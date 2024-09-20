@@ -24,6 +24,8 @@ const DEFAULT_SLEEP_TIME = 20 * SECOND;
 
 const callLinkRefreshJobDataSchema = z.object({
   roomId: z.string(),
+  deleteLocallyIfMissingOnCallingServer: z.boolean(),
+  source: z.string(),
 });
 
 export type CallLinkRefreshJobData = z.infer<
@@ -54,8 +56,8 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     }: Readonly<{ data: CallLinkRefreshJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
-    const { roomId } = data;
-    const logId = `callLinkRefreshJobQueue(${roomId}).run`;
+    const { roomId, deleteLocallyIfMissingOnCallingServer, source } = data;
+    const logId = `callLinkRefreshJobQueue(${roomId}, source=${source}).run`;
     log.info(`${logId}: Starting`);
 
     const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
@@ -89,9 +91,9 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
         };
         await DataWriter.updateCallLinkState(roomId, freshCallLinkState);
         window.reduxActions.calling.handleCallLinkUpdateLocal(callLink);
-      } else {
+      } else if (deleteLocallyIfMissingOnCallingServer) {
         log.info(
-          `${logId}: Call link not found on server, deleting local call link`
+          `${logId}: Call link not found on server and deleteLocallyIfMissingOnCallingServer; deleting local call link`
         );
         // This will leave a storage service record, and it's up to primary to delete it
         await DataWriter.beginDeleteCallLink(roomId, {
@@ -99,6 +101,8 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
         });
         await DataWriter.finalizeDeleteCallLink(roomId);
         window.reduxActions.calling.handleCallLinkDelete({ roomId });
+      } else {
+        log.info(`${logId}: Call link not found on server, ignoring`);
       }
     } catch (err) {
       error = err;
