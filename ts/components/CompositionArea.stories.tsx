@@ -81,9 +81,7 @@ export default {
     onEditorStateChange: action('onEditorStateChange'),
     onTextTooLong: action('onTextTooLong'),
     draftText: undefined,
-    clearQuotedMessage: action('clearQuotedMessage'),
     getPreferredBadge: () => undefined,
-    getQuotedMessage: action('getQuotedMessage'),
     sortedGroupMembers: [],
     // EmojiButton
     onPickEmoji: action('onPickEmoji'),

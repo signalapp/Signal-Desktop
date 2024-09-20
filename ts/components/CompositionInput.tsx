@@ -71,6 +71,7 @@ import {
 } from '../quill/formatting/matchers';
 import { missingCaseError } from '../util/missingCaseError';
 import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis';
+import { dropNull } from '../util/dropNull';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -139,9 +140,8 @@ export type Props = Readonly<{
   ): unknown;
   onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
   platform: string;
+  quotedMessageId: string | null;
   shouldHidePopovers: boolean | null;
-  getQuotedMessage?(): unknown;
-  clearQuotedMessage?(): unknown;
   linkPreviewLoading?: boolean;
   linkPreviewResult: LinkPreviewType | null;
   onCloseLinkPreview?(conversationId: string): unknown;
@@ -153,14 +153,12 @@ const BASE_CLASS_NAME = 'module-composition-input';
 export function CompositionInput(props: Props): React.ReactElement {
   const {
     children,
-    clearQuotedMessage,
     conversationId,
     disabled,
     draftBodyRanges,
     draftEditMessage,
     draftText,
     getPreferredBadge,
-    getQuotedMessage,
     i18n,
     inputApi,
     isFormattingEnabled,
@@ -177,6 +175,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     onSubmit,
     placeholder,
     platform,
+    quotedMessageId,
     shouldHidePopovers,
     skinTone,
     sendCounter,
@@ -510,11 +509,6 @@ export function CompositionInput(props: Props): React.ReactElement {
       }
     }
 
-    if (getQuotedMessage?.()) {
-      clearQuotedMessage?.();
-      return false;
-    }
-
     return true;
   };
 
@@ -597,6 +591,8 @@ export function CompositionInput(props: Props): React.ReactElement {
       } else if (bodyRanges.length !== draftEditMessage.bodyRanges?.length) {
         isDirty = true;
       } else if (!areBodyRangesEqual(bodyRanges, draftEditMessage.bodyRanges)) {
+        isDirty = true;
+      } else if (dropNull(quotedMessageId) !== draftEditMessage.quote?.id) {
         isDirty = true;
       }
 

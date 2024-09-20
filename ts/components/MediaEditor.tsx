@@ -1314,6 +1314,7 @@ export function MediaEditor({
                   onTextTooLong={onTextTooLong}
                   placeholder={i18n('icu:MediaEditor__input-placeholder')}
                   platform={platform}
+                  quotedMessageId={null}
                   sendCounter={0}
                   sortedGroupMembers={sortedGroupMembers}
                   theme={ThemeType.dark}
