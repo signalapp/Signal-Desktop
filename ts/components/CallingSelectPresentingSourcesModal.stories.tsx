@@ -51,7 +51,8 @@ const createProps = (): PropsType => ({
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+O/wHwAEhgJAyqFnAgAAAABJRU5ErkJggg==',
     },
   ],
-  setPresenting: action('set-presenting'),
+  selectPresentingSource: action('select-presenting-source'),
+  cancelPresenting: action('cancel-presenting'),
 });
 
 export default {

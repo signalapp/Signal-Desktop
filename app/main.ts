@@ -16,7 +16,6 @@ import {
   app,
   BrowserWindow,
   clipboard,
-  desktopCapturer,
   dialog,
   ipcMain as ipc,
   Menu,
@@ -1229,7 +1228,7 @@ function setupAsStandalone() {
 }
 
 let screenShareWindow: BrowserWindow | undefined;
-async function showScreenShareWindow(sourceName: string) {
+async function showScreenShareWindow(sourceName: string | undefined) {
   if (screenShareWindow) {
     screenShareWindow.showInactive();
     return;
@@ -1981,7 +1980,7 @@ app.on('ready', async () => {
     realpath(app.getAppPath()),
   ]);
 
-  updateDefaultSession(session.defaultSession);
+  updateDefaultSession(session.defaultSession, getLogger);
 
   if (getEnvironment() !== Environment.Test) {
     installFileHandler({
@@ -2621,9 +2620,12 @@ ipc.on('stop-screen-share', () => {
   }
 });
 
-ipc.on('show-screen-share', (_event: Electron.Event, sourceName: string) => {
-  drop(showScreenShareWindow(sourceName));
-});
+ipc.on(
+  'show-screen-share',
+  (_event: Electron.Event, sourceName: string | undefined) => {
+    drop(showScreenShareWindow(sourceName));
+  }
+);
 
 ipc.on('update-tray-icon', (_event: Electron.Event, unreadCount: number) => {
   if (systemTrayService) {
@@ -2895,8 +2897,8 @@ function handleSignalRoute(route: ParsedSignalRoute) {
     });
   } else if (route.key === 'showWindow') {
     mainWindow.webContents.send('show-window');
-  } else if (route.key === 'setIsPresenting') {
-    mainWindow.webContents.send('set-is-presenting');
+  } else if (route.key === 'cancelPresenting') {
+    mainWindow.webContents.send('cancel-presenting');
   } else if (route.key === 'captcha') {
     challengeHandler.handleCaptcha(route.args.captchaId);
     // Show window after handling captcha
@@ -3022,17 +3024,6 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
 
   return { canceled: false, filePath: finalFilePath };
 });
-
-ipc.handle(
-  'getScreenCaptureSources',
-  async (_event, types: Array<'screen' | 'window'> = ['screen', 'window']) => {
-    return desktopCapturer.getSources({
-      fetchWindowIcons: true,
-      thumbnailSize: { height: 102, width: 184 },
-      types,
-    });
-  }
-);
 
 ipc.handle('executeMenuRole', async ({ sender }, untypedRole) => {
   const role = untypedRole as MenuItemConstructorOptions['role'];

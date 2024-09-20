@@ -11,7 +11,7 @@ export type PropsType = {
   onCloseController: () => unknown;
   onStopSharing: () => unknown;
   status: ScreenShareStatus;
-  presentedSourceName: string;
+  presentedSourceName: string | undefined;
 };
 
 export function CallingScreenSharingController({
@@ -25,10 +25,12 @@ export function CallingScreenSharingController({
 
   if (status === ScreenShareStatus.Reconnecting) {
     text = i18n('icu:calling__presenting--reconnecting');
-  } else {
+  } else if (presentedSourceName) {
     text = i18n('icu:calling__presenting--info', {
       window: presentedSourceName,
     });
+  } else {
+    text = i18n('icu:calling__presenting--info--unknown');
   }
 
   return (

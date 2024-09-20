@@ -218,7 +218,7 @@ class NotificationService extends EventEmitter {
             isVideoCall: true,
           });
         } else if (type === NotificationType.IsPresenting) {
-          window.reduxActions?.calling?.setPresenting();
+          window.reduxActions?.calling?.cancelPresenting();
         } else if (type === NotificationType.IncomingCall) {
           window.IPC.showWindow();
         } else {

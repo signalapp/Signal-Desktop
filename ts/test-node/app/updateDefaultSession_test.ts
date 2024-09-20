@@ -21,13 +21,15 @@ describe('updateDefaultSession', () => {
   it('sets the spellcheck URL', () => {
     const sesh = session.fromPartition(uuid());
     const stub = sandbox.stub(sesh, 'setSpellCheckerDictionaryDownloadURL');
+    const getLogger = sandbox.stub();
 
-    updateDefaultSession(sesh);
+    updateDefaultSession(sesh, getLogger);
 
     sinon.assert.calledOnce(stub);
     sinon.assert.calledWith(
       stub,
       `https://updates.signal.org/desktop/hunspell_dictionaries/${process.versions.electron}/`
     );
+    sinon.assert.notCalled(getLogger);
   });
 });

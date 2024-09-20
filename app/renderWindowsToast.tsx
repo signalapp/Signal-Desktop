@@ -9,7 +9,7 @@ import type { WindowsNotificationData } from '../ts/services/notifications';
 import { NotificationType } from '../ts/services/notifications';
 import { missingCaseError } from '../ts/util/missingCaseError';
 import {
-  setIsPresentingRoute,
+  cancelPresentingRoute,
   showConversationRoute,
   showWindowRoute,
   startCallLobbyRoute,
@@ -69,7 +69,7 @@ export function renderWindowsToast({
   } else if (type === NotificationType.IncomingCall) {
     launch = showWindowRoute.toAppUrl({});
   } else if (type === NotificationType.IsPresenting) {
-    launch = setIsPresentingRoute.toAppUrl({});
+    launch = cancelPresentingRoute.toAppUrl({});
   } else {
     throw missingCaseError(type);
   }

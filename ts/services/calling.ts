@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { DesktopCapturerSource } from 'electron';
 import { ipcRenderer } from 'electron';
 import type {
   AudioDevice,
@@ -64,7 +63,6 @@ import type {
   AvailableIODevicesType,
   CallEndedReason,
   MediaDeviceSettings,
-  PresentableSource,
   PresentedSource,
 } from '../types/Calling';
 import {
@@ -77,7 +75,6 @@ import {
   findBestMatchingAudioDeviceIndex,
   findBestMatchingCameraId,
 } from '../calling/findBestMatchingDevice';
-import type { LocalizerType } from '../types/Util';
 import { normalizeAci } from '../util/normalizeAci';
 import { isAciString } from '../util/isAciString';
 import * as Errors from '../types/errors';
@@ -102,7 +99,6 @@ import {
 } from '../calling/constants';
 import { callingMessageToProto } from '../util/callingMessageToProto';
 import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
-import OS from '../util/os/osMain';
 import { SignalService as Proto } from '../protobuf';
 import { DataReader, DataWriter } from '../sql/Client';
 import {
@@ -192,6 +188,7 @@ type CallingReduxInterface = Pick<
   CallingReduxActionsType,
   | 'callStateChange'
   | 'cancelIncomingGroupCallRing'
+  | 'cancelPresenting'
   | 'groupCallAudioLevelsChange'
   | 'groupCallEnded'
   | 'groupCallRaisedHandsChange'
@@ -204,7 +201,6 @@ type CallingReduxInterface = Pick<
   | 'refreshIODevices'
   | 'remoteSharingScreenChange'
   | 'remoteVideoChange'
-  | 'setPresenting'
   | 'startCallingLobby'
   | 'startCallLinkLobby'
   | 'startCallLinkLobbyByRoomId'
@@ -213,9 +209,13 @@ type CallingReduxInterface = Pick<
   areAnyCallsActiveOrRinging(): boolean;
 };
 
-function isScreenSource(source: PresentedSource): boolean {
-  return source.id.startsWith('screen');
-}
+export type SetPresentingOptionsType = Readonly<{
+  conversationId: string;
+  hasLocalVideo: boolean;
+  mediaStream?: MediaStream;
+  source?: PresentedSource;
+  callLinkRootKey?: string;
+}>;
 
 function truncateForLogging(name: string | undefined): string | undefined {
   if (!name || name.length <= 4) {
@@ -249,29 +249,6 @@ function cleanForLogging(settings?: MediaDeviceSettings): unknown {
     selectedSpeaker: truncateForLogging(settings.selectedSpeaker?.name),
     selectedCamera: settings.selectedCamera,
   };
-}
-
-function translateSourceName(
-  i18n: LocalizerType,
-  source: PresentedSource
-): string {
-  const { name } = source;
-  if (!isScreenSource(source)) {
-    return name;
-  }
-
-  if (name === 'Entire Screen') {
-    return i18n('icu:calling__SelectPresentingSourcesModal--entireScreen');
-  }
-
-  const match = name.match(/^Screen (\d+)$/);
-  if (match) {
-    return i18n('icu:calling__SelectPresentingSourcesModal--screen', {
-      id: match[1],
-    });
-  }
-
-  return name;
 }
 
 function protoToCallingMessage({
@@ -416,7 +393,7 @@ export class CallingClass {
     });
 
     ipcRenderer.on('stop-screen-share', () => {
-      reduxInterface.setPresenting();
+      reduxInterface.cancelPresenting();
     });
     ipcRenderer.on(
       'calling:set-rtc-stats-interval',
@@ -2046,51 +2023,13 @@ export class CallingClass {
     }
   }
 
-  async getPresentingSources(): Promise<Array<PresentableSource>> {
-    // There's a Linux Wayland Electron bug where requesting desktopCapturer.
-    // getSources() with types as ['screen', 'window'] (the default) pops 2
-    // OS permissions dialogs in an unusable state (Dialog 1 for Share Window
-    // is the foreground and ignores input; Dialog 2 for Share Screen is background
-    // and requires input. As a workaround, request both sources sequentially.
-    // https://github.com/signalapp/Signal-Desktop/issues/5350#issuecomment-1688614149
-    const sources: ReadonlyArray<DesktopCapturerSource> =
-      OS.isLinux() && OS.isWaylandEnabled()
-        ? (
-            await ipcRenderer.invoke('getScreenCaptureSources', ['screen'])
-          ).concat(
-            await ipcRenderer.invoke('getScreenCaptureSources', ['window'])
-          )
-        : await ipcRenderer.invoke('getScreenCaptureSources');
-
-    const presentableSources: Array<PresentableSource> = [];
-
-    sources.forEach(source => {
-      // If electron can't retrieve a thumbnail then it won't be able to
-      // present this source so we filter these out.
-      if (source.thumbnail.isEmpty()) {
-        return;
-      }
-      presentableSources.push({
-        appIcon:
-          source.appIcon && !source.appIcon.isEmpty()
-            ? source.appIcon.toDataURL()
-            : undefined,
-        id: source.id,
-        name: translateSourceName(window.i18n, source),
-        isScreen: isScreenSource(source),
-        thumbnail: source.thumbnail.toDataURL(),
-      });
-    });
-
-    return presentableSources;
-  }
-
-  async setPresenting(
-    conversationId: string,
-    hasLocalVideo: boolean,
-    source?: PresentedSource,
-    callLinkRootKey?: string
-  ): Promise<void> {
+  async setPresenting({
+    conversationId,
+    hasLocalVideo,
+    mediaStream,
+    source,
+    callLinkRootKey,
+  }: SetPresentingOptionsType): Promise<void> {
     const call = getOwn(this.callsLookup, conversationId);
     if (!call) {
       log.warn('Trying to set presenting for a non-existent call');
@@ -2098,7 +2037,8 @@ export class CallingClass {
     }
 
     this.videoCapturer.disable();
-    if (source) {
+    const isPresenting = mediaStream != null;
+    if (isPresenting) {
       this.hadLocalVideoBeforePresenting = hasLocalVideo;
       drop(
         this.enableCaptureAndSend(call, {
@@ -2106,7 +2046,7 @@ export class CallingClass {
           maxFramerate: 5,
           maxHeight: 1800,
           maxWidth: 2880,
-          screenShareSourceId: source.id,
+          mediaStream,
         })
       );
       this.setOutgoingVideo(conversationId, true);
@@ -2118,11 +2058,10 @@ export class CallingClass {
       this.hadLocalVideoBeforePresenting = undefined;
     }
 
-    const isPresenting = Boolean(source);
     this.setOutgoingVideoIsScreenShare(call, isPresenting);
 
-    if (source) {
-      ipcRenderer.send('show-screen-share', source.name);
+    if (isPresenting) {
+      ipcRenderer.send('show-screen-share', source?.name);
 
       let url: string;
       let absolutePath: string | undefined;

@@ -1913,6 +1913,10 @@
     "messageformat": "Signal is sharing {window}.",
     "description": "Text that appears in the screen sharing controller to inform person that they are presenting"
   },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active",
+    "description": "Text that appears in the screen sharing controller to inform person that they are presenting"
+  },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Reconnecting...",
     "description": "Text that appears in the screen sharing controller to inform person that the call is in reconnecting state"

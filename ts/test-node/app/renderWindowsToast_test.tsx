@@ -89,7 +89,7 @@ describe('renderWindowsToast', () => {
     });
 
     const expected =
-      '<toast launch="sgnl://set-is-presenting" activationType="protocol"><visual><binding template="ToastText02"><text id="1">Alice</text><text id="2">Hi there!</text></binding></visual></toast>';
+      '<toast launch="sgnl://cancel-presenting" activationType="protocol"><visual><binding template="ToastText02"><text id="1">Alice</text><text id="2">Hi there!</text></binding></visual></toast>';
 
     assert.strictEqual(xml, expected);
   });

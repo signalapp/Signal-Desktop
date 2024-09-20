@@ -441,15 +441,16 @@ export const SmartCallManager = memo(function SmartCallManager() {
     openSystemPreferencesAction,
     removeClient,
     blockClient,
+    cancelPresenting,
     sendGroupCallRaiseHand,
     sendGroupCallReaction,
+    selectPresentingSource,
     setGroupCallVideoRequest,
     setIsCallActive,
     setLocalAudio,
     setLocalVideo,
     setLocalPreview,
     setOutgoingRing,
-    setPresenting,
     setRendererCanvas,
     switchToPresentationView,
     switchFromPresentationView,
@@ -477,6 +478,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       bounceAppIconStop={bounceAppIconStop}
       callLink={callLink}
       cancelCall={cancelCall}
+      cancelPresenting={cancelPresenting}
       changeCallView={changeCallView}
       closeNeedPermissionScreen={closeNeedPermissionScreen}
       declineCall={declineCall}
@@ -503,13 +505,13 @@ export const SmartCallManager = memo(function SmartCallManager() {
       renderReactionPicker={renderReactionPicker}
       sendGroupCallRaiseHand={sendGroupCallRaiseHand}
       sendGroupCallReaction={sendGroupCallReaction}
+      selectPresentingSource={selectPresentingSource}
       setGroupCallVideoRequest={setGroupCallVideoRequest}
       setIsCallActive={setIsCallActive}
       setLocalAudio={setLocalAudio}
       setLocalPreview={setLocalPreview}
       setLocalVideo={setLocalVideo}
       setOutgoingRing={setOutgoingRing}
-      setPresenting={setPresenting}
       setRendererCanvas={setRendererCanvas}
       showContactModal={showContactModal}
       showShareCallLinkViaSignal={showShareCallLinkViaSignal}

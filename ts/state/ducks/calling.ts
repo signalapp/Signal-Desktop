@@ -19,6 +19,10 @@ import { getIntl, getPlatform } from '../selectors/user';
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 import { missingCaseError } from '../../util/missingCaseError';
 import { drop } from '../../util/drop';
+import {
+  DesktopCapturer,
+  type DesktopCapturerBaton,
+} from '../../util/desktopCapturer';
 import { calling } from '../../services/calling';
 import { truncateAudioLevel } from '../../calling/truncateAudioLevel';
 import type { StateType as RootStateType } from '../reducer';
@@ -179,7 +183,8 @@ export type ActiveCallStateType = {
   outgoingRing: boolean;
   pip: boolean;
   presentingSource?: PresentedSource;
-  presentingSourcesAvailable?: Array<PresentableSource>;
+  presentingSourcesAvailable?: ReadonlyArray<PresentableSource>;
+  capturerBaton?: DesktopCapturerBaton;
   settingsDialogOpen: boolean;
   showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
@@ -636,6 +641,7 @@ const REMOTE_SHARING_SCREEN_CHANGE = 'calling/REMOTE_SHARING_SCREEN_CHANGE';
 const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
 const REMOVE_CLIENT = 'calling/REMOVE_CLIENT';
 const RETURN_TO_ACTIVE_CALL = 'calling/RETURN_TO_ACTIVE_CALL';
+const SELECT_PRESENTING_SOURCE = 'calling/SELECT_PRESENTING_SOURCE';
 const SEND_GROUP_CALL_REACTION = 'calling/SEND_GROUP_CALL_REACTION';
 const SET_LOCAL_AUDIO_FULFILLED = 'calling/SET_LOCAL_AUDIO_FULFILLED';
 const SET_LOCAL_VIDEO_FULFILLED = 'calling/SET_LOCAL_VIDEO_FULFILLED';
@@ -866,6 +872,11 @@ type ReturnToActiveCallActionType = ReadonlyDeep<{
   type: 'calling/RETURN_TO_ACTIVE_CALL';
 }>;
 
+type SelectPresentingSourceActionType = ReadonlyDeep<{
+  type: 'calling/SELECT_PRESENTING_SOURCE';
+  payload: string;
+}>;
+
 type SetLocalAudioActionType = ReadonlyDeep<{
   type: 'calling/SET_LOCAL_AUDIO_FULFILLED';
   payload: SetLocalAudioType;
@@ -881,11 +892,13 @@ type SetPresentingFulfilledActionType = ReadonlyDeep<{
   payload?: PresentedSource;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-type SetPresentingSourcesActionType = {
+type SetPresentingSourcesActionType = ReadonlyDeep<{
   type: 'calling/SET_PRESENTING_SOURCES';
-  payload: Array<PresentableSource>;
-};
+  payload: {
+    presentableSources: ReadonlyArray<PresentableSource>;
+    capturerBaton: DesktopCapturerBaton;
+  };
+}>;
 
 type SetOutgoingRingActionType = ReadonlyDeep<{
   type: 'calling/SET_OUTGOING_RING';
@@ -962,6 +975,7 @@ export type CallingActionType =
   | RemoveClientActionType
   | ReturnToActiveCallActionType
   | SendGroupCallReactionActionType
+  | SelectPresentingSourceActionType
   | SetLocalAudioActionType
   | SetLocalVideoFulfilledActionType
   | SetPresentingSourcesActionType
@@ -1275,6 +1289,8 @@ function declineCall(
   };
 }
 
+const globalCapturers = new WeakMap<DesktopCapturerBaton, DesktopCapturer>();
+
 function getPresentingSources(): ThunkAction<
   void,
   RootStateType,
@@ -1283,6 +1299,8 @@ function getPresentingSources(): ThunkAction<
   | ToggleNeedsScreenRecordingPermissionsActionType
 > {
   return async (dispatch, getState) => {
+    const i18n = getIntl(getState());
+
     // We check if the user has permissions first before calling desktopCapturer
     // Next we call getPresentingSources so that one gets the prompt for permissions,
     // if necessary.
@@ -1294,19 +1312,51 @@ function getPresentingSources(): ThunkAction<
     const needsPermission =
       platform === 'darwin' && !hasScreenCapturePermission();
 
-    const sources = await calling.getPresentingSources();
+    const capturer = new DesktopCapturer({
+      i18n,
+      onPresentableSources(presentableSources) {
+        if (needsPermission) {
+          // Abort
+          capturer.selectSource(undefined);
+          return;
+        }
+
+        dispatch({
+          type: SET_PRESENTING_SOURCES,
+          payload: {
+            presentableSources,
+            capturerBaton: capturer.baton,
+          },
+        });
+      },
+      onMediaStream(mediaStream) {
+        let presentingSource: PresentedSource | undefined;
+        const { activeCallState } = getState().calling;
+        if (activeCallState?.state === 'Active') {
+          ({ presentingSource } = activeCallState);
+        }
+
+        dispatch(
+          _setPresenting(
+            presentingSource || {
+              id: 'media-stream',
+              name: '',
+            },
+            mediaStream
+          )
+        );
+      },
+      onError(error) {
+        log.error('getPresentingSources: got error', Errors.toLogFormat(error));
+      },
+    });
+    globalCapturers.set(capturer.baton, capturer);
 
     if (needsPermission) {
       dispatch({
         type: TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS,
       });
-      return;
     }
-
-    dispatch({
-      type: SET_PRESENTING_SOURCES,
-      payload: sources,
-    });
   };
 }
 
@@ -1774,6 +1824,13 @@ function returnToActiveCall(): ReturnToActiveCallActionType {
   };
 }
 
+function selectPresentingSource(id: string): SelectPresentingSourceActionType {
+  return {
+    type: SELECT_PRESENTING_SOURCE,
+    payload: id,
+  };
+}
+
 function setIsCallActive(
   isCallActive: boolean
 ): ThunkAction<void, RootStateType, unknown, never> {
@@ -1871,8 +1928,9 @@ function setGroupCallVideoRequest(
   };
 }
 
-function setPresenting(
-  sourceToPresent?: PresentedSource
+function _setPresenting(
+  sourceToPresent?: PresentedSource,
+  mediaStream?: MediaStream
 ): ThunkAction<void, RootStateType, unknown, SetPresentingFulfilledActionType> {
   return async (dispatch, getState) => {
     const state = getState();
@@ -1898,22 +1956,32 @@ function setPresenting(
       rootKey = callLink?.rootKey;
     }
 
-    await calling.setPresenting(
-      activeCall.conversationId,
-      activeCallState.hasLocalVideo,
-      sourceToPresent,
-      rootKey
-    );
+    await calling.setPresenting({
+      conversationId: activeCall.conversationId,
+      hasLocalVideo: activeCallState.hasLocalVideo,
+      mediaStream,
+      source: sourceToPresent,
+      callLinkRootKey: rootKey,
+    });
 
     dispatch({
       type: SET_PRESENTING,
       payload: sourceToPresent,
     });
 
-    if (sourceToPresent) {
+    if (mediaStream) {
       await callingTones.someonePresenting();
     }
   };
+}
+
+function cancelPresenting(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetPresentingFulfilledActionType
+> {
+  return _setPresenting(undefined, undefined);
 }
 
 function setOutgoingRing(payload: boolean): SetOutgoingRingActionType {
@@ -2557,6 +2625,7 @@ export const actions = {
   callStateChange,
   cancelCall,
   cancelIncomingGroupCallRing,
+  cancelPresenting,
   changeCallView,
   changeIODevice,
   closeNeedPermissionScreen,
@@ -2592,13 +2661,13 @@ export const actions = {
   returnToActiveCall,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
+  selectPresentingSource,
   setGroupCallVideoRequest,
   setIsCallActive,
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
   setOutgoingRing,
-  setPresenting,
   setRendererCanvas,
   startCall,
   startCallLinkLobby,
@@ -2612,6 +2681,9 @@ export const actions = {
   toggleSettings,
   updateCallLinkName,
   updateCallLinkRestrictions,
+
+  // Exported only for tests
+  _setPresenting,
 };
 
 export const useCallingActions = (): BoundActionCreatorsMapObject<
@@ -3677,12 +3749,20 @@ export function reducer(
       return state;
     }
 
+    // Cancel source selection if running
+    const { capturerBaton } = activeCallState;
+    if (capturerBaton != null) {
+      const capturer = globalCapturers.get(capturerBaton);
+      capturer?.selectSource(undefined);
+    }
+
     return {
       ...state,
       activeCallState: {
         ...activeCallState,
         presentingSource: action.payload,
         presentingSourcesAvailable: undefined,
+        capturerBaton: undefined,
       },
     };
   }
@@ -3698,7 +3778,43 @@ export function reducer(
       ...state,
       activeCallState: {
         ...activeCallState,
-        presentingSourcesAvailable: action.payload,
+        presentingSourcesAvailable: action.payload.presentableSources,
+        capturerBaton: action.payload.capturerBaton,
+      },
+    };
+  }
+
+  if (action.type === SELECT_PRESENTING_SOURCE) {
+    const { activeCallState } = state;
+    if (activeCallState?.state !== 'Active') {
+      log.warn('Cannot set presenting sources when there is no active call');
+      return state;
+    }
+
+    const { capturerBaton, presentingSourcesAvailable } = activeCallState;
+    if (!capturerBaton || !presentingSourcesAvailable) {
+      log.warn(
+        'Cannot set presenting sources when there is no presenting modal'
+      );
+      return state;
+    }
+
+    const capturer = globalCapturers.get(capturerBaton);
+    if (!capturer) {
+      log.warn('Cannot toggle presenting when there is no capturer');
+      return state;
+    }
+    capturer.selectSource(action.payload);
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        presentingSource: presentingSourcesAvailable.find(
+          source => source.id === action.payload
+        ),
+        presentingSourcesAvailable: undefined,
+        capturerBaton: undefined,
       },
     };
   }

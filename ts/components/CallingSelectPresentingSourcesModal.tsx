@@ -9,11 +9,13 @@ import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 import type { PresentedSource, PresentableSource } from '../types/Calling';
 import { Theme } from '../util/theme';
+import { strictAssert } from '../util/assert';
 
 export type PropsType = {
   i18n: LocalizerType;
-  presentingSourcesAvailable: Array<PresentableSource>;
-  setPresenting: (_?: PresentedSource) => void;
+  presentingSourcesAvailable: ReadonlyArray<PresentableSource>;
+  selectPresentingSource: (id: string) => void;
+  cancelPresenting: () => void;
 };
 
 function Source({
@@ -67,7 +69,8 @@ function Source({
 export function CallingSelectPresentingSourcesModal({
   i18n,
   presentingSourcesAvailable,
-  setPresenting,
+  selectPresentingSource,
+  cancelPresenting,
 }: PropsType): JSX.Element | null {
   const [sourceToPresent, setSourceToPresent] = useState<
     PresentedSource | undefined
@@ -84,12 +87,15 @@ export function CallingSelectPresentingSourcesModal({
 
   const footer = (
     <>
-      <Button onClick={() => setPresenting()} variant={ButtonVariant.Secondary}>
+      <Button onClick={cancelPresenting} variant={ButtonVariant.Secondary}>
         {i18n('icu:cancel')}
       </Button>
       <Button
         disabled={!sourceToPresent}
-        onClick={() => setPresenting(sourceToPresent)}
+        onClick={() => {
+          strictAssert(sourceToPresent, 'No source to present');
+          selectPresentingSource(sourceToPresent.id);
+        }}
       >
         {i18n('icu:calling__SelectPresentingSourcesModal--confirm')}
       </Button>
@@ -102,9 +108,7 @@ export function CallingSelectPresentingSourcesModal({
       hasXButton
       i18n={i18n}
       moduleClassName="module-CallingSelectPresentingSourcesModal"
-      onClose={() => {
-        setPresenting();
-      }}
+      onClose={cancelPresenting}
       theme={Theme.Dark}
       title={i18n('icu:calling__SelectPresentingSourcesModal--title')}
       modalFooter={footer}

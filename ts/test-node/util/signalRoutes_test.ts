@@ -205,13 +205,13 @@ describe('signalRoutes', () => {
     check('sgnl://show-window', result);
   });
 
-  it('setIsPresenting', () => {
+  it('cancelPresenting', () => {
     const result: ParsedSignalRoute = {
-      key: 'setIsPresenting',
+      key: 'cancelPresenting',
       args: {},
     };
     const check = createCheck({ isRoute: true, hasWebUrl: false });
-    check('sgnl://set-is-presenting/', result);
-    check('sgnl://set-is-presenting', result);
+    check('sgnl://cancel-presenting/', result);
+    check('sgnl://cancel-presenting', result);
   });
 });

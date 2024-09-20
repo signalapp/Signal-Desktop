@@ -49,7 +49,7 @@ type AllHostnamePatterns =
   | 'show-conversation'
   | 'start-call-lobby'
   | 'show-window'
-  | 'set-is-presenting'
+  | 'cancel-presenting'
   | ':captchaId(.+)'
   | '';
 
@@ -535,18 +535,18 @@ export const showWindowRoute = _route('showWindow', {
  * Set is presenting
  * @example
  * ```ts
- * setIsPresentingRoute.toAppUrl({})
- * // URL { "sgnl://set-is-presenting" }
+ * cancelPresentingRoute.toAppUrl({})
+ * // URL { "sgnl://cancel-presenting" }
  * ```
  */
-export const setIsPresentingRoute = _route('setIsPresenting', {
-  patterns: [_pattern('sgnl:', 'set-is-presenting', '{/}?', {})],
+export const cancelPresentingRoute = _route('cancelPresenting', {
+  patterns: [_pattern('sgnl:', 'cancel-presenting', '{/}?', {})],
   schema: z.object({}),
   parse() {
     return {};
   },
   toAppUrl() {
-    return new URL('sgnl://set-is-presenting');
+    return new URL('sgnl://cancel-presenting');
   },
 });
 
@@ -565,7 +565,7 @@ const _allSignalRoutes = [
   showConversationRoute,
   startCallLobbyRoute,
   showWindowRoute,
-  setIsPresentingRoute,
+  cancelPresentingRoute,
 ] as const;
 
 strictAssert(

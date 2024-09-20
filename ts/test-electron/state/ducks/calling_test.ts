@@ -240,46 +240,6 @@ describe('calling duck', () => {
   });
 
   describe('actions', () => {
-    describe('getPresentingSources', () => {
-      beforeEach(function (this: Mocha.Context) {
-        this.callingServiceGetPresentingSources = this.sandbox
-          .stub(callingService, 'getPresentingSources')
-          .resolves([
-            {
-              id: 'foo.bar',
-              name: 'Foo Bar',
-              thumbnail: 'xyz',
-            },
-          ]);
-      });
-
-      it('retrieves sources from the calling service', async function (this: Mocha.Context) {
-        const { getPresentingSources } = actions;
-        const dispatch = sinon.spy();
-        await getPresentingSources()(dispatch, getEmptyRootState, null);
-
-        sinon.assert.calledOnce(this.callingServiceGetPresentingSources);
-      });
-
-      it('dispatches SET_PRESENTING_SOURCES', async () => {
-        const { getPresentingSources } = actions;
-        const dispatch = sinon.spy();
-        await getPresentingSources()(dispatch, getEmptyRootState, null);
-
-        sinon.assert.calledOnce(dispatch);
-        sinon.assert.calledWith(dispatch, {
-          type: 'calling/SET_PRESENTING_SOURCES',
-          payload: [
-            {
-              id: 'foo.bar',
-              name: 'Foo Bar',
-              thumbnail: 'xyz',
-            },
-          ],
-        });
-      });
-    });
-
     describe('remoteSharingScreenChange', () => {
       it("updates whether someone's screen is being shared", () => {
         const { remoteSharingScreenChange } = actions;
@@ -308,7 +268,7 @@ describe('calling duck', () => {
       });
     });
 
-    describe('setPresenting', () => {
+    describe('_setPresenting', () => {
       beforeEach(function (this: Mocha.Context) {
         this.callingServiceSetPresenting = this.sandbox.stub(
           callingService,
@@ -316,8 +276,8 @@ describe('calling duck', () => {
         );
       });
 
-      it('calls setPresenting on the calling service', async function (this: Mocha.Context) {
-        const { setPresenting } = actions;
+      it('calls _setPresenting on the calling service', async function (this: Mocha.Context) {
+        const { _setPresenting } = actions;
         const dispatch = sinon.spy();
         const presentedSource = {
           id: 'window:786',
@@ -330,19 +290,20 @@ describe('calling duck', () => {
           },
         });
 
-        await setPresenting(presentedSource)(dispatch, getState, null);
+        await _setPresenting(presentedSource)(dispatch, getState, null);
 
         sinon.assert.calledOnce(this.callingServiceSetPresenting);
-        sinon.assert.calledWith(
-          this.callingServiceSetPresenting,
-          'fake-group-call-conversation-id',
-          false,
-          presentedSource
-        );
+        sinon.assert.calledWith(this.callingServiceSetPresenting, {
+          conversationId: 'fake-group-call-conversation-id',
+          hasLocalVideo: false,
+          mediaStream: undefined,
+          source: presentedSource,
+          callLinkRootKey: undefined,
+        });
       });
 
       it('dispatches SET_PRESENTING', async () => {
-        const { setPresenting } = actions;
+        const { _setPresenting } = actions;
         const dispatch = sinon.spy();
         const presentedSource = {
           id: 'window:786',
@@ -355,7 +316,7 @@ describe('calling duck', () => {
           },
         });
 
-        await setPresenting(presentedSource)(dispatch, getState, null);
+        await _setPresenting(presentedSource)(dispatch, getState, null);
 
         sinon.assert.calledOnce(dispatch);
         sinon.assert.calledWith(dispatch, {
@@ -366,7 +327,7 @@ describe('calling duck', () => {
 
       it('turns off presenting when no value is passed in', async () => {
         const dispatch = sinon.spy();
-        const { setPresenting } = actions;
+        const { _setPresenting } = actions;
         const presentedSource = {
           id: 'window:786',
           name: 'Application',
@@ -379,7 +340,7 @@ describe('calling duck', () => {
           },
         });
 
-        await setPresenting(presentedSource)(dispatch, getState, null);
+        await _setPresenting(presentedSource)(dispatch, getState, null);
 
         const action = dispatch.getCall(0).args[0];
 
@@ -401,7 +362,7 @@ describe('calling duck', () => {
 
       it('sets the presenting value when one is passed in', async () => {
         const dispatch = sinon.spy();
-        const { setPresenting } = actions;
+        const { _setPresenting } = actions;
 
         const getState = (): RootStateType => ({
           ...getEmptyRootState(),
@@ -410,7 +371,7 @@ describe('calling duck', () => {
           },
         });
 
-        await setPresenting()(dispatch, getState, null);
+        await _setPresenting()(dispatch, getState, null);
 
         const action = dispatch.getCall(0).args[0];
 
