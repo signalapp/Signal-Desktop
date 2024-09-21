@@ -69,7 +69,6 @@ type StateType = Readonly<
 export type PrepareLinkDataOptionsType = Readonly<{
   deviceName: string;
   backupFile?: Uint8Array;
-  isBackupIntegration?: boolean;
 }>;
 
 export class Provisioner {
@@ -153,7 +152,6 @@ export class Provisioner {
   public prepareLinkData({
     deviceName,
     backupFile,
-    isBackupIntegration,
   }: PrepareLinkDataOptionsType): CreateLinkedDeviceOptionsType {
     strictAssert(
       this.state.step === Step.ReadyToLink,
@@ -211,7 +209,6 @@ export class Provisioner {
         MAX_DEVICE_NAME_LENGTH
       ),
       backupFile,
-      isBackupIntegration,
       userAgent,
       ourAci,
       ourPni,

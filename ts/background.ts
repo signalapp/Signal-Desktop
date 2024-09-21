@@ -2093,9 +2093,7 @@ export async function startApp(): Promise<void> {
         storage,
       });
 
-      if (!window.SignalCI?.isBackupIntegration) {
-        void routineProfileRefresher.start();
-      }
+      void routineProfileRefresher.start();
     }
 
     drop(usernameIntegrity.start());
@@ -2130,10 +2128,6 @@ export async function startApp(): Promise<void> {
 
   async function onConfiguration(ev: ConfigurationEvent): Promise<void> {
     ev.confirm();
-
-    if (window.SignalCI?.isBackupIntegration) {
-      return;
-    }
 
     const { configuration } = ev;
     const {
@@ -3199,10 +3193,6 @@ export async function startApp(): Promise<void> {
 
   async function onKeysSync(ev: KeysEvent) {
     ev.confirm();
-
-    if (window.SignalCI?.isBackupIntegration) {
-      return;
-    }
 
     const { masterKey } = ev;
     let { storageServiceKey } = ev;

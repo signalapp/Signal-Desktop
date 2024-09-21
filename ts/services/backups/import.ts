@@ -76,6 +76,7 @@ import { SeenStatus } from '../../MessageSeenStatus';
 import * as Bytes from '../../Bytes';
 import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants';
 import type { AboutMe, LocalChatStyle } from './types';
+import { BackupType } from './types';
 import type { GroupV2ChangeDetailType } from '../../groups';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { drop } from '../../util/drop';
@@ -298,17 +299,19 @@ export class BackupImportStream extends Writable {
     flush: () => this.saveMessageBatcher.flushAndWait(),
   });
 
-  private constructor() {
+  private constructor(private readonly backupType: BackupType) {
     super({ objectMode: true });
   }
 
-  public static async create(): Promise<BackupImportStream> {
+  public static async create(
+    backupType = BackupType.Ciphertext
+  ): Promise<BackupImportStream> {
     await AttachmentDownloadManager.stop();
     await DataWriter.removeAllBackupAttachmentDownloadJobs();
     await window.storage.put('backupMediaDownloadCompletedBytes', 0);
     await window.storage.put('backupMediaDownloadTotalBytes', 0);
 
-    return new BackupImportStream();
+    return new BackupImportStream(backupType);
   }
 
   override async _write(
@@ -387,9 +390,10 @@ export class BackupImportStream extends Writable {
       await pMap(
         [...this.pendingGroupAvatars.entries()],
         async ([conversationId, newAvatarUrl]) => {
-          if (!window.SignalCI?.isBackupIntegration) {
-            await groupAvatarJobQueue.add({ conversationId, newAvatarUrl });
+          if (this.backupType === BackupType.TestOnlyPlaintext) {
+            return;
           }
+          await groupAvatarJobQueue.add({ conversationId, newAvatarUrl });
         },
         { concurrency: MAX_CONCURRENCY }
       );
@@ -411,7 +415,7 @@ export class BackupImportStream extends Writable {
         await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
       );
 
-      if (!window.SignalCI?.isBackupIntegration) {
+      if (this.backupType !== BackupType.TestOnlyPlaintext) {
         await AttachmentDownloadManager.start();
       }
 

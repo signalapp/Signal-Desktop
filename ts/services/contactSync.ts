@@ -229,10 +229,6 @@ async function doContactSync({
 }
 
 export async function onContactSync(ev: ContactSyncEvent): Promise<void> {
-  if (window.SignalCI?.isBackupIntegration) {
-    return;
-  }
-
   log.info(
     `onContactSync(sent=${ev.sentAt}, receivedAt=${ev.receivedAtCounter}): queueing sync`
   );

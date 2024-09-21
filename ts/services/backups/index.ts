@@ -38,15 +38,13 @@ import { getKeyMaterial } from './crypto';
 import { BackupCredentials } from './credentials';
 import { BackupAPI, type DownloadOptionsType } from './api';
 import { validateBackup } from './validator';
+import { BackupType } from './types';
+
+export { BackupType };
 
 const IV_LENGTH = 16;
 
 const BACKUP_REFRESH_INTERVAL = 24 * HOUR;
-
-export enum BackupType {
-  Ciphertext = 'Ciphertext',
-  TestOnlyPlaintext = 'TestOnlyPlaintext',
-}
 
 export class BackupsService {
   private isStarted = false;
@@ -100,13 +98,14 @@ export class BackupsService {
 
   // Test harness
   public async exportBackupData(
-    backupLevel: BackupLevel = BackupLevel.Messages
+    backupLevel: BackupLevel = BackupLevel.Messages,
+    backupType = BackupType.Ciphertext
   ): Promise<Uint8Array> {
     const sink = new PassThrough();
 
     const chunks = new Array<Uint8Array>();
     sink.on('data', chunk => chunks.push(chunk));
-    await this.exportBackup(sink, backupLevel);
+    await this.exportBackup(sink, backupLevel, backupType);
 
     return Bytes.concatenate(chunks);
   }
@@ -246,7 +245,7 @@ export class BackupsService {
     this.isRunning = true;
 
     try {
-      const importStream = await BackupImportStream.create();
+      const importStream = await BackupImportStream.create(backupType);
       if (backupType === BackupType.Ciphertext) {
         const { aesKey, macKey } = getKeyMaterial();
 
@@ -370,7 +369,12 @@ export class BackupsService {
 
     try {
       // TODO (DESKTOP-7168): Update mock-server to support this endpoint
-      if (!window.SignalCI) {
+      if (window.SignalCI || backupType === BackupType.TestOnlyPlaintext) {
+        strictAssert(
+          isTestOrMockEnvironment(),
+          'Plaintext backups can be exported only in test harness'
+        );
+      } else {
         // We first fetch the latest info on what's on the CDN, since this affects the
         // filePointers we will generate during export
         log.info('Fetching latest backup CDN metadata');
@@ -378,7 +382,7 @@ export class BackupsService {
       }
 
       const { aesKey, macKey } = getKeyMaterial();
-      const recordStream = new BackupExportStream();
+      const recordStream = new BackupExportStream(backupType);
 
       recordStream.run(backupLevel);
 

@@ -25,7 +25,7 @@ import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
 import { senderCertificateService } from '../services/senderCertificate';
-import { backupsService, BackupType } from '../services/backups';
+import { backupsService } from '../services/backups';
 import {
   decryptDeviceName,
   deriveAccessKey,
@@ -126,7 +126,6 @@ type CreateAccountSharedOptionsType = Readonly<{
 
   // Test-only
   backupFile?: Uint8Array;
-  isBackupIntegration?: boolean;
 }>;
 
 type CreatePrimaryDeviceOptionsType = Readonly<{
@@ -220,7 +219,6 @@ function signedPreKeyToUploadSignedPreKey({
 export type ConfirmNumberResultType = Readonly<{
   deviceName: string;
   backupFile: Uint8Array | undefined;
-  isBackupIntegration: boolean;
 }>;
 
 export default class AccountManager extends EventTarget {
@@ -923,7 +921,6 @@ export default class AccountManager extends EventTarget {
       readReceipts,
       userAgent,
       backupFile,
-      isBackupIntegration,
     } = options;
 
     const { storage } = window.textsecure;
@@ -968,8 +965,7 @@ export default class AccountManager extends EventTarget {
       }
       if (backupFile !== undefined) {
         log.warn(
-          'createAccount: Restoring from ' +
-            `${isBackupIntegration ? 'plaintext' : 'ciphertext'} backup; ` +
+          'createAccount: Restoring from backup; ' +
             'deleting all previous data'
         );
       }
@@ -1229,12 +1225,7 @@ export default class AccountManager extends EventTarget {
     ]);
 
     if (backupFile !== undefined) {
-      await backupsService.importBackup(
-        () => Readable.from([backupFile]),
-        isBackupIntegration
-          ? BackupType.TestOnlyPlaintext
-          : BackupType.Ciphertext
-      );
+      await backupsService.importBackup(() => Readable.from([backupFile]));
     }
   }
 
