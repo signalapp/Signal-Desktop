@@ -25,6 +25,5 @@ if (config.ciMode) {
     backupData: config.ciBackupPath
       ? fs.readFileSync(config.ciBackupPath)
       : undefined,
-    isBackupIntegration: config.ciIsBackupIntegration === true,
   });
 }

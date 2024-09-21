@@ -308,7 +308,6 @@ function startInstaller(): ThunkAction<
         finishInstall({
           deviceName: SignalCI.deviceName,
           backupFile: SignalCI.backupData,
-          isBackupIntegration: SignalCI.isBackupIntegration,
         })
       );
     }

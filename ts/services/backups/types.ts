@@ -9,6 +9,11 @@ export type AboutMe = {
   pni?: PniString;
 };
 
+export enum BackupType {
+  Ciphertext = 'Ciphertext',
+  TestOnlyPlaintext = 'TestOnlyPlaintext',
+}
+
 export type LocalChatStyle = Readonly<{
   wallpaperPhotoPointer: Uint8Array | undefined;
   wallpaperPreset: number | undefined;
