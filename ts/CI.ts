@@ -20,7 +20,6 @@ type ResolveType = (data: unknown) => void;
 export type CIType = {
   deviceName: string;
   backupData?: Uint8Array;
-  isBackupIntegration?: boolean;
   getConversationId: (address: string | null) => string | null;
   getMessagesBySentAt(
     sentAt: number
@@ -46,14 +45,9 @@ export type CIType = {
 export type GetCIOptionsType = Readonly<{
   deviceName: string;
   backupData?: Uint8Array;
-  isBackupIntegration?: boolean;
 }>;
 
-export function getCI({
-  deviceName,
-  backupData,
-  isBackupIntegration,
-}: GetCIOptionsType): CIType {
+export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
   const eventListeners = new Map<string, Array<ResolveType>>();
   const completedEvents = new Map<string, Array<unknown>>();
 
@@ -199,7 +193,6 @@ export function getCI({
   return {
     deviceName,
     backupData,
-    isBackupIntegration,
     getConversationId,
     getMessagesBySentAt,
     handleEvent,

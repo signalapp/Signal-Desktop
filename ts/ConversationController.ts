@@ -38,6 +38,7 @@ import { getTitleNoDefault } from './util/getTitle';
 import * as StorageService from './services/storage';
 import type { ConversationPropsForUnreadStats } from './util/countUnreadStats';
 import { countAllConversationsUnreadStats } from './util/countUnreadStats';
+import { isTestOrMockEnvironment } from './environment';
 
 type ConvoMatchType =
   | {
@@ -183,7 +184,7 @@ export class ConversationController {
     // then we reset the state right away.
     this._conversations.on('add', (model: ConversationModel): void => {
       // Don't modify conversations in backup integration testing
-      if (window.SignalCI?.isBackupIntegration) {
+      if (isTestOrMockEnvironment()) {
         return;
       }
       model.startMuteTimer();

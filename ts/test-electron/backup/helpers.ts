@@ -233,9 +233,9 @@ export async function asymmetricRoundtripHarness(
   }
 }
 
-async function clearData() {
+export async function clearData(): Promise<void> {
   await DataWriter.removeAll();
-  window.storage.reset();
+  await window.storage.fetch();
   window.ConversationController.reset();
 
   await setupBasics();
@@ -255,7 +255,8 @@ export async function setupBasics(): Promise<void> {
 
   window.Events = {
     ...window.Events,
-    getTypingIndicatorSetting: () => false,
-    getLinkPreviewSetting: () => false,
+    getTypingIndicatorSetting: () =>
+      window.storage.get('typingIndicators', false),
+    getLinkPreviewSetting: () => window.storage.get('linkPreviews', false),
   };
 }

@@ -109,6 +109,7 @@ import {
 import { isAciString } from '../../util/isAciString';
 import { hslToRGB } from '../../util/hslToRGB';
 import type { AboutMe, LocalChatStyle } from './types';
+import { BackupType } from './types';
 import { messageHasPaymentEvent } from '../../messages/helpers';
 import {
   numberToAddressType,
@@ -209,6 +210,10 @@ export class BackupExportStream extends Readable {
   // array.
   private customColorIdByUuid = new Map<string, Long>();
 
+  constructor(private readonly backupType: BackupType) {
+    super();
+  }
+
   public run(backupLevel: BackupLevel): void {
     drop(
       (async () => {
@@ -224,7 +229,7 @@ export class BackupExportStream extends Readable {
 
           // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
           await DataWriter.clearAllAttachmentBackupJobs();
-          if (!window.SignalCI?.isBackupIntegration) {
+          if (this.backupType !== BackupType.TestOnlyPlaintext) {
             await Promise.all(
               this.attachmentBackupJobs.map(job =>
                 AttachmentBackupManager.addJobAndMaybeThumbnailJob(job)
@@ -2180,7 +2185,7 @@ export class BackupExportStream extends Readable {
 
     // We don't download attachments during integration tests and thus have no
     // "iv" for an attachment and can't create a job
-    if (!window.SignalCI?.isBackupIntegration) {
+    if (this.backupType !== BackupType.TestOnlyPlaintext) {
       const backupJob = await maybeGetBackupJobForAttachmentAndFilePointer({
         attachment: updatedAttachment ?? attachment,
         filePointer,

@@ -20,13 +20,6 @@ export class FileStream extends InputStream {
     await this.file?.close();
   }
 
-  // Only for comparator tests
-  public async size(): Promise<number> {
-    const file = await this.lazyOpen();
-    const { size } = await file.stat();
-    return size;
-  }
-
   async read(amount: number): Promise<Buffer> {
     const file = await this.lazyOpen();
     if (this.buffer.length < amount) {
