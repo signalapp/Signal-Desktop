@@ -259,6 +259,7 @@ export function StoryViewsNRepliesModal({
                     })
               }
               platform={platform}
+              quotedMessageId={null}
               sendCounter={0}
               skinTone={skinTone ?? null}
               sortedGroupMembers={sortedGroupMembers ?? null}

@@ -30,9 +30,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     draftText: overrideProps.draftText ?? null,
     draftEditMessage: overrideProps.draftEditMessage ?? null,
     draftBodyRanges: overrideProps.draftBodyRanges || [],
-    clearQuotedMessage: action('clearQuotedMessage'),
     getPreferredBadge: () => undefined,
-    getQuotedMessage: action('getQuotedMessage'),
     isActive: true,
     isFormattingEnabled:
       overrideProps.isFormattingEnabled === false
@@ -45,6 +43,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     onSubmit: action('onSubmit'),
     onTextTooLong: action('onTextTooLong'),
     platform: 'darwin',
+    quotedMessageId: null,
     sendCounter: 0,
     sortedGroupMembers: overrideProps.sortedGroupMembers ?? [],
     skinTone: overrideProps.skinTone ?? null,

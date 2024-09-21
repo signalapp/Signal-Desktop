@@ -1,11 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop } from 'lodash';
 import React from 'react';
 import type { LocalizerType } from '../types/I18N';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import type { InputApi } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
 import { EmojiButton } from './emoji/EmojiButton';
@@ -135,11 +133,9 @@ export function CompositionTextArea({
   return (
     <div className="CompositionTextArea">
       <CompositionInput
-        clearQuotedMessage={shouldNeverBeCalled}
         draftBodyRanges={bodyRanges}
         draftText={draftText}
         getPreferredBadge={getPreferredBadge}
-        getQuotedMessage={noop}
         i18n={i18n}
         isActive={isActive}
         isFormattingEnabled={isFormattingEnabled}
@@ -153,6 +149,7 @@ export function CompositionTextArea({
         onTextTooLong={onTextTooLong}
         placeholder={placeholder}
         platform={platform}
+        quotedMessageId={null}
         scrollerRef={scrollerRef}
         sendCounter={0}
         theme={theme}
