@@ -17,7 +17,10 @@ import {
 } from '../types/CallDisposition';
 import { DAY } from './durations';
 
-export const CALL_LINK_DEFAULT_STATE: Partial<CallLinkType> = {
+export const CALL_LINK_DEFAULT_STATE: Pick<
+  CallLinkType,
+  'name' | 'restrictions' | 'revoked' | 'expiration' | 'storageNeedsSync'
+> = {
   name: '',
   restrictions: CallLinkRestrictions.Unknown,
   revoked: false,

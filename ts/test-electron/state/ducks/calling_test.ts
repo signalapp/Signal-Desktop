@@ -45,6 +45,8 @@ import {
   getCallLinkState,
 } from '../../../test-both/helpers/fakeCallLink';
 import { strictAssert } from '../../../util/assert';
+import { callLinkRefreshJobQueue } from '../../../jobs/callLinkRefreshJobQueue';
+import { CALL_LINK_DEFAULT_STATE } from '../../../util/callLinks';
 
 const ACI_1 = generateAci();
 const NOW = new Date('2020-01-23T04:56:00.000');
@@ -1466,20 +1468,13 @@ describe('calling duck', () => {
     });
 
     describe('handleCallLinkUpdate', () => {
-      const {
-        roomId,
-        name,
-        restrictions,
-        expiration,
-        revoked,
-        rootKey,
-        adminKey,
-      } = FAKE_CALL_LINK;
+      const { roomId, rootKey, adminKey } = FAKE_CALL_LINK;
 
       beforeEach(function (this: Mocha.Context) {
-        this.callingServiceReadCallLink = this.sandbox
-          .stub(callingService, 'readCallLink')
-          .resolves(getCallLinkState(FAKE_CALL_LINK));
+        this.callLinkRefreshJobQueueAdd = this.sandbox.stub(
+          callLinkRefreshJobQueue,
+          'add'
+        );
       });
 
       const doAction = async (
@@ -1491,10 +1486,10 @@ describe('calling duck', () => {
         return { dispatch };
       };
 
-      it('reads the call link from calling service', async function (this: Mocha.Context) {
+      it('queues call link refresh', async function (this: Mocha.Context) {
         await doAction({ rootKey, adminKey: null });
 
-        sinon.assert.calledOnce(this.callingServiceReadCallLink);
+        sinon.assert.calledOnce(this.callLinkRefreshJobQueueAdd);
       });
 
       it('dispatches HANDLE_CALL_LINK_UPDATE', async () => {
@@ -1505,10 +1500,7 @@ describe('calling duck', () => {
           type: 'calling/HANDLE_CALL_LINK_UPDATE',
           payload: {
             callLink: {
-              name,
-              restrictions,
-              expiration,
-              revoked,
+              ...CALL_LINK_DEFAULT_STATE,
               roomId,
               rootKey,
               adminKey,
@@ -1529,10 +1521,7 @@ describe('calling duck', () => {
           type: 'calling/HANDLE_CALL_LINK_UPDATE',
           payload: {
             callLink: {
-              name,
-              restrictions,
-              expiration,
-              revoked,
+              ...CALL_LINK_DEFAULT_STATE,
               roomId,
               rootKey,
               adminKey: 'banana',
