@@ -2155,6 +2155,10 @@
     "messageformat": "Yesterday {time}",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message.",
+    "description": "Shown to non-production users if the same envelope timestamp is the first three times within an hour."
+  },
   "icu:messageBodyTooLong": {
     "messageformat": "Message body is too long.",
     "description": "Shown if the user tries to send more than 64kb of text"

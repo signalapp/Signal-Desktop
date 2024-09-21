@@ -43,6 +43,7 @@ export enum ToastType {
   LoadingFullLogs = 'LoadingFullLogs',
   MaxAttachments = 'MaxAttachments',
   MessageBodyTooLong = 'MessageBodyTooLong',
+  MessageLoop = 'MessageLoop',
   OriginalMessageNotFound = 'OriginalMessageNotFound',
   PinnedConversationsFull = 'PinnedConversationsFull',
   ReactionFailed = 'ReactionFailed',
@@ -126,6 +127,7 @@ export type AnyToast =
   | { toastType: ToastType.LoadingFullLogs }
   | { toastType: ToastType.MaxAttachments }
   | { toastType: ToastType.MessageBodyTooLong }
+  | { toastType: ToastType.MessageLoop }
   | { toastType: ToastType.OriginalMessageNotFound }
   | { toastType: ToastType.PinnedConversationsFull }
   | { toastType: ToastType.ReactionFailed }
