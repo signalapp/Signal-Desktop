@@ -56,10 +56,13 @@ export class SignalClipboard {
     const signal = event.clipboardData.getData('text/signal');
 
     const clipboardContainsFiles = event.clipboardData.files?.length > 0;
-    if (!clipboardContainsFiles) {
-      event.preventDefault();
-      event.stopPropagation();
+
+    if (clipboardContainsFiles) {
+      return;
     }
+
+    event.preventDefault();
+    event.stopPropagation();
 
     if (selection == null) {
       return;
