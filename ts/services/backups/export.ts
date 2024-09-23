@@ -133,6 +133,7 @@ import { CallLinkRestrictions } from '../../types/CallLink';
 import { toAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { SeenStatus } from '../../MessageSeenStatus';
+import { migrateBatchOfMessages } from '../../messages/migrateMessageData';
 
 const MAX_CONCURRENCY = 10;
 
@@ -219,6 +220,25 @@ export class BackupExportStream extends Readable {
       (async () => {
         log.info('BackupExportStream: starting...');
         drop(AttachmentBackupManager.stop());
+        log.info('BackupExportStream: message migration starting...');
+        let batchMigrationResult:
+          | Awaited<ReturnType<typeof migrateBatchOfMessages>>
+          | undefined;
+        let totalMigrated = 0;
+        while (!batchMigrationResult?.done) {
+          // eslint-disable-next-line no-await-in-loop
+          batchMigrationResult = await migrateBatchOfMessages({
+            numMessagesPerBatch: 1000,
+          });
+          totalMigrated += batchMigrationResult.numProcessed;
+          log.info(
+            `BackupExportStream: Migrated batch of ${batchMigrationResult.numProcessed}`
+          );
+        }
+        log.info(
+          `BackupExportStream: message migration complete; ${totalMigrated} messages migrated`
+        );
+
         await pauseWriteAccess();
         try {
           await this.unsafeRun(backupLevel);
@@ -1162,10 +1182,11 @@ export class BackupExportStream extends Readable {
         };
       }
     } else {
-      result.standardMessage = await this.toStandardMessage(
+      result.standardMessage = await this.toStandardMessage({
         message,
-        backupLevel
-      );
+        backupLevel,
+      });
+
       result.revisions = await this.toChatItemRevisions(
         result,
         message,
@@ -2157,7 +2178,7 @@ export class BackupExportStream extends Readable {
     return new Backups.MessageAttachment({
       pointer: filePointer,
       flag: this.getMessageAttachmentFlag(attachment),
-      wasDownloaded: isDownloaded(attachment), // should always be true
+      wasDownloaded: isDownloaded(attachment),
       clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined,
     });
   }
@@ -2349,26 +2370,30 @@ export class BackupExportStream extends Readable {
     };
   }
 
-  private async toStandardMessage(
+  private async toStandardMessage({
+    message,
+    backupLevel,
+  }: {
     message: Pick<
       MessageAttributesType,
       | 'quote'
       | 'attachments'
       | 'body'
+      | 'bodyAttachment'
       | 'bodyRanges'
       | 'preview'
       | 'reactions'
       | 'received_at'
-    >,
-    backupLevel: BackupLevel
-  ): Promise<Backups.IStandardMessage> {
+    >;
+    backupLevel: BackupLevel;
+  }): Promise<Backups.IStandardMessage> {
     return {
       quote: await this.toQuote({
         quote: message.quote,
         backupLevel,
         messageReceivedAt: message.received_at,
       }),
-      attachments: message.attachments
+      attachments: message.attachments?.length
         ? await Promise.all(
             message.attachments.map(attachment => {
               return this.processMessageAttachment({
@@ -2379,12 +2404,16 @@ export class BackupExportStream extends Readable {
             })
           )
         : undefined,
+      longText: message.bodyAttachment
+        ? await this.processAttachment({
+            attachment: message.bodyAttachment,
+            backupLevel,
+            messageReceivedAt: message.received_at,
+          })
+        : undefined,
       text:
         message.body != null
           ? {
-              // TODO (DESKTOP-7207): handle long message text attachments
-              // Note that we store full text on the message model so we have to
-              // trim it before serializing.
               body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
               bodyRanges: message.bodyRanges?.map(range =>
                 this.toBodyRange(range)
@@ -2449,7 +2478,10 @@ export class BackupExportStream extends Readable {
               : this.getIncomingMessageDetails(history),
 
             // Message itself
-            standardMessage: await this.toStandardMessage(history, backupLevel),
+            standardMessage: await this.toStandardMessage({
+              message: history,
+              backupLevel,
+            }),
           };
 
           // Backups use oldest to newest order

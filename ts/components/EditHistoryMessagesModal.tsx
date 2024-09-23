@@ -125,7 +125,12 @@ export function EditHistoryMessagesModal({
           isEditedMessage
           isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
           key={currentMessage.timestamp}
-          kickOffAttachmentDownload={kickOffAttachmentDownload}
+          kickOffAttachmentDownload={({ attachment }) =>
+            kickOffAttachmentDownload({
+              attachment,
+              messageId: currentMessage.id,
+            })
+          }
           messageExpanded={(messageId, displayLimit) => {
             const update = {
               ...displayLimitById,
@@ -188,7 +193,12 @@ export function EditHistoryMessagesModal({
                 getPreferredBadge={getPreferredBadge}
                 i18n={i18n}
                 isSpoilerExpanded={revealedSpoilersById[syntheticId] || {}}
-                kickOffAttachmentDownload={kickOffAttachmentDownload}
+                kickOffAttachmentDownload={({ attachment }) =>
+                  kickOffAttachmentDownload({
+                    attachment,
+                    messageId: messageAttributes.id,
+                  })
+                }
                 messageExpanded={(messageId, displayLimit) => {
                   const update = {
                     ...displayLimitById,

@@ -9,6 +9,7 @@ import { isNotNil } from '../util/isNotNil';
 import type { MessageAttributesType } from '../model-types.d';
 import type { AciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
+import { DataReader, DataWriter } from '../sql/Client';
 
 const MAX_CONCURRENCY = 5;
 
@@ -125,4 +126,19 @@ export async function migrateMessageData({
     saveDuration,
     totalDuration,
   };
+}
+
+export async function migrateBatchOfMessages({
+  numMessagesPerBatch,
+}: {
+  numMessagesPerBatch: number;
+}): ReturnType<typeof migrateMessageData> {
+  return migrateMessageData({
+    numMessagesPerBatch,
+    upgradeMessageSchema: window.Signal.Migrations.upgradeMessageSchema,
+    getMessagesNeedingUpgrade: DataReader.getMessagesNeedingUpgrade,
+    saveMessages: DataWriter.saveMessages,
+    incrementMessagesMigrationAttempts:
+      DataWriter.incrementMessagesMigrationAttempts,
+  });
 }

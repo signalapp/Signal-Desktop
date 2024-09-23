@@ -109,6 +109,7 @@ import { fromAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { reinitializeRedux } from '../../state/reinitializeRedux';
 import { getParametersForRedux, loadAll } from '../allLoaders';
+import { resetBackupMediaDownloadProgress } from '../../util/backupMediaDownload';
 
 const MAX_CONCURRENCY = 10;
 
@@ -308,8 +309,7 @@ export class BackupImportStream extends Writable {
   ): Promise<BackupImportStream> {
     await AttachmentDownloadManager.stop();
     await DataWriter.removeAllBackupAttachmentDownloadJobs();
-    await window.storage.put('backupMediaDownloadCompletedBytes', 0);
-    await window.storage.put('backupMediaDownloadTotalBytes', 0);
+    await resetBackupMediaDownloadProgress();
 
     return new BackupImportStream(backupType);
   }
@@ -1504,6 +1504,9 @@ export class BackupImportStream extends Writable {
     return {
       body: data.text?.body || undefined,
       bodyRanges: this.fromBodyRanges(data.text),
+      bodyAttachment: data.longText
+        ? convertFilePointerToAttachment(data.longText)
+        : undefined,
       attachments: data.attachments?.length
         ? data.attachments
             .map(convertBackupMessageAttachmentToAttachment)

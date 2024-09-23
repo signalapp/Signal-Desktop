@@ -5,7 +5,7 @@ import type { KeyboardEvent } from 'react';
 import React from 'react';
 
 import type { AttachmentType } from '../../types/Attachment';
-import { canBeDownloaded } from '../../types/Attachment';
+import { canBeDownloaded, isDownloaded } from '../../types/Attachment';
 import { getSizeClass } from '../emoji/lib';
 
 import type { ShowConversationType } from '../../state/ducks/conversations';
@@ -35,7 +35,7 @@ export type Props = {
   text: string;
   textAttachment?: Pick<
     AttachmentType,
-    'pending' | 'digest' | 'key' | 'wasTooBig'
+    'pending' | 'digest' | 'key' | 'wasTooBig' | 'path'
   >;
 };
 
@@ -97,6 +97,7 @@ export function MessageBody({
   } else if (
     textAttachment &&
     canBeDownloaded(textAttachment) &&
+    !isDownloaded(textAttachment) &&
     kickOffBodyDownload
   ) {
     endNotification = (

@@ -20,6 +20,7 @@ import {
   IMAGE_JPEG,
   IMAGE_PNG,
   IMAGE_WEBP,
+  LONG_MESSAGE,
   VIDEO_MP4,
 } from '../../types/MIME';
 import type {
@@ -129,6 +130,128 @@ describe('backup/attachments', () => {
       ...overrides,
     };
   }
+
+  describe('long-message attachments', () => {
+    it('preserves attachment still on message.attachments', async () => {
+      const longMessageAttachment = composeAttachment(1, {
+        contentType: LONG_MESSAGE,
+      });
+      const normalAttachment = composeAttachment(2);
+
+      strictAssert(longMessageAttachment.digest, 'digest exists');
+      strictAssert(normalAttachment.digest, 'digest exists');
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            attachments: [longMessageAttachment, normalAttachment],
+            schemaVersion: 12,
+          }),
+        ],
+        // path & iv will not be roundtripped
+        [
+          composeMessage(1, {
+            attachments: [
+              omit(longMessageAttachment, ['path', 'iv', 'thumbnail']),
+              omit(normalAttachment, ['path', 'iv', 'thumbnail']),
+            ],
+          }),
+        ],
+        { backupLevel: BackupLevel.Messages }
+      );
+    });
+    it('migration creates long-message attachment if there is a long message.body (i.e. schemaVersion < 13)', async () => {
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            body: 'a'.repeat(3000),
+            schemaVersion: 12,
+          }),
+        ],
+        [
+          composeMessage(1, {
+            body: 'a'.repeat(2048),
+            bodyAttachment: {
+              contentType: LONG_MESSAGE,
+              size: 3000,
+            },
+          }),
+        ],
+        {
+          backupLevel: BackupLevel.Media,
+          comparator: (expected, msgInDB) => {
+            assert.deepStrictEqual(
+              omit(expected, 'bodyAttachment'),
+              omit(msgInDB, 'bodyAttachment')
+            );
+
+            assert.deepStrictEqual(
+              expected.bodyAttachment,
+              // all encryption info will be generated anew
+              omit(msgInDB.bodyAttachment, [
+                'backupLocator',
+                'digest',
+                'key',
+                'downloadPath',
+              ])
+            );
+
+            assert.isNotEmpty(msgInDB.bodyAttachment?.backupLocator);
+            assert.isNotEmpty(msgInDB.bodyAttachment?.digest);
+            assert.isNotEmpty(msgInDB.bodyAttachment?.key);
+          },
+        }
+      );
+    });
+    it('handles existing bodyAttachments', async () => {
+      const attachment = omit(
+        composeAttachment(1, {
+          contentType: LONG_MESSAGE,
+          size: 3000,
+          downloadPath: 'downloadPath',
+        }),
+        'thumbnail'
+      );
+      strictAssert(attachment.digest, 'must exist');
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            bodyAttachment: attachment,
+            body: 'a'.repeat(3000),
+          }),
+        ],
+        // path & iv will not be roundtripped
+        [
+          composeMessage(1, {
+            body: 'a'.repeat(2048),
+            bodyAttachment: {
+              ...omit(attachment, ['iv', 'path', 'uploadTimestamp']),
+              backupLocator: {
+                mediaName: digestToMediaName(attachment.digest),
+              },
+            },
+          }),
+        ],
+        {
+          backupLevel: BackupLevel.Media,
+          comparator: (expected, msgInDB) => {
+            assert.deepStrictEqual(
+              omit(expected, 'bodyAttachment'),
+              omit(msgInDB, 'bodyAttachment')
+            );
+
+            assert.deepStrictEqual(
+              omit(expected.bodyAttachment, ['clientUuid', 'downloadPath']),
+              omit(msgInDB.bodyAttachment, ['clientUuid', 'downloadPath'])
+            );
+
+            assert.isNotEmpty(msgInDB.bodyAttachment?.downloadPath);
+          },
+        }
+      );
+    });
+  });
 
   describe('normal attachments', () => {
     it('BackupLevel.Messages, roundtrips normal attachments', async () => {

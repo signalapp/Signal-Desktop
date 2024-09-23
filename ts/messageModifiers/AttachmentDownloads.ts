@@ -64,7 +64,7 @@ export async function addAttachmentToMessage(
           return {
             ...edit,
             body: Bytes.toString(attachmentData),
-            bodyAttachment: undefined,
+            bodyAttachment: attachment,
           };
         });
 
@@ -96,7 +96,7 @@ export async function addAttachmentToMessage(
 
       message.set({
         body: Bytes.toString(attachmentData),
-        bodyAttachment: undefined,
+        bodyAttachment: attachment,
       });
     } finally {
       if (attachment.path) {

@@ -1966,6 +1966,9 @@ export class Message extends React.PureComponent<Props, State> {
             if (!textAttachment) {
               return;
             }
+            if (isDownloaded(textAttachment)) {
+              return;
+            }
             kickOffAttachmentDownload({
               attachment: textAttachment,
               messageId: id,
