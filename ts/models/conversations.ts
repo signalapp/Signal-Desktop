@@ -85,6 +85,7 @@ import {
   decryptProfile,
   decryptProfileName,
   deriveAccessKey,
+  hashProfileKey,
 } from '../Crypto';
 import { decryptAttachmentV2 } from '../AttachmentCrypto';
 import * as Bytes from '../Bytes';
@@ -4918,13 +4919,17 @@ export class ConversationModel extends window.Backbone
       reason,
     }: { viaStorageServiceSync?: boolean; reason: string }
   ): Promise<boolean> {
-    const logId = `setProfileKey(${this.idForLogging()}/${reason})`;
     const oldProfileKey = this.get('profileKey');
 
     // profileKey is a string so we can compare it directly
     if (oldProfileKey === profileKey) {
       return false;
     }
+
+    const serviceId = this.get('serviceId');
+    const aci = isAciString(serviceId) ? serviceId : undefined;
+    const profileKeyHash = aci ? hashProfileKey(profileKey, aci) : 'no-aci';
+    const logId = `setProfileKey(${this.idForLogging()}/${profileKeyHash}/${reason})`;
 
     log.info(`${logId}: Profile key changed. Setting sealedSender to UNKNOWN`);
     this.set({
