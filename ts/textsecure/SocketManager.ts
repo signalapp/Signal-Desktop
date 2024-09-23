@@ -187,6 +187,7 @@ export class SocketManager extends EventListener {
             this.queueOrHandleRequest(req);
           },
           receiveStories: !this.hasStoriesDisabled,
+          keepalive: { path: '/v1/keepalive' },
         })
       : this.connectResource({
           name: AUTHENTICATED_CHANNEL_NAME,
@@ -628,6 +629,7 @@ export class SocketManager extends EventListener {
       process = connectUnauthenticatedLibsignal({
         libsignalNet: this.libsignalNet,
         name: UNAUTHENTICATED_CHANNEL_NAME,
+        keepalive: { path: '/v1/keepalive' },
       });
     } else {
       process = this.connectResource({
@@ -749,6 +751,7 @@ export class SocketManager extends EventListener {
     const shadowingConnection = connectUnauthenticatedLibsignal({
       libsignalNet: this.libsignalNet,
       name: options.name,
+      keepalive: options.keepalive ?? {},
     });
     const shadowWrapper = async () => {
       // if main connection results in an error,
