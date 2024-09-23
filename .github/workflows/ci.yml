@@ -189,12 +189,21 @@ jobs:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
     - run: xvfb-run --auto-servernum npm run test-node
+
+    - name: Clone backup integration tests
+      uses: actions/checkout@v4
+      with:
+        repository: 'signalapp/Signal-Message-Backup-Tests'
+        ref: 'a18c9146e07441827a9b7c2e54ec0a5e6f2aa5bd'
+        path: 'backup-integration-tests'
+
     - run: xvfb-run --auto-servernum npm run test-electron
       timeout-minutes: 5
       env:
         ARTIFACTS_DIR: artifacts/linux
         LANG: en_US
         LANGUAGE: en_US
+        BACKUP_INTEGRATION_DIR: 'backup-integration-tests/test-cases'
     - run: xvfb-run --auto-servernum npm run test-release
       env:
         NODE_ENV: production
