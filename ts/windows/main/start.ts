@@ -48,7 +48,10 @@ window.Whisper.events = clone(window.Backbone.Events);
 initMessageCleanup();
 startConversationController();
 
-if (!isProduction(window.SignalContext.getVersion())) {
+if (
+  !isProduction(window.SignalContext.getVersion()) ||
+  window.SignalContext.config.devTools
+) {
   const SignalDebug = {
     cdsLookup: (options: CdsLookupOptionsType) =>
       window.textsecure.server?.cdsLookup(options),
