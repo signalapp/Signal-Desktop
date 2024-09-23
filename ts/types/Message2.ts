@@ -21,6 +21,7 @@ import * as Errors from './errors';
 import * as SchemaVersion from './SchemaVersion';
 import { initializeAttachmentMetadata } from './message/initializeAttachmentMetadata';
 
+import { LONG_MESSAGE } from './MIME';
 import type * as MIME from './MIME';
 import type { LoggerType } from './Logging';
 import type {
@@ -45,6 +46,8 @@ import {
 } from '../util/getLocalAttachmentUrl';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { deepClone } from '../util/deepClone';
+import { LONG_ATTACHMENT_LIMIT } from './Message';
+import * as Bytes from '../Bytes';
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';
@@ -125,8 +128,12 @@ export type ContextWithMessageType = ContextType & {
 //     attachment filenames
 // Version 10
 //   - Preview: A new type of attachment can be included in a message.
-// Version 11
+// Version 11 (deprecated)
 //   - Attachments: add sha256 plaintextHash
+// Version 12:
+//   - Attachments: encrypt attachments on disk
+// Version 13:
+//   - Attachments: write bodyAttachment to disk
 
 const INITIAL_SCHEMA_VERSION = 0;
 
@@ -571,6 +578,10 @@ const toVersion12 = _withSchemaVersion({
     return result;
   },
 });
+const toVersion13 = _withSchemaVersion({
+  schemaVersion: 13,
+  upgrade: migrateBodyAttachmentToDisk,
+});
 
 const VERSIONS = [
   toVersion0,
@@ -586,7 +597,9 @@ const VERSIONS = [
   toVersion10,
   toVersion11,
   toVersion12,
+  toVersion13,
 ];
+
 export const CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
 
 // We need dimensions and screenshots for images for proper display
@@ -953,11 +966,22 @@ export const deleteAllExternalFiles = ({
   }
 
   return async (message: MessageAttributesType) => {
-    const { attachments, editHistory, quote, contact, preview, sticker } =
-      message;
+    const {
+      attachments,
+      bodyAttachment,
+      editHistory,
+      quote,
+      contact,
+      preview,
+      sticker,
+    } = message;
 
     if (attachments && attachments.length) {
       await Promise.all(attachments.map(deleteAttachmentData));
+    }
+
+    if (bodyAttachment) {
+      await deleteAttachmentData(bodyAttachment);
     }
 
     if (quote && quote.attachments && quote.attachments.length) {
@@ -1001,7 +1025,11 @@ export const deleteAllExternalFiles = ({
 
     if (editHistory && editHistory.length) {
       await Promise.all(
-        editHistory.map(edit => {
+        editHistory.map(async edit => {
+          if (edit.bodyAttachment) {
+            await deleteAttachmentData(edit.bodyAttachment);
+          }
+
           if (!edit.attachments || !edit.attachments.length) {
             return;
           }
@@ -1014,6 +1042,35 @@ export const deleteAllExternalFiles = ({
     }
   };
 };
+
+export async function migrateBodyAttachmentToDisk(
+  message: MessageAttributesType,
+  { logger, writeNewAttachmentData }: ContextType
+): Promise<MessageAttributesType> {
+  const logId = `Message2.toVersion13(${message.sent_at})`;
+
+  // if there is already a bodyAttachment, nothing to do
+  if (message.bodyAttachment) {
+    return message;
+  }
+
+  if (!message.body || (message.body?.length ?? 0) <= LONG_ATTACHMENT_LIMIT) {
+    return message;
+  }
+
+  logger.info(`${logId}: Writing bodyAttachment to disk`);
+
+  const data = Bytes.fromString(message.body);
+  const bodyAttachment = {
+    contentType: LONG_MESSAGE,
+    ...(await writeNewAttachmentData(data)),
+  };
+
+  return {
+    ...message,
+    bodyAttachment,
+  };
+}
 
 async function deletePreviews(
   preview: MessageAttributesType['preview'],

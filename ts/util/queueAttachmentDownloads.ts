@@ -94,30 +94,40 @@ export async function queueAttachmentDownloads(
   }
 
   if (longMessageAttachments.length > 0) {
-    log.info(
-      `${idLog}: Queueing ${longMessageAttachments.length} long message attachment downloads`
-    );
-  }
-
-  if (longMessageAttachments.length > 0) {
-    count += 1;
     [bodyAttachment] = longMessageAttachments;
   }
+
   if (!bodyAttachment && message.bodyAttachment) {
-    count += 1;
     bodyAttachment = message.bodyAttachment;
   }
 
-  if (bodyAttachment) {
-    await AttachmentDownloadManager.addJob({
-      attachment: bodyAttachment,
-      messageId,
-      attachmentType: 'long-message',
-      receivedAt: message.received_at,
-      sentAt: message.sent_at,
-      urgency,
-      source,
-    });
+  const bodyAttachmentsToDownload = [
+    bodyAttachment,
+    ...(message.editHistory
+      ?.slice(1) // first entry is the same as the root level message!
+      .map(editHistory => editHistory.bodyAttachment) ?? []),
+  ]
+    .filter(isNotNil)
+    .filter(attachment => !isDownloaded(attachment));
+
+  if (bodyAttachmentsToDownload.length) {
+    log.info(
+      `${idLog}: Queueing ${bodyAttachmentsToDownload.length} long message attachment download`
+    );
+    await Promise.all(
+      bodyAttachmentsToDownload.map(attachment =>
+        AttachmentDownloadManager.addJob({
+          attachment,
+          messageId,
+          attachmentType: 'long-message',
+          receivedAt: message.received_at,
+          sentAt: message.sent_at,
+          urgency,
+          source,
+        })
+      )
+    );
+    count += bodyAttachmentsToDownload.length;
   }
 
   if (normalAttachments.length > 0) {

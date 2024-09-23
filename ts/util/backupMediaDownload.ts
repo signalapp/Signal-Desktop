@@ -25,7 +25,7 @@ export async function cancelBackupMediaDownload(): Promise<void> {
   await resetBackupMediaDownloadItems();
 }
 
-export async function resetBackupMediaDownload(): Promise<void> {
+export async function resetBackupMediaDownloadProgress(): Promise<void> {
   await resetBackupMediaDownloadItems();
 }
 

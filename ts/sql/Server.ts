@@ -6618,7 +6618,8 @@ function getExternalFilesForMessage(message: MessageType): {
   externalAttachments: Array<string>;
   externalDownloads: Array<string>;
 } {
-  const { attachments, contact, quote, preview, sticker } = message;
+  const { attachments, bodyAttachment, contact, quote, preview, sticker } =
+    message;
   const externalAttachments: Array<string> = [];
   const externalDownloads: Array<string> = [];
 
@@ -6652,6 +6653,16 @@ function getExternalFilesForMessage(message: MessageType): {
       externalAttachments.push(thumbnailFromBackup.path);
     }
   });
+
+  if (bodyAttachment?.path) {
+    externalAttachments.push(bodyAttachment.path);
+  }
+
+  for (const editHistory of message.editHistory ?? []) {
+    if (editHistory.bodyAttachment?.path) {
+      externalAttachments.push(editHistory.bodyAttachment.path);
+    }
+  }
 
   if (quote && quote.attachments && quote.attachments.length) {
     forEach(quote.attachments, attachment => {

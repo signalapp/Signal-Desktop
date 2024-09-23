@@ -750,16 +750,18 @@ export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return hasFlag && isVideoAttachment(attachment);
 }
 
-function resolveNestedAttachment(
-  attachment?: AttachmentType
-): AttachmentType | undefined {
+function resolveNestedAttachment<
+  T extends Pick<AttachmentType, 'textAttachment'>,
+>(attachment?: T): T | AttachmentType | undefined {
   if (attachment?.textAttachment?.preview?.image) {
     return attachment.textAttachment.preview.image;
   }
   return attachment;
 }
 
-export function isDownloaded(attachment?: AttachmentType): boolean {
+export function isDownloaded(
+  attachment?: Pick<AttachmentType, 'path' | 'textAttachment'>
+): boolean {
   const resolved = resolveNestedAttachment(attachment);
   return Boolean(resolved && (resolved.path || resolved.textAttachment));
 }

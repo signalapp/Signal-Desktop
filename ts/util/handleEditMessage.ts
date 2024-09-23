@@ -254,6 +254,7 @@ export async function handleEditMessage(
   const editedMessage: EditHistoryType = {
     attachments: nextEditedMessageAttachments,
     body: upgradedEditedMessageData.body,
+    bodyAttachment: upgradedEditedMessageData.bodyAttachment,
     bodyRanges: upgradedEditedMessageData.bodyRanges,
     preview: nextEditedMessagePreview,
     sendStateByConversationId:
@@ -277,6 +278,7 @@ export async function handleEditMessage(
   mainMessageModel.set({
     attachments: editedMessage.attachments,
     body: editedMessage.body,
+    bodyAttachment: editedMessage.bodyAttachment,
     bodyRanges: editedMessage.bodyRanges,
     editHistory,
     editMessageTimestamp: upgradedEditedMessageData.timestamp,

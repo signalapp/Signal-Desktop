@@ -650,15 +650,10 @@ export function LeftPane({
     dialogs.push({ key: 'banner', dialog: maybeBanner });
   }
 
-  // We'll show the backup media download progress banner if the download is currently or
-  // was ongoing at some point during the lifecycle of this component
-
-  const isMediaBackupDownloadIncomplete =
-    backupMediaDownloadProgress?.totalBytes > 0 &&
-    backupMediaDownloadProgress.downloadedBytes <
-      backupMediaDownloadProgress.totalBytes;
+  const hasMediaBeenQueuedForBackup =
+    backupMediaDownloadProgress?.totalBytes > 0;
   if (
-    isMediaBackupDownloadIncomplete &&
+    hasMediaBeenQueuedForBackup &&
     !backupMediaDownloadProgress.downloadBannerDismissed
   ) {
     dialogs.push({

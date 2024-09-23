@@ -59,7 +59,7 @@ import { isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
 import { getAuthor, isIncoming } from './messages/helpers';
-import { migrateMessageData } from './messages/migrateMessageData';
+import { migrateBatchOfMessages } from './messages/migrateMessageData';
 import { createBatcher } from './util/batcher';
 import {
   initializeAllJobQueues,
@@ -347,7 +347,6 @@ export async function startApp(): Promise<void> {
   window.setImmediate = window.nodeSetImmediate;
 
   const { Message } = window.Signal.Types;
-  const { upgradeMessageSchema } = window.Signal.Migrations;
 
   log.info('background page reloaded');
   log.info('environment:', getEnvironment());
@@ -986,13 +985,8 @@ export async function startApp(): Promise<void> {
           log.warn(
             `idleDetector/idle: fetching at most ${NUM_MESSAGES_PER_BATCH} for migration`
           );
-          const batchWithIndex = await migrateMessageData({
+          const batchWithIndex = await migrateBatchOfMessages({
             numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-            upgradeMessageSchema,
-            getMessagesNeedingUpgrade: DataReader.getMessagesNeedingUpgrade,
-            saveMessages: DataWriter.saveMessages,
-            incrementMessagesMigrationAttempts:
-              DataWriter.incrementMessagesMigrationAttempts,
           });
           log.info('idleDetector/idle: Upgraded messages:', batchWithIndex);
           isMigrationWithIndexComplete = batchWithIndex.done;

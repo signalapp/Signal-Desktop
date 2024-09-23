@@ -1857,11 +1857,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         const ourPni = window.textsecure.storage.user.getCheckedPni();
         const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
 
+        const [longMessageAttachments, normalAttachments] = partition(
+          dataMessage.attachments ?? [],
+          attachment => MIME.isLongMessage(attachment.contentType)
+        );
+
         window.MessageCache.toMessageAttributes(this.attributes);
         message.set({
           id: messageId,
-          attachments: dataMessage.attachments,
+          attachments: normalAttachments,
           body: dataMessage.body,
+          bodyAttachment: longMessageAttachments[0],
           bodyRanges: dataMessage.bodyRanges,
           contact: dataMessage.contact,
           conversationId: conversation.id,

@@ -17,7 +17,7 @@ export function hasAttachmentDownloads(
     attachment => isLongMessage(attachment.contentType)
   );
 
-  if (longMessageAttachments.length > 0) {
+  if (longMessageAttachments.length > 0 || message.bodyAttachment) {
     return true;
   }
 
