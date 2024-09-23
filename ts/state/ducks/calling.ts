@@ -3293,13 +3293,37 @@ export function reducer(
       }
     }
 
+    let callLinkLog = '';
+    if (callMode === CallMode.Adhoc) {
+      const currentPendingAcis = new Set(
+        existingCall?.peekInfo?.pendingAcis ?? []
+      );
+      const nextPendingAcis = new Set(peekInfo?.pendingAcis ?? []);
+      const pendingAcisLeft = new Array<AciString>();
+      const pendingAcisJoined = new Array<AciString>();
+      for (const aci of currentPendingAcis) {
+        if (!nextPendingAcis.has(aci)) {
+          pendingAcisLeft.push(aci);
+        }
+      }
+      for (const aci of nextPendingAcis) {
+        if (!currentPendingAcis.has(aci)) {
+          pendingAcisJoined.push(aci);
+        }
+      }
+      callLinkLog =
+        `joinPending={${pendingAcisJoined.join(', ')}} ` +
+        `leftPending={${pendingAcisLeft.join(', ')}}`;
+    }
+
     log.info(
       'groupCallStateChange:',
       conversationId,
       GroupCallConnectionState[connectionState],
       GroupCallJoinState[joinState],
       `joined={${membersJoined.join(', ')}}`,
-      `left={${membersLeft.join(', ')}}`
+      `left={${membersLeft.join(', ')}}`,
+      callLinkLog
     );
 
     const newPeekInfo = peekInfo ||
