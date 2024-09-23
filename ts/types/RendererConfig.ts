@@ -40,6 +40,7 @@ export const rendererConfigSchema = z.object({
   contentProxyUrl: configRequiredStringSchema,
   crashDumpsPath: configRequiredStringSchema,
   ciMode: z.enum(['full', 'benchmark']).or(z.literal(false)),
+  devTools: z.boolean(),
   disableIPv6: z.boolean(),
   dnsFallback: DNSFallbackSchema,
   ciBackupPath: configOptionalStringSchema,

@@ -2729,6 +2729,7 @@ ipc.on('get-config', async event => {
         : getEnvironment(),
     isMockTestEnvironment: Boolean(process.env.MOCK_TEST),
     ciMode,
+    devTools: defaultWebPrefs.devTools,
     // Should be already computed and cached at this point
     dnsFallback: await getDNSFallback(),
     disableIPv6: DISABLE_IPV6,
