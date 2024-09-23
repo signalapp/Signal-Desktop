@@ -1188,6 +1188,16 @@ export class Message extends React.PureComponent<Props, State> {
     const isFullSizeImage = shouldUseFullSizeLinkPreviewImage(first);
 
     const linkPreviewDate = first.date || null;
+    const title =
+      first.title ||
+      (first.isCallLink
+        ? i18n('icu:calling__call-link-default-title')
+        : undefined);
+    const description =
+      first.description ||
+      (first.isCallLink
+        ? i18n('icu:message--call-link-description')
+        : undefined);
 
     const isClickable = this.areLinksEnabled();
 
@@ -1266,9 +1276,7 @@ export class Message extends React.PureComponent<Props, State> {
                 isMe={false}
                 sharedGroupNames={[]}
                 size={64}
-                title={
-                  first.title ?? i18n('icu:calling__call-link-default-title')
-                }
+                title={title ?? i18n('icu:calling__call-link-default-title')}
               />
             </div>
           )}
@@ -1280,12 +1288,10 @@ export class Message extends React.PureComponent<Props, State> {
                 : null
             )}
           >
-            <div className="module-message__link-preview__title">
-              {first.title}
-            </div>
-            {first.description && (
+            <div className="module-message__link-preview__title">{title}</div>
+            {description && (
               <div className="module-message__link-preview__description">
-                {unescape(first.description)}
+                {unescape(description)}
               </div>
             )}
             <div className="module-message__link-preview__footer">

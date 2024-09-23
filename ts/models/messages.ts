@@ -1820,7 +1820,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         const incomingPreview = dataMessage.preview || [];
         const preview = incomingPreview
           .map((item: LinkPreviewType) => {
-            if (!item.image && !item.title) {
+            if (LinkPreview.isCallLink(item.url)) {
+              return {
+                ...item,
+                isCallLink: true,
+                callLinkRoomId: getRoomIdFromCallLink(item.url),
+              };
+            }
+
+            if (!item.image || !item.title) {
               return null;
             }
             // Story link previews don't have to correspond to links in the
@@ -1835,21 +1843,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               return undefined;
             }
 
-            if (LinkPreview.isCallLink(item.url)) {
-              return {
-                ...item,
-                isCallLink: true,
-                callLinkRoomId: getRoomIdFromCallLink(item.url),
-              };
-            }
-
             return item;
           })
           .filter(isNotNil);
         if (preview.length < incomingPreview.length) {
           log.info(
             `${message.idForLogging()}: Eliminated ${
-              preview.length - incomingPreview.length
+              incomingPreview.length - preview.length
             } previews with invalid urls'`
           );
         }
