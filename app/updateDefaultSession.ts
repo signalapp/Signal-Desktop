@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Session, DesktopCapturerSource, IpcMainEvent } from 'electron';
-import { desktopCapturer, ipcMain } from 'electron';
+import { app, desktopCapturer, ipcMain } from 'electron';
 import { v4 as generateUuid } from 'uuid';
 
 import OS from '../ts/util/os/osMain';
 import type { LoggerType } from '../ts/types/Logging';
 import { strictAssert } from '../ts/util/assert';
 import { type IpcResponseType } from '../ts/util/desktopCapturer';
+import { isProduction } from '../ts/util/version';
 
 const SPELL_CHECKER_DICTIONARY_DOWNLOAD_URL = `https://updates.signal.org/desktop/hunspell_dictionaries/${process.versions.electron}/`;
 
@@ -67,6 +68,6 @@ export function updateDefaultSession(
         getLogger().error('Failed to get desktopCapturer sources', error);
       }
     },
-    { useSystemPicker: false }
+    { useSystemPicker: !isProduction(app.getVersion()) }
   );
 }
