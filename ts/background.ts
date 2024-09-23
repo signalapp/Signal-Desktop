@@ -195,6 +195,7 @@ import { encryptConversationAttachments } from './util/encryptConversationAttach
 import { DataReader, DataWriter } from './sql/Client';
 import { restoreRemoteConfigFromStorage } from './RemoteConfig';
 import { getParametersForRedux, loadAll } from './services/allLoaders';
+import { checkFirstEnvelope } from './util/checkFirstEnvelope';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -481,10 +482,13 @@ export async function startApp(): Promise<void> {
     first = false;
 
     restoreRemoteConfigFromStorage();
+
+    window.Whisper.events.on('firstEnvelope', checkFirstEnvelope);
     server = window.WebAPI.connect({
       ...window.textsecure.storage.user.getWebAPICredentials(),
       hasStoriesDisabled: window.storage.get('hasStoriesDisabled', false),
     });
+
     window.textsecure.server = server;
     window.textsecure.messaging = new window.textsecure.MessageSender(server);
 

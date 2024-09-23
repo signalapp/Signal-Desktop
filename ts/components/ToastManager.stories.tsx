@@ -122,6 +122,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.MaxAttachments };
     case ToastType.MessageBodyTooLong:
       return { toastType: ToastType.MessageBodyTooLong };
+    case ToastType.MessageLoop:
+      return { toastType: ToastType.MessageLoop };
     case ToastType.OriginalMessageNotFound:
       return { toastType: ToastType.OriginalMessageNotFound };
     case ToastType.PinnedConversationsFull:
