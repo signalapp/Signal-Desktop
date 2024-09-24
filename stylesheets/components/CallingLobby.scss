@@ -22,6 +22,14 @@
       height: 100%;
       max-height: calc(100% - 140px);
       aspect-ratio: 4 / 3;
+
+      .module-calling__background--blur::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: $color-black-alpha-40;
+      }
     }
   }
 
