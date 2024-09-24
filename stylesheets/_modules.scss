@@ -3680,14 +3680,13 @@ button.module-image__border-overlay:focus {
   }
 
   &__camera-is-off {
+    @include font-body-2;
     @include calling-text-shadow;
     align-items: center;
     color: $color-white;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    font-size: 15px;
-    line-height: 20px;
     margin-block-start: 15px;
     margin-block-end: 15px;
     justify-content: center;
