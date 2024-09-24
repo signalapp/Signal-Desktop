@@ -124,8 +124,10 @@ describe('backup/bubble messages', () => {
         conversationId: contactA.id,
         id: generateGuid(),
         type: 'outgoing',
+        readStatus: ReadStatus.Read,
         received_at: 3,
         received_at_ms: 3,
+        seenStatus: SeenStatus.Seen,
         sent_at: 3,
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {
@@ -330,8 +332,10 @@ describe('backup/bubble messages', () => {
         conversationId: contactA.id,
         id: generateGuid(),
         type: 'outgoing',
+        readStatus: ReadStatus.Read,
         received_at: 4,
         received_at_ms: 4,
+        seenStatus: SeenStatus.Seen,
         sent_at: 4,
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {
@@ -378,8 +382,10 @@ describe('backup/bubble messages', () => {
         conversationId: contactA.id,
         id: generateGuid(),
         type: 'outgoing',
+        readStatus: ReadStatus.Read,
         received_at: 4,
         received_at_ms: 4,
+        seenStatus: SeenStatus.Seen,
         sent_at: 4,
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {

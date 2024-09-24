@@ -54,8 +54,6 @@ import {
   sendStateReducer,
   someRecipientSendStatus,
 } from '../messages/MessageSendState';
-import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
-import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 import { getOwn } from '../util/getOwn';
 import { markRead, markViewed } from '../services/MessageUpdater';
 import {
@@ -126,7 +124,6 @@ import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import { findStoryMessages } from '../util/findStoryMessage';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { shouldDownloadStory } from '../util/shouldDownloadStory';
-import { SeenStatus } from '../MessageSeenStatus';
 import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 
@@ -208,35 +205,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           logger: log,
         })
       );
-    }
-
-    const readStatus = migrateLegacyReadStatus(this.attributes);
-    if (readStatus !== undefined) {
-      this.set(
-        {
-          readStatus,
-          seenStatus:
-            readStatus === ReadStatus.Unread
-              ? SeenStatus.Unseen
-              : SeenStatus.Seen,
-        },
-        { silent: true }
-      );
-    }
-
-    const ourConversationId =
-      window.ConversationController.getOurConversationId();
-    if (ourConversationId) {
-      const sendStateByConversationId = migrateLegacySendAttributes(
-        this.attributes,
-        window.ConversationController.get.bind(window.ConversationController),
-        ourConversationId
-      );
-      if (sendStateByConversationId) {
-        this.set('sendStateByConversationId', sendStateByConversationId, {
-          silent: true,
-        });
-      }
     }
 
     this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
