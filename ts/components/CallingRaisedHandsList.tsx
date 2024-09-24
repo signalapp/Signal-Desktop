@@ -203,12 +203,6 @@ export function CallingRaisedHandsListButton({
     syncedLocalHandRaised
   );
 
-  const onRestAfterAnimateOut = React.useCallback(() => {
-    if (!raisedHandsCount) {
-      setIsVisible(false);
-    }
-  }, [raisedHandsCount]);
-
   React.useEffect(() => {
     if (raisedHandsCount > prevRaisedHandsCount) {
       setIsVisible(true);
@@ -230,7 +224,11 @@ export function CallingRaisedHandsListButton({
         Promise.all(
           opacitySpringApi.start({
             to: { opacity: 0 },
-            onRest: () => onRestAfterAnimateOut,
+            onRest: () => {
+              if (!raisedHandsCount) {
+                setIsVisible(false);
+              }
+            },
           })
         )
       );
@@ -240,7 +238,6 @@ export function CallingRaisedHandsListButton({
     prevRaisedHandsCount,
     opacitySpringApi,
     scaleSpringApi,
-    onRestAfterAnimateOut,
     setIsVisible,
   ]);
 
