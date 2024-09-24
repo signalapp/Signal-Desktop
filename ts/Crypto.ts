@@ -3,7 +3,7 @@
 
 import { Buffer } from 'buffer';
 import Long from 'long';
-import { HKDF } from '@signalapp/libsignal-client';
+import { Aci, HKDF } from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
 import { Crypto } from './context/Crypto';
@@ -13,6 +13,9 @@ import { ProfileDecryptError } from './types/errors';
 import { getBytesSubarray } from './util/uuidToBytes';
 import { logPadSize } from './util/logPadding';
 import { Environment, getEnvironment } from './environment';
+import { toWebSafeBase64 } from './util/webSafeBase64';
+
+import type { AciString } from './types/ServiceId';
 
 export { HashType, CipherType };
 
@@ -68,6 +71,26 @@ export function deriveMasterKeyFromGroupV1(groupV1Id: Uint8Array): Uint8Array {
   const [part1] = deriveSecrets(groupV1Id, salt, info);
 
   return part1;
+}
+
+export function hashProfileKey(
+  profileKey: string | undefined,
+  aci: AciString
+): string {
+  if (!profileKey) {
+    return 'none';
+  }
+
+  const profileKeyBytes = Bytes.fromBase64(profileKey);
+  const aciBytes = Aci.parseFromServiceIdString(aci).getRawUuidBytes();
+  const hashBytes = hmacSha256(
+    profileKeyBytes,
+    Bytes.concatenate([Bytes.fromString('profileKeyHash'), aciBytes])
+  );
+
+  const webSafe = toWebSafeBase64(Bytes.toBase64(hashBytes));
+
+  return webSafe.slice(-3);
 }
 
 export function computeHash(data: Uint8Array): string {
