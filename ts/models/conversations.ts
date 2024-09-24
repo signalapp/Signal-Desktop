@@ -185,6 +185,8 @@ import {
 } from '../util/deleteForMe';
 import { explodePromise } from '../util/explodePromise';
 import { getCallHistorySelector } from '../state/selectors/callHistory';
+import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
+import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1935,22 +1937,69 @@ export class ConversationModel extends window.Backbone
     }
 
     let upgraded = 0;
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
+
     const hydrated = await Promise.all(
       present.map(async message => {
+        let migratedMessage = message;
+
+        const readStatus = migrateLegacyReadStatus(migratedMessage);
+        if (readStatus !== undefined) {
+          migratedMessage = {
+            ...migratedMessage,
+            readStatus,
+            seenStatus:
+              readStatus === ReadStatus.Unread
+                ? SeenStatus.Unseen
+                : SeenStatus.Seen,
+          };
+        }
+
+        if (ourConversationId) {
+          const sendStateByConversationId = migrateLegacySendAttributes(
+            migratedMessage,
+            window.ConversationController.get.bind(
+              window.ConversationController
+            ),
+            ourConversationId
+          );
+          if (sendStateByConversationId) {
+            migratedMessage = {
+              ...migratedMessage,
+              sendStateByConversationId,
+            };
+          }
+        }
+
         const upgradedMessage = await window.MessageCache.upgradeSchema(
-          message,
+          migratedMessage,
           Message.VERSION_NEEDED_FOR_DISPLAY
         );
-        if (upgradedMessage !== message) {
-          upgraded += 1;
-        }
 
         const patch = await hydrateStoryContext(message.id, undefined, {
           shouldSave: true,
         });
+
+        const didMigrate = migratedMessage !== message;
+        const didUpgrade = upgradedMessage !== migratedMessage;
+        const didPatch = Boolean(patch);
+
+        if (didMigrate || didUpgrade || didPatch) {
+          upgraded += 1;
+        }
+        if (didMigrate && !didUpgrade && !didPatch) {
+          await window.MessageCache.setAttributes({
+            messageId: message.id,
+            messageAttributes: migratedMessage,
+            skipSaveToDatabase: false,
+          });
+        }
+
         if (patch) {
           return { ...upgradedMessage, ...patch };
         }
+
         return upgradedMessage;
       })
     );
@@ -4285,11 +4334,13 @@ export class ConversationModel extends window.Backbone
     if (preview) {
       const inMemory = window.MessageCache.accessAttributes(preview.id);
       preview = inMemory || preview;
+      preview = (await this.cleanAttributes([preview]))?.[0] || preview;
     }
 
     if (activity) {
       const inMemory = window.MessageCache.accessAttributes(activity.id);
       activity = inMemory || activity;
+      activity = (await this.cleanAttributes([activity]))?.[0] || activity;
     }
 
     if (
