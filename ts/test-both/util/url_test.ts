@@ -7,7 +7,8 @@ import { size } from '../../util/iterables';
 import {
   maybeParseUrl,
   setUrlSearchParams,
-  urlPathFromComponents,
+  urlPath,
+  urlPathJoin,
 } from '../../util/url';
 
 describe('URL utilities', () => {
@@ -85,17 +86,43 @@ describe('URL utilities', () => {
     });
   });
 
-  describe('urlPathFromComponents', () => {
-    it('returns / if no components are provided', () => {
-      assert.strictEqual(urlPathFromComponents([]), '/');
+  describe('urlPath', () => {
+    it('escapes values', () => {
+      assert.strictEqual(
+        urlPath`/path/to/${' %?&='}/${true}/${42}`.toString(),
+        '/path/to/%20%25%3F%26%3D/true/42'
+      );
     });
 
-    it('joins components, percent-encoding them and removing empty components', () => {
-      const components = ['foo', '', '~', 'bar / baz qúx'];
+    it('doesnt escape nested url paths', () => {
       assert.strictEqual(
-        urlPathFromComponents(components),
-        '/foo/~/bar%20%2F%20baz%20q%C3%BAx'
+        urlPath`${urlPath`/path?param=true`}&other=${' %?&='}`.toString(),
+        '/path?param=true&other=%20%25%3F%26%3D'
       );
+    });
+  });
+
+  describe('urlPathJoin', () => {
+    it('escapes values', () => {
+      assert.strictEqual(
+        urlPathJoin([' %?&=', true, 42], '&').toString(),
+        '%20%25%3F%26%3D&true&42'
+      );
+    });
+
+    it('doesnt escape nested url paths', () => {
+      assert.strictEqual(
+        urlPathJoin([urlPath`/path?param=true`, ' %?&='], '&').toString(),
+        '/path?param=true&%20%25%3F%26%3D'
+      );
+    });
+
+    it('works with empty arrays', () => {
+      assert.strictEqual(urlPathJoin([], '&').toString(), '');
+    });
+
+    it('works with single items', () => {
+      assert.strictEqual(urlPathJoin(['hi'], '&').toString(), 'hi');
     });
   });
 });

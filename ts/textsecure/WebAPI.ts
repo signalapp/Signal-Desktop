@@ -67,7 +67,8 @@ import type {
 } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
-import { maybeParseUrl, urlPathFromComponents } from '../util/url';
+import type { UrlPath } from '../util/url';
+import { urlPathJoin, maybeParseUrl, urlPath } from '../util/url';
 import { SECOND } from '../util/durations';
 import { safeParseNumber } from '../util/numbers';
 import { isStagingServer } from '../util/isStagingServer';
@@ -717,7 +718,7 @@ type AjaxOptionsType = {
   responseType?: 'json' | 'bytes' | 'byteswithdetails' | 'stream';
   schema?: unknown;
   timeout?: number;
-  urlParameters?: string;
+  urlParameters?: UrlPath;
   username?: string;
   validateResponse?: any;
   isRegistration?: true;
@@ -1865,7 +1866,7 @@ export function initialize({
       }
 
       if (!param.urlParameters) {
-        param.urlParameters = '';
+        param.urlParameters = urlPath``;
       }
 
       const useWebSocketForEndpoint =
@@ -1882,7 +1883,7 @@ export function initialize({
         headers: param.headers,
         host: param.host || url,
         password: param.password ?? password,
-        path: URL_CALLS[param.call] + param.urlParameters,
+        path: URL_CALLS[param.call] + param.urlParameters.toString(),
         proxyUrl,
         responseType: param.responseType,
         timeout: param.timeout,
@@ -2045,7 +2046,7 @@ export function initialize({
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { certificate: 'string' },
-        ...(omitE164 ? { urlParameters: '?includeE164=false' } : {}),
+        ...(omitE164 ? { urlParameters: urlPath`?includeE164=false` } : {}),
       })) as GetSenderCertificateResultType;
     }
 
@@ -2084,8 +2085,8 @@ export function initialize({
         httpType: 'GET',
         responseType: 'byteswithdetails',
         urlParameters: greaterThanVersion
-          ? `/version/${greaterThanVersion}`
-          : '',
+          ? urlPath`/version/${greaterThanVersion}`
+          : urlPath``,
         ...credentials,
       });
 
@@ -2177,13 +2178,11 @@ export function initialize({
         profileKeyCredentialRequest,
       }: GetProfileCommonOptionsType
     ) {
-      let profileUrl = `/${serviceId}`;
+      let profileUrl = urlPath`/${serviceId}`;
       if (profileKeyVersion !== undefined) {
-        profileUrl += `/${profileKeyVersion}`;
+        profileUrl = urlPath`${profileUrl}/${profileKeyVersion}`;
         if (profileKeyCredentialRequest !== undefined) {
-          profileUrl +=
-            `/${profileKeyCredentialRequest}` +
-            '?credentialType=expiringProfileKey';
+          profileUrl = urlPath`${profileUrl}/${profileKeyCredentialRequest}?credentialType=expiringProfileKey`;
         }
       } else {
         strictAssert(
@@ -2226,7 +2225,7 @@ export function initialize({
         await _ajax({
           call: 'username',
           httpType: 'GET',
-          urlParameters: `/${hashBase64}`,
+          urlParameters: urlPath`/${hashBase64}`,
           responseType: 'json',
           redactUrl: _createRedactor(hashBase64),
           unauthenticated: true,
@@ -2443,7 +2442,7 @@ export function initialize({
         await _ajax({
           httpType: 'GET',
           call: 'usernameLink',
-          urlParameters: `/${encodeURIComponent(serverId)}`,
+          urlParameters: urlPath`/${serverId}`,
           responseType: 'json',
           unauthenticated: true,
           accessKey: undefined,
@@ -2462,7 +2461,7 @@ export function initialize({
       await _ajax({
         call: 'reportMessage',
         httpType: 'POST',
-        urlParameters: urlPathFromComponents([senderAci, serverGuid]),
+        urlParameters: urlPath`/${senderAci}/${serverGuid}`,
         responseType: 'bytes',
         jsonData,
       });
@@ -2493,7 +2492,7 @@ export function initialize({
         await _ajax({
           call: 'verificationSession',
           httpType: 'PATCH',
-          urlParameters: `/${encodeURIComponent(session.id)}`,
+          urlParameters: urlPath`/${session.id}`,
           responseType: 'json',
           jsonData: {
             captcha,
@@ -2514,7 +2513,7 @@ export function initialize({
         await _ajax({
           call: 'verificationSession',
           httpType: 'POST',
-          urlParameters: `/${encodeURIComponent(session.id)}/code`,
+          urlParameters: urlPath`/${session.id}/code`,
           responseType: 'json',
           jsonData: {
             client: 'ios',
@@ -2536,7 +2535,7 @@ export function initialize({
         await _ajax({
           httpType: 'HEAD',
           call: 'accountExistence',
-          urlParameters: `/${serviceId}`,
+          urlParameters: urlPath`/${serviceId}`,
           unauthenticated: true,
           accessKey: undefined,
           groupSendToken: undefined,
@@ -2622,7 +2621,7 @@ export function initialize({
           isRegistration: true,
           call: 'verificationSession',
           httpType: 'PUT',
-          urlParameters: `/${encodeURIComponent(sessionId)}/code`,
+          urlParameters: urlPath`/${sessionId}/code`,
           responseType: 'json',
           jsonData: {
             code,
@@ -2739,7 +2738,7 @@ export function initialize({
       await _ajax({
         call: 'devices',
         httpType: 'DELETE',
-        urlParameters: `/${deviceId}`,
+        urlParameters: urlPath`/${deviceId}`,
       });
     }
 
@@ -2824,7 +2823,7 @@ export function initialize({
       await _ajax({
         isRegistration: true,
         call: 'keys',
-        urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
+        urlParameters: urlPath`?${serviceIdKindToQuery(serviceIdKind)}`,
         httpType: 'PUT',
         jsonData: keys,
       });
@@ -2854,7 +2853,7 @@ export function initialize({
       abortSignal,
     }: GetBackupStreamOptionsType): Promise<Readable> {
       return _getAttachment({
-        cdnPath: `/backups/${encodeURIComponent(backupDir)}/${encodeURIComponent(backupName)}`,
+        cdnPath: urlPath`/backups/${backupDir}/${backupName}`,
         cdnNumber: cdn,
         redactor: _createRedactor(backupDir, backupName),
         headers,
@@ -2954,9 +2953,7 @@ export function initialize({
       const res = await _ajax({
         call: 'getBackupCredentials',
         httpType: 'GET',
-        urlParameters:
-          `?redemptionStartSeconds=${startDayInSeconds}&` +
-          `redemptionEndSeconds=${endDayInSeconds}`,
+        urlParameters: urlPath`?redemptionStartSeconds=${startDayInSeconds}&redemptionEndSeconds=${endDayInSeconds}`,
         responseType: 'json',
       });
 
@@ -2974,7 +2971,7 @@ export function initialize({
         accessKey: undefined,
         groupSendToken: undefined,
         headers,
-        urlParameters: `?cdn=${cdn}`,
+        urlParameters: urlPath`?cdn=${cdn}`,
         responseType: 'json',
       });
 
@@ -3080,12 +3077,12 @@ export function initialize({
       cursor,
       limit,
     }: BackupListMediaOptionsType) {
-      const params = new Array<string>();
+      const params: Array<UrlPath> = [];
 
       if (cursor != null) {
-        params.push(`cursor=${encodeURIComponent(cursor)}`);
+        params.push(urlPath`cursor=${cursor}`);
       }
-      params.push(`limit=${limit}`);
+      params.push(urlPath`limit=${limit}`);
 
       const res = await _ajax({
         call: 'backupMedia',
@@ -3095,7 +3092,7 @@ export function initialize({
         groupSendToken: undefined,
         headers,
         responseType: 'json',
-        urlParameters: `?${params.join('&')}`,
+        urlParameters: urlPath`?${urlPathJoin(params, '&')}`,
       });
 
       return backupListMediaResponseSchema.parse(res);
@@ -3128,7 +3125,7 @@ export function initialize({
     ): Promise<ServerKeyCountType> {
       const result = (await _ajax({
         call: 'keys',
-        urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
+        urlParameters: urlPath`?${serviceIdKindToQuery(serviceIdKind)}`,
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { count: 'number', pqCount: 'number' },
@@ -3230,7 +3227,7 @@ export function initialize({
       const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${serviceId}/${deviceId || '*'}`,
+        urlParameters: urlPath`/${serviceId}/${deviceId || '*'}`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
       })) as ServerKeyResponseType;
@@ -3248,7 +3245,7 @@ export function initialize({
       const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${serviceId}/${deviceId || '*'}`,
+        urlParameters: urlPath`/${serviceId}/${deviceId || '*'}`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
         unauthenticated: true,
@@ -3284,7 +3281,7 @@ export function initialize({
       await _ajax({
         call: 'messages',
         httpType: 'PUT',
-        urlParameters: `/${destination}?story=${booleanToString(story)}`,
+        urlParameters: urlPath`/${destination}?story=${story}`,
         jsonData,
         responseType: 'json',
         unauthenticated: true,
@@ -3313,14 +3310,10 @@ export function initialize({
       await _ajax({
         call: 'messages',
         httpType: 'PUT',
-        urlParameters: `/${destination}?story=${booleanToString(story)}`,
+        urlParameters: urlPath`/${destination}?story=${story}`,
         jsonData,
         responseType: 'json',
       });
-    }
-
-    function booleanToString(value: boolean | undefined): string {
-      return value ? 'true' : 'false';
     }
 
     async function sendWithSenderKey(
@@ -3338,16 +3331,16 @@ export function initialize({
         urgent?: boolean;
       }
     ): Promise<MultiRecipient200ResponseType> {
-      const onlineParam = `&online=${booleanToString(online)}`;
-      const urgentParam = `&urgent=${booleanToString(urgent)}`;
-      const storyParam = `&story=${booleanToString(story)}`;
+      const onlineParam = urlPath`&online=${online ?? false}`;
+      const urgentParam = urlPath`&urgent=${urgent}`;
+      const storyParam = urlPath`&story=${story}`;
 
       const response = await _ajax({
         call: 'multiRecipient',
         httpType: 'PUT',
         contentType: 'application/vnd.signal-messenger.mrm',
         data,
-        urlParameters: `?ts=${timestamp}${onlineParam}${urgentParam}${storyParam}`,
+        urlParameters: urlPath`?ts=${timestamp}${onlineParam}${urgentParam}${storyParam}`,
         responseType: 'json',
         unauthenticated: true,
         accessKey: accessKeys != null ? Bytes.toBase64(accessKeys) : undefined,
@@ -3486,7 +3479,7 @@ export function initialize({
         call: 'getStickerPackUpload',
         responseType: 'json',
         httpType: 'GET',
-        urlParameters: `/${encryptedStickers.length}`,
+        urlParameters: urlPath`/${encryptedStickers.length}`,
       });
 
       const { packId, manifest, stickers } =
@@ -3552,7 +3545,7 @@ export function initialize({
       };
     }) {
       return _getAttachment({
-        cdnPath: `/attachments/${cdnKey}`,
+        cdnPath: urlPath`/attachments/${cdnKey}`,
         cdnNumber: cdnNumber ?? 0,
         redactor: _createRedactor(cdnKey),
         options,
@@ -3579,7 +3572,7 @@ export function initialize({
       };
     }) {
       return _getAttachment({
-        cdnPath: `/backups/${backupDir}/${mediaDir}/${mediaId}`,
+        cdnPath: urlPath`/backups/${backupDir}/${mediaDir}/${mediaId}`,
         cdnNumber,
         headers,
         redactor: _createRedactor(backupDir, mediaDir, mediaId),
@@ -3594,7 +3587,7 @@ export function initialize({
       redactor,
       options,
     }: {
-      cdnPath: string;
+      cdnPath: UrlPath;
       cdnNumber: number;
       headers?: Record<string, string>;
       redactor: RedactUrl;
@@ -3627,7 +3620,7 @@ export function initialize({
         if (options?.downloadOffset) {
           targetHeaders.range = `bytes=${options.downloadOffset}-`;
         }
-        streamWithDetails = await _outerAjax(`${cdnUrl}${cdnPath}`, {
+        streamWithDetails = await _outerAjax(`${cdnUrl}${cdnPath.toString()}`, {
           headers: targetHeaders,
           certificateAuthority,
           disableRetries: options?.disableRetries,
@@ -3689,7 +3682,7 @@ export function initialize({
       }
 
       const timeoutStream = getTimeoutStream({
-        name: `getAttachment(${redactor(cdnPath)})`,
+        name: `getAttachment(${redactor(cdnPath.toString())})`,
         timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
         abortController,
       });
@@ -3954,10 +3947,7 @@ export function initialize({
       const endDayInSeconds = endDayInMs / durations.SECOND;
       const response = (await _ajax({
         call: 'getGroupCredentials',
-        urlParameters:
-          `?redemptionStartSeconds=${startDayInSeconds}&` +
-          `redemptionEndSeconds=${endDayInSeconds}&` +
-          'zkcCredential=true',
+        urlParameters: urlPath`?redemptionStartSeconds=${startDayInSeconds}&redemptionEndSeconds=${endDayInSeconds}&zkcCredential=true`,
         httpType: 'GET',
         responseType: 'json',
       })) as GetGroupCredentialsResultType;
@@ -4150,7 +4140,7 @@ export function initialize({
         httpType: 'GET',
         responseType: 'bytes',
         urlParameters: safeInviteLinkPassword
-          ? `${safeInviteLinkPassword}`
+          ? urlPath`${safeInviteLinkPassword}`
           : undefined,
         redactUrl: _createRedactor(safeInviteLinkPassword),
       });
@@ -4182,7 +4172,7 @@ export function initialize({
         httpType: 'PATCH',
         responseType: 'bytes',
         urlParameters: safeInviteLinkPassword
-          ? `?inviteLinkPassword=${safeInviteLinkPassword}`
+          ? urlPath`?inviteLinkPassword=${safeInviteLinkPassword}`
           : undefined,
         redactUrl: safeInviteLinkPassword
           ? _createRedactor(safeInviteLinkPassword)
@@ -4243,11 +4233,7 @@ export function initialize({
         headers: {
           'Cached-Send-Endorsements': String(cachedEndorsementsExpiration ?? 0),
         },
-        urlParameters:
-          `/${startVersion}?` +
-          `includeFirstState=${Boolean(includeFirstState)}&` +
-          `includeLastState=${Boolean(includeLastState)}&` +
-          `maxSupportedChangeEpoch=${Number(maxSupportedChangeEpoch)}`,
+        urlParameters: urlPath`/${startVersion}?includeFirstState=${Boolean(includeFirstState)}&includeLastState=${Boolean(includeLastState)}&maxSupportedChangeEpoch=${Number(maxSupportedChangeEpoch)}`,
       });
       const { data, response } = withDetails;
       const changes = Proto.GroupChanges.decode(data);
@@ -4292,7 +4278,7 @@ export function initialize({
       const data = await _ajax({
         call: 'subscriptions',
         httpType: 'GET',
-        urlParameters: `/${formattedId}`,
+        urlParameters: urlPath`/${formattedId}`,
         responseType: 'json',
         unauthenticated: true,
         accessKey: undefined,
