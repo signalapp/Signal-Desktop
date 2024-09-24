@@ -3126,5 +3126,13 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingPendingParticipants.tsx",
+    "line": "  const lastParticipantRef = React.useRef<ConversationType | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-09-20T02:11:27.851Z",
+    "reasonDetail": "For fading out, to keep showing the last known participant"
   }
 ]

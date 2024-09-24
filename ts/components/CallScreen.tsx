@@ -858,7 +858,7 @@ export function CallScreen({
         renderRaisedHandsToast={renderRaisedHandsToast}
         i18n={i18n}
       />
-      {pendingParticipants.length ? (
+      {isCallLinkAdmin ? (
         <CallingPendingParticipants
           i18n={i18n}
           participants={pendingParticipants}
