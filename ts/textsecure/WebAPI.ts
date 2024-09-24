@@ -885,7 +885,8 @@ const whoamiResultZod = z.object({
   uuid: z.string(),
   pni: z.string(),
   number: z.string(),
-  username: z.string().or(z.null()).optional(),
+  usernameHash: z.string().or(z.null()).optional(),
+  usernameLinkHandle: z.string().or(z.null()).optional(),
 });
 export type WhoamiResultType = z.infer<typeof whoamiResultZod>;
 

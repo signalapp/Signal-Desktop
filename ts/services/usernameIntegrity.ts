@@ -2,20 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import pTimeout from 'p-timeout';
+import { usernames } from '@signalapp/libsignal-client';
 
 import * as Errors from '../types/errors';
+import { strictAssert } from '../util/assert';
 import { isDone as isRegistrationDone } from '../util/registration';
 import { getConversation } from '../util/getConversation';
 import { MINUTE, DAY } from '../util/durations';
 import { drop } from '../util/drop';
 import { explodePromise } from '../util/explodePromise';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
-import { checkForUsername } from '../util/lookupConversationWithoutServiceId';
 import { storageJobQueue } from '../util/JobQueue';
 import { getProfile } from '../util/getProfile';
 import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
+import { bytesToUuid } from '../util/uuidToBytes';
 import * as log from '../logging/log';
-import { resolveUsernameByLink } from './username';
 import { runStorageServiceSyncJob } from './storage';
 import { writeProfile } from './writeProfile';
 
@@ -81,22 +82,25 @@ class UsernameIntegrityService {
   private async checkUsername(): Promise<void> {
     const me = window.ConversationController.getOurConversationOrThrow();
     const username = me.get('username');
-    const aci = me.getAci();
-
-    let failed = false;
-
     if (!username) {
       log.info('usernameIntegrity: no username');
       return;
     }
-    if (!aci) {
-      log.info('usernameIntegrity: no aci');
+
+    const { server } = window.textsecure;
+    if (!server) {
+      log.info('usernameIntegrity: server interface is not available');
       return;
     }
 
-    const result = await checkForUsername(username);
-    if (result?.aci !== aci) {
-      log.error('usernameIntegrity: no remote username');
+    strictAssert(window.textsecure.server, 'WebAPI must be available');
+    const { usernameHash: remoteHash, usernameLinkHandle: remoteLink } =
+      await server.whoami();
+
+    let failed = false;
+
+    if (remoteHash !== usernames.hash(username).toString('base64url')) {
+      log.error('usernameIntegrity: remote username mismatch');
       await window.storage.put('usernameCorrupted', true);
       failed = true;
 
@@ -109,9 +113,8 @@ class UsernameIntegrityService {
       return;
     }
 
-    const linkUsername = await resolveUsernameByLink(link);
-    if (linkUsername !== username) {
-      log.error('usernameIntegrity: invalid username link');
+    if (remoteLink !== bytesToUuid(link.serverId)) {
+      log.error('usernameIntegrity: username link mismatch');
       await window.storage.put('usernameLinkCorrupted', true);
       failed = true;
     }
