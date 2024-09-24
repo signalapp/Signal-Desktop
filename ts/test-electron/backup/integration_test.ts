@@ -56,6 +56,12 @@ describe('backup/integration', () => {
     .filter(file => file.endsWith('.binproto'))
     .map(file => join(BACKUP_INTEGRATION_DIR, file));
 
+  if (files.length === 0) {
+    it('no backup tests', () => {
+      throw new Error('No backup integration tests');
+    });
+  }
+
   for (const fullPath of files) {
     it(basename(fullPath), async () => {
       const expectedBuffer = await readFile(fullPath);
