@@ -55,7 +55,9 @@
     }
 
     &--verified {
-      @include about-modal-icon('../images/icons/v3/check/check.svg');
+      @include about-modal-icon(
+        '../images/icons/v3/safety_number/safety_number.svg'
+      );
     }
 
     &--blocked {

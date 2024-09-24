@@ -36,6 +36,7 @@ import type { ShowToastAction } from '../state/ducks/toast';
 import { getEmojiData, unifiedToEmoji } from './emoji/lib';
 import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
+import { sanitizeAboutText } from '../util/getAboutText';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
 import { UsernameLinkModalBody } from './UsernameLinkModalBody';
@@ -209,6 +210,7 @@ export function ProfileEditor({
   });
   const [isResettingUsername, setIsResettingUsername] = useState(false);
   const [isResettingUsernameLink, setIsResettingUsernameLink] = useState(false);
+  const [isInvalidAboutText, setIsInvalidAboutText] = useState(false);
 
   // Reset username edit state when leaving
   useEffect(() => {
@@ -495,6 +497,14 @@ export function ProfileEditor({
           <Button
             disabled={shouldDisableSave}
             onClick={() => {
+              if (
+                sanitizeAboutText(stagedProfile.aboutText) !==
+                stagedProfile.aboutText
+              ) {
+                setIsInvalidAboutText(true);
+                return;
+              }
+
               setFullBio({
                 aboutEmoji: stagedProfile.aboutEmoji,
                 aboutText: stagedProfile.aboutText,
@@ -766,6 +776,25 @@ export function ProfileEditor({
           onDiscard={confirmDiscardAction}
           onClose={() => setConfirmDiscardAction(undefined)}
         />
+      )}
+
+      {isInvalidAboutText && (
+        <ConfirmationDialog
+          dialogName="ProfileEditorModal.invalidAboutText"
+          title={i18n('icu:ProfileEditor__invalid-about__title')}
+          cancelButtonVariant={ButtonVariant.Primary}
+          cancelText={i18n('icu:Confirmation--confirm')}
+          i18n={i18n}
+          onClose={() => {
+            setStagedProfile(profileData => ({
+              ...profileData,
+              aboutText: sanitizeAboutText(profileData?.aboutText),
+            }));
+            setIsInvalidAboutText(false);
+          }}
+        >
+          {i18n('icu:ProfileEditor__invalid-about__body')}
+        </ConfirmationDialog>
       )}
 
       {isResettingUsernameLink && (

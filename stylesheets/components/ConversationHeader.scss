@@ -136,7 +136,9 @@
         }
 
         &__verified {
-          @include icon-element('../images/icons/v3/check/check-compact.svg');
+          @include icon-element(
+            '../images/icons/v3/safety_number/safety_number-compact.svg'
+          );
         }
       }
     }
