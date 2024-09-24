@@ -14,8 +14,11 @@
   width: 364px;
   padding-inline: 0;
   padding-block-start: 0;
-  background: $color-gray-78;
   outline: 0;
+}
+
+.CallingPendingParticipants--Expandable {
+  background: $color-gray-78;
 }
 
 .CallingPendingParticipants--Expanded {
