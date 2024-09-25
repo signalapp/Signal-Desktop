@@ -1,0 +1,12 @@
+# Copyright 2024 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+version: 2
+updates:
+- package-ecosystem: npm
+  directories:
+    - "/"
+  schedule:
+    interval: daily
+  allow:
+    - dependency-name: electron
