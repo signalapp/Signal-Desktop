@@ -43,6 +43,7 @@ type BasePropsType = {
   imageDataCache: React.RefObject<CallingImageDataCache>;
   isActiveSpeakerInSpeakerView: boolean;
   isCallReconnecting: boolean;
+  isInOverflow?: boolean;
   onClickRaisedHand?: () => void;
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
@@ -80,6 +81,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       remoteParticipantsCount,
       isActiveSpeakerInSpeakerView,
       isCallReconnecting,
+      isInOverflow,
     } = props;
 
     const {
@@ -98,6 +100,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       sharedGroupNames,
       sharingScreen,
       title,
+      titleNoDefault,
       videoAspectRatio,
     } = props.remoteParticipant;
 
@@ -357,26 +360,60 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           {i18n('icu:moreInfo')}
         </button>
       );
+
       if (isBlocked) {
-        noVideoNode = (
-          <>
-            <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--blocked" />
-            <div className="module-ongoing-call__group-call-remote-participant__error">
-              {i18n('icu:calling__blocked-participant', { name: title })}
-            </div>
-            {showDialogButton}
-          </>
-        );
+        if (isInOverflow) {
+          noVideoNode = (
+            <button
+              type="button"
+              className="module-ongoing-call__group-call-remote-participant__more-info module-ongoing-call__group-call-remote-participant__more-info--icon module-ongoing-call__group-call-remote-participant__more-info--icon-blocked"
+              onClick={() => {
+                setShowErrorDialog(true);
+              }}
+              aria-label={i18n('icu:calling__blocked-participant', {
+                name: title,
+              })}
+            />
+          );
+        } else {
+          noVideoNode = (
+            <>
+              <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--blocked" />
+              <div className="module-ongoing-call__group-call-remote-participant__error">
+                {i18n('icu:calling__blocked-participant', { name: title })}
+              </div>
+              {showDialogButton}
+            </>
+          );
+        }
       } else if (showMissingMediaKeys) {
-        noVideoNode = (
-          <>
-            <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--missing-media-keys" />
-            <div className="module-ongoing-call__group-call-remote-participant__error">
-              {i18n('icu:calling__missing-media-keys', { name: title })}
-            </div>
-            {showDialogButton}
-          </>
-        );
+        const errorMessage = titleNoDefault
+          ? i18n('icu:calling__missing-media-keys', {
+              name: titleNoDefault,
+            })
+          : i18n('icu:calling__missing-media-keys--unknown-contact');
+        if (isInOverflow) {
+          noVideoNode = (
+            <button
+              type="button"
+              className="module-ongoing-call__group-call-remote-participant__more-info module-ongoing-call__group-call-remote-participant__more-info--icon module-ongoing-call__group-call-remote-participant__more-info--icon-missing-media-keys"
+              onClick={() => {
+                setShowErrorDialog(true);
+              }}
+              aria-label={errorMessage}
+            />
+          );
+        } else {
+          noVideoNode = (
+            <>
+              <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--missing-media-keys" />
+              <div className="module-ongoing-call__group-call-remote-participant__error">
+                {errorMessage}
+              </div>
+              {showDialogButton}
+            </>
+          );
+        }
       } else {
         noVideoNode = (
           <Avatar
@@ -424,13 +461,17 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       } else if (showMissingMediaKeys) {
         setErrorDialogTitle(
           <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
-            <I18n
-              i18n={i18n}
-              id="icu:calling__missing-media-keys"
-              components={{
-                name: <ContactName key="name" title={title} />,
-              }}
-            />
+            {titleNoDefault ? (
+              <I18n
+                i18n={i18n}
+                id="icu:calling__missing-media-keys"
+                components={{
+                  name: <ContactName key="name" title={titleNoDefault} />,
+                }}
+              />
+            ) : (
+              i18n('icu:calling__missing-media-keys--unknown-contact')
+            )}
           </div>
         );
         setErrorDialogBody(i18n('icu:calling__missing-media-keys-info'));
@@ -445,6 +486,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       showErrorDialog,
       showMissingMediaKeys,
       title,
+      titleNoDefault,
     ]);
 
     return (
