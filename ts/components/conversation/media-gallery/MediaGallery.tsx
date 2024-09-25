@@ -185,7 +185,7 @@ export function MediaGallery({
   }
 
   useEffect(() => {
-    if (!scrollObserverRef.current) {
+    if (loading || !scrollObserverRef.current) {
       return;
     }
 
@@ -228,6 +228,7 @@ export function MediaGallery({
     conversationId,
     haveOldestDocument,
     haveOldestMedia,
+    loading,
     loadMoreDocuments,
     loadMoreMedia,
   ]);
