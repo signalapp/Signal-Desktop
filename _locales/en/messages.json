@@ -1881,6 +1881,10 @@
     "messageformat": "Can't receive audio and video from {name}",
     "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video",
+    "description": "When you can't view someone's audio and video in a call because their media keys are unavailable, and their profile information is not available"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
     "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."

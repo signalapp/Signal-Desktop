@@ -65,8 +65,9 @@ type DirectCallOverrideProps = OverridePropsBase & {
 };
 
 type GroupCallOverrideProps = OverridePropsBase & {
-  callMode: CallMode.Group;
+  callMode: CallMode.Group | CallMode.Adhoc;
   connectionState?: GroupCallConnectionState;
+  groupMembers?: Array<ConversationType>;
   peekedParticipants?: Array<ConversationType>;
   pendingParticipants?: Array<ConversationType>;
   raisedHands?: Set<number>;
@@ -131,7 +132,8 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   localDemuxId: LOCAL_DEMUX_ID,
   maxDevices: 5,
   deviceCount: (overrideProps.remoteParticipants || []).length,
-  groupMembers: overrideProps.remoteParticipants || [],
+  groupMembers:
+    overrideProps.groupMembers || overrideProps.remoteParticipants || [],
   // Because remote participants are a superset, we can use them in place of peeked
   //   participants.
   isConversationTooBigToRing: false,
@@ -173,6 +175,12 @@ const createActiveCallProp = (
       return { ...baseResult, ...createActiveDirectCallProp(overrideProps) };
     case CallMode.Group:
       return { ...baseResult, ...createActiveGroupCallProp(overrideProps) };
+    case CallMode.Adhoc:
+      return {
+        ...baseResult,
+        ...createActiveGroupCallProp(overrideProps),
+        callMode: CallMode.Adhoc as CallMode.Adhoc,
+      };
     default:
       throw missingCaseError(overrideProps);
   }
@@ -867,6 +875,29 @@ export function GroupCallSomeoneBlocked(): JSX.Element {
           .map((participant, index) => ({
             ...participant,
             isBlocked: index === 1,
+          })),
+      })}
+    />
+  );
+}
+
+export function CallLinkUnknownContactMissingMediaKeys(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Adhoc,
+        groupMembers: [],
+        remoteParticipants: allRemoteParticipants
+          .slice(0, 5)
+          .map((participant, index) => ({
+            ...participant,
+            title: index === 1 ? 'Unknown Contact' : participant.title,
+            titleNoDefault:
+              index === 1 ? undefined : participant.titleNoDefault,
+            addedTime: index === 1 ? Date.now() - 60000 : undefined,
+            hasRemoteAudio: false,
+            hasRemoteVideo: false,
+            mediaKeysReceived: index !== 1,
           })),
       })}
     />
