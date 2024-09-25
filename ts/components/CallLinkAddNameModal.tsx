@@ -56,7 +56,6 @@ export function CallLinkAddNameModal({
       modalName="CallLinkAddNameModal"
       i18n={i18n}
       hasXButton
-      noEscapeClose
       noMouseClose
       title={
         callLink.name === ''

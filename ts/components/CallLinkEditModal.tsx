@@ -112,7 +112,6 @@ export function CallLinkEditModal({
       modalName="CallLinkEditModal"
       moduleClassName="CallLinkEditModal"
       title={i18n('icu:CallLinkEditModal__Title')}
-      noEscapeClose
       noMouseClose
       padded={false}
       modalFooter={
