@@ -1066,9 +1066,17 @@
     "messageformat": "Attachment saved.",
     "description": "Shown after user selects to save to downloads"
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment} other {# attachments}} saved",
+    "description": "Shown after user selects to save to downloads"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Show in folder",
     "description": "Button label for showing the attachment in your file system"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "Can't save {count, plural, one {attachment} other {attachments}}, since {count, plural, one {it hasn't} other {# haven't}} finished downloading yet",
+    "description": "Shown when the user tries to save an attachment to the filesystem, but it's impossible since the download from servers hasn't finished yet"
   },
   "icu:you": {
     "messageformat": "You",

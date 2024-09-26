@@ -125,6 +125,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('default--retryDeleteForEveryone'),
   saveAttachment: action('saveAttachment'),
+  saveAttachments: action('saveAttachments'),
   scrollToQuotedMessage: action('default--scrollToQuotedMessage'),
   targetMessage: action('default--targetMessage'),
   shouldCollapseAbove: false,
@@ -133,6 +134,9 @@ const defaultMessageProps: TimelineMessagesProps = {
   showSpoiler: action('showSpoiler'),
   pushPanelForConversation: action('default--pushPanelForConversation'),
   showContactModal: action('default--showContactModal'),
+  showAttachmentDownloadStillInProgressToast: action(
+    'showAttachmentDownloadStillInProgressToast'
+  ),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
