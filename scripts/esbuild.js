@@ -35,6 +35,7 @@ const bundleDefaults = {
     '@signalapp/libsignal-client/zkgroup',
     '@signalapp/ringrtc',
     '@signalapp/better-sqlite3',
+    '@indutny/mac-screen-share',
     'electron',
     'fs-xattr',
     'fsevents',
