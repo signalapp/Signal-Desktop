@@ -185,7 +185,6 @@ export type ActiveCallStateType = {
   pip: boolean;
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: ReadonlyArray<PresentableSource>;
-  capturerBaton?: DesktopCapturerBaton;
   settingsDialogOpen: boolean;
   showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
@@ -216,6 +215,7 @@ export type CallingStateType = MediaDeviceSettings & {
   adhocCalls: AdhocCallsType;
   callLinks: CallLinksByRoomIdType;
   activeCallState?: ActiveCallStateType | WaitingCallStateType;
+  capturerBaton?: DesktopCapturerBaton;
 };
 
 export type AcceptCallType = ReadonlyDeep<{
@@ -649,6 +649,7 @@ const SET_LOCAL_VIDEO_FULFILLED = 'calling/SET_LOCAL_VIDEO_FULFILLED';
 const SET_OUTGOING_RING = 'calling/SET_OUTGOING_RING';
 const SET_PRESENTING = 'calling/SET_PRESENTING';
 const SET_PRESENTING_SOURCES = 'calling/SET_PRESENTING_SOURCES';
+const SET_CAPTURER_BATON = 'calling/SET_CAPTURER_BATON';
 const TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS =
   'calling/TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS';
 const START_DIRECT_CALL = 'calling/START_DIRECT_CALL';
@@ -897,8 +898,12 @@ type SetPresentingSourcesActionType = ReadonlyDeep<{
   type: 'calling/SET_PRESENTING_SOURCES';
   payload: {
     presentableSources: ReadonlyArray<PresentableSource>;
-    capturerBaton: DesktopCapturerBaton;
   };
+}>;
+
+type SetCapturerBatonActionType = ReadonlyDeep<{
+  type: 'calling/SET_CAPTURER_BATON';
+  payload: DesktopCapturerBaton;
 }>;
 
 type SetOutgoingRingActionType = ReadonlyDeep<{
@@ -977,6 +982,7 @@ export type CallingActionType =
   | ReturnToActiveCallActionType
   | SendGroupCallReactionActionType
   | SelectPresentingSourceActionType
+  | SetCapturerBatonActionType
   | SetLocalAudioActionType
   | SetLocalVideoFulfilledActionType
   | SetPresentingSourcesActionType
@@ -1296,6 +1302,7 @@ function getPresentingSources(): ThunkAction<
   void,
   RootStateType,
   unknown,
+  | SetCapturerBatonActionType
   | SetPresentingSourcesActionType
   | ToggleNeedsScreenRecordingPermissionsActionType
 > {
@@ -1318,7 +1325,7 @@ function getPresentingSources(): ThunkAction<
       onPresentableSources(presentableSources) {
         if (needsPermission) {
           // Abort
-          capturer.selectSource(undefined);
+          capturer.abort();
           return;
         }
 
@@ -1326,7 +1333,6 @@ function getPresentingSources(): ThunkAction<
           type: SET_PRESENTING_SOURCES,
           payload: {
             presentableSources,
-            capturerBaton: capturer.baton,
           },
         });
       },
@@ -1352,6 +1358,11 @@ function getPresentingSources(): ThunkAction<
       },
     });
     globalCapturers.set(capturer.baton, capturer);
+
+    dispatch({
+      type: SET_CAPTURER_BATON,
+      payload: capturer.baton,
+    });
 
     if (needsPermission) {
       dispatch({
@@ -2753,6 +2764,25 @@ function mergeCallWithGroupCallLookups({
   };
 }
 
+function abortCapturer(
+  state: Readonly<CallingStateType>
+): Readonly<CallingStateType> {
+  const { capturerBaton } = state;
+  if (capturerBaton == null) {
+    return state;
+  }
+
+  // Cancel source selection if running
+  const capturer = globalCapturers.get(capturerBaton);
+  strictAssert(capturer != null, 'Capturer reference exists, but not capturer');
+  capturer.abort();
+
+  return {
+    ...state,
+    capturerBaton: undefined,
+  };
+}
+
 export function reducer(
   state: Readonly<CallingStateType> = getEmptyState(),
   action: Readonly<CallingActionType>
@@ -2972,17 +3002,22 @@ export function reducer(
     action.type === HANG_UP ||
     action.type === CLOSE_NEED_PERMISSION_SCREEN
   ) {
-    const activeCall = getActiveCall(state);
+    const updatedState = abortCapturer(state);
+    const activeCall = getActiveCall(updatedState);
     if (!activeCall) {
       log.warn(`${action.type}: No active call to remove`);
-      return state;
+      return updatedState;
     }
+
     switch (activeCall.callMode) {
       case CallMode.Direct:
-        return removeConversationFromState(state, activeCall.conversationId);
+        return removeConversationFromState(
+          updatedState,
+          activeCall.conversationId
+        );
       case CallMode.Group:
       case CallMode.Adhoc:
-        return omit(state, 'activeCallState');
+        return omit(updatedState, 'activeCallState');
       default:
         throw missingCaseError(activeCall);
     }
@@ -3471,6 +3506,13 @@ export function reducer(
     };
   }
 
+  if (action.type === SET_CAPTURER_BATON) {
+    return {
+      ...abortCapturer(state),
+      capturerBaton: action.payload,
+    };
+  }
+
   if (
     action.type === SEND_GROUP_CALL_REACTION ||
     action.type === GROUP_CALL_REACTIONS_RECEIVED
@@ -3753,25 +3795,19 @@ export function reducer(
 
   if (action.type === SET_PRESENTING) {
     const { activeCallState } = state;
+
     if (activeCallState?.state !== 'Active') {
       log.warn('Cannot toggle presenting when there is no active call');
       return state;
     }
 
-    // Cancel source selection if running
-    const { capturerBaton } = activeCallState;
-    if (capturerBaton != null) {
-      const capturer = globalCapturers.get(capturerBaton);
-      capturer?.selectSource(undefined);
-    }
-
     return {
       ...state,
+      capturerBaton: undefined,
       activeCallState: {
         ...activeCallState,
         presentingSource: action.payload,
         presentingSourcesAvailable: undefined,
-        capturerBaton: undefined,
       },
     };
   }
@@ -3788,19 +3824,18 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         presentingSourcesAvailable: action.payload.presentableSources,
-        capturerBaton: action.payload.capturerBaton,
       },
     };
   }
 
   if (action.type === SELECT_PRESENTING_SOURCE) {
-    const { activeCallState } = state;
+    const { activeCallState, capturerBaton } = state;
     if (activeCallState?.state !== 'Active') {
       log.warn('Cannot set presenting sources when there is no active call');
       return state;
     }
 
-    const { capturerBaton, presentingSourcesAvailable } = activeCallState;
+    const { presentingSourcesAvailable } = activeCallState;
     if (!capturerBaton || !presentingSourcesAvailable) {
       log.warn(
         'Cannot set presenting sources when there is no presenting modal'
@@ -3817,13 +3852,13 @@ export function reducer(
 
     return {
       ...state,
+      capturerBaton: undefined,
       activeCallState: {
         ...activeCallState,
         presentingSource: presentingSourcesAvailable.find(
           source => source.id === action.payload
         ),
         presentingSourcesAvailable: undefined,
-        capturerBaton: undefined,
       },
     };
   }

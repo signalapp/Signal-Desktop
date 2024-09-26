@@ -1,7 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable max-classes-per-file */
 
 import { ipcRenderer, type DesktopCapturerSource } from 'electron';
+import * as macScreenShare from '@indutny/mac-screen-share';
 
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
@@ -15,6 +17,14 @@ import {
 import { strictAssert } from './assert';
 import { explodePromise } from './explodePromise';
 import { isNotNil } from './isNotNil';
+import { drop } from './drop';
+
+// Chrome-only API for now, thus a declaration:
+declare class MediaStreamTrackGenerator extends MediaStreamTrack {
+  constructor(options: { kind: 'video' });
+
+  public writable: WritableStream;
+}
 
 enum Step {
   RequestingMedia = 'RequestingMedia',
@@ -24,6 +34,9 @@ enum Step {
   // Skipped on macOS Sequoia
   SelectingSource = 'SelectingSource',
   SelectedSource = 'SelectedSource',
+
+  // macOS Sequoia
+  NativeMacOS = 'NativeMacOS',
 }
 
 type State = Readonly<
@@ -40,6 +53,10 @@ type State = Readonly<
   | {
       step: Step.SelectedSource;
       promise: Promise<void>;
+    }
+  | {
+      step: Step.NativeMacOS;
+      stream: macScreenShare.Stream;
     }
   | {
       step: Step.Done;
@@ -80,10 +97,29 @@ export class DesktopCapturer {
       DesktopCapturer.initialize();
     }
 
-    this.state = { step: Step.RequestingMedia, promise: this.getStream() };
+    if (macScreenShare.isSupported) {
+      this.state = {
+        step: Step.NativeMacOS,
+        stream: this.getNativeMacOSStream(),
+      };
+    } else {
+      this.state = { step: Step.RequestingMedia, promise: this.getStream() };
+    }
   }
 
-  public selectSource(id: string | undefined): void {
+  public abort(): void {
+    if (this.state.step === Step.NativeMacOS) {
+      this.state.stream.stop();
+    }
+
+    if (this.state.step === Step.SelectingSource) {
+      this.state.onSource(undefined);
+    }
+
+    this.state = { step: Step.Error };
+  }
+
+  public selectSource(id: string): void {
     strictAssert(
       this.state.step === Step.SelectingSource,
       `Invalid state in "selectSource" ${this.state.step}`
@@ -175,6 +211,59 @@ export class DesktopCapturer {
     } finally {
       liveCapturers.delete(this);
     }
+  }
+
+  private getNativeMacOSStream(): macScreenShare.Stream {
+    const track = new MediaStreamTrackGenerator({ kind: 'video' });
+    const writer = track.writable.getWriter();
+
+    const mediaStream = new MediaStream();
+    mediaStream.addTrack(track);
+
+    let isRunning = false;
+
+    const stream = new macScreenShare.Stream({
+      width: REQUESTED_VIDEO_WIDTH,
+      height: REQUESTED_VIDEO_HEIGHT,
+      frameRate: REQUESTED_VIDEO_FRAMERATE,
+
+      onStart: () => {
+        isRunning = true;
+
+        this.options.onMediaStream(mediaStream);
+      },
+      onStop() {
+        if (!isRunning) {
+          return;
+        }
+        isRunning = false;
+
+        if (track.readyState === 'ended') {
+          stream.stop();
+          return;
+        }
+        drop(writer.close());
+      },
+      onFrame(frame, width, height) {
+        if (!isRunning) {
+          return;
+        }
+        if (track.readyState === 'ended') {
+          stream.stop();
+          return;
+        }
+
+        const videoFrame = new VideoFrame(frame, {
+          format: 'NV12',
+          codedWidth: width,
+          codedHeight: height,
+          timestamp: 0,
+        });
+        drop(writer.write(videoFrame));
+      },
+    });
+
+    return stream;
   }
 
   private translateSourceName(source: DesktopCapturerSource): string {
