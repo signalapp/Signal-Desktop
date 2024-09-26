@@ -579,7 +579,7 @@
     "messageformat": "ਲਾਗ ਭੇਜੋ"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "ਲਾਗ ਭੇਜੋ"
+    "messageformat": "ਲੌਗ ਦਰਜ ਕਰੋ"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} ਤੋਂ ਆਡੀਓ ਤੇ ਵੀਡੀਓ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋ ਸਕਦੀ ਹੈ"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "ਅਜਿਹਾ ਇਸ ਕਾਰਨ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਸ਼ਾਇਦ ਉਹਨਾਂ ਨੇ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲਣ ਦੀ ਤਸਦੀਕ ਨਹੀਂ ਕੀਤੀ ਹੈ, ਉਹਨਾਂ ਦੇ ਡਿਵਾਈਸ ਵਿੱਚ ਕੋਈ ਸਮੱਸਿਆ ਹੈ, ਜਾਂ ਉਹਨਾਂ ਨੇ ਤੁਹਾਡੇ ਉੱਤੇ ਪਾਬੰਦੀ ਲਗਾਈ ਹੋਈ ਹੈ।"
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "ਬੀਤੇ ਕੱਲ੍ਹ {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "ਸੁਨੇਹੇ ਦਾ ਅਕਾਰ ਬਹੁਤ ਲੰਬਾ ਹੈ।"
@@ -3555,13 +3561,13 @@
     "messageformat": "ਮੀਡੀਆ ਰੀਸਟੋਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "ਰੀਸਟੋਰ ਕਰਨਾ ਰੋਕਿਆ ਗਿਆ"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "ਟ੍ਰਾਂਸਫਰ ਨੂੰ ਰੋਕੋ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ਟ੍ਰਾਂਸਫਰ ਮੁੜ ਸ਼ੁਰੂ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "ਟ੍ਰਾਂਸਫਰ ਰੱਦ ਕਰੋ"
@@ -3570,16 +3576,16 @@
     "messageformat": "ਹੋਰ ਵਿਕਲਪ"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "ਬਹਾਲ ਕਰਨ ਦਾ ਕਾਰਜ ਪੂਰਾ ਹੋਇਆ"
+    "messageformat": "ਰੀਸਟੋਰ ਕਰਨ ਦਾ ਕਾਰਜ ਪੂਰਾ ਹੋਇਆ"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{totalSize} ਚੋਂ {currentSize}"
+    "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "ਮੀਡੀਆ ਟ੍ਰਾਂਸਫਰ ਨੂੰ ਰੱਦ ਕਰਨਾ ਹੈ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "ਤੁਹਾਡੇ ਸੁਨੇਹਿਆਂ ਅਤੇ ਮੀਡੀਆ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨਾ ਮੁਕੰਮਲ ਨਹੀਂ ਹੋਇਆ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਜਾ ਕੇ ਦੁਬਾਰਾ ਟ੍ਰਾਂਸਫਰ ਕਰ ਸਕਦੇ ਹੋ।"
+    "messageformat": "ਤੁਹਾਡੇ ਸੁਨੇਹਿਆਂ ਅਤੇ ਮੀਡੀਆ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਦਾ ਕਾਰਜ ਪੂਰਾ ਹੋਇਆ। ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਜਾ ਕੇ ਦੁਬਾਰਾ ਟ੍ਰਾਂਸਫਰ ਕਰ ਸਕਦੇ ਹੋ।"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
     "messageformat": "ਟ੍ਰਾਂਸਫਰ ਜਾਰੀ ਰੱਖੋ"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਨੂੰ ਅੱਪਡੇਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ਕਿਸੇ ਐਡਮਿਨ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜੋ"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "ਸਟੋਰੀ ਦੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "ਇੱਕ ਅੱਪਡੇਟ ਸ਼ਾਮਲ ਕਰਨ ਲਈ <newStoryIcon>ਸਟੋਰੀ ਸ਼ਾਮਲ ਕਰੋ</newStoryIcon> ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।"
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "ਅੱਪਡੇਟ ਸ਼ਾਮਲ ਕਰਨ ਲਈ <newStoryButtonIcon></newStoryButtonIcon> ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।"
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "ਜਵਾਬ"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "ਨੇ ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "ਕਾਲ ਇਤਿਹਾਸ ਮਿਟਾਇਆ ਗਿਆ"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "ਇੱਕ ਨਵੀਂ ਵੌਇਸ ਜਾਂ ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਲਈ <newCallIcon>ਨਵੀਂ ਕਾਲ</newCallIcon> ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।"
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "ਨਵੀਂ ਵੌਇਸ ਜਾਂ ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਲਈ <newCallButtonIcon></newCallButtonIcon> ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।"
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਕੀਤੇ ਸੁਧਾਰਾਂ ਦੀ ਬਦੌਲਤ ਚੈਟਾਂ ਹੁਣ ਪਹਿਲਾਂ ਨਾਲੋਂ ਹੋਰ ਤੇਜ਼ੀ ਨਾਲ ਖੁੱਲ੍ਹਦੀਆਂ ਹਨ।"
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "ਅਸੀਂ ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ, ਜਿਸ ਵਿੱਚ ਕਈ ਵਾਰ ਤੁਹਾਡੇ ਦੁਆਰਾ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਤੋਂ ਬਾਅਦ ਚੈਟ ਸੂਚੀ ਦੇ ਸੰਖੇਪ ਵਿੱਚ \"ਅਣਜਾਣ ਸੰਪਰਕ ਨੇ ਇੱਕ ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕੀਤੀ\" ਦਿਖਾਈ ਦਿੰਦਾ ਸੀ।"
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "ਪਹਿਲਾਂ ਇੱਕ ਡਿਵਾਈਸ 'ਤੇ ਮਿਸਡ ਕਾਲ ਦੀ ਸੂਚਨਾ ਦੇਖਣ ਤੋਂ ਬਾਅਦ ਤੁਹਾਡੇ ਦੂਜੇ ਡਿਵਾਈਸਾਂ 'ਤੇ ਮਿਸਡ ਕਾਲ ਦੀ ਸੂਚਨਾ ਆਪਣੇ-ਆਪ ਕਲੀਅਰ ਨਹੀਂ ਹੁੰਦੀ ਸੀ, ਇਹ ਅੱਪਡੇਟ ਉਸ ਖ਼ਰਾਬੀ ਨੂੰ ਠੀਕ ਕਰਦੀ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "ਹੁਣ ਜਦੋਂ ਤੁਸੀਂ ਚੈਟ ਦੇ ਹੈੱਡਰ 'ਤੇ ਕਲਿੱਕ ਕਰਦੇ ਹੋ ਅਤੇ ਸ਼ੇਅਰ ਕੀਤੇ ਮੀਡੀਆ ਵਾਲੇ ਸੈਕਸ਼ਨ ਵਿੱਚ \"ਸਭ ਦੇਖੋ\" ਨੂੰ ਚੁਣਦੇ ਹੋ, ਤਾਂ ਤੁਹਾਡੇ ਵੱਲੋਂ ਸਕ੍ਰੋਲ ਕਰਨ 'ਤੇ, ਤੁਹਾਨੂੰ ਸਭ ਤੋਂ ਤਾਜ਼ਾ ਸਮੱਗਰੀ ਤੱਕ ਸੀਮਿਤ ਰੱਖਣ ਦੀ ਬਜਾਏ ਤੁਹਾਨੂੰ ਪੁਰਾਣੀਆਂ ਵੀਡੀਓ ਅਤੇ ਫ਼ੋਟੋਆਂ ਆਪਣੇ-ਆਪ ਦਿਖਾਈਆਂ ਜਾਣਗੀਆਂ।"
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਉਸ ਖਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ ਜਿਸ ਕਾਰਨ ਗਰੁੱਪ ਨੂੰ ਛੱਡਣ ਤੋਂ ਬਾਅਦ ਗਰੁੱਪ ਨੂੰ ਖੋਜਣਾ ਮੁਸ਼ਕਲ ਹੋ ਜਾਂਦਾ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

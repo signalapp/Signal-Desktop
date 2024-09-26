@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "No es pot rebre ni àudio ni vídeo de {name}."
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Això pot ser degut al fet que no han verificat el canvi del teu número de seguretat, hi ha un problema al seu dispositiu o t'han bloquejat."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Ahir {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "El cos del missatge és massa llarg."
@@ -3555,13 +3561,13 @@
     "messageformat": "Restaurant els arxius"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Restauració interrompuda"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Pausar la transferència"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Reprendre la transferència"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Cancel·lar la transferència"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} de {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Cancel·lar la transferència d'arxius?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "No s'ha completat la restauració dels teus missatges i arxius multimèdia. Si decideixes cancel·lar, podràs tornar-los a transferir des d'Ajustos."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "No s'ha pogut actualitzar el perfil. Torneu-ho a provar més tard."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Envia un missatge a un administrador"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Cliqueu per veure la història"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Fes clic a <newStoryIcon>Afegir una història</newStoryIcon> per afegir una actualització."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Fes clic a <newStoryButtonIcon> </newStoryButtonIcon>per afegir una actualització."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Respostes"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Ha reaccionat a la història"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Ha reaccionat a la història"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "S'ha buidat l'històric de trucades"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Fes clic a <newCallIcon>Nova trucada</newCallIcon> per iniciar una nova trucada de veu o vídeo."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Fes clic a <newCallButtonIcon></newCallButtonIcon> per iniciar una nova trucada de veu o vídeo."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Ara, els xats s'obren més ràpidament que mai gràcies a noves millores del rendiment."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "També hem corregit una sèrie d'errors, inclòs un que de vegades provocava que, un cop iniciada una trucada, aparegués \"Contacte desconegut ha iniciat una videotrucada\" al llistat de xats."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Aquesta actualització corregeix un error que feia que un cop s'obria en un dispositiu una notificació de trucada perduda, aquesta no s'esborrés automàticament de la resta de dispositius vinculats."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Ara, quan facis clic a la capçalera d'un xat i seleccionis \"Veure tot\" a la secció d'arxius compartits, les fotos i els vídeos més antics aniran apareixent automàticament a mesura que et desplacis en comptes de limitar-se al contingut més recent."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Aquesta actualització corregeix un error que dificultava trobar un grup després d'haver-ne sortit."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

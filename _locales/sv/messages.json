@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Kan inte ta emot ljud och video från {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Det kan bero på att de inte har verifierat ditt säkerhetsnummerbyte, det finns ett problem med deras enhet eller att de har blockerat dig."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Igår {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Meddelandekroppen är för lång."
@@ -3555,13 +3561,13 @@
     "messageformat": "Återställer media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Återställning pausad"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Pausa överföringen"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Återuppta överföringen"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Avbryt överföringen"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} av {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Vill du avbryta mediaöverföringen?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Återställningen av dina meddelanden och media har inte slutförts. Om du väljer att avbryta kan du överföra igen från Inställningar."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Din profil kunde inte uppdateras. Försök igen."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Skicka ett meddelande till en administratör"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Klicka för att visa en story"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Klicka på <newStoryIcon>Lägg till en story</newStoryIcon> för att lägga till en uppdatering."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Klicka <newStoryButtonIcon></newStoryButtonIcon> för att lägga till en uppdatering."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Svar"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Reagerade på storyn"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Reagerade på storyn"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Samtalshistoriken rensad"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Klicka på <newCallIcon>Nytt samtal</newCallIcon> för att starta ett nytt röst- eller videosamtal."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Klicka <newCallButtonIcon></newCallButtonIcon> för att starta ett nytt röst- eller videosamtal."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chattar öppnas nu snabbare än någonsin tack vare ytterligare en omgång prestandaförbättringar."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Vi har också åtgärdat en handfull buggar, bland annat en som ibland gjorde att ”Okänd kontakt startade ett videosamtal” visades i sammanfattningen av chattlistan efter att du hade startat samtalet."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Den här uppdateringen åtgärdar en bugg där visning av ett missat samtal på en enhet inte automatiskt rensade indikatorn för det missade samtalet på dina andra enheter."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "När du klickar på en chattrubrik och väljer Se alla i sektionen för delade media visas nu äldre foton och videor automatiskt när du skrollar, istället för att vara begränsat till de senaste posterna."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Den här uppdateringen åtgärdar en bugg som gjorde det svårt att söka efter en grupp efter att ha lämnat den gruppen."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

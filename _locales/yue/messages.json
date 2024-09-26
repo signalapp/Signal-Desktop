@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "收唔到 {name} 嘅聲同畫"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "可能係因為佢哋冇驗證你嘅安全碼變更、佢哋部裝置有問題，又或者佢哋封鎖咗你。"
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "琴日 {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "訊息太長。"
@@ -3555,13 +3561,13 @@
     "messageformat": "還原緊媒體"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "還原已暫停"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "暫停轉移"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "恢復轉移"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "取消轉移"
@@ -3570,13 +3576,13 @@
     "messageformat": "其他選項"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "還原搞掂"
+    "messageformat": "還原晒"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "係咪要取消媒體轉移？"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "你嘅訊息同媒體仲未還原晒喎。如果你揀取消，可以喺「設定」度再轉移過。"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "更新唔到你嘅個人檔案。請你再試過啦。"
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "傳個訊息俾管理員"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "㩒嚟睇吓限時動態"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "㩒一吓「<newStoryIcon>新增限時動態</newStoryIcon>」嚟加入更新。"
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "㩒一吓 <newStoryButtonIcon></newStoryButtonIcon> 加入更新。"
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "回覆"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "對限時動態傳送咗心情回應"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "對限時動態傳送咗心情回應"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "通話紀錄已經清除晒"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "㩒一吓「<newCallIcon>新通話</newCallIcon>」嚟開始新嘅語音或者視像通話。"
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "㩒一吓 <newCallButtonIcon></newCallButtonIcon> 開始新嘅語音或者視像通話。"
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "經過新一輪系統性能提升之後，打開聊天嘅速度變得前所未有咁快，方便你即時睇到你啲死黨有咩想講。"
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "我哋仲修正咗其他錯誤，包括有時會喺你發起通話之後，喺聊天清單摘要度出現「不明聯絡人開始咗視像通話」嘅問題。"
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "今次更新修正咗一個錯誤，以後當你喺其中一部機度睇咗啲未接來電之後，其他裝置嘅未接來電標記就會自動清除，唔會再卡住喺度。"
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "用經改善嘅全新「所有媒體」檢視方式，搵返你嘅美麗回憶。而家，只要你㩒入聊天標題，同埋喺共享媒體度揀咗「全部睇晒」，就唔單止睇到最近嘅項目，連舊嘅相同影片都會喺你向下碌嘅時候自動出現。"
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "有時候，就算離開咗但係仲會依依不捨，所以我們修正咗一個錯誤，呢個錯誤攪到你好難揾返已經退出咗但仲存在喺對話列表入面嘅谷。"
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

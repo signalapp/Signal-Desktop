@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Non è possibile ricevere audio e video da {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Ciò potrebbe essere dovuto al fatto che non è stata verificata la modifica del codice di sicurezza, c'è un problema con il dispositivo o ti hanno bloccato."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Ieri {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Il corpo del messaggio è troppo lungo."
@@ -3555,13 +3561,13 @@
     "messageformat": "Ripristino dei media in corso"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Ripristino in pausa"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Metti in pausa"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Riprendi il trasferimento"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Annulla trasferimento"
@@ -3576,10 +3582,10 @@
     "messageformat": "{currentSize} di {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Annullare il trasferimento dei media?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Il ripristino dei tuoi messaggi e media non è stato ancora completato. Se scegli di annullarlo, puoi riprovare il trasferimento dalle Impostazioni."
+    "messageformat": "Il ripristino dei tuoi messaggi e media non è stato ancora completato. Se lo annulli, potrai rieffettuare il trasferimento dalle Impostazioni."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
     "messageformat": "Continua con il trasferimento"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Impossibile aggiornare il tuo profilo. Per favore riprova."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Invia un messaggio a un amministratore"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Clicca per vedere una Storia"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Clicca su <newStoryIcon>Aggiungi una storia</newStoryIcon> per condividere qualcosa di tuo."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Clicca <newStoryButtonIcon></newStoryButtonIcon> per inserire un aggiornamento."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Risposte"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Ha reagito alla Storia"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Ha reagito alla Storia"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Cronologia chiamate eliminata"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Clicca su <newCallIcon>Nuova chiamata</newCallIcon> per iniziare una chiamata vocale o una videochiamata."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Clicca <newCallButtonIcon></newCallButtonIcon> per iniziare una nuova chiamata vocale o videochiamata."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Dopo l'ultimo aggiornamento, le chat si apriranno così velocemente che anche Flash farà fatica a stargli dietro."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Abbiamo anche risolto una serie di bug, tra cui uno che poteva causare la comparsa della scritta \"Un contatto sconosciuto ha iniziato una videochiamata\" nel riepilogo di una chat dopo aver iniziato la chiamata. D'altronde, meglio fare una chiamata con persone conosciute, no?"
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Questo aggiornamento risolve un bug molto fastidioso: quando vedevi una chiamata persa su un dispositivo, a volte l'indicatore con il numero di chiamate perse non veniva aggiornato sugli altri dispositivi… avremo perso qualche chiamata ma non l'opportunità di risolvere il bug!"
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "I ricordi sono belli se… te li puoi ricordare. E da ora Signal ti darà una mano: quando selezioni \"Vedi tutti\" nella sezione dei media condivisi in una chat, vedrai apparire in automatico le tue foto e video man mano che scorri, invece di vedere solamente i media più recenti."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "A volte è bello rivangare il passato… abbiamo risolto un bug che rendeva difficile cercare i gruppi di cui facevi parte ma ancora presenti nell'elenco delle tue chat (e, chissà, forse anche nei tuoi ricordi?)."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

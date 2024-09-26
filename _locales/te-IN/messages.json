@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} నుండి ఆడియో మరియు వీడియోను స్వీకరించలేరు"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "మీ భద్రతా నెంబర్ మార్పును వారు ధృవీకరించకపోవడమే దీనికి కారణం కావచ్చు, వారి పరికరంలో సమస్య ఉంది లేదా వారు మిమ్మల్ని బ్లాక్ చేశారు."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "నిన్న {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "సందేశం బహు దీర్ఘముగా వుంది"
@@ -3555,13 +3561,13 @@
     "messageformat": "మీడియాను పునరుద్ధరిస్తోంది"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "పాజ్ చేసిన దానిని పునరుద్ధరించండి"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "బదిలీని పాజ్ చేయండి"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "బదిలీని కొనసాగించండి"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "బదిలీని రద్దు చేయండి"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} ఆఫ్ {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "మీడియా బదిలీని రద్దు చేసేదా?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీరు మళ్ళీ సెట్టింగ్‌ల నుండి బదిలీ చేయవచ్చు."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "మీ ప్రొఫైల్‌ని అప్‌డేట్ చేయలేం. దయచేసి మళ్లీ ప్రయత్నించండి."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "నిర్వాహకుడికి సందేశం పంపండి"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "ఒక కథను చూడటానికి క్లిక్ చేయండి"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "అప్‌డేట్‌ను జోడించడానికి <newStoryIcon>కథను జోడించండి</newStoryIcon>ని క్లిక్ చేయండి."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "అప్‌డేట్ జోడించడానికి <newStoryButtonIcon></newStoryButtonIcon> క్లిక్ చేయండి."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "రిప్లైలు"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "కథకు ప్రతిస్పందించారు"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "కథకు ప్రతిస్పందించారు"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "కాల్ చరిత్ర తొలగించబడింది"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "కొత్త స్వర లేదా వీడియో కాల్ ప్రారంభించడానికి <newCallIcon>కొత్త కాల్</newCallIcon> ను క్లిక్ చేయండి."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "కొత్త స్వర లేదా వీడియో కాల్ ప్రారంభించడానికి <newCallButtonIcon></newCallButtonIcon> క్లిక్ చేయండి."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "చాట్లు ఇప్పుడు మునుపటి కంటే వేగంగా తెరుచుకున్నాయి, మరొక రౌండ్ పనితీరు మెరుగుదలలకు ధన్యవాదాలు."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "మీరు కాల్‌ని ప్రారంభించిన తర్వాత చాట్ జాబితా సారాంశంలో కొన్నిసార్లు \"తెలియని పరిచయం వీడియో కాల్‌ను ప్రారంభించింది\" అని కనిపించడానికి కారణం అయిన దానితో సహా మేము మరి కొన్ని బగ్‌లను కూడా పరిష్కరించాము. ఇంకా మీరు మిమ్మల్ని కనుగొనే పయనంలో ఉన్నప్పటికీ, మీకు మీరేమి పూర్తిగా అపరిచితులు కాదు."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "ఈ అప్‌డేట్, మీరు మిస్డ్ కాల్ వివరాలు ఒక పరికరంలో చూసినప్పుడు, మీ ఇతర పరికరాలలో ఆ మిస్డ్ కాల్ కోసం దాని ఇండికేటర్ ఆటోమేటిక్‌గా క్లియర్ అవ్వడానికి కారణం అయిన బగ్‌ను పరిష్కరిస్తుంది."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "కొత్త మరియు మెరుగైన \"ఆల్ మీడియా\" వీక్షణతో జ్ఞాపకాలను స్మరించుకోండి. ఇప్పుడు మీరు చాట్ హెడర్‌పై క్లిక్ చేసి, పంచుకోబడిన మీడియా విభాగంలో \"అన్నీ చూడండి\" ని ఎంచుకున్నప్పుడు, మీరు ఇటీవలి ఎంట్రీలకు పరిమితం కాకుండా స్క్రోల్ చేస్తున్నప్పుడు పాత ఫోటోలు మరియు వీడియోలు ఆటోమేటిక్‌గా కనిపిస్తాయి."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "ఈ అప్‌డేట్ ఒక గ్రూప్‌ను విడిచిపెట్టిన తర్వాత ఆ గ్రూప్‌ను శోధించడం కష్టతరం చేసిన బగ్‌ను పరిష్కరిస్తుంది."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

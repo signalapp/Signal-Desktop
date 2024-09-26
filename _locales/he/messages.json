@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "לא ניתן לקבל שמע ווידאו מאת {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "זה יכול להיות בגלל שהיא או הוא לא אישרו את שינוי מספר הבטיחות שלך, או שיש בעיה עם המכשיר שלהם, או שהם חסמו אותך."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "אתמול {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "גוף ההודעה ארוך מדי."
@@ -3555,13 +3561,13 @@
     "messageformat": "מדיה בשחזור"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "שחזור הושהה"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "השהיית העברה"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "המשך העברה"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "ביטול העברה"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} מתוך {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "לבטל העברת מדיה?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "שחזור ההודעות והמדיה שלך לא הושלם. אם תבחר/י לבטל, אפשר לבצע העברה שוב מתוך ההגדרות."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "הפרופיל שלך לא היה יכול להתעדכן. אנא נסה שוב."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "שלח הודעה אל מנהלן"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "אפשר ללחוץ כדי להציג סטורי"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "יש ללחוץ על <newStoryIcon>הוספת סטורי</newStoryIcon> כדי להוסיף עדכון."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "יש ללחוץ <newStoryButtonIcon></newStoryButtonIcon> כדי להוסיף עדכון."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "תשובות"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "הגיב/ה לסטורי"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "הגבת לסטורי"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "שיחות אחרונות נמחקו"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "יש ללחוץ על <newCallIcon>שיחה חדשה</newCallIcon> כדי להתחיל שיחה קולית או שיחת וידאו חדשה."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "יש ללחוץ על <newCallButtonIcon></newCallButtonIcon> כדי להתחיל שיחה קולית או שיחת וידאו חדשה."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "הודות לסבב נוסף של שיפורי ביצועים, הצ׳אטים נפתחים כעת מהר יותר מאי פעם."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "תיקנו גם כמה באגים, כולל אחד שגרם לפעמים לכיתוב ״איש קשר לא ידוע התחיל שיחת וידאו״ להופיע בסיכום הצ׳אט לאחר שהתחלת שיחה."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "העדכון הזה מתקן באג שמנע ממחוון שיחה שלא נענתה להיעלם אוטומטית במכשירים האחרים שלך לאחר צפייה בשיחה במכשיר אחד."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "עכשיו, כשלוחצים על החלק העליון של הצ׳אט ובוחרים ״הצגת הכל״ במקטע שיתוף המדיה, תמונות וסרטונים ישנים יותר יופיעו אוטומטית בזמן הגלילה במקום שיופיעו רק הפריטים החדשים ביותר."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "העדכון הזה מתקן באג שהקשה על חיפוש קבוצה מסוימת אחרי שעזבת אותה."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

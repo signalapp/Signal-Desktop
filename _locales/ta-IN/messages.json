@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name}இலிருந்து ஆடியோ மற்றும் வீடியோவைப் பெற முடியவில்லை"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "இது உங்கள் பாதுகாப்பு எண் மாற்றத்தை அவர்கள் சரிபார்க்கவில்லை அல்லது அவர்களின் சாதனத்தில் சிக்கல் இருப்பதால் அல்லது அவர்கள் உங்களைத் தடுத்ததால் இருக்கலாம்."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "நேற்று {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "செய்தி உடல் மிக நீளமானது."
@@ -3555,13 +3561,13 @@
     "messageformat": "மீடியாவை மீட்டமைக்கிறது"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "மீட்டமைப்பு இடைநிறுத்தப்பட்டது"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "பரிமாற்றத்தை இடைநிறுத்துக"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "பரிமாற்றத்தைத் தொடர்க"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "பரிமாற்றத்தை ரத்துசெய்க"
@@ -3576,7 +3582,7 @@
     "messageformat": "{totalSize} இன் {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "மீடியா பரிமாற்றத்தை ரத்து செய்யவதா?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "உங்கள் மெசேஜ்களும் மீடியாவும் முழுமையாக மீட்டடைமைக்கப்படவில்லை. ரத்துசெய்க என்பதை நீங்கள் தேர்ந்தெடுத்தால், நீங்கள் மீண்டும் அமைப்புகளில் இருந்து பரிமாற்றம் செய்யலாம்."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "உங்கள் சுயவிவரத்தை புதுப்பிக்க முடியவில்லை. தயவு செய்து மீண்டும் முயற்சி செய்."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ஒரு நிர்வாகிக்கு செய்தி அனுப்புங்கள்"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "ஒரு ஸ்டோரியைப் பார்க்க கிளிக் செய்யவும்"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "ஒரு புதுப்பிப்பைச் சேர்க்க <newStoryIcon>ஒரு ஸ்டோரியைச் சேர்</newStoryIcon> என்பதைக் கிளிக் செய்யவும்."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "புதுப்பிப்பைச் சேர்க்க <newStoryButtonIcon></newStoryButtonIcon> ஐக் க்ளிக் செய்யவும்."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "பதில்கள்"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "ஸ்டோரிக்கு எதிர்வினையாற்றினார்"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "ஸ்டோரிக்கு ரியாக்ட் செய்துள்ளார்"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "அழைப்பு வரலாறு அழிக்கப்பட்டது"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "புதிய குரல் அல்லது வீடியோ அழைப்பைத் தொடங்க <newCallIcon>புதிய அழைப்பு</newCallIcon> என்பதைக் கிளிக் செய்யவும்."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "புதிய குரல் அல்லது வீடியோ அழைப்பை மேற்கொள்ள <newCallButtonIcon></newCallButtonIcon> ஐக் க்ளிக் செய்யவும்."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "மற்றொரு சுற்று செயல்திறன் மேம்பாடுகளால் சாட்ஸ் முன்பை விட இப்போது வேகமாக திறக்கப்படுகின்றன."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "நீங்கள் அழைப்பைத் தொடங்கிய பிறகு, சில சமயங்களில் சாட் பட்டியலின் சுருக்கத்தில் தெரியப்படும் \"அறியப்படாத தொடர்பு வீடியோ அழைப்பைத் தொடங்கினார்\" உட்பட சில பிழைகளை நாங்கள் சரிசெய்துள்ளோம்."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "இந்தப் புதுப்பிப்பு ஒரு சாதனத்தில் தவறவிட்ட அழைப்பைப் பார்ப்பதன் மூலம், அதே தவறவிட்ட அழைப்புகளை மற்ற சாதனங்களில் தானாக அழிக்காமல் காண்பிக்கும் பிழையைச் சரிசெய்கிறது."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "இப்போது நீங்கள் சாட் தலைப்பைக் க்ளிக் செய்து, பகிரப்பட்ட மீடியா பிரிவில் \"அனைத்தையும் பார்\" என்பதைத் தேர்ந்தெடுக்கும்போது, மிகச் சமீபத்திய உள்ளீடுகளுக்கு மட்டும் தோன்றாமல் நீங்கள் ஸ்க்ரோல் செய்யும் போது பழைய புகைப்படங்களும் மீடியாவும் தானாகவே தோன்றும்."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "இந்தக் குழுவில் இருந்து வெளியேறிய பிறகு ஒரு குழுவைத் தேடுவதில் சிக்கலை ஏற்படுத்தும் பிழையை இந்த மேம்படுத்தல் சரிசெய்கிறது."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

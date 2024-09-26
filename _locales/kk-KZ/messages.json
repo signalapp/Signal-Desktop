@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} жіберген аудио және видеоларды ала алмайсыз"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Бұл сіздің қауіпсіздік нөміріңіздің өзгергені верификацияланбаған, құрылғыда ақау болуы немесе ол сізді блоктап қойған болуы мүмкін."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Кеше {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Хаттың негізгі бөлімі тым ұзақ."
@@ -3555,13 +3561,13 @@
     "messageformat": "Мультимедианы қалпына келтіру"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Қалпына келтіру кідіртілді"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Тасымалдауды кідірту"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Тасымалдауды жалғастыру"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Тасымалдаудан бас тарту"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Мультимедианы тасымалдаудан бас тарту керек пе?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Хабарларыңыз бен мультимедиаңызды қалпына келтіру процесі аяқталған жоқ. Оларды тасымалдаудан бас тартсаңыз, \"Параметрлер\" бөлімінен қайта тасымалдай аласыз."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Профиліңізді жаңарту мүмкін емес. Қайталап көріңіз."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Әкімшіге хат жазу"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Стористі көру үшін басыңыз"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Жаңартуды қосу үшін <newStoryIcon>Сторис қосу</newStoryIcon> түймесін басыңыз."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Жаңалықты сториске қосу үшін <newStoryButtonIcon></newStoryButtonIcon> түймесін басыңыз."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Жауаптар"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Cториске реакция қалдырды"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "cториске реакция қалдырдыңыз."
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Қоңыраулар тарихы тазаланды"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Жаңа дауыстық немесе бейне қоңырауды бастау үшін <newCallIcon>Жаңа қоңырау</newCallIcon> түймесін басыңыз."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Жаңа дауыстық немесе видеоқоңырау шалу үшін <newCallButtonIcon></newCallButtonIcon> түймесін басыңыз."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Өнімділіктің жақсаруының арқасында чаттар енді бұрынғыдан да тез ашылады. Чатты жай ғана түртсеңіз, достарыңыздың не айтып жатқанын бірден көресіз."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Сондай-ақ бірнеше қатені түзеттік, соның ішінде сіз қоңырау шала бастағанда, кейде чатта \"Белгісіз контакт видеоқоңырауды бастады\" деп шығатын қате түзетілді. Өмірде өзін-өзі тану жолында жүрсеңіз де, өзіңізге мәлім тұстардың әрқашан болатыны анық."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Бұл жаңа нұсқада қабылданбаған қоңыраулар тізіміне қатысты ақау түзетілді. Енді бір құрылғыда қабылданбаған қоңырауды көргенде, басқа құрылғылардағы қабылданбаған қоңырау белгісі автоматты түрде өшірілетін болады."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Жаңа әрі жақсартылған \"Барлық мультимедиа\" көрінісімен естеліктерге оралыңыз. Енді чат тақырыбын түртіп, ортақ мультимедиа бөліміндегі \"Барлығын көру\" опциясын таңдасаңыз, соңғы фотосуреттер мен бейнелер ғана емес, бұрынғылары да экранды сырғытқан сайын автоматты түрде көрсетіле береді."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Кейде бір нәрсені артта қалдырғанмен, оған қайта оралғың келетін сәттер туындап жататыны бар емес пе? Қуанышқа орай, қатені түзеттік. Енді бұрын шығып кеткен, бірақ әңгімелер тізіміңізден, бәлкім, жүрегіңізден де орын алған топтарды оңай таба аласыз."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

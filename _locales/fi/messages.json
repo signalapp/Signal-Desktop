@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Ääni- ja videoviestin vastaanottaminen käyttäjältä {name} epäonnistui"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Tämä saattaa johtua siitä, että he eivät ole vahvistaneet uutta turvanumeroasi, laitteiden teknisistä ongelmista, tai siitä, että sinut on estetty."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Eilen {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Viestin teksti on liian pitkä."
@@ -3555,13 +3561,13 @@
     "messageformat": "Palautetaan mediaa"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Palauttaminen keskeytetty"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Keskeytä siirto"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Jatka siirtoa"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Peruuta siirto"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Perutaanko median siirto?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Viestejä ja mediaa ei ole vielä kokonaan palautettu. Jos peruutat toiminnot nyt, voit käynnistää siirron uudelleen Asetuksista."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profiiliasi ei voitu päivittää. Ole hyvä ja yritä uudelleen."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Lähetä viesti ylläpitäjälle"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Näytä tarina napsauttamalla"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Napsauta <newStoryIcon>Lisää tarina</newStoryIcon> lisätäksesi päivityksen."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Napsauta <newStoryButtonIcon></newStoryButtonIcon> lisätäksesi päivityksen."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Vastaukset"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Reagoi tarinaan"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Reagoit tarinaan"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Puheluhistoria tyhjennetty"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Napsauta <newCallIcon>Uusi puhelu</newCallIcon> aloittaaksesi uuden ääni- tai videopuhelun."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Napsauta <newCallButtonIcon></newCallButtonIcon> aloittaaksesi uuden ääni- tai videopuhelun."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Keskustelut avautuvat nyt nopeammin kuin koskaan uusien suorituskyvyn parannusten ansiosta."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Korjasimme myös muutaman virheen, mukaan lukien sellaisen, joka saattoi aiheuttaa ilmoituksen ”Tuntematon yhteystieto aloitti videopuhelun” keskusteluluettelon yhteenvedossa puhelun aloittamisen jälkeen."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Päivitys korjaa virheen, jossa vastaamatta jääneen puhelun tarkasteleminen yhdellä laitteella ei nollannut vastaamattoman puhelun ilmaisinta muissa laitteissasi automaattisesti."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Nyt kun napsautat keskustelun otsikkoa ja valitset Näytä kaikki jaetun median osiossa, vanhemmat valokuvat ja videot tulevat automaattisesti näkyviin vierittäessä, kun aiemmin vain uusimmat sisällöt näkyivät."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Päivitys korjaa virheen, joka vaikeutti ryhmän hakemista ryhmästä eroamisen jälkeen."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

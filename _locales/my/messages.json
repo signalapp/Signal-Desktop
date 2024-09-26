@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} မှ အသံနှင့် ဗီဒီယို မရရှိနိုင်ပါ"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "သင့်လုံခြုံရေးနံပါတ် ပြောင်းလဲမှုကို ၎င်းတို့ အတည်မပြုရသေးသောကြောင့် သော်လည်းကောင်း၊ ၎င်းတို့ စက်တွင် ပြဿနာရှိနေသောကြောင့် သော်လည်းကောင်း၊ ၎င်းတို့က သင့်ကို ဘလော့ခ်ထားသောကြောင့် သော်လည်းကောင်း ဖြစ်နိုင်ပါသည်။"
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "ယမန်နေ့ {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "မက်ဆေ့ချ် စာကိုယ် ရှည်လွန်းနေပါသည်။"
@@ -3555,13 +3561,13 @@
     "messageformat": "မီဒီယာကို ပြန်လည်ရယူနေသည်"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "ပြန်လည်ရယူခြင်းကို ခေတ္တရပ်ထားသည်"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "လွှဲပြောင်းမှုကို ခေတ္တရပ်ပါ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ပြန်လည်စတင် လွှဲပြောင်းမည်"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "လွှဲပြောင်းမှုကို ပယ်ဖျက်မည်"
@@ -3570,13 +3576,13 @@
     "messageformat": "နောက်ထပ် ရွေးစရာများ"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "ပြီးပြည့်စုံသောပြန်ယူပါ"
+    "messageformat": "ပြန်လည်ရယူခြင်း ပြီးစီးပါပြီ"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} ၏ {totalSize}"
+    "messageformat": "{totalSize} ၏ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "မီဒီယာလွှဲပြောင်းမှုကို ပယ်ဖျက်လိုပါသလား။"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "သင့်မက်ဆေ့ချ်များနှင့် မီဒီယာများကို ပြန်လည်ရယူခြင်း မပြီးပြတ်သေးပါ။ ပယ်ဖျက်ရန်ကို ရွေးချယ်ပါက ဆက်တင်မှ ထပ်မံလွှဲပြောင်းနိုင်ပါသည်။"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "သင်၏ ပရိုဖိုင်ကို အပ်ဒိတ်လုပ်၍ မရနိုင်ပါ။ ထပ်ကြိုးစားကြည့်ပါ။"
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "အက်ဒ်မင်ထံ မက်ဆေ့ချ် ပို့ရန်"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "စတိုရီကို ကြည့်ရန် နှိပ်ပါ"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "အပ်ဒိတ်တစ်ခုထည့်ရန် <newStoryIcon>စတိုရီတစ်ခု ပေါင်းထည့်ရန်</newStoryIcon>ကို နှိပ်ပါ။"
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "အပ်ဒိတ်တစ်ခုထည့်ရန် <newStoryButtonIcon></newStoryButtonIcon> ကို နှိပ်ပါ။"
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "ပြန်စာများ"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "ကောလ်မှတ်တမ်း ရှင်းလင်းပြီး"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "အသံ သို့မဟုတ် ဗီဒီယိုကောလ် အသစ်တစ်ခုစတင်ရန် <newCallIcon>ကောလ်အသစ်</newCallIcon> ကိုနှိပ်ပါ။"
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "အသံ သို့မဟုတ် ဗီဒီယိုကောလ်ခေါ်ဆိုမှုအသစ်တစ်ခု စတင်ရန် <newCallButtonIcon></newCallButtonIcon> ကို နှိပ်ပါ။"
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "နောက်ထပ် စွမ်းဆောင်ရည် မြှင့်တင်မှုများကြောင့် ယခုအခါ ချက်(တ်)များကို ယခင်ကထက် ပိုမိုမြန်ဆန်စွာ ဖွင့်နိုင်ပါပြီ။"
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "တစ်ခါတစ်ရံ သင်ခေါ်ဆိုမှုစတင်ပြီးနောက် ချက်(တ်)စာရင်းအကျဉ်းချုပ်တွင် \"အမည်မသိအဆက်အသွယ်မှ ဗီဒီယိုကောလ်ခေါ်ဆိုမှုတစ်ခု စတင်ခဲ့သည်\" ဟုပေါ်လာစေသည့် အရာအပါအဝင် ချွတ်ယွင်းချက်အချို့ကိုလည်း ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "ဤအပ်ဒိတ်သည် လွတ်သွားသောခေါ်ဆိုမှုကို စက်တစ်ခုတွင် ကြည့်ပြီးဖြစ်သော်လည်း သင့်အခြားစက်များတွင် ထိုခေါ်ဆိုမှုအတွက် ညွှန်ပြချက်အား အလိုအလျောက် မဖယ်ရှားသည့် ချွတ်ယွင်းချက်ကို ပြင်ဆင်ထားသည်။"
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "ယခုအခါ ချက်(တ်)ခေါင်းစီးကိုနှိပ်ပြီး မျှဝေထားသောမီဒီယာကဏ္ဍရှိ \"အားလုံးကို ကြည့်ရန်\" ကို ရွေး၍ အပေါ်အောက်ရွှေ့သောအခါ မကြာသေးမီက ထည့်သွင်းမှုများအပြင် ဓာတ်ပုံနှင့် ဗီဒီယို အဟောင်းများလည်း အလိုအလျောက် ပေါ်လာမည်ဖြစ်သည်။"
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "အဖွဲ့မှထွက်ခွာပြီးနောက် ထိုအဖွဲ့ကိုရှာရန် ခက်ခဲသည့် ပြစ်ချက်ကို ဤအပ်ဒိတ်တွင် ပြုပြင်ထားသည်။"
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

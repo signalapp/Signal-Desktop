@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} से ऑडियो और वीडियो नहीं प्राप्त की जा सकती"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "यह इसलिए हो सकता है क्योंकि उन्होंने आपके सुरक्षा नंबर में परिवर्तन को वेरिफाई नहीं किया है, उनके डिवाइस के साथ कोई समस्या है, या उन्होंने आपको ब्लॉक कर दिया है।"
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "कल {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "मेसेज बहुत लंबा है"
@@ -3555,13 +3561,13 @@
     "messageformat": "मीडिया रीस्टोर किया जा रहा है"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "रीस्टोर पॉज़ किया गया"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "ट्रांसफ़र पॉज़ करें"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ट्रांसफ़र फिर से शुरू करें"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "ट्रांसफ़र रद्द करें"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} का {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "मीडिया ट्रांसफ़र रद्द करें?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "आपके संदेश और मीडिया पूरी तरह रीस्टोर नहीं हुए हैं। अगर आप रद्द करना चुनते हैं, तो आप सेटिंग्स में जाकर फिर से ट्रांसफ़र कर सकते हैं।"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "आपकी प्रोफ़ाइल को अपडेट नहीं किया जा सका। कृपया दोबारा प्रयास करें।"
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "व्यवस्थापक को संदेश भेजें"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "किसी स्टोरी को देखने के लिए उस पर क्लिक करें"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "कोई अपडेट जोड़ने के लिए, <newStoryIcon>स्टोरी जोड़ें</newStoryIcon> पर क्लिक करें।"
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "अपडेट जोड़ने के लिए, <newStoryButtonIcon></newStoryButtonIcon> पर क्लिक करें।"
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "जवाब"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "स्टोरी पर प्रतिक्रिया दी"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "स्टोरी पर प्रतिक्रिया दी"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "कॉल इतिहास साफ किया गया"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "नया वॉइस या वीडियो कॉल शुरू करने के लिए, <newCallIcon>नया कॉल</newCallIcon> पर क्लिक करें।"
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "नया वॉइस या वीडियो कॉल शुरू करने के लिए, <newCallButtonIcon></newCallButtonIcon> पर क्लिक करें।"
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "प्रदर्शन में एक और बार सुधार होने की वजह से, अब चैट पहले से कहीं ज़्यादा तेज़ी से खुलती हैं, तो अब आप अपने दोस्तों की चैट पर तेज़ी से क्लिक करके देख सकते हैं कि वे क्या कह रहे हैं।"
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "हमने कुछ गड़बड़ियाँ भी ठीक की हैं, जिनमें वह गड़बड़ी शामिल है जिसकी वजह से कभी-कभी आपके कोई कॉल शुरू करने के बाद, चैट सूची के सारांश में \"अज्ञात संपर्क ने वीडियो कॉल शुरू किया\" दिखाई देता था। चाहे आप खुद को खोजने के सफ़र पर हों, फिर भी आप अपने लिए पूरी तरह से अनजान नहीं हैं।"
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "यह अपडेट उस गड़बड़ी को ठीक करता है जिसकी वजह से एक डिवाइस पर मिस्ड कॉल देखने से आपके दूसरे डिवाइस पर उस मिस्ड कॉल का इंडिकेटर अपने-आप नहीं हटता था, जिससे आपकी मिस्ड कॉल वाली लिस्ट सभी डिवाइस पर एक जैसी नहीं दिख पाती थी।"
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "नए और बेहतर \"सभी मीडिया\" व्यू के साथ यादों के समंदर में गोते लगाएँ। अब जब आप चैट हेडर पर क्लिक करके, शेयर किए गए मीडिया वाले सेक्शन में \"सभी देखें\" को चुनते हैं, तो स्क्रोल करने पर सबसे हाल ही की एंट्री तक सीमित होने के बजाय, पुरानी फ़ोटो और वीडियो अपने-आप दिखेंगे।"
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "कभी-कभी, किसी चीज़ को पीछे छोड़ने पर इस बात का एहसास होता है कि आप इसे फिर से पाना चाहते हैं, इसलिए हमने एक ऐसी गड़बड़ी को ठीक किया है जिसकी वजह से ऐसे ग्रुप्स को खोजना मुश्किल हो जाता था जिनका हिस्सा अब आप नहीं हैं, लेकिन जो अब भी आपकी बातचीत की सूची में मौजूद हैं (और शायद आपके दिल में भी)।"
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

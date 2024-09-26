@@ -1110,7 +1110,7 @@
     "messageformat": "Gekoppelte Geräte"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Ein neues Gerät koppeln"
+    "messageformat": "Neues Gerät koppeln"
   },
   "icu:Install__learn-more": {
     "messageformat": "Mehr erfahren"
@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Audio- und Videodaten von {name} können nicht empfangen werden"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dies kann daran liegen, dass der Teilnehmer die Änderung deiner Sicherheitsnummer nicht verifiziert hat, ein Problem mit dessen Gerät besteht oder er dich blockiert hat."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Gestern, {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Nachricht ist zu lang."
@@ -3555,13 +3561,13 @@
     "messageformat": "Medien werden wiederhergestellt"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Wiederherstellung angehalten"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Übertragung anhalten"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Übertragung fortsetzen"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Übertragung abbrechen"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} von {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Medienübertragung abbrechen?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Die Wiederherstellung deiner Nachrichten und Medien ist noch nicht abgeschlossen. Wenn du jetzt abbrichst, kannst du unter »Einstellungen« erneut eine Übertragung vornehmen."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Dein Profil konnte nicht aktualisiert werden. Bitte versuche es erneut."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Schreib einem Admin"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Anklicken, um eine Story anzusehen"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Klicke auf <newStoryIcon>Eine Story hinzufügen</newStoryIcon>, um eine Aktualisierung hinzuzufügen."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Klicke auf <newStoryButtonIcon></newStoryButtonIcon>, um ein Update hinzuzufügen."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Antworten"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Hat auf Story reagiert"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "hast auf die Story reagiert"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Anrufliste geleert"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Klicke auf <newCallIcon>Neuer Anruf</newCallIcon>, um einen neuen Sprach- oder Videoanruf zu starten."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Klicke auf <newCallButtonIcon></newCallButtonIcon>, um einen neuen Sprach- oder Videoanruf zu starten."
   },
@@ -5587,7 +5590,7 @@
     "messageformat": "Anruflink löschen?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "Dieser Link wird für alle, die ihn benutzt haben, nicht mehr funktionieren."
+    "messageformat": "Dieser Link wird für alle, die ihn kennen, nicht mehr funktionieren."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
     "messageformat": "Abbrechen"
@@ -5674,19 +5677,10 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Chats öffnen sich jetzt dank weiterer Leistungsverbesserungen schneller als je zuvor. Du kannst jetzt also auf deine Cliquen klicken und blitzschnell sehen, was sie sagen."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Wir haben auch eine Handvoll Fehler behoben, darunter einen, der manchmal dazu führte, dass in der Zusammenfassung der Chatliste »Unbekannter Kontakt hat einen Videoanruf gestartet« erschien, nachdem du den Anruf gestartet hast. Auch wenn du noch dabei bist, dich selbst zu finden, bist du für dich selbst doch nie komplett unbekannt."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Dieses Update behebt einen Fehler, bei dem das Anzeigen eines verpassten Anrufs auf einem Gerät nicht automatisch die Anzeige für diesen verpassten Anruf auf anderen Geräten löschte – sozusagen eine verpasste Gelegenheit für die perfekte Koexistenz deiner Liste verpasster Anrufe auf verschiedenen Geräten."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Unternimm eine Reise in die Vergangenheit mit der neuen und verbesserten Medienübersicht. Wenn du jetzt auf eine Chat-Überschrift klickst und im Bereich »Geteilte Medieninhalte« die Option »Alle anzeigen« auswählst, werden beim Scrollen auch ältere Fotos und Videos automatisch angezeigt statt nur die neuesten Einträge."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Manchmal ist es am besten, etwas zurückzulassen, um zu erkennen, dass man es wiederfinden möchte. Deshalb haben wir einen Fehler behoben, der die Suche nach Gruppen erschwerte, denen du nicht mehr angehörst, die aber immer noch in deiner Unterhaltungsliste (und bestimmt auch in deinem Herzen) sind."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

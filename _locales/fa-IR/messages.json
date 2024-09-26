@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "دریافت صدا و تصویر از {name} ممکن نیست"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "این می‌تواند به این دلیل باشد که او تغییر شماره امنیتی شما را تأیید نکرده، مشکلی برای دستگاهش پیش آمده یا شما را مسدود کرده است."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "دیروز {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "متن پیام بیش از حد طولانی می باشد."
@@ -3555,13 +3561,13 @@
     "messageformat": "در حال بازیابی رسانه"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "بازیابی موقتاً متوقف شد"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "توقف موقت انتقال"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ازسرگیری انتقال"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "لغو انتقال"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} از {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "انتقال رسانه لغو شود؟"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "پیام‌ها و رسانه شما کامل بازیابی نشده است. اگر لغو را انتخاب کردید، می‌توانید از قسمت تنظیمات، دوباره انتقال دهید."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "امکان به‌روزرسانی پروفایل شما وجود نداشت. لطفاً دوباره امتحان کنید."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "به یک مدیر پیام دهید"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "برای مشاهده استوری کلیک کنید"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "برای به‌روزرسانی، روی <newStoryIcon>افزودن استوری</newStoryIcon> کلیک کنید."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "برای به‌روزرسانی، روی <newStoryButtonIcon></newStoryButtonIcon> کلیک کنید."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "پاسخ‌ها"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "به استوری واکنش نشان داد"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "به استوری واکنش نشان داد"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "سوابق تماس‌ها پاک شد."
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "برای شروع تماس صوتی یا تصویری جدید، روی <newCallIcon>تماس جدید</newCallIcon> کلیک کنید."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "برای شروع تماس صوتی یا تصویری جدید، روی <newCallButtonIcon></newCallButtonIcon> کلیک کنید."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "به لطف سری جدید بهبود عملکرد، اکنون گفتگوها سریع‌تر از همیشه باز می‌شوند."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "همچنین تعدادی از اشکالات را برطرف کردیم، از جمله اشکالی که گاهی باعث می‌شد پیام «مخاطب ناشناس یک تماس تصویری شروع کرد» پس از شروع تماس در خلاصه فهرست گفتگوها ظاهر شود."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "این به‌روزرسانی اشکالی را برطرف می‌کند که اجازه نمی‌داد هنگام مشاهده تماس بی‌پاسخ در یک دستگاه، نشانگر آن تماس از دست‌رفته به‌طور خودکار در دستگاه‌های دیگر شما پاک شود."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "اکنون وقتی روی سربرگ گفتگو کلیک می‌کنید و گزینه «مشاهده همه» را در بخش رسانه اشتراک‌گذاری‌شده انتخاب می‌کنید، به‌جای اینکه فقط جدیدترین رسانه‌ها را ببینید، عکس‌ها و ویدیوهای قدیمی‌تر نیز به‌طور خودکار هنگام پیمایش ظاهر می‌شوند."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "در این به‌روزرسانی، اشکالی را برطرف کردیم که جستجوی گروه را پس از ترک آن گروه دشوار می‌کرد."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

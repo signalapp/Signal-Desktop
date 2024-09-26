@@ -579,7 +579,7 @@
     "messageformat": "Kirim catatan"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "Kirim catatan"
+    "messageformat": "Kirim log"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Tidak dapat menerima audio dan video dari {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Ini mungkin terjadi karena mereka belum memverifikasi pergantian nomor keamanan, ada masalah dengan perangkat mereka, atau mereka memblokir Anda."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Kemarin {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Pesan terlalu panjang."
@@ -3555,13 +3561,13 @@
     "messageformat": "Memulihkan media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Pemulihan dijeda"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Jeda transfer"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Lanjutkan transfer"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Batalkan transfer"
@@ -3573,10 +3579,10 @@
     "messageformat": "Pemulihan selesai"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize}dari {totalSize}"
+    "messageformat": "{currentSize} dari {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Batalkan transfer media?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Pemulihan pesan dan media Anda belum selesai. Jika pilih untuk membatalkan, Anda dapat mentransfer lagi dari Pengaturan."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profil Anda tidak dapat diperbarui. Mohon coba lagi."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Kirimkan pesan ke admin"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Klik untuk melihat cerita"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Klik <newStoryIcon>Tambahkan cerita</newStoryIcon> untuk menambahkan pembaruan terkini."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Klik <newStoryButtonIcon></newStoryButtonIcon> untuk menambahkan Cerita."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Balasan"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Menanggapi cerita"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Menanggapi cerita"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Catatan Panggilan Dibersihkan"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Klik <newCallIcon>Panggilan Baru</newCallIcon> untuk memulai panggilan suara atau video baru."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Klik <newCallButtonIcon></newCallButtonIcon> untuk memulai panggilan suara atau panggilan video baru."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Obrolan kini bisa terbuka lebih cepat berkat peningkatan kinerja yang kami lakukan."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Kami juga memperbaiki beberapa bug, termasuk bug penyebab munculnya pesan \"Kontak tidak dikenal memulai panggilan video\" di ringkasan daftar obrolan setelah Anda memulai panggilan."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Pembaruan ini memperbaiki bug yang tidak otomatis menghapus indikator panggilan tak terjawab di perangkat lain ketika Anda sudah melihat panggilan tak terjawab tersebut di satu perangkat."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Kini apabila Anda mengklik tajuk obrolan dan memilih \"Lihat semua\" di bagian media bersama, foto dan video lama akan otomatis muncul saat Anda menggulir, dan tidak lagi terbatas pada entri terbaru."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Pembaruan ini memperbaiki bug yang membuat Anda kesulitan mencari suatu grup setelah Anda keluar dari grup tersebut."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

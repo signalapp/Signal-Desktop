@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Non se pode recibir o audio e vídeo de {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Pode ser que non verificasen o cambio do teu número de seguridade, que haxa un problema co seu dispositivo ou que te bloqueasen."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Onte {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "A mensaxe de texto é demasiado longa."
@@ -3555,13 +3561,13 @@
     "messageformat": "Restaurando arquivos multimedia"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Recuperación parada"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Parar transferencia"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Continuar transferencia"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Cancelar transferencia"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} de {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Cancelar a transferencia de contido multimedia?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Non se completou a recuperación das túas mensaxes e arquivos multimedia. Se cancelas o proceso, podes volver a facelo dende Configuración."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Non se actualizou o teu perfil. Inténtao de novo."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Enviar mensaxe a un administrador"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Preme para ver historia"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Preme en <newStoryIcon>Engadir historia</newStoryIcon> para subir unha novidade."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Preme <newStoryButtonIcon></newStoryButtonIcon> para subir unha novidade."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Respostas"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Reaccionou á historia"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Reaccionaches á historia"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Historial de chamadas eliminado"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Preme en <newCallIcon>Nova chamada</newCallIcon> para iniciar unha nova chamada de voz ou videochamada."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Preme <newCallButtonIcon></newCallButtonIcon> para iniciar unha nova chamada de voz ou videochamada."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Agora podes abrir as conversas en tempo récord grazas ás últimas melloras no rendemento."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Ademais, corriximos uns cantos erros, como un que, ás veces, mostraba a mensaxe «Contacto descoñecido iniciou unha videochamada» no resumo da lista de conversas despois de que ti iniciaras a chamada."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Esta actualización soluciona un erro no que, ao visualizar unha chamada perdida nun dispositivo non se eliminaba automaticamente o indicador desa chamada perdida nos teus outros dispositivos."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Agora, cando fagas clic na cabeceira dunha conversa e selecciones «Ver todo» na sección de arquivos multimedia compartidos, as fotos e vídeos máis antigos aparecerán automaticamente mentres subas e baixes, en lugar de estar limitados aos arquivos máis recentes."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Esta actualización soluciona un erro que dificultaba a busca dun grupo despois de abandonalo."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

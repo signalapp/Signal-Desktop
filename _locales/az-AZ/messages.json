@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} əlaqəsindən səs və ya görüntü alına bilmir"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Bu, qarşı tərəf güvənlik nömrəsi dəyişikliyinizi təsdiqləmədiyi, cihazında bir problem olduğu və ya sizi blokladığı üçün baş verə bilər."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Dünən {time} radələrində"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Mesaj gövdəsi çox uzundur."
@@ -3555,13 +3561,13 @@
     "messageformat": "Media faylı bərpa olunur"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Bərpaetmə dayandırıldı"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Köçürməyə fasilə ver"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Köçürməyə qayıt"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Köçürməni ləğv et"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} /{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Media fayllarının köçürülməsi ləğv edilsin?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Mesajlarınız və media faylınızın bərpası tamamlanmayıb. Ləğv etsəniz, Parametrlərdən yenidən köçürə bilərsiniz."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profiliniz yenilənə bilmir. Zəhmət olmasa yenidən sınayın."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir adminə mesaj yazın"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Bir hekayəyə baxmaq üçün klikləyin"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Yeniləmə əlavə etmək üçün <newStoryIcon>Hekayə əlavə et</newStoryIcon> üzərinə klikləyin."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Yeniləmə əlavə etmək üçün <newStoryButtonIcon></newStoryButtonIcon> üzərinə klikləyin."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Cavab"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Hekayəyə reaksiya verildi"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Hekayəyə reaksiya verildi"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Zəng tarixçəsi təmizləndi"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Yeni audio və ya video zəng etmək üçün <newCallIcon>Yeni zəng</newCallIcon> üzərinə klikləyin."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Yeni bir audio və ya video zəng başlamaq üçün <newCallButtonIcon></newCallButtonIcon> üzərinə klikləyin."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Digər bir təkmilləşdirmə mərhələsi sayəsində artıq çatlar hər zamankından daha tez açılır, beləliklə siz öz kliklərinizə klikləyərək onların nə dediklərini tez görə bilərsiniz."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Bundan başqa, siz zəng etdikdən sonra çat siyahısı xülasəsində bəzən \"Naməlum kontakt video zəng etdi\" ifadəsinin görünməsinə səbəb olan bir neçə səhvi də aradan qaldırdıq. Zənn edirik ki, özünü hələ tam tanımayan kontaktlar belə \"naməlum kontakt\" kimi təqdim olunmamalıdır."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Bu yeniləmə buraxılmış zəngə bir cihazda baxmaqla digər cihazlarınızda həmin buraxılmış zəng göstəricisinin avtomatik silinməməsi ilə bağlı xətanı aradan qaldırır (bu, buraxılmış zənglər siyahısının daha yaxşı bir yerdə görünməsinə imkan vermirdi)."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Yeni və təkmilləşdirilmiş \"Bütün media faylları\" baxışından istifadə edərək xatirələrə nəzər salın. Artıq çat başlığına kliklədikdə və paylaşılan media fayl bölməsində \"Hamısına bax\" seçimini etdikdə, ən son yüklənənlərlə məhdudlaşmaq əvəzinə ekranı aşağı sürüşdürdükcə daha köhnə fotolar və videolar avtomatik görünəcək."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Bəzən nəyisə geridə qoymaq onu yenidən tapmaq istəyini aşkarlamağın ən yaxşı üsuludur, buna görə də artıq üzvü olmadığınız, lakin hələ də söhbət siyahınızda (və çox güman ki, ürəyinizdə) qalan qrupları axtarmağı çətinləşdirən xətanı aradan qaldırdıq."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }
