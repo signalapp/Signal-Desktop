@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "S\\’mund të merret audio dhe video prej {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Kjo mund të ndodhë sepse ata nuk e kanë verifikuar ndryshimin e numrit tënd të sigurisë, ka një problem me pajisjen e tyre ose të kanë bllokuar."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Dje {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Lënda e mesazhit është shumë e gjatë."
@@ -3555,13 +3561,13 @@
     "messageformat": "Duke rikthyer median"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Rikthimi u ndërpre"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Ndërprit transferimin"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Rifillo transferimin"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Anulo transferimin"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} nga {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Të anulohet transferimi i medias?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Mesazhet dhe media nuk kanë përfunduar rikthimin. Nëse zgjedh ta anulosh, mund t'i transferosh përsëri nga parametrat."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profili juaj s’u përditësua dot. Ju lutemi, riprovoni."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Dërgojini mesazh një përgjegjësi"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Kliko që të shohësh një postim të përkohshëm"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Kliko <newStoryIcon>Shto një postim të përkohshëm</newStoryIcon> për të shtuar një përditësim."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Kliko <newStoryButtonIcon></newStoryButtonIcon> për të shtuar një përditësim."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Përgjigje"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Reagoi ndaj postimit të përkohshëm"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Reagove ndaj postimit të përkohshëm"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Historia e thirrjeve u fshi"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Kliko <newCallIcon>Thirrje e re</newCallIcon> për të nisur një thirrje të re zanore ose me video."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kliko <newCallButtonIcon></newCallButtonIcon> për të nisur një thirrje të re zanore ose me video."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Bisedat hapen tani më shpejt se kurrë falë një raundi tjetër përmirësimesh të performancës, kështu që mund të klikosh klikat e tua dhe të shohësh se çfarë po thonë shumë shpejt."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Rregulluam edhe disa defekte, duke përfshirë atë, i cili ndonjëherë shkaktonte shfaqjen e mesazhit \"Kontakti i panjohur filloi një telefonatë video\" në përmbledhjen e listës së bisedave pasi të kesh filluar thirrjen. Edhe nëse je ende në udhëtim vetë-zbulues, nuk je kurrë plotësisht i panjohur për veten."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Përditësimi rregullon defektin ku hapja e njoftimit të një telefonate të humbur në një pajisje nuk do të fshinte automatikisht njoftimin e asaj telefonate të humbur në pajisje të tjera, gjë që ishte një mundësi e humbur për bashkëjetesën e mirë të listës së telefonatave të humbura."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Bëj një udhëtim në korsinë e kujtesës me pamjen e re dhe të përmirësuar \"E gjitha media\". Kur kliko tani në krye të bisedës dhe zgjedh \"Shiko të gjitha\" në seksionin e mediave të përbashkëta dhe teksa lëviz nëpër media, fotot dhe videot më të vjetra do të shfaqen automatikisht në vend që shfaqja të kufizohet vetëm te hyrjet më të fundit."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Ndonjëherë, lënia e diçkaje pas është mënyra më e mirë për të zbuluar dëshirën për ta gjetur sërish atë, ndaj kemi rregulluar defektin që vështirësonte kërkimin e grupeve ku nuk je më pjesë, por që mbeten ende në listën e bisedave (dhe me shumë mundësi, edhe në zemrën tënde)."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

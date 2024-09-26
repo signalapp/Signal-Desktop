@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} kişisinden ses ve görüntü alınamıyor"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Bunun sebebi güvenlik numaranın değişimini doğrulamaması, cihazıyla ilgili bir sorun olması veya seni engellemesi olabilir."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Dün {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "İleti metni çok uzun."
@@ -3555,16 +3561,16 @@
     "messageformat": "Medya geri yükleniyor"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Geri yükleme duraklatıldı"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Aktarımı duraklat"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Aktarıma devam et"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Transferi iptal et"
+    "messageformat": "Aktarımı iptal et"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Daha fazla seçenek"
@@ -3576,16 +3582,16 @@
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Medya aktarımı iptal edilsin mi?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Mesajlarının ve medyanın geri yüklenmesi tamamlanmadı. İptal etmeyi seçersen, Ayarlar'dan tekrar transfer yapabilirsin."
+    "messageformat": "Mesajlarının ve medyanın geri yüklenmesi tamamlanmadı. İptal etmeyi seçersen Ayarlar bölümünden tekrar aktarım yapabilirsin."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Transfere devam et"
+    "messageformat": "Aktarıma devam et"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Transferi iptal et"
+    "messageformat": "Aktarımı iptal et"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişlet"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profiliniz güncellenemedi. Lütfen tekrar deneyin."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir yöneticiye yazın"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Bir hikayeyi görüntülemek için tıkla"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Bir güncelleme eklemek için <newStoryIcon>Bir kısa hikaye ekleyin</newStoryIcon> ifadesine tıklayın."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Güncelleme eklemek için <newStoryButtonIcon></newStoryButtonIcon> ögesine tıkla."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Yanıtlar"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Hikayeye tepki verildi"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Kısa hikayeye tepki verdin"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Arama geçmişi temizlendi"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallIcon>Yeni Arama</newCallIcon> ögesine tıklayın."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallButtonIcon></newCallButtonIcon> ögesine tıkla."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Yeni bir grup performans iyileştirmesi sayesinde, sohbetler artık her zamankinden daha hızlı açılıyor."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Aramayı başlattıktan sonra bazen sohbet listesi özetinde \"Bilinmeyen bir kişi görüntülü arama başlattı\" hatasının görünmesine neden olan bir hata da dahil olmak üzere birkaç hatayı düzelttik. Böylece kafan karışmadan, rahatça görüşmelerini yapabileceksin."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Bu güncellemede, cevapsız bir aramanın bir cihazda görüntülenmesinin, diğer cihazlarındaki cevapsız arama göstergesini otomatik olarak silmemesine neden olan bir hatayı düzelttik."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Yeni ve geliştirilmiş \"Tüm Medya\" görünümüyle anılarında bir yolculuğa çık. Artık bir sohbet başlığına tıkladığında ve paylaşılan medya bölümünde \"Tümünü gör\" öğesini seçtiğinde, en son girdilerle sınırlı kalmak yerine eski fotoğraflar ve videolar sen kaydırdıkça otomatik olarak görünür."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Bu güncellemede, bir gruptan ayrıldıktan sonra o grubu aramayı zorlaştıran bir hatayı düzelttik."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

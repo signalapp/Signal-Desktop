@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} നിന്ന് ഓഡിയോയും വീഡിയോയും സ്വീകരിക്കാൻ കഴിയുന്നില്ല "
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "നിങ്ങളുടെ സുരക്ഷാ നമ്പർ മാറ്റം അവർ സ്ഥിരീകരിക്കാത്തതിനാലോ അവരുടെ ഉപകരണത്തിൽ ഒരു പ്രശ്നമുണ്ടായതിനാലോ അവർ നിങ്ങളെ തടഞ്ഞതിനാലോ ആയിരിക്കാം ഇത്."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "ഇന്നലെ {time} മണിക്ക്"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "സന്ദേശം ഉള്ളടക്കം വളരെ ദൈർഘ്യമേറിയതാണ്."
@@ -3555,13 +3561,13 @@
     "messageformat": "മീഡിയ പുനഃസ്ഥാപിക്കുന്നു"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "പുനഃസ്ഥാപിക്കൽ താൽക്കാലികമായി നിർത്തി"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "കൈമാറ്റം താൽക്കാലികമായി നിർത്തുക"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "കൈമാറ്റം പുനരാരംഭിക്കുക"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "കൈമാറ്റം റദ്ദാക്കുക"
@@ -3576,7 +3582,7 @@
     "messageformat": "{totalSize} ൽ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "മീഡിയ കൈമാറ്റം റദ്ദാക്കണോ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "നിങ്ങളുടെ സന്ദേശങ്ങളും മീഡിയയും പുനഃസ്ഥാപിക്കൽ പൂർത്തിയാക്കിയിട്ടില്ല. നിങ്ങൾ റദ്ദാക്കാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, ക്രമീകരണങ്ങളിൽ നിന്ന് നിങ്ങൾക്ക് വീണ്ടും കൈമാറാനാകും."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ അപ്ഡേറ്റ് ചെയ്യാനായില്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ഒരു അഡ്മിനു സന്ദേശം അയക്കുക"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "ഒരു സ്റ്റോറി കാണാൻ ക്ലിക്ക് ചെയ്യുക"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "ഒരു അപ്ഡേറ്റ് ചേർക്കാൻ <newStoryIcon>ഒരു സ്റ്റോറി ചേർക്കുക</newStoryIcon> ക്ലിക്ക് ചെയ്യുക."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "ഒരു അപ്ഡേറ്റ് ചേർക്കാൻ <newStoryButtonIcon></newStoryButtonIcon> ക്ലിക്ക് ചെയ്യുക."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "മറുപടികൾ"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "സ്റ്റോറിയോട് പ്രതികരിച്ചു"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "സ്റ്റോറിയോട് പ്രതികരിച്ചു"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "കോൾ ചരിത്രം ക്ലിയർ ചെയ്തു"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "ഒരു പുതിയ വോയ്‌സ് അല്ലെങ്കിൽ വീഡിയോ കോൾ ആരംഭിക്കാൻ <newCallIcon>പുതിയ കോൾ</newCallIcon> ക്ലിക്ക് ചെയ്യുക."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "ഒരു പുതിയ വോയ്‌സ് അല്ലെങ്കിൽ വീഡിയോ കോൾ ആരംഭിക്കാൻ <newCallButtonIcon></newCallButtonIcon> ക്ലിക്ക് ചെയ്യുക."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "മറ്റൊരു റൗണ്ട് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വഴി, ചാറ്റുകൾ ഇപ്പോൾ എന്നത്തേക്കാളും വേഗത്തിൽ തുറക്കുന്നു, അതിനാൽ നിങ്ങൾക്ക് നിങ്ങളുടെ ഗ്രൂപ്പുകളിൽ ക്ലിക്കുചെയ്ത് അവർ എന്താണ് പറയുന്നതെന്ന് ഉടനടി കാണാൻ കഴിയും."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "നിങ്ങൾ കോൾ ആരംഭിച്ചതിന് ശേഷം ചാറ്റ് ലിസ്റ്റ് സംഗ്രഹത്തിൽ ചിലപ്പോൾ \"അജ്ഞാത കോൺടാക്റ്റ് ഒരു വീഡിയോ കോൾ ആരംഭിച്ചു\" എന്നതിന് കാരണമായത് ഉൾപ്പെടെയുള്ള ഒരുപിടി ബഗുകളും ഞങ്ങൾ പരിഹരിച്ചു. നിങ്ങൾ ഇപ്പോഴും സ്വയം കണ്ടെത്താനുള്ള ഒരു യാത്രയിലാണെങ്കിലും, നിങ്ങൾ ഒരിക്കലും നിങ്ങൾക്ക് പൂർണ്ണമായും അജ്ഞാതനല്ല."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "ഒരു ഉപകരണത്തിൽ മിസ്‌ഡ് കോൾ കാണുന്നത് നിങ്ങളുടെ മറ്റ് ഉപകരണങ്ങളിൽ ആ മിസ്‌ഡ് കോളിന്റെ സൂചന ഓട്ടോമാറ്റിയ്ക്കായി മായ്‌ക്കാത്ത ഒരു ബഗ് ഈ അപ്‌ഡേറ്റ് പരിഹരിക്കുന്നു, ഇത് നിങ്ങളുടെ മിസ്‌ഡ് കോൾ ലിസ്റ്റിന്റെ നിലവിലെ അവസ്ഥയെ എല്ലാ ഉപകരണങ്ങളിലും ഒരുപോലെ ശരിയായ രീതിയിൽ കാണിക്കാൻ സഹായിക്കുന്നു."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "പുതിയതും മെച്ചപ്പെടുത്തിയതുമായ \"എല്ലാ മീഡിയ\" കാഴ്‌ച ഉപയോഗിച്ച് മെമ്മറിയിലൂടെ ഒരു യാത്ര നടത്തുക. ഇപ്പോൾ നിങ്ങൾ ഒരു ചാറ്റ് ഹെഡറിൽ ക്ലിക്കുചെയ്‌ത് പങ്കിട്ട മീഡിയ വിഭാഗത്തിലെ \"എല്ലാം കാണുക\" തിരഞ്ഞെടുക്കുമ്പോൾ, ഏറ്റവും പുതിയ എൻട്രികളിലേക്ക് പരിമിതപ്പെടുത്തുന്നതിന് പകരം നിങ്ങൾ സ്ക്രോൾ ചെയ്യുമ്പോൾ പഴയ ഫോട്ടോകളും വീഡിയോകളും സ്വയമേവ ദൃശ്യമാകും."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "ചിലപ്പോഴൊക്കെ എന്തെങ്കിലും ഉപേക്ഷിക്കുന്നതാണ് അത് വീണ്ടും കണ്ടെത്തണമെന്ന് ആഗ്രഹിക്കാനുള്ള ഏറ്റവും നല്ല മാർഗം, അതിനാലാണ് നിങ്ങൾ ഇപ്പോൾ ഭാഗമല്ലാത്തതും എന്നാൽ ഇപ്പോഴും നിങ്ങളുടെ സംഭാഷണ ലിസ്റ്റിൽ നിലനിൽക്കുന്നതുമായ ( ഒരുപക്ഷേ നിങ്ങളുടെ ഹൃദയത്തിൽ) ഗ്രൂപ്പുകൾക്കായി തിരയുന്നത് കഠിനമാക്കിയിരുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചത്."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

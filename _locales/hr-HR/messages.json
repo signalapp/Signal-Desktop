@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Ne možete primiti audio i video od {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Mogući razlog tome jest to što korisnik nije potvrdio vaš ažurirani sigurnosni broj, ima problem s uređajem ili vas je blokirao."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Jučer u {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Tijelo poruke je predugo."
@@ -3555,13 +3561,13 @@
     "messageformat": "Vraćanje medijskih zapisa"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Postupak je pauziran"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Pauziraj prijenos"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Nastavi prijenos"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Prekini prijenos"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} od {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Želite li otkazati prijenos medijskih zapisa?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Vraćanje vaših poruka i medijskih zapisa nije dovršeno. Ako sada prekinete prijenos, moći ćete ga ponovno pokrenuti u postavkama."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Vaš profil nije moguće ažurirati. Molim vas pokušajte ponovno."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Pošaljite poruku administratoru"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Kliknite da biste vidjeli priču"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Kliknite na <newStoryIcon>Dodaj priču</newStoryIcon> za ažuriranje priče."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Kliknite na <newStoryButtonIcon></newStoryButtonIcon> za ažuriranje priče."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Odgovori"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Reakcija na priču"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Reagirate na priču"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Povijest poziva je izbrisana"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Kliknite na <newCallIcon>Novi poziv</newCallIcon> za početak novog glasovnog poziva ili videopoziva."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kliknite na <newCallButtonIcon></newCallButtonIcon> za početak novog glasovnog poziva ili videopoziva."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Razgovori se sada otvaraju brže nego ikada zahvaljujući najnovijim poboljšanjima performansi aplikacije."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Ispravili smo i nekoliko programskih pogrešaka, uključujući onu zbog koje se u popisu razgovora pojavljivala poruka: \"Nepoznati kontakt je započeo videopoziv\" nakon što biste započeli poziv."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Ovo ažuriranje ispravlja pogrešku zbog koje pregledavanje propuštenog poziva na jednom uređaju ne bi automatski uklonilo indikator istog propuštenog poziva s vaših drugih uređaja."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Kada kliknete na zaglavlje razgovora i odaberete \"Prikaži sve\" u odjeljku dijeljenih medijskih zapisa, starije fotografije i videozapisi više neće biti ograničeni samo na najnovije zapise, već će se automatski nastaviti prikazivati dok listate."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Ovo ažuriranje ispravlja programsku pogrešku koja je otežavala pretraživanje grupa nakon njihovog napuštanja."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

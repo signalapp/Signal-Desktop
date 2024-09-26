@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} سے آڈیو اور ویڈیو موصول نہیں ہوسکتی ہے"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "ایسا اس لیے ہو سکتا ہے کیونکہ انہوں نے آپ کے حفاظتی نمبر میں تبدیلی کی تصدیق نہیں کی ہے، ان کی ڈیوائس میں کوئی مسئلہ ہے، یا وہ آپ کو بلاک کر چکے ہیں۔"
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "کل {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "پیغام بازی بہت لمبی ہے۔"
@@ -3555,13 +3561,13 @@
     "messageformat": "میڈیا بحال ہو رہا ہے"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "موقوف عمل کو بحال کریں"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "ٹرانسفر روکیں"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ٹرانسفر دوبارہ شروع کریں"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "منتقل کرنے کو منسوخ کریں"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize}کا{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "میڈیا ٹرانسفر کو منسوخ کریں؟"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "آپ کے میسجز اور میڈیا کی بحالی مکمل نہیں ہوئی۔ اگر آپ منسوخ کرنے کا انتخاب کرتے ہیں، تو آپ سیٹنگز سے دوبارہ منتقل کر سکتے ہیں۔"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "آپ کے پروفائل کو اپ ڈیٹ نہیں کیا جاسکا۔ دوبارہ کوشش کریں."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "کسی ایڈمن کو پیغام دیں"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "سٹوری دیکھنے کے لیے کلک کریں"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "اپ ڈیٹ شامل کرنے کے لیے <newStoryIcon>سٹوری شامل کریں</newStoryIcon> پر کلک کریں۔"
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "اپ ڈیٹ شامل کرنے کے لیے <newStoryButtonIcon></newStoryButtonIcon> پر کلک کریں۔"
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "جوابات"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "سٹوری پر ری ایکٹ کیا"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "سٹوری پر ری ایکٹ کیا"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "کال ہسٹری صاف کر دی گئی"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "کسی نئی وائس یا ویڈیو کال شروع کرنے کے لیے <newCallIcon>نئی کال</newCallIcon> پر کلک کریں۔"
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "نئی وائس یا ویڈیو کال شروع کرنے کے لیے <newCallButtonIcon></newCallButtonIcon> پر کلک کریں۔"
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "کارکردگی کی بہتریوں کے ایک اور راؤنڈ کی وجہ سے چیٹس اب پہلے سے کہیں زیادہ تیزی سے کھلتی ہیں۔"
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "ہم نے آپ کی جانب سے کال شروع کرنے کے بعد چیٹ لسٹ کے خلاصے میں ظاہر ہونے والے چند ایک نقائص کو بھی صحیح کیا ہے، بشمول اس کی جو بعض اوقات \"نامعلوم رابطہ کی جانب سے ویڈیو کال شروع کی گئی\" کا سبب ہوتا تھا۔"
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "یہ اپ ڈیٹ اس بگ کو ٹھیک کرتی ہے جہاں ایک ڈیوائس پر مسڈ کال دیکھنے سی بھی آپ کی دوسری ڈیوائسز پر اس مسڈ کال کا انڈیکیٹر خودکار طور پر ختم نہیں ہوتا تھا۔"
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "اب جب آپ کسی چیٹ ہیڈر پر کلک کرتے ہیں اور شئیر کردہ میڈیا سیکشن میں \"سب کچھ دیکھیں\" کا انتخاب کر کے، آپ سب سے حالیہ اندراجات پر محدود رہنے کے بجائے اسکرول کرتے ہیں تو پرانی تصاویر اور ویڈیوز خود کار طور پر ظاہر ہو جائیں گی۔"
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "اس اپ ڈیٹ میں ایک ایسے نقص کو ٹھیک کیا گیا ہے جس کی وجہ سے اس گروپ کو چھوڑنے کے بعد گروپ کو تلاش کرنا مشکل ہو جاتا ہے۔ ورژن 7.26 کے لیے ریلیز نوٹس"
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

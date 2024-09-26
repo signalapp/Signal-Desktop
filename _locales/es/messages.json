@@ -333,7 +333,7 @@
     "messageformat": "Enviar mensaje"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Llamada de voz"
+    "messageformat": "Llamada"
   },
   "icu:ContactListItem__menu__video-call": {
     "messageformat": "Videollamada"
@@ -516,7 +516,7 @@
     "messageformat": "Más información"
   },
   "icu:verified": {
-    "messageformat": "Persona verificada"
+    "messageformat": "Identidad verificada"
   },
   "icu:newIdentity": {
     "messageformat": "Nuevo número de seguridad"
@@ -924,7 +924,7 @@
     "messageformat": "\"{title}\" es el nombre de perfil que esta persona ha elegido en Signal."
   },
   "icu:AboutContactModal__verified": {
-    "messageformat": "Persona verificada"
+    "messageformat": "Identidad verificada"
   },
   "icu:AboutContactModal__blocked": {
     "messageformat": "Has bloqueado a {name}"
@@ -1011,7 +1011,7 @@
     "messageformat": "Abandonar grupo"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__title": {
-    "messageformat": "¿De verdad deseas abandonar el grupo?"
+    "messageformat": "¿De verdad quieres abandonar el grupo?"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__description": {
     "messageformat": "No podrás enviar o recibir más mensajes en este grupo."
@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "No se puede recibir audio ni vídeo de {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Esto puede deberse a que no han verificado el cambio de tu número de seguridad, hay un problema con su dispositivo o te han bloqueado."
   },
@@ -1569,7 +1572,7 @@
     "messageformat": "Envío pausado"
   },
   "icu:partiallySent": {
-    "messageformat": "No se ha enviado a todas las personas. Toca aquí para ver más información."
+    "messageformat": "No enviado a todas las personas. Haz clic para ver más."
   },
   "icu:partiallyDeleted": {
     "messageformat": "Eliminado parcialmente, haz clic para intentarlo de nuevo"
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Ayer {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Mensaje demasiado largo."
@@ -2451,7 +2457,7 @@
     "messageformat": "Estafas de criptomonedas o dinero"
   },
   "icu:SafetyTipsModal__TipDescription--Crypto": {
-    "messageformat": "Ten cuidado si alguien a quien no conoces te envía mensajes sobre criptomonedas (como Bitcoin) o sobre una oportunidad financiera. Es probable que se trate de spam."
+    "messageformat": "Ten cuidado si alguien que no conoces te envía mensajes sobre criptomonedas (como Bitcoin) o sobre una oportunidad financiera. Es probable que se trate de spam."
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
     "messageformat": "Mensajes confusos o irrelevantes"
@@ -2478,7 +2484,7 @@
     "messageformat": "Consejo anterior"
   },
   "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "Siguiente consejo"
+    "messageformat": "Consejo siguiente"
   },
   "icu:SafetyTipsModal__Button--Done": {
     "messageformat": "Listo"
@@ -2550,7 +2556,7 @@
     "messageformat": "Denunciar y bloquear"
   },
   "icu:MessageRequests--AcceptedOptionsModal--body": {
-    "messageformat": "Has aceptado la solicitud de mensaje de {name}. Si se trata de un error, puedes elegir una de las acciones que hay a continuación."
+    "messageformat": "Has aceptado la solicitud de mensaje de {name}. Si ha sido un error, puedes elegir una de las siguientes acciones."
   },
   "icu:MessageRequests--report-spam-success-toast": {
     "messageformat": "Denunciado como spam."
@@ -2706,7 +2712,7 @@
     "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} personas}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Llamada de voz"
+    "messageformat": "Llamada"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Enlace de llamada"
@@ -2943,7 +2949,7 @@
     "messageformat": "El enlace a este grupo no es válido. Asegúrate de que el enlace esté intacto y sea correcto antes de intentar unirte."
   },
   "icu:GroupV2--join--prompt": {
-    "messageformat": "¿Deseas unirte a este grupo y compartir tu nombre y foto con sus participantes?"
+    "messageformat": "¿Quieres unirte a este grupo y compartir tu nombre y foto con sus participantes?"
   },
   "icu:GroupV2--join--already-in-group": {
     "messageformat": "Ya formas parte del grupo."
@@ -3555,13 +3561,13 @@
     "messageformat": "Restaurando archivos multimedia"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Restauración en pausa"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Pausar transferencia"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Reanudar transferencia"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Cancelar transferencia"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} de {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "¿Cancelar transferencia de archivos?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "No se ha completado la restauración de tus mensajes y archivos multimedia. Si decides cancelar, puedes volver a transferirlos desde Ajustes."
@@ -3678,7 +3684,7 @@
     "messageformat": "¿Eliminar apodo?"
   },
   "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
-    "messageformat": "Esta acción eliminará permanentemente este apodo y estas notas."
+    "messageformat": "Se eliminará de forma permanente este apodo y estas notas."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Notificaciones"
@@ -3816,7 +3822,7 @@
     "messageformat": "Copiar enlace"
   },
   "icu:GroupLinkManagement--confirm-reset": {
-    "messageformat": "¿Deseas restablecer el enlace para unirse al grupo? Si lo restableces, nadie podrá unirse al grupo usando el enlace actual."
+    "messageformat": "¿Quieres restablecer el enlace al grupo? Si lo restableces, nadie podrá unirse al grupo usando el enlace actual."
   },
   "icu:GroupLinkManagement--reset": {
     "messageformat": "Restablecer enlace"
@@ -3825,7 +3831,7 @@
     "messageformat": "Solicitar aprobación de admin"
   },
   "icu:GroupLinkManagement--approve-info": {
-    "messageformat": "Alguien que sea admin debe aprobar las solicitudes para unirse al grupo mediante enlace"
+    "messageformat": "Alguien que sea admin debe aprobar nuevas solicitudes para unirse al grupo mediante enlace"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Solicitudes ({count,number})"
@@ -3903,7 +3909,7 @@
     "messageformat": "{count, plural, one {¿Eliminar mensaje?} other {¿Eliminar {count,number} mensajes?}}"
   },
   "icu:DeleteMessagesModal--description": {
-    "messageformat": "{count, plural, one {¿Para quién deseas eliminar este mensaje?} other {¿Para quién deseas eliminar estos mensajes?}}"
+    "messageformat": "{count, plural, one {¿Para quién quieres eliminar este mensaje?} other {¿Para quién quieres eliminar estos mensajes?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, one {¿De qué dispositivos quieres eliminar este mensaje?} other {¿De qué dispositivos quieres eliminar estos mensajes?}}"
@@ -4122,7 +4128,7 @@
     "messageformat": "Eliminar color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {Este color personalizado se está usando en {num,number} chat. ¿Deseas eliminarlo?} other {Este color personalizado se está usando en {num,number} chats. ¿Deseas eliminarlo para todos los chats?}}"
+    "messageformat": "{num, plural, one {Este color personalizado se está usando en {num,number} chat. ¿Quieres eliminarlo?} other {Este color personalizado se está usando en {num,number} chats. ¿Quieres eliminarlo para todos los chats?}}"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Color del chat"
@@ -4143,7 +4149,7 @@
     "messageformat": "Restablecer"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "¿Deseas cambiar los colores de todos tus chats?"
+    "messageformat": "¿Quieres cambiar los colores de todos tus chats?"
   },
   "icu:ChatColorPicker__custom-color--label": {
     "messageformat": "Mostrar el editor de colores"
@@ -4389,7 +4395,7 @@
     "messageformat": "Apellido (opcional)"
   },
   "icu:ConfirmDiscardDialog--discard": {
-    "messageformat": "¿Deseas descartar estos cambios?"
+    "messageformat": "¿Quieres descartar estos cambios?"
   },
   "icu:ConfirmationDialog__Title--in-call-close-requested": {
     "messageformat": "¿Cerrar Signal y finalizar la llamada?"
@@ -4441,6 +4447,12 @@
   },
   "icu:ProfileEditorModal--error": {
     "messageformat": "Fallo al actualizar tu perfil. Inténtalo de nuevo más tarde."
+  },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Enviar mensaje a un admin"
@@ -4917,16 +4929,13 @@
     "messageformat": "No se ha podido enviar"
   },
   "icu:Stories__list--partially-sent": {
-    "messageformat": "No se ha enviado a todas las personas"
+    "messageformat": "No enviado a todas las personas"
   },
   "icu:Stories__list--retry-send": {
     "messageformat": "Haz clic para volver a intentarlo"
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Haz clic para ver una historia"
-  },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Haz clic en <newStoryIcon>Añadir una historia</newStoryIcon> para añadir una actualización."
   },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Haz clic en <newStoryButtonIcon></newStoryButtonIcon> para añadir una historia."
@@ -5139,7 +5148,7 @@
     "messageformat": "No se ha podido enviar. Haz clic para volver a intentarlo."
   },
   "icu:StoryViewer__partial-fail": {
-    "messageformat": "No se ha enviado a todas las personas. Haz clic para volver a intentarlo."
+    "messageformat": "No enviado a todas las personas. Haz clic para reintentar."
   },
   "icu:StoryDetailsModal__sent-time": {
     "messageformat": "Enviada · {time}"
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Respuestas"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Ha reaccionado a la historia"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Has reaccionado a la historia"
@@ -5467,16 +5473,13 @@
     "messageformat": "¿Eliminar historial de llamadas?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Esto eliminará permanentemente todo tu historial de llamadas"
+    "messageformat": "Se eliminará de forma permanente todo tu historial de llamadas"
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Eliminar"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Se borró el historial de llamadas"
-  },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Haz clic en <newCallIcon>Nueva llamada</newCallIcon> para iniciar una nueva llamada o videollamada."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Haz clic en <newCallButtonIcon></newCallButtonIcon> para iniciar una nueva llamada o videollamada."
@@ -5674,19 +5677,10 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Ahora, los chats se abren más rápido que nunca gracias a nuevas mejoras en el rendimiento de la app. ¡Se acabó el hacer clic y esperar para enterarte de las últimas novedades en tus chats!"
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "También hemos corregido una serie de errores, incluido uno que a veces hacía que apareciese \"Contacto desconocido ha iniciado una videollamada\" en el resumen de chats una vez iniciabas una llamada. Incluso si estás en pleno proceso de autodescubrimiento, eso no significa que no tengas idea de quién eres."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Esta actualización corrige un error que hacía que cuando veías una llamada perdida en un dispositivo no se borrase automáticamente la notificación de esa llamada en tus otros dispositivos vinculados (sin duda una oportunidad perdida para aligerar tu lista de llamadas perdidas)."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Abre el baúl de los recuerdos con la nueva y mejorada vista \"Todos los archivos multimedia\". Ahora, al hacer clic en el encabezado de un chat y seleccionar \"Ver todo\" en la sección de archivos compartidos, las fotos y vídeos más antiguos irán apareciendo automáticamente a medida que te desplaces en lugar de solo mostrar los más recientes."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "A veces, para valorar lo que tienes, primero debes dejarlo marchar… y luego salir a buscarlo de nuevo. Por eso hemos corregido un error que dificultaba encontrar aquellos grupos de los que ya no formas parte, pero que siguen estando en tu lista de chats (y, posiblemente, en tu corazón)."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

@@ -579,7 +579,7 @@
     "messageformat": "Передати журнал"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "Передати журнал"
+    "messageformat": "Надіслати журнал"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Неможливо отримати аудіо та відео від {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Це могло статися через те, що користувач не позначив ваш змінений код безпеки як перевірений, має проблему з пристроєм або заблокував вас."
   },
@@ -1566,7 +1569,7 @@
     "messageformat": "Помилка редагування, натисніть, щоб дізнатися більше"
   },
   "icu:sendPaused": {
-    "messageformat": "Відправлення призупинене"
+    "messageformat": "Надсилання припинено"
   },
   "icu:partiallySent": {
     "messageformat": "Частково надіслано, торкніться для деталей"
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Учора, {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Тіло повідомлення завелике."
@@ -3555,19 +3561,19 @@
     "messageformat": "Відновлення медіафайлів"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Відновлення припинено"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Припинити передачу даних"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Продовжити передачу даних"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Скасувати передачу"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
-    "messageformat": "Інші дії"
+    "messageformat": "Доступні дії"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
     "messageformat": "Відновлення завершено"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} з {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Скасувати передачу медіафайлів?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Відновлення повідомлень і медіафайлів не завершено. У разі скасування ви зможете перенести дані пізніше, зайшовши в налаштування."
@@ -3987,7 +3993,7 @@
     "messageformat": "Відтворити аудіо вміст"
   },
   "icu:MessageAudio--pause": {
-    "messageformat": "Призупинити аудіо вміст"
+    "messageformat": "Поставити аудіовкладення на паузу"
   },
   "icu:MessageAudio--download": {
     "messageformat": "Завантажити аудіо вміст"
@@ -4098,7 +4104,7 @@
     "messageformat": "Для запобігання поширення спаму у Signal, будь ласка, здійсніть підтвердження особи."
   },
   "icu:CaptchaDialog__second-paragraph": {
-    "messageformat": "Після підтвердження ви зможете продовжити спілкування. Усі призупинені повідомлення відправляться автоматично."
+    "messageformat": "Ви зможете продовжити спілкування після перевірки. Усі зупинені повідомлення буде надіслано автоматично."
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Продовжити без перевірки?"
@@ -4441,6 +4447,12 @@
   },
   "icu:ProfileEditorModal--error": {
     "messageformat": "Ваш профіль не вдалось оновити. Будь ласка, спробуйте ще раз."
+  },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Написати адміністратору"
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Натисніть, щоб переглянути історію"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Натисніть <newStoryIcon>Додати історію</newStoryIcon>, щоб опублікувати щось нове."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Натисніть <newStoryButtonIcon></newStoryButtonIcon>, щоб опублікувати щось нове."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Відповіді"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Реакція на історію"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Ваша реакція на історію"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Історію викликів очищено"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Натисніть <newCallIcon>Новий виклик</newCallIcon>, щоб почати новий аудіо- чи відеовиклик."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Натисніть <newCallButtonIcon></newCallButtonIcon>, щоб почати новий аудіо- чи відеовиклик."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Більше ніякого чатування на відкриття чатів, адже тепер вони відкриваються ще швидше завдяки черговому покращенню продуктивності."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Ми також виправили кілька помилок. Наприклад, почавши виклик, тепер ви не побачите оповістки «Користувач Невідомий контакт почав відеовиклик» на панелі зі списком чатів. Ми згодні, що пошук себе може тривати все життя, та все ж для самої себе людина не буває геть невідома."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "У цьому оновленні ми виправили помилку, через яку індикатор пропущеного виклику не зникав з усіх пристроїв, коли ви переглядали сповіщення на якомусь з них. Іноді таємниці доречні, але ваш акаунт Signal точно має ділитися подробицями з усіма зв’язаними пристроями."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Пориньте в спогади в новому, поліпшеному вікні «Усі медіафайли». Раніше ви натискали назву чату, вибирали «Показати всі» в розділі надісланих медіафайлів і бачили лише нещодавні файли. А тепер старіші фото й відео автоматично з'являтимуться під час прокручування галереї вниз."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Іноді треба покинути, щоб усвідомити справжню цінність. Тому ми виправили помилку, яка заважала шукати групи, які ви покинули, але й досі маєте в списку чатів (і, можливо, в серці)."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

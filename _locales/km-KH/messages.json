@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "មិនអាចទទួលសំឡេងនិងវីដេអូពី {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "វាអាចមកពីពួកគេមិនបានផ្ទៀងផ្ទាត់ការផ្លាស់ប្តូរលេខសុវត្ថិភាពរបស់អ្នក ឧបករណ៍របស់ពួកគេមានបញ្ហា ឬពួកគេបានទប់ស្កាត់អ្នក។"
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "ម្សិលមិញ {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "សារតួសេចក្តីវែងពេក។"
@@ -3555,13 +3561,13 @@
     "messageformat": "កំពុងស្ដារមេឌៀឡើងវិញ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "ការស្តារឡើងវិញត្រូវបានផ្អាក"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "ផ្អាកការផ្ទេរ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "បន្តការផ្ទេរ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "បោះបង់ការផ្ទេរ"
@@ -3570,13 +3576,13 @@
     "messageformat": "ជម្រើសច្រើនទៀត"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "ការស្តារជោគជ័យ"
+    "messageformat": "ការស្តារបានបញ្ចប់រួចរាល់"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} នៃ{totalSize}"
+    "messageformat": "{currentSize} នៃ {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "បោះបង់ការផ្ទេរមេឌៀឬ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "សារ និងមេឌៀរបស់អ្នកមិនទាន់បញ្ចប់ការស្ដារឡើងវិញទេ។ ប្រសិនបើអ្នកជ្រើសរើសបោះបង់ អ្នកអាចផ្ទេរម្តងទៀតពីការកំណត់។"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "ប្រូហ្វាល់របស់អ្នកមិនអាចធ្វើបច្ចុប្បន្នភាពបានទេ។ សូម​ព្យាយាម​ម្តង​ទៀត។"
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ផ្ញើសារទៅអ្នកគ្រប់គ្រង"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "ចុចដើម្បីមើលរឿងរ៉ាវ"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "ចុច <newStoryIcon>បញ្ចូលរឿងរ៉ាវមួយ</newStoryIcon> ដើម្បីបញ្ចូលបច្ចុប្បន្នភាព។"
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "ចុច <newStoryButtonIcon></newStoryButtonIcon> ដើម្បីបញ្ចូលបច្ចុប្បន្នភាព។"
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "ការឆ្លើយតប"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវ"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវ"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "បានសម្អាតប្រវត្តិហៅ"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "ចុច <newCallIcon>ការហៅថ្មី</newCallIcon> ដើម្បីចាប់ផ្តើមការហៅជាសំឡេង ឬវីដេអូថ្មី។"
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "ចុច <newCallButtonIcon></newCallButtonIcon> ដើម្បីចាប់ផ្តើមការហៅជាសំឡេង ឬវីដេអូថ្មី។"
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "ឥឡូវនេះ ការជជែកបើកកាន់តែលឿនជាងមុន ដោយសារមានការកែលម្អដំណើរការបន្ថែមទៀត ដូច្នេះអ្នកអាចចុចលើការជជែករបស់អ្នក ហើយមើលឃើញអ្វីដែលពួកគេកំពុងនិយាយបានភ្លាមៗ។"
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "យើងក៏បានដោះស្រាយបញ្ហាមួយចំនួនផងដែរ រួមទាំងបញ្ហាមួយដែលជួនកាលធ្វើឱ្យ \"ទំនាក់ទំនងមិនស្គាល់បានចាប់ផ្តើមការហៅជាវីដេអូ\" បង្ហាញនៅក្នុងសេចក្តីសង្ខេបនៃបញ្ជីជជែក បន្ទាប់ពីអ្នកចាប់ផ្តើមការហៅទូរសព្ទ។ ទោះបីជាអ្នកកំពុងស្ថិតនៅក្នុងដំណើរស្វែងរកខ្លួនឯងក៏ដោយ ក៏អ្នកមិនប្រាកដថាមិនស្គាល់ខ្លួនឯងសោះដែរ។"
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "កំណែថ្មីនេះបានដោះស្រាយបញ្ហាមួយដែលទោះបីជាអ្នកមើលការហៅដែលខកមិនបានទទួលនៅលើឧបករណ៍មួយក៏ដោយ ក៏វាមិនអាចលុបដោយស្វ័យប្រវត្តិបាននូវសញ្ញាបង្ហាញការហៅដែលខកមិនបានទទួលនោះនៅលើឧបករណ៍ផ្សេងទៀតរបស់អ្នកដែរ ដែលបានធ្វើឱ្យខកខានឱកាសក្នុងការបង្ហាញព្រមគ្នានូវបញ្ជីនៃការហៅដែលខកមិនបានទទួលរបស់អ្នក ឱ្យកាន់តែប្រសើរឡើង។"
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "តាមរយៈការកែលម្អថ្មីសម្រាប់ការមើល \"មេឌៀទាំងអស់\" អ្នកអាចមើលឃើញរូបថត និងវីដេអូទាំងថ្មី ទាំងចាស់បានភ្លាមៗ។ ឥឡូវនេះ នៅពេលអ្នកចុចលើរូបក្បាលឆាត ហើយជ្រើសរើស \"មើលទាំងអស់\" នៅក្នុងផ្នែកមេឌៀដែលបានចែករំលែក រូបថត និងវីដេអូចាស់ៗនឹងបង្ហាញដោយស្វ័យប្រវត្តិនៅពេលអ្នកអូសមើល ពោលគឺមិនមែនគ្រាន់តែឃើញមេឌៀថ្មីៗបំផុតនោះទេ។"
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "ពេលខ្លះការទុកអ្វីមួយចោលគឺជាវិធីដ៏ល្អបំផុតដើម្បីឱ្យដឹងថាអ្នកចង់រកវាម្តងទៀត ដូច្នេះយើងបានដោះស្រាយបញ្ហាមួយដែលធ្លាប់ធ្វើឱ្យមានការពិបាកក្នុងការស្វែងរកក្រុមដែលអ្នកលែងជាសមាជិក ប៉ុន្តែវានៅតែមាននៅក្នុងបញ្ជីសន្ទនារបស់អ្នក (ហើយប្រហែលជាស្ថិតនៅក្នុងបេះដូងរបស់អ្នកទៀតផង)។"
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

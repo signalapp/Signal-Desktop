@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} دىن ئۈن ۋە سىن تاپشۇرۇۋالالمايدۇ"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "بۇنداق بولۇشىنىڭ سەۋەبى ئۇلار سىزنىڭ بىخەتەرلىك نومۇرىنى ئۆزگەرتكەنلىكىڭىزنى دەلىللىمىگەن بولۇشى مۇمكىن، ياكى ئۇلارنىڭ ئۈسكۈنىسىدە مەسىلە بار ۋە ياكى ئۇلار سىزنى چەكلىۋەتكەن بولۇشى مۇمكىن."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "تۈنۈگۈن {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "ئۇچۇر زىيادە ئۇزۇن."
@@ -3555,13 +3561,13 @@
     "messageformat": "مېدىيانى ئەسلىگە كەلتۈرىۋاتىدۇ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "توختاشنى ئەسلىگە كەلتۈرۈڭ"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "يۆتكەشنى توختىتىڭ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "يۆتكەشنى داۋاملاشتۇرۇڭ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "يۆتكەشنى ئەمەلدىن قالدۇرۇڭ"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} نىڭ{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "مېدىيا يۆتكەشنى ئەمەلدىن قالدۇرامسىز؟"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "ئۇچۇرلىرىڭىز ۋە مېدىيالىرىڭىز ئەسلىگە كەلتۈرۈشنى تاماملىمىدى. ئەگەر بىكار قىلىشنى تاللىسىڭىز ، تەڭشەكتىن قايتا يۆتكىسىڭىز بولىدۇ."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "ئارخىپىڭىزنى يېڭىلىغىلى بولمىدى. قايتا سىناڭ."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "باشقۇرغۇچىغا ئۇچۇر يوللاڭ"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "بۇ يەرنى چېكىپ ھېكايە كۆرۈڭ"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "<newStoryIcon> بىرھېكايە قۇشۇڭ</newStoryIcon>نى چېكىپ بىر يېڭىلانما قوشۇڭ."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "<newStoryButtonIcon></newStoryButtonIcon> نى چېكىپ بىر يېڭىلانما قوشۇڭ."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "جاۋاب"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "ھېكايىگە ئىنكاس قايتۇردى"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "ھېكايىگە ئىنكاس قايتۇردىڭىز"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "چاقىرىق خاتىرىسى تازىلاندى"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "<newCallIcon>يېڭى چاقىرىق</newCallIcon>نى چېكىپ يېڭىدىن بىر ئاۋازلىق ياكى سىنلىق چاقىرىقنى باشلاڭ."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "<newCallButtonIcon></newCallButtonIcon>نى چېكىپ يېڭى ئاۋازلىق ياكى سىنلىق چاقىرىقنى باشلاڭ."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "باشقا بىر يۈرۈش ئىقتىدارلارنىڭ ياخشىلىنىشىغا ئەگىشىپ ، پاراڭلار ئىلگىرىكىگە قارىغاندا تېز ئېچىلىدۇ ، شۇڭا دوستلارنى چېكىپ ، ئۇلارنىڭ نېمە دەۋاتقانلىقىنى تېزلا كۆرەلەيسىز."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "بىز يەنە بىر قانچە كەمتۈكلۈكنى ئوڭشىدۇق ، بۇلارنىڭ ئىچىدە بەزىدە تېلېفوننى باشلىغاندىن كېيىن پاراڭلىشىش تىزىملىكى خۇلاسىسىدە كۆرۈنىدىغان «نامەلۇم ئالاقىلاشقۇچى بىر سىنلىق چاقىرىقنى باشلىدى» نى كەلتۈرۈپ چىقىرىدىغان كەمتۈكلۈكمۇ بار. سىز ھازىرغىچە ئۆزىڭىزنى بايقاش سەپىرىدە بولسىڭىزمۇ ، ئەمما سىزئۆز- ئۆزىڭىزگە پۈتۈنلەي نامەلۇم ئەمەس."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "بۇ يېڭىلانما بىر ئۈسكۈنىدە ئېلىنمىغان تېلېفوننى كۆرۈپ بولغاندىن كىيىنمۇ باشقا ئۈسكۈنىدىكى ئوخشاش كۆرسەتكۈچنى ئاپتوماتىك ئۆچۈرەلمەيدىغان كەمتۈكلۈكنى ئوڭشايدۇ ھەمدە ھەممىسىنىڭ ماس قەدەمدە بىللە مەۋجۇد بولۇپ تۇرۇشىنى ئلگىرى سۈرىدۇ."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "يېڭى ۋە ياخشىلانغان «بارلىق مېدىيا» كۆرۈنۈشىنى سىناپ بېقىڭ. ھازىر پاراڭ بېشىنى چېكىپ ، ھەمبەھىرلەنگەن مېدىيا بۆلىكىدىكى «ھەممىنى كۆرۈڭ» نى تاللىسىڭىز ، كونا رەسىملەر ۋە سىنلار ئەڭ يېڭى چېكىلگەن مەزمۇنلار بىلەنلا چەكلىنىپ قالماستىن ، سىيرىغاندا ئاپتوماتىك كۆرۈنىدۇ."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "بەزىدە بىر نەرسىنى كەينىدە تاشلاپ قويۇش ، ئۇنى قايتا تېپىشنى خالايدىغانلىقىڭىزنى بايقاشنىڭ ئەڭ ياخشى ئۇسۇلى ، شۇڭا بىز ئەمدى سىز ئاللىقاچان چىقىپ كەتكەن ، ئەمما يەنىلا سۆھبەت تىزىملىكىڭىزدە قېلىپ قالغان (ۋە بەلكىم قەلبىڭىزگە ئورناپ قالغان بولۇشى مۇمكىن) گۇرۇپپىلارنى ئىزدەشنى قىيىنلاشتۇرىدىغان كەمتۈكنى ئوڭشىدۇق."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

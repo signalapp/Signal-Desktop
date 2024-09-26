@@ -579,7 +579,7 @@
     "messageformat": "Υποβολή αρχείου"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "Υποβολή αρχείου"
+    "messageformat": "Υποβολή αρχείου καταγραφής"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Αδυναμία λήψης ήχου και εικόνας από τον/την {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Αυτό ίσως οφείλεται στο ότι δεν έχει επιβεβαιώσει την αλλαγή του αριθμού ασφαλείας σου, ότι υπάρχει πρόβλημα με τη συσκευή του/της ή ότι σε έχει αποκλείσει."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Χθες {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Το περιεχόμενο του μηνύματος είναι πολύ μεγάλο."
@@ -3555,13 +3561,13 @@
     "messageformat": "Επαναφορά πολυμέσων"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Επαναφορά σε παύση"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Παύση μεταφοράς"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Συνέχεια μεταφοράς"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Ακύρωση μεταφοράς"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} από {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Ακύρωση μεταφοράς πολυμέσων;"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Η επαναφορά των μηνυμάτων και των πολυμέσων σου δεν έχει ολοκληρωθεί. Εάν επιλέξεις να την ακυρώσεις, μπορείς να τα μεταφέρεις ξανά από τις Ρυθμίσεις."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Το προφίλ σου δεν μπόρεσε να ανανεωθεί. Παρακαλώ προσπάθησε ξανά."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Μήνυμα σε διαχειριστή"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Κάνε κλικ για να δεις μια ιστορία"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Πάτα <newStoryIcon>Προσθήκη ιστορίας</newStoryIcon> για να προσθέσεις κάποιο νέο."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Πάτα <newStoryButtonIcon></newStoryButtonIcon> για να προσθέσεις στην ιστορία σου."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Απαντήσεις"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Αντέδρασε στην ιστορία"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Αντέδρασες στην ιστορία"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Το ιστορικό κλήσεων διαγράφηκε"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Πάτα <newCallIcon>Νέα κλήση</newCallIcon> για να ξεκινήσεις μια νέα φωνητική κλήση ή μια βιντεοκλήση."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Πάτα <newCallButtonIcon></newCallButtonIcon> για να ξεκινήσεις μια νέα φωνητική κλήση ή μια βιντεοκλήση."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Οι συνομιλίες ανοίγουν τώρα πιο γρήγορα από ποτέ χάρη σε έναν ακόμη γύρο βελτιώσεων απόδοσης."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Διορθώσαμε επίσης ορισμένα σφάλματα, συμπεριλαμβανομένου ενός που μερικές φορές προκαλούσε την εμφάνιση της ειδοποίησης «Άγνωστη επαφή ξεκίνησε βιντεοκλήση» στη σύνοψη της λίστας συνομιλιών μετά την έναρξη της κλήσης."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα κατά το οποίο η προβολή μιας αναπάντητης κλήσης σε μια συσκευή δεν εκκαθάριζε αυτόματα την ένδειξη για την εν λόγω αναπάντητη κλήση στις άλλες συσκευές σου."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Τώρα, όταν κάνεις κλικ στην κεφαλίδα μιας συνομιλίας και επιλέγεις «Προβολή όλων» στην ενότητα των κοινόχρηστων πολυμέσων, οι παλαιότερες φωτογραφίες και τα βίντεο θα εμφανίζονται αυτόματα καθώς κάνεις κύλιση, αντί να περιορίζεσαι στις πιο πρόσφατες καταχωρήσεις."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα που καθιστούσε δύσκολη την αναζήτηση μιας ομάδας μετά την αποχώρησή σου από αυτήν."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

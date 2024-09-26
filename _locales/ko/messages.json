@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} 님의 음성 및 영상 통화를 수신할 수 없습니다."
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "이는 해당 사용자가 안전 번호 변경을 확인하지 않았거나, 기기에 문제가 있거나 나를 차단했기 때문일 수 있습니다."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "어제 {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "메시지 본문이 너무 깁니다."
@@ -3555,13 +3561,13 @@
     "messageformat": "미디어 복원 중"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "전송을 일시 중지함"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "전송 일시 중지"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "전송 계속"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "전송 취소"
@@ -3570,13 +3576,13 @@
     "messageformat": "옵션 더 보기"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "복구가 완료되었습니다."
+    "messageformat": "복원이 완료되었습니다."
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{totalSize} 중 {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "미디어 전송을 취소할까요?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "메시지와 미디어에서 복원을 완료하지 않았습니다. 취소를 선택할 경우 설정에서 다시 전송할 수 있습니다."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "프로필을 업데이트할 수 없습니다. 다시 시도하세요."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "관리자에게 메시지 전송"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "클릭하여 스토리 보기"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "<newStoryIcon>스토리 추가</newStoryIcon>를 클릭하여 업데이트하세요."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "업데이트를 추가하려면 <newStoryButtonIcon></newStoryButtonIcon> 기호를 클릭하세요."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "답장"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "스토리에 반응했습니다."
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "스토리에 반응했습니다."
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "통화 기록을 정리함"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "<newCallIcon>새 통화</newCallIcon>를 클릭하여 새로운 음성 또는 영상 통화를 시작하세요."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "새로운 음성 또는 영상 통화를 시작하려면 <newCallButtonIcon></newCallButtonIcon> 아이콘을 클릭하세요."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "성능 개선 사항을 추가하여 이제 대화를 더 빨리 열 수 있습니다."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "또한 때로 내가 통화를 시작한 경우 '알 수 없는 연락처가 영상 통화를 시작함'이 표시되는 버그를 비롯해 몇몇 오류도 수정했습니다."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "해당 업데이트는 기기에서 부재중 통화 확인 시 다른 기기에서 해당 부재중 통화에 대한 표시가 자동으로 사라지지 않는 문제를 해결합니다."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "이제 채팅 머리글을 클릭하고 공유 미디어 섹션의 '모두 보기'를 선택하면 스크롤링할 때 최근 항목으로 제한되는 대신 이전 사진과 동영상이 자동으로 표시됩니다."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "본 업데이트는 그룹을 나간 뒤 해당 그룹을 검색하기 어렵게 만드는 버그를 수정합니다."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

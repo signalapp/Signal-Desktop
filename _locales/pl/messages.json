@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Nie można odebrać audio i wideo od {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "To może być spowodowane tym, że ta osoba nie zweryfikowała Twojego numeru bezpieczeństwa, ma problem z urządzeniem albo Cię zablokowała."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Wczoraj, {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Wiadomość jest za długa."
@@ -3555,13 +3561,13 @@
     "messageformat": "Przywracanie multimediów"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Przywracanie wstrzymane"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Wstrzymaj przywracanie"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Wznów przywracanie"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Anuluj przenoszenie"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} z {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Anulować przywracanie multimediów?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Przywracanie wiadomości i multimediów nie zostało zakończone. Jeśli anulujesz ten proces, możesz uruchomić go ponownie w Ustawieniach."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Nie udało się zaktualizować Twojego profilu. Spróbuj później."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Wyślij do administratora"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Kliknij, aby zobaczyć relację"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Jeśli chcesz coś opublikować, kliknij opcję <newStoryIcon>Dodaj relację</newStoryIcon>."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Kliknij <newStoryButtonIcon></newStoryButtonIcon>, aby dodać aktualizację."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Odpowiedzi"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Zareagowano na relację"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Zareagowałeś(-aś) na relację"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Lista połączeń została wyczyszczona"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Kliknij opcję <newCallIcon>Nowe połączenie</newCallIcon>, aby rozpocząć nowe połączenie głosowe lub wideo."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kliknij <newCallButtonIcon></newCallButtonIcon>, aby rozpocząć nowe połączenie głosowe lub wideo."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Czaty otwierają się teraz szybciej niż kiedykolwiek przedtem dzięki kolejnym poprawkom wydajności, dzięki czemu możesz teraz bardzo szybko klikać na swoje grupki i sprawdzać, co ciekawego mówią."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Naprawiliśmy także parę błędów, w tym jeden, który niekiedy powodował wyświetlanie komunikatu „Nieznany kontakt rozpoczął połączenie wideo” w podsumowaniu listy czatów po rozpoczęciu połączenia. Nawet jeśli wciąż jesteś w trakcie podróży ku samopoznaniu, zawsze znasz siebie choć odrobinę."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Ta aktualizacja naprawia błąd, który powodował, że wyczyszczenie powiadomienia o nieodebranym połączeniu na jednym urządzeniu nie czyściło tego powiadomienia na innych urządzeniach, przez co odebrane Ci zostało poczucie bezstresowego nieodbierania połączeń."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Wybierz się w podróż w czasie i poznaj nowy, ulepszony widok „Wszystkie multimedia”. Od teraz gdy klikniesz na nagłówek czatu i wybierzesz „Zobacz wszystko” w sekcji udostępnionych multimediów, starsze zdjęcia i filmy będą się automatycznie wyświetlać podczas przewijania i nie będą już ograniczane tylko do najnowszych pozycji."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Czasem trzeba coś stracić, żeby to docenić. Dlatego naprawiliśmy błąd utrudniający wyszukiwanie grup, do których już nie należysz, a które nadal znajdują się na liście Twoich rozmów."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

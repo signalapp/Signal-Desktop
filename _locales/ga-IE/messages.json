@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Can't receive audio and video from {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Seans nár fhíoraigh an duine sin athrú ar d'uimhir sábháilteachta, go bhfuil fadhb leis an ngléas aige/aici, nó gur chuir sé/sí bac ort."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Inné {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Tá corp na teachtaireachta rófhada."
@@ -3555,13 +3561,13 @@
     "messageformat": "Meáin á n-aischur"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Aischur curtha ar sos"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Cuir an t-aistriú ar sos"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Fill ar an aistriú"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Cuir an t-aistriú ar ceal"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} as {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Cuir an t-aistriú meán ar ceal?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Níl aischur na dteachtaireachtaí agus na meán agat críochnaithe. Má roghnaíonn tú é a chur ar ceal, is féidir leat an t-aistriú a dhéanamh arís ó Shocruithe."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Níorbh fhéidir do phróifíl a nuashonrú. Triail arís."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Message an Admin"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Cliceáil chun amharc ar scéal"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Cliceáil <newStoryIcon>Cuir scéal leis</newStoryIcon> le nuashonrú a chur leis."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Cliceáil <newStoryButtonIcon></newStoryButtonIcon> le nuashonrú a chur leis."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Freagraí"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Tugadh freagairt don scéal"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Tugadh freagairt don scéal"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Stair na nglaonna glanta"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Cliceáil <newCallIcon>Glao Nua</newCallIcon> le tosú ar ghuthghlao nó ar fhísghlao nua."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Cliceáil <newCallButtonIcon></newCallButtonIcon> le tosú ar ghuthghlao nó ar fhísghlao nua."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Osclaítear comhráite níos gasta anois ná riamh cheana féin, a bhuí le babhta eile feabhsuithe ar fheidhmíocht."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Réitíomar dornán fabhtanna freisin, ina measc, ceann a bhí ina chúis uaireanta le \"Thosaigh teagmhálaí anaithnid ar fhísghlao\" a bheith ar taispeáint in achoimre an liosta comhráite tar éis duit féin tús a chur leis an nglao."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Réitíonn an nuashonrú seo fabht nach nglantar táscaire ar ghlao caillte ar do ghléasanna eile nuair a fhéachann tú ar ghlao chaillte ar ghléas amháin."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Anois nuair a chliceálann tú ar cheanntásc comhrá agus nuair a roghnaíonn tú \"Féach ar gach rud\" i gcuid na meán comhroinnte, taispeánfar sean-ghrianghraif agus seanfhíseáin go huathoibríoch agus tú ag scrolláil, in ionad na n-iontrálacha is déanaí amháin."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Réitíonn an nuashonrú seo fabht a rinne cuardach grúpa deacair, tar éis duit imeacht as an ngrúpa sin."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

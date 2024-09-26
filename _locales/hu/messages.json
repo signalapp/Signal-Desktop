@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} hang és kép adása nem megjeleníthető"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Ennek oka lehet, hogy esetleg nem ellenőrizte le a biztonsági azonosítód megváltozását, készülék problémája van, vagy letiltott téged."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Tegnap {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Az üzenet szövege túl hosszú."
@@ -3555,13 +3561,13 @@
     "messageformat": "Médiafájl visszaállítása"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Visszaállítás szünetel"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Átvitel szüneteltetése"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Átvitel folytatása"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Átvitel törlése"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Médiafájl átvitelének törlése?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Az üzenetek és a médiafájl helyreállítása nem fejeződött be. Ha a törlés mellett döntesz, újra átviheted a fájljaid a Beállításokból."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Nem sikerült frissíteni profilodat. Próbáld újra!"
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Üzenet egy adminnak"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Kattints ide a Történet megtekintéséhez"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Kattints a <newStoryIcon>Történet hozzáadása</newStoryIcon> lehetőségre frissítés hozzáadásához."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Kattints a <newStoryButtonIcon></newStoryButtonIcon> lehetőségre frissítés hozzáadásához."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Válaszok"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Reagált a Történetre"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Reagáltál a történetre"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Hívás napló törölve"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Kattints az <newCallIcon>Új hívás</newCallIcon> lehetőségre új hang- vagy videohívás indításához."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kattints a <newCallButtonIcon></newCallButtonIcon> lehetőségre új hang- vagy videohívás indításához."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Az újabb teljesítményfejlesztéseknek hála a csevegés gyorsabban megnyílik, mint valaha."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Kijavítottunk néhány olyan hibát is, amely miatt a hívás indítása után néha az „Ismeretlen névjegy indított videohívást” üzenet jelent meg a csevegőlista összefoglalójában."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Ez a frissítés kijavítja azt a hibát, amely miatt egy nem fogadott hívás megtekintése az egyik eszközön nem törli automatikusan a nem fogadott hívás jelzését a többi eszközödön."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Mostantól, ha rákattintasz egy csevegés fejlécére, és kiválasztod az „Összes megtekintése” lehetőséget a megosztott médiafájl részben, görgetés közben automatikusan megjelennek a régebbi fotók és videók ahelyett, hogy a legfrissebb bejegyzésekre korlátozódnának."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Ez a frissítés egy olyan hibát javít ki, amely megnehezítette egy adott csoport keresését a csoport elhagyása után."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

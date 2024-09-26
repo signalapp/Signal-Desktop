@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Kan nie oudio en video van {name} ontvang nie"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dit kan wees omdat hulle die verandering in jou veiligheidsnommer nog nie geverifieer het nie, of hulle toestel gee probleme, of hulle het jou versper."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Gister {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Die boodskapteks is te lank."
@@ -3555,13 +3561,13 @@
     "messageformat": "Besig om media te herstel"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Herstel is onderbreek"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Onderbreek oordrag"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Hervat oordrag"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Kanselleer oordrag"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} of {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Kanselleer oordrag van media?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Jou boodskappe en media is nog nie klaar herstel nie. As jy verkies om te kanselleer, kan jy dit weer vanaf Instellings oordra."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "U profiel kan nie bygewerk word nie. Probeer asb. weer."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Stuur ’n boodskap aan admin"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Klik om 'n storie te kyk."
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Klik op <newStoryIcon>Voeg 'n storie by</newStoryIcon> om 'n opdatering by te voeg."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Klik <newStoryButtonIcon></newStoryButtonIcon> om 'n opdatering by te voeg."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Antwoorde"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Het op die storie gereageer"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Het op die storie gereageer"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Oproepgeskiedenis uitgevee"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Klik op <newCallIcon>Nuwe oproep</newCallIcon> om 'n nuwe stem- of video-oproep te begin."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Klik <newCallButtonIcon></newCallButtonIcon> om 'n nuwe stem- of video-oproep te begin."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Kletse maak nou vinniger oop as ooit tevore danksy nog 'n rondte prestasieverbeterings."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Ons het ook 'n handvol foute reggemaak, met inbegrip van een wat soms veroorsaak het dat \"Onbekende kontak het 'n video-oproep begin\" in die kletslys-opsomming verskyn nadat jy die oproep begin het."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Hierdie opdatering maak 'n fout reg waar die bekyk van 'n gemiste oproep op een toestel nie outomaties die aanduiding van daardie gemiste oproep op jou ander toestelle sou uitvee nie."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Wanneer jy nou op 'n kletsopskrif klik en \"Sien alles\" in die gedeeldemedia-afdeling kies, sal ouer foto's en video's outomaties verskyn terwyl jy ondertoe of boontoe rol in plaas daarvan om beperk te word tot die mees onlangse inskrywings."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Hierdie opdatering stel 'n fout reg wat dit moeilik gemaak het om vir 'n groep te soek nadat jy daardie groep verlaat het."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

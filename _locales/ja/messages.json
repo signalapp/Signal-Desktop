@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} からの音声と映像を受信できません"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "相手があなたの安全番号の変更を検証していないか、相手の端末に問題があるか、あなたがブロックされている可能性があります。"
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "昨日 {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "メッセージが長すぎます。"
@@ -3555,13 +3561,13 @@
     "messageformat": "メディアを復元中"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "復元が中断されました"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "転送を一時停止する"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "転送を再開する"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "転送をキャンセルする"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize}/{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "メディアの転送をキャンセルしますか？"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "メッセージとメディアの復元が完了していません。キャンセルした場合は、設定からもう一度転送できます。"
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "プロフィールを更新できませんでした。再度試してください。"
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "管理者に連絡"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "クリックしてストーリーを表示"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "<newStoryIcon>ストーリーを追加</newStoryIcon> をクリックして更新を追加します。"
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "<newStoryButtonIcon></newStoryButtonIcon> をクリックしてストーリーに追加する。"
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "返信"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "ストーリーにリアクションがありました"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "ストーリーにリアクションしました"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "通話履歴がクリアされました"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "<newCallIcon>通話する</newCallIcon> をクリックして、音声通話またはビデオ通話を開始します。"
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "<newCallButtonIcon></newCallButtonIcon>をクリックして新しい音声通話またはビデオ通話を開始する。"
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "さらなるパフォーマンス改善により、チャットがこれまで以上に速く開けるようになりました。"
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "通話開始後に、チャットリストの概要に「不明な連絡先がビデオ通話を開始しました」と表示されることがあったいくつかのバグなども修正しました。"
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "このアップデートでは、ある端末で不在着信を表示しても、他の端末でその不在着信のお知らせが自動的にクリアされないというバグが修正されました。"
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "今後は、チャットのヘッダーをクリックして「共有されたメディア」で「すべて表示」を選択すると、過去の写真や動画が自動で表示されるようになります。"
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "このアップデートでは、抜けた後も会話リストに残っているグループを検索することが困難になっていたバグが修正されました。"
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} ರಿಂದ ಆಡಿಯೊ ಹಾಗೂ ವೀಡಿಯೊ ಸ್ವೀಕರಿಸಲಾಗುತ್ತಿಲ್ಲ"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "ಯಾಕೆಂದರೆ, ಅವರು ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾವಣೆಯನ್ನು ಪರಿಶೀಲಿಸಿಲ್ಲದಿರಬಹುದು, ಅವರ ಸಾಧನದಲ್ಲಿ ಸಮಸ್ಯೆ ಇರಬಹುದು ಅಥವಾ ಅವರು ನಿಮ್ಮನ್ನು ಬ್ಲಾಕ್ ಮಾಡಿರಬಹುದು."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "ನಾಳೆ {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "ಮೆಸೇಜ್ ಬಾಡಿ ತುಂಬಾ ಉದ್ದವಾಗಿದೆ."
@@ -3555,13 +3561,13 @@
     "messageformat": "ಮೀಡಿಯಾ ರಿಸ್ಟೋರ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "ವಿರಾಮಗೊಳಿಸಿರುವುದನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಿ"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ವಿರಾಮಗೊಳಿಸಿ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ಪುನರಾರಂಭಿಸಿ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಿ"
@@ -3576,7 +3582,7 @@
     "messageformat": "{totalSize} ನಲ್ಲಿ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "ಮೀಡಿಯಾ ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಬೇಕೇ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳು ಮತ್ತು ಮೀಡಿಯಾ ರೀಸ್ಟೋರ್ ಆಗುವುದನ್ನು ಪೂರ್ಣಗೊಳಿಸಿಲ್ಲ. ನೀವು ರದ್ದುಗೊಳಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ನೀವು ಪುನಃ ವರ್ಗಾಯಿಸಬಹುದು."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ಅಡ್ಮಿನ್‌ಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "ಸ್ಟೋರಿ ವೀಕ್ಷಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "ಅಪ್‌ಡೇಟ್ ಅನ್ನು ಸೇರಿಸಲು <newStoryIcon>ಸ್ಟೋರಿಯನ್ನು ಸೇರಿಸಿ</newStoryIcon> ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "ಅಪ್‌ಡೇಟ್ ಅನ್ನು ಸೇರಿಸಲು <newStoryButtonIcon></newStoryButtonIcon> ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "ಉತ್ತರಗಳು"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಲಾಗಿದೆ"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದೀರಿ"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "ಕರೆ ಇತಿಹಾಸವನ್ನು ತೆರವುಗೊಳಿಸಲಾಗಿದೆ"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "ಹೊಸ ಧ್ವನಿ ಅಥವಾ ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು <newCallIcon>ಹೊಸ ಕರೆ</newCallIcon> ಕ್ಲಿಕ್ ಮಾಡಿ."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "ಹೊಸ ಧ್ವನಿ ಅಥವಾ ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು <newCallButtonIcon></newCallButtonIcon> ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "ಮತ್ತೊಂದು ಹಂತದ ಕಾರ್ಯಕ್ಷಮತೆ ಸುಧಾರಣೆಗಳಿಂದಾಗಿ, ಚಾಟ್‌ಗಳು ಈಗ ಹಿಂದೆಂದಿಗಿಂತಲೂ ವೇಗವಾಗಿ ತೆರೆದುಕೊಳ್ಳುತ್ತವೆ."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "ನೀವು ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿದ ನಂತರ ಚಾಟ್ ಲಿಸ್ಟ್‌ನ ಸಾರಾಂಶದಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳಲು ಕೆಲವೊಮ್ಮೆ \"ಅಪರಿಚಿತ ಸಂಪರ್ಕವು ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿದೆ\" ಎಂಬುದನ್ನೂ ಒಳಗೊಂಡಂತೆ ನಾವು ಕೆಲವು ದೋಷಗಳನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ನೀವು ಇನ್ನೂ ಸ್ವಯಂ ಅನ್ವೇಷಣೆಯ ಪ್ರಯಾಣದಲ್ಲಿದ್ದರೂ, ನೀವು ಎಂದಿಗೂ ನಿಮಗೆ ಸಂಪೂರ್ಣವಾಗಿ ಅಪರಿಚಿತರಲ್ಲ."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "ಒಂದು ಸಾಧನದಲ್ಲಿ ಮಿಸ್ಡ್ ಕಾಲ್ ಅನ್ನು ವೀಕ್ಷಿಸುವುದರಿಂದ ನಿಮ್ಮ ಇತರ ಸಾಧನಗಳಲ್ಲಿನ ಮಿಸ್ಡ್ ಕಾಲ್‌ನ ಸೂಚಕವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆರವುಗೊಳಿಸದಿರುವ ಕಡೆ ಈ ಅಪ್‌ಡೇಟ್ ದೋಷವನ್ನು ಸರಿಪಡಿಸುತ್ತದೆ, ಅದು ನಿಮ್ಮ ಮಿಸ್ಡ್ ಕಾಲ್ ಪಟ್ಟಿಯು ಏಕಕಾಲಕ್ಕೆ ಉತ್ತಮವಾಗಿ ಸಮನ್ವಯ ಸಾಧಿಸಲು ತಪ್ಪಿಹೋದ ಅವಕಾಶವಾಗಿದೆ."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "ಹೊಸ ಮತ್ತು ಸುಧಾರಿತ \"ಎಲ್ಲಾ ಮೀಡಿಯಾ\" ವೀಕ್ಷಣೆಯೊಂದಿಗೆ ಹಿಂದಿನ ನೆನಪುಗಳಲ್ಲಿ ವಿಹರಿಸಿ. ಈಗ ನೀವು ಚಾಟ್ ಹೆಡರ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಮತ್ತು ಹಂಚಿಕೊಂಡ ಮೀಡಿಯಾ ವಿಭಾಗದಲ್ಲಿ \"ಎಲ್ಲವನ್ನೂ ನೋಡಿ\" ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿದಾಗ, ನೀವು ಸ್ಕ್ರಾಲ್ ಮಾಡುವಾಗ ಇತ್ತೀಚಿನ ನಮೂದುಗಳಿಗೆ ಸೀಮಿತವಾಗಿರದೆ ಹಳೆಯ ಫೋಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಗೋಚರಿಸುತ್ತವೆ."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "ಕೆಲವೊಮ್ಮೆ ಏನನ್ನಾದರೂ ಬಿಟ್ಟುಬಿಡುವುದು ನೀವು ಅದನ್ನು ಮತ್ತೆ ಹುಡುಕಲು ಬಯಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ಕಂಡುಕೊಳ್ಳಲು ಉತ್ತಮ ವಿಧಾನವಾಗಿದೆ, ಆದ್ದರಿಂದ ನೀವು ಇನ್ನು ಮುಂದೆ ಭಾಗವಾಗಿರದ ಗುಂಪುಗಳನ್ನು ಹುಡುಕಲು ಕಷ್ಟವನ್ನಾಗಿಸುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ ಆದರೆ ಅದು ಈಗಲೂ ನಿಮ್ಮ ಸಂಭಾಷಣೆಯ ಪಟ್ಟಿಯಲ್ಲಿ ಉಳಿಯುತ್ತದೆ ( ಮತ್ತು ಬಹುಶಃ ನಿಮ್ಮ ಹೃದಯದಲ್ಲಿ)."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

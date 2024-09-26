@@ -1415,6 +1415,9 @@
   "icu:calling__missing-media-keys": {
     "messageformat": "Nie je možné prijať audio a video od používateľa {name}"
   },
+  "icu:calling__missing-media-keys--unknown-contact": {
+    "messageformat": "Can't receive audio and video"
+  },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Môže to byť preto, že daný používateľ nepotvrdil zmenu vášho bezpečnostného čísla, vyskytol sa problém s jeho zariadením, alebo vás zablokoval."
   },
@@ -1621,6 +1624,9 @@
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Včera {time}"
+  },
+  "icu:messageLoop": {
+    "messageformat": "Signal may be failing to process an incoming message."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Rozsah správy je príliš dlhý."
@@ -3555,13 +3561,13 @@
     "messageformat": "Obnovujú sa médiá"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Obnovovanie bolo pozastavené"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Pozastaviť prenos"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Obnoviť prenos"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Zrušiť prenos"
@@ -3576,7 +3582,7 @@
     "messageformat": "{currentSize} z {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Zrušiť prenos médií?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Obnovenie vašich správ a médií sa nedokončilo. Ak sa rozhodnete prenos zrušiť, môžete ho znova začať v Nastaveniach."
@@ -4442,6 +4448,12 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Váš profil sa nepodarilo aktualizovať. Prosím skúste to znova."
   },
+  "icu:ProfileEditor__invalid-about__title": {
+    "messageformat": "Invalid characters"
+  },
+  "icu:ProfileEditor__invalid-about__body": {
+    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Pošlite správu správcovi"
   },
@@ -4925,9 +4937,6 @@
   "icu:Stories__placeholder--text": {
     "messageformat": "Kliknutím zobrazíte príbeh"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Pridajte niečo nové kliknutím na <newStoryIcon>Pridať príbeh</newStoryIcon>."
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Pridajte niečo nové kliknutím na <newStoryButtonIcon></newStoryButtonIcon>."
   },
@@ -5170,9 +5179,6 @@
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Odpovede"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Reagoval/a na príbeh"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Reagovali ste na príbeh"
@@ -5475,9 +5481,6 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "História hovorov vyčistená"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Kliknite na <newCallIcon>Nový hovor</newCallIcon> a zahájte nový hlasový hovor alebo videohovor."
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kliknite na <newCallButtonIcon></newCallButtonIcon> a zahájte nový hlasový hovor alebo videohovor."
   },
@@ -5674,19 +5677,10 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.23--0": {
-    "messageformat": "Čety sa teraz otvárajú rýchlejšie než kedykoľvek predtým vďaka ďalším vylepšeniam výkonu."
-  },
-  "icu:WhatsNew__v7.23--1": {
-    "messageformat": "Opravili sme tiež niekoľko chýb vrátane tej, ktorá občas spôsobovala, že sa po začatí hovoru v zozname četov objavil text „Neznámy kontakt zahájil videohovor“."
-  },
-  "icu:WhatsNew__v7.24--0": {
-    "messageformat": "Táto aktualizácia opravuje chybu, ktorá spôsobovala, že sa pri zobrazení zmeškaného hovoru na jednom zariadení automaticky nevymazal indikátor toho istého zmeškaného hovoru na ostatných zariadeniach."
-  },
-  "icu:WhatsNew__v7.25--0": {
-    "messageformat": "Keď teraz kliknete na hlavičku četu a vyberiete možnosť „Zobraziť všetko“ v sekcii zdieľaných médií, staršie fotografie a videá sa automaticky zobrazia pri posúvaní namiesto toho, aby boli obmedzené iba na najnovšie položky."
-  },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Táto aktualizácia opravuje chybu, ktorá sťažovala vyhľadávanie skupiny po jej opustení."
+  },
+  "icu:WhatsNew__v7.27--0": {
+    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
   }
 }

@@ -6561,10 +6561,6 @@
     "messageformat": "Click to view a story",
     "description": "Placeholder label for the story view"
   },
-  "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update.",
-    "description": "(Deleted 2024/08/22) Placeholder label for the story view"
-  },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update.",
     "description": "Placeholder label for the story view"
@@ -6888,10 +6884,6 @@
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Replies",
     "description": "Title for replies tab"
-  },
-  "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "Reacted to the story",
-    "description": "(Deleted 2024/08/23) Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
     "messageformat": "Reacted to the story",
@@ -7293,10 +7285,6 @@
     "messageformat": "Call history cleared",
     "description": "Calls Tab > Clear Call History > Toast"
   },
-  "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call.",
-    "description": "(Deleted 2024/08/22) Calls Tab > When no call is selected > Empty state > Call to action text"
-  },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call.",
     "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
@@ -7558,7 +7546,7 @@
   },
   "icu:WhatsNew__v7.26--0": {
     "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart).",
-    "description": "Release notes for version 7.26"
+    "description": "(Deleted 2024/09/25) Release notes for version 7.26"
   },
   "icu:WhatsNew__v7.27--0": {
     "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\"",
