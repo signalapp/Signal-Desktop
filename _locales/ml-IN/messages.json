@@ -3555,13 +3555,13 @@
     "messageformat": "മീഡിയ പുനഃസ്ഥാപിക്കുന്നു"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "പുനഃസ്ഥാപിക്കൽ താൽക്കാലികമായി നിർത്തി"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "കൈമാറ്റം താൽക്കാലികമായി നിർത്തുക"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "കൈമാറ്റം പുനരാരംഭിക്കുക"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "കൈമാറ്റം റദ്ദാക്കുക"
@@ -3576,7 +3576,7 @@
     "messageformat": "{totalSize} ൽ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "മീഡിയ കൈമാറ്റം റദ്ദാക്കണോ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "നിങ്ങളുടെ സന്ദേശങ്ങളും മീഡിയയും പുനഃസ്ഥാപിക്കൽ പൂർത്തിയാക്കിയിട്ടില്ല. നിങ്ങൾ റദ്ദാക്കാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, ക്രമീകരണങ്ങളിൽ നിന്ന് നിങ്ങൾക്ക് വീണ്ടും കൈമാറാനാകും."
@@ -5687,6 +5687,6 @@
     "messageformat": "പുതിയതും മെച്ചപ്പെടുത്തിയതുമായ \"എല്ലാ മീഡിയ\" കാഴ്‌ച ഉപയോഗിച്ച് മെമ്മറിയിലൂടെ ഒരു യാത്ര നടത്തുക. ഇപ്പോൾ നിങ്ങൾ ഒരു ചാറ്റ് ഹെഡറിൽ ക്ലിക്കുചെയ്‌ത് പങ്കിട്ട മീഡിയ വിഭാഗത്തിലെ \"എല്ലാം കാണുക\" തിരഞ്ഞെടുക്കുമ്പോൾ, ഏറ്റവും പുതിയ എൻട്രികളിലേക്ക് പരിമിതപ്പെടുത്തുന്നതിന് പകരം നിങ്ങൾ സ്ക്രോൾ ചെയ്യുമ്പോൾ പഴയ ഫോട്ടോകളും വീഡിയോകളും സ്വയമേവ ദൃശ്യമാകും."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "ചിലപ്പോഴൊക്കെ എന്തെങ്കിലും ഉപേക്ഷിക്കുന്നതാണ് അത് വീണ്ടും കണ്ടെത്തണമെന്ന് ആഗ്രഹിക്കാനുള്ള ഏറ്റവും നല്ല മാർഗം, അതിനാലാണ് നിങ്ങൾ ഇപ്പോൾ ഭാഗമല്ലാത്തതും എന്നാൽ ഇപ്പോഴും നിങ്ങളുടെ സംഭാഷണ ലിസ്റ്റിൽ നിലനിൽക്കുന്നതുമായ ( ഒരുപക്ഷേ നിങ്ങളുടെ ഹൃദയത്തിൽ) ഗ്രൂപ്പുകൾക്കായി തിരയുന്നത് കഠിനമാക്കിയിരുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചത്."
   }
 }

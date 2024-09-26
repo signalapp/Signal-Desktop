@@ -3555,13 +3555,13 @@
     "messageformat": "Media faylı bərpa olunur"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Bərpaetmə dayandırıldı"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Köçürməyə fasilə ver"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Köçürməyə qayıt"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Köçürməni ləğv et"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} /{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Media fayllarının köçürülməsi ləğv edilsin?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Mesajlarınız və media faylınızın bərpası tamamlanmayıb. Ləğv etsəniz, Parametrlərdən yenidən köçürə bilərsiniz."
@@ -5687,6 +5687,6 @@
     "messageformat": "Yeni və təkmilləşdirilmiş \"Bütün media faylları\" baxışından istifadə edərək xatirələrə nəzər salın. Artıq çat başlığına kliklədikdə və paylaşılan media fayl bölməsində \"Hamısına bax\" seçimini etdikdə, ən son yüklənənlərlə məhdudlaşmaq əvəzinə ekranı aşağı sürüşdürdükcə daha köhnə fotolar və videolar avtomatik görünəcək."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Bəzən nəyisə geridə qoymaq onu yenidən tapmaq istəyini aşkarlamağın ən yaxşı üsuludur, buna görə də artıq üzvü olmadığınız, lakin hələ də söhbət siyahınızda (və çox güman ki, ürəyinizdə) qalan qrupları axtarmağı çətinləşdirən xətanı aradan qaldırdıq."
   }
 }

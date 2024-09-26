@@ -3555,13 +3555,13 @@
     "messageformat": "Đang khôi phục tập tin đa phương tiện"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Khôi phục được tạm dừng"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Tạm dừng chuyển"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Tiếp tục chuyển"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Hủy chuyển"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} trên tổng số {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Hủy chuyển tập tin đa phương tiện?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Tin nhắn và tập tin đa phương tiện của bạn chưa được hoàn tất khôi phục. Nếu bạn chọn hủy, bạn có thể tiến hành chuyển dữ liệu lại từ mục Cài đặt."
@@ -5687,6 +5687,6 @@
     "messageformat": "Giờ đây khi bạn bấm vào thanh phía trên của cuộc trò chuyện và chọn \"Tất cả\" ở mục tập tin đa phương tiện được chia sẻ, ảnh và video cũ sẽ tự động xuất hiện khi bạn cuộn và không còn bị giới hạn ở những tập tin mới nhất."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Bản cập nhật này sửa lỗi khó tìm lại nhóm sau khi rời nhóm đó."
   }
 }

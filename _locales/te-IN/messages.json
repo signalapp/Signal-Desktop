@@ -3555,13 +3555,13 @@
     "messageformat": "మీడియాను పునరుద్ధరిస్తోంది"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "పాజ్ చేసిన దానిని పునరుద్ధరించండి"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "బదిలీని పాజ్ చేయండి"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "బదిలీని కొనసాగించండి"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "బదిలీని రద్దు చేయండి"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} ఆఫ్ {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "మీడియా బదిలీని రద్దు చేసేదా?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీరు మళ్ళీ సెట్టింగ్‌ల నుండి బదిలీ చేయవచ్చు."
@@ -5687,6 +5687,6 @@
     "messageformat": "కొత్త మరియు మెరుగైన \"ఆల్ మీడియా\" వీక్షణతో జ్ఞాపకాలను స్మరించుకోండి. ఇప్పుడు మీరు చాట్ హెడర్‌పై క్లిక్ చేసి, పంచుకోబడిన మీడియా విభాగంలో \"అన్నీ చూడండి\" ని ఎంచుకున్నప్పుడు, మీరు ఇటీవలి ఎంట్రీలకు పరిమితం కాకుండా స్క్రోల్ చేస్తున్నప్పుడు పాత ఫోటోలు మరియు వీడియోలు ఆటోమేటిక్‌గా కనిపిస్తాయి."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "ఈ అప్‌డేట్ ఒక గ్రూప్‌ను విడిచిపెట్టిన తర్వాత ఆ గ్రూప్‌ను శోధించడం కష్టతరం చేసిన బగ్‌ను పరిష్కరిస్తుంది."
   }
 }

@@ -405,16 +405,16 @@
     "messageformat": "Pour votre sécurité, l’historique des conversations n’est pas transféré vers les nouveaux appareils associés."
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "Vous avez marqué votre numéro de sécurité avec {name} comme confirmé"
+    "messageformat": "Vous avez confirmé le numéro de sécurité associé à {name}."
   },
   "icu:youMarkedAsNotVerified": {
-    "messageformat": "Vous avez marqué votre numéro de sécurité avec {name} comme non confirmé"
+    "messageformat": "Vous avez confirmé le numéro de sécurité associé à {name}."
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "Vous avez marqué votre numéro de sécurité avec {name} comme confirmé à partir d’un autre appareil."
+    "messageformat": "Vous avez confirmé le numéro de sécurité associé à {name} depuis un autre appareil."
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "Vous avez marqué votre numéro de sécurité avec {name} comme non confirmé à partir d’un autre appareil"
+    "messageformat": "Vous avez confirmé le numéro de sécurité associé à {name} depuis un autre appareil"
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Le numéro de sécurité que vous essayez de confirmer a changé. Veuillez vérifier votre nouveau numéro de sécurité avec {name1}. N’oubliez pas que ce changement peut signifier que quelqu’un essaie d’intercepter vos communications ou que {name2} a simplement réinstallé Signal."
@@ -3555,28 +3555,28 @@
     "messageformat": "Restauration des médias en cours"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Restauration mise en pause"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Mettre en pause le transfert"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Reprendre le transfert"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Annuler le transfert"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
-    "messageformat": "Plus d’options"
+    "messageformat": "Plus d'options"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "La restauration est terminée."
+    "messageformat": "Restauration terminée."
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{currentSize} sur {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Annuler le transfert des médias ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Signal n'a pas terminé de restaurer vos messages et médias. Si vous décidez d'annuler ce transfert, vous pourrez en effectuer un nouveau depuis les paramètres."
@@ -5687,6 +5687,6 @@
     "messageformat": "Souvenirs, souvenirs ! Le nouvel écran \"Tous les médias\" va faire des heureux. Désormais, lorsque vous cliquez sur l'en-tête d'une conversation, puis sur \"Tout afficher\" dans la section \"Médias partagés\", toutes les photos et vidéos s'affichent à mesure que vous faites défiler l'écran. Fini, le temps où Signal se limitait aux médias les plus récents ! "
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Vous avez quitté un groupe, mais vous le regrettez ? Vos amis vous manquent et vous ne retrouvez pas ce groupe pour le réintégrer ? Réjouissez-vous : nous avons corrigé ce bug. L'expression \"se séparer pour mieux se retrouver\" prend enfin tout son sens."
   }
 }

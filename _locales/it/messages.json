@@ -3555,13 +3555,13 @@
     "messageformat": "Ripristino dei media in corso"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Ripristino in pausa"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Metti in pausa"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Riprendi il trasferimento"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Annulla trasferimento"
@@ -3576,10 +3576,10 @@
     "messageformat": "{currentSize} di {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Annullare il trasferimento dei media?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Il ripristino dei tuoi messaggi e media non è stato ancora completato. Se scegli di annullarlo, puoi riprovare il trasferimento dalle Impostazioni."
+    "messageformat": "Il ripristino dei tuoi messaggi e media non è stato ancora completato. Se lo annulli, potrai rieffettuare il trasferimento dalle Impostazioni."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
     "messageformat": "Continua con il trasferimento"
@@ -5687,6 +5687,6 @@
     "messageformat": "I ricordi sono belli se… te li puoi ricordare. E da ora Signal ti darà una mano: quando selezioni \"Vedi tutti\" nella sezione dei media condivisi in una chat, vedrai apparire in automatico le tue foto e video man mano che scorri, invece di vedere solamente i media più recenti."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "A volte è bello rivangare il passato… abbiamo risolto un bug che rendeva difficile cercare i gruppi di cui facevi parte ma ancora presenti nell'elenco delle tue chat (e, chissà, forse anche nei tuoi ricordi?)."
   }
 }

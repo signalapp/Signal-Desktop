@@ -3555,13 +3555,13 @@
     "messageformat": "Restaurant els arxius"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Restauració interrompuda"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Pausar la transferència"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Reprendre la transferència"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Cancel·lar la transferència"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} de {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Cancel·lar la transferència d'arxius?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "No s'ha completat la restauració dels teus missatges i arxius multimèdia. Si decideixes cancel·lar, podràs tornar-los a transferir des d'Ajustos."
@@ -5687,6 +5687,6 @@
     "messageformat": "Ara, quan facis clic a la capçalera d'un xat i seleccionis \"Veure tot\" a la secció d'arxius compartits, les fotos i els vídeos més antics aniran apareixent automàticament a mesura que et desplacis en comptes de limitar-se al contingut més recent."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Aquesta actualització corregeix un error que dificultava trobar un grup després d'haver-ne sortit."
   }
 }

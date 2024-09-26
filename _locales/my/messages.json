@@ -3555,13 +3555,13 @@
     "messageformat": "မီဒီယာကို ပြန်လည်ရယူနေသည်"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "ပြန်လည်ရယူခြင်းကို ခေတ္တရပ်ထားသည်"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "လွှဲပြောင်းမှုကို ခေတ္တရပ်ပါ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ပြန်လည်စတင် လွှဲပြောင်းမည်"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "လွှဲပြောင်းမှုကို ပယ်ဖျက်မည်"
@@ -3570,13 +3570,13 @@
     "messageformat": "နောက်ထပ် ရွေးစရာများ"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "ပြီးပြည့်စုံသောပြန်ယူပါ"
+    "messageformat": "ပြန်လည်ရယူခြင်း ပြီးစီးပါပြီ"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize} ၏ {totalSize}"
+    "messageformat": "{totalSize} ၏ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "မီဒီယာလွှဲပြောင်းမှုကို ပယ်ဖျက်လိုပါသလား။"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "သင့်မက်ဆေ့ချ်များနှင့် မီဒီယာများကို ပြန်လည်ရယူခြင်း မပြီးပြတ်သေးပါ။ ပယ်ဖျက်ရန်ကို ရွေးချယ်ပါက ဆက်တင်မှ ထပ်မံလွှဲပြောင်းနိုင်ပါသည်။"
@@ -5687,6 +5687,6 @@
     "messageformat": "ယခုအခါ ချက်(တ်)ခေါင်းစီးကိုနှိပ်ပြီး မျှဝေထားသောမီဒီယာကဏ္ဍရှိ \"အားလုံးကို ကြည့်ရန်\" ကို ရွေး၍ အပေါ်အောက်ရွှေ့သောအခါ မကြာသေးမီက ထည့်သွင်းမှုများအပြင် ဓာတ်ပုံနှင့် ဗီဒီယို အဟောင်းများလည်း အလိုအလျောက် ပေါ်လာမည်ဖြစ်သည်။"
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "အဖွဲ့မှထွက်ခွာပြီးနောက် ထိုအဖွဲ့ကိုရှာရန် ခက်ခဲသည့် ပြစ်ချက်ကို ဤအပ်ဒိတ်တွင် ပြုပြင်ထားသည်။"
   }
 }

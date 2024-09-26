@@ -3555,19 +3555,19 @@
     "messageformat": "Obnovování médií"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Obnovení pozastaveno"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Pozastavit přenos"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Obnovit přenos"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Zrušit přenos"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
-    "messageformat": "Více možností"
+    "messageformat": "Další možnosti"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
     "messageformat": "Obnova dokončena"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} z {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Zrušit přenos médií?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Obnova vašich zpráv a médií nebyla dokončena. Pokud jste se rozhodli přenos zrušit, můžete jej znovu spustit v Nastavení."
@@ -5687,6 +5687,6 @@
     "messageformat": "Když nyní kliknete na záhlaví chatu a v sekci sdílených médií vyberete možnost „Zobrazit vše“, zobrazí se při procházení automaticky starší fotografie a videa, nikoli jen nejnovější záznamy."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Tato aktualizace opravuje chybu, která ztěžovala vyhledávání skupiny po opuštění této skupiny."
   }
 }

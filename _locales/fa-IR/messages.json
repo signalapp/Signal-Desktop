@@ -3555,13 +3555,13 @@
     "messageformat": "در حال بازیابی رسانه"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "بازیابی موقتاً متوقف شد"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "توقف موقت انتقال"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ازسرگیری انتقال"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "لغو انتقال"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} از {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "انتقال رسانه لغو شود؟"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "پیام‌ها و رسانه شما کامل بازیابی نشده است. اگر لغو را انتخاب کردید، می‌توانید از قسمت تنظیمات، دوباره انتقال دهید."
@@ -5687,6 +5687,6 @@
     "messageformat": "اکنون وقتی روی سربرگ گفتگو کلیک می‌کنید و گزینه «مشاهده همه» را در بخش رسانه اشتراک‌گذاری‌شده انتخاب می‌کنید، به‌جای اینکه فقط جدیدترین رسانه‌ها را ببینید، عکس‌ها و ویدیوهای قدیمی‌تر نیز به‌طور خودکار هنگام پیمایش ظاهر می‌شوند."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "در این به‌روزرسانی، اشکالی را برطرف کردیم که جستجوی گروه را پس از ترک آن گروه دشوار می‌کرد."
   }
 }

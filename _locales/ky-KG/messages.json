@@ -3555,13 +3555,13 @@
     "messageformat": "Медиа файлдарыңыз калыбына келүүдө"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Калыбына келтирүү тындырылды"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Өткөрүүнү тындыруу"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Өтөрүүнү улантуу"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Өткөрүүнү токтотуу"
@@ -3570,19 +3570,19 @@
     "messageformat": "Дагы параметрлер"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "Калыбына келди"
+    "messageformat": "Калыбына келтирилди"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{totalSize} ичинен {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Медиа файлдарды өткөрүү токтотулсунбу?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Билдирүүлөрүңүз менен медиа файлдарыңыз толук калыбына келген жок. Токтото турган болсоңуз, аларды кайра Параметрлерден өткөрсөңүз болот."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Жок"
+    "messageformat": "Өткөрүүнү улантуу"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Өткөрүүнү токтотуу"
@@ -5687,6 +5687,6 @@
     "messageformat": "\"Бардык медиа файлдар\" деген бөлүм жаңырды. Эми маектин аталышын басып, \"Бардык медиа файлдар\" дегенди тандасаңыз, ылдый сыдырган сайын эски сүрөттөрүңүз менен видеолоруңуз дароо көрүнө берет."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Кээде бир нерсени артка калтыргандан кийин гана баркын сезесиң. Ошол сыңары, чыгып кеткен тобуңузду кайра оңой тапкыдай мүмкүнчүлүк бердик."
   }
 }

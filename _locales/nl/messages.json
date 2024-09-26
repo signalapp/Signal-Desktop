@@ -510,7 +510,7 @@
     "messageformat": "Meer informatie"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "Er wordt een veiligheidsnummer aangemaakt met deze persoon nadat je berichten hebt uitgewisseld."
+    "messageformat": "Er wordt een veiligheidsnummer gegenereerd met deze persoon nadat je berichten hebt uitgewisseld."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Meer informatie"
@@ -777,7 +777,7 @@
     "messageformat": "Opname spraakbericht beginnen"
   },
   "icu:voiceRecordingInterruptedMax": {
-    "messageformat": "Het opnemen van een spraakbericht is gestopt omdat de maximumlengte van een uur is bereikt."
+    "messageformat": "Het opnemen van een spraakbericht is gestopt omdat de maximumlengte was bereikt."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Spraakberichten hebben een lengtelimiet van een uur. De opname wordt gestopt als je een andere app aandacht geeft."
@@ -1053,7 +1053,7 @@
     "messageformat": "Een bericht, media, sticker, emoji-reactie, of leesbevestiging van {sender} kon niet aan jou worden afgeleverd. Het kan zijn dat deze persoon iets naar je probeerde te verzenden in een één-op-één-chat of in een groepschat."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "Een bericht, media, sticker, emoji-reactie of een bevestiging dat een bericht gelezen is van {sender} kan in deze chat niet aan jou worden afgeleverd."
+    "messageformat": "Een bericht, media, sticker, emoji-reactie of leesbevestiging van {sender} kan in deze chat niet aan jou worden afgeleverd."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} heeft diens telefoonnummer gewijzigd"
@@ -1074,7 +1074,7 @@
     "messageformat": "Meer lezen"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
-    "messageformat": "Na een bericht met {obsoleteConversationTitle} heb je begrepen dat dit nummer van {conversationTitle} is. Hun telefoonnummer is privé."
+    "messageformat": "Na het uitwisselen van berichten met {obsoleteConversationTitle} heb je begrepen dat dit nummer van {conversationTitle} is. Hun telefoonnummer is privé."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "Je chatgeschiedenis voor beide chats is hier samengevoegd."
@@ -1416,7 +1416,7 @@
     "messageformat": "Kan geen audio en video van {name} ontvangen"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "Dit kan zijn omdat ze jouw wijziging van het veiligheidsnummer niet hebben geverifieerd, er een probleem is met hun apparaat, of ze jou hebben geblokkeerd."
+    "messageformat": "Dit kan zijn omdat ze jouw wijziging van het veiligheidsnummer niet hebben geverifieerd, er een probleem is met hun apparaat, of omdat ze jou hebben geblokkeerd."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Omhoog scrollen"
@@ -1443,7 +1443,7 @@
     "messageformat": "Opnieuw aan het verbinden…"
   },
   "icu:calling__presenting--stop": {
-    "messageformat": "Stoppen"
+    "messageformat": "Delen stoppen"
   },
   "icu:calling__presenting--you-stopped": {
     "messageformat": "Je deelt niet langer je scherm"
@@ -1458,7 +1458,7 @@
     "messageformat": "Machtiging vereist"
   },
   "icu:calling__presenting--macos-permission-description": {
-    "messageformat": "Signal heeft een machtiging nodig om het scherm van je computer op te mogen nemen."
+    "messageformat": "Signal heeft toestemming nodig om het scherm van je computer op te mogen nemen."
   },
   "icu:calling__presenting--permission-instruction-step1": {
     "messageformat": "Open de systeemvoorkeuren."
@@ -1959,10 +1959,10 @@
     "messageformat": "{sender} heeft namens jou gedoneerd aan Signal"
   },
   "icu:message--donation--unopened--toast--incoming": {
-    "messageformat": "Check je telefoon om deze donatie te openen"
+    "messageformat": "Ga naar Signal op je telefoon om deze donatie te openen"
   },
   "icu:message--donation--unopened--toast--outgoing": {
-    "messageformat": "Check je telefoon om deze donatie te bekijken"
+    "messageformat": "Ga naar Signal op je telefoon om deze donatie te bekijken"
   },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} heeft namens jou gedoneerd"
@@ -2349,7 +2349,7 @@
     "messageformat": "Geselecteerde tekst een spoiler maken"
   },
   "icu:Keyboard--open-context-menu": {
-    "messageformat": "Contextmenu openen voor geselecteerde berichten"
+    "messageformat": "Contextmenu openen voor geselecteerd bericht"
   },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Vet"
@@ -3294,7 +3294,7 @@
     "messageformat": "Je hebt voor één persoon de groepsuitnodiging van {memberName} ingetrokken."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "Een beheerder heeft de uitnodiging voor één persoon, uitgenodigd door {memberName}, ingetrokken."
+    "messageformat": "Een beheerder heeft voor één persoon de groepsuitnodiging van {memberName} ingetrokken."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} heeft de groepsuitnodiging die je naar {inviteeName} hebt verzonden, ingetrokken."
@@ -3555,13 +3555,13 @@
     "messageformat": "Media aan het herstellen"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Terugzetten gepauzeerd"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Overzetten pauzeren"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Overzetten hervatten"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Overzetten annuleren"
@@ -3570,13 +3570,13 @@
     "messageformat": "Meer opties"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "Gegevens herstellen vanuit een back-up is voltooid"
+    "messageformat": "Gegevens herstellen is voltooid"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{currentSize} van {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Media overzetten annuleren?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Het herstellen van je berichten en media is nog niet voltooid. Als je besluit te annuleren, kun je opnieuw overzetten via Instellingen."
@@ -4089,7 +4089,7 @@
     "messageformat": "{name} uit deze groep verwijderen?"
   },
   "icu:RemoveGroupMemberConfirmation__description__with-link": {
-    "messageformat": "Wil je {name} verwijderen uit de groep? Als je dit doet kan deze persoon niet opnieuw lid te worden van de groep via de groepslink."
+    "messageformat": "Wil je {name} verwijderen uit de groep? Als je dit doet kan deze persoon niet opnieuw via de groepslink lid worden van de groep."
   },
   "icu:CaptchaDialog__title": {
     "messageformat": "Verifieer om door te kunnen gaan met het verzenden van berichten"
@@ -4122,7 +4122,7 @@
     "messageformat": "Kleur verwijderen"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {Deze zelfgekozen kleur wordt in {num,number} chat gebruikt. Wil je het voor alle chats verwijderen?} other {Deze zelfgekozen kleur wordt in {num,number} chats gebruikt. Wil je het voor alle chats verwijderen?}}"
+    "messageformat": "{num, plural, one {Deze aangepaste kleur wordt in {num,number} chat gebruikt. Wil je het voor alle chats verwijderen?} other {Deze aangepaste kleur wordt in {num,number} chats gebruikt. Wil je het voor alle chats verwijderen?}}"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Chatkleur"
@@ -4137,16 +4137,16 @@
     "messageformat": "Alle chatkleuren resetten"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Alleen standaardkleurinstelling verwijderen"
+    "messageformat": "Standaardkleur resetten"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Standaardinstelling herstellen"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Wil je alle chatkleuren resetten?"
+    "messageformat": "Wil je de chatkleuren van al je chats resetten?"
   },
   "icu:ChatColorPicker__custom-color--label": {
-    "messageformat": "Zelfgekozen-kleurbewerker weergeven"
+    "messageformat": "Kleurbewerker weergeven"
   },
   "icu:ChatColorPicker__sampleBubble1": {
     "messageformat": "Hier zie je een voorbeeld van de chatkleur."
@@ -4179,7 +4179,7 @@
     "messageformat": "Verzadiging"
   },
   "icu:CustomColorEditor__title": {
-    "messageformat": "Zelfgekozen kleur"
+    "messageformat": "Aangepaste kleur"
   },
   "icu:GradientDial__knob-start": {
     "messageformat": "Begin verloop"
@@ -4242,7 +4242,7 @@
     "messageformat": "meer lezen"
   },
   "icu:EditConversationAttributesModal__description-warning": {
-    "messageformat": "Groepsomschrijvingen zijn zichtbaar voor alle leden van deze groep en voor alle personen die zijn uitgenodigd om lid te worden."
+    "messageformat": "De groepsnaam, -afbeelding en -omschrijving zijn zichtbaar voor alle leden van deze groep, voor alle personen die zijn uitgenodigd en voor alle personen die een werkende groepslink hebben, zelfs als ze nog niet hebben verzocht om lid te worden."
   },
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Voeg een groepsomschrijving toe…"
@@ -4350,7 +4350,7 @@
     "messageformat": "Je gebruikersnaam kan niet worden opgeslagen. Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is niet meer beschikbaar. Er wordt een nieuwe cijfercombinatie gekoppeld aan je gebruikersnaam. Probeer opnieuw op te slaan."
+    "messageformat": "{username} is niet meer beschikbaar. Er wordt een nieuwe cijfercombinatie gekoppeld aan je gebruikersnaam. Probeer het opnieuw op te slaan."
   },
   "icu:ProfileEditor--username--delete-general-error": {
     "messageformat": "Je gebruikersnaam kan niet worden verwijderd. Controleer je internetverbinding en probeer het opnieuw."
@@ -4533,7 +4533,7 @@
     "messageformat": "Wie kan mijn nummer zien"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Je telefoonnummer is zichtbaar voor de personen en groepen die je berichten stuurt."
+    "messageformat": "Je telefoonnummer is zichtbaar voor de personen en groepen aan wie je een bericht stuurt."
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
     "messageformat": "Je telefoonnummer is voor niemand zichtbaar, tenzij het is opgeslagen in de contacten van hun telefoon."
@@ -4752,7 +4752,7 @@
     "messageformat": "Dik"
   },
   "icu:MediaEditor__crop--reset": {
-    "messageformat": "Standaardinstelling herstellen"
+    "messageformat": "Herstellen"
   },
   "icu:MediaEditor__crop--rotate": {
     "messageformat": "Draaien"
@@ -4803,16 +4803,16 @@
     "messageformat": "Dit verhaal verwijderen? Het zal ook worden verwijderd voor iedereen die het al heeft ontvangen."
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "Je bent een betaling begonnen aan {receiver}"
+    "messageformat": "Je hebt een betaling aan {receiver} geïnitieerd"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "Je bent een betaling begonnen"
+    "messageformat": "Je hebt een betaling geïnitieerd"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} begon een betaling aan jou"
+    "messageformat": "{sender} heeft een betaling aan jou geïnitieerd"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wil graag dat je Betalingen activeert. Stuur alleen betalingen naar mensen die je vertrouwt. Betalingen kan worden geactiveerd op je mobiele apparaat door te gaan naar Instellingen -> Betalingen."
+    "messageformat": "{sender} wil graag dat je Betalingen activeert. Stuur alleen betalingen naar mensen die je vertrouwt. Betalingen kan worden geactiveerd op je mobiele apparaat door te gaan naar Instellingen > Betalingen."
   },
   "icu:payment-event-activation-request-you-label": {
     "messageformat": "Je hebt {receiver} een verzoek gestuurd om Betalingen te activeren."
@@ -4998,7 +4998,7 @@
     "messageformat": "Weet je zeker dat je ‘{name}’ wilt verwijderen? Updates gedeeld in dit verhaal worden ook verwijderd."
   },
   "icu:StoriesSettings__choose-viewers": {
-    "messageformat": "Ontvangers kiezen"
+    "messageformat": "Kies wie dit verhaal kan bekijken"
   },
   "icu:StoriesSettings__name-story": {
     "messageformat": "Geef je verhaal een naam"
@@ -5196,7 +5196,7 @@
     "messageformat": "Verhaal"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Verhalen niet langer verbergen"
+    "messageformat": "Verhaal niet langer verbergen"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Verhaal verbergen"
@@ -5217,7 +5217,7 @@
     "messageformat": "Verbergen"
   },
   "icu:StoryImage__error2": {
-    "messageformat": "Kan verhaal niet downloaden. {name} moet het opnieuw delen."
+    "messageformat": "Kan verhaal niet downloaden. {name} zal het opnieuw moeten delen."
   },
   "icu:StoryImage__error--you": {
     "messageformat": "Kan verhaal niet downloaden. Deel het opnieuw."
@@ -5277,7 +5277,7 @@
     "messageformat": "Typ of plak een URL"
   },
   "icu:StoryCreator__link-preview-empty": {
-    "messageformat": "Voeg een link toe voor kijkers van je verhaal"
+    "messageformat": "Een link delen met de kijkers van je verhaal"
   },
   "icu:Stories__failed-send--full": {
     "messageformat": "Verhaal kan niet worden verstuurd"
@@ -5316,7 +5316,7 @@
     "messageformat": "Niet langer beschikbaar"
   },
   "icu:ContextMenu--button": {
-    "messageformat": "Context-menu"
+    "messageformat": "Contextmenu"
   },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Gebruikersnaam"
@@ -5440,7 +5440,7 @@
     "messageformat": "Bewerkingsgeschiedenis"
   },
   "icu:ResendMessageEdit__body": {
-    "messageformat": "Deze bewerking kan niet worden verstuurd. Check je internetverbinding en probeer het opnieuw"
+    "messageformat": "Deze bewerking kan niet worden verstuurd. Controleer je internetverbinding en probeer het opnieuw"
   },
   "icu:ResendMessageEdit__button": {
     "messageformat": "Opnieuw verzenden"
@@ -5687,6 +5687,6 @@
     "messageformat": "Duik in het verleden met de nieuwe en verbeterde weergave ‘Alle media’. Als je nu op een chatkop tikt en bij de gedeelde media ‘Alles weergeven’ selecteert, verschijnen tijdens het scrollen automatisch oudere foto's en video's en niet alleen de meest recente."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Soms weet je pas wat je mist als het er niet meer is, dus hebben we een bug opgelost die het moeilijk maakte groepen terug te vinden waar je geen lid meer van was, maar die nog wel in je gesprekkenlijst stonden."
   }
 }

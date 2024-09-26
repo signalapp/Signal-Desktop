@@ -3555,13 +3555,13 @@
     "messageformat": "میڈیا بحال ہو رہا ہے"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "موقوف عمل کو بحال کریں"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "ٹرانسفر روکیں"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ٹرانسفر دوبارہ شروع کریں"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "منتقل کرنے کو منسوخ کریں"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize}کا{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "میڈیا ٹرانسفر کو منسوخ کریں؟"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "آپ کے میسجز اور میڈیا کی بحالی مکمل نہیں ہوئی۔ اگر آپ منسوخ کرنے کا انتخاب کرتے ہیں، تو آپ سیٹنگز سے دوبارہ منتقل کر سکتے ہیں۔"
@@ -5687,6 +5687,6 @@
     "messageformat": "اب جب آپ کسی چیٹ ہیڈر پر کلک کرتے ہیں اور شئیر کردہ میڈیا سیکشن میں \"سب کچھ دیکھیں\" کا انتخاب کر کے، آپ سب سے حالیہ اندراجات پر محدود رہنے کے بجائے اسکرول کرتے ہیں تو پرانی تصاویر اور ویڈیوز خود کار طور پر ظاہر ہو جائیں گی۔"
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "اس اپ ڈیٹ میں ایک ایسے نقص کو ٹھیک کیا گیا ہے جس کی وجہ سے اس گروپ کو چھوڑنے کے بعد گروپ کو تلاش کرنا مشکل ہو جاتا ہے۔ ورژن 7.26 کے لیے ریلیز نوٹس"
   }
 }

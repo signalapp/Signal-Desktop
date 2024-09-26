@@ -3555,16 +3555,16 @@
     "messageformat": "Medya geri yükleniyor"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Geri yükleme duraklatıldı"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Aktarımı duraklat"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Aktarıma devam et"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Transferi iptal et"
+    "messageformat": "Aktarımı iptal et"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Daha fazla seçenek"
@@ -3576,16 +3576,16 @@
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Medya aktarımı iptal edilsin mi?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Mesajlarının ve medyanın geri yüklenmesi tamamlanmadı. İptal etmeyi seçersen, Ayarlar'dan tekrar transfer yapabilirsin."
+    "messageformat": "Mesajlarının ve medyanın geri yüklenmesi tamamlanmadı. İptal etmeyi seçersen Ayarlar bölümünden tekrar aktarım yapabilirsin."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Transfere devam et"
+    "messageformat": "Aktarıma devam et"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Transferi iptal et"
+    "messageformat": "Aktarımı iptal et"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişlet"
@@ -5687,6 +5687,6 @@
     "messageformat": "Yeni ve geliştirilmiş \"Tüm Medya\" görünümüyle anılarında bir yolculuğa çık. Artık bir sohbet başlığına tıkladığında ve paylaşılan medya bölümünde \"Tümünü gör\" öğesini seçtiğinde, en son girdilerle sınırlı kalmak yerine eski fotoğraflar ve videolar sen kaydırdıkça otomatik olarak görünür."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Bu güncellemede, bir gruptan ayrıldıktan sonra o grubu aramayı zorlaştıran bir hatayı düzelttik."
   }
 }

@@ -3555,13 +3555,13 @@
     "messageformat": "Duke rikthyer median"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Rikthimi u ndërpre"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Ndërprit transferimin"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Rifillo transferimin"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Anulo transferimin"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} nga {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Të anulohet transferimi i medias?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Mesazhet dhe media nuk kanë përfunduar rikthimin. Nëse zgjedh ta anulosh, mund t'i transferosh përsëri nga parametrat."
@@ -5687,6 +5687,6 @@
     "messageformat": "Bëj një udhëtim në korsinë e kujtesës me pamjen e re dhe të përmirësuar \"E gjitha media\". Kur kliko tani në krye të bisedës dhe zgjedh \"Shiko të gjitha\" në seksionin e mediave të përbashkëta dhe teksa lëviz nëpër media, fotot dhe videot më të vjetra do të shfaqen automatikisht në vend që shfaqja të kufizohet vetëm te hyrjet më të fundit."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Ndonjëherë, lënia e diçkaje pas është mënyra më e mirë për të zbuluar dëshirën për ta gjetur sërish atë, ndaj kemi rregulluar defektin që vështirësonte kërkimin e grupeve ku nuk je më pjesë, por që mbeten ende në listën e bisedave (dhe me shumë mundësi, edhe në zemrën tënde)."
   }
 }

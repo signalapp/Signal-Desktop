@@ -3555,13 +3555,13 @@
     "messageformat": "還原緊媒體"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "還原已暫停"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "暫停轉移"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "恢復轉移"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "取消轉移"
@@ -3570,13 +3570,13 @@
     "messageformat": "其他選項"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "還原搞掂"
+    "messageformat": "還原晒"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "係咪要取消媒體轉移？"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "你嘅訊息同媒體仲未還原晒喎。如果你揀取消，可以喺「設定」度再轉移過。"
@@ -5687,6 +5687,6 @@
     "messageformat": "用經改善嘅全新「所有媒體」檢視方式，搵返你嘅美麗回憶。而家，只要你㩒入聊天標題，同埋喺共享媒體度揀咗「全部睇晒」，就唔單止睇到最近嘅項目，連舊嘅相同影片都會喺你向下碌嘅時候自動出現。"
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "有時候，就算離開咗但係仲會依依不捨，所以我們修正咗一個錯誤，呢個錯誤攪到你好難揾返已經退出咗但仲存在喺對話列表入面嘅谷。"
   }
 }

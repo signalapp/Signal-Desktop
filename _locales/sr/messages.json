@@ -3555,13 +3555,13 @@
     "messageformat": "Враћање медија"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Враћање је паузирано"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Паузирај пренос"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Настави пренос"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Откажи пренос"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} од {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Желите ли да откажете пренос медија?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Није завршено враћање ваших порука и медија. Ако откажете, можете поново покренути пренос у подешавањима."
@@ -5687,6 +5687,6 @@
     "messageformat": "Сада када кликнете на заглавље ћаскања и изаберете „Прикажи све“ у одељку за подељене медије, старије фотографије и видео записи ће се аутоматски појавити док скролујете, уместо да будете ограничени на најновије уносе."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Овим ажурирањем исправљена је грешка која је отежавала тражење групе након што сте је напустили."
   }
 }

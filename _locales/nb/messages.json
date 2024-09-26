@@ -3555,16 +3555,16 @@
     "messageformat": "Gjenoppretter mediefiler"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Nedlastingen er satt på pause"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Sett overføring på pause"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Gjenoppta overføringen"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Avbryt overføring"
+    "messageformat": "Avbryt overføringen"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Flere muligheter"
@@ -3576,16 +3576,16 @@
     "messageformat": "{currentSize} av {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Vil du avbryte overføringen?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Meldingene og mediefilene har ikke blitt gjenopprettet. Dersom du avbryter overføringen, kan du starte den igjen via innstillingene."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Fortsett overføring"
+    "messageformat": "Fortsett overføringen"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Avbryt overføring"
+    "messageformat": "Avbryt overføringen"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ekspander"
@@ -5687,6 +5687,6 @@
     "messageformat": "Når du klikker på en samtaleoverskrift og velger «Se alle» i de delte mediefilene, får du også se gamle bilder og videoer når du ruller nedover, ikke bare de aller nyeste filene."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "I denne oppdateringen har vi gjort det mulig å søke etter grupper som du har meldt deg ut av tidligere."
   }
 }

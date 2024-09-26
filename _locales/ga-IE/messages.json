@@ -3555,13 +3555,13 @@
     "messageformat": "Meáin á n-aischur"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Aischur curtha ar sos"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Cuir an t-aistriú ar sos"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Fill ar an aistriú"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Cuir an t-aistriú ar ceal"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} as {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Cuir an t-aistriú meán ar ceal?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Níl aischur na dteachtaireachtaí agus na meán agat críochnaithe. Má roghnaíonn tú é a chur ar ceal, is féidir leat an t-aistriú a dhéanamh arís ó Shocruithe."
@@ -5687,6 +5687,6 @@
     "messageformat": "Anois nuair a chliceálann tú ar cheanntásc comhrá agus nuair a roghnaíonn tú \"Féach ar gach rud\" i gcuid na meán comhroinnte, taispeánfar sean-ghrianghraif agus seanfhíseáin go huathoibríoch agus tú ag scrolláil, in ionad na n-iontrálacha is déanaí amháin."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Réitíonn an nuashonrú seo fabht a rinne cuardach grúpa deacair, tar éis duit imeacht as an ngrúpa sin."
   }
 }

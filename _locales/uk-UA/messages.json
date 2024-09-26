@@ -579,7 +579,7 @@
     "messageformat": "Передати журнал"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "Передати журнал"
+    "messageformat": "Надіслати журнал"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -1566,7 +1566,7 @@
     "messageformat": "Помилка редагування, натисніть, щоб дізнатися більше"
   },
   "icu:sendPaused": {
-    "messageformat": "Відправлення призупинене"
+    "messageformat": "Надсилання припинено"
   },
   "icu:partiallySent": {
     "messageformat": "Частково надіслано, торкніться для деталей"
@@ -3555,19 +3555,19 @@
     "messageformat": "Відновлення медіафайлів"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Відновлення припинено"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Припинити передачу даних"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Продовжити передачу даних"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Скасувати передачу"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
-    "messageformat": "Інші дії"
+    "messageformat": "Доступні дії"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
     "messageformat": "Відновлення завершено"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} з {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Скасувати передачу медіафайлів?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Відновлення повідомлень і медіафайлів не завершено. У разі скасування ви зможете перенести дані пізніше, зайшовши в налаштування."
@@ -3987,7 +3987,7 @@
     "messageformat": "Відтворити аудіо вміст"
   },
   "icu:MessageAudio--pause": {
-    "messageformat": "Призупинити аудіо вміст"
+    "messageformat": "Поставити аудіовкладення на паузу"
   },
   "icu:MessageAudio--download": {
     "messageformat": "Завантажити аудіо вміст"
@@ -4098,7 +4098,7 @@
     "messageformat": "Для запобігання поширення спаму у Signal, будь ласка, здійсніть підтвердження особи."
   },
   "icu:CaptchaDialog__second-paragraph": {
-    "messageformat": "Після підтвердження ви зможете продовжити спілкування. Усі призупинені повідомлення відправляться автоматично."
+    "messageformat": "Ви зможете продовжити спілкування після перевірки. Усі зупинені повідомлення буде надіслано автоматично."
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Продовжити без перевірки?"
@@ -5687,6 +5687,6 @@
     "messageformat": "Пориньте в спогади в новому, поліпшеному вікні «Усі медіафайли». Раніше ви натискали назву чату, вибирали «Показати всі» в розділі надісланих медіафайлів і бачили лише нещодавні файли. А тепер старіші фото й відео автоматично з'являтимуться під час прокручування галереї вниз."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Іноді треба покинути, щоб усвідомити справжню цінність. Тому ми виправили помилку, яка заважала шукати групи, які ви покинули, але й досі маєте в списку чатів (і, можливо, в серці)."
   }
 }

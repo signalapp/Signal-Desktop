@@ -3555,13 +3555,13 @@
     "messageformat": "Inarejesha video na picha"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Urejeshaji umesitishwa"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Sitisha kuhamisha"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Endelea kuhamisha"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Ghairi uhamishaji"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} kwa {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Ghairi uhamishaji wa picha na video?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Jumbe na picha na video zako hazijakamilika kurejeshwa. Ukichagua kughairi, unaweza kuhamisha tena kutoka kwenye Mipangilio."
@@ -5687,6 +5687,6 @@
     "messageformat": "Chukua safari kwa makumbusho na mtazamo mpya na ulioboreshwa \"Picha na video zote\". Sasa unapobofya kwenye kichwa cha gumzo kisha uchague \"Angalia vyote\" kwenye sehemu ya pamoja ya picha na video, picha za zamani na video zitaonekana kiotomatiki badala ya kuonyeshwa picha za hivi karibuni tu."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Wakati mwingine kukiacha kitu huwa ni njia bora ya kugundua kwamba ungependa kukipata tena, hivyo tumerekebisha hitilafu iliyokuwa inafanya ugumu kutafuta vikundi ambavyo si mwanachama wake tena lakini bado vimebaki katika orodha ya mazungumzo yako (na inawezekana hadi moyoni mwako)."
   }
 }

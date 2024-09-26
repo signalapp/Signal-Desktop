@@ -3555,13 +3555,13 @@
     "messageformat": "Мультимедианы қалпына келтіру"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Қалпына келтіру кідіртілді"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Тасымалдауды кідірту"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Тасымалдауды жалғастыру"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Тасымалдаудан бас тарту"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Мультимедианы тасымалдаудан бас тарту керек пе?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Хабарларыңыз бен мультимедиаңызды қалпына келтіру процесі аяқталған жоқ. Оларды тасымалдаудан бас тартсаңыз, \"Параметрлер\" бөлімінен қайта тасымалдай аласыз."
@@ -5687,6 +5687,6 @@
     "messageformat": "Жаңа әрі жақсартылған \"Барлық мультимедиа\" көрінісімен естеліктерге оралыңыз. Енді чат тақырыбын түртіп, ортақ мультимедиа бөліміндегі \"Барлығын көру\" опциясын таңдасаңыз, соңғы фотосуреттер мен бейнелер ғана емес, бұрынғылары да экранды сырғытқан сайын автоматты түрде көрсетіле береді."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Кейде бір нәрсені артта қалдырғанмен, оған қайта оралғың келетін сәттер туындап жататыны бар емес пе? Қуанышқа орай, қатені түзеттік. Енді бұрын шығып кеткен, бірақ әңгімелер тізіміңізден, бәлкім, жүрегіңізден де орын алған топтарды оңай таба аласыз."
   }
 }

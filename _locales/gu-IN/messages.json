@@ -3555,13 +3555,13 @@
     "messageformat": "મીડિયા રિસ્ટોર થાય છે"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "રિસ્ટોર થોભાવ્યું"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "ટ્રાન્સફર થોભાવો"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ટ્રાન્સફર ફરી શરૂ કરો"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "ટ્રાન્સફર રદ કરો"
@@ -3570,13 +3570,13 @@
     "messageformat": "વધુ વિકલ્પો"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "રિસ્ટોર પૂરુ"
+    "messageformat": "રિસ્ટોર પૂર્ણ થયું"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{currentSize}ની{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "મીડિયા ટ્રાન્સફર રદ કરીએ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "તમારા મેસેજ અને મીડિયા રિસ્ટોર કરવાનું પૂર્ણ થયું નથી. જો તમે રદ કરવાનું પસંદ કરો છો, તો તમે સેટિંગ્સમાંથી ફરીથી ટ્રાન્સફર કરી શકો છો."
@@ -5687,6 +5687,6 @@
     "messageformat": "હવે જ્યારે તમે શેર કરેલા મીડિયા વિભાગમાં કોઈ ચેટ હેડર પર ક્લિક કરો અને \"બધું જુઓ\" પસંદ કરો ત્યારે સૌથી તાજેતરની એન્ટ્રી પૂરતું મર્યાદિત થવાને બદલે જૂના ફોટા અને વીડિયો આપમેળે દેખાય છે."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "આ અપડેટમાં એ બગને ઠીક કરવામાં આવ્યો છે જે કોઈ ગ્રૂપને છોડ્યા પછી તેને શોધવાનું મુશ્કેલ બનાવતો હતો."
   }
 }

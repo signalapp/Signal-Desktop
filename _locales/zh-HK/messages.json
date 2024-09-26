@@ -3555,13 +3555,13 @@
     "messageformat": "正在還原媒體"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "還原已暫停"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "暫停轉移"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "恢復轉移"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "取消轉移"
@@ -3576,7 +3576,7 @@
     "messageformat": "第 {currentSize} 個，共 {totalSize} 個"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "要取消媒體轉移嗎？"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "你的訊息和媒體還原尚未完成。如果你選擇取消，可以從「設定」再次轉移。"
@@ -5687,6 +5687,6 @@
     "messageformat": "使用全新改進的「所有媒體」檢視，踏上你的回憶之旅。現在，當你點擊聊天標題並在共享媒體部分中選擇「查看所有」時，舊的相片和影片將在你捲動時自動出現，而不僅限於最近的項目。"
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "此更新修復了一個錯誤，該錯誤會導致在離開某個群組後難以搜尋到該群組。"
   }
 }

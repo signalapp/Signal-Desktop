@@ -3555,13 +3555,13 @@
     "messageformat": "Възстановяване на мултимедия"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Възстановяването е на пауза"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Пауза на трансфера"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Подновяване на трансфера"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Отмяна на трансфера"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} от {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Отмяна на трансфера на мултимедия?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Възстановяването на съобщенията и мултимедията ви не е приключило. Ако решите да отмените, можете да извършите прехвърлянето отново от „Настройки“."
@@ -5687,6 +5687,6 @@
     "messageformat": "Сега, когато кликнете върху заглавието на даден чат и изберете „Виж всичко“ в раздела за споделени прикачени файлове, по-старите снимки и видеоклипове ще се появяват автоматично, когато превъртате, вместо да бъдете ограничени до най-новите записи."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Тази актуализация коригира грешка, която затрудняваше търсенето на дадена група, след като сте я напуснали."
   }
 }

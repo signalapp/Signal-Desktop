@@ -579,7 +579,7 @@
     "messageformat": "Kirim catatan"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "Kirim catatan"
+    "messageformat": "Kirim log"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -3555,13 +3555,13 @@
     "messageformat": "Memulihkan media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Pemulihan dijeda"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Jeda transfer"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Lanjutkan transfer"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Batalkan transfer"
@@ -3573,10 +3573,10 @@
     "messageformat": "Pemulihan selesai"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
-    "messageformat": "{currentSize}dari {totalSize}"
+    "messageformat": "{currentSize} dari {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Batalkan transfer media?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Pemulihan pesan dan media Anda belum selesai. Jika pilih untuk membatalkan, Anda dapat mentransfer lagi dari Pengaturan."
@@ -5687,6 +5687,6 @@
     "messageformat": "Kini apabila Anda mengklik tajuk obrolan dan memilih \"Lihat semua\" di bagian media bersama, foto dan video lama akan otomatis muncul saat Anda menggulir, dan tidak lagi terbatas pada entri terbaru."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Pembaruan ini memperbaiki bug yang membuat Anda kesulitan mencari suatu grup setelah Anda keluar dari grup tersebut."
   }
 }

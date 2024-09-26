@@ -3555,13 +3555,13 @@
     "messageformat": "Nire-restore ang media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Naka-pause ang pag-restore"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "I-pause ang transfer"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Ituloy ang transfer"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "I-cancel ang transfer"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} sa {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Gusto mo bang i-cancel ang media transfer?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Hindi pa tapos ang pag-restore ng messages at media mo. Kapag kinancel mo ito, maaari mong ulitin ang pag-transfer mula sa Settings."
@@ -5687,6 +5687,6 @@
     "messageformat": "Kapag nag-click ka ng chat header at pinili mo ang \"See all\" sa shared media section, automatic nang lalabas ang older photos at videos habang nag-so-scroll ka at hindi na lang ang pinaka-recent na entries."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Inaayos ng update na ito ang bug na nagpahirap sa paghanap ng isang group pagkatapos mong umalis dito."
   }
 }

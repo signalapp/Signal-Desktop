@@ -3555,13 +3555,13 @@
     "messageformat": "ಮೀಡಿಯಾ ರಿಸ್ಟೋರ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "ವಿರಾಮಗೊಳಿಸಿರುವುದನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಿ"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ವಿರಾಮಗೊಳಿಸಿ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ಪುನರಾರಂಭಿಸಿ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಿ"
@@ -3576,7 +3576,7 @@
     "messageformat": "{totalSize} ನಲ್ಲಿ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "ಮೀಡಿಯಾ ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಬೇಕೇ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳು ಮತ್ತು ಮೀಡಿಯಾ ರೀಸ್ಟೋರ್ ಆಗುವುದನ್ನು ಪೂರ್ಣಗೊಳಿಸಿಲ್ಲ. ನೀವು ರದ್ದುಗೊಳಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ನೀವು ಪುನಃ ವರ್ಗಾಯಿಸಬಹುದು."
@@ -5687,6 +5687,6 @@
     "messageformat": "ಹೊಸ ಮತ್ತು ಸುಧಾರಿತ \"ಎಲ್ಲಾ ಮೀಡಿಯಾ\" ವೀಕ್ಷಣೆಯೊಂದಿಗೆ ಹಿಂದಿನ ನೆನಪುಗಳಲ್ಲಿ ವಿಹರಿಸಿ. ಈಗ ನೀವು ಚಾಟ್ ಹೆಡರ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಮತ್ತು ಹಂಚಿಕೊಂಡ ಮೀಡಿಯಾ ವಿಭಾಗದಲ್ಲಿ \"ಎಲ್ಲವನ್ನೂ ನೋಡಿ\" ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿದಾಗ, ನೀವು ಸ್ಕ್ರಾಲ್ ಮಾಡುವಾಗ ಇತ್ತೀಚಿನ ನಮೂದುಗಳಿಗೆ ಸೀಮಿತವಾಗಿರದೆ ಹಳೆಯ ಫೋಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಗೋಚರಿಸುತ್ತವೆ."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "ಕೆಲವೊಮ್ಮೆ ಏನನ್ನಾದರೂ ಬಿಟ್ಟುಬಿಡುವುದು ನೀವು ಅದನ್ನು ಮತ್ತೆ ಹುಡುಕಲು ಬಯಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ಕಂಡುಕೊಳ್ಳಲು ಉತ್ತಮ ವಿಧಾನವಾಗಿದೆ, ಆದ್ದರಿಂದ ನೀವು ಇನ್ನು ಮುಂದೆ ಭಾಗವಾಗಿರದ ಗುಂಪುಗಳನ್ನು ಹುಡುಕಲು ಕಷ್ಟವನ್ನಾಗಿಸುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ ಆದರೆ ಅದು ಈಗಲೂ ನಿಮ್ಮ ಸಂಭಾಷಣೆಯ ಪಟ್ಟಿಯಲ್ಲಿ ಉಳಿಯುತ್ತದೆ ( ಮತ್ತು ಬಹುಶಃ ನಿಮ್ಮ ಹೃದಯದಲ್ಲಿ)."
   }
 }

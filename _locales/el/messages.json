@@ -579,7 +579,7 @@
     "messageformat": "Υποβολή αρχείου"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "Υποβολή αρχείου"
+    "messageformat": "Υποβολή αρχείου καταγραφής"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -3555,13 +3555,13 @@
     "messageformat": "Επαναφορά πολυμέσων"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Επαναφορά σε παύση"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Παύση μεταφοράς"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Συνέχεια μεταφοράς"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Ακύρωση μεταφοράς"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} από {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Ακύρωση μεταφοράς πολυμέσων;"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Η επαναφορά των μηνυμάτων και των πολυμέσων σου δεν έχει ολοκληρωθεί. Εάν επιλέξεις να την ακυρώσεις, μπορείς να τα μεταφέρεις ξανά από τις Ρυθμίσεις."
@@ -5687,6 +5687,6 @@
     "messageformat": "Τώρα, όταν κάνεις κλικ στην κεφαλίδα μιας συνομιλίας και επιλέγεις «Προβολή όλων» στην ενότητα των κοινόχρηστων πολυμέσων, οι παλαιότερες φωτογραφίες και τα βίντεο θα εμφανίζονται αυτόματα καθώς κάνεις κύλιση, αντί να περιορίζεσαι στις πιο πρόσφατες καταχωρήσεις."
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα που καθιστούσε δύσκολη την αναζήτηση μιας ομάδας μετά την αποχώρησή σου από αυτήν."
   }
 }

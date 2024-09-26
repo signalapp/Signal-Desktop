@@ -579,7 +579,7 @@
     "messageformat": "ส่งปูม"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "ส่งปูม"
+    "messageformat": "ส่งบันทึก"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -3555,13 +3555,13 @@
     "messageformat": "กำลังกู้คืนไฟล์สื่อ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "การกู้คืนหยุดชั่วคราว"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "หยุดการถ่ายโอนชั่วคราว"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "ถ่ายโอนต่อ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "ยกเลิกการถ่ายโอน"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} ของ {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "ยกเลิกการถ่ายโอนไฟล์สื่อใช่หรือไม่"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "ยังกู้คืนข้อความและไฟล์สื่อของคุณไม่เสร็จสมบูรณ์ โดยหากยกเลิก คุณยังสามารถเลือกถ่ายโอนข้อมูลได้อีกจากเมนูการตั้งค่า"
@@ -5687,6 +5687,6 @@
     "messageformat": "พัฒนารูปแบบในการแสดงสื่อให้ดียิ่งขึ้นอีก โดยเมื่อคลิกที่แถบด้านบนของแชท แล้วเลือก \"ดูทั้งหมด\" ตรงหัวข้อไฟล์สื่อ รูปภาพและวิดีโอที่เคยแชร์จะปรากฏเพิ่มขึ้นเรื่อยๆ โดยอัตโนมัติขณะที่คุณเลื่อนดู"
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กที่เคยทำให้การกลับไปค้นหากลุ่มที่คุณออกมาแล้วซับซ้อนยุ่งยากกว่าที่ควรจะเป็น"
   }
 }

@@ -3555,13 +3555,13 @@
     "messageformat": "Restaurando arquivos de mídia"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused"
+    "messageformat": "Restauração interrompida"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer"
+    "messageformat": "Interromper transferência"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer"
+    "messageformat": "Retomar transferência"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
     "messageformat": "Cancelar transferência"
@@ -3576,7 +3576,7 @@
     "messageformat": "{currentSize} de {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?"
+    "messageformat": "Cancelar transferência do arquivo de mídia?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Suas mensagens e arquivos de mídia não foram totalmente restauradas. Se cancelar, você pode transferir novamente em Configurações."
@@ -5687,6 +5687,6 @@
     "messageformat": "Entre em um túnel do tempo ao  visualizar o novo layout de \"todos os arquivos de mídia\". Ao tocar no nome da conversa, selecione 'Ver tudo' na seção de mídia compartilhada. Fotos e vídeos mais antigos aparecerão automaticamente conforme você rola a tela, sem limitar sua visualização apenas às últimas trocas. "
   },
   "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Sometimes leaving something behind is the best way to discover that you want to find it again, so we fixed a bug that made it difficult to search for groups that you're no longer a part of anymore but that still remain in your conversation list (and quite possibly in your heart)."
+    "messageformat": "Corrigimos um erro que dificultava a busca por grupos dos quais você não faz mais parte, mas que ainda permanecem na sua lista de conversas (e possivelmente no seu coração)."
   }
 }
