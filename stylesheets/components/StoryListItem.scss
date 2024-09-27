@@ -189,6 +189,12 @@
       @include StoryListItem__Icon('../images/icons/v3/x/x-circle-compact.svg');
     }
 
+    &--unhide {
+      @include StoryListItem__Icon(
+        '../images/icons/v3/check/check-circle-compact.svg'
+      );
+    }
+
     &--info {
       @include StoryListItem__Icon('../images/icons/v3/info/info-compact.svg');
     }
