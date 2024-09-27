@@ -117,21 +117,24 @@ export function StoryListItem({
     repliesElement = <div className="StoryListItem__info--replies--others" />;
   }
 
-  const menuOptions = [
-    {
-      icon: 'StoryListItem__icon--hide',
-      label: isHidden
-        ? i18n('icu:StoryListItem__unhide')
-        : i18n('icu:StoryListItem__hide'),
+  const menuOptions = [];
+  if (isHidden) {
+    menuOptions.push({
+      icon: 'StoryListItem__icon--unhide',
+      label: i18n('icu:StoryListItem__unhide'),
       onClick: () => {
-        if (isHidden) {
-          onHideStory(conversationId);
-        } else {
-          setHasConfirmHideStory(true);
-        }
+        onHideStory(conversationId);
       },
-    },
-  ];
+    });
+  } else {
+    menuOptions.push({
+      icon: 'StoryListItem__icon--hide',
+      label: i18n('icu:StoryListItem__hide'),
+      onClick: () => {
+        setHasConfirmHideStory(true);
+      },
+    });
+  }
 
   if (!isSignalOfficial) {
     menuOptions.push({

@@ -6918,7 +6918,7 @@
     "description": "aria-label for the story list button"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Show stories",
+    "messageformat": "Unhide story",
     "description": "Label for menu item to un-hide the story"
   },
   "icu:StoryListItem__hide": {

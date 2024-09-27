@@ -516,7 +516,9 @@ export function StoryViewer({
         onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
       },
       {
-        icon: 'StoryListItem__icon--hide',
+        icon: isHidden
+          ? 'StoryListItem__icon--unhide'
+          : 'StoryListItem__icon--hide',
         label: isHidden
           ? i18n('icu:StoryListItem__unhide')
           : i18n('icu:StoryListItem__hide'),
