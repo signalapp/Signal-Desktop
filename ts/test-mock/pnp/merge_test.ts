@@ -348,18 +348,18 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       'removing both contacts from storage service, adding one combined contact'
     );
     {
-      const state = await phone.expectStorageState('consistency check');
-      await phone.setStorageState(
-        state.mergeContact(pniContact, {
-          identityState: Proto.ContactRecord.IdentityState.DEFAULT,
-          whitelisted: true,
-          identityKey: pniContact.publicKey.serialize(),
-          profileKey: pniContact.profileKey.serialize(),
-        })
-      );
+      let state = await phone.expectStorageState('consistency check');
+      state = state.mergeContact(pniContact, {
+        identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+        whitelisted: true,
+        identityKey: pniContact.publicKey.serialize(),
+        profileKey: pniContact.profileKey.serialize(),
+      });
+      await phone.setStorageState(state);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
+      await app.waitForManifestVersion(state.version);
     }
 
     const window = await app.getWindow();
@@ -393,7 +393,6 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       const newState = await phone.waitForStorageState({
         after: state,
       });
-
       const { added, removed } = newState.diff(state);
       assert.strictEqual(added.length, 2, 'only two records must be added');
       assert.strictEqual(removed.length, 1, 'only one record must be removed');

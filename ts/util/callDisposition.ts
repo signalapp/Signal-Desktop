@@ -1342,7 +1342,7 @@ export async function clearCallHistoryDataAndSync(
     );
     const messageIds = await DataWriter.clearCallHistory(latestCall);
     await DataWriter.beginDeleteAllCallLinks();
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'clearCallHistoryDataAndSync' });
     // Wait for storage sync before finalizing delete
     drop(CallLinkDeleteManager.enqueueAllDeletedCallLinks({ delay: 10000 }));
     updateDeletedMessages(messageIds);

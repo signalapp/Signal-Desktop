@@ -51,7 +51,7 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
 
   await window.storage.put('hasViewedOnboardingStory', true);
 
-  storageServiceUploadJob();
+  storageServiceUploadJob({ reason: 'markOnboardingStoryAsRead' });
 
   return true;
 }

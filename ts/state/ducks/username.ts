@@ -327,7 +327,7 @@ function markCompletedUsernameOnboarding(): ThunkAction<
     await window.storage.put('hasCompletedUsernameOnboarding', true);
     const me = window.ConversationController.getOurConversationOrThrow();
     me.captureChange('usernameOnboarding');
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'markCompletedUsernameOnboarding' });
   };
 }
 
@@ -349,7 +349,7 @@ function setUsernameLinkColor(
     await window.storage.put('usernameLinkColor', color);
     const me = window.ConversationController.getOurConversationOrThrow();
     me.captureChange('usernameLinkColor');
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'setUsernameLinkColor' });
   };
 }
 

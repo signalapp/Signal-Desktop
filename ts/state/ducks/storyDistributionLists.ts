@@ -137,7 +137,9 @@ function allowsRepliesChanged(
       storageNeedsSync: true,
     });
 
-    storageServiceUploadJob();
+    storageServiceUploadJob({
+      reason: 'distributionLists/allowsRepliesChanged',
+    });
 
     log.info(
       'storyDistributionLists.allowsRepliesChanged: allowsReplies has changed',
@@ -182,7 +184,7 @@ function createDistributionList(
     }
 
     if (storyDistribution.storageNeedsSync) {
-      storageServiceUploadJob();
+      storageServiceUploadJob({ reason: 'createDistributionList' });
     }
 
     dispatch({
@@ -241,7 +243,7 @@ function deleteDistributionList(
       listId
     );
 
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'deleteDistributionList' });
 
     dispatch({
       type: DELETE_LIST,
@@ -290,7 +292,9 @@ function hideMyStoriesFrom(
       }
     );
 
-    storageServiceUploadJob();
+    storageServiceUploadJob({
+      reason: 'storyDistributionLists/hideMyStoriesFrom',
+    });
 
     await window.storage.put('hasSetMyStoriesPrivacy', true);
 
@@ -362,7 +366,7 @@ function removeMembersFromDistributionList(
       }
     );
 
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'removeMembersFromDistributionList' });
 
     dispatch({
       type: MODIFY_LIST,
@@ -407,7 +411,7 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
         }
       );
 
-      storageServiceUploadJob();
+      storageServiceUploadJob({ reason: 'setMyStoriesToAllSignalConnections' });
     }
 
     await window.storage.put('hasSetMyStoriesPrivacy', true);
@@ -466,7 +470,7 @@ function updateStoryViewers(
       }
     );
 
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'updateStoryViewers' });
 
     if (listId === MY_STORY_ID) {
       await window.storage.put('hasSetMyStoriesPrivacy', true);

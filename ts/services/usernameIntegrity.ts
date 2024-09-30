@@ -141,7 +141,7 @@ class UsernameIntegrityService {
           `storage service sync (local: ${localValue}, remote: ${remoteValue})`
       );
 
-      runStorageServiceSyncJob();
+      runStorageServiceSyncJob({ reason: 'checkPhoneNumberSharing' });
     }
 
     // Since we already run on storage service job queue - don't await the
