@@ -10,9 +10,9 @@ import * as Errors from '../types/errors';
 import type { PresentableSource } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
 import {
-  REQUESTED_VIDEO_WIDTH,
-  REQUESTED_VIDEO_HEIGHT,
-  REQUESTED_VIDEO_FRAMERATE,
+  REQUESTED_SCREEN_SHARE_WIDTH,
+  REQUESTED_SCREEN_SHARE_HEIGHT,
+  REQUESTED_SCREEN_SHARE_FRAMERATE,
 } from '../calling/constants';
 import { strictAssert } from './assert';
 import { explodePromise } from './explodePromise';
@@ -178,16 +178,16 @@ export class DesktopCapturer {
       const stream = await navigator.mediaDevices.getDisplayMedia({
         video: {
           width: {
-            max: REQUESTED_VIDEO_WIDTH,
-            ideal: REQUESTED_VIDEO_WIDTH,
+            max: REQUESTED_SCREEN_SHARE_WIDTH,
+            ideal: REQUESTED_SCREEN_SHARE_WIDTH,
           },
           height: {
-            max: REQUESTED_VIDEO_HEIGHT,
-            ideal: REQUESTED_VIDEO_HEIGHT,
+            max: REQUESTED_SCREEN_SHARE_HEIGHT,
+            ideal: REQUESTED_SCREEN_SHARE_HEIGHT,
           },
           frameRate: {
-            max: REQUESTED_VIDEO_FRAMERATE,
-            ideal: REQUESTED_VIDEO_FRAMERATE,
+            max: REQUESTED_SCREEN_SHARE_FRAMERATE,
+            ideal: REQUESTED_SCREEN_SHARE_FRAMERATE,
           },
         },
       });
@@ -223,9 +223,9 @@ export class DesktopCapturer {
     let isRunning = false;
 
     const stream = new macScreenShare.Stream({
-      width: REQUESTED_VIDEO_WIDTH,
-      height: REQUESTED_VIDEO_HEIGHT,
-      frameRate: REQUESTED_VIDEO_FRAMERATE,
+      width: REQUESTED_SCREEN_SHARE_WIDTH,
+      height: REQUESTED_SCREEN_SHARE_HEIGHT,
+      frameRate: REQUESTED_SCREEN_SHARE_FRAMERATE,
 
       onStart: () => {
         isRunning = true;
