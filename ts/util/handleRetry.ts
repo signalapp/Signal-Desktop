@@ -5,7 +5,8 @@ import {
   DecryptionErrorMessage,
   PlaintextContent,
 } from '@signalapp/libsignal-client';
-import { isNumber } from 'lodash';
+import { isNumber, random } from 'lodash';
+import type PQueue from 'p-queue';
 
 import * as Bytes from '../Bytes';
 import { DataReader, DataWriter } from '../sql/Client';
@@ -28,6 +29,7 @@ import type {
   InvalidPlaintextEvent,
   RetryRequestEvent,
   RetryRequestEventData,
+  SuccessfulDecryptEvent,
 } from '../textsecure/messageReceiverEvents';
 
 import { SignalService as Proto } from '../protobuf';
@@ -37,13 +39,82 @@ import type { StoryDistributionListDataType } from '../state/ducks/storyDistribu
 import { drop } from './drop';
 import { conversationJobQueue } from '../jobs/conversationJobQueue';
 import { incrementMessageCounter } from './incrementMessageCounter';
+import { SECOND } from './durations';
+import { sleep } from './sleep';
 
 const RETRY_LIMIT = 5;
 
-// Entrypoints
-
 type RetryKeyType = `${AciString}.${number}:${number}`;
 const retryRecord = new Map<RetryKeyType, number>();
+
+const DELAY_UNIT = window.SignalCI ? 100 : SECOND;
+
+// Entrypoints
+
+export function onSuccessfulDecrypt(event: SuccessfulDecryptEvent): void {
+  const key = getRetryKey(event.data);
+  unregisterError(key);
+}
+
+export function getOnDecryptionError(getDecryptionErrorQueue: () => PQueue) {
+  return (event: DecryptionErrorEvent): void => {
+    const key = getRetryKey(event.decryptionError);
+    const logId = `decryption-error(${key})`;
+    if (isErrorRegistered(key)) {
+      log.warn(`${logId}: key registered before queueing job; dropping.`);
+      event.confirm();
+      return;
+    }
+
+    const needsDelay = !getDecryptionErrorQueue().isPaused;
+
+    registerError(key);
+    drop(
+      getDecryptionErrorQueue().add(async () => {
+        if (needsDelay) {
+          const jitter = random(5) * DELAY_UNIT;
+          const delay = DELAY_UNIT + jitter;
+          log.warn(`${logId}: delay needed; sleeping for ${delay}ms`);
+          await sleep(delay);
+        }
+
+        if (!isErrorRegistered(key)) {
+          log.warn(`${logId}: key unregistered before job ran; dropping.`);
+          event.confirm();
+          return;
+        }
+        try {
+          await handleDecryptionError(event);
+        } finally {
+          unregisterError(key);
+        }
+      })
+    );
+  };
+}
+
+export function getRetryKey({
+  senderAci,
+  senderDevice,
+  timestamp,
+}: {
+  senderAci: AciString;
+  senderDevice: number;
+  timestamp: number;
+}): RetryKeyType {
+  return `${senderAci}.${senderDevice}:${timestamp}`;
+}
+
+const registeredErrors = new Set<RetryKeyType>();
+export function registerError(key: RetryKeyType): void {
+  registeredErrors.add(key);
+}
+export function isErrorRegistered(key: RetryKeyType): boolean {
+  return registeredErrors.has(key);
+}
+export function unregisterError(key: RetryKeyType): void {
+  registeredErrors.delete(key);
+}
 
 export function _getRetryRecord(): Map<string, number> {
   return retryRecord;
@@ -70,7 +141,11 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     return;
   }
 
-  const retryKey: RetryKeyType = `${requesterAci}.${requesterDevice}:${sentAt}`;
+  const retryKey = getRetryKey({
+    senderAci: requesterAci,
+    senderDevice: requesterDevice,
+    timestamp: sentAt,
+  });
   const retryCount = (retryRecord.get(retryKey) || 0) + 1;
   retryRecord.set(retryKey, retryCount);
   if (retryCount > RETRY_LIMIT) {
@@ -222,21 +297,21 @@ export function onInvalidPlaintextMessage({
   maybeShowDecryptionToast(logId, name, senderDevice);
 }
 
-export async function onDecryptionError(
+export async function handleDecryptionError(
   event: DecryptionErrorEvent
 ): Promise<void> {
   const { confirm, decryptionError } = event;
   const { senderAci, senderDevice, timestamp } = decryptionError;
   const logId = `${senderAci}.${senderDevice} ${timestamp}`;
 
-  log.info(`onDecryptionError/${logId}: Starting...`);
+  log.info(`handleDecryptionError/${logId}: Starting...`);
 
-  const retryKey: RetryKeyType = `${senderAci}.${senderDevice}:${timestamp}`;
+  const retryKey = getRetryKey(decryptionError);
   const retryCount = (retryRecord.get(retryKey) || 0) + 1;
   retryRecord.set(retryKey, retryCount);
   if (retryCount > RETRY_LIMIT) {
     log.warn(
-      `onDecryptionError/${logId}: retryCount is ${retryCount}; returning early.`
+      `handleDecryptionError/${logId}: retryCount is ${retryCount}; returning early.`
     );
     confirm();
     return;
@@ -256,7 +331,7 @@ export async function onDecryptionError(
   }
 
   confirm();
-  log.info(`onDecryptionError/${logId}: ...complete`);
+  log.info(`handleDecryptionError/${logId}: ...complete`);
 }
 
 // Helpers

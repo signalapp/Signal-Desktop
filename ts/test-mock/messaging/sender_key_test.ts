@@ -71,6 +71,7 @@ describe('senderKey', function (this: Mocha.Suite) {
 
     await first.sendText(desktop, 'hello', {
       timestamp: bootstrap.getTimestamp(),
+      sealed: true,
       group,
       distributionId,
     });

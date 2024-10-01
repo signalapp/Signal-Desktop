@@ -2108,7 +2108,7 @@ function createCallLink(
       DataWriter.saveCallHistory(callHistory),
     ]);
 
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'createCallLink' });
 
     dispatch({
       type: HANDLE_CALL_LINK_UPDATE,
@@ -2125,7 +2125,7 @@ function deleteCallLink(
 ): ThunkAction<void, RootStateType, unknown, HandleCallLinkDeleteActionType> {
   return async dispatch => {
     await DataWriter.beginDeleteCallLink(roomId, { storageNeedsSync: true });
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'deleteCallLink' });
     // Wait for storage service sync before finalizing delete
     drop(CallLinkDeleteManager.addJob({ roomId }, { delay: 10000 }));
     dispatch(handleCallLinkDelete({ roomId }));

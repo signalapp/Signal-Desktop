@@ -1854,15 +1854,20 @@ async function processRemoteRecords(
   return 0;
 }
 
-async function sync(
-  ignoreConflicts = false
-): Promise<Proto.ManifestRecord | undefined> {
+async function sync({
+  ignoreConflicts = false,
+  reason,
+}: {
+  ignoreConflicts?: boolean;
+  reason: string;
+}): Promise<Proto.ManifestRecord | undefined> {
   if (!window.storage.get('storageKey')) {
     const masterKeyBase64 = window.storage.get('masterKey');
     if (!masterKeyBase64) {
-      throw new Error(
-        'storageService.sync: Cannot start; no storage or master key!'
+      log.error(
+        `storageService.sync(${reason}): Cannot start; no storage or master key!`
       );
+      return;
     }
 
     const masterKey = Bytes.fromBase64(masterKeyBase64);
@@ -1873,7 +1878,7 @@ async function sync(
   }
 
   log.info(
-    `storageService.sync: starting... ignoreConflicts=${ignoreConflicts}`
+    `storageService.sync: starting... ignoreConflicts=${ignoreConflicts}, reason=${reason}`
   );
 
   let manifest: Proto.ManifestRecord | undefined;
@@ -1921,7 +1926,7 @@ async function sync(
 
     const hasConflicts = conflictCount !== 0;
     if (hasConflicts && !ignoreConflicts) {
-      await upload(true);
+      await upload({ fromSync: true, reason: `sync/${reason}` });
     }
 
     // We now know that we've successfully completed a storage service fetch
@@ -1943,9 +1948,17 @@ async function sync(
   return manifest;
 }
 
-async function upload(fromSync = false): Promise<void> {
+async function upload({
+  fromSync = false,
+  reason,
+}: {
+  fromSync?: boolean;
+  reason: string;
+}): Promise<void> {
+  const logId = `storageService.upload/${reason}`;
+
   if (!window.textsecure.messaging) {
-    throw new Error('storageService.upload: We are offline!');
+    throw new Error(`${logId}: We are offline!`);
   }
 
   // Rate limit uploads coming from syncing
@@ -1955,9 +1968,7 @@ async function upload(fromSync = false): Promise<void> {
       const [firstMostRecentWrite] = uploadBucket;
 
       if (isMoreRecentThan(5 * durations.MINUTE, firstMostRecentWrite)) {
-        throw new Error(
-          'storageService.uploadManifest: too many writes too soon.'
-        );
+        throw new Error(`${logId}: too many writes too soon.`);
       }
 
       uploadBucket.shift();
@@ -1967,13 +1978,11 @@ async function upload(fromSync = false): Promise<void> {
   if (!window.storage.get('storageKey')) {
     // requesting new keys runs the sync job which will detect the conflict
     // and re-run the upload job once we're merged and up-to-date.
-    log.info('storageService.upload: no storageKey, requesting new keys');
+    log.info(`${logId}: no storageKey, requesting new keys`);
     backOff.reset();
 
     if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
-        'storageService.upload: We are primary device; not sending key sync request'
-      );
+      log.warn(`${logId}: We are primary device; not sending key sync request`);
       return;
     }
 
@@ -1981,7 +1990,7 @@ async function upload(fromSync = false): Promise<void> {
       await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
     } catch (error) {
       log.error(
-        'storageService.upload: Failed to queue sync message',
+        `${logId}: Failed to queue sync message`,
         Errors.toLogFormat(error)
       );
     }
@@ -1997,15 +2006,16 @@ async function upload(fromSync = false): Promise<void> {
     // We are going to upload after this sync so we can ignore any conflicts
     // that arise during the sync.
     const ignoreConflicts = true;
-    previousManifest = await sync(ignoreConflicts);
+    previousManifest = await sync({
+      ignoreConflicts,
+      reason: `upload/${reason}`,
+    });
   }
 
   const localManifestVersion = window.storage.get('manifestVersion', 0);
   const version = Number(localManifestVersion) + 1;
 
-  log.info(
-    `storageService.upload(${version}): will update to manifest version`
-  );
+  log.info(`${logId}/${version}: will update to manifest version`);
 
   try {
     const generatedManifest = await generateManifest(
@@ -2021,17 +2031,14 @@ async function upload(fromSync = false): Promise<void> {
   } catch (err) {
     if (err.code === 409) {
       await sleep(conflictBackOff.getAndIncrement());
-      log.info('storageService.upload: pushing sync on the queue');
+      log.info(`${logId}: pushing sync on the queue`);
       // The sync job will check for conflicts and as part of that conflict
       // check if an item needs sync and doesn't match with the remote record
       // it'll kick off another upload.
       setTimeout(runStorageServiceSyncJob);
       return;
     }
-    log.error(
-      `storageService.upload(${version}): error`,
-      Errors.toLogFormat(err)
-    );
+    log.error(`${logId}/${version}: error`, Errors.toLogFormat(err));
   }
 }
 
@@ -2140,44 +2147,52 @@ export async function reprocessUnknownFields(): Promise<void> {
         log.info(
           `storageService.reprocessUnknownFields(${version}): uploading`
         );
-        await upload();
+        await upload({ reason: 'reprocessUnknownFields/hasConflicts' });
       }
     })
   );
 }
 
-export const storageServiceUploadJob = debounce(() => {
-  if (!storageServiceEnabled) {
-    log.info('storageService.storageServiceUploadJob: called before enabled');
-    return;
-  }
+export const storageServiceUploadJob = debounce(
+  ({ reason }: { reason: string }) => {
+    if (!storageServiceEnabled) {
+      log.info('storageService.storageServiceUploadJob: called before enabled');
+      return;
+    }
 
-  void storageJobQueue(
-    async () => {
-      await upload();
-    },
-    `upload v${window.storage.get('manifestVersion')}`
-  );
-}, 500);
-
-export const runStorageServiceSyncJob = debounce(() => {
-  if (!storageServiceEnabled) {
-    log.info('storageService.runStorageServiceSyncJob: called before enabled');
-    return;
-  }
-
-  ourProfileKeyService.blockGetWithPromise(
-    storageJobQueue(
+    void storageJobQueue(
       async () => {
-        await sync();
-
-        // Notify listeners about sync completion
-        window.Whisper.events.trigger('storageService:syncComplete');
+        await upload({ reason: `storageServiceUploadJob/${reason}` });
       },
-      `sync v${window.storage.get('manifestVersion')}`
-    )
-  );
-}, 500);
+      `upload v${window.storage.get('manifestVersion')}`
+    );
+  },
+  500
+);
+
+export const runStorageServiceSyncJob = debounce(
+  ({ reason }: { reason: string }) => {
+    if (!storageServiceEnabled) {
+      log.info(
+        'storageService.runStorageServiceSyncJob: called before enabled'
+      );
+      return;
+    }
+
+    ourProfileKeyService.blockGetWithPromise(
+      storageJobQueue(
+        async () => {
+          await sync({ reason });
+
+          // Notify listeners about sync completion
+          window.Whisper.events.trigger('storageService:syncComplete');
+        },
+        `sync v${window.storage.get('manifestVersion')}`
+      )
+    );
+  },
+  500
+);
 
 export const addPendingDelete = (item: ExtendedStorageID): void => {
   void storageJobQueue(

@@ -5392,7 +5392,7 @@ export class ConversationModel extends window.Backbone
     this.set({ needsStorageServiceSync: true });
 
     void this.queueJob('captureChange', async () => {
-      storageServiceUploadJob();
+      storageServiceUploadJob({ reason: `captureChange/${logMessage}` });
     });
   }
 

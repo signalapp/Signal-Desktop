@@ -130,6 +130,7 @@ import {
   SentEvent,
   StickerPackEvent,
   StoryRecipientUpdateEvent,
+  SuccessfulDecryptEvent,
   TypingEvent,
   ViewEvent,
   ViewOnceOpenSyncEvent,
@@ -572,6 +573,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'delivery',
     handler: (ev: DeliveryEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'successful-decrypt',
+    handler: (ev: SuccessfulDecryptEvent) => void
   ): void;
 
   public override addEventListener(
@@ -2021,17 +2027,38 @@ export default class MessageReceiver
     ciphertext: Uint8Array,
     serviceIdKind: ServiceIdKind
   ): Promise<InnerDecryptResultType | undefined> {
+    const uuid = envelope.sourceServiceId;
+    const deviceId = envelope.sourceDevice;
+    const envelopeId = getEnvelopeId(envelope);
+
     try {
-      return await this.innerDecrypt(
+      const result = await this.innerDecrypt(
         stores,
         envelope,
         ciphertext,
         serviceIdKind
       );
-    } catch (error) {
-      const uuid = envelope.sourceServiceId;
-      const deviceId = envelope.sourceDevice;
 
+      if (isAciString(uuid) && isNumber(deviceId)) {
+        const event = new SuccessfulDecryptEvent(
+          {
+            senderDevice: deviceId,
+            senderAci: uuid,
+            timestamp: envelope.timestamp,
+          },
+          () => this.removeFromCache(envelope)
+        );
+        drop(
+          this.addToQueue(
+            async () => this.dispatchEvent(event),
+            `decrypted/dispatchEvent/SuccessfulDecryptEvent(${envelopeId})`,
+            TaskType.Decrypted
+          )
+        );
+      }
+
+      return result;
+    } catch (error) {
       const ourAci = this.storage.user.getCheckedAci();
       const isFromMe = ourAci === uuid;
 
@@ -2068,8 +2095,6 @@ export default class MessageReceiver
         this.removeFromCache(envelope);
         throw error;
       }
-
-      const envelopeId = getEnvelopeId(envelope);
 
       if (uuid && deviceId) {
         const senderAci = uuid;

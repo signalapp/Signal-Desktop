@@ -361,7 +361,7 @@ export async function resetLink(username: string): Promise<void> {
   await window.storage.remove('usernameLinkCorrupted');
 
   me.captureChange('usernameLink');
-  storageServiceUploadJob();
+  storageServiceUploadJob({ reason: 'resetLink' });
 }
 
 const USERNAME_LINK_ENTROPY_SIZE = 32;

@@ -250,7 +250,7 @@ async function doInstallStickerPack(
   }
 
   if (!fromStorageService && !fromBackup) {
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'doInstallServicePack' });
   }
 
   const recentStickers = await getRecentStickers();
@@ -295,7 +295,7 @@ async function doUninstallStickerPack(
   }
 
   if (!fromStorageService) {
-    storageServiceUploadJob();
+    storageServiceUploadJob({ reason: 'doUninstallStickerPack' });
   }
 
   const recentStickers = await getRecentStickers();

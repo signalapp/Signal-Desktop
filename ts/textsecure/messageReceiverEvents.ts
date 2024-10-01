@@ -140,6 +140,21 @@ export class DeliveryEvent extends ConfirmableEvent {
   }
 }
 
+export type SuccessfulDecryptEventData = Readonly<{
+  senderDevice: number;
+  senderAci: AciString;
+  timestamp: number;
+}>;
+
+export class SuccessfulDecryptEvent extends ConfirmableEvent {
+  constructor(
+    public readonly data: SuccessfulDecryptEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('successful-decrypt', confirm);
+  }
+}
+
 export type DecryptionErrorEventData = Readonly<{
   cipherTextBytes?: Uint8Array;
   cipherTextType?: number;

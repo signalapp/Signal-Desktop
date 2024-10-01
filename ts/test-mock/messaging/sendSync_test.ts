@@ -33,7 +33,7 @@ describe('sendSync', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  it('processes a synd sync in a group', async () => {
+  it('processes a send sync in a group', async () => {
     const { contacts, desktop, phone } = bootstrap;
 
     const window = await app.getWindow();

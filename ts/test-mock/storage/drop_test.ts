@@ -100,46 +100,44 @@ describe('storage service', function (this: Mocha.Suite) {
     const { phone } = bootstrap;
 
     debug('duplicating account record');
-    {
-      const state = await phone.expectStorageState('consistency check');
+    const state = await phone.expectStorageState('consistency check');
 
-      const oldAccount = state.findRecord(({ type }) => {
-        return type === IdentifierType.ACCOUNT;
-      });
-      if (oldAccount === undefined) {
-        throw new Error('should have initial account record');
-      }
-
-      const updatedState = await phone.setStorageState(
-        state.addRecord({
-          type: IdentifierType.ACCOUNT,
-          record: oldAccount.record,
-        })
-      );
-
-      debug('sending fetch storage');
-      await phone.sendFetchStorage({
-        timestamp: bootstrap.getTimestamp(),
-      });
-
-      debug('waiting for next storage state');
-      const nextState = await phone.waitForStorageState({
-        after: updatedState,
-      });
-
-      assert.isFalse(
-        nextState.hasRecord(({ type, key }) => {
-          return type === IdentifierType.ACCOUNT && key.equals(oldAccount.key);
-        }),
-        'should not have old account record'
-      );
-
-      assert.isTrue(
-        nextState.hasRecord(({ type }) => {
-          return type === IdentifierType.ACCOUNT;
-        }),
-        'should have new account record'
-      );
+    const oldAccount = state.findRecord(({ type }) => {
+      return type === IdentifierType.ACCOUNT;
+    });
+    if (oldAccount === undefined) {
+      throw new Error('should have initial account record');
     }
+
+    const updatedState = await phone.setStorageState(
+      state.addRecord({
+        type: IdentifierType.ACCOUNT,
+        record: oldAccount.record,
+      })
+    );
+
+    debug('sending fetch storage');
+    await phone.sendFetchStorage({
+      timestamp: bootstrap.getTimestamp(),
+    });
+
+    debug('waiting for next storage state');
+    const nextState = await phone.waitForStorageState({
+      after: updatedState,
+    });
+
+    assert.isFalse(
+      nextState.hasRecord(({ type, key }) => {
+        return type === IdentifierType.ACCOUNT && key.equals(oldAccount.key);
+      }),
+      'should not have old account record'
+    );
+
+    assert.isTrue(
+      nextState.hasRecord(({ type }) => {
+        return type === IdentifierType.ACCOUNT;
+      }),
+      'should have new account record'
+    );
   });
 });

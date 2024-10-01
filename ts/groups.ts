@@ -2006,7 +2006,7 @@ export async function createGroupV2(
   );
 
   await conversation.queueJob('storageServiceUploadJob', async () => {
-    await storageServiceUploadJob();
+    await storageServiceUploadJob({ reason: 'createGroupV2' });
   });
 
   const timestamp = Date.now();
