@@ -673,7 +673,7 @@ describe('Message', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone somewhere',
+              nickname: 'Someone somewhere',
             },
           },
         ],
@@ -683,7 +683,7 @@ describe('Message', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone somewhere',
+              nickname: 'Someone somewhere',
             },
           },
         ],

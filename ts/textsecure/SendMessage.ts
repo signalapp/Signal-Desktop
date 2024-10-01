@@ -435,7 +435,7 @@ class Message {
               prefix: contact.name.prefix,
               suffix: contact.name.suffix,
               middleName: contact.name.middleName,
-              displayName: contact.name.displayName,
+              nickname: contact.name.nickname,
             };
             contactProto.name = new Proto.DataMessage.Contact.Name(nameProto);
           }

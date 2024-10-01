@@ -49,7 +49,7 @@ type Name = {
   prefix?: string;
   suffix?: string;
   middleName?: string;
-  displayName?: string;
+  nickname?: string;
 };
 
 export enum ContactFormType {
@@ -190,17 +190,31 @@ export function embeddedContactSelector(
   };
 }
 
+export function getDisplayName({
+  name,
+  organization,
+}: ReadonlyDeep<EmbeddedContactType>): string | undefined {
+  // See https://github.com/signalapp/Signal-iOS-Private/blob/210a46037f12cdc6ad97ac6dceb64fbc43469f67/SignalServiceKit/Messages/Interactions/ContactShare/OWSContactName.swift#L87-L104
+  if (name?.nickname) {
+    return name.nickname;
+  }
+  if (name?.givenName && name?.familyName) {
+    return `${name.givenName} ${name.familyName}`;
+  }
+  if (organization) {
+    return organization;
+  }
+  return undefined;
+}
+
 export function getName(
   contact: ReadonlyDeep<EmbeddedContactType>
 ): string | undefined {
-  const { name, organization } = contact;
-  const displayName = (name && name.displayName) || undefined;
+  const { name } = contact;
   const givenName = (name && name.givenName) || undefined;
   const familyName = (name && name.familyName) || undefined;
-  const backupName =
-    (givenName && familyName && `${givenName} ${familyName}`) || undefined;
 
-  return displayName || organization || backupName || givenName || familyName;
+  return getDisplayName(contact) || givenName || familyName;
 }
 
 export function parseAndWriteAvatar(
@@ -292,9 +306,9 @@ export function _validate(
   contact: EmbeddedContactType,
   { messageId }: { messageId: string }
 ): Error | undefined {
-  const { name, number, email, address, organization } = contact;
+  const { number, email, address, organization } = contact;
 
-  if ((!name || !name.displayName) && !organization) {
+  if (!getDisplayName(contact) && !organization) {
     return new Error(
       `Message ${messageId}: Contact had neither 'displayName' nor 'organization'`
     );

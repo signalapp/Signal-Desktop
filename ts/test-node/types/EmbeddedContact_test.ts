@@ -47,41 +47,39 @@ describe('Contact', () => {
   };
 
   describe('getName', () => {
-    it('returns displayName if provided', () => {
+    it('returns displayName if available', () => {
       const contact = {
         name: {
-          displayName: 'displayName',
+          nickname: 'nickname',
           givenName: 'givenName',
           familyName: 'familyName',
         },
         organization: 'Somewhere, Inc.',
       };
-      const expected = 'displayName';
+      const expected = 'nickname';
       const actual = getName(contact);
       assert.strictEqual(actual, expected);
     });
 
-    it('returns organization if no displayName', () => {
+    it('returns full name if no displayName', () => {
       const contact = {
         name: {
           givenName: 'givenName',
           familyName: 'familyName',
         },
+        organization: 'Somewhere, Inc.',
+      };
+      const expected = 'givenName familyName';
+      const actual = getName(contact);
+      assert.strictEqual(actual, expected);
+    });
+
+    it('returns organization  if no displayName or full name', () => {
+      const contact = {
+        name: {},
         organization: 'Somewhere, Inc.',
       };
       const expected = 'Somewhere, Inc.';
-      const actual = getName(contact);
-      assert.strictEqual(actual, expected);
-    });
-
-    it('returns givenName + familyName if no displayName or organization', () => {
-      const contact = {
-        name: {
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-      };
-      const expected = 'givenName familyName';
       const actual = getName(contact);
       assert.strictEqual(actual, expected);
     });
@@ -117,7 +115,7 @@ describe('Contact', () => {
     it('eliminates avatar if it has had an attachment download error', () => {
       const contact = {
         name: {
-          displayName: 'displayName',
+          nickname: 'nickname',
           givenName: 'givenName',
           familyName: 'familyName',
         },
@@ -132,7 +130,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'displayName',
+          nickname: 'nickname',
           givenName: 'givenName',
           familyName: 'familyName',
         },
@@ -153,7 +151,7 @@ describe('Contact', () => {
     it('does not calculate absolute path if avatar is pending', () => {
       const contact = {
         name: {
-          displayName: 'displayName',
+          nickname: 'nickname',
           givenName: 'givenName',
           familyName: 'familyName',
         },
@@ -169,7 +167,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'displayName',
+          nickname: 'nickname',
           givenName: 'givenName',
           familyName: 'familyName',
         },
@@ -199,7 +197,7 @@ describe('Contact', () => {
 
       const contact = {
         name: {
-          displayName: 'displayName',
+          nickname: 'nickname',
           givenName: 'givenName',
           familyName: 'familyName',
         },
@@ -214,7 +212,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'displayName',
+          nickname: 'nickname',
           givenName: 'givenName',
           familyName: 'familyName',
         },
@@ -251,7 +249,7 @@ describe('Contact', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone Somewhere',
+              nickname: 'Someone Somewhere',
             },
             number: [
               {
@@ -282,7 +280,7 @@ describe('Contact', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone Somewhere',
+              nickname: 'Someone Somewhere',
             },
             number: [
               {
@@ -295,7 +293,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'Someone Somewhere',
+          nickname: 'Someone Somewhere',
         },
         number: [
           {
@@ -324,7 +322,7 @@ describe('Contact', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone Somewhere',
+              nickname: 'Someone Somewhere',
             },
             number: [
               {
@@ -340,7 +338,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'Someone Somewhere',
+          nickname: 'Someone Somewhere',
         },
         number: [
           {
@@ -372,7 +370,7 @@ describe('Contact', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone Somewhere',
+              nickname: 'Someone Somewhere',
             },
             number: [
               {
@@ -404,7 +402,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'Someone Somewhere',
+          nickname: 'Someone Somewhere',
         },
         number: [
           {
@@ -454,7 +452,7 @@ describe('Contact', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone Somewhere',
+              nickname: 'Someone Somewhere',
             },
             number: [
               {
@@ -472,7 +470,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'Someone Somewhere',
+          nickname: 'Someone Somewhere',
         },
         email: [
           {
@@ -501,7 +499,7 @@ describe('Contact', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone Somewhere',
+              nickname: 'Someone Somewhere',
             },
             number: [
               {
@@ -519,7 +517,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'Someone Somewhere',
+          nickname: 'Someone Somewhere',
         },
         number: [
           {
@@ -551,7 +549,7 @@ describe('Contact', () => {
         contact: [
           {
             name: {
-              displayName: 'Someone Somewhere',
+              nickname: 'Someone Somewhere',
             },
             number: [
               {
@@ -568,7 +566,7 @@ describe('Contact', () => {
       };
       const expected = {
         name: {
-          displayName: 'Someone Somewhere',
+          nickname: 'Someone Somewhere',
         },
       };
       const result = await upgradeVersion(message.contact[0], {
@@ -635,7 +633,7 @@ describe('Contact', () => {
       const messageId = 'the-message-id';
       const contact = {
         name: {
-          displayName: 'Someone Somewhere',
+          nickname: 'Someone Somewhere',
         },
         number: [],
         email: [],
