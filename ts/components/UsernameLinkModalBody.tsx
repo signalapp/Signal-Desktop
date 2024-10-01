@@ -17,6 +17,7 @@ import { IMAGE_PNG } from '../types/MIME';
 import { strictAssert } from '../util/assert';
 import { drop } from '../util/drop';
 import { splitText } from '../util/splitText';
+import { loadImage } from '../util/loadImage';
 import { Button, ButtonVariant } from './Button';
 import { Modal } from './Modal';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -373,14 +374,7 @@ export async function _generateImageBlob({
   );
   const svgURL = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 
-  const img = new Image();
-  await new Promise((resolve, reject) => {
-    img.addEventListener('load', resolve);
-    img.addEventListener('error', () =>
-      reject(new Error('Failed to load image'))
-    );
-    img.src = svgURL;
-  });
+  const img = await loadImage(svgURL);
 
   context.drawImage(img, 0, 0, PRINT_WIDTH, PRINT_HEIGHT);
 
