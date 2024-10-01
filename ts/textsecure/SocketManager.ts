@@ -42,6 +42,7 @@ import { ConnectTimeoutError, HTTPError } from './Errors';
 import type { IRequestHandler, WebAPICredentials } from './Types.d';
 import { connect as connectWebSocket } from './WebSocket';
 import { isAlpha, isBeta, isStaging } from '../util/version';
+import { getBasicAuth } from '../util/getBasicAuth';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -192,7 +193,6 @@ export class SocketManager extends EventListener {
       : this.connectResource({
           name: AUTHENTICATED_CHANNEL_NAME,
           path: '/v1/websocket/',
-          query: { login: username, password },
           resourceOptions: {
             name: AUTHENTICATED_CHANNEL_NAME,
             keepalive: { path: '/v1/keepalive' },
@@ -201,6 +201,7 @@ export class SocketManager extends EventListener {
             },
           },
           extraHeaders: {
+            Authorization: getBasicAuth({ username, password }),
             'X-Signal-Receive-Stories': String(!this.hasStoriesDisabled),
           },
           proxyAgent,
