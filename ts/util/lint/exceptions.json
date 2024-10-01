@@ -2035,13 +2035,6 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.tsx",
-    "line": "  const localVideoRef = useRef<HTMLVideoElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-12-01T01:31:12.757Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
     "line": "  const toastRegionRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-11-14T23:29:51.425Z",
@@ -2087,13 +2080,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingLobby.tsx",
-    "line": "  const localVideoRef = React.useRef<null | HTMLVideoElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/CallingPendingParticipants.tsx",
     "line": "  const expandedListRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -2102,11 +2088,11 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingPip.tsx",
-    "line": "  const localVideoRef = React.useRef(null);",
+    "path": "ts/components/CallingPendingParticipants.tsx",
+    "line": "  const lastParticipantRef = React.useRef<ConversationType | undefined>();",
     "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Used to get the local video element for rendering."
+    "updated": "2024-09-20T02:11:27.851Z",
+    "reasonDetail": "For fading out, to keep showing the last known participant"
   },
   {
     "rule": "React-useRef",
@@ -3126,13 +3112,5 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallingPendingParticipants.tsx",
-    "line": "  const lastParticipantRef = React.useRef<ConversationType | undefined>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-09-20T02:11:27.851Z",
-    "reasonDetail": "For fading out, to keep showing the last known participant"
   }
 ]

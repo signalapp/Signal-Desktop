@@ -421,11 +421,6 @@ type StartCallLinkLobbyPayloadType = {
 };
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type SetLocalPreviewType = {
-  element: React.RefObject<HTMLVideoElement> | undefined;
-};
-
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type SetRendererCanvasType = {
   element: React.RefObject<HTMLCanvasElement> | undefined;
 };
@@ -1835,14 +1830,6 @@ function setIsCallActive(
   };
 }
 
-function setLocalPreview(
-  payload: SetLocalPreviewType
-): ThunkAction<void, RootStateType, unknown, never> {
-  return () => {
-    calling.videoCapturer.setLocalPreview(payload.element);
-  };
-}
-
 function setRendererCanvas(
   payload: SetRendererCanvasType
 ): ThunkAction<void, RootStateType, unknown, never> {
@@ -2661,7 +2648,6 @@ export const actions = {
   setGroupCallVideoRequest,
   setIsCallActive,
   setLocalAudio,
-  setLocalPreview,
   setLocalVideo,
   setOutgoingRing,
   setRendererCanvas,
@@ -3802,8 +3788,7 @@ export function reducer(
     }
 
     return {
-      ...state,
-      capturerBaton: undefined,
+      ...(action.payload == null ? abortCapturer(state) : state),
       activeCallState: {
         ...activeCallState,
         presentingSource: action.payload,

@@ -326,9 +326,13 @@ export type NotifyScreenShareStatusOptionsType = Readonly<
 >;
 
 export class CallingClass {
-  readonly videoCapturer: GumVideoCapturer;
+  private readonly videoCapturer: GumVideoCapturer;
 
   readonly videoRenderer: CanvasVideoRenderer;
+
+  private localPreviewContainer: HTMLDivElement | null = null;
+
+  private localPreview: HTMLVideoElement | undefined;
 
   private reduxInterface?: CallingReduxInterface;
 
@@ -951,6 +955,21 @@ export class CallingClass {
           Buffer.from(member.uuidCiphertext)
         )
     );
+  }
+
+  public setLocalPreviewContainer(container: HTMLDivElement | null): void {
+    // Reuse HTMLVideoElement between different containers so that the preview
+    // of the last frame stays valid even if there are no new frames on the
+    // underlying MediaStream.
+    if (this.localPreview == null) {
+      this.localPreview = document.createElement('video');
+      this.localPreview.autoplay = true;
+      this.videoCapturer.setLocalPreview({ current: this.localPreview });
+    }
+
+    this.localPreviewContainer?.removeChild(this.localPreview);
+    this.localPreviewContainer = container;
+    this.localPreviewContainer?.appendChild(this.localPreview);
   }
 
   public async cleanupStaleRingingCalls(): Promise<void> {
