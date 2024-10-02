@@ -2366,9 +2366,9 @@ export class ConversationModel extends window.Backbone
 
       if (didResponseChange) {
         if (response === messageRequestEnum.ACCEPT) {
-          // Only add a message when the user took an explicit action to accept
-          // the message request on one of their devices
-          if (!viaStorageServiceSync) {
+          // Only add a message if the user unblocked this conversation, or took an
+          // explicit action to accept the message request on one of their devices
+          if (!viaStorageServiceSync || didUnblock) {
             drop(
               this.addMessageRequestResponseEventMessage(
                 didUnblock

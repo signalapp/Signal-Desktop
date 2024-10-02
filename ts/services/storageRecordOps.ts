@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEqual, isNumber } from 'lodash';
+import { isEqual } from 'lodash';
 import Long from 'long';
 
 import { CallLinkRootKey } from '@signalapp/ringrtc';
@@ -1019,32 +1019,31 @@ export async function mergeGroupV2Record(
 
   details = details.concat(extraDetails);
 
-  const isGroupNewToUs = !isNumber(conversation.get('revision'));
-  const isFirstSync = !window.storage.get('storageFetchComplete');
-  const dropInitialJoinMessage = isFirstSync;
-
   if (isGroupV1(conversation.attributes)) {
     // If we found a GroupV1 conversation from this incoming GroupV2 record, we need to
     //   migrate it!
 
     // We don't await this because this could take a very long time, waiting for queues to
     //   empty, etc.
-    void waitThenRespondToGroupV2Migration({
-      conversation,
-    });
-  } else if (isGroupNewToUs) {
-    // We don't need to update GroupV2 groups all the time. We fetch group state the first
-    //   time we hear about these groups, from then on we rely on incoming messages or
-    //   the user opening that conversation.
+    drop(
+      waitThenRespondToGroupV2Migration({
+        conversation,
+      })
+    );
+  } else {
+    const isFirstSync = !window.storage.get('storageFetchComplete');
+    const dropInitialJoinMessage = isFirstSync;
 
     // We don't await this because this could take a very long time, waiting for queues to
     //   empty, etc.
-    void waitThenMaybeUpdateGroup(
-      {
-        conversation,
-        dropInitialJoinMessage,
-      },
-      { viaFirstStorageSync: isFirstSync }
+    drop(
+      waitThenMaybeUpdateGroup(
+        {
+          conversation,
+          dropInitialJoinMessage,
+        },
+        { viaFirstStorageSync: isFirstSync }
+      )
     );
   }
 
