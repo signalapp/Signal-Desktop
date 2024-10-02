@@ -37,7 +37,6 @@ import type {
   SendGroupCallReactionType,
   SetGroupCallVideoRequestType,
   SetLocalAudioType,
-  SetLocalPreviewType,
   SetLocalVideoType,
   SetRendererCanvasType,
   StartCallType,
@@ -127,7 +126,7 @@ export type PropsType = {
   setIsCallActive: (_: boolean) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
-  setLocalPreview: (_: SetLocalPreviewType) => void;
+  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
   setOutgoingRing: (_: boolean) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   showShareCallLinkViaSignal: (
@@ -192,7 +191,7 @@ function ActiveCallManager({
   sendGroupCallReaction,
   setGroupCallVideoRequest,
   setLocalAudio,
-  setLocalPreview,
+  setLocalPreviewContainer,
   setLocalVideo,
   setRendererCanvas,
   setOutgoingRing,
@@ -351,7 +350,7 @@ function ActiveCallManager({
         hasLocalVideo={hasLocalVideo}
         i18n={i18n}
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
-        setLocalPreview={setLocalPreview}
+        setLocalPreviewContainer={setLocalPreviewContainer}
         setRendererCanvas={setRendererCanvas}
         switchToPresentationView={switchToPresentationView}
         switchFromPresentationView={switchFromPresentationView}
@@ -383,7 +382,7 @@ function ActiveCallManager({
           onJoinCall={joinActiveCall}
           outgoingRing={outgoingRing}
           peekedParticipants={peekedParticipants}
-          setLocalPreview={setLocalPreview}
+          setLocalPreviewContainer={setLocalPreviewContainer}
           setLocalAudio={setLocalAudio}
           setLocalVideo={setLocalVideo}
           setOutgoingRing={setOutgoingRing}
@@ -471,7 +470,7 @@ function ActiveCallManager({
         sendGroupCallRaiseHand={sendGroupCallRaiseHand}
         sendGroupCallReaction={sendGroupCallReaction}
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
-        setLocalPreview={setLocalPreview}
+        setLocalPreviewContainer={setLocalPreviewContainer}
         setRendererCanvas={setRendererCanvas}
         setLocalAudio={setLocalAudio}
         setLocalVideo={setLocalVideo}
@@ -567,7 +566,7 @@ export function CallManager({
   setGroupCallVideoRequest,
   setIsCallActive,
   setLocalAudio,
-  setLocalPreview,
+  setLocalPreviewContainer,
   setLocalVideo,
   setOutgoingRing,
   setRendererCanvas,
@@ -662,7 +661,7 @@ export function CallManager({
           sendGroupCallReaction={sendGroupCallReaction}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
           setLocalAudio={setLocalAudio}
-          setLocalPreview={setLocalPreview}
+          setLocalPreviewContainer={setLocalPreviewContainer}
           setLocalVideo={setLocalVideo}
           setOutgoingRing={setOutgoingRing}
           setRendererCanvas={setRendererCanvas}

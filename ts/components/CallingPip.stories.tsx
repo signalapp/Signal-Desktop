@@ -78,7 +78,7 @@ export default {
     hasLocalVideo: false,
     i18n,
     setGroupCallVideoRequest: action('set-group-call-video-request'),
-    setLocalPreview: action('set-local-preview'),
+    setLocalPreviewContainer: action('set-local-preview-container'),
     setRendererCanvas: action('set-renderer-canvas'),
     switchFromPresentationView: action('switch-to-presentation-view'),
     switchToPresentationView: action('switch-to-presentation-view'),

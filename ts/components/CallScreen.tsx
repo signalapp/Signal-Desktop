@@ -13,7 +13,6 @@ import type {
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
   SetLocalAudioType,
-  SetLocalPreviewType,
   SetLocalVideoType,
   SetRendererCanvasType,
 } from '../state/ducks/calling';
@@ -119,7 +118,7 @@ export type PropsType = {
   ) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
-  setLocalPreview: (_: SetLocalPreviewType) => void;
+  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   stickyControls: boolean;
   switchToPresentationView: () => void;
@@ -209,7 +208,7 @@ export function CallScreen({
   sendGroupCallReaction,
   setLocalAudio,
   setLocalVideo,
-  setLocalPreview,
+  setLocalPreviewContainer,
   setRendererCanvas,
   stickyControls,
   switchToPresentationView,
@@ -293,15 +292,6 @@ export function CallScreen({
   }, [setControlsHover]);
 
   const [showControls, setShowControls] = useState(true);
-
-  const localVideoRef = useRef<HTMLVideoElement | null>(null);
-
-  useEffect(() => {
-    setLocalPreview({ element: localVideoRef });
-    return () => {
-      setLocalPreview({ element: undefined });
-    };
-  }, [setLocalPreview, setRendererCanvas]);
 
   useEffect(() => {
     if (
@@ -431,7 +421,10 @@ export function CallScreen({
         )}
       >
         {isSendingVideo ? (
-          <video ref={localVideoRef} autoPlay />
+          <div
+            className="module-ongoing-call__local-preview-container"
+            ref={setLocalPreviewContainer}
+          />
         ) : (
           <CallBackgroundBlur avatarUrl={me.avatarUrl}>
             <div className="module-calling__spacer module-calling__camera-is-off-spacer" />
@@ -444,14 +437,13 @@ export function CallScreen({
     );
   } else {
     localPreviewNode = isSendingVideo ? (
-      <video
+      <div
         className={classNames(
           'module-ongoing-call__footer__local-preview__video',
           presentingSource &&
             'module-ongoing-call__footer__local-preview__video--presenting'
         )}
-        ref={localVideoRef}
-        autoPlay
+        ref={setLocalPreviewContainer}
       />
     ) : (
       <CallBackgroundBlur avatarUrl={me.avatarUrl}>

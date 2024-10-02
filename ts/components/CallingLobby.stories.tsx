@@ -84,7 +84,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     outgoingRing: overrideProps.outgoingRing ?? false,
     peekedParticipants: overrideProps.peekedParticipants || [],
     setLocalAudio: action('set-local-audio'),
-    setLocalPreview: action('set-local-preview'),
+    setLocalPreviewContainer: action('set-local-preview-container'),
     setLocalVideo: action('set-local-video'),
     setOutgoingRing: action('set-outgoing-ring'),
     showParticipantsList: overrideProps.showParticipantsList ?? false,

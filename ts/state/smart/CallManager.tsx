@@ -116,6 +116,10 @@ async function notifyForCall(
   });
 }
 
+function setLocalPreviewContainer(container: HTMLDivElement | null): void {
+  callingService.setLocalPreviewContainer(container);
+}
+
 const playRingtone = callingTones.playRingtone.bind(callingTones);
 const stopRingtone = callingTones.stopRingtone.bind(callingTones);
 
@@ -449,7 +453,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
     setIsCallActive,
     setLocalAudio,
     setLocalVideo,
-    setLocalPreview,
     setOutgoingRing,
     setRendererCanvas,
     switchToPresentationView,
@@ -509,7 +512,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       setGroupCallVideoRequest={setGroupCallVideoRequest}
       setIsCallActive={setIsCallActive}
       setLocalAudio={setLocalAudio}
-      setLocalPreview={setLocalPreview}
+      setLocalPreviewContainer={setLocalPreviewContainer}
       setLocalVideo={setLocalVideo}
       setOutgoingRing={setOutgoingRing}
       setRendererCanvas={setRendererCanvas}

@@ -7,10 +7,7 @@ import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import type { LocalizerType } from '../types/Util';
 import type { ActiveCallType, GroupCallVideoRequest } from '../types/Calling';
-import type {
-  SetLocalPreviewType,
-  SetRendererCanvasType,
-} from '../state/ducks/calling';
+import type { SetRendererCanvasType } from '../state/ducks/calling';
 import { missingCaseError } from '../util/missingCaseError';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
 import type { CallingImageDataCache } from './CallManager';
@@ -60,7 +57,7 @@ export type PropsType = {
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
   ) => void;
-  setLocalPreview: (_: SetLocalPreviewType) => void;
+  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
@@ -80,7 +77,7 @@ export function CallingPip({
   imageDataCache,
   i18n,
   setGroupCallVideoRequest,
-  setLocalPreview,
+  setLocalPreviewContainer,
   setRendererCanvas,
   switchToPresentationView,
   switchFromPresentationView,
@@ -89,7 +86,6 @@ export function CallingPip({
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
-  const localVideoRef = React.useRef(null);
 
   const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
   const [windowHeight, setWindowHeight] = React.useState(window.innerHeight);
@@ -103,10 +99,6 @@ export function CallingPip({
     switchToPresentationView,
     switchFromPresentationView,
   });
-
-  React.useEffect(() => {
-    setLocalPreview({ element: localVideoRef });
-  }, [setLocalPreview]);
 
   const hangUp = React.useCallback(() => {
     hangUpActiveCall('pip button click');
@@ -313,10 +305,9 @@ export function CallingPip({
         setGroupCallVideoRequest={setGroupCallVideoRequest}
       />
       {hasLocalVideo ? (
-        <video
+        <div
           className="module-calling-pip__video--local"
-          ref={localVideoRef}
-          autoPlay
+          ref={setLocalPreviewContainer}
         />
       ) : null}
       <div className="module-calling-pip__actions">

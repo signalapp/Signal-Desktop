@@ -6,7 +6,6 @@ import FocusTrap from 'focus-trap-react';
 import classNames from 'classnames';
 import type {
   SetLocalAudioType,
-  SetLocalPreviewType,
   SetLocalVideoType,
 } from '../state/ducks/calling';
 import { CallingButton, CallingButtonType } from './CallingButton';
@@ -74,7 +73,7 @@ export type PropsType = {
   peekedParticipants: Array<ConversationType>;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
-  setLocalPreview: (_: SetLocalPreviewType) => void;
+  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
   setOutgoingRing: (_: boolean) => void;
   showParticipantsList: boolean;
   toggleParticipants: () => void;
@@ -100,7 +99,7 @@ export function CallingLobby({
   onJoinCall,
   peekedParticipants,
   setLocalAudio,
-  setLocalPreview,
+  setLocalPreviewContainer,
   setLocalVideo,
   setOutgoingRing,
   toggleParticipants,
@@ -108,8 +107,6 @@ export function CallingLobby({
   toggleSettings,
   outgoingRing,
 }: PropsType): JSX.Element {
-  const localVideoRef = React.useRef<null | HTMLVideoElement>(null);
-
   const shouldShowLocalVideo = hasLocalVideo && availableCameras.length > 0;
 
   const isGroupOrAdhocCall = isGroupOrAdhocCallMode(callMode);
@@ -129,14 +126,6 @@ export function CallingLobby({
   const togglePipForCallingHeader = isAdhocJoinRequestPending
     ? togglePip
     : undefined;
-
-  React.useEffect(() => {
-    setLocalPreview({ element: localVideoRef });
-
-    return () => {
-      setLocalPreview({ element: undefined });
-    };
-  }, [setLocalPreview]);
 
   React.useEffect(() => {
     function handleKeyDown(event: KeyboardEvent): void {
@@ -275,10 +264,9 @@ export function CallingLobby({
     >
       <div className="module-calling__container dark-theme">
         {shouldShowLocalVideo ? (
-          <video
+          <div
             className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-on"
-            ref={localVideoRef}
-            autoPlay
+            ref={setLocalPreviewContainer}
           />
         ) : (
           <CallBackgroundBlur
