@@ -6,6 +6,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { safeParseInteger } from '../util/numbers';
 import { byteLength } from '../Bytes';
 import type { StorageServiceFieldsType } from '../sql/Interface';
+import { parsePartial } from '../util/schemas';
 
 export enum CallLinkUpdateSyncType {
   Update = 'Update',
@@ -44,7 +45,10 @@ export const callLinkRestrictionsSchema = z.nativeEnum(CallLinkRestrictions);
 export function toCallLinkRestrictions(
   restrictions: number | string
 ): CallLinkRestrictions {
-  return callLinkRestrictionsSchema.parse(safeParseInteger(restrictions));
+  return parsePartial(
+    callLinkRestrictionsSchema,
+    safeParseInteger(restrictions)
+  );
 }
 
 /**

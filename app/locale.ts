@@ -13,6 +13,7 @@ import type { LoggerType } from '../ts/types/Logging';
 import type { HourCyclePreference, LocaleMessagesType } from '../ts/types/I18N';
 import type { LocalizerType } from '../ts/types/Util';
 import * as Errors from '../ts/types/errors';
+import { parseUnknown } from '../ts/util/schemas';
 
 const TextInfoSchema = z.object({
   direction: z.enum(['ltr', 'rtl']),
@@ -70,16 +71,18 @@ function getLocaleDirection(
   try {
     // @ts-expect-error -- TS doesn't know about this method
     if (typeof locale.getTextInfo === 'function') {
-      return TextInfoSchema.parse(
+      return parseUnknown(
+        TextInfoSchema,
         // @ts-expect-error -- TS doesn't know about this method
-        locale.getTextInfo()
+        locale.getTextInfo() as unknown
       ).direction;
     }
     // @ts-expect-error -- TS doesn't know about this property
     if (typeof locale.textInfo === 'object') {
-      return TextInfoSchema.parse(
+      return parseUnknown(
+        TextInfoSchema,
         // @ts-expect-error -- TS doesn't know about this property
-        locale.textInfo
+        locale.textInfo as unknown
       ).direction;
     }
   } catch (error) {

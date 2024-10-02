@@ -68,6 +68,7 @@ import { drop } from './drop';
 import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync';
 import { storageServiceUploadJob } from '../services/storage';
 import { CallLinkDeleteManager } from '../jobs/CallLinkDeleteManager';
+import { parsePartial, parseStrict } from './schemas';
 
 // utils
 // -----
@@ -200,7 +201,7 @@ export function getCallEventForProto(
   callEventProto: Proto.SyncMessage.ICallEvent,
   eventSource: string
 ): CallEventDetails {
-  const callEvent = callEventNormalizeSchema.parse(callEventProto);
+  const callEvent = parsePartial(callEventNormalizeSchema, callEventProto);
   const { callId, peerId, timestamp } = callEvent;
 
   let type: CallType;
@@ -251,7 +252,7 @@ export function getCallEventForProto(
     throw new TypeError(`Unknown call event ${callEvent.event}`);
   }
 
-  return callEventDetailsSchema.parse({
+  return parseStrict(callEventDetailsSchema, {
     callId,
     peerId,
     ringerId: null,
@@ -279,7 +280,10 @@ const callLogEventFromProto: Partial<
 export function getCallLogEventForProto(
   callLogEventProto: Proto.SyncMessage.ICallLogEvent
 ): CallLogEventDetails {
-  const callLogEvent = callLogEventNormalizeSchema.parse(callLogEventProto);
+  const callLogEvent = parsePartial(
+    callLogEventNormalizeSchema,
+    callLogEventProto
+  );
 
   const type = callLogEventFromProto[callLogEvent.type];
   if (type == null) {
@@ -496,7 +500,7 @@ export function getCallDetailsFromDirectCall(
   call: Call
 ): CallDetails {
   const ringerId = call.isIncoming ? call.remoteUserId : null;
-  return callDetailsSchema.parse({
+  return parseStrict(callDetailsSchema, {
     callId: Long.fromValue(call.callId).toString(),
     peerId,
     ringerId,
@@ -518,7 +522,7 @@ export function getCallDetailsFromEndedDirectCall(
   wasVideoCall: boolean,
   timestamp: number
 ): CallDetails {
-  return callDetailsSchema.parse({
+  return parseStrict(callDetailsSchema, {
     callId,
     peerId,
     ringerId,
@@ -535,7 +539,7 @@ export function getCallDetailsFromGroupCallMeta(
   peerId: AciString | string,
   groupCallMeta: GroupCallMeta
 ): CallDetails {
-  return callDetailsSchema.parse({
+  return parseStrict(callDetailsSchema, {
     callId: groupCallMeta.callId,
     peerId,
     ringerId: groupCallMeta.ringerId,
@@ -552,7 +556,7 @@ export function getCallDetailsForAdhocCall(
   peerId: AciString | string,
   callId: string
 ): CallDetails {
-  return callDetailsSchema.parse({
+  return parseStrict(callDetailsSchema, {
     callId,
     peerId,
     ringerId: null,
@@ -575,7 +579,11 @@ export function getCallEventDetails(
   event: LocalCallEvent,
   eventSource: string
 ): CallEventDetails {
-  return callEventDetailsSchema.parse({ ...callDetails, event, eventSource });
+  return parseStrict(callEventDetailsSchema, {
+    ...callDetails,
+    event,
+    eventSource,
+  });
 }
 
 // transitions
@@ -646,7 +654,7 @@ export function transitionCallHistory(
     `transitionCallHistory: Transitioned call history timestamp (before: ${callHistory?.timestamp}, after: ${timestamp})`
   );
 
-  return callHistoryDetailsSchema.parse({
+  return parseStrict(callHistoryDetailsSchema, {
     callId,
     peerId,
     ringerId,

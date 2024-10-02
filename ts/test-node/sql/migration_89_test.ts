@@ -22,6 +22,7 @@ import { getCallIdFromEra } from '../../util/callDisposition';
 import { isValidUuid } from '../../util/isValidUuid';
 import { createDB, updateToVersion } from './helpers';
 import type { WritableDB, MessageType } from '../../sql/Interface';
+import { parsePartial } from '../../util/schemas';
 
 describe('SQL/updateToSchemaVersion89', () => {
   let db: WritableDB;
@@ -152,8 +153,8 @@ describe('SQL/updateToSchemaVersion89', () => {
     return db
       .prepare(selectHistoryQuery)
       .all()
-      .map(row => {
-        return callHistoryDetailsSchema.parse({
+      .map((row: object) => {
+        return parsePartial(callHistoryDetailsSchema, {
           ...row,
 
           // Not present at the time of migration, but required by zod

@@ -62,6 +62,7 @@ import { ToastType } from '../types/Toast';
 import { AbortableProcess } from '../util/AbortableProcess';
 import type { WebAPICredentials } from './Types';
 import { NORMAL_DISCONNECT_CODE } from './SocketManager';
+import { parseUnknown } from '../util/schemas';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
@@ -107,7 +108,7 @@ export namespace AggregatedStats {
     try {
       const json = localStorage.getItem(key);
       return json != null
-        ? AggregatedStatsSchema.parse(JSON.parse(json))
+        ? parseUnknown(AggregatedStatsSchema, JSON.parse(json) as unknown)
         : createEmpty();
     } catch (error) {
       log.warn(

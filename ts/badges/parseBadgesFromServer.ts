@@ -9,6 +9,7 @@ import * as log from '../logging/log';
 import type { BadgeType, BadgeImageType } from './types';
 import { parseBadgeCategory } from './BadgeCategory';
 import { BadgeImageTheme, parseBadgeImageTheme } from './BadgeImageTheme';
+import { safeParseUnknown } from '../util/schemas';
 
 const MAX_BADGES = 1000;
 
@@ -40,7 +41,7 @@ export function parseBoostBadgeListFromServer(
 ): Record<string, BadgeType> {
   const result: Record<string, BadgeType> = {};
 
-  const parseResult = boostBadgesFromServerSchema.safeParse(value);
+  const parseResult = safeParseUnknown(boostBadgesFromServerSchema, value);
   if (!parseResult.success) {
     log.warn(
       'parseBoostBadgeListFromServer: server response was invalid:',
@@ -73,7 +74,7 @@ export function parseBadgeFromServer(
   value: unknown,
   updatesUrl: string
 ): BadgeType | undefined {
-  const parseResult = badgeFromServerSchema.safeParse(value);
+  const parseResult = safeParseUnknown(badgeFromServerSchema, value);
   if (!parseResult.success) {
     log.warn(
       'parseBadgeFromServer: badge was invalid:',

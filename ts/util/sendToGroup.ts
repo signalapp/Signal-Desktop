@@ -73,6 +73,7 @@ import {
 import { maybeUpdateGroup } from '../groups';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { isAciString } from './isAciString';
+import { safeParseStrict, safeParseUnknown } from './schemas';
 
 const UNKNOWN_RECIPIENT = 404;
 const INCORRECT_AUTH_KEY = 401;
@@ -603,7 +604,7 @@ export async function sendToGroupViaSenderKey(
       { online, story, urgent }
     );
 
-    const parsed = multiRecipient200ResponseSchema.safeParse(result);
+    const parsed = safeParseStrict(multiRecipient200ResponseSchema, result);
     if (parsed.success) {
       const { uuids404 } = parsed.data;
       if (uuids404 && uuids404.length > 0) {
@@ -1022,7 +1023,10 @@ async function handle409Response(
   error: HTTPError
 ) {
   const logId = sendTarget.idForLogging();
-  const parsed = multiRecipient409ResponseSchema.safeParse(error.response);
+  const parsed = safeParseUnknown(
+    multiRecipient409ResponseSchema,
+    error.response
+  );
   if (parsed.success) {
     await waitForAll({
       tasks: parsed.data.map(item => async () => {
@@ -1068,7 +1072,10 @@ async function handle410Response(
 ) {
   const logId = sendTarget.idForLogging();
 
-  const parsed = multiRecipient410ResponseSchema.safeParse(error.response);
+  const parsed = safeParseUnknown(
+    multiRecipient410ResponseSchema,
+    error.response
+  );
   if (parsed.success) {
     await waitForAll({
       tasks: parsed.data.map(item => async () => {

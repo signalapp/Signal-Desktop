@@ -15,6 +15,7 @@ import { Input } from './Input';
 import { AutoSizeTextArea } from './AutoSizeTextArea';
 import { Button, ButtonVariant } from './Button';
 import { strictAssert } from '../util/assert';
+import { safeParsePartial } from '../util/schemas';
 
 const formSchema = z.object({
   nickname: z
@@ -67,7 +68,7 @@ export function EditNicknameAndNoteModal({
     const familyNameValue = toOptionalStringValue(familyName);
     const noteValue = toOptionalStringValue(note);
     const hasEitherName = givenNameValue != null || familyNameValue != null;
-    return formSchema.safeParse({
+    return safeParsePartial(formSchema, {
       nickname: hasEitherName
         ? { givenName: givenNameValue, familyName: familyNameValue }
         : null,

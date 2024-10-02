@@ -11,6 +11,7 @@ import { getUserAgent } from '../util/getUserAgent';
 import { maybeParseUrl } from '../util/url';
 import * as durations from '../util/durations';
 import type { LoggerType } from '../types/Logging';
+import { parseUnknown } from '../util/schemas';
 
 const BASE_URL = 'https://debuglogs.org';
 
@@ -26,7 +27,7 @@ const tokenBodySchema = z
 const parseTokenBody = (
   rawBody: unknown
 ): { fields: Record<string, unknown>; url: string } => {
-  const body = tokenBodySchema.parse(rawBody);
+  const body = parseUnknown(tokenBodySchema, rawBody);
 
   const parsedUrl = maybeParseUrl(body.url);
   if (!parsedUrl) {

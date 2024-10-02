@@ -12,6 +12,7 @@ import * as Errors from '../ts/types/errors';
 import { isProduction } from '../ts/util/version';
 import { isNotNil } from '../ts/util/isNotNil';
 import OS from '../ts/util/os/osMain';
+import { parseUnknown } from '../ts/util/schemas';
 
 // See https://github.com/rust-minidump/rust-minidump/blob/main/minidump-processor/json-schema.md
 const dumpString = z.string().or(z.null()).optional();
@@ -120,9 +121,8 @@ export function setup(
         pendingDumps.map(async fullPath => {
           const content = await readFile(fullPath);
           try {
-            const dump = dumpSchema.parse(
-              JSON.parse(dumpToJSONString(content))
-            );
+            const json: unknown = JSON.parse(dumpToJSONString(content));
+            const dump = parseUnknown(dumpSchema, json);
             if (dump.crash_info?.type !== 'Simulated Exception') {
               return fullPath;
             }
@@ -173,7 +173,8 @@ export function setup(
           const content = await readFile(fullPath);
           const { mtime } = await stat(fullPath);
 
-          const dump = dumpSchema.parse(JSON.parse(dumpToJSONString(content)));
+          const json: unknown = JSON.parse(dumpToJSONString(content));
+          const dump = parseUnknown(dumpSchema, json);
 
           if (dump.crash_info?.type === 'Simulated Exception') {
             return undefined;

@@ -27,6 +27,7 @@ import { ToastType } from '../types/Toast';
 import * as Errors from '../types/errors';
 import { isTestOrMockEnvironment } from '../environment';
 import { isAlpha } from './version';
+import { parseStrict } from './schemas';
 
 export function decodeGroupSendEndorsementResponse({
   groupId,
@@ -91,7 +92,7 @@ export function decodeGroupSendEndorsementResponse({
     `decodeGroupSendEndorsementResponse: Received endorsements (group: ${idForLogging}, expiration: ${expiration}, members: ${groupMembers.length})`
   );
 
-  const groupEndorsementsData: GroupSendEndorsementsData = {
+  return parseStrict(groupSendEndorsementsDataSchema, {
     combinedEndorsement: {
       groupId,
       expiration,
@@ -110,9 +111,7 @@ export function decodeGroupSendEndorsementResponse({
         endorsement: endorsement.getContents(),
       };
     }),
-  };
-
-  return groupSendEndorsementsDataSchema.parse(groupEndorsementsData);
+  });
 }
 
 const TWO_DAYS = DurationInSeconds.fromDays(2);

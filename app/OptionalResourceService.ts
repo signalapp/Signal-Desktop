@@ -17,6 +17,7 @@ import { OptionalResourcesDictSchema } from '../ts/types/OptionalResource';
 import * as log from '../ts/logging/log';
 import { getGotOptions } from '../ts/updater/got';
 import { drop } from '../ts/util/drop';
+import { parseUnknown } from '../ts/util/schemas';
 
 const RESOURCES_DICT_PATH = join(
   __dirname,
@@ -106,8 +107,10 @@ export class OptionalResourceService {
       return;
     }
 
-    const json = JSON.parse(await readFile(RESOURCES_DICT_PATH, 'utf8'));
-    this.maybeDeclaration = OptionalResourcesDictSchema.parse(json);
+    const json: unknown = JSON.parse(
+      await readFile(RESOURCES_DICT_PATH, 'utf8')
+    );
+    this.maybeDeclaration = parseUnknown(OptionalResourcesDictSchema, json);
 
     // Clean unknown resources
     let subPaths: Array<string>;

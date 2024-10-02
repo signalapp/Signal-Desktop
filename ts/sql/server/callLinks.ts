@@ -21,6 +21,7 @@ import { prepare } from '../Server';
 import { sql } from '../util';
 import { strictAssert } from '../../util/assert';
 import { CallStatusValue } from '../../types/CallDisposition';
+import { parseStrict, parseUnknown } from '../../util/schemas';
 
 export function callLinkExists(db: ReadableDB, roomId: string): boolean {
   const [query, params] = sql`
@@ -58,7 +59,7 @@ export function getCallLinkRecordByRoomId(
     return undefined;
   }
 
-  return callLinkRecordSchema.parse(row);
+  return parseUnknown(callLinkRecordSchema, row as unknown);
 }
 
 export function getAllCallLinks(db: ReadableDB): ReadonlyArray<CallLinkType> {
@@ -68,7 +69,9 @@ export function getAllCallLinks(db: ReadableDB): ReadonlyArray<CallLinkType> {
   return db
     .prepare(query)
     .all()
-    .map(item => callLinkFromRecord(callLinkRecordSchema.parse(item)));
+    .map((item: unknown) =>
+      callLinkFromRecord(parseUnknown(callLinkRecordSchema, item))
+    );
 }
 
 function _insertCallLink(db: WritableDB, callLink: CallLinkType): void {
@@ -142,7 +145,10 @@ export function updateCallLinkState(
   callLinkState: CallLinkStateType
 ): CallLinkType {
   const { name, restrictions, expiration, revoked } = callLinkState;
-  const restrictionsValue = callLinkRestrictionsSchema.parse(restrictions);
+  const restrictionsValue = parseStrict(
+    callLinkRestrictionsSchema,
+    restrictions
+  );
   const [query, params] = sql`
     UPDATE callLinks
     SET
@@ -153,9 +159,9 @@ export function updateCallLinkState(
     WHERE roomId = ${roomId}
     RETURNING *;
   `;
-  const row = db.prepare(query).get(params);
+  const row: unknown = db.prepare(query).get(params);
   strictAssert(row, 'Expected row to be returned');
-  return callLinkFromRecord(callLinkRecordSchema.parse(row));
+  return callLinkFromRecord(parseUnknown(callLinkRecordSchema, row));
 }
 
 export function updateCallLinkAdminKeyByRoomId(
@@ -302,7 +308,7 @@ export function getAllCallLinkRecordsWithAdminKey(
   return db
     .prepare(query)
     .all()
-    .map(item => callLinkRecordSchema.parse(item));
+    .map((item: unknown) => parseUnknown(callLinkRecordSchema, item));
 }
 
 export function getAllMarkedDeletedCallLinkRoomIds(

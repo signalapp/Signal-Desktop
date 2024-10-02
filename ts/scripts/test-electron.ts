@@ -13,6 +13,7 @@ import logSymbols from 'log-symbols';
 import { explodePromise } from '../util/explodePromise';
 import { missingCaseError } from '../util/missingCaseError';
 import { SECOND } from '../util/durations';
+import { parseUnknown } from '../util/schemas';
 
 const ROOT_DIR = join(__dirname, '..', '..');
 
@@ -137,7 +138,10 @@ async function launchElectron(
               return;
             }
 
-            const event = eventSchema.parse(JSON.parse(match[1]));
+            const event = parseUnknown(
+              eventSchema,
+              JSON.parse(match[1]) as unknown
+            );
             if (event.type === 'pass') {
               pass += 1;
 

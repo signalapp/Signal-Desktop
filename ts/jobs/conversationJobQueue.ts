@@ -50,6 +50,7 @@ import { drop } from '../util/drop';
 import { isInPast } from '../util/timestamp';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { FIBONACCI } from '../util/BackOff';
+import { parseUnknown } from '../util/schemas';
 
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
@@ -415,7 +416,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
   }
 
   protected parseData(data: unknown): ConversationQueueJobData {
-    return conversationQueueJobDataSchema.parse(data);
+    return parseUnknown(conversationQueueJobDataSchema, data);
   }
 
   protected override getInMemoryQueue({

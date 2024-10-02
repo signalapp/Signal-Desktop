@@ -5,6 +5,7 @@ import { parse } from 'csv-parse';
 import fs from 'fs/promises';
 import { z } from 'zod';
 import { _getAvailableLocales } from '../../app/locale';
+import { parseUnknown } from '../util/schemas';
 
 const type = process.argv[2];
 if (type !== 'countries' && type !== 'locales') {
@@ -119,7 +120,7 @@ function assertValuesForAllCountries(result: LocaleDisplayNamesResult) {
 async function main() {
   const contents = await fs.readFile(localeDisplayNamesDataPath, 'utf-8');
   const records = await parseCsv(contents);
-  const data = LocaleDisplayNames.parse(records);
+  const data = parseUnknown(LocaleDisplayNames, records as unknown);
   const result = convertData(data);
   if (type === 'locales') {
     assertValuesForAllLocales(result);

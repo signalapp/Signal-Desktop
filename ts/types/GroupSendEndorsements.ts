@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { aciSchema, type AciString } from './ServiceId';
 import * as Bytes from '../Bytes';
+import { parseStrict } from '../util/schemas';
 
 const GROUPV2_ID_LENGTH = 32; // 32 bytes
 
@@ -94,5 +95,5 @@ export const groupSendTokenSchema = z
 export type GroupSendToken = z.infer<typeof groupSendTokenSchema>;
 
 export function toGroupSendToken(token: Uint8Array): GroupSendToken {
-  return groupSendTokenSchema.parse(token);
+  return parseStrict(groupSendTokenSchema, token);
 }

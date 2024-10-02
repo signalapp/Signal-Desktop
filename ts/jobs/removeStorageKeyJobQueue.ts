@@ -7,6 +7,7 @@ import type { JOB_STATUS } from './JobQueue';
 import { JobQueue } from './JobQueue';
 
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
+import { parseUnknown } from '../util/schemas';
 
 const removeStorageKeyJobDataSchema = z.object({
   key: z.enum([
@@ -22,7 +23,7 @@ type RemoveStorageKeyJobData = z.infer<typeof removeStorageKeyJobDataSchema>;
 
 export class RemoveStorageKeyJobQueue extends JobQueue<RemoveStorageKeyJobData> {
   protected parseData(data: unknown): RemoveStorageKeyJobData {
-    return removeStorageKeyJobDataSchema.parse(data);
+    return parseUnknown(removeStorageKeyJobDataSchema, data);
   }
 
   protected async run({

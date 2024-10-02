@@ -9,6 +9,7 @@ import LRU from 'lru-cache';
 
 import type { OptionalResourceService } from './OptionalResourceService';
 import { SignalService as Proto } from '../ts/protobuf';
+import { parseUnknown } from '../ts/util/schemas';
 
 const MANIFEST_PATH = join(__dirname, '..', 'build', 'jumbomoji.json');
 
@@ -64,8 +65,9 @@ export class EmojiService {
   public static async create(
     resourceService: OptionalResourceService
   ): Promise<EmojiService> {
-    const json = await readFile(MANIFEST_PATH, 'utf8');
-    const manifest = manifestSchema.parse(JSON.parse(json));
+    const contents = await readFile(MANIFEST_PATH, 'utf8');
+    const json: unknown = JSON.parse(contents);
+    const manifest = parseUnknown(manifestSchema, json);
     return new EmojiService(resourceService, manifest);
   }
 

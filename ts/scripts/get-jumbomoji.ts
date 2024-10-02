@@ -9,6 +9,7 @@ import prettier from 'prettier';
 
 import type { OptionalResourceType } from '../types/OptionalResource';
 import { OptionalResourcesDictSchema } from '../types/OptionalResource';
+import { parseUnknown } from '../util/schemas';
 
 const VERSION = 10;
 
@@ -28,7 +29,10 @@ async function fetchJSON(url: string): Promise<unknown> {
 }
 
 async function main(): Promise<void> {
-  const { jumbomoji } = ManifestSchema.parse(await fetchJSON(MANIFEST_URL));
+  const { jumbomoji } = parseUnknown(
+    ManifestSchema,
+    await fetchJSON(MANIFEST_URL)
+  );
 
   const extraResources = new Map<string, OptionalResourceType>();
 
@@ -68,8 +72,9 @@ async function main(): Promise<void> {
     'build',
     'optional-resources.json'
   );
-  const resources = OptionalResourcesDictSchema.parse(
-    JSON.parse(await readFile(resourcesPath, 'utf8'))
+  const resources = parseUnknown(
+    OptionalResourcesDictSchema,
+    JSON.parse(await readFile(resourcesPath, 'utf8')) as unknown
   );
 
   for (const [sheet, resource] of extraResources) {

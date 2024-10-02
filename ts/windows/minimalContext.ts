@@ -20,6 +20,7 @@ import {
 } from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
 import { isTestOrMockEnvironment } from '../environment';
+import { parseUnknown } from '../util/schemas';
 
 const emojiListCache = new Map<string, LocaleEmojiListType>();
 
@@ -55,8 +56,8 @@ export const MinimalSignalContext: MinimalSignalContextType = {
       'OptionalResourceService:getData',
       `emoji-index-${locale}.json`
     );
-    const json = JSON.parse(Buffer.from(buf).toString());
-    const result = LocaleEmojiListSchema.parse(json);
+    const json: unknown = JSON.parse(Buffer.from(buf).toString());
+    const result = parseUnknown(LocaleEmojiListSchema, json);
     emojiListCache.set(locale, result);
     return result;
   },

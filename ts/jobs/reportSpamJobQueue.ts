@@ -17,6 +17,7 @@ import { parseIntWithFallback } from '../util/parseIntWithFallback';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import { HTTPError } from '../textsecure/Errors';
 import { sleeper } from '../util/sleeper';
+import { parseUnknown } from '../util/schemas';
 
 const RETRY_WAIT_TIME = durations.MINUTE;
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
@@ -44,7 +45,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
   }
 
   protected parseData(data: unknown): ReportSpamJobData {
-    return reportSpamJobDataSchema.parse(data);
+    return parseUnknown(reportSpamJobDataSchema, data);
   }
 
   protected async run(

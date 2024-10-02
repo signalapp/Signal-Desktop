@@ -5,6 +5,7 @@ import { join } from 'path';
 import { readFile } from 'fs/promises';
 import { DNSFallbackSchema } from '../ts/types/DNSFallback';
 import type { DNSFallbackType } from '../ts/types/DNSFallback';
+import { parseUnknown } from '../ts/util/schemas';
 
 let cached: DNSFallbackType | undefined;
 
@@ -25,9 +26,9 @@ export async function getDNSFallback(): Promise<DNSFallbackType> {
     return cached;
   }
 
-  const json = JSON.parse(str);
+  const json: unknown = JSON.parse(str);
 
-  const result = DNSFallbackSchema.parse(json);
+  const result = parseUnknown(DNSFallbackSchema, json);
   cached = result;
   return result;
 }

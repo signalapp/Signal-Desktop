@@ -9,6 +9,7 @@ import prettier from 'prettier';
 
 import type { OptionalResourceType } from '../types/OptionalResource';
 import { OptionalResourcesDictSchema } from '../types/OptionalResource';
+import { parseUnknown } from '../util/schemas';
 
 const MANIFEST_URL =
   'https://updates.signal.org/dynamic/android/emoji/search/manifest.json';
@@ -29,7 +30,7 @@ async function fetchJSON(url: string): Promise<unknown> {
 }
 
 async function main(): Promise<void> {
-  const manifest = ManifestSchema.parse(await fetchJSON(MANIFEST_URL));
+  const manifest = parseUnknown(ManifestSchema, await fetchJSON(MANIFEST_URL));
 
   // eslint-disable-next-line dot-notation
   manifest.languageToSmartlingLocale['zh_TW'] = 'zh-Hant';
@@ -75,8 +76,9 @@ async function main(): Promise<void> {
     'build',
     'optional-resources.json'
   );
-  const resources = OptionalResourcesDictSchema.parse(
-    JSON.parse(await readFile(resourcesPath, 'utf8'))
+  const resources = parseUnknown(
+    OptionalResourcesDictSchema,
+    JSON.parse(await readFile(resourcesPath, 'utf8')) as unknown
   );
 
   for (const [locale, resource] of extraResources) {

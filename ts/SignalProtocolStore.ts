@@ -67,6 +67,7 @@ import {
   SIGNED_PRE_KEY_ID_KEY,
 } from './textsecure/AccountManager';
 import { formatGroups, groupWhile } from './util/groupWhile';
+import { parseUnknown } from './util/schemas';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 const LOW_KEYS_THRESHOLD = 25;
@@ -99,7 +100,7 @@ const identityKeySchema = z.object({
 
 function validateIdentityKey(attrs: unknown): attrs is IdentityKeyType {
   // We'll throw if this doesn't match
-  identityKeySchema.parse(attrs);
+  parseUnknown(identityKeySchema, attrs);
   return true;
 }
 /*

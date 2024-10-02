@@ -12,6 +12,7 @@ import {
 import type { AttachmentType } from '../../types/Attachment';
 import { jsonToObject, objectToJSON, sql } from '../util';
 import { AttachmentDownloadSource } from '../Interface';
+import { parsePartial } from '../../util/schemas';
 
 export const version = 1040;
 
@@ -68,7 +69,7 @@ export function updateToSchemaVersion1040(
           attempts INTEGER NOT NULL,
           retryAfter INTEGER,
           lastAttemptTimestamp INTEGER,
-          
+
           PRIMARY KEY (messageId, attachmentType, digest)
         ) STRICT;
     `);
@@ -84,7 +85,7 @@ export function updateToSchemaVersion1040(
     // 5. Add new index on active & receivedAt. For most queries when there are lots of
     //    jobs (like during backup restore), many jobs will match the the WHERE clause, so
     //    the ORDER BY on receivedAt is probably the most expensive part.
-    db.exec(`      
+    db.exec(`
       CREATE INDEX attachment_downloads_active_receivedAt
         ON attachment_downloads (
           active, receivedAt
@@ -94,7 +95,7 @@ export function updateToSchemaVersion1040(
     // 6. Add new index on active & messageId. In order to prioritize visible messages,
     //    we'll also query for rows with a matching messageId. For these, the messageId
     //    matching is likely going to be the most expensive part.
-    db.exec(` 
+    db.exec(`
       CREATE INDEX attachment_downloads_active_messageId
         ON attachment_downloads (
           active, messageId
@@ -103,7 +104,7 @@ export function updateToSchemaVersion1040(
 
     // 7. Add new index just on messageId, for the ON DELETE CASCADE foreign key
     //    constraint
-    db.exec(` 
+    db.exec(`
       CREATE INDEX attachment_downloads_messageId
         ON attachment_downloads (
           messageId
@@ -139,7 +140,7 @@ export function updateToSchemaVersion1040(
           ciphertextSize: 0,
         };
 
-        const parsed = attachmentDownloadJobSchema.parse(updatedJob);
+        const parsed = parsePartial(attachmentDownloadJobSchema, updatedJob);
 
         rowsToTransfer.push(parsed as AttachmentDownloadJobType);
       } catch {
@@ -160,13 +161,13 @@ export function updateToSchemaVersion1040(
             (
               messageId,
               attachmentType,
-              receivedAt, 
+              receivedAt,
               sentAt,
               digest,
               contentType,
               size,
               attachmentJson,
-              active, 
+              active,
               attempts,
               retryAfter,
               lastAttemptTimestamp
@@ -181,7 +182,7 @@ export function updateToSchemaVersion1040(
               ${row.contentType},
               ${row.size},
               ${objectToJSON(row.attachment)},
-              ${row.active ? 1 : 0}, 
+              ${row.active ? 1 : 0},
               ${row.attempts},
               ${row.retryAfter},
               ${row.lastAttemptTimestamp}

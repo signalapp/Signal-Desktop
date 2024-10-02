@@ -56,6 +56,7 @@ import {
   isVideoTypeSupported,
 } from '../ts/util/GoogleChrome';
 import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
+import { parseLoose } from '../ts/util/schemas';
 
 let initialized = false;
 
@@ -471,7 +472,7 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
   let disposition: z.infer<typeof dispositionSchema> = 'attachment';
   const dispositionParam = url.searchParams.get('disposition');
   if (dispositionParam != null) {
-    disposition = dispositionSchema.parse(dispositionParam);
+    disposition = parseLoose(dispositionSchema, dispositionParam);
   }
 
   strictAssert(attachmentsDir != null, 'not initialized');

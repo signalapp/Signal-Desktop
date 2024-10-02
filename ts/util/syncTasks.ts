@@ -30,6 +30,7 @@ import {
   onSync as onViewSync,
   viewSyncTaskSchema,
 } from '../messageModifiers/ViewSyncs';
+import { safeParseUnknown } from './schemas';
 
 const syncTaskDataSchema = z.union([
   deleteMessageSchema,
@@ -86,7 +87,7 @@ export async function queueSyncTasks(
       await removeSyncTaskById(id);
       return;
     }
-    const parseResult = syncTaskDataSchema.safeParse(data);
+    const parseResult = safeParseUnknown(syncTaskDataSchema, data);
     if (!parseResult.success) {
       log.error(
         `${innerLogId}: Failed to parse. Deleting. Error: ${parseResult.error}`

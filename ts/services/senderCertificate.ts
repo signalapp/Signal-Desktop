@@ -17,9 +17,10 @@ import type { WebAPIType } from '../textsecure/WebAPI';
 import { SignalService as Proto } from '../protobuf';
 
 import SenderCertificate = Proto.SenderCertificate;
+import { safeParseUnknown } from '../util/schemas';
 
 function isWellFormed(data: unknown): data is SerializedCertificateType {
-  return serializedCertificateSchema.safeParse(data).success;
+  return safeParseUnknown(serializedCertificateSchema, data).success;
 }
 
 // In case your clock is different from the server's, we "fake" expire certificates early.

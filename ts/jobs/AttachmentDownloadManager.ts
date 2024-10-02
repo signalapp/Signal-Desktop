@@ -45,6 +45,7 @@ import type { MIMEType } from '../types/MIME';
 import { AttachmentDownloadSource } from '../sql/Interface';
 import { drop } from '../util/drop';
 import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
+import { safeParsePartial } from '../util/schemas';
 
 export enum AttachmentDownloadUrgency {
   IMMEDIATE = 'immediate',
@@ -175,7 +176,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       source,
       urgency = AttachmentDownloadUrgency.STANDARD,
     } = newJobData;
-    const parseResult = coreAttachmentDownloadJobSchema.safeParse({
+    const parseResult = safeParsePartial(coreAttachmentDownloadJobSchema, {
       messageId,
       receivedAt,
       sentAt,

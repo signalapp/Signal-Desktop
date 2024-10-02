@@ -24,6 +24,7 @@ import {
 } from './helpers/handleMultipleSendErrors';
 import { isConversationUnregistered } from '../util/isConversationUnregistered';
 import { isConversationAccepted } from '../util/isConversationAccepted';
+import { parseUnknown } from '../util/schemas';
 
 const MAX_RETRY_TIME = DAY;
 const MAX_PARALLEL_JOBS = 5;
@@ -43,7 +44,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
   }
 
   protected parseData(data: unknown): SingleProtoJobData {
-    return singleProtoJobDataSchema.parse(data);
+    return parseUnknown(singleProtoJobDataSchema, data);
   }
 
   protected async run(

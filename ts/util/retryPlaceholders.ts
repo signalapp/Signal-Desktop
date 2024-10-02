@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { groupBy } from 'lodash';
 import * as log from '../logging/log';
 import { aciSchema } from '../types/ServiceId';
+import { safeParseStrict } from './schemas';
 
 const retryItemSchema = z
   .object({
@@ -53,7 +54,8 @@ export class RetryPlaceholders {
       );
     }
 
-    const parsed = retryItemListSchema.safeParse(
+    const parsed = safeParseStrict(
+      retryItemListSchema,
       window.storage.get(STORAGE_KEY, new Array<RetryItemType>())
     );
     if (!parsed.success) {
@@ -104,7 +106,7 @@ export class RetryPlaceholders {
   // Basic data management
 
   async add(item: RetryItemType): Promise<void> {
-    const parsed = retryItemSchema.safeParse(item);
+    const parsed = safeParseStrict(retryItemSchema, item);
     if (!parsed.success) {
       throw new Error(
         `RetryPlaceholders.add: Item did not match schema ${JSON.stringify(

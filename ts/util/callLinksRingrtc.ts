@@ -33,6 +33,7 @@ import {
   getKeyFromCallLink,
   toAdminKeyBytes,
 } from './callLinks';
+import { parseStrict } from './schemas';
 
 /**
  * RingRTC conversions
@@ -56,7 +57,7 @@ const RingRTCCallLinkRestrictionsSchema = z.nativeEnum(
 export function callLinkRestrictionsToRingRTC(
   restrictions: CallLinkRestrictions
 ): RingRTCCallLinkRestrictions {
-  return RingRTCCallLinkRestrictionsSchema.parse(restrictions);
+  return parseStrict(RingRTCCallLinkRestrictionsSchema, restrictions);
 }
 
 export function getRoomIdFromRootKey(rootKey: CallLinkRootKey): string {
@@ -152,7 +153,7 @@ export function callLinkToRecord(callLink: CallLinkType): CallLinkRecord {
   const adminKey = callLink.adminKey
     ? toAdminKeyBytes(callLink.adminKey)
     : null;
-  return callLinkRecordSchema.parse({
+  return parseStrict(callLinkRecordSchema, {
     roomId: callLink.roomId,
     rootKey,
     adminKey,

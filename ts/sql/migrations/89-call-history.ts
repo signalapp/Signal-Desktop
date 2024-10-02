@@ -23,6 +23,7 @@ import type { WritableDB, MessageType, ConversationType } from '../Interface';
 import { strictAssert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isAciString } from '../../util/isAciString';
+import { safeParseStrict } from '../../util/schemas';
 
 // Legacy type for calls that never had a call id
 type DirectCallHistoryDetailsType = {
@@ -177,7 +178,7 @@ function convertLegacyCallDetails(
     endedTimestamp: null,
   };
 
-  const result = callHistoryDetailsSchema.safeParse(callHistory);
+  const result = safeParseStrict(callHistoryDetailsSchema, callHistory);
   if (result.success) {
     return result.data;
   }

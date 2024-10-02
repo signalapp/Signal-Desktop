@@ -8,7 +8,6 @@ import type {
 } from '../../types/GroupSendEndorsements';
 import {
   groupSendEndorsementExpirationSchema,
-  groupSendCombinedEndorsementSchema,
   groupSendMemberEndorsementSchema,
   groupSendEndorsementsDataSchema,
 } from '../../types/GroupSendEndorsements';
@@ -17,6 +16,7 @@ import type { ReadableDB, WritableDB } from '../Interface';
 import { sql } from '../util';
 import type { AciString } from '../../types/ServiceId';
 import { strictAssert } from '../../util/assert';
+import { parseLoose, parseUnknown } from '../../util/schemas';
 
 /**
  * We don't need to store more than one endorsement per group or per member.
@@ -110,7 +110,7 @@ export function getGroupSendCombinedEndorsementExpiration(
   if (value == null) {
     return null;
   }
-  return groupSendEndorsementExpirationSchema.parse(value);
+  return parseUnknown(groupSendEndorsementExpirationSchema, value as unknown);
 }
 
 export function getGroupSendEndorsementsData(
@@ -128,24 +128,21 @@ export function getGroupSendEndorsementsData(
       WHERE groupId IS ${groupId}
     `;
 
-    const combinedEndorsement = groupSendCombinedEndorsementSchema
-      .optional()
-      .parse(
-        prepare<Array<unknown>>(db, selectCombinedEndorsement).get(
-          selectCombinedEndorsementParams
-        )
-      );
+    const combinedEndorsement: unknown = prepare<Array<unknown>>(
+      db,
+      selectCombinedEndorsement
+    ).get(selectCombinedEndorsementParams);
 
     if (combinedEndorsement == null) {
       return null;
     }
 
-    const memberEndorsements = prepare<Array<unknown>>(
+    const memberEndorsements: Array<unknown> = prepare<Array<unknown>>(
       db,
       selectMemberEndorsements
     ).all(selectMemberEndorsementsParams);
 
-    return groupSendEndorsementsDataSchema.parse({
+    return parseLoose(groupSendEndorsementsDataSchema, {
       combinedEndorsement,
       memberEndorsements,
     });
@@ -168,5 +165,5 @@ export function getGroupSendMemberEndorsement(
   if (row == null) {
     return null;
   }
-  return groupSendMemberEndorsementSchema.parse(row);
+  return parseUnknown(groupSendMemberEndorsementSchema, row as unknown);
 }

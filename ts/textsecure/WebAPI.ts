@@ -73,6 +73,7 @@ import { safeParseNumber } from '../util/numbers';
 import { isStagingServer } from '../util/isStagingServer';
 import type { IWebSocketResource } from './WebsocketResources';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
+import { parseUnknown, safeParseUnknown } from '../util/schemas';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -1948,7 +1949,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      return whoamiResultZod.parse(response);
+      return parseUnknown(whoamiResultZod, response);
     }
 
     async function sendChallengeResponse(challengeResponse: ChallengeType) {
@@ -2027,7 +2028,7 @@ export function initialize({
         httpType: 'GET',
         responseType: 'json',
       });
-      const res = remoteConfigResponseZod.parse(rawRes);
+      const res = parseUnknown(remoteConfigResponseZod, rawRes);
 
       return {
         ...res,
@@ -2157,7 +2158,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      const result = verifyServiceIdResponse.safeParse(res);
+      const result = safeParseUnknown(verifyServiceIdResponse, res);
 
       if (result.success) {
         return result.data;
@@ -2223,7 +2224,8 @@ export function initialize({
       hash,
     }: GetAccountForUsernameOptionsType) {
       const hashBase64 = toWebSafeBase64(Bytes.toBase64(hash));
-      return getAccountForUsernameResultZod.parse(
+      return parseUnknown(
+        getAccountForUsernameResultZod,
         await _ajax({
           call: 'username',
           httpType: 'GET',
@@ -2251,7 +2253,7 @@ export function initialize({
         return;
       }
 
-      return uploadAvatarHeadersZod.parse(res);
+      return parseUnknown(uploadAvatarHeadersZod, res as unknown);
     }
 
     async function getProfileUnauth(
@@ -2389,7 +2391,7 @@ export function initialize({
         abortSignal,
       });
 
-      return reserveUsernameResultZod.parse(response);
+      return parseUnknown(reserveUsernameResultZod, response);
     }
     async function confirmUsername({
       hash,
@@ -2408,14 +2410,15 @@ export function initialize({
         responseType: 'json',
         abortSignal,
       });
-      return confirmUsernameResultZod.parse(response);
+      return parseUnknown(confirmUsernameResultZod, response);
     }
 
     async function replaceUsernameLink({
       encryptedUsername,
       keepLinkHandle,
     }: ReplaceUsernameLinkOptionsType): Promise<ReplaceUsernameLinkResultType> {
-      return replaceUsernameLinkResultZod.parse(
+      return parseUnknown(
+        replaceUsernameLinkResultZod,
         await _ajax({
           call: 'usernameLink',
           httpType: 'PUT',
@@ -2440,7 +2443,8 @@ export function initialize({
     async function resolveUsernameLink(
       serverId: string
     ): Promise<ResolveUsernameLinkResultType> {
-      return resolveUsernameLinkResultZod.parse(
+      return parseUnknown(
+        resolveUsernameLinkResultZod,
         await _ajax({
           httpType: 'GET',
           call: 'usernameLink',
@@ -2475,7 +2479,8 @@ export function initialize({
       transport: VerificationTransport
     ) {
       // Create a new blank session using just a E164
-      let session = verificationSessionZod.parse(
+      let session = parseUnknown(
+        verificationSessionZod,
         await _ajax({
           call: 'verificationSession',
           httpType: 'POST',
@@ -2490,7 +2495,8 @@ export function initialize({
       );
 
       // Submit a captcha solution to the session
-      session = verificationSessionZod.parse(
+      session = parseUnknown(
+        verificationSessionZod,
         await _ajax({
           call: 'verificationSession',
           httpType: 'PATCH',
@@ -2511,7 +2517,8 @@ export function initialize({
       }
 
       // Request an SMS or Voice confirmation
-      session = verificationSessionZod.parse(
+      session = parseUnknown(
+        verificationSessionZod,
         await _ajax({
           call: 'verificationSession',
           httpType: 'POST',
@@ -2618,7 +2625,8 @@ export function initialize({
       aciPqLastResortPreKey,
       pniPqLastResortPreKey,
     }: CreateAccountOptionsType) {
-      const session = verificationSessionZod.parse(
+      const session = parseUnknown(
+        verificationSessionZod,
         await _ajax({
           isRegistration: true,
           call: 'verificationSession',
@@ -2676,7 +2684,7 @@ export function initialize({
             jsonData,
           });
 
-          return createAccountResultZod.parse(responseJson);
+          return parseUnknown(createAccountResultZod, responseJson);
         }
       );
     }
@@ -2726,7 +2734,7 @@ export function initialize({
             jsonData,
           });
 
-          return linkDeviceResultZod.parse(responseJson);
+          return parseUnknown(linkDeviceResultZod, responseJson);
         }
       );
     }
@@ -2842,7 +2850,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      return getBackupInfoResponseSchema.parse(res);
+      return parseUnknown(getBackupInfoResponseSchema, res);
     }
 
     async function getBackupStream({
@@ -2880,7 +2888,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      return attachmentUploadFormResponse.parse(res);
+      return parseUnknown(attachmentUploadFormResponse, res);
     }
 
     function createFetchForAttachmentUpload({
@@ -2932,7 +2940,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      return attachmentUploadFormResponse.parse(res);
+      return parseUnknown(attachmentUploadFormResponse, res);
     }
 
     async function refreshBackup(headers: BackupPresentationHeadersType) {
@@ -2961,7 +2969,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      return getBackupCredentialsResponseSchema.parse(res);
+      return parseUnknown(getBackupCredentialsResponseSchema, res);
     }
 
     async function getBackupCDNCredentials({
@@ -2979,7 +2987,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      return getBackupCDNCredentialsResponseSchema.parse(res);
+      return parseUnknown(getBackupCDNCredentialsResponseSchema, res);
     }
 
     async function setBackupId({
@@ -3051,7 +3059,7 @@ export function initialize({
         },
       });
 
-      return backupMediaBatchResponseSchema.parse(res);
+      return parseUnknown(backupMediaBatchResponseSchema, res);
     }
 
     async function backupDeleteMedia({
@@ -3099,7 +3107,7 @@ export function initialize({
         urlParameters: `?${params.join('&')}`,
       });
 
-      return backupListMediaResponseSchema.parse(res);
+      return parseUnknown(backupListMediaResponseSchema, res);
     }
 
     async function callLinkCreateAuth(
@@ -3111,7 +3119,7 @@ export function initialize({
         responseType: 'json',
         jsonData: { createCallLinkCredentialRequest: requestBase64 },
       });
-      return callLinkCreateAuthResponseSchema.parse(response);
+      return parseUnknown(callLinkCreateAuthResponseSchema, response);
     }
 
     async function setPhoneNumberDiscoverability(newValue: boolean) {
@@ -3354,7 +3362,10 @@ export function initialize({
         accessKey: accessKeys != null ? Bytes.toBase64(accessKeys) : undefined,
         groupSendToken,
       });
-      const parseResult = multiRecipient200ResponseSchema.safeParse(response);
+      const parseResult = safeParseUnknown(
+        multiRecipient200ResponseSchema,
+        response
+      );
       if (parseResult.success) {
         return parseResult.data;
       }
@@ -3490,8 +3501,10 @@ export function initialize({
         urlParameters: `/${encryptedStickers.length}`,
       });
 
-      const { packId, manifest, stickers } =
-        StickerPackUploadFormSchema.parse(formJson);
+      const { packId, manifest, stickers } = parseUnknown(
+        StickerPackUploadFormSchema,
+        formJson
+      );
 
       // Upload manifest
       const manifestParams = makePutParams(manifest, encryptedManifest);
@@ -3718,7 +3731,8 @@ export function initialize({
     }
 
     async function getAttachmentUploadForm() {
-      return attachmentUploadFormResponse.parse(
+      return parseUnknown(
+        attachmentUploadFormResponse,
         await _ajax({
           call: 'attachmentUploadForm',
           httpType: 'GET',

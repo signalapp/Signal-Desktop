@@ -16,6 +16,7 @@ import { DataReader, DataWriter } from '../sql/Client';
 import type { CallLinkType } from '../types/CallLink';
 import { calling } from '../services/calling';
 import { sleeper } from '../util/sleeper';
+import { parseUnknown } from '../util/schemas';
 
 const MAX_RETRY_TIME = DAY;
 const MAX_PARALLEL_JOBS = 5;
@@ -46,7 +47,7 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
   }
 
   protected parseData(data: unknown): CallLinkRefreshJobData {
-    return callLinkRefreshJobDataSchema.parse(data);
+    return parseUnknown(callLinkRefreshJobDataSchema, data);
   }
 
   protected async run(

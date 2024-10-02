@@ -123,6 +123,7 @@ import { ZoomFactorService } from '../ts/services/ZoomFactorService';
 import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError';
 import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags';
 import { getOwn } from '../ts/util/getOwn';
+import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas';
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
@@ -436,7 +437,8 @@ export const windowConfigSchema = z.object({
 type WindowConfigType = z.infer<typeof windowConfigSchema>;
 
 let windowConfig: WindowConfigType | undefined;
-const windowConfigParsed = windowConfigSchema.safeParse(
+const windowConfigParsed = safeParseUnknown(
+  windowConfigSchema,
   windowFromEphemeral || windowFromUserConfig
 );
 if (windowConfigParsed.success) {
@@ -2692,7 +2694,7 @@ ipc.on('delete-all-data', () => {
 ipc.on('get-config', async event => {
   const theme = await getResolvedThemeSetting();
 
-  const directoryConfig = directoryConfigSchema.safeParse({
+  const directoryConfig = safeParseLoose(directoryConfigSchema, {
     directoryUrl: config.get<string | null>('directoryUrl') || undefined,
     directoryMRENCLAVE:
       config.get<string | null>('directoryMRENCLAVE') || undefined,
@@ -2705,7 +2707,7 @@ ipc.on('get-config', async event => {
     );
   }
 
-  const parsed = rendererConfigSchema.safeParse({
+  const parsed = safeParseLoose(rendererConfigSchema, {
     name: packageJson.productName,
     availableLocales: getResolvedMessagesLocale().availableLocales,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
