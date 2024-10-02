@@ -1416,7 +1416,7 @@
     "messageformat": "{name} 님의 음성 및 영상 통화를 수신할 수 없습니다."
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "오디오와 비디오를 수신할 수 없음"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "이는 해당 사용자가 안전 번호 변경을 확인하지 않았거나, 기기에 문제가 있거나 나를 차단했기 때문일 수 있습니다."
@@ -1626,7 +1626,7 @@
     "messageformat": "어제 {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal에서 수신 메시지를 처리하는 데 문제가 있을 수 있습니다."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "메시지 본문이 너무 깁니다."
@@ -4449,10 +4449,10 @@
     "messageformat": "프로필을 업데이트할 수 없습니다. 다시 시도하세요."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "잘못된 문자"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "입력한 문자 중 하나 이상을 사용할 수 없습니다. 다시 시도하세요."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "관리자에게 메시지 전송"
@@ -5681,6 +5681,6 @@
     "messageformat": "본 업데이트는 그룹을 나간 뒤 해당 그룹을 검색하기 어렵게 만드는 버그를 수정합니다."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "이제 편집한 메시지에서 인용된 답장을 제거할 수 있습니다."
   }
 }

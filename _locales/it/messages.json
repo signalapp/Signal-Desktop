@@ -1416,7 +1416,7 @@
     "messageformat": "Non è possibile ricevere audio e video da {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Non puoi ricevere audio e video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Ciò potrebbe essere dovuto al fatto che non è stata verificata la modifica del codice di sicurezza, c'è un problema con il dispositivo o ti hanno bloccato."
@@ -1626,7 +1626,7 @@
     "messageformat": "Ieri {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "È possibile che Signal non riesca a elaborare un messaggio in arrivo."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Il corpo del messaggio è troppo lungo."
@@ -4449,10 +4449,10 @@
     "messageformat": "Impossibile aggiornare il tuo profilo. Per favore riprova."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Caratteri non validi"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Uno o più caratteri che hai inserito non sono validi. Riprova."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Invia un messaggio a un amministratore"
@@ -5681,6 +5681,6 @@
     "messageformat": "A volte è bello rivangare il passato… abbiamo risolto un bug che rendeva difficile cercare i gruppi di cui facevi parte ma ancora presenti nell'elenco delle tue chat (e, chissà, forse anche nei tuoi ricordi?)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Da ora puoi rimuovere le risposte citate dai messaggi modificati. Perché ammettiamolo: a chi non è mai capitato di rispondere al messaggio sbagliato?"
   }
 }

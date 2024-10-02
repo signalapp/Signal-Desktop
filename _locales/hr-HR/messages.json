@@ -1416,7 +1416,7 @@
     "messageformat": "Ne možete primiti audio i video od {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Nije moguće primati zvuk i sliku"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Mogući razlog tome jest to što korisnik nije potvrdio vaš ažurirani sigurnosni broj, ima problem s uređajem ili vas je blokirao."
@@ -1626,7 +1626,7 @@
     "messageformat": "Jučer u {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal možda nije u mogućnosti obraditi dolaznu poruku."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Tijelo poruke je predugo."
@@ -4449,10 +4449,10 @@
     "messageformat": "Vaš profil nije moguće ažurirati. Molim vas pokušajte ponovno."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Nevažeći znakovi"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Jedan ili više znakova koje ste unijeli nije moguće koristiti. Pokušajte ponovno."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Pošaljite poruku administratoru"
@@ -5681,6 +5681,6 @@
     "messageformat": "Ovo ažuriranje ispravlja programsku pogrešku koja je otežavala pretraživanje grupa nakon njihovog napuštanja."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Sada možete izbrisati citirane odgovore iz uređenih poruka."
   }
 }

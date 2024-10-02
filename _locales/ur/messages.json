@@ -1416,7 +1416,7 @@
     "messageformat": "{name} سے آڈیو اور ویڈیو موصول نہیں ہوسکتی ہے"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "آڈیو اور ویڈیو وصول نہیں کر سکتے"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "ایسا اس لیے ہو سکتا ہے کیونکہ انہوں نے آپ کے حفاظتی نمبر میں تبدیلی کی تصدیق نہیں کی ہے، ان کی ڈیوائس میں کوئی مسئلہ ہے، یا وہ آپ کو بلاک کر چکے ہیں۔"
@@ -1626,7 +1626,7 @@
     "messageformat": "کل {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal کسی آنے والے میسج پر کارروائی کرنے میں ناکام ہو سکتا ہے۔"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "پیغام بازی بہت لمبی ہے۔"
@@ -4449,10 +4449,10 @@
     "messageformat": "آپ کے پروفائل کو اپ ڈیٹ نہیں کیا جاسکا۔ دوبارہ کوشش کریں."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "غلط حروف"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "آپ نے جو ایک یا زیادہ حروف درج کیے ہیں انہیں استعمال نہیں کیا جا سکتا۔ دوبارہ کوشش کریں۔"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "کسی ایڈمن کو پیغام دیں"
@@ -5681,6 +5681,6 @@
     "messageformat": "اس اپ ڈیٹ میں ایک ایسے نقص کو ٹھیک کیا گیا ہے جس کی وجہ سے اس گروپ کو چھوڑنے کے بعد گروپ کو تلاش کرنا مشکل ہو جاتا ہے۔ ورژن 7.26 کے لیے ریلیز نوٹس"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "اب آپ ترمیم شدہ میسجز سے کوٹ شدہ جوابات کو ہٹا سکتے ہیں۔"
   }
 }

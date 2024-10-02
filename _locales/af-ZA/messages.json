@@ -516,7 +516,7 @@
     "messageformat": "Vind meer uit"
   },
   "icu:verified": {
-    "messageformat": "Geverifiëer"
+    "messageformat": "Geverifieer"
   },
   "icu:newIdentity": {
     "messageformat": "Nuwe veiligheidsnommer"
@@ -1416,7 +1416,7 @@
     "messageformat": "Kan nie oudio en video van {name} ontvang nie"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Kan nie oudio en video ontvang nie"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dit kan wees omdat hulle die verandering in jou veiligheidsnommer nog nie geverifieer het nie, of hulle toestel gee probleme, of hulle het jou versper."
@@ -1626,7 +1626,7 @@
     "messageformat": "Gister {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Sein kan moontlik nie 'n inkomende boodskap verwerk nie."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Die boodskapteks is te lank."
@@ -4449,10 +4449,10 @@
     "messageformat": "U profiel kan nie bygewerk word nie. Probeer asb. weer."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ongeldige karakters"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Een of meer karakters wat jy ingevoer het, kan nie gebruik word nie. Probeer weer."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Stuur ’n boodskap aan admin"
@@ -5681,6 +5681,6 @@
     "messageformat": "Hierdie opdatering stel 'n fout reg wat dit moeilik gemaak het om vir 'n groep te soek nadat jy daardie groep verlaat het."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nou kan jy aangehaalde antwoorde uit geredigeerde boodskappe verwyder."
   }
 }

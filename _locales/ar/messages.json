@@ -1416,7 +1416,7 @@
     "messageformat": "لا يُمكن تلقي الصوت والصورة من {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "يتعذَّر تلقّي الصوت والصورة."
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "رُبما يكون هذا بسبب عدم تحقُّقه مِن تغيُّر رقم الأمان الخاص بك أو بسبب وجود مُشكلة في جِهازه أو أنهُ قد حَظرك."
@@ -1626,7 +1626,7 @@
     "messageformat": "البارحة {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "قد يكون سيجنال غير قادر على معالجة رسالة واردة."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "إن الرسالة طويلة جداً."
@@ -4449,10 +4449,10 @@
     "messageformat": "لقد تعذر تحديث حسابك الشخصي. يُرجى المحاولة مرة أخرى."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "رموز غير صالحة"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "رمز واحد أو أكثر من الرموز التي أدخلتها غير صالح. حاوِل مرّة أخرى."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "مراسلة مشرف على المجموعة"
@@ -5681,6 +5681,6 @@
     "messageformat": "يُصلح هذا التحديث خطأ كان يُصعّب عملية البحث عن مجموعة بعد مغادرتها."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "يُمكنك الآن إزالة الردود المقتبَسة من الرسائل المُعدَّلة."
   }
 }

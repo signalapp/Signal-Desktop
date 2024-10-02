@@ -1416,7 +1416,7 @@
     "messageformat": "Negalima gauti garso ir vaizdo iš {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Negalima gauti garso ir vaizdo"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Taip gali būti dėl to, kad šis žmogus nepatvirtino tavo saugumo numerio pasikeitimo, turi problemų su įrenginiu arba tave užblokavo."
@@ -1626,7 +1626,7 @@
     "messageformat": "Vakar {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Gali būti, kad „Signal“ nepavyksta apdoroti gaunamos žinutės."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Žinutės turinys yra per ilgas."
@@ -4449,10 +4449,10 @@
     "messageformat": "Nepavyko atnaujinti jūsų profilio. Bandykite dar kartą."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Netinkami simboliai"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Vieno ar daugiau įvestų simbolių naudoti negalima. Bandykite dar kartą."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Rašyti žinutę administratoriui"
@@ -5681,6 +5681,6 @@
     "messageformat": "Šiuo atnaujinimu ištaisėme klaidą, dėl kurios buvo sunku ieškoti grupės iš jos išėjus."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Dabar galite pašalinti cituotus atsakymus iš redaguotų žinučių."
   }
 }

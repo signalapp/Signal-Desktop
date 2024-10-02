@@ -1416,7 +1416,7 @@
     "messageformat": "Бул адамдын ({name}) аудио жана видео билдирүүлөрүн ала албайсыз"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Аудио же видео алынган жок"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Бул адам өзгөрүлгөн коопсуздук кодун ырастаган жок же түзмөгүндө кандайдыр бир көйгөй бар же ал сизди бөгөттөп салган."
@@ -1626,7 +1626,7 @@
     "messageformat": "Кечээ {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal келген билдирүүнү иштете албай жатат окшойт."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Билдирүүнүн тексти өтө узун."
@@ -4449,10 +4449,10 @@
     "messageformat": "Профилиңиз жаңыртылган жок. Кайра аракет кылыңыз."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Жараксыз символдор"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Бир же бир нече символ жарабайт. Кайталап көрүңүз."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Администраторго билдирүү жөнөтүү"
@@ -5681,6 +5681,6 @@
     "messageformat": "Кээде бир нерсени артка калтыргандан кийин гана баркын сезесиң. Ошол сыңары, чыгып кеткен тобуңузду кайра оңой тапкыдай мүмкүнчүлүк бердик."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Эми оңдолгон билдирүүлөрдөгү тырмакчаланган жоопторду өчүрүп салсаңыз болот. \"Мен да сени сүйөм\" деп жаңылыш билдирүү жөнөтүп алган учурларга жакшы."
   }
 }

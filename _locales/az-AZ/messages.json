@@ -1416,7 +1416,7 @@
     "messageformat": "{name} əlaqəsindən səs və ya görüntü alına bilmir"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Audio və video fayl qəbul etmək mümkün deyil"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Bu, qarşı tərəf güvənlik nömrəsi dəyişikliyinizi təsdiqləmədiyi, cihazında bir problem olduğu və ya sizi blokladığı üçün baş verə bilər."
@@ -1626,7 +1626,7 @@
     "messageformat": "Dünən {time} radələrində"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal gələn mesajı emal edə bilmir."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Mesaj gövdəsi çox uzundur."
@@ -4449,10 +4449,10 @@
     "messageformat": "Profiliniz yenilənə bilmir. Zəhmət olmasa yenidən sınayın."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Səhv simvollar"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Daxil etdiyiniz bir və ya daha çox simvol istifadə oluna bilmir. Yenidən cəhd edin."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir adminə mesaj yazın"
@@ -5681,6 +5681,6 @@
     "messageformat": "Bəzən nəyisə geridə qoymaq onu yenidən tapmaq istəyini aşkarlamağın ən yaxşı üsuludur, buna görə də artıq üzvü olmadığınız, lakin hələ də söhbət siyahınızda (və çox güman ki, ürəyinizdə) qalan qrupları axtarmağı çətinləşdirən xətanı aradan qaldırdıq."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Artıq sitatlı cavabları redaktə edilmiş mesajlardan silə bilərsiniz. Artıq cavabınızın kifayət qədər dolğun olduğu və bir sitata ehtiyacı olmadığını hiss etdiyiniz, o cümlədən də səhvən birisinə \"Mən də səni sevirəm\" mesajı göndərdiyiniz anlarda mesajınızı asanlıqla dəyişə bilərsiniz."
   }
 }

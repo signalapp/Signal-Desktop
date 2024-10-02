@@ -1416,7 +1416,7 @@
     "messageformat": "לא ניתן לקבל שמע ווידאו מאת {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "לא ניתן לקבל אודיו ווידאו"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "זה יכול להיות בגלל שהיא או הוא לא אישרו את שינוי מספר הבטיחות שלך, או שיש בעיה עם המכשיר שלהם, או שהם חסמו אותך."
@@ -1626,7 +1626,7 @@
     "messageformat": "אתמול {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "יתכן ש–Signal לא מצליחה לעבד הודעה נכנסת."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "גוף ההודעה ארוך מדי."
@@ -4449,10 +4449,10 @@
     "messageformat": "הפרופיל שלך לא היה יכול להתעדכן. אנא נסה שוב."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "תווים לא חוקיים"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "לא ניתן להשתמש בתו אחד או יותר שהזנת. יש לנסות שוב."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "שלח הודעה אל מנהלן"
@@ -5681,6 +5681,6 @@
     "messageformat": "העדכון הזה מתקן באג שהקשה על חיפוש קבוצה מסוימת אחרי שעזבת אותה."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "עכשיו אפשר להסיר תגובות מצוטטות מהודעות ערוכות."
   }
 }

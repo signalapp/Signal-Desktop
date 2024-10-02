@@ -1416,7 +1416,7 @@
     "messageformat": "{name} से ऑडियो और वीडियो नहीं प्राप्त की जा सकती"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "ऑडियो और वीडियो नहीं पाया जा सकता"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "यह इसलिए हो सकता है क्योंकि उन्होंने आपके सुरक्षा नंबर में परिवर्तन को वेरिफाई नहीं किया है, उनके डिवाइस के साथ कोई समस्या है, या उन्होंने आपको ब्लॉक कर दिया है।"
@@ -1626,7 +1626,7 @@
     "messageformat": "कल {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal किसी आने वाले संदेश को प्रोसेस करने में असफल हो सकता है।"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "मेसेज बहुत लंबा है"
@@ -4449,10 +4449,10 @@
     "messageformat": "आपकी प्रोफ़ाइल को अपडेट नहीं किया जा सका। कृपया दोबारा प्रयास करें।"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "अमान्य वर्ण"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "आपके दर्ज किए गए एक या ज़्यादा वर्णों को इस्तेमाल नहीं किया जा सकता। फिर से कोशिश करें।"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "व्यवस्थापक को संदेश भेजें"
@@ -5681,6 +5681,6 @@
     "messageformat": "कभी-कभी, किसी चीज़ को पीछे छोड़ने पर इस बात का एहसास होता है कि आप इसे फिर से पाना चाहते हैं, इसलिए हमने एक ऐसी गड़बड़ी को ठीक किया है जिसकी वजह से ऐसे ग्रुप्स को खोजना मुश्किल हो जाता था जिनका हिस्सा अब आप नहीं हैं, लेकिन जो अब भी आपकी बातचीत की सूची में मौजूद हैं (और शायद आपके दिल में भी)।"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "अब आप संपादित किए गए संदेशों से क्वोट किए गए जवाबों को हटा सकते हैं। यह उन पलों के लिए एकदम सही है जब आपको एहसास होता है कि आपका जवाब इतना अच्छा था कि उसे किसी और संदेश के साथ की ज़रूरत नहीं है या जब आप किसी गलत संदेश का जवाब गलती से \"मुझे भी तुमसे प्यार है\" दे देते हैं।"
   }
 }

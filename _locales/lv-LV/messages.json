@@ -1416,7 +1416,7 @@
     "messageformat": "Nevar saņemt audio un video no {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Nevar saņemt audio un video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Tā var notikt, jo dalībnieki nav verificējuši jūsu drošības numura izmaiņas, radusies problēma ar ierīci vai arī dalībnieki ir jūs bloķējuši."
@@ -1626,7 +1626,7 @@
     "messageformat": "Vakar, {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Iespējams, Signal nespēj apstrādāt ienākošu ziņojumu."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Ziņas pamatteksts ir pārāk garš."
@@ -4449,10 +4449,10 @@
     "messageformat": "Jūsu profilu nevarēja atjaunināt. Lūdzu, mēģiniet vēlreiz."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Nederīgas rakstzīmes"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Vienu vai vairākas ievadītās rakstzīmes nevar izmantot. Mēģiniet vēlreiz."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Ziņot adminam"
@@ -5681,6 +5681,6 @@
     "messageformat": "Reizēm labākais veids, kā kaut ko atrast, ir atstāt aiz sevis pēdas. Šajā atjauninājumā ir izlabota kļūda, kuras dēļ ne vienmēr izdevās atrast grupas, kurās vairs neesat, bet kuras vēl aizvien atrodas jūsu sarunu sarakstā (un, iespējams, jūsu sirdī)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Tagad no rediģētajām ziņām varat noņemt citētās atbildes. Tas noderēs gadījumos, kad jūsu atbilde ir bijusi tik lieliska, ka tai nav jāstāv uz citu ziņu pleciem, vai tad, kad ar \"Es arī tevi mīlu\" esat atbildējuši uz nepareizo ziņu."
   }
 }

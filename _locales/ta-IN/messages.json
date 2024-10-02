@@ -1416,7 +1416,7 @@
     "messageformat": "{name}இலிருந்து ஆடியோ மற்றும் வீடியோவைப் பெற முடியவில்லை"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "ஆடியோ மற்றும் வீடியோவைப் பெற முடியவில்லை"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "இது உங்கள் பாதுகாப்பு எண் மாற்றத்தை அவர்கள் சரிபார்க்கவில்லை அல்லது அவர்களின் சாதனத்தில் சிக்கல் இருப்பதால் அல்லது அவர்கள் உங்களைத் தடுத்ததால் இருக்கலாம்."
@@ -1626,7 +1626,7 @@
     "messageformat": "நேற்று {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "சிக்னல் உள்வரும் மெசேஜைச் செயலாக்கத் தவறியிருக்கலாம்."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "செய்தி உடல் மிக நீளமானது."
@@ -4449,10 +4449,10 @@
     "messageformat": "உங்கள் சுயவிவரத்தை புதுப்பிக்க முடியவில்லை. தயவு செய்து மீண்டும் முயற்சி செய்."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "தவறான எழுத்துக்கள்"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "நீங்கள் உள்ளிட்ட ஒன்று அல்லது அதற்கு மேற்பட்ட எழுத்துக்களைப் பயன்படுத்த முடியாது. மீண்டும் முயற்சிக்கவும்."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ஒரு நிர்வாகிக்கு செய்தி அனுப்புங்கள்"
@@ -5681,6 +5681,6 @@
     "messageformat": "இந்தக் குழுவில் இருந்து வெளியேறிய பிறகு ஒரு குழுவைத் தேடுவதில் சிக்கலை ஏற்படுத்தும் பிழையை இந்த மேம்படுத்தல் சரிசெய்கிறது."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "திருத்தப்பட்ட மெசேஜ்களிருந்து மேற்கோள் காட்டப்பட்ட பதில்களை நீங்கள் இப்போது அகற்றலாம்."
   }
 }

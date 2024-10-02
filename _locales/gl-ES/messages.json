@@ -1416,7 +1416,7 @@
     "messageformat": "Non se pode recibir o audio e vídeo de {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Non podes recibir nin audio nin vídeo"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Pode ser que non verificasen o cambio do teu número de seguridade, que haxa un problema co seu dispositivo ou que te bloqueasen."
@@ -1626,7 +1626,7 @@
     "messageformat": "Onte {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal pode non estar a procesar correctamente unha mensaxe entrante."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "A mensaxe de texto é demasiado longa."
@@ -4449,10 +4449,10 @@
     "messageformat": "Non se actualizou o teu perfil. Inténtao de novo."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Caracteres non válidos"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Un ou máis caracteres que empregaches non poden usarse. Téntao de novo."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Enviar mensaxe a un administrador"
@@ -5681,6 +5681,6 @@
     "messageformat": "Esta actualización soluciona un erro que dificultaba a busca dun grupo despois de abandonalo."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Agora podes eliminar as respostas citadas das mensaxes editadas."
   }
 }

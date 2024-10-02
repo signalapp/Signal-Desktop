@@ -1416,7 +1416,7 @@
     "messageformat": "{name} မှ အသံနှင့် ဗီဒီယို မရရှိနိုင်ပါ"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "အော်ဒီယိုနှင့် ဗီဒီယိုကို လက်ခံ၍မရပါ"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "သင့်လုံခြုံရေးနံပါတ် ပြောင်းလဲမှုကို ၎င်းတို့ အတည်မပြုရသေးသောကြောင့် သော်လည်းကောင်း၊ ၎င်းတို့ စက်တွင် ပြဿနာရှိနေသောကြောင့် သော်လည်းကောင်း၊ ၎င်းတို့က သင့်ကို ဘလော့ခ်ထားသောကြောင့် သော်လည်းကောင်း ဖြစ်နိုင်ပါသည်။"
@@ -1626,7 +1626,7 @@
     "messageformat": "ယမန်နေ့ {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal သည် အဝင်မက်ဆေ့ချ်ကို ဆောင်ရွက်ရန် ပျက်ကွက်နေနိုင်သည်။"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "မက်ဆေ့ချ် စာကိုယ် ရှည်လွန်းနေပါသည်။"
@@ -4449,10 +4449,10 @@
     "messageformat": "သင်၏ ပရိုဖိုင်ကို အပ်ဒိတ်လုပ်၍ မရနိုင်ပါ။ ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "စာလုံးများ အကျုံးမဝင်ပါ"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "သင်ထည့်သွင်းထားသည့် တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသောစာလုံးများအား အသုံးပြု၍မရပါ။ ထပ်မံကြိုးစားပါ။"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "အက်ဒ်မင်ထံ မက်ဆေ့ချ် ပို့ရန်"
@@ -5681,6 +5681,6 @@
     "messageformat": "အဖွဲ့မှထွက်ခွာပြီးနောက် ထိုအဖွဲ့ကိုရှာရန် ခက်ခဲသည့် ပြစ်ချက်ကို ဤအပ်ဒိတ်တွင် ပြုပြင်ထားသည်။"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "ယခု သင် တည်းဖြတ်ထားသော မက်ဆေ့ချ်များမှ ကိုးကားထားသော ပြန်စာများကို ဖယ်ရှားနိုင်ပါပြီ။"
   }
 }

@@ -1416,7 +1416,7 @@
     "messageformat": "{name} دىن ئۈن ۋە سىن تاپشۇرۇۋالالمايدۇ"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "ئۈن ۋە سىننى قوبۇل قىلالمىدى"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "بۇنداق بولۇشىنىڭ سەۋەبى ئۇلار سىزنىڭ بىخەتەرلىك نومۇرىنى ئۆزگەرتكەنلىكىڭىزنى دەلىللىمىگەن بولۇشى مۇمكىن، ياكى ئۇلارنىڭ ئۈسكۈنىسىدە مەسىلە بار ۋە ياكى ئۇلار سىزنى چەكلىۋەتكەن بولۇشى مۇمكىن."
@@ -1626,7 +1626,7 @@
     "messageformat": "تۈنۈگۈن {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "سىگنال كەلگەن ئۇچۇرنى بىر تەرەپ قىلالمىغان بولۇشى مۇمكىن."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "ئۇچۇر زىيادە ئۇزۇن."
@@ -4449,10 +4449,10 @@
     "messageformat": "ئارخىپىڭىزنى يېڭىلىغىلى بولمىدى. قايتا سىناڭ."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "ئىناۋەتسىز بەلگىلەر"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "سىز كىرگۈزگەن بىر ياكى بىر قانچە بەلگىلەرنى ئىشلىتىشكە بولمايدۇ. قايتا سىناڭ."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "باشقۇرغۇچىغا ئۇچۇر يوللاڭ"
@@ -5681,6 +5681,6 @@
     "messageformat": "بەزىدە بىر نەرسىنى كەينىدە تاشلاپ قويۇش ، ئۇنى قايتا تېپىشنى خالايدىغانلىقىڭىزنى بايقاشنىڭ ئەڭ ياخشى ئۇسۇلى ، شۇڭا بىز ئەمدى سىز ئاللىقاچان چىقىپ كەتكەن ، ئەمما يەنىلا سۆھبەت تىزىملىكىڭىزدە قېلىپ قالغان (ۋە بەلكىم قەلبىڭىزگە ئورناپ قالغان بولۇشى مۇمكىن) گۇرۇپپىلارنى ئىزدەشنى قىيىنلاشتۇرىدىغان كەمتۈكنى ئوڭشىدۇق."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "ھازىر سىز تەھرىرلەنگەن ئۇچۇرلاردىن نەقىل ئېلىنغان جاۋابلارنى چىقىرىۋىتەلەيسىز. بۇ ئىقتىدار ئېھتىياتسىزلىقتىن خاتا ئۇچۇرغا «مەنمۇ سىزنى سۆيىمەن» دەپ جاۋاب بېرىپ قويغاندىكىدەك ئەھۋاللارغا بەكلا ماس كېلىدۇ."
   }
 }

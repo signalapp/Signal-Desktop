@@ -1416,7 +1416,7 @@
     "messageformat": "دریافت صدا و تصویر از {name} ممکن نیست"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "دریافت صدا و تصویر ممکن نیست"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "این می‌تواند به این دلیل باشد که او تغییر شماره امنیتی شما را تأیید نکرده، مشکلی برای دستگاهش پیش آمده یا شما را مسدود کرده است."
@@ -1626,7 +1626,7 @@
     "messageformat": "دیروز {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "سیگنال ممکن است پیام دریافتی را پردازش نکند."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "متن پیام بیش از حد طولانی می باشد."
@@ -1722,7 +1722,7 @@
     "messageformat": "سیستم"
   },
   "icu:noteToSelf": {
-    "messageformat": "یادداشت به خود"
+    "messageformat": "یادداشت برای خود"
   },
   "icu:noteToSelfHero": {
     "messageformat": "می‌توانید برای خودتان در این گفتگو یادداشت اضافه کنید. اگر حساب شما هرگونه دستگاه پیوندداده‌شده داشته باشد، یادداشت‌های جدید همگام‌سازی خواهند شد."
@@ -3828,7 +3828,7 @@
     "messageformat": "بازنشانی پیوند"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "الزام تأیید مدیر"
+    "messageformat": "نیازمند تأیید مدیر"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "نیاز به یک مدیر برای تأیید اعضای جدیدی که از طریق پیوند گروه می‌پیوندند"
@@ -4449,10 +4449,10 @@
     "messageformat": "امکان به‌روزرسانی پروفایل شما وجود نداشت. لطفاً دوباره امتحان کنید."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "نویسه‌های نامعتبر"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "یک یا چند نویسه که وارد کرده‌اید قابل استفاده نیست. دوباره امتحان کنید."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "به یک مدیر پیام دهید"
@@ -5572,7 +5572,7 @@
     "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "الزام تأیید مدیر"
+    "messageformat": "نیازمند تأیید مدیر"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
     "messageformat": "وقتی تماس فعال است، این تنظیم قابل تغییر نیست"
@@ -5614,7 +5614,7 @@
     "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "الزام تأیید مدیر"
+    "messageformat": "نیازمند تأیید مدیر"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
     "messageformat": "تأیید ورود"
@@ -5681,6 +5681,6 @@
     "messageformat": "در این به‌روزرسانی، اشکالی را برطرف کردیم که جستجوی گروه را پس از ترک آن گروه دشوار می‌کرد."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "اکنون می‌توانید پاسخ‌های نقل‌قول را از پیام‌های ویرایش‌شده حذف کنید."
   }
 }

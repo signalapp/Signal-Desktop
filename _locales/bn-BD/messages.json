@@ -1416,7 +1416,7 @@
     "messageformat": "{name}-এর কাছ থেকে অডিও ও ভিডিও গ্রহণ করা যাবে না"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "অডিও ও ভিডিও গ্রহণ করা যাচ্ছে না"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "এর কারণ হতে পারে যে- হয়তো তারা আপনার পরিবর্তিত নিরাপত্তা নাম্বার যাচাই করেননি, তাদের ডিভাইসে কোনো সমস্যা হয়েছে বা তারা আপনাকে ব্লক করেছেন।"
@@ -1626,7 +1626,7 @@
     "messageformat": "গতকাল {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal একটি আগত মেসেজ প্রক্রিয়া করতে ব্যর্থ হতে পারে।"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "বার্তার মূল অংশটি অনেক দীর্ঘ।"
@@ -4449,10 +4449,10 @@
     "messageformat": "আপনার প্রোফাইলটি আপডেট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "অকার্যকর ক্যারেক্টার"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "আপনার প্রদত্ত এক বা একাধিক ক্যারেক্টার ব্যবহার করা যাচ্ছে না। আবার চেষ্টা করুন।"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "একজন অ্যাডমিনকে মেসেজ পাঠান"
@@ -5681,6 +5681,6 @@
     "messageformat": "এই আপডেটটি একটি বাগ সংশোধন করে যা একটি গ্ৰুপ ছেড়ে যাওয়ার পর সেই গ্ৰুপটিকে খুঁজে বের করা কঠিন করে তুলেছিল।"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "এখন আপনি এডিটকৃত মেসেজ থেকে উদ্ধৃত উত্তর মুছে ফেলতে পারবেন।"
   }
 }

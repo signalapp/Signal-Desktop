@@ -1416,7 +1416,7 @@
     "messageformat": "មិនអាចទទួលសំឡេងនិងវីដេអូពី {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "មិនអាចទទួលសំឡេង និងវីដេអូបានទេ"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "វាអាចមកពីពួកគេមិនបានផ្ទៀងផ្ទាត់ការផ្លាស់ប្តូរលេខសុវត្ថិភាពរបស់អ្នក ឧបករណ៍របស់ពួកគេមានបញ្ហា ឬពួកគេបានទប់ស្កាត់អ្នក។"
@@ -1626,7 +1626,7 @@
     "messageformat": "ម្សិលមិញ {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal ប្រហែលជាមិនអាចដំណើរការសារដែលផ្ញើចូលមកបានទេ។"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "សារតួសេចក្តីវែងពេក។"
@@ -4449,10 +4449,10 @@
     "messageformat": "ប្រូហ្វាល់របស់អ្នកមិនអាចធ្វើបច្ចុប្បន្នភាពបានទេ។ សូម​ព្យាយាម​ម្តង​ទៀត។"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "តួអក្សរមិនត្រឹមត្រូវ"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "តួអក្សរមួយ ឬច្រើនដែលអ្នកបានបញ្ចូលមិនអាចប្រើបានទេ។ ព្យាយាមម្តងទៀត។"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ផ្ញើសារទៅអ្នកគ្រប់គ្រង"
@@ -5681,6 +5681,6 @@
     "messageformat": "ពេលខ្លះការទុកអ្វីមួយចោលគឺជាវិធីដ៏ល្អបំផុតដើម្បីឱ្យដឹងថាអ្នកចង់រកវាម្តងទៀត ដូច្នេះយើងបានដោះស្រាយបញ្ហាមួយដែលធ្លាប់ធ្វើឱ្យមានការពិបាកក្នុងការស្វែងរកក្រុមដែលអ្នកលែងជាសមាជិក ប៉ុន្តែវានៅតែមាននៅក្នុងបញ្ជីសន្ទនារបស់អ្នក (ហើយប្រហែលជាស្ថិតនៅក្នុងបេះដូងរបស់អ្នកទៀតផង)។"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "ឥឡូវនេះ អ្នកអាចលុបការឆ្លើយតបដែលបានដកស្រង់ ចេញពីសារដែលបានកែរួច។ ល្អបំផុតគឺសម្រាប់ពេលដែលអ្នកដឹងថាការឆ្លើយតបរបស់អ្នកគឺល្អណាស់ទៅហើយ មិនចាំបាច់មានសារផ្សេងទៀតមកភ្ជាប់អមទេ ឬនៅពេលដែលអ្នកឆ្លើយតបទៅច្រឡំសារដោយចៃដន្យ ដោយនិយាយថា \"ខ្ញុំក៏ស្រឡាញ់អ្នកដែរ\"។"
   }
 }

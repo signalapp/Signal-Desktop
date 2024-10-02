@@ -1416,7 +1416,7 @@
     "messageformat": "无法接收来自 {name} 的音频和视频"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "无法接收音频和视频"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "这可能是因为对方还未对您的安全码变更进行验证，或对方的设备有问题，或对方已将您屏蔽。"
@@ -1626,7 +1626,7 @@
     "messageformat": "昨天 {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal 可能无法处理传入消息。"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "消息过长。"
@@ -4449,10 +4449,10 @@
     "messageformat": "无法更新您的个人资料，请重试。"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "无效字符"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "您输入的一个或多个字符无法使用。请重试。"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "给管理人发消息"
@@ -5681,6 +5681,6 @@
     "messageformat": "此次更新修复了一个漏洞，该漏洞会导致用户在离开群组后难以搜索该群组。"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "现在您可以从编辑的消息中移除引用的回复。"
   }
 }

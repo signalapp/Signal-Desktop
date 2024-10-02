@@ -1416,7 +1416,7 @@
     "messageformat": "{name} તરફથી ઓડિયો અને વિડિયો પ્રાપ્ત કરી શકતા નથી"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "ઓડિયો અને વીડિયો પ્રાપ્ત કરી શકતાં નથી"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "આ એટલા માટે હોઈ શકે છે કારણ કે તેઓએ તમારા સલામતી નંબર બદલાવની ચકાસણી કરી નથી, તેમના ડિવાઇસમાં સમસ્યા છે, અથવા તેઓએ તમને બ્લૉક કર્યા છે."
@@ -1626,7 +1626,7 @@
     "messageformat": "ગઈકાલે {time} વાગ્યે"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal ઇનકમિંગ મેસેજની પ્રક્રિયા કરવામાં નિષ્ફળ થઈ શકે છે."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "મેસેજનો મુખ્ય ભાગ ખૂબ લાંબો છે."
@@ -4449,10 +4449,10 @@
     "messageformat": "તમારી પ્રોફાઇલ અપડેટ કરી શકાઈ નથી. મેહરબાની કરીને ફરીથી પ્રયાસ કરો."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "અમાન્ય અક્ષરો"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "તમે દાખલ કરેલ એક કે વધુ અક્ષરોનો ઉપયોગ કરી શકાતો નથી. ફરીથી પ્રયત્ન કરો."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "એડમિનને મેસેજ કરો"
@@ -5681,6 +5681,6 @@
     "messageformat": "આ અપડેટમાં એ બગને ઠીક કરવામાં આવ્યો છે જે કોઈ ગ્રૂપને છોડ્યા પછી તેને શોધવાનું મુશ્કેલ બનાવતો હતો."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "હવે તમે એડિટ કરેલા મેસેજમાંથી ક્વોટ કરેલા જવાબો દૂર કરી શકો છો."
   }
 }

@@ -1416,7 +1416,7 @@
     "messageformat": "Αδυναμία λήψης ήχου και εικόνας από τον/την {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Αδυναμία λήψης ήχου και βίντεο"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Αυτό ίσως οφείλεται στο ότι δεν έχει επιβεβαιώσει την αλλαγή του αριθμού ασφαλείας σου, ότι υπάρχει πρόβλημα με τη συσκευή του/της ή ότι σε έχει αποκλείσει."
@@ -1626,7 +1626,7 @@
     "messageformat": "Χθες {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Το Signal ενδέχεται να αποτυγχάνει να επεξεργαστεί ένα εισερχόμενο μήνυμα."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Το περιεχόμενο του μηνύματος είναι πολύ μεγάλο."
@@ -4449,10 +4449,10 @@
     "messageformat": "Το προφίλ σου δεν μπόρεσε να ανανεωθεί. Παρακαλώ προσπάθησε ξανά."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Μη έγκυροι χαρακτήρες"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Ένας ή περισσότεροι χαρακτήρες που έχεις εισαγάγει δεν μπορούν να χρησιμοποιηθούν. Ξαναπροσπάθησε."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Μήνυμα σε διαχειριστή"
@@ -5681,6 +5681,6 @@
     "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα που καθιστούσε δύσκολη την αναζήτηση μιας ομάδας μετά την αποχώρησή σου από αυτήν."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Τώρα μπορείς να αφαιρέσεις τις αναφερόμενες απαντήσεις από τα επεξεργασμένα μηνύματα."
   }
 }

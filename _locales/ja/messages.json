@@ -1416,7 +1416,7 @@
     "messageformat": "{name} からの音声と映像を受信できません"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "音声と動画を受信できません"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "相手があなたの安全番号の変更を検証していないか、相手の端末に問題があるか、あなたがブロックされている可能性があります。"
@@ -1626,7 +1626,7 @@
     "messageformat": "昨日 {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signalが受信メッセージの処理に失敗している可能性があります。"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "メッセージが長すぎます。"
@@ -4449,10 +4449,10 @@
     "messageformat": "プロフィールを更新できませんでした。再度試してください。"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "無効な文字です"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "入力した文字のうち、または1文字以上が使用できません。もう一度入力してください。"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "管理者に連絡"
@@ -5681,6 +5681,6 @@
     "messageformat": "このアップデートでは、抜けた後も会話リストに残っているグループを検索することが困難になっていたバグが修正されました。"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "編集したメッセージから引用返信を削除できるようになりました。"
   }
 }

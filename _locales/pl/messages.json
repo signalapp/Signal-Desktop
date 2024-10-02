@@ -1416,7 +1416,7 @@
     "messageformat": "Nie można odebrać audio i wideo od {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Nie można odebrać audio i wideo"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "To może być spowodowane tym, że ta osoba nie zweryfikowała Twojego numeru bezpieczeństwa, ma problem z urządzeniem albo Cię zablokowała."
@@ -1626,7 +1626,7 @@
     "messageformat": "Wczoraj, {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Możliwe, że Signal nie jest w stanie przetworzyć przychodzącej wiadomości."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Wiadomość jest za długa."
@@ -4449,10 +4449,10 @@
     "messageformat": "Nie udało się zaktualizować Twojego profilu. Spróbuj później."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Nieprawidłowe znaki"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Co najmniej jeden wprowadzony znak nie może zostać użyty. Spróbuj ponownie."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Wyślij do administratora"
@@ -5681,6 +5681,6 @@
     "messageformat": "Czasem trzeba coś stracić, żeby to docenić. Dlatego naprawiliśmy błąd utrudniający wyszukiwanie grup, do których już nie należysz, a które nadal znajdują się na liście Twoich rozmów."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Od teraz w ramach edycji wiadomości możesz usunąć cytowaną wiadomość. Przyda się zwłaszcza wtedy, gdy napiszesz coś tak błyskotliwego, że zasługuje na bycie samodzielną wiadomością. Albo kiedy przypadkowo odpiszesz „ja Ciebie też” na pytanie w stylu: „Co dziś jemy na obiad?”."
   }
 }

@@ -1416,7 +1416,7 @@
     "messageformat": "Huwezi kupokea sauti na video kutoka kwa {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Haiwezi kupokea simu ya sauti na video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Huenda hii ni kwa sababu hawajathibitisha mabadiliko ya nambari yako ya usalama, vifaa vyao vina hitilafu au amekuzuia."
@@ -1626,7 +1626,7 @@
     "messageformat": "Jana {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal huenda ikawa inashindwa kuchakata ujumbe unaoingia."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Mwili wa ujumbe ni mrefu sana."
@@ -4449,10 +4449,10 @@
     "messageformat": "Wasifu wako haujasasishwa. Tafadhali jaribu tena."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Herufi batili"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Herufi moja au zaidi ulizoingiza haziwezi kutumika. Jaribu tena."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Mtumie msimamizi ujumbe"
@@ -5681,6 +5681,6 @@
     "messageformat": "Wakati mwingine kukiacha kitu huwa ni njia bora ya kugundua kwamba ungependa kukipata tena, hivyo tumerekebisha hitilafu iliyokuwa inafanya ugumu kutafuta vikundi ambavyo si mwanachama wake tena lakini bado vimebaki katika orodha ya mazungumzo yako (na inawezekana hadi moyoni mwako)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Sasa unaweza kuondoa majibu yaliyonukuliwa kutoka kwenye ujumbe uliohaririwa. Inafaa kwa nyakati zile unapogundua kuwa jibu lako lilikuwa zuri sana kiasi kwamba halihitaji kusimama kwenye mabega ya ujumbe mwingine, au unapojibu ujumbe usio sahihi kwa \"Nakupenda pia.\""
   }
 }

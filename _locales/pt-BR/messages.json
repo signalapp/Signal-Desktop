@@ -1416,7 +1416,7 @@
     "messageformat": "Não é possível receber áudio e vídeo de {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Não é possível receber áudio e vídeo"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Isso pode acontecer porque: essa pessoa não verificou a alteração do seu número de segurança; há um problema com o dispositivo dela; ela bloqueou você."
@@ -1626,7 +1626,7 @@
     "messageformat": "Ontem, {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "O Signal pode estar falhando ao processar uma mensagem recebida."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Mensagem muito longa."
@@ -4449,10 +4449,10 @@
     "messageformat": "Não foi possível atualizar o seu perfil. Por favor, tente novamente."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Caracteres inválidos"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Um ou mais caracteres que você digitou não podem ser usados. Tente novamente. "
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Envie uma mensagem para um admin"
@@ -5681,6 +5681,6 @@
     "messageformat": "Corrigimos um erro que dificultava a busca por grupos dos quais você não faz mais parte, mas que ainda permanecem na sua lista de conversas (e possivelmente no seu coração)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Agora você pode remover as respostas citadas das mensagens editadas. É ideal para aqueles momentos em que você percebe que sua resposta foi tão boa que não precisa estar vinculada a outra mensagem, ou para quando você, sem querer, responde à mensagem errada."
   }
 }

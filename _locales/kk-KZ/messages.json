@@ -1416,7 +1416,7 @@
     "messageformat": "{name} жіберген аудио және видеоларды ала алмайсыз"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Аудио және видео қабылданбайды"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Бұл сіздің қауіпсіздік нөміріңіздің өзгергені верификацияланбаған, құрылғыда ақау болуы немесе ол сізді блоктап қойған болуы мүмкін."
@@ -1626,7 +1626,7 @@
     "messageformat": "Кеше {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal кіріс хабарды өңдей алмай жатқан сияқты."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Хаттың негізгі бөлімі тым ұзақ."
@@ -4449,10 +4449,10 @@
     "messageformat": "Профиліңізді жаңарту мүмкін емес. Қайталап көріңіз."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Таңбалар дұрыс емес"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Сіз енгізген бір немесе бірнеше таңбаны пайдалануға болмайды. Қайта енгізіп көріңіз."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Әкімшіге хат жазу"
@@ -5681,6 +5681,6 @@
     "messageformat": "Кейде бір нәрсені артта қалдырғанмен, оған қайта оралғың келетін сәттер туындап жататыны бар емес пе? Қуанышқа орай, қатені түзеттік. Енді бұрын шығып кеткен, бірақ әңгімелер тізіміңізден, бәлкім, жүрегіңізден де орын алған топтарды оңай таба аласыз."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Енді өзгертілген хабарлардан тырнақшаға алынған жауаптарды өшіруге болады. Басқа хабарға сүйенбей-ақ, жақсы жауап бергеніңізді түсіндіңіз бе? Әлде қателесіп, басқа хабарға \"Мен де сені жақсы көремін\" деп жауап бердіңіз бе? Қандай жағдай болса да, оның шешімін осылай бір сәтте таба аласыз."
   }
 }

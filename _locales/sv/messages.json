@@ -1416,7 +1416,7 @@
     "messageformat": "Kan inte ta emot ljud och video från {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Kan inte ta emot ljud och video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Det kan bero på att de inte har verifierat ditt säkerhetsnummerbyte, det finns ett problem med deras enhet eller att de har blockerat dig."
@@ -1626,7 +1626,7 @@
     "messageformat": "Igår {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal kanske inte kan behandla ett inkommande meddelande."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Meddelandekroppen är för lång."
@@ -4449,10 +4449,10 @@
     "messageformat": "Din profil kunde inte uppdateras. Försök igen."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ogiltiga tecken"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Ett eller flera tecken som du har angett kan inte användas. Försök igen."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Skicka ett meddelande till en administratör"
@@ -5681,6 +5681,6 @@
     "messageformat": "Den här uppdateringen åtgärdar en bugg som gjorde det svårt att söka efter en grupp efter att ha lämnat den gruppen."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nu kan du ta bort citerade svar från redigerade meddelanden."
   }
 }

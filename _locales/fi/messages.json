@@ -1416,7 +1416,7 @@
     "messageformat": "Ääni- ja videoviestin vastaanottaminen käyttäjältä {name} epäonnistui"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Ääntä ja videota ei voi vastaanottaa"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Tämä saattaa johtua siitä, että he eivät ole vahvistaneet uutta turvanumeroasi, laitteiden teknisistä ongelmista, tai siitä, että sinut on estetty."
@@ -1626,7 +1626,7 @@
     "messageformat": "Eilen {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal ei ehkä pysty käsittelemään saapuvaa viestiä."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Viestin teksti on liian pitkä."
@@ -4449,10 +4449,10 @@
     "messageformat": "Profiiliasi ei voitu päivittää. Ole hyvä ja yritä uudelleen."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Virheellisiä merkkejä"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Yhtä tai useampaa syöttämääsi merkkiä ei voi käyttää. Yritä uudelleen."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Lähetä viesti ylläpitäjälle"
@@ -5681,6 +5681,6 @@
     "messageformat": "Päivitys korjaa virheen, joka vaikeutti ryhmän hakemista ryhmästä eroamisen jälkeen."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nyt voit poistaa lainatut vastaukset muokatuista viesteistä."
   }
 }

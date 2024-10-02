@@ -1416,7 +1416,7 @@
     "messageformat": "收唔到 {name} 嘅聲同畫"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "收唔到聲同畫"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "可能係因為佢哋冇驗證你嘅安全碼變更、佢哋部裝置有問題，又或者佢哋封鎖咗你。"
@@ -1626,7 +1626,7 @@
     "messageformat": "琴日 {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal 可能處理唔到一個收到嘅訊息。"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "訊息太長。"
@@ -4449,10 +4449,10 @@
     "messageformat": "更新唔到你嘅個人檔案。請你再試過啦。"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "字元無效"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "一個或者多個你輸入嘅字元用唔到。再試多次。"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "傳個訊息俾管理員"
@@ -5681,6 +5681,6 @@
     "messageformat": "有時候，就算離開咗但係仲會依依不捨，所以我們修正咗一個錯誤，呢個錯誤攪到你好難揾返已經退出咗但仲存在喺對話列表入面嘅谷。"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "而家，你可以喺編輯咗嘅訊息度移除引用回覆。當你發現自己嘅回覆清晰到唔使引用訊息都睇得明，或者當你唔小心覆錯咗另一個訊息嗰陣，呢個功能就好啱用喇。"
   }
 }

@@ -1416,7 +1416,7 @@
     "messageformat": "Nie je možné prijať audio a video od používateľa {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Nie je možné prijímať zvuk a video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Môže to byť preto, že daný používateľ nepotvrdil zmenu vášho bezpečnostného čísla, vyskytol sa problém s jeho zariadením, alebo vás zablokoval."
@@ -1626,7 +1626,7 @@
     "messageformat": "Včera {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal môže zlyhať pri spracovaní prichádzajúcej správy."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Rozsah správy je príliš dlhý."
@@ -4449,10 +4449,10 @@
     "messageformat": "Váš profil sa nepodarilo aktualizovať. Prosím skúste to znova."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Neplatné znaky"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Jeden alebo viac znakov, ktoré ste zadali, nie je možné použiť. Skúste to znova."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Pošlite správu správcovi"
@@ -5681,6 +5681,6 @@
     "messageformat": "Táto aktualizácia opravuje chybu, ktorá sťažovala vyhľadávanie skupiny po jej opustení."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Teraz môžete odstrániť citované odpovede z upravených správ."
   }
 }

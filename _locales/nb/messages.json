@@ -1416,7 +1416,7 @@
     "messageformat": "Kan ikke motta lyd og bilde fra {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Lyd og video er ikke tilgjengelig"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dette kan være fordi vedkommende ikke har verifisert det endrede sikkerhetsnummeret ditt, det er et problem med personens enhet eller hen har blokkert deg."
@@ -1626,7 +1626,7 @@
     "messageformat": "I går kl. {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Det kan hende at Signal har problemer med å behandle en innkommende melding."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Meldingsteksten er for lang."
@@ -4449,10 +4449,10 @@
     "messageformat": "Profilen din kunne ikke oppdateres. Prøv igjen."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ugyldige tegn"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Teksten inneholder ugyldige tegn. Prøv på nytt."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Send melding til en administrator"
@@ -5681,6 +5681,6 @@
     "messageformat": "I denne oppdateringen har vi gjort det mulig å søke etter grupper som du har meldt deg ut av tidligere."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nå er det mulig å fjerne siterte svar fra redigerte meldinger."
   }
 }

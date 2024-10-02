@@ -1416,7 +1416,7 @@
     "messageformat": "{name} kişisinden ses ve görüntü alınamıyor"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Ses ve görüntü alınamıyor"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Bunun sebebi güvenlik numaranın değişimini doğrulamaması, cihazıyla ilgili bir sorun olması veya seni engellemesi olabilir."
@@ -1626,7 +1626,7 @@
     "messageformat": "Dün {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal gelen bir mesajı işleyemiyor olabilir."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "İleti metni çok uzun."
@@ -4449,10 +4449,10 @@
     "messageformat": "Profiliniz güncellenemedi. Lütfen tekrar deneyin."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Geçersiz karakterler"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Girmiş olduğun bir veya daha fazla karakter kullanılamıyor. Tekrar dene."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir yöneticiye yazın"
@@ -5681,6 +5681,6 @@
     "messageformat": "Bu güncellemede, bir gruptan ayrıldıktan sonra o grubu aramayı zorlaştıran bir hatayı düzelttik."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Artık alıntılanan yanıtları düzenlenmiş mesajlardan kaldırabilirsin. Birine kazara yanlış bir mesaj gönderdiğinde paçayı sıyırmak için harika bir yoldur. Böylelikle yanlış anlamaların önüne geçer ve sorunsuzca yoluna devam edersin."
   }
 }

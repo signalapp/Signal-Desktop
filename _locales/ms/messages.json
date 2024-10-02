@@ -1416,7 +1416,7 @@
     "messageformat": "Tidak dapat menerima audio dan video daripada {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Tidak dapat menerima audio dan video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Ini mungkin kerana mereka belum mengesahkan perubahan nombor keselamatan anda, terdapat masalah dengan peranti mereka atau mereka telah menyekat anda."
@@ -1626,7 +1626,7 @@
     "messageformat": "Semalam {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal mungkin gagal memproses mesej masuk."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Isi mesej terlalu panjang"
@@ -4449,10 +4449,10 @@
     "messageformat": "Profil anda tidak dapat dikemas kini. Sila cuba lagi."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Aksara tidak sah"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Satu atau lebih aksara yang anda masukkan tidak boleh digunakan. Cuba lagi."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Mesej pentadbir"
@@ -5681,6 +5681,6 @@
     "messageformat": "Kemas kini ini membaiki pepijat yang menjadikannya sukar untuk mencari kumpulan selepas keluar daripada kumpulan itu."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Kini anda boleh mengalih keluar balasan yang dipetik daripada mesej yang diedit."
   }
 }

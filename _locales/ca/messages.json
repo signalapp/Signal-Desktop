@@ -1416,7 +1416,7 @@
     "messageformat": "No es pot rebre ni àudio ni vídeo de {name}."
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "No es pot rebre ni àudio ni vídeo"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Això pot ser degut al fet que no han verificat el canvi del teu número de seguretat, hi ha un problema al seu dispositiu o t'han bloquejat."
@@ -1626,7 +1626,7 @@
     "messageformat": "Ahir {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "És possible que Signal no processi un missatge entrant."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "El cos del missatge és massa llarg."
@@ -4449,10 +4449,10 @@
     "messageformat": "No s'ha pogut actualitzar el perfil. Torneu-ho a provar més tard."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Caràcters no vàlids"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Un o més caràcters que has introduït no es poden utilitzar. Torna a provar-ho."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Envia un missatge a un administrador"
@@ -5681,6 +5681,6 @@
     "messageformat": "Aquesta actualització corregeix un error que dificultava trobar un grup després d'haver-ne sortit."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Ara pots eliminar les respostes citades dels missatges editats."
   }
 }

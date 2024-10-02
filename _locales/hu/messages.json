@@ -1416,7 +1416,7 @@
     "messageformat": "{name} hang és kép adása nem megjeleníthető"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Nem tudsz hangot és videót fogadni"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Ennek oka lehet, hogy esetleg nem ellenőrizte le a biztonsági azonosítód megváltozását, készülék problémája van, vagy letiltott téged."
@@ -1626,7 +1626,7 @@
     "messageformat": "Tegnap {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Lehet, hogy a Signal nem tudja feldolgozni a bejövő üzenetet."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Az üzenet szövege túl hosszú."
@@ -4449,10 +4449,10 @@
     "messageformat": "Nem sikerült frissíteni profilodat. Próbáld újra!"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Érvénytelen karakterek"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Egy vagy több beírt karakter nem használható. Próbáld újra."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Üzenet egy adminnak"
@@ -5681,6 +5681,6 @@
     "messageformat": "Ez a frissítés egy olyan hibát javít ki, amely megnehezítette egy adott csoport keresését a csoport elhagyása után."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Mostantól eltávolíthatod az idézett válaszokat a szerkesztett üzenetekből."
   }
 }

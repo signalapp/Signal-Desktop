@@ -1416,7 +1416,7 @@
     "messageformat": "Der modtages ikke lyd og video fra {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Kan ikke modtage lyd og video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dette kan skyldes at personen ikke har bekræftet ændringen i dit sikkerhedsnummer, at der er et problem med deres enhed eller at de har blokeret dig."
@@ -1626,7 +1626,7 @@
     "messageformat": "I går {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signalet kan muligvis ikke behandle en indgående besked."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Beskeden er for langt."
@@ -4449,10 +4449,10 @@
     "messageformat": "Din profil kunne ikke opdateres. Prøv venligst igen."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ugyldige tegn"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Et eller flere tegn, du har angivet, må ikke bruges. Prøv igen."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Send en besked til en administrator"
@@ -5681,6 +5681,6 @@
     "messageformat": "Nogle gange er det at efterlade noget den bedste måde at opdage, at du gerne vil finde det igen, så vi har rettet en fejl, der gjorde det svært at søge efter grupper, som du ikke længere er en del af længere, men som stadig forbliver på din samtaleliste (og muligvis i dit hjerte)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nu kan du fjerne citerede svar fra redigerede beskeder. Det er perfekt til de øjeblikke, hvor du indser, at dit svar var så godt, at det faktisk ikke behøver at stå på en anden beskeds skuldre, eller når du ved et uheld svarer på den forkerte besked med \"Jeg elsker også dig.\""
   }
 }
