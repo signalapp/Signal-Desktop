@@ -76,6 +76,25 @@ export class BackupsService {
     });
   }
 
+  public async download(
+    options: Omit<DownloadOptionsType, 'downloadOffset'>
+  ): Promise<void> {
+    const backupDownloadPath = window.storage.get('backupDownloadPath');
+    if (!backupDownloadPath) {
+      log.warn('backups.download: no backup download path, skipping');
+      return;
+    }
+
+    const absoluteDownloadPath =
+      window.Signal.Migrations.getAbsoluteDownloadsPath(backupDownloadPath);
+    log.info('backups.download: downloading...');
+    const hasBackup = await this.doDownload(absoluteDownloadPath, options);
+
+    await window.storage.remove('backupDownloadPath');
+
+    log.info(`backups.download: done, had backup=${hasBackup}`);
+  }
+
   public async upload(): Promise<void> {
     const fileName = `backup-${randomBytes(32).toString('hex')}`;
     const filePath = join(window.BasePaths.temp, fileName);
@@ -153,86 +172,6 @@ export class BackupsService {
     } else {
       log.error('importBackup: not canceling download, not running');
     }
-  }
-
-  public async download(
-    downloadPath: string,
-    { onProgress }: Omit<DownloadOptionsType, 'downloadOffset'>
-  ): Promise<boolean> {
-    const controller = new AbortController();
-
-    // Abort previous download
-    this.downloadController?.abort();
-    this.downloadController = controller;
-
-    let downloadOffset = 0;
-    try {
-      ({ size: downloadOffset } = await stat(downloadPath));
-    } catch (error) {
-      if (error.code !== 'ENOENT') {
-        throw error;
-      }
-
-      // File is missing - start from the beginning
-    }
-
-    try {
-      await ensureFile(downloadPath);
-
-      if (controller.signal.aborted) {
-        return false;
-      }
-
-      const stream = await this.api.download({
-        downloadOffset,
-        onProgress,
-        abortSignal: controller.signal,
-      });
-
-      if (controller.signal.aborted) {
-        return false;
-      }
-
-      await pipeline(
-        stream,
-        createWriteStream(downloadPath, {
-          flags: 'a',
-          start: downloadOffset,
-        })
-      );
-
-      if (controller.signal.aborted) {
-        return false;
-      }
-
-      this.downloadController = undefined;
-
-      // Too late to cancel now
-      try {
-        await this.importFromDisk(downloadPath);
-      } finally {
-        await unlink(downloadPath);
-      }
-    } catch (error) {
-      // Download canceled
-      if (error.name === 'AbortError') {
-        return false;
-      }
-
-      // No backup on the server
-      if (error instanceof HTTPError && error.code === 404) {
-        return false;
-      }
-
-      try {
-        await unlink(downloadPath);
-      } catch {
-        // Best-effort
-      }
-      throw error;
-    }
-
-    return true;
   }
 
   public async importBackup(
@@ -355,6 +294,86 @@ export class BackupsService {
     }
 
     return { isInBackupTier: true, cdnNumber: storedInfo.cdnNumber };
+  }
+
+  private async doDownload(
+    downloadPath: string,
+    { onProgress }: Omit<DownloadOptionsType, 'downloadOffset'>
+  ): Promise<boolean> {
+    const controller = new AbortController();
+
+    // Abort previous download
+    this.downloadController?.abort();
+    this.downloadController = controller;
+
+    let downloadOffset = 0;
+    try {
+      ({ size: downloadOffset } = await stat(downloadPath));
+    } catch (error) {
+      if (error.code !== 'ENOENT') {
+        throw error;
+      }
+
+      // File is missing - start from the beginning
+    }
+
+    try {
+      await ensureFile(downloadPath);
+
+      if (controller.signal.aborted) {
+        return false;
+      }
+
+      const stream = await this.api.download({
+        downloadOffset,
+        onProgress,
+        abortSignal: controller.signal,
+      });
+
+      if (controller.signal.aborted) {
+        return false;
+      }
+
+      await pipeline(
+        stream,
+        createWriteStream(downloadPath, {
+          flags: 'a',
+          start: downloadOffset,
+        })
+      );
+
+      if (controller.signal.aborted) {
+        return false;
+      }
+
+      this.downloadController = undefined;
+
+      // Too late to cancel now
+      try {
+        await this.importFromDisk(downloadPath);
+      } finally {
+        await unlink(downloadPath);
+      }
+    } catch (error) {
+      // Download canceled
+      if (error.name === 'AbortError') {
+        return false;
+      }
+
+      // No backup on the server
+      if (error instanceof HTTPError && error.code === 404) {
+        return false;
+      }
+
+      try {
+        await unlink(downloadPath);
+      } catch {
+        // Best-effort
+      }
+      throw error;
+    }
+
+    return true;
   }
 
   private async exportBackup(

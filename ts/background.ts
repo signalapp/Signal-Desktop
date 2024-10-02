@@ -736,6 +736,7 @@ export async function startApp(): Promise<void> {
           );
           log.info('background/shutdown: shutting down messageReceiver');
           server.unregisterRequestHandler(messageReceiver);
+          StorageService.disableStorageService();
           messageReceiver.stopProcessing();
           await window.waitForAllBatchers();
         }
@@ -1312,12 +1313,8 @@ export async function startApp(): Promise<void> {
   });
 
   async function runStorageService({ reason }: { reason: string }) {
-    if (window.storage.get('backupDownloadPath')) {
-      log.info(
-        'background: not running storage service while downloading backup'
-      );
-      return;
-    }
+    await backupReady.promise;
+
     StorageService.enableStorageService();
     StorageService.runStorageServiceSyncJob({
       reason: `runStorageService/${reason}`,
@@ -1431,10 +1428,7 @@ export async function startApp(): Promise<void> {
       drop(connect(true));
 
       // Connect messageReceiver back to websocket
-      afterStart();
-
-      // Run storage service after linking
-      drop(runStorageService({ reason: 'background/registration_done' }));
+      drop(afterStart());
     });
 
     cancelInitializationMessage();
@@ -1519,12 +1513,10 @@ export async function startApp(): Promise<void> {
       resolveOnAppView = undefined;
     }
 
-    afterStart();
+    drop(afterStart());
   }
 
-  const backupReady = explodePromise<void>();
-
-  function afterStart() {
+  async function afterStart() {
     strictAssert(messageReceiver, 'messageReceiver must be initialized');
     strictAssert(server, 'server must be initialized');
 
@@ -1590,45 +1582,25 @@ export async function startApp(): Promise<void> {
       onOffline();
     }
 
-    drop(downloadBackup());
-  }
+    // Download backup before enabling request handler and storage service
+    try {
+      await backupsService.download({
+        onProgress: (currentBytes, totalBytes) => {
+          window.reduxActions.installer.updateBackupImportProgress({
+            currentBytes,
+            totalBytes,
+          });
+        },
+      });
 
-  async function downloadBackup() {
-    strictAssert(server != null, 'server must be initialized');
-    strictAssert(
-      messageReceiver != null,
-      'MessageReceiver must be initialized'
-    );
-
-    const backupDownloadPath = window.storage.get('backupDownloadPath');
-    if (!backupDownloadPath) {
-      log.warn('downloadBackup: no backup download path, skipping');
       backupReady.resolve();
-      server.registerRequestHandler(messageReceiver);
-      drop(runStorageService({ reason: 'downloadBackup/noPath' }));
-      return;
+    } catch (error) {
+      backupReady.reject(error);
+      throw error;
     }
 
-    const absoluteDownloadPath =
-      window.Signal.Migrations.getAbsoluteDownloadsPath(backupDownloadPath);
-    log.info('downloadBackup: downloading...');
-    const hasBackup = await backupsService.download(absoluteDownloadPath, {
-      onProgress: (currentBytes, totalBytes) => {
-        window.reduxActions.installer.updateBackupImportProgress({
-          currentBytes,
-          totalBytes,
-        });
-      },
-    });
-    await window.storage.remove('backupDownloadPath');
-
-    log.info(`downloadBackup: done, had backup=${hasBackup}`);
-
-    // Start storage service sync, etc
-    log.info('downloadBackup: processing websocket messages, storage service');
-    backupReady.resolve();
     server.registerRequestHandler(messageReceiver);
-    drop(runStorageService({ reason: 'downloadBackup/complete' }));
+    drop(runStorageService({ reason: 'afterStart' }));
   }
 
   window.getSyncRequest = (timeoutMillis?: number) => {
@@ -1693,6 +1665,8 @@ export async function startApp(): Promise<void> {
     );
   }
 
+  let backupReady = explodePromise<void>();
+
   let connectCount = 0;
   let connectPromise: ExplodePromiseResultType<void> | undefined;
   let remotelyExpired = false;
@@ -1727,7 +1701,14 @@ export async function startApp(): Promise<void> {
 
     strictAssert(server !== undefined, 'WebAPI not connected');
 
-    await backupReady.promise;
+    // Wait for backup to be downloaded
+    try {
+      await backupReady.promise;
+    } catch (error) {
+      log.error('background: backup download failed, not reconnecting', error);
+      return;
+    }
+    log.info('background: connect unblocked by backups');
 
     try {
       connectPromise = explodePromise();
@@ -3039,7 +3020,11 @@ export async function startApp(): Promise<void> {
       log.info('unlinkAndDisconnect: logging out');
       strictAssert(server !== undefined, 'WebAPI not initialized');
       server.unregisterRequestHandler(messageReceiver);
+      StorageService.disableStorageService();
       messageReceiver.stopProcessing();
+
+      backupReady.reject(new Error('Aborted'));
+      backupReady = explodePromise();
 
       await server.logout();
       await window.waitForAllBatchers();
