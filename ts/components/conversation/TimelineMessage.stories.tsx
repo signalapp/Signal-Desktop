@@ -1916,7 +1916,6 @@ const fullContact = {
     prefix: 'Dr.',
     suffix: 'Jr.',
     middleName: 'James',
-    displayName: 'Jerry Jordan',
   },
   number: [
     {
@@ -1987,7 +1986,7 @@ export const EmbeddedContactLoadingAvatar = Template.bind({});
 EmbeddedContactLoadingAvatar.args = {
   contact: {
     name: {
-      displayName: 'Jerry Jordan',
+      nickname: 'Jerry',
     },
     avatar: {
       avatar: fakeAttachment({
