@@ -2048,6 +2048,10 @@ export function enableStorageService(): void {
   storageServiceEnabled = true;
 }
 
+export function disableStorageService(): void {
+  storageServiceEnabled = false;
+}
+
 export async function eraseAllStorageServiceState({
   keepUnknownFields = false,
 }: { keepUnknownFields?: boolean } = {}): Promise<void> {

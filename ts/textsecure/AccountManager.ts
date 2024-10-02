@@ -952,6 +952,7 @@ export default class AccountManager extends EventTarget {
     const numberChanged =
       !previousACI && previousNumber && previousNumber !== number;
 
+    let cleanStart = !previousACI && !previousPNI && !previousNumber;
     if (uuidChanged || numberChanged || backupFile !== undefined) {
       if (uuidChanged) {
         log.warn(
@@ -973,6 +974,8 @@ export default class AccountManager extends EventTarget {
       try {
         await storage.protocol.removeAllData();
         log.info('createAccount: Successfully deleted previous data');
+
+        cleanStart = true;
       } catch (error) {
         log.error(
           'Something went wrong deleting data from previous number',
@@ -1091,6 +1094,13 @@ export default class AccountManager extends EventTarget {
       throw missingCaseError(options);
     }
 
+    // Set backup download path before storing credentials to ensure that
+    // storage service and message receiver are not operating
+    // until the backup is downloaded and imported.
+    if (isBackupEnabled() && cleanStart) {
+      await storage.put('backupDownloadPath', getRelativePath(createName()));
+    }
+
     // `setCredentials` needs to be called
     // before `saveIdentifyWithAttributes` since `saveIdentityWithAttributes`
     // indirectly calls `ConversationController.getConversationId()` which
@@ -1163,9 +1173,6 @@ export default class AccountManager extends EventTarget {
 
     const regionCode = getRegionCodeForNumber(number);
     await storage.put('regionCode', regionCode);
-    if (isBackupEnabled()) {
-      await storage.put('backupDownloadPath', getRelativePath(createName()));
-    }
     await storage.protocol.hydrateCaches();
 
     const store = storage.protocol;
