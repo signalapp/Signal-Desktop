@@ -7,6 +7,7 @@ import {
   flatten,
   fromPairs,
   isNumber,
+  omit,
   values,
 } from 'lodash';
 import Long from 'long';
@@ -3111,6 +3112,19 @@ export async function maybeUpdateGroup(
   }
 }
 
+/**
+ * UpdateGroup runs on the conversation's queue, and it overwrites all of conversation
+ * attributes. This would be fine, except we have some time-sensitive conversation-related
+ * tasks that happen off-queue, notably: updateUnread(). This is a non-exhaustive list of
+ * attributes that should never be stomped by updateGroup. Attributes should be added here
+ * if:
+ * 1) [most importantly!] they will never be updated by updateGroup, and
+ * 2) they are updated off-queue and therefore at risk of being stomped on.
+ *
+ * TODO (DESKTOP-7729): consider better separating conversation data to avoid this
+ */
+const FIELDS_UNRELATED_TO_GROUP_STATE = ['unreadCount', 'unreadMentionsOfMe'];
+
 async function updateGroup(
   {
     conversation,
@@ -3262,7 +3276,7 @@ async function updateGroup(
   }
 
   conversation.set({
-    ...newAttributes,
+    ...omit(newAttributes, FIELDS_UNRELATED_TO_GROUP_STATE),
     active_at: activeAt,
   });
 
