@@ -14,6 +14,7 @@ import type {
   ActiveCallStateType,
 } from '../ducks/calling';
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/callingHelpers';
+import type { PresentedSource } from '../../types/Calling';
 import { CallMode } from '../../types/CallDisposition';
 import type { CallLinkType } from '../../types/CallLink';
 import { getUserACI } from './user';
@@ -165,4 +166,10 @@ export const areAnyCallsActiveOrRinging = createSelector(
   getActiveCall,
   getIncomingCall,
   (activeCall, incomingCall): boolean => Boolean(activeCall || incomingCall)
+);
+
+export const getPresentingSource = createSelector(
+  getActiveCallState,
+  (activeCallState): PresentedSource | undefined =>
+    activeCallState?.presentingSource
 );
