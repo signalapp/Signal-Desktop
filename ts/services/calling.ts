@@ -155,6 +155,7 @@ import { getConversationIdForLogging } from '../util/idForLogging';
 import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
 import { createIdenticon } from '../util/createIdenticon';
 import { getColorForCallLink } from '../util/getColorForCallLink';
+import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -378,6 +379,7 @@ export class CallingClass {
 
     RingRTC.setConfig({
       field_trials: undefined,
+      use_ringrtc_adm: getUseRingrtcAdm(),
     });
 
     RingRTC.handleOutgoingSignaling = this.handleOutgoingSignaling.bind(this);

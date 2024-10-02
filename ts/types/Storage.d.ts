@@ -110,6 +110,7 @@ export type StorageAccessType = {
   synced_at: number;
   userAgent: string;
   uuid_id: string;
+  useRingrtcAdm: boolean;
   pni: string;
   version: string;
   linkPreviews: boolean;
