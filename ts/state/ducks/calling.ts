@@ -104,7 +104,10 @@ import { addCallHistory, reloadCallHistory } from './callHistory';
 import { saveDraftRecordingIfNeeded } from './composer';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
-import { getCallLinksByRoomId } from '../selectors/calling';
+import {
+  getCallLinksByRoomId,
+  getPresentingSource,
+} from '../selectors/calling';
 import { storageServiceUploadJob } from '../../services/storage';
 import { CallLinkDeleteManager } from '../../jobs/CallLinkDeleteManager';
 import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue';
@@ -1332,15 +1335,9 @@ function getPresentingSources(): ThunkAction<
         });
       },
       onMediaStream(mediaStream) {
-        let presentingSource: PresentedSource | undefined;
-        const { activeCallState } = getState().calling;
-        if (activeCallState?.state === 'Active') {
-          ({ presentingSource } = activeCallState);
-        }
-
         dispatch(
           _setPresenting(
-            presentingSource || {
+            getPresentingSource(getState()) || {
               id: 'media-stream',
               name: '',
             },
@@ -1946,6 +1943,22 @@ function _setPresenting(
       source: sourceToPresent,
       callLinkRootKey: rootKey,
     });
+
+    if (mediaStream != null) {
+      // If the screen sharing stream is terminated early - stop screen sharing
+      mediaStream.getVideoTracks()[0]?.addEventListener(
+        'ended',
+        () => {
+          const currentSource = getPresentingSource(getState());
+
+          // Verify that the source didn't change while we were waiting.
+          if (currentSource === sourceToPresent) {
+            dispatch(cancelPresenting());
+          }
+        },
+        { once: true }
+      );
+    }
 
     dispatch({
       type: SET_PRESENTING,
