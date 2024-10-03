@@ -206,8 +206,7 @@ export type SessionType = {
   serviceId: ServiceIdString;
   conversationId: string;
   deviceId: number;
-  record: string;
-  version?: number;
+  record: Uint8Array;
 };
 export type SessionIdType = SessionType['id'];
 export type SignedPreKeyType = {
@@ -722,7 +721,6 @@ type WritableInterface = {
     sessions: Array<SessionType>;
     unprocessed: Array<UnprocessedType>;
   }): void;
-  bulkAddSessions: (array: Array<SessionType>) => void;
   removeSessionById: (id: SessionIdType) => number;
   removeSessionsByConversation: (conversationId: string) => void;
   removeSessionsByServiceId: (serviceId: ServiceIdString) => void;

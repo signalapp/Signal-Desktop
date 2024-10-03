@@ -74,6 +74,10 @@ export function getTableData(db: ReadableDB, table: string): TableRows {
         if (value == null) {
           continue;
         }
+        if (Buffer.isBuffer(value)) {
+          result[key] = value.toString('hex');
+          continue;
+        }
         try {
           if (typeof value !== 'string') {
             throw new Error('skip');

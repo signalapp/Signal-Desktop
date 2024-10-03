@@ -407,7 +407,6 @@ export const DataWriter: ServerWritableInterface = {
   createOrUpdateSession,
   createOrUpdateSessions,
   commitDecryptResult,
-  bulkAddSessions,
   removeSessionById,
   removeSessionsByConversation,
   removeSessionsByServiceId,
@@ -1443,7 +1442,8 @@ function _getAllSentProtoMessageIds(db: ReadableDB): Array<SentMessageDBType> {
 
 const SESSIONS_TABLE = 'sessions';
 function createOrUpdateSession(db: WritableDB, data: SessionType): void {
-  const { id, conversationId, ourServiceId, serviceId } = data;
+  const { id, conversationId, ourServiceId, serviceId, deviceId, record } =
+    data;
   if (!id) {
     throw new Error(
       'createOrUpdateSession: Provided data did not have a truthy id'
@@ -1463,13 +1463,15 @@ function createOrUpdateSession(db: WritableDB, data: SessionType): void {
       conversationId,
       ourServiceId,
       serviceId,
-      json
+      deviceId,
+      record
     ) values (
       $id,
       $conversationId,
       $ourServiceId,
       $serviceId,
-      $json
+      $deviceId,
+      $record
     )
     `
   ).run({
@@ -1477,7 +1479,8 @@ function createOrUpdateSession(db: WritableDB, data: SessionType): void {
     conversationId,
     ourServiceId,
     serviceId,
-    json: objectToJSON(data),
+    deviceId,
+    record,
   });
 }
 
@@ -1519,9 +1522,6 @@ function commitDecryptResult(
   })();
 }
 
-function bulkAddSessions(db: WritableDB, array: Array<SessionType>): void {
-  return bulkAdd(db, SESSIONS_TABLE, array);
-}
 function removeSessionById(db: WritableDB, id: SessionIdType): number {
   return removeById(db, SESSIONS_TABLE, id);
 }
@@ -1555,7 +1555,7 @@ function removeAllSessions(db: WritableDB): number {
   return removeAllFromTable(db, SESSIONS_TABLE);
 }
 function getAllSessions(db: ReadableDB): Array<SessionType> {
-  return getAllFromTable(db, SESSIONS_TABLE);
+  return db.prepare('SELECT * FROM sessions').all();
 }
 // Conversations
 
