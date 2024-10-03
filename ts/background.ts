@@ -400,6 +400,10 @@ export async function startApp(): Promise<void> {
     }
 
     accountManager = new window.textsecure.AccountManager(server);
+    accountManager.addEventListener('startRegistration', () => {
+      backupReady.reject(new Error('startRegistration'));
+      backupReady = explodePromise();
+    });
     accountManager.addEventListener('registration', () => {
       window.Whisper.events.trigger('userChanged', false);
 

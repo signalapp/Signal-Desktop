@@ -899,6 +899,7 @@ export default class AccountManager extends EventTarget {
   private async createAccount(
     options: CreateAccountOptionsType
   ): Promise<void> {
+    this.dispatchEvent(new Event('startRegistration'));
     const registrationBaton = this.server.startRegistration();
     try {
       await this.doCreateAccount(options);
