@@ -741,7 +741,7 @@ export const getPropsForMessage = (
     textAttachment,
     payment,
     canCopy: canCopy(message),
-    canEditMessage: canEditMessage(message),
+    canEditMessage: !conversation.draftText && canEditMessage(message),
     canDeleteForEveryone: canDeleteForEveryone(message, conversation.isMe),
     canDownload: canDownload(message, conversationSelector),
     canReact: canReact(message, ourConversationId, conversationSelector),
