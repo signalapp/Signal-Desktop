@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Märkus"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Näita hiljutist meediat"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Kogu meedia"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Kasutajalt {name} heli ja video saamine ei õnnestu"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Heli ja video saamine ei õnnestu"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "See võib olla tingitud sellest, et ta ei ole sinu turvanumbri muutmist kinnitanud, tema seadmes on probleem või ta on su blokeerinud."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal jagab {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Ühenduse taastamine…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Eile {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signalil võib olla probleeme sissetuleva sõnumi töötlemisega."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Sõnumi sisu on liiga pikk."
@@ -2976,7 +2976,7 @@
     "messageformat": "Sa ei saa grupiga grupilingi kaudu liituda, sest administraator on su eemaldanud."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Selle grupi administraator peab kinnitama sinu taotluse enne kui saad selle grupiga liituda. Kui taotlus kinnitatakse, siis jagatakse sinu nime ja fotot grupi liikmetega."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Liitu"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Eemalda grupist"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Sa oled juba kõnes"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Hääl"
@@ -4449,10 +4446,10 @@
     "messageformat": "Sinu profiili uuendamine ei õnnestunud. Palun proovi uuesti."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Kehtetud tähemärgid"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Üks või rohkem tähemärke, mille sisestasid, ei ole kasutatavad. Proovi uuesti."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Sõnum administraatorile"
@@ -5202,7 +5199,7 @@
     "messageformat": "Lugu"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Näita lugusid"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Peida lugu"
@@ -5681,6 +5678,12 @@
     "messageformat": "Selle uuendusega parandatakse viga, mis muutis keeruliseks grupi otsimise pärast grupist lahkumist."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nüüd saad muudetud sõnumitest tsiteeritud vastused eemaldada."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

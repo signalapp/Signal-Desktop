@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "မှတ်ချက်"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "မကြာမီက မီဒီယာကို ကြည့်ရန်"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "မီဒီယာအားလုံး"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name} မှ အသံနှင့် ဗီဒီယို မရရှိနိုင်ပါ"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "အော်ဒီယိုနှင့် ဗီဒီယိုကို လက်ခံ၍မရပါ"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "သင့်လုံခြုံရေးနံပါတ် ပြောင်းလဲမှုကို ၎င်းတို့ အတည်မပြုရသေးသောကြောင့် သော်လည်းကောင်း၊ ၎င်းတို့ စက်တွင် ပြဿနာရှိနေသောကြောင့် သော်လည်းကောင်း၊ ၎င်းတို့က သင့်ကို ဘလော့ခ်ထားသောကြောင့် သော်လည်းကောင်း ဖြစ်နိုင်ပါသည်။"
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal သည် {window} ကို ဝေမျှနေသည်။"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "ပြန်ချိတ်ဆက်နေဆဲ..."
@@ -1626,7 +1626,7 @@
     "messageformat": "ယမန်နေ့ {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal သည် အဝင်မက်ဆေ့ချ်ကို ဆောင်ရွက်ရန် ပျက်ကွက်နေနိုင်သည်။"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "မက်ဆေ့ချ် စာကိုယ် ရှည်လွန်းနေပါသည်။"
@@ -2976,7 +2976,7 @@
     "messageformat": "အက်ဒ်မင်သည် သင့်အား ဖယ်ရှားခဲ့သောကြောင့် အဖွဲ့လင့်ခ်မှတစ်ဆင့် ဤအဖွဲ့တွင် ပါဝင်၍ မရနိုင်ပါ။"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "ဤအဖွဲ့တွင် သင်မပါဝင်မီ ဤအဖွဲ့ အက်ဒ်မင်က သင့်တောင်းဆိုချက်ကို အတည်ပြုရပါမည်။ အတည်ပြုပြီးပါက သင့်အမည်နှင့် ဓာတ်ပုံကို ၎င်းမန်ဘာများနှင့် ဝေမျှပါမည်။"
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "ဝင်ပါမယ်"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "အဖွဲ့မှ ဖယ်ရှားရန်"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "သင်သည် ကောလ်ထဲတွင် ရှိပြီးဖြစ်သည်"
   },
   "icu:ContactModal--voice": {
     "messageformat": "အသံ"
@@ -4449,10 +4446,10 @@
     "messageformat": "သင်၏ ပရိုဖိုင်ကို အပ်ဒိတ်လုပ်၍ မရနိုင်ပါ။ ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "စာလုံးများ အကျုံးမဝင်ပါ"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "သင်ထည့်သွင်းထားသည့် တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသောစာလုံးများအား အသုံးပြု၍မရပါ။ ထပ်မံကြိုးစားပါ။"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "အက်ဒ်မင်ထံ မက်ဆေ့ချ် ပို့ရန်"
@@ -5202,7 +5199,7 @@
     "messageformat": "စတိုရီ"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "စတိုရီများ ပြသရန်"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "စတိုရီကို ဝှက်ရန်"
@@ -5681,6 +5678,12 @@
     "messageformat": "အဖွဲ့မှထွက်ခွာပြီးနောက် ထိုအဖွဲ့ကိုရှာရန် ခက်ခဲသည့် ပြစ်ချက်ကို ဤအပ်ဒိတ်တွင် ပြုပြင်ထားသည်။"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "ယခု သင် တည်းဖြတ်ထားသော မက်ဆေ့ချ်များမှ ကိုးကားထားသော ပြန်စာများကို ဖယ်ရှားနိုင်ပါပြီ။"
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

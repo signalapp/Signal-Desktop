@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "備註"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "睇吓最近嘅媒體"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "所有媒體"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "收唔到 {name} 嘅聲同畫"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "收唔到聲同畫"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "可能係因為佢哋冇驗證你嘅安全碼變更、佢哋部裝置有問題，又或者佢哋封鎖咗你。"
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal 分享緊 {window}。"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "重新連緊線..."
@@ -1626,7 +1626,7 @@
     "messageformat": "琴日 {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal 可能處理唔到一個收到嘅訊息。"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "訊息太長。"
@@ -2976,7 +2976,7 @@
     "messageformat": "你唔可以用群組連結加入呢個群組，因為管理員已經移除咗你。"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "你一定要得到群組管理員批准你嘅請求先可以加入群組。批准咗之後，群組成員就會睇到你個名同相。"
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "加入"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "喺群組度移除"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "你已經參與緊另一個通話"
   },
   "icu:ContactModal--voice": {
     "messageformat": "語音"
@@ -4449,10 +4446,10 @@
     "messageformat": "更新唔到你嘅個人檔案。請你再試過啦。"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "字元無效"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "一個或者多個你輸入嘅字元用唔到。再試多次。"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "傳個訊息俾管理員"
@@ -5202,7 +5199,7 @@
     "messageformat": "限時動態"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "顯示限時動態"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "隱藏限時動態"
@@ -5681,6 +5678,12 @@
     "messageformat": "有時候，就算離開咗但係仲會依依不捨，所以我們修正咗一個錯誤，呢個錯誤攪到你好難揾返已經退出咗但仲存在喺對話列表入面嘅谷。"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "而家，你可以喺編輯咗嘅訊息度移除引用回覆。當你發現自己嘅回覆清晰到唔使引用訊息都睇得明，或者當你唔小心覆錯咗另一個訊息嗰陣，呢個功能就好啱用喇。"
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

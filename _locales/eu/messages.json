@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Oharra"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Ikusi arestiko medioak"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Ikusi denak"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Ezin da {name} erabiltzailearen audio eta bideorik jaso."
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Ezin dira jaso audioa eta bideoa"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Beharbada ez duzu egiaztatu segurtasun-zenbakiaren aldaketa, arazoren bat du gailuan, edo blokeatu egin zaituzte."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} partekatzen ari da."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Berriro konektatzen…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Atzo {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Agian Signal-ek ezin du prozesatu sarrerako mezu bat."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Mezuaren gorputza luzeegia da."
@@ -2976,7 +2976,7 @@
     "messageformat": "Ezin zara sartu talde honetan taldearen estekaren bidez, administratzaile batek kendu egin zaituelako."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Talde honetako administratzaile batek zure eskaera onartu behar du talde honetara sartu ahal izan aurretik. Sartzeko eskatzen duzunean, zure izena eta argazkia taldeko kideekin partekatuko dira."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Batu"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Kendu taldetik"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Deian zaude"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Ahotsa"
@@ -4449,10 +4446,10 @@
     "messageformat": "Ezin izan da zure profila eguneratu. Saiatu berriro mesedez."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Karaktere baliogabeak"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Idatzitako karaktere bat edo gehiago ezin dira erabili. Saiatu berriro."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Mezua administratzailean"
@@ -5202,7 +5199,7 @@
     "messageformat": "Istorioa"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Erakutsi istorioak"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ezkutatu istorioa"
@@ -5681,6 +5678,12 @@
     "messageformat": "Eguneratze honen bidez, talde batetik irtetean talde hori bilatzea zailtzen zuen akats bat konpondu da."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Orain, editatutako mezuetatik erantzun aipudunak ken ditzakezu."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

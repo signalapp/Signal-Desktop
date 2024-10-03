@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Kidokezo"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Tazama media za hivi majuzi"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Picha na video zote"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Huwezi kupokea sauti na video kutoka kwa {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Haiwezi kupokea simu ya sauti na video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Huenda hii ni kwa sababu hawajathibitisha mabadiliko ya nambari yako ya usalama, vifaa vyao vina hitilafu au amekuzuia."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal inashiriki {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Inaunganisha tena..."
@@ -1626,7 +1626,7 @@
     "messageformat": "Jana {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal huenda ikawa inashindwa kuchakata ujumbe unaoingia."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Mwili wa ujumbe ni mrefu sana."
@@ -2976,7 +2976,7 @@
     "messageformat": "Huwezi kujiunga na kikundi hiki kupitia kiungo cha kikundi kwa sababu admin amekuondoa."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Msimamizi wa kikundi hiki sharti aidhinishe ombi lako kabla ya kujiunga na kikundi hiki. Ukiidhinishwa, jina na picha yako zitashirikiwa na washiriki wake."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Jiunge"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Ondoa kwenye kikundi"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Tayari uko kwenye mazungumzo ya simu"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Sauti"
@@ -4449,10 +4446,10 @@
     "messageformat": "Wasifu wako haujasasishwa. Tafadhali jaribu tena."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Herufi batili"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Herufi moja au zaidi ulizoingiza haziwezi kutumika. Jaribu tena."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Mtumie msimamizi ujumbe"
@@ -5202,7 +5199,7 @@
     "messageformat": "Stori"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Onyesha Stori"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ficha stori"
@@ -5681,6 +5678,12 @@
     "messageformat": "Wakati mwingine kukiacha kitu huwa ni njia bora ya kugundua kwamba ungependa kukipata tena, hivyo tumerekebisha hitilafu iliyokuwa inafanya ugumu kutafuta vikundi ambavyo si mwanachama wake tena lakini bado vimebaki katika orodha ya mazungumzo yako (na inawezekana hadi moyoni mwako)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Sasa unaweza kuondoa majibu yaliyonukuliwa kutoka kwenye ujumbe uliohaririwa. Inafaa kwa nyakati zile unapogundua kuwa jibu lako lilikuwa zuri sana kiasi kwamba halihitaji kusimama kwenye mabega ya ujumbe mwingine, au unapojibu ujumbe usio sahihi kwa \"Nakupenda pia.\""
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

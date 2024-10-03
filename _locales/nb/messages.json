@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notat"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Vis nyere media"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Alle mediefiler"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Kan ikke motta lyd og bilde fra {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Lyd og video er ikke tilgjengelig"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dette kan være fordi vedkommende ikke har verifisert det endrede sikkerhetsnummeret ditt, det er et problem med personens enhet eller hen har blokkert deg."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal deler {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Kobler til på nytt …"
@@ -1626,7 +1626,7 @@
     "messageformat": "I går kl. {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Det kan hende at Signal har problemer med å behandle en innkommende melding."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Meldingsteksten er for lang."
@@ -2976,7 +2976,7 @@
     "messageformat": "Du kan ikke bli med i denne gruppen via gruppelenken fordi en administrator fjernet deg fra gruppen."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "En administrator av denne gruppen må godkjenne forespørselen din før du kan bli med. Hvis den godkjennes, deles ditt navn og bilde med gruppemedlemmene."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Bli med"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Fjern fra gruppen"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Du er allerede i en samtale"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Tale"
@@ -4449,10 +4446,10 @@
     "messageformat": "Profilen din kunne ikke oppdateres. Prøv igjen."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ugyldige tegn"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Teksten inneholder ugyldige tegn. Prøv på nytt."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Send melding til en administrator"
@@ -5202,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Vis storyer"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Skjul story"
@@ -5681,6 +5678,12 @@
     "messageformat": "I denne oppdateringen har vi gjort det mulig å søke etter grupper som du har meldt deg ut av tidligere."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nå er det mulig å fjerne siterte svar fra redigerte meldinger."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

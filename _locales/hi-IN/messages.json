@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "नोट"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "हाल का मीडिया देखें"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "सभी मीडिया"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name} से ऑडियो और वीडियो नहीं प्राप्त की जा सकती"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "ऑडियो और वीडियो नहीं पाया जा सकता"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "यह इसलिए हो सकता है क्योंकि उन्होंने आपके सुरक्षा नंबर में परिवर्तन को वेरिफाई नहीं किया है, उनके डिवाइस के साथ कोई समस्या है, या उन्होंने आपको ब्लॉक कर दिया है।"
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} साझा कर रहा है।"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "फिर से जोड़ रहे हैं..."
@@ -1626,7 +1626,7 @@
     "messageformat": "कल {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal किसी आने वाले संदेश को प्रोसेस करने में असफल हो सकता है।"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "मेसेज बहुत लंबा है"
@@ -2976,7 +2976,7 @@
     "messageformat": "आप ग्रुप लिंक द्वारा इस ग्रुप में शामिल नहीं हो सकते क्योंकि एक ऐडमिन ने आपको हटा दिया है।"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "इससे पहले कि आप इस समूह में शामिल हो सकें, इस समूह के एक व्यवस्थापक को आपके अनुरोध को स्वीकार करना होगा। स्वीकृत होने पर, आपका नाम और फोटो इसके सदस्यों के साथ साझा किया जाएगा।"
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "जुड़ें"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "ग्रूप से हटाएँ"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "आप पहले ही एक कॉल में हैं"
   },
   "icu:ContactModal--voice": {
     "messageformat": "वॉयस"
@@ -4449,10 +4446,10 @@
     "messageformat": "आपकी प्रोफ़ाइल को अपडेट नहीं किया जा सका। कृपया दोबारा प्रयास करें।"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "अमान्य वर्ण"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "आपके दर्ज किए गए एक या ज़्यादा वर्णों को इस्तेमाल नहीं किया जा सकता। फिर से कोशिश करें।"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "व्यवस्थापक को संदेश भेजें"
@@ -5202,7 +5199,7 @@
     "messageformat": "स्टोरी"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "स्टोरीज़ दिखाएँ"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "स्टोरी छिपाएँ"
@@ -5681,6 +5678,12 @@
     "messageformat": "कभी-कभी, किसी चीज़ को पीछे छोड़ने पर इस बात का एहसास होता है कि आप इसे फिर से पाना चाहते हैं, इसलिए हमने एक ऐसी गड़बड़ी को ठीक किया है जिसकी वजह से ऐसे ग्रुप्स को खोजना मुश्किल हो जाता था जिनका हिस्सा अब आप नहीं हैं, लेकिन जो अब भी आपकी बातचीत की सूची में मौजूद हैं (और शायद आपके दिल में भी)।"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "अब आप संपादित किए गए संदेशों से क्वोट किए गए जवाबों को हटा सकते हैं। यह उन पलों के लिए एकदम सही है जब आपको एहसास होता है कि आपका जवाब इतना अच्छा था कि उसे किसी और संदेश के साथ की ज़रूरत नहीं है या जब आप किसी गलत संदेश का जवाब गलती से \"मुझे भी तुमसे प्यार है\" दे देते हैं।"
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

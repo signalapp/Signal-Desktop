@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "โน้ต"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "ดูสื่อครั้งล่าสุด"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "สื่อทั้งหมด"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "ไม่สามารถเสียงและวิดีโอจาก {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "ไม่สามารถรับเสียงและวิดีโอได้"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "เหตุนี้อาจเกิดขึ้นเนื่องจากผู้ใช้คนนี้ยังไม่ได้ยืนยันหมายเลขความปลอดภัยที่เปลี่ยนไปของคุณ อุปกรณ์ของผู้ใช้มีปัญหา หรือผู้ใช้บล็อกคุณไว้"
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal กำลังแบ่งปัน {window}"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "กำลังเชื่อมต่อใหม่…"
@@ -1626,7 +1626,7 @@
     "messageformat": "เมื่อวาน {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal อาจประสบปัญหาในการประมวลผลข้อความขาเข้า"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "ตัวข้อความยาวเกินไป"
@@ -2976,7 +2976,7 @@
     "messageformat": "คุณเข้าร่วมกลุ่มนี้ด้วยลิงก์กลุ่มไม่ได้เพราะผู้ดูแลลบคุณออกไปแล้ว"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "ผู้ดูแลระบบของกลุ่มนี้ต้องอนุมัติคำขอเข้าร่วมของคุณก่อนจึงจะสามารถเข้าร่วมกลุ่มนี้ได้ หากได้รับการอนุมัติชื่อและรูปถ่ายของคุณจะถูกเปิดเผยกับสมาชิกในกลุ่ม"
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "เข้าร่วม"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "ลบจากกลุ่ม"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "คุณอยู่ในสายแล้ว"
   },
   "icu:ContactModal--voice": {
     "messageformat": "เสียง"
@@ -4449,10 +4446,10 @@
     "messageformat": "โปรไฟล์ของคุณไม่สามารถปรับปรุงได้ โปรดลองอีกครั้ง"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "อักขระไม่ถูกต้อง"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "อักขระอย่างน้อยหนึ่งตัวที่คุณกรอกไม่สามารถใช้ได้ โปรดลองอีกครั้ง"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ส่งข้อความถึงผู้ดูแล"
@@ -5202,7 +5199,7 @@
     "messageformat": "สตอรี่"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "แสดงสตอรี่"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "ซ่อนสตอรี่"
@@ -5681,6 +5678,12 @@
     "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กที่เคยทำให้การกลับไปค้นหากลุ่มที่คุณออกมาแล้วซับซ้อนยุ่งยากกว่าที่ควรจะเป็น"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "พัฒนาฟีเจอร์การแก้ไขเพื่อให้คุณสามารถลบการตอบกลับข้อความได้แล้ว"
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

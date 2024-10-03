@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "یادداشت"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "مشاهدهٔ رسانه‌های اخیر"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "همه رسانه‌ها"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "دریافت صدا و تصویر از {name} ممکن نیست"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "دریافت صدا و تصویر ممکن نیست"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "این می‌تواند به این دلیل باشد که او تغییر شماره امنیتی شما را تأیید نکرده، مشکلی برای دستگاهش پیش آمده یا شما را مسدود کرده است."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "سیگنال در حال اشتراک {window} است."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "در حال اتصال دوباره..."
@@ -1626,7 +1626,7 @@
     "messageformat": "دیروز {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "سیگنال ممکن است پیام دریافتی را پردازش نکند."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "متن پیام بیش از حد طولانی می باشد."
@@ -1722,7 +1722,7 @@
     "messageformat": "سیستم"
   },
   "icu:noteToSelf": {
-    "messageformat": "یادداشت به خود"
+    "messageformat": "یادداشت برای خود"
   },
   "icu:noteToSelfHero": {
     "messageformat": "می‌توانید برای خودتان در این گفتگو یادداشت اضافه کنید. اگر حساب شما هرگونه دستگاه پیوندداده‌شده داشته باشد، یادداشت‌های جدید همگام‌سازی خواهند شد."
@@ -2976,7 +2976,7 @@
     "messageformat": "شما نمی‌توانید از طریق پیوند گروه به این گروه بپیوندید، چون یک مدیر شما را حذف کرده است."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "یک مدیر از این گروه باید با درخواست شما قبل از پیوستن به گروه، موافقت کند. در صورت موافقت، نام و عکس شما با اعضای گروه به اشتراک گذاشته خواهد شد."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "پیوستن"
@@ -3641,9 +3641,6 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "حذف از گروه"
   },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "شما در حال حاضر در یک تماس هستید"
-  },
   "icu:ContactModal--voice": {
     "messageformat": "صوتی"
   },
@@ -3828,7 +3825,7 @@
     "messageformat": "بازنشانی پیوند"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "الزام تأیید مدیر"
+    "messageformat": "نیازمند تأیید مدیر"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "نیاز به یک مدیر برای تأیید اعضای جدیدی که از طریق پیوند گروه می‌پیوندند"
@@ -4449,10 +4446,10 @@
     "messageformat": "امکان به‌روزرسانی پروفایل شما وجود نداشت. لطفاً دوباره امتحان کنید."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "نویسه‌های نامعتبر"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "یک یا چند نویسه که وارد کرده‌اید قابل استفاده نیست. دوباره امتحان کنید."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "به یک مدیر پیام دهید"
@@ -5202,7 +5199,7 @@
     "messageformat": "استوری"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "نمایش استوری‌ها"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "پنهان کردن استوری"
@@ -5572,7 +5569,7 @@
     "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "الزام تأیید مدیر"
+    "messageformat": "نیازمند تأیید مدیر"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
     "messageformat": "وقتی تماس فعال است، این تنظیم قابل تغییر نیست"
@@ -5614,7 +5611,7 @@
     "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "الزام تأیید مدیر"
+    "messageformat": "نیازمند تأیید مدیر"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
     "messageformat": "تأیید ورود"
@@ -5681,6 +5678,12 @@
     "messageformat": "در این به‌روزرسانی، اشکالی را برطرف کردیم که جستجوی گروه را پس از ترک آن گروه دشوار می‌کرد."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "اکنون می‌توانید پاسخ‌های نقل‌قول را از پیام‌های ویرایش‌شده حذف کنید."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

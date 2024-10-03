@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Not"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Son içerikleri görüntüle"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Tüm medya"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name} kişisinden ses ve görüntü alınamıyor"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Ses ve görüntü alınamıyor"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Bunun sebebi güvenlik numaranın değişimini doğrulamaması, cihazıyla ilgili bir sorun olması veya seni engellemesi olabilir."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} penceresini paylaşıyor."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Yeniden bağlanıyor…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Dün {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal gelen bir mesajı işleyemiyor olabilir."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "İleti metni çok uzun."
@@ -2976,7 +2976,7 @@
     "messageformat": "Gruptan yönetici tarafından çıkarıldığın için gruba bağlantıyla katılamazsın."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Gruba katılmadan önce bu grubun bir yöneticisinin isteğinizi onaylaması gerekiyor. Onay verildiğinde, adınız ve fotoğrafınız üyeleriyle paylaşılacaktır."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Katıl"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Gruptan çıkar"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Zaten bir aramadasınız"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Sesli"
@@ -4449,10 +4446,10 @@
     "messageformat": "Profiliniz güncellenemedi. Lütfen tekrar deneyin."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Geçersiz karakterler"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Girmiş olduğun bir veya daha fazla karakter kullanılamıyor. Tekrar dene."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir yöneticiye yazın"
@@ -5202,7 +5199,7 @@
     "messageformat": "Hikaye"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Hikayeleri göster"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Hikayeyi gizle"
@@ -5681,6 +5678,12 @@
     "messageformat": "Bu güncellemede, bir gruptan ayrıldıktan sonra o grubu aramayı zorlaştıran bir hatayı düzelttik."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Artık alıntılanan yanıtları düzenlenmiş mesajlardan kaldırabilirsin. Birine kazara yanlış bir mesaj gönderdiğinde paçayı sıyırmak için harika bir yoldur. Böylelikle yanlış anlamaların önüne geçer ve sorunsuzca yoluna devam edersin."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notă"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Afișare media recente"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Toate fișierele media"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Nu pot primi semnal voce și semnal video de la {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Nu pot primi semnal voce și semnal video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Acest lucru se poate datora faptului că nu au verificat modificarea numărului tău de siguranță, există o problemă cu dispozitivul lor sau v-au blocat."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal partajează {window}"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Se reconectează…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Ieri {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Este posibil ca semnalul să nu proceseze un mesaj primit."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Conținutul mesajului este prea lung."
@@ -2976,7 +2976,7 @@
     "messageformat": "Nu te poți alătura acestui grup prin linkul grupului deoarece un administrator te-a eliminat."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Un administrator al acestui grup trebuie să îți aprobe solicitarea înainte de a te alătura grupului. Dacă este aprobată, numele și fotografia ta vor fi partajate cu membrii grupului."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Alătură-te"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Elimină din grup"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Ești deja într-un apel"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Voce"
@@ -4449,10 +4446,10 @@
     "messageformat": "Profilul tău nu a putut fi actualizat. Te rugăm să încerci din nou."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Caractere nevalide"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Unul sau mai multe caractere pe care le-ai introdus nu pot fi folosite. Încearcă din nou."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Trimite un mesaj unui administrator"
@@ -5202,7 +5199,7 @@
     "messageformat": "Poveste"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Afișează povești"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ascunde povestea"
@@ -5681,6 +5678,12 @@
     "messageformat": "Uneori, să lași ceva în urmă este cel mai bun mod de a descoperi că vrei să-l găsești din nou, așa că am remediat o eroare care a făcut dificilă căutarea unor grupuri din care nu mai faci parte, dar care rămân în lista de conversații (și foarte posibil și în inima ta)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Acum poți elimina răspunsurile citate din mesajele editate. Este perfect pentru acele momente în care îți dai seama că răspunsul tău a fost atât de bun încât de fapt nu trebuie să stea pe umerii altui mesaj sau când răspunzi accidental la mesajul greșit cu „Și eu te iubesc”."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

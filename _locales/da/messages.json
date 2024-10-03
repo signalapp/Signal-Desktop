@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Vis seneste medier"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Alle medier"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Der modtages ikke lyd og video fra {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Kan ikke modtage lyd og video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dette kan skyldes at personen ikke har bekræftet ændringen i dit sikkerhedsnummer, at der er et problem med deres enhed eller at de har blokeret dig."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal deler {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Forbinder igen…"
@@ -1626,7 +1626,7 @@
     "messageformat": "I går {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signalet kan muligvis ikke behandle en indgående besked."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Beskeden er for langt."
@@ -2976,7 +2976,7 @@
     "messageformat": "Du kan ikke deltage i denne gruppe via gruppelinket, fordi en administrator har fjernet dig."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "En administrator af gruppen skal godkende din anmodning før du kan deltage. Hvis det er godkendt, deles dit navn og billede med dens medlemmer."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Deltag"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Fjern fra gruppe"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Du er allerede i et opkald"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Stemme"
@@ -4449,10 +4446,10 @@
     "messageformat": "Din profil kunne ikke opdateres. Prøv venligst igen."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ugyldige tegn"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Et eller flere tegn, du har angivet, må ikke bruges. Prøv igen."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Send en besked til en administrator"
@@ -5202,7 +5199,7 @@
     "messageformat": "Historie"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Vis historier"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Skjul historie"
@@ -5681,6 +5678,12 @@
     "messageformat": "Nogle gange er det at efterlade noget den bedste måde at opdage, at du gerne vil finde det igen, så vi har rettet en fejl, der gjorde det svært at søge efter grupper, som du ikke længere er en del af længere, men som stadig forbliver på din samtaleliste (og muligvis i dit hjerte)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nu kan du fjerne citerede svar fra redigerede beskeder. Det er perfekt til de øjeblikke, hvor du indser, at dit svar var så godt, at det faktisk ikke behøver at stå på en anden beskeds skuldre, eller når du ved et uheld svarer på den forkerte besked med \"Jeg elsker også dig.\""
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

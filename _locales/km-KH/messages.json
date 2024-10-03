@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "កំណត់ចំណាំ"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "បង្ហាញឯកសារមេឌាថ្មីៗ"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "មេឌៀទាំងអស់"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "មិនអាចទទួលសំឡេងនិងវីដេអូពី {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "មិនអាចទទួលសំឡេង និងវីដេអូបានទេ"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "វាអាចមកពីពួកគេមិនបានផ្ទៀងផ្ទាត់ការផ្លាស់ប្តូរលេខសុវត្ថិភាពរបស់អ្នក ឧបករណ៍របស់ពួកគេមានបញ្ហា ឬពួកគេបានទប់ស្កាត់អ្នក។"
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal កំពុងចែករំលែក {window}។"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "កំពុងភ្ជាប់ឡើងវិញ…"
@@ -1626,7 +1626,7 @@
     "messageformat": "ម្សិលមិញ {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal ប្រហែលជាមិនអាចដំណើរការសារដែលផ្ញើចូលមកបានទេ។"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "សារតួសេចក្តីវែងពេក។"
@@ -2976,7 +2976,7 @@
     "messageformat": "អ្នកមិនអាចចូលក្រុមនេះតាមរយៈតំណក្រុមបានទេ ព្រោះអ្នកគ្រប់គ្រងបានដកអ្នកចេញ។"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "អ្នកគ្រប់គ្រងក្រុមនេះត្រូវតែឯកភាពលើសំណើរបស់អ្នក មុនពេលអ្នកអាចចូលរួមក្រុមនេះបាន។ ប្រសិនបើបានឯកភាពរួច ឈ្មោះ និងរូបថតរបស់អ្នកនឹងត្រូវបានចែករំលែកជាមួយសមាជិករបស់ក្រុម។"
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "ចូលរួម"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "ដកចេញពីក្រុម"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "អ្នកស្ថិតនៅក្នុងការហៅទូរសព្ទស្រាប់ហើយ"
   },
   "icu:ContactModal--voice": {
     "messageformat": "សំឡេង"
@@ -4449,10 +4446,10 @@
     "messageformat": "ប្រូហ្វាល់របស់អ្នកមិនអាចធ្វើបច្ចុប្បន្នភាពបានទេ។ សូម​ព្យាយាម​ម្តង​ទៀត។"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "តួអក្សរមិនត្រឹមត្រូវ"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "តួអក្សរមួយ ឬច្រើនដែលអ្នកបានបញ្ចូលមិនអាចប្រើបានទេ។ ព្យាយាមម្តងទៀត។"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ផ្ញើសារទៅអ្នកគ្រប់គ្រង"
@@ -5202,7 +5199,7 @@
     "messageformat": "រឿងរ៉ាវ"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "បង្ហាញរឿងរ៉ាវ"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "លាក់រឿងរ៉ាវ"
@@ -5681,6 +5678,12 @@
     "messageformat": "ពេលខ្លះការទុកអ្វីមួយចោលគឺជាវិធីដ៏ល្អបំផុតដើម្បីឱ្យដឹងថាអ្នកចង់រកវាម្តងទៀត ដូច្នេះយើងបានដោះស្រាយបញ្ហាមួយដែលធ្លាប់ធ្វើឱ្យមានការពិបាកក្នុងការស្វែងរកក្រុមដែលអ្នកលែងជាសមាជិក ប៉ុន្តែវានៅតែមាននៅក្នុងបញ្ជីសន្ទនារបស់អ្នក (ហើយប្រហែលជាស្ថិតនៅក្នុងបេះដូងរបស់អ្នកទៀតផង)។"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "ឥឡូវនេះ អ្នកអាចលុបការឆ្លើយតបដែលបានដកស្រង់ ចេញពីសារដែលបានកែរួច។ ល្អបំផុតគឺសម្រាប់ពេលដែលអ្នកដឹងថាការឆ្លើយតបរបស់អ្នកគឺល្អណាស់ទៅហើយ មិនចាំបាច់មានសារផ្សេងទៀតមកភ្ជាប់អមទេ ឬនៅពេលដែលអ្នកឆ្លើយតបទៅច្រឡំសារដោយចៃដន្យ ដោយនិយាយថា \"ខ្ញុំក៏ស្រឡាញ់អ្នកដែរ\"។"
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

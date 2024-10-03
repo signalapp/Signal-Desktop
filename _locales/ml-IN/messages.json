@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "കുറിപ്പ്"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "സമീപകാല മീഡിയ കാണുക"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "എല്ലാ മീഡിയയും"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name} നിന്ന് ഓഡിയോയും വീഡിയോയും സ്വീകരിക്കാൻ കഴിയുന്നില്ല "
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "ഓഡിയോയും വീഡിയോയും സ്വീകരിക്കാൻ കഴിയില്ല"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "നിങ്ങളുടെ സുരക്ഷാ നമ്പർ മാറ്റം അവർ സ്ഥിരീകരിക്കാത്തതിനാലോ അവരുടെ ഉപകരണത്തിൽ ഒരു പ്രശ്നമുണ്ടായതിനാലോ അവർ നിങ്ങളെ തടഞ്ഞതിനാലോ ആയിരിക്കാം ഇത്."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} പങ്കിടുന്നു."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "വീണ്ടും കണക്റ്റ് ചെയ്യുന്നു..."
@@ -1626,7 +1626,7 @@
     "messageformat": "ഇന്നലെ {time} മണിക്ക്"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "ഇൻകമിംഗ് സന്ദേശം പ്രോസസ്സ് ചെയ്യുന്നതിൽ Signal പരാജയപ്പെട്ടേക്കാം."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "സന്ദേശം ഉള്ളടക്കം വളരെ ദൈർഘ്യമേറിയതാണ്."
@@ -2976,7 +2976,7 @@
     "messageformat": "ഒരു അഡ്മിൻ നിങ്ങളെ നീക്കം ചെയ്തതിനാൽ ഗ്രൂപ്പ് ലിങ്ക് വഴി നിങ്ങൾക്ക് ഈ ഗ്രൂപ്പിൽ ചേരാൻ കഴിയില്ല."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "ഈ ഗ്രൂപ്പിൽ ചേരുന്നതിന് മുമ്പ് ഈ ഗ്രൂപ്പിന്റെ ഒരു അഡ്മിൻ നിങ്ങളുടെ അഭ്യർത്ഥന അംഗീകരിക്കണം. അനുമതി ലഭിച്ചാൽ, നിങ്ങളുടെ പേരും ഫോട്ടോയും അതിന്റെ അംഗങ്ങളുമായി പങ്കിടും."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "ചേരുക"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യൂ"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "നിങ്ങൾ ഇതിനകം ഒരു കോളിൽ ഉണ്ട്"
   },
   "icu:ContactModal--voice": {
     "messageformat": "ശബ്ദം"
@@ -4449,10 +4446,10 @@
     "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ അപ്ഡേറ്റ് ചെയ്യാനായില്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "പ്രതീകങ്ങൾ അസാധുവാണ്"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "നിങ്ങൾ നൽകിയ ഒന്നോ അതിലധികമോ പ്രതീകങ്ങൾ ഉപയോഗിക്കാൻ കഴിയില്ല. വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ഒരു അഡ്മിനു സന്ദേശം അയക്കുക"
@@ -5202,7 +5199,7 @@
     "messageformat": "സ്റ്റോറി"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "സ്റ്റോറികൾ കാണിക്കുക"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "സ്റ്റോറി മറയ്ക്കുക"
@@ -5681,6 +5678,12 @@
     "messageformat": "ചിലപ്പോഴൊക്കെ എന്തെങ്കിലും ഉപേക്ഷിക്കുന്നതാണ് അത് വീണ്ടും കണ്ടെത്തണമെന്ന് ആഗ്രഹിക്കാനുള്ള ഏറ്റവും നല്ല മാർഗം, അതിനാലാണ് നിങ്ങൾ ഇപ്പോൾ ഭാഗമല്ലാത്തതും എന്നാൽ ഇപ്പോഴും നിങ്ങളുടെ സംഭാഷണ ലിസ്റ്റിൽ നിലനിൽക്കുന്നതുമായ ( ഒരുപക്ഷേ നിങ്ങളുടെ ഹൃദയത്തിൽ) ഗ്രൂപ്പുകൾക്കായി തിരയുന്നത് കഠിനമാക്കിയിരുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചത്."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "എഡിറ്റ് ചെയ്ത സന്ദേശങ്ങളിൽ നിന്ന് ഉദ്ധരിച്ച മറുപടികൾ ഇപ്പോൾ നിങ്ങൾക്ക് നീക്കം ചെയ്യാം. നിങ്ങളുടെ പ്രതികരണം വളരെ മികച്ചതും പൂർണ്ണവുമാണെന്നും അതിനാൽ അതിന് മറ്റൊരു സന്ദേശത്തിന്റെ തണലിൽ നിൽക്കേണ്ടിവരില്ലെന്നും നിങ്ങൾ തിരിച്ചറിയുന്ന സാഹചര്യത്തിലും, അല്ലെങ്കിൽ \"ഐ ലവ് യു ടു\" എന്ന് ഉദ്ദേശിക്കാത്ത ഒരു സന്ദേശത്തിന് അബദ്ധത്തിൽ മറുപടി നൽകുന്ന സാഹര്യത്തിലും ഇത് അനുയോജ്യമായിരിക്കും."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

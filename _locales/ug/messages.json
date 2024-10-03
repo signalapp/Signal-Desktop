@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "خاتىرە"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "يېقىنقى مېدىيالارنى كۆرۈش"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "بارلىق مېدىيا"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name} دىن ئۈن ۋە سىن تاپشۇرۇۋالالمايدۇ"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "ئۈن ۋە سىننى قوبۇل قىلالمىدى"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "بۇنداق بولۇشىنىڭ سەۋەبى ئۇلار سىزنىڭ بىخەتەرلىك نومۇرىنى ئۆزگەرتكەنلىكىڭىزنى دەلىللىمىگەن بولۇشى مۇمكىن، ياكى ئۇلارنىڭ ئۈسكۈنىسىدە مەسىلە بار ۋە ياكى ئۇلار سىزنى چەكلىۋەتكەن بولۇشى مۇمكىن."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} ئېكرانىنى ئورتاقلىشىۋاتىدۇ."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "قايتا ئۇلىنىۋاتىدۇ..."
@@ -1626,7 +1626,7 @@
     "messageformat": "تۈنۈگۈن {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "سىگنال كەلگەن ئۇچۇرنى بىر تەرەپ قىلالمىغان بولۇشى مۇمكىن."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "ئۇچۇر زىيادە ئۇزۇن."
@@ -2976,7 +2976,7 @@
     "messageformat": "بىر باشقۇرغۇچى سىزنى چىقىرىۋەتكەچكە، بۇ گۇرۇپپىغا گۇرۇپپا ئۇلانمىسى بىلەن قوشۇلالمايسىز."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "بۇ گۇرۇپپىغا قوشۇلۇشتىن بۇرۇن بۇ گۇرۇپپىدىكى باشقۇرغۇچى چوقۇم تەلىپىڭىزنى تەستىقلىشى كېرەك. تەستىقلانغاندىن كېيىن، ئىسمىڭىز ۋە سۈرىتىڭىز گۇرۇپپا ئەزالىرى بىلەن ئورتاقلىشىلىدۇ."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "قوشۇل"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "گۇرۇپپىدىن چىقار"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "سىز ئاللىبۇرۇن چاقىرىقتا"
   },
   "icu:ContactModal--voice": {
     "messageformat": "ئاۋازلىق"
@@ -4449,10 +4446,10 @@
     "messageformat": "ئارخىپىڭىزنى يېڭىلىغىلى بولمىدى. قايتا سىناڭ."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "ئىناۋەتسىز بەلگىلەر"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "سىز كىرگۈزگەن بىر ياكى بىر قانچە بەلگىلەرنى ئىشلىتىشكە بولمايدۇ. قايتا سىناڭ."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "باشقۇرغۇچىغا ئۇچۇر يوللاڭ"
@@ -5202,7 +5199,7 @@
     "messageformat": "ھېكايە"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "ھېكايىلەرنى كۆرسىتىش"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "ھېكايىنى يوشۇرۇش"
@@ -5681,6 +5678,12 @@
     "messageformat": "بەزىدە بىر نەرسىنى كەينىدە تاشلاپ قويۇش ، ئۇنى قايتا تېپىشنى خالايدىغانلىقىڭىزنى بايقاشنىڭ ئەڭ ياخشى ئۇسۇلى ، شۇڭا بىز ئەمدى سىز ئاللىقاچان چىقىپ كەتكەن ، ئەمما يەنىلا سۆھبەت تىزىملىكىڭىزدە قېلىپ قالغان (ۋە بەلكىم قەلبىڭىزگە ئورناپ قالغان بولۇشى مۇمكىن) گۇرۇپپىلارنى ئىزدەشنى قىيىنلاشتۇرىدىغان كەمتۈكنى ئوڭشىدۇق."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "ھازىر سىز تەھرىرلەنگەن ئۇچۇرلاردىن نەقىل ئېلىنغان جاۋابلارنى چىقىرىۋىتەلەيسىز. بۇ ئىقتىدار ئېھتىياتسىزلىقتىن خاتا ئۇچۇرغا «مەنمۇ سىزنى سۆيىمەن» دەپ جاۋاب بېرىپ قويغاندىكىدەك ئەھۋاللارغا بەكلا ماس كېلىدۇ."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

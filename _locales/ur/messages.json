@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "نوٹ"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "حالیہ میڈیا دیکھیں"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "تمام میڈیا"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name} سے آڈیو اور ویڈیو موصول نہیں ہوسکتی ہے"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "آڈیو اور ویڈیو وصول نہیں کر سکتے"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "ایسا اس لیے ہو سکتا ہے کیونکہ انہوں نے آپ کے حفاظتی نمبر میں تبدیلی کی تصدیق نہیں کی ہے، ان کی ڈیوائس میں کوئی مسئلہ ہے، یا وہ آپ کو بلاک کر چکے ہیں۔"
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} شیئر کر رہا ہے۔"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "دوبارہ منسلک ہو رہا ہے…"
@@ -1626,7 +1626,7 @@
     "messageformat": "کل {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal کسی آنے والے میسج پر کارروائی کرنے میں ناکام ہو سکتا ہے۔"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "پیغام بازی بہت لمبی ہے۔"
@@ -2976,7 +2976,7 @@
     "messageformat": "آپ گروپ لنک کے ذریعے اس گروپ میں شامل نہیں ہو سکتے کیونکہ ایک ایڈمن نے آپ کو ہٹا دیا تھا۔"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "اس گروپ میں شامل ہونے سے پہلے اس گروپ کے منتظم کو آپ کی درخواست کو منظور کرنا ہوگا۔ اگر منظوری مل جاتی ہے تو ، آپ کا نام اور تصویر اس کے ممبروں کے ساتھ شیئر کی جائے گی۔"
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "شامل ہوں"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "گروپ سے ہٹائیں"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "آپ پہلے ہی کال میں ہیں"
   },
   "icu:ContactModal--voice": {
     "messageformat": "آواز"
@@ -4449,10 +4446,10 @@
     "messageformat": "آپ کے پروفائل کو اپ ڈیٹ نہیں کیا جاسکا۔ دوبارہ کوشش کریں."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "غلط حروف"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "آپ نے جو ایک یا زیادہ حروف درج کیے ہیں انہیں استعمال نہیں کیا جا سکتا۔ دوبارہ کوشش کریں۔"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "کسی ایڈمن کو پیغام دیں"
@@ -5202,7 +5199,7 @@
     "messageformat": "سٹوری"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "سٹوریز دکھائیں"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "سٹوری چھپائیں"
@@ -5681,6 +5678,12 @@
     "messageformat": "اس اپ ڈیٹ میں ایک ایسے نقص کو ٹھیک کیا گیا ہے جس کی وجہ سے اس گروپ کو چھوڑنے کے بعد گروپ کو تلاش کرنا مشکل ہو جاتا ہے۔ ورژن 7.26 کے لیے ریلیز نوٹس"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "اب آپ ترمیم شدہ میسجز سے کوٹ شدہ جوابات کو ہٹا سکتے ہیں۔"
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

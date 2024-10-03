@@ -1258,10 +1258,6 @@
     "messageformat": "Note",
     "description": "Title of Note Preview modal"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "View recent media",
-    "description": "(Deleted 2024/09/03) This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "All media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation"
@@ -4839,10 +4835,6 @@
     "messageformat": "Remove from group",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call",
-    "description": "(Deleted 2024/08/28) Tooltip text for video or voice call button in Contact Details modal"
-  },
   "icu:ContactModal--voice": {
     "messageformat": "Voice",
     "description": "Text for button to start a new voice call in the Contact Details modal"
@@ -7554,7 +7546,7 @@
   },
   "icu:WhatsNew__v7.27--0": {
     "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\"",
-    "description": "Release notes for version 7.27"
+    "description": "(Deleted 2024/10/03) Release notes for version 7.27"
   },
   "icu:WhatsNew__v7.28--0": {
     "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture.",

@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notiz"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Letzte Medieninhalte anzeigen"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Medienübersicht"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Audio- und Videodaten von {name} können nicht empfangen werden"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Audio und Video können nicht empfangen werden"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dies kann daran liegen, dass der Teilnehmer die Änderung deiner Sicherheitsnummer nicht verifiziert hat, ein Problem mit dessen Gerät besteht oder er dich blockiert hat."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal teilt gerade {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Neu verbinden …"
@@ -1626,7 +1626,7 @@
     "messageformat": "Gestern, {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal kann eine eingehende Nachricht möglicherweise nicht verarbeiten."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Nachricht ist zu lang."
@@ -2976,7 +2976,7 @@
     "messageformat": "Du kannst dieser Gruppe nicht über den Gruppen-Link beitreten, da ein Admin dich entfernt hat."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Bevor du der Gruppe beitreten kannst, muss ein Admin dieser Gruppe deine Anfrage bestätigen. Wenn du eine Beitrittsanfrage stellst, werden dein Name und dein Foto mit den Mitgliedern geteilt."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Beitreten"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Aus Gruppe entfernen"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Du nimmst bereits an einem Anruf teil"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Audio"
@@ -4449,10 +4446,10 @@
     "messageformat": "Dein Profil konnte nicht aktualisiert werden. Bitte versuche es erneut."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ungültige Zeichen"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Ein oder mehrere Zeichen, die du eingegeben hast, können nicht verwendet werden. Bitte erneut versuchen."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Schreib einem Admin"
@@ -5202,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Storys anzeigen"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Story ausblenden"
@@ -5681,6 +5678,12 @@
     "messageformat": "Manchmal ist es am besten, etwas zurückzulassen, um zu erkennen, dass man es wiederfinden möchte. Deshalb haben wir einen Fehler behoben, der die Suche nach Gruppen erschwerte, denen du nicht mehr angehörst, die aber immer noch in deiner Unterhaltungsliste (und bestimmt auch in deinem Herzen) sind."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Jetzt kannst du zitierte Antworten aus bearbeiteten Nachrichten entfernen. Das ist super für die Momente, in denen deine Antwort so gut war, dass sie eigentlich nicht auf den Schultern einer anderen Nachricht stehen sollte. Oder wenn du aus Versehen auf die falsche Nachricht mit »Ich liebe dich auch« antwortest."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }
