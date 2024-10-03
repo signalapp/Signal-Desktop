@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "메모"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "최근 미디어 보기"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "모든 미디어"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name} 님의 음성 및 영상 통화를 수신할 수 없습니다."
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "오디오와 비디오를 수신할 수 없음"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "이는 해당 사용자가 안전 번호 변경을 확인하지 않았거나, 기기에 문제가 있거나 나를 차단했기 때문일 수 있습니다."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal이 {window} 창을 공유하고 있습니다."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "다시 연결 중…"
@@ -1626,7 +1626,7 @@
     "messageformat": "어제 {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal에서 수신 메시지를 처리하는 데 문제가 있을 수 있습니다."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "메시지 본문이 너무 깁니다."
@@ -2976,7 +2976,7 @@
     "messageformat": "관리자가 당신을 제거했기 때문에 그룹 링크를 통해 그룹에 참가할 수 없습니다."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "이 그룹에 참가하기 위해서는 먼저 그룹 관리자가 귀하의 참가 요청을 승인해야 합니다. 참여 요청이 승인될 경우, 귀하의 이름과 사진이 그룹 멤버와 공유됩니다."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "참가"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "그룹에서 제거"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "이미 통화에 참여 중입니다."
   },
   "icu:ContactModal--voice": {
     "messageformat": "음성"
@@ -4449,10 +4446,10 @@
     "messageformat": "프로필을 업데이트할 수 없습니다. 다시 시도하세요."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "잘못된 문자"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "입력한 문자 중 하나 이상을 사용할 수 없습니다. 다시 시도하세요."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "관리자에게 메시지 전송"
@@ -5202,7 +5199,7 @@
     "messageformat": "스토리"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "스토리 표시"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "스토리 숨기기"
@@ -5681,6 +5678,12 @@
     "messageformat": "본 업데이트는 그룹을 나간 뒤 해당 그룹을 검색하기 어렵게 만드는 버그를 수정합니다."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "이제 편집한 메시지에서 인용된 답장을 제거할 수 있습니다."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

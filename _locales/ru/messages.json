@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Заметка"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Просмотреть недавние медиа"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Все медиафайлы"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Невозможно получать аудио и видео от {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Невозможно получать аудио и видео"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Возможно, это из-за того, что этот участник не подтвердил изменение вашего кода безопасности, или есть какая-то проблема с его устройством, или он вас заблокировал."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal показывает {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Переподключаемся…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Вчера в {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Возможно, Signal не может обработать входящее сообщение."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Текст сообщения слишком длинный."
@@ -2976,7 +2976,7 @@
     "messageformat": "Вы не можете присоединиться к этой группе по ссылке, потому что администратор удалил вас из этой группы."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Администратор этой группы должен принять ваш запрос, прежде чем вы сможете присоединиться к ней. Когда вы отправите запрос, ваши имя и фото станут доступны участникам этой группы."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Войти"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Удалить из группы"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Вы уже участвуете в другом звонке"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Аудио"
@@ -4449,10 +4446,10 @@
     "messageformat": "Не удалось обновить ваш профиль. Пожалуйста, попробуйте еще раз."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Недопустимые символы"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Один или несколько введённых символов не могут быть использованы. Попробуйте ещё раз."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Написать сообщение администратору"
@@ -5202,7 +5199,7 @@
     "messageformat": "История"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Показывать истории"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Скрыть историю"
@@ -5681,6 +5678,12 @@
     "messageformat": "Иногда лишь покинув что-то, мы понимаем, что хотим туда вернуться. Поэтому мы исправили ошибку, затруднявшую поиск групп, в которых вы больше не участвуете, но которые всё ещё остаются в вашем списке разговоров (и, вполне возможно, в вашем сердце)."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Теперь вы можете удалять процитированные ответы из изменённых сообщений. Это идеально для тех случаев, когда вы понимаете, что ваш ответ был настолько хорош сам по себе, что ему не нужна поддержка другого сообщения, или если вы случайно ответили «Я тоже тебя люблю» не на то сообщение."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

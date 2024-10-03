@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Megjegyzés"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Friss médiafájlok megtekintése"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Összes médiafájl"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name} hang és kép adása nem megjeleníthető"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Nem tudsz hangot és videót fogadni"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Ennek oka lehet, hogy esetleg nem ellenőrizte le a biztonsági azonosítód megváltozását, készülék problémája van, vagy letiltott téged."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "A Signal a következő ablakot osztja meg: {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Újracsatlakozás…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Tegnap {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Lehet, hogy a Signal nem tudja feldolgozni a bejövő üzenetet."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Az üzenet szövege túl hosszú."
@@ -2976,7 +2976,7 @@
     "messageformat": "Egy admin távolított el, így már nem tudsz csoporthivatkozás használatával csatlakozni ehhez a csoporthoz."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "A csoportba történő belépéshez a csoport egy adminjának jóváhagyása szükséges. A csatlakozási igény jóváhagyása után neved és képed láthatóvá válik a csoport tagjai számára."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Belépés"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Eltávolítás a csoportból"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Már beléptél a hívásba"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Hang"
@@ -4449,10 +4446,10 @@
     "messageformat": "Nem sikerült frissíteni profilodat. Próbáld újra!"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Érvénytelen karakterek"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Egy vagy több beírt karakter nem használható. Próbáld újra."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Üzenet egy adminnak"
@@ -5202,7 +5199,7 @@
     "messageformat": "Történet"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Történetek megjelenítése"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Történet elrejtése"
@@ -5681,6 +5678,12 @@
     "messageformat": "Ez a frissítés egy olyan hibát javít ki, amely megnehezítette egy adott csoport keresését a csoport elhagyása után."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Mostantól eltávolíthatod az idézett válaszokat a szerkesztett üzenetekből."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

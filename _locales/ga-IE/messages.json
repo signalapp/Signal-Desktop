@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nóta"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Amharc ar na meáin le déanaí"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Na meáin go léir"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Can't receive audio and video from {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Ní féidir fuaim agus físeáin a fháil"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Seans nár fhíoraigh an duine sin athrú ar d'uimhir sábháilteachta, go bhfuil fadhb leis an ngléas aige/aici, nó gur chuir sé/sí bac ort."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Tá {window} á chomhroinnt ag Signal."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Athnascadh…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Inné {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Is féidir nach mbeidh Signal in ann an teachtaireacht isteach a phróiseas."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Tá corp na teachtaireachta rófhada."
@@ -2976,7 +2976,7 @@
     "messageformat": "Ní féidir leat dul isteach sa ghrúpa seo trí nasc an ghrúpa toisc gur bhain riarthóir thú."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Ní mór do riarthóir an ghrúpa seo d'iarratas a fhaomhadh sular féidir leat dul isteach sa ghrúpa seo. Agus é faofa, comhroinnfear d'ainm agus grianghraf lena bhaill."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Téigh le"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Bain den ghrúpa"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Tá tú i mbun glao cheana féin"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Guthghlao"
@@ -4449,10 +4446,10 @@
     "messageformat": "Níorbh fhéidir do phróifíl a nuashonrú. Triail arís."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Carachtair neamhbhailí"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Ní féidir carachtar amháin nó níos mó a d'iontráil tú a úsáid. Triail arís."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Message an Admin"
@@ -5202,7 +5199,7 @@
     "messageformat": "Scéal"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Taispeáin scéalta"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Folaigh an scéal"
@@ -5681,6 +5678,12 @@
     "messageformat": "Réitíonn an nuashonrú seo fabht a rinne cuardach grúpa deacair, tar éis duit imeacht as an ngrúpa sin."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Anois is féidir leat freagraí luaite a bhaint ó theachtaireachtaí a cuireadh in eagar."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "I-view ang recent media"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Lahat ng media"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Hindi ma-receive ang audio at video galing kay {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Hindi makatanggap ng audio at video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Maaaring ito ay dahil hindi niya na-verify ang iyong safety number change, may problema sa kanyang device, o binlock ka n'ya."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal is sharing {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Nagre-reconnect…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Kahapon {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Maaaring may paparating na message na hindi ma-process ng Signal."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Masyadong mahaba ang message body."
@@ -2976,7 +2976,7 @@
     "messageformat": "Hindi ka maka-join sa group na ito gamit ang group link dahil tinanggal ka ng isang admin."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Dapat i-approve ng group admin ang iyong request bago ka maka-join sa group na ito. Kung ma-approve ka, ang name at photo mo ay isha-share sa members."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Mag-join"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Tanggalin mula sa group"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Nasa call ka na"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Voice"
@@ -4452,7 +4449,7 @@
     "messageformat": "Invalid characters"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Hindi magamit ang isa o mahigit pang characters na nilagay mo. Subukan ulit."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "I-message ang admin"
@@ -5202,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Ipakita ang stories"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "I-hide ang story"
@@ -5681,6 +5678,12 @@
     "messageformat": "Inaayos ng update na ito ang bug na nagpahirap sa paghanap ng isang group pagkatapos mong umalis dito."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Pwede mo nang alisin ang quoted replies sa edited messages."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

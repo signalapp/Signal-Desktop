@@ -843,7 +843,7 @@
     "messageformat": "Annuler"
   },
   "icu:discard": {
-    "messageformat": "Abandonner"
+    "messageformat": "Supprimer"
   },
   "icu:error": {
     "messageformat": "Erreur"
@@ -943,9 +943,6 @@
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notes"
-  },
-  "icu:viewRecentMedia": {
-    "messageformat": "Afficher les médias récents"
   },
   "icu:allMediaMenuItem": {
     "messageformat": "Tous les médias"
@@ -1416,7 +1413,7 @@
     "messageformat": "Impossible de recevoir l’audio et la vidéo de {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Impossible de recevoir l'audio et la vidéo"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Cette personne n’a peut-être pas confirmé le changement de votre numéro de sécurité, il y a peut-être un problème avec son appareil ou elle vous a bloqué."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal est en train de partager {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Reconnexion…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Hier {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Il se peut que Signal ne parvienne pas à traiter un message entrant."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Le corps du message est trop long."
@@ -2976,7 +2976,7 @@
     "messageformat": "Impossible de rejoindre le groupe via le lien, car un admin vous a retiré."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Pour rejoindre ce groupe, un administrateur doit d’abord approuver votre demande. Si elle est approuvée, vos nom et photo seront partagés avec ses membres."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Rejoindre"
@@ -3519,7 +3519,7 @@
     "messageformat": "Faire un don à Signal"
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal dépend de personnes comme vous. Donnez-nous un coup de pouce et recevez un macaron."
+    "messageformat": "Signal dépend de personnes comme vous. Donnez-nous un coup de pouce et gagnez un macaron."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "Ouvrez Signal sur votre téléphone."
@@ -3641,9 +3641,6 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Retirer du groupe"
   },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Vous êtes déjà en communication"
-  },
   "icu:ContactModal--voice": {
     "messageformat": "Audio"
   },
@@ -3666,10 +3663,10 @@
     "messageformat": "Messages éphémères"
   },
   "icu:ConversationDetails--disappearing-messages-info--group": {
-    "messageformat": "Si cette option est activée, les messages envoyés et reçus dans ce groupe disparaîtront après avoir été lus."
+    "messageformat": "Si vous activez cette option, les nouveaux messages que vous enverrez et recevrez dans ce groupe disparaîtront une fois lus. "
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Si cette option est activée, les messages envoyés et reçus dans cette conversation disparaîtront après avoir été lus."
+    "messageformat": "Si vous activez cette option, les nouveaux messages que vous enverrez et recevrez dans cette conversation disparaîtront une fois lus."
   },
   "icu:ConversationDetails--nickname-label": {
     "messageformat": "Pseudo"
@@ -4395,7 +4392,7 @@
     "messageformat": "Nom de famille (facultatif)"
   },
   "icu:ConfirmDiscardDialog--discard": {
-    "messageformat": "Voulez-vous abandonner ces changements ?"
+    "messageformat": "Voulez-vous supprimer ces modifications ?"
   },
   "icu:ConfirmationDialog__Title--in-call-close-requested": {
     "messageformat": "Fermer Signal et mettre fin à l’appel ?"
@@ -4449,10 +4446,10 @@
     "messageformat": "Votre profil n’a pas pu être mis à jour. Veuillez réessayer."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Caractères non valides."
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Au moins un des caractères saisis n'est pas autorisé. Veuillez réessayer."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Envoyer un message à un administrateur"
@@ -5202,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Montrer les Stories"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Masquer la story"
@@ -5681,6 +5678,12 @@
     "messageformat": "Vous avez quitté un groupe, mais vous le regrettez ? Vos amis vous manquent et vous ne retrouvez pas ce groupe pour le réintégrer ? Réjouissez-vous : nous avons corrigé ce bug. L'expression \"se séparer pour mieux se retrouver\" prend enfin tout son sens."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Lorsque vous avez répondu à un message, vous pouvez maintenant modifier votre réponse pour en supprimer le message d'origine. Pratique les jours où votre réponse mérite son heure de gloire – ou quand vous répondez \"Je t'aime aussi <3\" après avoir cliqué sur le mauvais message."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

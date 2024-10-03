@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "নোট"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "সাম্প্রতিক মিডিয়া দেখুন"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "সকল মিডিয়া"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "{name}-এর কাছ থেকে অডিও ও ভিডিও গ্রহণ করা যাবে না"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "অডিও ও ভিডিও গ্রহণ করা যাচ্ছে না"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "এর কারণ হতে পারে যে- হয়তো তারা আপনার পরিবর্তিত নিরাপত্তা নাম্বার যাচাই করেননি, তাদের ডিভাইসে কোনো সমস্যা হয়েছে বা তারা আপনাকে ব্লক করেছেন।"
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} শেয়ার করছে।"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "আবারো সংযুক্ত করা হচ্ছে…"
@@ -1626,7 +1626,7 @@
     "messageformat": "গতকাল {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal একটি আগত মেসেজ প্রক্রিয়া করতে ব্যর্থ হতে পারে।"
   },
   "icu:messageBodyTooLong": {
     "messageformat": "বার্তার মূল অংশটি অনেক দীর্ঘ।"
@@ -2976,7 +2976,7 @@
     "messageformat": "আপনি এই লিংকের মাধ্যমে গ্ৰুপে যোগ দিতে পারবেন না, কারণ একজন অ্যাডমিন আপনাকে সরিয়ে দিয়েছেন।"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "আপনি এই গ্রুপে যোগ দেওয়ার আগে গ্রুপের অ্যাডমিনকে অবশ্যই আপনার যোগ দেওয়ার অনুরোধ অনুমোদন করতে হবে। অনুমোদিত হলে, আপনার নাম ও ফটো গ্রুপের সদস্যদের সাথে শেয়ার করা হবে।"
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "যোগদান করুন"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "গ্রুপ থেকে সরিয়ে ফেলুন"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "আপনি ইতিমধ্যেই একটি কলে আছেন"
   },
   "icu:ContactModal--voice": {
     "messageformat": "ভয়েস"
@@ -4449,10 +4446,10 @@
     "messageformat": "আপনার প্রোফাইলটি আপডেট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "অকার্যকর ক্যারেক্টার"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "আপনার প্রদত্ত এক বা একাধিক ক্যারেক্টার ব্যবহার করা যাচ্ছে না। আবার চেষ্টা করুন।"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "একজন অ্যাডমিনকে মেসেজ পাঠান"
@@ -5202,7 +5199,7 @@
     "messageformat": "স্টোরি"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "স্টোরি দেখান"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "স্টোরি লুকান"
@@ -5681,6 +5678,12 @@
     "messageformat": "এই আপডেটটি একটি বাগ সংশোধন করে যা একটি গ্ৰুপ ছেড়ে যাওয়ার পর সেই গ্ৰুপটিকে খুঁজে বের করা কঠিন করে তুলেছিল।"
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "এখন আপনি এডিটকৃত মেসেজ থেকে উদ্ধৃত উত্তর মুছে ফেলতে পারবেন।"
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

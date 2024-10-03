@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Catatan"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Lihat media terbaru"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Semua media"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Tidak dapat menerima audio dan video dari {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Tidak dapat menerima audio dan video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Ini mungkin terjadi karena mereka belum memverifikasi pergantian nomor keamanan, ada masalah dengan perangkat mereka, atau mereka memblokir Anda."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal sedang menunjukkan layar {window}"
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Menghubungkan ulang…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Kemarin {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal mungkin gagal memproses pesan masuk."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Pesan terlalu panjang."
@@ -2976,7 +2976,7 @@
     "messageformat": "Anda tidak dapat bergabung dengan grup ini melalui tautan grup karena seorang admin mengeluarkan Anda."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Seorang admin dari grup ini harus menerima permintaan Anda sebelum Anda dapat bergabung dalam grup ini. Jika diterima, nama dan foto Anda akan dibagikan dengan anggota grup."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Bergabung"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Keluarkan dari grup"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Anda sudah berada dalam panggilan"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Suara"
@@ -4449,10 +4446,10 @@
     "messageformat": "Profil Anda tidak dapat diperbarui. Mohon coba lagi."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Karakter tidak valid"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Satu atau beberapa karakter yang Anda masukkan tidak dapat digunakan. Coba lagi."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Kirimkan pesan ke admin"
@@ -5202,7 +5199,7 @@
     "messageformat": "Cerita"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Tampilkan cerita"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Sembunyikan cerita"
@@ -5681,6 +5678,12 @@
     "messageformat": "Pembaruan ini memperbaiki bug yang membuat Anda kesulitan mencari suatu grup setelah Anda keluar dari grup tersebut."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Kini Anda bisa menghapus balasan yang dikutip saat mengedit pesan."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

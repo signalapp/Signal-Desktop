@@ -944,9 +944,6 @@
   "icu:NotePreviewModal__Title": {
     "messageformat": "Ghi chú"
   },
-  "icu:viewRecentMedia": {
-    "messageformat": "Xem các tập đa phương tiện gần đây"
-  },
   "icu:allMediaMenuItem": {
     "messageformat": "Tất cả tập tin đa phương tiện"
   },
@@ -1416,7 +1413,7 @@
     "messageformat": "Không thể nhận được âm thanh và video từ {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Không thể nhận âm thanh và video"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Điều này có thể vì họ chưa xác minh việc thay đổi mã số an toàn của bạn, có vấn đề với thiết bị của họ, hoặc họ đã chặn bạn."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal đang chia sẻ {window}."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Đang kết nối lại…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Hôm qua {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Signal có khả năng không thể xử lý tin nhắn đến."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Tin nhắn quá dài."
@@ -2976,7 +2976,7 @@
     "messageformat": "Bạn không thể tham gia nhóm này qua đường dẫn nhóm vì một quản trị viên đã xóa bạn khỏi nhóm."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Một người quản lý của nhóm này phải chấp duyệt yêu cầu của bạn trước khi bạn có thể tham gia nhóm này. Nếu được duyệt, tên và ảnh của bạn sẽ được chia sẻ với các thành viên nhóm."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Tham gia"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Xóa khỏi nhóm"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Bạn đã đang ở trong một cuộc gọi"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Thoại"
@@ -4449,10 +4446,10 @@
     "messageformat": "Hồ sơ của bạn không thể cập nhật. Vui lòng thử lại."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ký tự không hợp lệ"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Có một hoặc nhiều ký tự bạn nhập không hợp lệ. Thử lại."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Nhắn tin cho quản trị viên"
@@ -5202,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Hiện story"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ẩn story"
@@ -5681,6 +5678,12 @@
     "messageformat": "Bản cập nhật này sửa lỗi khó tìm lại nhóm sau khi rời nhóm đó."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Giờ đây bạn có thể xóa các câu trả lời được trích dẫn từ những tin nhắn đã chỉnh sửa."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }

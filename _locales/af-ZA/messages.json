@@ -516,7 +516,7 @@
     "messageformat": "Vind meer uit"
   },
   "icu:verified": {
-    "messageformat": "Geverifiëer"
+    "messageformat": "Geverifieer"
   },
   "icu:newIdentity": {
     "messageformat": "Nuwe veiligheidsnommer"
@@ -943,9 +943,6 @@
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
-  },
-  "icu:viewRecentMedia": {
-    "messageformat": "Kyk na onlangse media"
   },
   "icu:allMediaMenuItem": {
     "messageformat": "Alle media"
@@ -1416,7 +1413,7 @@
     "messageformat": "Kan nie oudio en video van {name} ontvang nie"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Can't receive audio and video"
+    "messageformat": "Kan nie oudio en video ontvang nie"
   },
   "icu:calling__missing-media-keys-info": {
     "messageformat": "Dit kan wees omdat hulle die verandering in jou veiligheidsnommer nog nie geverifieer het nie, of hulle toestel gee probleme, of hulle het jou versper."
@@ -1441,6 +1438,9 @@
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal is besig om {window} te deel."
+  },
+  "icu:calling__presenting--info--unknown": {
+    "messageformat": "Signal screen sharing is active"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Besig om te herkonnekteer…"
@@ -1626,7 +1626,7 @@
     "messageformat": "Gister {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Signal may be failing to process an incoming message."
+    "messageformat": "Sein kan moontlik nie 'n inkomende boodskap verwerk nie."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Die boodskapteks is te lank."
@@ -2976,7 +2976,7 @@
     "messageformat": "Jy kan nie d.m.v. die groepskakel by hierdie groep aansluit nie, want 'n admin het jou verwyder."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "'n Admin van hierdie groep moet jou versoek goedkeur voordat jy by die groep kan aansluit. Indien goedgekeur, sal jou naam en foto met die groeplede gedeel word."
+    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Sluit aan"
@@ -3640,9 +3640,6 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Verwyder uit groep"
-  },
-  "icu:ContactModal--already-in-call": {
-    "messageformat": "Jy is reeds in 'n oproep"
   },
   "icu:ContactModal--voice": {
     "messageformat": "Stem"
@@ -4449,10 +4446,10 @@
     "messageformat": "U profiel kan nie bygewerk word nie. Probeer asb. weer."
   },
   "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Invalid characters"
+    "messageformat": "Ongeldige karakters"
   },
   "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "One or more characters you’ve entered can’t be used. Try again."
+    "messageformat": "Een of meer karakters wat jy ingevoer het, kan nie gebruik word nie. Probeer weer."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Stuur ’n boodskap aan admin"
@@ -5202,7 +5199,7 @@
     "messageformat": "Storie"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Wys stories"
+    "messageformat": "Unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Versteek storie"
@@ -5681,6 +5678,12 @@
     "messageformat": "Hierdie opdatering stel 'n fout reg wat dit moeilik gemaak het om vir 'n groep te soek nadat jy daardie groep verlaat het."
   },
   "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Now you can remove quoted replies from edited messages. It's perfect for those moments when you realize that your response was so good that it doesn't actually need to stand on another message's shoulders, or when you accidentally reply to the wrong message with \"I love you too.\""
+    "messageformat": "Nou kan jy aangehaalde antwoorde uit geredigeerde boodskappe verwyder."
+  },
+  "icu:WhatsNew__v7.28--0": {
+    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+  },
+  "icu:WhatsNew__v7.28--1": {
+    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
   }
 }
