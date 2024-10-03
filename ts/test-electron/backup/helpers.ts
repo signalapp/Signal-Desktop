@@ -80,6 +80,8 @@ function sortAndNormalize(
       sourceDevice: _sourceDevice,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       editMessageReceivedAt: _editMessageReceivedAt,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      schemaVersion: _schemaVersion,
 
       ...rest
     } = message;

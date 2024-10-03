@@ -110,6 +110,7 @@ import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { reinitializeRedux } from '../../state/reinitializeRedux';
 import { getParametersForRedux, loadAll } from '../allLoaders';
 import { resetBackupMediaDownloadProgress } from '../../util/backupMediaDownload';
+import { getEnvironment, isTestEnvironment } from '../../environment';
 
 const MAX_CONCURRENCY = 10;
 
@@ -415,7 +416,10 @@ export class BackupImportStream extends Writable {
         await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
       );
 
-      if (this.backupType !== BackupType.TestOnlyPlaintext) {
+      if (
+        this.backupType !== BackupType.TestOnlyPlaintext &&
+        !isTestEnvironment(getEnvironment())
+      ) {
         await AttachmentDownloadManager.start();
       }
 

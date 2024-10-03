@@ -122,6 +122,7 @@ describe('backup/attachments', () => {
       received_at_ms: timestamp,
       sourceServiceId: CONTACT_A,
       sourceDevice: 1,
+      schemaVersion: 0,
       sent_at: timestamp,
       timestamp,
       readStatus: ReadStatus.Read,
