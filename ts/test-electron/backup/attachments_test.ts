@@ -35,6 +35,19 @@ import { loadAll } from '../../services/allLoaders';
 
 const CONTACT_A = generateAci();
 
+const NON_ROUNDTRIPPED_FIELDS = [
+  'path',
+  'iv',
+  'thumbnail',
+  'screenshot',
+  'isReencryptableToSameDigest',
+];
+
+const NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS = [
+  ...NON_ROUNDTRIPPED_FIELDS,
+  'uploadTimestamp',
+];
+
 describe('backup/attachments', () => {
   let sandbox: sinon.SinonSandbox;
   let contactA: ConversationModel;
@@ -98,6 +111,7 @@ describe('backup/attachments', () => {
       size: 100,
       contentType: IMAGE_JPEG,
       path: `/path/to/file${index}.png`,
+      isReencryptableToSameDigest: true,
       uploadTimestamp: index,
       thumbnail: {
         size: 1024,
@@ -153,8 +167,8 @@ describe('backup/attachments', () => {
         [
           composeMessage(1, {
             attachments: [
-              omit(longMessageAttachment, ['path', 'iv', 'thumbnail']),
-              omit(normalAttachment, ['path', 'iv', 'thumbnail']),
+              omit(longMessageAttachment, NON_ROUNDTRIPPED_FIELDS),
+              omit(normalAttachment, NON_ROUNDTRIPPED_FIELDS),
             ],
           }),
         ],
@@ -227,7 +241,7 @@ describe('backup/attachments', () => {
           composeMessage(1, {
             body: 'a'.repeat(2048),
             bodyAttachment: {
-              ...omit(attachment, ['iv', 'path', 'uploadTimestamp']),
+              ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
               backupLocator: {
                 mediaName: digestToMediaName(attachment.digest),
               },
@@ -269,8 +283,8 @@ describe('backup/attachments', () => {
         [
           composeMessage(1, {
             attachments: [
-              omit(attachment1, ['path', 'iv', 'thumbnail']),
-              omit(attachment2, ['path', 'iv', 'thumbnail']),
+              omit(attachment1, NON_ROUNDTRIPPED_FIELDS),
+              omit(attachment2, NON_ROUNDTRIPPED_FIELDS),
             ],
           }),
         ],
@@ -293,12 +307,7 @@ describe('backup/attachments', () => {
             // but there will be a backupLocator
             attachments: [
               {
-                ...omit(attachment, [
-                  'path',
-                  'iv',
-                  'thumbnail',
-                  'uploadTimestamp',
-                ]),
+                ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
                 backupLocator: {
                   mediaName: digestToMediaName(attachment.digest),
                 },
@@ -327,12 +336,7 @@ describe('backup/attachments', () => {
           composeMessage(1, {
             attachments: [
               {
-                ...omit(attachment, [
-                  'path',
-                  'iv',
-                  'thumbnail',
-                  'uploadTimestamp',
-                ]),
+                ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
                 backupLocator: {
                   mediaName: digestToMediaName(attachment.digest),
                 },
@@ -362,7 +366,7 @@ describe('backup/attachments', () => {
               {
                 url: 'url',
                 date: 1,
-                image: omit(attachment, ['path', 'iv', 'thumbnail']),
+                image: omit(attachment, NON_ROUNDTRIPPED_FIELDS),
               },
             ],
           }),
@@ -399,12 +403,7 @@ describe('backup/attachments', () => {
                 image: {
                   // path, iv, and uploadTimestamp will not be roundtripped,
                   // but there will be a backupLocator
-                  ...omit(attachment, [
-                    'path',
-                    'iv',
-                    'thumbnail',
-                    'uploadTimestamp',
-                  ]),
+                  ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
                   backupLocator: {
                     mediaName: digestToMediaName(attachment.digest),
                   },
@@ -434,7 +433,7 @@ describe('backup/attachments', () => {
             contact: [
               {
                 avatar: {
-                  avatar: omit(attachment, ['path', 'iv', 'thumbnail']),
+                  avatar: omit(attachment, NON_ROUNDTRIPPED_FIELDS),
                   isProfile: false,
                 },
               },
@@ -462,12 +461,7 @@ describe('backup/attachments', () => {
               {
                 avatar: {
                   avatar: {
-                    ...omit(attachment, [
-                      'path',
-                      'iv',
-                      'thumbnail',
-                      'uploadTimestamp',
-                    ]),
+                    ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
                     backupLocator: {
                       mediaName: digestToMediaName(attachment.digest),
                     },
@@ -511,7 +505,7 @@ describe('backup/attachments', () => {
               referencedMessageNotFound: true,
               attachments: [
                 {
-                  thumbnail: omit(attachment, ['iv', 'path', 'thumbnail']),
+                  thumbnail: omit(attachment, NON_ROUNDTRIPPED_FIELDS),
                   contentType: VIDEO_MP4,
                 },
               ],
@@ -549,12 +543,7 @@ describe('backup/attachments', () => {
               attachments: [
                 {
                   thumbnail: {
-                    ...omit(attachment, [
-                      'iv',
-                      'path',
-                      'uploadTimestamp',
-                      'thumbnail',
-                    ]),
+                    ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
                     backupLocator: {
                       mediaName: digestToMediaName(attachment.digest),
                     },
@@ -602,12 +591,10 @@ describe('backup/attachments', () => {
             ...existingMessage,
             attachments: [
               {
-                ...omit(existingAttachment, [
-                  'path',
-                  'iv',
-                  'uploadTimestamp',
-                  'thumbnail',
-                ]),
+                ...omit(
+                  existingAttachment,
+                  NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS
+                ),
                 backupLocator: {
                   mediaName: digestToMediaName(existingAttachment.digest),
                 },
@@ -624,7 +611,10 @@ describe('backup/attachments', () => {
                   // The thumbnail will not have been copied over yet since it has not yet
                   // been downloaded
                   thumbnail: {
-                    ...omit(quoteAttachment, ['iv', 'path', 'uploadTimestamp']),
+                    ...omit(
+                      quoteAttachment,
+                      NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS
+                    ),
                     backupLocator: {
                       mediaName: digestToMediaName(quoteAttachment.digest),
                     },
@@ -854,12 +844,7 @@ describe('backup/attachments', () => {
                 packKey,
                 stickerId: 0,
                 data: {
-                  ...omit(attachment, [
-                    'iv',
-                    'path',
-                    'thumbnail',
-                    'uploadTimestamp',
-                  ]),
+                  ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
                   backupLocator: {
                     mediaName: digestToMediaName(attachment.digest),
                   },

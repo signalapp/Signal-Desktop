@@ -64,13 +64,21 @@ export type ReencryptedAttachmentV2 = {
   iv: string;
   plaintextHash: string;
   localKey: string;
+  isReencryptableToSameDigest: boolean;
   version: 2;
+};
+
+export type ReencryptionInfo = {
+  iv: string;
+  key: string;
+  digest: string;
 };
 
 export type DecryptedAttachmentV2 = {
   path: string;
   iv: Uint8Array;
   plaintextHash: string;
+  isReencryptableToSameDigest: boolean;
 };
 
 export type PlaintextSourceType =
@@ -356,6 +364,7 @@ export async function decryptAttachmentV2ToSink(
       })
     : undefined;
 
+  let isPaddingAllZeros = false;
   let readFd;
   let iv: Uint8Array | undefined;
   try {
@@ -377,7 +386,9 @@ export async function decryptAttachmentV2ToSink(
         getIvAndDecipher(aesKey, theirIv => {
           iv = theirIv;
         }),
-        trimPadding(options.size),
+        trimPadding(options.size, paddingAnalysis => {
+          isPaddingAllZeros = paddingAnalysis.isPaddingAllZeros;
+        }),
         peekAndUpdateHash(plaintextHash),
         finalStream(() => {
           const ourMac = hmac.digest();
@@ -469,8 +480,13 @@ export async function decryptAttachmentV2ToSink(
     `${logId}: failed to find their iv`
   );
 
+  if (!isPaddingAllZeros) {
+    log.warn(`${logId}: Attachment had non-zero padding`);
+  }
+
   return {
     iv,
+    isReencryptableToSameDigest: isPaddingAllZeros,
     plaintextHash: ourPlaintextHash,
   };
 }
@@ -512,10 +528,11 @@ export async function decryptAndReencryptLocally(
     ]);
 
     return {
-      ...result,
       localKey: toBase64(keys),
       iv: toBase64(result.iv),
       path: relativeTargetPath,
+      plaintextHash: result.plaintextHash,
+      isReencryptableToSameDigest: result.isReencryptableToSameDigest,
       version: 2,
     };
   } catch (error) {

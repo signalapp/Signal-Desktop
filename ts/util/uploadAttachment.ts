@@ -58,6 +58,7 @@ export async function uploadAttachment(
     height,
     caption,
     blurHash,
+    isReencryptableToSameDigest: true,
   };
 }
 

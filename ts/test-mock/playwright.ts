@@ -13,6 +13,7 @@ import type {
 import type { ReceiptType } from '../types/Receipt';
 import { SECOND } from '../util/durations';
 import { drop } from '../util/drop';
+import type { MessageAttributesType } from '../model-types';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -176,6 +177,13 @@ export class App extends EventEmitter {
     await window.evaluate(
       `window.SignalCI.openSignalRoute(${JSON.stringify(url.toString())})`
     );
+  }
+
+  public async getMessagesBySentAt(
+    timestamp: number
+  ): Promise<Array<MessageAttributesType>> {
+    const window = await this.getWindow();
+    return window.evaluate(`window.SignalCI.getMessagesBySentAt(${timestamp})`);
   }
 
   public async exportBackupToDisk(path: string): Promise<Uint8Array> {

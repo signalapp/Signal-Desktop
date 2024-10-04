@@ -4,7 +4,7 @@
 import assert from 'assert';
 import fs from 'fs/promises';
 import crypto from 'crypto';
-import path from 'path';
+import path, { join } from 'path';
 import os from 'os';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
@@ -25,6 +25,7 @@ import { drop } from '../util/drop';
 import type { RendererConfigType } from '../types/RendererConfig';
 import { App } from './playwright';
 import { CONTACT_COUNT } from './benchmarks/fixtures';
+import { strictAssert } from '../util/assert';
 
 export { App };
 
@@ -551,6 +552,11 @@ export class Bootstrap {
         assert.strictEqual(numPixels, 0, 'Expected no pixels to be different');
       });
     };
+  }
+
+  public getAbsoluteAttachmentPath(relativePath: string): string {
+    strictAssert(this.storagePath, 'storagePath must exist');
+    return join(this.storagePath, 'attachments.noindex', relativePath);
   }
 
   //

@@ -31,6 +31,7 @@ import type { SignalService as Proto } from '../protobuf';
 import { isMoreRecentThan } from '../util/timestamp';
 import { DAY } from '../util/durations';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
+import type { ReencryptionInfo } from '../AttachmentCrypto';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -106,7 +107,15 @@ export type AttachmentType = {
 
   /** Legacy field, used long ago for migrating attachments to disk. */
   schemaVersion?: number;
-};
+} & (
+  | {
+      isReencryptableToSameDigest?: true;
+    }
+  | {
+      isReencryptableToSameDigest: false;
+      reencryptionInfo?: ReencryptionInfo;
+    }
+);
 
 export type LocalAttachmentV2Type = Readonly<{
   version: 2;
@@ -142,6 +151,7 @@ export type UploadedAttachmentType = Proto.IAttachmentPointer &
     digest: Uint8Array;
     contentType: string;
     plaintextHash: string;
+    isReencryptableToSameDigest: true;
   }>;
 
 export type AttachmentWithHydratedData = AttachmentType & {
@@ -1070,17 +1080,28 @@ export function getAttachmentSignature(attachment: AttachmentType): string {
 }
 
 type RequiredPropertiesForDecryption = 'key' | 'digest';
-type RequiredPropertiesForReencryption = 'key' | 'digest' | 'iv';
+type RequiredPropertiesForReencryption = 'path' | 'key' | 'digest' | 'iv';
 
 type DecryptableAttachment = WithRequiredProperties<
   AttachmentType,
   RequiredPropertiesForDecryption
 >;
 
-type ReencryptableAttachment = WithRequiredProperties<
+export type AttachmentWithNewReencryptionInfoType = Omit<
   AttachmentType,
-  RequiredPropertiesForReencryption
->;
+  'isReencryptableToSameDigest'
+> & {
+  isReencryptableToSameDigest: false;
+  reencryptionInfo: ReencryptionInfo;
+};
+type AttachmentReencryptableToExistingDigestType = Omit<
+  WithRequiredProperties<AttachmentType, RequiredPropertiesForReencryption>,
+  'isReencryptableToSameDigest'
+> & { isReencryptableToSameDigest: true };
+
+export type ReencryptableAttachment =
+  | AttachmentWithNewReencryptionInfoType
+  | AttachmentReencryptableToExistingDigestType;
 
 export type AttachmentDownloadableFromTransitTier = WithRequiredProperties<
   DecryptableAttachment,
@@ -1097,24 +1118,40 @@ export type LocallySavedAttachment = WithRequiredProperties<
   'path'
 >;
 
-export type AttachmentReadyForBackup = WithRequiredProperties<
-  LocallySavedAttachment,
-  RequiredPropertiesForReencryption
->;
-
 export function isDecryptable(
   attachment: AttachmentType
 ): attachment is DecryptableAttachment {
   return Boolean(attachment.key) && Boolean(attachment.digest);
 }
 
+export function hasAllOriginalEncryptionInfo(
+  attachment: AttachmentType
+): attachment is WithRequiredProperties<
+  AttachmentType,
+  'iv' | 'key' | 'digest'
+> {
+  return (
+    Boolean(attachment.iv) &&
+    Boolean(attachment.key) &&
+    Boolean(attachment.digest)
+  );
+}
+
 export function isReencryptableToSameDigest(
   attachment: AttachmentType
-): attachment is ReencryptableAttachment {
+): attachment is AttachmentReencryptableToExistingDigestType {
   return (
-    Boolean(attachment.key) &&
-    Boolean(attachment.digest) &&
-    Boolean(attachment.iv)
+    hasAllOriginalEncryptionInfo(attachment) &&
+    Boolean(attachment.isReencryptableToSameDigest)
+  );
+}
+
+export function isReencryptableWithNewEncryptionInfo(
+  attachment: AttachmentType
+): attachment is AttachmentWithNewReencryptionInfoType {
+  return (
+    attachment.isReencryptableToSameDigest === false &&
+    Boolean(attachment.reencryptionInfo)
   );
 }
 

@@ -13,6 +13,7 @@ import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import type { MessageAttributesType } from '../../model-types.d';
 import type {
   AddressableAttachmentType,
+  AttachmentType,
   LocalAttachmentV2Type,
 } from '../../types/Attachment';
 import type { LoggerType } from '../../types/Logging';
@@ -687,6 +688,120 @@ describe('Message', () => {
             },
           },
         ],
+      });
+      const result = await upgradeVersion(message, getDefaultContext());
+      assert.deepEqual(result, expected);
+    });
+  });
+
+  describe('_mapAllAttachments', () => {
+    function composeAttachment(
+      overrides?: Partial<AttachmentType>
+    ): AttachmentType {
+      return {
+        size: 128,
+        contentType: MIME.IMAGE_JPEG,
+        ...overrides,
+      };
+    }
+
+    it('updates all attachments on message', async () => {
+      const upgradeAttachment = (attachment: AttachmentType) =>
+        Promise.resolve({ ...attachment, key: 'upgradedKey' });
+
+      const upgradeVersion = Message._mapAllAttachments(upgradeAttachment);
+
+      const message = getDefaultMessage({
+        body: 'hey there!',
+        attachments: [
+          composeAttachment({ path: '/attachment/1' }),
+          composeAttachment({ path: '/attachment/2' }),
+        ],
+        quote: {
+          text: 'quote!',
+          attachments: [
+            {
+              contentType: MIME.TEXT_ATTACHMENT,
+              thumbnail: composeAttachment({ path: 'quoted/thumbnail' }),
+            },
+          ],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
+        },
+        preview: [
+          { url: 'url', image: composeAttachment({ path: 'preview/image' }) },
+        ],
+        contact: [
+          {
+            avatar: {
+              isProfile: false,
+              avatar: composeAttachment({ path: 'contact/avatar' }),
+            },
+          },
+        ],
+        sticker: {
+          packId: 'packId',
+          stickerId: 1,
+          packKey: 'packKey',
+          data: composeAttachment({ path: 'sticker/data' }),
+        },
+        bodyAttachment: composeAttachment({ path: 'body/attachment' }),
+      });
+
+      const expected = getDefaultMessage({
+        body: 'hey there!',
+        attachments: [
+          composeAttachment({ path: '/attachment/1', key: 'upgradedKey' }),
+          composeAttachment({ path: '/attachment/2', key: 'upgradedKey' }),
+        ],
+        quote: {
+          text: 'quote!',
+          attachments: [
+            {
+              contentType: MIME.TEXT_ATTACHMENT,
+              thumbnail: composeAttachment({
+                path: 'quoted/thumbnail',
+                key: 'upgradedKey',
+              }),
+            },
+          ],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
+        },
+        preview: [
+          {
+            url: 'url',
+            image: composeAttachment({
+              path: 'preview/image',
+              key: 'upgradedKey',
+            }),
+          },
+        ],
+        contact: [
+          {
+            avatar: {
+              isProfile: false,
+              avatar: composeAttachment({
+                path: 'contact/avatar',
+                key: 'upgradedKey',
+              }),
+            },
+          },
+        ],
+        sticker: {
+          packId: 'packId',
+          stickerId: 1,
+          packKey: 'packKey',
+          data: composeAttachment({ path: 'sticker/data', key: 'upgradedKey' }),
+        },
+        bodyAttachment: composeAttachment({
+          path: 'body/attachment',
+          key: 'upgradedKey',
+        }),
       });
       const result = await upgradeVersion(message, getDefaultContext());
       assert.deepEqual(result, expected);
