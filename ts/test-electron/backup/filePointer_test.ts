@@ -4,6 +4,7 @@ import { assert } from 'chai';
 import Long from 'long';
 import { join } from 'path';
 import * as sinon from 'sinon';
+import { readFileSync } from 'fs';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { DataWriter } from '../../sql/Client';
 import { Backups } from '../../protobuf';
@@ -19,6 +20,8 @@ import { strictAssert } from '../../util/assert';
 import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId';
 import { MASTER_KEY } from './helpers';
 import { getRandomBytes } from '../../Crypto';
+import { generateKeys, safeUnlink } from '../../AttachmentCrypto';
+import { writeNewAttachmentData } from '../../windows/attachments';
 
 describe('convertFilePointerToAttachment', () => {
   it('processes filepointer with attachmentLocator', () => {
@@ -190,7 +193,8 @@ function composeAttachment(
     incrementalMac: 'incrementalMac',
     incrementalMacChunkSize: 1000,
     uploadTimestamp: 1234,
-    localKey: Bytes.toBase64(getRandomBytes(32)),
+    localKey: Bytes.toBase64(generateKeys()),
+    isReencryptableToSameDigest: true,
     version: 2,
     ...overrides,
   };
@@ -429,30 +433,75 @@ describe('getFilePointerForAttachment', () => {
       });
     });
     describe('BackupLevel.Media', () => {
-      describe('if missing critical decryption / encryption info', () => {
-        const FILE_PATH = join(__dirname, '../../../fixtures/ghost-kitty.mp4');
+      describe('if missing critical decryption / encryption info', async () => {
+        let ciphertextFilePath: string;
+        const attachmentNeedingEncryptionInfo: AttachmentType = {
+          ...downloadedAttachment,
+          isReencryptableToSameDigest: false,
+        };
+        const plaintextFilePath = join(
+          __dirname,
+          '../../../fixtures/ghost-kitty.mp4'
+        );
+
+        before(async () => {
+          const locallyEncrypted = await writeNewAttachmentData({
+            data: readFileSync(plaintextFilePath),
+            getAbsoluteAttachmentPath:
+              window.Signal.Migrations.getAbsoluteAttachmentPath,
+          });
+          ciphertextFilePath =
+            window.Signal.Migrations.getAbsoluteAttachmentPath(
+              locallyEncrypted.path
+            );
+          attachmentNeedingEncryptionInfo.localKey = locallyEncrypted.localKey;
+        });
         beforeEach(() => {
           sandbox
             .stub(window.Signal.Migrations, 'getAbsoluteAttachmentPath')
             .callsFake(relPath => {
-              if (relPath === downloadedAttachment.path) {
-                return FILE_PATH;
+              if (relPath === attachmentNeedingEncryptionInfo.path) {
+                return ciphertextFilePath;
               }
               return relPath;
             });
         });
+        after(async () => {
+          if (ciphertextFilePath) {
+            await safeUnlink(ciphertextFilePath);
+          }
+        });
+        it('if existing (non-reencryptable digest) is already on backup tier, uses that backup locator', async () => {
+          await testAttachmentToFilePointer(
+            attachmentNeedingEncryptionInfo,
+            new Backups.FilePointer({
+              ...filePointerWithBackupLocator,
+              backupLocator: new Backups.FilePointer.BackupLocator({
+                ...defaultBackupLocator,
+                cdnNumber: 12,
+              }),
+            }),
+            { backupLevel: BackupLevel.Media, backupCdnNumber: 12 }
+          );
+        });
 
-        it('if missing key, generates new key & digest and removes existing CDN info', async () => {
-          const { filePointer: result } = await getFilePointerForAttachment({
-            attachment: {
-              ...downloadedAttachment,
-              key: undefined,
-            },
-            backupLevel: BackupLevel.Media,
-            getBackupCdnInfo: notInBackupCdn,
-          });
-          const newKey = result.backupLocator?.key;
-          const newDigest = result.backupLocator?.digest;
+        it('if existing digest is non-reencryptable, generates new reencryption info', async () => {
+          const { filePointer: result, updatedAttachment } =
+            await getFilePointerForAttachment({
+              attachment: attachmentNeedingEncryptionInfo,
+              backupLevel: BackupLevel.Media,
+              getBackupCdnInfo: notInBackupCdn,
+            });
+
+          assert.isFalse(updatedAttachment?.isReencryptableToSameDigest);
+          const newKey = updatedAttachment.reencryptionInfo?.key;
+          const newDigest = updatedAttachment.reencryptionInfo?.digest;
+
+          strictAssert(newDigest, 'must create new digest');
+          strictAssert(newKey, 'must create new key');
+
+          assert.notEqual(attachmentNeedingEncryptionInfo.key, newKey);
+          assert.notEqual(attachmentNeedingEncryptionInfo.digest, newDigest);
 
           strictAssert(newDigest, 'must create new digest');
           assert.deepStrictEqual(
@@ -461,9 +510,49 @@ describe('getFilePointerForAttachment', () => {
               ...filePointerWithBackupLocator,
               backupLocator: new Backups.FilePointer.BackupLocator({
                 ...defaultBackupLocator,
-                key: newKey,
-                digest: newDigest,
-                mediaName: Bytes.toHex(newDigest),
+                key: Bytes.fromBase64(newKey),
+                digest: Bytes.fromBase64(newDigest),
+                mediaName: Bytes.toHex(Bytes.fromBase64(newDigest)),
+                transitCdnKey: undefined,
+                transitCdnNumber: undefined,
+              }),
+            })
+          );
+        });
+
+        it('without localKey, still able to regenerate encryption info', async () => {
+          const { filePointer: result, updatedAttachment } =
+            await getFilePointerForAttachment({
+              attachment: {
+                ...attachmentNeedingEncryptionInfo,
+                localKey: undefined,
+                version: 1,
+                path: plaintextFilePath,
+              },
+              backupLevel: BackupLevel.Media,
+              getBackupCdnInfo: notInBackupCdn,
+            });
+
+          assert.isFalse(updatedAttachment?.isReencryptableToSameDigest);
+          const newKey = updatedAttachment.reencryptionInfo?.key;
+          const newDigest = updatedAttachment.reencryptionInfo?.digest;
+
+          strictAssert(newDigest, 'must create new digest');
+          strictAssert(newKey, 'must create new key');
+
+          assert.notEqual(attachmentNeedingEncryptionInfo.key, newKey);
+          assert.notEqual(attachmentNeedingEncryptionInfo.digest, newDigest);
+
+          strictAssert(newDigest, 'must create new digest');
+          assert.deepStrictEqual(
+            result,
+            new Backups.FilePointer({
+              ...filePointerWithBackupLocator,
+              backupLocator: new Backups.FilePointer.BackupLocator({
+                ...defaultBackupLocator,
+                key: Bytes.fromBase64(newKey),
+                digest: Bytes.fromBase64(newDigest),
+                mediaName: Bytes.toHex(Bytes.fromBase64(newDigest)),
                 transitCdnKey: undefined,
                 transitCdnNumber: undefined,
               }),
@@ -474,59 +563,44 @@ describe('getFilePointerForAttachment', () => {
         it('if file does not exist at local path, returns invalid attachment locator', async () => {
           await testAttachmentToFilePointer(
             {
-              ...downloadedAttachment,
+              ...attachmentNeedingEncryptionInfo,
               path: 'no/file/here.png',
-              key: undefined,
             },
             filePointerWithInvalidLocator,
             { backupLevel: BackupLevel.Media }
           );
         });
 
-        it('if not on backup tier, and missing iv, regenerates encryption info', async () => {
-          const { filePointer: result } = await getFilePointerForAttachment({
-            attachment: {
-              ...downloadedAttachment,
-              iv: undefined,
+        it('if new reencryptionInfo has already been generated, uses that', async () => {
+          const attachmentWithReencryptionInfo = {
+            ...downloadedAttachment,
+            isReencryptableToSameDigest: false,
+            reencryptionInfo: {
+              iv: 'newiv',
+              digest: 'newdigest',
+              key: 'newkey',
             },
+          };
+
+          const { filePointer: result } = await getFilePointerForAttachment({
+            attachment: attachmentWithReencryptionInfo,
             backupLevel: BackupLevel.Media,
             getBackupCdnInfo: notInBackupCdn,
           });
 
-          const newKey = result.backupLocator?.key;
-          const newDigest = result.backupLocator?.digest;
-
-          strictAssert(newDigest, 'must create new digest');
           assert.deepStrictEqual(
             result,
             new Backups.FilePointer({
               ...filePointerWithBackupLocator,
               backupLocator: new Backups.FilePointer.BackupLocator({
                 ...defaultBackupLocator,
-                key: newKey,
-                digest: newDigest,
-                mediaName: Bytes.toHex(newDigest),
+                key: Bytes.fromBase64('newkey'),
+                digest: Bytes.fromBase64('newdigest'),
+                mediaName: Bytes.toHex(Bytes.fromBase64('newdigest')),
                 transitCdnKey: undefined,
                 transitCdnNumber: undefined,
               }),
             })
-          );
-        });
-
-        it('if on backup tier, and not missing iv, does not regenerate encryption info', async () => {
-          await testAttachmentToFilePointer(
-            {
-              ...downloadedAttachment,
-              iv: undefined,
-            },
-            new Backups.FilePointer({
-              ...filePointerWithBackupLocator,
-              backupLocator: new Backups.FilePointer.BackupLocator({
-                ...defaultBackupLocator,
-                cdnNumber: 12,
-              }),
-            }),
-            { backupLevel: BackupLevel.Media, backupCdnNumber: 12 }
           );
         });
       });
@@ -549,7 +623,10 @@ describe('getFilePointerForAttachment', () => {
         await testAttachmentToFilePointer(
           downloadedAttachment,
           filePointerWithBackupLocator,
-          { backupLevel: BackupLevel.Media }
+          {
+            backupLevel: BackupLevel.Media,
+            updatedAttachment: downloadedAttachment,
+          }
         );
       });
     });
@@ -582,7 +659,7 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
     );
   });
 
-  it('returns job if filePointer does have backupLocator', async () => {
+  it('returns job if filePointer includes a backupLocator', async () => {
     const { filePointer, updatedAttachment } =
       await getFilePointerForAttachment({
         attachment,
@@ -637,6 +714,49 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
         getBackupCdnInfo: isInBackupTier,
       }),
       null
+    );
+  });
+
+  it('uses new encryption info if existing digest is not re-encryptable, and does not include transit info', async () => {
+    const newDigest = Bytes.toBase64(Bytes.fromBase64('newdigest'));
+    const attachmentWithReencryptionInfo = {
+      ...attachment,
+      isReencryptableToSameDigest: false,
+      reencryptionInfo: {
+        iv: 'newiv',
+        digest: newDigest,
+        key: 'newkey',
+      },
+    };
+    const { filePointer } = await getFilePointerForAttachment({
+      attachment: attachmentWithReencryptionInfo,
+      backupLevel: BackupLevel.Media,
+      getBackupCdnInfo: notInBackupCdn,
+    });
+
+    assert.deepStrictEqual(
+      await maybeGetBackupJobForAttachmentAndFilePointer({
+        attachment: attachmentWithReencryptionInfo,
+        filePointer,
+        messageReceivedAt: 100,
+        getBackupCdnInfo: notInBackupCdn,
+      }),
+      {
+        mediaName: Bytes.toHex(Bytes.fromBase64(newDigest)),
+        receivedAt: 100,
+        type: 'standard',
+        data: {
+          path: 'path/to/file.png',
+          contentType: IMAGE_PNG,
+          keys: 'newkey',
+          digest: newDigest,
+          iv: 'newiv',
+          size: 100,
+          localKey: attachmentWithReencryptionInfo.localKey,
+          version: attachmentWithReencryptionInfo.version,
+          transitCdnInfo: undefined,
+        },
+      }
     );
   });
 });

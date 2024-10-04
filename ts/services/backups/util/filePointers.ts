@@ -16,31 +16,30 @@ import {
   isAttachmentLocallySaved,
   type AttachmentDownloadableFromTransitTier,
   type AttachmentDownloadableFromBackupTier,
-  type LocallySavedAttachment,
-  type AttachmentReadyForBackup,
   isDecryptable,
   isReencryptableToSameDigest,
+  isReencryptableWithNewEncryptionInfo,
+  type ReencryptableAttachment,
 } from '../../../types/Attachment';
 import { Backups, SignalService } from '../../../protobuf';
 import * as Bytes from '../../../Bytes';
 import { getTimestampFromLong } from '../../../util/timestampLongUtils';
-import {
-  encryptAttachmentV2,
-  generateAttachmentKeys,
-} from '../../../AttachmentCrypto';
 import { strictAssert } from '../../../util/assert';
 import type { CoreAttachmentBackupJobType } from '../../../types/AttachmentBackup';
 import {
   type GetBackupCdnInfoType,
-  getMediaIdForAttachment,
   getMediaIdFromMediaName,
   getMediaNameForAttachment,
+  getMediaNameFromDigest,
+  type BackupCdnInfoType,
 } from './mediaId';
 import { redactGenericText } from '../../../util/privacy';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { toLogFormat } from '../../../types/errors';
 import { bytesToUuid } from '../../../util/uuidToBytes';
 import { createName } from '../../../util/attachmentPath';
+import { ensureAttachmentIsReencryptable } from '../../../util/ensureAttachmentIsReencryptable';
+import type { ReencryptionInfo } from '../../../AttachmentCrypto';
 
 export function convertFilePointerToAttachment(
   filePointer: Backups.FilePointer,
@@ -166,58 +165,12 @@ export function convertBackupMessageAttachmentToAttachment(
   return result;
 }
 
-/**
- * Some attachments saved on desktop do not include the key used to encrypt the file
- * originally. This means that we need to encrypt the file in-memory now (at
- * export-creation time) to calculate the digest which will be saved in the backup proto
- * along with the new keys.
- */
-
-async function generateNewEncryptionInfoForAttachment(
-  attachment: Readonly<LocallySavedAttachment>
-): Promise<AttachmentReadyForBackup> {
-  const fixedUpAttachment = { ...attachment };
-
-  // Since we are changing the encryption, we need to delete all encryption & location
-  // related info
-  delete fixedUpAttachment.cdnId;
-  delete fixedUpAttachment.cdnKey;
-  delete fixedUpAttachment.cdnNumber;
-  delete fixedUpAttachment.backupLocator;
-  delete fixedUpAttachment.uploadTimestamp;
-  delete fixedUpAttachment.digest;
-  delete fixedUpAttachment.iv;
-  delete fixedUpAttachment.key;
-
-  const keys = generateAttachmentKeys();
-
-  // encrypt this file without writing the ciphertext to disk in order to calculate the
-  // digest
-  const { digest, iv } = await encryptAttachmentV2({
-    keys,
-    plaintext: {
-      absolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath(
-        attachment.path
-      ),
-    },
-    getAbsoluteAttachmentPath:
-      window.Signal.Migrations.getAbsoluteAttachmentPath,
-  });
-
-  return {
-    ...fixedUpAttachment,
-    digest: Bytes.toBase64(digest),
-    iv: Bytes.toBase64(iv),
-    key: Bytes.toBase64(keys),
-  };
-}
-
 export async function getFilePointerForAttachment({
   attachment,
   backupLevel,
   getBackupCdnInfo,
 }: {
-  attachment: AttachmentType;
+  attachment: Readonly<AttachmentType>;
   backupLevel: BackupLevel;
   getBackupCdnInfo: GetBackupCdnInfoType;
 }): Promise<{
@@ -314,54 +267,43 @@ export async function getFilePointerForAttachment({
     };
   }
 
-  // Some attachments (e.g. those quoted ones copied from the original message) may not
-  // have any encryption info, including a digest.
-  if (attachment.digest) {
-    // From here on, this attachment is headed to (or already on) the backup tier!
-    const mediaNameForCurrentVersionOfAttachment =
-      getMediaNameForAttachment(attachment);
+  // From here on, this attachment is headed to (or already on) the backup tier!
+  const mediaNameForCurrentVersionOfAttachment = attachment.digest
+    ? getMediaNameForAttachment(attachment)
+    : undefined;
 
-    const backupCdnInfo = await getBackupCdnInfo(
-      getMediaIdFromMediaName(mediaNameForCurrentVersionOfAttachment).string
-    );
+  const backupCdnInfo: BackupCdnInfoType =
+    mediaNameForCurrentVersionOfAttachment
+      ? await getBackupCdnInfo(
+          getMediaIdFromMediaName(mediaNameForCurrentVersionOfAttachment).string
+        )
+      : { isInBackupTier: false };
 
-    // We can generate a backupLocator for this mediaName iff
-    // 1. we have iv, key, and digest so we can re-encrypt to the existing digest when
-    //    uploading, or
-    // 2. the mediaId is already in the backup tier and we have the key & digest to
-    //    decrypt and verify it
-    if (
-      isReencryptableToSameDigest(attachment) ||
-      (backupCdnInfo.isInBackupTier && isDecryptable(attachment))
-    ) {
-      return {
-        filePointer: new Backups.FilePointer({
-          ...filePointerRootProps,
-          backupLocator: getBackupLocator({
-            ...attachment,
-            backupLocator: {
-              mediaName: mediaNameForCurrentVersionOfAttachment,
-              cdnNumber: backupCdnInfo.isInBackupTier
-                ? backupCdnInfo.cdnNumber
-                : undefined,
-            },
-          }),
+  // If we have key & digest for this attachment and it's already on backup tier, we can
+  // reference it
+  if (isDecryptable(attachment) && backupCdnInfo.isInBackupTier) {
+    strictAssert(mediaNameForCurrentVersionOfAttachment, 'must exist');
+    return {
+      filePointer: new Backups.FilePointer({
+        ...filePointerRootProps,
+        backupLocator: getBackupLocator({
+          ...attachment,
+          backupLocator: {
+            mediaName: mediaNameForCurrentVersionOfAttachment,
+            cdnNumber: backupCdnInfo.isInBackupTier
+              ? backupCdnInfo.cdnNumber
+              : undefined,
+          },
         }),
-      };
-    }
+      }),
+    };
   }
 
-  let attachmentWithNewEncryptionInfo: AttachmentReadyForBackup | undefined;
+  let reencryptableAttachment: ReencryptableAttachment;
   try {
-    log.info(`${logId}: Generating new encryption info for attachment`);
-    attachmentWithNewEncryptionInfo =
-      await generateNewEncryptionInfoForAttachment(attachment);
+    reencryptableAttachment = await ensureAttachmentIsReencryptable(attachment);
   } catch (e) {
-    log.error(
-      `${logId}: Error when generating new encryption info for attachment`,
-      toLogFormat(e)
-    );
-
+    log.warn('Unable to ensure attachment is reencryptable', toLogFormat(e));
     return {
       filePointer: new Backups.FilePointer({
         ...filePointerRootProps,
@@ -370,18 +312,53 @@ export async function getFilePointerForAttachment({
     };
   }
 
+  // If we've confirmed that we can re-encrypt this attachment to the same digest, we can
+  // generate a backupLocator (and upload the file)
+  if (isReencryptableToSameDigest(reencryptableAttachment)) {
+    return {
+      filePointer: new Backups.FilePointer({
+        ...filePointerRootProps,
+        backupLocator: getBackupLocator({
+          ...reencryptableAttachment,
+          backupLocator: {
+            mediaName: getMediaNameFromDigest(reencryptableAttachment.digest),
+            cdnNumber: backupCdnInfo.isInBackupTier
+              ? backupCdnInfo.cdnNumber
+              : undefined,
+          },
+        }),
+      }),
+      updatedAttachment: reencryptableAttachment,
+    };
+  }
+
+  strictAssert(
+    reencryptableAttachment.reencryptionInfo,
+    'Reencryption info must exist if not reencryptable to original digest'
+  );
+
+  const mediaNameForNewEncryptionInfo = getMediaNameFromDigest(
+    reencryptableAttachment.reencryptionInfo.digest
+  );
+  const backupCdnInfoForNewEncryptionInfo = await getBackupCdnInfo(
+    getMediaIdFromMediaName(mediaNameForNewEncryptionInfo).string
+  );
+
   return {
     filePointer: new Backups.FilePointer({
       ...filePointerRootProps,
       backupLocator: getBackupLocator({
-        ...attachmentWithNewEncryptionInfo,
+        size: reencryptableAttachment.size,
+        ...reencryptableAttachment.reencryptionInfo,
         backupLocator: {
-          mediaName: getMediaNameForAttachment(attachmentWithNewEncryptionInfo),
-          cdnNumber: undefined,
+          mediaName: mediaNameForNewEncryptionInfo,
+          cdnNumber: backupCdnInfoForNewEncryptionInfo.isInBackupTier
+            ? backupCdnInfoForNewEncryptionInfo.cdnNumber
+            : undefined,
         },
       }),
     }),
-    updatedAttachment: attachmentWithNewEncryptionInfo,
+    updatedAttachment: reencryptableAttachment,
   };
 }
 
@@ -400,7 +377,12 @@ function getAttachmentLocator(
   });
 }
 
-function getBackupLocator(attachment: AttachmentDownloadableFromBackupTier) {
+function getBackupLocator(
+  attachment: Pick<
+    AttachmentDownloadableFromBackupTier,
+    'backupLocator' | 'digest' | 'key' | 'size' | 'cdnKey' | 'cdnNumber'
+  >
+) {
   return new Backups.FilePointer.BackupLocator({
     mediaName: attachment.backupLocator.mediaName,
     cdnNumber: attachment.backupLocator.cdnNumber,
@@ -431,11 +413,11 @@ export async function maybeGetBackupJobForAttachmentAndFilePointer({
     return null;
   }
 
-  const mediaName = getMediaNameForAttachment(attachment);
+  const { mediaName } = filePointer.backupLocator;
   strictAssert(mediaName, 'mediaName must exist');
 
   const { isInBackupTier } = await getBackupCdnInfo(
-    getMediaIdForAttachment(attachment).string
+    getMediaIdFromMediaName(mediaName).string
   );
 
   if (isInBackupTier) {
@@ -443,28 +425,39 @@ export async function maybeGetBackupJobForAttachmentAndFilePointer({
   }
 
   strictAssert(
-    isReencryptableToSameDigest(attachment),
-    'Attachment must now have all required info for re-encryption'
-  );
-
-  strictAssert(
     isAttachmentLocallySaved(attachment),
     'Attachment must be saved locally for it to be backed up'
   );
 
-  const {
-    path,
-    contentType,
-    key: keys,
-    digest,
-    iv,
-    size,
-    cdnKey,
-    cdnNumber,
-    uploadTimestamp,
-    version,
-    localKey,
-  } = attachment;
+  let encryptionInfo: ReencryptionInfo | undefined;
+
+  if (isReencryptableToSameDigest(attachment)) {
+    encryptionInfo = {
+      iv: attachment.iv,
+      key: attachment.key,
+      digest: attachment.digest,
+    };
+  } else {
+    strictAssert(
+      isReencryptableWithNewEncryptionInfo(attachment) === true,
+      'must have new encryption info'
+    );
+    encryptionInfo = attachment.reencryptionInfo;
+  }
+
+  strictAssert(
+    filePointer.backupLocator.digest,
+    'digest must exist on backupLocator'
+  );
+  strictAssert(
+    encryptionInfo.digest === Bytes.toBase64(filePointer.backupLocator.digest),
+    'digest on job and backupLocator must match'
+  );
+
+  const { path, contentType, size, uploadTimestamp, version, localKey } =
+    attachment;
+
+  const { transitCdnKey, transitCdnNumber } = filePointer.backupLocator;
 
   return {
     mediaName,
@@ -473,17 +466,17 @@ export async function maybeGetBackupJobForAttachmentAndFilePointer({
     data: {
       path,
       contentType,
-      keys,
-      digest,
-      iv,
+      keys: encryptionInfo.key,
+      digest: encryptionInfo.digest,
+      iv: encryptionInfo.iv,
       size,
       version,
       localKey,
       transitCdnInfo:
-        cdnKey && cdnNumber != null
+        transitCdnKey != null && transitCdnNumber != null
           ? {
-              cdnKey,
-              cdnNumber,
+              cdnKey: transitCdnKey,
+              cdnNumber: transitCdnNumber,
               uploadTimestamp,
             }
           : undefined,

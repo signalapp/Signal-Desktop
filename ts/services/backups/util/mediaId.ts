@@ -42,7 +42,11 @@ export function getMediaNameForAttachment(attachment: AttachmentType): string {
     return attachment.backupLocator.mediaName;
   }
   strictAssert(attachment.digest, 'Digest must be present');
-  return Bytes.toHex(Bytes.fromBase64(attachment.digest));
+  return getMediaNameFromDigest(attachment.digest);
+}
+
+export function getMediaNameFromDigest(digest: string): string {
+  return Bytes.toHex(Bytes.fromBase64(digest));
 }
 
 export function getMediaNameForAttachmentThumbnail(
@@ -55,11 +59,13 @@ export function getBytesFromMediaIdString(mediaId: string): Uint8Array {
   return Bytes.fromBase64url(mediaId);
 }
 
+export type BackupCdnInfoType =
+  | { isInBackupTier: true; cdnNumber: number }
+  | { isInBackupTier: false };
+
 export type GetBackupCdnInfoType = (
   mediaId: string
-) => Promise<
-  { isInBackupTier: true; cdnNumber: number } | { isInBackupTier: false }
->;
+) => Promise<BackupCdnInfoType>;
 
 export const getBackupCdnInfo: GetBackupCdnInfoType = async (
   mediaId: string

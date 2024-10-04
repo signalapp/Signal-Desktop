@@ -4654,7 +4654,6 @@ function getUnprocessedCount(db: ReadableDB): number {
 }
 
 function getAllUnprocessedIds(db: WritableDB): Array<string> {
-  logger.info('getAllUnprocessedIds');
   return db.transaction(() => {
     // cleanup first
     const { changes: deletedStaleCount } = db

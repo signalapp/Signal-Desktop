@@ -13,6 +13,7 @@ import type {
 } from './Attachment';
 import {
   captureDimensionsAndScreenshot,
+  isAttachmentLocallySaved,
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
@@ -48,6 +49,7 @@ import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { deepClone } from '../util/deepClone';
 import { LONG_ATTACHMENT_LIMIT } from './Message';
 import * as Bytes from '../Bytes';
+import { ensureAttachmentIsReencryptable } from '../util/ensureAttachmentIsReencryptable';
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';
@@ -134,6 +136,8 @@ export type ContextWithMessageType = ContextType & {
 //   - Attachments: encrypt attachments on disk
 // Version 13:
 //   - Attachments: write bodyAttachment to disk
+// Version 14
+//   - All attachments: ensure they are reencryptable to a known digest
 
 const INITIAL_SCHEMA_VERSION = 0;
 
@@ -279,6 +283,52 @@ export const _mapAttachments =
       (message.attachments || []).map(upgradeWithContext)
     );
     return { ...message, attachments };
+  };
+
+export const _mapAllAttachments =
+  (upgradeAttachment: UpgradeAttachmentType) =>
+  async (
+    message: MessageAttributesType,
+    context: ContextType
+  ): Promise<MessageAttributesType> => {
+    let result = { ...message };
+    result = await _mapAttachments(upgradeAttachment)(result, context);
+    result = await _mapQuotedAttachments(upgradeAttachment)(result, context);
+    result = await _mapPreviewAttachments(upgradeAttachment)(result, context);
+    result = await _mapContact(async contact => {
+      if (!contact.avatar?.avatar) {
+        return contact;
+      }
+
+      return {
+        ...contact,
+        avatar: {
+          ...contact.avatar,
+          avatar: await upgradeAttachment(
+            contact.avatar.avatar,
+            context,
+            result
+          ),
+        },
+      };
+    })(result, context);
+
+    if (result.sticker?.data) {
+      result.sticker.data = await upgradeAttachment(
+        result.sticker.data,
+        context,
+        result
+      );
+    }
+    if (result.bodyAttachment) {
+      result.bodyAttachment = await upgradeAttachment(
+        result.bodyAttachment,
+        context,
+        result
+      );
+    }
+
+    return result;
   };
 
 // Public API
@@ -583,6 +633,21 @@ const toVersion13 = _withSchemaVersion({
   upgrade: migrateBodyAttachmentToDisk,
 });
 
+const toVersion14 = _withSchemaVersion({
+  schemaVersion: 14,
+  upgrade: _mapAllAttachments(async attachment => {
+    if (!isAttachmentLocallySaved(attachment)) {
+      return attachment;
+    }
+    if (!attachment.digest) {
+      // this attachment has not been encrypted yet; this would be expected for messages
+      // that are being upgraded prior to being sent
+      return attachment;
+    }
+    return ensureAttachmentIsReencryptable(attachment);
+  }),
+});
+
 const VERSIONS = [
   toVersion0,
   toVersion1,
@@ -598,6 +663,7 @@ const VERSIONS = [
   toVersion11,
   toVersion12,
   toVersion13,
+  toVersion14,
 ];
 
 export const CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
@@ -731,15 +797,25 @@ export const processNewAttachment = async (
     throw new TypeError('context.logger is required');
   }
 
-  const finalAttachment = await captureDimensionsAndScreenshot(attachment, {
-    writeNewAttachmentData,
-    makeObjectUrl,
-    revokeObjectUrl,
-    getImageDimensions,
-    makeImageThumbnail,
-    makeVideoScreenshot,
-    logger,
-  });
+  let upgradedAttachment = attachment;
+
+  if (isAttachmentLocallySaved(upgradedAttachment)) {
+    upgradedAttachment =
+      await ensureAttachmentIsReencryptable(upgradedAttachment);
+  }
+
+  const finalAttachment = await captureDimensionsAndScreenshot(
+    upgradedAttachment,
+    {
+      writeNewAttachmentData,
+      makeObjectUrl,
+      revokeObjectUrl,
+      getImageDimensions,
+      makeImageThumbnail,
+      makeVideoScreenshot,
+      logger,
+    }
+  );
 
   return finalAttachment;
 };

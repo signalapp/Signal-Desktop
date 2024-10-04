@@ -92,7 +92,7 @@ type AttachmentDownloadManagerParamsType = Omit<
     job: AttachmentDownloadJobType;
     isLastAttempt: boolean;
     options?: { isForCurrentlyVisibleMessage: boolean };
-    dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+    dependencies?: DependenciesType;
   }) => Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>>;
 };
 
@@ -157,7 +157,6 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
           options: {
             isForCurrentlyVisibleMessage,
           },
-          dependencies: { downloadAttachment: downloadAttachmentUtil },
         });
       },
     });
@@ -239,16 +238,24 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     );
   }
 }
+
+type DependenciesType = {
+  downloadAttachment: typeof downloadAttachmentUtil;
+  processNewAttachment: typeof window.Signal.Migrations.processNewAttachment;
+};
 async function runDownloadAttachmentJob({
   job,
   isLastAttempt,
   options,
-  dependencies,
+  dependencies = {
+    downloadAttachment: downloadAttachmentUtil,
+    processNewAttachment: window.Signal.Migrations.processNewAttachment,
+  },
 }: {
   job: AttachmentDownloadJobType;
   isLastAttempt: boolean;
   options?: { isForCurrentlyVisibleMessage: boolean };
-  dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+  dependencies?: DependenciesType;
 }): Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>> {
   const jobIdForLogging = getJobIdForLogging(job);
   const logId = `AttachmentDownloadManager/runDownloadAttachmentJob/${jobIdForLogging}`;
@@ -362,7 +369,7 @@ export async function runDownloadAttachmentJobInner({
 }: {
   job: AttachmentDownloadJobType;
   isForCurrentlyVisibleMessage: boolean;
-  dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+  dependencies: DependenciesType;
 }): Promise<DownloadAttachmentResultType> {
   const { messageId, attachment, attachmentType } = job;
 
@@ -437,11 +444,10 @@ export async function runDownloadAttachmentJobInner({
       variant: AttachmentVariant.Default,
     });
 
-    const upgradedAttachment =
-      await window.Signal.Migrations.processNewAttachment({
-        ...omit(attachment, ['error', 'pending', 'downloadPath']),
-        ...downloaded,
-      });
+    const upgradedAttachment = await dependencies.processNewAttachment({
+      ...omit(attachment, ['error', 'pending', 'downloadPath']),
+      ...downloaded,
+    });
 
     await addAttachmentToMessage(messageId, upgradedAttachment, logId, {
       type: attachmentType,

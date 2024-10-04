@@ -45,6 +45,7 @@ import {
   getAttachmentCiphertextLength,
   splitKeys,
   generateAttachmentKeys,
+  type DecryptedAttachmentV2,
 } from '../AttachmentCrypto';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
@@ -610,13 +611,15 @@ describe('Crypto', () => {
         plaintextHash,
         encryptionKeys,
         dangerousIv,
+        overrideSize,
       }: {
         path?: string;
         data: Uint8Array;
-        plaintextHash: Uint8Array;
+        plaintextHash?: Uint8Array;
         encryptionKeys?: Uint8Array;
         dangerousIv?: HardcodedIVForEncryptionType;
-      }): Promise<void> {
+        overrideSize?: number;
+      }): Promise<DecryptedAttachmentV2> {
         let plaintextPath;
         let ciphertextPath;
         const keys = encryptionKeys ?? generateAttachmentKeys();
@@ -639,7 +642,7 @@ describe('Crypto', () => {
             ciphertextPath,
             idForLogging: 'test',
             ...splitKeys(keys),
-            size: data.byteLength,
+            size: overrideSize ?? data.byteLength,
             theirDigest: encryptedAttachment.digest,
             getAbsoluteAttachmentPath:
               window.Signal.Migrations.getAbsoluteAttachmentPath,
@@ -664,19 +667,27 @@ describe('Crypto', () => {
             }
           }
 
-          assert.isTrue(constantTimeEqual(data, plaintext));
           assert.strictEqual(
             encryptedAttachment.ciphertextSize,
             getAttachmentCiphertextLength(data.byteLength)
           );
-          assert.strictEqual(
-            encryptedAttachment.plaintextHash,
-            Bytes.toHex(plaintextHash)
-          );
-          assert.strictEqual(
-            decryptedAttachment.plaintextHash,
-            encryptedAttachment.plaintextHash
-          );
+
+          if (overrideSize == null) {
+            assert.isTrue(constantTimeEqual(data, plaintext));
+            assert.strictEqual(
+              decryptedAttachment.plaintextHash,
+              encryptedAttachment.plaintextHash
+            );
+          }
+
+          if (plaintextHash) {
+            assert.strictEqual(
+              encryptedAttachment.plaintextHash,
+              Bytes.toHex(plaintextHash)
+            );
+          }
+
+          return decryptedAttachment;
         } finally {
           if (plaintextPath) {
             unlinkSync(plaintextPath);
@@ -734,6 +745,25 @@ describe('Crypto', () => {
         await testV2RoundTripData({
           data,
           plaintextHash,
+        });
+      });
+
+      describe('isPaddingAllZeros', () => {
+        it('detects all zeros', async () => {
+          const decryptedResult = await testV2RoundTripData({
+            data: FILE_CONTENTS,
+          });
+          assert.isTrue(decryptedResult.isReencryptableToSameDigest);
+        });
+        it('detects non-zero padding', async () => {
+          const modifiedData = Buffer.concat([FILE_CONTENTS, Buffer.from([1])]);
+          const decryptedResult = await testV2RoundTripData({
+            data: modifiedData,
+            overrideSize: FILE_CONTENTS.byteLength,
+            // setting the size as one less than the actual file size will cause the last
+            // byte (`1`) to be considered padding during decryption
+          });
+          assert.isFalse(decryptedResult.isReencryptableToSameDigest);
         });
       });
       describe('dangerousIv', () => {
