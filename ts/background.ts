@@ -1311,7 +1311,8 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    log.warn('background: remote expiration detected, disabling reconnects');
+    log.error('background: remote expiration detected, disabling reconnects');
+    drop(window.storage.put('remoteBuildExpiration', Date.now()));
     drop(server?.onRemoteExpiration());
     remotelyExpired = true;
   });

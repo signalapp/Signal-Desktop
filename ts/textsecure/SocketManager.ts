@@ -1,7 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Net } from '@signalapp/libsignal-client';
+import {
+  ErrorCode,
+  LibSignalErrorBase,
+  type Net,
+} from '@signalapp/libsignal-client';
 import URL from 'url';
 import type { RequestInit, Response } from 'node-fetch';
 import { Headers } from 'node-fetch';
@@ -278,7 +282,7 @@ export class SocketManager extends EventListener {
         const { code } = error;
 
         if (code === 401 || code === 403) {
-          this.emit('authError', error);
+          this.emit('authError');
           return;
         }
 
@@ -292,6 +296,18 @@ export class SocketManager extends EventListener {
         }
       } else if (error instanceof ConnectTimeoutError) {
         this.markOffline();
+      } else if (
+        error instanceof LibSignalErrorBase &&
+        error.code === ErrorCode.DeviceDelinked
+      ) {
+        this.emit('authError');
+        return;
+      } else if (
+        error instanceof LibSignalErrorBase &&
+        error.code === ErrorCode.AppExpired
+      ) {
+        window.Whisper.events.trigger('httpResponse499');
+        return;
       }
 
       drop(reconnect());
@@ -931,10 +947,7 @@ export class SocketManager extends EventListener {
 
   // EventEmitter types
 
-  public override on(
-    type: 'authError',
-    callback: (error: HTTPError) => void
-  ): this;
+  public override on(type: 'authError', callback: () => void): this;
   public override on(type: 'statusChange', callback: () => void): this;
   public override on(type: 'online', callback: () => void): this;
   public override on(type: 'offline', callback: () => void): this;
@@ -951,7 +964,7 @@ export class SocketManager extends EventListener {
     return super.on(type, listener);
   }
 
-  public override emit(type: 'authError', error: HTTPError): boolean;
+  public override emit(type: 'authError'): boolean;
   public override emit(type: 'statusChange'): boolean;
   public override emit(type: 'online'): boolean;
   public override emit(type: 'offline'): boolean;
