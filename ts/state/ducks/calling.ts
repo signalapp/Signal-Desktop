@@ -2252,6 +2252,7 @@ const _startCallLinkLobby = async ({
     return;
   }
 
+  let success = false;
   try {
     dispatch({
       type: WAITING_FOR_CALL_LINK_LOBBY,
@@ -2342,22 +2343,25 @@ const _startCallLinkLobby = async ({
         isConversationTooBigToRing: false,
       },
     });
+    success = true;
   } catch (error) {
     log.error(`${logId}: Failed to start lobby`, Errors.toLogFormat(error));
+  } finally {
+    if (!success) {
+      try {
+        calling.stopCallingLobby(roomId);
+      } catch (innerError) {
+        log.error(
+          `${logId}: Failed to stop calling lobby`,
+          Errors.toLogFormat(innerError)
+        );
+      }
 
-    try {
-      calling.stopCallingLobby(roomId);
-    } catch (innerError) {
-      log.error(
-        `${logId}: Failed to stop calling lobby`,
-        Errors.toLogFormat(innerError)
-      );
+      dispatch({
+        type: CALL_LOBBY_FAILED,
+        payload: { conversationId: roomId },
+      });
     }
-
-    dispatch({
-      type: CALL_LOBBY_FAILED,
-      payload: { conversationId: roomId },
-    });
   }
 };
 
@@ -2437,6 +2441,7 @@ function startCallingLobby({
       return;
     }
 
+    let success = false;
     try {
       dispatch({
         type: WAITING_FOR_CALLING_LOBBY,
@@ -2473,22 +2478,25 @@ function startCallingLobby({
           isConversationTooBigToRing: isConversationTooBigToRing(conversation),
         },
       });
+      success = true;
     } catch (error) {
       log.error(`${logId}: Failed to start lobby`, Errors.toLogFormat(error));
+    } finally {
+      if (!success) {
+        try {
+          calling.stopCallingLobby(conversationId);
+        } catch (innerError) {
+          log.error(
+            `${logId}: Failed to stop calling lobby`,
+            Errors.toLogFormat(innerError)
+          );
+        }
 
-      try {
-        calling.stopCallingLobby(conversationId);
-      } catch (innerError) {
-        log.error(
-          `${logId}: Failed to stop calling lobby`,
-          Errors.toLogFormat(innerError)
-        );
+        dispatch({
+          type: CALL_LOBBY_FAILED,
+          payload: { conversationId },
+        });
       }
-
-      dispatch({
-        type: CALL_LOBBY_FAILED,
-        payload: { conversationId },
-      });
     }
   };
 }
