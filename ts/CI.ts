@@ -3,14 +3,13 @@
 
 import { format } from 'node:util';
 import { ipcRenderer } from 'electron';
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 
 import type { IPCResponse as ChallengeResponseType } from './challenge';
 import type { MessageAttributesType } from './model-types.d';
 import * as log from './logging/log';
 import { explodePromise } from './util/explodePromise';
 import { AccessType, ipcInvoke } from './sql/channels';
-import { backupsService, BackupType } from './services/backups';
+import { backupsService } from './services/backups';
 import { SECOND } from './util/durations';
 import { isSignalRoute } from './util/signalRoutes';
 import { strictAssert } from './util/assert';
@@ -19,7 +18,6 @@ type ResolveType = (data: unknown) => void;
 
 export type CIType = {
   deviceName: string;
-  backupData?: Uint8Array;
   getConversationId: (address: string | null) => string | null;
   getMessagesBySentAt(
     sentAt: number
@@ -36,18 +34,16 @@ export type CIType = {
     }
   ) => unknown;
   openSignalRoute(url: string): Promise<void>;
-  exportBackupToDisk(path: string): Promise<void>;
-  exportPlaintextBackupToDisk(path: string): Promise<void>;
+  uploadBackup(): Promise<void>;
   unlink: () => void;
   print: (...args: ReadonlyArray<unknown>) => void;
 };
 
 export type GetCIOptionsType = Readonly<{
   deviceName: string;
-  backupData?: Uint8Array;
 }>;
 
-export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
+export function getCI({ deviceName }: GetCIOptionsType): CIType {
   const eventListeners = new Map<string, Array<ResolveType>>();
   const completedEvents = new Map<string, Array<unknown>>();
 
@@ -66,8 +62,8 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
 
     if (!options?.ignorePastEvents) {
       const pendingCompleted = completedEvents.get(event) || [];
-      const pending = pendingCompleted.shift();
-      if (pending) {
+      if (pendingCompleted.length) {
+        const pending = pendingCompleted.shift();
         log.info(`CI: resolving pending result for ${event}`, pending);
 
         if (pendingCompleted.length === 0) {
@@ -170,16 +166,8 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
     document.body.removeChild(a);
   }
 
-  async function exportBackupToDisk(path: string) {
-    await backupsService.exportToDisk(path, BackupLevel.Media);
-  }
-
-  async function exportPlaintextBackupToDisk(path: string) {
-    await backupsService.exportToDisk(
-      path,
-      BackupLevel.Media,
-      BackupType.TestOnlyPlaintext
-    );
+  async function uploadBackup() {
+    await backupsService.upload();
   }
 
   function unlink() {
@@ -192,7 +180,6 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
 
   return {
     deviceName,
-    backupData,
     getConversationId,
     getMessagesBySentAt,
     handleEvent,
@@ -200,8 +187,7 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
     solveChallenge,
     waitForEvent,
     openSignalRoute,
-    exportBackupToDisk,
-    exportPlaintextBackupToDisk,
+    uploadBackup,
     unlink,
     getPendingEventCount,
     print,

@@ -18,7 +18,7 @@ import {
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
-import type { ServiceIdString, AciString } from '../../types/ServiceId';
+import type { ServiceIdString } from '../../types/ServiceId';
 import {
   fromAciObject,
   fromPniObject,
@@ -64,7 +64,6 @@ import {
 } from '../../util/zkgroup';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter';
 import { isAciString } from '../../util/isAciString';
-import { createBatcher } from '../../util/batcher';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../../util/phoneNumberSharingMode';
 import { bytesToUuid } from '../../util/uuidToBytes';
@@ -79,7 +78,6 @@ import type { AboutMe, LocalChatStyle } from './types';
 import { BackupType } from './types';
 import type { GroupV2ChangeDetailType } from '../../groups';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
-import { drop } from '../../util/drop';
 import { isNotNil } from '../../util/isNotNil';
 import { isGroup } from '../../util/whatTypeOfConversation';
 import { rgbToHSL } from '../../util/rgbToHSL';
@@ -107,88 +105,22 @@ import type { CallLinkType } from '../../types/CallLink';
 import type { RawBodyRange } from '../../types/BodyRange';
 import { fromAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
-import { reinitializeRedux } from '../../state/reinitializeRedux';
-import { getParametersForRedux, loadAll } from '../allLoaders';
+import { loadAllAndReinitializeRedux } from '../allLoaders';
 import { resetBackupMediaDownloadProgress } from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 
 const MAX_CONCURRENCY = 10;
 
+const CONVERSATION_OP_BATCH_SIZE = 10000;
+const SAVE_MESSAGE_BATCH_SIZE = 10000;
+
 // Keep 1000 recent messages in memory to speed up quote lookup.
 const RECENT_MESSAGES_CACHE_SIZE = 1000;
-
-type ConversationOpType = Readonly<{
-  isUpdate: boolean;
-  attributes: ConversationAttributesType;
-}>;
 
 type ChatItemParseResult = {
   message: Partial<MessageAttributesType>;
   additionalMessages: Array<Partial<MessageAttributesType>>;
 };
-
-async function processConversationOpBatch(
-  batch: ReadonlyArray<ConversationOpType>
-): Promise<void> {
-  // Note that we might have duplicates since we update attributes in-place
-  const saves = [
-    ...new Set(batch.filter(x => x.isUpdate === false).map(x => x.attributes)),
-  ];
-  const updates = [
-    ...new Set(batch.filter(x => x.isUpdate === true).map(x => x.attributes)),
-  ];
-
-  log.info(
-    `backups: running conversation op batch, saves=${saves.length} ` +
-      `updates=${updates.length}`
-  );
-
-  await DataWriter.saveConversations(saves);
-  await DataWriter.updateConversations(updates);
-}
-async function processMessagesBatch(
-  ourAci: AciString,
-  batch: ReadonlyArray<MessageAttributesType>
-): Promise<void> {
-  const ids = await DataWriter.saveMessages(batch, {
-    forceSave: true,
-    ourAci,
-  });
-  strictAssert(ids.length === batch.length, 'Should get same number of ids');
-
-  // TODO (DESKTOP-7402): consider re-saving after updating the pending state
-  for (const [index, rawAttributes] of batch.entries()) {
-    const attributes = {
-      ...rawAttributes,
-      id: ids[index],
-    };
-
-    const { editHistory } = attributes;
-
-    if (editHistory?.length) {
-      drop(
-        DataWriter.saveEditedMessages(
-          attributes,
-          ourAci,
-          editHistory.slice(0, -1).map(({ timestamp }) => ({
-            conversationId: attributes.conversationId,
-            messageId: attributes.id,
-
-            // Main message will track this
-            readStatus: ReadStatus.Read,
-            sentAt: timestamp,
-          }))
-        )
-      );
-    }
-
-    drop(
-      queueAttachmentDownloads(attributes, {
-        source: AttachmentDownloadSource.BACKUP_IMPORT,
-      })
-    );
-  }
-}
 
 function phoneToContactFormType(
   type: Backups.ContactAttachment.Phone.Type | null | undefined
@@ -269,26 +201,11 @@ export class BackupImportStream extends Writable {
     number,
     ConversationAttributesType
   >();
-  private readonly conversationOpBatcher = createBatcher<{
-    isUpdate: boolean;
-    attributes: ConversationAttributesType;
-  }>({
-    name: 'BackupImport.conversationOpBatcher',
-    wait: 0,
-    maxSize: 1000,
-    processBatch: processConversationOpBatch,
-  });
-  private readonly saveMessageBatcher = createBatcher<MessageAttributesType>({
-    name: 'BackupImport.saveMessageBatcher',
-    wait: 0,
-    maxSize: 1000,
-    processBatch: batch => {
-      const ourAci = this.ourConversation?.serviceId;
-      assertDev(isAciString(ourAci), 'Our conversation must have ACI');
-
-      return processMessagesBatch(ourAci, batch);
-    },
-  });
+  private readonly conversationOpBatch = new Map<
+    ConversationAttributesType,
+    'save' | 'update'
+  >();
+  private readonly saveMessageBatch = new Set<MessageAttributesType>();
   private readonly stickerPacks = new Array<StickerPackPointerType>();
   private ourConversation?: ConversationAttributesType;
   private pinnedConversations = new Array<[number, string]>();
@@ -298,7 +215,7 @@ export class BackupImportStream extends Writable {
   private pendingGroupAvatars = new Map<string, string>();
   private recentMessages = new CircularMessageCache({
     size: RECENT_MESSAGES_CACHE_SIZE,
-    flush: () => this.saveMessageBatcher.flushAndWait(),
+    flush: () => this.flushMessages(),
   });
 
   private constructor(private readonly backupType: BackupType) {
@@ -360,8 +277,9 @@ export class BackupImportStream extends Writable {
   override async _final(done: (error?: Error) => void): Promise<void> {
     try {
       // Finish saving remaining conversations/messages
-      await this.conversationOpBatcher.flushAndWait();
-      await this.saveMessageBatcher.flushAndWait();
+      await this.flushConversations();
+      await this.flushMessages();
+      log.info(`${this.logId}: flushed messages and conversations`);
 
       // Store sticker packs and schedule downloads
       await createPacksFromBackup(this.stickerPacks);
@@ -408,8 +326,7 @@ export class BackupImportStream extends Writable {
           .map(([, id]) => id)
       );
 
-      await loadAll();
-      reinitializeRedux(getParametersForRedux());
+      await loadAllAndReinitializeRedux();
 
       await window.storage.put(
         'backupMediaDownloadTotalBytes',
@@ -427,11 +344,6 @@ export class BackupImportStream extends Writable {
     } catch (error) {
       done(error);
     }
-  }
-
-  public cleanup(): void {
-    this.conversationOpBatcher.unregister();
-    this.saveMessageBatcher.unregister();
   }
 
   private async processFrame(
@@ -487,7 +399,7 @@ export class BackupImportStream extends Writable {
         }
 
         if (convo !== this.ourConversation) {
-          this.saveConversation(convo);
+          await this.saveConversation(convo);
         }
 
         this.recipientIdToConvo.set(recipientId, convo);
@@ -516,17 +428,95 @@ export class BackupImportStream extends Writable {
     }
   }
 
-  private saveConversation(attributes: ConversationAttributesType): void {
-    this.conversationOpBatcher.add({ isUpdate: false, attributes });
+  private async saveConversation(
+    attributes: ConversationAttributesType
+  ): Promise<void> {
+    this.conversationOpBatch.set(attributes, 'save');
+    if (this.conversationOpBatch.size >= CONVERSATION_OP_BATCH_SIZE) {
+      return this.flushConversations();
+    }
   }
 
-  private updateConversation(attributes: ConversationAttributesType): void {
-    this.conversationOpBatcher.add({ isUpdate: true, attributes });
+  private async updateConversation(
+    attributes: ConversationAttributesType
+  ): Promise<void> {
+    if (!this.conversationOpBatch.has(attributes)) {
+      this.conversationOpBatch.set(attributes, 'update');
+    }
+
+    if (this.conversationOpBatch.size >= CONVERSATION_OP_BATCH_SIZE) {
+      return this.flushConversations();
+    }
   }
 
-  private saveMessage(attributes: MessageAttributesType): void {
+  private async saveMessage(attributes: MessageAttributesType): Promise<void> {
     this.recentMessages.push(attributes);
-    this.saveMessageBatcher.add(attributes);
+    this.saveMessageBatch.add(attributes);
+    if (this.saveMessageBatch.size >= SAVE_MESSAGE_BATCH_SIZE) {
+      return this.flushMessages();
+    }
+  }
+
+  private async flushConversations(): Promise<void> {
+    const saves = new Array<ConversationAttributesType>();
+    const updates = new Array<ConversationAttributesType>();
+    for (const [conversation, op] of this.conversationOpBatch) {
+      if (op === 'save') {
+        saves.push(conversation);
+      } else {
+        updates.push(conversation);
+      }
+    }
+    this.conversationOpBatch.clear();
+
+    // Queue writes at the same time to prevent races.
+    await Promise.all([
+      saves.length > 0
+        ? DataWriter.saveConversations(saves)
+        : Promise.resolve(),
+      updates.length > 0
+        ? DataWriter.updateConversations(updates)
+        : Promise.resolve(),
+    ]);
+  }
+
+  private async flushMessages(): Promise<void> {
+    const ourAci = this.ourConversation?.serviceId;
+    strictAssert(isAciString(ourAci), 'Must have our aci for messages');
+
+    const batch = Array.from(this.saveMessageBatch);
+    this.saveMessageBatch.clear();
+
+    await DataWriter.saveMessages(batch, {
+      forceSave: true,
+      ourAci,
+    });
+
+    // TODO (DESKTOP-7402): consider re-saving after updating the pending state
+    for (const attributes of batch) {
+      const { editHistory } = attributes;
+
+      if (editHistory?.length) {
+        // eslint-disable-next-line no-await-in-loop
+        await DataWriter.saveEditedMessages(
+          attributes,
+          ourAci,
+          editHistory.slice(0, -1).map(({ timestamp }) => ({
+            conversationId: attributes.conversationId,
+            messageId: attributes.id,
+
+            // Main message will track this
+            readStatus: ReadStatus.Read,
+            sentAt: timestamp,
+          }))
+        );
+      }
+
+      // eslint-disable-next-line no-await-in-loop
+      await queueAttachmentDownloads(attributes, {
+        source: AttachmentDownloadSource.BACKUP_IMPORT,
+      });
+    }
   }
 
   private async saveCallHistory(
@@ -749,7 +739,7 @@ export class BackupImportStream extends Writable {
       );
     }
 
-    this.updateConversation(me);
+    await this.updateConversation(me);
   }
 
   private async fromContact(
@@ -1175,7 +1165,7 @@ export class BackupImportStream extends Writable {
       conversation.autoBubbleColor = chatStyle.autoBubbleColor;
     }
 
-    this.updateConversation(conversation);
+    await this.updateConversation(conversation);
 
     if (chat.pinnedOrder != null) {
       this.pinnedConversations.push([chat.pinnedOrder, conversation.id]);
@@ -1333,8 +1323,10 @@ export class BackupImportStream extends Writable {
       isAciString(this.ourConversation.serviceId),
       `${logId}: Our conversation must have ACI`
     );
-    this.saveMessage(attributes);
-    additionalMessages.forEach(additional => this.saveMessage(additional));
+    await Promise.all([
+      this.saveMessage(attributes),
+      ...additionalMessages.map(additional => this.saveMessage(additional)),
+    ]);
 
     // TODO (DESKTOP-6964): We'll want to increment for more types here - stickers, etc.
     if (item.standardMessage) {
@@ -1344,7 +1336,7 @@ export class BackupImportStream extends Writable {
         chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
       }
     }
-    this.updateConversation(chatConvo);
+    await this.updateConversation(chatConvo);
   }
 
   private fromDirectionDetails(

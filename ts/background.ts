@@ -1598,8 +1598,10 @@ export async function startApp(): Promise<void> {
         },
       });
 
+      log.info('afterStart: backup downloaded, resolving');
       backupReady.resolve();
     } catch (error) {
+      log.error('afterStart: backup download failed, rejecting');
       backupReady.reject(error);
       throw error;
     }
@@ -1706,17 +1708,21 @@ export async function startApp(): Promise<void> {
 
     strictAssert(server !== undefined, 'WebAPI not connected');
 
-    // Wait for backup to be downloaded
-    try {
-      await backupReady.promise;
-    } catch (error) {
-      log.error('background: backup download failed, not reconnecting', error);
-      return;
-    }
-    log.info('background: connect unblocked by backups');
-
     try {
       connectPromise = explodePromise();
+
+      // Wait for backup to be downloaded
+      try {
+        await backupReady.promise;
+      } catch (error) {
+        log.error(
+          'background: backup download failed, not reconnecting',
+          error
+        );
+        return;
+      }
+      log.info('background: connect unblocked by backups');
+
       // Reset the flag and update it below if needed
       setIsInitialSync(false);
 

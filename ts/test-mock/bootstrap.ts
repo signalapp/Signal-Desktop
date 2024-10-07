@@ -150,6 +150,7 @@ function sanitizePathComponent(component: string): string {
 //
 export class Bootstrap {
   public readonly server: Server;
+  public readonly cdn3Path: string;
 
   private readonly options: BootstrapInternalOptions;
   private privContacts?: ReadonlyArray<PrimaryDevice>;
@@ -158,8 +159,6 @@ export class Bootstrap {
   private privPhone?: PrimaryDevice;
   private privDesktop?: Device;
   private storagePath?: string;
-  private backupPath?: string;
-  private cdn3Path: string;
   private timestamp: number = Date.now() - durations.WEEK;
   private lastApp?: App;
   private readonly randomId = crypto.randomBytes(8).toString('hex');
@@ -238,9 +237,6 @@ export class Bootstrap {
     });
 
     this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
-    this.backupPath = await fs.mkdtemp(
-      path.join(os.tmpdir(), 'mock-signal-backup-')
-    );
 
     debug('setting storage path=%j', this.storagePath);
   }
@@ -270,15 +266,6 @@ export class Bootstrap {
     return path.join(this.storagePath, 'ephemeral.json');
   }
 
-  public getBackupPath(fileName: string): string {
-    assert(
-      this.backupPath !== undefined,
-      'Bootstrap has to be initialized first, see: bootstrap.init()'
-    );
-
-    return path.join(this.backupPath, fileName);
-  }
-
   public eraseStorage(): Promise<void> {
     return this.resetAppStorage();
   }
@@ -289,7 +276,6 @@ export class Bootstrap {
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
 
-    // Note that backupPath must remain unchanged!
     await fs.rm(this.storagePath, { recursive: true });
     this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
   }
@@ -299,7 +285,7 @@ export class Bootstrap {
 
     await Promise.race([
       Promise.all([
-        ...[this.storagePath, this.backupPath, this.cdn3Path].map(tmpPath =>
+        ...[this.storagePath, this.cdn3Path].map(tmpPath =>
           tmpPath ? fs.rm(tmpPath, { recursive: true }) : Promise.resolve()
         ),
         this.server.close(),
@@ -354,11 +340,6 @@ export class Bootstrap {
       }
     }
 
-    if (extraConfig?.ciBackupPath) {
-      debug('waiting for backup import to complete');
-      await app.waitForBackupImportComplete();
-    }
-
     await this.phone.waitForSync(this.desktop);
     this.phone.resetSyncState(this.desktop);
 
@@ -384,7 +365,7 @@ export class Bootstrap {
 
     debug('starting the app');
 
-    const { port } = this.server.address();
+    const { port, family } = this.server.address();
 
     let startAttempts = 0;
     const MAX_ATTEMPTS = 4;
@@ -398,7 +379,7 @@ export class Bootstrap {
       }
 
       // eslint-disable-next-line no-await-in-loop
-      const config = await this.generateConfig(port, extraConfig);
+      const config = await this.generateConfig(port, family, extraConfig);
 
       const startedApp = new App({
         main: ELECTRON,
@@ -661,9 +642,12 @@ export class Bootstrap {
 
   private async generateConfig(
     port: number,
+    family: string,
     extraConfig?: Partial<RendererConfigType>
   ): Promise<string> {
-    const url = `https://127.0.0.1:${port}`;
+    const host = family === 'IPv6' ? '[::1]' : '127.0.0.1';
+
+    const url = `https://${host}:${port}`;
     return JSON.stringify({
       ...(await loadCertificates()),
 

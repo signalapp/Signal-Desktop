@@ -188,8 +188,7 @@ describe('backups', function (this: Mocha.Suite) {
       );
     }
 
-    const backupPath = bootstrap.getBackupPath('backup.bin');
-    await app.exportBackupToDisk(backupPath);
+    await app.uploadBackup();
 
     const comparator = await bootstrap.createScreenshotComparator(
       app,
@@ -247,9 +246,12 @@ describe('backups', function (this: Mocha.Suite) {
 
     // Restart
     await bootstrap.eraseStorage();
-    app = await bootstrap.link({
-      ciBackupPath: backupPath,
-    });
+    app = await bootstrap.link();
+    await app.waitForBackupImportComplete();
+
+    // Make sure that contact sync happens after backup import, otherwise the
+    // app won't show contacts as "system"
+    await app.waitForContactSync();
 
     await comparator(app);
   });
