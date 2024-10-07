@@ -156,6 +156,7 @@ import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
 import { createIdenticon } from '../util/createIdenticon';
 import { getColorForCallLink } from '../util/getColorForCallLink';
 import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
+import OS from '../util/os/osMain';
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -2330,20 +2331,26 @@ export class CallingClass {
       await this.getAvailableIODevices();
 
     const preferredMicrophone = window.Events.getPreferredAudioInputDevice();
-    const selectedMicIndex = findBestMatchingAudioDeviceIndex({
-      available: availableMicrophones,
-      preferred: preferredMicrophone,
-    });
+    const selectedMicIndex = findBestMatchingAudioDeviceIndex(
+      {
+        available: availableMicrophones,
+        preferred: preferredMicrophone,
+      },
+      OS.isWindows()
+    );
     const selectedMicrophone =
       selectedMicIndex !== undefined
         ? availableMicrophones[selectedMicIndex]
         : undefined;
 
     const preferredSpeaker = window.Events.getPreferredAudioOutputDevice();
-    const selectedSpeakerIndex = findBestMatchingAudioDeviceIndex({
-      available: availableSpeakers,
-      preferred: preferredSpeaker,
-    });
+    const selectedSpeakerIndex = findBestMatchingAudioDeviceIndex(
+      {
+        available: availableSpeakers,
+        preferred: preferredSpeaker,
+      },
+      OS.isWindows()
+    );
     const selectedSpeaker =
       selectedSpeakerIndex !== undefined
         ? availableSpeakers[selectedSpeakerIndex]
