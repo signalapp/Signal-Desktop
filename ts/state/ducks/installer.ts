@@ -26,6 +26,7 @@ import {
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import * as log from '../../logging/log';
+import { backupsService } from '../../services/backups';
 
 const SLEEP_ERROR = new TimeoutError();
 
@@ -63,14 +64,18 @@ export type InstallerStateType = ReadonlyDeep<
       step: InstallScreenStep.BackupImport;
       currentBytes?: number;
       totalBytes?: number;
+      hasError?: boolean;
     }
 >;
+
+export type RetryBackupImportValue = ReadonlyDeep<'retry' | 'cancel'>;
 
 export const START_INSTALLER = 'installer/START_INSTALLER';
 const SET_PROVISIONING_URL = 'installer/SET_PROVISIONING_URL';
 const SET_QR_CODE_ERROR = 'installer/SET_QR_CODE_ERROR';
 const SET_ERROR = 'installer/SET_ERROR';
 const QR_CODE_SCANNED = 'installer/QR_CODE_SCANNED';
+const RETRY_BACKUP_IMPORT = 'installer/RETRY_BACKUP_IMPORT';
 const SHOW_LINK_IN_PROGRESS = 'installer/SHOW_LINK_IN_PROGRESS';
 export const SHOW_BACKUP_IMPORT = 'installer/SHOW_BACKUP_IMPORT';
 const UPDATE_BACKUP_IMPORT_PROGRESS = 'installer/UPDATE_BACKUP_IMPORT_PROGRESS';
@@ -103,6 +108,10 @@ type QRCodeScannedActionType = ReadonlyDeep<{
   };
 }>;
 
+type RetryBackupImportActionType = ReadonlyDeep<{
+  type: typeof RETRY_BACKUP_IMPORT;
+}>;
+
 type ShowLinkInProgressActionType = ReadonlyDeep<{
   type: typeof SHOW_LINK_IN_PROGRESS;
 }>;
@@ -113,10 +122,14 @@ export type ShowBackupImportActionType = ReadonlyDeep<{
 
 type UpdateBackupImportProgressActionType = ReadonlyDeep<{
   type: typeof UPDATE_BACKUP_IMPORT_PROGRESS;
-  payload: {
-    currentBytes: number;
-    totalBytes: number;
-  };
+  payload:
+    | {
+        currentBytes: number;
+        totalBytes: number;
+      }
+    | {
+        hasError: boolean;
+      };
 }>;
 
 export type InstallerActionType = ReadonlyDeep<
@@ -125,6 +138,7 @@ export type InstallerActionType = ReadonlyDeep<
   | SetQRCodeErrorActionType
   | SetErrorActionType
   | QRCodeScannedActionType
+  | RetryBackupImportActionType
   | ShowLinkInProgressActionType
   | ShowBackupImportActionType
   | UpdateBackupImportProgressActionType
@@ -134,6 +148,7 @@ export const actions = {
   startInstaller,
   finishInstall,
   updateBackupImportProgress,
+  retryBackupImport,
   showBackupImport,
   showLinkInProgress,
 };
@@ -414,6 +429,18 @@ function updateBackupImportProgress(
   return { type: UPDATE_BACKUP_IMPORT_PROGRESS, payload };
 }
 
+function retryBackupImport(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  RetryBackupImportActionType
+> {
+  return dispatch => {
+    dispatch({ type: RETRY_BACKUP_IMPORT });
+    backupsService.retryDownload();
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): InstallerStateType {
@@ -546,10 +573,32 @@ export function reducer(
       return state;
     }
 
+    if ('hasError' in action.payload) {
+      return {
+        ...state,
+        hasError: action.payload.hasError,
+      };
+    }
+
     return {
       ...state,
       currentBytes: action.payload.currentBytes,
       totalBytes: action.payload.totalBytes,
+    };
+  }
+
+  if (action.type === RETRY_BACKUP_IMPORT) {
+    if (state.step !== InstallScreenStep.BackupImport) {
+      log.warn(
+        'ducks/installer: wrong step, not retrying backup import',
+        state.step
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      hasError: false,
     };
   }
 

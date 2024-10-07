@@ -39,6 +39,9 @@ import { BackupCredentials } from './credentials';
 import { BackupAPI, type DownloadOptionsType } from './api';
 import { validateBackup } from './validator';
 import { BackupType } from './types';
+import type { ExplodePromiseResultType } from '../../util/explodePromise';
+import { explodePromise } from '../../util/explodePromise';
+import type { RetryBackupImportValue } from '../../state/ducks/installer';
 
 export { BackupType };
 
@@ -50,6 +53,9 @@ export class BackupsService {
   private isStarted = false;
   private isRunning = false;
   private downloadController: AbortController | undefined;
+  private downloadRetryPromise:
+    | ExplodePromiseResultType<RetryBackupImportValue>
+    | undefined;
 
   public readonly credentials = new BackupCredentials();
   public readonly api = new BackupAPI(this.credentials);
@@ -87,12 +93,48 @@ export class BackupsService {
 
     const absoluteDownloadPath =
       window.Signal.Migrations.getAbsoluteDownloadsPath(backupDownloadPath);
+    let hasBackup = false;
     log.info('backups.download: downloading...');
-    const hasBackup = await this.doDownload(absoluteDownloadPath, options);
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        hasBackup = await this.doDownload(absoluteDownloadPath, options);
+      } catch (error) {
+        log.info('backups.download: error, prompting user to retry');
+        this.downloadRetryPromise = explodePromise<RetryBackupImportValue>();
+        window.reduxActions.installer.updateBackupImportProgress({
+          hasError: true,
+        });
+
+        // eslint-disable-next-line no-await-in-loop
+        const nextStep = await this.downloadRetryPromise.promise;
+        if (nextStep === 'retry') {
+          continue;
+        }
+
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await unlink(absoluteDownloadPath);
+        } catch {
+          // Best-effort
+        }
+      }
+      break;
+    }
 
     await window.storage.remove('backupDownloadPath');
 
     log.info(`backups.download: done, had backup=${hasBackup}`);
+  }
+
+  public retryDownload(): void {
+    if (!this.downloadRetryPromise) {
+      return;
+    }
+
+    this.downloadRetryPromise.resolve('retry');
   }
 
   public async upload(): Promise<void> {
@@ -169,6 +211,9 @@ export class BackupsService {
       log.warn('importBackup: canceling download');
       this.downloadController.abort();
       this.downloadController = undefined;
+      if (this.downloadRetryPromise) {
+        this.downloadRetryPromise.resolve('cancel');
+      }
     } else {
       log.error('importBackup: not canceling download, not running');
     }
@@ -365,11 +410,7 @@ export class BackupsService {
         return false;
       }
 
-      try {
-        await unlink(downloadPath);
-      } catch {
-        // Best-effort
-      }
+      // Other errors bubble up and can be retried
       throw error;
     }
 
