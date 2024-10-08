@@ -29,7 +29,7 @@ import { fromAdminKeyBytes } from '../../util/callLinks';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { deriveGroupID, deriveGroupSecretParams } from '../../util/zkgroup';
-import { loadAll } from '../../services/allLoaders';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
 
 const CONTACT_A = generateAci();
 const GROUP_MASTER_KEY = getRandomBytes(32);
@@ -82,7 +82,7 @@ describe('backup/calling', () => {
 
     await DataWriter.insertCallLink(callLink);
 
-    await loadAll();
+    await loadAllAndReinitializeRedux();
   });
   after(async () => {
     await DataWriter.removeAll();
@@ -105,7 +105,7 @@ describe('backup/calling', () => {
         endedTimestamp: null,
       };
       await DataWriter.saveCallHistory(callHistory);
-      await loadAll();
+      await loadAllAndReinitializeRedux();
 
       const messageUnseen: MessageAttributesType = {
         id: generateGuid(),
@@ -154,7 +154,7 @@ describe('backup/calling', () => {
         endedTimestamp: null,
       };
       await DataWriter.saveCallHistory(callHistory);
-      await loadAll();
+      await loadAllAndReinitializeRedux();
 
       const messageUnseen: MessageAttributesType = {
         id: generateGuid(),
@@ -245,7 +245,7 @@ describe('backup/calling', () => {
         endedTimestamp: null,
       };
       await DataWriter.saveCallHistory(callHistory);
-      await loadAll();
+      await loadAllAndReinitializeRedux();
 
       await symmetricRoundtripHarness([]);
 
@@ -271,7 +271,7 @@ describe('backup/calling', () => {
         endedTimestamp: null,
       };
       await DataWriter.saveCallHistory(callHistory);
-      await loadAll();
+      await loadAllAndReinitializeRedux();
 
       await symmetricRoundtripHarness([]);
 

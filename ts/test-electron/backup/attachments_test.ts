@@ -31,7 +31,7 @@ import { isVoiceMessage, type AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import { SignalService } from '../../protobuf';
 import { getRandomBytes } from '../../Crypto';
-import { loadAll } from '../../services/allLoaders';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
 
 const CONTACT_A = generateAci();
 
@@ -65,7 +65,7 @@ describe('backup/attachments', () => {
       { systemGivenName: 'CONTACT_A', active_at: 1 }
     );
 
-    await loadAll();
+    await loadAllAndReinitializeRedux();
 
     sandbox = sinon.createSandbox();
     const getAbsoluteAttachmentPath = sandbox.stub(

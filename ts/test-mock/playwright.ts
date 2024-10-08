@@ -105,6 +105,10 @@ export class App extends EventEmitter {
     return this.waitForEvent('app-loaded');
   }
 
+  public async waitForContactSync(): Promise<void> {
+    return this.waitForEvent('contactSync');
+  }
+
   public async waitForBackupImportComplete(): Promise<void> {
     return this.waitForEvent('backupImportComplete');
   }
@@ -186,18 +190,9 @@ export class App extends EventEmitter {
     return window.evaluate(`window.SignalCI.getMessagesBySentAt(${timestamp})`);
   }
 
-  public async exportBackupToDisk(path: string): Promise<Uint8Array> {
+  public async uploadBackup(): Promise<void> {
     const window = await this.getWindow();
-    return window.evaluate(
-      `window.SignalCI.exportBackupToDisk(${JSON.stringify(path)})`
-    );
-  }
-
-  public async exportPlaintextBackupToDisk(path: string): Promise<Uint8Array> {
-    const window = await this.getWindow();
-    return window.evaluate(
-      `window.SignalCI.exportPlaintextBackupToDisk(${JSON.stringify(path)})`
-    );
+    await window.evaluate('window.SignalCI.uploadBackup()');
   }
 
   public async unlink(): Promise<void> {

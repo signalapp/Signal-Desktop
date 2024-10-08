@@ -170,6 +170,20 @@ jobs:
         # DEBUG: 'mock:benchmarks'
         ARTIFACTS_DIR: artifacts/call-history-search
 
+    - name: Run backup benchmarks
+      run: |
+        set -o pipefail
+        rm -rf /tmp/mock
+        xvfb-run --auto-servernum node \
+          ts/test-mock/benchmarks/backup_bench.js | \
+          tee benchmark-backup.log
+      timeout-minutes: 10
+      env:
+        NODE_ENV: production
+        ELECTRON_ENABLE_STACK_DUMPING: on
+        # DEBUG: 'mock:benchmarks'
+        ARTIFACTS_DIR: artifacts/backup-bench
+
     - name: Upload benchmark logs on failure
       if: failure()
       uses: actions/upload-artifact@v4
@@ -200,5 +214,6 @@ jobs:
         node ./bin/publish.js ../benchmark-large-group-send.log desktop.ci.performance.largeGroupSend
         node ./bin/publish.js ../benchmark-convo-open.log desktop.ci.performance.convoOpen
         node ./bin/publish.js ../benchmark-call-history-search.log desktop.ci.performance.callHistorySearch
+        node ./bin/publish.js ../benchmark-backup.log desktop.ci.performance.backup
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}

@@ -14,8 +14,10 @@ import {
 import { assert } from 'chai';
 
 import { clearData } from './helpers';
-import { loadAll } from '../../services/allLoaders';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
 import { backupsService, BackupType } from '../../services/backups';
+import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 import { DataWriter } from '../../sql/Client';
 
 const { BACKUP_INTEGRATION_DIR } = process.env;
@@ -39,9 +41,13 @@ class MemoryStream extends InputStream {
 }
 
 describe('backup/integration', () => {
+  before(async () => {
+    await initializeExpiringMessageService(singleProtoJobQueue);
+  });
+
   beforeEach(async () => {
     await clearData();
-    await loadAll();
+    await loadAllAndReinitializeRedux();
   });
 
   afterEach(async () => {

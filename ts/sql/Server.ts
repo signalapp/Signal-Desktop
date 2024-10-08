@@ -1585,11 +1585,13 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     profileLastFetchedAt,
     type,
     serviceId,
+    expireTimerVersion,
   } = data;
 
   const membersList = getConversationMembersList(data);
 
-  db.prepare<Query>(
+  prepare(
+    db,
     `
     INSERT INTO conversations (
       id,
@@ -1606,7 +1608,8 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
       profileName,
       profileFamilyName,
       profileFullName,
-      profileLastFetchedAt
+      profileLastFetchedAt,
+      expireTimerVersion
     ) values (
       $id,
       $json,
@@ -1622,7 +1625,8 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
       $profileName,
       $profileFamilyName,
       $profileFullName,
-      $profileLastFetchedAt
+      $profileLastFetchedAt,
+      $expireTimerVersion
     );
     `
   ).run({
@@ -1643,6 +1647,7 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     profileFamilyName: profileFamilyName || null,
     profileFullName: combineNames(profileName, profileFamilyName) || null,
     profileLastFetchedAt: profileLastFetchedAt || null,
+    expireTimerVersion,
   });
 }
 
@@ -1673,7 +1678,8 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
 
   const membersList = getConversationMembersList(data);
 
-  db.prepare(
+  prepare(
+    db,
     `
     UPDATE conversations SET
       json = $json,

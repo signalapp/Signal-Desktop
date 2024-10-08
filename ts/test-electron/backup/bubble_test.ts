@@ -21,7 +21,7 @@ import {
   symmetricRoundtripHarness,
   OUR_ACI,
 } from './helpers';
-import { loadAll } from '../../services/allLoaders';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
@@ -68,7 +68,7 @@ describe('backup/bubble messages', () => {
       }
     );
 
-    await loadAll();
+    await loadAllAndReinitializeRedux();
   });
 
   it('roundtrips incoming edited message', async () => {

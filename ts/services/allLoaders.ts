@@ -26,7 +26,8 @@ import {
   getInitialState as getStickersReduxState,
 } from '../types/Stickers';
 
-import type { ReduxInitData } from '../state/initializeRedux';
+import { type ReduxInitData } from '../state/initializeRedux';
+import { reinitializeRedux } from '../state/reinitializeRedux';
 
 export async function loadAll(): Promise<void> {
   await Promise.all([
@@ -39,6 +40,11 @@ export async function loadAll(): Promise<void> {
     loadStories(),
     loadUserData(),
   ]);
+}
+
+export async function loadAllAndReinitializeRedux(): Promise<void> {
+  await loadAll();
+  reinitializeRedux(getParametersForRedux());
 }
 
 export function getParametersForRedux(): ReduxInitData {

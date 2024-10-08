@@ -25,7 +25,6 @@ export class BackupAPI {
   constructor(private credentials: BackupCredentials) {}
 
   public async refresh(): Promise<void> {
-    // TODO: DESKTOP-6979
     await this.server.refreshBackup(
       await this.credentials.getHeadersForToday()
     );

@@ -23,7 +23,7 @@ import {
 } from './helpers';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
-import { loadAll } from '../../services/allLoaders';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
 
 // Note: this should be kept up to date with GroupV2Change.stories.tsx, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle
@@ -127,7 +127,7 @@ describe('backup/groupv2/notifications', () => {
       active_at: 1,
     });
 
-    await loadAll();
+    await loadAllAndReinitializeRedux();
   });
   afterEach(async () => {
     await DataWriter.removeAll();
