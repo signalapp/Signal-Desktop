@@ -17,6 +17,34 @@
   },
   {
     "rule": "eval",
+    "path": "node_modules/@cspotcode/source-map-support/source-map-support.js",
+    "line": "  // Most eval() calls are in this format",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-09-26T18:39:25.816Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/@cspotcode/source-map-support/source-map-support.js",
+    "line": "  // Parse nested eval() calls using recursion",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-09-26T18:39:25.816Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/@cspotcode/source-map-support/source-map-support.js",
+    "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-09-26T18:39:25.816Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/@cspotcode/source-map-support/source-map-support.js",
+    "line": "  // Code called using eval() needs special handling",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-09-26T18:39:25.816Z"
+  },
+  {
+    "rule": "eval",
     "path": "node_modules/@jest/fake-timers/node_modules/@sinonjs/commons/lib/function-name.test.js",
     "line": "                fn = eval(\"(function*() {})\")().constructor;",
     "reasonCategory": "testCode",

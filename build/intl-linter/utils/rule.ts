@@ -1,13 +1,15 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageFormatElement } from '@formatjs/icu-messageformat-parser';
-import { Location } from '@formatjs/icu-messageformat-parser';
+import type {
+  MessageFormatElement,
+  Location,
+} from '@formatjs/icu-messageformat-parser';
 import type { Visitor } from './traverse';
 import { traverse } from './traverse';
 
 export type Element = MessageFormatElement;
-export { Location };
+export type { Location };
 
 export type Context = {
   messageId: string;
