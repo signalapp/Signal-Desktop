@@ -1579,6 +1579,42 @@ describe('calling duck', () => {
       });
     });
 
+    describe('startCallLinkLobby for deleted links', () => {
+      beforeEach(function (this: Mocha.Context) {
+        this.callingServiceReadCallLink = this.sandbox
+          .stub(callingService, 'readCallLink')
+          .resolves(null);
+      });
+
+      const doAction = async (
+        payload: StartCallLinkLobbyType
+      ): Promise<{ dispatch: sinon.SinonSpy }> => {
+        const { startCallLinkLobby } = actions;
+        const dispatch = sinon.spy();
+        await startCallLinkLobby(payload)(dispatch, getEmptyRootState, null);
+        return { dispatch };
+      };
+
+      it('fails', async function (this: Mocha.Context) {
+        const { roomId, rootKey } = FAKE_CALL_LINK;
+        const { dispatch } = await doAction({ rootKey });
+
+        sinon.assert.calledTwice(dispatch);
+        sinon.assert.calledWith(dispatch, {
+          type: 'calling/WAITING_FOR_CALL_LINK_LOBBY',
+          payload: {
+            roomId,
+          },
+        });
+        sinon.assert.calledWith(dispatch, {
+          type: 'calling/CALL_LOBBY_FAILED',
+          payload: {
+            conversationId: roomId,
+          },
+        });
+      });
+    });
+
     describe('peekNotConnectedGroupCall', () => {
       const { peekNotConnectedGroupCall } = actions;
 
