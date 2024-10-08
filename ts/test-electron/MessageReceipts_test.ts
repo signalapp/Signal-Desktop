@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { assert } from 'chai';
 
 import { type AciString, generateAci } from '../types/ServiceId';

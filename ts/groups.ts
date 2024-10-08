@@ -12,7 +12,6 @@ import {
 } from 'lodash';
 import Long from 'long';
 import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup';
-import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
 import * as log from './logging/log';
 import {
@@ -101,6 +100,7 @@ import {
   decodeGroupSendEndorsementResponse,
   isValidGroupSendEndorsementsExpiration,
 } from './util/groupSendEndorsements';
+import { generateMessageId } from './util/generateMessageId';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -293,7 +293,7 @@ type UploadedAvatarType = {
 
 type BasicMessageType = Pick<
   MessageAttributesType,
-  'id' | 'schemaVersion' | 'readStatus' | 'seenStatus'
+  'readStatus' | 'seenStatus'
 >;
 
 type GroupV2ChangeMessageType = {
@@ -334,14 +334,6 @@ const GROUP_NONEXISTENT_CODE = 404;
 const SUPPORTED_CHANGE_EPOCH = 5;
 export const LINK_VERSION_ERROR = 'LINK_VERSION_ERROR';
 const GROUP_INVITE_LINK_PASSWORD_LENGTH = 16;
-
-function generateBasicMessage(): BasicMessageType {
-  return {
-    id: getGuid(),
-    schemaVersion: MAX_MESSAGE_SCHEMA,
-    // this is missing most properties to fulfill this type
-  };
-}
 
 // Group Links
 
@@ -2024,12 +2016,13 @@ export async function createGroupV2(
   });
 
   const createdTheGroupMessage: MessageAttributesType = {
-    ...generateBasicMessage(),
+    ...generateMessageId(incrementMessageCounter()),
+
+    schemaVersion: MAX_MESSAGE_SCHEMA,
     type: 'group-v2-change',
     sourceServiceId: ourAci,
     conversationId: conversation.id,
     readStatus: ReadStatus.Read,
-    received_at: incrementMessageCounter(),
     received_at_ms: timestamp,
     timestamp,
     seenStatus: SeenStatus.Seen,
@@ -2468,7 +2461,6 @@ export async function initiateMigrationToGroupV2(
 
       const groupChangeMessages: Array<GroupChangeMessageType> = [];
       groupChangeMessages.push({
-        ...generateBasicMessage(),
         type: 'group-v1-migration',
         groupMigration: {
           areWeInvited: false,
@@ -2609,7 +2601,6 @@ export function buildMigrationBubble(
   );
 
   return {
-    ...generateBasicMessage(),
     type: 'group-v1-migration',
     groupMigration: {
       areWeInvited,
@@ -2623,7 +2614,6 @@ export function buildMigrationBubble(
 
 export function getBasicMigrationBubble(): GroupChangeMessageType {
   return {
-    ...generateBasicMessage(),
     type: 'group-v1-migration',
     groupMigration: {
       areWeInvited: false,
@@ -2697,7 +2687,6 @@ export async function joinGroupV2ViaLinkAndMigrate({
   };
   const groupChangeMessages: Array<GroupChangeMessageType> = [
     {
-      ...generateBasicMessage(),
       type: 'group-v1-migration',
       groupMigration: {
         areWeInvited: false,
@@ -2865,7 +2854,6 @@ export async function respondToGroupV2Migration({
                     seenStatus: SeenStatus.Seen,
                   },
                   {
-                    ...generateBasicMessage(),
                     type: 'group-v2-change',
                     groupV2Change: {
                       details: [
@@ -2946,7 +2934,6 @@ export async function respondToGroupV2Migration({
   if (!areWeInvited && !areWeMember) {
     // Add a message to the timeline saying the user was removed. This shouldn't happen.
     groupChangeMessages.push({
-      ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
         details: [
@@ -3184,8 +3171,9 @@ async function updateGroup(
 
     return {
       ...changeMessage,
+      ...generateMessageId(finalReceivedAt),
+      schemaVersion: MAX_MESSAGE_SCHEMA,
       conversationId: conversation.id,
-      received_at: finalReceivedAt,
       received_at_ms: syntheticSentAt,
       sent_at: syntheticSentAt,
       timestamp,
@@ -3895,7 +3883,6 @@ async function updateGroupViaSingleChange({
       catchupMessages.length > 0
     ) {
       groupChangeMessages.push({
-        ...generateBasicMessage(),
         type: 'group-v2-change',
         groupV2Change: {
           details: [
@@ -4901,7 +4888,6 @@ function extractDiffs({
   if (firstUpdate && serviceIdKindInvitedToGroup !== undefined) {
     // Note, we will add 'you were invited' to group even if dropInitialJoinMessage = true
     message = {
-      ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
         from: whoInvitedUsUserId || from,
@@ -4919,7 +4905,6 @@ function extractDiffs({
     };
   } else if (firstUpdate && areWePendingApproval) {
     message = {
-      ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
         from: ourAci,
@@ -4940,7 +4925,6 @@ function extractDiffs({
     sourceServiceId === ourAci
   ) {
     message = {
-      ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
         from,
@@ -4962,7 +4946,6 @@ function extractDiffs({
     );
 
     message = {
-      ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
         from,
@@ -4973,7 +4956,6 @@ function extractDiffs({
     };
   } else if (firstUpdate && current.revision === 0) {
     message = {
-      ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
         from,
@@ -5002,7 +4984,6 @@ function extractDiffs({
     }
 
     message = {
-      ...generateBasicMessage(),
       type: 'group-v2-change',
       sourceServiceId,
       groupV2Change: {
@@ -5014,7 +4995,6 @@ function extractDiffs({
     };
   } else if (details.length > 0) {
     message = {
-      ...generateBasicMessage(),
       type: 'group-v2-change',
       sourceServiceId,
       groupV2Change: {
@@ -5041,7 +5021,6 @@ function extractDiffs({
       `extractDiffs/${logId}: generating change notification for new ${expireTimer} timer`
     );
     timerNotification = {
-      ...generateBasicMessage(),
       type: 'timer-notification',
       sourceServiceId: isReJoin ? undefined : sourceServiceId,
       flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,

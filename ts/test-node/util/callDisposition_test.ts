@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import type { PeekInfo } from '@signalapp/ringrtc';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import {
   getPeerIdFromConversation,
   getCallIdFromEra,

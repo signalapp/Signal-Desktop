@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FormEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
 import { Modal } from './Modal';
 import type { LocalizerType } from '../types/I18N';

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
-import { v4 as generateUuid } from 'uuid';
 
 import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
@@ -32,6 +31,7 @@ import type { AciString, ServiceIdString } from '../../types/ServiceId';
 import { isAciString } from '../../util/isAciString';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter';
+import { generateMessageId } from '../../util/generateMessageId';
 
 import type {
   ConversationQueueJobBundle,
@@ -159,11 +159,10 @@ export async function sendReaction(
       remove: !emoji,
     };
     const ephemeralMessageForReactionSend = new window.Whisper.Message({
-      id: generateUuid(),
+      ...generateMessageId(incrementMessageCounter()),
       type: 'outgoing',
       conversationId: conversation.get('id'),
       sent_at: pendingReaction.timestamp,
-      received_at: incrementMessageCounter(),
       received_at_ms: pendingReaction.timestamp,
       timestamp: pendingReaction.timestamp,
       sendStateByConversationId: zipObject(

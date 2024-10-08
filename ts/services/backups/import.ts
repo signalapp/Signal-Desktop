@@ -3,7 +3,7 @@
 
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
-import { v4 as generateUuid } from 'uuid';
+import { v7 as generateUuid } from 'uuid';
 import pMap from 'p-map';
 import { Writable } from 'stream';
 import { isNumber } from 'lodash';
@@ -63,6 +63,7 @@ import {
   deriveGroupPublicParams,
 } from '../../util/zkgroup';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter';
+import { generateMessageId } from '../../util/generateMessageId';
 import { isAciString } from '../../util/isAciString';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../../util/phoneNumberSharingMode';
@@ -486,6 +487,26 @@ export class BackupImportStream extends Writable {
 
     const batch = Array.from(this.saveMessageBatch);
     this.saveMessageBatch.clear();
+
+    // There are a few indexes that start with message id, and many more that
+    // start with conversationId. Sort messages by both to make sure that we
+    // are not doing random insertions into the database file.
+    // This improves bulk insert performance >2x.
+    batch.sort((a, b) => {
+      if (a.conversationId > b.conversationId) {
+        return -1;
+      }
+      if (a.conversationId < b.conversationId) {
+        return 1;
+      }
+      if (a.id < b.id) {
+        return -1;
+      }
+      if (a.id > b.id) {
+        return 1;
+      }
+      return 0;
+    });
 
     await DataWriter.saveMessages(batch, {
       forceSave: true,
@@ -1235,9 +1256,8 @@ export class BackupImportStream extends Writable {
     }
 
     let attributes: MessageAttributesType = {
-      id: generateUuid(),
+      ...generateMessageId(incrementMessageCounter()),
       conversationId: chatConvo.id,
-      received_at: incrementMessageCounter(),
       sent_at: timestamp,
       source: authorConvo?.e164,
       sourceServiceId: authorConvo?.serviceId,

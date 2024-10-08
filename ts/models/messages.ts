@@ -11,7 +11,6 @@ import {
   pick,
   union,
 } from 'lodash';
-import { v4 as generateUuid } from 'uuid';
 
 import type {
   CustomError,
@@ -26,6 +25,7 @@ import { isNotNil } from '../util/isNotNil';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { strictAssert } from '../util/assert';
 import { hydrateStoryContext } from '../util/hydrateStoryContext';
+import { generateMessageId } from '../util/generateMessageId';
 import { drop } from '../util/drop';
 import type { ConversationModel } from './conversations';
 import type {
@@ -1642,7 +1642,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
       }
 
-      const messageId = message.get('id') || generateUuid();
+      const messageId =
+        message.get('id') || generateMessageId(this.get('received_at')).id;
 
       // Send delivery receipts, but only for non-story sealed sender messages
       //   and not for messages from unaccepted conversations
