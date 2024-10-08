@@ -10,6 +10,8 @@ import type {
   AttachmentType,
   AttachmentWithHydratedData,
   LocalAttachmentV2Type,
+  LocallySavedAttachment,
+  ReencryptableAttachment,
 } from './Attachment';
 import {
   captureDimensionsAndScreenshot,
@@ -49,12 +51,16 @@ import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { deepClone } from '../util/deepClone';
 import { LONG_ATTACHMENT_LIMIT } from './Message';
 import * as Bytes from '../Bytes';
-import { ensureAttachmentIsReencryptable } from '../util/ensureAttachmentIsReencryptable';
+import { redactGenericText } from '../util/privacy';
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';
 
 export type ContextType = {
+  doesAttachmentExist: (relativePath: string) => Promise<boolean>;
+  ensureAttachmentIsReencryptable: (
+    attachment: LocallySavedAttachment
+  ) => Promise<ReencryptableAttachment>;
   getImageDimensions: (params: {
     objectUrl: string;
     logger: LoggerType;
@@ -635,17 +641,33 @@ const toVersion13 = _withSchemaVersion({
 
 const toVersion14 = _withSchemaVersion({
   schemaVersion: 14,
-  upgrade: _mapAllAttachments(async attachment => {
-    if (!isAttachmentLocallySaved(attachment)) {
-      return attachment;
+  upgrade: _mapAllAttachments(
+    async (
+      attachment,
+      { logger, ensureAttachmentIsReencryptable, doesAttachmentExist }
+    ) => {
+      const logId = `Message2.toVersion14(digest=${redactGenericText(attachment.digest ?? '')})`;
+
+      if (!isAttachmentLocallySaved(attachment)) {
+        return attachment;
+      }
+
+      if (!(await doesAttachmentExist(attachment.path))) {
+        // Attachments may be missing, e.g. for quote thumbnails that reference messages
+        // which have been deleted
+        logger.info(`${logId}: File does not exist`);
+        return attachment;
+      }
+
+      if (!attachment.digest) {
+        // Messages that are being upgraded prior to being sent may not have encrypted the
+        // attachment yet
+        return attachment;
+      }
+
+      return ensureAttachmentIsReencryptable(attachment);
     }
-    if (!attachment.digest) {
-      // this attachment has not been encrypted yet; this would be expected for messages
-      // that are being upgraded prior to being sent
-      return attachment;
-    }
-    return ensureAttachmentIsReencryptable(attachment);
-  }),
+  ),
 });
 
 const VERSIONS = [
@@ -677,6 +699,8 @@ export const upgradeSchema = async (
   {
     readAttachmentData,
     writeNewAttachmentData,
+    doesAttachmentExist,
+    ensureAttachmentIsReencryptable,
     getRegionCode,
     makeObjectUrl,
     revokeObjectUrl,
@@ -738,6 +762,8 @@ export const upgradeSchema = async (
       writeNewAttachmentData,
       makeObjectUrl,
       revokeObjectUrl,
+      doesAttachmentExist,
+      ensureAttachmentIsReencryptable,
       getImageDimensions,
       makeImageThumbnail,
       makeVideoScreenshot,
@@ -756,6 +782,7 @@ export const upgradeSchema = async (
 export const processNewAttachment = async (
   attachment: AttachmentType,
   {
+    ensureAttachmentIsReencryptable,
     writeNewAttachmentData,
     makeObjectUrl,
     revokeObjectUrl,
@@ -773,6 +800,7 @@ export const processNewAttachment = async (
     | 'makeVideoScreenshot'
     | 'logger'
     | 'deleteOnDisk'
+    | 'ensureAttachmentIsReencryptable'
   >
 ): Promise<AttachmentType> => {
   if (!isFunction(writeNewAttachmentData)) {
