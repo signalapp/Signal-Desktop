@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
-import { v4 as generateUuid } from 'uuid';
+import { v7 as generateUuid } from 'uuid';
 
 import * as Registration from './util/registration';
 import MessageReceiver from './textsecure/MessageReceiver';
@@ -169,6 +169,7 @@ import {
   incrementMessageCounter,
   initializeMessageCounter,
 } from './util/incrementMessageCounter';
+import { generateMessageId } from './util/generateMessageId';
 import { RetryPlaceholders } from './util/retryPlaceholders';
 import { setBatchingStrategy } from './util/messageBatcher';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
@@ -2694,7 +2695,8 @@ export async function startApp(): Promise<void> {
     }
 
     const partialMessage: MessageAttributesType = {
-      id: generateUuid(),
+      ...generateMessageId(data.receivedAtCounter),
+
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -2705,7 +2707,6 @@ export async function startApp(): Promise<void> {
       ),
       readStatus: ReadStatus.Read,
       received_at_ms: data.receivedAtDate,
-      received_at: data.receivedAtCounter,
       seenStatus: SeenStatus.NotApplicable,
       sendStateByConversationId,
       sent_at: timestamp,
@@ -2957,13 +2958,13 @@ export async function startApp(): Promise<void> {
       `Did not receive receivedAtCounter for message: ${data.timestamp}`
     );
     const partialMessage: MessageAttributesType = {
-      id: generateUuid(),
+      ...generateMessageId(data.receivedAtCounter),
+
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
       conversationId: descriptor.id,
       readStatus: ReadStatus.Unread,
-      received_at: data.receivedAtCounter,
       received_at_ms: data.receivedAtDate,
       seenStatus: SeenStatus.Unseen,
       sent_at: data.timestamp,

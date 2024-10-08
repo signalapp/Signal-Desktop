@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { CircleCheckbox } from './CircleCheckbox';
 

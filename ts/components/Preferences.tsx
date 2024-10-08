@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import { noop, partition } from 'lodash';
 import classNames from 'classnames';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import type { MediaDeviceSettings } from '../types/Calling';

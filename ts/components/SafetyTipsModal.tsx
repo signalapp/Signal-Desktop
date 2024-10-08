@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { UIEvent } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import type { LocalizerType } from '../types/I18N';
 import { Modal } from './Modal';
 import { Button, ButtonVariant } from './Button';

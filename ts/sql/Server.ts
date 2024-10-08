@@ -9,7 +9,6 @@ import rimraf from 'rimraf';
 import { randomBytes } from 'crypto';
 import type { Database, Statement } from '@signalapp/better-sqlite3';
 import SQL from '@signalapp/better-sqlite3';
-import { v4 as generateUuid } from 'uuid';
 import { z } from 'zod';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -49,6 +48,7 @@ import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import * as durations from '../util/durations';
+import { generateMessageId } from '../util/generateMessageId';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { BadgeType, BadgeImageType } from '../badges/types';
@@ -2328,7 +2328,7 @@ export function saveMessage(
 
   const toCreate = {
     ...data,
-    id: id || generateUuid(),
+    id: id || generateMessageId(data.received_at).id,
   };
 
   prepare(
@@ -6813,23 +6813,30 @@ function pageMessages(
       writable.exec(
         `
         CREATE TEMP TABLE tmp_${runId}_updated_messages
-          (rowid INTEGER PRIMARY KEY ASC);
+          (rowid INTEGER PRIMARY KEY, received_at INTEGER, sent_at INTEGER);
 
-        INSERT INTO tmp_${runId}_updated_messages (rowid)
-        SELECT rowid FROM messages;
+        CREATE INDEX tmp_${runId}_updated_messages_received_at
+          ON tmp_${runId}_updated_messages (received_at ASC, sent_at ASC);
+
+        INSERT INTO tmp_${runId}_updated_messages
+          (rowid, received_at, sent_at)
+          SELECT rowid, received_at, sent_at FROM messages
+          ORDER BY received_at ASC, sent_at ASC;
 
         CREATE TEMP TRIGGER tmp_${runId}_message_updates
         UPDATE OF json ON messages
         BEGIN
-          INSERT OR IGNORE INTO tmp_${runId}_updated_messages (rowid)
-          VALUES (NEW.rowid);
+          INSERT OR IGNORE INTO tmp_${runId}_updated_messages
+          (rowid, received_at, sent_at)
+          VALUES (NEW.rowid, NEW.received_at, NEW.sent_at);
         END;
 
         CREATE TEMP TRIGGER tmp_${runId}_message_inserts
         AFTER INSERT ON messages
         BEGIN
-          INSERT OR IGNORE INTO tmp_${runId}_updated_messages (rowid)
-          VALUES (NEW.rowid);
+          INSERT OR IGNORE INTO tmp_${runId}_updated_messages
+          (rowid, received_at, sent_at)
+          VALUES (NEW.rowid, NEW.received_at, NEW.sent_at);
         END;
         `
       );
@@ -6840,10 +6847,11 @@ function pageMessages(
     const rowids: Array<number> = writable
       .prepare<Query>(
         `
-      DELETE FROM tmp_${runId}_updated_messages
-      RETURNING rowid
-      LIMIT $chunkSize;
-      `
+          DELETE FROM tmp_${runId}_updated_messages
+          RETURNING rowid
+          ORDER BY received_at ASC, sent_at ASC
+          LIMIT $chunkSize;
+        `
       )
       .pluck()
       .all({ chunkSize });

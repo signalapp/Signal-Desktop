@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { v4 as uuid } from 'uuid';
+import { v7 as uuid } from 'uuid';
 import { noop } from 'lodash';
 
 import { Job } from './Job';
