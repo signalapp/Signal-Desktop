@@ -21,6 +21,7 @@ const Template: StoryFn<PropsType> = (args: PropsType) => (
     {...args}
     i18n={i18n}
     onCancel={action('onCancel')}
+    onRetry={action('onRetry')}
   />
 );
 
@@ -40,4 +41,11 @@ export const Full = Template.bind({});
 Full.args = {
   currentBytes: 1024,
   totalBytes: 1024,
+};
+
+export const Error = Template.bind({});
+Error.args = {
+  currentBytes: 500 * 1024,
+  totalBytes: 1024 * 1024,
+  hasError: true,
 };
