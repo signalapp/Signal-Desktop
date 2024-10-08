@@ -4,6 +4,7 @@
 import { PassThrough } from 'stream';
 import {
   type EncryptedAttachmentV2,
+  ReencryptedDigestMismatchError,
   type ReencryptionInfo,
   decryptAttachmentV2ToSink,
   encryptAttachmentV2,
@@ -20,6 +21,8 @@ import {
 import { strictAssert } from './assert';
 import * as logging from '../logging/log';
 import { fromBase64, toBase64 } from '../Bytes';
+import { redactGenericText } from './privacy';
+import { toLogFormat } from '../types/errors';
 
 /**
  * Some attachments on desktop are not reencryptable to the digest we received for them.
@@ -34,6 +37,7 @@ import { fromBase64, toBase64 } from '../Bytes';
 export async function ensureAttachmentIsReencryptable(
   attachment: LocallySavedAttachment
 ): Promise<ReencryptableAttachment> {
+  const logId = `ensureAttachmentIsReencryptable(digest=${redactGenericText(attachment.digest ?? '')})`;
   if (isReencryptableToSameDigest(attachment)) {
     return attachment;
   }
@@ -50,9 +54,12 @@ export async function ensureAttachmentIsReencryptable(
         isReencryptableToSameDigest: true,
       };
     } catch (e) {
-      logging.info(
-        'Unable to reencrypt attachment to original digest; must have had non-zero padding'
-      );
+      if (e instanceof ReencryptedDigestMismatchError) {
+        logging.info(
+          `${logId}: Unable to reencrypt attachment to original digest; must have had non-zero padding`
+        );
+      }
+      logging.error(`${logId}: error when reencrypting`, toLogFormat(e));
     }
   }
 
