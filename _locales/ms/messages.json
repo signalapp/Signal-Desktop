@@ -1440,7 +1440,7 @@
     "messageformat": "Signal sedang kongsikan {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Perkongsian skrin Signal aktif"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Menyambung semula..."
@@ -2976,7 +2976,7 @@
     "messageformat": "Anda tidak boleh menyertai kumpulan ini melalui pautan kumpulan kerana pentadbir telah mengalih keluar anda."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Pentadbir kumpulan ini mesti meluluskan permintaan anda sebelum anda dapat menyertai kumpulan ini. Apabila anda meminta untuk menyertai kumpulan, nama dan foto anda akan dikongsikan dengan ahli-ahlinya."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Sertai"
@@ -5199,7 +5199,7 @@
     "messageformat": "Cerita"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Nyahsembunyi cerita"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Sembunyikan cerita"
@@ -5681,9 +5681,9 @@
     "messageformat": "Kini anda boleh mengalih keluar balasan yang dipetik daripada mesej yang diedit."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Kami membaiki pepijat yang menghalang pelekat daripada berfungsi dengan betul dalam editor media."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Kemas kini ini juga termasuk sokongan untuk antara muka perkongsian skrin baharu dalam macOS Sequoia."
   }
 }

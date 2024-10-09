@@ -1440,7 +1440,7 @@
     "messageformat": "Signal deelt je scherm: {window}"
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Je deelt je scherm op Signal"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Opnieuw aan het verbinden…"
@@ -2088,10 +2088,10 @@
     "messageformat": "Geen stickerpakketten gevonden"
   },
   "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Recent gebruikte stickers verschijnen hier."
+    "messageformat": "Onlangs gebruikte stickers verschijnen hier."
   },
   "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Recentelijk gebruikt"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:stickers__StickerPicker__featured": {
     "messageformat": "Uitgelicht"
@@ -2118,7 +2118,7 @@
     "messageformat": "Huidskleur {tone}"
   },
   "icu:EmojiPicker__button--recents": {
-    "messageformat": "Recentelijk gebruikt"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:EmojiPicker__button--emoji": {
     "messageformat": "Emoji"
@@ -2976,7 +2976,7 @@
     "messageformat": "Je kunt niet via de groepslink lid worden van deze groep omdat je door een beheerder uit deze groep bent verwijderd."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Een beheerder van deze groep moet eerst je verzoek om lid te worden goedkeuren voordat je lid kunt worden van deze groep. Wanneer je verzoekt om lid te worden zullen je profielnaam, -foto en -omschrijving direct zichtbaar zijn voor de groepsleden."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Lid worden"
@@ -3561,7 +3561,7 @@
     "messageformat": "Media aan het herstellen"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Terugzetten gepauzeerd"
+    "messageformat": "Herstellen gepauzeerd"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Overzetten pauzeren"
@@ -3576,7 +3576,7 @@
     "messageformat": "Meer opties"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "Gegevens herstellen is voltooid"
+    "messageformat": "Herstellen is voltooid"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{currentSize} van {totalSize}"
@@ -4143,7 +4143,7 @@
     "messageformat": "Standaardkleur resetten"
   },
   "icu:ChatColorPicker__confirm-reset": {
-    "messageformat": "Standaardinstelling herstellen"
+    "messageformat": "Alle chatkleuren resetten"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
     "messageformat": "Wil je de chatkleuren van al je chats resetten?"
@@ -5199,7 +5199,7 @@
     "messageformat": "Verhaal"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Verhaal niet verbergen"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Verhaal verbergen"
@@ -5681,9 +5681,9 @@
     "messageformat": "Je kunt nu geciteerde antwoorden uit bewerkte berichten verwijderen. Perfect voor die momenten waarop je je realiseert dat je antwoord niets extra's nodig heeft, of wanneer je per ongeluk het verkeerde bericht beantwoordt met “Ik hou ook van jou”."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "We hebben een fout opgelost die ervoor zorgde dat stickers niet correct werkten in de media-editor. De kiezer loopt nu niet meer vast wanneer je een sticker op een foto wilt plakken."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Deze update bevat ook ondersteuning voor de nieuwe interface voor schermdeling in macOS Sequoia."
   }
 }

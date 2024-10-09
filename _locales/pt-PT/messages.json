@@ -1440,7 +1440,7 @@
     "messageformat": "O Signal está a partilhar {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "A partilha de ecrã do Signal está ativada"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "A ligar novamente…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Não se pode juntar a este grupo através do link porque você foi removido por um administrador."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Um administrador deste grupo deverá aprovar o seu pedido antes de você poder entrar para o grupo. Quando pede para entrar o seu nome e fotografia são partilhados com os membros desse grupo."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Entrar"
@@ -5199,7 +5199,7 @@
     "messageformat": "História"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Reexibir história"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ocultar história"
@@ -5681,9 +5681,9 @@
     "messageformat": "Agora pode remover respostas citadas de mensagens editadas."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Corrigimos um erro que impedia os autocolantes de funcionarem corretamente no editor de multimédia."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Esta atualização também inclui suporte para a nova interface de partilha de ecrã no macOS Sequoia."
   }
 }

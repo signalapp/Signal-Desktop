@@ -1440,7 +1440,7 @@
     "messageformat": "Signal이 {window} 창을 공유하고 있습니다."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal 화면 공유를 사용 중입니다."
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "다시 연결 중…"
@@ -2976,7 +2976,7 @@
     "messageformat": "관리자가 당신을 제거했기 때문에 그룹 링크를 통해 그룹에 참가할 수 없습니다."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "이 그룹에 가입하려면 그룹의 관리자가 요청을 승인해야 합니다. 가입을 요청하면 내 이름과 사진이 공유됩니다."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "참가"
@@ -5199,7 +5199,7 @@
     "messageformat": "스토리"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "스토리 숨기기 취소"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "스토리 숨기기"
@@ -5681,9 +5681,9 @@
     "messageformat": "이제 편집한 메시지에서 인용된 답장을 제거할 수 있습니다."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "미디어 편집기에서 스티커가 제대로 작동하지 않는 오류를 해결했습니다."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "본 업데이트는 macOS Sequoia의 새로운 화면 공유 인터페이스에 대한 지원도 제공합니다."
   }
 }

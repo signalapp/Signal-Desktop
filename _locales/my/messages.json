@@ -1440,7 +1440,7 @@
     "messageformat": "Signal သည် {window} ကို ဝေမျှနေသည်။"
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal မျက်နှာပြင်မျှဝေခြင်း လုပ်ဆောင်နေသည်"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "ပြန်ချိတ်ဆက်နေဆဲ..."
@@ -2976,7 +2976,7 @@
     "messageformat": "အက်ဒ်မင်သည် သင့်အား ဖယ်ရှားခဲ့သောကြောင့် အဖွဲ့လင့်ခ်မှတစ်ဆင့် ဤအဖွဲ့တွင် ပါဝင်၍ မရနိုင်ပါ။"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "သင်သည် အဖွဲ့ထဲသို့မဝင်နိုင်ခင် သင်၏ တောင်းဆိုမှုကို အဖွဲ့၏ စီမံသူတစ်ဦးမှ လက်ခံရပါမည်။ သင်မှ​ဝင်ရောက်ရန် တောင်းဆိုလျှင် သင်၏ အမည် နှင့် ရုပ်ပုံကို အဖွဲ့ဝင်များနှင့် မျှဝေပါမည်။"
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "ဝင်ပါမယ်"
@@ -5199,7 +5199,7 @@
     "messageformat": "စတိုရီ"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "စတိုရီကို ဝှက်ထားမှုမှ ဖျက်ရန်"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "စတိုရီကို ဝှက်ရန်"
@@ -5681,9 +5681,9 @@
     "messageformat": "ယခု သင် တည်းဖြတ်ထားသော မက်ဆေ့ချ်များမှ ကိုးကားထားသော ပြန်စာများကို ဖယ်ရှားနိုင်ပါပြီ။"
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "မီဒီယာတည်းဖြတ်မှုတွင် စတစ်ကာများ မှန်ကန်စွာအလုပ်လုပ်ရန် အတားအဆီးဖြစ်စေသည့် ချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ထားသည်။"
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "ဤအပ်ဒိတ်တွင် macOS Sequoia ရှိ မျက်နှာပြင်မျှဝေခြင်း အင်တာဖေ့စ်အသစ်အတွက် ပံ့ပိုးမှုလည်း ပါဝင်သည်။"
   }
 }

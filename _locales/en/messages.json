@@ -5909,11 +5909,11 @@
   },
   "icu:ProfileEditor__invalid-about__title": {
     "messageformat": "Invalid characters",
-    "description": "Title of the confirmation model for profile editor when about text contains invalid characters"
+    "description": "(Deleted 2024/10/09) Title of the confirmation model for profile editor when about text contains invalid characters"
   },
   "icu:ProfileEditor__invalid-about__body": {
     "messageformat": "One or more characters you’ve entered can’t be used. Try again.",
-    "description": "Body of the confirmation model for profile editor when about text contains invalid characters"
+    "description": "(Deleted 2024/10/09) Body of the confirmation model for profile editor when about text contains invalid characters"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Message an admin",

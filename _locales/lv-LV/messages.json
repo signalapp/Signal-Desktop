@@ -1440,7 +1440,7 @@
     "messageformat": "Signal koplieto {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal ekrāna kopīgošana ir aktīva"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Veido savienojumu vēlreiz…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Jūs nevarat pievienoties šai grupai, izmantojot grupas saiti, jo administrators jums to ir liedzis."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Lai varētu pievienoties šai grupai, šīs grupas administratoram ir jāapstiprina jūsu pieprasījums. Kad nosūtīsiet pieprasījumu pievienoties, grupas dalībnieki redzēs jūsu vārdu un fotoattēlu."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Pievienoties"
@@ -5199,7 +5199,7 @@
     "messageformat": "Stāsts"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Parādīt stāstu"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Paslēpt stāstu"
@@ -5681,9 +5681,9 @@
     "messageformat": "Tagad no rediģētajām ziņām varat noņemt citētās atbildes. Tas noderēs gadījumos, kad jūsu atbilde ir bijusi tik lieliska, ka tai nav jāstāv uz citu ziņu pleciem, vai tad, kad ar \"Es arī tevi mīlu\" esat atbildējuši uz nepareizo ziņu."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Mēs atrisinājām kļūdu, kuras dēļ multivides redaktorā uzlīmes darbojās nepareizi."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Šis atjauninājums ietver arī atbalstu jaunajai ekrāna koplietošanas saskarnei operētājsistēmā MacOS Sequoia."
   }
 }

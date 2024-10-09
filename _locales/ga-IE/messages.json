@@ -1440,7 +1440,7 @@
     "messageformat": "Tá {window} á chomhroinnt ag Signal."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Tá comhroinnt scáileáin Signal gníomhach"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Athnascadh…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Ní féidir leat dul isteach sa ghrúpa seo trí nasc an ghrúpa toisc gur bhain riarthóir thú."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Ní mór do riarthóir an ghrúpa seo d'iarratas a fhaomhadh sular féidir leat dul isteach sa ghrúpa seo. Nuair a iarrann tú dul isteach ann, comhroinnfear d’ainm agus do ghrianghraf lena bhaill."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Téigh le"
@@ -5199,7 +5199,7 @@
     "messageformat": "Scéal"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Dífholaigh scéal"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Folaigh an scéal"
@@ -5681,9 +5681,9 @@
     "messageformat": "Anois is féidir leat freagraí luaite a bhaint ó theachtaireachtaí a cuireadh in eagar."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Réitíomar fabht trínar coisceadh ar ghreamáin oibriú i gceart san eagarthóir meán. Ní ghreamóidh an roghnóir níos mó nuair a bheidh tú ag iarraidh greamán a ghreamú de phictiúr."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Áirítear freisin leis an nuashonrú seo tacaíocht don chomhéadan comhroinnte scáileáin nua in macOS Sequoia."
   }
 }

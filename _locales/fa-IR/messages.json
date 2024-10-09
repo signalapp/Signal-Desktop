@@ -1440,7 +1440,7 @@
     "messageformat": "سیگنال در حال اشتراک {window} است."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "اشتراک‌گذاری صفحه در سیگنال فعال است"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "در حال اتصال دوباره..."
@@ -2976,7 +2976,7 @@
     "messageformat": "شما نمی‌توانید از طریق پیوند گروه به این گروه بپیوندید، چون یک مدیر شما را حذف کرده است."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "یک مدیر از این گروه باید با درخواست شما قبل از پیوستن به گروه، موافقت کند. هنگامی که درخواست عضویت می‌دهید، نام و عکس شما با اعضای گروه به اشتراک گذاشته خواهد شد."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "پیوستن"
@@ -5199,7 +5199,7 @@
     "messageformat": "استوری"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "نمایان کردن استوری"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "پنهان کردن استوری"
@@ -5681,9 +5681,9 @@
     "messageformat": "اکنون می‌توانید پاسخ‌های نقل‌قول را از پیام‌های ویرایش‌شده حذف کنید."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "ما اشکالی را برطرف کردیم که مانع از کارکرد صحیح استیکرها در ویرایشگر رسانه می‌شد."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "این به‌روزرسانی همچنین از رابط جدید اشتراک‌گذاری صفحه در macOS Sequoia پشتیبانی می‌کند."
   }
 }

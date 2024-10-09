@@ -1440,7 +1440,7 @@
     "messageformat": "Signal deler {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal-skærmdelingen er aktiv"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Forbinder igen…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Du kan ikke deltage i denne gruppe via gruppelinket, fordi en administrator har fjernet dig."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "En administrator af gruppen skal godkende din anmodning, inden du kan deltage. Når du anmoder om at deltage, vil dit navn og billede blive delt med dens medlemmer"
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Deltag"
@@ -5199,7 +5199,7 @@
     "messageformat": "Historie"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Vis historie igen"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Skjul historie"
@@ -5681,9 +5681,9 @@
     "messageformat": "Nu kan du fjerne citerede svar fra redigerede beskeder. Det er perfekt til de øjeblikke, hvor du indser, at dit svar var så godt, at det faktisk ikke behøver at stå på en anden beskeds skuldre, eller når du ved et uheld svarer på den forkerte besked med \"Jeg elsker også dig.\""
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Vi har rettet en fejl, der forhindrede klistermærker i at fungere korrekt i medieværktøjet, og nu sidder vælgeren ikke længere fast, når du forsøger at sætte et klistermærke på et billede."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Denne opdatering inkluderer også understøttelse af den nye skærmdelingsgrænseflade i macOS Sequoia."
   }
 }

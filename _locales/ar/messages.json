@@ -1440,7 +1440,7 @@
     "messageformat": "يشارك سيجنال {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "ميزة مشاركة الشاشة على سيجنال مُفعَّلة"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "جارٍ إعادة الاتصال…"
@@ -2976,7 +2976,7 @@
     "messageformat": "لا يمكنك الانضمام لهذه المجموعة من خلال الرابط لأن أحد المشرفين أزالك."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "لتستطيع الانضمام إلى هذه المجموعة، يجب أن يوافق مُشرِف من هذه المجموعة على طلب انضمامك. عندما ترسل طلب انضمام، سيتم مشاركة اسمك وصورتك مع أعضاء المجموعة."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "الانضمام"
@@ -5199,7 +5199,7 @@
     "messageformat": "القصص"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "إظهار قصة"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "إخفاء قصة"
@@ -5681,9 +5681,9 @@
     "messageformat": "يُمكنك الآن إزالة الردود المقتبَسة من الرسائل المُعدَّلة."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "أصلحنا خطأ كان يَمنع الملصقات من العمل بشكل صحيح في مُحرِّر الوسائط."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "يتضمّن هذا التحديث أيضًا دعم الميزة الجديدة لمشاركة الشاشة في macOS Sequoia."
   }
 }

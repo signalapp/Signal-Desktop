@@ -1440,7 +1440,7 @@
     "messageformat": "Signal {window} പങ്കിടുന്നു."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal സ്ക്രീൻ പങ്കിടൽ സജീവമാണ്"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "വീണ്ടും കണക്റ്റ് ചെയ്യുന്നു..."
@@ -2976,7 +2976,7 @@
     "messageformat": "ഒരു അഡ്മിൻ നിങ്ങളെ നീക്കം ചെയ്തതിനാൽ ഗ്രൂപ്പ് ലിങ്ക് വഴി നിങ്ങൾക്ക് ഈ ഗ്രൂപ്പിൽ ചേരാൻ കഴിയില്ല."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "നിങ്ങൾ ഈ ഗ്രൂപ്പിൽ ചേരുന്നതിന് മുമ്പ് നിങ്ങളുടെ അഭ്യർത്ഥന ഈ ഗ്രൂപ്പിന്റെ അഡ്മിൻ അംഗീകരിക്കണം. ഗ്രൂപ്പിൽ ചേരാൻ നിങ്ങൾ അഭ്യർത്ഥിക്കുമ്പോൾ, നിങ്ങളുടെ ഫോട്ടോയും നമ്പറും അതിലെ അംഗങ്ങളുമായി പങ്കിടും."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "ചേരുക"
@@ -5199,7 +5199,7 @@
     "messageformat": "സ്റ്റോറി"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "സ്റ്റോറി മറച്ചത് മാറ്റുക"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "സ്റ്റോറി മറയ്ക്കുക"
@@ -5681,9 +5681,9 @@
     "messageformat": "എഡിറ്റ് ചെയ്ത സന്ദേശങ്ങളിൽ നിന്ന് ഉദ്ധരിച്ച മറുപടികൾ ഇപ്പോൾ നിങ്ങൾക്ക് നീക്കം ചെയ്യാം. നിങ്ങളുടെ പ്രതികരണം വളരെ മികച്ചതും പൂർണ്ണവുമാണെന്നും അതിനാൽ അതിന് മറ്റൊരു സന്ദേശത്തിന്റെ തണലിൽ നിൽക്കേണ്ടിവരില്ലെന്നും നിങ്ങൾ തിരിച്ചറിയുന്ന സാഹചര്യത്തിലും, അല്ലെങ്കിൽ \"ഐ ലവ് യു ടു\" എന്ന് ഉദ്ദേശിക്കാത്ത ഒരു സന്ദേശത്തിന് അബദ്ധത്തിൽ മറുപടി നൽകുന്ന സാഹര്യത്തിലും ഇത് അനുയോജ്യമായിരിക്കും."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "മീഡിയ എഡിറ്ററിൽ സ്റ്റിക്കറുകൾ ശരിയായി പ്രവർത്തിക്കുന്നത് തടഞ്ഞിരുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു, ഇനി നിങ്ങൾ ഒരു ചിത്രത്തിൽ സ്റ്റിക്കർ ഒട്ടിക്കാൻ ശ്രമിക്കുമ്പോൾ പിക്കർ കുടുങ്ങിപ്പോകുന്ന പ്രശ്നമുണ്ടാകില്ല."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "ഈ അപ്‌ഡേറ്റിൽ MacOS Sequoia-യിലെ പുതിയ സ്‌ക്രീൻ പങ്കിടൽ ഇൻ്റർഫേസിനുള്ള പിന്തുണയും ഉൾപ്പെടുന്നു."
   }
 }

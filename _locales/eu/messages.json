@@ -1440,7 +1440,7 @@
     "messageformat": "Signal {window} partekatzen ari da."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal-eko pantaila partekatzen"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Berriro konektatzen…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Ezin zara sartu talde honetan taldearen estekaren bidez, administratzaile batek kendu egin zaituelako."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Talde honetako administratzaile batek zure eskaera onartu behar du talde honetara sartu ahal izan aurretik. Sartzeko eskatzen duzunean, zure izena eta argazkia taldeko kideekin partekatuko dira."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Batu"
@@ -5199,7 +5199,7 @@
     "messageformat": "Istorioa"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Erakutsi istorioa"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ezkutatu istorioa"
@@ -5681,9 +5681,9 @@
     "messageformat": "Orain, editatutako mezuetatik erantzun aipudunak ken ditzakezu."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Multimedia-editorean eranskailuek gaizki funtzionatzea eragiten zuen akats bat konpondu dugu."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Halaber, eguneratze honen bidez, macOS Sequoia-n pantaila partekatzeko interfaze berria erabiltzeko aukera gehitu dugu."
   }
 }

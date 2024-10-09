@@ -1440,7 +1440,7 @@
     "messageformat": "Signal {window} ಅನ್ನು ಹಂಚಿಕೊಳ್ಳುತ್ತಿದೆ."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal‌ಸ್ಕ್ರೀನ್‌ ಶೇರಿಂಗ್‌ ಸಕ್ರಿಯವಾಗಿದೆ"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "ಮರುಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ…"
@@ -2976,7 +2976,7 @@
     "messageformat": "ಅಡ್ಮಿನ್ ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿರುವ ಕಾರಣದಿಂದ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ನೀವು ಈ ಗ್ರೂಪ್‌ಗೆ ಸೇರಲು ಸಾಧ್ಯವಿಲ್ಲ."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "ಈ ಗ್ರೂಪ್‌ಗೆ ನೀವು ಸೇರುವುದಕ್ಕೂ ಮೊದಲು ನಿಮ್ಮ ವಿನಂತಿಯನ್ನು ಈ ಗ್ರೂಪ್‌ನ ಒಬ್ಬ ಅಡ್ಮಿನ್ ಅನುಮತಿಸಬೇಕು. ನೀವು ಸೇರಲು ವಿನಂತಿಸಿದಾಗ, ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೋಟೋವನ್ನು ಅದರ ಸದಸ್ಯರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಲಾಗುತ್ತದೆ."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "ಸೇರು"
@@ -5199,7 +5199,7 @@
     "messageformat": "ಸ್ಟೋರಿ"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "ಸ್ಟೋರಿ ಮರೆ ತೆಗೆಯಿರಿ"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "ಸ್ಟೋರಿಯನ್ನು ಮರೆಮಾಡಿ"
@@ -5681,9 +5681,9 @@
     "messageformat": "ಈಗ ನೀವು ಎಡಿಟ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ಗಳಿಂದ ಉಲ್ಲೇಖಿಸಿದ ಉತ್ತರಗಳನ್ನು ತೆಗೆದುಹಾಕಬಹುದು. ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆ ಎಷ್ಟು ಚೆನ್ನಾಗಿತ್ತೆಂದರೆ ವಾಸ್ತವದಲ್ಲಿ ಮುಂಚಿನ ಮೆಸೇಜ್‍ಗಳ ಅವಲಂಬನೆ ಬೇಕಾಗಿಲ್ಲ ಎಂಬುದನ್ನು ನೀವು ಅರಿತುಕೊಂಡಂತಹ ಅಥವಾ ತಪ್ಪು ಮೆಸೇಜ್‍ಗೆ ನೀವು ಆಕಸ್ಮಿಕವಾಗಿ “ಐ ಲವ್ ಯು ಟೂ” ಎಂದು ಉತ್ತರಿಸಿದಂತಹ ಕ್ಷಣಗಳಿಗೆ ಇದು ಪರಿಫೂರ್ಣವಾಗಿ ಸೂಕ್ತವಾಗುತ್ತದೆ."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "ಮೀಡಿಯಾ ಎಡಿಟರ್ ನಲ್ಲಿ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಸರಿಯಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸದಂತೆ ತಡೆಯುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ ಮತ್ತು ಈಗ ನೀವು ಚಿತ್ರದ ಮೇಲೆ ಸ್ಟಿಕ್ಕರ್ ಅನ್ನು ಅಂಟಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವಾಗ ಪಿಕರ್ ಇನ್ನು ಮುಂದೆ ಸಿಲುಕಿಕೊಳ್ಳುವುದಿಲ್ಲ."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "ಈ ಅಪ್‌ಡೇಟ್‌ MacOS Sequoia ನಲ್ಲಿ ಹೊಸ ಸ್ಕ್ರೀನ್ ಶೇರಿಂಗ್ ಇಂಟರ್ಫೇಸ್‌ಗೆ ಬೆಂಬಲವನ್ನು ಸಹ ಒಳಗೊಂಡಿದೆ."
   }
 }

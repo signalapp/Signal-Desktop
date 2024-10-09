@@ -1440,7 +1440,7 @@
     "messageformat": "Signal-i po ndan me të tjerë {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Shpërndarja e ekranit të Signal është aktive"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Po rilidhet…"
@@ -2976,7 +2976,7 @@
     "messageformat": "S’mund të bëhesh pjesë e këtij grupi përmes lidhjes së grupit, ngaqë ju ka hequr një përgjegjës."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Përpara se të bëheni pjesë e këtij grupi, kërkesën tuaj duhet ta miratojë një përgjegjës i grupit. Kur kërkoni të bëheni pjesë, emri dhe fotoja juaj do të ndahet me anëtarët e tij."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Merrni pjesë"
@@ -5199,7 +5199,7 @@
     "messageformat": "Postim i përkohshëm"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Shfaq postimin e përkohshëm"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Fshih postimin e përkohshëm"
@@ -5681,9 +5681,9 @@
     "messageformat": "Tani mund t'i heqësh përgjigjet e cituara nga mesazhet e redaktuara. Është e përkryer për ato momente kur kupton se përgjigja jote ishte aq e mirë sa nuk ka nevojë të qëndrojë mbi supet e një mesazhi tjetër, ose kur i përgjigjesh aksidentalisht mesazhit të gabuar me \"Edhe unë të dua\"."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Rregulluam defektin që i pengonte ngjitësit të funksiononin siç duhej në redaktuesin e medias dhe tani përzgjedhësi nuk ngec më kur përpiqesh të ngjitësh ngjitëse në foto."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Po ashtu, përditësimi përfshin ndihmën për ndërfaqen e re të ndarjes së ekranit në macOS Sequoia."
   }
 }

@@ -1440,7 +1440,7 @@
     "messageformat": "Signal inashiriki {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Kipengele cha kushiriki skrini cha Signal kimewashwa"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Inaunganisha tena..."
@@ -2976,7 +2976,7 @@
     "messageformat": "Huwezi kujiunga na kikundi hiki kupitia kiungo cha kikundi kwa sababu admin amekuondoa."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Msimamizi wa kikundi hiki sharti aidhinishe ombi lako kabla ya kujiunga na kikundi hiki. Ukiomba kujiunga, jina na picha yako zitashirikiwa na washiriki wake."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Jiunge"
@@ -5199,7 +5199,7 @@
     "messageformat": "Stori"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Fichua stori"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ficha stori"
@@ -5681,9 +5681,9 @@
     "messageformat": "Sasa unaweza kuondoa majibu yaliyonukuliwa kutoka kwenye ujumbe uliohaririwa. Inafaa kwa nyakati zile unapogundua kuwa jibu lako lilikuwa zuri sana kiasi kwamba halihitaji kusimama kwenye mabega ya ujumbe mwingine, au unapojibu ujumbe usio sahihi kwa \"Nakupenda pia.\""
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Tumerekebisha hitilafu iliyozuia vibandiko kufanya kazi ipasavyo katika kihariri cha picha na video, na sasa kiteua hakinasi tena unapojaribu kubandika kibandiko kwenye picha."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Sasisho hili pia linajumuisha msaada wa kiolesura kipya cha kushiriki skrini katika macOS Sequoia."
   }
 }

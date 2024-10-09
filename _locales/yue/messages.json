@@ -1440,7 +1440,7 @@
     "messageformat": "Signal 分享緊 {window}。"
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal 嘅螢幕分享功能已經啟用"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "重新連緊線..."
@@ -2976,7 +2976,7 @@
     "messageformat": "你唔可以用群組連結加入呢個群組，因為管理員已經移除咗你。"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "群組管理員要先批准咗你嘅請求，先可以俾你加入群組。當你要求加入嘅時候，系統會將你嘅名同相分享俾群組成員。"
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "加入"
@@ -5199,7 +5199,7 @@
     "messageformat": "限時動態"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "取消隱藏限時動態"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "隱藏限時動態"
@@ -5681,9 +5681,9 @@
     "messageformat": "而家，你可以喺編輯咗嘅訊息度移除引用回覆。當你發現自己嘅回覆清晰到唔使引用訊息都睇得明，或者當你唔小心覆錯咗另一個訊息嗰陣，呢個功能就好啱用喇。"
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "我哋修正咗一個錯誤，以後當你嘗試喺圖片上面加貼圖嘅時候，媒體選擇器唔會再卡住㗎喇。"
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "呢次更新亦包括 macOS Sequoia 新螢幕分享界面嘅支援。"
   }
 }

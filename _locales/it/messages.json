@@ -1440,7 +1440,7 @@
     "messageformat": "Signal sta condividendo {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Condivisione dello schermo di Signal attiva"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Riconnessione…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Non puoi unirti a questo gruppo tramite il link del gruppo perché un amministratore ti ha rimosso."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Un admin deve approvare la tua richiesta prima che tu possa unirti a questo gruppo. Quando invii la richiesta, il tuo nome e la tua foto verranno condivisi con i membri del gruppo."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Unisciti"
@@ -5199,7 +5199,7 @@
     "messageformat": "Storia"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Mostra la storia"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Nascondi Storia"
@@ -5681,9 +5681,9 @@
     "messageformat": "Da ora puoi rimuovere le risposte citate dai messaggi modificati. Perché ammettiamolo: a chi non è mai capitato di rispondere al messaggio sbagliato?"
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Abbiamo risolto un bug che impediva il corretto funzionamento degli sticker nell'editor dei media: ora nulla potrà mettersi fra te e la tua creatività."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Questo aggiornamento include anche il supporto per la nuova interfaccia per la condivisione schermo di macOS Sequoia."
   }
 }

@@ -1440,7 +1440,7 @@
     "messageformat": "Signal vam deli {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signalovo deljenje zaslona je aktivno"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Ponovno povezovanje ..."
@@ -2976,7 +2976,7 @@
     "messageformat": "Skrbnik_ca vas je odstranil_a iz skupine, zato se ji ne morete več pridružiti."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Preden se lahko pridružite, mora vašo prošnjo potrditi skrbnik_ca skupine. Ko pošljete prošnjo za pridružitev, s člani_cami skupine delite svoje ime in fotografijo."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Pridruži se"
@@ -5199,7 +5199,7 @@
     "messageformat": "Zgodba"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Ponovno prikaži zgodbo"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Skrij zgodbo"
@@ -5681,9 +5681,9 @@
     "messageformat": "Zdaj lahko iz urejenih sporočil odstranite citirane odgovore. Odlično za trenutke, ko ugotovite, da je bil vaš odgovor tako dober, da mu pravzaprav ni treba stati na ramenih drugega sporočila, ali ko po pomoti odgovorite na napačno sporočilo s \"Tudi jaz tebe.\""
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Odpravili smo napako, ki je preprečevala pravilno delovanje nalepk v urejevalniku medijev."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Ta posodobitev vključuje tudi podporo za novi vmesnik za deljenje zaslona v sistemu macOS Sequoia."
   }
 }

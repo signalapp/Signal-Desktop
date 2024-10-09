@@ -1440,7 +1440,7 @@
     "messageformat": "Signal dijeli {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Omogućeno emitiranje zaslona za Signal"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Ponovno povezivanje…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Ne možete se pridružiti ovoj grupi putem poveznice grupe jer vas je administrator uklonio."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Administrator ove grupe mora odobriti vaš zahtjev prije nego što se možete pridružiti ovoj grupi. Kada zatražite pridruživanje, vaše će ime i vaša fotografija biti podijeljeni sa članovima grupe."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Pridruži se"
@@ -5199,7 +5199,7 @@
     "messageformat": "Priča"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Ponovno prikaži priču"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Sakrij priču"
@@ -5681,9 +5681,9 @@
     "messageformat": "Sada možete izbrisati citirane odgovore iz uređenih poruka."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Ispravili smo programsku pogrešku koja je sprječavala normalan rad naljepnica u uređivaču medija."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "U ovom ažuriranju također predstavljamo podršku za novo sučelje za emitiranje zaslona u sustavu macOS Sequoia."
   }
 }

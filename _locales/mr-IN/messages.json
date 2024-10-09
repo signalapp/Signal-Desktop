@@ -1440,7 +1440,7 @@
     "messageformat": "Signal {window} सामायिक करत आहे."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal स्क्रीन शेअर करणे सक्रिय आहे"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "पुन्हा कनेक्ट करत आहे(...)"
@@ -2976,7 +2976,7 @@
     "messageformat": "ॲडमिनने आपल्याला काढून टाकले असल्यामुळे आपण ग्रुप लिंकद्वारे या ग्रुपमध्ये सामील होऊ शकत नाही."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "आपण या गटामध्ये सामील होण्यापूर्वी या गटाच्या प्रशासकाने आपली विनंती मंजूर करणे आवश्यक आहे. आपण सामील होण्याची विनंती करता तेव्हा आपले नाव आणि फोटो सदस्यांसह सामायिक केला जाईल."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "सामील व्हा"
@@ -5199,7 +5199,7 @@
     "messageformat": "स्टोरी"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "स्टोरी उघड करा"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "स्टोरी लपवा"
@@ -5681,9 +5681,9 @@
     "messageformat": "आता आपण संपादित संदेशातून उद्धृत प्रत्त्युत्तरांना हटवू शकता. जेव्हा आपला प्रतिसाद इतका चांगला होता की आपणाला दुसऱ्या संदेशावर उभे राहण्याची गरज नाही किंवा आपण चुकून \"मी देखील तुझ्यावर प्रेम करतो .\" असा चुकीच्या संदेशाला प्रत्त्युत्तर देता तेव्हा हे त्या क्षणांसाठी योग्य आहे."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "मिडीया एडिटर मध्ये स्टिकर्सना योग्यरित्या काम करण्यापासून रोखणाऱ्या दोषाचे निराकरण केले आहे, आणि आता आपण जेव्हा चित्रावरील स्टिकर चिकटवण्याचा प्रयत्न करता तेव्हा वेचक यापुढे अडकून राहणार नाही."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "हा अपडेट्स देखील macOS Sequoia मधील इंटरफेस नवीन स्क्रीन शेअरिंग साठी सपोर्टचा देखील समावेश आहे."
   }
 }

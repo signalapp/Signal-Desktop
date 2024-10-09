@@ -1440,7 +1440,7 @@
     "messageformat": "Signal показывает {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Идёт демонстрация экрана Signal"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Переподключаемся…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Вы не можете присоединиться к этой группе по ссылке, потому что администратор удалил вас из этой группы."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Администратор этой группы должен принять ваш запрос, прежде чем вы сможете присоединиться к ней. Когда вы отправите запрос, ваши имя и фото станут доступны участникам этой группы."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Войти"
@@ -5199,7 +5199,7 @@
     "messageformat": "История"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Показать историю"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Скрыть историю"
@@ -5681,9 +5681,9 @@
     "messageformat": "Теперь вы можете удалять процитированные ответы из изменённых сообщений. Это идеально для тех случаев, когда вы понимаете, что ваш ответ был настолько хорош сам по себе, что ему не нужна поддержка другого сообщения, или если вы случайно ответили «Я тоже тебя люблю» не на то сообщение."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Мы исправили ошибку, из-за которой стикеры некорректно работали в редакторе медиафайлов, и теперь меню больше не застревает, когда вы наклеиваете стикер на картинку."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Это обновление также включает поддержку нового интерфейса демонстрации экрана в macOS Sequoia."
   }
 }

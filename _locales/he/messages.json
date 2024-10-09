@@ -1440,7 +1440,7 @@
     "messageformat": "Signal משתף את {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "שיתוף המסך של Signal פעיל"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "מתחבר מחדש…"
@@ -2976,7 +2976,7 @@
     "messageformat": "אי אפשר להצטרף אל הקבוצה הזאת באמצעות קישור קבוצה מאחר שמנהל/ת הסיר/ה אותך."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "מנהלן של קבוצה זו חייב לאשר את בקשתך לפני שתוכל להצטרף אל קבוצה זו. כאשר אתה מבקש להצטרף, השם והתמונה שלך ישותפו עם חברי הקבוצה."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "הצטרף"
@@ -5199,7 +5199,7 @@
     "messageformat": "סטורי"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "ביטול הסתרת סטורי"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "הסתרת סטורי"
@@ -5681,9 +5681,9 @@
     "messageformat": "עכשיו אפשר להסיר תגובות מצוטטות מהודעות ערוכות."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "תיקנו באג שמנע מסטיקרים לפעול כהלכה בעורך המדיה."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "העדכון הזה כולל גם תמיכה בממשק שיתוף המסך החדש של macOS Sequoia."
   }
 }

@@ -1440,7 +1440,7 @@
     "messageformat": "Το Signal διαμοιράζεται το {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Η κοινή χρήση οθόνης Signal είναι ενεργή"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Επανασύνδεση…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Δεν μπορείς να μπεις στην ομάδα μέσω του συνδέσμου της ομάδας, επειδή κάποιος διαχειριστής σε αφαίρεσε."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Κάποιος διαχειριστής/τρια αυτής της ομάδας θα πρέπει να εγκρίνει το αίτημά σου για να μπορέσεις να μπεις στην ομάδα. Όταν ζητήσεις να μπεις, το όνομα και η φωτογραφία σου θα μοιραστούν με τα μέλη της."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Μπες στη κλήση"
@@ -5199,7 +5199,7 @@
     "messageformat": "Ιστορία"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Επανεμφάνιση ιστορίας"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Απόκρυψη ιστορίας"
@@ -5681,9 +5681,9 @@
     "messageformat": "Τώρα μπορείς να αφαιρέσεις τις αναφερόμενες απαντήσεις από τα επεξεργασμένα μηνύματα."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε τα αυτοκόλλητα να λειτουργούν σωστά στο πρόγραμμα επεξεργασίας πολυμέσων."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Αυτή η ενημέρωση περιλαμβάνει επίσης υποστήριξη για τη νέα διεπαφή κοινής χρήσης οθόνης στο macOS Sequoia."
   }
 }

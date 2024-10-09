@@ -1440,7 +1440,7 @@
     "messageformat": "Signal {window} бөлісіп жатыр."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal экраны көрсетіліп жатыр"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Байланыс қайта орнатылуда..."
@@ -2976,7 +2976,7 @@
     "messageformat": "Бұл топқа топ сілтемесі арқылы кіре алмайсыз, себебі әкімші сізді шығарып тастады."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Бұл топтың әкімшісі сіздің өтінішіңізді мақұлдауы керек, сонда ғана топқа қосыла аласыз. Топқа қосылу туралы өтініш жіберген соң, аты-жөніңіз бен фотосуретіңіз топ мүшелеріне қолжетімді болады."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Қосылу"
@@ -5199,7 +5199,7 @@
     "messageformat": "Сторис"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Стористі көрсету"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Стористі жасыру"
@@ -5681,9 +5681,9 @@
     "messageformat": "Енді өзгертілген хабарлардан тырнақшаға алынған жауаптарды өшіруге болады. Басқа хабарға сүйенбей-ақ, жақсы жауап бергеніңізді түсіндіңіз бе? Әлде қателесіп, басқа хабарға \"Мен де сені жақсы көремін\" деп жауап бердіңіз бе? Қандай жағдай болса да, оның шешімін осылай бір сәтте таба аласыз."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Мультимедиа редакторында стикерлердің дұрыс жұмыс істеуіне кедергі келтіретін ақау түзетілді. Енді суретке стикер жабыстырып көргенде, таңдағыш қатып қалмайды."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Сонымен қатар бұл жаңа нұсқада macOS Sequoia жүйесінде экранды көрсетудің жаңа интерфейсіне қолдау көрсетіледі."
   }
 }

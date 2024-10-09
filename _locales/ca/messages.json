@@ -1440,7 +1440,7 @@
     "messageformat": "El Signal comparteix {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "La funció compartir pantalla de Signal està activada"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Tornant a connectar…"
@@ -2976,7 +2976,7 @@
     "messageformat": "No pots afegir-t'hi mitjançant l'enllaç de grup perquè un administrador t'ha esborrat."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Un administrador d'aquest grup ha d'aprovar la sol·licitud abans de poder-vos afegir-hi. Quan demaneu afegir-vos-hi, el vostre nom i la fotografia es compartiran amb els seus membres."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Afegeix-m'hi"
@@ -5199,7 +5199,7 @@
     "messageformat": "Història"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Mostra la història"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Amaga la història"
@@ -5681,9 +5681,9 @@
     "messageformat": "Ara pots eliminar les respostes citades dels missatges editats."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Hem corregit un error que impedia que els stickers funcionessin correctament a l'editor de contingut."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Aquesta actualització també inclou suport per a la nova interfície per a compartir pantalla en macOS Sequoia."
   }
 }

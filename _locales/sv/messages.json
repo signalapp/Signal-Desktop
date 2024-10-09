@@ -1440,7 +1440,7 @@
     "messageformat": "Signal delar {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal-skärmdelning är aktiv"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Återansluter …"
@@ -2976,7 +2976,7 @@
     "messageformat": "Du kan inte gå med i den här gruppen via grupplänken eftersom en administratör tog bort dig."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "En administratör av denna grupp måste godkänna din förfrågan innan du kan gå med i denna grupp. När du begär att gå med kommer ditt namn och foto att delas med medlemmarna."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Gå med"
@@ -5199,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Sluta dölja story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Dölj story"
@@ -5681,9 +5681,9 @@
     "messageformat": "Nu kan du ta bort citerade svar från redigerade meddelanden."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Vi har åtgärdat en bugg som gjorde att klistermärken inte fungerade korrekt i medieredigeraren."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Den här uppdateringen inkluderar även stöd för det nya skärmdelningsgränssnittet i macOS Sequoia."
   }
 }

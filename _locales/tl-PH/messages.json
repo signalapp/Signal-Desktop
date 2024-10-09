@@ -1440,7 +1440,7 @@
     "messageformat": "Signal is sharing {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Active ang Signal screen sharing"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Nagre-reconnect…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Hindi ka maka-join sa group na ito gamit ang group link dahil tinanggal ka ng isang admin."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Dapat i-approve ng group admin ang iyong request bago ka maka-join sa group na ito. Kung ma-approve ka, ang name at photo mo ay isha-share sa members."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Mag-join"
@@ -5199,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "I-unhide story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "I-hide ang story"
@@ -5681,9 +5681,9 @@
     "messageformat": "Pwede mo nang alisin ang quoted replies sa edited messages."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "May inayos kaming bug na dahilan kung bakit hindi gumagana nang maayos ang stickers sa media editor."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Kasama rin sa update na ito ang suporta para sa bagong screen sharing interface sa macOS Sequoia."
   }
 }

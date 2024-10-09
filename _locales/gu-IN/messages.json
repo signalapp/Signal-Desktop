@@ -1440,7 +1440,7 @@
     "messageformat": "Signal {window} શેર કરી રહ્યું છે."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal સ્ક્રીન શેરિંગ એક્ટિવ છે"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "ફરીથી કનેક્ટ થઈ રહ્યું છે..."
@@ -2976,7 +2976,7 @@
     "messageformat": "તમે ગ્રુપ લિંક દ્વારા આ ગ્રુપમાં જોડાઈ શકતા નથી કારણ કે એક એડમિને તમને દૂર કર્યા."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "તમે આ ગ્રૂપમાં જોડાઈ શકો તે પહેલાં આ ગ્રૂપના એડમિને તમારી વિનંતી મંજૂર કરવી જોઈએ. જ્યારે તમે જોડાવાની વિતંતી કરો છો, ત્યારે તમારું નામ અને ફોટો તેના સભ્યો સાથે શેર કરવામાં આવશે."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "જોડાઓ"
@@ -5199,7 +5199,7 @@
     "messageformat": "સ્ટોરી"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "સ્ટોરી બતાવો"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "સ્ટોરી છુપાવો"
@@ -5681,9 +5681,9 @@
     "messageformat": "હવે તમે એડિટ કરેલા મેસેજમાંથી ક્વોટ કરેલા જવાબો દૂર કરી શકો છો."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "અમે બગને ઠીક કર્યો છે જે મીડિયા એડિટરમાં સ્ટીકરોને યોગ્ય રીતે કામ કરતા અટકાવતો હતો."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "આ અપડેટમાં macOS Sequoiaમાં નવા સ્ક્રીન શેરિંગ ઇન્ટરફેસ માટે સપોર્ટ પણ સામેલ છે."
   }
 }

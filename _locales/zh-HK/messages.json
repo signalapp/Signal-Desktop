@@ -1440,7 +1440,7 @@
     "messageformat": "Signal 正在分享 {window}。"
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal 畫面分享已啟用"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "重新連接..."
@@ -2976,7 +2976,7 @@
     "messageformat": "您無法透過群組連結加入此群組，因為管理員將您刪除了。"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "此群組的管理員須先核准您的請求，才可讓您加入此群組。當您請求加入時，您的名稱和照片將會與群組的成員分享。"
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "加入"
@@ -5199,7 +5199,7 @@
     "messageformat": "限時動態"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "取消隱藏限時動態"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "隱藏限時動態"
@@ -5681,9 +5681,9 @@
     "messageformat": "現在，你可以從編輯的訊息中移除引用回覆。這適用於當你很滿意自己的回覆而其實不需要引用訊息，或是當你不小心回錯訊息時。"
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "我們修正了一個導致貼圖在媒體編輯器中無法正常運作的錯誤。"
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "此更新還包括對 macOS Sequoia 中新畫面分享界面的支援。"
   }
 }

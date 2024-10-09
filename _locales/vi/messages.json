@@ -1440,7 +1440,7 @@
     "messageformat": "Signal đang chia sẻ {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Tính năng chia sẻ màn hình của Signal đang hoạt động"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Đang kết nối lại…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Bạn không thể tham gia nhóm này qua đường dẫn nhóm vì một quản trị viên đã xóa bạn khỏi nhóm."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Cần một quản trị viên chấp nhận yêu cầu trước khi bạn tham gia nhóm này. Khi bạn yêu cầu tham gia, tên và ảnh đại diện của bạn sẽ được công khai với các thành viên nhóm."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Tham gia"
@@ -5199,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Bỏ ẩn story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ẩn story"
@@ -5681,9 +5681,9 @@
     "messageformat": "Giờ đây bạn có thể xóa các câu trả lời được trích dẫn từ những tin nhắn đã chỉnh sửa."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Chúng tôi đã sửa lỗi liên quan đến nhãn dán trong công cụ chỉnh sửa tập tin đa phương tiện, nay công cụ chọn không còn bị đứng khi bạn thao tác chọn nhãn dán trên một hình ảnh."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Bản cập nhật này cũng bổ sung hỗ trợ cho giao diện chia sẻ màn hình mới của macOS Sequoia."
   }
 }

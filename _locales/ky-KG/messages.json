@@ -1440,7 +1440,7 @@
     "messageformat": "Signal {window} менен бөлүшүүдө."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal экран бөлүшүүсү активдүү"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Кайра байланышып жатасыз…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Администратор сизди топтон алып салгандыктан, ага шилтеме аркылуу кошула албайсыз."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Бул топко кошулуу өтүнүчүңүздү топтун администратору кабыл алышы керек. Топко кошулууну өтүнгөнүңүздө, атыңыз менен сүрөтүңүз анын мүчөлөрүнө көрүнөт."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Кошулуу"
@@ -5199,7 +5199,7 @@
     "messageformat": "Окуя"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Окуяны көрсөтүү"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Окуяны жашыруу"
@@ -5681,9 +5681,9 @@
     "messageformat": "Эми оңдолгон билдирүүлөрдөгү тырмакчаланган жоопторду өчүрүп салсаңыз болот. \"Мен да сени сүйөм\" деп жаңылыш билдирүү жөнөтүп алган учурларга жакшы."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Медиа редактордо стикерлердин туура иштебей калышына алып келген мүчүлүштүктү оңдодук жана сүрөткө стикерди койгонуңузда меню такалып калбайт."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Бул жаңыртуу ошондой эле macOS Sequoia'да жаңы экранды бөлүшүү тажрыйбасын колдоону камтыйт."
   }
 }

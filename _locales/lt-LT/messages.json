@@ -1440,7 +1440,7 @@
     "messageformat": "Signal bendrina {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "„Signal“ ekrano bendrinimas yra aktyvus"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Jungiamasi iš naujo…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Tu negali prisijungti prie grupės per šią grupės nuorodą, nes administratorius tave pašalino."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Prieš tai, kai galėsite prisijungti prie šios grupės, jos administratorius privalo patvirtinti jūsų prašymą. Kai paprašysite prisijungti prie grupės, jūsų vardas ir nuotrauka bus bendrinami su jos nariais."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Prisijungti"
@@ -5199,7 +5199,7 @@
     "messageformat": "Istorija"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Nebeslėpti istorijos"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Slėpti istoriją"
@@ -5681,9 +5681,9 @@
     "messageformat": "Dabar galite pašalinti cituotus atsakymus iš redaguotų žinučių."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Ištaisėme klaidą, dėl kurios lipdukai tinkamai neveikė įrašų redagavimo įrankyje."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Šis naujinimas taip pat apima naujos ekrano bendrinimo sąsajos palaikymą sistemoje „MacOS Sequoia“."
   }
 }

@@ -1440,7 +1440,7 @@
     "messageformat": "Signal teilt gerade {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Die Signal-Bildschirmfreigabe ist aktiviert"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Neu verbinden …"
@@ -2976,7 +2976,7 @@
     "messageformat": "Du kannst dieser Gruppe nicht über den Gruppen-Link beitreten, da ein Admin dich entfernt hat."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Bevor du der Gruppe beitreten kannst, muss ein Admin dieser Gruppe deine Anfrage bestätigen. Wenn du eine Beitrittsanfrage stellst, werden dein Name und dein Foto mit den Mitgliedern geteilt."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Beitreten"
@@ -5199,7 +5199,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Story einblenden"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Story ausblenden"
@@ -5681,9 +5681,9 @@
     "messageformat": "Jetzt kannst du zitierte Antworten aus bearbeiteten Nachrichten entfernen. Das ist super für die Momente, in denen deine Antwort so gut war, dass sie eigentlich nicht auf den Schultern einer anderen Nachricht stehen sollte. Oder wenn du aus Versehen auf die falsche Nachricht mit »Ich liebe dich auch« antwortest."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Wir haben einen Fehler behoben, der verhinderte, dass Sticker im Medien-Editor richtig funktionierten – und jetzt bleibt das Auswahlmenü nicht länger hängen, wenn du versuchst, einen Sticker auf ein Bild zu kleben."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Dieses Update bietet auch Unterstützung für die neue Bildschirmfreigabe-Benutzeroberfläche in macOS Sequoia."
   }
 }

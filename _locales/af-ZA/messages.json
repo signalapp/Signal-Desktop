@@ -1440,7 +1440,7 @@
     "messageformat": "Signal is besig om {window} te deel."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal-skermdeling is aktief"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Besig om te herkonnekteer…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Jy kan nie d.m.v. die groepskakel by hierdie groep aansluit nie, want 'n admin het jou verwyder."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "'n Admin van hierdie groep moet jou versoek goedkeur voordat jy by die groep kan aansluit. Wanneer jy versoek om aan te sluit, sal jou naam en foto met die groeplede gedeel word."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Sluit aan"
@@ -5199,7 +5199,7 @@
     "messageformat": "Storie"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Maak storie sigbaar"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Versteek storie"
@@ -5681,9 +5681,9 @@
     "messageformat": "Nou kan jy aangehaalde antwoorde uit geredigeerde boodskappe verwyder."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Ons het 'n fout reggemaak wat verhoed het dat plakkers in die mediaredigeerder korrek werk."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Hierdie opdatering bevat ook ondersteuning vir die nuwe skermdeling-koppelvlak in macOS Sequoia."
   }
 }

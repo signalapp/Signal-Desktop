@@ -1440,7 +1440,7 @@
     "messageformat": "Signal jakaa {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signalin näytönjako on aktiivinen"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Yhdistetään uudelleen…"
@@ -2976,7 +2976,7 @@
     "messageformat": "Et voi liittyä ryhmään ryhmälinkin avulla, koska ylläpitäjä poisti sinut ryhmästä."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Ryhmän ylläpitäjän on hyväksyttävä liittymispyyntö ennen ryhmään liittymistä. Liittymispyynnön yhteydessä nimesi ja kuvasi näkyvät ryhmän jäsenille."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Liity"
@@ -5199,7 +5199,7 @@
     "messageformat": "Tarina"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Näytä tarina"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Piilota tarina"
@@ -5681,9 +5681,9 @@
     "messageformat": "Nyt voit poistaa lainatut vastaukset muokatuista viesteistä."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Korjasimme virheen, joka esti tarroja toimimasta oikein mediaeditorissa."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Päivitys sisältää myös tuen uudelle näytönjakoliittymälle macOS Sequoiassa."
   }
 }

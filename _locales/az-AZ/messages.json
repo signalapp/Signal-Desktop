@@ -1440,7 +1440,7 @@
     "messageformat": "Signal, {window} pəncərəsini paylaşır."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal ekran paylaşımı aktivdir"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Yenidən bağlantı qurulur..."
@@ -2976,7 +2976,7 @@
     "messageformat": "Bir admin sizi çıxartdığı üçün bu qrupa qrup bağlantısı vasitəsilə qoşula bilməzsiniz."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Bu qrupa qoşula bilməyiniz üçün qrupdan bir admin tələbinizi təsdiqləməlidir. Siz qoşulma tələbi göndərəndə, adınız və fotonuz üzvlərlə paylaşılacaq."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Qoşul"
@@ -5199,7 +5199,7 @@
     "messageformat": "Hekayə"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Hekayəni göstər"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Hekayəni gizlət"
@@ -5681,9 +5681,9 @@
     "messageformat": "Artıq sitatlı cavabları redaktə edilmiş mesajlardan silə bilərsiniz. Artıq cavabınızın kifayət qədər dolğun olduğu və bir sitata ehtiyacı olmadığını hiss etdiyiniz, o cümlədən də səhvən birisinə \"Mən də səni sevirəm\" mesajı göndərdiyiniz anlarda mesajınızı asanlıqla dəyişə bilərsiniz."
   },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Media redaktorunda stikerin düzgün işləməsinə mane olan nasazlığı aradan qaldırdıq və artıq selektor ilə stikeri şəklin üzərinə asanlıqla yapışdıra bilərsiniz."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Bu yeniləmə həm də macOS Sequoia-da yeni ekran paylaşma interfeysinin dəstəklənməsini əhatə edir."
   }
 }
