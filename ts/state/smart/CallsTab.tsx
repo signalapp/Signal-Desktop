@@ -32,6 +32,7 @@ import {
   getAllCallLinks,
   getCallSelector,
   getCallLinkSelector,
+  getHasAnyAdminCallLinks,
 } from '../selectors/calling';
 import { useCallHistoryActions } from '../ducks/callHistory';
 import { getCallHistoryEdition } from '../selectors/callHistory';
@@ -151,6 +152,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   const getAdhocCall = useSelector(getAdhocCallSelector);
   const getCall = useSelector(getCallSelector);
   const getCallLink = useSelector(getCallLinkSelector);
+  const hasAnyAdminCallLinks = useSelector(getHasAnyAdminCallLinks);
 
   const activeCall = useSelector(getActiveCallState);
   const callHistoryEdition = useSelector(getCallHistoryEdition);
@@ -242,6 +244,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       callHistoryEdition={callHistoryEdition}
       canCreateCallLinks={canCreateCallLinks}
       hangUpActiveCall={hangUpActiveCall}
+      hasAnyAdminCallLinks={hasAnyAdminCallLinks}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}

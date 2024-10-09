@@ -44,7 +44,6 @@ import type {
 import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
 import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import type { DeleteCallLinkOptions } from './server/callLinks';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -584,6 +583,7 @@ type ReadableInterface = {
   getAllCallLinks: () => ReadonlyArray<CallLinkType>;
   getCallLinkByRoomId: (roomId: string) => CallLinkType | undefined;
   getCallLinkRecordByRoomId: (roomId: string) => CallLinkRecord | undefined;
+  getAllAdminCallLinks(): ReadonlyArray<CallLinkType>;
   getAllCallLinkRecordsWithAdminKey(): ReadonlyArray<CallLinkRecord>;
   getAllMarkedDeletedCallLinkRoomIds(): ReadonlyArray<string>;
   getMessagesBetween: (
@@ -813,8 +813,10 @@ type WritableInterface = {
     roomId: string,
     callLinkState: CallLinkStateType
   ): CallLinkType;
-  beginDeleteAllCallLinks(): void;
-  beginDeleteCallLink(roomId: string, options: DeleteCallLinkOptions): void;
+  beginDeleteAllCallLinks(): boolean;
+  beginDeleteCallLink(roomId: string): boolean;
+  deleteCallHistoryByRoomId(roomid: string): void;
+  deleteCallLinkAndHistory(roomId: string): void;
   finalizeDeleteCallLink(roomId: string): void;
   _removeAllCallLinks(): void;
   deleteCallLinkFromSync(roomId: string): void;

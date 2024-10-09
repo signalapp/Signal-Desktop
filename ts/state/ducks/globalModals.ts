@@ -103,7 +103,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   errorModalProps?: {
     buttonVariant?: ButtonVariant;
     description?: string;
-    title?: string;
+    title?: string | null;
   };
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
@@ -338,7 +338,7 @@ export type ShowErrorModalActionType = ReadonlyDeep<{
   payload: {
     buttonVariant?: ButtonVariant;
     description?: string;
-    title?: string;
+    title?: string | null;
   };
 }>;
 

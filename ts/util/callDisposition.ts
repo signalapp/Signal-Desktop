@@ -35,6 +35,7 @@ import {
   CallStatusValue,
   callLogEventNormalizeSchema,
   CallLogEvent,
+  ClearCallHistoryResult,
 } from '../types/CallDisposition';
 import type { AciString } from '../types/ServiceId';
 import { isAciString } from './isAciString';
@@ -67,8 +68,9 @@ import type { ConversationModel } from '../models/conversations';
 import { drop } from './drop';
 import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync';
 import { storageServiceUploadJob } from '../services/storage';
-import { CallLinkDeleteManager } from '../jobs/CallLinkDeleteManager';
+import { CallLinkFinalizeDeleteManager } from '../jobs/CallLinkFinalizeDeleteManager';
 import { parsePartial, parseStrict } from './schemas';
+import { calling } from '../services/calling';
 
 // utils
 // -----
@@ -347,6 +349,23 @@ export function getBytesForPeerId(callHistory: CallHistoryDetails): Uint8Array {
   return peerId;
 }
 
+export function getCallIdForProto(
+  callHistory: CallHistoryDetails
+): Long.Long | undefined {
+  try {
+    return Long.fromString(callHistory.callId);
+  } catch (error) {
+    // When CallHistory is a placeholder record for call links, then the history item's
+    // callId is invalid. We will ignore it and only send the timestamp.
+    if (callHistory.mode === CallMode.Adhoc) {
+      return undefined;
+    }
+
+    // For other calls, we expect a valid callId.
+    throw error;
+  }
+}
+
 export function getProtoForCallHistory(
   callHistory: CallHistoryDetails
 ): Proto.SyncMessage.ICallEvent | null {
@@ -361,7 +380,7 @@ export function getProtoForCallHistory(
 
   return new Proto.SyncMessage.CallEvent({
     peerId: getBytesForPeerId(callHistory),
-    callId: Long.fromString(callHistory.callId),
+    callId: getCallIdForProto(callHistory),
     type: typeToProto[callHistory.type],
     direction: directionToProto[callHistory.direction],
     event,
@@ -1343,24 +1362,63 @@ export function updateDeletedMessages(messageIds: ReadonlyArray<string>): void {
 
 export async function clearCallHistoryDataAndSync(
   latestCall: CallHistoryDetails
-): Promise<void> {
+): Promise<ClearCallHistoryResult> {
   try {
     log.info(
       `clearCallHistory: Clearing call history before (${latestCall.callId}, ${latestCall.timestamp})`
     );
+    // This skips call history for admin call links.
     const messageIds = await DataWriter.clearCallHistory(latestCall);
-    await DataWriter.beginDeleteAllCallLinks();
-    storageServiceUploadJob({ reason: 'clearCallHistoryDataAndSync' });
-    // Wait for storage sync before finalizing delete
-    drop(CallLinkDeleteManager.enqueueAllDeletedCallLinks({ delay: 10000 }));
+    const isStorageSyncNeeded = await DataWriter.beginDeleteAllCallLinks();
+    if (isStorageSyncNeeded) {
+      storageServiceUploadJob({ reason: 'clearCallHistoryDataAndSync' });
+    }
     updateDeletedMessages(messageIds);
     log.info('clearCallHistory: Queueing sync message');
     await singleProtoJobQueue.add(
       MessageSender.getClearCallHistoryMessage(latestCall)
     );
+
+    const adminCallLinks = await DataReader.getAllAdminCallLinks();
+    const callLinkCount = adminCallLinks.length;
+    if (callLinkCount > 0) {
+      log.info(`clearCallHistory: Deleting ${callLinkCount} admin call links`);
+      let successCount = 0;
+      let failCount = 0;
+      for (const callLink of adminCallLinks) {
+        try {
+          // This throws if call link is active or network is unavailable.
+          // eslint-disable-next-line no-await-in-loop
+          await calling.deleteCallLink(callLink);
+          // eslint-disable-next-line no-await-in-loop
+          await DataWriter.deleteCallHistoryByRoomId(callLink.roomId);
+          // Wait for storage service sync before finalizing delete.
+          drop(
+            CallLinkFinalizeDeleteManager.addJob(
+              { roomId: callLink.roomId },
+              { delay: 10000 }
+            )
+          );
+          successCount += 1;
+        } catch (error) {
+          log.warn('clearCallHistory: Failed to delete admin call link', error);
+          failCount += 1;
+        }
+      }
+      log.info(
+        `clearCallHistory: Deleted admin call links, success=${successCount} failed=${failCount}`
+      );
+
+      if (failCount > 0) {
+        return ClearCallHistoryResult.ErrorDeletingCallLinks;
+      }
+    }
   } catch (error) {
     log.error('clearCallHistory: Failed to clear call history', error);
+    return ClearCallHistoryResult.Error;
   }
+
+  return ClearCallHistoryResult.Success;
 }
 
 export async function markAllCallHistoryReadAndSync(

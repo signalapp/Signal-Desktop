@@ -186,6 +186,12 @@ export type CallHistoryPagination = Readonly<{
   limit: number;
 }>;
 
+export enum ClearCallHistoryResult {
+  Success = 'Success',
+  Error = 'Error',
+  ErrorDeletingCallLinks = 'ErrorDeletingCallLinks',
+}
+
 const ringerIdSchema = z.union([aciSchema, z.string(), z.null()]);
 
 const callModeSchema = z.nativeEnum(CallMode);

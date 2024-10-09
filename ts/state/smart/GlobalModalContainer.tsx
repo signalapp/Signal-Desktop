@@ -174,7 +174,7 @@ export const SmartGlobalModalContainer = memo(
       }: {
         buttonVariant?: ButtonVariant;
         description?: string;
-        title?: string;
+        title?: string | null;
       }) => (
         <ErrorModal
           buttonVariant={buttonVariant}

@@ -97,10 +97,7 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
           `${logId}: Call link not found on server and deleteLocallyIfMissingOnCallingServer; deleting local call link`
         );
         // This will leave a storage service record, and it's up to primary to delete it
-        await DataWriter.beginDeleteCallLink(roomId, {
-          storageNeedsSync: false,
-        });
-        await DataWriter.finalizeDeleteCallLink(roomId);
+        await DataWriter.deleteCallLinkAndHistory(roomId);
         window.reduxActions.calling.handleCallLinkDelete({ roomId });
       } else {
         log.info(`${logId}: Call link not found on server, ignoring`);
