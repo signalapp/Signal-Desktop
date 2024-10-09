@@ -2075,12 +2075,8 @@ export async function mergeCallLinkRecord(
     // Another device deleted the link and uploaded to storage, and we learned about it
     log.info(`${logId}: Discovered deleted call link, deleting locally`);
     details.push('deleting locally');
-    await DataWriter.beginDeleteCallLink(roomId, {
-      storageNeedsSync: false,
-      deletedAt,
-    });
     // No need to delete via RingRTC as we assume the originating device did that already
-    await DataWriter.finalizeDeleteCallLink(roomId);
+    await DataWriter.deleteCallLinkAndHistory(roomId);
     window.reduxActions.calling.handleCallLinkDelete({ roomId });
   } else if (!deletedAt && localCallLinkDbRecord.deleted === 1) {
     // Not deleted in storage, but we've marked it as deleted locally.

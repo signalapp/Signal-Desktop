@@ -9,8 +9,6 @@ import {
   type JobManagerJobResultType,
   type JobManagerJobType,
 } from './JobManager';
-import { calling } from '../services/calling';
-import { callLinkFromRecord } from '../util/callLinksRingrtc';
 
 // Type for adding a new job
 export type NewCallLinkDeleteJobType = {
@@ -28,7 +26,7 @@ export type CallLinkDeleteJobType = CoreCallLinkDeleteJobType &
 const MAX_CONCURRENT_JOBS = 5;
 
 const DEFAULT_RETRY_CONFIG = {
-  maxAttempts: Infinity,
+  maxAttempts: 10,
   backoffConfig: {
     // 1 min, 5 min, 25 min, (max) 1 day
     multiplier: 5,
@@ -37,19 +35,24 @@ const DEFAULT_RETRY_CONFIG = {
   },
 };
 
-type CallLinkDeleteManagerParamsType =
+type CallLinkFinalizeDeleteManagerParamsType =
   JobManagerParamsType<CoreCallLinkDeleteJobType>;
 
 function getJobId(job: CoreCallLinkDeleteJobType): string {
   return job.roomId;
 }
 
-export class CallLinkDeleteManager extends JobManager<CoreCallLinkDeleteJobType> {
+// The purpose of this job is to finalize local DB delete of call links and
+// associated call history, after we confirm storage sync.
+// It does *not* delete the call link from the server -- this should be done
+// synchronously and prior to running this job, so we can show confirmation
+// or error to the user.
+export class CallLinkFinalizeDeleteManager extends JobManager<CoreCallLinkDeleteJobType> {
   jobs: Map<string, CallLinkDeleteJobType> = new Map();
-  private static _instance: CallLinkDeleteManager | undefined;
-  override logPrefix = 'CallLinkDeleteManager';
+  private static _instance: CallLinkFinalizeDeleteManager | undefined;
+  override logPrefix = 'CallLinkFinalizeDeleteManager';
 
-  static defaultParams: CallLinkDeleteManagerParamsType = {
+  static defaultParams: CallLinkFinalizeDeleteManagerParamsType = {
     markAllJobsInactive: () => Promise.resolve(),
     getNextJobs,
     saveJob,
@@ -61,7 +64,7 @@ export class CallLinkDeleteManager extends JobManager<CoreCallLinkDeleteJobType>
     maxConcurrentJobs: MAX_CONCURRENT_JOBS,
   };
 
-  constructor(params: CallLinkDeleteManagerParamsType) {
+  constructor(params: CallLinkFinalizeDeleteManagerParamsType) {
     super({
       ...params,
       getNextJobs: ({ limit, timestamp }) =>
@@ -103,40 +106,43 @@ export class CallLinkDeleteManager extends JobManager<CoreCallLinkDeleteJobType>
     roomIds.forEach(roomId => this.addJob({ roomId }, options));
   }
 
-  static get instance(): CallLinkDeleteManager {
-    if (!CallLinkDeleteManager._instance) {
-      CallLinkDeleteManager._instance = new CallLinkDeleteManager(
-        CallLinkDeleteManager.defaultParams
-      );
+  static get instance(): CallLinkFinalizeDeleteManager {
+    if (!CallLinkFinalizeDeleteManager._instance) {
+      CallLinkFinalizeDeleteManager._instance =
+        new CallLinkFinalizeDeleteManager(
+          CallLinkFinalizeDeleteManager.defaultParams
+        );
     }
-    return CallLinkDeleteManager._instance;
+    return CallLinkFinalizeDeleteManager._instance;
   }
 
   static async start(): Promise<void> {
-    await CallLinkDeleteManager.instance.enqueueAllDeletedCallLinks();
-    await CallLinkDeleteManager.instance.start();
+    await CallLinkFinalizeDeleteManager.instance.enqueueAllDeletedCallLinks();
+    await CallLinkFinalizeDeleteManager.instance.start();
   }
 
   static async stop(): Promise<void> {
-    return CallLinkDeleteManager._instance?.stop();
+    return CallLinkFinalizeDeleteManager._instance?.stop();
   }
 
   static async addJob(
     newJob: CoreCallLinkDeleteJobType,
     options?: { delay: number }
   ): Promise<void> {
-    return CallLinkDeleteManager.instance.addJob(newJob, options);
+    return CallLinkFinalizeDeleteManager.instance.addJob(newJob, options);
   }
 
   static async enqueueAllDeletedCallLinks(options?: {
     delay: number;
   }): Promise<void> {
-    return CallLinkDeleteManager.instance.enqueueAllDeletedCallLinks(options);
+    return CallLinkFinalizeDeleteManager.instance.enqueueAllDeletedCallLinks(
+      options
+    );
   }
 }
 
 async function getNextJobs(
-  this: CallLinkDeleteManager,
+  this: CallLinkFinalizeDeleteManager,
   {
     limit,
     timestamp,
@@ -162,7 +168,7 @@ async function getNextJobs(
 }
 
 async function saveJob(
-  this: CallLinkDeleteManager,
+  this: CallLinkFinalizeDeleteManager,
   job: CallLinkDeleteJobType
 ): Promise<void> {
   const { roomId } = job;
@@ -170,14 +176,10 @@ async function saveJob(
 }
 
 async function removeJob(
-  this: CallLinkDeleteManager,
+  this: CallLinkFinalizeDeleteManager,
   job: CallLinkDeleteJobType
 ): Promise<void> {
-  const logId = `CallLinkDeleteJobType/removeJob/${getJobId(job)}`;
-  const { roomId } = job;
-  await DataWriter.finalizeDeleteCallLink(job.roomId);
-  log.info(`${logId}: Finalized local delete`);
-  this.jobs.delete(roomId);
+  this.jobs.delete(job.roomId);
 }
 
 async function runJob(
@@ -191,10 +193,8 @@ async function runJob(
     log.warn(`${logId}: Call link gone from DB`);
     return { status: 'finished' };
   }
-  if (callLinkRecord.adminKey == null) {
-    log.error(
-      `${logId}: No admin key available, deletion on server not possible. Giving up.`
-    );
+  if (callLinkRecord.deleted !== 1) {
+    log.error(`${logId}: Call link not marked deleted. Giving up.`);
     return { status: 'finished' };
   }
 
@@ -204,10 +204,7 @@ async function runJob(
     return { status: 'retry' };
   }
 
-  // Delete link on calling server. May 200 or 404 and both are OK.
-  // Errs if call link is active or network is unavailable.
-  const callLink = callLinkFromRecord(callLinkRecord);
-  await calling.deleteCallLink(callLink);
-  log.info(`${logId}: Deleted call link on server`);
+  await DataWriter.finalizeDeleteCallLink(job.roomId);
+  log.info(`${logId}: Finalized local delete`);
   return { status: 'finished' };
 }

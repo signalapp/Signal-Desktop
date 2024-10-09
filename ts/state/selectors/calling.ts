@@ -16,7 +16,7 @@ import type {
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/callingHelpers';
 import type { PresentedSource } from '../../types/Calling';
 import { CallMode } from '../../types/CallDisposition';
-import type { CallLinkType } from '../../types/CallLink';
+import { isCallLinkAdmin, type CallLinkType } from '../../types/CallLink';
 import { getUserACI } from './user';
 import { getOwn } from '../../util/getOwn';
 import type { AciString } from '../../types/ServiceId';
@@ -94,6 +94,11 @@ export const getCallLinkSelector = createSelector(
 export const getAllCallLinks = createSelector(
   getCallLinksByRoomId,
   (lookup): Array<CallLinkType> => Object.values(lookup)
+);
+
+export const getHasAnyAdminCallLinks = createSelector(
+  getAllCallLinks,
+  (callLinks): boolean => callLinks.some(callLink => isCallLinkAdmin(callLink))
 );
 
 export type CallSelectorType = (

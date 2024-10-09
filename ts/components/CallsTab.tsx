@@ -49,6 +49,7 @@ type CallsTabProps = Readonly<{
   getCallLink: (id: string) => CallLinkType | undefined;
   getConversation: (id: string) => ConversationType | void;
   hangUpActiveCall: (reason: string) => void;
+  hasAnyAdminCallLinks: boolean;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   i18n: LocalizerType;
@@ -105,6 +106,7 @@ export function CallsTab({
   getCallLink,
   getConversation,
   hangUpActiveCall,
+  hasAnyAdminCallLinks,
   hasFailedStorySends,
   hasPendingUpdate,
   i18n,
@@ -370,7 +372,9 @@ export function CallsTab({
             },
           ]}
         >
-          {i18n('icu:CallsTab__ConfirmClearCallHistory__Body')}
+          {hasAnyAdminCallLinks
+            ? i18n('icu:CallsTab__ConfirmClearCallHistory__Body--call-links')
+            : i18n('icu:CallsTab__ConfirmClearCallHistory__Body')}
         </ConfirmationDialog>
       )}
     </>

@@ -99,6 +99,7 @@ import {
 } from '../types/CallDisposition';
 import {
   getBytesForPeerId,
+  getCallIdForProto,
   getProtoForCallHistory,
 } from '../util/callDisposition';
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types';
@@ -1612,7 +1613,7 @@ export default class MessageSender {
       type: Proto.SyncMessage.CallLogEvent.Type.CLEAR,
       timestamp: Long.fromNumber(latestCall.timestamp),
       peerId: getBytesForPeerId(latestCall),
-      callId: Long.fromString(latestCall.callId),
+      callId: getCallIdForProto(latestCall),
     });
 
     const syncMessage = MessageSender.createSyncMessage();

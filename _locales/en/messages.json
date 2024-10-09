@@ -1633,6 +1633,10 @@
     "messageformat": "Signal Call",
     "description": "Default title for Signal call links."
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again.",
+    "description": "Default title for Signal call links."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "Your request to join this call has been denied.",
     "description": "Error message when a request to join a call link call was rejected by a call admin."
@@ -7298,7 +7302,11 @@
     "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history",
+    "messageformat": "This will permanently delete all call history.",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. ",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
@@ -7308,6 +7316,14 @@
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Call history cleared",
     "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again.",
+    "description": "Calls Tab > Clear Call History > Error modal when we failed to delete call links."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again.",
+    "description": "Calls Tab > Clear Call History > Generic error modal"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call.",

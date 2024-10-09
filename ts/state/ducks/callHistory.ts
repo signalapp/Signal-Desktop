@@ -15,7 +15,10 @@ import type { ToastActionType } from './toast';
 import { showToast } from './toast';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { ToastType } from '../../types/Toast';
-import type { CallHistoryDetails } from '../../types/CallDisposition';
+import {
+  ClearCallHistoryResult,
+  type CallHistoryDetails,
+} from '../../types/CallDisposition';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { drop } from '../../util/drop';
@@ -29,6 +32,11 @@ import {
   loadCallHistory,
 } from '../../services/callHistoryLoader';
 import { makeLookup } from '../../util/makeLookup';
+import { missingCaseError } from '../../util/missingCaseError';
+import { getIntl } from '../selectors/user';
+import { ButtonVariant } from '../../components/Button';
+import type { ShowErrorModalActionType } from './globalModals';
+import { SHOW_ERROR_MODAL } from './globalModals';
 
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
@@ -191,14 +199,42 @@ function clearAllCallHistory(): ThunkAction<
   void,
   RootStateType,
   unknown,
-  CallHistoryReset | ToastActionType
+  CallHistoryReset | ToastActionType | ShowErrorModalActionType
 > {
   return async (dispatch, getState) => {
     try {
       const latestCall = getCallHistoryLatestCall(getState());
-      if (latestCall != null) {
-        await clearCallHistoryDataAndSync(latestCall);
+      if (latestCall == null) {
+        return;
+      }
+
+      const result = await clearCallHistoryDataAndSync(latestCall);
+      if (result === ClearCallHistoryResult.Success) {
         dispatch(showToast({ toastType: ToastType.CallHistoryCleared }));
+      } else if (result === ClearCallHistoryResult.Error) {
+        const i18n = getIntl(getState());
+        dispatch({
+          type: SHOW_ERROR_MODAL,
+          payload: {
+            title: null,
+            description: i18n('icu:CallsTab__ClearCallHistoryError'),
+            buttonVariant: ButtonVariant.Primary,
+          },
+        });
+      } else if (result === ClearCallHistoryResult.ErrorDeletingCallLinks) {
+        const i18n = getIntl(getState());
+        dispatch({
+          type: SHOW_ERROR_MODAL,
+          payload: {
+            title: null,
+            description: i18n(
+              'icu:CallsTab__ClearCallHistoryError--call-links'
+            ),
+            buttonVariant: ButtonVariant.Primary,
+          },
+        });
+      } else {
+        throw missingCaseError(result);
       }
     } catch (error) {
       log.error('Error clearing call history', Errors.toLogFormat(error));

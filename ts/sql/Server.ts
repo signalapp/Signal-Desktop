@@ -180,6 +180,9 @@ import {
   updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
   beginDeleteAllCallLinks,
+  deleteCallHistoryByRoomId,
+  deleteCallLinkAndHistory,
+  getAllAdminCallLinks,
   getAllCallLinkRecordsWithAdminKey,
   getAllMarkedDeletedCallLinkRoomIds,
   finalizeDeleteCallLink,
@@ -313,6 +316,7 @@ export const DataReader: ServerReadableInterface = {
   getAllCallLinks,
   getCallLinkByRoomId,
   getCallLinkRecordByRoomId,
+  getAllAdminCallLinks,
   getAllCallLinkRecordsWithAdminKey,
   getAllMarkedDeletedCallLinkRoomIds,
   getMessagesBetween,
@@ -451,6 +455,8 @@ export const DataWriter: ServerWritableInterface = {
   updateCallLinkState,
   beginDeleteAllCallLinks,
   beginDeleteCallLink,
+  deleteCallHistoryByRoomId,
+  deleteCallLinkAndHistory,
   finalizeDeleteCallLink,
   _removeAllCallLinks,
   deleteCallLinkFromSync,
@@ -3543,6 +3549,14 @@ function _removeAllCallHistory(db: WritableDB): void {
   db.prepare(query).run(params);
 }
 
+/**
+ * Deletes call history by marking it deleted. Tombstoning is needed in case sync messages
+ * come in around the same time, to prevent reappearance of deleted call history.
+ * Limitation: History for admin call links is skipped. Admin call links need to be
+ * deleted on the calling server first, before we can clear local history.
+ *
+ *  @returns ReadonlyArray<string>: message ids of call history messages
+ */
 function clearCallHistory(
   db: WritableDB,
   target: CallLogEventTarget
@@ -3555,17 +3569,33 @@ function clearCallHistory(
     }
     const { timestamp } = callHistory;
 
+    // Admin call links are deleted separately after server confirmation
+    const [selectAdminCallLinksQuery, selectAdminCallLinksParams] = sql`
+      SELECT roomId
+      FROM callLinks
+      WHERE callLinks.adminKey IS NOT NULL;
+    `;
+
+    const adminCallLinkIds: ReadonlyArray<string> = db
+      .prepare(selectAdminCallLinksQuery)
+      .pluck()
+      .all(selectAdminCallLinksParams);
+    const adminCallLinkIdsFragment = sqlJoin(adminCallLinkIds);
+
     const [selectCallsQuery, selectCallsParams] = sql`
       SELECT callsHistory.callId
       FROM callsHistory
       WHERE
-        -- Prior calls
-        (callsHistory.timestamp <= ${timestamp})
-        -- Unused call links
-        OR (
-          callsHistory.mode IS ${CALL_MODE_ADHOC} AND
-          callsHistory.status IS ${CALL_STATUS_PENDING}
-        );
+        (
+          -- Prior calls
+          (callsHistory.timestamp <= ${timestamp})
+          -- Unused call links
+          OR (
+            callsHistory.mode IS ${CALL_MODE_ADHOC} AND
+            callsHistory.status IS ${CALL_STATUS_PENDING}
+          )
+        ) AND
+        callsHistory.peerId NOT IN (${adminCallLinkIdsFragment});
     `;
 
     const deletedCallIds: ReadonlyArray<string> = db

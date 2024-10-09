@@ -53,12 +53,16 @@ export type PropsType = {
   renderEditNicknameAndNoteModal: () => JSX.Element;
   // ErrorModal
   errorModalProps:
-    | { buttonVariant?: ButtonVariant; description?: string; title?: string }
+    | {
+        buttonVariant?: ButtonVariant;
+        description?: string;
+        title?: string | null;
+      }
     | undefined;
   renderErrorModal: (opts: {
     buttonVariant?: ButtonVariant;
     description?: string;
-    title?: string;
+    title?: string | null;
   }) => JSX.Element;
   // DeleteMessageModal
   deleteMessagesProps: DeleteMessagesPropsType | undefined;
