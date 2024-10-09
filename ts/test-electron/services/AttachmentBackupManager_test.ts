@@ -107,6 +107,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
         absolutePath: join(__dirname, '../../../fixtures/cat-gif.mp4'),
       },
       keys: Bytes.fromBase64(LOCAL_ENCRYPTION_KEYS),
+      needIncrementalMac: false,
       sink: createWriteStream(absolutePath),
       getAbsoluteAttachmentPath,
     });

@@ -5,7 +5,7 @@ import type {
   AttachmentWithHydratedData,
   UploadedAttachmentType,
 } from '../types/Attachment';
-import { MIMETypeToString } from '../types/MIME';
+import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME';
 import { getRandomBytes } from '../Crypto';
 import { strictAssert } from './assert';
 import { backupsService } from '../services/backups';
@@ -31,10 +31,12 @@ export async function uploadAttachment(
   strictAssert(server, 'WebAPI must be initialized');
 
   const keys = getRandomBytes(64);
+  const needIncrementalMac = supportsIncrementalMac(attachment.contentType);
 
   const { cdnKey, cdnNumber, encrypted } = await encryptAndUploadAttachment({
-    plaintext: { data: attachment.data },
     keys,
+    needIncrementalMac,
+    plaintext: { data: attachment.data },
     uploadType: 'standard',
   });
 
@@ -50,6 +52,8 @@ export async function uploadAttachment(
     size: attachment.data.byteLength,
     digest: encrypted.digest,
     plaintextHash: encrypted.plaintextHash,
+    incrementalMac: encrypted.incrementalMac,
+    chunkSize: encrypted.chunkSize,
 
     contentType: MIMETypeToString(attachment.contentType),
     fileName,
@@ -63,14 +67,16 @@ export async function uploadAttachment(
 }
 
 export async function encryptAndUploadAttachment({
-  plaintext,
-  keys,
   dangerousIv,
+  keys,
+  needIncrementalMac,
+  plaintext,
   uploadType,
 }: {
-  plaintext: PlaintextSourceType;
-  keys: Uint8Array;
   dangerousIv?: HardcodedIVForEncryptionType;
+  keys: Uint8Array;
+  needIncrementalMac: boolean;
+  plaintext: PlaintextSourceType;
   uploadType: 'standard' | 'backup';
 }): Promise<{
   cdnKey: string;
@@ -98,11 +104,12 @@ export async function encryptAndUploadAttachment({
     }
 
     const encrypted = await encryptAttachmentV2ToDisk({
-      plaintext,
-      keys,
       dangerousIv,
       getAbsoluteAttachmentPath:
         window.Signal.Migrations.getAbsoluteAttachmentPath,
+      keys,
+      needIncrementalMac,
+      plaintext,
     });
 
     absoluteCiphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(

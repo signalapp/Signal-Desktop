@@ -44,10 +44,11 @@ describe('ContactsParser', () => {
         const keys = generateKeys();
 
         ({ path } = await encryptAttachmentV2ToDisk({
-          plaintext: { data },
           keys,
           getAbsoluteAttachmentPath:
             window.Signal.Migrations.getAbsoluteAttachmentPath,
+          needIncrementalMac: false,
+          plaintext: { data },
         }));
 
         const contacts = await parseContactsV2({

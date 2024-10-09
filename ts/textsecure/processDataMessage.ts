@@ -54,7 +54,8 @@ export function processAttachment(
   const { cdnId } = attachment;
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
-  const { clientUuid, contentType, digest, key, size } = attachment;
+  const { clientUuid, contentType, digest, incrementalMac, key, size } =
+    attachment;
   if (!isNumber(size)) {
     throw new Error('Missing size on incoming attachment!');
   }
@@ -63,12 +64,17 @@ export function processAttachment(
     ...shallowDropNull(attachment),
 
     cdnId: hasCdnId ? String(cdnId) : undefined,
-    clientUuid: clientUuid ? bytesToUuid(clientUuid) : undefined,
+    clientUuid: Bytes.isNotEmpty(clientUuid)
+      ? bytesToUuid(clientUuid)
+      : undefined,
     contentType: contentType
       ? stringToMIMEType(contentType)
       : APPLICATION_OCTET_STREAM,
-    digest: digest ? Bytes.toBase64(digest) : undefined,
-    key: key ? Bytes.toBase64(key) : undefined,
+    digest: Bytes.isNotEmpty(digest) ? Bytes.toBase64(digest) : undefined,
+    incrementalMac: Bytes.isNotEmpty(incrementalMac)
+      ? Bytes.toBase64(incrementalMac)
+      : undefined,
+    key: Bytes.isNotEmpty(key) ? Bytes.toBase64(key) : undefined,
     size,
   };
 }

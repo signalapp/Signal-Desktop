@@ -27,6 +27,7 @@ const UNPROCESSED_ATTACHMENT: Proto.IAttachmentPointer = {
   key: new Uint8Array([1, 2, 3]),
   digest: new Uint8Array([4, 5, 6]),
   contentType: IMAGE_GIF,
+  incrementalMac: new Uint8Array(),
   size: 34,
 };
 
@@ -36,6 +37,7 @@ const PROCESSED_ATTACHMENT: ProcessedAttachment = {
   key: 'AQID',
   digest: 'BAUG',
   contentType: IMAGE_GIF,
+  incrementalMac: undefined,
   size: 34,
 };
 
@@ -80,6 +82,27 @@ describe('processDataMessage', () => {
         ...PROCESSED_ATTACHMENT,
         cdnId: undefined,
         downloadPath: 'random-path',
+      },
+    ]);
+  });
+
+  it('should process attachments with incrementalMac/chunkSize', () => {
+    const out = check({
+      attachments: [
+        {
+          ...UNPROCESSED_ATTACHMENT,
+          incrementalMac: new Uint8Array([0, 0, 0]),
+          chunkSize: 2,
+        },
+      ],
+    });
+
+    assert.deepStrictEqual(out.attachments, [
+      {
+        ...PROCESSED_ATTACHMENT,
+        chunkSize: 2,
+        downloadPath: 'random-path',
+        incrementalMac: 'AAAA',
       },
     ]);
   });

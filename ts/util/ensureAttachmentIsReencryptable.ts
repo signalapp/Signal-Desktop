@@ -93,6 +93,7 @@ export async function attemptToReencryptToOriginalDigest(
           attachment.path
         ),
       },
+      needIncrementalMac: false,
       getAbsoluteAttachmentPath:
         window.Signal.Migrations.getAbsoluteAttachmentPath,
     });
@@ -116,6 +117,7 @@ export async function attemptToReencryptToOriginalDigest(
       encryptAttachmentV2({
         plaintext: {
           stream: passthrough,
+          size: attachment.size,
         },
         keys: fromBase64(key),
         dangerousIv: {
@@ -123,6 +125,7 @@ export async function attemptToReencryptToOriginalDigest(
           reason: 'reencrypting-for-backup',
           digestToMatch: fromBase64(digest),
         },
+        needIncrementalMac: false,
         getAbsoluteAttachmentPath:
           window.Signal.Migrations.getAbsoluteAttachmentPath,
       }),
@@ -145,6 +148,7 @@ export async function generateNewEncryptionInfoForAttachment(
           attachment.path
         ),
       },
+      needIncrementalMac: false,
       getAbsoluteAttachmentPath:
         window.Signal.Migrations.getAbsoluteAttachmentPath,
     });
@@ -169,7 +173,9 @@ export async function generateNewEncryptionInfoForAttachment(
         keys: newKeys,
         plaintext: {
           stream: passthrough,
+          size: attachment.size,
         },
+        needIncrementalMac: false,
         getAbsoluteAttachmentPath:
           window.Signal.Migrations.getAbsoluteAttachmentPath,
       }),
