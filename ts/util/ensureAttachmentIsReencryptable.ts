@@ -58,8 +58,9 @@ export async function ensureAttachmentIsReencryptable(
         logging.info(
           `${logId}: Unable to reencrypt attachment to original digest; must have had non-zero padding`
         );
+      } else {
+        logging.error(`${logId}: error when reencrypting`, toLogFormat(e));
       }
-      logging.error(`${logId}: error when reencrypting`, toLogFormat(e));
     }
   }
 
