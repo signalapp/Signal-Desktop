@@ -16,6 +16,7 @@ import { dropNull } from '../util/dropNull';
 import { decryptAttachmentV2ToSink } from '../AttachmentCrypto';
 
 import Avatar = Proto.ContactDetails.IAvatar;
+import { stringToMIMEType } from '../types/MIME';
 
 const { Reader } = protobuf;
 
@@ -152,9 +153,13 @@ export class ParseContactsTransform extends Transform {
             // eslint-disable-next-line no-await-in-loop
             await window.Signal.Migrations.writeNewAttachmentData(avatarData);
 
+          const contentType = this.activeContact.avatar?.contentType;
           const prepared = prepareContact(this.activeContact, {
             ...this.activeContact.avatar,
             ...local,
+            contentType: contentType
+              ? stringToMIMEType(contentType)
+              : undefined,
             hash,
           });
           if (prepared) {

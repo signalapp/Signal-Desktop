@@ -161,6 +161,7 @@ describe('attachments', function (this: Mocha.Suite) {
         },
         getAbsoluteAttachmentPath: relativePath =>
           bootstrap.getAbsoluteAttachmentPath(relativePath),
+        needIncrementalMac: false,
       });
 
     const ciphertextCatWithNonZeroPadding = readFileSync(

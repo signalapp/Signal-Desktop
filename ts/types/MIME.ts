@@ -48,3 +48,6 @@ export const isAudio = (value: string): value is MIMEType =>
   Boolean(value) && value.startsWith('audio/') && !value.endsWith('aiff');
 export const isLongMessage = (value: unknown): value is MIMEType =>
   value === LONG_MESSAGE;
+export const supportsIncrementalMac = (value: unknown): boolean => {
+  return value === VIDEO_MP4;
+};

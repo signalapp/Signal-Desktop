@@ -297,8 +297,9 @@ export const writeNewAttachmentData = async ({
   const keys = generateKeys();
 
   const { plaintextHash, path } = await encryptAttachmentV2ToDisk({
-    plaintext: { data },
     getAbsoluteAttachmentPath,
+    needIncrementalMac: false,
+    plaintext: { data },
     keys,
   });
 

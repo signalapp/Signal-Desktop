@@ -113,7 +113,7 @@ export async function downloadAttachment(
 ): Promise<ReencryptedAttachmentV2 & { size?: number }> {
   const logId = `downloadAttachment/${options.logPrefix ?? ''}`;
 
-  const { digest, key, size } = attachment;
+  const { chunkSize, digest, incrementalMac, key, size } = attachment;
 
   strictAssert(digest, `${logId}: missing digest`);
   strictAssert(key, `${logId}: missing key`);
@@ -232,6 +232,10 @@ export async function downloadAttachment(
           macKey,
           size,
           theirDigest: Bytes.fromBase64(digest),
+          theirIncrementalMac: incrementalMac
+            ? Bytes.fromBase64(incrementalMac)
+            : undefined,
+          theirChunkSize: chunkSize,
           outerEncryption:
             mediaTier === 'backup'
               ? getBackupMediaOuterEncryptionKeyMaterial(attachment)

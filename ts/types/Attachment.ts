@@ -130,6 +130,7 @@ export type AddressableAttachmentType = Readonly<{
   path: string;
   localKey?: string;
   size?: number;
+  contentType: MIME.MIMEType;
 
   // In-memory data, for outgoing attachments that are not saved to disk.
   data?: Uint8Array;

@@ -120,6 +120,8 @@ export type ProcessedAttachment = {
   textAttachment?: Omit<TextAttachmentType, 'preview'>;
   backupLocator?: AttachmentType['backupLocator'];
   downloadPath?: string;
+  incrementalMac?: string;
+  chunkSize?: number;
 };
 
 export type ProcessedGroupV2Context = {

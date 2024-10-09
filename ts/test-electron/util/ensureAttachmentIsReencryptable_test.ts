@@ -40,6 +40,7 @@ describe('utils/ensureAttachmentIsReencryptable', async () => {
       },
       getAbsoluteAttachmentPath:
         window.Signal.Migrations.getAbsoluteAttachmentPath,
+      needIncrementalMac: false,
     });
     digest = encrypted.digest;
     iv = encrypted.iv;
