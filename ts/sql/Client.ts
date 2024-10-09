@@ -18,7 +18,7 @@ import { cleanDataForIpc } from './cleanDataForIpc';
 import type { AciString, ServiceIdString } from '../types/ServiceId';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import * as log from '../logging/log';
-import { isValidUuidV7 } from '../util/isValidUuid';
+import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid';
 import * as Errors from '../types/errors';
 
 import type { StoredJob } from '../jobs/types';
@@ -603,7 +603,12 @@ async function saveMessage(
     jobToInsert: options.jobToInsert && formatJobForInsert(options.jobToInsert),
   });
 
-  softAssert(isValidUuidV7(id), 'saveMessage: messageId is not a UUID');
+  softAssert(
+    // Older messages still have `UUIDv4` so don't log errors when encountering
+    // it.
+    (!options.forceSave && isValidUuid(id)) || isValidUuidV7(id),
+    'saveMessage: messageId is not a UUID'
+  );
 
   void updateExpiringMessagesService();
   void tapToViewMessagesDeletionService.update();
