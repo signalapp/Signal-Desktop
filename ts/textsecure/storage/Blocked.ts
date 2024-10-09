@@ -7,9 +7,9 @@ import type { StorageInterface } from '../../types/Storage.d';
 import type { ServiceIdString } from '../../types/ServiceId';
 import * as log from '../../logging/log';
 
-const BLOCKED_NUMBERS_ID = 'blocked';
-const BLOCKED_UUIDS_ID = 'blocked-uuids';
-const BLOCKED_GROUPS_ID = 'blocked-groups';
+export const BLOCKED_NUMBERS_ID = 'blocked';
+export const BLOCKED_UUIDS_ID = 'blocked-uuids';
+export const BLOCKED_GROUPS_ID = 'blocked-groups';
 
 export class Blocked {
   constructor(private readonly storage: StorageInterface) {}

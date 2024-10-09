@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types';
+import { isAciString } from './isAciString';
 
 export function isBlocked(
   attributes: Pick<ConversationAttributesType, 'e164' | 'groupId' | 'serviceId'>
 ): boolean {
   const { e164, groupId, serviceId } = attributes;
-  if (serviceId) {
+  if (isAciString(serviceId)) {
     return window.storage.blocked.isServiceIdBlocked(serviceId);
   }
 

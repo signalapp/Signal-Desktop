@@ -197,6 +197,7 @@ import { DataReader, DataWriter } from './sql/Client';
 import { restoreRemoteConfigFromStorage } from './RemoteConfig';
 import { getParametersForRedux, loadAll } from './services/allLoaders';
 import { checkFirstEnvelope } from './util/checkFirstEnvelope';
+import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -1359,6 +1360,18 @@ export async function startApp(): Promise<void> {
     void badgeImageFileDownloader.checkForFilesToDownload();
 
     initializeExpiringMessageService(singleProtoJobQueue);
+
+    log.info('Blocked uuids cleanup: starting...');
+    const blockedUuids = window.storage.get(BLOCKED_UUIDS_ID, []);
+    const blockedAcis = blockedUuids.filter(isAciString);
+    const diff = blockedUuids.length - blockedAcis.length;
+    if (diff > 0) {
+      log.warn(
+        `Blocked uuids cleanup: Found ${diff} non-ACIs in blocked list. Removing.`
+      );
+      await window.storage.put(BLOCKED_UUIDS_ID, blockedAcis);
+    }
+    log.info('Blocked uuids cleanup: complete');
 
     log.info('Expiration start timestamp cleanup: starting...');
     const messagesUnexpectedlyMissingExpirationStartTimestamp =
