@@ -168,7 +168,7 @@ describe('attachments', function (this: Mocha.Suite) {
       bootstrap.getAbsoluteAttachmentPath(ciphertextPath)
     );
 
-    bootstrap.server.storeAttachmentOnCdn(
+    await bootstrap.server.storeAttachmentOnCdn(
       cdnNumber,
       cdnKey,
       ciphertextCatWithNonZeroPadding

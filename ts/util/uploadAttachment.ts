@@ -95,9 +95,7 @@ export async function encryptAndUploadAttachment({
         uploadForm = await server.getAttachmentUploadForm();
         break;
       case 'backup':
-        uploadForm = await server.getBackupMediaUploadForm(
-          await backupsService.credentials.getHeadersForToday()
-        );
+        uploadForm = await backupsService.api.getMediaUploadForm();
         break;
       default:
         throw missingCaseError(uploadType);

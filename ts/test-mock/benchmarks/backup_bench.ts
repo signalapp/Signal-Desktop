@@ -2,16 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-console */
 
-import { pipeline } from 'node:stream/promises';
-import { createWriteStream } from 'node:fs';
-import { mkdir } from 'node:fs/promises';
-import { join } from 'node:path';
-
 import { Bootstrap } from './fixtures';
 import { generateBackup } from '../../test-both/helpers/generateBackup';
 
 Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
-  const { phone, cdn3Path } = bootstrap;
+  const { phone, server } = bootstrap;
 
   const { backupId, stream: backupStream } = generateBackup({
     aci: phone.device.aci,
@@ -20,14 +15,8 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     conversations: 1000,
     messages: 60 * 1000,
   });
-  const backupFolder = join(
-    cdn3Path,
-    'backups',
-    backupId.toString('base64url')
-  );
-  await mkdir(backupFolder, { recursive: true });
-  const fileStream = createWriteStream(join(backupFolder, 'backup'));
-  await pipeline(backupStream, fileStream);
+
+  await server.storeBackupOnCdn(backupId, backupStream);
 
   const importStart = Date.now();
 

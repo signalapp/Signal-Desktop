@@ -566,6 +566,8 @@ export class BackupImportStream extends Writable {
 
     strictAssert(Bytes.isNotEmpty(profileKey), 'Missing profile key');
     await storage.put('profileKey', profileKey);
+    this.ourConversation.profileKey = Bytes.toBase64(profileKey);
+    await this.updateConversation(this.ourConversation);
 
     if (username != null) {
       me.username = username;
