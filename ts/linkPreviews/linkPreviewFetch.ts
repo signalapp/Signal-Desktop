@@ -177,6 +177,11 @@ const isInlineContentDisposition = (headerValue: string | null): boolean =>
   !headerValue || headerValue.split(';', 1)[0] === 'inline';
 
 const parseContentLength = (headerValue: string | null): number => {
+  if (headerValue == null) {
+    // If no Content-Length header is given, assume the max allowed value
+    return MAX_IMAGE_CONTENT_LENGTH;
+  }
+
   // No need to parse gigantic Content-Lengths; only parse the first 10 digits.
   if (typeof headerValue !== 'string' || !/^\d{1,10}$/g.test(headerValue)) {
     return Infinity;
@@ -583,9 +588,7 @@ export async function fetchLinkPreviewImage(
     return null;
   }
   if (contentLength > MAX_IMAGE_CONTENT_LENGTH) {
-    logger.warn(
-      'fetchLinkPreviewImage: Content-Length is too large or is unset; bailing'
-    );
+    logger.warn('fetchLinkPreviewImage: Content-Length is too large; bailing');
     return null;
   }
 
