@@ -793,11 +793,6 @@ $message-padding-horizontal: 12px;
   padding-top: 4px;
 }
 
-.module-message__generic-attachment--not-active {
-  cursor: default;
-  pointer-events: none;
-}
-
 .module-message__generic-attachment__icon-container {
   position: relative;
   user-select: none;
