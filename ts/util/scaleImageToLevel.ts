@@ -5,7 +5,6 @@ import type { LoadImageResult } from 'blueimp-load-image';
 import loadImage from 'blueimp-load-image';
 
 import type { MIMEType } from '../types/MIME';
-import { IMAGE_JPEG } from '../types/MIME';
 import { canvasToBlob } from './canvasToBlob';
 import { getValue } from '../RemoteConfig';
 import { parseNumber } from './libphonenumberUtil';
@@ -92,10 +91,11 @@ function getMediaQualityLevel(): MediaQualityLevels {
   return countryValues.get('*') || DEFAULT_LEVEL;
 }
 
-async function getCanvasBlobAsJPEG(
+async function getCanvasBlob(
   image: HTMLCanvasElement,
   dimensions: number,
-  quality: number
+  quality: number,
+  mimeType: MIMEType
 ): Promise<Blob> {
   const canvas = loadImage.scale(image, {
     canvas: true,
@@ -105,7 +105,7 @@ async function getCanvasBlobAsJPEG(
   if (!(canvas instanceof HTMLCanvasElement)) {
     throw new Error('image not a canvas');
   }
-  return canvasToBlob(canvas, IMAGE_JPEG, quality);
+  return canvasToBlob(canvas, mimeType, quality);
 }
 
 export async function scaleImageToLevel({
@@ -163,22 +163,29 @@ export async function scaleImageToLevel({
 
     // We need these operations to be in serial
     // eslint-disable-next-line no-await-in-loop
-    const blob = await getCanvasBlobAsJPEG(
+    const blob = await getCanvasBlob(
       data.image,
       scalableDimensions,
-      quality
+      quality,
+      contentType
     );
     if (blob.size <= targetSize) {
       return {
         blob,
-        contentType: IMAGE_JPEG,
+        contentType,
       };
     }
   }
 
-  const blob = await getCanvasBlobAsJPEG(data.image, MIN_DIMENSIONS, quality);
+  const blob = await getCanvasBlob(
+    data.image,
+    MIN_DIMENSIONS,
+    quality,
+    contentType
+  );
+
   return {
     blob,
-    contentType: IMAGE_JPEG,
+    contentType,
   };
 }
