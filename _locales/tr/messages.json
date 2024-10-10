@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Signal Araması"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "Bu aramaya katılma isteğin reddedildi."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "Signal {window} penceresini paylaşıyor."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal ekran paylaşımı etkin"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Yeniden bağlanıyor…"
@@ -2976,7 +2979,7 @@
     "messageformat": "Gruptan yönetici tarafından çıkarıldığın için gruba bağlantıyla katılamazsın."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Gruba katılmadan önce bu grubun bir yöneticisinin isteğinizi onaylaması gerekiyor. Katılma isteğinde bulunduğunuzda, adınız ve fotoğrafınız üyeleriyle paylaşılacaktır."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Katıl"
@@ -3556,6 +3559,27 @@
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "Transferi iptal et"
+  },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Medya geri yükleniyor"
@@ -5199,7 +5223,7 @@
     "messageformat": "Hikaye"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Hikayeyi göster"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Hikayeyi gizle"
@@ -5470,13 +5494,22 @@
     "messageformat": "Arama geçmişi temizlensin mi?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Bu işlem tüm arama geçmişini kalıcı olarak siler"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Kaldır"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Arama geçmişi temizlendi"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallButtonIcon></newCallButtonIcon> ögesine tıkla."
@@ -5674,16 +5707,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Bu güncellemede, bir gruptan ayrıldıktan sonra o grubu aramayı zorlaştıran bir hatayı düzelttik."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Artık alıntılanan yanıtları düzenlenmiş mesajlardan kaldırabilirsin. Birine kazara yanlış bir mesaj gönderdiğinde paçayı sıyırmak için harika bir yoldur. Böylelikle yanlış anlamaların önüne geçer ve sorunsuzca yoluna devam edersin."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Çıkartmaların medya düzenleyicide düzgün çalışmasını engelleyen bir hatayı düzelttik."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Bu güncelleme, macOS Sequoia'daki yeni ekran paylaşım arayüzü için destek de içermektedir."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }

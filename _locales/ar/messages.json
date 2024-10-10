@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "مكالمة سيجنال"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "لقد رُفضَ طلب انضمامك إلى هذه المكالمة."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "يشارك سيجنال {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "ميزة مشاركة الشاشة على سيجنال مُفعَّلة"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "جارٍ إعادة الاتصال…"
@@ -2976,7 +2979,7 @@
     "messageformat": "لا يمكنك الانضمام لهذه المجموعة من خلال الرابط لأن أحد المشرفين أزالك."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "لتستطيع الانضمام إلى هذه المجموعة، يجب أن يوافق مُشرِف من هذه المجموعة على طلب انضمامك. عندما ترسل طلب انضمام، سيتم مشاركة اسمك وصورتك مع أعضاء المجموعة."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "الانضمام"
@@ -3556,6 +3559,27 @@
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "إلغاء التحويل"
+  },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "جارٍ استرجاع الوسائط"
@@ -5199,7 +5223,7 @@
     "messageformat": "القصص"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "إظهار قصة"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "إخفاء قصة"
@@ -5470,13 +5494,22 @@
     "messageformat": "مسح سِّجِلّ الاتصالات؟"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "سيؤدي هذا إلى حذف جميع سِّجِلّ الاتصالات"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "محو"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "تم مسح سِّجِلّ الاتصالات"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "انقر على <newCallButtonIcon></newCallButtonIcon> لبدء مُكالمة صوتية أو فيديو جديدة."
@@ -5674,16 +5707,13 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "يُصلح هذا التحديث خطأ كان يُصعّب عملية البحث عن مجموعة بعد مغادرتها."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "يُمكنك الآن إزالة الردود المقتبَسة من الرسائل المُعدَّلة."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "أصلحنا خطأ كان يَمنع الملصقات من العمل بشكل صحيح في مُحرِّر الوسائط."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "يتضمّن هذا التحديث أيضًا دعم الميزة الجديدة لمشاركة الشاشة في macOS Sequoia."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }

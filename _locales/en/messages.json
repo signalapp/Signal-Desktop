@@ -5941,11 +5941,11 @@
   },
   "icu:ProfileEditor__invalid-about__title": {
     "messageformat": "Invalid characters",
-    "description": "Title of the confirmation model for profile editor when about text contains invalid characters"
+    "description": "(Deleted 2024/10/10) Title of the confirmation model for profile editor when about text contains invalid characters"
   },
   "icu:ProfileEditor__invalid-about__body": {
     "messageformat": "One or more characters you’ve entered can’t be used. Try again.",
-    "description": "Body of the confirmation model for profile editor when about text contains invalid characters"
+    "description": "(Deleted 2024/10/10) Body of the confirmation model for profile editor when about text contains invalid characters"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Message an admin",
@@ -7586,11 +7586,11 @@
   },
   "icu:WhatsNew__v7.28--0": {
     "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture.",
-    "description": "Release notes for version 7.28"
+    "description": "(Deleted 2024/10/10) Release notes for version 7.28"
   },
   "icu:WhatsNew__v7.28--1": {
     "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia.",
-    "description": "Release notes for version 7.28"
+    "description": "(Deleted 2024/10/10) Release notes for version 7.28"
   },
   "icu:WhatsNew__v7.29--0": {
     "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life.",

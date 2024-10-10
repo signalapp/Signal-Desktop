@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Chamada Signal"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "Sua solicitação para participar desta chamada foi negada."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "Signal está apresentando {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "O compartilhamento de tela do Signal está ativo"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Reconectando…"
@@ -2976,7 +2979,7 @@
     "messageformat": "Você não pode entrar nesse grupo por meio do link porque um admin excluiu você."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Um administrador deste grupo precisa aprovar seu pedido antes que você possa participar. Ao solicitar a entrada, seu nome e foto serão compartilhados com os membros do grupo."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Entrar"
@@ -3556,6 +3559,27 @@
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "Cancelar transferência"
+  },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restaurando arquivos de mídia"
@@ -5199,7 +5223,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Mostrar story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ocultar story"
@@ -5470,13 +5494,22 @@
     "messageformat": "Limpar histórico de chamadas?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Esta ação excluirá permanentemente o histórico de chamadas"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Limpar"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Histórico de Chamadas Apagado"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Clique em <newCallButtonIcon></newCallButtonIcon> para iniciar uma nova chamada de voz ou de vídeo."
@@ -5674,16 +5707,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Corrigimos um erro que dificultava a busca por grupos dos quais você não faz mais parte, mas que ainda permanecem na sua lista de conversas (e possivelmente no seu coração)."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Agora você pode remover as respostas citadas das mensagens editadas. É ideal para aqueles momentos em que você percebe que sua resposta foi tão boa que não precisa estar vinculada a outra mensagem, ou para quando você, sem querer, responde à mensagem errada."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Corrigimos um erro que impedia as figurinhas de funcionarem corretamente no editor de mídia. Além disso, o seletor não trava mais ao colar uma figurinha em uma foto."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Esta atualização também inclui suporte para a nova interface de compartilhamento de tela no macOS Sequoia."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }

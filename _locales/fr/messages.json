@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Appel Signal"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "Votre demande de participation à cet appel a été refusée."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "Signal est en train de partager {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Vous partagez votre écran sur Signal"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Reconnexion…"
@@ -2013,7 +2016,7 @@
     "messageformat": "Merci pour votre soutien !"
   },
   "icu:modal--donation--description": {
-    "messageformat": "Vous avez effectué un don à Signal de la part de {name}. Il/elle aura la possibilité d’afficher son soutien sur son profil."
+    "messageformat": "Vous avez fait un don à Signal pour {name}. Cette personne aura la possibilité d'afficher son soutien sur son profil."
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Impossible d’installer le pack de stickers"
@@ -2469,7 +2472,7 @@
     "messageformat": "Les messages contenant des liens"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "Soyez vigilant lorsque des inconnus vous envoient des messages contenant des liens vers des sites Internet. Ne consultez jamais les liens envoyés par des personnes en qui vous n’avez pas confiance."
+    "messageformat": "Soyez vigilant lorsque des inconnus vous envoient des messages contenant des liens vers des sites web. Ne consultez jamais les liens envoyés par des personnes en qui vous n’avez pas confiance."
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Les fausses entreprises et institutions"
@@ -2976,7 +2979,7 @@
     "messageformat": "Impossible de rejoindre le groupe via le lien, car un admin vous a retiré."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Pour rejoindre ce groupe, un administrateur doit d'abord approuver votre demande. Vos nom et photo seront partagés avec les membres du groupe si vous demandez à le rejoindre."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Rejoindre"
@@ -3528,7 +3531,7 @@
     "messageformat": "Touchez votre photo de profil dans le coin supérieur gauche pour ouvrir les paramètres."
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "Appuyez sur \"Faire un don à Signal\" et inscrivez-vous."
+    "messageformat": "Sélectionnez \"Faire un don à Signal\" et inscrivez-vous."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synchronisation des messages"
@@ -3556,6 +3559,27 @@
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "Annuler le transfert"
+  },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restauration des médias en cours"
@@ -5199,7 +5223,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Afficher la story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Masquer la story"
@@ -5470,13 +5494,22 @@
     "messageformat": "Supprimer l’historique des appels ?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Cela supprimera définitivement l’historique des appels."
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Réinitialiser"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Historique des appels supprimé"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Cliquez sur <newCallButtonIcon></newCallButtonIcon> pour passer un appel vocal ou vidéo."
@@ -5506,7 +5539,7 @@
     "messageformat": "Aucun résultat ne correspond à votre recherche : \"{query}\""
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Générer un lien d’appel"
+    "messageformat": "Créer un lien d'appel"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Entrant"
@@ -5674,16 +5707,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Vous avez quitté un groupe, mais vous le regrettez ? Vos amis vous manquent et vous ne retrouvez pas ce groupe pour le réintégrer ? Réjouissez-vous : nous avons corrigé ce bug. L'expression \"se séparer pour mieux se retrouver\" prend enfin tout son sens."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Lorsque vous avez répondu à un message, vous pouvez maintenant modifier votre réponse pour en supprimer le message d'origine. Pratique les jours où votre réponse mérite son heure de gloire – ou quand vous répondez \"Je t'aime aussi <3\" après avoir cliqué sur le mauvais message."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Fini le bug de l'éditeur de médias ! Vous avez peut-être remarqué que le sélecteur se bloquait lorsque vous tentiez d'ajouter un sticker. Tout ça, c'est du passé. Désormais, les stickers ne vous feront plus tiquer !"
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Cette version de Signal prend également en charge la nouvelle interface de partage d'écran sur macOS Sequoia."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }

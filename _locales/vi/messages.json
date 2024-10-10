@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Cuộc gọi Signal"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "Yêu cầu tham gia cuộc gọi này của bạn đã bị từ chối."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "Signal đang chia sẻ {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Tính năng chia sẻ màn hình của Signal đang hoạt động"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Đang kết nối lại…"
@@ -2976,7 +2979,7 @@
     "messageformat": "Bạn không thể tham gia nhóm này qua đường dẫn nhóm vì một quản trị viên đã xóa bạn khỏi nhóm."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Cần một quản trị viên chấp nhận yêu cầu trước khi bạn tham gia nhóm này. Khi bạn yêu cầu tham gia, tên và ảnh đại diện của bạn sẽ được công khai với các thành viên nhóm."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Tham gia"
@@ -3556,6 +3559,27 @@
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "Hủy chuyển"
+  },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Đang khôi phục tập tin đa phương tiện"
@@ -5199,7 +5223,7 @@
     "messageformat": "Story"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Bỏ ẩn story"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ẩn story"
@@ -5470,13 +5494,22 @@
     "messageformat": "Xóa lịch sử cuộc gọi?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Thao tác này sẽ xóa vĩnh viễn tất cả lịch sử cuộc gọi"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Xoá"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Đã xóa lịch xử cuộc gọi"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Bấm <newCallButtonIcon></newCallButtonIcon> để bắt đầu một cuộc gọi thoại hoặc cuộc gọi video mới."
@@ -5674,16 +5707,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Bản cập nhật này sửa lỗi khó tìm lại nhóm sau khi rời nhóm đó."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Giờ đây bạn có thể xóa các câu trả lời được trích dẫn từ những tin nhắn đã chỉnh sửa."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Chúng tôi đã sửa lỗi liên quan đến nhãn dán trong công cụ chỉnh sửa tập tin đa phương tiện, nay công cụ chọn không còn bị đứng khi bạn thao tác chọn nhãn dán trên một hình ảnh."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Bản cập nhật này cũng bổ sung hỗ trợ cho giao diện chia sẻ màn hình mới của macOS Sequoia."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }

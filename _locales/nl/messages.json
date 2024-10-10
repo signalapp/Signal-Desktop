@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Signal-oproep"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "Je verzoek om deel te nemen aan deze oproep is afgewezen."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "Signal deelt je scherm: {window}"
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Je deelt je scherm op Signal"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Opnieuw aan het verbinden…"
@@ -2088,10 +2091,10 @@
     "messageformat": "Geen stickerpakketten gevonden"
   },
   "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Recent gebruikte stickers verschijnen hier."
+    "messageformat": "Onlangs gebruikte stickers verschijnen hier."
   },
   "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Recentelijk gebruikt"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:stickers__StickerPicker__featured": {
     "messageformat": "Uitgelicht"
@@ -2118,7 +2121,7 @@
     "messageformat": "Huidskleur {tone}"
   },
   "icu:EmojiPicker__button--recents": {
-    "messageformat": "Recentelijk gebruikt"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:EmojiPicker__button--emoji": {
     "messageformat": "Emoji"
@@ -2976,7 +2979,7 @@
     "messageformat": "Je kunt niet via de groepslink lid worden van deze groep omdat je door een beheerder uit deze groep bent verwijderd."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Een beheerder van deze groep moet eerst je verzoek om lid te worden goedkeuren voordat je lid kunt worden van deze groep. Wanneer je verzoekt om lid te worden zullen je profielnaam, -foto en -omschrijving direct zichtbaar zijn voor de groepsleden."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Lid worden"
@@ -3557,11 +3560,32 @@
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "Overzetten annuleren"
   },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
+  },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Media aan het herstellen"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Terugzetten gepauzeerd"
+    "messageformat": "Herstellen gepauzeerd"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Overzetten pauzeren"
@@ -3576,7 +3600,7 @@
     "messageformat": "Meer opties"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "Gegevens herstellen is voltooid"
+    "messageformat": "Herstellen is voltooid"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{currentSize} van {totalSize}"
@@ -4143,7 +4167,7 @@
     "messageformat": "Standaardkleur resetten"
   },
   "icu:ChatColorPicker__confirm-reset": {
-    "messageformat": "Standaardinstelling herstellen"
+    "messageformat": "Alle chatkleuren resetten"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
     "messageformat": "Wil je de chatkleuren van al je chats resetten?"
@@ -5142,7 +5166,7 @@
     "messageformat": "Versturen…"
   },
   "icu:StoryViewer__failed": {
-    "messageformat": "Verzenden is mislukt. Klik om opnieuw te proberen "
+    "messageformat": "Verzenden is mislukt. Klik om opnieuw te proberen"
   },
   "icu:StoryViewer__partial-fail": {
     "messageformat": "Gedeeltelijk verzonden. Klik om opnieuw te proberen"
@@ -5199,7 +5223,7 @@
     "messageformat": "Verhaal"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Verhaal niet verbergen"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Verhaal verbergen"
@@ -5470,13 +5494,22 @@
     "messageformat": "Oproepgeschiedenis wissen?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Hiermee wordt de oproepgeschiedenis voorgoed gewist"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Wissen"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Oproepgeschiedenis gewist"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Klik op <newCallButtonIcon></newCallButtonIcon> om een nieuwe spraak- of video-oproep te starten."
@@ -5674,16 +5707,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "Soms weet je pas wat je mist als het er niet meer is, dus hebben we een bug opgelost die het moeilijk maakte groepen terug te vinden waar je geen lid meer van was, maar die nog wel in je gesprekkenlijst stonden."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Je kunt nu geciteerde antwoorden uit bewerkte berichten verwijderen. Perfect voor die momenten waarop je je realiseert dat je antwoord niets extra's nodig heeft, of wanneer je per ongeluk het verkeerde bericht beantwoordt met “Ik hou ook van jou”."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "We hebben een fout opgelost die ervoor zorgde dat stickers niet correct werkten in de media-editor. De kiezer loopt nu niet meer vast wanneer je een sticker op een foto wilt plakken."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Deze update bevat ook ondersteuning voor de nieuwe interface voor schermdeling in macOS Sequoia."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }
