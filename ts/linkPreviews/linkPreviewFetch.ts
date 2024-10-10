@@ -600,6 +600,12 @@ export async function fetchLinkPreviewImage(
     return null;
   }
 
+  // Second check for image size in case there is no Content-Length header
+  if (data.length > MAX_IMAGE_CONTENT_LENGTH) {
+    logger.warn('fetchLinkPreviewImage: Image size is too large; bailing');
+    return null;
+  }
+
   if (abortSignal.aborted) {
     return null;
   }
