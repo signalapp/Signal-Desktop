@@ -930,7 +930,7 @@ export class ConversationModel extends window.Backbone
     const wasBlocked = this.isBlocked();
 
     const serviceId = this.getServiceId();
-    if (serviceId) {
+    if (serviceId && isAciString(serviceId)) {
       drop(window.storage.blocked.addBlockedServiceId(serviceId));
       blocked = true;
     }
@@ -962,7 +962,7 @@ export class ConversationModel extends window.Backbone
     const wasBlocked = this.isBlocked();
 
     const serviceId = this.getServiceId();
-    if (serviceId) {
+    if (serviceId && isAciString(serviceId)) {
       drop(window.storage.blocked.removeBlockedServiceId(serviceId));
       unblocked = true;
     }
@@ -2344,6 +2344,10 @@ export class ConversationModel extends window.Backbone
       ourAci: window.textsecure.storage.user.getCheckedAci(),
       forceSave: true,
     });
+    if (!this.get('active_at')) {
+      this.set({ active_at: Date.now() });
+      await DataWriter.updateConversation(this.attributes);
+    }
     window.MessageCache.toMessageAttributes(message);
     this.trigger('newmessage', message);
     drop(this.updateLastMessage());
