@@ -567,6 +567,14 @@ export async function fetchLinkPreviewImage(
     return null;
   }
 
+  const { type: contentType } = parseContentType(
+    response.headers.get('Content-Type')
+  );
+  if (!contentType || !VALID_IMAGE_MIME_TYPES.has(contentType)) {
+    logger.warn('fetchLinkPreviewImage: Content-Type is not an image; bailing');
+    return null;
+  }
+
   const contentLength = parseContentLength(
     response.headers.get('Content-Length')
   );
@@ -578,14 +586,6 @@ export async function fetchLinkPreviewImage(
     logger.warn(
       'fetchLinkPreviewImage: Content-Length is too large or is unset; bailing'
     );
-    return null;
-  }
-
-  const { type: contentType } = parseContentType(
-    response.headers.get('Content-Type')
-  );
-  if (!contentType || !VALID_IMAGE_MIME_TYPES.has(contentType)) {
-    logger.warn('fetchLinkPreviewImage: Content-Type is not an image; bailing');
     return null;
   }
 
