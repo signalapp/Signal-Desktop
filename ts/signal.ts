@@ -115,6 +115,7 @@ type MigrationsModuleType = {
   saveAttachmentToDisk: (options: {
     data: Uint8Array;
     name: string;
+    baseDir?: string;
   }) => Promise<null | { fullPath: string; name: string }>;
   processNewAttachment: (attachment: AttachmentType) => Promise<AttachmentType>;
   processNewSticker: (stickerData: Uint8Array) => Promise<
@@ -406,9 +407,11 @@ type AttachmentsModuleType = {
   saveAttachmentToDisk: ({
     data,
     name,
+    dirName,
   }: {
     data: Uint8Array;
     name: string;
+    dirName?: string;
   }) => Promise<null | { fullPath: string; name: string }>;
 
   ensureAttachmentIsReencryptable: (

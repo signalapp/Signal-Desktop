@@ -126,10 +126,12 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     retryDeleteForEveryone,
     retryMessageSend,
     saveAttachment,
+    saveAttachments,
     targetMessage,
     toggleSelectMessage,
     setMessageToEdit,
     showConversation,
+    showAttachmentDownloadStillInProgressToast,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
     showSpoiler,
@@ -218,12 +220,16 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       retryMessageSend={retryMessageSend}
       returnToActiveCall={returnToActiveCall}
       saveAttachment={saveAttachment}
+      saveAttachments={saveAttachments}
       scrollToQuotedMessage={scrollToQuotedMessage}
       targetMessage={targetMessage}
       setQuoteByMessageId={setQuoteByMessageId}
       setMessageToEdit={setMessageToEdit}
       showContactModal={showContactModal}
       showConversation={showConversation}
+      showAttachmentDownloadStillInProgressToast={
+        showAttachmentDownloadStillInProgressToast
+      }
       showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
       showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
       showLightbox={showLightbox}

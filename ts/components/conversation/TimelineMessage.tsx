@@ -121,6 +121,8 @@ export function TimelineMessage(props: Props): JSX.Element {
     retryDeleteForEveryone,
     retryMessageSend,
     saveAttachment,
+    saveAttachments,
+    showAttachmentDownloadStillInProgressToast,
     selectedReaction,
     setQuoteByMessageId,
     setMessageToEdit,
@@ -212,22 +214,42 @@ export function TimelineMessage(props: Props): JSX.Element {
         event.stopPropagation();
       }
 
-      if (!attachments || attachments.length !== 1) {
+      if (!attachments || attachments.length === 0) {
         return;
       }
 
-      const attachment = attachments[0];
-      if (!isDownloaded(attachment)) {
-        kickOffAttachmentDownload({
-          attachment,
-          messageId: id,
-        });
-        return;
+      let attachmentsInProgress = 0;
+      // check if any attachment needs to be downloaded from servers
+      for (const attachment of attachments) {
+        if (!isDownloaded(attachment)) {
+          kickOffAttachmentDownload({
+            attachment,
+            messageId: id,
+          });
+
+          attachmentsInProgress += 1;
+        }
       }
 
-      saveAttachment(attachment, timestamp);
+      if (attachmentsInProgress !== 0) {
+        showAttachmentDownloadStillInProgressToast(attachmentsInProgress);
+      }
+
+      if (attachments.length !== 1) {
+        saveAttachments(attachments, timestamp);
+      } else {
+        saveAttachment(attachments[0], timestamp);
+      }
     },
-    [kickOffAttachmentDownload, saveAttachment, attachments, id, timestamp]
+    [
+      kickOffAttachmentDownload,
+      saveAttachments,
+      saveAttachment,
+      showAttachmentDownloadStillInProgressToast,
+      attachments,
+      id,
+      timestamp,
+    ]
   );
 
   const handleContextMenu = useHandleMessageContextMenu(menuTriggerRef);
@@ -237,16 +259,13 @@ export function TimelineMessage(props: Props): JSX.Element {
   const shouldShowAdditional =
     doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;
 
-  const multipleAttachments = attachments && attachments.length > 1;
-  const firstAttachment = attachments && attachments[0];
+  const hasPendingAttachments =
+    attachments?.length && attachments.some(attachment => attachment.pending);
 
+  // If any of the conditions is not given -> undefined is returned
+  // --> download menu icon is not rendered
   const handleDownload =
-    canDownload &&
-    !isSticker &&
-    !multipleAttachments &&
-    !isTapToView &&
-    firstAttachment &&
-    !firstAttachment.pending
+    canDownload && !isSticker && !isTapToView && !hasPendingAttachments
       ? openGenericAttachment
       : undefined;
 
