@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Signal కాల్"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "ఈ కాల్‌లో చేరాలనే మీ అభ్యర్థన తిరస్కరించబడింది."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "సిగ్నల్ {window} ను భాగస్వామ్యం చేస్తోంది."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal స్క్రీన్ పంచుకోవడం సక్రియంగా ఉంది"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "తిరిగి కనెక్ట్ చేస్తోంది..."
@@ -2976,7 +2979,7 @@
     "messageformat": "అడ్మిన్ మిమ్మల్ని తొలగించడం వల్ల గ్రూప్ లింక్ ద్వారా ఈ గ్రూపులో మీరు చేరలేరు."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "మీరు ఈ గుంపులో చేరడానికి ముందు ఈ గుంపు యొక్క నిర్వాహకుడు మీ అభ్యర్థనను ఆమోదించాలి. మీరు చేరమని అభ్యర్థించినప్పుడు, మీ పేరు మరియు ఫోటో దాని సభ్యులతో భాగస్వామ్యం చేయబడుతుంది."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "చేరండి"
@@ -3556,6 +3559,27 @@
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "బదిలీని రద్దు చేయండి"
+  },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "మీడియాను పునరుద్ధరిస్తోంది"
@@ -5199,7 +5223,7 @@
     "messageformat": "కథ"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "స్టోరీను దాచిపెట్టకుండా ఉండండి"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "కథను దాయండి"
@@ -5470,13 +5494,22 @@
     "messageformat": "కాల్ చరిత్రను తొలగించేదా?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "ఇది కాల్ చరిత్రను శాశ్వతంగా తొలగిస్తుంది"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "స్పష్టమైన"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "కాల్ చరిత్ర తొలగించబడింది"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "కొత్త స్వర లేదా వీడియో కాల్ ప్రారంభించడానికి <newCallButtonIcon></newCallButtonIcon> క్లిక్ చేయండి."
@@ -5674,16 +5707,13 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "ఈ అప్‌డేట్ ఒక గ్రూప్‌ను విడిచిపెట్టిన తర్వాత ఆ గ్రూప్‌ను శోధించడం కష్టతరం చేసిన బగ్‌ను పరిష్కరిస్తుంది."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "ఇప్పుడు మీరు సవరించిన సందేశాల నుండి కోట్ చేసిన ప్రత్యుత్తరాలను తొలగించవచ్చు. మీ ప్రతిస్పందన మరొక సందేశంపై ఆధారపడాల్సిన అవసరం లేకుండా చాలా బాగుందని మీరు గ్రహించినప్పుడు లేదా మీరు అనుకోకుండా \"నేను కూడా నిన్ను ప్రేమిస్తున్నాను\" అని తప్పు సందేశానికి ప్రత్యుత్తరం ఇచ్చిన ఆ క్షణాలకు ఇది సరైనది."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "మీడియా ఎడిటర్‌లో స్టిక్కర్‌లు సరిగ్గా పని చేయకుండా నిరోధించే బగ్‌ను మేము పరిష్కరించాము."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "ఈ అప్‌డేట్‌లో macOS Sequoia లో కొత్త స్క్రీన్ పంచుకునే ఇంటర్‌ఫేస్‌కు మద్దతు కూడా ఉంది."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }

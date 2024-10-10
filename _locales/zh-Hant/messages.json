@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Signal 語音通話"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "你加入通話的請求已被拒絕。"
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "Signal 正在分享 {window}。"
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal 畫面分享已啟用"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "重新撥打…"
@@ -2976,7 +2979,7 @@
     "messageformat": "你無法透過群組連結加入此群組，因為管理員將你刪除了。"
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "該群組的管理員必須批准你的請求，然後才能加入該群組。 當你要求加入時，你的姓名和照片將與其成員分享。"
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "加入"
@@ -3556,6 +3559,27 @@
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "取消轉移"
+  },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "正在還原媒體"
@@ -5199,7 +5223,7 @@
     "messageformat": "報導"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "取消隱藏限時動態"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "隱藏報導"
@@ -5470,13 +5494,22 @@
     "messageformat": "要清除通話紀錄嗎？"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "這將永久刪除所有通話記錄"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "清除"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "成功刪除通話紀錄"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "點擊 <newCallButtonIcon></newCallButtonIcon> 以開始新的語音或視訊通話。"
@@ -5674,16 +5707,13 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "此更新修復了一個錯誤，該錯誤會導致在離開某個群組後難以搜尋到該群組。"
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "現在，你可以從編輯的訊息中移除引用回覆。這適用於當你很滿意自己的回覆而其實不需要引用訊息，或是當你不小心回錯訊息時。"
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "我們修正了一個導致貼圖在媒體編輯器中無法正常運作的錯誤。"
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "此更新還包括對 macOS Sequoia 中新畫面分享界面的支援。"
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }

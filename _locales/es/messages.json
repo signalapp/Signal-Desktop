@@ -531,7 +531,7 @@
     "messageformat": "No hay ningún archivo multimedia en este chat"
   },
   "icu:allMedia": {
-    "messageformat": "Todos los archivos multimedia"
+    "messageformat": "Todos los archivos"
   },
   "icu:documents": {
     "messageformat": "Documentos"
@@ -945,7 +945,7 @@
     "messageformat": "Notas"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "Todos los archivos multimedia"
+    "messageformat": "Archivos multimedia"
   },
   "icu:back": {
     "messageformat": "Atrás"
@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Llamada de Signal"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "Se ha rechazado tu solicitud para unirte a la llamada."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "Signal está compartiendo {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Estás compartiendo tu pantalla en Signal"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Volviendo a conectar…"
@@ -2517,7 +2520,7 @@
     "messageformat": "Podrás chatear y hablar por teléfono con esta persona."
   },
   "icu:MessageRequests--unblock-group-confirm-body": {
-    "messageformat": "Los participantes de este grupo podrán añadirte de nuevo al grupo."
+    "messageformat": "Los participantes del grupo podrán añadirte de nuevo."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Denunciado como spam y bloqueado."
@@ -2976,7 +2979,7 @@
     "messageformat": "No puedes volver a unirte a este grupo mediante enlace porque un admin te ha eliminado."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "Alguien que sea admin de este grupo debe aprobar tu solicitud antes de poder unirte. Al solicitar unirte al grupo, tu nombre y foto se compartirán con sus participantes."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Unirse"
@@ -3557,6 +3560,27 @@
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "Cancelar transferencia"
   },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
+  },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restaurando archivos multimedia"
   },
@@ -4134,7 +4158,7 @@
     "messageformat": "Restablecer color del chat"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Restablecer colores del chat"
+    "messageformat": "Restablecer colores de los chats"
   },
   "icu:ChatColorPicker__resetAll": {
     "messageformat": "Restablecer todos"
@@ -4146,7 +4170,7 @@
     "messageformat": "Restablecer"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "¿Quieres cambiar los colores de todos tus chats?"
+    "messageformat": "¿Quieres reemplazar los colores de todos tus chats?"
   },
   "icu:ChatColorPicker__custom-color--label": {
     "messageformat": "Mostrar el editor de colores"
@@ -5199,7 +5223,7 @@
     "messageformat": "Historia"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "Mostrar historia"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "Ocultar historia"
@@ -5340,7 +5364,7 @@
     "messageformat": "Si cambias tu alias, se restablecerán tu código QR y tu enlace actuales. ¿Quieres cambiarlo de todos modos?"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
-    "messageformat": "Adelante"
+    "messageformat": "Continuar"
   },
   "icu:EditUsernameModalBody__recover-confirmation": {
     "messageformat": "Si recuperas tu alias, se restablecerán tu código QR y tu enlace. ¿Quieres hacerlo de todos modos?"
@@ -5470,13 +5494,22 @@
     "messageformat": "¿Eliminar historial de llamadas?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Se eliminará de forma permanente todo tu historial de llamadas"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Eliminar"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "Se borró el historial de llamadas"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Haz clic en <newCallButtonIcon></newCallButtonIcon> para iniciar una nueva llamada o videollamada."
@@ -5674,16 +5707,13 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "A veces, para valorar lo que tienes, primero debes dejarlo marchar… y luego salir a buscarlo de nuevo. Por eso hemos corregido un error que dificultaba encontrar aquellos grupos de los que ya no formas parte, pero que siguen estando en tu lista de chats (y, posiblemente, en tu corazón)."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "Ahora puedes eliminar las respuestas citadas de los mensajes editados. Es ideal para esas ocasiones en las que te das cuenta de que tu respuesta era tan buena que funciona por sí sola, o para evitar la incomodidad de haber respondido \"Yo también te quiero\" al mensaje equivocado."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "Hemos corregido un error que hacía que se bloqueara el selector de stickers en el editor de contenido. ¡Adiós al error! Ya no te pegarás un disgusto cuando intentes pegar un sticker en una foto."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "Eso no es todo… Esta actualización también es compatible con la nueva interfaz para compartir pantalla en macOS Sequoia."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }

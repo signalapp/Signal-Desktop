@@ -1229,6 +1229,9 @@
   "icu:calling__call-link-default-title": {
     "messageformat": "Signal કૉલ"
   },
+  "icu:calling__call-link-delete-failed": {
+    "messageformat": "Can't delete link. Check your connection and try again."
+  },
   "icu:calling__join-request-denied": {
     "messageformat": "આ કૉલમાં જોડાવાની તમારી વિનંતીને નકારવામાં આવી છે."
   },
@@ -1440,7 +1443,7 @@
     "messageformat": "Signal {window} શેર કરી રહ્યું છે."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Signal screen sharing is active"
+    "messageformat": "Signal સ્ક્રીન શેરિંગ એક્ટિવ છે"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "ફરીથી કનેક્ટ થઈ રહ્યું છે..."
@@ -2976,7 +2979,7 @@
     "messageformat": "તમે ગ્રુપ લિંક દ્વારા આ ગ્રુપમાં જોડાઈ શકતા નથી કારણ કે એક એડમિને તમને દૂર કર્યા."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "An admin of this group must approve your request before you can join this group. When you request to join, your name and photo will be shared with its members."
+    "messageformat": "તમે આ ગ્રૂપમાં જોડાઈ શકો તે પહેલાં આ ગ્રૂપના એડમિને તમારી વિનંતી મંજૂર કરવી જોઈએ. જ્યારે તમે જોડાવાની વિતંતી કરો છો, ત્યારે તમારું નામ અને ફોટો તેના સભ્યો સાથે શેર કરવામાં આવશે."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "જોડાઓ"
@@ -3556,6 +3559,27 @@
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
     "messageformat": "ટ્રાન્સફર રદ કરો"
+  },
+  "icu:BackupImportScreen__error__title": {
+    "messageformat": "Error transferring your messages"
+  },
+  "icu:BackupImportScreen__error__body": {
+    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+  },
+  "icu:BackupImportScreen__error__confirm": {
+    "messageformat": "Retry"
+  },
+  "icu:BackupImportScreen__skip": {
+    "messageformat": "Skip"
+  },
+  "icu:BackupImportScreen__skip-confirmation__title": {
+    "messageformat": "Skip message transfer?"
+  },
+  "icu:BackupImportScreen__skip-confirmation__body": {
+    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+  },
+  "icu:BackupImportScreen__skip-confirmation__cancel": {
+    "messageformat": "Cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "મીડિયા રિસ્ટોર થાય છે"
@@ -5199,7 +5223,7 @@
     "messageformat": "સ્ટોરી"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "Unhide story"
+    "messageformat": "સ્ટોરી બતાવો"
   },
   "icu:StoryListItem__hide": {
     "messageformat": "સ્ટોરી છુપાવો"
@@ -5470,13 +5494,22 @@
     "messageformat": "કૉલ હિસ્ટ્રી દૂર કરવી છે?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "આ બધી કૉલ હિસ્ટ્રી કાયમ માટે ડિલીટ કરશે"
+    "messageformat": "This will permanently delete all call history."
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
+    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "દૂર કરવું"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
     "messageformat": "કૉલ હિસ્ટ્રી સાફ કરી"
+  },
+  "icu:CallsTab__ClearCallHistoryError--call-links": {
+    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+  },
+  "icu:CallsTab__ClearCallHistoryError": {
+    "messageformat": "Not all call history could be cleared. Check your connection and try again."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "નવો વૉઇસ અથવા વીડિયો કૉલ શરૂ કરવા માટે <newCallButtonIcon></newCallButtonIcon> ક્લિક કરો."
@@ -5674,16 +5707,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.26--0": {
-    "messageformat": "આ અપડેટમાં એ બગને ઠીક કરવામાં આવ્યો છે જે કોઈ ગ્રૂપને છોડ્યા પછી તેને શોધવાનું મુશ્કેલ બનાવતો હતો."
-  },
-  "icu:WhatsNew__v7.27--0": {
-    "messageformat": "હવે તમે એડિટ કરેલા મેસેજમાંથી ક્વોટ કરેલા જવાબો દૂર કરી શકો છો."
-  },
   "icu:WhatsNew__v7.28--0": {
-    "messageformat": "We fixed a bug that prevented stickers from working correctly in the media editor, and now the picker no longer gets stuck when you're trying to stick a sticker on a picture."
+    "messageformat": "અમે બગને ઠીક કર્યો છે જે મીડિયા એડિટરમાં સ્ટીકરોને યોગ્ય રીતે કામ કરતા અટકાવતો હતો."
   },
   "icu:WhatsNew__v7.28--1": {
-    "messageformat": "This update also includes support for the new screen sharing interface in macOS Sequoia."
+    "messageformat": "આ અપડેટમાં macOS Sequoiaમાં નવા સ્ક્રીન શેરિંગ ઇન્ટરફેસ માટે સપોર્ટ પણ સામેલ છે."
+  },
+  "icu:WhatsNew__v7.29--0": {
+    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
   }
 }
