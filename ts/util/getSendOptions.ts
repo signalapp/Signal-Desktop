@@ -3,6 +3,7 @@
 
 import type { ConversationAttributesType } from '../model-types.d';
 import type {
+  SendIdentifierData,
   SendMetadataType,
   SendOptionsType,
 } from '../textsecure/SendMessage';
@@ -15,6 +16,7 @@ import { shouldSharePhoneNumberWith } from './phoneNumberSharingMode';
 import type { SerializedCertificateType } from '../textsecure/OutgoingMessage';
 import { SenderCertificateMode } from '../textsecure/OutgoingMessage';
 import { isNotNil } from './isNotNil';
+import { maybeCreateGroupSendEndorsementState } from './groupSendEndorsements';
 
 const SEALED_SENDER = {
   UNKNOWN: 0,
@@ -61,9 +63,10 @@ export async function getSendOptionsForRecipients(
 
 export async function getSendOptions(
   conversationAttrs: ConversationAttributesType,
-  options: { syncMessage?: boolean; story?: boolean } = {}
+  options: { syncMessage?: boolean; story?: boolean; groupId?: string } = {},
+  alreadyRefreshedGroupState = false
 ): Promise<SendOptionsType> {
-  const { syncMessage, story } = options;
+  const { syncMessage, story, groupId } = options;
 
   if (!isDirectConversation(conversationAttrs)) {
     const contactCollection = getConversationMembers(conversationAttrs);
@@ -84,8 +87,6 @@ export async function getSendOptions(
     return { sendMetadata };
   }
 
-  const { accessKey, sealedSender } = conversationAttrs;
-
   // We never send sync messages or to our own account as sealed sender
   if (syncMessage || isMe(conversationAttrs)) {
     return {
@@ -93,54 +94,77 @@ export async function getSendOptions(
     };
   }
 
+  const { accessKey, sealedSender } = conversationAttrs;
   const { e164, serviceId } = conversationAttrs;
 
   const senderCertificate =
     await getSenderCertificateForDirectConversation(conversationAttrs);
 
+  let identifierData: SendIdentifierData | null = null;
   // If we've never fetched user's profile, we default to what we have
   if (sealedSender === SEALED_SENDER.UNKNOWN || story) {
-    const identifierData = {
+    identifierData = {
       accessKey:
         accessKey ||
         (story
           ? Bytes.toBase64(getZeroes(16))
           : Bytes.toBase64(getRandomBytes(16))),
       senderCertificate,
-    };
-    return {
-      sendMetadata: {
-        ...(e164 ? { [e164]: identifierData } : {}),
-        ...(serviceId ? { [serviceId]: identifierData } : {}),
-      },
+      groupSendToken: null,
     };
   }
 
   if (sealedSender === SEALED_SENDER.DISABLED) {
-    return {
-      sendMetadata: undefined,
+    if (serviceId != null && groupId != null) {
+      const { state: groupSendEndorsementState, didRefreshGroupState } =
+        await maybeCreateGroupSendEndorsementState(
+          groupId,
+          alreadyRefreshedGroupState
+        );
+
+      if (
+        groupSendEndorsementState != null &&
+        groupSendEndorsementState.hasMember(serviceId)
+      ) {
+        const token = groupSendEndorsementState.buildToken(
+          new Set([serviceId])
+        );
+        if (token != null) {
+          identifierData = {
+            accessKey: null,
+            senderCertificate,
+            groupSendToken: token,
+          };
+        }
+      } else if (didRefreshGroupState && !alreadyRefreshedGroupState) {
+        return getSendOptions(conversationAttrs, options, true);
+      }
+    }
+  } else {
+    identifierData = {
+      accessKey:
+        accessKey && sealedSender === SEALED_SENDER.ENABLED
+          ? accessKey
+          : Bytes.toBase64(getRandomBytes(16)),
+      senderCertificate,
+      groupSendToken: null,
     };
   }
 
-  const identifierData = {
-    accessKey:
-      accessKey && sealedSender === SEALED_SENDER.ENABLED
-        ? accessKey
-        : Bytes.toBase64(getRandomBytes(16)),
-    senderCertificate,
-  };
-
-  return {
-    sendMetadata: {
+  let sendMetadata: SendMetadataType = {};
+  if (identifierData != null) {
+    sendMetadata = {
       ...(e164 ? { [e164]: identifierData } : {}),
       ...(serviceId ? { [serviceId]: identifierData } : {}),
-    },
-  };
+    };
+  }
+
+  return { sendMetadata };
 }
 
-function getSenderCertificateForDirectConversation(
+async function getSenderCertificateForDirectConversation(
   conversationAttrs: ConversationAttributesType
-): Promise<undefined | SerializedCertificateType> {
+): Promise<SerializedCertificateType | null> {
   if (!isDirectConversation(conversationAttrs)) {
     throw new Error(
       'getSenderCertificateForDirectConversation should only be called for direct conversations'
@@ -154,5 +178,5 @@ function getSenderCertificateForDirectConversation(
     certificateMode = SenderCertificateMode.WithoutE164;
   }
 
-  return senderCertificateService.get(certificateMode);
+  return (await senderCertificateService.get(certificateMode)) ?? null;
 }

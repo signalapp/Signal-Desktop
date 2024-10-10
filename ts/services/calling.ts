@@ -2676,6 +2676,7 @@ export class CallingClass {
         urgent,
         isPartialSend,
         recipients,
+        groupId,
       });
 
       log.info('handleSendCallMessageToGroup() completed successfully');

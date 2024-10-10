@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assertDev } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import * as log from '../logging/log';
 
 import type { StorageInterface } from '../types/Storage.d';
@@ -40,11 +40,16 @@ export class OurProfileKeyService {
   }
 
   async set(newValue: undefined | Uint8Array): Promise<void> {
-    log.info('Our profile key service: updating profile key');
     assertDev(this.storage, 'OurProfileKeyService was not initialized');
-    if (newValue) {
+    if (newValue != null) {
+      strictAssert(
+        newValue.byteLength > 0,
+        'Our profile key service: Profile key cannot be empty'
+      );
+      log.info('Our profile key service: updating profile key');
       await this.storage.put('profileKey', newValue);
     } else {
+      log.info('Our profile key service: removing profile key');
       await this.storage.remove('profileKey');
     }
   }

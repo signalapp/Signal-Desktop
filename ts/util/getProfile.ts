@@ -5,10 +5,15 @@ import * as log from '../logging/log';
 import { profileService } from '../services/profiles';
 import type { ServiceIdString } from '../types/ServiceId';
 
-export async function getProfile(
-  serviceId?: ServiceIdString,
-  e164?: string
-): Promise<void> {
+export async function getProfile({
+  serviceId,
+  e164,
+  groupId,
+}: {
+  serviceId: ServiceIdString | null;
+  e164: string | null;
+  groupId: string | null;
+}): Promise<void> {
   const c = window.ConversationController.lookupOrCreate({
     serviceId,
     e164,
@@ -19,5 +24,5 @@ export async function getProfile(
     return;
   }
 
-  return profileService.get(c.id);
+  return profileService.get(c.id, groupId);
 }

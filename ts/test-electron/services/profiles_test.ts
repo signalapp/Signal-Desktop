@@ -47,10 +47,10 @@ describe('util/profiles', () => {
       };
       const service = new ProfileService(getProfileWithLongDelay);
 
-      const promise1 = service.get(SERVICE_ID_1);
-      const promise2 = service.get(SERVICE_ID_2);
-      const promise3 = service.get(SERVICE_ID_3);
-      const promise4 = service.get(SERVICE_ID_4);
+      const promise1 = service.get(SERVICE_ID_1, null);
+      const promise2 = service.get(SERVICE_ID_2, null);
+      const promise3 = service.get(SERVICE_ID_3, null);
+      const promise4 = service.get(SERVICE_ID_4, null);
 
       service.clearAll('testing');
 
@@ -71,12 +71,12 @@ describe('util/profiles', () => {
       const service = new ProfileService(getProfileWithIncrement);
 
       // Queued and immediately started due to concurrency = 3
-      drop(service.get(SERVICE_ID_1));
-      drop(service.get(SERVICE_ID_2));
-      drop(service.get(SERVICE_ID_3));
+      drop(service.get(SERVICE_ID_1, null));
+      drop(service.get(SERVICE_ID_2, null));
+      drop(service.get(SERVICE_ID_3, null));
 
       // Queued but only run after paused queue restarts
-      const lastPromise = service.get(SERVICE_ID_4);
+      const lastPromise = service.get(SERVICE_ID_4, null);
 
       const pausePromise = service.pause(5);
 
@@ -101,10 +101,10 @@ describe('util/profiles', () => {
       const pausePromise = service.pause(5);
 
       // None of these are even queued
-      const promise1 = service.get(SERVICE_ID_1);
-      const promise2 = service.get(SERVICE_ID_2);
-      const promise3 = service.get(SERVICE_ID_3);
-      const promise4 = service.get(SERVICE_ID_4);
+      const promise1 = service.get(SERVICE_ID_1, null);
+      const promise2 = service.get(SERVICE_ID_2, null);
+      const promise3 = service.get(SERVICE_ID_3, null);
+      const promise4 = service.get(SERVICE_ID_4, null);
 
       await assert.isRejected(promise1, 'paused queue');
       await assert.isRejected(promise2, 'paused queue');
@@ -132,19 +132,19 @@ describe('util/profiles', () => {
         const service = new ProfileService(getProfileWhichThrows);
 
         // Queued and immediately started due to concurrency = 3
-        const promise1 = service.get(SERVICE_ID_1);
-        const promise2 = service.get(SERVICE_ID_2);
-        const promise3 = service.get(SERVICE_ID_3);
+        const promise1 = service.get(SERVICE_ID_1, null);
+        const promise2 = service.get(SERVICE_ID_2, null);
+        const promise3 = service.get(SERVICE_ID_3, null);
 
         // Never started, but queued
-        const promise4 = service.get(SERVICE_ID_4);
+        const promise4 = service.get(SERVICE_ID_4, null);
 
         assert.strictEqual(runCount, 3, 'before await');
 
         await assert.isRejected(promise1, `fake ${code}`);
 
         // Never queued
-        const promise5 = service.get(SERVICE_ID_5);
+        const promise5 = service.get(SERVICE_ID_5, null);
 
         await assert.isRejected(promise2, 'job cancelled');
         await assert.isRejected(promise3, 'job cancelled');
@@ -168,19 +168,19 @@ describe('util/profiles', () => {
       const service = new ProfileService(getProfileWhichThrows);
 
       // Queued and immediately started due to concurrency = 3
-      const promise1 = service.get(SERVICE_ID_1);
-      const promise2 = service.get(SERVICE_ID_2);
-      const promise3 = service.get(SERVICE_ID_3);
+      const promise1 = service.get(SERVICE_ID_1, null);
+      const promise2 = service.get(SERVICE_ID_2, null);
+      const promise3 = service.get(SERVICE_ID_3, null);
 
       // Never started, but queued
-      const promise4 = service.get(SERVICE_ID_4);
+      const promise4 = service.get(SERVICE_ID_4, null);
 
       assert.strictEqual(runCount, 3, 'before await');
 
       await assert.isRejected(promise1, 'fake -1');
 
       // Queued, because we aren't pausing
-      const promise5 = service.get(SERVICE_ID_5);
+      const promise5 = service.get(SERVICE_ID_5, null);
 
       await assert.isRejected(promise2, 'job cancelled');
       await assert.isRejected(promise3, 'job cancelled');

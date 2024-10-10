@@ -11,10 +11,14 @@ import { generateAci } from '../types/ServiceId';
 import { DAY, HOUR, MINUTE, MONTH } from '../util/durations';
 
 import { routineProfileRefresh } from '../routineProfileRefresh';
+import type { getProfile } from '../util/getProfile';
 
 describe('routineProfileRefresh', () => {
   let sinonSandbox: sinon.SinonSandbox;
-  let getProfileFn: sinon.SinonStub;
+  let getProfileFn: sinon.SinonStub<
+    Parameters<typeof getProfile>,
+    ReturnType<typeof getProfile>
+  >;
 
   beforeEach(() => {
     sinonSandbox = sinon.createSandbox();
@@ -111,16 +115,16 @@ describe('routineProfileRefresh', () => {
       id: 1,
     });
 
-    sinon.assert.calledWith(
-      getProfileFn,
-      conversation1.getServiceId(),
-      conversation1.get('e164')
-    );
-    sinon.assert.calledWith(
-      getProfileFn,
-      conversation2.getServiceId(),
-      conversation2.get('e164')
-    );
+    sinon.assert.calledWith(getProfileFn, {
+      serviceId: conversation1.getServiceId() ?? null,
+      e164: conversation1.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.calledWith(getProfileFn, {
+      serviceId: conversation2.getServiceId() ?? null,
+      e164: conversation2.get('e164') ?? null,
+      groupId: null,
+    });
   });
 
   it('skips unregistered conversations and those fetched in the last three days', async () => {
@@ -141,21 +145,21 @@ describe('routineProfileRefresh', () => {
     });
 
     sinon.assert.calledOnce(getProfileFn);
-    sinon.assert.calledWith(
-      getProfileFn,
-      normal.getServiceId(),
-      normal.get('e164')
-    );
-    sinon.assert.neverCalledWith(
-      getProfileFn,
-      recentlyFetched.getServiceId(),
-      recentlyFetched.get('e164')
-    );
-    sinon.assert.neverCalledWith(
-      getProfileFn,
-      unregisteredAndStale.getServiceId(),
-      unregisteredAndStale.get('e164')
-    );
+    sinon.assert.calledWith(getProfileFn, {
+      serviceId: normal.getServiceId() ?? null,
+      e164: normal.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.neverCalledWith(getProfileFn, {
+      serviceId: recentlyFetched.getServiceId() ?? null,
+      e164: recentlyFetched.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.neverCalledWith(getProfileFn, {
+      serviceId: unregisteredAndStale.getServiceId() ?? null,
+      e164: unregisteredAndStale.get('e164') ?? null,
+      groupId: null,
+    });
   });
 
   it('skips your own conversation', async () => {
@@ -170,16 +174,16 @@ describe('routineProfileRefresh', () => {
       id: 1,
     });
 
-    sinon.assert.calledWith(
-      getProfileFn,
-      notMe.getServiceId(),
-      notMe.get('e164')
-    );
-    sinon.assert.neverCalledWith(
-      getProfileFn,
-      me.getServiceId(),
-      me.get('e164')
-    );
+    sinon.assert.calledWith(getProfileFn, {
+      serviceId: notMe.getServiceId() ?? null,
+      e164: notMe.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.neverCalledWith(getProfileFn, {
+      serviceId: me.getServiceId() ?? null,
+      e164: me.get('e164') ?? null,
+      groupId: null,
+    });
   });
 
   it('includes your own conversation if profileKeyCredential is expired', async () => {
@@ -198,12 +202,16 @@ describe('routineProfileRefresh', () => {
       id: 1,
     });
 
-    sinon.assert.calledWith(
-      getProfileFn,
-      notMe.getServiceId(),
-      notMe.get('e164')
-    );
-    sinon.assert.calledWith(getProfileFn, me.getServiceId(), me.get('e164'));
+    sinon.assert.calledWith(getProfileFn, {
+      serviceId: notMe.getServiceId() ?? null,
+      e164: notMe.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.calledWith(getProfileFn, {
+      serviceId: me.getServiceId() ?? null,
+      e164: me.get('e164') ?? null,
+      groupId: null,
+    });
   });
 
   it('skips conversations that were refreshed in last three days', async () => {
@@ -236,31 +244,31 @@ describe('routineProfileRefresh', () => {
     });
 
     sinon.assert.calledTwice(getProfileFn);
-    sinon.assert.calledWith(
-      getProfileFn,
-      neverRefreshed.getServiceId(),
-      neverRefreshed.get('e164')
-    );
-    sinon.assert.neverCalledWith(
-      getProfileFn,
-      refreshedToday.getServiceId(),
-      refreshedToday.get('e164')
-    );
-    sinon.assert.neverCalledWith(
-      getProfileFn,
-      refreshedYesterday.getServiceId(),
-      refreshedYesterday.get('e164')
-    );
-    sinon.assert.neverCalledWith(
-      getProfileFn,
-      refreshedTwoDaysAgo.getServiceId(),
-      refreshedTwoDaysAgo.get('e164')
-    );
-    sinon.assert.calledWith(
-      getProfileFn,
-      refreshedThreeDaysAgo.getServiceId(),
-      refreshedThreeDaysAgo.get('e164')
-    );
+    sinon.assert.calledWith(getProfileFn, {
+      serviceId: neverRefreshed.getServiceId() ?? null,
+      e164: neverRefreshed.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.neverCalledWith(getProfileFn, {
+      serviceId: refreshedToday.getServiceId() ?? null,
+      e164: refreshedToday.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.neverCalledWith(getProfileFn, {
+      serviceId: refreshedYesterday.getServiceId() ?? null,
+      e164: refreshedYesterday.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.neverCalledWith(getProfileFn, {
+      serviceId: refreshedTwoDaysAgo.getServiceId() ?? null,
+      e164: refreshedTwoDaysAgo.get('e164') ?? null,
+      groupId: null,
+    });
+    sinon.assert.calledWith(getProfileFn, {
+      serviceId: refreshedThreeDaysAgo.getServiceId() ?? null,
+      e164: refreshedThreeDaysAgo.get('e164') ?? null,
+      groupId: null,
+    });
   });
 
   it('only refreshes profiles for the 50 conversations with the oldest profileLastFetchedAt', async () => {
@@ -300,19 +308,19 @@ describe('routineProfileRefresh', () => {
     });
 
     [...normalConversations, ...neverFetched].forEach(conversation => {
-      sinon.assert.calledWith(
-        getProfileFn,
-        conversation.getServiceId(),
-        conversation.get('e164')
-      );
+      sinon.assert.calledWith(getProfileFn, {
+        serviceId: conversation.getServiceId() ?? null,
+        e164: conversation.get('e164') ?? null,
+        groupId: null,
+      });
     });
 
     [me, ...shouldNotBeIncluded].forEach(conversation => {
-      sinon.assert.neverCalledWith(
-        getProfileFn,
-        conversation.getServiceId(),
-        conversation.get('e164')
-      );
+      sinon.assert.neverCalledWith(getProfileFn, {
+        serviceId: conversation.getServiceId() ?? null,
+        e164: conversation.get('e164') ?? null,
+        groupId: null,
+      });
     });
   });
 });

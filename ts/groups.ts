@@ -100,6 +100,7 @@ import {
   decodeGroupSendEndorsementResponse,
   isValidGroupSendEndorsementsExpiration,
 } from './util/groupSendEndorsements';
+import { getProfile } from './util/getProfile';
 import { generateMessageId } from './util/generateMessageId';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
@@ -3020,11 +3021,10 @@ export async function waitThenMaybeUpdateGroup(
   { viaFirstStorageSync = false } = {}
 ): Promise<void> {
   const { conversation } = options;
+  const logId = `waitThenMaybeUpdateGroup(${conversation.idForLogging()})`;
 
   if (conversation.isBlocked()) {
-    log.info(
-      `waitThenMaybeUpdateGroup: Group ${conversation.idForLogging()} is blocked, returning early`
-    );
+    log.info(`${logId}: Conversation is blocked, returning early`);
     return;
   }
 
@@ -3039,11 +3039,12 @@ export async function waitThenMaybeUpdateGroup(
   ) {
     const waitTime = lastSuccessfulGroupFetch + FIVE_MINUTES - Date.now();
     log.info(
-      `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: group update ` +
-        `was fetched recently, skipping for ${waitTime}ms`
+      `${logId}: group update was fetched recently, skipping for ${waitTime}ms`
     );
     return;
   }
+
+  log.info(`${logId}: group update was not fetched recently, queuing update`);
 
   // Then wait to process all outstanding messages for this conversation
   await conversation.queueJob('waitThenMaybeUpdateGroup', async () => {
@@ -3054,7 +3055,7 @@ export async function waitThenMaybeUpdateGroup(
       conversation.lastSuccessfulGroupFetch = Date.now();
     } catch (error) {
       log.error(
-        `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: maybeUpdateGroup failure:`,
+        `${logId}: maybeUpdateGroup failure:`,
         Errors.toLogFormat(error)
       );
     }
@@ -3072,7 +3073,7 @@ export async function maybeUpdateGroup(
   }: MaybeUpdatePropsType,
   { viaFirstStorageSync = false } = {}
 ): Promise<void> {
-  const logId = conversation.idForLogging();
+  const logId = `maybeUpdateGroup/${conversation.idForLogging()}`;
 
   try {
     // Ensure we have the credentials we need before attempting GroupsV2 operations
@@ -3091,10 +3092,7 @@ export async function maybeUpdateGroup(
       { viaFirstStorageSync }
     );
   } catch (error) {
-    log.error(
-      `maybeUpdateGroup/${logId}: Failed to update group:`,
-      Errors.toLogFormat(error)
-    );
+    log.error(`${logId}: Failed to update group:`, Errors.toLogFormat(error));
     throw error;
   }
 }
@@ -3205,7 +3203,13 @@ async function updateGroup(
     );
 
     profileFetches = Promise.all(
-      contactsWithoutProfileKey.map(contact => contact.getProfiles())
+      contactsWithoutProfileKey.map(contact => {
+        return getProfile({
+          serviceId: contact.getServiceId() ?? null,
+          e164: contact.get('e164') ?? null,
+          groupId: newAttributes.groupId ?? null,
+        });
+      })
     );
   }
 

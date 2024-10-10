@@ -42,6 +42,7 @@ import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { getKeysForServiceId } from './getKeysForServiceId';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import type { GroupSendToken } from '../types/GroupSendEndorsements';
 
 export const enum SenderCertificateMode {
   WithE164,
@@ -306,13 +307,20 @@ export default class OutgoingMessage {
     serviceId: ServiceIdString,
     jsonData: ReadonlyArray<MessageType>,
     timestamp: number,
-    { accessKey }: { accessKey?: string } = {}
+    {
+      accessKey,
+      groupSendToken,
+    }: {
+      accessKey: string | null;
+      groupSendToken: GroupSendToken | null;
+    } = { accessKey: null, groupSendToken: null }
   ): Promise<void> {
     let promise;
 
-    if (accessKey) {
+    if (accessKey != null || groupSendToken != null) {
       promise = this.server.sendMessagesUnauth(serviceId, jsonData, timestamp, {
         accessKey,
+        groupSendToken,
         online: this.online,
         story: this.story,
         urgent: this.urgent,
@@ -393,7 +401,11 @@ export default class OutgoingMessage {
     recurse?: boolean
   ): Promise<void> {
     const { sendMetadata } = this;
-    const { accessKey, senderCertificate } = sendMetadata?.[serviceId] || {};
+    const {
+      accessKey = null,
+      groupSendToken = null,
+      senderCertificate,
+    } = sendMetadata?.[serviceId] || {};
 
     if (accessKey && !senderCertificate) {
       log.warn(
@@ -401,7 +413,9 @@ export default class OutgoingMessage {
       );
     }
 
-    const sealedSender = Boolean(accessKey && senderCertificate);
+    const sealedSender =
+      (accessKey != null || groupSendToken != null) &&
+      senderCertificate != null;
 
     // We don't send to ourselves unless sealedSender is enabled
     const ourNumber = window.textsecure.storage.user.getNumber();
@@ -508,6 +522,7 @@ export default class OutgoingMessage {
         if (sealedSender) {
           return this.transmitMessage(serviceId, jsonData, this.timestamp, {
             accessKey,
+            groupSendToken,
           }).then(
             () => {
               this.recipients[serviceId] = deviceIds;

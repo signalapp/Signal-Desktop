@@ -136,7 +136,11 @@ export async function routineProfileRefresh({
 
     totalCount += 1;
     try {
-      await getProfileFn(conversation.getServiceId(), conversation.get('e164'));
+      await getProfileFn({
+        serviceId: conversation.getServiceId() ?? null,
+        e164: conversation.get('e164') ?? null,
+        groupId: null,
+      });
       log.info(
         `${logId}: refreshed profile for ${conversation.idForLogging()}`
       );

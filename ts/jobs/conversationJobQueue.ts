@@ -78,9 +78,10 @@ const callingMessageJobDataSchema = z.object({
   conversationId: z.string(),
   protoBase64: z.string(),
   urgent: z.boolean(),
-  // These two are group-only
+  // These are group-only
   recipients: z.array(serviceIdSchema).optional(),
   isPartialSend: z.boolean().optional(),
+  groupId: z.string().optional(),
 });
 export type CallingMessageJobData = z.infer<typeof callingMessageJobDataSchema>;
 

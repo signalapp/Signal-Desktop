@@ -36,8 +36,6 @@ import {
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
-  GetProfileOptionsType,
-  GetProfileUnauthOptionsType,
   GroupCredentialsType,
   GroupLogResponseType,
   ProxiedRequestOptionsType,
@@ -103,12 +101,22 @@ import {
   getProtoForCallHistory,
 } from '../util/callDisposition';
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types';
+import type { GroupSendToken } from '../types/GroupSendEndorsements';
+
+export type SendIdentifierData =
+  | {
+      accessKey: string;
+      senderCertificate: SerializedCertificateType | null;
+      groupSendToken: null;
+    }
+  | {
+      accessKey: null;
+      senderCertificate: SerializedCertificateType | null;
+      groupSendToken: GroupSendToken;
+    };
 
 export type SendMetadataType = {
-  [serviceId: ServiceIdString]: {
-    accessKey: string;
-    senderCertificate?: SerializedCertificateType;
-  };
+  [serviceId: ServiceIdString]: SendIdentifierData;
 };
 
 export type SendOptionsType = {
@@ -2320,17 +2328,6 @@ export default class MessageSender {
 
   // Note: instead of updating these functions, or adding new ones, remove these and go
   //   directly to window.textsecure.messaging.server.<function>
-
-  async getProfile(
-    serviceId: ServiceIdString,
-    options: GetProfileOptionsType | GetProfileUnauthOptionsType
-  ): ReturnType<WebAPIType['getProfile']> {
-    if (options.accessKey !== undefined) {
-      return this.server.getProfileUnauth(serviceId, options);
-    }
-
-    return this.server.getProfile(serviceId, options);
-  }
 
   async getAvatar(path: string): Promise<ReturnType<WebAPIType['getAvatar']>> {
     return this.server.getAvatar(path);

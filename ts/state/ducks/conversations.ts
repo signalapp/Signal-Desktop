@@ -4385,6 +4385,10 @@ function onConversationOpened(
       throw new Error('onConversationOpened: Conversation not found');
     }
 
+    const logId = `onConversationOpened(${conversation.idForLogging()})`;
+
+    log.info(`${logId}: Updating newly opened conversation state`);
+
     if (messageId) {
       const message = await __DEPRECATED$getMessageById(messageId);
 
@@ -4393,7 +4397,7 @@ function onConversationOpened(
         return;
       }
 
-      log.warn(`onOpened: Did not find message ${messageId}`);
+      log.warn(`${logId}: Did not find message ${messageId}`);
     }
 
     const { retryPlaceholders } = window.Signal.Services;
@@ -4427,12 +4431,12 @@ function onConversationOpened(
     promises.push(conversation.fetchLatestGroupV2Data());
     strictAssert(
       conversation.throttledMaybeMigrateV1Group !== undefined,
-      'Conversation model should be initialized'
+      `${logId}: Conversation model should be initialized`
     );
     promises.push(conversation.throttledMaybeMigrateV1Group());
     strictAssert(
       conversation.throttledFetchSMSOnlyUUID !== undefined,
-      'Conversation model should be initialized'
+      `${logId}: Conversation model should be initialized`
     );
     promises.push(conversation.throttledFetchSMSOnlyUUID());
 
@@ -4443,7 +4447,7 @@ function onConversationOpened(
     ) {
       strictAssert(
         conversation.throttledGetProfiles !== undefined,
-        'Conversation model should be initialized'
+        `${logId}: Conversation model should be initialized`
       );
       await conversation.throttledGetProfiles().catch(() => {
         /* nothing to do here; logging already happened */
