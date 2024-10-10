@@ -103,6 +103,13 @@ type PoolEntry = {
   load: number;
 };
 
+type QueryStatsType = {
+  queryName: string;
+  count: number;
+  cumulative: number;
+  max: number;
+};
+
 export class MainSQL {
   private readonly pool = new Array<PoolEntry>();
 
@@ -125,6 +132,13 @@ export class MainSQL {
   private onResponse = new Map<number, PromisePair<any>>();
 
   private shouldTimeQueries = false;
+
+  private shouldTrackQueryStats = false;
+
+  private queryStats?: {
+    start: number;
+    statsByQuery: Map<string, QueryStatsType>;
+  };
 
   constructor() {
     const exitPromises = new Array<Promise<void>>();
@@ -286,6 +300,22 @@ export class MainSQL {
     return result;
   }
 
+  public startTrackingQueryStats(): void {
+    if (this.shouldTrackQueryStats) {
+      this.logQueryStats();
+    }
+    this.resetQueryStats();
+    this.shouldTrackQueryStats = true;
+  }
+
+  public stopTrackingQueryStats(): void {
+    if (this.shouldTrackQueryStats) {
+      this.logQueryStats();
+    }
+    this.queryStats = undefined;
+    this.shouldTrackQueryStats = false;
+  }
+
   private async send<Response>(
     entry: PoolEntry,
     request: WorkerRequest
@@ -353,9 +383,56 @@ export class MainSQL {
     }
   }
 
+  private resetQueryStats() {
+    this.queryStats = { start: Date.now(), statsByQuery: new Map() };
+  }
+
+  private roundDuration(duration: number): number {
+    return Math.round(100 * duration) / 100;
+  }
+
+  private logQueryStats(numberToLog: number = 10) {
+    if (!this.queryStats) {
+      return;
+    }
+    const duration = Date.now() - this.queryStats.start;
+    const sortedByCumulativeDuration = [
+      ...this.queryStats.statsByQuery.values(),
+    ].sort((a, b) => (b.cumulative ?? 0) - (a.cumulative ?? 0));
+    this.logger?.info(
+      `Top ${numberToLog} queries by cumulative duration (ms) over last ${duration}ms: ` +
+        `${sortedByCumulativeDuration
+          .slice(0, numberToLog)
+          .map(stats => {
+            return (
+              `${stats.queryName}: cumulative ${this.roundDuration(stats.cumulative)} | ` +
+              `average: ${this.roundDuration(stats.cumulative / (stats.count || 1))} | ` +
+              `max: ${this.roundDuration(stats.max)} | ` +
+              `count: ${stats.count}`
+            );
+          })
+          .join(' ||| ')}`
+    );
+  }
+
   private traceDuration(method: string, duration: number): void {
+    if (this.shouldTrackQueryStats) {
+      if (!this.queryStats) {
+        this.resetQueryStats();
+      }
+      strictAssert(this.queryStats, 'has been initialized');
+      let currentStats = this.queryStats.statsByQuery.get(method);
+      if (!currentStats) {
+        currentStats = { count: 0, cumulative: 0, queryName: method, max: 0 };
+        this.queryStats.statsByQuery.set(method, currentStats);
+      }
+      currentStats.count += 1;
+      currentStats.cumulative += duration;
+      currentStats.max = Math.max(currentStats.max, duration);
+    }
+
     if (this.shouldTimeQueries && !app.isPackaged) {
-      const twoDecimals = Math.round(100 * duration) / 100;
+      const twoDecimals = this.roundDuration(duration);
       this.logger?.info(`MainSQL query: ${method}, duration=${twoDecimals}ms`);
     }
     if (duration > MIN_TRACE_DURATION) {

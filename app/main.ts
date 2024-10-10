@@ -1784,6 +1784,8 @@ async function initializeSQL(
     sqlInitTimeEnd = Date.now();
   }
 
+  sql.startTrackingQueryStats();
+
   // Only if we've initialized things successfully do we set up the corruption handler
   drop(runSQLCorruptionHandler());
   drop(runSQLReadonlyHandler());
@@ -2106,6 +2108,8 @@ app.on('ready', async () => {
     innerLogger.info('WebSocket connect - time:', connectTime);
     innerLogger.info('Processed count:', processedCount);
     innerLogger.info('Messages per second:', messagesPerSec);
+
+    sql.stopTrackingQueryStats();
 
     event.sender.send('ci:event', 'app-loaded', {
       loadTime,
