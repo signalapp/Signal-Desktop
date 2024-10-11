@@ -1,6 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { join } from 'node:path';
+import { readFile } from 'node:fs/promises';
 import createDebug from 'debug';
 import Long from 'long';
 import { Proto, StorageState } from '@signalapp/mock-server';
@@ -8,16 +10,31 @@ import { expect } from 'playwright/test';
 
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import { MY_STORY_ID } from '../../types/Stories';
+import { IMAGE_JPEG } from '../../types/MIME';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
+import {
+  getMessageInTimelineByTimestamp,
+  sendTextMessage,
+  sendReaction,
+} from '../helpers';
 
 export const debug = createDebug('mock:test:backups');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 const DISTRIBUTION1 = generateStoryDistributionId();
+
+const CAT_PATH = join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'fixtures',
+  'cat-screenshot.png'
+);
 
 describe('backups', function (this: Mocha.Suite) {
   this.timeout(100 * durations.MINUTE);
@@ -102,8 +119,9 @@ describe('backups', function (this: Mocha.Suite) {
     const [friend, pinned] = contacts;
 
     {
-      debug('wait for storage service sync to finish');
       const window = await app.getWindow();
+
+      debug('wait for storage service sync to finish');
 
       const leftPane = window.locator('#LeftPane');
       const contact = leftPane.locator(
@@ -137,55 +155,85 @@ describe('backups', function (this: Mocha.Suite) {
       await backButton.last().click();
     }
 
+    const sends = new Array<Promise<void>>();
+
     for (let i = 0; i < 5; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await server.send(
-        desktop,
-        // eslint-disable-next-line no-await-in-loop
-        await phone.encryptSyncSent(desktop, `to pinned ${i}`, {
+      sends.push(
+        sendTextMessage({
+          from: phone,
+          to: pinned,
+          text: `to pinned ${i}`,
+          desktop,
           timestamp: bootstrap.getTimestamp(),
-          destinationServiceId: pinned.device.aci,
         })
       );
 
       const theirTimestamp = bootstrap.getTimestamp();
 
-      // eslint-disable-next-line no-await-in-loop
-      await friend.sendText(desktop, `msg ${i}`, {
-        timestamp: theirTimestamp,
-      });
+      sends.push(
+        sendTextMessage({
+          from: friend,
+          to: desktop,
+          text: `msg ${i}`,
+          desktop,
+          timestamp: theirTimestamp,
+        })
+      );
 
       const ourTimestamp = bootstrap.getTimestamp();
 
-      // eslint-disable-next-line no-await-in-loop
-      await server.send(
-        desktop,
-        // eslint-disable-next-line no-await-in-loop
-        await phone.encryptSyncSent(desktop, `respond ${i}`, {
+      sends.push(
+        sendTextMessage({
+          from: phone,
+          to: friend,
+          text: `respond ${i}`,
+          desktop,
           timestamp: ourTimestamp,
-          destinationServiceId: friend.device.aci,
         })
       );
 
       const reactionTimestamp = bootstrap.getTimestamp();
+      sends.push(
+        sendReaction({
+          from: friend,
+          to: desktop,
+          targetAuthor: desktop,
+          targetMessageTimestamp: ourTimestamp,
+          reactionTimestamp,
+          desktop,
+          emoji: '👍',
+        })
+      );
+    }
 
-      // eslint-disable-next-line no-await-in-loop
-      await friend.sendRaw(
+    const catTimestamp = bootstrap.getTimestamp();
+    const plaintextCat = await readFile(CAT_PATH);
+    const ciphertextCat = await bootstrap.storeAttachmentOnCDN(
+      plaintextCat,
+      IMAGE_JPEG
+    );
+    sends.push(
+      pinned.sendRaw(
         desktop,
         {
           dataMessage: {
-            timestamp: Long.fromNumber(reactionTimestamp),
-            reaction: {
-              emoji: '👍',
-              targetAuthorAci: desktop.aci,
-              targetTimestamp: Long.fromNumber(ourTimestamp),
-            },
+            timestamp: Long.fromNumber(catTimestamp),
+            attachments: [ciphertextCat],
           },
         },
         {
-          timestamp: reactionTimestamp,
+          timestamp: catTimestamp,
         }
-      );
+      )
+    );
+
+    await Promise.all(sends);
+
+    {
+      const window = await app.getWindow();
+      await getMessageInTimelineByTimestamp(window, catTimestamp)
+        .locator('img')
+        .waitFor();
     }
 
     await app.uploadBackup();
@@ -195,7 +243,7 @@ describe('backups', function (this: Mocha.Suite) {
       async (window, snapshot) => {
         const leftPane = window.locator('#LeftPane');
         const pinnedElem = leftPane.locator(
-          `[data-testid="${pinned.toContact().aci}"] >> "to pinned 4"`
+          `[data-testid="${pinned.toContact().aci}"] >> "Photo"`
         );
 
         debug('Waiting for messages to pinned contact to come through');
@@ -246,12 +294,21 @@ describe('backups', function (this: Mocha.Suite) {
 
     // Restart
     await bootstrap.eraseStorage();
+    await server.removeAllCDNAttachments();
     app = await bootstrap.link();
     await app.waitForBackupImportComplete();
 
     // Make sure that contact sync happens after backup import, otherwise the
     // app won't show contacts as "system"
     await app.waitForContactSync();
+
+    debug('Waiting for attachments to be downloaded');
+    {
+      const window = await app.getWindow();
+      await window
+        .locator('.BackupMediaDownloadProgress__button-close')
+        .click();
+    }
 
     await comparator(app);
   });

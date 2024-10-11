@@ -38,8 +38,6 @@ describe('utils/ensureAttachmentIsReencryptable', async () => {
       plaintext: {
         absolutePath: plaintextFilePath,
       },
-      getAbsoluteAttachmentPath:
-        window.Signal.Migrations.getAbsoluteAttachmentPath,
       needIncrementalMac: false,
     });
     digest = encrypted.digest;

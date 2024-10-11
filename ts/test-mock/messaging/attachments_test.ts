@@ -4,7 +4,7 @@
 import createDebug from 'debug';
 import { assert } from 'chai';
 import { expect } from 'playwright/test';
-import { readFileSync } from 'fs';
+import { readFile } from 'node:fs/promises';
 import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
 import * as path from 'path';
 import type { App } from '../playwright';
@@ -17,10 +17,6 @@ import {
 } from '../helpers';
 import * as durations from '../../util/durations';
 import { strictAssert } from '../../util/assert';
-import {
-  encryptAttachmentV2ToDisk,
-  generateAttachmentKeys,
-} from '../../AttachmentCrypto';
 import { toBase64 } from '../../Bytes';
 import type { AttachmentWithNewReencryptionInfoType } from '../../types/Attachment';
 import { IMAGE_JPEG } from '../../types/MIME';
@@ -144,34 +140,13 @@ describe('attachments', function (this: Mocha.Suite) {
 
     await page.getByTestId(pinned.device.aci).click();
 
-    const plaintextCat = readFileSync(CAT_PATH);
-
-    const cdnKey = 'cdnKey';
-    const keys = generateAttachmentKeys();
-    const cdnNumber = 3;
-
-    const { digest: newDigest, path: ciphertextPath } =
-      await encryptAttachmentV2ToDisk({
-        keys,
-        plaintext: {
-          // add non-zero byte to the end of the data; this will be considered padding
-          // when received since we will include the size of the un-appended data when
-          // sending
-          data: Buffer.concat([plaintextCat, Buffer.from([1])]),
-        },
-        getAbsoluteAttachmentPath: relativePath =>
-          bootstrap.getAbsoluteAttachmentPath(relativePath),
-        needIncrementalMac: false,
-      });
-
-    const ciphertextCatWithNonZeroPadding = readFileSync(
-      bootstrap.getAbsoluteAttachmentPath(ciphertextPath)
-    );
-
-    await bootstrap.server.storeAttachmentOnCdn(
-      cdnNumber,
-      cdnKey,
-      ciphertextCatWithNonZeroPadding
+    const plaintextCat = await readFile(CAT_PATH);
+    const attachment = await bootstrap.storeAttachmentOnCDN(
+      // add non-zero byte to the end of the data; this will be considered padding
+      // when received since we will include the size of the un-appended data when
+      // sending
+      Buffer.concat([plaintextCat, Buffer.from([1])]),
+      IMAGE_JPEG
     );
 
     const incomingTimestamp = Date.now();
@@ -182,12 +157,8 @@ describe('attachments', function (this: Mocha.Suite) {
       text: 'Wait, that is MY cat! But now with weird padding!',
       attachments: [
         {
+          ...attachment,
           size: plaintextCat.byteLength,
-          contentType: IMAGE_JPEG,
-          cdnKey,
-          cdnNumber,
-          key: keys,
-          digest: newDigest,
         },
       ],
       timestamp: incomingTimestamp,
@@ -209,8 +180,14 @@ describe('attachments', function (this: Mocha.Suite) {
     assert.exists(incomingAttachment?.reencryptionInfo);
     assert.exists(incomingAttachment?.reencryptionInfo.digest);
 
-    assert.strictEqual(incomingAttachment?.key, toBase64(keys));
-    assert.strictEqual(incomingAttachment?.digest, toBase64(newDigest));
+    assert.strictEqual(
+      incomingAttachment?.key,
+      toBase64(attachment.key ?? new Uint8Array(0))
+    );
+    assert.strictEqual(
+      incomingAttachment?.digest,
+      toBase64(attachment.digest ?? new Uint8Array(0))
+    );
     assert.notEqual(
       incomingAttachment?.digest,
       incomingAttachment.reencryptionInfo.digest

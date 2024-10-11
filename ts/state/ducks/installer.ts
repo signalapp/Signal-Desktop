@@ -7,6 +7,7 @@ import pTimeout, { TimeoutError } from 'p-timeout';
 
 import type { StateType as RootStateType } from '../reducer';
 import {
+  InstallScreenBackupStep,
   InstallScreenStep,
   InstallScreenError,
   InstallScreenQRCodeError,
@@ -62,6 +63,7 @@ export type InstallerStateType = ReadonlyDeep<
     }
   | {
       step: InstallScreenStep.BackupImport;
+      backupStep: InstallScreenBackupStep;
       currentBytes?: number;
       totalBytes?: number;
       hasError?: boolean;
@@ -124,6 +126,7 @@ type UpdateBackupImportProgressActionType = ReadonlyDeep<{
   type: typeof UPDATE_BACKUP_IMPORT_PROGRESS;
   payload:
     | {
+        backupStep: InstallScreenBackupStep;
         currentBytes: number;
         totalBytes: number;
       }
@@ -560,6 +563,7 @@ export function reducer(
 
     return {
       step: InstallScreenStep.BackupImport,
+      backupStep: InstallScreenBackupStep.Download,
     };
   }
 
@@ -581,6 +585,7 @@ export function reducer(
 
     return {
       ...state,
+      backupStep: action.payload.backupStep,
       currentBytes: action.payload.currentBytes,
       totalBytes: action.payload.totalBytes,
     };

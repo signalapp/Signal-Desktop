@@ -10,6 +10,7 @@ import * as log from './logging/log';
 import { explodePromise } from './util/explodePromise';
 import { AccessType, ipcInvoke } from './sql/channels';
 import { backupsService } from './services/backups';
+import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
 import { SECOND } from './util/durations';
 import { isSignalRoute } from './util/signalRoutes';
 import { strictAssert } from './util/assert';
@@ -168,6 +169,7 @@ export function getCI({ deviceName }: GetCIOptionsType): CIType {
 
   async function uploadBackup() {
     await backupsService.upload();
+    await AttachmentBackupManager.waitForIdle();
   }
 
   function unlink() {

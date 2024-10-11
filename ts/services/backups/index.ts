@@ -27,6 +27,7 @@ import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
 import { missingCaseError } from '../../util/missingCaseError';
 import { HOUR } from '../../util/durations';
 import { CipherType, HashType } from '../../types/Crypto';
+import { InstallScreenBackupStep } from '../../types/InstallScreen';
 import * as Errors from '../../types/errors';
 import { HTTPError } from '../../textsecure/Errors';
 import { constantTimeEqual } from '../../Crypto';
@@ -36,7 +37,7 @@ import { BackupExportStream } from './export';
 import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';
 import { BackupCredentials } from './credentials';
-import { BackupAPI, type DownloadOptionsType } from './api';
+import { BackupAPI } from './api';
 import { validateBackup } from './validator';
 import { BackupType } from './types';
 import type { ExplodePromiseResultType } from '../../util/explodePromise';
@@ -48,6 +49,20 @@ export { BackupType };
 const IV_LENGTH = 16;
 
 const BACKUP_REFRESH_INTERVAL = 24 * HOUR;
+
+export type DownloadOptionsType = Readonly<{
+  onProgress?: (
+    backupStep: InstallScreenBackupStep,
+    currentBytes: number,
+    totalBytes: number
+  ) => void;
+  abortSignal?: AbortSignal;
+}>;
+
+export type ImportOptionsType = Readonly<{
+  backupType?: BackupType;
+  onProgress?: (currentBytes: number, totalBytes: number) => void;
+}>;
 
 export class BackupsService {
   private isStarted = false;
@@ -82,9 +97,7 @@ export class BackupsService {
     });
   }
 
-  public async download(
-    options: Omit<DownloadOptionsType, 'downloadOffset'>
-  ): Promise<void> {
+  public async download(options: DownloadOptionsType): Promise<void> {
     const backupDownloadPath = window.storage.get('backupDownloadPath');
     if (!backupDownloadPath) {
       log.warn('backups.download: no backup download path, skipping');
@@ -102,7 +115,10 @@ export class BackupsService {
         // eslint-disable-next-line no-await-in-loop
         hasBackup = await this.doDownload(absoluteDownloadPath, options);
       } catch (error) {
-        log.info('backups.download: error, prompting user to retry');
+        log.warn(
+          'backups.download: error, prompting user to retry',
+          Errors.toLogFormat(error)
+        );
         this.downloadRetryPromise = explodePromise<RetryBackupImportValue>();
         window.reduxActions.installer.updateBackupImportProgress({
           hasError: true,
@@ -202,8 +218,11 @@ export class BackupsService {
     });
   }
 
-  public async importFromDisk(backupFile: string): Promise<void> {
-    return backupsService.importBackup(() => createReadStream(backupFile));
+  public async importFromDisk(
+    backupFile: string,
+    options?: ImportOptionsType
+  ): Promise<void> {
+    return this.importBackup(() => createReadStream(backupFile), options);
   }
 
   public cancelDownload(): void {
@@ -221,7 +240,7 @@ export class BackupsService {
 
   public async importBackup(
     createBackupStream: () => Readable,
-    backupType = BackupType.Ciphertext
+    { backupType = BackupType.Ciphertext, onProgress }: ImportOptionsType = {}
   ): Promise<void> {
     strictAssert(!this.isRunning, 'BackupService is already running');
 
@@ -236,8 +255,12 @@ export class BackupsService {
         // First pass - don't decrypt, only verify mac
         let hmac = createHmac(HashType.size256, macKey);
         let theirMac: Uint8Array | undefined;
+        let totalBytes = 0;
 
         const sink = new PassThrough();
+        sink.on('data', chunk => {
+          totalBytes += chunk.byteLength;
+        });
         // Discard the data in the first pass
         sink.resume();
 
@@ -249,6 +272,8 @@ export class BackupsService {
           sink
         );
 
+        onProgress?.(0, totalBytes);
+
         strictAssert(theirMac != null, 'importBackup: Missing MAC');
         strictAssert(
           constantTimeEqual(hmac.digest(), theirMac),
@@ -258,9 +283,19 @@ export class BackupsService {
         // Second pass - decrypt (but still check the mac at the end)
         hmac = createHmac(HashType.size256, macKey);
 
+        const progressReporter = new PassThrough();
+        progressReporter.pause();
+
+        let currentBytes = 0;
+        progressReporter.on('data', chunk => {
+          currentBytes += chunk.byteLength;
+          onProgress?.(currentBytes, totalBytes);
+        });
+
         await pipeline(
           createBackupStream(),
           getMacAndUpdateHmac(hmac, noop),
+          progressReporter,
           getIvAndDecipher(aesKey),
           createGunzip(),
           new DelimitedStream(),
@@ -343,7 +378,7 @@ export class BackupsService {
 
   private async doDownload(
     downloadPath: string,
-    { onProgress }: Omit<DownloadOptionsType, 'downloadOffset'>
+    { onProgress }: Pick<DownloadOptionsType, 'onProgress'>
   ): Promise<boolean> {
     const controller = new AbortController();
 
@@ -371,7 +406,13 @@ export class BackupsService {
 
       const stream = await this.api.download({
         downloadOffset,
-        onProgress,
+        onProgress: (currentBytes, totalBytes) => {
+          onProgress?.(
+            InstallScreenBackupStep.Download,
+            currentBytes,
+            totalBytes
+          );
+        },
         abortSignal: controller.signal,
       });
 
@@ -395,7 +436,15 @@ export class BackupsService {
 
       // Too late to cancel now
       try {
-        await this.importFromDisk(downloadPath);
+        await this.importFromDisk(downloadPath, {
+          onProgress: (currentBytes, totalBytes) => {
+            onProgress?.(
+              InstallScreenBackupStep.Process,
+              currentBytes,
+              totalBytes
+            );
+          },
+        });
       } finally {
         await unlink(downloadPath);
       }

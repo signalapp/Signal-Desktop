@@ -95,8 +95,6 @@ export async function attemptToReencryptToOriginalDigest(
         ),
       },
       needIncrementalMac: false,
-      getAbsoluteAttachmentPath:
-        window.Signal.Migrations.getAbsoluteAttachmentPath,
     });
   } else {
     strictAssert(attachment.size != null, 'Size must exist');
@@ -127,8 +125,6 @@ export async function attemptToReencryptToOriginalDigest(
           digestToMatch: fromBase64(digest),
         },
         needIncrementalMac: false,
-        getAbsoluteAttachmentPath:
-          window.Signal.Migrations.getAbsoluteAttachmentPath,
       }),
     ]);
   }
@@ -150,8 +146,6 @@ export async function generateNewEncryptionInfoForAttachment(
         ),
       },
       needIncrementalMac: false,
-      getAbsoluteAttachmentPath:
-        window.Signal.Migrations.getAbsoluteAttachmentPath,
     });
   } else {
     const passthrough = new PassThrough();
@@ -177,8 +171,6 @@ export async function generateNewEncryptionInfoForAttachment(
           size: attachment.size,
         },
         needIncrementalMac: false,
-        getAbsoluteAttachmentPath:
-          window.Signal.Migrations.getAbsoluteAttachmentPath,
       }),
     ]);
     // eslint-disable-next-line prefer-destructuring

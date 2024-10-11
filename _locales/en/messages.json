@@ -4699,6 +4699,10 @@
     "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete, number, percent})...",
     "description": "Hint under the progressbar in the backup import screen"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer...",
+    "description": "Hint under the progressbar in the backup import screen shown after the backup file is downloaded and while backup data is being processed"
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparing to download...",
     "description": "Hint under the progressbar in the backup import screen when download size is not yet known"

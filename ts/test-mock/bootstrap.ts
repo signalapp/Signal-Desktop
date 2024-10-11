@@ -6,14 +6,16 @@ import fs from 'fs/promises';
 import crypto from 'crypto';
 import path, { join } from 'path';
 import os from 'os';
+import { PassThrough } from 'node:stream';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
 import normalizePath from 'normalize-path';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import type { Page } from 'playwright';
+import { v4 as uuid } from 'uuid';
 
-import type { Device, PrimaryDevice } from '@signalapp/mock-server';
+import type { Device, PrimaryDevice, Proto } from '@signalapp/mock-server';
 import {
   Server,
   ServiceIdKind,
@@ -23,9 +25,14 @@ import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConst
 import * as durations from '../util/durations';
 import { drop } from '../util/drop';
 import type { RendererConfigType } from '../types/RendererConfig';
+import type { MIMEType } from '../types/MIME';
 import { App } from './playwright';
 import { CONTACT_COUNT } from './benchmarks/fixtures';
 import { strictAssert } from '../util/assert';
+import {
+  encryptAttachmentV2,
+  generateAttachmentKeys,
+} from '../AttachmentCrypto';
 
 export { App };
 
@@ -538,6 +545,38 @@ export class Bootstrap {
   public getAbsoluteAttachmentPath(relativePath: string): string {
     strictAssert(this.storagePath, 'storagePath must exist');
     return join(this.storagePath, 'attachments.noindex', relativePath);
+  }
+
+  public async storeAttachmentOnCDN(
+    data: Buffer,
+    contentType: MIMEType
+  ): Promise<Proto.IAttachmentPointer> {
+    const cdnKey = uuid();
+    const keys = generateAttachmentKeys();
+    const cdnNumber = 3;
+
+    const passthrough = new PassThrough();
+
+    const [{ digest }] = await Promise.all([
+      encryptAttachmentV2({
+        keys,
+        plaintext: {
+          data,
+        },
+        needIncrementalMac: false,
+        sink: passthrough,
+      }),
+      this.server.storeAttachmentOnCdn(cdnNumber, cdnKey, passthrough),
+    ]);
+
+    return {
+      size: data.byteLength,
+      contentType,
+      cdnKey,
+      cdnNumber,
+      key: keys,
+      digest,
+    };
   }
 
   //
