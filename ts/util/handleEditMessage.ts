@@ -24,6 +24,7 @@ import { isDirectConversation } from './whatTypeOfConversation';
 import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
 import { modifyTargetMessage } from './modifyTargetMessage';
+import { isMessageNoteToSelf } from './isMessageNoteToSelf';
 
 const RECURSION_LIMIT = 15;
 
@@ -92,12 +93,10 @@ export async function handleEditMessage(
   }
 
   const { serverTimestamp } = editAttributes.message;
-  const isNoteToSelf =
-    mainMessage.conversationId ===
-    window.ConversationController.getOurConversationId();
+
   if (
     serverTimestamp &&
-    !isNoteToSelf &&
+    !isMessageNoteToSelf(mainMessage) &&
     isTooOldToModifyMessage(serverTimestamp, mainMessage)
   ) {
     log.warn(`${idLog}: cannot edit message older than 48h`, serverTimestamp);
