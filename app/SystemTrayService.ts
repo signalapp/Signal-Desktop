@@ -157,7 +157,7 @@ export class SystemTrayService {
       Menu.buildFromTemplate([
         {
           id: 'toggleWindowVisibility',
-          ...(browserWindow?.isVisible()
+          ...(browserWindow?.isFocused()
             ? {
                 label: this.i18n('icu:hide'),
                 click: () => {
@@ -223,7 +223,7 @@ export class SystemTrayService {
       if (!browserWindow) {
         return;
       }
-      if (browserWindow.isVisible()) {
+      if (browserWindow.isFocused()) {
         browserWindow.hide();
       } else {
         browserWindow.show();
