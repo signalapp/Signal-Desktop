@@ -1087,9 +1087,6 @@ export class Message extends React.PureComponent<Props, State> {
             : null,
           withContentAbove
             ? 'module-message__generic-attachment--with-content-above'
-            : null,
-          !firstAttachment.url
-            ? 'module-message__generic-attachment--not-active'
             : null
         )}
         // There's only ever one of these, so we don't want users to tab into it
