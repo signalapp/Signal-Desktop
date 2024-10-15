@@ -368,7 +368,7 @@
     }
   },
   "engines": {
-    "node": "20.17.0"
+    "node": "20.18.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
