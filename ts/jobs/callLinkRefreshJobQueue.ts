@@ -17,15 +17,24 @@ import type { CallLinkType } from '../types/CallLink';
 import { calling } from '../services/calling';
 import { sleeper } from '../util/sleeper';
 import { parseUnknown } from '../util/schemas';
+import { getRoomIdFromRootKey } from '../util/callLinksRingrtc';
+import { toCallHistoryFromUnusedCallLink } from '../util/callLinks';
 
 const MAX_RETRY_TIME = DAY;
-const MAX_PARALLEL_JOBS = 5;
+const MAX_PARALLEL_JOBS = 10;
 const MAX_ATTEMPTS = exponentialBackoffMaxAttempts(MAX_RETRY_TIME);
 const DEFAULT_SLEEP_TIME = 20 * SECOND;
 
+// Only rootKey is required. Other fields are only used if the call link doesn't
+// exist locally, in order to create a call link. This is useful for storage sync when
+// we download call link data, but we don't want to insert a record until
+// the call link is confirmed valid on the calling server.
 const callLinkRefreshJobDataSchema = z.object({
-  roomId: z.string(),
-  deleteLocallyIfMissingOnCallingServer: z.boolean(),
+  rootKey: z.string(),
+  adminKey: z.string().nullable().optional(),
+  storageID: z.string().nullable().optional(),
+  storageVersion: z.number().int().nullable().optional(),
+  storageUnknownFields: z.instanceof(Uint8Array).nullable().optional(),
   source: z.string(),
 });
 
@@ -57,7 +66,10 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     }: Readonly<{ data: CallLinkRefreshJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
-    const { roomId, deleteLocallyIfMissingOnCallingServer, source } = data;
+    const { rootKey, source } = data;
+    const callLinkRootKey = CallLinkRootKey.parse(rootKey);
+    const roomId = getRoomIdFromRootKey(callLinkRootKey);
+
     const logId = `callLinkRefreshJobQueue(${roomId}, source=${source}).run`;
     log.info(`${logId}: Starting`);
 
@@ -72,35 +84,61 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
       return undefined;
     }
 
-    const existingCallLink = await DataReader.getCallLinkByRoomId(roomId);
-    if (!existingCallLink) {
-      log.warn(`${logId}: Call link missing locally, can't refresh`);
-      return undefined;
-    }
-
     let error: Error | undefined;
-    const callLinkRootKey = CallLinkRootKey.parse(existingCallLink.rootKey);
     try {
       // This will either return the fresh call link state,
       // null (link deleted from server), or err (connection error)
       const freshCallLinkState = await calling.readCallLink(callLinkRootKey);
+      const existingCallLink = await DataReader.getCallLinkByRoomId(roomId);
+
       if (freshCallLinkState != null) {
-        log.info(`${logId}: Refreshed call link`);
-        const callLink: CallLinkType = {
-          ...existingCallLink,
-          ...freshCallLinkState,
-        };
-        await DataWriter.updateCallLinkState(roomId, freshCallLinkState);
-        window.reduxActions.calling.handleCallLinkUpdateLocal(callLink);
-      } else if (deleteLocallyIfMissingOnCallingServer) {
+        if (existingCallLink) {
+          log.info(`${logId}: Updating call link with fresh state`);
+          const callLink: CallLinkType = {
+            ...existingCallLink,
+            ...freshCallLinkState,
+          };
+          await DataWriter.updateCallLinkState(roomId, freshCallLinkState);
+          window.reduxActions.calling.handleCallLinkUpdateLocal(callLink);
+        } else {
+          log.info(`${logId}: Creating new call link`);
+          const { adminKey, storageID, storageVersion, storageUnknownFields } =
+            data;
+          const callLink: CallLinkType = {
+            ...freshCallLinkState,
+            roomId,
+            rootKey,
+            adminKey: adminKey ?? null,
+            storageID: storageID ?? undefined,
+            storageVersion: storageVersion ?? undefined,
+            storageUnknownFields,
+            storageNeedsSync: false,
+          };
+
+          const callHistory = toCallHistoryFromUnusedCallLink(callLink);
+          await Promise.all([
+            DataWriter.insertCallLink(callLink),
+            DataWriter.saveCallHistory(callHistory),
+          ]);
+          window.reduxActions.callHistory.addCallHistory(callHistory);
+          window.reduxActions.calling.handleCallLinkUpdateLocal(callLink);
+        }
+      } else if (!existingCallLink) {
+        // When the call link is missing from the server, and we don't have a local
+        // call link record, that means we discovered a defunct link from storage service.
+        // Save this state to DefunctCallLink.
         log.info(
-          `${logId}: Call link not found on server and deleteLocallyIfMissingOnCallingServer; deleting local call link`
+          `${logId}: Call link not found on server but absent locally, saving DefunctCallLink`
         );
-        // This will leave a storage service record, and it's up to primary to delete it
-        await DataWriter.deleteCallLinkAndHistory(roomId);
-        window.reduxActions.calling.handleCallLinkDelete({ roomId });
+        await DataWriter.insertDefunctCallLink({
+          roomId,
+          rootKey,
+          adminKey: data.adminKey ?? null,
+        });
       } else {
-        log.info(`${logId}: Call link not found on server, ignoring`);
+        log.info(
+          `${logId}: Call link not found on server but present locally, ignoring`
+        );
       }
     } catch (err) {
       error = err;

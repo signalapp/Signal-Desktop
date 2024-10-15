@@ -172,6 +172,7 @@ import {
 } from '../types/CallDisposition';
 import {
   callLinkExists,
+  defunctCallLinkExists,
   getAllCallLinks,
   getCallLinkByRoomId,
   getCallLinkRecordByRoomId,
@@ -189,6 +190,7 @@ import {
   beginDeleteCallLink,
   deleteCallLinkFromSync,
   _removeAllCallLinks,
+  insertDefunctCallLink,
 } from './server/callLinks';
 import {
   replaceAllEndorsementsForGroup,
@@ -313,6 +315,7 @@ export const DataReader: ServerReadableInterface = {
   hasGroupCallHistoryMessage,
 
   callLinkExists,
+  defunctCallLinkExists,
   getAllCallLinks,
   getCallLinkByRoomId,
   getCallLinkRecordByRoomId,
@@ -460,6 +463,7 @@ export const DataWriter: ServerWritableInterface = {
   finalizeDeleteCallLink,
   _removeAllCallLinks,
   deleteCallLinkFromSync,
+  insertDefunctCallLink,
   migrateConversationMessages,
   saveEditedMessage,
   saveEditedMessages,
@@ -6436,6 +6440,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM callLinks;
       DELETE FROM callsHistory;
       DELETE FROM conversations;
+      DELETE FROM defunctCallLinks;
       DELETE FROM emojis;
       DELETE FROM groupCallRingCancellations;
       DELETE FROM groupSendCombinedEndorsement;
