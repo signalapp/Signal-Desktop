@@ -188,6 +188,7 @@ import { explodePromise } from '../util/explodePromise';
 import { getCallHistorySelector } from '../state/selectors/callHistory';
 import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
+import { getIsInitialSync } from '../services/contactSync';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -2344,7 +2345,7 @@ export class ConversationModel extends window.Backbone
       ourAci: window.textsecure.storage.user.getCheckedAci(),
       forceSave: true,
     });
-    if (!this.get('active_at')) {
+    if (!getIsInitialSync() && !this.get('active_at')) {
       this.set({ active_at: Date.now() });
       await DataWriter.updateConversation(this.attributes);
     }
