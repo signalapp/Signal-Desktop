@@ -6,6 +6,7 @@ import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
+  DefunctCallLinkType,
 } from '../../types/CallLink';
 import {
   callLinkRestrictionsSchema,
@@ -15,6 +16,7 @@ import { toAdminKeyBytes } from '../../util/callLinks';
 import {
   callLinkToRecord,
   callLinkFromRecord,
+  toRootKeyBytes,
 } from '../../util/callLinksRingrtc';
 import type { ReadableDB, WritableDB } from '../Interface';
 import { prepare } from '../Server';
@@ -375,4 +377,42 @@ export function _removeAllCallLinks(db: WritableDB): void {
     DELETE FROM callLinks;
   `;
   db.prepare(query).run(params);
+}
+
+export function defunctCallLinkExists(db: ReadableDB, roomId: string): boolean {
+  const [query, params] = sql`
+    SELECT 1
+    FROM defunctCallLinks
+    WHERE roomId = ${roomId};
+  `;
+  return db.prepare(query).pluck(true).get(params) === 1;
+}
+
+export function insertDefunctCallLink(
+  db: WritableDB,
+  callLink: DefunctCallLinkType
+): void {
+  const { roomId, rootKey } = callLink;
+  assertRoomIdMatchesRootKey(roomId, rootKey);
+
+  const rootKeyData = toRootKeyBytes(callLink.rootKey);
+  const adminKeyData = callLink.adminKey
+    ? toAdminKeyBytes(callLink.adminKey)
+    : null;
+
+  prepare(
+    db,
+    `
+    INSERT INTO defunctCallLinks (
+      roomId,
+      rootKey,
+      adminKey
+    ) VALUES (
+      $roomId,
+      $rootKeyData,
+      $adminKeyData
+    )
+    ON CONFLICT (roomId) DO NOTHING;
+    `
+  ).run({ roomId, rootKeyData, adminKeyData });
 }

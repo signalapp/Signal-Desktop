@@ -83,6 +83,13 @@ export type CallLinkConversationType = ReadonlyDeep<
   }
 >;
 
+// Call links discovered missing after server refresh
+export type DefunctCallLinkType = Readonly<{
+  roomId: string;
+  rootKey: string;
+  adminKey: string | null;
+}>;
+
 // DB Record
 export type CallLinkRecord = Readonly<{
   roomId: string;

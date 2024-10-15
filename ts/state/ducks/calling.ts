@@ -1556,8 +1556,7 @@ function handleCallLinkUpdate(
     // This job will throttle requests to the calling server.
     drop(
       callLinkRefreshJobQueue.add({
-        roomId: callLink.roomId,
-        deleteLocallyIfMissingOnCallingServer: false,
+        rootKey,
         source: 'handleCallLinkUpdate',
       })
     );

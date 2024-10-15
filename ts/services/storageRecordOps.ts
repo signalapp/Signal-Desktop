@@ -75,7 +75,6 @@ import {
 import {
   CALL_LINK_DELETED_STORAGE_RECORD_TTL,
   fromAdminKeyBytes,
-  toCallHistoryFromUnusedCallLink,
 } from '../util/callLinks';
 import { isOlderThan } from '../util/timestamp';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
@@ -2009,31 +2008,26 @@ export async function mergeCallLinkRecord(
 
   if (!localCallLinkDbRecord) {
     if (deletedAt) {
-      log.info(
-        `${logId}: Found deleted call link with no matching local record, skipping`
-      );
+      details.push('skipping deleted call link with no matching local record');
+    } else if (await DataReader.defunctCallLinkExists(roomId)) {
+      details.push('skipping known defunct call link');
     } else {
-      log.info(`${logId}: Discovered new call link, creating locally`);
-      details.push('creating call link');
+      details.push('new call link, enqueueing call link refresh and create');
 
-      // Create CallLink and call history item
+      // Queue a job to refresh the call link to confirm its existence.
+      // Include the bundle of call link data so we can insert the call link
+      // after confirmation.
       const callLink = callLinkFromRecord(callLinkDbRecord);
-      const callHistory = toCallHistoryFromUnusedCallLink(callLink);
-      await Promise.all([
-        DataWriter.insertCallLink(callLink),
-        DataWriter.saveCallHistory(callHistory),
-      ]);
-
-      // The local DB record is a placeholder until confirmed refreshed. If it's gone from
-      // the calling server then delete the local record.
       drop(
         callLinkRefreshJobQueue.add({
-          roomId: callLink.roomId,
-          deleteLocallyIfMissingOnCallingServer: true,
+          rootKey: callLink.rootKey,
+          adminKey: callLink.adminKey,
+          storageID: callLink.storageID,
+          storageVersion: callLink.storageVersion,
+          storageUnknownFields: callLink.storageUnknownFields,
           source: 'storage.mergeCallLinkRecord',
         })
       );
-      window.reduxActions.callHistory.addCallHistory(callHistory);
     }
 
     return {
