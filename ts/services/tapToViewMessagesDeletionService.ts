@@ -4,7 +4,7 @@
 import { debounce } from 'lodash';
 import { DataReader } from '../sql/Client';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { DAY } from '../util/durations';
+import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import * as Errors from '../types/errors';
 
 async function eraseTapToViewMessages() {
@@ -12,7 +12,9 @@ async function eraseTapToViewMessages() {
     window.SignalContext.log.info(
       'eraseTapToViewMessages: Loading messages...'
     );
-    const messages = await DataReader.getTapToViewMessagesNeedingErase();
+    const maxTimestamp = Date.now() - getMessageQueueTime();
+    const messages =
+      await DataReader.getTapToViewMessagesNeedingErase(maxTimestamp);
     await Promise.all(
       messages.map(async fromDB => {
         const message = window.MessageCache.__DEPRECATED$register(
@@ -59,7 +61,7 @@ class TapToViewMessagesDeletionService {
       return;
     }
 
-    const nextCheck = receivedAt + 30 * DAY;
+    const nextCheck = receivedAt + getMessageQueueTime();
     window.SignalContext.log.info(
       'checkTapToViewMessages: next check at',
       new Date(nextCheck).toISOString()

@@ -36,6 +36,7 @@ export type ConfigKeyType =
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'
+  | 'global.messageQueueTimeInSeconds'
   | 'global.nicknames.max'
   | 'global.nicknames.min'
   | 'global.textAttachmentLimitBytes';

@@ -541,7 +541,9 @@ type ReadableInterface = {
   getMessagesUnexpectedlyMissingExpirationStartTimestamp: () => Array<MessageType>;
   getSoonestMessageExpiry: () => undefined | number;
   getNextTapToViewMessageTimestampToAgeOut: () => undefined | number;
-  getTapToViewMessagesNeedingErase: () => Array<MessageType>;
+  getTapToViewMessagesNeedingErase: (
+    maxTimestamp: number
+  ) => Array<MessageType>;
   // getOlderMessagesByConversation is JSON on server, full message on Client
   getAllStories: (options: {
     conversationId?: string;

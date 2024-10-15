@@ -15,7 +15,6 @@ import {
   type CallHistoryDetails,
   CallMode,
 } from '../types/CallDisposition';
-import { DAY } from './durations';
 
 export const CALL_LINK_DEFAULT_STATE: Pick<
   CallLinkType,
@@ -27,8 +26,6 @@ export const CALL_LINK_DEFAULT_STATE: Pick<
   expiration: null,
   storageNeedsSync: false,
 };
-
-export const CALL_LINK_DELETED_STORAGE_RECORD_TTL = 30 * DAY;
 
 export function getKeyFromCallLink(callLink: string): string {
   const url = new URL(callLink);
