@@ -2071,6 +2071,9 @@ export class CallingClass {
           maxHeight: REQUESTED_SCREEN_SHARE_HEIGHT,
           maxWidth: REQUESTED_SCREEN_SHARE_WIDTH,
           mediaStream,
+          onEnded: () => {
+            this.reduxInterface?.cancelPresenting();
+          },
         })
       );
       this.setOutgoingVideo(conversationId, true);
