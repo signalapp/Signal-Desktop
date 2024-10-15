@@ -12,6 +12,11 @@ export enum InstallScreenStep {
   BackupImport = 'BackupImport',
 }
 
+export enum InstallScreenBackupStep {
+  Download = 'Download',
+  Process = 'Process',
+}
+
 export enum InstallScreenError {
   TooManyDevices = 'TooManyDevices',
   TooOld = 'TooOld',

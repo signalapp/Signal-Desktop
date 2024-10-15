@@ -159,6 +159,10 @@ export class AttachmentBackupManager extends JobManager<CoreAttachmentBackupJobT
   static async addJob(newJob: CoreAttachmentBackupJobType): Promise<void> {
     return AttachmentBackupManager.instance.addJob(newJob);
   }
+
+  static async waitForIdle(): Promise<void> {
+    return AttachmentBackupManager.instance.waitForIdle();
+  }
 }
 
 function getJobId(job: CoreAttachmentBackupJobType): string {

@@ -4,18 +4,21 @@
 import React, { useState, useCallback } from 'react';
 
 import type { LocalizerType } from '../../types/Util';
+import { InstallScreenBackupStep } from '../../types/InstallScreen';
 import { formatFileSize } from '../../util/formatFileSize';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { ProgressBar } from '../ProgressBar';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 import { roundFractionForProgressBar } from '../../util/numbers';
+import { missingCaseError } from '../../util/missingCaseError';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
+  backupStep: InstallScreenBackupStep;
   currentBytes?: number;
   totalBytes?: number;
   hasError?: boolean;
@@ -25,6 +28,7 @@ export type PropsType = Readonly<{
 
 export function InstallScreenBackupImportStep({
   i18n,
+  backupStep,
   currentBytes,
   totalBytes,
   hasError,
@@ -66,26 +70,33 @@ export function InstallScreenBackupImportStep({
   }, [onRetry]);
 
   let progress: JSX.Element;
-  let isCancelPossible = true;
   if (currentBytes != null && totalBytes != null) {
-    isCancelPossible = currentBytes !== totalBytes;
-
     const fractionComplete = roundFractionForProgressBar(
       currentBytes / totalBytes
     );
 
+    let hint: string;
+    if (backupStep === InstallScreenBackupStep.Download) {
+      hint = i18n('icu:BackupImportScreen__progressbar-hint', {
+        currentSize: formatFileSize(currentBytes),
+        totalSize: formatFileSize(totalBytes),
+        fractionComplete,
+      });
+    } else if (backupStep === InstallScreenBackupStep.Process) {
+      hint = i18n('icu:BackupImportScreen__progressbar-hint--processing');
+    } else {
+      throw missingCaseError(backupStep);
+    }
+
     progress = (
       <>
         <ProgressBar
+          key={backupStep}
           fractionComplete={fractionComplete}
           isRTL={i18n.getLocaleDirection() === 'rtl'}
         />
         <div className="InstallScreenBackupImportStep__progressbar-hint">
-          {i18n('icu:BackupImportScreen__progressbar-hint', {
-            currentSize: formatFileSize(currentBytes),
-            totalSize: formatFileSize(totalBytes),
-            fractionComplete,
-          })}
+          {hint}
         </div>
       </>
     );
@@ -93,6 +104,7 @@ export function InstallScreenBackupImportStep({
     progress = (
       <>
         <ProgressBar
+          key={backupStep}
           fractionComplete={0}
           isRTL={i18n.getLocaleDirection() === 'rtl'}
         />
@@ -119,7 +131,7 @@ export function InstallScreenBackupImportStep({
         </div>
       </div>
 
-      {isCancelPossible && (
+      {backupStep === InstallScreenBackupStep.Download && (
         <button
           className="InstallScreenBackupImportStep__cancel"
           type="button"

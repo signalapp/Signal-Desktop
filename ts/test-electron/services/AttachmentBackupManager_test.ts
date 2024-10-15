@@ -109,7 +109,6 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       keys: Bytes.fromBase64(LOCAL_ENCRYPTION_KEYS),
       needIncrementalMac: false,
       sink: createWriteStream(absolutePath),
-      getAbsoluteAttachmentPath,
     });
   });
 

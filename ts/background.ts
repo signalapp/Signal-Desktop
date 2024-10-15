@@ -1604,8 +1604,9 @@ export async function startApp(): Promise<void> {
     // Download backup before enabling request handler and storage service
     try {
       await backupsService.download({
-        onProgress: (currentBytes, totalBytes) => {
+        onProgress: (backupStep, currentBytes, totalBytes) => {
           window.reduxActions.installer.updateBackupImportProgress({
+            backupStep,
             currentBytes,
             totalBytes,
           });

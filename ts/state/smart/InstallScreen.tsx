@@ -109,6 +109,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
         step: InstallScreenStep.BackupImport,
         screenSpecificProps: {
           i18n,
+          backupStep: installerState.backupStep,
           currentBytes: installerState.currentBytes,
           totalBytes: installerState.totalBytes,
           hasError: installerState.hasError,
