@@ -30,6 +30,7 @@ import { strictAssert } from '../util/assert';
 import type { SignalService as Proto } from '../protobuf';
 import { isMoreRecentThan } from '../util/timestamp';
 import { DAY } from '../util/durations';
+import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 import type { ReencryptionInfo } from '../AttachmentCrypto';
 
@@ -1156,10 +1157,9 @@ export function isReencryptableWithNewEncryptionInfo(
   );
 }
 
-const TIME_ON_TRANSIT_TIER = 30 * DAY;
 // Extend range in case the attachment is actually still there (this function is meant to
 // be optimistic)
-const BUFFERED_TIME_ON_TRANSIT_TIER = TIME_ON_TRANSIT_TIER + 5 * DAY;
+const BUFFER_TIME_ON_TRANSIT_TIER = 5 * DAY;
 
 export function mightStillBeOnTransitTier(
   attachment: Pick<AttachmentType, 'cdnKey' | 'cdnNumber' | 'uploadTimestamp'>
@@ -1177,7 +1177,10 @@ export function mightStillBeOnTransitTier(
   }
 
   if (
-    isMoreRecentThan(attachment.uploadTimestamp, BUFFERED_TIME_ON_TRANSIT_TIER)
+    isMoreRecentThan(
+      attachment.uploadTimestamp,
+      getMessageQueueTime() + BUFFER_TIME_ON_TRANSIT_TIER
+    )
   ) {
     return true;
   }

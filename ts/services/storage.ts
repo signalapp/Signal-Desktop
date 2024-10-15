@@ -44,6 +44,7 @@ import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { map, filter } from '../util/iterables';
+import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import { ourProfileKeyService } from './ourProfileKey';
 import {
   ConversationTypes,
@@ -350,7 +351,10 @@ async function generateManifest(
 
     if (
       storyDistributionList.deletedAtTimestamp != null &&
-      isOlderThan(storyDistributionList.deletedAtTimestamp, durations.MONTH)
+      isOlderThan(
+        storyDistributionList.deletedAtTimestamp,
+        getMessageQueueTime()
+      )
     ) {
       const droppedID = storyDistributionList.storageID;
       const droppedVersion = storyDistributionList.storageVersion;
@@ -1316,7 +1320,7 @@ async function processManifest(
             'unregistered and not in remote manifest'
         );
         conversation.setUnregistered({
-          timestamp: Date.now() - durations.MONTH,
+          timestamp: Date.now() - getMessageQueueTime(),
           fromStorageService: true,
 
           // Saving below

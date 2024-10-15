@@ -72,11 +72,9 @@ import {
   fromRootKeyBytes,
   getRoomIdFromRootKey,
 } from '../util/callLinksRingrtc';
-import {
-  CALL_LINK_DELETED_STORAGE_RECORD_TTL,
-  fromAdminKeyBytes,
-} from '../util/callLinks';
+import { fromAdminKeyBytes } from '../util/callLinks';
 import { isOlderThan } from '../util/timestamp';
+import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
@@ -1981,8 +1979,7 @@ export async function mergeCallLinkRecord(
       ? getTimestampFromLong(callLinkRecord.deletedAtTimestampMs)
       : null;
   const shouldDrop =
-    deletedAt != null &&
-    isOlderThan(deletedAt, CALL_LINK_DELETED_STORAGE_RECORD_TTL);
+    deletedAt != null && isOlderThan(deletedAt, getMessageQueueTime());
   if (shouldDrop) {
     details.push('expired deleted call link; scheduling for removal');
   }

@@ -3,7 +3,8 @@
 
 import type { ServiceIdString } from '../types/ServiceId';
 import { isMoreRecentThan, isOlderThan } from './timestamp';
-import { HOUR, MONTH } from './durations';
+import { HOUR } from './durations';
+import { getMessageQueueTime } from './getMessageQueueTime';
 
 const SIX_HOURS = 6 * HOUR;
 
@@ -45,6 +46,7 @@ export function isConversationUnregisteredAndStale({
   }
 
   return Boolean(
-    firstUnregisteredAt && isOlderThan(firstUnregisteredAt, MONTH)
+    firstUnregisteredAt &&
+      isOlderThan(firstUnregisteredAt, getMessageQueueTime())
   );
 }

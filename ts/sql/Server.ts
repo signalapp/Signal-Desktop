@@ -4524,9 +4524,10 @@ function getNextTapToViewMessageTimestampToAgeOut(
   return isNormalNumber(result) ? result : undefined;
 }
 
-function getTapToViewMessagesNeedingErase(db: ReadableDB): Array<MessageType> {
-  const THIRTY_DAYS_AGO = Date.now() - 30 * 24 * 60 * 60 * 1000;
-
+function getTapToViewMessagesNeedingErase(
+  db: ReadableDB,
+  maxTimestamp: number
+): Array<MessageType> {
   const rows: JSONRows = db
     .prepare<Query>(
       `
@@ -4535,12 +4536,12 @@ function getTapToViewMessagesNeedingErase(db: ReadableDB): Array<MessageType> {
       WHERE
         isViewOnce = 1
         AND (isErased IS NULL OR isErased != 1)
-        AND received_at <= $THIRTY_DAYS_AGO
+        AND received_at <= $maxTimestamp
       ORDER BY received_at ASC, sent_at ASC;
       `
     )
     .all({
-      THIRTY_DAYS_AGO,
+      maxTimestamp,
     });
 
   return rows.map(row => jsonToObject(row.json));
