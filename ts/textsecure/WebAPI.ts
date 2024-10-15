@@ -857,6 +857,15 @@ export type GetAccountForUsernameResultType = z.infer<
 >;
 
 export type GetIceServersResultType = Readonly<{
+  username?: string;
+  password?: string;
+  urls?: ReadonlyArray<string>;
+  urlsWithIps?: ReadonlyArray<string>;
+  hostname?: string;
+  iceServers?: ReadonlyArray<IceServerGroupType>;
+}>;
+
+export type IceServerGroupType = Readonly<{
   username: string;
   password: string;
   urls?: ReadonlyArray<string>;
