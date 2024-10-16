@@ -231,14 +231,31 @@ async function writeWithAttributes(
 export const saveAttachmentToDisk = async ({
   data,
   name,
+  baseDir,
 }: {
   data: Uint8Array;
   name: string;
+  /**
+   * Base directory for saving the attachment.
+   * If omitted, a dialog will be opened to let the user choose a directory
+   */
+  baseDir?: string;
 }): Promise<null | { fullPath: string; name: string }> => {
-  const { canceled, filePath } = await showSaveDialog(name);
+  let filePath;
 
-  if (canceled || !filePath) {
-    return null;
+  if (!baseDir) {
+    const { canceled, filePath: dialogFilePath } = await showSaveDialog(name);
+    if (canceled) {
+      return null;
+    }
+    if (!dialogFilePath) {
+      throw new Error(
+        "saveAttachmentToDisk: Dialog wasn't canceled, but returned path to attachment is null!"
+      );
+    }
+    filePath = dialogFilePath;
+  } else {
+    filePath = join(baseDir, name);
   }
 
   await writeWithAttributes(filePath, data);

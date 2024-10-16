@@ -791,8 +791,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Anhang gespeichert."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Anhang} other {# Anhänge}} gespeichert."
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Im Ordner anzeigen"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Anhang kann} other {Anhänge können}} nicht gespeichert werden, da {count, plural, one {er} other {#}} noch nicht fertig heruntergeladen {count, plural, one {wurde} other {wurden}}."
   },
   "icu:you": {
     "messageformat": "Du"

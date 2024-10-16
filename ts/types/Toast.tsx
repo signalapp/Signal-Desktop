@@ -6,6 +6,7 @@ export enum ToastType {
   AddedUsersToCall = 'AddedUsersToCall',
   AlreadyGroupMember = 'AlreadyGroupMember',
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
+  AttachmentDownloadStillInProgress = 'AttachmentDownloadStillInProgress',
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
   CallHistoryCleared = 'CallHistoryCleared',
@@ -78,6 +79,10 @@ export type AnyToast =
     }
   | { toastType: ToastType.AlreadyGroupMember }
   | { toastType: ToastType.AlreadyRequestedToJoin }
+  | {
+      toastType: ToastType.AttachmentDownloadStillInProgress;
+      parameters: { count: number };
+    }
   | { toastType: ToastType.Blocked }
   | { toastType: ToastType.BlockedGroup }
   | { toastType: ToastType.CallHistoryCleared }
@@ -108,7 +113,10 @@ export type AnyToast =
   | { toastType: ToastType.FailedToFetchPhoneNumber }
   | { toastType: ToastType.FailedToFetchUsername }
   | { toastType: ToastType.FailedToSendWithEndorsements }
-  | { toastType: ToastType.FileSaved; parameters: { fullPath: string } }
+  | {
+      toastType: ToastType.FileSaved;
+      parameters: { fullPath: string; countOfFiles?: number };
+    }
   | {
       toastType: ToastType.FileSize;
       parameters: { limit: number; units: string };

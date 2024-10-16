@@ -291,6 +291,7 @@ const actions = () => ({
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
   saveAttachment: action('saveAttachment'),
+  saveAttachments: action('saveAttachments'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
@@ -305,6 +306,9 @@ const actions = () => ({
 
   openGiftBadge: action('openGiftBadge'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
+  showAttachmentDownloadStillInProgressToast: action(
+    'showAttachmentDownloadStillInProgressToast'
+  ),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),

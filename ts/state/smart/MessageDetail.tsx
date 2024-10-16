@@ -49,7 +49,9 @@ export const SmartMessageDetail = memo(
       popPanelForConversation,
       pushPanelForConversation,
       saveAttachment,
+      saveAttachments,
       showConversation,
+      showAttachmentDownloadStillInProgressToast,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
       showSpoiler,
@@ -99,10 +101,14 @@ export const SmartMessageDetail = memo(
         receivedAt={receivedAt}
         renderAudioAttachment={renderAudioAttachment}
         saveAttachment={saveAttachment}
+        saveAttachments={saveAttachments}
         sentAt={message.timestamp}
         showContactModal={showContactModal}
         showConversation={showConversation}
         showEditHistoryModal={showEditHistoryModal}
+        showAttachmentDownloadStillInProgressToast={
+          showAttachmentDownloadStillInProgressToast
+        }
         showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
         showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
         showLightbox={showLightbox}
