@@ -11,13 +11,13 @@ import {
   callIdFromRingId,
   RingUpdate,
 } from '@signalapp/ringrtc';
-import { v4 as generateGuid } from 'uuid';
 import { isEqual } from 'lodash';
 import { strictAssert } from './assert';
 import { DataReader, DataWriter } from '../sql/Client';
 import { SignalService as Proto } from '../protobuf';
 import { bytesToUuid, uuidToBytes } from './uuidToBytes';
 import { missingCaseError } from './missingCaseError';
+import { generateMessageId } from './generateMessageId';
 import { CallEndedReason, GroupCallJoinState } from '../types/Calling';
 import {
   CallMode,
@@ -1212,16 +1212,18 @@ async function saveCallHistory({
     seenStatus = maxSeenStatus(seenStatus, prevMessage.seenStatus);
   }
 
+  const counter =
+    prevMessage?.received_at ?? receivedAtCounter ?? incrementMessageCounter();
+
+  const { id: newId } = generateMessageId(counter);
+
   const message: MessageAttributesType = {
-    id: prevMessage?.id ?? generateGuid(),
+    id: prevMessage?.id ?? newId,
     conversationId: conversation.id,
     type: 'call-history',
     timestamp: prevMessage?.timestamp ?? callHistory.timestamp,
     sent_at: prevMessage?.sent_at ?? callHistory.timestamp,
-    received_at:
-      prevMessage?.received_at ??
-      receivedAtCounter ??
-      incrementMessageCounter(),
+    received_at: counter,
     received_at_ms:
       prevMessage?.received_at_ms ?? receivedAtMS ?? callHistory.timestamp,
     readStatus: ReadStatus.Read,
