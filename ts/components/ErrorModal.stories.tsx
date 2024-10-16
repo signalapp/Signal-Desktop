@@ -17,7 +17,7 @@ const i18n = setupI18n('en', enMessages);
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   buttonVariant: overrideProps.buttonVariant ?? undefined,
   description: overrideProps.description ?? '',
-  title: overrideProps.title ?? '',
+  title: Object.hasOwn(overrideProps, 'title') ? overrideProps.title : '',
   i18n,
   onClose: action('onClick'),
 });
@@ -44,6 +44,17 @@ export function CustomStrings(): JSX.Element {
       {...createProps({
         title: 'Real bad!',
         description: 'Just avoid that next time, kay?',
+      })}
+    />
+  );
+}
+
+export function NoTitle(): JSX.Element {
+  return (
+    <ErrorModal
+      {...createProps({
+        title: null,
+        description: 'This is a fun error!',
       })}
     />
   );

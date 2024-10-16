@@ -40,7 +40,7 @@ export function ErrorModal(props: PropsType): JSX.Element {
       modalName="ErrorModal"
       i18n={i18n}
       onClose={onClose}
-      title={title == null ? undefined : i18n('icu:ErrorModal--title')}
+      title={title == null ? undefined : title || i18n('icu:ErrorModal--title')}
       modalFooter={footer}
     >
       <div className="module-error-modal__description">
