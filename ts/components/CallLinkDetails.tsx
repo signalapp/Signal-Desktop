@@ -31,7 +31,7 @@ function toUrlWithoutProtocol(url: URL): string {
 
 export type CallLinkDetailsProps = Readonly<{
   callHistoryGroup: CallHistoryGroup;
-  callLink: CallLinkType;
+  callLink: CallLinkType | undefined;
   isAnybodyInCall: boolean;
   isInCall: boolean;
   isInAnotherCall: boolean;
@@ -58,6 +58,11 @@ export function CallLinkDetails({
 }: CallLinkDetailsProps): JSX.Element {
   const [isDeleteCallLinkModalOpen, setIsDeleteCallLinkModalOpen] =
     useState(false);
+
+  if (!callLink) {
+    return renderMissingCallLink({ callHistoryGroup, i18n });
+  }
+
   const webUrl = linkCallRoute.toWebUrl({
     key: callLink.rootKey,
   });
@@ -253,6 +258,38 @@ export function CallLinkDetails({
           {i18n('icu:CallLinkDetails__DeleteLinkModal__Body')}
         </ConfirmationDialog>
       )}
+    </div>
+  );
+}
+
+function renderMissingCallLink({
+  callHistoryGroup,
+  i18n,
+}: Pick<CallLinkDetailsProps, 'callHistoryGroup' | 'i18n'>): JSX.Element {
+  return (
+    <div className="CallLinkDetails__Container">
+      <header className="CallLinkDetails__Header">
+        <Avatar
+          className="CallLinkDetails__HeaderAvatar"
+          i18n={i18n}
+          badge={undefined}
+          conversationType="callLink"
+          size={AvatarSize.SIXTY_FOUR}
+          acceptedMessageRequest
+          isMe={false}
+          sharedGroupNames={[]}
+          title={i18n('icu:calling__call-link-default-title')}
+        />
+        <div className="CallLinkDetails__HeaderDetails">
+          <h1 className="CallLinkDetails__HeaderTitle">
+            {i18n('icu:calling__call-link-default-title')}
+          </h1>
+        </div>
+      </header>
+      <CallHistoryGroupPanelSection
+        callHistoryGroup={callHistoryGroup}
+        i18n={i18n}
+      />
     </div>
   );
 }

@@ -252,9 +252,13 @@ const peerIdInBytesSchema = z.instanceof(Uint8Array).transform(value => {
     }
   }
 
-  // groupId or call link roomId
+  // groupId
   return Bytes.toBase64(value);
 });
+
+const roomIdInBytesSchema = z
+  .instanceof(Uint8Array)
+  .transform(value => Bytes.toHex(value));
 
 const longToStringSchema = z
   .instanceof(Long)
@@ -264,14 +268,29 @@ const longToNumberSchema = z
   .instanceof(Long)
   .transform(long => long.toNumber());
 
-export const callEventNormalizeSchema = z.object({
-  peerId: peerIdInBytesSchema,
-  callId: longToStringSchema,
-  timestamp: longToNumberSchema,
-  type: z.nativeEnum(Proto.SyncMessage.CallEvent.Type),
-  direction: z.nativeEnum(Proto.SyncMessage.CallEvent.Direction),
-  event: z.nativeEnum(Proto.SyncMessage.CallEvent.Event),
-});
+export const callEventNormalizeSchema = z
+  .object({
+    callId: longToStringSchema,
+    timestamp: longToNumberSchema,
+    direction: z.nativeEnum(Proto.SyncMessage.CallEvent.Direction),
+    event: z.nativeEnum(Proto.SyncMessage.CallEvent.Event),
+  })
+  .and(
+    z.union([
+      z.object({
+        type: z
+          .nativeEnum(Proto.SyncMessage.CallEvent.Type)
+          .refine(val => val === Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL),
+        peerId: roomIdInBytesSchema,
+      }),
+      z.object({
+        type: z
+          .nativeEnum(Proto.SyncMessage.CallEvent.Type)
+          .refine(val => val !== Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL),
+        peerId: peerIdInBytesSchema,
+      }),
+    ])
+  );
 
 export const callLogEventNormalizeSchema = z.object({
   type: z.nativeEnum(Proto.SyncMessage.CallLogEvent.Type),

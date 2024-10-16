@@ -12,7 +12,6 @@ import {
 } from '../selectors/calling';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useCallingActions } from '../ducks/calling';
-import * as log from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import type { CallLinkRestrictions } from '../../types/CallLink';
 import { isAnybodyInGroupCall } from '../ducks/callingHelpers';
@@ -76,11 +75,6 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
   const isInCall = Boolean(
     activeCall && callLink && activeCall.conversationId === callLink.roomId
   );
-
-  if (callLink == null) {
-    log.error(`SmartCallLinkDetails: callLink not found for room ${roomId}`);
-    return null;
-  }
 
   return (
     <CallLinkDetails

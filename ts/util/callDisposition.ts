@@ -338,10 +338,13 @@ function shouldSyncStatus(callStatus: CallStatus) {
   return statusToProto[callStatus] != null;
 }
 
+// For outgoing sync messages. peerId contains direct or group conversationId or
+// call link peerId. Locally conversationId is Base64 encoded but roomIds
+// are hex encoded.
 export function getBytesForPeerId(callHistory: CallHistoryDetails): Uint8Array {
   let peerId =
     callHistory.mode === CallMode.Adhoc
-      ? Bytes.fromBase64(callHistory.peerId)
+      ? Bytes.fromHex(callHistory.peerId)
       : uuidToBytes(callHistory.peerId);
   if (peerId.length === 0) {
     peerId = Bytes.fromBase64(callHistory.peerId);
