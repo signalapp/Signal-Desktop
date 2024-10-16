@@ -27,12 +27,16 @@ describe('Privacy', () => {
     it('should redact all uuids', () => {
       const text =
         'This is a log line with a uuid 9e420799-acdf-4bf4-8dee-353d7e2096b4\n' +
-        'and another one IN ALL UPPERCASE 340727FB-E43A-413B-941B-AADA033B6CA3';
+        'and another one IN ALL UPPERCASE 340727FB-E43A-413B-941B-AADA033B6CA3\n' +
+        'and a v7 uuid: 019291b5-fea7-7007-9261-31ca82451a6e\n' +
+        'and my story: 00000000-0000-0000-0000-000000000000';
 
       const actual = Privacy.redactUuids(text);
       const expected =
         'This is a log line with a uuid [REDACTED]6b4\n' +
-        'and another one IN ALL UPPERCASE [REDACTED]CA3';
+        'and another one IN ALL UPPERCASE [REDACTED]CA3\n' +
+        'and a v7 uuid: [REDACTED]a6e\n' +
+        'and my story: [REDACTED]000';
       assert.equal(actual, expected);
     });
   });
