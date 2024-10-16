@@ -14,9 +14,9 @@ import type { ConversationModel } from '../models/conversations';
 export const APP_ROOT_PATH = path.join(__dirname, '..', '..');
 
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
-// The additional 0 in [04] and [089AB] are to include MY_STORY_ID
+// The additional 0 in [0-8] and [089AB] are to include MY_STORY_ID
 const UUID_OR_STORY_ID_PATTERN =
-  /[0-9A-F]{8}-[0-9A-F]{4}-[04][0-9A-F]{3}-[089AB][0-9A-F]{3}-[0-9A-F]{9}([0-9A-F]{3})/gi;
+  /[0-9A-F]{8}-[0-9A-F]{4}-[0-8][0-9A-F]{3}-[089AB][0-9A-F]{3}-[0-9A-F]{9}([0-9A-F]{3})/gi;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const GROUP_V2_ID_PATTERN = /(groupv2\()([^=)]+)(=?=?\))/g;
 const CALL_LINK_ROOM_ID_PATTERN = /[0-9A-F]{61}([0-9A-F]{3})/gi;
