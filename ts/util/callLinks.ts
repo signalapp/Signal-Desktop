@@ -15,6 +15,7 @@ import {
   type CallHistoryDetails,
   CallMode,
 } from '../types/CallDisposition';
+import { isBeta, isProduction } from './version';
 
 export const CALL_LINK_DEFAULT_STATE: Pick<
   CallLinkType,
@@ -43,7 +44,20 @@ export function isCallLinksCreateEnabled(): boolean {
   if (isTestOrMockEnvironment()) {
     return true;
   }
-  return RemoteConfig.getValue('desktop.calling.adhoc.create') === 'TRUE';
+
+  const version = window.getVersion();
+
+  if (isProduction(version)) {
+    return RemoteConfig.getValue('desktop.calling.adhoc.create') === 'TRUE';
+  }
+
+  if (isBeta(version)) {
+    return (
+      RemoteConfig.getValue('desktop.calling.adhoc.create.beta') === 'TRUE'
+    );
+  }
+
+  return true;
 }
 
 export function callLinkToConversation(
