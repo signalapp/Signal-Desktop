@@ -74,3 +74,7 @@ export function InAnotherCallAndCallActive(
     />
   );
 }
+
+export function MissingCallLink(args: CallLinkDetailsProps): JSX.Element {
+  return <CallLinkDetails {...args} callLink={undefined} />;
+}
