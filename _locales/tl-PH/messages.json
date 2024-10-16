@@ -1230,7 +1230,7 @@
     "messageformat": "Tawag sa Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Hindi mabura ang link. I-check ang iyong connection at subukan ulit."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Tinanggihan ang iyong request na sumali sa tawag na ito."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Dina-download ang {currentSize} ng {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Naghahandang mag-download..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "I-cancel ang transfer"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "May error sa pag-transfer ng messages mo"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Hindi ma-transfer ang messages mo. I-check ang iyong connection at subukan ulit."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Subukang muli"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Laktawan"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Gusto mo bang i-skip ang message transfer?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Kapag nilaktawan mo ito, hindi mo na ma-a-access ang anumang messages o media sa device na ito. Maaari kang magsimula ng bagong transfer pagkatapos mong mag-skip mula sa Settings > Chats > Transfer"
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Nire-restore ang media"
@@ -5494,10 +5497,10 @@
     "messageformat": "Gusto mo bang i-clear ang call history?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Permanente nitong buburahin ang lahat ng call history."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Permanente nitong buburahin ang lahat ng call history. Hindi na gagana ang call links na ginawa mo para sa mga taong meron na nito. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Clear"
@@ -5506,10 +5509,10 @@
     "messageformat": "Call history cleared"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Hindi lahat ng call links ay pwedeng mabura. I-check ang iyong connection at subukan ulit."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Hindi lahat ng call history ay pwedeng mabura. I-check ang iyong connection at subukan ulit."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "I-click ang <newCallButtonIcon></newCallButtonIcon> para magsimula ng bagong voice o video call."
@@ -5707,13 +5710,19 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "May inayos kaming bug na dahilan kung bakit hindi gumagana nang maayos ang stickers sa media editor."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Kasama rin sa update na ito ang suporta para sa bagong screen sharing interface sa macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Pinabuti ng update na ito ang startup speed nang mga 5%."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

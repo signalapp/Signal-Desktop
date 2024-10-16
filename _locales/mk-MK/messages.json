@@ -1230,7 +1230,7 @@
     "messageformat": "Signal повик"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Не може да се избрише линкот. Проверете ја интернет врската и обидете се повторно."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Вашето барање за придружување на повикот е одбиено."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Се преземаат {currentSize} од {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Се подготвува за преземање…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Откажи пренос"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Грешка при пренесувањето на вашите пораки"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Вашите пораки не можеа да се пренесат. Проверете ја интернет врската и обидете се повторно."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Обидете се повторно"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Прескокни"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Да се прескокне преносот на пораки?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Ако одлучите да се прескокне, нема да имате пристап до ниедна од вашите пораки или медиумски датотеки на овој уред. Можете да започнете нов пренос по прескокнувањето ако одите во Поставувања > Разговори > Пренос."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Враќање на медиумски датотеки"
@@ -5494,10 +5497,10 @@
     "messageformat": "Да се избрише историјата на повици?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Ова трајно ќе ја избрише историјата на повици."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Ова трајно ќе ја избрише историјата на повици. Линковите за повиците кои сте ги создале повеќе нема да функционираат за лицата кои ги имаат. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Исчисти"
@@ -5506,10 +5509,10 @@
     "messageformat": "Избришана е историјата на повици"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Не можеа да се избришат сите линкови за повици. Проверете ја интернет врската и обидете се повторно."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Не можеше да се избрише целосната историја на повици. Проверете ја интернет врската и обидете се повторно."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Кликнете на <newCallButtonIcon></newCallButtonIcon> за да започнете нов гласовен или видео повик."
@@ -5707,13 +5710,19 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Решивме грешка која спречуваше правилно функционирање на налепниците во уредувачот на медиумски датотеки."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Оваа верзија вклучува поддршка за новиот интерфејс за споделување на екран на macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Во оваа верзија е подобрена брзината на стартување за околу 5%."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

@@ -1230,7 +1230,7 @@
     "messageformat": "Виклик у Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Не вдається видалити посилання. Перевірте з'єднання і спробуйте ще раз."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Вам не дозволено приєднатися до виклику."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Завантаження: {currentSize} з {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Підготовка до завантаження…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Скасувати передачу"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Помилка під час перенесення повідомлень"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Не вдалося перенести повідомлення. Перевірте з'єднання з інтернетом і здійсніть перенесення ще раз."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Перенести ще раз"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Пропустити"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Не переносити повідомлення?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Якщо пропустити перенесення, у вас не буде доступу до повідомлень і медіафайлів на цьому пристрої. Перенести повідомлення можна й пізніше: Налаштування > Чати > Перенести повідомлення."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Закрити"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Відновлення медіафайлів"
@@ -5494,10 +5497,10 @@
     "messageformat": "Очистити історію викликів?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Історію всіх викликів буде видалено остаточно."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Історію всіх викликів буде видалено остаточно. Якщо ви надсилали комусь свої посилання на виклики, вони більше не працюватимуть. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Видалити"
@@ -5506,10 +5509,10 @@
     "messageformat": "Історію викликів очищено"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Частину посилань на виклики не вдалося видалити. Перевірте з'єднання і повторіть видалення."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Не вдалося повністю очистити історію викликів. Перевірте з'єднання і спробуйте ще раз."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Натисніть <newCallButtonIcon></newCallButtonIcon>, щоб почати новий аудіо- чи відеовиклик."
@@ -5707,13 +5710,19 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Ми виправили помилку зі стікерами в медіаредакторі. Тепер, якщо ви додаєте стікери на зображення, вас зможе стримати хіба що власне почуття прекрасного, а не технічні збої."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "У цьому оновленні ми також впроваджуємо підтримку нового інтерфейсу для демонстрації екрана в macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "У цьому оновленні ми пришвидшили запуск десь на 5%, тож ви можете трошки сповільнитися в інших сферах життя."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

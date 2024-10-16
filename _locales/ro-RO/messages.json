@@ -1230,7 +1230,7 @@
     "messageformat": "Apel Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Nu se poate elimina linkul. Verifică-ți conexiunea și încearcă din nou."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Solicitarea ta de a participa la acest apel a fost respinsă."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Se descarcă {currentSize} din {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Se pregătește descărcarea..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Anulează transferul"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Eroare la transferul mesajelor tale"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Mesajele tale nu au putut fi transferate. Verifică conexiunea la internet a telefonului și încearcă din nou."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Încearcă din nou"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Omite"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Omiți transferul de mesaje?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Dacă alegi să le omiți, nu vei avea acces la niciunul dintre mesajele sau fișierele tale de pe acest dispozitiv. Poți începe un nou transfer după ce omiți din Setări > Conversații > Transfer."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Se restaurează fișierele"
@@ -5494,10 +5497,10 @@
     "messageformat": "Ștergi istoricul apelurilor?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Se va șterge definitiv tot istoricul apelurilor."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Se va elimina definitiv tot istoricul apelurilor. Linkurile apelurilor pe care le-ai creat nu vor mai funcționa pentru persoanele care le au. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Eliminare"
@@ -5506,10 +5509,10 @@
     "messageformat": "Istoria apelurilor a fost ștearsă"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Nu au putut fi eliminate toate linkurile apelurilor. Verifică-ți conexiunea și încearcă din nou."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Nu a putut fi eliminat tot istoricul apelurilor. Verifică-ți conexiunea și încearcă din nou."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Dă clic pe <newCallButtonIcon></newCallButtonIcon> pentru a începe un nou apel video sau vocal."
@@ -5707,13 +5710,19 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Am remediat o eroare care împiedica funcționarea corectă a autocolantelor în editorul media, iar acum selectorul nu se mai blochează atunci când încerci să lipești un autocolant pe o imagine."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Această actualizare include și asistență pentru noua interfață de partajare a ecranului din macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Această actualizare îmbunătățește viteza de pornire cu aproximativ 5%, așa că nu ezita să reduci puțin ritmul în alte domenii ale vieții tale."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

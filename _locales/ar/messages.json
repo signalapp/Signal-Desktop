@@ -1230,7 +1230,7 @@
     "messageformat": "مكالمة سيجنال"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "تعذَّر حذف الرابط. تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "لقد رُفضَ طلب انضمامك إلى هذه المكالمة."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "يتم تنزيل {currentSize} من أصل {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "جارٍ الإعداد للتنزيل..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "إلغاء التحويل"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "حدث خطأ أثناء نقل رسائلك."
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "تعذَّر نقل رسائلك. تحقَّق من اتصالك بالإنترنت وحاول مُجدَّدًا."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "إعادة المُحاولة"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "تخطّي"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "أترغبُ بتخطّي نقل الرسائل؟"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "إذا اخترتَ التخطّي، فلن تتمكّن من الوصول إلى رسائلك أو وسائطك على هذا الجهاز. يُمكنك بدء عملية نقل جديدة بعد التخطّي من خلال الإعدادات > الدردشات > النقل."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "جارٍ استرجاع الوسائط"
@@ -5494,10 +5497,10 @@
     "messageformat": "مسح سِّجِلّ الاتصالات؟"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "سَيؤدِّي هذا إلى حذف جميع سِجِلَّات المكالمات."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "سَيؤدي هذا إلى حذف جميع سِجِلَّات المكالمات. روابط المكالمات التي أنشأتها لن تعمل بعد الآن عند الأشخاص الذين أُرسِلَت إليهم من قبل. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "محو"
@@ -5506,10 +5509,10 @@
     "messageformat": "تم مسح سِّجِلّ الاتصالات"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "لا يمكن حذف جميع روابط المكالمات. تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "لا يمكن مسح جميع سجلّات المكالمات. تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "انقر على <newCallButtonIcon></newCallButtonIcon> لبدء مُكالمة صوتية أو فيديو جديدة."
@@ -5707,13 +5710,19 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "أصلحنا خطأ كان يَمنع الملصقات من العمل بشكل صحيح في مُحرِّر الوسائط."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "يتضمّن هذا التحديث أيضًا دعم الميزة الجديدة لمشاركة الشاشة في macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "يُحسِّن هذا التحديث سرعة بدء التشغيل بنسبة تقارب 5%."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

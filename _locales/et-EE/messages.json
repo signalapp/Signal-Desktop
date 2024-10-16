@@ -1230,7 +1230,7 @@
     "messageformat": "Signali kõne"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Linki ei saa kustutada. Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Sinu kõnega liitumise taotlus lükati tagasi."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Allalaadimine: {currentSize} kogumahust {totalSize} ({fractionComplete,number,percent}) …"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Allalaadimise ettevalmistamine …"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Tühista edastus"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Viga sõnumite edastamisel"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Sinu sõnumeid ei saanud edastada. Kontrolli oma võrguühendust ja proovi uuesti."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Proovi uuesti"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Jäta vahele"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Kas jätta sõnumite edastus vahele?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Kui valid vahelejätmise, ei ole sul enam selles seadmes ligipääsu oma sõnumitele ega meediale. Saad alustada uut edastust, kui oled valinud Sätted > Vestlused > Edastus."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Loobu"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Meedia taastamine"
@@ -5494,10 +5497,10 @@
     "messageformat": "Kas tühjendada kõneajalugu?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "See kustutab jäädavalt kogu kõneajaloo."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "See kustutab jäädavalt kogu kõneajaloo. Sinu loodud kõnelingid ei toimi enam inimeste jaoks, kellele need on saadetud. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Eemalda"
@@ -5506,10 +5509,10 @@
     "messageformat": "Kõneajalugu on eemaldatud"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Kõiki kõnelinke ei saanud kustutada. Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Kogu kõneajalugu ei saanud eemaldada. Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Uue hääl- või videokõne alustamiseks klõpsa <newCallButtonIcon></newCallButtonIcon>."
@@ -5707,13 +5710,19 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Parandasime vea, mis ei lasknud kleebistel meediaredaktoris korralikult töötada."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Selle uuendusega kaasneb ka uue macOS Sequoia ekraanijagamise liidese toetus."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "See uuendus muudab käivitumise umbes 5% kiiremaks."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

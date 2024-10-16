@@ -1230,7 +1230,7 @@
     "messageformat": "تماس با سیگنال"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "پیوند قابل حذف نیست. اتصال خود را بررسی و دوباره تلاش کنید."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "درخواست شما برای پیوستن به این تماس رد شده است."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "در حال دانلود {currentSize} از {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "در حال آماده‌سازی برای دانلود..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "لغو انتقال"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "خطا در انتقال پیام‌های شما"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "پیام‌های شما قابل انتقال نیست. اتصال اینترنت خود را بررسی و دوباره امتحان کنید."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "تلاش مجدد"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "رد کردن"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "انتقال پیام رد شود؟"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "اگر رد شوید، به هیچ یک از پیام‌ها یا رسانه‌های خود در این دستگاه دسترسی نخواهید داشت. پس از رد کردن، می‌توانید از قسمت «تنظیمات» > «گفتگوها» > «انتقال»، انتقال جدیدی را شروع کنید."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "لغو"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "در حال بازیابی رسانه"
@@ -5494,10 +5497,10 @@
     "messageformat": "تاریخچه تماس پاک شود؟"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "این کار همۀ تاریخچۀ تماس را به‌طور دائم پاک خواهد کرد."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "با این کار، تاریخچه همه تماس‌ها برای همیشه حذف می‌شود. پیوندهای تماسی که ایجاد کرده‌اید دیگر برای کسانی که این پیوندها را دارند کار نخواهد کرد. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "پاک کردن"
@@ -5506,10 +5509,10 @@
     "messageformat": "سوابق تماس‌ها پاک شد."
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "امکان حذف همه پیوندهای تماس وجود ندارد. اتصال خود را بررسی و دوباره تلاش کنید."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "امکان پاک کردن تاریخچه همه تماس‌ها وجود ندارد. اتصال خود را بررسی و دوباره تلاش کنید."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "برای شروع تماس صوتی یا تصویری جدید، روی <newCallButtonIcon></newCallButtonIcon> کلیک کنید."
@@ -5707,13 +5710,19 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "ما اشکالی را برطرف کردیم که مانع از کارکرد صحیح استیکرها در ویرایشگر رسانه می‌شد."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "این به‌روزرسانی همچنین از رابط جدید اشتراک‌گذاری صفحه در macOS Sequoia پشتیبانی می‌کند."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "این نسخۀ جدید، سرعت راه‌اندازی را تا حدود ۵٪ بهبود می‌بخشد."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

@@ -1230,7 +1230,7 @@
     "messageformat": "Trucada del Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "No es pot eliminar l'enllaç. Comprova la connexió i torna-ho a provar."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "S'ha denegat la teva sol·licitud per unir-te a la trucada."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Descarregant {currentSize} de {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparant per descarregar…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Cancel·lar la transferència"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "S'ha produït un error en transferir els teus missatges"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "No s'han pogut transferir els teus missatges. Comprova la connexió a Internet i torna-ho a provar."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Torna a provar-ho"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Omet"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Ometre la transferència de missatges?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Si decideixes ometre aquest pas, no podràs accedir a cap dels teus missatges o arxius multimèdia des d'aquest dispositiu. Pots iniciar una nova transferència després d'haver-la omès des d'Ajustos > Xats > Transferència."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancel·la"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restaurant els arxius"
@@ -5494,10 +5497,10 @@
     "messageformat": "Netejar l'historial de trucades?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "S'eliminarà de manera permanent tot l'historial de trucades."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "S'eliminarà de manera permanent tot l'historial de trucades. Els enllaços de trucada que hagis creat ja no funcionaran per a les persones que els tinguin. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Neteja"
@@ -5506,10 +5509,10 @@
     "messageformat": "S'ha buidat l'històric de trucades"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "No s'han pogut eliminar tots els enllaços de trucada. Comprova la connexió i torna-ho a provar."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "No s'ha pogut eliminar tot l'historial de trucades. Comprova la connexió i torna-ho a provar."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Fes clic a <newCallButtonIcon></newCallButtonIcon> per iniciar una nova trucada de veu o vídeo."
@@ -5707,13 +5710,19 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Hem corregit un error que impedia que els stickers funcionessin correctament a l'editor de contingut."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Aquesta actualització també inclou suport per a la nova interfície per a compartir pantalla en macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Aquesta actualització millora la velocitat d'inici en aproximadament un 5 %."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

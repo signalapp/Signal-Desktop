@@ -1230,7 +1230,7 @@
     "messageformat": "Glao Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Níorbh fhéidir an nasc a scriosadh. Seiceáil do nasc agus triail arís é."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Diúltaíodh do d'iarratas ar dhul isteach sa ghlao seo."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{currentSize} as {totalSize} ({fractionComplete,number,percent}) á n-íoslódáil…"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Íoslódáil á hullmhú..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Cuir an t-aistriú ar ceal"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Tharla earráid agus do theachtaireachtaí á n-aistriú"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Níorbh fhéidir do theachtaireachtaí a aistriú. Seiceáil do nasc Idirlín agus triail arís é."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Bain triail eile as"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Léim thairis seo"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Léim thar aistriú teachtaireachtaí?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Má roghnaíonn tú scipeáil, ní bheidh rochtain agat ar aon cheann de do theachtaireachtaí nó meáin ar an ngléas seo. Is féidir leat tosú ar aistriú nua tar éis scipeáil ó Shocruithe >Comhráite > Aistrigh."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Meáin á n-aischur"
@@ -5494,10 +5497,10 @@
     "messageformat": "Glan stair na nglaonna?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Scriosfar stair na nglaonna uile leis sin."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Scriosfar stair na nglaonna uile leis sin. Na naisc glaonna a chruthaigh tú, ní oibreoidh siad a thuilleadh do na daoine a bhfuil siad acu. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Glan"
@@ -5506,10 +5509,10 @@
     "messageformat": "Stair na nglaonna glanta"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Níorbh fhéidir gach nasc glao a scriosadh. Seiceáil do nasc agus triail arís é."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Níorbh fhéidir an stair glaonna uile a ghlanadh. Seiceáil do nasc agus triail arís é."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Cliceáil <newCallButtonIcon></newCallButtonIcon> le tosú ar ghuthghlao nó ar fhísghlao nua."
@@ -5707,13 +5710,19 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Réitíomar fabht trínar coisceadh ar ghreamáin oibriú i gceart san eagarthóir meán. Ní ghreamóidh an roghnóir níos mó nuair a bheidh tú ag iarraidh greamán a ghreamú de phictiúr."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Áirítear freisin leis an nuashonrú seo tacaíocht don chomhéadan comhroinnte scáileáin nua in macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Feabhsaíonn an nuashonrú seo luas tosaithe faoi thimpeall 5%, mar sin tá an tsaoirse agat moilliú beagán i réimsí eile de do shaol."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

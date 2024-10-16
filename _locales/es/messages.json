@@ -252,7 +252,7 @@
     "messageformat": "Número de teléfono"
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
-    "messageformat": "Ingresa un alias seguido de un punto y su conjunto de números."
+    "messageformat": "Introduce un alias seguido de un punto y su conjunto de números."
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Código de país"
@@ -942,7 +942,7 @@
     "messageformat": "{name} está en tus contactos del sistema"
   },
   "icu:NotePreviewModal__Title": {
-    "messageformat": "Notas"
+    "messageformat": "Nota"
   },
   "icu:allMediaMenuItem": {
     "messageformat": "Archivos multimedia"
@@ -1047,7 +1047,7 @@
     "messageformat": "Fallo en la entrega"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "No se ha podido recibir un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia de {sender}. Puede haberlo enviado en un chat o en un grupo común."
+    "messageformat": "No se ha podido recibir un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia que {sender} te ha enviado directamente o en un chat grupal en común."
   },
   "icu:DeliveryIssue--summary--group": {
     "messageformat": "No se ha podido recibir un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia de {sender} en este chat."
@@ -1230,7 +1230,7 @@
     "messageformat": "Llamada de Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "No se ha podido eliminar el enlace. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Se ha rechazado tu solicitud para unirte a la llamada."
@@ -1770,7 +1770,7 @@
     "messageformat": "No se ha podido recuperar el número de teléfono. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:ToastManager__CannotEditMessage_24": {
-    "messageformat": "Solo pueden hacerse cambios hasta 24 horas después del momento en que enviaste este mensaje."
+    "messageformat": "Solo pueden hacerse cambios hasta 24 horas después del momento en que enviaste este mensaje."
   },
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} no usa Signal. Asegúrate de haber introducido el alias completo."
@@ -1989,16 +1989,16 @@
     "messageformat": "Donación"
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days, plural, one {{days,number} día más} other {{days,number} días más}}"
+    "messageformat": "{days, plural, one {Queda {days,number} día} other {Quedan {days,number} días}}"
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours, plural, one {{hours,number} hora más} other {{hours,number} horas más}}"
+    "messageformat": "{hours, plural, one {Queda {hours,number} hora} other {Quedan {hours,number} horas}}"
   },
   "icu:message--donation--remaining--minutes": {
-    "messageformat": "{minutes, plural, one {1 minuto restante} other {{minutes,number} minutos restantes}}"
+    "messageformat": "{minutes, plural, one {Queda {minutes,number} minuto} other {Quedan {minutes,number} minutos}}"
   },
   "icu:message--donation--expired": {
-    "messageformat": "Caducado"
+    "messageformat": "Caducada"
   },
   "icu:message--donation--view": {
     "messageformat": "Ver más"
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Descargando {currentSize} de {totalSize} ({fractionComplete,number,percent})"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparando la descarga…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Cancelar transferencia"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Error al transferir tus mensajes"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "No se han podido transferir tus mensajes. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Reintentar"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Omitir"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "¿Omitir la transferencia de mensajes?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Si decides omitir este paso, no tendrás acceso a ninguno de tus mensajes ni archivos multimedia en este dispositivo. Puedes iniciar una nueva transferencia después de seleccionar Omitir desde Ajustes > Chats > Transferencia."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restaurando archivos multimedia"
@@ -3705,7 +3708,7 @@
     "messageformat": "¿Eliminar apodo?"
   },
   "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
-    "messageformat": "Se eliminará de forma permanente este apodo y estas notas."
+    "messageformat": "Se eliminará de forma permanente este apodo y esta nota."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Notificaciones"
@@ -3819,10 +3822,10 @@
     "messageformat": "Apellido"
   },
   "icu:EditNicknameAndNoteModal__Note__Label": {
-    "messageformat": "Notas"
+    "messageformat": "Nota"
   },
   "icu:EditNicknameAndNoteModal__Note__Placeholder": {
-    "messageformat": "Notas"
+    "messageformat": "Nota"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Menciones"
@@ -4821,7 +4824,7 @@
     "messageformat": "Más opciones"
   },
   "icu:MyStories__views": {
-    "messageformat": "{views, plural, one {{views,number} vista} other {{views,number} vistas}}"
+    "messageformat": "{views, plural, one {{views,number} visualización} other {{views,number} visualizaciones}}"
   },
   "icu:MyStories__views--strong": {
     "messageformat": "{views, plural, one {<strong>{views,number}</strong> visualización} other {<strong>{views,number}</strong> visualizaciones}}"
@@ -4896,10 +4899,10 @@
     "messageformat": "{connections} son personas en las que has decidido confiar, ya que:"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Iniciar un chat"
+    "messageformat": "Has iniciado un chat con ellas"
   },
   "icu:SignalConnectionsModal__bullet--2": {
-    "messageformat": "Aceptando una solicitud de mensaje"
+    "messageformat": "Has aceptado una solicitud de chat que te enviaron"
   },
   "icu:SignalConnectionsModal__bullet--3": {
     "messageformat": "Están en tus contactos del sistema"
@@ -4980,7 +4983,7 @@
     "messageformat": "Privacidad de las historias"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Las historias desaparecerán automáticamente después de 24 horas. Elige quién puede ver tus historias o crea historias nuevas para compartir con personas o grupos específicos."
+    "messageformat": "Las historias desaparecerán automáticamente después de 24 horas. Elige quién puede ver tus historias o crea historias nuevas para compartir con personas o grupos específicos."
   },
   "icu:StoriesSettings__my_stories": {
     "messageformat": "Mis historias"
@@ -5064,7 +5067,7 @@
     "messageformat": "Quién puede ver esta historia"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Las personas que están el grupo \"{groupTitle}\" podrán ver y responder a esta historia. Puedes añadir o eliminar personas en los ajustes del grupo."
+    "messageformat": "Las personas que están el grupo \"{groupTitle}\" podrán ver y responder a esta historia. Puedes añadir o eliminar participantes en los ajustes del grupo."
   },
   "icu:GroupStorySettingsModal__remove_group": {
     "messageformat": "Eliminar historia de grupo"
@@ -5316,7 +5319,7 @@
     "messageformat": "Añadir texto"
   },
   "icu:TextAttachment__preview__link": {
-    "messageformat": "Visitar enlace"
+    "messageformat": "Abrir enlace"
   },
   "icu:Quote__story": {
     "messageformat": "Historia"
@@ -5410,7 +5413,7 @@
     "messageformat": "Corregir ahora"
   },
   "icu:UsernameLinkModalBody__recovered__text": {
-    "messageformat": "Tu código QR y enlace se han restablecido, y se han creado un código QR y enlace nuevos."
+    "messageformat": "Se han restablecido tu código QR y tu enlace, y se han creado un código QR y un enlace nuevos."
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Nuevas formas de conectarte"
@@ -5494,10 +5497,10 @@
     "messageformat": "¿Eliminar historial de llamadas?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Se eliminará de forma permanente todo tu historial de llamadas."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Se eliminará de forma permanente todo tu historial de llamadas. Los enlaces de llamada que hayas creado ya no funcionarán para las personas que los tengan. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Eliminar"
@@ -5506,10 +5509,10 @@
     "messageformat": "Se borró el historial de llamadas"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "No se han podido eliminar todos los enlaces de las llamadas. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "No se ha podido eliminar todo el historial de llamadas. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Haz clic en <newCallButtonIcon></newCallButtonIcon> para iniciar una nueva llamada o videollamada."
@@ -5707,13 +5710,19 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Hemos corregido un error que hacía que se bloqueara el selector de stickers en el editor de contenido. ¡Adiós al error! Ya no te pegarás un disgusto cuando intentes pegar un sticker en una foto."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Eso no es todo… Esta actualización también es compatible con la nueva interfaz para compartir pantalla en macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Con esta actualización, la velocidad de inicio es aproximadamente un 5 % más rápida, así que siéntete libre de disfrutar del tiempo que has ganado tomándotelo con más calma en otras áreas de tu vida."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

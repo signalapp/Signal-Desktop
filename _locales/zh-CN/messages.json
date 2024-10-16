@@ -1230,7 +1230,7 @@
     "messageformat": "Signal 通话"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "无法删除链接。请检查您的网络连接并重试。"
   },
   "icu:calling__join-request-denied": {
     "messageformat": "您加入通话的请求已被拒绝。"
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "正在下载 {currentSize}/{totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "正在准备下载…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "取消转移"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "转移您的消息时出错了"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "您的消息无法转移。请检查您的互联网连接并重试。"
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "重试"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "跳过"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "要跳过消息转移吗？"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "如果选择跳过，您将无法访问此设备上的任何消息或媒体。在跳过后，您可以在“设置 > 聊天 > 转移”页面重新开始转移消息。"
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "正在恢复媒体"
@@ -5494,10 +5497,10 @@
     "messageformat": "要清除通话记录吗？"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "此操作将永久删除所有通话记录。"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "此操作将永久删除所有通话记录。已拥有您创建的通话链接的用户将无法重复使用此链接。 "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "清除"
@@ -5506,10 +5509,10 @@
     "messageformat": "通话记录已清空"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "有些通话链接无法删除。请检查您的网络连接并重试。"
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "有些通话记录无法清空。请检查您的网络连接并重试。"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "点击 <newCallButtonIcon></newCallButtonIcon> 来开始发起一个新的语音或视频通话吧。"
@@ -5707,13 +5710,19 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "我们修复了一个漏洞，让贴纸能够在媒体编辑器中正常运行。"
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "此次更新还包括对 macOS Sequoia 屏幕共享新界面的支持。"
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "此次更新将启动速度提升了大约 5%。"
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

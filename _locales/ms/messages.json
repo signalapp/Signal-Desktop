@@ -1230,7 +1230,7 @@
     "messageformat": "Panggilan Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Tidak dapat memadamkan pautan. Periksa sambungan anda dan cuba lagi."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Permintaan anda untuk menyertai panggilan ini telah ditolak."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Memuat turun {currentSize} daripada {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Bersedia untuk memuat turun..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Batalkan pemindahan"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Ralat semasa memindahkan mesej anda"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Mesej anda tidak dapat dipindahkan. Semak sambungan internet anda dan cuba lagi."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Cuba Semula"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Langkau"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Langkau pemindahan mesej?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Jika anda memilih untuk melangkau, anda tidak akan mempunyai akses kepada mana-mana mesej atau media anda pada peranti ini. Anda boleh memulakan pemindahan baharu selepas melangkau daripada Tetapan > Sembang > Pemindahan."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Memulihkan media"
@@ -5494,10 +5497,10 @@
     "messageformat": "Kosongkan sejarah panggilan?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Ini akan memadamkan semua sejarah panggilan secara kekal."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Ini akan memadamkan semua sejarah panggilan secara kekal. Pautan panggilan yang telah anda buat tidak akan berfungsi lagi untuk orang yang memilikinya. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Kosongkan"
@@ -5506,10 +5509,10 @@
     "messageformat": "Sejarah panggilan dikosongkan"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Tidak semua pautan panggilan boleh dipadamkan. Periksa sambungan anda dan cuba lagi."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Tidak semua sejarah panggilan dapat dikosongkan. Periksa sambungan anda dan cuba lagi."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Klik <newCallButtonIcon></newCallButtonIcon> untuk memulakan panggilan suara atau video baharu."
@@ -5707,13 +5710,19 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Kami membaiki pepijat yang menghalang pelekat daripada berfungsi dengan betul dalam editor media."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Kemas kini ini juga termasuk sokongan untuk antara muka perkongsian skrin baharu dalam macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Kemas kini ini meningkatkan kelajuan permulaan sekitar 5%."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }
