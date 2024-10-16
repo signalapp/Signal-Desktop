@@ -1974,14 +1974,16 @@ export async function mergeCallLinkRecord(
   const localCallLinkDbRecord =
     await DataReader.getCallLinkRecordByRoomId(roomId);
 
-  const deletedAt: number | null =
-    callLinkRecord.deletedAtTimestampMs != null
-      ? getTimestampFromLong(callLinkRecord.deletedAtTimestampMs)
-      : null;
-  const shouldDrop =
-    deletedAt != null && isOlderThan(deletedAt, getMessageQueueTime());
+  // Note deletedAtTimestampMs can be 0
+  const deletedAtTimestampMs = callLinkRecord.deletedAtTimestampMs?.toNumber();
+  const deletedAt = deletedAtTimestampMs || null;
+  const shouldDrop = Boolean(
+    deletedAt && isOlderThan(deletedAt, getMessageQueueTime())
+  );
   if (shouldDrop) {
-    details.push('expired deleted call link; scheduling for removal');
+    details.push(
+      `expired deleted call link deletedAt=${deletedAt}; scheduling for removal`
+    );
   }
 
   const callLinkDbRecord: CallLinkRecord = {
@@ -2005,7 +2007,9 @@ export async function mergeCallLinkRecord(
 
   if (!localCallLinkDbRecord) {
     if (deletedAt) {
-      details.push('skipping deleted call link with no matching local record');
+      details.push(
+        `skipping deleted call link with no matching local record deletedAt=${deletedAt}`
+      );
     } else if (await DataReader.defunctCallLinkExists(roomId)) {
       details.push('skipping known defunct call link');
     } else {
@@ -2022,7 +2026,7 @@ export async function mergeCallLinkRecord(
           storageID: callLink.storageID,
           storageVersion: callLink.storageVersion,
           storageUnknownFields: callLink.storageUnknownFields,
-          source: 'storage.mergeCallLinkRecord',
+          source: `storage.mergeCallLinkRecord(${redactedStorageID})`,
         })
       );
     }
