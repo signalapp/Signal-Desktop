@@ -18,6 +18,8 @@ import { strictAssert } from './assert';
 import { explodePromise } from './explodePromise';
 import { isNotNil } from './isNotNil';
 import { drop } from './drop';
+import { SECOND } from './durations';
+import { isOlderThan } from './timestamp';
 
 // Chrome-only API for now, thus a declaration:
 declare class MediaStreamTrackGenerator extends MediaStreamTrack {
@@ -176,19 +178,26 @@ export class DesktopCapturer {
     liveCapturers.add(this);
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: {
-          width: {
-            max: REQUESTED_SCREEN_SHARE_WIDTH,
-            ideal: REQUESTED_SCREEN_SHARE_WIDTH,
-          },
-          height: {
-            max: REQUESTED_SCREEN_SHARE_HEIGHT,
-            ideal: REQUESTED_SCREEN_SHARE_HEIGHT,
-          },
-          frameRate: {
-            max: REQUESTED_SCREEN_SHARE_FRAMERATE,
-            ideal: REQUESTED_SCREEN_SHARE_FRAMERATE,
-          },
+        video: true,
+      });
+
+      const videoTrack = stream.getVideoTracks()[0];
+      strictAssert(videoTrack, 'videoTrack does not exist');
+
+      // Apply constraints and ensure that there is at least 1 frame per second.
+      await videoTrack.applyConstraints({
+        width: {
+          max: REQUESTED_SCREEN_SHARE_WIDTH,
+          ideal: REQUESTED_SCREEN_SHARE_WIDTH,
+        },
+        height: {
+          max: REQUESTED_SCREEN_SHARE_HEIGHT,
+          ideal: REQUESTED_SCREEN_SHARE_HEIGHT,
+        },
+        frameRate: {
+          min: 1,
+          max: REQUESTED_SCREEN_SHARE_FRAMERATE,
+          ideal: REQUESTED_SCREEN_SHARE_FRAMERATE,
         },
       });
 
@@ -222,6 +231,20 @@ export class DesktopCapturer {
 
     let isRunning = false;
 
+    let lastFrame: VideoFrame | undefined;
+    let lastFrameSentAt = 0;
+
+    let frameRepeater: NodeJS.Timeout | undefined;
+
+    const cleanup = () => {
+      lastFrame?.close();
+      if (frameRepeater != null) {
+        clearInterval(frameRepeater);
+      }
+      frameRepeater = undefined;
+      lastFrame = undefined;
+    };
+
     const stream = new macScreenShare.Stream({
       width: REQUESTED_SCREEN_SHARE_WIDTH,
       height: REQUESTED_SCREEN_SHARE_HEIGHT,
@@ -229,6 +252,17 @@ export class DesktopCapturer {
 
       onStart: () => {
         isRunning = true;
+
+        // Repeat last frame every second to match "min" constraint above.
+        frameRepeater = setInterval(() => {
+          if (isRunning && track.readyState !== 'ended' && lastFrame != null) {
+            if (isOlderThan(lastFrameSentAt, SECOND)) {
+              drop(writer.write(lastFrame.clone()));
+            }
+          } else {
+            cleanup();
+          }
+        }, SECOND);
 
         this.options.onMediaStream(mediaStream);
       },
@@ -253,13 +287,15 @@ export class DesktopCapturer {
           return;
         }
 
-        const videoFrame = new VideoFrame(frame, {
+        lastFrame?.close();
+        lastFrameSentAt = Date.now();
+        lastFrame = new VideoFrame(frame, {
           format: 'NV12',
           codedWidth: width,
           codedHeight: height,
           timestamp: 0,
         });
-        drop(writer.write(videoFrame));
+        drop(writer.write(lastFrame.clone()));
       },
     });
 
