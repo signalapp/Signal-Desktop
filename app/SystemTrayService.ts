@@ -129,6 +129,50 @@ export class SystemTrayService {
     this.renderDisabled();
   }
 
+  private createContextMenu() {
+    const { browserWindow } = this;
+    return Menu.buildFromTemplate([
+      {
+        id: 'toggleWindowVisibility',
+        ...(browserWindow?.isFocused()
+          ? {
+              label: this.i18n('icu:hide'),
+              click: () => {
+                log.info(
+                  'System tray service: hiding the window from the context menu'
+                );
+                // We re-fetch `this.browserWindow` here just in case the browser window
+                //   has changed while the context menu was open. Same applies in the
+                //   "show" case below.
+                browserWindow?.hide();
+              },
+            }
+          : {
+              label: this.i18n('icu:showOrFocus'),
+              click: () => {
+                log.info(
+                  'System tray service: showing the window from the context menu'
+                );
+                if (browserWindow) {
+                  browserWindow.show();
+                  focusAndForceToTop(browserWindow);
+                }
+              },
+            }),
+      },
+      {
+        id: 'quit',
+        label: this.i18n('icu:quit'),
+        click: () => {
+          log.info(
+            'System tray service: quitting the app from the context menu'
+          );
+          app.quit();
+        },
+      },
+    ]);
+  }
+
   private renderEnabled() {
     if (this.isQuitting) {
       log.info('System tray service: not rendering the tray, quitting');
@@ -138,7 +182,7 @@ export class SystemTrayService {
     log.info('System tray service: rendering the tray');
 
     this.tray = this.tray || this.createTray();
-    const { browserWindow, tray } = this;
+    const { tray } = this;
 
     try {
       tray.setImage(getIcon(this.unreadCount));
@@ -153,48 +197,7 @@ export class SystemTrayService {
     // context menu, since the 'click' event may not work on all platforms.
     // For details please refer to:
     // https://github.com/electron/electron/blob/master/docs/api/tray.md.
-    tray.setContextMenu(
-      Menu.buildFromTemplate([
-        {
-          id: 'toggleWindowVisibility',
-          ...(browserWindow?.isFocused()
-            ? {
-                label: this.i18n('icu:hide'),
-                click: () => {
-                  log.info(
-                    'System tray service: hiding the window from the context menu'
-                  );
-                  // We re-fetch `this.browserWindow` here just in case the browser window
-                  //   has changed while the context menu was open. Same applies in the
-                  //   "show" case below.
-                  this.browserWindow?.hide();
-                },
-              }
-            : {
-                label: this.i18n('icu:show'),
-                click: () => {
-                  log.info(
-                    'System tray service: showing the window from the context menu'
-                  );
-                  if (this.browserWindow) {
-                    this.browserWindow.show();
-                    focusAndForceToTop(this.browserWindow);
-                  }
-                },
-              }),
-        },
-        {
-          id: 'quit',
-          label: this.i18n('icu:quit'),
-          click: () => {
-            log.info(
-              'System tray service: quitting the app from the context menu'
-            );
-            app.quit();
-          },
-        },
-      ])
-    );
+    tray.setContextMenu(this.createContextMenu());
   }
 
   private renderDisabled() {
@@ -232,6 +235,19 @@ export class SystemTrayService {
     });
 
     result.setToolTip(this.i18n('icu:signalDesktop'));
+
+    const { browserWindow } = this;
+    browserWindow?.on('focus', () => {
+      // Need to recreate the context menu every time, since we cannot dynamically replace MenuItem's
+      // or change the label/ click handler
+      // Ref: https://github.com/electron/electron/issues/12633
+
+      this.tray?.setContextMenu(this.createContextMenu());
+    });
+
+    browserWindow?.on('blur', () => {
+      this.tray?.setContextMenu(this.createContextMenu());
+    });
 
     return result;
   }
