@@ -1230,7 +1230,7 @@
     "messageformat": "Signal కాల్"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "లింక్‌ను తొలగించడం సాధ్యం కాదు. మీ కనెక్షన్‌ను తనిఖీ చేసుకొని మళ్ళీ ప్రయత్నించండి."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "ఈ కాల్‌లో చేరాలనే మీ అభ్యర్థన తిరస్కరించబడింది."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{totalSize} లో {currentSize} ({fractionComplete,number,percent}) డౌన్‌లోడ్ అవుతోంది..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "డౌన్‌లోడ్ చేయడానికి సిద్ధమవుతోంది..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "బదిలీని రద్దు చేయండి"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "మీ సందేశాలను బదిలీ చేయడంలో లోపం"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "మీ సందేశాలు బదిలీ చేయడం సాధ్యం కాదు. మీ ఇంటర్నెట్ కనెక్షన్‌ను తనిఖీ చేసుకొని మళ్ళీ ప్రయత్నించండి."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "మళ్ళీ ప్రయత్నించు"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "దాటవేయి"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "సందేశ బదిలీని దాటవేసేదా?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "ఒకవేళ మీరు దాటవేయడాన్ని ఎంచుకుంటే, ఈ పరికరంలోని మీ సందేశాలు లేదా మీడియా దేనినీ మీరు యాక్సెస్ చేయలేరు. సెట్టింగులు > చాట్‌లు > బదిలీ నుంచి దాటవేసిన తర్వాత మీరు కొత్త బదిలీని ప్రారంభించవచ్చు."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "రద్దు చేయండి"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "మీడియాను పునరుద్ధరిస్తోంది"
@@ -5494,10 +5497,10 @@
     "messageformat": "కాల్ చరిత్రను తొలగించేదా?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "ఇది మొత్తం కాల్ చరిత్రను శాశ్వతంగా తొలగిస్తుంది."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "ఇది మొత్తం కాల్ చరిత్రను శాశ్వతంగా తొలగిస్తుంది. మీరు సృష్టించిన కాల్ లింక్‌లు, వాటిని కలిగి ఉన్న వ్యక్తులకు ఇకపై అవి పని చేయవు. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "స్పష్టమైన"
@@ -5506,10 +5509,10 @@
     "messageformat": "కాల్ చరిత్ర తొలగించబడింది"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "అన్ని కాల్ లింకులు తొలగించడం సాధ్యం కాదు. మీ కనెక్షన్‌ను తనిఖీ చేసుకొని మళ్ళీ ప్రయత్నించండి."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "మొత్తం కాల్ చరిత్రను తొలగించడం సాధ్యం కాదు. మీ కనెక్షన్‌ను తనిఖీ చేసుకొని మళ్ళీ ప్రయత్నించండి."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "కొత్త స్వర లేదా వీడియో కాల్ ప్రారంభించడానికి <newCallButtonIcon></newCallButtonIcon> క్లిక్ చేయండి."
@@ -5707,13 +5710,19 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "మీడియా ఎడిటర్‌లో స్టిక్కర్‌లు సరిగ్గా పని చేయకుండా నిరోధించే బగ్‌ను మేము పరిష్కరించాము."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "ఈ అప్‌డేట్‌లో macOS Sequoia లో కొత్త స్క్రీన్ పంచుకునే ఇంటర్‌ఫేస్‌కు మద్దతు కూడా ఉంది."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "ఈ అప్‌డేట్ స్టార్టప్ వేగాన్ని దాదాపు 5% మెరుగుపరుస్తుంది."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

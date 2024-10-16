@@ -1230,7 +1230,7 @@
     "messageformat": "Signal-opkald"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Kan ikke slette link. Tjek din forbindelse, og prøv igen."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Din anmodning om at deltage i dette opkald er blevet afvist."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Downloader {currentSize} af {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Forbereder download..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Annuller overførsel"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Fejl ved overførsel af beskeder"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Dine beskeder kunne ikke overføres. Tjek din internetforbindelse, og prøv igen."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Prøv igen"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Spring over"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Vil du springe beskedoverførsel over?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Hvis du vælger at springe over, kan du ikke tilgå nogen af dine beskeder eller medier på denne enhed. Du kan starte en ny overførsel efter at have sprunget over fra Indstillinger > Chats > Overførsel."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annullér"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Gendanner medier"
@@ -5494,10 +5497,10 @@
     "messageformat": "Vil du rydde opkaldshistorik?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Dette vil permanent slette al opkaldshistorik."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Dette vil permanent slette al opkaldshistorik. Opkaldslinks, du har oprettet, vil ikke længere virke for folk, der har dem. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Fjern"
@@ -5506,10 +5509,10 @@
     "messageformat": "Opkaldshistorik slettet"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Ikke alle opkaldslinks kunne slettes. Tjek din forbindelse, og prøv igen."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Ikke alle opkaldslinks kunne slettes. Tjek din forbindelse, og prøv igen."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Klik <newCallButtonIcon></newCallButtonIcon> for at starte et nyt tale- eller videoopkald."
@@ -5707,13 +5710,19 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Vi har rettet en fejl, der forhindrede klistermærker i at fungere korrekt i medieværktøjet, og nu sidder vælgeren ikke længere fast, når du forsøger at sætte et klistermærke på et billede."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Denne opdatering inkluderer også understøttelse af den nye skærmdelingsgrænseflade i macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Denne opdatering forbedrer opstartshastigheden med omkring 5 %, så du nu kan sætte farten lidt ned på andre områder af dit liv."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

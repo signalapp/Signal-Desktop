@@ -1230,7 +1230,7 @@
     "messageformat": "Signal poziv"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Brisanje poveznice nije uspjelo. Provjerite internetsku vezu i pokušajte ponovno."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Vaš zahtjev za pridruživanje pozivu je odbijen."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Preuzimanje: {currentSize} od {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Pripremamo datoteke za preuzimanje…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Prekini prijenos"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Pogreška u prijenosu poruka"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Prijenos vaših poruka nije uspio. Provjerite internetsku vezu i pokušajte ponovno."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Pokušajte ponovno"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Preskoči"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Preskočiti prijenos poruka?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Ukoliko odlučite preskočiti ovaj korak, nećete imati pristup nijednoj poruci ili medijskom zapisu s ovog uređaja. Ako preskočite prijenos poruka sada, možete ga naknadno pokrenuti u Postavkama > Razgovori > Prijenos."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Odustani"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Vraćanje medijskih zapisa"
@@ -5494,10 +5497,10 @@
     "messageformat": "Izbrisati povijest poziva?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Ovime ćete trajno izbrisati povijest vaših poziva."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Ovime ćete trajno izbrisati povijest svih vaših poziva. Poveznice na poziv koje ste stvorili i poslali drugim korisnicima neće više biti funkcionalne. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Ukloni"
@@ -5506,10 +5509,10 @@
     "messageformat": "Povijest poziva je izbrisana"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Brisanje svih poveznica na poziv nije uspjelo. Provjerite internetsku vezu i pokušajte ponovno."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Brisanje povijesti poziva nije uspjelo. Provjerite internetsku vezu i pokušajte ponovno."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kliknite na <newCallButtonIcon></newCallButtonIcon> za početak novog glasovnog poziva ili videopoziva."
@@ -5707,13 +5710,19 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Ispravili smo programsku pogrešku koja je sprječavala normalan rad naljepnica u uređivaču medija."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "U ovom ažuriranju također predstavljamo podršku za novo sučelje za emitiranje zaslona u sustavu macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Ovo ažuriranje donosi poboljšanje brzine pokretanja od oko 5 %."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

@@ -1230,7 +1230,7 @@
     "messageformat": "Signal hovor"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Odkaz nie je možné odstrániť. Skontrolujte svoje pripojenie a skúste to znovu."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Vaša žiadosť o pripojenie k tomuto hovoru bola zamietnutá."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Sťahuje sa {currentSize} z {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Pripravuje sa sťahovanie…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Zrušiť prenos"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Vyskytla sa chyba pri prenose vašich správ"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Vaše správy nebolo možné preniesť. Skontrolujte internetové pripojenie a skúste to znova."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Skúsiť znovu"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Preskočiť"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Preskočiť prenos správ?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Ak sa rozhodnete prenos preskočiť, nebudete mať na tomto zariadení prístup k žiadnym svojim správam ani médiám. Nový prenos môžete začať po preskočení z Nastavenia > Čety > Prenos."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušiť"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Obnovujú sa médiá"
@@ -5494,10 +5497,10 @@
     "messageformat": "Vymazať históriu hovorov?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Týmto natrvalo vymažete celú históriu hovorov."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Týmto natrvalo vymažete celú históriu hovorov. Odkazy na hovory, ktoré ste vytvorili, už nebudú fungovať ľuďom, ktorí ich dostali. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Zmazať"
@@ -5506,10 +5509,10 @@
     "messageformat": "História hovorov vyčistená"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Nepodarilo sa odstrániť všetky odkazy na hovor. Skontrolujte svoje pripojenie a skúste to znovu."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Nepodarilo sa vymazať celú históriu hovorov. Skontrolujte svoje pripojenie a skúste to znovu."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kliknite na <newCallButtonIcon></newCallButtonIcon> a zahájte nový hlasový hovor alebo videohovor."
@@ -5707,13 +5710,19 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Opravili sme chybu, ktorá bránila správnemu fungovaniu nálepiek v editore médií."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Táto aktualizácia zahŕňa aj podporu pre nové rozhranie zdieľania obrazovky v systéme macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Táto aktualizácia zvyšuje rýchlosť spustenia približne o 5 %."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

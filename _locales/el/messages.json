@@ -1230,7 +1230,7 @@
     "messageformat": "Κλήση Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Δεν ήταν δυνατή η διαγραφή του συνδέσμου. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Το αίτημα συμμετοχής σου στην κλήση απορρίφθηκε."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Λήψη {currentSize} από {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Προετοιμασία για λήψη..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Ακύρωση μεταφοράς"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Σφάλμα κατά την μεταφορά μηνυμάτων"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Δεν ήταν δυνατή η μεταφορά των μηνυμάτων σου. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και ξαναδοκίμασε."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Επανάληψη"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Παράλειψη"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Παράβλεψη μεταφοράς μηνύματος;"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Εάν επιλέξεις την παράλειψη, δεν θα έχεις πρόσβαση σε κανένα από τα μηνύματα ή τα πολυμέσα σου σε αυτήν τη συσκευή. Μπορείς να ξεκινήσεις μια νέα μεταφορά αφού κάνεις παράλειψη από τις Ρυθμίσεις > Συνομιλίες > Μεταφορά."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Επαναφορά πολυμέσων"
@@ -5494,10 +5497,10 @@
     "messageformat": "Διαγραφή ιστορικού κλήσεων;"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Με αυτή την επιλογή θα διαγραφεί μόνιμα το ιστορικό κλήσεων."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Με αυτή την επιλογή θα διαγραφεί μόνιμα το ιστορικό κλήσεων. Οι σύνδεσμοι κλήσης που δημιούργησες δεν θα λειτουργούν πλέον για τα άτομα που τους έχουν. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Εκκαθάριση"
@@ -5506,10 +5509,10 @@
     "messageformat": "Το ιστορικό κλήσεων διαγράφηκε"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Δεν ήταν δυνατή η διαγραφή όλων των συνδέσμων κλήσης. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Δεν ήταν δυνατή η διαγραφή όλων των συνδέσμων κλήσης. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Πάτα <newCallButtonIcon></newCallButtonIcon> για να ξεκινήσεις μια νέα φωνητική κλήση ή μια βιντεοκλήση."
@@ -5707,13 +5710,19 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε τα αυτοκόλλητα να λειτουργούν σωστά στο πρόγραμμα επεξεργασίας πολυμέσων."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Αυτή η ενημέρωση περιλαμβάνει επίσης υποστήριξη για τη νέα διεπαφή κοινής χρήσης οθόνης στο macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Αυτή η ενημέρωση βελτιώνει την ταχύτητα εκκίνησης κατά περίπου 5%."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

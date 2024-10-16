@@ -1230,7 +1230,7 @@
     "messageformat": "Signal ਕਾਲ"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "ਲਿੰਕ ਨੂੰ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:calling__join-request-denied": {
     "messageformat": "ਇਸ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਤੁਹਾਡੀ ਬੇਨਤੀ ਨੂੰ ਨਾਮਨਜ਼ੂਰ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ।"
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize} ({fractionComplete,number,percent}) ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਤਿਆਰੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "ਟ੍ਰਾਂਸਫਰ ਰੱਦ ਕਰੋ"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਟ੍ਰਾਂਸਫਰ ਕਰਨ ਵੇਲੇ ਕੋਈ ਗੜਬੜੀ ਪੇਸ਼ ਆਈ"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਟ੍ਰਾਂਸਫਰ ਨਹੀਂ ਕੀਤੇ ਜਾ ਸਕੇ। ਆਪਣੇ ਇੰਟਰਨੈੱਟ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "ਛੱਡੋ"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "ਕੀ ਸੁਨੇਹਾ ਟ੍ਰਾਂਸਫਰ ਕਰਨਾ ਛੱਡਣਾ ਹੈ?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ ਛੱਡਣ ਦੀ ਚੋਣ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਹਾਨੂੰ ਇਸ ਡਿਵਾਈਸ 'ਤੇ ਤੁਹਾਡੇ ਕਿਸੇ ਵੀ ਸੁਨੇਹੇ ਜਾਂ ਮੀਡੀਆ ਤੱਕ ਪਹੁੰਚ ਨਹੀਂ ਮਿਲੇਗੀ। ਟ੍ਰਾਂਸਫਰ ਕਰਨਾ ਛੱਡਣ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ ਸੈਟਿੰਗਾਂ > ਚੈਟ > ਟ੍ਰਾਂਸਫਰ 'ਤੇ ਜਾ ਕੇ ਇੱਕ ਨਵਾਂ ਟ੍ਰਾਂਸਫਰ ਸ਼ੁਰੂ ਕਰ ਸਕਦੇ ਹੋ।"
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "ਮੀਡੀਆ ਰੀਸਟੋਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
@@ -5494,10 +5497,10 @@
     "messageformat": "ਕੀ ਕਾਲ ਇਤਿਹਾਸ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਪੂਰਾ ਕਾਲ ਇਤਿਹਾਸ ਸਥਾਈ ਤੌਰ 'ਤੇ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਪੂਰਾ ਕਾਲ ਇਤਿਹਾਸ ਸਥਾਈ ਤੌਰ 'ਤੇ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਜਿਹਨਾਂ ਲੋਕਾਂ ਕੋਲ ਤੁਹਾਡੇ ਦੁਆਰਾ ਬਣਾਏ ਗਏ ਕਾਲ ਲਿੰਕ ਹਨ, ਉਹ ਲਿੰਕ ਹੁਣ ਉਹਨਾਂ ਲਈ ਕੰਮ ਨਹੀਂ ਕਰਨਗੇ। "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "ਮਿਟਾਓ"
@@ -5506,10 +5509,10 @@
     "messageformat": "ਕਾਲ ਇਤਿਹਾਸ ਮਿਟਾਇਆ ਗਿਆ"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "ਸਾਰੇ ਕਾਲ ਲਿੰਕ ਮਿਟਾਏ ਨਹੀਂ ਜਾ ਸਕੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "ਪੂਰਾ ਕਾਲ ਇਤਿਹਾਸ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "ਨਵੀਂ ਵੌਇਸ ਜਾਂ ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਲਈ <newCallButtonIcon></newCallButtonIcon> ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।"
@@ -5707,13 +5710,19 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "ਅਸੀਂ ਇੱਕ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ ਜੋ ਮੀਡੀਆ ਐਡੀਟਰ ਵਿੱਚ ਸਟਿੱਕਰਾਂ ਨੂੰ ਸਹੀ ਢੰਗ ਨਾਲ ਕੰਮ ਕਰਨ ਤੋਂ ਰੋਕਦੀ ਸੀ।"
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ macOS Sequoia ਵਿੱਚ ਨਵੇਂ ਸਕ੍ਰੀਨ ਸ਼ੇਅਰਿੰਗ ਇੰਟਰਫੇਸ ਲਈ ਸਮਰਥਨ ਵੀ ਸ਼ਾਮਲ ਹੈ।"
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "ਇਹ ਅੱਪਡੇਟ ਸਟਾਰਟਅੱਪ ਦੀ ਸਪੀਡ ਨੂੰ ਲਗਭਗ 5% ਤੱਕ ਵਧਾ ਦਿੰਦੀ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

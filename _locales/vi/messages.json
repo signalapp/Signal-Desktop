@@ -1230,7 +1230,7 @@
     "messageformat": "Cuộc gọi Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Không thể xóa đường dẫn. Kiểm tra kết nối của bạn và thử lại."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Yêu cầu tham gia cuộc gọi này của bạn đã bị từ chối."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Hiện tải được {currentSize} của tổng {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Đang chuẩn bị tải xuống..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Hủy chuyển"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Có lỗi khi chuyển tin nhắn của bạn"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Tin nhắn của bạn không thể được chuyển. Kiểm tra kết nối internet của bạn và thử lại."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Thử lại"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Bỏ qua"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Bỏ qua việc chuyển tin nhắn?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Nếu bạn chọn bỏ qua, bạn sẽ không có quyền truy cập bất kỳ tin nhắn hoặc tập tin đa phương tiện nào trên thiết bị này. Bạn có thể bắt đầu một quá trình chuyển mới sau khi bỏ qua từ mục Cài đặt > Trò chuyện > Chuyển."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Hủy"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Đang khôi phục tập tin đa phương tiện"
@@ -5494,10 +5497,10 @@
     "messageformat": "Xóa lịch sử cuộc gọi?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Thao tác này sẽ xóa vĩnh viễn tất cả lịch sử cuộc gọi."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Thao tác này sẽ xóa vĩnh viễn tất cả lịch sử cuộc gọi. Các đường dẫn cuộc gọi bạn đã tạo không còn hiệu lực cho những người được bạn gửi đến. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Xoá"
@@ -5506,10 +5509,10 @@
     "messageformat": "Đã xóa lịch xử cuộc gọi"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Không thể xóa một số đường dẫn cuộc gọi. Kiểm tra kết nối của bạn và thử lại."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Không thể xóa một số lịch sử cuộc gọi. Kiểm tra kết nối của bạn và thử lại."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Bấm <newCallButtonIcon></newCallButtonIcon> để bắt đầu một cuộc gọi thoại hoặc cuộc gọi video mới."
@@ -5707,13 +5710,19 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Chúng tôi đã sửa lỗi liên quan đến nhãn dán trong công cụ chỉnh sửa tập tin đa phương tiện, nay công cụ chọn không còn bị đứng khi bạn thao tác chọn nhãn dán trên một hình ảnh."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Bản cập nhật này cũng bổ sung hỗ trợ cho giao diện chia sẻ màn hình mới của macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Bản cập nhật này tăng tốc độ khởi động lên khoảng 5%."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

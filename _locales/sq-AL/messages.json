@@ -1230,7 +1230,7 @@
     "messageformat": "Thirrje përmes Signal-i"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Lidhja nuk mund të fshihet. Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Kërkesa jote për t'iu bashkuar kësaj telefonatë është refuzuar."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Po shkarkohen {currentSize} nga {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Po përgatitet për t'u shkarkuar..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Anulo transferimin"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Gabim në transferimin e mesazheve"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Mesazhet nuk mund të transferoheshin. Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Riprovo"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Anashkaloje"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Të kapërcehet transferimi i mesazhit?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Nuk do të kesh lejehyrje në asnjë nga mesazhet apo mediat e tua në këtë pajisje nëse zgjedh të kapërcesh. Mund të fillosh një transferim të ri pasi të kapërcesh te Parametrat > Bisedat > Transferimi."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulo"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Duke rikthyer median"
@@ -5494,10 +5497,10 @@
     "messageformat": "Të pastrohet historiku i thirrjeve?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Kjo do të fshijë përgjithmonë të gjithë historikun e thirrjeve."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Kjo do të fshijë përgjithmonë të gjithë historikun e thirrjeve. Lidhjet e thirrjeve që ke krijuar nuk do të funksionojnë më për njerëzit që i zotërojnë. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Spastroje"
@@ -5506,10 +5509,10 @@
     "messageformat": "Historia e thirrjeve u fshi"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Jo të gjitha lidhjet e thirrjeve mund të fshiheshin. Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Jo i gjithë historiku i thirrjeve mund të fshihej. Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kliko <newCallButtonIcon></newCallButtonIcon> për të nisur një thirrje të re zanore ose me video."
@@ -5707,13 +5710,19 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Rregulluam defektin që i pengonte ngjitësit të funksiononin siç duhej në redaktuesin e medias dhe tani përzgjedhësi nuk ngec më kur përpiqesh të ngjitësh ngjitëse në foto."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Po ashtu, përditësimi përfshin ndihmën për ndërfaqen e re të ndarjes së ekranit në macOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Përditësimi përmirëson shpejtësinë e nisjes me rreth 5%, ndaj mos ngurro të ngadalësosh pak në fusha të tjera të jetës."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

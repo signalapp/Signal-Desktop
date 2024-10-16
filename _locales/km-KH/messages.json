@@ -1230,7 +1230,7 @@
     "messageformat": "ការហៅ Signal"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "មិនអាចលុបតំណបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
   },
   "icu:calling__join-request-denied": {
     "messageformat": "សំណើរបស់អ្នកដើម្បីចូលរួមការហៅនេះត្រូវបានបដិសេធ។"
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "កំពុងទាញយក {currentSize} នៃ {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "កំពុងរៀបចំទាញយក…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "បោះបង់ការផ្ទេរ"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "បញ្ហាក្នុងការផ្ទេរសាររបស់អ្នក"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "សាររបស់អ្នកមិនអាចផ្ទេរបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "ព្យាយាមម្តងទៀត"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "រំលង"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "រំលងការផ្ទេរសារឬ?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "ប្រសិនបើអ្នកជ្រើសរើសរំលង អ្នកនឹងមិនអាចចូលប្រើសារ ឬមេឌៀណាមួយរបស់អ្នកនៅលើឧបករណ៍នេះបានទេ។ អ្នកអាចចាប់ផ្តើមការផ្ទេរថ្មីបន្ទាប់ពីរំលង នៅក្នុងការកំណត់ > ជជែក > ផ្ទេរ។"
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "បោះបង់"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "កំពុងស្ដារមេឌៀឡើងវិញ"
@@ -5494,10 +5497,10 @@
     "messageformat": "លុបប្រវត្តិហៅទូរសព្ទឬ?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "វានឹងលុបប្រវត្តិហៅទូរសព្ទទាំងអស់ជាអចិន្ត្រៃយ៍។"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "វានឹងលុបប្រវត្តិហៅទូរសព្ទទាំងអស់ជាអចិន្ត្រៃយ៍។ តំណហៅទូរសព្ទដែលអ្នកបានបង្កើតឡើងនឹងលែងដំណើរការសម្រាប់អ្នកទាំងឡាយដែលមានពួកវាទៀតហើយ។ "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "សម្អាត"
@@ -5506,10 +5509,10 @@
     "messageformat": "បានសម្អាតប្រវត្តិហៅ"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "មិនមែនតំណហៅទូរសព្ទទាំងអស់សុទ្ធតែអាចលុបបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "មិនមែនប្រវត្តិហៅទូរសព្ទទាំងអស់សុទ្ធតែអាចលុបបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "ចុច <newCallButtonIcon></newCallButtonIcon> ដើម្បីចាប់ផ្តើមការហៅជាសំឡេង ឬវីដេអូថ្មី។"
@@ -5707,13 +5710,19 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "យើងបានដោះស្រាយបញ្ហាមួយដែលបានធ្វើឱ្យស្ទីគ័រដំណើរការមិនបានត្រឹមត្រូវនៅក្នុងកម្មវិធីកែមេឌៀ ហើយឥឡូវនេះផ្ទាំងជ្រើសរើសលែងគាំងទៀតហើយនៅពេលដែលអ្នកកំពុងព្យាយាមដាក់ស្ទីគ័រនៅលើរូបភាព។"
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "កំណែថ្មីនេះក៏ធ្វើឱ្យអ៊ីនធើហ្វេសចែករំលែកអេក្រង់ថ្មីអាចប្រើបាននៅក្នុង macOS Sequoia បានដែរ។"
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "កំណែថ្មីនេះបង្កើនល្បឿននៃការចាប់ផ្តើមប្រហែល 5% ដូច្នេះទោះជាមានអ្វីយឺតយ៉ាវបន្តិចបន្តួចនៅក្នុងសកម្មភាពរស់នៅប្រចាំថ្ងៃរបស់អ្នកក៏មិនថ្វីដែរ។"
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

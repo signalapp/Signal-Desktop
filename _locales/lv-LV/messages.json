@@ -1230,7 +1230,7 @@
     "messageformat": "Signal zvans"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "Nevar izdzēst saiti. Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "Jūsu pieprasījums pievienoties šim zvanam tika noraidīts."
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Lejupielādē {currentSize} no {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Gatavo lejupielādi…"
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "Atcelt pārsūtīšanu"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "Radās kļūda, pārsūtot ziņas"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "Ziņas neizdevās pārsūtīt. Pārbaudiet interneta savienojumu un mēģiniet vēlreiz."
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "Mēģināt vēlreiz"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "Izlaist"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "Vai izlaist ziņu pārsūtīšanu?"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "Ja izvēlēsieties izlaist, jums šajā ierīcē nebūs piekļuves nevienai ziņai vai multividei. Ja pēc izlaišanas pārdomāsiet, varat sākt jaunu pārsūtīšanu sadaļā Iestatījumi > Sarunas > Pārsūtīt."
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atcelt"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Multivide tiek atjaunota"
@@ -5494,10 +5497,10 @@
     "messageformat": "Dzēst zvanu vēsturi?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "Visa zvanu vēsture tiks neatgriezeniski dzēsta."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "Visa zvanu vēsture tiks neatgriezeniski dzēsta. Jūsu izveidotās zvanu saites citām personām vairs nedarbosies. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Notīrīt"
@@ -5506,10 +5509,10 @@
     "messageformat": "Zvanu vēsture izdzēsta"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "Visas zvanu saites neizdevās izdzēst. Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "Visu zvanu vēsturi neizdevās notīrīt. Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Noklikšķiniet uz <newCallButtonIcon></newCallButtonIcon>, lai sāktu jaunu balss vai video zvanu."
@@ -5707,13 +5710,19 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Mēs atrisinājām kļūdu, kuras dēļ multivides redaktorā uzlīmes darbojās nepareizi."
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Šis atjauninājums ietver arī atbalstu jaunajai ekrāna koplietošanas saskarnei operētājsistēmā MacOS Sequoia."
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "Šis atjauninājums uzlabo palaišanas ātrumu par aptuveni 5%. Droši izmantojiet iegūto laiku citās dzīves jomās."
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }

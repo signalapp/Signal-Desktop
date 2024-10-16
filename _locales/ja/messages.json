@@ -1230,7 +1230,7 @@
     "messageformat": "Signal通話"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "Can't delete link. Check your connection and try again."
+    "messageformat": "リンクを消去できません。インターネット接続を確認して再度試してください。"
   },
   "icu:calling__join-request-denied": {
     "messageformat": "この通話への参加リクエストは拒否されました。"
@@ -3539,6 +3539,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{totalSize} のうち {currentSize}（{fractionComplete,number,percent}）"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Finalizing message transfer..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ダウンロード中..."
   },
@@ -3561,25 +3564,25 @@
     "messageformat": "転送をキャンセルする"
   },
   "icu:BackupImportScreen__error__title": {
-    "messageformat": "Error transferring your messages"
+    "messageformat": "メッセージの移行中にエラーが発生しました"
   },
   "icu:BackupImportScreen__error__body": {
-    "messageformat": "Your messages could not be transferred. Check your internet connection and try again."
+    "messageformat": "メッセージを移行できませんでした。インターネット接続を確認して再度試してください。"
   },
   "icu:BackupImportScreen__error__confirm": {
-    "messageformat": "Retry"
+    "messageformat": "再試行"
   },
   "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip"
+    "messageformat": "スキップ"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?"
+    "messageformat": "メッセージの移行をスキップしますか？"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer."
+    "messageformat": "スキップを選択すると、この端末上のメッセージやメディアにアクセスできなくなります。スキップした後は、設定 > チャット > 移行 から改めて移行の手続きができます。"
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "キャンセル"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "メディアを復元中"
@@ -5494,10 +5497,10 @@
     "messageformat": "通話履歴を消去しますか？"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history."
+    "messageformat": "すべての通話履歴を完全に消去します。"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "This will permanently delete all call history. Call links you’ve created will no longer work for people who have them. "
+    "messageformat": "すべての通話履歴を完全に消去します。作成した通話リンクを消去すると、共有している他のメンバーもこのリンクを使えなくなります。 "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "消去する"
@@ -5506,10 +5509,10 @@
     "messageformat": "通話履歴がクリアされました"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "Not all call links could be deleted. Check your connection and try again."
+    "messageformat": "一部の通話リンクを消去できませんでした。インターネット接続を確認して再度試してください。"
   },
   "icu:CallsTab__ClearCallHistoryError": {
-    "messageformat": "Not all call history could be cleared. Check your connection and try again."
+    "messageformat": "一部の通話履歴を消去できませんでした。インターネット接続を確認して再度試してください。"
   },
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "<newCallButtonIcon></newCallButtonIcon>をクリックして新しい音声通話またはビデオ通話を開始する。"
@@ -5707,13 +5710,19 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "メディアエディターでステッカーが正しく動作しないバグを修正しました。"
-  },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "このアップデートでは、macOS Sequoiaの新しい画面共有インターフェースへのサポートも対応しています。"
-  },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "This update improves startup speed by around 5%, so feel free to slow down a little bit in other areas of your life."
+    "messageformat": "このアップデートにより、起動速度が約5％向上しました。"
+  },
+  "icu:WhatsNew__v7.30--header": {
+    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+  },
+  "icu:WhatsNew__v7.30--0": {
+    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+  },
+  "icu:WhatsNew__v7.30--1": {
+    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+  },
+  "icu:WhatsNew__v7.30--2": {
+    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
   }
 }
