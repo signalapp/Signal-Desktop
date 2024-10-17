@@ -323,6 +323,7 @@
     "resolve-url-loader": "5.0.0",
     "sass": "1.49.7",
     "sass-loader": "10.2.0",
+    "sharp": "^0.33.4",
     "sinon": "11.1.1",
     "storybook": "8.1.11",
     "style-loader": "1.0.0",
