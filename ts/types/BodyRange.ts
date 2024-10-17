@@ -413,7 +413,7 @@ function rangeToPartialNode(
     if (range.style === BodyRange.Style.NONE) {
       return {};
     }
-    throw missingCaseError(range.style);
+    return {};
   }
   if (BodyRange.isLink(range)) {
     return {
