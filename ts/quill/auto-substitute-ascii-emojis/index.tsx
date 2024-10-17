@@ -30,7 +30,6 @@ const emojiMap: Record<string, string> = {
   '(n)': '-1',
   '<3': 'heart',
   '^_^': 'grin',
-  '>_<': 'laughing',
 };
 
 function buildRegexp(obj: Record<string, string>): RegExp {
