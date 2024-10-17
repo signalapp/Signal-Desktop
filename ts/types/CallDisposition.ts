@@ -125,16 +125,26 @@ export type CallDetails = Readonly<{
   endedTimestamp: number | null;
 }>;
 
-export type CallLogEventTarget = Readonly<{
-  timestamp: number;
-  callId: string | null;
-  peerId: AciString | string | null;
-}>;
+export type CallLogEventTarget = Readonly<
+  {
+    timestamp: number;
+    callId: string | null;
+  } & (
+    | {
+        peerId: AciString | string | null;
+      }
+    | {
+        peerIdAsConversationId: AciString | string | null;
+        peerIdAsRoomId: string | null;
+      }
+  )
+>;
 
 export type CallLogEventDetails = Readonly<{
   type: CallLogEvent;
   timestamp: number;
-  peerId: AciString | string | null;
+  peerIdAsConversationId: AciString | string | null;
+  peerIdAsRoomId: string | null;
   callId: string | null;
 }>;
 
@@ -243,18 +253,20 @@ export const callHistoryGroupSchema = z.object({
   ),
 }) satisfies z.ZodType<CallHistoryGroup>;
 
-const peerIdInBytesSchema = z.instanceof(Uint8Array).transform(value => {
-  // direct conversationId
-  if (value.byteLength === UUID_BYTE_SIZE) {
-    const uuid = bytesToUuid(value);
-    if (uuid != null) {
-      return uuid;
+const conversationPeerIdInBytesSchema = z
+  .instanceof(Uint8Array)
+  .transform(value => {
+    // direct conversationId
+    if (value.byteLength === UUID_BYTE_SIZE) {
+      const uuid = bytesToUuid(value);
+      if (uuid != null) {
+        return uuid;
+      }
     }
-  }
 
-  // groupId
-  return Bytes.toBase64(value);
-});
+    // groupId
+    return Bytes.toBase64(value);
+  });
 
 const roomIdInBytesSchema = z
   .instanceof(Uint8Array)
@@ -287,7 +299,7 @@ export const callEventNormalizeSchema = z
         type: z
           .nativeEnum(Proto.SyncMessage.CallEvent.Type)
           .refine(val => val !== Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL),
-        peerId: peerIdInBytesSchema,
+        peerId: conversationPeerIdInBytesSchema,
       }),
     ])
   );
@@ -295,7 +307,8 @@ export const callEventNormalizeSchema = z
 export const callLogEventNormalizeSchema = z.object({
   type: z.nativeEnum(Proto.SyncMessage.CallLogEvent.Type),
   timestamp: longToNumberSchema,
-  peerId: peerIdInBytesSchema.optional(),
+  peerIdAsConversationId: conversationPeerIdInBytesSchema.optional(),
+  peerIdAsRoomId: roomIdInBytesSchema.optional(),
   callId: longToStringSchema.optional(),
 });
 

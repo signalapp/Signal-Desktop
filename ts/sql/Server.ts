@@ -3568,7 +3568,7 @@ function clearCallHistory(
   return db.transaction(() => {
     const callHistory = getCallHistoryForCallLogEventTarget(db, target);
     if (callHistory == null) {
-      logger.error('clearCallHistory: Target call not found');
+      logger.warn('clearCallHistory: Target call not found');
       return [];
     }
     const { timestamp } = callHistory;
@@ -3750,44 +3750,76 @@ function getCallHistoryForCallLogEventTarget(
   db: ReadableDB,
   target: CallLogEventTarget
 ): CallHistoryDetails | null {
-  const { callId, peerId, timestamp } = target;
+  const { callId, timestamp } = target;
 
-  let row: unknown;
+  if ('peerId' in target) {
+    const { peerId } = target;
 
-  if (callId == null || peerId == null) {
-    const predicate =
-      peerId != null
-        ? sqlFragment`callsHistory.peerId IS ${target.peerId}`
-        : sqlFragment`TRUE`;
+    let row: unknown;
 
-    // Get the most recent call history timestamp for the target.timestamp
-    const [selectQuery, selectParams] = sql`
-      SELECT *
-      FROM callsHistory
-      WHERE ${predicate}
-        AND callsHistory.timestamp <= ${timestamp}
-      ORDER BY callsHistory.timestamp DESC
-      LIMIT 1
-    `;
+    if (callId == null || peerId == null) {
+      const predicate =
+        peerId != null
+          ? sqlFragment`callsHistory.peerId IS ${target.peerId}`
+          : sqlFragment`TRUE`;
 
-    row = db.prepare(selectQuery).get(selectParams);
-  } else {
-    const [selectQuery, selectParams] = sql`
-      SELECT *
-      FROM callsHistory
-      WHERE callsHistory.peerId IS ${target.peerId}
-        AND callsHistory.callId IS ${target.callId}
-      LIMIT 1
-    `;
+      // Get the most recent call history timestamp for the target.timestamp
+      const [selectQuery, selectParams] = sql`
+        SELECT *
+        FROM callsHistory
+        WHERE ${predicate}
+          AND callsHistory.timestamp <= ${timestamp}
+        ORDER BY callsHistory.timestamp DESC
+        LIMIT 1
+      `;
 
-    row = db.prepare(selectQuery).get(selectParams);
+      row = db.prepare(selectQuery).get(selectParams);
+    } else {
+      const [selectQuery, selectParams] = sql`
+        SELECT *
+        FROM callsHistory
+        WHERE callsHistory.peerId IS ${target.peerId}
+          AND callsHistory.callId IS ${target.callId}
+        LIMIT 1
+      `;
+
+      row = db.prepare(selectQuery).get(selectParams);
+    }
+
+    if (row == null) {
+      return null;
+    }
+
+    return parseUnknown(callHistoryDetailsSchema, row as unknown);
   }
 
-  if (row == null) {
+  // For incoming CallLogEvent sync messages, peerId is ambiguous whether it
+  // refers to conversation or call link.
+  if ('peerIdAsConversationId' in target && 'peerIdAsRoomId' in target) {
+    const resultForConversation = getCallHistoryForCallLogEventTarget(db, {
+      callId,
+      timestamp,
+      peerId: target.peerIdAsConversationId,
+    });
+    if (resultForConversation) {
+      return resultForConversation;
+    }
+
+    const resultForCallLink = getCallHistoryForCallLogEventTarget(db, {
+      callId,
+      timestamp,
+      peerId: target.peerIdAsRoomId,
+    });
+    if (resultForCallLink) {
+      return resultForCallLink;
+    }
+
     return null;
   }
 
-  return parseUnknown(callHistoryDetailsSchema, row as unknown);
+  throw new Error(
+    'Either peerId, or peerIdAsConversationId and peerIdAsRoomId must be present'
+  );
 }
 
 function getConversationIdForCallHistory(
@@ -3852,10 +3884,6 @@ export function markAllCallHistoryRead(
   target: CallLogEventTarget,
   inConversation = false
 ): number {
-  if (inConversation) {
-    strictAssert(target.peerId, 'peerId is required');
-  }
-
   return db.transaction(() => {
     const callHistory = getCallHistoryForCallLogEventTarget(db, target);
     if (callHistory == null) {
@@ -3870,28 +3898,45 @@ export function markAllCallHistoryRead(
       'Call ID must be the same as target if supplied'
     );
 
-    const conversationId = getConversationIdForCallHistory(db, callHistory);
-    if (conversationId == null) {
-      logger.warn('markAllCallHistoryRead: Conversation not found for call');
-      return 0;
+    let predicate: QueryFragment;
+    let receivedAt: number | null;
+    if (callHistory.mode === CallMode.Adhoc) {
+      // If the target is a call link, there's no associated conversation and messages,
+      // and we can only mark call history read based on timestamp.
+      strictAssert(
+        !inConversation,
+        'markAllCallHistoryRead: Not possible to mark read in conversation for Adhoc calls'
+      );
+
+      receivedAt = callHistory.timestamp;
+      predicate = sqlFragment`TRUE`;
+    } else {
+      const conversationId = getConversationIdForCallHistory(db, callHistory);
+      if (conversationId == null) {
+        logger.warn('markAllCallHistoryRead: Conversation not found for call');
+        return 0;
+      }
+
+      logger.info(
+        `markAllCallHistoryRead: Found conversation ${conversationId}`
+      );
+      receivedAt = getMessageReceivedAtForCall(db, callId, conversationId);
+
+      predicate = inConversation
+        ? sqlFragment`messages.conversationId IS ${conversationId}`
+        : sqlFragment`TRUE`;
     }
-    logger.info(`markAllCallHistoryRead: Found conversation ${conversationId}`);
-    const receivedAt = getMessageReceivedAtForCall(db, callId, conversationId);
 
     if (receivedAt == null) {
       logger.warn('markAllCallHistoryRead: Message not found for call');
       return 0;
     }
 
-    const predicate = inConversation
-      ? sqlFragment`messages.conversationId IS ${conversationId}`
-      : sqlFragment`TRUE`;
-
     const jsonPatch = JSON.stringify({
       seenStatus: SeenStatus.Seen,
     });
 
-    logger.warn(
+    logger.info(
       `markAllCallHistoryRead: Marking calls before ${receivedAt} read`
     );
 
@@ -3915,7 +3960,6 @@ function markAllCallHistoryReadInConversation(
   db: WritableDB,
   target: CallLogEventTarget
 ): number {
-  strictAssert(target.peerId, 'peerId is required');
   return markAllCallHistoryRead(db, target, true);
 }
 
