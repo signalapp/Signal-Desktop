@@ -4292,9 +4292,10 @@ button.module-image__border-overlay:focus {
           width: 100%;
 
           transform: rotateY(180deg);
-          &--presenting {
-            transform: inherit;
-          }
+        }
+
+        &--presenting video {
+          transform: inherit;
         }
       }
     }
@@ -4372,7 +4373,8 @@ button.module-image__border-overlay:focus {
       }
     }
 
-    &--local {
+    &--local,
+    &--local-presenting {
       bottom: 38px;
       height: 32px;
       position: absolute;
@@ -4380,10 +4382,13 @@ button.module-image__border-overlay:focus {
       width: 32px;
 
       video {
-        transform: rotateY(180deg);
         width: 100%;
         height: 100%;
       }
+    }
+
+    &--local video {
+      transform: rotateY(180deg);
     }
   }
 

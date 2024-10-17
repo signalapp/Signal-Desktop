@@ -261,6 +261,10 @@ export function CallingPip({
   }, [isRTL, windowWidth, windowHeight, positionState]);
   const localizedTranslateX = isRTL ? -translateX : translateX;
 
+  const localVideoClassName = activeCall.presentingSource
+    ? 'module-calling-pip__video--local-presenting'
+    : 'module-calling-pip__video--local';
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -305,10 +309,7 @@ export function CallingPip({
         setGroupCallVideoRequest={setGroupCallVideoRequest}
       />
       {hasLocalVideo ? (
-        <div
-          className="module-calling-pip__video--local"
-          ref={setLocalPreviewContainer}
-        />
+        <div className={localVideoClassName} ref={setLocalPreviewContainer} />
       ) : null}
       <div className="module-calling-pip__actions">
         <button
