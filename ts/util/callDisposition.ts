@@ -282,10 +282,14 @@ const callLogEventFromProto: Partial<
 export function getCallLogEventForProto(
   callLogEventProto: Proto.SyncMessage.ICallLogEvent
 ): CallLogEventDetails {
-  const callLogEvent = parsePartial(
-    callLogEventNormalizeSchema,
-    callLogEventProto
-  );
+  // CallLogEvent peerId is ambiguous whether it's a conversationId (direct, or groupId)
+  // or roomId so handle both cases
+  const { peerId: peerIdBytes } = callLogEventProto;
+  const callLogEvent = parsePartial(callLogEventNormalizeSchema, {
+    ...callLogEventProto,
+    peerIdAsConversationId: peerIdBytes,
+    peerIdAsRoomId: peerIdBytes,
+  });
 
   const type = callLogEventFromProto[callLogEvent.type];
   if (type == null) {
@@ -295,7 +299,8 @@ export function getCallLogEventForProto(
   return {
     type,
     timestamp: callLogEvent.timestamp,
-    peerId: callLogEvent.peerId ?? null,
+    peerIdAsConversationId: callLogEvent.peerIdAsConversationId ?? null,
+    peerIdAsRoomId: callLogEvent.peerIdAsRoomId ?? null,
     callId: callLogEvent.callId ?? null,
   };
 }

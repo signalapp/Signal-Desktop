@@ -14,10 +14,12 @@ export async function onCallLogEventSync(
   syncEvent: CallLogEventSyncEvent
 ): Promise<void> {
   const { data, confirm } = syncEvent;
-  const { type, peerId, callId, timestamp } = data.callLogEventDetails;
+  const { type, peerIdAsConversationId, peerIdAsRoomId, callId, timestamp } =
+    data.callLogEventDetails;
 
   const target: CallLogEventTarget = {
-    peerId,
+    peerIdAsConversationId,
+    peerIdAsRoomId,
     callId,
     timestamp,
   };
@@ -50,7 +52,8 @@ export async function onCallLogEventSync(
   } else if (type === CallLogEvent.MarkedAsReadInConversation) {
     log.info('onCallLogEventSync: Marking call history read in conversation');
     try {
-      strictAssert(peerId, 'Missing peerId');
+      strictAssert(peerIdAsConversationId, 'Missing peerIdAsConversationId');
+      strictAssert(peerIdAsRoomId, 'Missing peerIdAsRoomId');
       const count =
         await DataWriter.markAllCallHistoryReadInConversation(target);
       log.info(
