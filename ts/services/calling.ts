@@ -926,7 +926,7 @@ export class CallingClass {
     log.info(`${logId}: Sending profile key`);
     await conversationJobQueue.add({
       conversationId: conversation.id,
-      type: 'ProfileKey',
+      type: 'ProfileKeyForCall',
     });
 
     RingRTC.setOutgoingAudio(call.callId, hasLocalAudio);
@@ -1544,7 +1544,7 @@ export class CallingClass {
       log.info(`${logId}: Sending profile key`);
       drop(
         conversationJobQueue.add({
-          type: conversationQueueJobEnum.enum.ProfileKey,
+          type: conversationQueueJobEnum.enum.ProfileKeyForCall,
           conversationId: conversation.id,
           isOneTimeSend: true,
         })
