@@ -1,6 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { Aci } from '@signalapp/libsignal-client';
+import { throttle } from 'lodash';
 import type {
   GroupSendCombinedEndorsementRecord,
   GroupSendMemberEndorsementRecord,
@@ -22,7 +23,7 @@ import type { ServiceIdString } from '../types/ServiceId';
 import { fromAciObject } from '../types/ServiceId';
 import * as log from '../logging/log';
 import type { GroupV2MemberType } from '../model-types';
-import { DurationInSeconds } from './durations';
+import { DurationInSeconds, MINUTE } from './durations';
 import { ToastType } from '../types/Toast';
 import * as Errors from '../types/errors';
 import { isTestOrMockEnvironment } from '../environment';
@@ -300,12 +301,20 @@ export class GroupSendEndorsementState {
   }
 }
 
-export function onFailedToSendWithEndorsements(error: Error): void {
-  log.error('onFailedToSendWithEndorsements', Errors.toLogFormat(error));
-  if (isTestOrMockEnvironment() || isAlpha(window.getVersion())) {
+const showFailedToSendWithEndorsementsToast = throttle(
+  () => {
     window.reduxActions.toast.showToast({
       toastType: ToastType.FailedToSendWithEndorsements,
     });
+  },
+  5 * MINUTE,
+  { trailing: false }
+);
+
+export function onFailedToSendWithEndorsements(error: Error): void {
+  log.error('onFailedToSendWithEndorsements', Errors.toLogFormat(error));
+  if (isTestOrMockEnvironment() || isAlpha(window.getVersion())) {
+    showFailedToSendWithEndorsementsToast();
   }
   if (window.SignalCI) {
     window.SignalCI.handleEvent('fatalTestError', error);
