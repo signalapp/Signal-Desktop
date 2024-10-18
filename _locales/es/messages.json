@@ -36,7 +36,7 @@
     "messageformat": "A la espera de participantes"
   },
   "icu:Preferences__sent-media-quality": {
-    "messageformat": "Calidad de fotos y vídeos enviados"
+    "messageformat": "Calidad de fotos y vídeos"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Estándar"
@@ -330,7 +330,7 @@
     "messageformat": "Administrar Contactos"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Enviar mensaje"
+    "messageformat": "Mensaje"
   },
   "icu:ContactListItem__menu__audio-call": {
     "messageformat": "Llamada"
@@ -531,7 +531,7 @@
     "messageformat": "No hay ningún archivo multimedia en este chat"
   },
   "icu:allMedia": {
-    "messageformat": "Todos los archivos"
+    "messageformat": "Todos los archivos multimedia"
   },
   "icu:documents": {
     "messageformat": "Documentos"
@@ -903,7 +903,7 @@
     "messageformat": "Recibidos"
   },
   "icu:sendMessage": {
-    "messageformat": "Enviar mensaje"
+    "messageformat": "Mensaje"
   },
   "icu:showMembers": {
     "messageformat": "Mostrar participantes"
@@ -945,7 +945,7 @@
     "messageformat": "Nota"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "Archivos multimedia"
+    "messageformat": "Todos los archivos multimedia"
   },
   "icu:back": {
     "messageformat": "Atrás"
@@ -1011,7 +1011,7 @@
     "messageformat": "¿De verdad quieres abandonar el grupo?"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__description": {
-    "messageformat": "No podrás enviar o recibir más mensajes en este grupo."
+    "messageformat": "Ya no podrás enviar ni recibir mensajes en este grupo."
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
     "messageformat": "Abandonar"
@@ -1038,7 +1038,7 @@
     "messageformat": "Fallo en la entrega"
   },
   "icu:DeliveryIssue--notification": {
-    "messageformat": "No se ha podido recibir un mensaje de {sender}"
+    "messageformat": "No se ha podido entregar un mensaje de {sender}"
   },
   "icu:DeliveryIssue--learnMore": {
     "messageformat": "Más información"
@@ -1047,10 +1047,10 @@
     "messageformat": "Fallo en la entrega"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "No se ha podido recibir un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia que {sender} te ha enviado directamente o en un chat grupal en común."
+    "messageformat": "No se ha podido entregar un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia que {sender} te ha enviado directamente o en un chat grupal en común."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "No se ha podido recibir un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia de {sender} en este chat."
+    "messageformat": "No se ha podido entregar un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia de {sender} en este chat."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} ha cambiado su número de teléfono"
@@ -3522,7 +3522,7 @@
     "messageformat": "Dona a Signal"
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal es posible gracias a personas como tú. Contribuye y recibe una insignia para tu perfil."
+    "messageformat": "Signal es posible gracias a personas como tú. Contribuye y recibe una insignia para lucir en tu perfil."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "Abre Signal en tu teléfono"
@@ -4281,7 +4281,7 @@
     "messageformat": "Seleccionar calidad de fotos y vídeos"
   },
   "icu:MediaQualitySelector--title": {
-    "messageformat": "Calidad de fotos y vídeos"
+    "messageformat": "Calidad de archivos multimedia"
   },
   "icu:MediaQualitySelector--standard-quality-title": {
     "messageformat": "Estándar"
@@ -5395,7 +5395,7 @@
     "messageformat": "Reiniciar"
   },
   "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Hecho"
+    "messageformat": "Listo"
   },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Color del enlace del alias, {index,number} de {total,number}"

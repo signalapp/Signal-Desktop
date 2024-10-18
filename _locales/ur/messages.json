@@ -5714,15 +5714,15 @@
     "messageformat": "یہ اپ ڈیٹ سٹارٹ اپ کی رفتار کو تقریباً 5% تک بہتر بناتی ہے۔"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "کال لنکس متعارف کروا رہے ہیں: کیلنڈر دعوتوں اور فوری اجتماعات کے لیے گمشدہ لنک۔"
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "اب آپ فوری طور پر ایک آسان لنک تخلیق کر سکتے ہیں جو Signal پر موجود کوئی بھی شخص پہلے Signal کی گروپ چیٹ میں شامل ہوئے بغیر گروپ کال میں شامل ہونے کے لیے استعمال کر سکتا ہے۔"
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "کال لنکس دوبارہ قابل استعمال ہیں اور اپنے بہترین دوستوں کے ساتھ بار بار فون پر بات چیت کرنے یا ساتھی کارکنان کے ساتھ ہفتہ وارانہ چیک انز کے لیے مثالی ہیں۔"
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "آپ اپنے کال لنکس کا نظم کر سکتے ہیں، منظوری کی سیٹنگز کو کنٹرول کر سکتے ہیں، اور فوری طور پر شیئرنگ کے لیے کالز ٹیب سے لنکس کاپی کر سکتے ہیں۔"
   }
 }

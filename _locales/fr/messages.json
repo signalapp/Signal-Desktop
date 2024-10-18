@@ -5711,7 +5711,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Avec cette mise à jour, Signal met met le turbo : la vitesse de démarrage de l'application accélère de 5 %. Et si vous profitiez de ce petit gain de temps pour lever le pied dans d'autres domaines ?"
+    "messageformat": "Avec cette mise à jour, Signal met le turbo : la vitesse de démarrage de l'application accélère de 5 %. Et si vous profitiez de ce petit gain de temps pour lever le pied dans d'autres domaines ?"
   },
   "icu:WhatsNew__v7.30--header": {
     "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."

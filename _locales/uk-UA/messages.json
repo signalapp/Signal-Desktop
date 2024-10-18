@@ -4332,7 +4332,7 @@
     "messageformat": "Виправити"
   },
   "icu:ProfileEditor__username-link": {
-    "messageformat": "QR-код чи посилання"
+    "messageformat": "QR-код або посилання"
   },
   "icu:ProfileEditor__username__error-icon": {
     "messageformat": "Ім'я користувача потрібно скинути"
@@ -4341,10 +4341,10 @@
     "messageformat": "Посилання імені користувача потрібно скинути"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
-    "messageformat": "Поділіться своїм іменем користувача"
+    "messageformat": "Повідомте своє ім'я користувача"
   },
   "icu:ProfileEditor__username-link__tooltip__body": {
-    "messageformat": "Поділіться своїм унікальним QR-кодом чи посиланням з людиною, із якою хочете створити чат."
+    "messageformat": "Інші користувачі зможуть з вами зв'язатися, якщо ви надішлете їм свій унікальний QR-код або посилання."
   },
   "icu:ProfileEditor--username--title": {
     "messageformat": "Створіть ім'я користувача"

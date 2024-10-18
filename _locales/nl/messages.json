@@ -3852,7 +3852,7 @@
     "messageformat": "Link vernieuwen"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Nieuwe deelnemers goedkeuren"
+    "messageformat": "Nieuwe leden goedkeuren"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Vereis voor iedere persoon die via de groepslink lid wil worden eerst goedkeuring van een beheerder"
@@ -5623,7 +5623,7 @@
     "messageformat": "Oproeplink verwijderen?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "Deze link zal niet meer werken."
+    "messageformat": "Deze link zal voor niemand meer werken."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
     "messageformat": "Annuleren"
