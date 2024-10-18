@@ -90,7 +90,7 @@ export async function sendProfileKey(
   }
 
   log.info(
-    `starting profile key share to ${conversation.idForLogging()} with timestamp ${timestamp}`
+    `starting profile key share to ${conversation.idForLogging()} with timestamp ${timestamp} type=${data.type}`
   );
 
   const { revision } = data;

@@ -64,6 +64,7 @@ export const conversationQueueJobEnum = z.enum([
   'NormalMessage',
   'NullMessage',
   'ProfileKey',
+  'ProfileKeyForCall',
   'Reaction',
   'ResendRequest',
   'SavedProto',
@@ -166,7 +167,10 @@ const nullMessageJobDataSchema = z.object({
 export type NullMessageJobData = z.infer<typeof nullMessageJobDataSchema>;
 
 const profileKeyJobDataSchema = z.object({
-  type: z.literal(conversationQueueJobEnum.enum.ProfileKey),
+  type: z.union([
+    z.literal(conversationQueueJobEnum.enum.ProfileKey),
+    z.literal(conversationQueueJobEnum.enum.ProfileKeyForCall),
+  ]),
   conversationId: z.string(),
   // Note: we will use whichever recipients list is up to date when this job runs
   revision: z.number().optional(),
@@ -297,6 +301,9 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
   }
   if (type === 'ProfileKey') {
     return false;
+  }
+  if (type === 'ProfileKeyForCall') {
+    return true;
   }
   if (type === 'Reaction') {
     return false;
@@ -947,6 +954,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           await sendNullMessage(conversation, jobBundle, data);
           break;
         case jobSet.ProfileKey:
+        case jobSet.ProfileKeyForCall:
           await sendProfileKey(conversation, jobBundle, data);
           break;
         case jobSet.Reaction:
@@ -1043,7 +1051,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       }
 
       if (untrustedServiceIds.length) {
-        if (type === jobSet.ProfileKey) {
+        if (type === jobSet.ProfileKey || type === jobSet.ProfileKeyForCall) {
           log.warn(
             `Cancelling profile share, since there were ${untrustedServiceIds.length} untrusted send targets.`
           );
