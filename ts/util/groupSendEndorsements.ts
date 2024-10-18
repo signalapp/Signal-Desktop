@@ -257,8 +257,8 @@ export class GroupSendEndorsementState {
 
     // Fast path sending to one person
     if (serviceIds.size === 1) {
-      log.info(`${logId}: using single member endorsement`);
       const [serviceId] = serviceIds;
+      log.info(`${logId}: using single member endorsement (${serviceId})`);
       return this.#getMemberEndorsement(serviceId);
     }
 
@@ -275,15 +275,19 @@ export class GroupSendEndorsementState {
     );
 
     const otherMembers = new Set(difference);
-    const includesOurs = otherMembers.delete(this.#ourAci);
+    const includesOurs = !otherMembers.delete(this.#ourAci);
 
     if (otherMembers.size === 0) {
-      log.info(`${logId}: using combined endorsement`);
+      log.info(
+        `${logId}: using combined endorsement (includesOurs: ${includesOurs})`
+      );
       return this.#getCombinedEndorsement(includesOurs);
     }
 
     if (otherMembers.size < memberCount / 2) {
-      log.info(`${logId}: subtracting missing members`);
+      log.info(
+        `${logId}: subtracting missing members (includesOurs: ${includesOurs})`
+      );
       return this.#subtractMemberEndorsements(otherMembers, includesOurs);
     }
 
