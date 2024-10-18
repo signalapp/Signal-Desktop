@@ -61,6 +61,7 @@ export async function sendCallingMessage(
     urgent,
     recipients: jobRecipients,
     isPartialSend,
+    groupId,
   } = data;
 
   const recipients = getValidRecipients(
@@ -85,7 +86,9 @@ export async function sendCallingMessage(
   }
 
   const sendType = 'callingMessage';
-  const sendOptions = await getSendOptions(conversation.attributes);
+  const sendOptions = await getSendOptions(conversation.attributes, {
+    groupId,
+  });
 
   const callingMessage = Proto.CallingMessage.decode(
     Bytes.fromBase64(protoBase64)

@@ -74,6 +74,10 @@ import { isStagingServer } from '../util/isStagingServer';
 import type { IWebSocketResource } from './WebsocketResources';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { parseUnknown, safeParseUnknown } from '../util/schemas';
+import type {
+  ProfileFetchAuthRequestOptions,
+  ProfileFetchUnauthRequestOptions,
+} from '../services/profiles';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -91,7 +95,7 @@ function resolveLibsignalNetEnvironment(url: string): Net.Environment {
 }
 
 function _createRedactor(
-  ...toReplace: ReadonlyArray<string | undefined>
+  ...toReplace: ReadonlyArray<string | undefined | null>
 ): RedactUrl {
   // NOTE: It would be nice to remove this cast, but TypeScript doesn't support
   //   it. However, there is [an issue][0] that discusses this in more detail.
@@ -907,31 +911,6 @@ export type CdsLookupOptionsType = Readonly<{
   useLibsignal?: boolean;
 }>;
 
-type GetProfileCommonOptionsType = Readonly<
-  {
-    userLanguages: ReadonlyArray<string>;
-  } & (
-    | {
-        profileKeyVersion?: undefined;
-        profileKeyCredentialRequest?: undefined;
-      }
-    | {
-        profileKeyVersion: string;
-        profileKeyCredentialRequest?: string;
-      }
-  )
->;
-
-export type GetProfileOptionsType = GetProfileCommonOptionsType &
-  Readonly<{
-    accessKey?: undefined;
-  }>;
-
-export type GetProfileUnauthOptionsType = GetProfileCommonOptionsType &
-  Readonly<{
-    accessKey: string;
-  }>;
-
 export type GetGroupCredentialsOptionsType = Readonly<{
   startDayInMs: number;
   endDayInMs: number;
@@ -1320,14 +1299,14 @@ export type WebAPIType = {
   }>;
   getProfile: (
     serviceId: ServiceIdString,
-    options: GetProfileOptionsType
+    options: ProfileFetchAuthRequestOptions
   ) => Promise<ProfileType>;
   getAccountForUsername: (
     options: GetAccountForUsernameOptionsType
   ) => Promise<GetAccountForUsernameResultType>;
   getProfileUnauth: (
     serviceId: ServiceIdString,
-    options: GetProfileUnauthOptionsType
+    options: ProfileFetchUnauthRequestOptions
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
   getSubscriptionConfiguration: (
@@ -1422,7 +1401,8 @@ export type WebAPIType = {
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
     options: {
-      accessKey?: string;
+      accessKey: string | null;
+      groupSendToken: GroupSendToken | null;
       online?: boolean;
       story?: boolean;
       urgent?: boolean;
@@ -1430,8 +1410,8 @@ export type WebAPIType = {
   ) => Promise<void>;
   sendWithSenderKey: (
     payload: Uint8Array,
-    accessKeys: Uint8Array | undefined,
-    groupSendToken: GroupSendToken | undefined,
+    accessKeys: Uint8Array | null,
+    groupSendToken: GroupSendToken | null,
     timestamp: number,
     options: {
       online?: boolean;
@@ -2186,19 +2166,19 @@ export function initialize({
       {
         profileKeyVersion,
         profileKeyCredentialRequest,
-      }: GetProfileCommonOptionsType
+      }: ProfileFetchAuthRequestOptions | ProfileFetchUnauthRequestOptions
     ) {
       let profileUrl = `/${serviceId}`;
-      if (profileKeyVersion !== undefined) {
+      if (profileKeyVersion != null) {
         profileUrl += `/${profileKeyVersion}`;
-        if (profileKeyCredentialRequest !== undefined) {
+        if (profileKeyCredentialRequest != null) {
           profileUrl +=
             `/${profileKeyCredentialRequest}` +
             '?credentialType=expiringProfileKey';
         }
       } else {
         strictAssert(
-          profileKeyCredentialRequest === undefined,
+          profileKeyCredentialRequest == null,
           'getProfileUrl called without version, but with request'
         );
       }
@@ -2208,7 +2188,7 @@ export function initialize({
 
     async function getProfile(
       serviceId: ServiceIdString,
-      options: GetProfileOptionsType
+      options: ProfileFetchAuthRequestOptions
     ) {
       const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
         options;
@@ -2267,14 +2247,24 @@ export function initialize({
 
     async function getProfileUnauth(
       serviceId: ServiceIdString,
-      options: GetProfileUnauthOptionsType
+      options: ProfileFetchUnauthRequestOptions
     ) {
       const {
         accessKey,
+        groupSendToken,
         profileKeyVersion,
         profileKeyCredentialRequest,
         userLanguages,
       } = options;
+
+      if (profileKeyVersion != null || profileKeyCredentialRequest != null) {
+        // Without an up-to-date profile key, we won't be able to read the
+        // profile anyways so there's no point in falling back to endorsements.
+        strictAssert(
+          groupSendToken == null,
+          'Should not use endorsements for fetching a versioned profile'
+        );
+      }
 
       return (await _ajax({
         call: 'profile',
@@ -2285,8 +2275,8 @@ export function initialize({
         },
         responseType: 'json',
         unauthenticated: true,
-        accessKey,
-        groupSendToken: undefined,
+        accessKey: accessKey ?? undefined,
+        groupSendToken: groupSendToken ?? undefined,
         redactUrl: _createRedactor(
           serviceId,
           profileKeyVersion,
@@ -3282,11 +3272,13 @@ export function initialize({
       timestamp: number,
       {
         accessKey,
+        groupSendToken,
         online,
         urgent = true,
         story = false,
       }: {
-        accessKey?: string;
+        accessKey: string | null;
+        groupSendToken: GroupSendToken | null;
         online?: boolean;
         story?: boolean;
         urgent?: boolean;
@@ -3306,8 +3298,8 @@ export function initialize({
         jsonData,
         responseType: 'json',
         unauthenticated: true,
-        accessKey,
-        groupSendToken: undefined,
+        accessKey: accessKey ?? undefined,
+        groupSendToken: groupSendToken ?? undefined,
       });
     }
 
@@ -3343,8 +3335,8 @@ export function initialize({
 
     async function sendWithSenderKey(
       data: Uint8Array,
-      accessKeys: Uint8Array | undefined,
-      groupSendToken: GroupSendToken | undefined,
+      accessKeys: Uint8Array | null,
+      groupSendToken: GroupSendToken | null,
       timestamp: number,
       {
         online,
@@ -3369,7 +3361,7 @@ export function initialize({
         responseType: 'json',
         unauthenticated: true,
         accessKey: accessKeys != null ? Bytes.toBase64(accessKeys) : undefined,
-        groupSendToken,
+        groupSendToken: groupSendToken ?? undefined,
       });
       const parseResult = safeParseUnknown(
         multiRecipient200ResponseSchema,

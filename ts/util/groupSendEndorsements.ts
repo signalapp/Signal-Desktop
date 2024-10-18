@@ -18,7 +18,7 @@ import {
   GroupSendEndorsementsResponse,
   ServerPublicParams,
 } from './zkgroup';
-import type { AciString, ServiceIdString } from '../types/ServiceId';
+import type { ServiceIdString } from '../types/ServiceId';
 import { fromAciObject } from '../types/ServiceId';
 import * as log from '../logging/log';
 import type { GroupV2MemberType } from '../model-types';
@@ -28,6 +28,9 @@ import * as Errors from '../types/errors';
 import { isTestOrMockEnvironment } from '../environment';
 import { isAlpha } from './version';
 import { parseStrict } from './schemas';
+import { DataReader } from '../sql/Client';
+import { maybeUpdateGroup } from '../groups';
+import { isGroupV2 } from './whatTypeOfConversation';
 
 export function decodeGroupSendEndorsementResponse({
   groupId,
@@ -136,12 +139,13 @@ export function isValidGroupSendEndorsementsExpiration(
 
 export class GroupSendEndorsementState {
   #combinedEndorsement: GroupSendCombinedEndorsementRecord;
-  #otherMemberEndorsements = new Map<
+  #memberEndorsements = new Map<
     ServiceIdString,
     GroupSendMemberEndorsementRecord
   >();
-  #otherMemberEndorsementsAcis = new Set<AciString>();
+  #memberEndorsementsAcis = new Set<ServiceIdString>();
   #groupSecretParamsBase64: string;
+  #ourAci: ServiceIdString;
   #endorsementCache = new WeakMap<Uint8Array, GroupSendEndorsement>();
 
   constructor(
@@ -150,13 +154,10 @@ export class GroupSendEndorsementState {
   ) {
     this.#combinedEndorsement = data.combinedEndorsement;
     this.#groupSecretParamsBase64 = groupSecretParamsBase64;
-
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    this.#ourAci = window.textsecure.storage.user.getCheckedAci();
     for (const endorsement of data.memberEndorsements) {
-      if (endorsement.memberAci !== ourAci) {
-        this.#otherMemberEndorsements.set(endorsement.memberAci, endorsement);
-        this.#otherMemberEndorsementsAcis.add(endorsement.memberAci);
-      }
+      this.#memberEndorsements.set(endorsement.memberAci, endorsement);
+      this.#memberEndorsementsAcis.add(endorsement.memberAci);
     }
   }
 
@@ -171,10 +172,10 @@ export class GroupSendEndorsementState {
   }
 
   hasMember(serviceId: ServiceIdString): boolean {
-    return this.#otherMemberEndorsements.has(serviceId);
+    return this.#memberEndorsements.has(serviceId);
   }
 
-  #toEndorsement(contents: Uint8Array) {
+  #toEndorsement(contents: Uint8Array): GroupSendEndorsement {
     let endorsement = this.#endorsementCache.get(contents);
     if (endorsement == null) {
       endorsement = new GroupSendEndorsement(Buffer.from(contents));
@@ -183,73 +184,7 @@ export class GroupSendEndorsementState {
     return endorsement;
   }
 
-  // Strategy 1: Faster when we're sending to most of the group members
-  // `combined.byRemoving(combine(difference(members, sends)))`
-  #subtractMemberEndorsements(
-    difference: Set<ServiceIdString>
-  ): GroupSendEndorsement {
-    const toRemove: Array<GroupSendEndorsement> = [];
-
-    for (const serviceId of difference) {
-      const memberEndorsement = this.#otherMemberEndorsements.get(serviceId);
-      strictAssert(
-        memberEndorsement,
-        'serializeGroupSendEndorsementFullToken: Missing endorsement'
-      );
-      toRemove.push(this.#toEndorsement(memberEndorsement.endorsement));
-    }
-
-    return this.#toEndorsement(
-      this.#combinedEndorsement.endorsement
-    ).byRemoving(GroupSendEndorsement.combine(toRemove));
-  }
-
-  // Strategy 2: Faster when we're not sending to most of the group members
-  // `combine(sends)`
-  #combineMemberEndorsements(
-    serviceIds: Set<ServiceIdString>
-  ): GroupSendEndorsement {
-    const memberEndorsements = Array.from(serviceIds).map(serviceId => {
-      const memberEndorsement = this.#otherMemberEndorsements.get(serviceId);
-      strictAssert(
-        memberEndorsement,
-        'serializeGroupSendEndorsementFullToken: Missing endorsement'
-      );
-      return this.#toEndorsement(memberEndorsement.endorsement);
-    });
-
-    return GroupSendEndorsement.combine(memberEndorsements);
-  }
-
-  buildToken(serviceIds: Set<ServiceIdString>): GroupSendToken {
-    const sendCount = serviceIds.size;
-    const otherMemberCount = this.#otherMemberEndorsements.size;
-    const logId = `GroupSendEndorsementState.buildToken(${sendCount} of ${otherMemberCount})`;
-
-    const missing = serviceIds.difference(this.#otherMemberEndorsementsAcis);
-    if (missing.size !== 0) {
-      throw new Error(
-        `Attempted to build token with memberAcis we don't have endorsements for (${logServiceIds(missing)})`
-      );
-    }
-
-    const difference = this.#otherMemberEndorsementsAcis.difference(serviceIds);
-    log.info(
-      `buildToken: Endorsements without sends ${difference.size}: ${logServiceIds(difference)})`
-    );
-
-    let endorsement: GroupSendEndorsement;
-    if (difference.size === 0) {
-      log.info(`${logId}: combinedEndorsement`);
-      endorsement = this.#toEndorsement(this.#combinedEndorsement.endorsement);
-    } else if (difference.size < otherMemberCount / 2) {
-      log.info(`${logId}: subtractMemberEndorsements`);
-      endorsement = this.#subtractMemberEndorsements(difference);
-    } else {
-      log.info(`${logId}: combineMemberEndorsements`);
-      endorsement = this.#combineMemberEndorsements(serviceIds);
-    }
-
+  #toToken(endorsement: GroupSendEndorsement): GroupSendToken {
     const groupSecretParams = new GroupSecretParams(
       Buffer.from(this.#groupSecretParamsBase64, 'base64')
     );
@@ -264,6 +199,105 @@ export class GroupSendEndorsementState {
     const fullToken = endorsement.toFullToken(groupSecretParams, expiration);
     return toGroupSendToken(fullToken.serialize());
   }
+
+  #getCombinedEndorsement(includesOurs: boolean) {
+    const endorsement = this.#toEndorsement(
+      this.#combinedEndorsement.endorsement
+    );
+    if (!includesOurs) {
+      return endorsement;
+    }
+    return GroupSendEndorsement.combine([
+      endorsement,
+      this.#getMemberEndorsement(this.#ourAci),
+    ]);
+  }
+
+  #getMemberEndorsement(serviceId: ServiceIdString) {
+    const memberEndorsement = this.#memberEndorsements.get(serviceId);
+    strictAssert(
+      memberEndorsement,
+      'subtractMemberEndorsements: Missing endorsement'
+    );
+    return this.#toEndorsement(memberEndorsement.endorsement);
+  }
+
+  // Strategy 1: Faster when we're sending to most of the group members
+  // `combined.byRemoving(combine(difference(members, sends)))`
+  #subtractMemberEndorsements(
+    otherMembersServiceIds: Set<ServiceIdString>,
+    includesOurs: boolean
+  ): GroupSendEndorsement {
+    strictAssert(
+      !otherMembersServiceIds.has(this.#ourAci),
+      'subtractMemberEndorsements: Cannot subtract our own aci from the combined endorsement'
+    );
+    return this.#getCombinedEndorsement(includesOurs).byRemoving(
+      this.#combineMemberEndorsements(otherMembersServiceIds)
+    );
+  }
+
+  // Strategy 2: Faster when we're not sending to most of the group members
+  // `combine(sends)`
+  #combineMemberEndorsements(
+    serviceIds: Set<ServiceIdString>
+  ): GroupSendEndorsement {
+    return GroupSendEndorsement.combine(
+      Array.from(serviceIds, serviceId => {
+        return this.#getMemberEndorsement(serviceId);
+      })
+    );
+  }
+
+  #buildToken(serviceIds: Set<ServiceIdString>): GroupSendEndorsement {
+    const sendCount = serviceIds.size;
+    const memberCount = this.#memberEndorsements.size;
+    const logId = `GroupSendEndorsementState.buildToken(${sendCount} of ${memberCount})`;
+
+    // Fast path sending to one person
+    if (serviceIds.size === 1) {
+      log.info(`${logId}: using single member endorsement`);
+      const [serviceId] = serviceIds;
+      return this.#getMemberEndorsement(serviceId);
+    }
+
+    const missing = serviceIds.difference(this.#memberEndorsementsAcis);
+    if (missing.size !== 0) {
+      throw new Error(
+        `${logId}: Attempted to build token with memberAcis we don't have endorsements for (${logServiceIds(missing)})`
+      );
+    }
+
+    const difference = this.#memberEndorsementsAcis.difference(serviceIds);
+    log.info(
+      `${logId}: Endorsements without sends ${difference.size}: ${logServiceIds(difference)}`
+    );
+
+    const otherMembers = new Set(difference);
+    const includesOurs = otherMembers.delete(this.#ourAci);
+
+    if (otherMembers.size === 0) {
+      log.info(`${logId}: using combined endorsement`);
+      return this.#getCombinedEndorsement(includesOurs);
+    }
+
+    if (otherMembers.size < memberCount / 2) {
+      log.info(`${logId}: subtracting missing members`);
+      return this.#subtractMemberEndorsements(otherMembers, includesOurs);
+    }
+
+    log.info(`${logId}: combining all members`);
+    return this.#combineMemberEndorsements(serviceIds);
+  }
+
+  buildToken(serviceIds: Set<ServiceIdString>): GroupSendToken | null {
+    try {
+      return this.#toToken(this.#buildToken(new Set(serviceIds)));
+    } catch (error) {
+      onFailedToSendWithEndorsements(error);
+    }
+    return null;
+  }
 }
 
 export function onFailedToSendWithEndorsements(error: Error): void {
@@ -277,4 +311,59 @@ export function onFailedToSendWithEndorsements(error: Error): void {
     window.SignalCI.handleEvent('fatalTestError', error);
   }
   devDebugger();
+}
+
+type MaybeCreateGroupSendEndorsementStateResult =
+  | { state: GroupSendEndorsementState; didRefreshGroupState: false }
+  | { state: null; didRefreshGroupState: boolean };
+
+export async function maybeCreateGroupSendEndorsementState(
+  groupId: string,
+  alreadyRefreshedGroupState: boolean
+): Promise<MaybeCreateGroupSendEndorsementStateResult> {
+  const conversation = window.ConversationController.get(groupId);
+  strictAssert(
+    conversation != null,
+    'maybeCreateGroupSendEndorsementState: Convertion not found'
+  );
+
+  const logId = `maybeCreateGroupSendEndorsementState/${conversation.idForLogging()}`;
+
+  strictAssert(
+    isGroupV2(conversation.attributes),
+    `${logId}: Conversation is not groupV2`
+  );
+
+  const data = await DataReader.getGroupSendEndorsementsData(groupId);
+  if (data == null) {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    if (conversation.isMember(ourAci)) {
+      onFailedToSendWithEndorsements(
+        new Error(`${logId}: Missing all endorsements for group`)
+      );
+    }
+    return { state: null, didRefreshGroupState: false };
+  }
+
+  const groupSecretParamsBase64 = conversation.get('secretParams');
+  strictAssert(groupSecretParamsBase64, `${logId}: Must have secret params`);
+
+  const groupSendEndorsementState = new GroupSendEndorsementState(
+    data,
+    groupSecretParamsBase64
+  );
+
+  if (
+    groupSendEndorsementState != null &&
+    !groupSendEndorsementState.isSafeExpirationRange() &&
+    !alreadyRefreshedGroupState
+  ) {
+    log.info(
+      `${logId}: Endorsements close to expiration (${groupSendEndorsementState.getExpiration().getTime()}, ${Date.now()}), refreshing group`
+    );
+    await maybeUpdateGroup({ conversation });
+    return { state: null, didRefreshGroupState: true };
+  }
+
+  return { state: groupSendEndorsementState, didRefreshGroupState: false };
 }

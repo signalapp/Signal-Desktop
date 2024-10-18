@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { chunk } from 'lodash';
+import { chunk, map } from 'lodash';
 import type { LoggerType } from '../types/Logging';
 import type { Receipt } from '../types/Receipt';
 import { ReceiptType } from '../types/Receipt';
@@ -9,8 +9,9 @@ import { getSendOptions } from './getSendOptions';
 import { handleMessageSend } from './handleMessageSend';
 import { isConversationAccepted } from './isConversationAccepted';
 import { isConversationUnregistered } from './isConversationUnregistered';
-import { map } from './iterables';
 import { missingCaseError } from './missingCaseError';
+import type { ConversationModel } from '../models/conversations';
+import { mapEmplace } from './mapEmplace';
 
 const CHUNK_SIZE = 100;
 
@@ -57,47 +58,53 @@ export async function sendReceipts({
 
   log.info(`Starting receipt send of type ${type}`);
 
-  const receiptsBySenderId: Map<string, Array<Receipt>> = receipts.reduce(
-    (result, receipt) => {
-      const { senderE164, senderAci } = receipt;
-      if (!senderE164 && !senderAci) {
-        log.error('no sender E164 or Service Id. Skipping this receipt');
-        return result;
-      }
+  type ConversationSenderReceiptGroup = {
+    conversationId: string;
+    sender: ConversationModel;
+    receipts: Array<Receipt>;
+  };
+  const groupsByConversation = new Map<
+    string,
+    Map<string, ConversationSenderReceiptGroup>
+  >();
 
-      const sender = window.ConversationController.lookupOrCreate({
-        e164: senderE164,
-        serviceId: senderAci,
-        reason: 'sendReceipts',
-      });
-      if (!sender) {
-        throw new Error(
-          'no conversation found with that E164/Service Id. Cannot send this receipt'
-        );
-      }
+  const allGroups = new Set<ConversationSenderReceiptGroup>();
 
-      const existingGroup = result.get(sender.id);
-      if (existingGroup) {
-        existingGroup.push(receipt);
-      } else {
-        result.set(sender.id, [receipt]);
-      }
+  for (const receipt of receipts) {
+    const { senderE164, senderAci, conversationId } = receipt;
+    if (!senderE164 && !senderAci) {
+      log.error('no sender E164 or Service Id. Skipping this receipt');
+      continue;
+    }
 
-      return result;
-    },
-    new Map()
-  );
+    const sender = window.ConversationController.lookupOrCreate({
+      e164: senderE164,
+      serviceId: senderAci,
+      reason: 'sendReceipts',
+    });
+
+    if (!sender) {
+      throw new Error(
+        'no conversation found with that E164/Service Id. Cannot send this receipt'
+      );
+    }
+
+    const groupsBySender = mapEmplace(groupsByConversation, conversationId, {
+      insert: () => new Map(),
+    });
+    const group = mapEmplace(groupsBySender, sender.id, {
+      insert: () => ({ conversationId, sender, receipts: [] }),
+    });
+
+    allGroups.add(group);
+    group.receipts.push(receipt);
+  }
 
   await window.ConversationController.load();
 
   await Promise.all(
-    map(receiptsBySenderId, async ([senderId, receiptsForSender]) => {
-      const sender = window.ConversationController.get(senderId);
-      if (!sender) {
-        throw new Error(
-          'despite having a conversation ID, no conversation was found'
-        );
-      }
+    Array.from(allGroups.values(), async group => {
+      const { conversationId, sender, receipts: receiptsForSender } = group;
 
       if (!isConversationAccepted(sender.attributes)) {
         log.info(
@@ -120,7 +127,12 @@ export async function sendReceipts({
 
       log.info(`Sending receipt of type ${type} to ${sender.idForLogging()}`);
 
-      const sendOptions = await getSendOptions(sender.attributes);
+      const conversation = window.ConversationController.get(conversationId);
+      const groupId = conversation?.get('groupId');
+
+      const sendOptions = await getSendOptions(sender.attributes, {
+        groupId,
+      });
 
       const batches = chunk(receiptsForSender, CHUNK_SIZE);
       await Promise.all(

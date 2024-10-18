@@ -1392,7 +1392,7 @@ export async function mergeAccountRecord(
     : PhoneNumberDiscoverability.Discoverable;
   await window.storage.put('phoneNumberDiscoverability', discoverability);
 
-  if (profileKey) {
+  if (profileKey && profileKey.byteLength > 0) {
     void ourProfileKeyService.set(profileKey);
   }
 
@@ -1654,14 +1654,14 @@ export async function mergeAccountRecord(
   });
 
   let needsProfileFetch = false;
-  if (profileKey && profileKey.length > 0) {
+  if (profileKey && profileKey.byteLength > 0) {
     needsProfileFetch = await conversation.setProfileKey(
       Bytes.toBase64(profileKey),
       { viaStorageServiceSync: true, reason: 'mergeAccountRecord' }
     );
 
     const avatarUrl = dropNull(accountRecord.avatarUrl);
-    await conversation.setProfileAvatar(avatarUrl, profileKey);
+    await conversation.setAndMaybeFetchProfileAvatar(avatarUrl, profileKey);
     await window.storage.put('avatarUrl', avatarUrl);
   }
 
