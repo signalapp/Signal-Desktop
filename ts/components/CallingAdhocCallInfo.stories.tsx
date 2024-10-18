@@ -11,7 +11,7 @@ import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
 import { AvatarColors } from '../types/Colors';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import { generateAci } from '../types/ServiceId';
-import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import type { CallLinkType } from '../types/CallLink';
@@ -19,11 +19,15 @@ import { CallLinkRestrictions } from '../types/CallLink';
 
 const i18n = setupI18n('en', enMessages);
 
+const OUR_ACI = generateAci();
+
 function createParticipant(
   participantProps: Partial<GroupCallRemoteParticipantType>
 ): GroupCallRemoteParticipantType {
+  const aci = participantProps.aci ?? generateAci();
+
   return {
-    aci: generateAci(),
+    aci,
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
@@ -32,13 +36,14 @@ function createParticipant(
     presenting: Boolean(participantProps.presenting),
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
-    ...getDefaultConversationWithServiceId({
+    ...getDefaultConversation({
       avatarUrl: participantProps.avatarUrl,
       color: sample(AvatarColors),
       isBlocked: Boolean(participantProps.isBlocked),
       name: participantProps.name,
       profileName: participantProps.title,
       title: String(participantProps.title),
+      serviceId: aci,
     }),
   };
 }
@@ -64,7 +69,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   isCallLinkAdmin: overrideProps.isCallLinkAdmin || false,
   isUnknownContactDiscrete: overrideProps.isUnknownContactDiscrete || false,
-  ourServiceId: generateAci(),
+  ourServiceId: OUR_ACI,
   participants: overrideProps.participants || [],
   onClose: action('on-close'),
   onCopyCallLink: action('on-copy-call-link'),
@@ -130,6 +135,10 @@ export function ManyParticipants(): JSX.Element {
       createParticipant({
         title: 'Someone With A Really Long Name',
       }),
+      createParticipant({
+        title: 'My Name',
+        aci: OUR_ACI,
+      }),
     ],
   });
   return <CallingAdhocCallInfo {...props} />;
@@ -169,6 +178,10 @@ export function AsAdmin(): JSX.Element {
       }),
       createParticipant({
         title: 'Someone With A Really Long Name',
+      }),
+      createParticipant({
+        title: 'My Name',
+        aci: OUR_ACI,
       }),
     ],
     isCallLinkAdmin: true,
