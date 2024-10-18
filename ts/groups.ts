@@ -3989,13 +3989,15 @@ async function updateGroupViaLogs({
   let cachedEndorsementsExpiration =
     await DataReader.getGroupSendCombinedEndorsementExpiration(groupId);
 
-  if (
-    cachedEndorsementsExpiration != null &&
-    !isValidGroupSendEndorsementsExpiration(cachedEndorsementsExpiration * 1000)
-  ) {
-    log.info(
-      `updateGroupViaLogs/${logId}: Group had invalid endorsements expiration (${cachedEndorsementsExpiration}), fetching new endorsements`
+  if (cachedEndorsementsExpiration != null) {
+    const result = isValidGroupSendEndorsementsExpiration(
+      cachedEndorsementsExpiration * 1000
     );
+    if (!result.valid) {
+      log.info(
+        `updateGroupViaLogs/${logId}: Endorsements are expired (${result.reason}), fetching new endorsements`
+      );
+    }
     cachedEndorsementsExpiration = null;
   }
 
