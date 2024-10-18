@@ -311,32 +311,49 @@ export function CallsList({
 
       const { mode, peerId } = callHistoryGroup;
       const call = getCallByPeerId({ mode, peerId });
-      if (!call) {
+      if (!call || !isGroupOrAdhocCallState(call)) {
+        // We can't tell from CallHistory alone whether a 1:1 call is active
         return false;
       }
 
-      if (isGroupOrAdhocCallState(call)) {
-        if (!isAnybodyInGroupCall(call.peekInfo)) {
-          return false;
-        }
-
-        if (mode === CallMode.Group) {
-          const eraId = call.peekInfo?.eraId;
-          if (!eraId) {
-            return false;
-          }
-
-          const callId = getCallIdFromEra(eraId);
-          return callHistoryGroup.children.some(
-            groupItem => groupItem.callId === callId
-          );
-        }
-
-        return true;
+      // eraId indicates a group/call link call is active.
+      const eraId = call.peekInfo?.eraId;
+      if (!eraId) {
+        return false;
       }
 
-      // We can't tell from CallHistory alone whether a 1:1 call is active
-      return false;
+      // Group calls have multiple entries sharing a peerId. To distinguish them we need
+      // to compare the active callId (derived from eraId) with this item's callId set.
+      if (mode === CallMode.Group) {
+        const callId = getCallIdFromEra(eraId);
+        return callHistoryGroup.children.some(
+          groupItem => groupItem.callId === callId
+        );
+      }
+
+      // Call links only show once in the calls list, so we can just return active.
+      return true;
+    },
+    [getCallByPeerId]
+  );
+
+  const getIsAnybodyInCall = useCallback(
+    ({
+      callHistoryGroup,
+    }: {
+      callHistoryGroup: CallHistoryGroup | null;
+    }): boolean => {
+      if (!callHistoryGroup) {
+        return false;
+      }
+
+      const { mode, peerId } = callHistoryGroup;
+      const call = getCallByPeerId({ mode, peerId });
+      if (!call || !isGroupOrAdhocCallState(call)) {
+        return false;
+      }
+
+      return isAnybodyInGroupCall(call.peekInfo);
     },
     [getCallByPeerId]
   );
@@ -370,7 +387,7 @@ export function CallsList({
         );
       }
 
-      // For group and adhoc calls, a call has to have members in it (see getIsCallActive)
+      // For group and adhoc calls
       return Boolean(
         isActive &&
           conversation &&
@@ -433,8 +450,9 @@ export function CallsList({
       for (const item of callItems) {
         const { mode } = item;
         if (isGroupOrAdhocCallMode(mode)) {
-          const isActive = getIsCallActive({ callHistoryGroup: item });
-
+          const isActive = getIsCallActive({
+            callHistoryGroup: item,
+          });
           if (isActive) {
             // Don't peek if you're already in the call.
             const activeCallConversationId = activeCall?.conversationId;
@@ -711,6 +729,13 @@ export function CallsList({
       const isActive = getIsCallActive({
         callHistoryGroup: item,
       });
+      // After everyone leaves a call, it remains active on the server for a little bit.
+      // We don't need to show the active call join button in this case.
+      const isAnybodyInCall =
+        isActive &&
+        getIsAnybodyInCall({
+          callHistoryGroup: item,
+        });
       const isInCall = getIsInCall({
         activeCallConversationId,
         callHistoryGroup: item,
@@ -722,7 +747,9 @@ export function CallsList({
       const isCallButtonVisible = Boolean(
         !isAdhoc || (isAdhoc && getCallLink(item.peerId))
       );
-      const isActiveVisible = Boolean(isCallButtonVisible && item && isActive);
+      const isActiveVisible = Boolean(
+        isCallButtonVisible && item && isAnybodyInCall
+      );
 
       if (searchPending || item == null || conversation == null) {
         return (
@@ -887,6 +914,7 @@ export function CallsList({
       searchPending,
       getCallLink,
       getConversationForItem,
+      getIsAnybodyInCall,
       getIsCallActive,
       getIsInCall,
       selectedCallHistoryGroup,
