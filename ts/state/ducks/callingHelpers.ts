@@ -54,3 +54,9 @@ export const isAnybodyInGroupCall = (
   }
   return peekInfo.acis.length > 0;
 };
+
+export const isGroupCallActiveOnServer = (
+  peekInfo: undefined | Readonly<Pick<GroupCallPeekInfoType, 'eraId'>>
+): boolean => {
+  return Boolean(peekInfo?.eraId);
+};

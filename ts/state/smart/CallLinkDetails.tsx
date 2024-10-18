@@ -14,7 +14,10 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useCallingActions } from '../ducks/calling';
 import { strictAssert } from '../../util/assert';
 import type { CallLinkRestrictions } from '../../types/CallLink';
-import { isAnybodyInGroupCall } from '../ducks/callingHelpers';
+import {
+  isAnybodyInGroupCall,
+  isGroupCallActiveOnServer,
+} from '../ducks/callingHelpers';
 
 export type SmartCallLinkDetailsProps = Readonly<{
   roomId: string;
@@ -66,7 +69,8 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
 
   const adhocCallSelector = useSelector(getAdhocCallSelector);
   const adhocCall = adhocCallSelector(roomId);
-  const hasActiveCall = isAnybodyInGroupCall(adhocCall?.peekInfo);
+  const isAnybodyInCall = isAnybodyInGroupCall(adhocCall?.peekInfo);
+  const isCallActiveOnServer = isGroupCallActiveOnServer(adhocCall?.peekInfo);
 
   const activeCall = useSelector(getActiveCallState);
   const isInAnotherCall = Boolean(
@@ -80,7 +84,8 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
     <CallLinkDetails
       callHistoryGroup={callHistoryGroup}
       callLink={callLink}
-      isAnybodyInCall={hasActiveCall}
+      isAnybodyInCall={isAnybodyInCall}
+      isCallActiveOnServer={isCallActiveOnServer}
       isInCall={isInCall}
       isInAnotherCall={isInAnotherCall}
       i18n={i18n}
