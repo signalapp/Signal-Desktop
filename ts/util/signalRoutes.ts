@@ -313,8 +313,9 @@ export const groupInvitesRoute = _route('groupInvites', {
  * linkDeviceRoute.toAppUrl({
  *   uuid: "123",
  *   pubKey: "abc",
+ *   capabilities: "backuo"
  * })
- * // URL { "sgnl://linkdevice?uuid=123&pub_key=abc" }
+ * // URL { "sgnl://linkdevice?uuid=123&pub_key=abc&capabilities=backup" }
  * ```
  */
 export const linkDeviceRoute = _route('linkDevice', {
@@ -322,18 +323,21 @@ export const linkDeviceRoute = _route('linkDevice', {
   schema: z.object({
     uuid: paramSchema, // base64url?
     pubKey: paramSchema, // percent-encoded base64 (with padding) of PublicKey with type byte included
+    capabilities: paramSchema.array(), // comma-separated list of capabilities
   }),
   parse(result) {
     const params = new URLSearchParams(result.search.groups.params);
     return {
       uuid: params.get('uuid'),
       pubKey: params.get('pub_key'),
+      capabilities: params.get('capabilities')?.split(',') ?? [],
     };
   },
   toAppUrl(args) {
     const params = new URLSearchParams({
       uuid: args.uuid,
       pub_key: args.pubKey,
+      capabilities: args.capabilities.join(','),
     });
     return new URL(`sgnl://linkdevice?${params.toString()}`);
   },

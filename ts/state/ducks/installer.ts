@@ -196,7 +196,7 @@ function startInstaller(): ThunkAction<
     const { server } = window.textsecure;
     strictAssert(server, 'Expected a server');
 
-    const provisioner = new Provisioner(server);
+    const provisioner = new Provisioner(server, window.getVersion());
 
     const abortController = new AbortController();
     const { signal } = abortController;

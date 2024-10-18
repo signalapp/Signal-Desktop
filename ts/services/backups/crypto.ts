@@ -46,8 +46,9 @@ const getMemoizedKeyMaterial = memoizee(
   }
 );
 
-export function getKeyMaterial(): BackupKeyMaterialType {
-  const backupKey = getBackupKey();
+export function getKeyMaterial(
+  backupKey = getBackupKey()
+): BackupKeyMaterialType {
   const aci = window.storage.user.getCheckedAci();
   return getMemoizedKeyMaterial(backupKey, aci);
 }

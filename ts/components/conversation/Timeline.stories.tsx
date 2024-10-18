@@ -405,6 +405,7 @@ const renderHeroRow = () => {
         id={getDefaultConversation().id}
         i18n={i18n}
         isMe={false}
+        isRestoredFromBackup={false}
         phoneNumber={getPhoneNumber()}
         profileName={getProfileName()}
         sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}

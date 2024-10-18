@@ -170,6 +170,9 @@ export function getCI({ deviceName }: GetCIOptionsType): CIType {
   async function uploadBackup() {
     await backupsService.upload();
     await AttachmentBackupManager.waitForIdle();
+
+    // Remove the disclaimer from conversation hero for screenshot backup test
+    await window.storage.put('isRestoredFromBackup', true);
   }
 
   function unlink() {

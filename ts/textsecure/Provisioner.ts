@@ -9,6 +9,7 @@ import { linkDeviceRoute } from '../util/signalRoutes';
 import { strictAssert } from '../util/assert';
 import { normalizeAci } from '../util/normalizeAci';
 import { normalizeDeviceName } from '../util/normalizeDeviceName';
+import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
 import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen';
 import * as Errors from '../types/errors';
 import {
@@ -77,7 +78,10 @@ export class Provisioner {
   private state: StateType = { step: Step.Idle };
   private wsr: IWebSocketResource | undefined;
 
-  constructor(private readonly server: WebAPIType) {}
+  constructor(
+    private readonly server: WebAPIType,
+    private readonly appVersion: string
+  ) {}
 
   public close(error = new Error('Provisioner closed')): void {
     try {
@@ -171,6 +175,7 @@ export class Provisioner {
       untaggedPni,
       userAgent,
       readReceipts,
+      ephemeralBackupKey,
     } = envelope;
 
     strictAssert(number, 'prepareLinkData: missing number');
@@ -214,6 +219,7 @@ export class Provisioner {
       ourPni,
       readReceipts: Boolean(readReceipts),
       masterKey,
+      ephemeralBackupKey,
     };
   }
 
@@ -239,6 +245,7 @@ export class Provisioner {
         .toAppUrl({
           uuid,
           pubKey: Bytes.toBase64(pubKey),
+          capabilities: isLinkAndSyncEnabled(this.appVersion) ? ['backup'] : [],
         })
         .toString();
 

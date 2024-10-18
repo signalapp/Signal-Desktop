@@ -134,6 +134,7 @@ type CreatePrimaryDeviceOptionsType = Readonly<{
   ourAci?: undefined;
   ourPni?: undefined;
   userAgent?: undefined;
+  ephemeralBackupKey?: undefined;
 
   readReceipts: true;
 
@@ -149,6 +150,7 @@ export type CreateLinkedDeviceOptionsType = Readonly<{
   ourAci: AciString;
   ourPni: PniString;
   userAgent?: string;
+  ephemeralBackupKey: Uint8Array | undefined;
 
   readReceipts: boolean;
 
@@ -333,6 +335,7 @@ export default class AccountManager extends EventTarget {
         profileKey,
         accessKey,
         masterKey,
+        ephemeralBackupKey: undefined,
         readReceipts: true,
       });
     });
@@ -1098,6 +1101,9 @@ export default class AccountManager extends EventTarget {
     // storage service and message receiver are not operating
     // until the backup is downloaded and imported.
     if (isBackupEnabled() && cleanStart) {
+      if (options.type === AccountType.Linked && options.ephemeralBackupKey) {
+        await storage.put('backupEphemeralKey', options.ephemeralBackupKey);
+      }
       await storage.put('backupDownloadPath', getRelativePath(createName()));
     }
 

@@ -116,6 +116,16 @@ export type BootstrapOptions = Readonly<{
   contactPreKeyCount?: number;
 }>;
 
+export type EphemeralBackupType = Readonly<{
+  cdn: 3;
+  key: string;
+}>;
+
+export type LinkOptionsType = Readonly<{
+  extraConfig?: Partial<RendererConfigType>;
+  ephemeralBackup?: EphemeralBackupType;
+}>;
+
 type BootstrapInternalOptions = BootstrapOptions &
   Readonly<{
     benchmark: boolean;
@@ -302,7 +312,10 @@ export class Bootstrap {
     ]);
   }
 
-  public async link(extraConfig?: Partial<RendererConfigType>): Promise<App> {
+  public async link({
+    extraConfig,
+    ephemeralBackup,
+  }: LinkOptionsType = {}): Promise<App> {
     debug('linking');
 
     const app = await this.startApp(extraConfig);
@@ -332,6 +345,10 @@ export class Bootstrap {
       provisionURL,
       primaryDevice: this.phone,
     });
+
+    if (ephemeralBackup != null) {
+      await this.server.provideTransferArchive(this.desktop, ephemeralBackup);
+    }
 
     debug('new desktop device %j', this.desktop.debugId);
 

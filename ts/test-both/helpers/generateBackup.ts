@@ -22,13 +22,22 @@ import {
 import { BACKUP_VERSION } from '../../services/backups/constants';
 import { Backups } from '../../protobuf';
 
-export type BackupGeneratorConfigType = Readonly<{
-  aci: AciString;
-  profileKey: Buffer;
-  masterKey: Buffer;
-  conversations: number;
-  messages: number;
-}>;
+export type BackupGeneratorConfigType = Readonly<
+  {
+    aci: AciString;
+    profileKey: Buffer;
+    conversations: number;
+    conversationAcis?: ReadonlyArray<AciString>;
+    messages: number;
+  } & (
+    | {
+        masterKey: Buffer;
+      }
+    | {
+        backupKey: Buffer;
+      }
+  )
+>;
 
 const IV_LENGTH = 16;
 
@@ -40,8 +49,13 @@ export type GenerateBackupResultType = Readonly<{
 export function generateBackup(
   options: BackupGeneratorConfigType
 ): GenerateBackupResultType {
-  const { aci, masterKey } = options;
-  const backupKey = deriveBackupKey(masterKey);
+  const { aci } = options;
+  let backupKey: Uint8Array;
+  if ('masterKey' in options) {
+    backupKey = deriveBackupKey(options.masterKey);
+  } else {
+    ({ backupKey } = options);
+  }
   const aciBytes = toAciObject(aci).getServiceIdBinary();
   const backupId = Buffer.from(deriveBackupId(backupKey, aciBytes));
   const { aesKey, macKey } = deriveBackupKeyMaterial(backupKey, backupId);
@@ -71,6 +85,7 @@ function getTimestamp(): Long {
 function* createRecords({
   profileKey,
   conversations,
+  conversationAcis = [],
   messages,
 }: BackupGeneratorConfigType): Iterable<Buffer> {
   yield Buffer.from(
@@ -129,7 +144,9 @@ function* createRecords({
 
   for (let i = 1; i <= conversations; i += 1) {
     const id = Long.fromNumber(i);
-    const chatAci = toAciObject(generateAci()).getRawUuidBytes();
+    const chatAci = toAciObject(
+      conversationAcis.at(i - 1) ?? generateAci()
+    ).getRawUuidBytes();
 
     chats.push({
       id,
@@ -202,7 +219,7 @@ function* createRecords({
                   {
                     recipientId: chat.id,
                     timestamp: dateSent,
-                    sent: { sealedSender: true },
+                    delivered: { sealedSender: true },
                   },
                 ],
               },

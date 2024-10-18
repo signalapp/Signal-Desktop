@@ -59,8 +59,19 @@ export type DownloadOptionsType = Readonly<{
   abortSignal?: AbortSignal;
 }>;
 
+type DoDownloadOptionsType = Readonly<{
+  downloadPath: string;
+  ephemeralKey?: Uint8Array;
+  onProgress?: (
+    backupStep: InstallScreenBackupStep,
+    currentBytes: number,
+    totalBytes: number
+  ) => void;
+}>;
+
 export type ImportOptionsType = Readonly<{
   backupType?: BackupType;
+  ephemeralKey?: Uint8Array;
   onProgress?: (currentBytes: number, totalBytes: number) => void;
 }>;
 
@@ -104,16 +115,23 @@ export class BackupsService {
       return;
     }
 
+    log.info('backups.download: downloading...');
+
+    const ephemeralKey = window.storage.get('backupEphemeralKey');
+
     const absoluteDownloadPath =
       window.Signal.Migrations.getAbsoluteDownloadsPath(backupDownloadPath);
     let hasBackup = false;
-    log.info('backups.download: downloading...');
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
       try {
         // eslint-disable-next-line no-await-in-loop
-        hasBackup = await this.doDownload(absoluteDownloadPath, options);
+        hasBackup = await this.doDownload({
+          downloadPath: absoluteDownloadPath,
+          onProgress: options.onProgress,
+          ephemeralKey,
+        });
       } catch (error) {
         log.warn(
           'backups.download: error, prompting user to retry',
@@ -141,6 +159,8 @@ export class BackupsService {
     }
 
     await window.storage.remove('backupDownloadPath');
+    await window.storage.remove('backupEphemeralKey');
+    await window.storage.put('isRestoredFromBackup', hasBackup);
 
     log.info(`backups.download: done, had backup=${hasBackup}`);
   }
@@ -240,7 +260,11 @@ export class BackupsService {
 
   public async importBackup(
     createBackupStream: () => Readable,
-    { backupType = BackupType.Ciphertext, onProgress }: ImportOptionsType = {}
+    {
+      backupType = BackupType.Ciphertext,
+      ephemeralKey,
+      onProgress,
+    }: ImportOptionsType = {}
   ): Promise<void> {
     strictAssert(!this.isRunning, 'BackupService is already running');
 
@@ -250,7 +274,7 @@ export class BackupsService {
     try {
       const importStream = await BackupImportStream.create(backupType);
       if (backupType === BackupType.Ciphertext) {
-        const { aesKey, macKey } = getKeyMaterial();
+        const { aesKey, macKey } = getKeyMaterial(ephemeralKey);
 
         // First pass - don't decrypt, only verify mac
         let hmac = createHmac(HashType.size256, macKey);
@@ -310,6 +334,10 @@ export class BackupsService {
         strictAssert(
           isTestOrMockEnvironment(),
           'Plaintext backups can be imported only in test harness'
+        );
+        strictAssert(
+          ephemeralKey == null,
+          'Plaintext backups cannot have ephemeral key'
         );
         await pipeline(
           createBackupStream(),
@@ -376,10 +404,11 @@ export class BackupsService {
     return { isInBackupTier: true, cdnNumber: storedInfo.cdnNumber };
   }
 
-  private async doDownload(
-    downloadPath: string,
-    { onProgress }: Pick<DownloadOptionsType, 'onProgress'>
-  ): Promise<boolean> {
+  private async doDownload({
+    downloadPath,
+    ephemeralKey,
+    onProgress,
+  }: DoDownloadOptionsType): Promise<boolean> {
     const controller = new AbortController();
 
     // Abort previous download
@@ -397,6 +426,13 @@ export class BackupsService {
       // File is missing - start from the beginning
     }
 
+    const onDownloadProgress = (
+      currentBytes: number,
+      totalBytes: number
+    ): void => {
+      onProgress?.(InstallScreenBackupStep.Download, currentBytes, totalBytes);
+    };
+
     try {
       await ensureFile(downloadPath);
 
@@ -404,17 +440,20 @@ export class BackupsService {
         return false;
       }
 
-      const stream = await this.api.download({
-        downloadOffset,
-        onProgress: (currentBytes, totalBytes) => {
-          onProgress?.(
-            InstallScreenBackupStep.Download,
-            currentBytes,
-            totalBytes
-          );
-        },
-        abortSignal: controller.signal,
-      });
+      let stream: Readable;
+      if (ephemeralKey == null) {
+        stream = await this.api.download({
+          downloadOffset,
+          onProgress: onDownloadProgress,
+          abortSignal: controller.signal,
+        });
+      } else {
+        stream = await this.api.downloadEphemeral({
+          downloadOffset,
+          onProgress: onDownloadProgress,
+          abortSignal: controller.signal,
+        });
+      }
 
       if (controller.signal.aborted) {
         return false;
@@ -437,6 +476,7 @@ export class BackupsService {
       // Too late to cancel now
       try {
         await this.importFromDisk(downloadPath, {
+          ephemeralKey,
           onProgress: (currentBytes, totalBytes) => {
             onProgress?.(
               InstallScreenBackupStep.Process,

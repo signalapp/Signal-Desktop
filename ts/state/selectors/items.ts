@@ -265,3 +265,8 @@ export const getBackupMediaDownloadProgress = createSelector(
     downloadBannerDismissed: state.backupMediaDownloadBannerDismissed ?? false,
   })
 );
+
+export const getIsRestoredFromBackup = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => state.isRestoredFromBackup === true
+);

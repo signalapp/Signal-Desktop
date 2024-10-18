@@ -26,6 +26,7 @@ export type ProvisionDecryptResult = Readonly<{
   readReceipts?: boolean;
   profileKey?: Uint8Array;
   masterKey?: Uint8Array;
+  ephemeralBackupKey: Uint8Array | undefined;
 }>;
 
 class ProvisioningCipherInner {
@@ -89,6 +90,9 @@ class ProvisioningCipherInner {
         : undefined,
       masterKey: Bytes.isNotEmpty(provisionMessage.masterKey)
         ? provisionMessage.masterKey
+        : undefined,
+      ephemeralBackupKey: Bytes.isNotEmpty(provisionMessage.ephemeralBackupKey)
+        ? provisionMessage.ephemeralBackupKey
         : undefined,
     };
   }

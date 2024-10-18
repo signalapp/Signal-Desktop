@@ -91,6 +91,24 @@ export class BackupAPI {
     });
   }
 
+  public async downloadEphemeral({
+    downloadOffset,
+    onProgress,
+    abortSignal,
+  }: DownloadOptionsType): Promise<Readable> {
+    const { cdn, key } = await this.server.getTransferArchive({
+      abortSignal,
+    });
+
+    return this.server.getEphemeralBackupStream({
+      cdn,
+      key,
+      downloadOffset,
+      onProgress,
+      abortSignal,
+    });
+  }
+
   public async getMediaUploadForm(): Promise<AttachmentUploadFormResponseType> {
     return this.server.getBackupMediaUploadForm(
       await this.credentials.getHeadersForToday()

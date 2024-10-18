@@ -628,6 +628,7 @@ const URL_CALLS = {
   storageToken: 'v1/storage/auth',
   subscriptions: 'v1/subscription',
   subscriptionConfiguration: 'v1/subscription/configuration',
+  transferArchive: 'v1/devices/transfer_archive',
   updateDeviceName: 'v1/accounts/name',
   username: 'v1/accounts/username_hash',
   reserveUsername: 'v1/accounts/username_hash/reserve',
@@ -660,6 +661,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   'devices',
   'linkDevice',
   'registerCapabilities',
+  'transferArchive',
 
   // Directory
   'directoryAuthV2',
@@ -719,7 +721,12 @@ type AjaxOptionsType = {
   jsonData?: unknown;
   password?: string;
   redactUrl?: RedactUrl;
-  responseType?: 'json' | 'bytes' | 'byteswithdetails' | 'stream';
+  responseType?:
+    | 'json'
+    | 'jsonwithdetails'
+    | 'bytes'
+    | 'byteswithdetails'
+    | 'stream';
   schema?: unknown;
   timeout?: number;
   urlParameters?: string;
@@ -1188,6 +1195,14 @@ export type GetBackupStreamOptionsType = Readonly<{
   abortSignal?: AbortSignal;
 }>;
 
+export type GetEphemeralBackupStreamOptionsType = Readonly<{
+  cdn: number;
+  key: string;
+  downloadOffset: number;
+  onProgress: (currentBytes: number, totalBytes: number) => void;
+  abortSignal?: AbortSignal;
+}>;
+
 export const getBackupInfoResponseSchema = z.object({
   cdn: z.literal(3),
   backupDir: z.string(),
@@ -1224,6 +1239,18 @@ const StickerPackUploadFormSchema = z.object({
   manifest: StickerPackUploadAttributesSchema,
   stickers: z.array(StickerPackUploadAttributesSchema),
 });
+
+const TransferArchiveSchema = z.object({
+  cdn: z.literal(3),
+  key: z.string(),
+});
+
+export type TransferArchiveType = z.infer<typeof TransferArchiveSchema>;
+
+export type GetTransferArchiveOptionsType = Readonly<{
+  timeout?: number;
+  abortSignal?: AbortSignal;
+}>;
 
 export type WebAPIType = {
   startRegistration(): unknown;
@@ -1426,6 +1453,9 @@ export type WebAPIType = {
     headers: BackupPresentationHeadersType
   ) => Promise<GetBackupInfoResponseType>;
   getBackupStream: (options: GetBackupStreamOptionsType) => Promise<Readable>;
+  getEphemeralBackupStream: (
+    options: GetEphemeralBackupStreamOptionsType
+  ) => Promise<Readable>;
   getBackupUploadForm: (
     headers: BackupPresentationHeadersType
   ) => Promise<AttachmentUploadFormResponseType>;
@@ -1439,6 +1469,9 @@ export type WebAPIType = {
   getBackupCDNCredentials: (
     options: GetBackupCDNCredentialsOptionsType
   ) => Promise<GetBackupCDNCredentialsResponseType>;
+  getTransferArchive: (
+    options: GetTransferArchiveOptionsType
+  ) => Promise<TransferArchiveType>;
   setBackupId: (options: SetBackupIdOptionsType) => Promise<void>;
   setBackupSignatureKey: (
     options: SetBackupSignatureKeyOptionsType
@@ -1765,6 +1798,7 @@ export function initialize({
       getGroup,
       getGroupAvatar,
       getGroupCredentials,
+      getEphemeralBackupStream,
       getExternalGroupCredential,
       getGroupFromLink,
       getGroupLog,
@@ -1777,6 +1811,7 @@ export function initialize({
       getProfile,
       getProfileUnauth,
       getProvisioningResource,
+      getTransferArchive,
       getSenderCertificate,
       getSocketStatus,
       getSticker,
@@ -1841,6 +1876,9 @@ export function initialize({
     function _ajax(
       param: AjaxOptionsType & { responseType: 'json' }
     ): Promise<unknown>;
+    function _ajax(
+      param: AjaxOptionsType & { responseType: 'jsonwithdetails' }
+    ): Promise<JSONWithDetailsType>;
 
     async function _ajax(param: AjaxOptionsType): Promise<unknown> {
       if (
@@ -2207,6 +2245,45 @@ export function initialize({
           profileKeyCredentialRequest
         ),
       })) as ProfileType;
+    }
+
+    async function getTransferArchive({
+      timeout = durations.HOUR,
+      abortSignal,
+    }: GetTransferArchiveOptionsType): Promise<TransferArchiveType> {
+      const timeoutTime = Date.now() + timeout;
+
+      const urlParameters = timeout
+        ? `?timeout=${encodeURIComponent(Math.round(timeout / SECOND))}`
+        : undefined;
+
+      let remainingTime: number;
+      do {
+        remainingTime = Math.max(timeoutTime - Date.now(), 0);
+
+        // eslint-disable-next-line no-await-in-loop
+        const { data, response }: JSONWithDetailsType = await _ajax({
+          call: 'transferArchive',
+          httpType: 'GET',
+          responseType: 'jsonwithdetails',
+          urlParameters,
+          timeout: remainingTime,
+          abortSignal,
+        });
+
+        if (response.status === 200) {
+          return TransferArchiveSchema.parse(data);
+        }
+
+        strictAssert(
+          response.status === 204,
+          'Invalid transfer archive status code'
+        );
+
+        // Timed out, see if we can retry
+      } while (!timeout || remainingTime != null);
+
+      throw new Error('Timed out');
     }
 
     async function getAccountForUsername({
@@ -2866,6 +2943,25 @@ export function initialize({
         cdnNumber: cdn,
         redactor: _createRedactor(backupDir, backupName),
         headers,
+        options: {
+          downloadOffset,
+          onProgress,
+          abortSignal,
+        },
+      });
+    }
+
+    async function getEphemeralBackupStream({
+      cdn,
+      key,
+      downloadOffset,
+      onProgress,
+      abortSignal,
+    }: GetEphemeralBackupStreamOptionsType): Promise<Readable> {
+      return _getAttachment({
+        cdnNumber: cdn,
+        cdnPath: `/attachments/${encodeURIComponent(key)}`,
+        redactor: _createRedactor(key),
         options: {
           downloadOffset,
           onProgress,

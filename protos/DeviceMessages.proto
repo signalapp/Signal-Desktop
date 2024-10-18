@@ -27,6 +27,7 @@ message ProvisionMessage {
   optional bool    readReceipts = 7;
   optional uint32  ProvisioningVersion = 9;
   optional bytes   masterKey = 13;
+  optional bytes   ephemeralBackupKey = 14; // 32 bytes
 }
 
 enum ProvisioningVersion {

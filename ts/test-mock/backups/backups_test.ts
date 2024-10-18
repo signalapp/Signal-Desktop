@@ -1,6 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
 import createDebug from 'debug';
@@ -10,6 +11,8 @@ import { expect } from 'playwright/test';
 
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import { MY_STORY_ID } from '../../types/Stories';
+import { generateAci } from '../../types/ServiceId';
+import { generateBackup } from '../../test-both/helpers/generateBackup';
 import { IMAGE_JPEG } from '../../types/MIME';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import * as durations from '../../util/durations';
@@ -45,7 +48,19 @@ describe('backups', function (this: Mocha.Suite) {
   beforeEach(async () => {
     bootstrap = new Bootstrap();
     await bootstrap.init();
+  });
 
+  afterEach(async function (this: Mocha.Context) {
+    if (!bootstrap) {
+      return;
+    }
+
+    await bootstrap.maybeSaveLogs(this.currentTest, app);
+    await app.close();
+    await bootstrap.teardown();
+  });
+
+  it('exports and imports regular backup', async function () {
     let state = StorageState.getEmpty();
 
     const { phone, contacts } = bootstrap;
@@ -102,21 +117,8 @@ describe('backups', function (this: Mocha.Suite) {
     await phone.setStorageState(state);
 
     app = await bootstrap.link();
-  });
 
-  afterEach(async function (this: Mocha.Context) {
-    if (!bootstrap) {
-      return;
-    }
-
-    await bootstrap.maybeSaveLogs(this.currentTest, app);
-    await app.close();
-    await bootstrap.teardown();
-  });
-
-  it('exports and imports backup', async function () {
-    const { contacts, phone, desktop, server } = bootstrap;
-    const [friend, pinned] = contacts;
+    const { desktop, server } = bootstrap;
 
     {
       const window = await app.getWindow();
@@ -311,5 +313,53 @@ describe('backups', function (this: Mocha.Suite) {
     }
 
     await comparator(app);
+  });
+
+  it('imports ephemeral backup', async function () {
+    const ephemeralBackupKey = randomBytes(32);
+    const cdnKey = randomBytes(16).toString('hex');
+
+    const { phone, server } = bootstrap;
+
+    const contact1 = generateAci();
+    const contact2 = generateAci();
+
+    phone.ephemeralBackupKey = ephemeralBackupKey;
+
+    // Store backup attachment in transit tier
+    const { stream: backupStream } = generateBackup({
+      aci: phone.device.aci,
+      profileKey: phone.profileKey.serialize(),
+      backupKey: ephemeralBackupKey,
+      conversations: 2,
+      conversationAcis: [contact1, contact2],
+      messages: 50,
+    });
+
+    await server.storeAttachmentOnCdn(3, cdnKey, backupStream);
+
+    app = await bootstrap.link({
+      ephemeralBackup: {
+        cdn: 3,
+        key: cdnKey,
+      },
+    });
+
+    await app.waitForBackupImportComplete();
+
+    const window = await app.getWindow();
+
+    const leftPane = window.locator('#LeftPane');
+
+    const contact1Elem = leftPane.locator(
+      `[data-testid="${contact1}"] >> "Message 48"`
+    );
+    const contact2Elem = leftPane.locator(
+      `[data-testid="${contact2}"] >> "Message 49"`
+    );
+    await contact1Elem.waitFor();
+
+    await contact2Elem.click();
+    await window.locator('.module-message >> "Message 33"').waitFor();
   });
 });
