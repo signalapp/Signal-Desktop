@@ -268,30 +268,32 @@ export function CallingAdhocCallInfo({
           )}
         />
         {isCallLinkAdmin &&
-        participant.demuxId &&
-        !(ourServiceId && participant.serviceId === ourServiceId) ? (
-          <button
-            aria-label={i18n('icu:CallingAdhocCallInfo__RemoveClient')}
-            className={classNames(
-              'CallingAdhocCallInfo__RemoveClient',
-              'module-calling-participants-list__status-icon',
-              'module-calling-participants-list__remove'
-            )}
-            onClick={event => {
-              if (!participant.demuxId) {
-                return;
-              }
+          (participant.demuxId &&
+          !(ourServiceId && participant.serviceId === ourServiceId) ? (
+            <button
+              aria-label={i18n('icu:CallingAdhocCallInfo__RemoveClient')}
+              className={classNames(
+                'CallingAdhocCallInfo__RemoveClient',
+                'module-calling-participants-list__status-icon',
+                'module-calling-participants-list__remove'
+              )}
+              onClick={event => {
+                if (!participant.demuxId) {
+                  return;
+                }
 
-              event.stopPropagation();
-              event.preventDefault();
-              setRemoveClientDialogState({
-                demuxId: participant.demuxId,
-                name: participant.title,
-              });
-            }}
-            type="button"
-          />
-        ) : null}
+                event.stopPropagation();
+                event.preventDefault();
+                setRemoveClientDialogState({
+                  demuxId: participant.demuxId,
+                  name: participant.title,
+                });
+              }}
+              type="button"
+            />
+          ) : (
+            <span className="module-calling-participants-list__status-icon" />
+          ))}
       </button>
     ),
     [
