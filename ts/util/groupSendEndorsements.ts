@@ -129,13 +129,28 @@ function logServiceIds(list: Iterable<string>) {
   return `${items.slice(0, 4).join(', ')}, and ${items.length - 4} others`;
 }
 
+export type EndorsementsExpirationValidationResult =
+  | { valid: true; reason?: never }
+  | { valid: false; reason: string };
+
 export function isValidGroupSendEndorsementsExpiration(
   expiration: number
-): boolean {
+): EndorsementsExpirationValidationResult {
   const expSeconds = DurationInSeconds.fromMillis(expiration);
   const nowSeconds = DurationInSeconds.fromMillis(Date.now());
+  const info = `now: ${nowSeconds}, exp: ${expSeconds}`;
+  if (expSeconds <= nowSeconds) {
+    return { valid: false, reason: `already expired, ${info}` };
+  }
+  // negative = exp is past, positive = exp is future
   const distance = Math.trunc(expSeconds - nowSeconds);
-  return distance <= TWO_DAYS && distance > TWO_HOURS;
+  if (distance <= TWO_HOURS) {
+    return { valid: false, reason: `expires soon, ${info}` };
+  }
+  if (distance >= TWO_DAYS) {
+    return { valid: false, reason: `expires too far in future, ${info}` };
+  }
+  return { valid: true };
 }
 
 export class GroupSendEndorsementState {
@@ -160,12 +175,6 @@ export class GroupSendEndorsementState {
       this.#memberEndorsements.set(endorsement.memberAci, endorsement);
       this.#memberEndorsementsAcis.add(endorsement.memberAci);
     }
-  }
-
-  isSafeExpirationRange(): boolean {
-    return isValidGroupSendEndorsementsExpiration(
-      this.getExpiration().getTime()
-    );
   }
 
   getExpiration(): Date {
@@ -366,13 +375,21 @@ export async function maybeCreateGroupSendEndorsementState(
     groupSecretParamsBase64
   );
 
-  if (
-    groupSendEndorsementState != null &&
-    !groupSendEndorsementState.isSafeExpirationRange() &&
-    !alreadyRefreshedGroupState
-  ) {
+  const result = isValidGroupSendEndorsementsExpiration(
+    groupSendEndorsementState.getExpiration().getTime()
+  );
+
+  if (!result.valid) {
+    if (alreadyRefreshedGroupState) {
+      onFailedToSendWithEndorsements(
+        new Error(
+          `${logId}: Endorsements are expired after refreshing group (${result.reason})`
+        )
+      );
+      return { state: null, didRefreshGroupState: false };
+    }
     log.info(
-      `${logId}: Endorsements close to expiration (${groupSendEndorsementState.getExpiration().getTime()}, ${Date.now()}), refreshing group`
+      `${logId}: Endorsements are expired (${result.reason}), refreshing group`
     );
     await maybeUpdateGroup({ conversation });
     return { state: null, didRefreshGroupState: true };
