@@ -389,7 +389,7 @@
       "mergeASARs": true,
       "releaseInfo": {
         "vendor": {
-          "minOSVersion": "19.0.0"
+          "minOSVersion": "20.0.0"
         }
       },
       "sign": "./ts/scripts/sign-macos.js",
