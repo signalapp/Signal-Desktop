@@ -14,14 +14,10 @@ import {
 } from '../ts/environment';
 
 // In production mode, NODE_ENV cannot be customized by the user
-if (app.isPackaged) {
-  setEnvironment(Environment.PackagedApp, false);
-} else {
-  setEnvironment(
+setEnvironment(
     parseEnvironment(process.env.NODE_ENV || 'development'),
     Boolean(process.env.MOCK_TEST)
-  );
-}
+);
 
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = getEnvironment();
