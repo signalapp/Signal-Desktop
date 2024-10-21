@@ -30,7 +30,7 @@ import { isTestOrMockEnvironment } from '../environment';
 import { isAlpha } from './version';
 import { parseStrict } from './schemas';
 import { DataReader } from '../sql/Client';
-import { maybeUpdateGroup } from '../groups';
+import { waitThenMaybeUpdateGroup } from '../groups';
 import { isGroupV2 } from './whatTypeOfConversation';
 
 export function decodeGroupSendEndorsementResponse({
@@ -139,6 +139,7 @@ export function isValidGroupSendEndorsementsExpiration(
 }
 
 export class GroupSendEndorsementState {
+  #logId: string;
   #combinedEndorsement: GroupSendCombinedEndorsementRecord;
   #memberEndorsements = new Map<
     ServiceIdString,
@@ -153,6 +154,7 @@ export class GroupSendEndorsementState {
     data: GroupSendEndorsementsData,
     groupSecretParamsBase64: string
   ) {
+    this.#logId = `GroupSendEndorsementState/groupv2(${data.combinedEndorsement.groupId})`;
     this.#combinedEndorsement = data.combinedEndorsement;
     this.#groupSecretParamsBase64 = groupSecretParamsBase64;
     this.#ourAci = window.textsecure.storage.user.getCheckedAci();
@@ -194,7 +196,7 @@ export class GroupSendEndorsementState {
 
     strictAssert(
       isValidGroupSendEndorsementsExpiration(expiration.getTime()),
-      'Cannot build token with invalid expiration'
+      `${this.#logId}: toToken: Cannot build token with invalid expiration`
     );
 
     const fullToken = endorsement.toFullToken(groupSecretParams, expiration);
@@ -218,7 +220,7 @@ export class GroupSendEndorsementState {
     const memberEndorsement = this.#memberEndorsements.get(serviceId);
     strictAssert(
       memberEndorsement,
-      'subtractMemberEndorsements: Missing endorsement'
+      `${this.#logId}: getMemberEndorsement: Missing endorsement for ${serviceId}`
     );
     return this.#toEndorsement(memberEndorsement.endorsement);
   }
@@ -231,7 +233,7 @@ export class GroupSendEndorsementState {
   ): GroupSendEndorsement {
     strictAssert(
       !otherMembersServiceIds.has(this.#ourAci),
-      'subtractMemberEndorsements: Cannot subtract our own aci from the combined endorsement'
+      `${this.#logId}: subtractMemberEndorsements: Cannot subtract our own aci from the combined endorsement`
     );
     return this.#getCombinedEndorsement(includesOurs).byRemoving(
       this.#combineMemberEndorsements(otherMembersServiceIds)
@@ -253,7 +255,7 @@ export class GroupSendEndorsementState {
   #buildToken(serviceIds: Set<ServiceIdString>): GroupSendEndorsement {
     const sendCount = serviceIds.size;
     const memberCount = this.#memberEndorsements.size;
-    const logId = `GroupSendEndorsementState.buildToken(${sendCount} of ${memberCount})`;
+    const logId = `${this.#logId}: buildToken(${sendCount} of ${memberCount})`;
 
     // Fast path sending to one person
     if (serviceIds.size === 1) {
@@ -351,6 +353,12 @@ export async function maybeCreateGroupSendEndorsementState(
   if (data == null) {
     const ourAci = window.textsecure.storage.user.getCheckedAci();
     if (conversation.isMember(ourAci)) {
+      if (!alreadyRefreshedGroupState) {
+        log.info(`${logId}: Missing endorsements for group, refreshing group`);
+        await waitThenMaybeUpdateGroup({ conversation, force: true });
+        return { state: null, didRefreshGroupState: true };
+      }
+
       onFailedToSendWithEndorsements(
         new Error(`${logId}: Missing all endorsements for group`)
       );
@@ -374,7 +382,7 @@ export async function maybeCreateGroupSendEndorsementState(
     log.info(
       `${logId}: Endorsements close to expiration (${groupSendEndorsementState.getExpiration().getTime()}, ${Date.now()}), refreshing group`
     );
-    await maybeUpdateGroup({ conversation });
+    await waitThenMaybeUpdateGroup({ conversation, force: true });
     return { state: null, didRefreshGroupState: true };
   }
 
