@@ -78,10 +78,7 @@ export class Provisioner {
   private state: StateType = { step: Step.Idle };
   private wsr: IWebSocketResource | undefined;
 
-  constructor(
-    private readonly server: WebAPIType,
-    private readonly appVersion: string
-  ) {}
+  constructor(private readonly server: WebAPIType) {}
 
   public close(error = new Error('Provisioner closed')): void {
     try {
@@ -245,7 +242,7 @@ export class Provisioner {
         .toAppUrl({
           uuid,
           pubKey: Bytes.toBase64(pubKey),
-          capabilities: isLinkAndSyncEnabled(this.appVersion) ? ['backup'] : [],
+          capabilities: isLinkAndSyncEnabled() ? ['backup'] : [],
         })
         .toString();
 
