@@ -458,7 +458,9 @@ async function doGetProfile(
   c: ConversationModel,
   groupId: string | null
 ): Promise<void> {
-  const logId = `getProfile(${c.idForLogging()})`;
+  const logId = groupId
+    ? `getProfile(${c.idForLogging()} in groupv2(${groupId}))`
+    : `getProfile(${c.idForLogging()})`;
   const { messaging } = window.textsecure;
   strictAssert(
     messaging,

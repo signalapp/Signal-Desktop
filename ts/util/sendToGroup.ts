@@ -296,22 +296,20 @@ export async function sendToGroupViaSenderKey(
   } = options;
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-  const logId = sendTarget.idForLogging();
+  const logId = `sendToGroupViaSenderKey/${sendTarget.idForLogging()}`;
   log.info(
-    `sendToGroupViaSenderKey/${logId}: Starting ${timestamp}, recursion count ${recursion.count}, reason: ${recursion.reason}...`
+    `${logId}: Starting ${timestamp}, recursion count ${recursion.count}, reason: ${recursion.reason}...`
   );
 
   if (recursion.count > MAX_RECURSION) {
     throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Too much recursion! Count is at ${recursion.count}`
+      `${logId}: Too much recursion! Count is at ${recursion.count}`
     );
   }
 
   const groupId = sendTarget.getGroupId();
   if (!sendTarget.isValid()) {
-    throw new Error(
-      `sendToGroupViaSenderKey/${logId}: sendTarget is not valid!`
-    );
+    throw new Error(`${logId}: sendTarget is not valid!`);
   }
 
   if (
@@ -319,9 +317,7 @@ export async function sendToGroupViaSenderKey(
     contentHint !== ContentHint.RESENDABLE &&
     contentHint !== ContentHint.IMPLICIT
   ) {
-    throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Invalid contentHint ${contentHint}`
-    );
+    throw new Error(`${logId}: Invalid contentHint ${contentHint}`);
   }
 
   strictAssert(
@@ -334,9 +330,7 @@ export async function sendToGroupViaSenderKey(
   const senderKeyInfo = sendTarget.getSenderKeyInfo();
 
   if (!senderKeyInfo) {
-    log.info(
-      `sendToGroupViaSenderKey/${logId}: Adding initial sender key info`
-    );
+    log.info(`${logId}: Adding initial sender key info`);
     await sendTarget.saveSenderKeyInfo({
       createdAtDate: Date.now(),
       distributionId: generateUuid(),
@@ -350,9 +344,7 @@ export async function sendToGroupViaSenderKey(
   const EXPIRE_DURATION = getSenderKeyExpireDuration();
   if (isOlderThan(senderKeyInfo.createdAtDate, EXPIRE_DURATION)) {
     const { createdAtDate } = senderKeyInfo;
-    log.info(
-      `sendToGroupViaSenderKey/${logId}: Resetting sender key; ${createdAtDate} is too old`
-    );
+    log.info(`${logId}: Resetting sender key; ${createdAtDate} is too old`);
     await resetSenderKey(sendTarget);
 
     // Restart here because we updated senderKeyInfo
@@ -419,7 +411,7 @@ export async function sendToGroupViaSenderKey(
   const senderKeyRecipients = getServiceIdsFromDevices(devicesForSenderKey);
   const normalSendRecipients = getServiceIdsFromDevices(devicesForNormalSend);
   log.info(
-    `sendToGroupViaSenderKey/${logId}:` +
+    `${logId}:` +
       ` ${senderKeyRecipients.length} accounts for sender key (${devicesForSenderKey.length} devices),` +
       ` ${normalSendRecipients.length} accounts for normal send (${devicesForNormalSend.length} devices)`
   );
@@ -427,7 +419,7 @@ export async function sendToGroupViaSenderKey(
   // 5. Ensure we have enough recipients
   if (senderKeyRecipients.length < 2) {
     throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Not enough recipients for Sender Key message. Failing over.`
+      `${logId}: Not enough recipients for Sender Key message. Failing over.`
     );
   }
 
@@ -460,7 +452,7 @@ export async function sendToGroupViaSenderKey(
   //   have our sender key before we send sender key messages to them.
   if (newToMemberServiceIds.length > 0) {
     log.info(
-      `sendToGroupViaSenderKey/${logId}: Sending sender key to ${
+      `${logId}: Sending sender key to ${
         newToMemberServiceIds.length
       } members: ${JSON.stringify(newToMemberServiceIds)}`
     );
@@ -583,7 +575,7 @@ export async function sendToGroupViaSenderKey(
       );
     } else {
       log.error(
-        `sendToGroupViaSenderKey/${logId}: Server returned unexpected 200 response ${JSON.stringify(
+        `${logId}: Server returned unexpected 200 response ${JSON.stringify(
           parsed.error.flatten()
         )}`
       );
@@ -637,7 +629,7 @@ export async function sendToGroupViaSenderKey(
       const brokenAccount = window.ConversationController.get(name);
       if (brokenAccount) {
         log.warn(
-          `sendToGroupViaSenderKey/${logId}: Disabling sealed sender for ${brokenAccount.idForLogging()}`
+          `${logId}: Disabling sealed sender for ${brokenAccount.idForLogging()}`
         );
         brokenAccount.set({ sealedSender: SEALED_SENDER.DISABLED });
         await DataWriter.updateConversation(brokenAccount.attributes);
@@ -652,7 +644,7 @@ export async function sendToGroupViaSenderKey(
     }
 
     log.error(
-      `sendToGroupViaSenderKey/${logId}: Returned unexpected error code: ${
+      `${logId}: Returned unexpected error code: ${
         error.code
       }, error class: ${typeof error}`
     );
@@ -1381,11 +1373,8 @@ async function fetchKeysForServiceId(
   devices: Array<number> | null,
   groupSendEndorsementState: GroupSendEndorsementState | null
 ): Promise<void> {
-  log.info(
-    `fetchKeysForServiceId: Fetching ${
-      devices || 'all'
-    } devices for ${serviceId}`
-  );
+  const logId = `fetchKeysForServiceId/${serviceId}`;
+  log.info(`${logId}: Fetching ${devices || 'all'} devices`);
 
   if (!window.textsecure?.messaging?.server) {
     throw new Error('fetchKeysForServiceId: No server available!');
@@ -1442,9 +1431,7 @@ async function fetchKeysForServiceId(
       onFailedToSendWithEndorsements(error as Error);
     }
     log.error(
-      `fetchKeysForServiceId: Error fetching ${
-        devices || 'all'
-      } devices for ${serviceId}`,
+      `${logId}: Error fetching ${devices || 'all'} devices`,
       Errors.toLogFormat(error)
     );
     throw error;
