@@ -3708,6 +3708,7 @@ function getCallHistory(
   return parseUnknown(callHistoryDetailsSchema, row as unknown);
 }
 
+const READ_STATUS_READ = sqlConstant(ReadStatus.Read);
 const SEEN_STATUS_UNSEEN = sqlConstant(SeenStatus.Unseen);
 const SEEN_STATUS_SEEN = sqlConstant(SeenStatus.Seen);
 const CALL_STATUS_MISSED = sqlConstant(CallStatusValue.Missed);
@@ -3933,6 +3934,7 @@ export function markAllCallHistoryRead(
     }
 
     const jsonPatch = JSON.stringify({
+      readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.Seen,
     });
 
@@ -3943,6 +3945,7 @@ export function markAllCallHistoryRead(
     const [updateQuery, updateParams] = sql`
       UPDATE messages
       SET
+        readStatus = ${READ_STATUS_READ},
         seenStatus = ${SEEN_STATUS_SEEN},
         json = json_patch(json, ${jsonPatch})
       WHERE messages.type IS 'call-history'
