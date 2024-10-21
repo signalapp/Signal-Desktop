@@ -354,6 +354,7 @@ export type ConversationAttributesType = {
   draftAttachments?: ReadonlyArray<AttachmentDraftType>;
   draftBodyRanges?: DraftBodyRanges;
   draftTimestamp?: number | null;
+  hiddenFromConversationSearch?: boolean;
   hideStory?: boolean;
   inbox_position?: number;
   // When contact is removed - it is initially placed into `justNotification`
