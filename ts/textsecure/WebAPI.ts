@@ -78,6 +78,9 @@ import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
 } from '../services/profiles';
+import { isMockServer } from '../util/isMockServer';
+import { getMockServerPort } from '../util/getMockServerPort';
+import { pemToDer } from '../util/pemToDer';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -87,11 +90,42 @@ const DEFAULT_TIMEOUT = 30 * SECOND;
 
 // Libsignal has internally configured values for domain names
 // (and other connectivity params) of the services.
-function resolveLibsignalNetEnvironment(url: string): Net.Environment {
+function resolveLibsignalNet(
+  url: string,
+  version: string,
+  certificateAuthority?: string
+): Net.Net {
+  const userAgent = getUserAgent(version);
+  log.info(`libsignal net url: ${url}`);
   if (isStagingServer(url)) {
-    return Net.Environment.Staging;
+    log.info('libsignal net environment resolved to staging');
+    return new Net.Net({
+      env: Net.Environment.Staging,
+      userAgent,
+    });
   }
-  return Net.Environment.Production;
+
+  if (isMockServer(url) && certificateAuthority !== undefined) {
+    const DISCARD_PORT = 9; // Reserved by RFC 863.
+    log.info('libsignal net environment resolved to mock');
+    return new Net.Net({
+      localTestServer: true,
+      userAgent,
+      TESTING_localServer_chatPort: parseInt(getMockServerPort(url), 10),
+      TESTING_localServer_cdsiPort: DISCARD_PORT,
+      TESTING_localServer_svr2Port: DISCARD_PORT,
+      TESTING_localServer_svr3SgxPort: DISCARD_PORT,
+      TESTING_localServer_svr3NitroPort: DISCARD_PORT,
+      TESTING_localServer_svr3Tpm2SnpPort: DISCARD_PORT,
+      TESTING_localServer_rootCertificateDer: pemToDer(certificateAuthority),
+    });
+  }
+
+  log.info('libsignal net environment resolved to prod');
+  return new Net.Net({
+    env: Net.Environment.Production,
+    userAgent,
+  });
 }
 
 function _createRedactor(
@@ -1640,9 +1674,7 @@ export function initialize({
   // for providing network layer API and related functionality.
   // It's important to have a single instance of this class as it holds
   // resources that are shared across all other use cases.
-  const env = resolveLibsignalNetEnvironment(url);
-  log.info(`libsignal net environment resolved to [${Net.Environment[env]}]`);
-  const libsignalNet = new Net.Net(env, getUserAgent(version));
+  const libsignalNet = resolveLibsignalNet(url, version, certificateAuthority);
   libsignalNet.setIpv6Enabled(!disableIPv6);
 
   // Thanks to function-hoisting, we can put this return statement before all of the

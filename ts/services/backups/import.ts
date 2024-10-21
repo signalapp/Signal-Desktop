@@ -1766,6 +1766,7 @@ export class BackupImportStream extends Writable {
                     prefix: dropNull(name.prefix),
                     suffix: dropNull(name.suffix),
                     middleName: dropNull(name.middleName),
+                    nickname: dropNull(name.nickname),
                   }
                 : undefined,
               number: number?.length
