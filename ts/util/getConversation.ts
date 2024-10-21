@@ -175,6 +175,9 @@ export function getConversation(model: ConversationModel): ConversationType {
     groupVersion,
     groupId: attributes.groupId,
     groupLink: buildGroupLink(attributes),
+    hiddenFromConversationSearch: Boolean(
+      attributes.hiddenFromConversationSearch
+    ),
     hideStory: Boolean(attributes.hideStory),
     inboxPosition,
     isArchived: attributes.isArchived,

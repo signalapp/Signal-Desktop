@@ -165,7 +165,7 @@ export function filterAndSortConversations(
     const withoutUnknown = conversations.filter(item => item.titleNoDefault);
 
     return searchConversations(withoutUnknown, searchTerm, regionCode)
-      .slice()
+      .filter(({ item }) => !item.hiddenFromConversationSearch)
       .sort((a, b) => {
         const { activeAt: aActiveAt = 0, left: aLeft = false } = a.item;
         const { activeAt: bActiveAt = 0, left: bLeft = false } = b.item;
