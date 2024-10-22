@@ -199,6 +199,7 @@ import {
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types';
 import { markCallHistoryReadInConversation } from './callHistory';
 import type { CapabilitiesType } from '../../textsecure/WebAPI';
+import type { SearchActionType } from './search';
 
 // State
 
@@ -295,6 +296,7 @@ export type ConversationType = ReadonlyDeep<
     customColor?: CustomColorType;
     customColorId?: string;
     discoveredUnregisteredAt?: number;
+    hiddenFromConversationSearch?: boolean;
     hideStory?: boolean;
     isArchived?: boolean;
     isBlocked?: boolean;
@@ -1850,7 +1852,7 @@ function destroyMessages(
   void,
   RootStateType,
   unknown,
-  ConversationUnloadedActionType | NoopActionType
+  ConversationUnloadedActionType | NoopActionType | SearchActionType
 > {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
@@ -1869,6 +1871,20 @@ function destroyMessages(
         );
 
         await conversation.destroyMessages({ source: 'local-delete' });
+
+        // Deselect the conversation
+        if (
+          getState().conversations.selectedConversationId === conversationId
+        ) {
+          showConversation({ conversationId: undefined });
+        }
+
+        // Clear search state, in case it's showing in search
+        dispatch({
+          type: 'CLEAR_CONVERSATION_SEARCH',
+          payload: null,
+        });
+
         drop(conversation.updateLastMessage());
       },
     });
