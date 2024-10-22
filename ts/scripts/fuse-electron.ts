@@ -35,17 +35,16 @@ export async function afterPack({
   );
   await flipFuses(electron, {
     version: FuseVersion.V1,
-    // Disables ELECTRON_RUN_AS_NODE
-    [FuseV1Options.RunAsNode]: false,
+    // ENables ELECTRON_RUN_AS_NODE
+    [FuseV1Options.RunAsNode]: true,
     // Enables cookie encryption
     [FuseV1Options.EnableCookieEncryption]: true,
-    // Disables the NODE_OPTIONS environment variable
-    [FuseV1Options.EnableNodeOptionsEnvironmentVariable]: false,
+    // Enables the NODE_OPTIONS environment variable
+    [FuseV1Options.EnableNodeOptionsEnvironmentVariable]: true,
     // Disables the --inspect and --inspect-brk family of CLI options
-    [FuseV1Options.EnableNodeCliInspectArguments]: enableInspectArguments,
+    [FuseV1Options.EnableNodeCliInspectArguments]: true,
     // Enables validation of the app.asar archive on macOS/Windows
-    [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]:
-      electronPlatformName === 'darwin' || electronPlatformName === 'win32',
+    [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: false,
     // Enforces that Electron will only load your app from "app.asar" instead of
     // its normal search paths
     [FuseV1Options.OnlyLoadAppFromAsar]: true,
