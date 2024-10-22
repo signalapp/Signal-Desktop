@@ -32,8 +32,8 @@ export const TEXT_ATTACHMENT = stringToMIMEType('text/x-signal-story');
 export const isHeic = (value: string, fileName: string): boolean =>
   value === 'image/heic' ||
   value === 'image/heif' ||
-  fileName.endsWith('.heic') ||
-  fileName.endsWith('.heif');
+  fileName.toLowerCase().endsWith('.heic') ||
+  fileName.toLowerCase().endsWith('.heif');
 export const isGif = (value: string): value is MIMEType =>
   value === 'image/gif';
 export const isJPEG = (value: string): value is MIMEType =>
