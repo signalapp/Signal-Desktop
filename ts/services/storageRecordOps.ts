@@ -4,7 +4,6 @@
 import { isEqual } from 'lodash';
 import Long from 'long';
 
-import { CallLinkRootKey } from '@signalapp/ringrtc';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
 import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import * as Bytes from '../Bytes';
@@ -66,13 +65,18 @@ import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboa
 import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
 import { drop } from '../util/drop';
 import { redactExtendedStorageID } from '../util/privacy';
-import type { CallLinkRecord } from '../types/CallLink';
+import type {
+  CallLinkRecord,
+  DefunctCallLinkType,
+  PendingCallLinkType,
+} from '../types/CallLink';
 import {
   callLinkFromRecord,
   fromRootKeyBytes,
-  getRoomIdFromRootKey,
+  getRoomIdFromRootKeyString,
+  toRootKeyBytes,
 } from '../util/callLinksRingrtc';
-import { fromAdminKeyBytes } from '../util/callLinks';
+import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks';
 import { isOlderThan } from '../util/timestamp';
 import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
@@ -638,6 +642,29 @@ export function toCallLinkRecord(
 
   if (callLinkDbRecord.storageUnknownFields) {
     callLinkRecord.$unknownFields = [callLinkDbRecord.storageUnknownFields];
+  }
+
+  return callLinkRecord;
+}
+
+export function toDefunctOrPendingCallLinkRecord(
+  callLink: DefunctCallLinkType | PendingCallLinkType
+): Proto.CallLinkRecord {
+  const rootKey = toRootKeyBytes(callLink.rootKey);
+  const adminKey = callLink.adminKey
+    ? toAdminKeyBytes(callLink.adminKey)
+    : null;
+
+  strictAssert(rootKey, 'toDefunctOrPendingCallLinkRecord: no rootKey');
+  strictAssert(adminKey, 'toDefunctOrPendingCallLinkRecord: no adminPasskey');
+
+  const callLinkRecord = new Proto.CallLinkRecord();
+
+  callLinkRecord.rootKey = rootKey;
+  callLinkRecord.adminPasskey = adminKey;
+
+  if (callLink.storageUnknownFields) {
+    callLinkRecord.$unknownFields = [callLink.storageUnknownFields];
   }
 
   return callLinkRecord;
@@ -1967,8 +1994,7 @@ export async function mergeCallLinkRecord(
     ? fromAdminKeyBytes(callLinkRecord.adminPasskey)
     : null;
 
-  const callLinkRootKey = CallLinkRootKey.parse(rootKeyString);
-  const roomId = getRoomIdFromRootKey(callLinkRootKey);
+  const roomId = getRoomIdFromRootKeyString(rootKeyString);
   const logId = `mergeCallLinkRecord(${redactedStorageID}, ${roomId})`;
 
   const localCallLinkDbRecord =
@@ -2012,6 +2038,17 @@ export async function mergeCallLinkRecord(
       );
     } else if (await DataReader.defunctCallLinkExists(roomId)) {
       details.push('skipping known defunct call link');
+    } else if (callLinkRefreshJobQueue.hasPendingCallLink(storageID)) {
+      details.push('pending call link refresh, updating storage fields');
+      callLinkRefreshJobQueue.updatePendingCallLinkStorageFields(
+        rootKeyString,
+        {
+          storageID,
+          storageVersion,
+          storageUnknownFields: callLinkDbRecord.storageUnknownFields,
+          storageNeedsSync: false,
+        }
+      );
     } else {
       details.push('new call link, enqueueing call link refresh and create');
 
