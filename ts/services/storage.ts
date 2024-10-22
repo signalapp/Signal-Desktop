@@ -31,6 +31,7 @@ import {
   toStickerPackRecord,
   toCallLinkRecord,
   mergeCallLinkRecord,
+  toDefunctOrPendingCallLinkRecord,
 } from './storageRecordOps';
 import type { MergeResultType } from './storageRecordOps';
 import { MAX_READ_KEYS } from './storageConstants';
@@ -71,8 +72,16 @@ import { MY_STORY_ID } from '../types/Stories';
 import { isNotNil } from '../util/isNotNil';
 import { isSignalConversation } from '../util/isSignalConversation';
 import { redactExtendedStorageID, redactStorageID } from '../util/privacy';
-import type { CallLinkRecord } from '../types/CallLink';
-import { callLinkFromRecord } from '../util/callLinksRingrtc';
+import type {
+  CallLinkRecord,
+  DefunctCallLinkType,
+  PendingCallLinkType,
+} from '../types/CallLink';
+import {
+  callLinkFromRecord,
+  getRoomIdFromRootKeyString,
+} from '../util/callLinksRingrtc';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -333,6 +342,8 @@ async function generateManifest(
 
   const {
     callLinkDbRecords,
+    defunctCallLinks,
+    pendingCallLinks,
     storyDistributionLists,
     installedStickerPacks,
     uninstalledStickerPacks,
@@ -475,6 +486,8 @@ async function generateManifest(
       `adding callLinks=${callLinkDbRecords.length}`
   );
 
+  const callLinkRoomIds = new Set<string>();
+
   for (const callLinkDbRecord of callLinkDbRecords) {
     const { roomId } = callLinkDbRecord;
     if (callLinkDbRecord.adminKey == null || callLinkDbRecord.rootKey == null) {
@@ -487,8 +500,10 @@ async function generateManifest(
 
     const storageRecord = new Proto.StorageRecord();
     storageRecord.callLink = toCallLinkRecord(callLinkDbRecord);
-
     const callLink = callLinkFromRecord(callLinkDbRecord);
+
+    callLinkRoomIds.add(callLink.roomId);
+
     const { isNewItem, storageID } = processStorageRecord({
       currentStorageID: callLink.storageID,
       currentStorageVersion: callLink.storageVersion,
@@ -520,6 +535,76 @@ async function generateManifest(
       });
     }
   }
+
+  log.info(
+    `storageService.upload(${version}): ` +
+      `adding defunctCallLinks=${defunctCallLinks.length}`
+  );
+
+  defunctCallLinks.forEach(defunctCallLink => {
+    const storageRecord = new Proto.StorageRecord();
+    storageRecord.callLink = toDefunctOrPendingCallLinkRecord(defunctCallLink);
+
+    callLinkRoomIds.add(defunctCallLink.roomId);
+
+    const { isNewItem, storageID } = processStorageRecord({
+      currentStorageID: defunctCallLink.storageID,
+      currentStorageVersion: defunctCallLink.storageVersion,
+      identifierType: ITEM_TYPE.CALL_LINK,
+      storageNeedsSync: defunctCallLink.storageNeedsSync,
+      storageRecord,
+    });
+
+    if (isNewItem) {
+      postUploadUpdateFunctions.push(() => {
+        drop(
+          DataWriter.updateDefunctCallLink({
+            ...defunctCallLink,
+            storageID,
+            storageVersion: version,
+            storageNeedsSync: false,
+          })
+        );
+      });
+    }
+  });
+
+  log.info(
+    `storageService.upload(${version}): ` +
+      `adding pendingCallLinks=${pendingCallLinks.length}`
+  );
+
+  pendingCallLinks.forEach(pendingCallLink => {
+    const storageRecord = new Proto.StorageRecord();
+    storageRecord.callLink = toDefunctOrPendingCallLinkRecord(pendingCallLink);
+
+    const roomId = getRoomIdFromRootKeyString(pendingCallLink.rootKey);
+    if (callLinkRoomIds.has(roomId)) {
+      return;
+    }
+
+    const { isNewItem, storageID } = processStorageRecord({
+      currentStorageID: pendingCallLink.storageID,
+      currentStorageVersion: pendingCallLink.storageVersion,
+      identifierType: ITEM_TYPE.CALL_LINK,
+      storageNeedsSync: pendingCallLink.storageNeedsSync,
+      storageRecord,
+    });
+
+    if (isNewItem) {
+      postUploadUpdateFunctions.push(() => {
+        callLinkRefreshJobQueue.updatePendingCallLinkStorageFields(
+          pendingCallLink.rootKey,
+          {
+            ...pendingCallLink,
+            storageID,
+            storageVersion: version,
+            storageNeedsSync: false,
+          }
+        );
+      });
+    }
+  });
 
   const unknownRecordsArray: ReadonlyArray<UnknownRecord> = (
     window.storage.get('storage-service-unknown-records') || []
@@ -1145,6 +1230,8 @@ async function mergeRecord(
 
 type NonConversationRecordsResultType = Readonly<{
   callLinkDbRecords: ReadonlyArray<CallLinkRecord>;
+  defunctCallLinks: ReadonlyArray<DefunctCallLinkType>;
+  pendingCallLinks: ReadonlyArray<PendingCallLinkType>;
   installedStickerPacks: ReadonlyArray<StickerPackType>;
   uninstalledStickerPacks: ReadonlyArray<UninstalledStickerPackType>;
   storyDistributionLists: ReadonlyArray<StoryDistributionWithMembersType>;
@@ -1154,11 +1241,15 @@ type NonConversationRecordsResultType = Readonly<{
 async function getNonConversationRecords(): Promise<NonConversationRecordsResultType> {
   const [
     callLinkDbRecords,
+    defunctCallLinks,
+    pendingCallLinks,
     storyDistributionLists,
     uninstalledStickerPacks,
     installedStickerPacks,
   ] = await Promise.all([
     DataReader.getAllCallLinkRecordsWithAdminKey(),
+    DataReader.getAllDefunctCallLinksWithAdminKey(),
+    callLinkRefreshJobQueue.getPendingAdminCallLinks(),
     DataReader.getAllStoryDistributionsWithMembers(),
     DataReader.getUninstalledStickerPacks(),
     DataReader.getInstalledStickerPacks(),
@@ -1166,6 +1257,8 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
 
   return {
     callLinkDbRecords,
+    defunctCallLinks,
+    pendingCallLinks,
     storyDistributionLists,
     uninstalledStickerPacks,
     installedStickerPacks,
@@ -1202,6 +1295,8 @@ async function processManifest(
   {
     const {
       callLinkDbRecords,
+      defunctCallLinks,
+      pendingCallLinks,
       storyDistributionLists,
       installedStickerPacks,
       uninstalledStickerPacks,
@@ -1220,6 +1315,12 @@ async function processManifest(
       collectLocalKeysFromFields(callLinkFromRecord(dbRecord))
     );
     localRecordCount += callLinkDbRecords.length;
+
+    defunctCallLinks.forEach(collectLocalKeysFromFields);
+    localRecordCount += defunctCallLinks.length;
+
+    pendingCallLinks.forEach(collectLocalKeysFromFields);
+    localRecordCount += pendingCallLinks.length;
 
     storyDistributionLists.forEach(collectLocalKeysFromFields);
     localRecordCount += storyDistributionLists.length;
@@ -1342,6 +1443,8 @@ async function processManifest(
   {
     const {
       callLinkDbRecords,
+      defunctCallLinks,
+      pendingCallLinks,
       storyDistributionLists,
       installedStickerPacks,
       uninstalledStickerPacks,
@@ -1452,6 +1555,47 @@ async function processManifest(
           storageID: undefined,
           storageVersion: undefined,
         })
+      );
+    });
+
+    defunctCallLinks.forEach(defunctCallLink => {
+      const { storageID, storageVersion } = defunctCallLink;
+      if (!storageID || remoteKeys.has(storageID)) {
+        return;
+      }
+
+      const missingKey = redactStorageID(storageID, storageVersion);
+      log.info(
+        `storageService.process(${version}): localKey=${missingKey} was not ` +
+          'in remote manifest'
+      );
+      drop(
+        DataWriter.updateDefunctCallLink({
+          ...defunctCallLink,
+          storageID: undefined,
+          storageVersion: undefined,
+        })
+      );
+    });
+
+    pendingCallLinks.forEach(pendingCallLink => {
+      const { storageID, storageVersion } = pendingCallLink;
+      if (!storageID || remoteKeys.has(storageID)) {
+        return;
+      }
+
+      const missingKey = redactStorageID(storageID, storageVersion);
+      log.info(
+        `storageService.process(${version}): localKey=${missingKey} was not ` +
+          'in remote manifest'
+      );
+      callLinkRefreshJobQueue.updatePendingCallLinkStorageFields(
+        pendingCallLink.rootKey,
+        {
+          ...pendingCallLink,
+          storageID: undefined,
+          storageVersion: undefined,
+        }
       );
     });
   }
