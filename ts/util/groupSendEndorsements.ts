@@ -30,7 +30,7 @@ import { isTestOrMockEnvironment } from '../environment';
 import { isAlpha } from './version';
 import { parseStrict } from './schemas';
 import { DataReader } from '../sql/Client';
-import { waitThenMaybeUpdateGroup } from '../groups';
+import { maybeUpdateGroup } from '../groups';
 import { isGroupV2 } from './whatTypeOfConversation';
 
 export function decodeGroupSendEndorsementResponse({
@@ -355,7 +355,8 @@ export async function maybeCreateGroupSendEndorsementState(
     if (conversation.isMember(ourAci)) {
       if (!alreadyRefreshedGroupState) {
         log.info(`${logId}: Missing endorsements for group, refreshing group`);
-        await waitThenMaybeUpdateGroup({ conversation, force: true });
+        await window.waitForEmptyEventQueue();
+        await maybeUpdateGroup({ conversation, force: true });
         return { state: null, didRefreshGroupState: true };
       }
 
@@ -382,7 +383,8 @@ export async function maybeCreateGroupSendEndorsementState(
     log.info(
       `${logId}: Endorsements close to expiration (${groupSendEndorsementState.getExpiration().getTime()}, ${Date.now()}), refreshing group`
     );
-    await waitThenMaybeUpdateGroup({ conversation, force: true });
+    await window.waitForEmptyEventQueue();
+    await maybeUpdateGroup({ conversation, force: true });
     return { state: null, didRefreshGroupState: true };
   }
 
