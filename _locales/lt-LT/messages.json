@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Signal Desktop susidūrė su iššifravimo klaida nuo {name}, įrenginio {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Pateikti žurnalą"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Pateikti žurnalą"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš visų jūsų įrenginių. Net kai ištrinsite žinutes, vis tiek galėsite ieškoti šio pokalbio."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Ištrinti"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Ištrinti pokalbį?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš šio įrenginio."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš visų jūsų įrenginių."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Išeiti iš grupės"
@@ -3540,7 +3549,7 @@
     "messageformat": "Atsisiunčiama {currentSize} iš {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Baigiamas žinučių perkėlimas..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Ruošiamasi atsisiųsti..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Šis naujinys padidina paleidimo greitį maždaug 5 %."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Pristatome skambučių nuorodas – patogesnį būdą bendrauti."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Dabar galite greitai sukurti paprastą nuorodą, kuria bet kuris „Signal“ naudotojas gali prisijungti prie grupės skambučio nebūdamas grupės pokalbio nariu."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Skambučių nuorodomis galima naudotis pakartotinai – tai puikus pasirinkimas reguliariai bendrauti su draugais ar su kolegomis."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Galite tvarkyti savo skambučių nuorodas, valdyti patvirtinimo nustatymus ir, norėdami greitai pasidalinti, kopijuoti nuorodas iš skambučių skirtuko."
   }
 }

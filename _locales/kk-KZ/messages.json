@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Компьютер {name}, {deviceId} құрылғысынан шифрлау қатесіне тап болды"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Журналды жіберу"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Журналды жіберу"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Осы чаттағы хаттардың барлығы барлық құрылғыларыңыздан жойылады. Хабарларды жойғаннан кейін бұл чатты әлі де іздей аласыз."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Жою"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Чатты жою керек пе?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Осы чаттағы хаттардың барлығы бұл құрылғыдан жойылады."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Осы чаттағы хаттардың барлығы барлық құрылғыларыңыздан жойылады."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Топтан шығып кету"
@@ -3540,7 +3549,7 @@
     "messageformat": "{currentSize}/{totalSize} ({fractionComplete,number,percent}) жүктеп алынып жатыр..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Хабарларды тасымалдау аяқталып жатыр..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Жүктеп алуға дайындалып жатыр..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Бұл жаңарту іске қосу жылдамдығын шамамен 5%-ға арттырады, сондықтан өміріңіздің басқа бөліктерінде емін-еркін баяулай тұрыңыз."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Қоңырау сілтемелері: күнтізбедегі шақырулар мен тосын кездесулерге арналған сілтеме."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Енді Signal-дағы кез келген адам топтық чатқа қосылмай-ақ, топтық қоңырауға қосылу үшін қолдана алатын сілтемені жылдам жасай аласыз."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Қоңырау сілтемелерін бірнеше рет қолдануға болады. Жан достарыңызбен жиі-жиі немесе әріптестеріңізбен апта сайын сөйлесіп тұруға өте қолайлы."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Қоңырау сілтемелерін, мақұлдау параметрлерін басқаруға және сілтемелерді бөлісу үшін қоңыраулар қойындысынан көшіруге болады."
   }
 }

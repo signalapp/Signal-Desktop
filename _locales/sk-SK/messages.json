@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Signal Desktop narazil na chybu dešifrovania z {name}, zariadenie {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Odoslať denník"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Odoslať denník"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Všetky správy v tomto čete budú vymazané zo všetkých vašich zariadení. Po vymazaní správ budete môcť tento čet stále vyhľadať."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Vymazať"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Vymazať čet?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Všetky správy v tomto čete budú vymazané z tohto zariadenia."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Všetky správy v tomto čete budú vymazané zo všetkých vašich zariadení."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Opustiť skupinu"
@@ -3540,7 +3549,7 @@
     "messageformat": "Sťahuje sa {currentSize} z {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Dokončuje sa prenos správ…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Pripravuje sa sťahovanie…"
@@ -5714,15 +5723,15 @@
     "messageformat": "Táto aktualizácia zvyšuje rýchlosť spustenia približne o 5 %."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Predstavujeme odkazy na hovor: ideálneho spoločníka k pozvánkam na udalosti v kalendári a improvizovaným stretnutiam."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Teraz môžete rýchlo vytvoriť jednoduchý odkaz, ktorý môže ktokoľvek v aplikácii Signal použiť na pripojenie sa ku skupinovému hovoru bez toho, aby sa musel najprv pripojiť ku skupinovému četu."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Odkazy na hovor sú opakovane použiteľné a sú ideálnou voľbou, keď si chcete pravidelne volávať s priateľmi alebo každý týždeň usporiadať online stretnutie s kolegami."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Môžete spravovať odkazy na hovory, ovládať nastavenia schvaľovania a kopírovať odkazy z karty hovorov na rýchle zdieľanie."
   }
 }

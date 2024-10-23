@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Máy tính để bàn gặp lỗi giải mã từ {name}, thiết bị {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Gửi nhật ký"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Gửi nhật ký"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Tất cả tin nhắn trong cuộc trò chuyện này sẽ được xóa khỏi tất cả thiết bị của bạn. Bạn vẫn có thể tìm cuộc trò chuyện này sau khi xóa tin nhắn."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Xóa"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Xóa cuộc trò chuyện?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Tất cả tin nhắn trong cuộc trò chuyện này sẽ được xóa khỏi thiết bị này."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Tất cả tin nhắn trong cuộc trò chuyện này sẽ được xóa khỏi tất cả thiết bị của bạn."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Rời nhóm"
@@ -3540,7 +3549,7 @@
     "messageformat": "Hiện tải được {currentSize} của tổng {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Đang hoàn tất việc chuyển tin nhắn..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Đang chuẩn bị tải xuống..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Bản cập nhật này tăng tốc độ khởi động lên khoảng 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Giới thiệu Đường dẫn Cuộc gọi: Công cụ hữu ích cho những cuộc gọi bất chợt."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Giờ đây bạn có thể nhanh chóng tạo một đường dẫn để bất kỳ người dùng Signal nào cũng có thể dễ dàng sử dụng để tham gia cuộc gọi nhóm mà không cần tham gia nhóm."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Đường dẫn cuộc gọi có thể được sử dụng lại và hữu dụng cho những cuộc hẹn gọi lặp lại với bạn bè hay trao đổi mỗi tuần với đồng nghiệp."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Bạn có thể quản lý đường dẫn cuộc gọi, kiểm soát cài đặt chấp thuận, và sao chép đường dẫn từ tab cuộc gọi để chia sẻ một cách nhanh chóng."
   }
 }

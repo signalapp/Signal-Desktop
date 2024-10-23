@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Signal encontrou um erro ao descriptografar uma mensagem de {name}, aparelho {deviceId}."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Enviar um registro de depuração"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Enviar um registro de depuração"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Todas as mensagens nesta conversa serão excluídas em todos os seus dispositivos. Você ainda poderá pesquisar nesta conversa após excluir as mensagens."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Excluir"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Quer excluir o chat?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Todas as mensagens neste chat serão excluídas deste dispositivo."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Todas as mensagens nesta conversa serão excluídas em todos os seus dispositivos."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Sair do grupo"
@@ -3540,7 +3549,7 @@
     "messageformat": "Baixando {currentSize} de {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Finalizando a transferência de mensagens…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparando para download…"
@@ -5714,15 +5723,15 @@
     "messageformat": "Esta atualização melhora a velocidade de inicialização em cerca de 5%, então fique à vontade para desacelerar um pouco em outras áreas da sua vida."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Apresentamos os links de chamadas: o link que faltava para convites de calendário e encontros espontâneos."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Agora você pode criar um link rapidamente para qualquer pessoa participar de uma chamada em grupo sem precisar entrar em uma conversa de grupo do Signal primeiro."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Os links de chamada podem ser reutilizados e são perfeitos para conversas recorrentes com seus melhores amigos ou check-ins semanais com colegas de trabalho."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Você pode gerenciar seus links de chamadas, controlar as configurações de aprovação e copiar links da aba de chamadas para compartilhamento rápido."
   }
 }

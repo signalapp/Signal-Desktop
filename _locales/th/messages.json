@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "เดสก์ท็อปพบข้อผิดพลาดในการถอดรหัสจาก {name}, อุปกรณ์ {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "ส่งปูม"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "ส่งบันทึก"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "ข้อความทั้งหมดในแชทนี้จะถูกลบออกจากอุปกรณ์ทุกเครื่องของคุณ โดยคุณจะยังสามารถค้นหาแชทนี้ได้แม้จะลบข้อความไปแล้ว"
+  },
+  "icu:deleteConversation": {
+    "messageformat": "ลบ"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "ลบแชทใช่หรือไม่"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "ระบบจะลบข้อความทั้งหมดในแชทออกจากอุปกรณ์เครื่องนี้"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "ข้อความทั้งหมดในแชทนี้จะถูกลบออกจากอุปกรณ์ทุกเครื่องของคุณ"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ออกจากกลุ่ม"
@@ -3540,7 +3549,7 @@
     "messageformat": "กำลังดาวน์โหลด {currentSize} จาก {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "กำลังดำเนินการถ่ายโอนข้อความให้เสร็จสิ้น..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "กำลังเตรียมการดาวน์โหลด..."
@@ -5714,15 +5723,15 @@
     "messageformat": "การอัปเดตครั้งนี้มาพร้อมการเพิ่มความเร็วในการเปิดแอปให้ยิ่งทันใจ ไวขึ้นอีก 5%"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "ขอแนะนำฟีเจอร์ลิงก์การโทร: ไม่ว่าเรื่องงานหรือเรื่องเล่น ก็พร้อมเติมเต็มการพูดคุยของคุณให้สะดวกยิ่งกว่า บอกลาข้อจำกัดเดิมๆ ไปได้เลย"
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "สร้างลิงก์ได้ง่ายๆ แล้วให้ผู้ใช้ Signal คนอื่นๆ เข้าร่วมการโทรกลุ่มได้ทันทีโดยที่ไม่ต้องเป็นสมาชิกของแชทกลุ่ม Signal ก็ได้"
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "สามารถใช้ลิงก์การโทรเดิมได้เรื่อยๆ จึงตอบโจทย์การโทรที่คุณต้องใช้เป็นประจำ ไม่ว่าจะเป็นการนัดเมาท์กับแก๊งเพื่อนหรือคุยอัปเดตงานประจำสัปดาห์กับที่บริษัท"
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "จัดการลิงก์การโทรที่คุณสร้างได้อย่างเต็มที่ นอกจากนี้ยังสามารถเลือกตั้งค่าเพื่ออนุมัติผู้เข้าร่วม รวมถึงคัดลอกลิงก์จากแท็บการโทรแล้วแชร์ได้แบบทันใจ"
   }
 }

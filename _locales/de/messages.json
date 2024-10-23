@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Signal Desktop hat einen Entschlüsselungsfehler von {name}, Gerät {deviceId} festgestellt."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Diagnoseprotokoll übermitteln"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Diagnoseprotokoll übermitteln"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Alle Nachrichten in diesem Chat werden von all deinen Geräten gelöscht. Du kannst nach dem Löschen von Nachrichten weiterhin nach diesem Chat suchen."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Löschen"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Chat löschen?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Alle Nachrichten in diesem Chat werden von diesem Gerät gelöscht."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Alle Nachrichten in diesem Chat werden von all deinen Geräten gelöscht."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Gruppe verlassen"
@@ -3540,7 +3549,7 @@
     "messageformat": "{currentSize} von {totalSize} ({fractionComplete,number,percent}) werden heruntergeladen ..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Nachrichtenübertragung wird abgeschlossen …"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Herunterladen wird vorbereitet..."
@@ -4962,7 +4971,7 @@
     "messageformat": "Anklicken, um eine Story anzusehen"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Klicke auf <newStoryButtonIcon></newStoryButtonIcon>, um ein Update hinzuzufügen."
+    "messageformat": "Klicke auf <newStoryButtonIcon></newStoryButtonIcon>, um eine Story hinzuzufügen."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} an {group}"
@@ -5714,15 +5723,15 @@
     "messageformat": "Dieses Update verbessert die Startgeschwindigkeit um etwa 5 %, also lass es in anderen Bereichen deines Lebens ruhig etwas langsamer angehen."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Wir stellen vor: Anruflinks –  Links für Kalendereinladungen und spontane Treffen."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Jetzt kannst du schnell einen einfachen Link erstellen, über den alle auf Signal einem Gruppenanruf beitreten können, ohne zuerst einem Signal-Gruppenchat beitreten zu müssen."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Anruflinks sind wiederverwendbar und perfekt für wiederkehrende Telefontermine mit deinen besten Freund*innen oder für wöchentliche Meetings mit deinen Kolleg*innen."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Du kannst deine Anruflinks verwalten, Genehmigungseinstellungen steuern und Links über den Tab »Anrufe« kopieren, um sie ganz schnell mit anderen zu teilen."
   }
 }

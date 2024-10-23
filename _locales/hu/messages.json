@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "A Desktop titkosítással kapcsolatos hibába ütközött {name} nevű partnereddel kapcsolatban (eszköz: {deviceId})"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Naplófájl küldése"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Naplófájl küldése"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "A csevegésben lévő összes üzenet törlődik az összes eszközödről. Az üzenetek törlése után továbbra is rákereshetsz erre a csevegésre."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Törlés"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Csevegés törlése?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Az ebben a csevegésben lévő összes üzenet törlődik erről az eszközről."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "A csevegésben lévő összes üzenet törlődik az összes eszközödről."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Kilépés a csoportból"
@@ -3540,7 +3549,7 @@
     "messageformat": "{totalSize}/{currentSize} ({fractionComplete,number,percent}) letöltése..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Üzenetátvitel befejezése..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Felkészülés a letöltésre..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Ez a frissítés körülbelül 5%-kal javítja az indítási sebességet."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Bemutatkozik a „Híváslinkek” funkció: a hiányzó link a naptármeghívókhoz és a rögtönzött összejövetelekhez."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Egy egyszerű link, amellyel a felhasználók csoportos híváshoz csatlakozhatnak anélkül, hogy először csatlakoznának egy csoportos Signal csevegéshez."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "A híváslinkek újrafelhasználhatók, és ideálisak a telefonrandikhoz vagy a munkatársakkal való megbeszélésekhez."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "A gyors megosztás érdekében kezelheted a híváslinkeket, szabályozhatod a jóváhagyási beállításokat, és a hívások lapról kimásolhatod a linkeket."
   }
 }

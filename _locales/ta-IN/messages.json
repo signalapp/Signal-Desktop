@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "டெஸ்க்டாப்பில் {name} , சாதனம் {deviceId}- இருந்து மறைகுறியாக்கப் பிழை ஏற்பட்டது"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "பதிவைச் சமர்ப்பிக்கவும்"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "பதிவைச் சமர்ப்பிக்கவும்"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "இந்தச் சாட்டில் உள்ள அனைத்து மெசேஜ்களும் உங்கள் எல்லா சாதனங்களிலிருந்தும் அழிக்கப்படும். மெசேஜ்களை அழித்த பிறகும் நீங்கள் இந்தச் சாட்டில் தேடலாம்."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "நீக்கு"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "சாட்டை நீக்க வேண்டுமா?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "இந்த சாட்டில் உள்ள அனைத்து மெசேஜ்களும் இந்த டிவைஸிலிருந்து நீக்கப்படும்."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "இந்தச் சாட்டில் உள்ள அனைத்து மெசேஜ்களும் உங்கள் எல்லா சாதனங்களிலிருந்தும் அழிக்கப்படும்."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "குழுவிலுருந்து விலகு"
@@ -3540,7 +3549,7 @@
     "messageformat": "{totalSize} இல் {currentSize} ஐப் பதிவிறக்குகிறது({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "மெசேஜ் இடமாற்றத்தை உறுதிசெய்கிறது..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "பதிவிறக்கத் தயாராகிறது..."
@@ -5714,15 +5723,15 @@
     "messageformat": "இந்தப் புதுப்பிப்பு தொடக்க வேகத்தை சுமார் 5% அதிகரிக்கிறது."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "கால் இணைப்புகளை வழங்குகிறோம்: கேலெண்டர் அழைப்புகள் & உடனடி சந்திப்புகளுக்காக விடுபட்ட இணைப்பு."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "★ முதலில் சிக்னல் குழு சாட்டில் சேராமல், சிக்னல் குழு காலில் சேர உபயோகிக்கும் எளிய இணைப்பை எவரும் உருவாக்கலாம்."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "★ கால் இணைப்புகளை மீண்டும் உபயோகிக்கலாம் & நண்பர்களுடன் தொடர்ச்சியான போன் கால் தேதிகள்/சக ஊழியர்களுடன் வாராந்திர செக்-இன்களுக்கு ஏற்றவை."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "★ கால் இணைப்புகளை நிர்வகிக்கலாம், ஒப்புதல் அமைப்புகளை கட்டுப்படுத்தலாம் & துரித பகிர்வுக்கு கால்களின் தாவலில் இருந்து இணைப்புகளை நகலெடுக்கலாம்."
   }
 }

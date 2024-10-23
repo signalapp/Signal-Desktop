@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "ડેસ્કટોપમાં {name}, ડિવાઇસ {deviceId} તરફથી એક ડિક્રીપ્શન એરર આવી."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "લૉગ સબમિટ કરો"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "લૉગ સબમિટ કરો"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "આ ચેટમાંના તમામ મેસેજને તમારા બધા ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે. તમે મેસેજ ડિલીટ કરી નાખો તે પછી પણ તમે આ ચેટ માટે શોધ કરી શકો છો."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "ડિલીટ કરો"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "ચેટ ડિલીટ કરવી છે?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "આ ડિવાઇસમાંથી આ ચેટમાંના તમામ મેસેજને ડિલીટ કરવામાં આવશે."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "આ ચેટમાંના તમામ મેસેજને તમારા બધા ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ગ્રૂપ છોડો"
@@ -3540,7 +3549,7 @@
     "messageformat": "{totalSize} માંથી {currentSize} ડાઉનલોડ થઈ રહ્યું છે ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "મેસેજ ટ્રાન્સફર બસ પૂરું થવામાં જ છે..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ડાઉનલોડ કરવાની તૈયારી કરી ચાલુ છે..."
@@ -5714,15 +5723,15 @@
     "messageformat": "આ અપડેટ સ્ટાર્ટઅપની ઝડપને લગભગ 5% જેટલી સુધારે છે."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "પ્રસ્તુત છે કૉલ લિંક: કેલેન્ડર આમંત્રણો અને તાત્કાલિક મેળાવડા માટે ખૂટતી લિંક."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "હવે તમે ઝડપથી એક સરળ લિંક બનાવી શકો છો જેનો ઉપયોગ Signal પરની કોઈ પણ વ્યક્તિ પહેલા Signal ગ્રૂપ ચેટમાં જોડાવાની જરૂર વિના ગ્રૂપ કૉલમાં જોડાવા માટે કરી શકે છે."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "કૉલ લિંક ફરીથી ઉપયોગ કરી શકાય તેવી અને તમારા ખાસ મિત્રો સાથે પુનરાવર્તિત ફોન કરવાની તારીખો અથવા તમારા સહકાર્યકરો સાથે સાપ્તાહિક ચેક-ઇન્સ માટે આદર્શ છે."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "તમે તમારી કૉલ લિંકને મેનેજ કરી શકો છો, મંજૂરી સેટિંગ્સને નિયંત્રિત કરી શકો છો અને ઝડપી શેરિંગ માટે કૉલ ટેબમાંથી લિંક કૉપિ કરી શકો છો."
   }
 }

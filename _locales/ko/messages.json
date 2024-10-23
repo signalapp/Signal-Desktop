@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "{deviceId} 기기, {name}에서 데스크톱에 암호 해독 문제가 발생했습니다."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "로그 제출"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "로그 제출"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "이 대화의 모든 메시지가 모든 기기에서 삭제됩니다. 메시지를 삭제한 후에도 이 대화를 계속 검색할 수 있습니다."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "삭제"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "대화를 삭제하시겠습니까?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "이 대화의 모든 메시지가 기기에서 삭제됩니다."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "이 대화의 모든 메시지가 모든 기기에서 삭제됩니다."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "그룹 나가기"
@@ -3540,7 +3549,7 @@
     "messageformat": "{currentSize}/{totalSize}을(를) 다운로드하는 중({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "메시지 전송을 마무리하는 중..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "다운로드를 준비하는 중..."
@@ -5714,15 +5723,15 @@
     "messageformat": "본 업데이트는 시작 속도를 대략 5% 향상합니다."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "일정 초대와 즉석 모임을 위한 링크 '통화 링크'를 소개합니다."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "이제 Signal 그룹 대화에 먼저 참여하지 않고서도 Signal 사용자라면 누구나 그룹 통화에 참여할 수 있는 간편한 링크를 빠르게 만들 수 있습니다."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "통화 링크는 다시 사용할 수 있으며, 친구와의 통화나 직장 동료와의 주간 미팅 등 반복되는 통화 일정에 사용하기 좋습니다."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "통화 탭에서 통화 링크를 관리하고, 승인 설정을 제어하고, 링크를 복사하여 빠르게 공유할 수 있습니다."
   }
 }

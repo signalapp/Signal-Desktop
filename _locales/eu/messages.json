@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Ordenagailurako bertsioak desenkriptatze-errore bat gertatu da ({name}; gailua: {deviceId})"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Bidali erregistroa"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Bidali erregistroa"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Txat honetako mezuak gailu guztietatik ezabatuko dira. Mezuak ezabatuta ere, txat hau bilatu ahalko duzu."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Ezabatu"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Txata ezabatu nahi duzu?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Txat honetako mezuak gailu honetatik ezabatuko dira."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Txat honetako mezuak gailu guztietatik ezabatuko dira."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Irten taldetik"
@@ -3540,7 +3549,7 @@
     "messageformat": "{currentSize}/{totalSize} deskargatzen ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Mezuen transferentzia amaitzen..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Deskargatzeko prestatzen…"
@@ -5714,15 +5723,15 @@
     "messageformat": "Eguneratze honekin, abio-abiadura % 5 inguru hobetu da."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Deien estekak: Egutegiko gertaeren eta topaketa espontaneoen artean falta zen katebegia."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Orain, Signal-eko edonork taldeko deietan sartzeko erabili ahalko dituen estekak sor ditzakezu bizkor, lehenbizi Signal-eko taldeko txatetan sartu beharrik gabe."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Deien estekak berrerabilgarriak dira, eta bikainak dira zure lagun minekin erregularki egiten dituzun deietarako edo lankideekin astero egiten dituzun bileretarako."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Deien estekak kudea ditzakezu, bai eta onarpen-ezarpen kontrolatu eta deien fitxatik estekak bizkor partekatzeko kopiatu ere."
   }
 }

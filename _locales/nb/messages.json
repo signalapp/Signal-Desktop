@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop støtte på en dekrypteringsfeil fra {name}, enhet {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Send inn logg"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Send inn logg"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Alle meldingene i denne samtalen slettes fra alle enhetene dine. Du kan søke etter samtalen selv om meldingene er slettet."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Slett"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Vil du slette samtalen?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Alle meldingene i denne samtalen slettes fra enheten."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Alle meldingene i denne samtalen slettes fra alle enhetene dine."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Forlat gruppen"
@@ -3540,7 +3549,7 @@
     "messageformat": "Laster ned {currentSize} av {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Ferdigstiller meldingsoverføringen …"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Gjør klart for nedlasting …"
@@ -5714,15 +5723,15 @@
     "messageformat": "Denne oppdateringen sørger for at appen starter opp 5 % kjappere."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Vi lanserer anropslenker: Lenker som gjør det lettere å invitere til møter og spontane samtaler."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Nå kan du enkelt lage lenker som gir alle på Signal muligheten til å bli med i gruppesamtaler uten å måtte bli medlem av dem først."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Anropslenkene kan brukes flere ganger og passer perfekt for regelmessige telefonsamtaler med gode venner og ukentlige møter med kolleger."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Du kan enkelt styre, kopiere og dele anropslenkene dine, samt velge innstillinger for hvem som kan bruke dem."
   }
 }

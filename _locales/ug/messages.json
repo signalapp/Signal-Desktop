@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "كومپيۇتېر {name}، ئۈسكۈنە «{deviceId}» دىن كەلگەن شىفىر يېشىش خاتالىقىغا يولۇقتى"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "خاتىرىنى تاپشۇرۇش"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "خاتىرىنى تاپشۇرۇش"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "بۇ پاراڭدىكى بارلىق ئۇچۇرلار ئۈسكۈنىڭىزنىڭ ھەممە يەرلىرىدىن ئۆچۈرۈلىدۇ. ئۇچۇرلارنى ئۆچۈرگەندىن كېيىنمۇ بۇ پاراڭنى يەنىلا تاپالايسىز."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "ئۆچۈر"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "سۆھبەتنى ئۆچۈرەمسىز؟"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "بۇ پاراڭدىكى بارلىق ئۇچۇرلار بۇ ئۈسكۈنىدىن ئۆچۈرۈلىدۇ."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "بۇ پاراڭدىكى بارلىق ئۇچۇرلار ئۈسكۈنىڭىزنىڭ ھەممە يەرلىرىدىن ئۆچۈرۈلىدۇ."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "گۇرۇپپىدىن ئايرىلىش"
@@ -3540,7 +3549,7 @@
     "messageformat": "{totalSize} نىڭ {currentSize} تى چۈشۈۋاتىدۇ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "ئۇچۇر يۆتكەشنى ئاياغلاشتۇرۇش..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "چۈشۈرۈشكە تەييارلىق قىلىۋاتىدۇ..."
@@ -5714,15 +5723,15 @@
     "messageformat": "بۇ يېڭىلاش قوزغىلىش سۈرئىتىنى%5 ئەتراپىدا ياخشىلايدۇ."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "چاقىرىق ئۇلانمىللىرى تونۇشتۇرۇلۇشى: كالىنداردا يوقاپ كەتكەن تەكلىپلىك ئۇلانمىلار ھەمدە تەكلىپسىز يىغىلىشلار ئۈچۈن."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "ھازىر سىز سىگنالدىكى ھەرقانداق ئادەم ئاۋۋال سىگنال گۇرۇپپىسىغا قاتناشماي تۇرۇپمۇ گۇرۇپپا چاقىرىقىغا قاتنىشالايدىغان ئاسان ئۇلانمىنى تېزلا قۇرالايسىز."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "چاقىرىق ئۇلانمىللىرىنى قايتا-قايتا ئىشلەتكىلى بولىدۇ ھەمدە قەرەللىك ھالدا ئەڭ يېقىن دوستلىرىڭىز بىلەن تېلېفون ئۇچۇرشۇشى قىلىش ياكى خىزمەتداشلىرىڭىز بىلەن ھەپتىلىك كۆرۈشۈشكە ماس كېلىدۇ."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "سىز چاقىرىق ئۇلانمىللىرىنى باشقۇرالايسىز ، تەستىق تەڭشەكلىرىنى كونترول قىلالايسىز ۋە تېز ھەمبەھىرلەش ئۈچۈن تېلېفون بەتكۈچىدىن ئۇلىنىشلارنى كۆچۈرەلەيسىز."
   }
 }

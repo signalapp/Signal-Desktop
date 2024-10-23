@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktopi ndeshi nëj gabim shfshehtëzimi prej {name}, pajisja {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Parashtroni regjistër"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Parashtroni regjistër"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Të gjitha mesazhet në këtë bisedë do të fshihen nga të gjitha pajisjet. Mund ta kërkosh ende këtë bisedë pasi të fshish mesazhet."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Fshije"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Të fshihet biseda?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Të gjitha mesazhet në këtë bisedë do të fshihen nga kjo pajisje."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Të gjitha mesazhet në këtë bisedë do të fshihen nga të gjitha pajisjet."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Largohu nga grupi"
@@ -3540,7 +3549,7 @@
     "messageformat": "Po shkarkohen {currentSize} nga {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Duke përfunduar transferimin e mesazhit..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Po përgatitet për t'u shkarkuar..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Përditësimi përmirëson shpejtësinë e nisjes me rreth 5%, ndaj mos ngurro të ngadalësosh pak në fusha të tjera të jetës."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Ju prezantojmë lidhjet e thirrjeve: Lidhja që mungon për ftesat dhe mbledhjet e improvizuara në kalendar."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Tani mund të krijosh më shpejt një lidhje të lehtë që çdokush në Signal mund ta përdorë për t'iu bashkuar një telefonate në grup pa pasur nevojë t'i bashkohet fillimisht një bisede në grup në Signal."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Lidhjet e thirrjeve janë të ripërdorshme dhe ideale për takime telefonike të herpashershme me miqtë e tu më të mirë apo kontrolle javore me kolegët e tu."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Mund të menaxhosh lidhjet e thirrjeve, të kontrollosh parametrat e miratimit dhe të kopjosh lidhjet nga skeda e thirrjeve për shpërndarje të shpejtë."
   }
 }

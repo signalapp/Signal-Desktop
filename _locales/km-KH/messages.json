@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "កុំព្យូទ័រលើតុបានជួបប្រទះបញ្ហាឌិគ្រីបពី {name} ឧបករណ៍ {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "ដាក់បញ្ជូនកំណត់ហេតុ"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "ដាក់បញ្ជូនកំណត់ហេតុ"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "សារទាំងអស់នៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍ទាំងអស់របស់អ្នក។ អ្នកនៅតែអាចស្វែងរកការជជែកនេះបាន បន្ទាប់ពីអ្នកលុបសារហើយ។"
+  },
+  "icu:deleteConversation": {
+    "messageformat": "លុប"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "លុបការជជែកឬ?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "សារទាំងអស់នៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍នេះ។"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "សារទាំងអស់នៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍ទាំងអស់របស់អ្នក។"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ចាកចេញពីក្រុម"
@@ -3540,7 +3549,7 @@
     "messageformat": "កំពុងទាញយក {currentSize} នៃ {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "កំពុងបញ្ចប់ការផ្ទេរសារ..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "កំពុងរៀបចំទាញយក…"
@@ -5714,15 +5723,15 @@
     "messageformat": "កំណែថ្មីនេះបង្កើនល្បឿននៃការចាប់ផ្តើមប្រហែល 5% ដូច្នេះទោះជាមានអ្វីយឺតយ៉ាវបន្តិចបន្តួចនៅក្នុងសកម្មភាពរស់នៅប្រចាំថ្ងៃរបស់អ្នកក៏មិនថ្វីដែរ។"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "សូមណែនាំតំណហៅទូរសព្ទ៖ តំណដែលខ្វះសម្រាប់ការអញ្ជើញតាមប្រតិទិន និងការជួបជុំភ្លាមៗ។"
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "ឥឡូវនេះ អ្នកអាចបង្កើតតំណមួយបានដោយងាយ និងឆាប់រហ័ស ដែលនរណាៗនៅលើ Signal ក៏អាចប្រើវាបានដែរ ដើម្បីចូលរួមការហៅជាក្រុមដោយមិនចាំបាច់ចូលរួមការជជែកជាក្រុមនៅលើ Signal ជាមុនទេ។"
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "តំណហៅទូរសព្ទគឺអាចប្រើឡើងវិញបាន និងល្អឥតខ្ចោះសម្រាប់ការណាត់ជួបតាមទូរសព្ទម្តងហើយម្តងទៀតជាមួយមិត្តភក្តិរបស់អ្នក ឬសម្រាប់ការនិយាយគ្នាលេងជារៀងរាល់សប្តាហ៍ជាមួយមិត្តរួមការងារ។"
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "អ្នកអាចគ្រប់គ្រងតំណហៅទូរសព្ទរបស់អ្នក គ្រប់គ្រងការកំណត់លើការយល់ព្រម និងចម្លងតំណពីផ្ទាំងហៅទូរសព្ទសម្រាប់ការចែករំលែករហ័ស។"
   }
 }

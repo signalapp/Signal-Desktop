@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Το Desktop αντιμετώπισε ένα σφάλμα αποκρυπτογράφησης από τον/την {name}, συσκευή {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Υποβολή αρχείου"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Υποβολή αρχείου καταγραφής"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Όλα τα μηνύματα σε αυτήν τη συνομιλία θα διαγραφούν από όλες τις συσκευές. Μπορείς ακόμα να κάνεις αναζήτηση αυτής της συνομιλίας αφού διαγράψεις μηνύματα."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Διαγραφή"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Διαγραφή συνομιλίας;"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Όλα τα μηνύματα σε αυτή τη συνομιλία θα διαγραφούν από αυτή τη συσκευή."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Όλα τα μηνύματα σε αυτήν τη συνομιλία θα διαγραφούν από όλες τις συσκευές."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Αποχώρηση απ' την ομάδα"
@@ -3540,7 +3549,7 @@
     "messageformat": "Λήψη {currentSize} από {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Ολοκλήρωση μεταφοράς μηνύματος..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Προετοιμασία για λήψη..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Αυτή η ενημέρωση βελτιώνει την ταχύτητα εκκίνησης κατά περίπου 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Παρουσίαση των συνδέσμων κλήσεων: Ο σύνδεσμος που λείπει για προσκλήσεις ημερολογίου και αυθόρμητες συναντήσεις."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Τώρα μπορείς να δημιουργείς γρήγορα έναν εύκολο σύνδεσμο που μπορεί να χρησιμοποιήσει οποιοσδήποτε στο Signal για να συμμετάσχει σε μια ομαδική κλήση χωρίς να χρειάζεται να συμμετάσχει πρώτα σε μια ομαδική συνομιλία Signal."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Οι σύνδεσμοι κλήσεων μπορούν να χρησιμοποιηθούν ξανά και είναι ιδανικοί για επαναλαμβανόμενα τηλεφωνικά ραντεβού με τους καλύτερους φίλους σου ή για εβδομαδιαία check-in με τους συναδέλφους σου."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Μπορείς να διαχειριστείς τους συνδέσμους κλήσεων, να ελέγξεις τις ρυθμίσεις έγκρισης και να αντιγράψεις συνδέσμους από την καρτέλα κλήσεων για γρήγορη κοινή χρήση."
   }
 }

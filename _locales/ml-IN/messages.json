@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "ഡെസ്‌ക്‌ടോപ്പ്  {name},  {deviceId} എന്ന ഉപകരണത്തിൽ നിന്ന് ഒരു ഡിക്രിപ്‌ഷൻ പിശക് നേരിട്ടു."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "ലോഗ് സമർപ്പിക്കുക"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "ലോഗ് സമർപ്പിക്കുക"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "ഈ ചാറ്റിലെ എല്ലാ സന്ദേശങ്ങളും നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കപ്പെടും. സന്ദേശങ്ങൾ ഇല്ലാതാക്കിയതിന് ശേഷവും നിങ്ങൾക്ക് ഈ ചാറ്റ് തിരയാനാകും."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "ഇല്ലാതാക്കൂ"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "ചാറ്റ് ഇല്ലാതാക്കണോ?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "ഈ ഉപകരണത്തിൽ നിന്ന് ഈ ചാറ്റിലെ എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കപ്പെടും."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "ഈ ചാറ്റിലെ എല്ലാ സന്ദേശങ്ങളും നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കപ്പെടും."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ഗ്രൂപ്പ് വിടുക"
@@ -3540,7 +3549,7 @@
     "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent}) ഡൗൺലോഡ് ചെയ്യുന്നു..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "സന്ദേശ കൈമാറ്റം പൂർത്തിയാക്കുന്നു..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ഡൗൺലോഡ് ചെയ്യാൻ തയ്യാറെടുക്കുന്നു..."
@@ -5714,15 +5723,15 @@
     "messageformat": "ഈ അപ്‌ഡേറ്റ്, സ്റ്റാർട്ടപ്പ് വേഗത ഏകദേശം 5% മെച്ചപ്പെടുത്തുന്നു, അതിനാൽ നിങ്ങളുടെ ജീവിതത്തിൻ്റെ മറ്റ് മേഖലകളിൽ അൽപ്പം വേഗത കുറയ്ക്കാൻ മടിക്കേണ്ടതില്ല."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "കോൾ ലിങ്കുകൾ അവതരിപ്പിക്കുന്നു: കലണ്ടർ ക്ഷണങ്ങൾക്കും തൽക്ഷണമുള്ള ഒത്തുകൂടലിനുമുള്ള വിട്ടുപോയ ലിങ്ക്."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "ആദ്യം Signal ഗ്രൂപ്പ് ചാറ്റിൽ ചേരാതെ തന്നെ ഗ്രൂപ്പ് കോളിൽ ചേരാൻ Signal-ലുള്ള ആർക്കും ഉപയോഗിക്കാവുന്ന ഒരു എളുപ്പ ലിങ്ക് ഇപ്പോൾ നിങ്ങൾക്ക് വേഗത്തിൽ സൃഷ്ടിക്കാം."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "കോൾ ലിങ്കുകൾ പുനരുപയോഗിക്കാവുന്നതും ചങ്ങാതിമാരുമായുള്ള ഫോൺ ഡേറ്റുകൾ ആവർത്തിക്കുന്നതിനോ സഹപ്രവർത്തകരുമായി പ്രതിവാര ചെക്ക്-ഇന്നുകൾക്കോ യോജ്യവുമാണ്."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "കോൾ ലിങ്കുകളും അംഗീകാര ക്രമീകരണങ്ങളും നിയന്ത്രിക്കാനും, വേഗത്തിൽ പങ്കിടാനായി കോൾ ടാബിൽ നിന്ന് ലിങ്കുകൾ പകർത്താനും കഴിയും."
   }
 }

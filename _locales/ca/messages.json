@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "L'escriptori ha tingut un error de desencriptació de {name}, dispositiu {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Envia el registre"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Envia el registre"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Tots els missatges d'aquest xat s'eliminaran dels teus dispositius. Encara podràs cercar aquest xat després d'haver eliminat els missatges."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Suprimeix"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Vols eliminar el xat?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Tots els missatges d'aquest xat s'eliminaran del dispositiu."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Tots els missatges d'aquest xat s'eliminaran de tots els teus dispositius."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Sortir del grup"
@@ -3540,7 +3549,7 @@
     "messageformat": "Descarregant {currentSize} de {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Finalitzant la transferència de missatges…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparant per descarregar…"
@@ -5714,15 +5723,15 @@
     "messageformat": "Aquesta actualització millora la velocitat d'inici en aproximadament un 5 %."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Presentem els enllaços de trucada: la peça que faltava a les invitacions de calendari i reunions improvisades."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Ara pots crear ràpidament un enllaç perquè qualsevol persona a Signal pugui unir-se a una trucada grupal, sense necessitat d'unir-se prèviament a un xat grupal de Signal."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Els enllaços de trucada son reutilitzables i ideals tant per a quedades telefòniques recurrents amb la teva colla com per a les reunions setmanals amb els teus companys de feina."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Pots administrar els teus enllaços de trucada, controlar els ajustos per aprovar sol·licituds i copiar enllaços des de la pestanya de trucades per compartir-los ràpidament."
   }
 }

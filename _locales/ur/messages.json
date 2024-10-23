@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "ڈیسک ٹاپ کو {name}، ڈیوائس {deviceId} سے غیر مرموز کاری کے نقص کا سامنا ہوا ہے"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "لاگ جمع کروائیں"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "لاگ جمع کروائیں"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "اس چیٹ میں موجود تمام میسجز کو آپ کی تمام ڈیوائسز سے حذف کر دیا جائے گا۔ آپ میسجز کو حذف کرنے کے بعد بھی اس چیٹ کو تلاش کر سکتے ہیں۔"
+  },
+  "icu:deleteConversation": {
+    "messageformat": "حذف کریں"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "چیٹ کو حذف کریں؟"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "اس چیٹ میں موجود تمام میسجز اس ڈیوائس سے حذف کر دیے جائیں گے۔"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "اس چیٹ میں موجود تمام میسجز کو آپ کی تمام ڈیوائسز سے حذف کر دیا جائے گا۔"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "گروپ چھوڑ دیں"
@@ -3540,7 +3549,7 @@
     "messageformat": "{totalSize} ({fractionComplete,number,percent}) کا {currentSize} ڈاؤن لوڈ ہو رہا ہے..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "میسج منتقل کرنے کا عمل حتمی مرحلے میں ہے..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ڈاؤن لوڈ کرنے کے لیے تیار کیا جا رہا ہے..."

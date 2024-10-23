@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Prišlo je do napake pri dekripciji z uporabnikom_co {name}, naprava {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Oddaj sistemsko zabeležbo"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Oddaj sistemsko zabeležbo"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz vseh vaših naprav. Ko izbrišete sporočila, lahko še vedno poiščete ta klepet."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Izbriši"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Želite izbrisati klepet?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz te naprave."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz vseh vaših naprav."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Zapusti skupino"
@@ -3540,7 +3549,7 @@
     "messageformat": "Prenos {currentSize} od {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Zaključevanje prenosa sporočila ..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Priprava na prenos ..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Ta posodobitev izboljša hitrost zagona za približno 5 %, zato se lahko na drugih področjih svojega življenja nekoliko upočasnite."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Tukaj so klicne povezave: manjkajoč člen za koledarska vabila in improvizirana srečanja."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Hitro ustvarite preprosto povezavo, preko katere se lahko vsak v Signalu pridruži skupinskemu klicu, ne da bi se moral pridružiti skupinskemu klepetu."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Klicne povezave so za večkratno uporabo in so idealne za redne telefonske zmenke s prijatelji ali sestanke s sodelavci."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Upravljajte klicne povezave, nadzorujte nastavitve odobritev in kopirajte povezave z zavihka s klici za hitro skupno rabo."
   }
 }

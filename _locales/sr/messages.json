@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop је наишао на грешку дешифровања код: {name}, уређај: {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Пошаљи извештај"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Пошаљи извештај"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Све поруке у овом ћаскању ће бити избрисане са свих ваших уређаја. И даље можете да тражите ово ћаскање након што избришете поруке."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Избриши"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Желите ли да избришете ћаскање?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Све поруке у овом ћаскању ће бити избрисане са овог уређаја."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Све поруке у овом ћаскању ће бити избрисане са свих ваших уређаја."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Напусти групу"
@@ -3540,7 +3549,7 @@
     "messageformat": "Преузимање {currentSize} од {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Пренос порука се приводи крају…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Припрема за преузимање…"
@@ -5714,15 +5723,15 @@
     "messageformat": "У овом ажурирању је побољшана брзина покретања за око 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Представљамо линкове за позиве – оно што нам је недостајало у календарским позивима и спонтаним окупљањима."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Сада можете брзо да креирате једноставан линк који свако на Signal-у може да користи да се прикључи групном позиву без потребе да се прво прикључи групном ћаскању на Signal-у."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Линкови за позив се могу користити више пута и идеални су за редовне телефонске позиве са најбољим пријатељима или недељне састанке са сарадницима."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Можете управљати својим линковима за позив, подесити одобрења и копирати линкове на картици за позиве да бисте их лако поделили."
   }
 }

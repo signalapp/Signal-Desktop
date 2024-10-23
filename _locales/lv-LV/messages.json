@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Signal Desktop radās kļūda, atšifrējot ziņu no {name}, ierīcē{deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Ieniegt žurnālu"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Ieniegt žurnālu"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Visas ziņas šajā sarunā tiks dzēstas no visām jūsu ierīcēm. Pēc ziņu dzēšanas joprojām varēsiet atrast šo sarunu, izmantojot meklēšanas funkciju."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Dzēst"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Vai dzēst sarunu?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Visas ziņas šajā sarunā tiks dzēstas no šīs ierīces."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Visas ziņas šajā sarunā tiks dzēstas no visām jūsu ierīcēm."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Pamest grupu"
@@ -3540,7 +3549,7 @@
     "messageformat": "Lejupielādē {currentSize} no {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Ziņu pārsūtīšana tiek pabeigta…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Gatavo lejupielādi…"
@@ -5714,15 +5723,15 @@
     "messageformat": "Šis atjauninājums uzlabo palaišanas ātrumu par aptuveni 5%. Droši izmantojiet iegūto laiku citās dzīves jomās."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Iepazīstinām ar zvanu saitēm — trūkstošo posmu starp kalendāra uzaicinājumiem un improvizētām sapulcēm."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Tagad varat ātri izveidot ērtu saiti, ar ko ikviens Signal lietotājs var pievienoties grupas zvanam. Tagad pirms zvana vairs nav jāpievienojas grupas sarunai."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Zvanu saites var izmantot atkārtoti, lai regulāri sazvanītos ar labākajiem draugiem un kolēģiem."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Varat pārvaldīt zvanu saites un apstiprināšanas iestatījumus, kā arī kopēt saites no zvanu cilnes, lai tās ātri nosūtītu citiem."
   }
 }

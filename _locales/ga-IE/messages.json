@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Fuair Deasc earráid díchriptithe ó {name}, gléas {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Cuir isteach loga"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Cuir isteach loga"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Scriosfar gach teachtaireacht sa chomhrá seo ó gach gléas agat. Beidh tú in ann an comhrá seo a chuardach i gcónaí tar éis duit teachtaireachtaí a scriosadh."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Scrios"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Scrios comhrá?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Scriosfar gach teachtaireacht sa chomhrá seo ón ngléas seo."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Scriosfar gach teachtaireacht sa chomhrá seo ó gach gléas agat."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Imigh as an ngrúpa"
@@ -3540,7 +3549,7 @@
     "messageformat": "{currentSize} as {totalSize} ({fractionComplete,number,percent}) á n-íoslódáil…"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Aistriú na dteachtaireachtaí á chur i gcrích..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Íoslódáil á hullmhú..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Feabhsaíonn an nuashonrú seo luas tosaithe faoi thimpeall 5%, mar sin tá an tsaoirse agat moilliú beagán i réimsí eile de do shaol."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Tús eolais ar Naisc Glaonna: An nasc atá ar iarraidh le haghaidh cuirí féilire agus cruinnithe gan ullmhú."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Anois is féidir leat nasc éasca a chruthú go tapa ar féidir le duine ar bith ar Signal é a úsáid le dul isteach i ngrúpghlao gan bheith orthu dul isteach i ngrúpchomhrá Signal ar dtús."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Tá naisc glaonna in-athúsáidte agus foirfe le haghaidh coinní gutháin athfhillteacha le do dhlúthchairde nó le seiceáil isteach gach seachtain le do chomhoibrithe."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Is féidir leat do naisc glaonna a bhainistiú, socruithe faofa a rialú, agus naisc ón táb glaonna a chóipeáil lena gcomhroinnt go tapa."
   }
 }

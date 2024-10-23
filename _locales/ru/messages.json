@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "В Signal Desktop произошла ошибка расшифровки сообщения от {name}, устройство {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Отправить журнал"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Отправить журнал"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Все сообщения в этом чате будут удалены со всех ваших устройств. После удаления сообщений вы сможете продолжать поиск по этому чату."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Удалить"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Удалить чат?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Все сообщения в этом чате будут удалены с этого устройства."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Все сообщения в этом чате будут удалены со всех ваших устройств."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Покинуть группу"
@@ -3540,7 +3549,7 @@
     "messageformat": "Загрузка {currentSize} из {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Завершение переноса сообщений..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Готовимся к загрузке..."
@@ -5714,15 +5723,15 @@
     "messageformat": "Это обновление повышает скорость запуска примерно на 5%, поэтому вы можете спокойно замедлиться в чём-то другом."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Ссылки на звонки: недостающее звено для приглашений в календаре и импровизированных встреч."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Быстро создавайте ссылку, по которой любой пользователь Signal сможет присоединиться к групповому звонку без подключения к групповому чату Signal."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Ссылки на звонки можно использовать многократно, они идеальны для регулярных телефонных разговоров с друзьями или еженедельных звонков с коллегами."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Вы можете управлять ссылками на звонки, настройками одобрения и копировать ссылки на вкладке звонков для быстрого обмена."
   }
 }

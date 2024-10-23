@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop het 'n dekripteringsfout ondervind vanaf {name}, toestel {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Dien log in"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Dien log in"
   },
@@ -1003,6 +1000,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Al die boodskappe in hierdie klets sal van al jou toestelle af geskrap word. Jy kan steeds vir hierdie klets soek nadat jy boodskappe geskrap het."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Skrap"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Skrap klets?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Al die boodskappe in hierdie klets sal van hierdie toestel af geskrap word."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Al die boodskappe in hierdie klets sal van al jou toestelle af geskrap word."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Verlaat groep"
@@ -3540,7 +3549,7 @@
     "messageformat": "Besig om {currentSize} van {totalSize} ({fractionComplete,number,percent}) af te laai…"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Finaliseer tans boodskapoordrag…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Berei tans voor om af te laai…"
@@ -5714,15 +5723,15 @@
     "messageformat": "Hierdie opdatering verbeter oopmaakspoed met ongeveer 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Ons stel Oproepskakels bekend: Die ontbrekende skakel vir kalenderuitnodigings en spontane byeenkomste."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Nou kan jy vinnig 'n maklike skakel skep vir enige Signal-gebruiker om direk by 'n groepoproep aan te sluit sonder om eers by 'n Signal-groepklets aan te sluit."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Oproepskakels is herbruikbaar en ideaal vir herhalende telefoonafsprake met beste vriende of vir weeklikse inhaal met kollegas."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Jy kan jou oproepskakels bestuur, goedkeuringsinstellings beheer en skakels van die oproep-ikoon af kopieer om vinnig te deel."
   }
 }

@@ -1324,19 +1324,19 @@
   },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Delete messages",
-    "description": "Menu item for deleting all messages in a conversation from your device"
+    "description": "(Deleted 2024/10/23) Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Delete messages?",
-    "description": "Title for confirmation modal to delete all messages in a conversation"
+    "description": "(Deleted 2024/10/23) Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
-    "description": "Description for confirmation modal to delete all messages in a conversation"
+    "description": "(Deleted 2024/10/23) Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages.",
-    "description": "Description for confirmation modal to delete all messages in a conversation"
+    "description": "(Deleted 2024/10/23) Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:deleteConversation": {
     "messageformat": "Delete",
