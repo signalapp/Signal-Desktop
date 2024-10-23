@@ -317,6 +317,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderReactionPicker,
   renderAudioAttachment,
   saveAttachment: action('saveAttachment'),
+  saveAttachments: action('saveAttachments'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryMessageSend: action('retryMessageSend'),
   copyMessageText: action('copyMessageText'),
@@ -340,6 +341,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showSpoiler: action('showSpoiler'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
+  showAttachmentDownloadStillInProgressToast: action(
+    'showAttachmentDownloadStillInProgressToast'
+  ),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
