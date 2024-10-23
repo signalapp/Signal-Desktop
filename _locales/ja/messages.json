@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "デスクトップで {name} ({deviceId}) からの復号化でエラーが発生しました。"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "ログを送信"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "ログを送信"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "添付ファイルを保存しました。"
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "フォルダで表示"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "あなた"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "このチャット内のすべてのメッセージはこの端末から消去されます。メッセージを消去した後も、このチャットを検索できます。"
+  },
+  "icu:deleteConversation": {
+    "messageformat": "消去"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "チャットを消去しますか？"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "このチャット内のすべてのメッセージはこの端末から消去されます。"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "このチャット内のすべてのメッセージはこの端末から消去されます。"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "グループを退出する"
@@ -3540,7 +3555,7 @@
     "messageformat": "{totalSize} のうち {currentSize}（{fractionComplete,number,percent}）"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "メッセージの移行が間もなく完了します…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ダウンロード中..."
@@ -5714,15 +5729,18 @@
     "messageformat": "このアップデートにより、起動速度が約5％向上しました。"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "スケジュール調整や突然の集まりの時に便利な通話リンクのご紹介です。"
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Signalのグループチャットに参加していなくても、Signalユーザーなら誰でもグループ通話に参加できる便利なリンクをすばやく作成できるようになりました。"
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "通話リンクは何度でも使えるので、親友との恒例の電話でのおしゃべりや、同僚との毎週の打ち合わせに最適です。"
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "通話リンクの管理や、承認・不承認の設定、通話タブからのリンクのコピーによる素早い共有などができます。"
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

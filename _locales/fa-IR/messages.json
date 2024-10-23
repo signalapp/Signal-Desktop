@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "برنامه دسکتاپ در رمزگشایی از سمت {name}، دستگاه {deviceId} دچار خطا شد."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "ارسال گزارش"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "ارسال گزارش"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "پیوست ذخیره شد"
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "نمایش در پوشه"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "شما"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "همه پیام‌های این گفتگو از همه دستگاه‌های شما حذف خواهد شد. بعد از حذف پیام‌ها همچنان می‌توانید این گفتگو را جستجو کنید."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "پاک کردن"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "گفتگو پاک شود؟"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "همۀ پیام‌های این گفتگو از این دستگاه حذف خواهد شد."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "همه پیام‌های این گفتگو از همه دستگاه‌های شما حذف خواهد شد."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ترک گروه"
@@ -3540,7 +3555,7 @@
     "messageformat": "در حال دانلود {currentSize} از {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "در حال تکمیل انتقال پیام..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "در حال آماده‌سازی برای دانلود..."
@@ -5714,15 +5729,18 @@
     "messageformat": "این نسخۀ جدید، سرعت راه‌اندازی را تا حدود ۵٪ بهبود می‌بخشد."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "معرفی پیوندهای تماس: پیوند ازقلم‌افتاده برای دعوت‌های تقویمی و گردهمایی‌های برنامه‌ریزی نشده."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "اکنون می‌توانید به‌سرعت و به‌راحتی یک پیوند ایجاد کنید که هر کسی در سیگنال بتواند بدون نیاز به پیوستن به گفتگوی گروهی سیگنال، با استفاده از آن مستقیماً به تماس گروهی بپیوندد."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "پیوندهای تماس قابلیت استفاده چندباره دارند و بهترین گزینه برای قرارهای تلفنی مکرر با دوستان صمیمی یا احوال‌پرسی هفتگی با همکاران هستند."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "برای اشتراک‌گذاری سریع، می‌توانید پیوندهای تماس خود را مدیریت کنید، تنظیمات تأیید را کنترل کنید، و پیوندها را از زبانه تماس‌ها کپی کنید."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

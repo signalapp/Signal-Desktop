@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop သည် {name} ၊ စက် {deviceId} မှ ကုဒ်ဖြေရာတွင် ချို့ယွင်းချက် ဖြစ်ပေါ်ခဲ့ပါသည်"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "မှတ်တမ်းကို ပေးပို့ရန်"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "မှတ်တမ်းကို ပေးပို့ရန်"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "ပူးတွဲဖိုင်ကို သိမ်းပြီး။"
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "ဖိုင်တွဲတွင် ပြရန်"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "သင်"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "ဤချက်(တ်)ရှိ မက်ဆေ့ချ်များအားလုံးကို သင်၏စက်များအားလုံးမှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။"
+  },
+  "icu:deleteConversation": {
+    "messageformat": "ဖျက်ရန်"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "ချက်(တ်)ကို ဖျက်မည်လား။"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "ဤချက်(တ်)မှ မက်ဆေ့ချ်များအားလုံးကို ယခုစက်မှ ဖျက်လိုက်ပါမည်။"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "ဤချက်(တ်)ရှိ မက်ဆေ့ချ်များအားလုံးကို သင်၏စက်များအားလုံးမှ ဖျက်လိုက်ပါမည်။"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "အဖွဲ့မှ ထွက်မည်"
@@ -3540,7 +3555,7 @@
     "messageformat": "{totalSize} ({fractionComplete,number,percent}) မှ {currentSize} ကို ဒေါင်းလုဒ်လုပ်နေသည်..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "မက်ဆေ့ချ်လွှဲပြောင်းခြင်းကို အပြီးသတ်နေသည်..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ဒေါင်းလုဒ်လုပ်ရန် ပြင်ဆင်နေသည်..."
@@ -5714,15 +5729,18 @@
     "messageformat": "ဤအပ်ဒိတ်သည် စတင်မှုအမြန်နှုန်းကို 5% ဝန်းကျင် တိုးတက်စေသည်။"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "ကောလ်လင့်ခ်ကို မိတ်ဆက်ခြင်း- ကြိုတင်စီစဉ်မှုနှင့် ချက်ချင်းတွေ့ဆုံမှုအတွက် လိုနေသောလင့်ခ်။"
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "အဖွဲ့လိုက်ချက်(တ်)တွင် ဦးစွာပါဝင်ရန်မလိုဘဲ Signal ရှိ မည်သူမဆိုသုံးနိုင်သည့် လွယ်ကူသောလင့်ခ်ကို ယခု သင်အမြန်ဖန်တီးနိုင်ပါပြီ။"
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "ကောလ်လင့်ခ်သည် ပြန်၍အသုံးပြုနိုင်ပြီး သူငယ်ချင်းများနှင့်ဖုန်းပြောခြင်းသို့မဟုတ် လုပ်ဖော်ကိုင်ဖက်များနှင့် အပတ်စဉ်ဆက်သွယ်ခြင်းအတွက် အကောင်းဆုံးဖြစ်သည်။"
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "ကောလ်လင့်ခ်ကိုစီမံခြင်း၊ အတည်ပြုချက်ဆက်တင်ကို ထိန်းချုပ်ခြင်းပြုနိုင်ပြီး အမြန်မျှဝေရန် ကောလ်တက်ဘ်မှ လင့်ခ်ကိုကူးယူနိုင်သည်။"
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

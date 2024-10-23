@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "電腦遇到嚟自裝置 {deviceId}，{name} 嘅解密錯誤"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "提交記錄"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "提交記錄"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "附件已儲存。"
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "喺文件夾度顯示"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "你"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "聊天入面嘅所有訊息會喺你全部裝置度刪除。刪除訊息之後，你仍然可以搜尋到呢個聊天。"
+  },
+  "icu:deleteConversation": {
+    "messageformat": "刪除"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "係咪要刪除聊天呀？"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "聊天入面嘅訊息會喺呢部機度刪除。"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "聊天入面嘅所有訊息會喺你全部裝置度刪除。"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "離開群組"
@@ -3540,7 +3555,7 @@
     "messageformat": "下載緊 {currentSize} / {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "完成緊訊息轉移..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "準備緊下載..."
@@ -5714,15 +5729,18 @@
     "messageformat": "今次更新將啟動速度加快咗大約 5% ，咁你就有多啲時間用喺其他地方啦。"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "新推嘅「通話連結」：呢個係行事曆邀請同埋即興聚會嘅必要一環。"
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "而家你可以好快咁建立一個簡單嘅連結，邀請 Signal 上面任何一個人加入群組通話，唔駛再預先將對方加入 Signal 群組。"
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "通話連結係可重複使用嘅，非常適合用佢同你嘅死黨閨蜜定期煲電話粥，或者每星期同你嘅同事做吓匯報。"
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "你可以喺「通話」嗰一版度，直接管理你嘅通話連結、更改批准設定同複製條拎，方便快速分享。"
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

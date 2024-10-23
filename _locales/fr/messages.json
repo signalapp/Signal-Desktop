@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Signal Desktop a rencontré une erreur de déchiffrement de {name}, appareil {deviceId}."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Envoyer le journal"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Envoyer le journal"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Pièce jointe enregistrée."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Afficher dans le dossier"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Vous"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Tous les messages de cette conversation seront supprimés de tous vos appareils.Vous pourrez tout de même rechercher cette conversation une fois les messages supprimés."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Supprimer"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Supprimer la conversation ?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Tous les messages de cette conversation seront supprimés de cet appareil."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Tous les messages de cette conversation seront supprimés de tous vos appareils."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Quitter le groupe"
@@ -1812,7 +1827,7 @@
     "messageformat": "Retour à la sélection des membres"
   },
   "icu:setGroupMetadata__group-name-placeholder": {
-    "messageformat": "Nom du groupe (requis)"
+    "messageformat": "Nom du groupe (champ obligatoire)"
   },
   "icu:setGroupMetadata__group-description-placeholder": {
     "messageformat": "Description"
@@ -3540,7 +3555,7 @@
     "messageformat": "Téléchargement en cours : {currentSize} sur {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Finalisation du transfert des messages…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Préparation du téléchargement…"
@@ -4413,7 +4428,7 @@
     "messageformat": "Écrivez quelques mots à votre sujet…"
   },
   "icu:ProfileEditor--first-name": {
-    "messageformat": "Prénom (requis)"
+    "messageformat": "Prénom (champ obligatoire)"
   },
   "icu:ProfileEditor--last-name": {
     "messageformat": "Nom de famille (facultatif)"
@@ -5037,7 +5052,7 @@
     "messageformat": "Nommer la story"
   },
   "icu:StoriesSettings__name-placeholder": {
-    "messageformat": "Titre de la story (requis)"
+    "messageformat": "Titre de la story (champ obligatoire)"
   },
   "icu:StoriesSettings__hide-story": {
     "messageformat": "Masquer la story pour"
@@ -5711,18 +5726,21 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Avec cette mise à jour, Signal met met le turbo : la vitesse de démarrage de l'application accélère de 5 %. Et si vous profitiez de ce petit gain de temps pour lever le pied dans d'autres domaines ?"
+    "messageformat": "Avec cette mise à jour, Signal met le turbo : la vitesse de démarrage de l'application accélère de 5 %. Et si vous profitiez de ce petit gain de temps pour lever le pied dans d'autres domaines ?"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Vous en rêviez, Signal l'a fait : avec les liens d'appel, tisser des liens privilégiés avec vos amis et collègues devient simple comme bonjour. "
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Créez un lien d'appel en deux temps, trois mouvements et partagez-le. Les utilisateurs de Signal peuvent ainsi participer à l'appel de groupe directement, sans avoir à rejoindre une conversation de groupe."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Les liens d'appel sont réutilisables. Pratique, quand on ne peut pas se passer d'appeler ses amis tous les jours ou qu'on a des réunions hebdomadaires avec ses collègues."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Vous gardez le contrôle : vous pouvez gérer vos liens d'appel, les copier depuis l'onglet \"Appels\" pour les partager rapidement ou encore décider des paramètres d'approbation."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "‫لقد وقع البرنامج في خطأ يتعلق بفك التعمية انطلاقا من {name}، الجهاز {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "إرسال السجل"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "إرسال السجل"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "تم حفظ المرفق."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "أظهر ذلك في الملف"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "أنت"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "حذف"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "حذف الدردشة؟"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "ستُحذَف رسائل هذه المحادثة من هذا الجهاز."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "مغادرة المجموعة"
@@ -3540,7 +3555,7 @@
     "messageformat": "يتم تنزيل {currentSize} من أصل {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "جارٍ وضع اللمسات الأخيرة على نقل الرسائل…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "جارٍ الإعداد للتنزيل..."
@@ -5714,15 +5729,18 @@
     "messageformat": "يُحسِّن هذا التحديث سرعة بدء التشغيل بنسبة تقارب 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "تعرَّفوا على روابط المكالمات: الحلقة المفقودة لدعوات التقويم والاجتماعات الطارئة."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "• يُمكنك الآن إنشاء رابط بسيط بسرعة يُمكن لأي أحد في سيجنال استعماله للانضمام إلى مكالمة جماعية دون الحاجة إلى الانضمام إلى دردشة جماعية في سيجنال أولًا."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "• يمكن إعادة استخدام روابط المكالمات وهي مناسبة للقاءات الهاتفية المُتكرِّرة مع أعز أصدقائك أو المكالمات الأسبوعية مع زملائك."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "• يمكنك إدارة روابط المكالمات والتحكُّم في إعدادات القبول ونسخ روابط من علامة تبويب \"المكالمات\" لمشاركتها بسرعة."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

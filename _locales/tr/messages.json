@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Masaüstü {name}'den cihaz {deviceId}'a şifreleme sorununa rastladı"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Günlüğü gönder"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Günlüğü gönder"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Eklenti kaydedildi."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Klasörde göster"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Siz"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Bu sohbetteki tüm mesajlar tüm cihazlardan silinecektir. Mesajları sildikten sonra da bu sohbeti arayabilirsin."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Sil"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Sohbet silinsin mi?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Bu sohbetteki tüm mesajlar bu cihazdan silinecek."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Bu sohbetteki tüm mesajlar tüm cihazlardan silinecektir."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Gruptan ayrıl"
@@ -3540,7 +3555,7 @@
     "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent}) indiriliyor..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Mesaj aktarımı tamamlanıyor..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "İndirmeye hazırlanıyor..."
@@ -5714,15 +5729,18 @@
     "messageformat": "Bu güncellemede başlangıç hızını yaklaşık %5 oranında artırdık."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Arama Bağlantıları Tanıtımı: Takvim davetleri ve doğaçlama toplantılar için eksik olan bağlantı."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Bundan böyle Signal'deki herkesin önce bir Signal grup sohbetine katılmak zorunda kalmadan, grup aramasına katılmak için kullanabileceği kolay bir bağlantıyı hızla oluşturabilirsin."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "• Arama bağlantıları yeniden kullanılabilir ve en iyi arkadaşlarınla sürekli yaptığın telefon görüşmeleri veya iş arkadaşlarınla haftalık buluşmalar için idealdir."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Arama bağlantılarını yönetebilir, onay ayarlarını kontrol edebilir ve hızlı paylaşım için bağlantıları aramalar sekmesinden kopyalayabilirsin."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

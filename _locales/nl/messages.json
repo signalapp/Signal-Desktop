@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Er is in Signal Desktop een fout opgetreden bij het ontsleutelen van {name}, op apparaat {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Foutopsporingslog indienen"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Foutopsporingslog indienen"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Bijlage opgeslagen."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "In map weergeven"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Jij"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Alle berichten in deze chat worden verwijderd van al je apparaten. Je kunt nog steeds naar deze chat zoeken nadat je berichten hebt verwijderd."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Verwijderen"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Chat verwijderen?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Alle berichten in deze chat worden verwijderd van dit apparaat."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Alle berichten in deze chat worden verwijderd van al je apparaten."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Groep verlaten"
@@ -2868,7 +2883,7 @@
     "messageformat": "Meer info over nieuwe contacten"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Voordat je deelneemt aan een oproep, kun je alleen de namen zien van telefooncontacten, mensen met wie je in een groep zit of mensen met wie je 1:1 hebt gechat. Je ziet alle namen en profielfoto's zodra je deelneemt aan de oproep."
+    "messageformat": "Voordat je deelneemt aan een oproep, kun je alleen de namen zien van telefooncontacten, mensen met wie je in een groep zit of mensen met wie je een-op-een hebt gechat. Je ziet alle namen en profielfoto's zodra je deelneemt aan de oproep."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
     "messageformat": "Begrepen"
@@ -3540,7 +3555,7 @@
     "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent}) aan het downloaden..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Berichtoverdracht aan het afronden..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Download voorbereiden..."
@@ -3852,7 +3867,7 @@
     "messageformat": "Link vernieuwen"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Nieuwe deelnemers goedkeuren"
+    "messageformat": "Nieuwe leden goedkeuren"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Vereis voor iedere persoon die via de groepslink lid wil worden eerst goedkeuring van een beheerder"
@@ -4962,7 +4977,7 @@
     "messageformat": "Klik op een verhaal om die weer te geven"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Klik op <newStoryButtonIcon></newStoryButtonIcon> om een update toe te voegen."
+    "messageformat": "Klik op <newStoryButtonIcon></newStoryButtonIcon> om een verhaal toe te voegen."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} naar {group}"
@@ -5623,7 +5638,7 @@
     "messageformat": "Oproeplink verwijderen?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "Deze link zal niet meer werken."
+    "messageformat": "Deze link zal voor niemand meer werken."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
     "messageformat": "Annuleren"
@@ -5714,15 +5729,18 @@
     "messageformat": "Deze update verbetert de opstartsnelheid met ongeveer 5%. Start Signal snel op om het te ervaren."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Maak kennis met oproeplinks: de ontbrekende schakel voor agenda-uitnodigingen en spontane bijeenkomsten."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Je kunt nu snel en gemakkelijk een link maken die iedereen op Signal kan gebruiken om deel te nemen aan een groepsoproep zonder eerst lid te worden van een Signal-groepschat."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Oproeplinks kun je steeds opnieuw gebruiken. Ze zijn ideaal voor al die gesprekken met je beste vrienden of wekelijkse check-ins met je collega's."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Via het tabblad Oproepen kun je oproeplinks en goedkeuringsinstellingen beheren en links kopiëren om gemakkelijk te delen."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

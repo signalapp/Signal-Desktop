@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "डेस्कटॉप {name}, उपकरण {deviceId} कडून कूटबद्धीकरण त्रुटी मध्ये गेला"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "लॉग सादर करा"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "लॉग सादर करा"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "संलग्नक/अटॅचमेंट सेव्ह झाली"
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "फोल्डर मध्ये दाखवा"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "आपण"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "या चॅट्स मधील सर्व संदेश आपल्या सर्व डिव्हाइसेस वरून हटवण्यात येतील. आपण संदेश हटवल्यानंतर देखील अद्याप आपण हे चॅट्स शोधू शकता."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "हटवा"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "चॅट हटवायचे?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "या चॅट्समधील सर्व संदेश या डिव्हाइस वरून हटवले जातील."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "या चॅट्स मधील सर्व संदेश आपल्या सर्व डिव्हाइसेस वरून हटवण्यात येतील."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "गट सोडा"
@@ -3540,7 +3555,7 @@
     "messageformat": "{totalSize} ({fractionComplete,number,percent}) पैकी {currentSize} डाउनलोड करत आहे..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "संदेश हस्तांतरण पूर्ण करत आहे..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "डाउनलोड करण्याची तयारी करत आहे..."
@@ -5714,15 +5729,18 @@
     "messageformat": "हे अद्यतन सुरूवातीच्या वेगामध्ये सुमारे 5% सुधारणा करते, त्यामुळे आपल्या आयुष्याच्या इतर क्षेत्रात थोडाफार वेग कमी करण्यास मोकळे रहा."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "सादर करत आहोत कॉल लिंक्स : पूर्वनियोजित निमंत्रणे आणि उत्स्फूर्त भेटींना जोडणारा दुवा."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "आता आपण चटकन एक सोपी लिंक तयार करू शकता जी वापरून Signal वर असणारा कोणीही समूह कॉलमध्ये सामील होऊ शकतो, त्यासाठी त्याला आधी Signal समूह चॅटमध्ये सामील व्हावे लागणार नाही."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "कॉल लिंक्स पुन्हा वापरता येतात व आपल्या जीवलग मित्रांना सारखे फोन लावण्यासाठी किंवा सहकाऱ्यांशी दर आठवड्याला संपर्क साधण्यासाठी त्या उपयोगी ठरतात."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "आपण कॉल लिंक्स व्यवस्थापित करू शकता, मान्यता सेटिंग्ज नियंत्रित करू शकता, व त्वरित शेअरिंगसाठी कॉल्स टॅबमधून लिंक कॉपी करू शकता."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

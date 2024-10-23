@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop a întâmpinat o eroare de decriptare de la {name}, dispozitiv {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Trimite jurnalul"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Trimite jurnalul"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Atașamentul a fost salvat."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Afișează în director"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Tu"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Toate mesajele din această conversație vor fi eliminate de pe toate dispozitivele tale. Poți căuta în continuare această conversație după ce ștergi mesajele."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Șterge"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Ștergi conversația?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Mesajele din această conversație vor fi șterse de pe acest dispozitiv."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Toate mesajele din această conversație vor fi eliminate de pe toate dispozitivele tale."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Părăsește grupul"
@@ -3540,7 +3555,7 @@
     "messageformat": "Se descarcă {currentSize} din {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Se finalizează transferul mesajelor..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Se pregătește descărcarea..."
@@ -5714,15 +5729,18 @@
     "messageformat": "Această actualizare îmbunătățește viteza de pornire cu aproximativ 5%, așa că nu ezita să reduci puțin ritmul în alte domenii ale vieții tale."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Îți prezentăm Linkurile apelurilor: veriga lipsă din invitațiile din calendar și din întâlnirile de ultim moment."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Acum, poți crea rapid un link simplu pe care oricine de pe Signal îl poate folosi pentru a se alătura unui apel de grup fără a fi nevoie să se alăture mai întâi la o conversație de grup Signal."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Linkurile apelurilor sunt reutilizabile și ideale pentru întâlniri telefonice recurente cu prietenii sau colegii."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Poți să gestionezi linkurile apelurilor, să controlezi aprobarea și să copiezi linkurile din fila Apeluri pentru trimitere rapidă."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }
