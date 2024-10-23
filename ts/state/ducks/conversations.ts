@@ -296,7 +296,6 @@ export type ConversationType = ReadonlyDeep<
     customColor?: CustomColorType;
     customColorId?: string;
     discoveredUnregisteredAt?: number;
-    hiddenFromConversationSearch?: boolean;
     hideStory?: boolean;
     isArchived?: boolean;
     isBlocked?: boolean;
