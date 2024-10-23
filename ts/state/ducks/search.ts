@@ -352,11 +352,14 @@ async function queryConversationsAndContacts(
 
   const normalizedQuery = removeDiacritics(query);
 
-  const visibleConversations = allConversations.filter(
-    ({ activeAt, removalStage }) => {
+  const visibleConversations = allConversations.filter(conversation => {
+    const { activeAt, removalStage } = conversation;
+    if (isDirectConversation(conversation)) {
       return activeAt != null || removalStage == null;
     }
-  );
+    // We don't show groups in search results that don't have any messages
+    return activeAt != null;
+  });
 
   const searchResults: Array<ConversationType> = filterAndSortConversations(
     visibleConversations,

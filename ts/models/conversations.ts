@@ -407,8 +407,6 @@ export class ConversationModel extends window.Backbone
     this.unset('tokens');
 
     this.on('change:members change:membersV2', this.fetchContacts);
-    this.on('change:active_at', this.onActiveAtChange);
-
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
@@ -4418,12 +4416,6 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  private onActiveAtChange(): void {
-    if (this.get('active_at') && this.get('hiddenFromConversationSearch')) {
-      this.set('hiddenFromConversationSearch', false);
-    }
-  }
-
   async refreshGroupLink(): Promise<void> {
     if (!isGroupV2(this.attributes)) {
       return;
@@ -4854,12 +4846,7 @@ export class ConversationModel extends window.Backbone
         ourAci
       );
     const sharedGroups = ourGroups
-      .filter(
-        c =>
-          c.hasMember(ourAci) &&
-          c.hasMember(theirAci) &&
-          !c.attributes.hiddenFromConversationSearch
-      )
+      .filter(c => c.hasMember(ourAci) && c.hasMember(theirAci))
       .sort(
         (left, right) =>
           (right.get('timestamp') || 0) - (left.get('timestamp') || 0)
@@ -5222,9 +5209,6 @@ export class ConversationModel extends window.Backbone
       active_at: null,
       pendingUniversalTimer: undefined,
     });
-    if (isGroup(this.attributes)) {
-      this.set('hiddenFromConversationSearch', true);
-    }
     await DataWriter.updateConversation(this.attributes);
 
     const ourConversation =
