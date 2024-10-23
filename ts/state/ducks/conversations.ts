@@ -15,7 +15,7 @@ import {
 } from 'lodash';
 import type { PhoneNumber } from 'google-libphonenumber';
 
-import { clipboard } from 'electron';
+import { clipboard, ipcRenderer } from 'electron';
 import type { ReadonlyDeep } from 'type-fest';
 import { DataReader, DataWriter } from '../../sql/Client';
 import type { AttachmentType } from '../../types/Attachment';
@@ -1163,6 +1163,7 @@ export const actions = {
   reviewConversationNameCollision,
   revokePendingMembershipsFromGroupV2,
   saveAttachment,
+  saveAttachments,
   saveAttachmentFromMessage,
   saveAvatarToDisk,
   scrollToMessage,
@@ -1189,6 +1190,7 @@ export const actions = {
   setPreJoinConversation,
   setVoiceNotePlaybackRate,
   showArchivedConversations,
+  showAttachmentDownloadStillInProgressToast,
   showChooseGroupMembers,
   showConversation,
   showExpiredIncomingTapToViewToast,
@@ -3862,6 +3864,105 @@ function saveAttachment(
   };
 }
 
+const showSaveMultiDialog = (): Promise<{
+  canceled: boolean;
+  dirPath?: string;
+}> => {
+  return ipcRenderer.invoke('show-save-multi-dialog');
+};
+
+export type SaveAttachmentsActionCreatorType = ReadonlyDeep<
+  (
+    attachments: ReadonlyArray<AttachmentType>,
+    timestamp?: number,
+    index?: number
+  ) => unknown
+>;
+
+function saveAttachments(
+  attachments: ReadonlyArray<AttachmentType>,
+  timestamp = Date.now()
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async dispatch => {
+    // check if any of the attachments could be dangerous
+    for (const attachment of attachments) {
+      const { fileName = '' } = attachment;
+
+      const isDangerous = isFileDangerous(fileName);
+      if (isDangerous) {
+        dispatch({
+          type: SHOW_TOAST,
+          payload: {
+            toastType: ToastType.DangerousFileType,
+          },
+        });
+        return;
+      }
+    }
+
+    const { canceled, dirPath } = await showSaveMultiDialog();
+    if (canceled || !dirPath) {
+      return;
+    }
+
+    const { readAttachmentData, saveAttachmentToDisk } =
+      window.Signal.Migrations;
+
+    let fullPath;
+    let index = 0;
+    for (const attachment of attachments) {
+      index += 1;
+
+      // eslint-disable-next-line no-await-in-loop
+      const result = await Attachment.save({
+        attachment,
+        index,
+        readAttachmentData,
+        saveAttachmentToDisk,
+        timestamp,
+        baseDir: dirPath,
+      });
+
+      if (fullPath === undefined) {
+        fullPath = result;
+      }
+    }
+
+    if (fullPath == null) {
+      throw new Error('saveAttachments: Returned path to attachment is null!');
+    }
+
+    dispatch({
+      type: SHOW_TOAST,
+      payload: {
+        toastType: ToastType.FileSaved,
+        parameters: {
+          countOfFiles: attachments.length,
+          fullPath,
+        },
+      },
+    });
+  };
+}
+
+function showAttachmentDownloadStillInProgressToast(
+  count: number
+): ShowToastActionType {
+  log.info(
+    `showAttachmentDownloadStillInProgressToast: ${count} still-pending attachments`
+  );
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.AttachmentDownloadStillInProgress,
+      parameters: {
+        count,
+      },
+    },
+  };
+}
+
+// is only used by lightbox/ gallery
 export function saveAttachmentFromMessage(
   messageId: string,
   providedAttachment?: AttachmentType

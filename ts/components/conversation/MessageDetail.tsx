@@ -95,9 +95,11 @@ export type PropsReduxActions = Pick<
   | 'pushPanelForConversation'
   | 'retryMessageSend'
   | 'saveAttachment'
+  | 'saveAttachments'
   | 'showContactModal'
   | 'showConversation'
   | 'showEditHistoryModal'
+  | 'showAttachmentDownloadStillInProgressToast'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
@@ -139,9 +141,11 @@ export function MessageDetail({
   retryMessageSend,
   renderAudioAttachment,
   saveAttachment,
+  saveAttachments,
   showContactModal,
   showConversation,
   showEditHistoryModal,
+  showAttachmentDownloadStillInProgressToast,
   showExpiredIncomingTapToViewToast,
   showExpiredOutgoingTapToViewToast,
   showLightbox,
@@ -348,6 +352,7 @@ export function MessageDetail({
             retryMessageSend={retryMessageSend}
             renderAudioAttachment={renderAudioAttachment}
             saveAttachment={saveAttachment}
+            saveAttachments={saveAttachments}
             shouldCollapseAbove={false}
             shouldCollapseBelow={false}
             shouldHideMetadata={false}
@@ -357,6 +362,9 @@ export function MessageDetail({
               log.warn('MessageDetail: scrollToQuotedMessage called!');
             }}
             showContactModal={showContactModal}
+            showAttachmentDownloadStillInProgressToast={
+              showAttachmentDownloadStillInProgressToast
+            }
             showExpiredIncomingTapToViewToast={
               showExpiredIncomingTapToViewToast
             }
