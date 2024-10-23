@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop ha riscontrato un errore di decrittazione da {name}, dispositivo {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Invia log"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Invia log"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Allegato salvato."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostra nella cartella"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Tu"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Tutti i messaggi in questa chat verranno rimossi da tutti i tuoi dispositivi. Dopo che avrai eliminato i messaggi, questa chat apparirà comunque nei risultati delle tue ricerche."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Elimina"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Vuoi eliminare la chat?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Tutti i messaggi in questa chat verranno rimossi dal dispositivo."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Tutti i messaggi in questa chat verranno rimossi da tutti i tuoi dispositivi."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abbandona il gruppo"
@@ -3540,7 +3555,7 @@
     "messageformat": "Download {currentSize} di {totalSize} ({fractionComplete,number,percent})…"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Trasferimento dei messaggi quasi completato…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparazione del download…"
@@ -5714,15 +5729,18 @@
     "messageformat": "Con il nuovo aggiornamento, l'avvio di Signal sarà più rapido del 5%… come impiegherai tutto questo tempo in più a disposizione?"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Arrivano i link chiamata su Signal: il collegamento perfetto per ogni tipo di chiamata, da quelle già in calendario alle last minute."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Da ora puoi creare velocemente un link che chiunque su Signal può usare per unirsi a una chiamata (senza dover far parte di una chat di gruppo)."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "I link chiamata possono essere utilizzati più volte: dallo stesso link puoi avviare la chiamata in occasioni diverse, senza doverne creare uno nuovo ogni volta."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Puoi gestire i tuoi link chiamata, modificare le impostazioni per l'approvazione degli ingressi e copiare i link dalla schermata delle chiamate per condividerli più facilmente."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

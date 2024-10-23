@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop imepata hitilafu ya msimbo kutoka kwa {name}, kifaa {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Wasilisha logi"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Wasilisha logi"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Kiambatisho kimehifadhiwa."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Onyesha kwenye folda"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Wewe"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Jumbe zote kwenye gumzo hili zitafutwa kwenye vifaa vyako vyote. Bado unaweza kutafuta gumzo hili baada ya kufuta jumbe."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Futa"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Ungependa kufuta gumzo?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Jumbe zote kwenye gumzo hili zitafutwa kutoka kwenye kifaa hiki."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Jumbe zote kwenye gumzo hili zitafutwa kwenye vifaa vyako vyote."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Ondoka kwenye kikundi"
@@ -3540,7 +3555,7 @@
     "messageformat": "Inapakua {currentSize} ya {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Inakamilisha uhamishaji wa ujumbe..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Inajiandaa kupakua..."
@@ -5714,15 +5729,18 @@
     "messageformat": "Sasisho hili huboresha kasi ya kifaa kuwaka kwa karibu 5%, kwa hiyo jisikie huru kupunguza kasi kidogo katika maeneo mengine ya maisha yako."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Inatambulisha Viungo vya Simu: Kiungo kilichokosekana kwa mialiko kupitia kalenda na mikusanyiko isiyotarajiwa."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Sasa unaweza kubuni kwa haraka kiungo ambacho yeyote mwenye Signal anaweza kutumia kujiunga kwenye simu ya kikundi bila kujiunga na kikundi cha gumzo cha Signal kwanza."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Viungo vya simu vinaweza kutumika tena na vinafaa kwa miadi ya simu inayojirudia pamoja na marafiki zako vipenzi au kujuliana hali kila wiki na wafanyakazi wenzako."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Dhibiti viungo vya simu, mipangilio ya idhini, na nakili viungo kutoka kwa kichupo cha simu ili kushiriki kasi."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop mengalami kegagalan dekripsi dari {name}, perangkat {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Kirim catatan"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Kirim log"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Lampiran disimpan."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Tampilkan di folder"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Anda"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Semua pesan di obrolan ini akan dihapus dari semua perangkat Anda. Anda masih bisa mencari obrolan ini setelah pesan dihapus."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Hapus"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Hapus obrolan?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Semua pesan dalam obrolan ini akan dihapus dari perangkat."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Semua pesan di obrolan ini akan dihapus dari semua perangkat Anda."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Keluar grup"
@@ -3540,7 +3555,7 @@
     "messageformat": "Mengunduh {currentSize} dari {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Menyelesaikan transfer pesan …"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Bersiap mengunduh …"
@@ -5714,15 +5729,18 @@
     "messageformat": "Pembaruan ini meningkatkan kecepatan memulai aplikasi sekitar 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Memperkenalkan Tautan Panggilan: Fitur tautan baru untuk undangan kalender dan rapat dadakan."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Kini Anda dapat langsung membuat tautan praktis yang bisa dipakai siapa pun di Signal untuk bergabung ke panggilan grup tanpa harus gabung dulu ke obrolan grup Signal."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Tautan panggilan bisa dipakai ulang dan cocok untuk rutinitas telepon dengan sahabat atau rapat mingguan dengan rekan kerja Anda."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Anda bisa mengelola tautan panggilan, mengontrol pengaturan persetujuan, dan menyalin tautan dari tab panggilan untuk berbagi dengan cepat."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

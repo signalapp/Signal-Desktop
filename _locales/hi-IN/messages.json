@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "डेस्कटॉप को {name}, डिवाइस {deviceId} की ओर से एक डीक्रिप्शन एरर हुआ।"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "लॉग सबमिट करें"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "लॉग सबमिट करें"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "अटैचमेंट सेव किया गया."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "फ़ोल्डर में दिखाएं"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "आप"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "इस चैट के सभी संदेश आपके सभी डिवाइस से डिलीट कर दिए जाएंगे। संदेश डिलीट करने के बाद भी आप इस चैट को खोज सकते हैं।"
+  },
+  "icu:deleteConversation": {
+    "messageformat": "डिलीट करें"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "चैट को डिलीट करना है?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "इस चैट के सभी संदेश इस डिवाइस से डिलीट कर दिए जाएंगे।"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "इस चैट के सभी संदेश आपके सभी डिवाइस से डिलीट कर दिए जाएंगे।"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "समूह छोड़ दें"
@@ -3540,7 +3555,7 @@
     "messageformat": "{totalSize} में से {currentSize} डाउनलोड किया जा रहा है({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "संदेश ट्रांसफ़र को अंतिम रूप दिया जा रहा है..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "डाउनलोड करने के लिए तैयार किया जा रहा है..."
@@ -5714,15 +5729,18 @@
     "messageformat": "इस अपडेट से स्टार्टअप की गति करीब 5% बढ़ जाती है, तो अपनी ज़िंदगी के दूसरे कामों को थोड़ा आराम से करें।"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "पेश है कॉल लिंक: कैलेंडर इनवाइट और तुरंत होने वाली सभाओं के लिए ज़रूरी लिंक।"
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "अब आप जल्दी से एक आसान लिंक बना सकते हैं, जो किसी ग्रुप कॉल से जुड़ने के लिए कोई भी इस्तेमाल कर सकता है, लेकिन उसे पहले Signal की ग्रुप चैट से जुड़ने की ज़रूरत नहीं होगी।"
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "कॉल लिंक को बार-बार इस्तेमाल किया जा सकता है और अपने दोस्तों के साथ अक्सर होने वाली फ़ोन डेट या अपने साथ काम करने वाले लोगों के साथ हर हफ़्ते होने वाले चेक-इन के लिए ये सबसे बढ़िया रहते हैं।"
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "आप अपने कॉल लिंक प्रबंधित कर सकते हैं, मंज़ूरी की सेटिंग्स नियंत्रित कर सकते हैं, और तुरंत शेयर करने के लिए कॉल्स टैब से लिंक कॉपी कर सकते हैं।"
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

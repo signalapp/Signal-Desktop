@@ -36,7 +36,7 @@
     "messageformat": "A la espera de participantes"
   },
   "icu:Preferences__sent-media-quality": {
-    "messageformat": "Calidad de fotos y vídeos enviados"
+    "messageformat": "Calidad de fotos y vídeos"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Estándar"
@@ -330,7 +330,7 @@
     "messageformat": "Administrar Contactos"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Enviar mensaje"
+    "messageformat": "Mensaje"
   },
   "icu:ContactListItem__menu__audio-call": {
     "messageformat": "Llamada"
@@ -531,7 +531,7 @@
     "messageformat": "No hay ningún archivo multimedia en este chat"
   },
   "icu:allMedia": {
-    "messageformat": "Todos los archivos"
+    "messageformat": "Todos los archivos multimedia"
   },
   "icu:documents": {
     "messageformat": "Documentos"
@@ -574,9 +574,6 @@
   },
   "icu:decryptionErrorToast": {
     "messageformat": "Ha ocurrido un error al descifrar un mensaje de {name} en el dispositivo {deviceId}"
-  },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Enviar registro"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Enviar registro"
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Archivo adjunto guardado."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostrar en la carpeta"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Tú"
@@ -903,7 +906,7 @@
     "messageformat": "Recibidos"
   },
   "icu:sendMessage": {
-    "messageformat": "Enviar mensaje"
+    "messageformat": "Mensaje"
   },
   "icu:showMembers": {
     "messageformat": "Mostrar participantes"
@@ -945,7 +948,7 @@
     "messageformat": "Nota"
   },
   "icu:allMediaMenuItem": {
-    "messageformat": "Archivos multimedia"
+    "messageformat": "Todos los archivos multimedia"
   },
   "icu:back": {
     "messageformat": "Atrás"
@@ -1004,6 +1007,18 @@
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Todos los mensajes de este chat se eliminarán de todos tus dispositivos. Aún podrás buscar este chat después de eliminar los mensajes."
   },
+  "icu:deleteConversation": {
+    "messageformat": "Eliminar"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "¿Eliminar chat?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Todos los mensajes de este chat se eliminarán de este dispositivo."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Todos los mensajes de este chat se eliminarán de todos tus dispositivos."
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abandonar grupo"
   },
@@ -1011,7 +1026,7 @@
     "messageformat": "¿De verdad quieres abandonar el grupo?"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__description": {
-    "messageformat": "No podrás enviar o recibir más mensajes en este grupo."
+    "messageformat": "Ya no podrás enviar ni recibir mensajes en este grupo."
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
     "messageformat": "Abandonar"
@@ -1038,7 +1053,7 @@
     "messageformat": "Fallo en la entrega"
   },
   "icu:DeliveryIssue--notification": {
-    "messageformat": "No se ha podido recibir un mensaje de {sender}"
+    "messageformat": "No se ha podido entregar un mensaje de {sender}"
   },
   "icu:DeliveryIssue--learnMore": {
     "messageformat": "Más información"
@@ -1047,10 +1062,10 @@
     "messageformat": "Fallo en la entrega"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "No se ha podido recibir un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia que {sender} te ha enviado directamente o en un chat grupal en común."
+    "messageformat": "No se ha podido entregar un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia que {sender} te ha enviado directamente o en un chat grupal en común."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "No se ha podido recibir un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia de {sender} en este chat."
+    "messageformat": "No se ha podido entregar un mensaje, sticker, reacción, confirmación de lectura o archivo multimedia de {sender} en este chat."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} ha cambiado su número de teléfono"
@@ -3522,7 +3537,7 @@
     "messageformat": "Dona a Signal"
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal es posible gracias a personas como tú. Contribuye y recibe una insignia para tu perfil."
+    "messageformat": "Signal es posible gracias a personas como tú. Contribuye y recibe una insignia para lucir en tu perfil."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "Abre Signal en tu teléfono"
@@ -3540,7 +3555,7 @@
     "messageformat": "Descargando {currentSize} de {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Finalizando la transferencia de mensajes…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparando la descarga…"
@@ -4281,7 +4296,7 @@
     "messageformat": "Seleccionar calidad de fotos y vídeos"
   },
   "icu:MediaQualitySelector--title": {
-    "messageformat": "Calidad de fotos y vídeos"
+    "messageformat": "Calidad de archivos multimedia"
   },
   "icu:MediaQualitySelector--standard-quality-title": {
     "messageformat": "Estándar"
@@ -5395,7 +5410,7 @@
     "messageformat": "Reiniciar"
   },
   "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Hecho"
+    "messageformat": "Listo"
   },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Color del enlace del alias, {index,number} de {total,number}"
@@ -5714,15 +5729,18 @@
     "messageformat": "Con esta actualización, la velocidad de inicio es aproximadamente un 5 % más rápida, así que siéntete libre de disfrutar del tiempo que has ganado tomándotelo con más calma en otras áreas de tu vida."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Los enlaces de llamada han llegado a Signal: la solución ideal para tus invitaciones de calendario y reuniones improvisadas."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Crea un enlace para que cualquier persona en Signal se una a una llamada grupal, sin necesidad de estar en un grupo."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Vuelve a usar los enlaces tantas veces como quieras para charlas recurrentes con tus amigos o reuniones semanales de trabajo."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Gestiona tus enlaces, cópialos desde la pestaña Llamadas para compartirlos y elige cómo se aprueban las solicitudes."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

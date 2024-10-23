@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "{name}, ਡਿਵਾਈਸ {deviceId} ਤੋਂ ਡੈਸਕਟਾਪ ਵਿੱਚ ਡੀਕ੍ਰਿਪਸ਼ਨ ਸੰਬੰਧੀ ਕੋਈ ਗੜਬੜੀ ਆ ਗਈ ਹੈ"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "ਲਾਗ ਭੇਜੋ"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "ਲੌਗ ਦਰਜ ਕਰੋ"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "ਅਟੈਚਮੈਂਟ ਸੇਵ ਕੀਤੀ ਗਈ।"
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "ਫੋਲਡਰ ਵਿੱਚ ਦਿਖਾਓ"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "ਤੁਸੀਂ"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "ਇਸ ਚੈਟ ਵਿਚਲੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਸੁਨੇਹੇ ਮਿਟਾਉਣ ਤੋਂ ਬਾਅਦ ਵੀ ਤੁਸੀਂ ਇਸ ਚੈਟ ਦੀ ਖੋਜ ਕਰ ਸਕਦੇ ਹੋ।"
+  },
+  "icu:deleteConversation": {
+    "messageformat": "ਮਿਟਾਓ"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "ਕੀ ਚੈਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "ਇਸ ਚੈਟ ਵਿਚਲੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਇਸ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "ਇਸ ਚੈਟ ਵਿਚਲੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ਗਰੁੱਪ ਛੱਡੋ"
@@ -3540,7 +3555,7 @@
     "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize} ({fractionComplete,number,percent}) ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "ਸੁਨੇਹੇ ਟ੍ਰਾਂਸਫਰ ਕਰਨ ਦੇ ਕਾਰਜ ਨੂੰ ਅੰਤਿਮ ਰੂਪ ਦਿੱਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਤਿਆਰੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ..."
@@ -5714,15 +5729,18 @@
     "messageformat": "ਇਹ ਅੱਪਡੇਟ ਸਟਾਰਟਅੱਪ ਦੀ ਸਪੀਡ ਨੂੰ ਲਗਭਗ 5% ਤੱਕ ਵਧਾ ਦਿੰਦੀ ਹੈ।"
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "ਪੇਸ਼ ਹਨ ਕਾਲ ਲਿੰਕ: ਕੈਲੰਡਰ ਦੇ ਸੱਦੇ ਅਤੇ ਅਚਾਨਕ ਰੱਖੀਆਂ ਗਈਆਂ ਮੀਟਿੰਗਾਂ ਲਈ ਜ਼ਰੂਰੀ ਲਿੰਕ।"
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਤੁਰੰਤ ਆਸਾਨੀ ਨਾਲ ਲਿੰਕ ਬਣਾ ਸਕਦੇ ਹੋ ਜਿਸਦੀ ਵਰਤੋਂ Signal 'ਤੇ ਕੋਈ ਵੀ ਵਿਅਕਤੀ ਗਰੁੱਪ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਕਰ ਸਕਦਾ ਹੈ, ਉਹ ਵੀ Signal ਗਰੁੱਪ ਚੈਟ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਏ ਬਿਨਾਂ।"
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "ਕਾਲ ਲਿੰਕ ਵਾਰ-ਵਾਰ ਵਰਤੇ ਜਾ ਸਕਦੇ ਹਨ ਅਤੇ ਦੋਸਤਾਂ ਨਾਲ ਗੱਲਾਂ ਮਾਰਨ ਜਾਂ ਸਹਿਕਰਮੀਆਂ ਨਾਲ ਜ਼ਰੂਰੀ ਗੱਲਬਾਤ ਕਰਨ ਲਈ ਸਭ ਤੋਂ ਵਧੀਆ ਹਨ।"
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "ਤੁਸੀਂ ਕਾਲ ਟੈਬ ਤੋਂ ਆਪਣੇ ਕਾਲ ਲਿੰਕ ਨੂੰ ਪ੍ਰਬੰਧਿਤ, ਮਨਜ਼ੂਰੀ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਕੰਟਰੋਲ ਅਤੇ ਤੁਰੰਤ ਸਾਂਝਾ ਕਰਨ ਲਈ ਲਿੰਕ ਕਾਪੀ ਕਰ ਸਕਦੇ ਹੋ।"
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

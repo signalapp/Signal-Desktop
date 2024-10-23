@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Komputer meja mengalami ralat penyahsulitan daripada {name}, peranti {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Hantar log"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Hantar log"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Lampiran disimpan."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Tunjuk dalam folder"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Anda"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Semua mesej dalam sembang ini akan dipadamkan daripada semua peranti anda. Anda masih boleh mencari sembang ini selepas memadamkan mesej."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Padam"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Padam sembang?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Semua mesej dalam sembang ini akan dipadamkan daripada peranti ini."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Semua mesej dalam sembang ini akan dipadamkan daripada semua peranti anda."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Keluar kumpulan"
@@ -3540,7 +3555,7 @@
     "messageformat": "Memuat turun {currentSize} daripada {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Memuktamadkan pemindahan mesej..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Bersedia untuk memuat turun..."
@@ -5714,15 +5729,18 @@
     "messageformat": "Kemas kini ini meningkatkan kelajuan permulaan sekitar 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Memperkenalkan Pautan Panggilan: Penghubung yang diperlukan untuk jemputan kalendar dan perjumpaan spontan."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Anda boleh buat pautan mudah yang boleh digunakan oleh sesiapa di Signal untuk panggilan kumpulan tanpa perlu sertai sembang kumpulan Signal terlebih dahulu."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Pautan panggilan boleh diguna semula dan sesuai untuk janji temu melalui telefon dengan rakan baik atau mesyuarat mingguan dengan rakan sekerja."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Anda boleh mengurus pautan panggilan, kawal tetapan kelulusan dan salin pautan daripada tab panggilan untuk perkongsian pantas."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

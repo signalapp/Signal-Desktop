@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop ran into a decryption error from {name}, device {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Submit log"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Submit log"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Attachment saved."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Show in folder"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Ikaw"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Buburahin mula sa lahat ng devices mo ang lahat ng messages sa chat na ito. Pwede mo pa ring hanapin ang chat na ito pagkatapos mong magbura ng messages."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Burahin"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Gusto mo bang burahin ang chat?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Buburahin mula sa device na ito ang lahat ng messages sa chat na ito."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Buburahin mula sa lahat ng devices mo ang lahat ng messages sa chat na ito."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Umalis sa group"
@@ -3540,7 +3555,7 @@
     "messageformat": "Dina-download ang {currentSize} ng {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "Tinatapos ang paglilipat ng message..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Naghahandang mag-download..."
@@ -5714,15 +5729,18 @@
     "messageformat": "Pinabuti ng update na ito ang startup speed nang mga 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Ipinakikilala ang Call Links: Ang missing link para sa calendar invites at impromptu gatherings."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Makagagawa ka na ng link na pwedeng gamitin ng sinuman sa Signal para sumali sa group call nang hindi sumasali sa Signal group chat."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Reusable ang call links at ideal para sa recurring phone dates niyo ng best friends mo o sa weekly check-ins niyo ng mga katrabaho mo."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Pwede mong i-manage ang call links, kontrolin ang approval, at kopyahin ang links mula sa calls tab para mabilis ang pag-share."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

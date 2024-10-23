@@ -780,10 +780,6 @@
     "messageformat": "Desktop ran into a decryption error from {name}, device {deviceId}",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Submit log",
-    "description": "(Deleted 2024/09/19) Label for the decryption error toast button"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Submit log",
     "description": "Label for the submit log button in decryption errors or other important error types"
@@ -1064,7 +1060,7 @@
   },
   "icu:attachmentSaved": {
     "messageformat": "Attachment saved.",
-    "description": "Shown after user selects to save to downloads"
+    "description": "(Deleted 2024/10/23) Shown after user selects to save to downloads"
   },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Attachment} other {# attachments}} saved",
@@ -1332,19 +1328,19 @@
   },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Delete messages",
-    "description": "Menu item for deleting all messages in a conversation from your device"
+    "description": "(Deleted 2024/10/23) Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Delete messages?",
-    "description": "Title for confirmation modal to delete all messages in a conversation"
+    "description": "(Deleted 2024/10/23) Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
-    "description": "Description for confirmation modal to delete all messages in a conversation"
+    "description": "(Deleted 2024/10/23) Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages.",
-    "description": "Description for confirmation modal to delete all messages in a conversation"
+    "description": "(Deleted 2024/10/23) Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:deleteConversation": {
     "messageformat": "Delete",
@@ -7618,15 +7614,15 @@
   },
   "icu:WhatsNew__v7.30--header": {
     "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings.",
-    "description": "Release notes for version 7.30"
+    "description": "(Deleted 2024/10/23) Release notes for version 7.30"
   },
   "icu:WhatsNew__v7.30--0": {
     "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first.",
-    "description": "Release notes for version 7.30"
+    "description": "(Deleted 2024/10/23) Release notes for version 7.30"
   },
   "icu:WhatsNew__v7.30--1": {
     "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers.",
-    "description": "Release notes for version 7.30"
+    "description": "(Deleted 2024/10/23) Release notes for version 7.30"
   },
   "icu:WhatsNew__v7.30--2": {
     "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing.",

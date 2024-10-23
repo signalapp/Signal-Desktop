@@ -575,9 +575,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "O Signal encontrou um erro ao desencriptar uma mensagem de {name}, dispositivo {deviceId}."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Submeter relatório"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Submeter relatório"
   },
@@ -791,8 +788,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Anexo guardado."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostrar na pasta"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
   },
   "icu:you": {
     "messageformat": "Você"
@@ -1003,6 +1006,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Todas as mensagens neste chat serão eliminadas de todos os seus dispositivos. Ainda pode procurar este chat após eliminar as mensagens."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Eliminar"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Eliminar chat?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "As mensagens neste chat serão eliminadas deste dispositivo."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Todas as mensagens neste chat serão eliminadas de todos os seus dispositivos."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abandonar grupo"
@@ -3540,7 +3555,7 @@
     "messageformat": "A descarregar {currentSize} de {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Finalizing message transfer..."
+    "messageformat": "A finalizar transferência de mensagens…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "A preparar para descarregar…"
@@ -5714,15 +5729,18 @@
     "messageformat": "Esta atualização melhora a velocidade de arranque em cerca de 5%."
   },
   "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Introducing Call Links: The missing link for calendar invites and impromptu gatherings."
+    "messageformat": "Apresentamos os links de chamadas: a ligação perdida para convites de calendário e encontros à última hora."
   },
   "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first."
+    "messageformat": "Agora pode criar rapidamente um link fácil que qualquer pessoa no Signal pode usar para se juntar a uma chamada de grupo, sem ter de se juntar a um chat de grupo do Signal primeiro."
   },
   "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Call links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers."
+    "messageformat": "Os links de chamada são reutilizáveis e ideais para chamadas regulares com amigos ou para reuniões com colegas de trabalho."
   },
   "icu:WhatsNew__v7.30--2": {
-    "messageformat": "You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing."
+    "messageformat": "Pode gerir os seus links de chamadas, controlar definições de aprovação e criar links a partir do separador de chamadas para uma partilha rápida."
+  },
+  "icu:WhatsNew__v7.31--0": {
+    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }
