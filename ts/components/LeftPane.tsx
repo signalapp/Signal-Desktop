@@ -62,6 +62,7 @@ export type PropsType = {
   backupMediaDownloadProgress: {
     totalBytes: number;
     downloadedBytes: number;
+    isIdle: boolean;
     isPaused: boolean;
     downloadBannerDismissed: boolean;
   };

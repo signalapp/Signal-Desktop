@@ -22,6 +22,7 @@ import {
   AttachmentSizeError,
   type AttachmentType,
   AttachmentVariant,
+  mightBeOnBackupTier,
 } from '../types/Attachment';
 import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import {
@@ -185,7 +186,14 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       size: attachment.size,
       ciphertextSize: getAttachmentCiphertextLength(attachment.size),
       attachment,
-      source,
+      // If the attachment does not have a backupLocator, we don't want to store it as a
+      // "backup import" attachment, since it's really just a normal attachment that we'll
+      // try to download from the transit tier (or it's an invalid attachment, etc.). We
+      // may need to extend the attachment_downloads table in the future to better
+      // differentiate source vs. location.
+      source: mightBeOnBackupTier(attachment)
+        ? source
+        : AttachmentDownloadSource.STANDARD,
     });
 
     if (!parseResult.success) {
@@ -237,6 +245,13 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       messageIds
     );
   }
+
+  static async waitForIdle(callback?: VoidFunction): Promise<void> {
+    await AttachmentDownloadManager.instance.waitForIdle();
+    if (callback) {
+      callback();
+    }
+  }
 }
 
 type DependenciesType = {
@@ -284,7 +299,7 @@ async function runDownloadAttachmentJob({
       };
     }
 
-    if (job.attachment.backupLocator?.mediaName) {
+    if (mightBeOnBackupTier(job.attachment)) {
       const currentDownloadedSize =
         window.storage.get('backupMediaDownloadCompletedBytes') ?? 0;
       drop(

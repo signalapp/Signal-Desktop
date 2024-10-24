@@ -17,6 +17,7 @@ export async function resetBackupMediaDownloadItems(): Promise<void> {
     window.storage.remove('backupMediaDownloadCompletedBytes'),
     window.storage.remove('backupMediaDownloadBannerDismissed'),
     window.storage.remove('backupMediaDownloadPaused'),
+    window.storage.remove('backupMediaDownloadIdle'),
   ]);
 }
 

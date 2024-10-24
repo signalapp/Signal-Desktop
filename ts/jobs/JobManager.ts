@@ -88,6 +88,7 @@ export abstract class JobManager<CoreJobType> {
 
     this.enabled = true;
     await this.params.markAllJobsInactive();
+    await this.maybeStartJobs();
     this.tick();
   }
 
@@ -241,7 +242,7 @@ export abstract class JobManager<CoreJobType> {
         timestamp: Date.now(),
       });
 
-      if (nextJobs.length === 0) {
+      if (nextJobs.length === 0 && this.activeJobs.size === 0) {
         if (this.idleCallbacks.length > 0) {
           const callbacks = this.idleCallbacks;
           this.idleCallbacks = [];
