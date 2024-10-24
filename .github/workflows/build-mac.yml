@@ -1,0 +1,56 @@
+name: Build MacOS
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+    - run: uname -a
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+
+    - run: npm install -g npm@10.2.5
+
+    - name: Cache Desktop node_modules
+      id: cache-desktop-modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+
+    - name: Install Desktop node_modules
+      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
+      run: npm ci
+      env:
+        NPM_CONFIG_LOGLEVEL: verbose
+
+    - run: npm run generate
+    - run: npm run build
+      env:
+        DISABLE_INSPECT_FUSE: on
+        SIGN_MACOS_SCRIPT: noop.sh
+        ARTIFACTS_DIR: artifacts/macos
+
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: release/*
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
+
+    - name: Upload artifacts on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        path: artifacts
