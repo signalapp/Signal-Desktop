@@ -23,19 +23,22 @@ setEnvironment(
 process.env.NODE_ENV = getEnvironment();
 process.env.NODE_CONFIG_DIR = join(__dirname, '..', 'config');
 
-if (getEnvironment() === Environment.PackagedApp) {
-  // harden production config against the local env
-  process.env.NODE_CONFIG = '';
-  process.env.NODE_CONFIG_STRICT_MODE = '';
-  process.env.HOSTNAME = '';
-  process.env.NODE_APP_INSTANCE = '';
-  process.env.ALLOW_CONFIG_MUTATIONS = '';
-  process.env.SUPPRESS_NO_CONFIG_WARNING = '';
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
-  process.env.SIGNAL_ENABLE_HTTP = '';
-  process.env.SIGNAL_CI_CONFIG = '';
-  process.env.GENERATE_PRELOAD_CACHE = '';
-}
+// if (getEnvironment() === Environment.PackagedApp) {
+//   // harden production config against the local env
+//   process.env.NODE_CONFIG = '';
+//   process.env.NODE_CONFIG_STRICT_MODE = '';
+//   process.env.HOSTNAME = '';
+//   process.env.NODE_APP_INSTANCE = '';
+//   process.env.ALLOW_CONFIG_MUTATIONS = '';
+//   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
+//   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
+//   process.env.SIGNAL_ENABLE_HTTP = '';
+//   process.env.SIGNAL_CI_CONFIG = '';
+//   process.env.GENERATE_PRELOAD_CACHE = '';
+// }
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+process.env.SIGNAL_ENABLE_HTTP = 1;
 
 // We load config after we've made our modifications to NODE_ENV
 // Note: we use `require()` because esbuild moves the imports to the top of
