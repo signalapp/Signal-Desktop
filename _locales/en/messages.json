@@ -4787,6 +4787,14 @@
     "messageformat": "Restore paused",
     "description": "Label indicating media (attachment) download progress has been paused (due to user interaction)"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored",
+    "description": "Label indicating media (attachment) download progress"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background",
+    "description": "Description text when attachment download is idle, and will continue in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pause transfer",
     "description": "Text for button to pause media (attachment) download after backup impor"

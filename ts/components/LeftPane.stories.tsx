@@ -139,6 +139,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     },
     backupMediaDownloadProgress: {
       downloadBannerDismissed: false,
+      isIdle: false,
       isPaused: false,
       totalBytes: 0,
       downloadedBytes: 0,

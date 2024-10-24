@@ -14,6 +14,7 @@ export type PropsType = Readonly<{
   i18n: LocalizerType;
   downloadedBytes: number;
   totalBytes: number;
+  isIdle: boolean;
   isPaused: boolean;
   handleCancel: VoidFunction;
   handleClose: VoidFunction;
@@ -25,6 +26,7 @@ export function BackupMediaDownloadProgress({
   i18n,
   downloadedBytes,
   totalBytes,
+  isIdle,
   isPaused,
   handleCancel: handleConfirmedCancel,
   handleClose,
@@ -45,31 +47,57 @@ export function BackupMediaDownloadProgress({
     downloadedBytes / totalBytes
   );
 
+  const closeButton = (
+    <button
+      type="button"
+      onClick={handleClose}
+      className="BackupMediaDownloadProgress__button-close"
+      aria-label={i18n('icu:close')}
+    />
+  );
+
   let content: JSX.Element | undefined;
   let icon: JSX.Element | undefined;
   let actionButton: JSX.Element | undefined;
   if (fractionComplete === 1) {
-    icon = <div className="BackupMediaDownloadProgress__icon--complete" />;
+    icon = (
+      <div className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--complete" />
+    );
     content = (
       <>
         <div className="BackupMediaDownloadProgress__title">
           {i18n('icu:BackupMediaDownloadProgress__title-complete')}
         </div>
-        <div className="BackupMediaDownloadProgress__progressbar-hint">
+        <div className="BackupMediaDownloadProgress__description">
           {formatFileSize(downloadedBytes)}
         </div>
       </>
     );
-    actionButton = (
-      <button
-        type="button"
-        onClick={handleClose}
-        className="BackupMediaDownloadProgress__button-close"
-        aria-label={i18n('icu:close')}
-      />
+    actionButton = closeButton;
+  } else if (isIdle && !isPaused) {
+    icon = (
+      <div className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--idle" />
     );
+    content = (
+      <>
+        <div className="BackupMediaDownloadProgress__title">
+          {i18n('icu:BackupMediaDownloadProgress__title-idle', {
+            currentSize: formatFileSize(downloadedBytes),
+            totalSize: formatFileSize(totalBytes),
+          })}
+        </div>
+        <div className="BackupMediaDownloadProgress__description">
+          {i18n('icu:BackupMediaDownloadProgress__description-idle')}
+        </div>
+      </>
+    );
+    actionButton = closeButton;
   } else {
-    icon = <ProgressCircle fractionComplete={fractionComplete} />;
+    icon = (
+      <div className="BackupMediaDownloadProgress__icon">
+        <ProgressCircle fractionComplete={fractionComplete} />
+      </div>
+    );
 
     if (isPaused) {
       content = (
@@ -94,7 +122,7 @@ export function BackupMediaDownloadProgress({
             {i18n('icu:BackupMediaDownloadProgress__title-in-progress')}
           </div>
 
-          <div className="BackupMediaDownloadProgress__progressbar-hint">
+          <div className="BackupMediaDownloadProgress__description">
             {i18n('icu:BackupMediaDownloadProgress__progressbar-hint', {
               currentSize: formatFileSize(downloadedBytes),
               totalSize: formatFileSize(totalBytes),

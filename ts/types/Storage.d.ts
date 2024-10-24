@@ -147,6 +147,7 @@ export type StorageAccessType = {
   backupMediaDownloadCompletedBytes: number;
   backupMediaDownloadPaused: boolean;
   backupMediaDownloadBannerDismissed: boolean;
+  backupMediaDownloadIdle: boolean;
   setBackupSignatureKey: boolean;
   lastReceivedAtCounter: number;
   preferredReactionEmoji: ReadonlyArray<string>;

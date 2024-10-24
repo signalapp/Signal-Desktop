@@ -45,6 +45,14 @@ export function Paused(args: PropsType): JSX.Element {
   return <BackupMediaDownloadProgress {...args} isPaused />;
 }
 
+export function Idle(args: PropsType): JSX.Element {
+  return <BackupMediaDownloadProgress {...args} isIdle />;
+}
+
+export function PausedAndIdle(args: PropsType): JSX.Element {
+  return <BackupMediaDownloadProgress {...args} isPaused isIdle />;
+}
+
 export function Complete(args: PropsType): JSX.Element {
   return (
     <BackupMediaDownloadProgress {...args} downloadedBytes={args.totalBytes} />

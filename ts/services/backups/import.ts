@@ -109,6 +109,7 @@ import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { loadAllAndReinitializeRedux } from '../allLoaders';
 import { resetBackupMediaDownloadProgress } from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
+import { drop } from '../../util/drop';
 
 const MAX_CONCURRENCY = 10;
 
@@ -339,6 +340,11 @@ export class BackupImportStream extends Writable {
         !isTestEnvironment(getEnvironment())
       ) {
         await AttachmentDownloadManager.start();
+        drop(
+          AttachmentDownloadManager.waitForIdle(async () => {
+            await window.storage.put('backupMediaDownloadIdle', true);
+          })
+        );
       }
 
       done();
