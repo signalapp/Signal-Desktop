@@ -105,7 +105,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   hangUpActiveCall: action('hang-up-active-call'),
   hasInitialLoadCompleted: true,
   i18n,
-  incomingCall: null,
+  ringingCall: null,
   callLink: storyProps.callLink ?? undefined,
   me: {
     ...getDefaultConversation({
@@ -148,7 +148,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
     'toggle-screen-recording-permissions-dialog'
   ),
   toggleSettings: action('toggle-settings'),
-  isConversationTooBigToRing: false,
   pauseVoiceNotePlayer: action('pause-audio-player'),
 });
 
@@ -243,7 +242,7 @@ export function RingingDirectCall(): JSX.Element {
   return (
     <CallManager
       {...createProps({
-        incomingCall: {
+        ringingCall: {
           callMode: CallMode.Direct as const,
           conversation: getConversation(),
           isVideoCall: true,
@@ -257,7 +256,7 @@ export function RingingGroupCall(): JSX.Element {
   return (
     <CallManager
       {...createProps({
-        incomingCall: {
+        ringingCall: {
           callMode: CallMode.Group as const,
           connectionState: GroupCallConnectionState.NotConnected,
           joinState: GroupCallJoinState.NotJoined,
