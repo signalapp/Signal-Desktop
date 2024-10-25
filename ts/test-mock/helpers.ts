@@ -367,3 +367,59 @@ export async function waitForEnabledComposer(page: Page): Promise<Locator> {
 
   return composeContainer.locator('.ql-editor');
 }
+
+export async function createCallLink(
+  page: Page,
+  {
+    name,
+    isAdminApprovalRequired = undefined,
+  }: { name: string; isAdminApprovalRequired?: boolean | undefined }
+): Promise<string | undefined> {
+  await page.locator('[data-testid="NavTabsItem--Calls"]').click();
+  await page.locator('.NavSidebar__HeaderTitle').getByText('Calls').waitFor();
+
+  await page
+    .locator('.CallsList__ItemTile')
+    .getByText('Create a Call Link')
+    .click();
+
+  const editModal = page.locator('.CallLinkEditModal');
+  await editModal.waitFor();
+
+  if (isAdminApprovalRequired !== undefined) {
+    const restrictionsInput = editModal.getByLabel('Require admin approval');
+    if (isAdminApprovalRequired) {
+      await expect(restrictionsInput).toHaveJSProperty('value', '0');
+      await restrictionsInput.selectOption({ label: 'On' });
+      await expect(restrictionsInput).toHaveJSProperty('value', '1');
+    } else {
+      await expect(restrictionsInput).toHaveJSProperty('value', '0');
+    }
+  }
+
+  await editModal.locator('button', { hasText: 'Add call name' }).click();
+
+  const addNameModal = page.locator('.CallLinkAddNameModal');
+  await addNameModal.waitFor();
+
+  const nameInput = addNameModal.getByLabel('Call name');
+  await nameInput.fill(name);
+
+  const saveBtn = addNameModal.getByText('Save');
+  await saveBtn.click();
+
+  await editModal.waitFor();
+
+  const doneBtn = editModal.getByText('Done');
+  await doneBtn.click();
+
+  const callLinkTitle = await page
+    .locator('.CallsList__ItemTile')
+    .getByText(name);
+
+  const callLinkItem = await page.locator('.CallsList__Item', {
+    has: callLinkTitle,
+  });
+  const testId = await callLinkItem.getAttribute('data-testid');
+  return testId || undefined;
+}

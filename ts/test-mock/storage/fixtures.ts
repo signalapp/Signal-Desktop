@@ -12,12 +12,14 @@ import { StorageState, Proto } from '@signalapp/mock-server';
 import path from 'path';
 import fs from 'fs/promises';
 import { range } from 'lodash';
+import { CallLinkRootKey } from '@signalapp/ringrtc';
 import { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import type { BootstrapOptions } from '../bootstrap';
 import { MY_STORY_ID } from '../../types/Stories';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { artAddStickersRoute } from '../../util/signalRoutes';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 
 export const debug = createDebug('mock:test:storage');
 
@@ -205,4 +207,18 @@ export async function storeStickerPacks(
       });
     })
   );
+}
+
+export function getCallLinkRecordPredicate(
+  roomId: string
+): (record: StorageStateRecord) => boolean {
+  return ({ type, record }: StorageStateRecord): boolean => {
+    const rootKeyBytes = record.callLink?.rootKey;
+    if (type !== IdentifierType.CALL_LINK || rootKeyBytes == null) {
+      return false;
+    }
+    const recordRootKey = CallLinkRootKey.fromBytes(Buffer.from(rootKeyBytes));
+    const recordRoomId = getRoomIdFromRootKey(recordRootKey);
+    return roomId === recordRoomId;
+  };
 }
