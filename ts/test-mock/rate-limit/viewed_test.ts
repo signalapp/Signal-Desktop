@@ -259,7 +259,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     }
   });
 
-  it('should show a toast and not another challenge if completion results in 413', async () => {
+  it('if server rejects our captcha, should show a toast and defer challenge based on error code', async () => {
     const { server, desktop } = bootstrap;
 
     debug(
@@ -296,21 +296,47 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       await input.press('Enter');
     }
 
+    /** First, challenge returns 428 (try again) */
     debug('Waiting for challenge');
-    const request = await app.waitForChallenge();
+    const firstChallengeRequest = await app.waitForChallenge();
+    const challengeDialog = await window
+      .getByTestId('CaptchaDialog.pending')
+      .elementHandle();
+
+    assert.exists(challengeDialog);
+    server.respondToChallengesWith(428);
+
+    debug('Solving challenge');
+    await app.solveChallenge({
+      seq: firstChallengeRequest.seq,
+      data: { captcha: 'anything' },
+    });
+
+    debug('Waiting for verification failure toast');
+    const failedChallengeToastLocator = window.locator(
+      '.Toast__content >> "Verification failed. Please retry later."'
+    );
+    await failedChallengeToastLocator.isVisible();
+    // The existing dialog is removed, but then the conversations will retry their sends,
+    // which will result in another one
+    await challengeDialog.isHidden();
+
+    /** Second, challenge returns 413 (rate limit) */
+    debug(
+      'Waiting for second challenge, should be triggered quickly with the sends being retried'
+    );
+    const secondChallengeRequest = await app.waitForChallenge();
 
     server.respondToChallengesWith(413);
 
     debug('Solving challenge');
     await app.solveChallenge({
-      seq: request.seq,
+      seq: secondChallengeRequest.seq,
       data: { captcha: 'anything' },
     });
 
     debug('Waiting for verification failure toast');
-    await window
-      .locator('.Toast__content >> "Verification failed. Please retry later."')
-      .isVisible();
+    await failedChallengeToastLocator.isVisible();
 
     debug('Sending another message - this time it should not trigger captcha!');
     {
@@ -346,8 +372,8 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     debug('Checking for no other captcha dialogs');
     assert.equal(
       await app.getPendingEventCount('captchaDialog'),
-      1,
-      'Just one captcha dialog, the first one'
+      2,
+      'Just two captcha dialogs, the first one, and the one after the 428'
     );
 
     const requests = server.stopRateLimiting({
@@ -356,7 +382,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     });
 
     debug(`Rate-limited requests: ${requests}`);
-    assert.strictEqual(requests, 1, 'rate limit requests');
+    assert.strictEqual(requests, 2, 'rate limit requests');
 
     const requestsContactB = server.stopRateLimiting({
       source: desktop.aci,
