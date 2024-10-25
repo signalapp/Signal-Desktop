@@ -14,15 +14,15 @@
 
 import { assertDev } from './util/assert';
 import { isOlderThan } from './util/timestamp';
-import { parseRetryAfterWithDefault } from './util/parseRetryAfter';
 import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary';
 import { missingCaseError } from './util/missingCaseError';
 import type { StorageInterface } from './types/Storage.d';
 import * as Errors from './types/errors';
-import { HTTPError } from './textsecure/Errors';
-import type { SendMessageChallengeData } from './textsecure/Errors';
+import { HTTPError, type SendMessageChallengeData } from './textsecure/Errors';
 import * as log from './logging/log';
 import { drop } from './util/drop';
+import { findRetryAfterTimeFromError } from './jobs/helpers/findRetryAfterTimeFromError';
+import { MINUTE } from './util/durations';
 
 export type ChallengeResponse = Readonly<{
   captcha: string;
@@ -425,59 +425,53 @@ export class ChallengeHandler {
     log.info(`challenge(${reason}): sending challenge to server`);
 
     try {
-      await this.sendChallengeResponse({
+      await this.options.sendChallengeResponse({
         type: 'captcha',
         token: lastToken,
         captcha,
       });
     } catch (error) {
+      // If we get an error back from server after solving a captcha, it could be that we
+      // are rate-limited (413, 429), that we need to solve another captcha (428), or any
+      // other possible 4xx, 5xx error.
+
+      // In general, unless we're being rate-limited, we don't want to wait to show
+      // another captcha: this may be a time-critical situation (e.g. user is in a call),
+      // and if the server 500s, for instance, we  want to allow the user to immediately
+      // try again.
+      let defaultRetryAfter = 0;
+
+      if (error instanceof HTTPError) {
+        if ([413, 429].includes(error.code)) {
+          // These rate-limit codes should have a retry-after in the response, but just in
+          // case, let's wait a minute
+          defaultRetryAfter = MINUTE;
+        }
+      }
+
+      const retryAfter = findRetryAfterTimeFromError(error, defaultRetryAfter);
+
       log.error(
-        `challenge(${reason}): challenge failure, error:`,
+        `challenge(${reason}): challenge solve failure; will retry after ${retryAfter}ms; error:`,
         Errors.toLogFormat(error)
       );
-      if (error.code === 413 || error.code === 429) {
-        this.options.setChallengeStatus('idle');
-      } else {
-        this.options.setChallengeStatus('required');
-      }
-      this.solving -= 1;
+
+      const retryAt = retryAfter + Date.now();
+
+      // Remove the challenge dialog, and trigger the conversationJobQueue to retry the
+      // sends, which will likely trigger another captcha
+      this.options.setChallengeStatus('idle');
+      this.options.onChallengeFailed(retryAfter);
+      this.forceWaitOnAll(retryAt);
       return;
+    } finally {
+      this.solving -= 1;
     }
 
     log.info(`challenge(${reason}): challenge success. force sending`);
 
     this.options.setChallengeStatus('idle');
-
-    this.startAllQueues({ force: true });
-    this.solving -= 1;
-  }
-
-  private async sendChallengeResponse(data: ChallengeData): Promise<void> {
-    try {
-      await this.options.sendChallengeResponse(data);
-    } catch (error) {
-      if (
-        !(error instanceof HTTPError) ||
-        !(error.code === 413 || error.code === 429) ||
-        !error.responseHeaders
-      ) {
-        this.options.onChallengeFailed();
-        throw error;
-      }
-
-      const retryAfter = parseRetryAfterWithDefault(
-        error.responseHeaders['retry-after']
-      );
-
-      log.info(`challenge: retry after ${retryAfter}ms`);
-      const retryAt = retryAfter + Date.now();
-      this.forceWaitOnAll(retryAt);
-
-      this.options.onChallengeFailed(retryAfter);
-
-      throw error;
-    }
-
     this.options.onChallengeSolved();
+    this.startAllQueues({ force: true });
   }
 }
