@@ -506,10 +506,6 @@ async function doGetProfile(
     if (request.accessKey != null || request.groupSendToken != null) {
       profile = await messaging.server.getProfileUnauth(serviceId, request);
     } else {
-      strictAssert(
-        !isMe(c.attributes),
-        `${logId}: Should never fetch own profile on auth connection`
-      );
       profile = await messaging.server.getProfile(serviceId, request);
     }
   } catch (error) {
