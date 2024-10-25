@@ -13,14 +13,13 @@ import { CallingPip } from './CallingPip';
 import { IncomingCallBar } from './IncomingCallBar';
 import type {
   ActiveCallType,
-  CallingConversationType,
   CallViewMode,
+  GroupCallConnectionState,
   GroupCallVideoRequest,
 } from '../types/Calling';
 import {
   CallEndedReason,
   CallState,
-  GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
 import { CallMode } from '../types/CallDisposition';
@@ -90,7 +89,7 @@ export type PropsType = {
   ) => VideoFrameSource;
   getIsSharingPhoneNumberWithEverybody: () => boolean;
   getPresentingSources: () => void;
-  incomingCall: DirectIncomingCall | GroupIncomingCall | null;
+  ringingCall: DirectIncomingCall | GroupIncomingCall | null;
   renderDeviceSelection: () => JSX.Element;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
@@ -140,7 +139,6 @@ export type PropsType = {
   toggleCallLinkPendingParticipantModal: (contactId: string) => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
-  isConversationTooBigToRing: boolean;
   pauseVoiceNotePlayer: () => void;
 } & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
@@ -153,9 +151,9 @@ type ActiveCallManagerPropsType = {
   | 'bounceAppIconStop'
   | 'declineCall'
   | 'hasInitialLoadCompleted'
-  | 'incomingCall'
   | 'notifyForCall'
   | 'playRingtone'
+  | 'ringingCall'
   | 'setIsCallActive'
   | 'stopRingtone'
   | 'isConversationTooBigToRing'
@@ -544,8 +542,6 @@ export function CallManager({
   hangUpActiveCall,
   hasInitialLoadCompleted,
   i18n,
-  incomingCall,
-  isConversationTooBigToRing,
   getIsSharingPhoneNumberWithEverybody,
   me,
   notifyForCall,
@@ -556,6 +552,7 @@ export function CallManager({
   renderDeviceSelection,
   renderEmojiPicker,
   renderReactionPicker,
+  ringingCall,
   selectPresentingSource,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
@@ -583,16 +580,13 @@ export function CallManager({
     setIsCallActive(isCallActive);
   }, [isCallActive, setIsCallActive]);
 
-  const shouldRing = getShouldRing({
-    activeCall,
-    incomingCall,
-    isConversationTooBigToRing,
-    hasInitialLoadCompleted,
-  });
+  // It's important not to use the ringingCall itself, because that changes
+  const ringingCallId = ringingCall?.conversation.id;
   useEffect(() => {
-    if (shouldRing) {
+    if (hasInitialLoadCompleted && ringingCallId) {
       log.info('CallManager: Playing ringtone');
       playRingtone();
+
       return () => {
         log.info('CallManager: Stopping ringtone');
         stopRingtone();
@@ -601,7 +595,7 @@ export function CallManager({
 
     stopRingtone();
     return noop;
-  }, [shouldRing, playRingtone, stopRingtone]);
+  }, [hasInitialLoadCompleted, playRingtone, ringingCallId, stopRingtone]);
 
   const mightBeRingingOutgoingGroupCall =
     isGroupOrAdhocActiveCall(activeCall) &&
@@ -680,7 +674,7 @@ export function CallManager({
   }
 
   // In the future, we may want to show the incoming call bar when a call is active.
-  if (incomingCall) {
+  if (ringingCall) {
     return (
       <IncomingCallBar
         acceptCall={acceptCall}
@@ -689,107 +683,10 @@ export function CallManager({
         declineCall={declineCall}
         i18n={i18n}
         notifyForCall={notifyForCall}
-        {...incomingCall}
+        {...ringingCall}
       />
     );
   }
 
   return null;
-}
-
-function isRinging(callState: CallState | undefined): boolean {
-  return callState === CallState.Prering || callState === CallState.Ringing;
-}
-
-function isConnected(connectionState: GroupCallConnectionState): boolean {
-  return (
-    connectionState === GroupCallConnectionState.Connecting ||
-    connectionState === GroupCallConnectionState.Connected
-  );
-}
-
-function isJoined(joinState: GroupCallJoinState): boolean {
-  return joinState !== GroupCallJoinState.NotJoined;
-}
-
-function hasRemoteParticipants(
-  remoteParticipants: Array<GroupCallParticipantInfoType>
-): boolean {
-  return remoteParticipants.length > 0;
-}
-
-function isLonelyGroup(conversation: CallingConversationType): boolean {
-  return (conversation.sortedGroupMembers?.length ?? 0) < 2;
-}
-
-function getShouldRing({
-  activeCall,
-  incomingCall,
-  isConversationTooBigToRing,
-  hasInitialLoadCompleted,
-}: Readonly<
-  Pick<
-    PropsType,
-    | 'activeCall'
-    | 'incomingCall'
-    | 'isConversationTooBigToRing'
-    | 'hasInitialLoadCompleted'
-  >
->): boolean {
-  if (!hasInitialLoadCompleted) {
-    return false;
-  }
-
-  if (incomingCall != null) {
-    // don't ring a large group
-    if (isConversationTooBigToRing) {
-      return false;
-    }
-
-    if (activeCall != null) {
-      return false;
-    }
-
-    if (incomingCall.callMode === CallMode.Direct) {
-      return (
-        isRinging(incomingCall.callState) &&
-        incomingCall.callEndedReason == null
-      );
-    }
-
-    if (incomingCall.callMode === CallMode.Group) {
-      return (
-        !isConnected(incomingCall.connectionState) &&
-        !isJoined(incomingCall.joinState) &&
-        !isLonelyGroup(incomingCall.conversation)
-      );
-    }
-
-    // Adhoc calls can't be incoming.
-
-    throw missingCaseError(incomingCall);
-  }
-
-  if (activeCall != null) {
-    switch (activeCall.callMode) {
-      case CallMode.Direct:
-        return (
-          activeCall.callState === CallState.Prering ||
-          activeCall.callState === CallState.Ringing
-        );
-      case CallMode.Group:
-      case CallMode.Adhoc:
-        return (
-          activeCall.outgoingRing &&
-          isConnected(activeCall.connectionState) &&
-          isJoined(activeCall.joinState) &&
-          !hasRemoteParticipants(activeCall.remoteParticipants) &&
-          !isLonelyGroup(activeCall.conversation)
-        );
-      default:
-        throw missingCaseError(activeCall);
-    }
-  }
-
-  return false;
 }

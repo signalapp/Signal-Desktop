@@ -17,7 +17,7 @@ import {
   getCallsByConversation,
   getCallSelector,
   getHasAnyAdminCallLinks,
-  getIncomingCall,
+  getRingingCall,
   isInCall,
 } from '../../../state/selectors/calling';
 import type {
@@ -181,15 +181,15 @@ describe('state/selectors/calling', () => {
     });
   });
 
-  describe('getIncomingCall', () => {
+  describe('getRingingCall', () => {
     it('returns undefined if there are no calls', () => {
-      assert.isUndefined(getIncomingCall(getEmptyRootState()));
+      assert.isUndefined(getRingingCall(getEmptyRootState()));
     });
 
     it('returns undefined if there is no incoming call', () => {
-      assert.isUndefined(getIncomingCall(getCallingState(stateWithDirectCall)));
+      assert.isUndefined(getRingingCall(getCallingState(stateWithDirectCall)));
       assert.isUndefined(
-        getIncomingCall(getCallingState(stateWithActiveDirectCall))
+        getRingingCall(getCallingState(stateWithActiveDirectCall))
       );
     });
 
@@ -209,19 +209,19 @@ describe('state/selectors/calling', () => {
         },
       };
 
-      assert.isUndefined(getIncomingCall(getCallingState(state)));
+      assert.isUndefined(getRingingCall(getCallingState(state)));
     });
 
     it('returns an incoming direct call', () => {
       assert.deepEqual(
-        getIncomingCall(getCallingState(stateWithIncomingDirectCall)),
+        getRingingCall(getCallingState(stateWithIncomingDirectCall)),
         incomingDirectCall
       );
     });
 
     it('returns an incoming group call', () => {
       assert.deepEqual(
-        getIncomingCall(getCallingState(stateWithIncomingGroupCall)),
+        getRingingCall(getCallingState(stateWithIncomingGroupCall)),
         incomingGroupCall
       );
     });
