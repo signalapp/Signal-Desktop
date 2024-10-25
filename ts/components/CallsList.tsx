@@ -839,6 +839,7 @@ export function CallsList({
           key={key}
           style={style}
           data-type={item.type}
+          data-testid={item.peerId}
           className={classNames('CallsList__Item', {
             'CallsList__Item--selected': isSelected,
             'CallsList__Item--missed': wasMissed,
