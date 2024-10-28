@@ -83,6 +83,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
 
     downloadManager = new AttachmentDownloadManager({
       ...AttachmentDownloadManager.defaultParams,
+      saveJob: DataWriter.saveAttachmentDownloadJob,
       shouldHoldOffOnStartingQueuedJobs: isInCall,
       runDownloadAttachmentJob: runJob,
       getRetryConfig: () => ({

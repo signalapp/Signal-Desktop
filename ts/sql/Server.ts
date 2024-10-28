@@ -486,6 +486,7 @@ export const DataWriter: ServerWritableInterface = {
 
   getNextAttachmentDownloadJobs,
   saveAttachmentDownloadJob,
+  saveAttachmentDownloadJobs,
   resetAttachmentDownloadActive,
   removeAttachmentDownloadJob,
   removeAllBackupAttachmentDownloadJobs,
@@ -4998,6 +4999,17 @@ function getNextAttachmentDownloadJobs(
     }
     throw error;
   }
+}
+
+function saveAttachmentDownloadJobs(
+  db: WritableDB,
+  jobs: Array<AttachmentDownloadJobType>
+): void {
+  db.transaction(() => {
+    for (const job of jobs) {
+      saveAttachmentDownloadJob(db, job);
+    }
+  })();
 }
 
 function saveAttachmentDownloadJob(

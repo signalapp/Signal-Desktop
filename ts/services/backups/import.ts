@@ -110,6 +110,7 @@ import { loadAllAndReinitializeRedux } from '../allLoaders';
 import { resetBackupMediaDownloadProgress } from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { drop } from '../../util/drop';
+import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 
 const MAX_CONCURRENCY = 10;
 
@@ -519,6 +520,8 @@ export class BackupImportStream extends Writable {
       ourAci,
     });
 
+    const attachmentDownloadJobPromises: Array<Promise<unknown>> = [];
+
     // TODO (DESKTOP-7402): consider re-saving after updating the pending state
     for (const attributes of batch) {
       const { editHistory } = attributes;
@@ -539,11 +542,16 @@ export class BackupImportStream extends Writable {
         );
       }
 
-      // eslint-disable-next-line no-await-in-loop
-      await queueAttachmentDownloads(attributes, {
-        source: AttachmentDownloadSource.BACKUP_IMPORT,
-      });
+      if (hasAttachmentDownloads(attributes)) {
+        attachmentDownloadJobPromises.push(
+          queueAttachmentDownloads(attributes, {
+            source: AttachmentDownloadSource.BACKUP_IMPORT,
+          })
+        );
+      }
     }
+    await Promise.all(attachmentDownloadJobPromises);
+    await AttachmentDownloadManager.saveBatchedJobs();
   }
 
   private async saveCallHistory(
