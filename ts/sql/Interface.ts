@@ -863,6 +863,7 @@ type WritableInterface = {
     timestamp?: number;
   }) => Array<AttachmentDownloadJobType>;
   saveAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
+  saveAttachmentDownloadJobs: (jobs: Array<AttachmentDownloadJobType>) => void;
   resetAttachmentDownloadActive: () => void;
   removeAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
   removeAllBackupAttachmentDownloadJobs: () => void;
