@@ -12,8 +12,9 @@ import z from 'zod';
 import * as rimraf from 'rimraf';
 import LRU from 'lru-cache';
 import {
+  DigestingPassThrough,
   inferChunkSize,
-  DigestingWritable,
+  ValidatingPassThrough,
 } from '@signalapp/libsignal-client/dist/incremental_mac';
 import { RangeFinder, DefaultStorage } from '@indutny/range-finder';
 import {
@@ -49,7 +50,6 @@ import { safeParseInteger } from '../ts/util/numbers';
 import { SECOND } from '../ts/util/durations';
 import { drop } from '../ts/util/drop';
 import { strictAssert } from '../ts/util/assert';
-import { ValidatingPassThrough } from '../ts/util/ValidatingPassThrough';
 import { toWebStream } from '../ts/util/toWebStream';
 import {
   isImageTypeSupported,
@@ -115,7 +115,10 @@ async function safeDecryptToSink(
     let entry = digestLRU.get(ctx.path);
     if (!entry) {
       const key = randomBytes(32);
-      const writable = new DigestingWritable(key, chunkSize);
+      const digester = new DigestingPassThrough(key, chunkSize);
+
+      // Important to do this so the pipeline() returns in the decrypt call below
+      digester.resume();
 
       const controller = new AbortController();
 
@@ -124,7 +127,7 @@ async function safeDecryptToSink(
         // to handle errors on `sink` while generating digest in case whole
         // request get cancelled early.
         once(sink, 'non-error-event', { signal: controller.signal }),
-        decryptAttachmentV2ToSink(options, writable),
+        decryptAttachmentV2ToSink(options, digester),
       ]);
 
       // Stop handling errors on sink
@@ -132,7 +135,7 @@ async function safeDecryptToSink(
 
       entry = {
         key,
-        digest: writable.getFinalDigest(),
+        digest: digester.getFinalDigest(),
       };
       digestLRU.set(ctx.path, entry);
     }
