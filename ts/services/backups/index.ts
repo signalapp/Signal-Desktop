@@ -268,6 +268,8 @@ export class BackupsService {
   ): Promise<void> {
     strictAssert(!this.isRunning, 'BackupService is already running');
 
+    window.IPC.startTrackingQueryStats();
+
     log.info(`importBackup: starting ${backupType}...`);
     this.isRunning = true;
 
@@ -354,7 +356,7 @@ export class BackupsService {
       throw error;
     } finally {
       this.isRunning = false;
-
+      window.IPC.stopTrackingQueryStats({ epochName: 'Backup Import' });
       if (window.SignalCI) {
         window.SignalCI.handleEvent('backupImportComplete', null);
       }

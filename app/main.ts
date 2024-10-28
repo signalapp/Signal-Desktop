@@ -1066,6 +1066,14 @@ ipc.on('show-window', () => {
   showWindow();
 });
 
+ipc.on('start-tracking-query-stats', () => {
+  sql.startTrackingQueryStats();
+});
+
+ipc.on('stop-tracking-query-stats', (_event, options) => {
+  sql.stopTrackingQueryStats(options);
+});
+
 ipc.on('title-bar-double-click', () => {
   if (!mainWindow) {
     return;
@@ -2109,7 +2117,7 @@ app.on('ready', async () => {
     innerLogger.info('Processed count:', processedCount);
     innerLogger.info('Messages per second:', messagesPerSec);
 
-    sql.stopTrackingQueryStats();
+    sql.stopTrackingQueryStats({ epochName: 'App Load' });
 
     event.sender.send('ci:event', 'app-loaded', {
       loadTime,
