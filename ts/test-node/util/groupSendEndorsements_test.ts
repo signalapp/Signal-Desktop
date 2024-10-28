@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import assert from 'node:assert/strict';
-import { isValidGroupSendEndorsementsExpiration } from '../../util/groupSendEndorsements';
+import { validateGroupSendEndorsementsExpiration } from '../../util/groupSendEndorsements';
 import { DAY, HOUR, SECOND } from '../../util/durations';
 
 describe('groupSendEndorsements', () => {
-  describe('isValidGroupSendEndorsementsExpiration', () => {
+  describe('validateGroupSendEndorsementsExpiration', () => {
     function validateDistance(distance: number) {
       const expiration = Date.now() + distance;
-      return isValidGroupSendEndorsementsExpiration(expiration);
+      return validateGroupSendEndorsementsExpiration(expiration);
     }
 
     function checkValid(label: string, distance: number) {

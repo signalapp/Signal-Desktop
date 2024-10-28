@@ -129,13 +129,13 @@ function logServiceIds(list: Iterable<string>) {
   return `${items.slice(0, 4).join(', ')}, and ${items.length - 4} others`;
 }
 
-export type EndorsementsExpirationValidationResult =
+export type ValidationResult =
   | { valid: true; reason?: never }
   | { valid: false; reason: string };
 
-export function isValidGroupSendEndorsementsExpiration(
+export function validateGroupSendEndorsementsExpiration(
   expiration: number
-): EndorsementsExpirationValidationResult {
+): ValidationResult {
   const expSeconds = DurationInSeconds.fromMillis(expiration);
   const nowSeconds = DurationInSeconds.fromMillis(Date.now());
   const info = `now: ${nowSeconds}, exp: ${expSeconds}`;
@@ -202,10 +202,13 @@ export class GroupSendEndorsementState {
     );
 
     const expiration = this.getExpiration();
+    const result = validateGroupSendEndorsementsExpiration(
+      expiration.getTime()
+    );
 
     strictAssert(
-      isValidGroupSendEndorsementsExpiration(expiration.getTime()),
-      `${this.#logId}: toToken: Cannot build token with invalid expiration`
+      result.valid,
+      `${this.#logId}: toToken: Endorsements are expired (${result.reason})`
     );
 
     const fullToken = endorsement.toFullToken(groupSecretParams, expiration);
@@ -341,69 +344,91 @@ type MaybeCreateGroupSendEndorsementStateResult =
   | { state: GroupSendEndorsementState; didRefreshGroupState: false }
   | { state: null; didRefreshGroupState: boolean };
 
+function validateGroupSendEndorsements(
+  members: Set<ServiceIdString>,
+  state: GroupSendEndorsementState | null
+): ValidationResult {
+  // Check if we should have endorsements (pending members should not)
+  if (state == null) {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    if (members.has(ourAci)) {
+      return { valid: false, reason: 'missing all endorsements' };
+    }
+    return { valid: true };
+  }
+
+  // Check for expired endorsements
+  const expiration = state.getExpiration().getTime();
+  const expirationResult = validateGroupSendEndorsementsExpiration(expiration);
+  if (!expirationResult.valid) {
+    return { valid: false, reason: expirationResult.reason };
+  }
+
+  // Check for missing endorsements
+  const missing = new Set<ServiceIdString>();
+  for (const member of members) {
+    if (!state.hasMember(member)) {
+      missing.add(member);
+    }
+  }
+  if (missing.size > 0) {
+    return {
+      valid: false,
+      reason: `missing ${missing.size} endorsements (${logServiceIds(missing)})`,
+    };
+  }
+
+  return { valid: true };
+}
+
 export async function maybeCreateGroupSendEndorsementState(
   groupId: string,
   alreadyRefreshedGroupState: boolean
 ): Promise<MaybeCreateGroupSendEndorsementStateResult> {
+  const logId = `maybeCreateGroupSendEndorsementState/groupv2(${groupId})`;
+
   const conversation = window.ConversationController.get(groupId);
-  strictAssert(
-    conversation != null,
-    'maybeCreateGroupSendEndorsementState: Convertion not found'
-  );
-
-  const logId = `maybeCreateGroupSendEndorsementState/${conversation.idForLogging()}`;
-
+  strictAssert(conversation != null, `${logId}: Convertion not found`);
   strictAssert(
     isGroupV2(conversation.attributes),
     `${logId}: Conversation is not groupV2`
   );
 
+  const secretParams = conversation.get('secretParams');
+  const membersV2 = conversation.get('membersV2');
+  strictAssert(secretParams, `${logId}: Must have secret params`);
+  strictAssert(membersV2, `${logId}: Must have members`);
+  const members = new Set(membersV2.map(member => member.aci));
+
   const data = await DataReader.getGroupSendEndorsementsData(groupId);
-  if (data == null) {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
-    if (conversation.isMember(ourAci)) {
-      if (!alreadyRefreshedGroupState) {
-        log.info(`${logId}: Missing endorsements for group, refreshing group`);
-        await window.waitForEmptyEventQueue();
-        await maybeUpdateGroup({ conversation, force: true });
-        return { state: null, didRefreshGroupState: true };
-      }
+  const state =
+    data != null ? new GroupSendEndorsementState(data, secretParams) : null;
 
-      onFailedToSendWithEndorsements(
-        new Error(`${logId}: Missing all endorsements for group`)
-      );
-    }
-    return { state: null, didRefreshGroupState: false };
-  }
-
-  const groupSecretParamsBase64 = conversation.get('secretParams');
-  strictAssert(groupSecretParamsBase64, `${logId}: Must have secret params`);
-
-  const groupSendEndorsementState = new GroupSendEndorsementState(
-    data,
-    groupSecretParamsBase64
-  );
-
-  const result = isValidGroupSendEndorsementsExpiration(
-    groupSendEndorsementState.getExpiration().getTime()
-  );
-
+  // Check if we need to refresh the group state.
+  const result = validateGroupSendEndorsements(members, state);
   if (!result.valid) {
+    // If we've already refreshed the group state, we should log and move on.
     if (alreadyRefreshedGroupState) {
       onFailedToSendWithEndorsements(
         new Error(
-          `${logId}: Endorsements are expired after refreshing group (${result.reason})`
+          `${logId}: Endorsements invalid after refreshing group: ${result.reason}`
         )
       );
       return { state: null, didRefreshGroupState: false };
     }
+
     log.info(
-      `${logId}: Endorsements are expired (${result.reason}), refreshing group`
+      `${logId}: Endorsements invalid, refreshing group: ${result.reason}`
     );
+
+    // Wait for all incoming messages to be processed before refreshing
+    // the group state to avoid incorrectly processing messages.
     await window.waitForEmptyEventQueue();
+
+    // Refresh the group state all allow the caller to try again.
     await maybeUpdateGroup({ conversation, force: true });
     return { state: null, didRefreshGroupState: true };
   }
 
-  return { state: groupSendEndorsementState, didRefreshGroupState: false };
+  return { state, didRefreshGroupState: false };
 }
