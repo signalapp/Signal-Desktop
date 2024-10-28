@@ -626,7 +626,7 @@ const URL_CALLS = {
   discovery: 'v1/discovery',
   getGroupAvatarUpload: 'v1/groups/avatar/form',
   getGroupCredentials: 'v1/certificate/auth/group',
-  getIceServers: 'v1/calling/relays',
+  getIceServers: 'v2/calling/relays',
   getOnboardingStoryManifest:
     'dynamic/desktop/stories/onboarding/manifest.json',
   getStickerPackUpload: 'v1/sticker/pack/form',
@@ -902,12 +902,7 @@ export type GetAccountForUsernameResultType = z.infer<
 >;
 
 export type GetIceServersResultType = Readonly<{
-  username?: string;
-  password?: string;
-  urls?: ReadonlyArray<string>;
-  urlsWithIps?: ReadonlyArray<string>;
-  hostname?: string;
-  iceServers?: ReadonlyArray<IceServerGroupType>;
+  relays?: ReadonlyArray<IceServerGroupType>;
 }>;
 
 export type IceServerGroupType = Readonly<{

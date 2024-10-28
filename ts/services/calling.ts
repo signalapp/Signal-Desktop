@@ -88,10 +88,7 @@ import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { fetchMembershipProof, getMembershipList } from '../groups';
 import type { ProcessedEnvelope } from '../textsecure/Types.d';
-import type {
-  GetIceServersResultType,
-  IceServerGroupType,
-} from '../textsecure/WebAPI';
+import type { GetIceServersResultType } from '../textsecure/WebAPI';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
 import {
@@ -3148,32 +3145,24 @@ export class CallingClass {
     function iceServerConfigToList(
       iceServerConfig: GetIceServersResultType
     ): Array<IceServer> {
-      function mapConfig(
-        iceServerGroup: GetIceServersResultType | IceServerGroupType
-      ): Array<IceServer> {
-        if (!iceServerGroup.username || !iceServerGroup.password) {
-          return [];
-        }
-
-        return [
-          {
-            hostname: iceServerGroup.hostname ?? '',
-            username: iceServerGroup.username,
-            password: iceServerGroup.password,
-            urls: (iceServerGroup.urlsWithIps ?? []).slice(),
-          },
-          {
-            hostname: '',
-            username: iceServerGroup.username,
-            password: iceServerGroup.password,
-            urls: (iceServerGroup.urls ?? []).slice(),
-          },
-        ];
+      if (!iceServerConfig.relays) {
+        return [];
       }
 
-      return [iceServerConfig]
-        .concat(iceServerConfig.iceServers ?? [])
-        .flatMap(mapConfig);
+      return iceServerConfig.relays.flatMap(iceServerGroup => [
+        {
+          hostname: iceServerGroup.hostname ?? '',
+          username: iceServerGroup.username,
+          password: iceServerGroup.password,
+          urls: (iceServerGroup.urlsWithIps ?? []).slice(),
+        },
+        {
+          hostname: '',
+          username: iceServerGroup.username,
+          password: iceServerGroup.password,
+          urls: (iceServerGroup.urls ?? []).slice(),
+        },
+      ]);
     }
 
     if (!window.textsecure.messaging) {
