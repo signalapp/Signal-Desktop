@@ -89,6 +89,8 @@ export type DesktopCapturerBaton = Readonly<{
 export class DesktopCapturer {
   private state: State;
 
+  private static getDisplayMediaPromise: Promise<MediaStream> | undefined;
+
   private static isInitialized = false;
 
   // For use as a key in weak maps
@@ -177,9 +179,15 @@ export class DesktopCapturer {
   private async getStream(): Promise<void> {
     liveCapturers.add(this);
     try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
-      });
+      // Only allow one global getDisplayMedia() request at a time
+      if (!DesktopCapturer.getDisplayMediaPromise) {
+        DesktopCapturer.getDisplayMediaPromise =
+          navigator.mediaDevices.getDisplayMedia({
+            video: true,
+          });
+      }
+      const stream = await DesktopCapturer.getDisplayMediaPromise;
+      DesktopCapturer.getDisplayMediaPromise = undefined;
 
       const videoTrack = stream.getVideoTracks()[0];
       strictAssert(videoTrack, 'videoTrack does not exist');
@@ -219,6 +227,7 @@ export class DesktopCapturer {
       this.state = { step: Step.Error };
     } finally {
       liveCapturers.delete(this);
+      DesktopCapturer.getDisplayMediaPromise = undefined;
     }
   }
 
