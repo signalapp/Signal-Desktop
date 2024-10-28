@@ -12,8 +12,10 @@ import { isNumber } from 'lodash';
 import { ensureFile } from 'fs-extra';
 import {
   chunkSizeInBytes,
+  DigestingPassThrough,
   everyNthByte,
   inferChunkSize,
+  ValidatingPassThrough,
 } from '@signalapp/libsignal-client/dist/incremental_mac';
 import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac';
 
@@ -40,8 +42,6 @@ import { isNotNil } from './util/isNotNil';
 import { missingCaseError } from './util/missingCaseError';
 import { getEnvironment, Environment } from './environment';
 import { toBase64 } from './Bytes';
-import { DigestingPassThrough } from './util/DigestingPassThrough';
-import { ValidatingPassThrough } from './util/ValidatingPassThrough';
 
 // This file was split from ts/Crypto.ts because it pulls things in from node, and
 //   too many things pull in Crypto.ts, so it broke storybook.
