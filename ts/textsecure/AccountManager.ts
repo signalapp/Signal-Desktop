@@ -59,6 +59,7 @@ import * as log from '../logging/log';
 import type { StorageAccessType } from '../types/Storage';
 import { getRelativePath, createName } from '../util/attachmentPath';
 import { isBackupEnabled } from '../util/isBackupEnabled';
+import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
 import { getMessageQueueTime } from '../util/getMessageQueueTime';
 
 type StorageKeyByServiceIdKind = {
@@ -1097,10 +1098,14 @@ export default class AccountManager extends EventTarget {
       throw missingCaseError(options);
     }
 
+    const shouldDownloadBackup =
+      isBackupEnabled() ||
+      (isLinkAndSyncEnabled(window.getVersion()) && options.ephemeralBackupKey);
+
     // Set backup download path before storing credentials to ensure that
     // storage service and message receiver are not operating
     // until the backup is downloaded and imported.
-    if (isBackupEnabled() && cleanStart) {
+    if (shouldDownloadBackup && cleanStart) {
       if (options.type === AccountType.Linked && options.ephemeralBackupKey) {
         await storage.put('backupEphemeralKey', options.ephemeralBackupKey);
       }
