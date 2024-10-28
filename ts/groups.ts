@@ -98,7 +98,7 @@ import { sleep } from './util/sleep';
 import { groupInvitesRoute } from './util/signalRoutes';
 import {
   decodeGroupSendEndorsementResponse,
-  isValidGroupSendEndorsementsExpiration,
+  validateGroupSendEndorsementsExpiration,
 } from './util/groupSendEndorsements';
 import { getProfile } from './util/getProfile';
 import { generateMessageId } from './util/generateMessageId';
@@ -3990,7 +3990,7 @@ async function updateGroupViaLogs({
     await DataReader.getGroupSendCombinedEndorsementExpiration(groupId);
 
   if (cachedEndorsementsExpiration != null) {
-    const result = isValidGroupSendEndorsementsExpiration(
+    const result = validateGroupSendEndorsementsExpiration(
       cachedEndorsementsExpiration * 1000
     );
     if (!result.valid) {
