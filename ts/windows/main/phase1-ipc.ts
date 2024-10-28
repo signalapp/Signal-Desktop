@@ -126,6 +126,12 @@ const IPC: IPCType = {
     log.info('shutdown');
     ipc.send('shutdown');
   },
+  startTrackingQueryStats: () => {
+    ipc.send('start-tracking-query-stats');
+  },
+  stopTrackingQueryStats: options => {
+    ipc.send('stop-tracking-query-stats', options);
+  },
   titleBarDoubleClick: () => {
     ipc.send('title-bar-double-click');
   },

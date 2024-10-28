@@ -52,6 +52,7 @@ import type { initializeMigrations } from './signal';
 import type { RetryPlaceholders } from './util/retryPlaceholders';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences';
 import type { WindowsNotificationData } from './services/notifications';
+import type { QueryStatsOptions } from './sql/main';
 
 export { Long } from 'long';
 
@@ -87,6 +88,8 @@ export type IPCType = {
   showWindow: () => void;
   showWindowsNotification: (data: WindowsNotificationData) => Promise<void>;
   shutdown: () => void;
+  startTrackingQueryStats: () => void;
+  stopTrackingQueryStats: (options?: QueryStatsOptions) => void;
   titleBarDoubleClick: () => void;
   updateTrayIcon: (count: number) => void;
 };

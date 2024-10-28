@@ -110,6 +110,11 @@ type QueryStatsType = {
   max: number;
 };
 
+export type QueryStatsOptions = {
+  maxQueriesToLog?: number;
+  epochName?: string;
+};
+
 export class MainSQL {
   private readonly pool = new Array<PoolEntry>();
 
@@ -302,15 +307,16 @@ export class MainSQL {
 
   public startTrackingQueryStats(): void {
     if (this.shouldTrackQueryStats) {
-      this.logQueryStats();
+      this.logQueryStats({});
+      this.logger?.info('Resetting query stats');
     }
     this.resetQueryStats();
     this.shouldTrackQueryStats = true;
   }
 
-  public stopTrackingQueryStats(): void {
+  public stopTrackingQueryStats(options: QueryStatsOptions): void {
     if (this.shouldTrackQueryStats) {
-      this.logQueryStats();
+      this.logQueryStats(options);
     }
     this.queryStats = undefined;
     this.shouldTrackQueryStats = false;
@@ -391,18 +397,26 @@ export class MainSQL {
     return Math.round(100 * duration) / 100;
   }
 
-  private logQueryStats(numberToLog: number = 10) {
+  private logQueryStats({
+    maxQueriesToLog = 10,
+    epochName,
+  }: QueryStatsOptions) {
     if (!this.queryStats) {
       return;
     }
-    const duration = Date.now() - this.queryStats.start;
+    const epochDuration = Date.now() - this.queryStats.start;
     const sortedByCumulativeDuration = [
       ...this.queryStats.statsByQuery.values(),
     ].sort((a, b) => (b.cumulative ?? 0) - (a.cumulative ?? 0));
+    const cumulativeDuration = sortedByCumulativeDuration.reduce(
+      (sum, stats) => sum + stats.cumulative,
+      0
+    );
     this.logger?.info(
-      `Top ${numberToLog} queries by cumulative duration (ms) over last ${duration}ms: ` +
+      `Top ${maxQueriesToLog} queries by cumulative duration (ms) over last ${epochDuration}ms` +
+        `${epochName ? ` during '${epochName}'` : ''}: ` +
         `${sortedByCumulativeDuration
-          .slice(0, numberToLog)
+          .slice(0, maxQueriesToLog)
           .map(stats => {
             return (
               `${stats.queryName}: cumulative ${this.roundDuration(stats.cumulative)} | ` +
@@ -411,7 +425,8 @@ export class MainSQL {
               `count: ${stats.count}`
             );
           })
-          .join(' ||| ')}`
+          .join(' ||| ')}` +
+        `; Total cumulative duration of all SQL queries during this epoch: ${this.roundDuration(cumulativeDuration)}ms`
     );
   }
 
