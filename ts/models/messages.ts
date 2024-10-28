@@ -1797,7 +1797,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               };
             }
 
-            if (!item.image || !item.title) {
+            if (!item.image && !item.title) {
               return null;
             }
             // Story link previews don't have to correspond to links in the
