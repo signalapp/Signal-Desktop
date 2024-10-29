@@ -77,6 +77,7 @@ import {
   isNormalBubble,
   isPhoneNumberDiscovery,
   isProfileChange,
+  isTapToView,
   isUniversalTimerNotification,
   isUnsupportedMessage,
   isVerifiedChange,
@@ -1060,7 +1061,12 @@ export class BackupExportStream extends Readable {
     }
 
     const { contact, sticker } = message;
-    if (message.isErased) {
+    if (isTapToView(message)) {
+      result.viewOnceMessage = await this.toViewOnceMessage({
+        message,
+        backupLevel,
+      });
+    } else if (message.isErased) {
       result.remoteDeletedMessage = {};
     } else if (messageHasPaymentEvent(message)) {
       const { payment } = message;
@@ -2265,7 +2271,7 @@ export class BackupExportStream extends Readable {
         serverTimestamp != null
           ? getSafeLongFromTimestamp(serverTimestamp)
           : null,
-      read: readStatus === ReadStatus.Read,
+      read: readStatus === ReadStatus.Read || readStatus === ReadStatus.Viewed,
       sealedSender: unidentifiedDeliveryReceived === true,
     };
   }
@@ -2439,6 +2445,30 @@ export class BackupExportStream extends Readable {
             })
           )
         : undefined,
+      reactions: this.getMessageReactions(message),
+    };
+  }
+
+  private async toViewOnceMessage({
+    message,
+    backupLevel,
+  }: {
+    message: Pick<
+      MessageAttributesType,
+      'attachments' | 'received_at' | 'reactions'
+    >;
+    backupLevel: BackupLevel;
+  }): Promise<Backups.IViewOnceMessage> {
+    const attachment = message.attachments?.at(0);
+    return {
+      attachment:
+        attachment == null
+          ? null
+          : await this.processMessageAttachment({
+              attachment,
+              backupLevel,
+              messageReceivedAt: message.received_at,
+            }),
       reactions: this.getMessageReactions(message),
     };
   }

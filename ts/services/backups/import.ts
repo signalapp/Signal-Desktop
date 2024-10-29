@@ -1303,6 +1303,11 @@ export class BackupImportStream extends Writable {
         ...attributes,
         ...(await this.fromStandardMessage(item.standardMessage, chatConvo.id)),
       };
+    } else if (item.viewOnceMessage) {
+      attributes = {
+        ...attributes,
+        ...(await this.fromViewOnceMessage(item.viewOnceMessage)),
+      };
     } else {
       const result = await this.fromNonBubbleChatItem(item, {
         aboutMe,
@@ -1563,6 +1568,27 @@ export class BackupImportStream extends Writable {
       quote: data.quote
         ? await this.fromQuote(data.quote, conversationId)
         : undefined,
+    };
+  }
+
+  private async fromViewOnceMessage({
+    attachment,
+    reactions,
+  }: Backups.IViewOnceMessage): Promise<Partial<MessageAttributesType>> {
+    return {
+      ...(attachment
+        ? {
+            attachments: [
+              convertBackupMessageAttachmentToAttachment(attachment),
+            ].filter(isNotNil),
+          }
+        : {
+            attachments: undefined,
+            readStatus: ReadStatus.Viewed,
+            isErased: true,
+          }),
+      reactions: this.fromReactions(reactions),
+      isViewOnce: true,
     };
   }
 
