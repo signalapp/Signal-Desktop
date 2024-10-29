@@ -892,12 +892,18 @@ export function getUpdateFileName(
   }
 
   let path: string | undefined;
+  let fileFilter: (({ url }: { url: string }) => boolean) | undefined;
+
   if (platform === 'darwin') {
+    fileFilter = ({ url }) => url.includes(arch) && url.endsWith('.zip');
+  } else if (platform === 'win32') {
+    fileFilter = ({ url }) => url.includes(arch) && url.endsWith('.exe');
+  }
+
+  if (fileFilter) {
     const { files } = info;
 
-    const candidates = files.filter(
-      ({ url }) => url.includes(arch) && url.endsWith('.zip')
-    );
+    const candidates = files.filter(fileFilter);
 
     if (candidates.length === 1) {
       path = candidates[0].url;

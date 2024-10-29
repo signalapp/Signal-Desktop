@@ -43,6 +43,8 @@ const getHeader = (
   appVersion: string,
   osVersion: string,
   userAgent: string,
+  arch: string,
+  runningUnderARM64Translation: boolean,
   linuxVersion?: string
 ): string =>
   [
@@ -53,6 +55,7 @@ const getHeader = (
       Environment: getEnvironment(),
       'App version': appVersion,
       'OS version': osVersion,
+      Arch: `${arch}${runningUnderARM64Translation ? ' (ARM64 Translation)' : ''}`,
       ...(linuxVersion && { 'Linux version': linuxVersion }),
     }),
     headerSection('User info', user),
@@ -87,6 +90,8 @@ export function getLog(
   appVersion: string,
   osVersion: string,
   userAgent: string,
+  arch: string,
+  runningUnderARM64Translation: boolean,
   linuxVersion?: string
 ): string {
   let header: string;
@@ -99,6 +104,8 @@ export function getLog(
       appVersion,
       osVersion,
       userAgent,
+      arch,
+      runningUnderARM64Translation,
       linuxVersion
     );
     body = logEntries.map(formatLine).join('\n');

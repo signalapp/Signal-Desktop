@@ -2829,6 +2829,8 @@ ipc.handle(
       app.getVersion(),
       os.version(),
       userAgent,
+      process.arch,
+      app.runningUnderARM64Translation,
       OS.getLinuxName()
     );
   }
