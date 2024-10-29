@@ -651,27 +651,6 @@ export function LeftPane({
     dialogs.push({ key: 'banner', dialog: maybeBanner });
   }
 
-  const hasMediaBeenQueuedForBackup =
-    backupMediaDownloadProgress?.totalBytes > 0;
-  if (
-    hasMediaBeenQueuedForBackup &&
-    !backupMediaDownloadProgress.downloadBannerDismissed
-  ) {
-    dialogs.push({
-      key: 'backupMediaDownload',
-      dialog: (
-        <BackupMediaDownloadProgress
-          i18n={i18n}
-          {...backupMediaDownloadProgress}
-          handleClose={dismissBackupMediaDownloadBanner}
-          handlePause={pauseBackupMediaDownload}
-          handleResume={resumeBackupMediaDownload}
-          handleCancel={cancelBackupMediaDownload}
-        />
-      ),
-    });
-  }
-
   const hideHeader =
     modeSpecificProps.mode === LeftPaneMode.Archive ||
     modeSpecificProps.mode === LeftPaneMode.Compose ||
@@ -679,6 +658,9 @@ export function LeftPane({
     modeSpecificProps.mode === LeftPaneMode.FindByPhoneNumber ||
     modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers ||
     modeSpecificProps.mode === LeftPaneMode.SetGroupMetadata;
+
+  const showBackupMediaDownloadProgress =
+    !hideHeader && !backupMediaDownloadProgress.downloadBannerDismissed;
 
   return (
     <NavSidebar
@@ -770,12 +752,24 @@ export function LeftPane({
             })}
           </NavSidebarSearchHeader>
         )}
-        <div className="module-left-pane__dialogs">
-          {!hideHeader &&
-            dialogs.map(({ key, dialog }) => (
+
+        {dialogs.length && !hideHeader ? (
+          <div className="module-left-pane__dialogs">
+            {dialogs.map(({ key, dialog }) => (
               <React.Fragment key={key}>{dialog}</React.Fragment>
             ))}
-        </div>
+          </div>
+        ) : null}
+        {showBackupMediaDownloadProgress ? (
+          <BackupMediaDownloadProgress
+            i18n={i18n}
+            {...backupMediaDownloadProgress}
+            handleClose={dismissBackupMediaDownloadBanner}
+            handlePause={pauseBackupMediaDownload}
+            handleResume={resumeBackupMediaDownload}
+            handleCancel={cancelBackupMediaDownload}
+          />
+        ) : null}
         {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
         <div className="module-left-pane__list--measure" ref={measureRef}>
           <div className="module-left-pane__list--wrapper">

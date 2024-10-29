@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .BackupMediaDownloadProgress {
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   gap: 10px;
   padding: 11px;
   padding-inline-end: 16px;
   margin-inline: 10px;
+  margin-block-end: 6px;
+  margin-block-start: 2px;
   user-select: none;
   position: relative;
 
