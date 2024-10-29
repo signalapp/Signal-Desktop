@@ -35,7 +35,8 @@ export function BackupMediaDownloadProgress({
 }: PropsType): JSX.Element | null {
   const [isShowingCancelConfirmation, setIsShowingCancelConfirmation] =
     useState(false);
-  if (totalBytes === 0) {
+
+  if (totalBytes <= 0) {
     return null;
   }
 

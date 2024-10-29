@@ -80,6 +80,13 @@ const defaultGroups: Array<GroupListItemConversationType> = [
   }),
 ];
 
+const backupMediaDownloadProgress = {
+  downloadedBytes: 1024,
+  totalBytes: 4098,
+  downloadBannerDismissed: false,
+  isIdle: false,
+  isPaused: false,
+};
 const defaultArchivedConversations: Array<ConversationType> = [
   getDefaultConversation({
     id: 'michelle-archive-convo',
@@ -342,6 +349,45 @@ export function InboxNoConversations(): JSX.Element {
   );
 }
 
+export function InboxBackupMediaDownload(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        backupMediaDownloadProgress,
+      })}
+    />
+  );
+}
+
+export function InboxBackupMediaDownloadWithDialogs(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        backupMediaDownloadProgress,
+        unsupportedOSDialogType: 'error',
+      })}
+    />
+  );
+}
+export function InboxBackupMediaDownloadWithDialogsAndUnpinnedConversations(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        backupMediaDownloadProgress,
+        unsupportedOSDialogType: 'error',
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          mode: LeftPaneMode.Inbox,
+          pinnedConversations: [],
+          conversations: defaultConversations,
+          archivedConversations: [],
+          isAboutToSearch: false,
+        },
+      })}
+    />
+  );
+}
+
 export function InboxUsernameCorrupted(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -475,6 +521,24 @@ export function InboxPinnedAndNonPinnedConversations(): JSX.Element {
           archivedConversations: [],
           isAboutToSearch: false,
         },
+      })}
+    />
+  );
+}
+
+export function InboxPinnedAndNonPinnedConversationsWithBackupDownload(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          mode: LeftPaneMode.Inbox,
+          pinnedConversations,
+          conversations: defaultConversations,
+          archivedConversations: [],
+          isAboutToSearch: false,
+        },
+        backupMediaDownloadProgress,
       })}
     />
   );
