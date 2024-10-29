@@ -29,7 +29,10 @@ export function normalizeAci(
   }
 
   const result = rawAci.toLowerCase();
-  strictAssert(!result.startsWith('pni:'), 'ACI should not start with PNI:');
+  strictAssert(
+    !result.startsWith('pni:'),
+    `ACI should not start with 'PNI:' in ${context}`
+  );
 
   if (!isAciString(result)) {
     logger.warn(

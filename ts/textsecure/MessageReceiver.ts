@@ -3881,9 +3881,19 @@ export default class MessageReceiver
     }
     if (blocked.acis) {
       const previous = this.storage.get('blocked-uuids', []);
-      const acis = blocked.acis.map((aci, index) => {
-        return normalizeAci(aci, `handleBlocked.acis.${index}`);
-      });
+      const acis = blocked.acis
+        .map((aci, index) => {
+          try {
+            return normalizeAci(aci, `handleBlocked.acis.${index}`);
+          } catch (error) {
+            log.warn(
+              `${logId}: ACI ${aci} was malformed`,
+              Errors.toLogFormat(error)
+            );
+            return undefined;
+          }
+        })
+        .filter(isNotNil);
 
       const { added, removed } = diffArraysAsSets(previous, acis);
       if (added.length) {
