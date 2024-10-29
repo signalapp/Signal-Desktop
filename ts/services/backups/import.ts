@@ -114,7 +114,6 @@ import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 
 const MAX_CONCURRENCY = 10;
 
-const CONVERSATION_OP_BATCH_SIZE = 10000;
 const SAVE_MESSAGE_BATCH_SIZE = 10000;
 
 // Keep 1000 recent messages in memory to speed up quote lookup.
@@ -204,9 +203,9 @@ export class BackupImportStream extends Writable {
     number,
     ConversationAttributesType
   >();
-  private readonly conversationOpBatch = new Map<
-    ConversationAttributesType,
-    'save' | 'update'
+  private readonly conversations = new Map<
+    string,
+    ConversationAttributesType
   >();
   private readonly saveMessageBatch = new Set<MessageAttributesType>();
   private readonly stickerPacks = new Array<StickerPackPointerType>();
@@ -439,22 +438,13 @@ export class BackupImportStream extends Writable {
   private async saveConversation(
     attributes: ConversationAttributesType
   ): Promise<void> {
-    this.conversationOpBatch.set(attributes, 'save');
-    if (this.conversationOpBatch.size >= CONVERSATION_OP_BATCH_SIZE) {
-      return this.flushConversations();
-    }
+    this.conversations.set(attributes.id, attributes);
   }
 
   private async updateConversation(
     attributes: ConversationAttributesType
   ): Promise<void> {
-    if (!this.conversationOpBatch.has(attributes)) {
-      this.conversationOpBatch.set(attributes, 'update');
-    }
-
-    if (this.conversationOpBatch.size >= CONVERSATION_OP_BATCH_SIZE) {
-      return this.flushConversations();
-    }
+    this.conversations.set(attributes.id, attributes);
   }
 
   private async saveMessage(attributes: MessageAttributesType): Promise<void> {
@@ -466,25 +456,23 @@ export class BackupImportStream extends Writable {
   }
 
   private async flushConversations(): Promise<void> {
-    const saves = new Array<ConversationAttributesType>();
     const updates = new Array<ConversationAttributesType>();
-    for (const [conversation, op] of this.conversationOpBatch) {
-      if (op === 'save') {
-        saves.push(conversation);
-      } else {
-        updates.push(conversation);
+
+    if (this.ourConversation) {
+      const us = this.conversations.get(this.ourConversation.id);
+      if (us) {
+        updates.push(us);
+        this.conversations.delete(us.id);
       }
     }
-    this.conversationOpBatch.clear();
+
+    const saves = Array.from(this.conversations.values());
+    this.conversations.clear();
 
     // Queue writes at the same time to prevent races.
     await Promise.all([
-      saves.length > 0
-        ? DataWriter.saveConversations(saves)
-        : Promise.resolve(),
-      updates.length > 0
-        ? DataWriter.updateConversations(updates)
-        : Promise.resolve(),
+      DataWriter.saveConversations(saves),
+      DataWriter.updateConversations(updates),
     ]);
   }
 
