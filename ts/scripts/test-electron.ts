@@ -17,9 +17,17 @@ import { parseUnknown } from '../util/schemas';
 
 const ROOT_DIR = join(__dirname, '..', '..');
 
-const WORKER_COUNT = process.env.WORKER_COUNT
-  ? parseInt(process.env.WORKER_COUNT, 10)
-  : Math.min(8, cpus().length);
+function getWorkerCount(): number {
+  if (process.env.WORKER_COUNT) {
+    return parseInt(process.env.WORKER_COUNT, 10);
+  }
+  if (process.env.CI) {
+    return Math.min(8, cpus().length);
+  }
+  return 1;
+}
+
+const WORKER_COUNT = getWorkerCount();
 
 const ELECTRON = join(
   ROOT_DIR,
