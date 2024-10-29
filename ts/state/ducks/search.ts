@@ -353,10 +353,28 @@ async function queryConversationsAndContacts(
   const normalizedQuery = removeDiacritics(query);
 
   const visibleConversations = allConversations.filter(conversation => {
-    const { activeAt, removalStage } = conversation;
+    const { activeAt, removalStage, isBlocked } = conversation;
+
     if (isDirectConversation(conversation)) {
-      return activeAt != null || removalStage == null;
+      // if a conversation has messages (i.e. is not "deleted"), always show it
+      if (activeAt != null) {
+        return true;
+      }
+
+      // Don't show if conversation is empty and the contact is blocked
+      if (isBlocked) {
+        return false;
+      }
+
+      // Don't show if conversation is empty and the contact is removed
+      if (removalStage != null) {
+        return false;
+      }
+
+      // Otherwise, show it
+      return true;
     }
+
     // We don't show groups in search results that don't have any messages
     return activeAt != null;
   });
