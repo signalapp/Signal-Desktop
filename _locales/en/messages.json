@@ -899,6 +899,10 @@
     "messageformat": "Show",
     "description": "Command under Window menu, to show the window"
   },
+  "icu:showOrFocus": {
+    "messageformat": "Show/Focus",
+    "description": "Command in the tray icon menu, to show or focus the window, depending on the current visibility"
+  },
   "icu:hide": {
     "messageformat": "Hide",
     "description": "Command in the tray icon menu, to hide the window"

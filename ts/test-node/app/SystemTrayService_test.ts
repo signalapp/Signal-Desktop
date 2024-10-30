@@ -73,15 +73,15 @@ describe('SystemTrayService', function (this: Mocha.Suite) {
     // We don't actually want to show a browser window. It's disruptive when you're
     //   running tests and can introduce test-only flakiness. We jump through some hoops
     //   to fake the behavior.
-    let fakeIsVisible = false;
-    const browserWindow = new BrowserWindow({ show: fakeIsVisible });
-    sinon.stub(browserWindow, 'isVisible').callsFake(() => fakeIsVisible);
+    let fakeIsFocused = false;
+    const browserWindow = new BrowserWindow({ show: fakeIsFocused });
+    sinon.stub(browserWindow, 'isFocused').callsFake(() => fakeIsFocused);
     sinon.stub(browserWindow, 'show').callsFake(() => {
-      fakeIsVisible = true;
+      fakeIsFocused = true;
       browserWindow.emit('show');
     });
     sinon.stub(browserWindow, 'hide').callsFake(() => {
-      fakeIsVisible = false;
+      fakeIsFocused = false;
       browserWindow.emit('hide');
     });
 
@@ -107,7 +107,7 @@ describe('SystemTrayService', function (this: Mocha.Suite) {
     assert.strictEqual(getToggleMenuItem()?.label, 'Hide');
 
     getToggleMenuItem()?.click();
-    assert.strictEqual(getToggleMenuItem()?.label, 'Show');
+    assert.strictEqual(getToggleMenuItem()?.label, 'Show/Focus');
 
     getToggleMenuItem()?.click();
     assert.strictEqual(getToggleMenuItem()?.label, 'Hide');
