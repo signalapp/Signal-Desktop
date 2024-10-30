@@ -789,13 +789,13 @@
     "messageformat": "Bijlage opgeslagen."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Bijlage opgeslagen} other {{count,number} bijlagen opgeslagen}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "In map weergeven"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Kan de bijlage niet opslaan, omdat deze nog niet is gedownload} other {Kan de bijlagen niet opslaan, omdat {count,number} bijlagen nog niet zijn gedownload}}"
   },
   "icu:you": {
     "messageformat": "Jij"
@@ -5741,6 +5741,6 @@
     "messageformat": "Via het tabblad Oproepen kun je oproeplinks en goedkeuringsinstellingen beheren en links kopiëren om gemakkelijk te delen."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Je kunt nu snel alle foto's uit een album downloaden wanneer je een bericht met meerdere bijlagen ontvangt. Maar als het gevoel van verzamelen je een kick geeft, mag je ze ook één voor één downloaden. Bedankt, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

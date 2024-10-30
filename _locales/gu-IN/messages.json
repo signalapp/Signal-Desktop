@@ -789,13 +789,13 @@
     "messageformat": "અટેચમેન્ટ સેવ કર્યું."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {જોડાણ સેવ કર્યું} other {{count,number} જોડાણો સેવ કર્યા}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ફોલ્ડરમાં બતાવો."
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {જોડાણ સેવ કરી શકાતું નથી, કારણ કે તે હજી સુધી ડાઉનલોડ કરવાનું સમાપ્ત થયું નથી} other {જોડાણો સેવ કરી શકાતા નથી, કારણ કે {count,number} હજી સુધી ડાઉનલોડ કરવાનું સમાપ્ત થયું નથી}}"
   },
   "icu:you": {
     "messageformat": "તમે"
@@ -5741,6 +5741,6 @@
     "messageformat": "તમે તમારી કૉલ લિંકને મેનેજ કરી શકો છો, મંજૂરી સેટિંગ્સને નિયંત્રિત કરી શકો છો અને ઝડપી શેરિંગ માટે કૉલ ટેબમાંથી લિંક કૉપિ કરી શકો છો."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "હવે જ્યારે તમને એકથી વધુ જોડાણો સાથેનો મેસેજ પ્રાપ્ત થાય ત્યારે તમે આલ્બમમાં દરેક ફોટો ઝડપથી ડાઉનલોડ કરી શકો છો. આભાર, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

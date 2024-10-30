@@ -789,13 +789,13 @@
     "messageformat": "منسلکہ محفوظ ہو گیا۔"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {منسلکہ محفوظ ہو گیا} other {{count,number} منسلکات محفوظ ہو گئیں}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "فولڈر میں دکھائیں"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {منسلکہ کو محفوظ نہیں کیا جا سکتا، کیونکہ یہ ابھی تک ڈاؤن لوڈ نہیں ہوئی ہے} other {منسلکات کو محفوظ نہیں کیا جا سکتا، کیونکہ {count,number} ابھی تک ڈاؤن لوڈ نہیں ہوئی ہیں}}"
   },
   "icu:you": {
     "messageformat": "آپ"
@@ -5741,6 +5741,6 @@
     "messageformat": "آپ اپنے کال لنکس کا نظم کر سکتے ہیں، منظوری کی سیٹنگز کو کنٹرول کر سکتے ہیں، اور فوری طور پر شیئرنگ کے لیے کالز ٹیب سے لنکس کاپی کر سکتے ہیں۔"
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "اب جب آپ کو متعدد منسلکات والا میسج ملتا ہے تو آپ جلدی سے البم میں ہر تصویر ڈاؤن لوڈ کر سکتے ہیں۔ شکریہ، <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

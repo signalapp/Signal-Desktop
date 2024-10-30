@@ -789,13 +789,13 @@
     "messageformat": "បាន​រក្សា​ទុក​ឯកសារ​ភ្ជាប់។"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {ឯកសារភ្ជាប់ {count,number} ត្រូវបានរក្សាទុក}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "បង្ហាញក្នុងថតឯកសារ"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {មិនអាចរក្សាទុកឯកសារភ្ជាប់បានទេ ដោយសារ {count,number} មិនទាន់បញ្ចប់ការទាញយកនៅឡើយ}}"
   },
   "icu:you": {
     "messageformat": "អ្នក"
@@ -5741,6 +5741,6 @@
     "messageformat": "អ្នកអាចគ្រប់គ្រងតំណហៅទូរសព្ទរបស់អ្នក គ្រប់គ្រងការកំណត់លើការយល់ព្រម និងចម្លងតំណពីផ្ទាំងហៅទូរសព្ទសម្រាប់ការចែករំលែករហ័ស។"
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "ឥឡូវនេះ អ្នកអាចទាញយករាល់រូបថតនៅក្នុងអាល់ប៊ុមបានយ៉ាងលឿន នៅពេលដែលអ្នកទទួលបានសារដែលមានឯកសារភ្ជាប់ច្រើន។ ប៉ុន្តែអ្នកនៅតែអាចរក្សាទុកពួកវាម្តងមួយៗបានដែរ ប្រសិនបើអ្នកចង់ផ្តោតលើព័ត៌មានលម្អិត។ សូមអរគុណ <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

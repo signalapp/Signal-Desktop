@@ -789,13 +789,13 @@
     "messageformat": "Privitak je spremljen."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Privitak je spremljen} few {{count,number} privitka su spremljena} many {{count,number} privitaka je spremljeno} other {{count,number} privitaka je spremljeno}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Prikaži u mapi"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Nije moguće spremiti privitak jer preuzimanje još nije dovršeno} few {Nije moguće spremiti privitke jer preuzimanje {count,number} privitaka još nije dovršeno} many {Nije moguće spremiti privitke jer preuzimanje {count,number} privitaka još nije dovršeno} other {Nije moguće spremiti privitke jer preuzimanje {count,number} privitaka još nije dovršeno}}"
   },
   "icu:you": {
     "messageformat": "Vi"
@@ -5741,6 +5741,6 @@
     "messageformat": "Možete upravljati svojim poveznicama na poziv, njihovim postavkama pridruživanja te kopirati poveznice s kartice poziva kako biste ih jednostavno podijelili s drugima."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Sada možete brzo preuzeti sve fotografije u albumu kada primite poruku s više privitaka. Hvala <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

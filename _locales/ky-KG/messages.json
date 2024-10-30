@@ -789,13 +789,13 @@
     "messageformat": "Тиркеме сакталды."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {{count,number} тиркеме сакталды}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Папкада көрсөтүү"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {{count,number} толук жүктөлүп бүтө элек болгондуктан, тиркемелер сакталган жок}}"
   },
   "icu:you": {
     "messageformat": "Сиз"
@@ -5741,6 +5741,6 @@
     "messageformat": "Чалуу шилтемелерин тескеп, ырастоо параметрлерин өзгөртүп, шилтемелердин чалуулар өтмөгүнөн көчүрө аласыз."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Бир нече сүрөт тиркелген билдирүү алынганда, ар бир сүрөт альбомго автоматтык түрдө жүктөлөт. Бирок галереяны өзгөчө табит менен башкаргыңыз келсе, өзүңүзгө жаккандарын сактасаңыз болот. Чоң рахмат, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

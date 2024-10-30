@@ -789,13 +789,13 @@
     "messageformat": "첨부 파일을 저장했습니다."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {첨부 파일 {count,number}개를 저장함}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "폴더에서 표시"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {첨부 파일 {count,number}개를 아직 다운로드하는 중이라 저장할 수 없습니다.}}"
   },
   "icu:you": {
     "messageformat": "나"
@@ -5741,6 +5741,6 @@
     "messageformat": "통화 탭에서 통화 링크를 관리하고, 승인 설정을 제어하고, 링크를 복사하여 빠르게 공유할 수 있습니다."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "이제 첨부 파일이 여러 개 있는 메시지를 받을 경우 앨범의 모든 사진을 빠르게 다운로드할 수 있습니다. 감사합니다, <linkMajorMayer>@major-mayer</linkMajorMayer> 님!"
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "添付ファイルを保存しました。"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {{count,number}個の添付ファイルを保存しました。}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "フォルダで表示"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {{count,number}個がまだダウンロードを完了していないため、添付ファイルを保存できません}}"
   },
   "icu:you": {
     "messageformat": "あなた"
@@ -5741,6 +5741,6 @@
     "messageformat": "通話リンクの管理や、承認・不承認の設定、通話タブからのリンクのコピーによる素早い共有などができます。"
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "複数の添付ファイルがあるメッセージを受信したときに、アルバム内のすべての写真を迅速にダウンロードできるようになりました。ギャラリーから厳選したい場合は、個別に保存することもできます。<linkMajorMayer>@major-mayer</linkMajorMayer>さん、ありがとうございました。"
   }
 }

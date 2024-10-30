@@ -789,13 +789,13 @@
     "messageformat": "Το συνημμένο αποθηκεύτηκε."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Το συνημμένο αποθηκεύτηκε} other {{count,number} συνημμένα αποθηκεύτηκαν}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Εμφάνιση στο φάκελο"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Δεν είναι δυνατή η αποθήκευση του συνημμένου, καθώς δεν έχει ολοκληρωθεί ακόμα η λήψη του} other {Δεν είναι δυνατή η αποθήκευση των συνημμένων, καθώς δεν έχει ολοκληρωθεί ακόμα η λήψη {count,number}}}"
   },
   "icu:you": {
     "messageformat": "Εσύ"
@@ -5741,6 +5741,6 @@
     "messageformat": "Μπορείς να διαχειριστείς τους συνδέσμους κλήσεων, να ελέγξεις τις ρυθμίσεις έγκρισης και να αντιγράψεις συνδέσμους από την καρτέλα κλήσεων για γρήγορη κοινή χρήση."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Τώρα μπορείς να κατεβάσεις γρήγορα κάθε φωτογραφία σε ένα άλμπουμ όταν λαμβάνεις ένα μήνυμα με πολλά συνημμένα. Ευχαριστούμε τον χρήστη <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

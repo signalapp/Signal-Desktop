@@ -789,13 +789,13 @@
     "messageformat": "ಲಗತ್ತು ಉಳಿಸಲಾಗಿದೆ."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {ಅಟ್ಯಾಚ್ ಮೆಂಟ್ ಸೇವ್ಆಗಿದೆ} other {{count,number}ಅಟ್ಯಾಚ್ ಮೆಂಟ್ ಗಳು ಸೇವ್ಆಗಿವೆ}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ಫೋಲ್ಡರ್‌ನಲ್ಲಿ ತೋರಿಸಿ"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {ಡೌನ್ ಲೋಡ್ ಇನ್ನೂ ಮುಗಿದಿಲ್ಲ. ಅಟ್ಯಾಚ್ ಮೆಂಟ್ ಸೇವ್ ಮಾಡುವುದಕ್ಕೆ ಆಗಿಲ್ಲ} other {ಡೌನ್ ಲೋಡ್ ಇನ್ನೂ ಮುಗಿದಿಲ್ಲ. {count,number}ಅಟ್ಯಾಚ್ ಮೆಂಟ್ ಗಳನ್ನು ಸೇವ್ ಮಾಡಿಲ್ಲ}}"
   },
   "icu:you": {
     "messageformat": "ನೀವು"
@@ -5741,6 +5741,6 @@
     "messageformat": "ನಿಮ್ಮ ಕಾಲ್ ಲಿಂಕ್‌ಗಳನ್ನು ನೀವು ನಿರ್ವಹಿಸಬಹುದು, ಅನುಮೋದನೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನಿಯಂತ್ರಿಸಬಹುದು ಮತ್ತು ತ್ವರಿತ ಹಂಚಿಕೆಗಾಗಿ ಕರೆಗಳ ಟ್ಯಾಬ್‌ನಿಂದ ಲಿಂಕ್‌ಗಳನ್ನು ನಕಲಿಸಬಹುದು."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "ಹಲವು ಅಟ್ಯಾಚ್ ಮೆಂಟ್ ಗಳ ಜೊತೆ ಮೆಸೇಜ್ ನ್ನು ಸ್ವೀಕರಿಸಿದಾಗ ಈಗ ಆಲ್ಬಮ್‌ನಲ್ಲಿರುವ ಪ್ರತಿ ಫೊಟೋವನ್ನು ನೀವು ತ್ವರಿತವಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಬಹುದು. ಆದರೆ ನೀವು ಇನ್ನೊಂದು ಜೀವಿತದಲ್ಲಿ ಅತೀವ ಅಭಿರುಚಿ ಹೊಂದಿದ್ದ ಗ್ಯಾಲರಿ ಕ್ಯುರೇಟರ್ ಆಗಿದ್ದಿದ್ದರೆ, ನೀವು ಇನ್ನೂ ಸಹ ಅವುಗಳನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿ ಸೇವ್ ಮಾಡಿಟ್ಟುಕೊಳ್ಳಬಹುದು. ಧನ್ಯವಾದಗಳು <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

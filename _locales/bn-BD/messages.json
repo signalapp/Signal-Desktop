@@ -789,13 +789,13 @@
     "messageformat": "সংযুক্তি সংরক্ষিত হয়েছে।"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {সংযুক্তি সেভ করা হয়েছে} other {{count,number}টি সংযুক্তি সেভ করা হয়েছে}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ফোল্ডারে দেখান"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {সংযুক্তি সেভ করা যাবে না, কারণ এখনো এটির ডাউনলোড সম্পন্ন হয়নি} other {সংযুক্তি সেভ করা যাবে না, কারণ এখনো {count,number}টি ডাউনলোড সম্পন্ন হয়নি}}"
   },
   "icu:you": {
     "messageformat": "আপনি"
@@ -5741,6 +5741,6 @@
     "messageformat": "আপনি আপনার কল লিংক নিয়ন্ত্রণ করতে পারবেন, অনুমোদনের সেটিংস নিয়ন্ত্রণ করতে পারবেন এবং দ্রুত শেয়ার করার জন্য কল ট্যাব থেকে লিংক কপি করতে পারবেন।"
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "এখন একাধিক সংযুক্তি সহ কোনো মেসেজ পেলে আপনি একটি অ্যালবামের প্রতিটি ছবি দ্রুত ডাউনলোড করতে পারবেন। ধন্যবাদ, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

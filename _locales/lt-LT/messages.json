@@ -789,13 +789,13 @@
     "messageformat": "Priedas įrašytas."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Priedas įrašytas} few {{count,number} priedai įrašyti} many {{count,number} priedo įrašyta} other {{count,number} priedų įrašyti}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Rodyti aplanke"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Nepavyko išsaugoti priedo, nes jis dar nebaigtas atsisiųsti} few {Nepavyko išsaugoti priedų, nes {count,number} dar nebaigti atsisiųsti} many {Nepavyko išsaugoti priedų, nes {count,number} dar nebaigta atsisiųsti} other {Nepavyko išsaugoti priedo, nes {count,number} dar nebaigti atsisiųsti}}"
   },
   "icu:you": {
     "messageformat": "Jūs"
@@ -5741,6 +5741,6 @@
     "messageformat": "Galite tvarkyti savo skambučių nuorodas, valdyti patvirtinimo nustatymus ir, norėdami greitai pasidalinti, kopijuoti nuorodas iš skambučių skirtuko."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Gavę žinutę su keliais priedais dabar galite greitai atsisiųsti kiekvieną albume esančią nuotrauką. Ačiū, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "Allegato salvato."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Allegato salvato} other {{count,number} allegati salvati}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostra nella cartella"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Impossibile salvare l'allegato perché il download non è ancora terminato} other {Impossibile salvare {count,number} allegati perché il download non è ancora terminato}}"
   },
   "icu:you": {
     "messageformat": "Tu"
@@ -5741,6 +5741,6 @@
     "messageformat": "Puoi gestire i tuoi link chiamata, modificare le impostazioni per l'approvazione degli ingressi e copiare i link dalla schermata delle chiamate per condividerli più facilmente."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Da ora puoi scaricare in un attimo ogni foto in un album quando ricevi un messaggio con più allegati. Ma se preferisci selezionarle una a una, noi non te lo impediremo! Grazie <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "అటాచ్‌మెంట్ సేవ్ చేయబడింది."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {అటాచ్మెంట్ సేవ్ చేయబడింది} other {{count,number} అటాచ్మెంట్లు సేవ్ చేయబడ్డాయి}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ఫోల్డర్‌లో చూపించండి."
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {డౌన్‌లోడ్ చేయడం ఇంకా పూర్తికానందున, అటాచ్మెంట్ సేవ్ చేయబడలేదు} other {{count,number} డౌన్‌లోడ్ చేయడం ఇంకా పూర్తికానందున అటాచ్మెంట్లు సేవ్ చేయడం సాధ్యం కాదు}}"
   },
   "icu:you": {
     "messageformat": "మీరు"
@@ -5741,6 +5741,6 @@
     "messageformat": "మీరు మీ కాల్ లింక్‌లను నిర్వహించవచ్చు, ఆమోద సెట్టింగులను నియంత్రించవచ్చు, త్వరగా పంచుకునేందుకు కాల్స్ ట్యాబ్ నుండి లింక్‌లను కాపీ చేయవచ్చు."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "మీరు బహుళ అటాచ్మెంట్లతో సందేశాన్ని అందుకున్నప్పుడు ఆల్బమ్ లోని ప్రతి ఫోటోను ఇప్పుడు మీరు త్వరగా డౌన్‌లోడ్ చేసుకోవచ్చు. కానీ మీరు మరో జీవితంలో నిష్కళంకమైన అభిరుచి ఉన్ని గ్యాలరీ క్యురేటర్ అయితే అప్పడు కూడా మీరు వాటిని వ్యక్తిగతంగా సేవ్ చేసుకోవచ్చు. ధన్యవాదాలు, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

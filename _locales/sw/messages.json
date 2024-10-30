@@ -789,13 +789,13 @@
     "messageformat": "Kiambatisho kimehifadhiwa."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Kiambatisho kimehifadhiwa} other {Viambatisho {count,number} vimehifadhiwa}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Onyesha kwenye folda"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Imeshindwa kuhifadhi kiambatisho kwa vile hakijamaliza kupakuliwa bado} other {Imeshindwa kuhifadhi viambatisho {count,number} kwa vile havijamaliza kupakuliwa bado}}"
   },
   "icu:you": {
     "messageformat": "Wewe"
@@ -5741,6 +5741,6 @@
     "messageformat": "Dhibiti viungo vya simu, mipangilio ya idhini, na nakili viungo kutoka kwa kichupo cha simu ili kushiriki kasi."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Sasa unaweza kupakua haraka kila picha katika albamu unapopokea ujumbe wenye viambatisho vingi. Ila kama ungekuwa mratibu wa matunzo mwenye vionjo vya kipekee katika maisha mengine, bado ungeweza kuhifadhi picha moja moja. Asante, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

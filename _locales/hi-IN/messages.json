@@ -789,13 +789,13 @@
     "messageformat": "अटैचमेंट सेव किया गया."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {अटैचमेंट सेव किया गया} other {{count,number} अटैचमेंट सेव किए गए}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "फ़ोल्डर में दिखाएं"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {अटैचमेंट को सेव नहीं किया जा सकता, क्योंकि अभी तक इसका डाउनलोड पूरा नहीं हुआ है} other {अटैचमेंट्स को सेव नहीं किया जा सकता, क्योंकि अभी तक {count,number} का डाउनलोड पूरा नहीं हुआ है}}"
   },
   "icu:you": {
     "messageformat": "आप"
@@ -5741,6 +5741,6 @@
     "messageformat": "आप अपने कॉल लिंक प्रबंधित कर सकते हैं, मंज़ूरी की सेटिंग्स नियंत्रित कर सकते हैं, और तुरंत शेयर करने के लिए कॉल्स टैब से लिंक कॉपी कर सकते हैं।"
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "अब आप कई अटैचमेंट वाला कोई संदेश मिलने पर, किसी एल्बम की हर फ़ोटो को तुरंत डाउनलोड कर सकते हैं। लेकिन अगर आप किसी जन्म में शानदार पसंद वाले गैलरी क्यूरेटर थे, तो आप अब भी उन्हें अलग-अलग सेव कर सकते हैं। शुक्रिया, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

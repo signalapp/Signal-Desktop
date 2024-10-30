@@ -789,13 +789,13 @@
     "messageformat": "Archivo adjunto guardado."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Archivo guardado} other {{count,number} archivos guardados}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostrar en la carpeta"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {No se puede guardar el archivo adjunto, ya que aún no ha terminado de descargarse} other {No se pueden guardar los {count,number} archivos adjuntos, ya que aún no han terminado de descargarse}}"
   },
   "icu:you": {
     "messageformat": "Tú"
@@ -5741,6 +5741,6 @@
     "messageformat": "Gestiona tus enlaces, cópialos desde la pestaña Llamadas para compartirlos y elige cómo se aprueban las solicitudes."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Ahora, cuando recibas un mensaje con varios archivos adjuntos, podrás descargar rápidamente todas las fotos en un álbum. Pero si tu gusto y visión artística se viesen comprometidos, también podrás guardarlas de manera individual. ¡Gracias, <linkMajorMayer>@major-mayer</linkMajorMayer>, por ayudarnos a seguir mejorando Signal!"
   }
 }

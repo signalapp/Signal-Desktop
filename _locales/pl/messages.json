@@ -789,13 +789,13 @@
     "messageformat": "Zapisano załącznik."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Zapisano załącznik} few {Zapisano {count,number} załączniki} many {Zapisano {count,number} załączników} other {Zapisano {count,number} załączników}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Pokaż w folderze"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Nie można zapisać załącznika, bo trwa pobieranie} few {Nie można zapisać załącznika, bo trwa pobieranie {count,number}} many {Nie można zapisać załącznika, bo trwa pobieranie {count,number}} other {Nie można zapisać załącznika, bo trwa pobieranie {count,number}}}"
   },
   "icu:you": {
     "messageformat": "Ty"
@@ -5741,6 +5741,6 @@
     "messageformat": "Zarządzaj linkami do połączeń, zmieniaj ustawienia zatwierdzenia i kopiuj linki z karty połączeń w celu szybkiego udostępniania."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Od teraz po otrzymaniu wiadomości z wieloma załącznikami możesz szybko pobrać wszystkie zdjęcia do jednego albumu. Chyba że jesteś kuratorem w galerii sztuki — wtedy możesz wystawiać je osobno. Dzięki, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

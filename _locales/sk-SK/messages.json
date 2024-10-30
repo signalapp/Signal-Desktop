@@ -789,13 +789,13 @@
     "messageformat": "Príloha bola uložená."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Príloha bola uložená} few {Boli uložené {count,number} prílohy} many {Bolo uloženej {count,number} prílohy} other {Bolo uložených {count,number} príloh}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Zobraziť v priečinku"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Prílohu nie je možné uložiť, pretože ešte nebola stiahnutá} few {Nie je možné uložiť, pretože {count,number} prílohy ešte neboli stiahnuté} many {Nie je možné uložiť, pretože {count,number} prílohy ešte nebolo stiahnutej} other {Nie je možné uložiť, pretože {count,number} príloh ešte nebolo stiahnutých}}"
   },
   "icu:you": {
     "messageformat": "Vy"
@@ -5741,6 +5741,6 @@
     "messageformat": "Môžete spravovať odkazy na hovory, ovládať nastavenia schvaľovania a kopírovať odkazy z karty hovorov na rýchle zdieľanie."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Teraz si môžete rýchlo stiahnuť každú fotografiu z albumu, keď dostanete správu s viacerými prílohami. Ďakujeme, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

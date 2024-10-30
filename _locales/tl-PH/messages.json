@@ -789,13 +789,13 @@
     "messageformat": "Attachment saved."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Na-save ang attachment} other {{count,number} attachments ang na-save}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Show in folder"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Hindi ma-save ang attachment dahil hindi pa tapos ang pag-download nito} other {Hindi ma-save ang attachments dahil hindi pa tapos ang pag-download ng {count,number} attachments}}"
   },
   "icu:you": {
     "messageformat": "Ikaw"
@@ -5741,6 +5741,6 @@
     "messageformat": "Pwede mong i-manage ang call links, kontrolin ang approval, at kopyahin ang links mula sa calls tab para mabilis ang pag-share."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Mabilis mo nang mado-download ang bawat photo sa isang album kapag nakatanggap ka ng message na may multiple attachments. Maraming salamat, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

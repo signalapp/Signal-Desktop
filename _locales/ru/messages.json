@@ -789,13 +789,13 @@
     "messageformat": "Вложение сохранено."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Вложение сохранено} few {{count,number} вложения сохранено} many {{count,number} вложений сохранено} other {{count,number} вложения сохранено}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Показать в папке"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Не удаётся сохранить вложение, так как его загрузка ещё не завершена} few {Не удаётся сохранить вложения, так как загрузка {count,number} файлов ещё не завершена} many {Не удаётся сохранить вложения, так как загрузка {count,number} файлов ещё не завершена} other {Не удаётся сохранить вложения, так как загрузка {count,number} файла ещё не завершена}}"
   },
   "icu:you": {
     "messageformat": "Вы"
@@ -5741,6 +5741,6 @@
     "messageformat": "Вы можете управлять ссылками на звонки, настройками одобрения и копировать ссылки на вкладке звонков для быстрого обмена."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Теперь, получив сообщение с несколькими вложениями, вы можете быстро загрузить все фото в альбоме. Но если в другой жизни вы были куратором галереи с безупречным вкусом, вы можете сохранить их и по отдельности. Спасибо, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

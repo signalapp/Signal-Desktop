@@ -789,13 +789,13 @@
     "messageformat": "დანართი შენახულია."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {მიმაგრებული ფაილი შენახულია} other {შენახულია {count,number} მიმაგრებული ფაილი}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "შენახვის ადგილას ჩვენება"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {მიმაგრებულ ფაილს ჯერ ვერ შეინახავ; მისი ჩამოტვირთვა ჯერ არ დასრულებულა} other {მიმაგრებული ფაილის შენახვა შეუძლებელია, რადგან {count,number} მათგანის ჩამოტვირთვა ჯერ არ დასრულებულა}}"
   },
   "icu:you": {
     "messageformat": "შენ"
@@ -5741,6 +5741,6 @@
     "messageformat": "შეგიძლია, შენი ზარის ბმულები მართო, აკონტროლო დადასტურების პარამეტრები და სწრაფი გაზიარებისთვის ბმულები ზარების ჩანართიდან დააკოპირო."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "უკვე შეგიძლია ალბომში ყველა ფოტო სწრაფაც ჩამოტვირთო, როცა რამდენიმე შეტყობინებას მიიღებ მიმაგრებული ფაილით. მაგრამ თუ სხვა ცხოვრებაში გამორჩეული გემოვნების მქონდე გალერეის კურატორი იყავი, მათ ინდივიდუალურად შენახვას ისევ შეძლებ. მადლობა, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

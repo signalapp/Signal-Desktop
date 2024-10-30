@@ -789,13 +789,13 @@
     "messageformat": "Lampiran disimpan."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {{count,number} lampiran disimpan}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Tunjuk dalam folder"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {Tidak dapat menyimpan lampiran, kerana {count,number} belum selesai dimuat turun}}"
   },
   "icu:you": {
     "messageformat": "Anda"
@@ -5741,6 +5741,6 @@
     "messageformat": "Anda boleh mengurus pautan panggilan, kawal tetapan kelulusan dan salin pautan daripada tab panggilan untuk perkongsian pantas."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Kini anda boleh memuat turun setiap foto dalam album dengan pantas apabila menerima mesej dengan berbilang lampiran. Terima kasih <linkMajorMayer> @major-mayer!</linkMajorMayer>"
   }
 }

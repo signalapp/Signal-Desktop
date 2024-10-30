@@ -789,13 +789,13 @@
     "messageformat": "Priponka je bila shranjena."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Priponka je shranjena} two {{count,number} priponki sta shranjeni} few {{count,number} priponke so shranjene} other {{count,number} priponk je shranjenih}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Prikaži v mapi"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Ni mogoče shraniti priponke, saj se prenos še ni zaključil} two {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil} few {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil} other {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil}}"
   },
   "icu:you": {
     "messageformat": "Vi"
@@ -5741,6 +5741,6 @@
     "messageformat": "Upravljajte klicne povezave, nadzorujte nastavitve odobritev in kopirajte povezave z zavihka s klici za hitro skupno rabo."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Ko prejmete sporočilo z več priponkami, lahko zdaj hitro prenesete vse fotografije v albumu. Če pa ste bili v preteklem življenju kustos galerije z brezhibnim okusom, jih lahko shranite tudi posamezno. Hvala, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "ပူးတွဲဖိုင်ကို သိမ်းပြီး။"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {ပူးတွဲဖိုင် {count,number} ခုကို သိမ်းပြီး}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ဖိုင်တွဲတွင် ပြရန်"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {ဖိုင် {count,number} ခု ဒေါင်းလုဒ်မပြီးသေးသောကြောင့် ပူးတွဲဖိုင်များကို သိမ်းဆည်း၍မရပါ}}"
   },
   "icu:you": {
     "messageformat": "သင်"
@@ -5741,6 +5741,6 @@
     "messageformat": "ကောလ်လင့်ခ်ကိုစီမံခြင်း၊ အတည်ပြုချက်ဆက်တင်ကို ထိန်းချုပ်ခြင်းပြုနိုင်ပြီး အမြန်မျှဝေရန် ကောလ်တက်ဘ်မှ လင့်ခ်ကိုကူးယူနိုင်သည်။"
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "ပူးတွဲဖိုင်များစွာပါသော မက်ဆေ့ချ်တစ်စောင်ကို သင်လက်ခံရရှိသောအခါ အယ်လ်ဘမ်တစ်ခုရှိ ဓာတ်ပုံတိုင်းကို လျင်မြန်စွာ ဒေါင်းလုဒ်လုပ်နိုင်ပါပြီ။ ကျေးဇူးပါ <linkMajorMayer>@major-mayer</linkMajorMayer>"
   }
 }

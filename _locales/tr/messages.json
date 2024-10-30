@@ -789,13 +789,13 @@
     "messageformat": "Eklenti kaydedildi."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Eklenti kaydedildi} other {{count,number} eklenti kaydedildi}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Klasörde göster"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {İndirme henüz tamamlanmadığı için eklenti kaydedilemiyor} other {{count,number} indirme henüz tamamlanmadığı için eklentiler kaydedilemiyor}}"
   },
   "icu:you": {
     "messageformat": "Siz"
@@ -5741,6 +5741,6 @@
     "messageformat": "Arama bağlantılarını yönetebilir, onay ayarlarını kontrol edebilir ve hızlı paylaşım için bağlantıları aramalar sekmesinden kopyalayabilirsin."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Bundan böyle çok sayıda eklenti içeren bir mesaj aldığında, bir albümdeki tüm fotoğrafları hızla indirebilirsin. İşleri uzatmaktan hoşlanıyorsan, fotoğrafları teker teker de indirebilirsin tabi. Teşekkürler, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

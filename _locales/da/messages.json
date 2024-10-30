@@ -789,13 +789,13 @@
     "messageformat": "Vedhæftning gemt."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Vedhæftet fil gemt} other {{count,number} vedhæftede filer gemt}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Vis i mappe"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Kan ikke gemme den vedhæftede fil, da den ikke er downloadet endnu} other {Kan ikke gemme de vedhæftede filer, da {count,number} ikke er downloadet endnu}}"
   },
   "icu:you": {
     "messageformat": "Dig"
@@ -5741,6 +5741,6 @@
     "messageformat": "Du kan administrere dine opkaldslinks, styre godkendelser og kopiere links fra opkaldsfanen for hurtig deling."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Nu kan du hurtigt downloade alle billeder i et album, når du modtager en besked med flere vedhæftede filer. Men hvis du var en gallerikurator med upåklagelig smag i et andet liv, kan du stadig også gemme dem individuelt. Tak, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

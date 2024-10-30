@@ -789,13 +789,13 @@
     "messageformat": "Bashkëngjitja u ruajt."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Bashkëngjitja u ruajt} other {{count,number} bashkëngjitje u ruajtën}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Shfaqe në dosje"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Nuk mund të ruhet bashkëngjitja, pasi nuk ka përfunduar ende shkarkimi} other {Nuk mund të ruhen bashkëngjitjet, pasi {count,number} nuk ka përfunduar ende shkarkimi}}"
   },
   "icu:you": {
     "messageformat": "Ju"
@@ -5741,6 +5741,6 @@
     "messageformat": "Mund të menaxhosh lidhjet e thirrjeve, të kontrollosh parametrat e miratimit dhe të kopjosh lidhjet nga skeda e thirrjeve për shpërndarje të shpejtë."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Tani mund të shkarkosh shpejt çdo foto në një album kur merr një mesazh me shumë bashkëngjitje. Por nëse në një jetë tjetër, ke qenë kurator galerie me shije të rafinuar, prapëseprapë mund t'i ruash ato individualisht. Faleminderit, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

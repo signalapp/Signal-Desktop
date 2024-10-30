@@ -789,13 +789,13 @@
     "messageformat": "پیوست ذخیره شد"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {پیوست ذخیره شد} other {{count,number} پیوست ذخیره شد}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "نمایش در پوشه"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {پیوست ذخیره نشد، زیرا هنوز دانلود آن تمام نشده است} other {پیوست‌ها ذخیره نشد، زیرا هنوز دانلود {count,number} پیوست تمام نشده است}}"
   },
   "icu:you": {
     "messageformat": "شما"
@@ -5741,6 +5741,6 @@
     "messageformat": "برای اشتراک‌گذاری سریع، می‌توانید پیوندهای تماس خود را مدیریت کنید، تنظیمات تأیید را کنترل کنید، و پیوندها را از زبانه تماس‌ها کپی کنید."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "اکنون می‌توانید هنگام دریافت پیامی با چندین پیوست، به‌سرعت همه عکس‌ها را به‌صورت آلبوم دانلود کنید. متشکریم، <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

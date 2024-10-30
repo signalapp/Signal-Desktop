@@ -789,13 +789,13 @@
     "messageformat": "Manus salvestatud."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Manus salvestatud} other {{count,number} manust salvestatud}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Näita kaustas"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Manust ei saa salvestada, sest see ei ole veel lõpuni alla laetud} other {Manuseid ei saa salvestada, sest {count,number} ei ole veel lõpuni alla laetud}}"
   },
   "icu:you": {
     "messageformat": "Sina"
@@ -5741,6 +5741,6 @@
     "messageformat": "Saad oma kõnelinke hallata, kontrollida kinnitussätteid, ja kopeerida linke kõnede vahekaardilt kiireks jagamiseks."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Nüüd saad mitme manusega sõnumi saamisel kiiresti alla laadida kõik albumis olevad fotod. Aitäh, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

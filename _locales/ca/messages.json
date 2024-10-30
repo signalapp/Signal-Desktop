@@ -789,13 +789,13 @@
     "messageformat": "Adjunt desat"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Adjunt desat} other {{count,number} adjunts desats}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostra'l a la carpeta"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {No es pot desar el fitxer adjunt, ja que encara no s'ha acabat de descarregar} other {No es poden desar els {count,number} fitxers adjunts, ja que encara no s'han acabat de descarregar}}"
   },
   "icu:you": {
     "messageformat": "Vós"
@@ -5741,6 +5741,6 @@
     "messageformat": "Pots administrar els teus enllaços de trucada, controlar els ajustos per aprovar sol·licituds i copiar enllaços des de la pestanya de trucades per compartir-los ràpidament."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Ara, quan rebis un missatge amb diversos fitxers adjunts, podràs descarregar ràpidament totes les fotos en un àlbum. Gràcies, <linkMajorMayer>@major -mayer!</linkMajorMayer>"
   }
 }

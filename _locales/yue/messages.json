@@ -789,13 +789,13 @@
     "messageformat": "附件已儲存。"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {儲存咗 {count,number} 個附件}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "喺文件夾度顯示"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {儲存唔到附件，因為仲有 {count,number} 個未完成下載}}"
   },
   "icu:you": {
     "messageformat": "你"
@@ -5741,6 +5741,6 @@
     "messageformat": "你可以喺「通話」嗰一版度，直接管理你嘅通話連結、更改批准設定同複製條拎，方便快速分享。"
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "而家，當你收到有多過一個附件嘅訊息時，可以快速下載相簿入面嘅所有相。唔該晒，<linkMajorMayer>@major-mayer</linkMajorMayer>！"
   }
 }

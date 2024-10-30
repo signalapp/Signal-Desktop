@@ -789,13 +789,13 @@
     "messageformat": "Gorde da eranskina."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Gorde da eranskina} other {Gorde dira {count,number} eranskinak}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Erakutsi karpetan"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Ezin da gorde eranskina, oraindik ez baita guztiz deskargatu} other {Ezin dira gorde eranskinak, oraindik ez baitira guztiz deskargatu {count,number}}}"
   },
   "icu:you": {
     "messageformat": "Zu"
@@ -5741,6 +5741,6 @@
     "messageformat": "Deien estekak kudea ditzakezu, bai eta onarpen-ezarpen kontrolatu eta deien fitxatik estekak bizkor partekatzeko kopiatu ere."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Orain, hainbat eranskin dituzten mezuak jasotzean, albumetako argazki guztiak bizkor deskarga ditzakezu. Eskerrik asko, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

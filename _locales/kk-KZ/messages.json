@@ -789,13 +789,13 @@
     "messageformat": "Тіркеме сақталды."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Тіркеме сақталды} other {{count,number} тіркеме сақталды}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Қалтада көрсету"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Тіркеме сақталмады, себебі ол әлі жүктеп алынып жатыр} other {Тіркемелер сақталмады, себебі {count,number} тіркеме әлі жүктеп алынып жатыр}}"
   },
   "icu:you": {
     "messageformat": "Сіз"
@@ -5741,6 +5741,6 @@
     "messageformat": "Қоңырау сілтемелерін, мақұлдау параметрлерін басқаруға және сілтемелерді бөлісу үшін қоңыраулар қойындысынан көшіруге болады."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Енді бірнеше тіркемесі бар хабар алғанда, фотосуреттердің барлығын альбомға жылдам жүктеп алуыңызға болады. Ал егер фотосуреттерге галереяның талғампаз жетекшісіндей мән беретін болсаңыз, оларды жеке-жеке де сақтай аласыз. Рақмет, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

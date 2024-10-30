@@ -789,13 +789,13 @@
     "messageformat": "Aanhegsel gestoor."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Aanhegsel gestoor} other {{count,number} aanhegsels gestoor}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Wys in vouer"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Kan nie aanhegsel stoor nie, aangesien dit nog nie klaar afgelaai is nie} other {Kan nie aanhegsel stoor nie, aangesien {count,number} nog nie klaar afgelaai is nie}}"
   },
   "icu:you": {
     "messageformat": "Jy"
@@ -5741,6 +5741,6 @@
     "messageformat": "Jy kan jou oproepskakels bestuur, goedkeuringsinstellings beheer en skakels van die oproep-ikoon af kopieer om vinnig te deel."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Nou kan jy vinnig elke foto in 'n album aflaai wanneer jy 'n boodskap met veelvuldige aanhegsels ontvang. Dankie, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "അറ്റാച്ചുമെന്റ് സംരക്ഷിച്ചു."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {അറ്റാച്ച്മെൻ്റ് സംരക്ഷിച്ചു} other {{count,number} അറ്റാച്ച്മെൻ്റ് സംരക്ഷിച്ചു}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ഫോൾഡറിൽ കാണിക്കുക"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {ഇതുവരെ ഡൗൺലോഡ് പൂർത്തിയാക്കാത്തതിനാൽ അറ്റാച്ച്മെൻ്റ് സംരക്ഷിക്കാൻ കഴിയില്ല} other {{count,number} എണ്ണം ഇതുവരെ ഡൗൺലോഡ് പൂർത്തിയാക്കാത്തതിനാൽ അറ്റാച്ച്‌മെൻ്റുകൾ സംരക്ഷിക്കാൻ കഴിയില്ല}}"
   },
   "icu:you": {
     "messageformat": "നിങ്ങൾ"
@@ -5741,6 +5741,6 @@
     "messageformat": "കോൾ ലിങ്കുകളും അംഗീകാര ക്രമീകരണങ്ങളും നിയന്ത്രിക്കാനും, വേഗത്തിൽ പങ്കിടാനായി കോൾ ടാബിൽ നിന്ന് ലിങ്കുകൾ പകർത്താനും കഴിയും."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "ഒന്നിലധികം അറ്റാച്ച്‌മെൻ്റുകളുള്ള ഒരു സന്ദേശം ലഭിക്കുമ്പോൾ, ഇപ്പോൾ നിങ്ങൾക്ക് ആൽബത്തിലെ എല്ലാ ഫോട്ടോകളും വേഗത്തിൽ ഡൗൺലോഡ് ചെയ്യാം. എന്നാൽ നിങ്ങൾ കുറ്റമറ്റ അഭിരുചിയുള്ള ഒരു ഗാലറി ക്യൂറേറ്റർ ആയിരുന്നെങ്കിൽ, നിങ്ങൾക്ക് ഇപ്പോഴും അവ വെവ്വേറെ സംരക്ഷിക്കാൻ കഴിയും. നന്ദി, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

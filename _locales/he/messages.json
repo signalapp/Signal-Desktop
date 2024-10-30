@@ -789,13 +789,13 @@
     "messageformat": "צרופה נשמרה."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {קובץ מצורף נשמר} two {{count,number} קבצים מצורפים נשמרו} many {{count,number} קבצים מצורפים נשמרו} other {{count,number} קבצים מצורפים נשמרו}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "הראה בתיקייה"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {לא ניתן לשמור את הקובץ המצורף, מכיוון שההורדה שלו עדיין לא הסתיימה} two {לא ניתן לשמור את הקבצים המצורפים, מכיוון שההורדה של {count,number} עדיין לא הסתיימה} many {לא ניתן לשמור את הקבצים המצורפים, מכיוון שההורדה של {count,number} עדיין לא הסתיימה} other {לא ניתן לשמור את הקבצים המצורפים, מכיוון שההורדה של {count,number} עדיין לא הסתיימה}}"
   },
   "icu:you": {
     "messageformat": "את/ה"
@@ -5741,6 +5741,6 @@
     "messageformat": "אפשר לנהל את הלינקים שלך לשיחות, לשלוט בהגדרות האישור, ולהעתיק לינקים מלשונית השיחות לשיתוף מהיר."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "עכשיו אפשר להוריד במהירות כל תמונה באלבום כשמתקבלת הודעה עם מספר קבצים מצורפים. תודה, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "இணைப்பு சேமிக்கப்பட்டது."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {இணைப்பு சேமிக்கப்பட்டது} other {{count,number} இணைப்புகள் சேமிக்கப்பட்டன}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "கோப்புறையில் காட்டு"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {பதிவிறக்கத்தை நிறைவு செய்யாத காரணத்தால், இணைப்பைச் சேமிக்க முடியவில்லை} other {பதிவிறக்கத்தை நிறைவு செய்யாத காரணத்தால், {count,number}இணைப்புகளைச் சேமிக்க முடியவில்லை}}"
   },
   "icu:you": {
     "messageformat": "நீங்கள்"
@@ -5741,6 +5741,6 @@
     "messageformat": "★ கால் இணைப்புகளை நிர்வகிக்கலாம், ஒப்புதல் அமைப்புகளை கட்டுப்படுத்தலாம் & துரித பகிர்வுக்கு கால்களின் தாவலில் இருந்து இணைப்புகளை நகலெடுக்கலாம்."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "இப்போது நீங்கள் பல இணைப்புகளுடன் ஒரு மெசேஜைப் பெறும்போது, ஆல்பத்தில் உள்ள ஒவ்வொரு புகைப்படத்தையும் விரைவாகப் பதிவிறக்கலாம். நன்றி, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

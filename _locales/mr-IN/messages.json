@@ -789,13 +789,13 @@
     "messageformat": "संलग्नक/अटॅचमेंट सेव्ह झाली"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {संलग्नक जतन केले} other {{count,number} संलग्नके जतन केली}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "फोल्डर मध्ये दाखवा"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {संलग्नक जतन करू शकत नाही, कारण ते अजून पूर्ण डाऊनलोड झाले नाही} other {संलग्नके जतन करू शकत नाही, कारण {count,number} अजून पूर्ण डाऊनलोड झालेली नाहीत}}"
   },
   "icu:you": {
     "messageformat": "आपण"
@@ -5741,6 +5741,6 @@
     "messageformat": "आपण कॉल लिंक्स व्यवस्थापित करू शकता, मान्यता सेटिंग्ज नियंत्रित करू शकता, व त्वरित शेअरिंगसाठी कॉल्स टॅबमधून लिंक कॉपी करू शकता."
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "आता अनेक संलग्नके असलेला संदेश आला की आपण प्रत्येक फोटो एका अल्बममध्ये लगेच डाऊनलोड करू शकता. पण जर आपण दुसऱ्या जन्मात कलाभिज्ञ, रसिक दर्दी असाल, तर आपण त्यांना स्वतंत्रपणेही जतन करू शकता. धन्यवाद, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }

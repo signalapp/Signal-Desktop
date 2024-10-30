@@ -789,13 +789,13 @@
     "messageformat": "บันทึกแฟ้มแนบแล้ว"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {บันทึกไฟล์แนบ {count,number} รายการ}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "แสดงในโฟลเดอร์"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {ไม่สามารถบันทึกไฟล์แนบ เนื่องจากยังดาวน์โหลด {count,number} ไฟล์ไม่เสร็จสิ้น}}"
   },
   "icu:you": {
     "messageformat": "คุณ"
@@ -5741,6 +5741,6 @@
     "messageformat": "จัดการลิงก์การโทรที่คุณสร้างได้อย่างเต็มที่ นอกจากนี้ยังสามารถเลือกตั้งค่าเพื่ออนุมัติผู้เข้าร่วม รวมถึงคัดลอกลิงก์จากแท็บการโทรแล้วแชร์ได้แบบทันใจ"
   },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "สะดวกทุกทาง! เมื่อได้รับข้อความที่มีไฟล์แนบหลายไฟล์ คุณสามารถเลือกได้ตามใจว่าจะดาวน์โหลดรูปภาพทั้งหมดในอัลบั้มแบบทันที หรืออยากดาวน์โหลดแค่บางไฟล์ก็ไม่มีปัญหา ขอขอบคุณ <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   }
 }
