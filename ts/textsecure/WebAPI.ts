@@ -1270,7 +1270,7 @@ const StickerPackUploadFormSchema = z.object({
 });
 
 const TransferArchiveSchema = z.object({
-  cdn: z.literal(3),
+  cdn: z.number(),
   key: z.string(),
 });
 
