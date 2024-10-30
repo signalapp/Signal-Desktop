@@ -75,7 +75,7 @@
     "test:storybook:serve": "http-server storybook-static --port 6006 --silent",
     "test:storybook:test": "wait-on http://127.0.0.1:6006/ --timeout 5000 && test-storybook",
     "build": "run-s --print-label generate build:esbuild:prod build:release",
-    "build-win32-arm64": "run-s --print-label generate build:esbuild:prod build:release-win32-arm64",
+    "build-win32-all": "run-s --print-label generate build:esbuild:prod build:release-win32-all",
     "build-linux": "run-s generate build:esbuild:prod && npm run build:release -- --publish=never",
     "build:acknowledgments": "node scripts/generate-acknowledgments.js",
     "build:dns-fallback": "node ts/scripts/generate-dns-fallback.js",
@@ -86,7 +86,7 @@
     "build:esbuild:prod": "node scripts/esbuild.js --prod",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build:release": "cross-env SIGNAL_ENV=production npm run build:electron -- --config.directories.output=release",
-    "build:release-win32-arm64": "npm run build:release -- --arm64",
+    "build:release-win32-all": "npm run build:release -- --arm64 --x64",
     "build:preload-cache": "node ts/scripts/generate-preload-cache.js",
     "verify": "run-p --print-label verify:*",
     "verify:ts": "tsc --noEmit",
@@ -416,7 +416,7 @@
       "bundleVersion": "1"
     },
     "win": {
-      "artifactName": "${name}-win-${version}.${ext}",
+      "artifactName": "${name}-win-${arch}-${version}.${ext}",
       "certificateSubjectName": "Signal Messenger, LLC",
       "certificateSha1": "8D5E3CD800736C5E1FE459A1F5AA48287D4F6EC6",
       "signingHashAlgorithms": [
