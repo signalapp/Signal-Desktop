@@ -789,13 +789,13 @@
     "messageformat": "Manus salvestatud."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Manus salvestatud} other {{count,number} manust salvestatud}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Näita kaustas"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Manust ei saa salvestada, sest see ei ole veel lõpuni alla laetud} other {Manuseid ei saa salvestada, sest {count,number} ei ole veel lõpuni alla laetud}}"
   },
   "icu:you": {
     "messageformat": "Sina"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Taastamine peatatud"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Peata edastus"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "See uuendus muudab käivitumise umbes 5% kiiremaks."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Tutvustame kõnelinke – kalendrikutsete ja spontaansete kohtumiste puuduvat lüli."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Nüüd saad luua kiiresti lihtsa lingi, mida kõik Signali kasutajad saavad grupivestlusega liitumiseks kasutada, pidamata enne Signali grupivestlusega liituma."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Korduskasutatavad kõnelingid sobivad nii regulaarsete kõnede jaoks parimate sõpradega kui iganädalasteks koosolekuteks kolleegidega."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Saad oma kõnelinke hallata, kontrollida kinnitussätteid, ja kopeerida linke kõnede vahekaardilt kiireks jagamiseks."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Nüüd saad mitme manusega sõnumi saamisel kiiresti alla laadida kõik albumis olevad fotod. Aitäh, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

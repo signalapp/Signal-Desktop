@@ -789,13 +789,13 @@
     "messageformat": "Atașamentul a fost salvat."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Atașamentul a fost salvat} few {{count,number} atașamente au fost salvate} other {{count,number} de atașamente au fost salvate}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Afișează în director"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Nu se poate salva atașamentul, deoarece încă nu s-a terminat de descărcat} few {Nu se pot salva atașamentele, deoarece {count,number} încă nu au fost descărcate} other {Nu se pot salva atașamentele, deoarece {count,number} încă nu au fost descărcate}}"
   },
   "icu:you": {
     "messageformat": "Tu"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Restaurare întreruptă"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Întrerupe transferul"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Această actualizare îmbunătățește viteza de pornire cu aproximativ 5%, așa că nu ezita să reduci puțin ritmul în alte domenii ale vieții tale."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Îți prezentăm Linkurile apelurilor: veriga lipsă din invitațiile din calendar și din întâlnirile de ultim moment."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Acum, poți crea rapid un link simplu pe care oricine de pe Signal îl poate folosi pentru a se alătura unui apel de grup fără a fi nevoie să se alăture mai întâi la o conversație de grup Signal."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Linkurile apelurilor sunt reutilizabile și ideale pentru întâlniri telefonice recurente cu prietenii sau colegii."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Poți să gestionezi linkurile apelurilor, să controlezi aprobarea și să copiezi linkurile din fila Apeluri pentru trimitere rapidă."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Acum poți descărca rapid fiecare fotografie dintr-un album atunci când primești un mesaj cu mai multe atașamente. Dar dacă într-o altă viață ai fost curator de galerie cu un gust impecabil, le poți salva totuși și individual. Mulţumesc, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

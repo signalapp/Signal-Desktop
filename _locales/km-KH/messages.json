@@ -789,13 +789,13 @@
     "messageformat": "បាន​រក្សា​ទុក​ឯកសារ​ភ្ជាប់។"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {ឯកសារភ្ជាប់ {count,number} ត្រូវបានរក្សាទុក}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "បង្ហាញក្នុងថតឯកសារ"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {មិនអាចរក្សាទុកឯកសារភ្ជាប់បានទេ ដោយសារ {count,number} មិនទាន់បញ្ចប់ការទាញយកនៅឡើយ}}"
   },
   "icu:you": {
     "messageformat": "អ្នក"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "ការស្តារឡើងវិញត្រូវបានផ្អាក"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "ផ្អាកការផ្ទេរ"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "កំណែថ្មីនេះបង្កើនល្បឿននៃការចាប់ផ្តើមប្រហែល 5% ដូច្នេះទោះជាមានអ្វីយឺតយ៉ាវបន្តិចបន្តួចនៅក្នុងសកម្មភាពរស់នៅប្រចាំថ្ងៃរបស់អ្នកក៏មិនថ្វីដែរ។"
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "សូមណែនាំតំណហៅទូរសព្ទ៖ តំណដែលខ្វះសម្រាប់ការអញ្ជើញតាមប្រតិទិន និងការជួបជុំភ្លាមៗ។"
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "ឥឡូវនេះ អ្នកអាចបង្កើតតំណមួយបានដោយងាយ និងឆាប់រហ័ស ដែលនរណាៗនៅលើ Signal ក៏អាចប្រើវាបានដែរ ដើម្បីចូលរួមការហៅជាក្រុមដោយមិនចាំបាច់ចូលរួមការជជែកជាក្រុមនៅលើ Signal ជាមុនទេ។"
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "តំណហៅទូរសព្ទគឺអាចប្រើឡើងវិញបាន និងល្អឥតខ្ចោះសម្រាប់ការណាត់ជួបតាមទូរសព្ទម្តងហើយម្តងទៀតជាមួយមិត្តភក្តិរបស់អ្នក ឬសម្រាប់ការនិយាយគ្នាលេងជារៀងរាល់សប្តាហ៍ជាមួយមិត្តរួមការងារ។"
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "អ្នកអាចគ្រប់គ្រងតំណហៅទូរសព្ទរបស់អ្នក គ្រប់គ្រងការកំណត់លើការយល់ព្រម និងចម្លងតំណពីផ្ទាំងហៅទូរសព្ទសម្រាប់ការចែករំលែករហ័ស។"
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "ឥឡូវនេះ អ្នកអាចទាញយករាល់រូបថតនៅក្នុងអាល់ប៊ុមបានយ៉ាងលឿន នៅពេលដែលអ្នកទទួលបានសារដែលមានឯកសារភ្ជាប់ច្រើន។ ប៉ុន្តែអ្នកនៅតែអាចរក្សាទុកពួកវាម្តងមួយៗបានដែរ ប្រសិនបើអ្នកចង់ផ្តោតលើព័ត៌មានលម្អិត។ សូមអរគុណ <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

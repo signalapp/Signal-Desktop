@@ -789,13 +789,13 @@
     "messageformat": "ਅਟੈਚਮੈਂਟ ਸੇਵ ਕੀਤੀ ਗਈ।"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {ਅਟੈਚਮੈਂਟ ਸੇਵ ਕੀਤੀ ਗਈ।} other {{count,number} ਅਟੈਚਮੈਂਟਾਂ ਨੂੰ ਸੇਵ ਕੀਤਾ ਗਿਆ}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ਫੋਲਡਰ ਵਿੱਚ ਦਿਖਾਓ"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {ਅਟੈਚਮੈਂਟ ਨੂੰ ਸੇਵ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ, ਕਿਉਂਕਿ ਇਹ ਹਾਲੇ ਤੱਕ ਪੂਰੀ ਤਰ੍ਹਾਂ ਡਾਊਨਲੋਡ ਨਹੀਂ ਹੋਈ ਹੈ} other {ਅਟੈਚਮੈਂਟਾਂ ਨੂੰ ਸੇਵ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ, ਕਿਉਂਕਿ {count,number} ਅਟੈਚਮੈਂਟਾਂ ਹਾਲੇ ਤੱਕ ਪੂਰੀ ਤਰ੍ਹਾਂ ਡਾਊਨਲੋਡ ਨਹੀਂ ਹੋਈਆਂ ਹਨ}}"
   },
   "icu:you": {
     "messageformat": "ਤੁਸੀਂ"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "ਰੀਸਟੋਰ ਕਰਨਾ ਰੋਕਿਆ ਗਿਆ"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "ਟ੍ਰਾਂਸਫਰ ਨੂੰ ਰੋਕੋ"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "ਇਹ ਅੱਪਡੇਟ ਸਟਾਰਟਅੱਪ ਦੀ ਸਪੀਡ ਨੂੰ ਲਗਭਗ 5% ਤੱਕ ਵਧਾ ਦਿੰਦੀ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "ਪੇਸ਼ ਹਨ ਕਾਲ ਲਿੰਕ: ਕੈਲੰਡਰ ਦੇ ਸੱਦੇ ਅਤੇ ਅਚਾਨਕ ਰੱਖੀਆਂ ਗਈਆਂ ਮੀਟਿੰਗਾਂ ਲਈ ਜ਼ਰੂਰੀ ਲਿੰਕ।"
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਤੁਰੰਤ ਆਸਾਨੀ ਨਾਲ ਲਿੰਕ ਬਣਾ ਸਕਦੇ ਹੋ ਜਿਸਦੀ ਵਰਤੋਂ Signal 'ਤੇ ਕੋਈ ਵੀ ਵਿਅਕਤੀ ਗਰੁੱਪ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਕਰ ਸਕਦਾ ਹੈ, ਉਹ ਵੀ Signal ਗਰੁੱਪ ਚੈਟ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਏ ਬਿਨਾਂ।"
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "ਕਾਲ ਲਿੰਕ ਵਾਰ-ਵਾਰ ਵਰਤੇ ਜਾ ਸਕਦੇ ਹਨ ਅਤੇ ਦੋਸਤਾਂ ਨਾਲ ਗੱਲਾਂ ਮਾਰਨ ਜਾਂ ਸਹਿਕਰਮੀਆਂ ਨਾਲ ਜ਼ਰੂਰੀ ਗੱਲਬਾਤ ਕਰਨ ਲਈ ਸਭ ਤੋਂ ਵਧੀਆ ਹਨ।"
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "ਤੁਸੀਂ ਕਾਲ ਟੈਬ ਤੋਂ ਆਪਣੇ ਕਾਲ ਲਿੰਕ ਨੂੰ ਪ੍ਰਬੰਧਿਤ, ਮਨਜ਼ੂਰੀ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਕੰਟਰੋਲ ਅਤੇ ਤੁਰੰਤ ਸਾਂਝਾ ਕਰਨ ਲਈ ਲਿੰਕ ਕਾਪੀ ਕਰ ਸਕਦੇ ਹੋ।"
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "ਹੁਣ ਜਦੋਂ ਤੁਹਾਨੂੰ ਕਈ ਅਟੈਚਮੈਂਟਾਂ ਵਾਲਾ ਸੁਨੇਹਾ ਪ੍ਰਾਪਤ ਹੁੰਦਾ ਹੈ ਤਾਂ ਤੁਸੀਂ ਇੱਕ ਐਲਬਮ ਵਿੱਚ ਹਰੇਕ ਫ਼ੋਟੋ ਨੂੰ ਤੁਰੰਤ ਡਾਊਨਲੋਡ ਕਰ ਸਕਦੇ ਹੋ। ਧੰਨਵਾਦ, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

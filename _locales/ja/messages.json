@@ -789,13 +789,13 @@
     "messageformat": "添付ファイルを保存しました。"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {{count,number}個の添付ファイルを保存しました。}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "フォルダで表示"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {{count,number}個がまだダウンロードを完了していないため、添付ファイルを保存できません}}"
   },
   "icu:you": {
     "messageformat": "あなた"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "復元が中断されました"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "転送を一時停止する"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "このアップデートにより、起動速度が約5％向上しました。"
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "スケジュール調整や突然の集まりの時に便利な通話リンクのご紹介です。"
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Signalのグループチャットに参加していなくても、Signalユーザーなら誰でもグループ通話に参加できる便利なリンクをすばやく作成できるようになりました。"
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "通話リンクは何度でも使えるので、親友との恒例の電話でのおしゃべりや、同僚との毎週の打ち合わせに最適です。"
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "通話リンクの管理や、承認・不承認の設定、通話タブからのリンクのコピーによる素早い共有などができます。"
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "複数の添付ファイルがあるメッセージを受信したときに、アルバム内のすべての写真を迅速にダウンロードできるようになりました。ギャラリーから厳選したい場合は、個別に保存することもできます。<linkMajorMayer>@major-mayer</linkMajorMayer>さん、ありがとうございました。"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "Aanhegsel gestoor."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Aanhegsel gestoor} other {{count,number} aanhegsels gestoor}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Wys in vouer"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Kan nie aanhegsel stoor nie, aangesien dit nog nie klaar afgelaai is nie} other {Kan nie aanhegsel stoor nie, aangesien {count,number} nog nie klaar afgelaai is nie}}"
   },
   "icu:you": {
     "messageformat": "Jy"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Herstel is onderbreek"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Onderbreek oordrag"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Hierdie opdatering verbeter oopmaakspoed met ongeveer 5%."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Ons stel Oproepskakels bekend: Die ontbrekende skakel vir kalenderuitnodigings en spontane byeenkomste."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Nou kan jy vinnig 'n maklike skakel skep vir enige Signal-gebruiker om direk by 'n groepoproep aan te sluit sonder om eers by 'n Signal-groepklets aan te sluit."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Oproepskakels is herbruikbaar en ideaal vir herhalende telefoonafsprake met beste vriende of vir weeklikse inhaal met kollegas."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Jy kan jou oproepskakels bestuur, goedkeuringsinstellings beheer en skakels van die oproep-ikoon af kopieer om vinnig te deel."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Nou kan jy vinnig elke foto in 'n album aflaai wanneer jy 'n boodskap met veelvuldige aanhegsels ontvang. Dankie, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

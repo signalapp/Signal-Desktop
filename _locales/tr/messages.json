@@ -789,13 +789,13 @@
     "messageformat": "Eklenti kaydedildi."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Eklenti kaydedildi} other {{count,number} eklenti kaydedildi}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Klasörde göster"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {İndirme henüz tamamlanmadığı için eklenti kaydedilemiyor} other {{count,number} indirme henüz tamamlanmadığı için eklentiler kaydedilemiyor}}"
   },
   "icu:you": {
     "messageformat": "Siz"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Geri yükleme duraklatıldı"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Aktarımı duraklat"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Bu güncellemede başlangıç hızını yaklaşık %5 oranında artırdık."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Arama Bağlantıları Tanıtımı: Takvim davetleri ve doğaçlama toplantılar için eksik olan bağlantı."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Bundan böyle Signal'deki herkesin önce bir Signal grup sohbetine katılmak zorunda kalmadan, grup aramasına katılmak için kullanabileceği kolay bir bağlantıyı hızla oluşturabilirsin."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "• Arama bağlantıları yeniden kullanılabilir ve en iyi arkadaşlarınla sürekli yaptığın telefon görüşmeleri veya iş arkadaşlarınla haftalık buluşmalar için idealdir."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Arama bağlantılarını yönetebilir, onay ayarlarını kontrol edebilir ve hızlı paylaşım için bağlantıları aramalar sekmesinden kopyalayabilirsin."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Bundan böyle çok sayıda eklenti içeren bir mesaj aldığında, bir albümdeki tüm fotoğrafları hızla indirebilirsin. İşleri uzatmaktan hoşlanıyorsan, fotoğrafları teker teker de indirebilirsin tabi. Teşekkürler, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

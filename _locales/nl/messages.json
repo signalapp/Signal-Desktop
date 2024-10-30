@@ -789,13 +789,13 @@
     "messageformat": "Bijlage opgeslagen."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Bijlage opgeslagen} other {{count,number} bijlagen opgeslagen}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "In map weergeven"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Kan de bijlage niet opslaan, omdat deze nog niet is gedownload} other {Kan de bijlagen niet opslaan, omdat {count,number} bijlagen nog niet zijn gedownload}}"
   },
   "icu:you": {
     "messageformat": "Jij"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Herstellen gepauzeerd"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Overzetten pauzeren"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Deze update verbetert de opstartsnelheid met ongeveer 5%. Start Signal snel op om het te ervaren."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Maak kennis met oproeplinks: de ontbrekende schakel voor agenda-uitnodigingen en spontane bijeenkomsten."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Je kunt nu snel en gemakkelijk een link maken die iedereen op Signal kan gebruiken om deel te nemen aan een groepsoproep zonder eerst lid te worden van een Signal-groepschat."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Oproeplinks kun je steeds opnieuw gebruiken. Ze zijn ideaal voor al die gesprekken met je beste vrienden of wekelijkse check-ins met je collega's."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Via het tabblad Oproepen kun je oproeplinks en goedkeuringsinstellingen beheren en links kopiëren om gemakkelijk te delen."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Je kunt nu snel alle foto's uit een album downloaden wanneer je een bericht met meerdere bijlagen ontvangt. Maar als het gevoel van verzamelen je een kick geeft, mag je ze ook één voor één downloaden. Bedankt, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

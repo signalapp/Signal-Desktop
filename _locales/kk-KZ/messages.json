@@ -789,13 +789,13 @@
     "messageformat": "Тіркеме сақталды."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Тіркеме сақталды} other {{count,number} тіркеме сақталды}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Қалтада көрсету"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Тіркеме сақталмады, себебі ол әлі жүктеп алынып жатыр} other {Тіркемелер сақталмады, себебі {count,number} тіркеме әлі жүктеп алынып жатыр}}"
   },
   "icu:you": {
     "messageformat": "Сіз"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Қалпына келтіру кідіртілді"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Тасымалдауды кідірту"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Бұл жаңарту іске қосу жылдамдығын шамамен 5%-ға арттырады, сондықтан өміріңіздің басқа бөліктерінде емін-еркін баяулай тұрыңыз."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Қоңырау сілтемелері: күнтізбедегі шақырулар мен тосын кездесулерге арналған сілтеме."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Енді Signal-дағы кез келген адам топтық чатқа қосылмай-ақ, топтық қоңырауға қосылу үшін қолдана алатын сілтемені жылдам жасай аласыз."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Қоңырау сілтемелерін бірнеше рет қолдануға болады. Жан достарыңызбен жиі-жиі немесе әріптестеріңізбен апта сайын сөйлесіп тұруға өте қолайлы."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Қоңырау сілтемелерін, мақұлдау параметрлерін басқаруға және сілтемелерді бөлісу үшін қоңыраулар қойындысынан көшіруге болады."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Енді бірнеше тіркемесі бар хабар алғанда, фотосуреттердің барлығын альбомға жылдам жүктеп алуыңызға болады. Ал егер фотосуреттерге галереяның талғампаз жетекшісіндей мән беретін болсаңыз, оларды жеке-жеке де сақтай аласыз. Рақмет, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

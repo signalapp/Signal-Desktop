@@ -789,13 +789,13 @@
     "messageformat": "இணைப்பு சேமிக்கப்பட்டது."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {இணைப்பு சேமிக்கப்பட்டது} other {{count,number} இணைப்புகள் சேமிக்கப்பட்டன}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "கோப்புறையில் காட்டு"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {பதிவிறக்கத்தை நிறைவு செய்யாத காரணத்தால், இணைப்பைச் சேமிக்க முடியவில்லை} other {பதிவிறக்கத்தை நிறைவு செய்யாத காரணத்தால், {count,number}இணைப்புகளைச் சேமிக்க முடியவில்லை}}"
   },
   "icu:you": {
     "messageformat": "நீங்கள்"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "மீட்டமைப்பு இடைநிறுத்தப்பட்டது"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "பரிமாற்றத்தை இடைநிறுத்துக"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "இந்தப் புதுப்பிப்பு தொடக்க வேகத்தை சுமார் 5% அதிகரிக்கிறது."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "கால் இணைப்புகளை வழங்குகிறோம்: கேலெண்டர் அழைப்புகள் & உடனடி சந்திப்புகளுக்காக விடுபட்ட இணைப்பு."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "★ முதலில் சிக்னல் குழு சாட்டில் சேராமல், சிக்னல் குழு காலில் சேர உபயோகிக்கும் எளிய இணைப்பை எவரும் உருவாக்கலாம்."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "★ கால் இணைப்புகளை மீண்டும் உபயோகிக்கலாம் & நண்பர்களுடன் தொடர்ச்சியான போன் கால் தேதிகள்/சக ஊழியர்களுடன் வாராந்திர செக்-இன்களுக்கு ஏற்றவை."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "★ கால் இணைப்புகளை நிர்வகிக்கலாம், ஒப்புதல் அமைப்புகளை கட்டுப்படுத்தலாம் & துரித பகிர்வுக்கு கால்களின் தாவலில் இருந்து இணைப்புகளை நகலெடுக்கலாம்."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "இப்போது நீங்கள் பல இணைப்புகளுடன் ஒரு மெசேஜைப் பெறும்போது, ஆல்பத்தில் உள்ள ஒவ்வொரு புகைப்படத்தையும் விரைவாகப் பதிவிறக்கலாம். நன்றி, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

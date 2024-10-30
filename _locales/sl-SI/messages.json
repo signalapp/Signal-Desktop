@@ -789,13 +789,13 @@
     "messageformat": "Priponka je bila shranjena."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Priponka je shranjena} two {{count,number} priponki sta shranjeni} few {{count,number} priponke so shranjene} other {{count,number} priponk je shranjenih}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Prikaži v mapi"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Ni mogoče shraniti priponke, saj se prenos še ni zaključil} two {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil} few {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil} other {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil}}"
   },
   "icu:you": {
     "messageformat": "Vi"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Obnovitev je prekinjena"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Prekini prenos"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Ta posodobitev izboljša hitrost zagona za približno 5 %, zato se lahko na drugih področjih svojega življenja nekoliko upočasnite."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Tukaj so klicne povezave: manjkajoč člen za koledarska vabila in improvizirana srečanja."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Hitro ustvarite preprosto povezavo, preko katere se lahko vsak v Signalu pridruži skupinskemu klicu, ne da bi se moral pridružiti skupinskemu klepetu."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Klicne povezave so za večkratno uporabo in so idealne za redne telefonske zmenke s prijatelji ali sestanke s sodelavci."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Upravljajte klicne povezave, nadzorujte nastavitve odobritev in kopirajte povezave z zavihka s klici za hitro skupno rabo."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Ko prejmete sporočilo z več priponkami, lahko zdaj hitro prenesete vse fotografije v albumu. Če pa ste bili v preteklem življenju kustos galerije z brezhibnim okusom, jih lahko shranite tudi posamezno. Hvala, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

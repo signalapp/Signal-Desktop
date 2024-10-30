@@ -789,13 +789,13 @@
     "messageformat": "Anexo guardado."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Anexo guardado} other {{count,number} anexos guardados}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostrar na pasta"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Não é possível guardar o anexo, uma vez que a transferência ainda não terminou} other {Não é possível guardar os anexos, uma vez que {count,number} transferências ainda não terminaram}}"
   },
   "icu:you": {
     "messageformat": "Você"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Restauro pausado"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pausar transferência"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Esta atualização melhora a velocidade de arranque em cerca de 5%."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Apresentamos os links de chamadas: a ligação perdida para convites de calendário e encontros à última hora."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Agora pode criar rapidamente um link fácil que qualquer pessoa no Signal pode usar para se juntar a uma chamada de grupo, sem ter de se juntar a um chat de grupo do Signal primeiro."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Os links de chamada são reutilizáveis e ideais para chamadas regulares com amigos ou para reuniões com colegas de trabalho."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Pode gerir os seus links de chamadas, controlar definições de aprovação e criar links a partir do separador de chamadas para uma partilha rápida."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Agora pode transferir rapidamente todas as fotos num álbum ao receber uma mensagem com múltiplos anexos. Obrigado, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

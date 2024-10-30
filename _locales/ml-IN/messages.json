@@ -789,13 +789,13 @@
     "messageformat": "അറ്റാച്ചുമെന്റ് സംരക്ഷിച്ചു."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {അറ്റാച്ച്മെൻ്റ് സംരക്ഷിച്ചു} other {{count,number} അറ്റാച്ച്മെൻ്റ് സംരക്ഷിച്ചു}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ഫോൾഡറിൽ കാണിക്കുക"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {ഇതുവരെ ഡൗൺലോഡ് പൂർത്തിയാക്കാത്തതിനാൽ അറ്റാച്ച്മെൻ്റ് സംരക്ഷിക്കാൻ കഴിയില്ല} other {{count,number} എണ്ണം ഇതുവരെ ഡൗൺലോഡ് പൂർത്തിയാക്കാത്തതിനാൽ അറ്റാച്ച്‌മെൻ്റുകൾ സംരക്ഷിക്കാൻ കഴിയില്ല}}"
   },
   "icu:you": {
     "messageformat": "നിങ്ങൾ"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "പുനഃസ്ഥാപിക്കൽ താൽക്കാലികമായി നിർത്തി"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "കൈമാറ്റം താൽക്കാലികമായി നിർത്തുക"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "ഈ അപ്‌ഡേറ്റ്, സ്റ്റാർട്ടപ്പ് വേഗത ഏകദേശം 5% മെച്ചപ്പെടുത്തുന്നു, അതിനാൽ നിങ്ങളുടെ ജീവിതത്തിൻ്റെ മറ്റ് മേഖലകളിൽ അൽപ്പം വേഗത കുറയ്ക്കാൻ മടിക്കേണ്ടതില്ല."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "കോൾ ലിങ്കുകൾ അവതരിപ്പിക്കുന്നു: കലണ്ടർ ക്ഷണങ്ങൾക്കും തൽക്ഷണമുള്ള ഒത്തുകൂടലിനുമുള്ള വിട്ടുപോയ ലിങ്ക്."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "ആദ്യം Signal ഗ്രൂപ്പ് ചാറ്റിൽ ചേരാതെ തന്നെ ഗ്രൂപ്പ് കോളിൽ ചേരാൻ Signal-ലുള്ള ആർക്കും ഉപയോഗിക്കാവുന്ന ഒരു എളുപ്പ ലിങ്ക് ഇപ്പോൾ നിങ്ങൾക്ക് വേഗത്തിൽ സൃഷ്ടിക്കാം."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "കോൾ ലിങ്കുകൾ പുനരുപയോഗിക്കാവുന്നതും ചങ്ങാതിമാരുമായുള്ള ഫോൺ ഡേറ്റുകൾ ആവർത്തിക്കുന്നതിനോ സഹപ്രവർത്തകരുമായി പ്രതിവാര ചെക്ക്-ഇന്നുകൾക്കോ യോജ്യവുമാണ്."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "കോൾ ലിങ്കുകളും അംഗീകാര ക്രമീകരണങ്ങളും നിയന്ത്രിക്കാനും, വേഗത്തിൽ പങ്കിടാനായി കോൾ ടാബിൽ നിന്ന് ലിങ്കുകൾ പകർത്താനും കഴിയും."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "ഒന്നിലധികം അറ്റാച്ച്‌മെൻ്റുകളുള്ള ഒരു സന്ദേശം ലഭിക്കുമ്പോൾ, ഇപ്പോൾ നിങ്ങൾക്ക് ആൽബത്തിലെ എല്ലാ ഫോട്ടോകളും വേഗത്തിൽ ഡൗൺലോഡ് ചെയ്യാം. എന്നാൽ നിങ്ങൾ കുറ്റമറ്റ അഭിരുചിയുള്ള ഒരു ഗാലറി ക്യൂറേറ്റർ ആയിരുന്നെങ്കിൽ, നിങ്ങൾക്ക് ഇപ്പോഴും അവ വെവ്വേറെ സംരക്ഷിക്കാൻ കഴിയും. നന്ദി, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }
