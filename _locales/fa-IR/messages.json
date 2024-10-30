@@ -789,13 +789,13 @@
     "messageformat": "پیوست ذخیره شد"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {پیوست ذخیره شد} other {{count,number} پیوست ذخیره شد}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "نمایش در پوشه"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {پیوست ذخیره نشد، زیرا هنوز دانلود آن تمام نشده است} other {پیوست‌ها ذخیره نشد، زیرا هنوز دانلود {count,number} پیوست تمام نشده است}}"
   },
   "icu:you": {
     "messageformat": "شما"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "بازیابی موقتاً متوقف شد"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "توقف موقت انتقال"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "این نسخۀ جدید، سرعت راه‌اندازی را تا حدود ۵٪ بهبود می‌بخشد."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "معرفی پیوندهای تماس: پیوند ازقلم‌افتاده برای دعوت‌های تقویمی و گردهمایی‌های برنامه‌ریزی نشده."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "اکنون می‌توانید به‌سرعت و به‌راحتی یک پیوند ایجاد کنید که هر کسی در سیگنال بتواند بدون نیاز به پیوستن به گفتگوی گروهی سیگنال، با استفاده از آن مستقیماً به تماس گروهی بپیوندد."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "پیوندهای تماس قابلیت استفاده چندباره دارند و بهترین گزینه برای قرارهای تلفنی مکرر با دوستان صمیمی یا احوال‌پرسی هفتگی با همکاران هستند."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "برای اشتراک‌گذاری سریع، می‌توانید پیوندهای تماس خود را مدیریت کنید، تنظیمات تأیید را کنترل کنید، و پیوندها را از زبانه تماس‌ها کپی کنید."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "اکنون می‌توانید هنگام دریافت پیامی با چندین پیوست، به‌سرعت همه عکس‌ها را به‌صورت آلبوم دانلود کنید. متشکریم، <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

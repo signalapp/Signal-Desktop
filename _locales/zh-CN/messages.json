@@ -789,13 +789,13 @@
     "messageformat": "附件已保存"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {已保存 {count,number} 个附件}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "在文件夹中显示"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {无法保存附件，因为 {count,number} 个下载尚未完成}}"
   },
   "icu:you": {
     "messageformat": "您"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "恢复已暂停"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "暂停转移"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "此次更新将启动速度提升了大约 5%。"
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "通话链接新功能上线：无论是提前邀请，还是临时通话，通话链接都能搞定。"
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "现在您可以快速创建一个简易链接，让 Signal 用户无需提前加入群组聊天即可加入群组通话。"
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "通话链接可重复使用，非常适合用于与好友定期通话或与同事每周签到。"
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "您可以管理通话链接，控制批准设置，并可以直接从通话选项卡中复制链接，实现快速分享。"
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "现在当您收到包含多个附件的消息时，您可以快速下载相册中的每张照片。对此我们要感谢 <linkMajorMayer>@major-mayer</linkMajorMayer>！"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

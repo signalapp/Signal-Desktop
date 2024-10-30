@@ -789,13 +789,13 @@
     "messageformat": "تم حفظ المرفق."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, zero {تمَّ حفظ {count,number} ملف مُرفَق} one {تمَّ حفظ ملف مُرفَق واحد} two {تمَّ حفظ {count,number} ملفين مُرفَقين} few {تمَّ حفظ {count,number} ملفات مُرفَقة} many {تمَّ حفظ {count,number} ملفًا مُرفقًا} other {تمَّ حفظ {count,number} ملف مُرفَق}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "أظهر ذلك في الملف"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, zero {تعذَّر حفظ الملفات المُرفَقة، لأنه لم ينته تحميل {count,number} ملف بعد.} one {تعذَّرحفظ الملف المُرفَق، لأنه لم يتم تحميله بعد.} two {تعذَّر حفظ الملفين المُرفَقين، لأنه لم يتم تحميل {count,number} الملفين بعد.} few {تعذَّر حفظ الملفات المُرفَقة، لأنه لم يتم تحميل {count,number} ملفات بعد.} many {تعذَّر حفظ الملفات المُرفَقة، لأنه لم يتم تحميل {count,number} ملفًا بعد.} other {تعذَّر حفظ الملفات المُرفقة، لأنه لم يتم تحميل {count,number} مفٍ بعد.}}"
   },
   "icu:you": {
     "messageformat": "أنت"
@@ -1011,7 +1011,7 @@
     "messageformat": "حذف"
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
-    "messageformat": "حذف الدردشة؟"
+    "messageformat": "أترغبُ بحذف الدردشة؟"
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description": {
     "messageformat": "ستُحذَف رسائل هذه المحادثة من هذا الجهاز."
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "تمَّ إيقاف الاسترجاع"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "إيقاف النقل مؤقَّتًا"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "يُحسِّن هذا التحديث سرعة بدء التشغيل بنسبة تقارب 5%."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "تعرَّفوا على روابط المكالمات: الحلقة المفقودة لدعوات التقويم والاجتماعات الطارئة."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "• يُمكنك الآن إنشاء رابط بسيط بسرعة يُمكن لأي أحد في سيجنال استعماله للانضمام إلى مكالمة جماعية دون الحاجة إلى الانضمام إلى دردشة جماعية في سيجنال أولًا."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "• يمكن إعادة استخدام روابط المكالمات وهي مناسبة للقاءات الهاتفية المُتكرِّرة مع أعز أصدقائك أو المكالمات الأسبوعية مع زملائك."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "• يمكنك إدارة روابط المكالمات والتحكُّم في إعدادات القبول ونسخ روابط من علامة تبويب \"المكالمات\" لمشاركتها بسرعة."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "يمكنك الآن تنزيل جميع الصور في الألبوم بسرعة عند تلقّي رسالة تحتوي على عدة ملفات مُرفَقة. ولكن إن كنت تهتمُّ باختيار الصور التي تفضِّل، فلا يزال بإمكانك حفظها بشكل فردي أيضًا. شكرًا، <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

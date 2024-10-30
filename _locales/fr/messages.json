@@ -420,7 +420,7 @@
     "messageformat": "Le numéro de sécurité que vous essayez de confirmer a changé. Veuillez vérifier votre nouveau numéro de sécurité avec {name1}. N’oubliez pas que ce changement peut signifier que quelqu’un essaie d’intercepter vos communications ou que {name2} a simplement réinstallé Signal."
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Les contacts suivants ont peut-être réinstallé Signal ou changé d’appareil. Appuyez sur le contact pour confirmer le nouveau numéro de sécurité. Cette étape est facultative."
+    "messageformat": "Les contacts suivants ont peut-être réinstallé Signal ou changé d'appareil. Sélectionnez un contact pour confirmer son nouveau numéro de sécurité. Cette étape est facultative."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
     "messageformat": "Envoyer les messages en attente"
@@ -429,7 +429,7 @@
     "messageformat": "Vérifier"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
-    "messageformat": "{count, plural, one {{count,number} connexion a peut-être réinstallé Signal ou changé d’appareil. Vous avez la possibilité de vérifier son numéro de sécurité avant d’appuyer sur envoyer.} other {{count,number} connexions ont peut-être réinstallé Signal ou changé d’appareil. Vous avez la possibilité de vérifier leur numéro de sécurité avant d’appuyer sur envoyer.}}"
+    "messageformat": "{count, plural, one {{count,number} contact a peut-être réinstallé Signal ou changé d'appareil. Si vous le souhaitez, vous pouvez vérifier son numéro de sécurité avant d'envoyer votre message.} other {{count,number} contacts ont peut-être réinstallé Signal ou changé d'appareil. Si vous le souhaitez, vous pouvez vérifier leur numéro de sécurité avant d'envoyer votre message.}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
     "messageformat": "Toutes les connexions ont été vérifiées, appuyez sur envoyer pour continuer."
@@ -789,13 +789,13 @@
     "messageformat": "Pièce jointe enregistrée."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Pièce jointe enregistrée} other {{count,number} pièces jointes enregistrées}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Afficher dans le dossier"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Pièce jointe en cours de téléchargement : impossible de l'enregistrer pour le moment.} other {{count,number} pièces jointes en cours de téléchargement : impossible de les enregistrer pour le moment.}}"
   },
   "icu:you": {
     "messageformat": "Vous"
@@ -1296,7 +1296,7 @@
     "messageformat": "Couper le microphone"
   },
   "icu:calling__button--audio-on": {
-    "messageformat": "Réactiver le microphone"
+    "messageformat": "Réactiver le micro"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "Partage d’écran désactivé"
@@ -1500,7 +1500,7 @@
     "messageformat": "Toujours relayer les appels"
   },
   "icu:alwaysRelayCallsDetail": {
-    "messageformat": "Relayer tous les appels par le serveur Signal pour éviter de divulguer votre adresse IP à votre contact. L’activation de cette option réduira la qualité des appels."
+    "messageformat": "Relayer tous les appels via un serveur Signal pour éviter de révéler votre adresse IP à votre contact. L'activation de cette option réduit la qualité des appels."
   },
   "icu:permissions": {
     "messageformat": "Autorisations"
@@ -1536,7 +1536,7 @@
     "messageformat": "Supprimer les données de l’application"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "Toutes les données dans l’application seront supprimées, y compris tous les messages et les informations de compte enregistrées."
+    "messageformat": "Pour supprimer l'ensemble des données disponibles dans l'application – y compris tous les messages et toutes les informations enregistrées dans le compte."
   },
   "icu:clearDataButton": {
     "messageformat": "Supprimer les données"
@@ -1701,10 +1701,10 @@
     "messageformat": "Autoriser les appels entrants"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "{sender} a changé son nom de profil de {oldProfile} en {newProfile}."
+    "messageformat": "{sender} a remplacé son nom de profil \"{oldProfile}\" par un nouveau nom de profil : \"{newProfile}\"."
   },
   "icu:changedProfileName": {
-    "messageformat": "{oldProfile} a changé son nom de profil en {newProfile}."
+    "messageformat": "{oldProfile} a remplacé son nom de profil par {newProfile}."
   },
   "icu:SafetyNumberModal__title": {
     "messageformat": "Confirmer le numéro de sécurité"
@@ -1728,7 +1728,7 @@
     "messageformat": "Afficher le numéro de sécurité"
   },
   "icu:cannotGenerateSafetyNumber": {
-    "messageformat": "Cet utilisateur ne pourra pas être confirmé tant que vous n’aurez pas échangé de messages."
+    "messageformat": "Pour confirmer le numéro de sécurité de cet utilisateur, vous devez d'abord échanger des messages avec lui."
   },
   "icu:themeLight": {
     "messageformat": "Clair"
@@ -2562,7 +2562,7 @@
     "messageformat": "Signal sera informé que cette personne envoie peut-être des spams. Nous n’avons cependant jamais accès au contenu des conversations."
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
-    "messageformat": "Signal sera informé que la personne qui vous a invité à rejoindre ce groupe envoie peut-être des spams. Nous n’avons cependant jamais accès au contenu des conversations."
+    "messageformat": "Signal sera informé que la personne qui vous a invité à rejoindre ce groupe envoie peut-être des spams. Nous n'avons cependant jamais accès au contenu des conversations."
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
     "messageformat": "Signal sera informé que la personne qui vous a invité à rejoindre ce groupe, à savoir {name}, envoie peut-être des spams. Nous n’avons cependant jamais accès au contenu des conversations."
@@ -2634,7 +2634,7 @@
     "messageformat": "Aucun groupe en commun"
   },
   "icu:no-groups-in-common-warning": {
-    "messageformat": "Aucun groupe en commun. Examinez les demandes avec attention."
+    "messageformat": "Aucun groupe en commun. Examinez attentivement les demandes avant de les accepter."
   },
   "icu:acceptCall": {
     "messageformat": "Répondre à l’appel"
@@ -2925,7 +2925,7 @@
     "messageformat": "Toujours en sourdine"
   },
   "icu:unmute": {
-    "messageformat": "Désactiver la sourdine"
+    "messageformat": "Réactiver le son"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Toujours en sourdine"
@@ -3420,31 +3420,31 @@
     "messageformat": "La description du groupe a été effacée."
   },
   "icu:GroupV2--description--change--you": {
-    "messageformat": "Vous avez changé la description du groupe."
+    "messageformat": "Vous avez modifié la description du groupe."
   },
   "icu:GroupV2--description--change--other": {
-    "messageformat": "{memberName} a changé la description du groupe."
+    "messageformat": "{memberName} a modifié la description du groupe."
   },
   "icu:GroupV2--description--change--unknown": {
     "messageformat": "La description du groupe a été changée."
   },
   "icu:GroupV2--announcements--admin--you": {
-    "messageformat": "Vous avez changé les paramètres du groupe afin d’autoriser seulement les administrateurs à envoyer des messages."
+    "messageformat": "Vous avez modifié les paramètres du groupe : seuls les admins peuvent maintenant envoyer des messages."
   },
   "icu:GroupV2--announcements--admin--other": {
-    "messageformat": "{memberName} a changé les paramètres du groupe afin de n’autoriser que les administrateurs à envoyer des messages."
+    "messageformat": "{memberName} a modifié les paramètres du groupe : seuls les admins peuvent maintenant envoyer des messages."
   },
   "icu:GroupV2--announcements--admin--unknown": {
-    "messageformat": "Le groupe a été changé afin de n’autoriser que les administrateurs à envoyer des messages."
+    "messageformat": "Modification des paramètres du groupe : seuls les admins peuvent maintenant envoyer des messages."
   },
   "icu:GroupV2--announcements--member--you": {
-    "messageformat": "Vous avez changé les paramètres du groupe afin d’autoriser tous les membres à envoyer des messages."
+    "messageformat": "Vous avez modifié les paramètres du groupe : tous les membres peuvent maintenant envoyer des messages. "
   },
   "icu:GroupV2--announcements--member--other": {
-    "messageformat": "{memberName} a changé les paramètres du groupe afin d’autoriser tous les membres à envoyer des messages."
+    "messageformat": "{memberName} a modifié les paramètres du groupe : tous les membres peuvent maintenant envoyer des messages."
   },
   "icu:GroupV2--announcements--member--unknown": {
-    "messageformat": "Le groupe a été changé afin d’autoriser tous les membres à envoyer des messages."
+    "messageformat": "Modification des paramètres du groupe : tous les membres peuvent maintenant envoyer des messages. "
   },
   "icu:GroupV2--summary": {
     "messageformat": "Les membres ou les paramètres de ce groupe ont changé."
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Restauration mise en pause"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Mettre en pause le transfert"
   },
@@ -3696,7 +3702,7 @@
     "messageformat": "Paramètres de la conversation"
   },
   "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Enlever la mise en sourdine pour cette conversation ?"
+    "messageformat": "Réactiver le son pour cette conversation ?"
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Lien de groupe"
@@ -4083,7 +4089,7 @@
     "messageformat": "Conseils de sécurité"
   },
   "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Vous n’avez aucun groupe en commun avec cette personne. Examinez attentivement les demandes avant d’accepter pour éviter les messages indésirés."
+    "messageformat": "Vous n'avez aucun groupe en commun avec cette personne. Pour éviter les messages indésirables, examinez attentivement les demandes avant de les accepter."
   },
   "icu:MessageRequestWarning__dialog__learn-even-more": {
     "messageformat": "À propos des invitations par message"
@@ -4125,7 +4131,7 @@
     "messageformat": "Contact Signal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "A récemment changé son nom de profil de {oldName} à {newName}."
+    "messageformat": "a récemment remplacé son nom de profil \"{oldName}\" par un nouveau nom de profil : \"{newName}\"."
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
     "messageformat": "Retirer du groupe"
@@ -4269,7 +4275,7 @@
     "messageformat": "Semaines"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Définissez un délai avant disparition des messages éphémères pour toutes les nouvelles conversations que vous initiez."
+    "messageformat": "Définissez un délai avant disparition des messages éphémères. Il s'appliquera à toutes les nouvelles conversations que vous lancez."
   },
   "icu:settings__DisappearingMessages__timer__label": {
     "messageformat": "Délai avant disparition"
@@ -4446,7 +4452,7 @@
     "messageformat": "Changer de photo"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Vos contacts, vos groupes et les personnes avec qui vous échangez des messages peuvent voir votre profil et les modifications que vous y apportez."
+    "messageformat": "Vos contacts, vos groupes et les personnes avec qui vous échangez des messages peuvent voir votre profil et les modifications que vous y apportez."
   },
   "icu:ProfileEditor--info--pnp": {
     "messageformat": "Votre nom d’utilisateur, votre code QR et votre lien ne s’affichent pas sur votre profil. Ne les partagez qu’avec des personnes de confiance."
@@ -4569,7 +4575,7 @@
     "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}"
   },
   "icu:Preferences__privacy--description": {
-    "messageformat": "Pour modifier ces paramètres, ouvrez l’appli Signal sur votre appareil mobile et naviguez vers Paramètres > Confidentialité"
+    "messageformat": "Pour modifier ces paramètres, ouvrez l'appli Signal sur votre appareil mobile et sélectionnez Paramètres > Confidentialité."
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Numéro de téléphone"
@@ -4854,13 +4860,13 @@
     "messageformat": "Supprimer cette story ? Cela la supprime aussi pour tous ses destinataires."
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "Vous avez initié une procédure de paiement pour {receiver}"
+    "messageformat": "Vous avez initié une procédure de paiement en faveur de {receiver}"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
     "messageformat": "Vous avez initié une procédure de paiement"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} a initié une procédure de paiement pour vous"
+    "messageformat": "{sender} a initié une procédure de paiement en votre faveur"
   },
   "icu:payment-event-activation-request-label": {
     "messageformat": "{sender} souhaite que vous activiez les paiements. N’envoyez de paiements qu’aux personnes en qui vous avez confiance. Vous pouvez activer les paiements depuis votre téléphone mobile via Paramètres > Paiements."
@@ -5148,7 +5154,7 @@
     "messageformat": "Seuls les administrateurs peuvent envoyer des Stories à ce groupe."
   },
   "icu:Stories__settings-toggle--title": {
-    "messageformat": "Partager et afficher les stories"
+    "messageformat": "Voir et partager des stories"
   },
   "icu:Stories__settings-toggle--description": {
     "messageformat": "Si vous décidez de désactiver les stories, vous ne pourrez plus en partager ni en consulter."
@@ -5175,7 +5181,7 @@
     "messageformat": "Sourdine"
   },
   "icu:StoryViewer__unmute": {
-    "messageformat": "Désactiver la sourdine"
+    "messageformat": "Réactiver le son"
   },
   "icu:StoryViewer__views-off": {
     "messageformat": "Affichage désactivé"
@@ -5271,7 +5277,7 @@
     "messageformat": "La vidéo ne peut pas être publiée dans la Story, car son format n’est pas pris en charge"
   },
   "icu:StoryCreator__error--video-too-long": {
-    "messageformat": "{maxDurationInSec, plural, one {Impossible de publier la vidéo dans la story, car elle dure plus de {maxDurationInSec,number} seconde.} other {Impossible de publier la vidéo dans la story, car elle dure plus de {maxDurationInSec,number} secondes.}}"
+    "messageformat": "{maxDurationInSec, plural, one {Impossible de publier la vidéo dans la story, car sa durée excède {maxDurationInSec,number} seconde.} other {Impossible de publier la vidéo dans la story, car car sa durée excède {maxDurationInSec,number} secondes.}}"
   },
   "icu:StoryCreator__error--video-too-big": {
     "messageformat": "La vidéo dépasse la limite de {limit,number} {units} : impossible de la publier dans la story."
@@ -5725,22 +5731,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Avec cette mise à jour, Signal met le turbo : la vitesse de démarrage de l'application accélère de 5 %. Et si vous profitiez de ce petit gain de temps pour lever le pied dans d'autres domaines ?"
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Vous en rêviez, Signal l'a fait : avec les liens d'appel, tisser des liens privilégiés avec vos amis et collègues devient simple comme bonjour. "
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Créez un lien d'appel en deux temps, trois mouvements et partagez-le. Les utilisateurs de Signal peuvent ainsi participer à l'appel de groupe directement, sans avoir à rejoindre une conversation de groupe."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Les liens d'appel sont réutilisables. Pratique, quand on ne peut pas se passer d'appeler ses amis tous les jours ou qu'on a des réunions hebdomadaires avec ses collègues."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Vous gardez le contrôle : vous pouvez gérer vos liens d'appel, les copier depuis l'onglet \"Appels\" pour les partager rapidement ou encore décider des paramètres d'approbation."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Lorsque vous recevez un message qui contient plusieurs photos, vous pouvez maintenant les télécharger simultanément et les enregistrer dans un album. Mais si vous avez la fibre artistique et que vous n'avez d'yeux que pour les photos dignes des grandes galeries d'art, vous pouvez aussi les télécharger séparément. Une fonctionnalité que l'on doit à un ingénieux contributeur qui se reconnaîtra. Merci !"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "Lampiran disimpan."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {{count,number} lampiran disimpan}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Tunjuk dalam folder"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {Tidak dapat menyimpan lampiran, kerana {count,number} belum selesai dimuat turun}}"
   },
   "icu:you": {
     "messageformat": "Anda"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Pemulihan dijeda"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Jeda pemindahan"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Kemas kini ini meningkatkan kelajuan permulaan sekitar 5%."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Memperkenalkan Pautan Panggilan: Penghubung yang diperlukan untuk jemputan kalendar dan perjumpaan spontan."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Anda boleh buat pautan mudah yang boleh digunakan oleh sesiapa di Signal untuk panggilan kumpulan tanpa perlu sertai sembang kumpulan Signal terlebih dahulu."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Pautan panggilan boleh diguna semula dan sesuai untuk janji temu melalui telefon dengan rakan baik atau mesyuarat mingguan dengan rakan sekerja."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Anda boleh mengurus pautan panggilan, kawal tetapan kelulusan dan salin pautan daripada tab panggilan untuk perkongsian pantas."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Kini anda boleh memuat turun setiap foto dalam album dengan pantas apabila menerima mesej dengan berbilang lampiran. Terima kasih <linkMajorMayer> @major-mayer!</linkMajorMayer>"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

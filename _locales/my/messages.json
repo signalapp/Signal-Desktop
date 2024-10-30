@@ -789,13 +789,13 @@
     "messageformat": "ပူးတွဲဖိုင်ကို သိမ်းပြီး။"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {ပူးတွဲဖိုင် {count,number} ခုကို သိမ်းပြီး}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "ဖိုင်တွဲတွင် ပြရန်"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {ဖိုင် {count,number} ခု ဒေါင်းလုဒ်မပြီးသေးသောကြောင့် ပူးတွဲဖိုင်များကို သိမ်းဆည်း၍မရပါ}}"
   },
   "icu:you": {
     "messageformat": "သင်"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "ပြန်လည်ရယူခြင်းကို ခေတ္တရပ်ထားသည်"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "လွှဲပြောင်းမှုကို ခေတ္တရပ်ပါ"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "ဤအပ်ဒိတ်သည် စတင်မှုအမြန်နှုန်းကို 5% ဝန်းကျင် တိုးတက်စေသည်။"
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "ကောလ်လင့်ခ်ကို မိတ်ဆက်ခြင်း- ကြိုတင်စီစဉ်မှုနှင့် ချက်ချင်းတွေ့ဆုံမှုအတွက် လိုနေသောလင့်ခ်။"
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "အဖွဲ့လိုက်ချက်(တ်)တွင် ဦးစွာပါဝင်ရန်မလိုဘဲ Signal ရှိ မည်သူမဆိုသုံးနိုင်သည့် လွယ်ကူသောလင့်ခ်ကို ယခု သင်အမြန်ဖန်တီးနိုင်ပါပြီ။"
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "ကောလ်လင့်ခ်သည် ပြန်၍အသုံးပြုနိုင်ပြီး သူငယ်ချင်းများနှင့်ဖုန်းပြောခြင်းသို့မဟုတ် လုပ်ဖော်ကိုင်ဖက်များနှင့် အပတ်စဉ်ဆက်သွယ်ခြင်းအတွက် အကောင်းဆုံးဖြစ်သည်။"
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "ကောလ်လင့်ခ်ကိုစီမံခြင်း၊ အတည်ပြုချက်ဆက်တင်ကို ထိန်းချုပ်ခြင်းပြုနိုင်ပြီး အမြန်မျှဝေရန် ကောလ်တက်ဘ်မှ လင့်ခ်ကိုကူးယူနိုင်သည်။"
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "ပူးတွဲဖိုင်များစွာပါသော မက်ဆေ့ချ်တစ်စောင်ကို သင်လက်ခံရရှိသောအခါ အယ်လ်ဘမ်တစ်ခုရှိ ဓာတ်ပုံတိုင်းကို လျင်မြန်စွာ ဒေါင်းလုဒ်လုပ်နိုင်ပါပြီ။ ကျေးဇူးပါ <linkMajorMayer>@major-mayer</linkMajorMayer>"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "Lampiran disimpan."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {{count,number} lampiran disimpan}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Tampilkan di folder"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {Tidak bisa menyimpan lampiran karena {count,number} belum selesai diunduh}}"
   },
   "icu:you": {
     "messageformat": "Anda"
@@ -1014,7 +1014,7 @@
     "messageformat": "Hapus obrolan?"
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Semua pesan dalam obrolan ini akan dihapus dari perangkat."
+    "messageformat": "Semua pesan di obrolan ini akan dihapus dari perangkat ini."
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Semua pesan di obrolan ini akan dihapus dari semua perangkat Anda."
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Pemulihan dijeda"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Jeda transfer"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Pembaruan ini meningkatkan kecepatan memulai aplikasi sekitar 5%."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Memperkenalkan Tautan Panggilan: Fitur tautan baru untuk undangan kalender dan rapat dadakan."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Kini Anda dapat langsung membuat tautan praktis yang bisa dipakai siapa pun di Signal untuk bergabung ke panggilan grup tanpa harus gabung dulu ke obrolan grup Signal."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Tautan panggilan bisa dipakai ulang dan cocok untuk rutinitas telepon dengan sahabat atau rapat mingguan dengan rekan kerja Anda."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Anda bisa mengelola tautan panggilan, mengontrol pengaturan persetujuan, dan menyalin tautan dari tab panggilan untuk berbagi dengan cepat."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Kini Anda bisa dengan cepat mengunduh setiap foto di album saat menerima pesan yang berisi beberapa lampiran. Terima kasih, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

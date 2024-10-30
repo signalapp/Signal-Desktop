@@ -789,13 +789,13 @@
     "messageformat": "Csatolmány elmentve."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Melléklet mentve} other {{count,number} melléklet mentve}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Megjelenítés mappában"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {A mellékletet nem lehet menteni, mert a letöltés még nem fejeződött be} other {A mellékleteket nem lehet menteni, mert {count,number} letöltés még nem fejeződött be}}"
   },
   "icu:you": {
     "messageformat": "Te"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Visszaállítás szünetel"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Átvitel szüneteltetése"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Ez a frissítés körülbelül 5%-kal javítja az indítási sebességet."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Bemutatkozik a „Híváslinkek” funkció: a hiányzó link a naptármeghívókhoz és a rögtönzött összejövetelekhez."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Egy egyszerű link, amellyel a felhasználók csoportos híváshoz csatlakozhatnak anélkül, hogy először csatlakoznának egy csoportos Signal csevegéshez."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "A híváslinkek újrafelhasználhatók, és ideálisak a telefonrandikhoz vagy a munkatársakkal való megbeszélésekhez."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "A gyors megosztás érdekében kezelheted a híváslinkeket, szabályozhatod a jóváhagyási beállításokat, és a hívások lapról kimásolhatod a linkeket."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Mostantól gyorsan letöltheted az egy albumban lévő összes fotót, ha több mellékletet tartalmazó üzenetet kapsz.Köszönjük, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

@@ -789,13 +789,13 @@
     "messageformat": "附件已儲存。"
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, other {已儲存 {count,number} 個附件}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "顯示在檔案夾中"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, other {無法儲存附件，因為仍有 {count,number} 個尚未完成下載}}"
   },
   "icu:you": {
     "messageformat": "你"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "還原已暫停"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "暫停轉移"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "此更新提高了約 5% 的啟動速度，因此你可以在日常生活中其他的領域放慢腳步。"
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "新推出的「通話連結」：這是行事曆邀請和即興聚會不可缺少的一環。"
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "現在，你可以快速建立一個簡單的連結，讓 Signal 上任何人都可以使用來加入群組通話，而無需先加入 Signal 群組聊天。"
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "通話連結可重複使用，非常適合與知心好友作定期電話約會或與同事進行每週匯報。"
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "你可以管理通話連結、控制核准設定，以及從通話選項標籤複製連結，以便快速分享。"
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "現在，當你收到包含多個附件的訊息時，你可以快速下載相簿中的每張相片。但是，如果你想謹慎一些，也可以個別儲存它們。謝謝，<linkMajorMayer>@major-mayer</linkMajorMayer>！"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

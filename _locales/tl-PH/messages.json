@@ -789,13 +789,13 @@
     "messageformat": "Attachment saved."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Na-save ang attachment} other {{count,number} attachments ang na-save}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Show in folder"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Hindi ma-save ang attachment dahil hindi pa tapos ang pag-download nito} other {Hindi ma-save ang attachments dahil hindi pa tapos ang pag-download ng {count,number} attachments}}"
   },
   "icu:you": {
     "messageformat": "Ikaw"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Naka-pause ang pag-restore"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "I-pause ang transfer"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Pinabuti ng update na ito ang startup speed nang mga 5%."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Ipinakikilala ang Call Links: Ang missing link para sa calendar invites at impromptu gatherings."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Makagagawa ka na ng link na pwedeng gamitin ng sinuman sa Signal para sumali sa group call nang hindi sumasali sa Signal group chat."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Reusable ang call links at ideal para sa recurring phone dates niyo ng best friends mo o sa weekly check-ins niyo ng mga katrabaho mo."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Pwede mong i-manage ang call links, kontrolin ang approval, at kopyahin ang links mula sa calls tab para mabilis ang pag-share."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Mabilis mo nang mado-download ang bawat photo sa isang album kapag nakatanggap ka ng message na may multiple attachments. Maraming salamat, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

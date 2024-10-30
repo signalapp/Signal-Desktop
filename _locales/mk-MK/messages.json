@@ -789,13 +789,13 @@
     "messageformat": "Прилогот е зачуван."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Прилогот е зачуван} other {Зачувани се {count,number} прилози}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Прикажи во папката"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Прилогот не може да се зачува бидејќи сè уште се презема} other {Прилозите не може да се зачуваат бидејќи сè уште се преземаат {count,number} прилози}}"
   },
   "icu:you": {
     "messageformat": "Вие"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Враќањето е паузирано"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Паузирајте го преносот"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Во оваа верзија е подобрена брзината на стартување за околу 5%."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Ви претставуваме Линкови за повици: она што недостасуваше за договорени состаноци и спонтани собирања."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Сега можете брзо да создадете едноставен линк којшто можат да го користат сите на Signal за да се приклучат на групен повик без прво да се приклучат на групен разговор на Signal."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Линковите за повици може да се користат повеќе пати и се идеални за честите телефонски разговори со вашите најдобри пријатели или неделните повици со вашите колеги."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Можете да ги уредувате вашите линкови за повици, да ги менувате поставувањата за одобрение и да ги копирате линковите за брзо споделување во картичката за повици."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Сега можете брзо да ги преземете сите фотографии во еден албум кога ќе добиете порака со повеќе прилози. Благодариме, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }

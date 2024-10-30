@@ -789,13 +789,13 @@
     "messageformat": "Priedas įrašytas."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Attachment saved} other {{count,number} attachments saved}}"
+    "messageformat": "{count, plural, one {Priedas įrašytas} few {{count,number} priedai įrašyti} many {{count,number} priedo įrašyta} other {{count,number} priedų įrašyti}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Rodyti aplanke"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Can't save attachment, since it hasn't finished downloading yet} other {Can't save attachments, since {count,number} haven't finished downloading yet}}"
+    "messageformat": "{count, plural, one {Nepavyko išsaugoti priedo, nes jis dar nebaigtas atsisiųsti} few {Nepavyko išsaugoti priedų, nes {count,number} dar nebaigti atsisiųsti} many {Nepavyko išsaugoti priedų, nes {count,number} dar nebaigta atsisiųsti} other {Nepavyko išsaugoti priedo, nes {count,number} dar nebaigti atsisiųsti}}"
   },
   "icu:you": {
     "messageformat": "Jūs"
@@ -3605,6 +3605,12 @@
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Atkūrimas pristabdytas"
   },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} of {totalSize} restored"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Media will continue to download in the background"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pristabdyti perkėlimą"
   },
@@ -5725,22 +5731,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Šis naujinys padidina paleidimo greitį maždaug 5 %."
-  },
-  "icu:WhatsNew__v7.30--header": {
-    "messageformat": "Pristatome skambučių nuorodas – patogesnį būdą bendrauti."
-  },
-  "icu:WhatsNew__v7.30--0": {
-    "messageformat": "Dabar galite greitai sukurti paprastą nuorodą, kuria bet kuris „Signal“ naudotojas gali prisijungti prie grupės skambučio nebūdamas grupės pokalbio nariu."
-  },
-  "icu:WhatsNew__v7.30--1": {
-    "messageformat": "Skambučių nuorodomis galima naudotis pakartotinai – tai puikus pasirinkimas reguliariai bendrauti su draugais ar su kolegomis."
-  },
-  "icu:WhatsNew__v7.30--2": {
-    "messageformat": "Galite tvarkyti savo skambučių nuorodas, valdyti patvirtinimo nustatymus ir, norėdami greitai pasidalinti, kopijuoti nuorodas iš skambučių skirtuko."
-  },
   "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Now you can quickly download every photo in an album when you receive a message with multiple attachments. But if you were a gallery curator with impeccable taste in another life, you can still save them individually too. Thanks, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+    "messageformat": "Gavę žinutę su keliais priedais dabar galite greitai atsisiųsti kiekvieną albume esančią nuotrauką. Ačiū, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
+  },
+  "icu:WhatsNew__v7.32--0": {
+    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+  },
+  "icu:WhatsNew__v7.32--1": {
+    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
   }
 }
