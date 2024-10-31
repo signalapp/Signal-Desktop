@@ -808,7 +808,11 @@ export abstract class Updater {
   }
 
   private async getArch(): Promise<typeof process.arch> {
-    if (process.platform !== 'darwin' || process.arch === 'arm64') {
+    if (process.arch === 'arm64') {
+      return process.arch;
+    }
+
+    if (process.platform !== 'darwin' && process.platform !== 'win32') {
       return process.arch;
     }
 
