@@ -71,7 +71,6 @@ export async function initStorage(
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
       givenName: phone.profileName,
     });
 

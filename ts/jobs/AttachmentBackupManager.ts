@@ -16,10 +16,6 @@ import {
   type JobManagerParamsType,
   type JobManagerJobResultType,
 } from './JobManager';
-import {
-  deriveBackupMediaKeyMaterial,
-  deriveBackupMediaThumbnailInnerEncryptionKeyMaterial,
-} from '../Crypto';
 import { strictAssert } from '../util/assert';
 import { type BackupsService, backupsService } from '../services/backups';
 import {
@@ -29,7 +25,11 @@ import {
   decryptAttachmentV2ToSink,
   ReencryptedDigestMismatchError,
 } from '../AttachmentCrypto';
-import { getBackupKey } from '../services/backups/crypto';
+import { deriveBackupMediaThumbnailInnerEncryptionKeyMaterial } from '../Crypto';
+import {
+  getBackupMediaRootKey,
+  deriveBackupMediaKeyMaterial,
+} from '../services/backups/crypto';
 import {
   type AttachmentBackupJobType,
   type CoreAttachmentBackupJobType,
@@ -61,6 +61,7 @@ import {
 } from '../util/GoogleChrome';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 import { findRetryAfterTimeFromError } from './helpers/findRetryAfterTimeFromError';
+import { BackupCredentialType } from '../types/backups';
 import { supportsIncrementalMac } from '../types/MIME';
 import type { MIMEType } from '../types/MIME';
 
@@ -289,7 +290,7 @@ async function backupStandardAttachment(
 
   const mediaId = getMediaIdFromMediaName(job.mediaName);
   const backupKeyMaterial = deriveBackupMediaKeyMaterial(
-    getBackupKey(),
+    getBackupMediaRootKey(),
     mediaId.bytes
   );
 
@@ -371,8 +372,9 @@ async function backupThumbnailAttachment(
   const logId = `AttachmentBackupManager.backupThumbnailAttachment(${jobIdForLogging})`;
 
   const mediaId = getMediaIdFromMediaName(job.mediaName);
+
   const backupKeyMaterial = deriveBackupMediaKeyMaterial(
-    getBackupKey(),
+    getBackupMediaRootKey(),
     mediaId.bytes
   );
 
@@ -432,7 +434,7 @@ async function backupThumbnailAttachment(
 
   const { aesKey, macKey } =
     deriveBackupMediaThumbnailInnerEncryptionKeyMaterial(
-      getBackupKey(),
+      getBackupMediaRootKey().serialize(),
       mediaId.bytes
     );
 
@@ -589,7 +591,6 @@ async function copyToBackupTier({
   mediaId,
   macKey,
   aesKey,
-  iv,
   dependencies,
 }: {
   cdnNumber: number;
@@ -598,7 +599,6 @@ async function copyToBackupTier({
   mediaId: string;
   macKey: Uint8Array;
   aesKey: Uint8Array;
-  iv: Uint8Array;
   dependencies: {
     backupMediaBatch?: WebAPIType['backupMediaBatch'];
     backupsService: BackupsService;
@@ -611,7 +611,9 @@ async function copyToBackupTier({
   const ciphertextLength = getAttachmentCiphertextLength(size);
 
   const { responses } = await dependencies.backupMediaBatch({
-    headers: await dependencies.backupsService.credentials.getHeadersForToday(),
+    headers: await dependencies.backupsService.credentials.getHeadersForToday(
+      BackupCredentialType.Media
+    ),
     items: [
       {
         sourceAttachment: {
@@ -622,7 +624,6 @@ async function copyToBackupTier({
         mediaId,
         hmacKey: macKey,
         encryptionKey: aesKey,
-        iv,
       },
     ],
   });

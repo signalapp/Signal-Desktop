@@ -73,10 +73,12 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import type { SendStateByConversationId } from '../../messages/MessageSendState';
 import { SeenStatus } from '../../MessageSeenStatus';
+import { constantTimeEqual } from '../../Crypto';
 import * as Bytes from '../../Bytes';
 import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants';
 import type { AboutMe, LocalChatStyle } from './types';
 import { BackupType } from './types';
+import { getBackupMediaRootKey } from './crypto';
 import type { GroupV2ChangeDetailType } from '../../groups';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { isNotNil } from '../../util/isNotNil';
@@ -250,6 +252,24 @@ export class BackupImportStream extends Writable {
 
         if (info.version?.toNumber() !== BACKUP_VERSION) {
           throw new Error(`Unsupported backup version: ${info.version}`);
+        }
+
+        if (Bytes.isEmpty(info.mediaRootBackupKey)) {
+          throw new Error('Missing mediaRootBackupKey');
+        }
+
+        const theirKey = info.mediaRootBackupKey;
+        const ourKey = getBackupMediaRootKey().serialize();
+        if (!constantTimeEqual(theirKey, ourKey)) {
+          // Use root key from integration test
+          if (isTestEnvironment(getEnvironment())) {
+            await window.storage.put(
+              'backupMediaRootKey',
+              info.mediaRootBackupKey
+            );
+          } else {
+            throw new Error('Incorrect mediaRootBackupKey');
+          }
         }
       } else {
         const frame = Backups.Frame.decode(data);

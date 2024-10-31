@@ -432,6 +432,8 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   subscriberId: ['value'],
   backupsSubscriberId: ['value'],
   backupEphemeralKey: ['value'],
+  backupMediaRootKey: ['value'],
+  manifestRecordIkm: ['value'],
   usernameLink: ['value.entropy', 'value.serverId'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(

@@ -506,7 +506,9 @@ message SyncMessage {
 
   message Keys {
     optional bytes storageService = 1; // deprecated: this field will be removed in a future release.
-    optional bytes master = 2;
+    optional bytes master = 2; // deprecated: this field will be removed in a future release.
+    optional string accountEntropyPool = 3;
+    optional bytes mediaRootBackupKey = 4;
   }
 
   message Read {

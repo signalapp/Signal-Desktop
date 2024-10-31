@@ -35,7 +35,6 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   state = state.updateAccount({
     profileKey: phone.profileKey.serialize(),
-    e164: phone.device.number,
     givenName: phone.profileName,
     readReceipts: true,
     hasCompletedUsernameOnboarding: true,

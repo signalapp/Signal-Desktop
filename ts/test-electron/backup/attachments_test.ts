@@ -172,7 +172,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        { backupLevel: BackupLevel.Messages }
+        { backupLevel: BackupLevel.Free }
       );
     });
     it('migration creates long-message attachment if there is a long message.body (i.e. schemaVersion < 13)', async () => {
@@ -193,7 +193,7 @@ describe('backup/attachments', () => {
           }),
         ],
         {
-          backupLevel: BackupLevel.Media,
+          backupLevel: BackupLevel.Paid,
           comparator: (expected, msgInDB) => {
             assert.deepStrictEqual(
               omit(expected, 'bodyAttachment'),
@@ -249,7 +249,7 @@ describe('backup/attachments', () => {
           }),
         ],
         {
-          backupLevel: BackupLevel.Media,
+          backupLevel: BackupLevel.Paid,
           comparator: (expected, msgInDB) => {
             assert.deepStrictEqual(
               omit(expected, 'bodyAttachment'),
@@ -269,7 +269,7 @@ describe('backup/attachments', () => {
   });
 
   describe('normal attachments', () => {
-    it('BackupLevel.Messages, roundtrips normal attachments', async () => {
+    it('BackupLevel.Free, roundtrips normal attachments', async () => {
       const attachment1 = composeAttachment(1);
       const attachment2 = composeAttachment(2);
 
@@ -288,10 +288,10 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        { backupLevel: BackupLevel.Messages }
+        { backupLevel: BackupLevel.Free }
       );
     });
-    it('BackupLevel.Media, roundtrips normal attachments', async () => {
+    it('BackupLevel.Paid, roundtrips normal attachments', async () => {
       const attachment = composeAttachment(1);
       strictAssert(attachment.digest, 'digest exists');
 
@@ -315,7 +315,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        { backupLevel: BackupLevel.Media }
+        { backupLevel: BackupLevel.Paid }
       );
     });
     it('roundtrips voice message attachments', async () => {
@@ -344,13 +344,13 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        { backupLevel: BackupLevel.Media }
+        { backupLevel: BackupLevel.Paid }
       );
     });
   });
 
   describe('Preview attachments', () => {
-    it('BackupLevel.Messages, roundtrips preview attachments', async () => {
+    it('BackupLevel.Free, roundtrips preview attachments', async () => {
       const attachment = composeAttachment(1, { clientUuid: undefined });
 
       await asymmetricRoundtripHarness(
@@ -371,10 +371,10 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        { backupLevel: BackupLevel.Messages }
+        { backupLevel: BackupLevel.Free }
       );
     });
-    it('BackupLevel.Media, roundtrips preview attachments', async () => {
+    it('BackupLevel.Paid, roundtrips preview attachments', async () => {
       const attachment = composeAttachment(1, { clientUuid: undefined });
       strictAssert(attachment.digest, 'digest exists');
 
@@ -412,13 +412,13 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        { backupLevel: BackupLevel.Media }
+        { backupLevel: BackupLevel.Paid }
       );
     });
   });
 
   describe('contact attachments', () => {
-    it('BackupLevel.Messages, roundtrips contact attachments', async () => {
+    it('BackupLevel.Free, roundtrips contact attachments', async () => {
       const attachment = composeAttachment(1, { clientUuid: undefined });
 
       await asymmetricRoundtripHarness(
@@ -440,10 +440,10 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        { backupLevel: BackupLevel.Messages }
+        { backupLevel: BackupLevel.Free }
       );
     });
-    it('BackupLevel.Media, roundtrips contact attachments', async () => {
+    it('BackupLevel.Paid, roundtrips contact attachments', async () => {
       const attachment = composeAttachment(1, { clientUuid: undefined });
       strictAssert(attachment.digest, 'digest exists');
 
@@ -472,13 +472,13 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        { backupLevel: BackupLevel.Media }
+        { backupLevel: BackupLevel.Paid }
       );
     });
   });
 
   describe('quotes', () => {
-    it('BackupLevel.Messages, roundtrips quote attachments', async () => {
+    it('BackupLevel.Free, roundtrips quote attachments', async () => {
       const attachment = composeAttachment(1, { clientUuid: undefined });
       const authorAci = generateAci();
       const quotedMessage: QuotedMessageType = {
@@ -512,10 +512,10 @@ describe('backup/attachments', () => {
             },
           }),
         ],
-        { backupLevel: BackupLevel.Messages }
+        { backupLevel: BackupLevel.Free }
       );
     });
-    it('BackupLevel.Media, roundtrips quote attachments', async () => {
+    it('BackupLevel.Paid, roundtrips quote attachments', async () => {
       const attachment = composeAttachment(1, { clientUuid: undefined });
       strictAssert(attachment.digest, 'digest exists');
       const authorAci = generateAci();
@@ -554,7 +554,7 @@ describe('backup/attachments', () => {
             },
           }),
         ],
-        { backupLevel: BackupLevel.Media }
+        { backupLevel: BackupLevel.Paid }
       );
     });
 
@@ -625,7 +625,7 @@ describe('backup/attachments', () => {
             },
           },
         ],
-        { backupLevel: BackupLevel.Media }
+        { backupLevel: BackupLevel.Paid }
       );
     });
 
@@ -673,7 +673,7 @@ describe('backup/attachments', () => {
           },
         ],
         {
-          backupLevel: BackupLevel.Media,
+          backupLevel: BackupLevel.Paid,
           comparator: (msgBefore, msgAfter) => {
             if (msgBefore.timestamp === originalMessage.timestamp) {
               return assert.deepStrictEqual(msgBefore, msgAfter);
@@ -711,7 +711,7 @@ describe('backup/attachments', () => {
     const packKey = Bytes.toBase64(getRandomBytes(32));
 
     describe('when copied over from sticker pack (i.e. missing encryption info)', () => {
-      it('BackupLevel.Media, generates new encryption info', async () => {
+      it('BackupLevel.Paid, generates new encryption info', async () => {
         await asymmetricRoundtripHarness(
           [
             composeMessage(1, {
@@ -747,7 +747,7 @@ describe('backup/attachments', () => {
             }),
           ],
           {
-            backupLevel: BackupLevel.Media,
+            backupLevel: BackupLevel.Paid,
             comparator: (msgBefore, msgAfter) => {
               assert.deepStrictEqual(
                 omit(msgBefore, 'sticker.data'),
@@ -776,7 +776,7 @@ describe('backup/attachments', () => {
           }
         );
       });
-      it('BackupLevel.Messages, generates invalid attachment locator', async () => {
+      it('BackupLevel.Free, generates invalid attachment locator', async () => {
         // since we aren't re-uploading with new encryption info, we can't include this
         // attachment in the backup proto
         await asymmetricRoundtripHarness(
@@ -815,7 +815,7 @@ describe('backup/attachments', () => {
             }),
           ],
           {
-            backupLevel: BackupLevel.Messages,
+            backupLevel: BackupLevel.Free,
           }
         );
       });
@@ -853,7 +853,7 @@ describe('backup/attachments', () => {
             }),
           ],
           {
-            backupLevel: BackupLevel.Media,
+            backupLevel: BackupLevel.Paid,
           }
         );
       });

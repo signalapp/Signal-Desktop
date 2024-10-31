@@ -36,7 +36,6 @@ describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
     });
 
     aciContact = await server.createPrimaryDevice({

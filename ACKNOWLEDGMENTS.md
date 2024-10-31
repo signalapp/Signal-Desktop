@@ -4300,7 +4300,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys 0.1.0, attest 0.1.0, libsignal-ffi 0.59.0, libsignal-jni 0.59.0, libsignal-jni-testing 0.59.0, libsignal-node 0.59.0, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-bridge-testing 0.1.0, libsignal-bridge-types 0.1.0, libsignal-core 0.1.0, signal-crypto 0.1.0, device-transfer 0.1.0, libsignal-keytrans 0.0.1, signal-media 0.1.0, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, libsignal-net-infra 0.1.0, poksho 0.7.0, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
+## libsignal-account-keys 0.1.0, attest 0.1.0, libsignal-ffi 0.60.1, libsignal-jni 0.60.1, libsignal-jni-testing 0.60.1, libsignal-node 0.60.1, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-bridge-testing 0.1.0, libsignal-bridge-types 0.1.0, libsignal-core 0.1.0, signal-crypto 0.1.0, device-transfer 0.1.0, libsignal-keytrans 0.0.1, signal-media 0.1.0, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, libsignal-net-infra 0.1.0, poksho 0.7.0, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -5802,7 +5802,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## bindgen 0.68.1
+## bindgen 0.70.1
 
 ```
 BSD 3-Clause License
@@ -6931,7 +6931,7 @@ THE SOFTWARE.
 
 ```
 
-## either 1.13.0, itertools 0.13.0, petgraph 0.6.5
+## either 1.13.0, itertools 0.10.5, itertools 0.13.0, petgraph 0.6.5
 
 ```
 Copyright (c) 2015
@@ -7074,7 +7074,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## gimli 0.31.0, heck 0.5.0, peeking_take_while 0.1.2, unicode-bidi 0.3.15, unicode-normalization 0.1.23
+## gimli 0.31.0, heck 0.5.0, unicode-bidi 0.3.15, unicode-normalization 0.1.23
 
 ```
 Copyright (c) 2015 The Rust Project Developers
@@ -10473,38 +10473,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-```
-
-## lazycell 1.3.0
-
-```
-Original work Copyright (c) 2014 The Rust Project Developers
-Modified work Copyright (c) 2016-2018 Nikita Pekin and lazycell contributors
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
 
 ```
 

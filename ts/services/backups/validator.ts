@@ -12,13 +12,14 @@ export async function validateBackup(
   filePath: string,
   fileSize: number
 ): Promise<void> {
-  const masterKeyBase64 = window.storage.get('masterKey');
-  strictAssert(masterKeyBase64, 'Master key not available');
-
-  const masterKey = Buffer.from(masterKeyBase64, 'base64');
+  const accountEntropy = window.storage.get('accountEntropyPool');
+  strictAssert(accountEntropy, 'Account Entropy Pool not available');
 
   const aci = toAciObject(window.storage.user.getCheckedAci());
-  const backupKey = new libsignal.MessageBackupKey(masterKey, aci);
+  const backupKey = new libsignal.MessageBackupKey({
+    accountEntropy,
+    aci,
+  });
 
   const streams = new Array<FileStream>();
 

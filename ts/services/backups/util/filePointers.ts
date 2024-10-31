@@ -210,7 +210,7 @@ export async function getFilePointerForAttachment({
     // one point in the past verified the digest).
     if (
       isDownloadableFromBackupTier(attachment) &&
-      backupLevel === BackupLevel.Media
+      backupLevel === BackupLevel.Paid
     ) {
       return {
         filePointer: new Backups.FilePointer({
@@ -240,7 +240,7 @@ export async function getFilePointerForAttachment({
   }
 
   // The attachment is locally saved
-  if (backupLevel !== BackupLevel.Media) {
+  if (backupLevel !== BackupLevel.Paid) {
     // 1. If we have information to donwnload the file from the transit tier, great, let's
     //    just create an attachmentLocator so the restorer can try to download from the
     //    transit tier

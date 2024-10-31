@@ -4,6 +4,10 @@
 import PQueue from 'p-queue';
 import { isNumber, omit, orderBy } from 'lodash';
 import type { KyberPreKeyRecord } from '@signalapp/libsignal-client';
+import {
+  AccountEntropyPool,
+  BackupKey,
+} from '@signalapp/libsignal-client/dist/AccountKeys';
 import { Readable } from 'stream';
 
 import EventTarget from './EventTarget';
@@ -30,6 +34,7 @@ import {
   decryptDeviceName,
   deriveAccessKey,
   deriveStorageServiceKey,
+  deriveMasterKey,
   encryptDeviceName,
   generateRegistrationId,
   getRandomBytes,
@@ -122,7 +127,8 @@ type CreateAccountSharedOptionsType = Readonly<{
   aciKeyPair: KeyPairType;
   pniKeyPair: KeyPairType;
   profileKey: Uint8Array;
-  masterKey: Uint8Array;
+  masterKey: Uint8Array | undefined;
+  accountEntropyPool: string | undefined;
 
   // Test-only
   backupFile?: Uint8Array;
@@ -136,6 +142,7 @@ type CreatePrimaryDeviceOptionsType = Readonly<{
   ourPni?: undefined;
   userAgent?: undefined;
   ephemeralBackupKey?: undefined;
+  mediaRootBackupKey: Uint8Array;
 
   readReceipts: true;
 
@@ -152,6 +159,7 @@ export type CreateLinkedDeviceOptionsType = Readonly<{
   ourPni: PniString;
   userAgent?: string;
   ephemeralBackupKey: Uint8Array | undefined;
+  mediaRootBackupKey: Uint8Array | undefined;
 
   readReceipts: boolean;
 
@@ -325,6 +333,8 @@ export default class AccountManager extends EventTarget {
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
       const accessKey = deriveAccessKey(profileKey);
       const masterKey = getRandomBytes(MASTER_KEY_LENGTH);
+      const accountEntropyPool = AccountEntropyPool.generate();
+      const mediaRootBackupKey = BackupKey.generateRandom().serialize();
 
       await this.createAccount({
         type: AccountType.Primary,
@@ -337,6 +347,8 @@ export default class AccountManager extends EventTarget {
         accessKey,
         masterKey,
         ephemeralBackupKey: undefined,
+        mediaRootBackupKey,
+        accountEntropyPool,
         readReceipts: true,
       });
     });
@@ -922,10 +934,17 @@ export default class AccountManager extends EventTarget {
       pniKeyPair,
       profileKey,
       masterKey,
+      mediaRootBackupKey,
       readReceipts,
       userAgent,
       backupFile,
+      accountEntropyPool,
     } = options;
+
+    strictAssert(
+      Bytes.isNotEmpty(masterKey) || accountEntropyPool,
+      'Either master key or AEP is necessary for registration'
+    );
 
     const { storage } = window.textsecure;
     let password = Bytes.toBase64(getRandomBytes(16));
@@ -1174,10 +1193,21 @@ export default class AccountManager extends EventTarget {
     if (userAgent) {
       await storage.put('userAgent', userAgent);
     }
-    await storage.put('masterKey', Bytes.toBase64(masterKey));
+    if (accountEntropyPool) {
+      await storage.put('accountEntropyPool', accountEntropyPool);
+    }
+    let derivedMasterKey = masterKey;
+    if (derivedMasterKey == null) {
+      strictAssert(accountEntropyPool, 'Cannot derive master key');
+      derivedMasterKey = deriveMasterKey(accountEntropyPool);
+    }
+    if (Bytes.isNotEmpty(mediaRootBackupKey)) {
+      await storage.put('backupMediaRootKey', mediaRootBackupKey);
+    }
+    await storage.put('masterKey', Bytes.toBase64(derivedMasterKey));
     await storage.put(
       'storageKey',
-      Bytes.toBase64(deriveStorageServiceKey(masterKey))
+      Bytes.toBase64(deriveStorageServiceKey(derivedMasterKey))
     );
 
     await storage.put('read-receipt-setting', Boolean(readReceipts));

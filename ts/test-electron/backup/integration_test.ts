@@ -77,7 +77,7 @@ describe('backup/integration', () => {
       });
 
       const exported = await backupsService.exportBackupData(
-        BackupLevel.Media,
+        BackupLevel.Paid,
         BackupType.TestOnlyPlaintext
       );
 

@@ -12,6 +12,7 @@ import { createGzip, createGunzip } from 'zlib';
 import { createCipheriv, createHmac, randomBytes } from 'crypto';
 import { noop } from 'lodash';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import { BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 
 import { DataReader, DataWriter } from '../../sql/Client';
 import * as log from '../../logging/log';
@@ -29,6 +30,7 @@ import { HOUR } from '../../util/durations';
 import { CipherType, HashType } from '../../types/Crypto';
 import { InstallScreenBackupStep } from '../../types/InstallScreen';
 import * as Errors from '../../types/errors';
+import { BackupCredentialType } from '../../types/backups';
 import { HTTPError } from '../../textsecure/Errors';
 import { constantTimeEqual } from '../../Crypto';
 import { measureSize } from '../../AttachmentCrypto';
@@ -177,7 +179,9 @@ export class BackupsService {
     const fileName = `backup-${randomBytes(32).toString('hex')}`;
     const filePath = join(window.BasePaths.temp, fileName);
 
-    const backupLevel = await this.credentials.getBackupLevel();
+    const backupLevel = await this.credentials.getBackupLevel(
+      BackupCredentialType.Media
+    );
     log.info(`exportBackup: starting, backup level: ${backupLevel}...`);
 
     try {
@@ -195,7 +199,7 @@ export class BackupsService {
 
   // Test harness
   public async exportBackupData(
-    backupLevel: BackupLevel = BackupLevel.Messages,
+    backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
   ): Promise<Uint8Array> {
     const sink = new PassThrough();
@@ -210,7 +214,7 @@ export class BackupsService {
   // Test harness
   public async exportToDisk(
     path: string,
-    backupLevel: BackupLevel = BackupLevel.Messages,
+    backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
   ): Promise<number> {
     const size = await this.exportBackup(
@@ -276,7 +280,9 @@ export class BackupsService {
     try {
       const importStream = await BackupImportStream.create(backupType);
       if (backupType === BackupType.Ciphertext) {
-        const { aesKey, macKey } = getKeyMaterial(ephemeralKey);
+        const { aesKey, macKey } = getKeyMaterial(
+          ephemeralKey ? new BackupKey(Buffer.from(ephemeralKey)) : undefined
+        );
 
         // First pass - don't decrypt, only verify mac
         let hmac = createHmac(HashType.size256, macKey);
@@ -519,7 +525,7 @@ export class BackupsService {
 
   private async exportBackup(
     sink: Writable,
-    backupLevel: BackupLevel = BackupLevel.Messages,
+    backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
   ): Promise<number> {
     strictAssert(!this.isRunning, 'BackupService is already running');

@@ -57,7 +57,8 @@ message ManifestRecord {
   optional uint64      version = 1;
   optional uint32 sourceDevice = 3;
   repeated Identifier     keys = 2;
-  // Next ID: 4
+  optional bytes recordIkm = 4;
+  // Next ID: 5
 }
 
 message StorageRecord {

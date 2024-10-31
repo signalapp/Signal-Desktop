@@ -3,16 +3,15 @@
 
 import { DataReader } from '../../../sql/Client';
 import * as Bytes from '../../../Bytes';
-import { getBackupKey } from '../crypto';
+import { getBackupMediaRootKey } from '../crypto';
 import type { AttachmentType } from '../../../types/Attachment';
-import { deriveMediaIdFromMediaName } from '../../../Crypto';
 import { strictAssert } from '../../../util/assert';
 
 export function getMediaIdFromMediaName(mediaName: string): {
   string: string;
   bytes: Uint8Array;
 } {
-  const mediaIdBytes = deriveMediaIdFromMediaName(getBackupKey(), mediaName);
+  const mediaIdBytes = getBackupMediaRootKey().deriveMediaId(mediaName);
   return {
     string: Bytes.toBase64url(mediaIdBytes),
     bytes: mediaIdBytes,
@@ -51,7 +50,7 @@ export function getMediaNameFromDigest(digest: string): string {
 
 export function getMediaNameForAttachmentThumbnail(
   fullsizeMediaName: string
-): string {
+): `${string}_thumbnail` {
   return `${fullsizeMediaName}_thumbnail`;
 }
 

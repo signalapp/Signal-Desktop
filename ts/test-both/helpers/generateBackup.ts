@@ -6,6 +6,11 @@ import { createGzip } from 'node:zlib';
 import { createCipheriv, randomBytes } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 import Long from 'long';
+import {
+  AccountEntropyPool,
+  BackupKey,
+} from '@signalapp/libsignal-client/dist/AccountKeys';
+import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup';
 
 import type { AciString } from '../../types/ServiceId';
 import { generateAci } from '../../types/ServiceId';
@@ -14,11 +19,6 @@ import { appendPaddingStream } from '../../util/logPadding';
 import { prependStream } from '../../util/prependStream';
 import { appendMacStream } from '../../util/appendMacStream';
 import { toAciObject } from '../../util/ServiceId';
-import {
-  deriveBackupKey,
-  deriveBackupId,
-  deriveBackupKeyMaterial,
-} from '../../Crypto';
 import { BACKUP_VERSION } from '../../services/backups/constants';
 import { Backups } from '../../protobuf';
 
@@ -29,9 +29,10 @@ export type BackupGeneratorConfigType = Readonly<
     conversations: number;
     conversationAcis?: ReadonlyArray<AciString>;
     messages: number;
+    mediaRootBackupKey: Buffer;
   } & (
     | {
-        masterKey: Buffer;
+        accountEntropyPool: string;
       }
     | {
         backupKey: Buffer;
@@ -50,15 +51,18 @@ export function generateBackup(
   options: BackupGeneratorConfigType
 ): GenerateBackupResultType {
   const { aci } = options;
-  let backupKey: Uint8Array;
-  if ('masterKey' in options) {
-    backupKey = deriveBackupKey(options.masterKey);
+  let backupKey: BackupKey;
+  if ('accountEntropyPool' in options) {
+    backupKey = AccountEntropyPool.deriveBackupKey(options.accountEntropyPool);
   } else {
-    ({ backupKey } = options);
+    backupKey = new BackupKey(options.backupKey);
   }
-  const aciBytes = toAciObject(aci).getServiceIdBinary();
-  const backupId = Buffer.from(deriveBackupId(backupKey, aciBytes));
-  const { aesKey, macKey } = deriveBackupKeyMaterial(backupKey, backupId);
+  const aciObj = toAciObject(aci);
+  const backupId = backupKey.deriveBackupId(aciObj);
+  const { aesKey, hmacKey } = new MessageBackupKey({
+    backupKey,
+    backupId,
+  });
 
   const iv = randomBytes(IV_LENGTH);
 
@@ -67,7 +71,7 @@ export function generateBackup(
     .pipe(appendPaddingStream())
     .pipe(createCipheriv(CipherType.AES256CBC, aesKey, iv))
     .pipe(prependStream(iv))
-    .pipe(appendMacStream(macKey));
+    .pipe(appendMacStream(hmacKey));
 
   return { backupId, stream };
 }
@@ -87,11 +91,13 @@ function* createRecords({
   conversations,
   conversationAcis = [],
   messages,
+  mediaRootBackupKey,
 }: BackupGeneratorConfigType): Iterable<Buffer> {
   yield Buffer.from(
     Backups.BackupInfo.encodeDelimited({
       version: Long.fromNumber(BACKUP_VERSION),
       backupTimeMs: getTimestamp(),
+      mediaRootBackupKey,
     }).finish()
   );
 

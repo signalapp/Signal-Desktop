@@ -68,7 +68,6 @@ describe('backups', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
       givenName: phone.profileName,
       readReceipts: true,
       hasCompletedUsernameOnboarding: true,
@@ -330,6 +329,7 @@ describe('backups', function (this: Mocha.Suite) {
     const { stream: backupStream } = generateBackup({
       aci: phone.device.aci,
       profileKey: phone.profileKey.serialize(),
+      mediaRootBackupKey: phone.mediaRootBackupKey,
       backupKey: ephemeralBackupKey,
       conversations: 2,
       conversationAcis: [contact1, contact2],

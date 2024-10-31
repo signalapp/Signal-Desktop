@@ -3373,6 +3373,10 @@ export default class MessageReceiver
           ? sync.storageService
           : undefined,
         masterKey: Bytes.isNotEmpty(sync.master) ? sync.master : undefined,
+        accountEntropyPool: sync.accountEntropyPool || undefined,
+        mediaRootBackupKey: Bytes.isNotEmpty(sync.mediaRootBackupKey)
+          ? sync.mediaRootBackupKey
+          : undefined,
       },
       this.removeFromCache.bind(this, envelope)
     );

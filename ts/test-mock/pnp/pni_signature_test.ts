@@ -49,7 +49,6 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
     });
 
     // Add my story

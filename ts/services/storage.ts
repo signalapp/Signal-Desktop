@@ -123,6 +123,7 @@ const conflictBackOff = new BackOff([
 
 function encryptRecord(
   storageID: string | undefined,
+  recordIkm: Uint8Array | undefined,
   storageRecord: Proto.IStorageRecord
 ): Proto.StorageItem {
   const storageItem = new Proto.StorageItem();
@@ -135,11 +136,12 @@ function encryptRecord(
   if (!storageKeyBase64) {
     throw new Error('No storage key');
   }
-  const storageKey = Bytes.fromBase64(storageKeyBase64);
-  const storageItemKey = deriveStorageItemKey(
-    storageKey,
-    Bytes.toBase64(storageKeyBuffer)
-  );
+  const storageServiceKey = Bytes.fromBase64(storageKeyBase64);
+  const storageItemKey = deriveStorageItemKey({
+    storageServiceKey,
+    recordIkm,
+    key: storageKeyBuffer,
+  });
 
   const encryptedRecord = encryptProfile(
     Proto.StorageRecord.encode(storageRecord).finish(),
@@ -158,6 +160,7 @@ function generateStorageID(): Uint8Array {
 
 type GeneratedManifestType = {
   postUploadUpdateFunctions: Array<() => unknown>;
+  recordIkm: Uint8Array | undefined;
   recordsByID: Map<string, MergeableItemType | RemoteRecord>;
   insertKeys: Set<string>;
   deleteKeys: Set<string>;
@@ -729,6 +732,7 @@ async function generateManifest(
   // If we have a copy of what the current remote manifest is then we run these
   // additional validations comparing our pending manifest to the remote
   // manifest:
+  let recordIkm: Uint8Array | undefined;
   if (previousManifest) {
     const pendingInserts: Set<string> = new Set();
     const pendingDeletes: Set<string> = new Set();
@@ -800,11 +804,18 @@ async function generateManifest(
         );
       }
     }
+
+    if (Bytes.isNotEmpty(previousManifest.recordIkm)) {
+      recordIkm = previousManifest.recordIkm;
+    }
+  } else {
+    recordIkm = window.storage.get('manifestRecordIkm');
   }
 
   return {
     postUploadUpdateFunctions,
     recordsByID,
+    recordIkm,
     insertKeys,
     deleteKeys,
   };
@@ -812,6 +823,7 @@ async function generateManifest(
 
 type EncryptManifestOptionsType = {
   recordsByID: Map<string, MergeableItemType | RemoteRecord>;
+  recordIkm: Uint8Array | undefined;
   insertKeys: Set<string>;
 };
 
@@ -822,7 +834,7 @@ type EncryptedManifestType = {
 
 async function encryptManifest(
   version: number,
-  { recordsByID, insertKeys }: EncryptManifestOptionsType
+  { recordsByID, recordIkm, insertKeys }: EncryptManifestOptionsType
 ): Promise<EncryptedManifestType> {
   const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
   const newItems: Set<Proto.IStorageItem> = new Set();
@@ -843,7 +855,7 @@ async function encryptManifest(
 
       let storageItem;
       try {
-        storageItem = encryptRecord(storageID, storageRecord);
+        storageItem = encryptRecord(storageID, recordIkm, storageRecord);
       } catch (err) {
         log.error(
           `storageService.upload(${version}): encrypt record failed:`,
@@ -1391,7 +1403,11 @@ async function processManifest(
 
   let conflictCount = 0;
   if (remoteOnlyRecords.size) {
-    const fetchResult = await fetchRemoteRecords(version, remoteOnlyRecords);
+    const fetchResult = await fetchRemoteRecords(
+      version,
+      Bytes.isNotEmpty(manifest.recordIkm) ? manifest.recordIkm : undefined,
+      remoteOnlyRecords
+    );
     conflictCount = await processRemoteRecords(version, fetchResult);
   }
 
@@ -1614,6 +1630,7 @@ export type FetchRemoteRecordsResultType = Readonly<{
 
 async function fetchRemoteRecords(
   storageVersion: number,
+  recordIkm: Uint8Array | undefined,
   remoteOnlyRecords: Map<string, RemoteRecord>
 ): Promise<FetchRemoteRecordsResultType> {
   const storageKeyBase64 = window.storage.get('storageKey');
@@ -1678,7 +1695,11 @@ async function fetchRemoteRecords(
       const base64ItemID = Bytes.toBase64(key);
       missingKeys.delete(base64ItemID);
 
-      const storageItemKey = deriveStorageItemKey(storageKey, base64ItemID);
+      const storageItemKey = deriveStorageItemKey({
+        storageServiceKey: storageKey,
+        recordIkm,
+        key,
+      });
 
       let storageItemPlaintext;
       try {
@@ -2071,6 +2092,11 @@ async function sync({
     );
 
     await window.storage.put('manifestVersion', version);
+    if (Bytes.isNotEmpty(manifest.recordIkm)) {
+      await window.storage.put('manifestRecordIkm', manifest.recordIkm);
+    } else {
+      await window.storage.remove('manifestRecordIkm');
+    }
 
     const hasConflicts = conflictCount !== 0;
     if (hasConflicts && !ignoreConflicts) {
@@ -2208,6 +2234,7 @@ export async function eraseAllStorageServiceState({
   // First, update high-level storage service metadata
   await Promise.all([
     window.storage.remove('manifestVersion'),
+    window.storage.remove('manifestRecordIkm'),
     keepUnknownFields
       ? Promise.resolve()
       : window.storage.remove('storage-service-unknown-records'),

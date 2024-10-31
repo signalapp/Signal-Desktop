@@ -11,7 +11,8 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const { backupId, stream: backupStream } = generateBackup({
     aci: phone.device.aci,
     profileKey: phone.profileKey.serialize(),
-    masterKey: phone.masterKey,
+    accountEntropyPool: phone.accountEntropyPool,
+    mediaRootBackupKey: phone.mediaRootBackupKey,
     conversations: 1000,
     messages: 60 * 1000,
   });

@@ -53,7 +53,6 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
     });
 
     state = state.addContact(stranger, {

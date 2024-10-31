@@ -114,6 +114,8 @@ export type BootstrapOptions = Readonly<{
   unknownContactCount?: number;
   contactNames?: ReadonlyArray<string>;
   contactPreKeyCount?: number;
+
+  useLegacyStorageEncryption?: boolean;
 }>;
 
 export type EphemeralBackupType = Readonly<{
@@ -252,6 +254,9 @@ export class Bootstrap {
       contacts: this.contacts,
       contactsWithoutProfileKey: this.contactsWithoutProfileKey,
     });
+    if (this.options.useLegacyStorageEncryption) {
+      this.privPhone.storageRecordIkm = undefined;
+    }
 
     this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
 

@@ -125,6 +125,7 @@ import {
   getFilePointerForAttachment,
   maybeGetBackupJobForAttachmentAndFilePointer,
 } from './util/filePointers';
+import { getBackupMediaRootKey } from './crypto';
 import type { CoreAttachmentBackupJobType } from '../../types/AttachmentBackup';
 import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager';
 import { getBackupCdnInfo } from './util/mediaId';
@@ -269,6 +270,7 @@ export class BackupExportStream extends Readable {
       Backups.BackupInfo.encodeDelimited({
         version: Long.fromNumber(BACKUP_VERSION),
         backupTimeMs: this.backupTimeMs,
+        mediaRootBackupKey: getBackupMediaRootKey().serialize(),
       }).finish()
     );
 

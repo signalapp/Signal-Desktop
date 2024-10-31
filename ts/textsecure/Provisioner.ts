@@ -176,6 +176,8 @@ export class Provisioner {
       userAgent,
       readReceipts,
       ephemeralBackupKey,
+      accountEntropyPool,
+      mediaRootBackupKey,
     } = envelope;
 
     strictAssert(number, 'prepareLinkData: missing number');
@@ -188,8 +190,8 @@ export class Provisioner {
       'prepareLinkData: missing profileKey'
     );
     strictAssert(
-      Bytes.isNotEmpty(masterKey),
-      'prepareLinkData: missing masterKey'
+      Bytes.isNotEmpty(masterKey) || accountEntropyPool,
+      'prepareLinkData: missing masterKey or accountEntropyPool'
     );
     strictAssert(
       isUntaggedPniString(untaggedPni),
@@ -220,6 +222,8 @@ export class Provisioner {
       readReceipts: Boolean(readReceipts),
       masterKey,
       ephemeralBackupKey,
+      accountEntropyPool,
+      mediaRootBackupKey,
     };
   }
 

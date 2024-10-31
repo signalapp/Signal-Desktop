@@ -9,6 +9,7 @@ import { createReadStream } from 'fs';
 import { mkdtemp, rm } from 'fs/promises';
 import * as sinon from 'sinon';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
 
 import type {
   EditHistoryType,
@@ -31,6 +32,8 @@ export const OUR_ACI = generateAci();
 export const OUR_PNI = generatePni();
 export const MASTER_KEY = Bytes.toBase64(getRandomBytes(32));
 export const PROFILE_KEY = getRandomBytes(32);
+export const ACCOUNT_ENTROPY_POOL = AccountEntropyPool.generate();
+export const MEDIA_ROOT_KEY = getRandomBytes(32);
 
 // This is preserved across data erasure
 const CONVO_ID_TO_STABLE_ID = new Map<string, string>();
@@ -176,7 +179,7 @@ type HarnessOptionsType = {
 
 export async function symmetricRoundtripHarness(
   messages: Array<MessageAttributesType>,
-  options: HarnessOptionsType = { backupLevel: BackupLevel.Messages }
+  options: HarnessOptionsType = { backupLevel: BackupLevel.Free }
 ): Promise<void> {
   return asymmetricRoundtripHarness(messages, messages, options);
 }
@@ -194,7 +197,7 @@ async function updateConvoIdToTitle() {
 export async function asymmetricRoundtripHarness(
   before: Array<MessageAttributesType>,
   after: Array<MessageAttributesType>,
-  options: HarnessOptionsType = { backupLevel: BackupLevel.Messages }
+  options: HarnessOptionsType = { backupLevel: BackupLevel.Free }
 ): Promise<void> {
   const outDir = await mkdtemp(path.join(tmpdir(), 'signal-temp-'));
   const fetchAndSaveBackupCdnObjectMetadata = sinon.stub(
@@ -247,6 +250,8 @@ export async function setupBasics(): Promise<void> {
   await window.storage.put('uuid_id', `${OUR_ACI}.2`);
   await window.storage.put('pni', OUR_PNI);
   await window.storage.put('masterKey', MASTER_KEY);
+  await window.storage.put('accountEntropyPool', ACCOUNT_ENTROPY_POOL);
+  await window.storage.put('backupMediaRootKey', MEDIA_ROOT_KEY);
   await window.storage.put('profileKey', PROFILE_KEY);
 
   await window.ConversationController.getOrCreateAndWait(OUR_ACI, 'private', {

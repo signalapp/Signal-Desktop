@@ -391,20 +391,31 @@ export class FetchLatestEvent extends ConfirmableEvent {
 export type KeysEventData = Readonly<{
   storageServiceKey: Uint8Array | undefined;
   masterKey: Uint8Array | undefined;
+  accountEntropyPool: string | undefined;
+  mediaRootBackupKey: Uint8Array | undefined;
 }>;
 
 export class KeysEvent extends ConfirmableEvent {
   public readonly storageServiceKey: Uint8Array | undefined;
   public readonly masterKey: Uint8Array | undefined;
+  public readonly accountEntropyPool: string | undefined;
+  public readonly mediaRootBackupKey: Uint8Array | undefined;
 
   constructor(
-    { storageServiceKey, masterKey }: KeysEventData,
+    {
+      storageServiceKey,
+      masterKey,
+      accountEntropyPool,
+      mediaRootBackupKey,
+    }: KeysEventData,
     confirm: ConfirmCallback
   ) {
     super('keys', confirm);
 
     this.storageServiceKey = storageServiceKey;
     this.masterKey = masterKey;
+    this.accountEntropyPool = accountEntropyPool;
+    this.mediaRootBackupKey = mediaRootBackupKey;
   }
 }
 

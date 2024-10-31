@@ -181,7 +181,7 @@ import {
   getCallIdFromEra,
   updateLocalGroupCallHistoryTimestamp,
 } from './util/callDisposition';
-import { deriveStorageServiceKey } from './Crypto';
+import { deriveStorageServiceKey, deriveMasterKey } from './Crypto';
 import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager';
 import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync';
 import { CallMode } from './types/CallDisposition';
@@ -949,6 +949,10 @@ export async function startApp(): Promise<void> {
         await window.storage.remove(
           'hasRegisterSupportForUnauthenticatedDelivery'
         );
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.33.0-beta.1')) {
+        await window.storage.remove('masterKeyLastRequestTime');
       }
     }
 
@@ -1849,6 +1853,7 @@ export async function startApp(): Promise<void> {
           await server.registerCapabilities({
             deleteSync: true,
             versionedExpirationTimer: true,
+            ssre2: true,
           });
         } catch (error) {
           log.error(
@@ -1864,21 +1869,22 @@ export async function startApp(): Promise<void> {
       }
 
       if (firstRun === true && deviceId !== 1) {
-        if (!window.storage.get('masterKey')) {
-          const lastSent = window.storage.get('masterKeyLastRequestTime') ?? 0;
+        if (!window.storage.get('accountEntropyPool')) {
+          const lastSent =
+            window.storage.get('accountEntropyPoolLastRequestTime') ?? 0;
           const now = Date.now();
 
           // If we last attempted sync one day in the past, or if we time
           // traveled.
           if (isOlderThan(lastSent, DAY) || lastSent > now) {
-            log.warn('connect: masterKey not captured, requesting sync');
+            log.warn('connect: AEP not captured, requesting sync');
             await singleProtoJobQueue.add(
               MessageSender.getRequestKeySyncMessage()
             );
-            await window.storage.put('masterKeyLastRequestTime', now);
+            await window.storage.put('accountEntropyPoolLastRequestTime', now);
           } else {
             log.warn(
-              'connect: masterKey not captured, but sync requested recently.' +
+              'connect: AEP not captured, but sync requested recently.' +
                 'Not running'
             );
           }
@@ -3212,20 +3218,64 @@ export async function startApp(): Promise<void> {
   async function onKeysSync(ev: KeysEvent) {
     ev.confirm();
 
-    const { masterKey } = ev;
+    const { accountEntropyPool, masterKey, mediaRootBackupKey } = ev;
     let { storageServiceKey } = ev;
 
-    if (masterKey == null) {
-      log.info('onKeysSync: deleting window.masterKey');
+    const prevMasterKeyBase64 = window.storage.get('masterKey');
+    const prevMasterKey = prevMasterKeyBase64
+      ? Bytes.fromBase64(prevMasterKeyBase64)
+      : undefined;
+    const prevAccountEntropyPool = window.storage.get('accountEntropyPool');
+
+    let derivedMasterKey = masterKey;
+    if (derivedMasterKey == null && accountEntropyPool) {
+      derivedMasterKey = deriveMasterKey(accountEntropyPool);
+      if (!Bytes.areEqual(derivedMasterKey, prevMasterKey)) {
+        log.info('onKeysSync: deriving master key from account entropy pool');
+      }
+    }
+
+    if (accountEntropyPool == null) {
+      if (prevAccountEntropyPool != null) {
+        log.warn('onKeysSync: deleting window.accountEntropyPool');
+      }
+      await window.storage.remove('accountEntropyPool');
+    } else {
+      if (prevAccountEntropyPool !== accountEntropyPool) {
+        log.info('onKeysSync: updating accountEntropyPool');
+      }
+      await window.storage.put('accountEntropyPool', accountEntropyPool);
+    }
+
+    if (derivedMasterKey == null) {
+      if (prevMasterKey != null) {
+        log.warn('onKeysSync: deleting window.masterKey');
+      }
       await window.storage.remove('masterKey');
     } else {
+      if (!Bytes.areEqual(derivedMasterKey, prevMasterKey)) {
+        log.info('onKeysSync: updating masterKey');
+      }
       // Override provided storageServiceKey because it is deprecated.
-      storageServiceKey = deriveStorageServiceKey(masterKey);
-      await window.storage.put('masterKey', Bytes.toBase64(masterKey));
+      storageServiceKey = deriveStorageServiceKey(derivedMasterKey);
+      await window.storage.put('masterKey', Bytes.toBase64(derivedMasterKey));
+    }
+
+    const prevMediaRootBackupKey = window.storage.get('backupMediaRootKey');
+    if (mediaRootBackupKey == null) {
+      if (prevMediaRootBackupKey != null) {
+        log.warn('onKeysSync: deleting window.backupMediaRootKey');
+      }
+      await window.storage.remove('backupMediaRootKey');
+    } else {
+      if (!Bytes.areEqual(prevMediaRootBackupKey, mediaRootBackupKey)) {
+        log.info('onKeysSync: updating window.backupMediaRootKey');
+      }
+      await window.storage.put('backupMediaRootKey', mediaRootBackupKey);
     }
 
     if (storageServiceKey == null) {
-      log.info('onKeysSync: deleting window.storageKey');
+      log.warn('onKeysSync: deleting window.storageKey');
       await window.storage.remove('storageKey');
     }
 

@@ -26,6 +26,8 @@ export type ProvisionDecryptResult = Readonly<{
   readReceipts?: boolean;
   profileKey?: Uint8Array;
   masterKey?: Uint8Array;
+  accountEntropyPool: string | undefined;
+  mediaRootBackupKey: Uint8Array | undefined;
   ephemeralBackupKey: Uint8Array | undefined;
 }>;
 
@@ -94,6 +96,10 @@ class ProvisioningCipherInner {
       ephemeralBackupKey: Bytes.isNotEmpty(provisionMessage.ephemeralBackupKey)
         ? provisionMessage.ephemeralBackupKey
         : undefined,
+      mediaRootBackupKey: Bytes.isNotEmpty(provisionMessage.mediaRootBackupKey)
+        ? provisionMessage.mediaRootBackupKey
+        : undefined,
+      accountEntropyPool: provisionMessage.accountEntropyPool || undefined,
     };
   }
 

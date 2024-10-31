@@ -795,10 +795,12 @@ export type WebAPIConnectType = {
 export type CapabilitiesType = {
   deleteSync: boolean;
   versionedExpirationTimer: boolean;
+  ssre2: boolean;
 };
 export type CapabilitiesUploadType = {
   deleteSync: true;
   versionedExpirationTimer: true;
+  ssre2: true;
 };
 
 type StickerPackManifestType = Uint8Array;
@@ -1099,7 +1101,8 @@ export type RequestVerificationResultType = Readonly<{
 }>;
 
 export type SetBackupIdOptionsType = Readonly<{
-  backupAuthCredentialRequest: Uint8Array;
+  messagesBackupAuthCredentialRequest: Uint8Array;
+  mediaBackupAuthCredentialRequest: Uint8Array;
 }>;
 
 export type SetBackupSignatureKeyOptionsType = Readonly<{
@@ -1121,7 +1124,6 @@ export type BackupMediaItemType = Readonly<{
   mediaId: string;
   hmacKey: Uint8Array;
   encryptionKey: Uint8Array;
-  iv: Uint8Array;
 }>;
 
 export type BackupMediaBatchOptionsType = Readonly<{
@@ -1186,15 +1188,20 @@ export type GetBackupCredentialsOptionsType = Readonly<{
   endDayInMs: number;
 }>;
 
+export const backupCredentialListSchema = z
+  .object({
+    credential: z.string().transform(x => Bytes.fromBase64(x)),
+    redemptionTime: z
+      .number()
+      .transform(x => durations.DurationInSeconds.fromSeconds(x)),
+  })
+  .array();
+
 export const getBackupCredentialsResponseSchema = z.object({
-  credentials: z
-    .object({
-      credential: z.string().transform(x => Bytes.fromBase64(x)),
-      redemptionTime: z
-        .number()
-        .transform(x => durations.DurationInSeconds.fromSeconds(x)),
-    })
-    .array(),
+  credentials: z.object({
+    messages: backupCredentialListSchema,
+    media: backupCredentialListSchema,
+  }),
 });
 
 export type GetBackupCredentialsResponseType = z.infer<
@@ -2752,6 +2759,7 @@ export function initialize({
       const capabilities: CapabilitiesUploadType = {
         deleteSync: true,
         versionedExpirationTimer: true,
+        ssre2: true,
       };
 
       const jsonData = {
@@ -2807,6 +2815,7 @@ export function initialize({
       const capabilities: CapabilitiesUploadType = {
         deleteSync: true,
         versionedExpirationTimer: true,
+        ssre2: true,
       };
 
       const jsonData = {
@@ -3113,14 +3122,18 @@ export function initialize({
     }
 
     async function setBackupId({
-      backupAuthCredentialRequest,
+      messagesBackupAuthCredentialRequest,
+      mediaBackupAuthCredentialRequest,
     }: SetBackupIdOptionsType) {
       await _ajax({
         call: 'setBackupId',
         httpType: 'PUT',
         jsonData: {
-          backupAuthCredentialRequest: Bytes.toBase64(
-            backupAuthCredentialRequest
+          messagesBackupAuthCredentialRequest: Bytes.toBase64(
+            messagesBackupAuthCredentialRequest
+          ),
+          mediaBackupAuthCredentialRequest: Bytes.toBase64(
+            mediaBackupAuthCredentialRequest
           ),
         },
       });
@@ -3163,7 +3176,6 @@ export function initialize({
               mediaId,
               hmacKey,
               encryptionKey,
-              iv,
             } = item;
 
             return {
@@ -3175,7 +3187,6 @@ export function initialize({
               mediaId,
               hmacKey: Bytes.toBase64(hmacKey),
               encryptionKey: Bytes.toBase64(encryptionKey),
-              iv: Bytes.toBase64(iv),
             };
           }),
         },

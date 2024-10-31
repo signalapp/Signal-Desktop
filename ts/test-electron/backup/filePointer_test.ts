@@ -18,8 +18,7 @@ import * as Bytes from '../../Bytes';
 import type { AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId';
-import { MASTER_KEY } from './helpers';
-import { getRandomBytes } from '../../Crypto';
+import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers';
 import { generateKeys, safeUnlink } from '../../AttachmentCrypto';
 import { writeNewAttachmentData } from '../../windows/attachments';
 
@@ -275,8 +274,8 @@ async function testAttachmentToFilePointer(
   }
 
   if (!options?.backupLevel) {
-    await _doTest(BackupLevel.Messages);
-    await _doTest(BackupLevel.Media);
+    await _doTest(BackupLevel.Free);
+    await _doTest(BackupLevel.Paid);
   } else {
     await _doTest(options.backupLevel);
   }
@@ -294,6 +293,9 @@ describe('getFilePointerForAttachment', () => {
     sandbox.stub(window.storage, 'get').callsFake(key => {
       if (key === 'masterKey') {
         return MASTER_KEY;
+      }
+      if (key === 'backupMediaRootKey') {
+        return MEDIA_ROOT_KEY;
       }
       return undefined;
     });
@@ -357,7 +359,7 @@ describe('getFilePointerForAttachment', () => {
         await testAttachmentToFilePointer(
           undownloadedAttachmentWithBackupLocator,
           filePointerWithBackupLocator,
-          { backupLevel: BackupLevel.Media }
+          { backupLevel: BackupLevel.Paid }
         );
       });
 
@@ -372,7 +374,7 @@ describe('getFilePointerForAttachment', () => {
               transitCdnKey: undefined,
             }),
           }),
-          { backupLevel: BackupLevel.Media }
+          { backupLevel: BackupLevel.Paid }
         );
       });
 
@@ -380,19 +382,19 @@ describe('getFilePointerForAttachment', () => {
         await testAttachmentToFilePointer(
           undownloadedAttachmentWithBackupLocator,
           filePointerWithAttachmentLocator,
-          { backupLevel: BackupLevel.Messages }
+          { backupLevel: BackupLevel.Free }
         );
       });
     });
   });
   describe('downloaded locally', () => {
     const downloadedAttachment = composeAttachment();
-    describe('BackupLevel.Messages', () => {
+    describe('BackupLevel.Free', () => {
       it('returns attachmentLocator', async () => {
         await testAttachmentToFilePointer(
           downloadedAttachment,
           filePointerWithAttachmentLocator,
-          { backupLevel: BackupLevel.Messages }
+          { backupLevel: BackupLevel.Free }
         );
       });
       it('returns invalidAttachmentLocator if missing critical locator info', async () => {
@@ -402,7 +404,7 @@ describe('getFilePointerForAttachment', () => {
             cdnKey: undefined,
           },
           filePointerWithInvalidLocator,
-          { backupLevel: BackupLevel.Messages }
+          { backupLevel: BackupLevel.Free }
         );
         await testAttachmentToFilePointer(
           {
@@ -410,7 +412,7 @@ describe('getFilePointerForAttachment', () => {
             cdnNumber: undefined,
           },
           filePointerWithInvalidLocator,
-          { backupLevel: BackupLevel.Messages }
+          { backupLevel: BackupLevel.Free }
         );
       });
       it('returns invalidAttachmentLocator if missing critical decryption info', async () => {
@@ -420,7 +422,7 @@ describe('getFilePointerForAttachment', () => {
             key: undefined,
           },
           filePointerWithInvalidLocator,
-          { backupLevel: BackupLevel.Messages }
+          { backupLevel: BackupLevel.Free }
         );
         await testAttachmentToFilePointer(
           {
@@ -428,11 +430,11 @@ describe('getFilePointerForAttachment', () => {
             digest: undefined,
           },
           filePointerWithInvalidLocator,
-          { backupLevel: BackupLevel.Messages }
+          { backupLevel: BackupLevel.Free }
         );
       });
     });
-    describe('BackupLevel.Media', () => {
+    describe('BackupLevel.Paid', () => {
       describe('if missing critical decryption / encryption info', async () => {
         let ciphertextFilePath: string;
         const attachmentNeedingEncryptionInfo: AttachmentType = {
@@ -481,7 +483,7 @@ describe('getFilePointerForAttachment', () => {
                 cdnNumber: 12,
               }),
             }),
-            { backupLevel: BackupLevel.Media, backupCdnNumber: 12 }
+            { backupLevel: BackupLevel.Paid, backupCdnNumber: 12 }
           );
         });
 
@@ -489,7 +491,7 @@ describe('getFilePointerForAttachment', () => {
           const { filePointer: result, updatedAttachment } =
             await getFilePointerForAttachment({
               attachment: attachmentNeedingEncryptionInfo,
-              backupLevel: BackupLevel.Media,
+              backupLevel: BackupLevel.Paid,
               getBackupCdnInfo: notInBackupCdn,
             });
 
@@ -529,7 +531,7 @@ describe('getFilePointerForAttachment', () => {
                 version: 1,
                 path: plaintextFilePath,
               },
-              backupLevel: BackupLevel.Media,
+              backupLevel: BackupLevel.Paid,
               getBackupCdnInfo: notInBackupCdn,
             });
 
@@ -567,7 +569,7 @@ describe('getFilePointerForAttachment', () => {
               path: 'no/file/here.png',
             },
             filePointerWithInvalidLocator,
-            { backupLevel: BackupLevel.Media }
+            { backupLevel: BackupLevel.Paid }
           );
         });
 
@@ -584,7 +586,7 @@ describe('getFilePointerForAttachment', () => {
 
           const { filePointer: result } = await getFilePointerForAttachment({
             attachment: attachmentWithReencryptionInfo,
-            backupLevel: BackupLevel.Media,
+            backupLevel: BackupLevel.Paid,
             getBackupCdnInfo: notInBackupCdn,
           });
 
@@ -615,7 +617,7 @@ describe('getFilePointerForAttachment', () => {
               cdnNumber: 12,
             }),
           }),
-          { backupLevel: BackupLevel.Media, backupCdnNumber: 12 }
+          { backupLevel: BackupLevel.Paid, backupCdnNumber: 12 }
         );
       });
 
@@ -624,7 +626,7 @@ describe('getFilePointerForAttachment', () => {
           downloadedAttachment,
           filePointerWithBackupLocator,
           {
-            backupLevel: BackupLevel.Media,
+            backupLevel: BackupLevel.Paid,
             updatedAttachment: downloadedAttachment,
           }
         );
@@ -635,7 +637,8 @@ describe('getFilePointerForAttachment', () => {
 
 describe('getBackupJobForAttachmentAndFilePointer', async () => {
   beforeEach(async () => {
-    await window.storage.put('masterKey', Bytes.toBase64(getRandomBytes(32)));
+    await window.storage.put('masterKey', MASTER_KEY);
+    await window.storage.put('backupMediaRootKey', MEDIA_ROOT_KEY);
   });
   afterEach(async () => {
     await DataWriter.removeAll();
@@ -645,7 +648,7 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
   it('returns null if filePointer does not have backupLocator', async () => {
     const { filePointer } = await getFilePointerForAttachment({
       attachment,
-      backupLevel: BackupLevel.Messages,
+      backupLevel: BackupLevel.Free,
       getBackupCdnInfo: notInBackupCdn,
     });
     assert.strictEqual(
@@ -663,7 +666,7 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
     const { filePointer, updatedAttachment } =
       await getFilePointerForAttachment({
         attachment,
-        backupLevel: BackupLevel.Media,
+        backupLevel: BackupLevel.Paid,
         getBackupCdnInfo: notInBackupCdn,
       });
     const attachmentToUse = updatedAttachment ?? attachment;
@@ -703,7 +706,7 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
     });
     const { filePointer } = await getFilePointerForAttachment({
       attachment,
-      backupLevel: BackupLevel.Media,
+      backupLevel: BackupLevel.Paid,
       getBackupCdnInfo: isInBackupTier,
     });
     assert.deepStrictEqual(
@@ -730,7 +733,7 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
     };
     const { filePointer } = await getFilePointerForAttachment({
       attachment: attachmentWithReencryptionInfo,
-      backupLevel: BackupLevel.Media,
+      backupLevel: BackupLevel.Paid,
       getBackupCdnInfo: notInBackupCdn,
     });
 

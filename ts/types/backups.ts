@@ -2,9 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import { BackupCredentialType } from '@signalapp/libsignal-client/dist/zkgroup';
 import type { GetBackupCDNCredentialsResponseType } from '../textsecure/WebAPI';
 
-export type BackupCredentialType = Readonly<{
+export { BackupCredentialType };
+
+export type BackupCredentialWrapperType = Readonly<{
+  type: BackupCredentialType;
   credential: string;
   level: BackupLevel;
   redemptionTimeMs: number;

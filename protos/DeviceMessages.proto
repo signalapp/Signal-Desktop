@@ -28,6 +28,8 @@ message ProvisionMessage {
   optional uint32  ProvisioningVersion = 9;
   optional bytes   masterKey = 13;
   optional bytes   ephemeralBackupKey = 14; // 32 bytes
+  optional string  accountEntropyPool = 15;
+  optional bytes   mediaRootBackupKey = 16; // 32-bytes
 }
 
 enum ProvisioningVersion {

@@ -12,7 +12,7 @@ import {
 import { MediaTier } from '../../types/AttachmentDownload';
 import { HTTPError } from '../../textsecure/Errors';
 import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment';
-import { MASTER_KEY } from '../backup/helpers';
+import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers';
 import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId';
 import { AttachmentVariant } from '../../types/Attachment';
 
@@ -254,6 +254,9 @@ describe('getCdnNumberForBackupTier', () => {
     sandbox.stub(window.storage, 'get').callsFake(key => {
       if (key === 'masterKey') {
         return MASTER_KEY;
+      }
+      if (key === 'backupMediaRootKey') {
+        return MEDIA_ROOT_KEY;
       }
       return undefined;
     });
