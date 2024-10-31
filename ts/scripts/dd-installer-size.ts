@@ -35,7 +35,7 @@ async function main(): Promise<void> {
     platform = 'linux';
     arch = 'x64';
   } else if (config === 'windows') {
-    fileName = `${NAME}-win-${VERSION}.exe`;
+    fileName = `${NAME}-win-x64-${VERSION}.exe`;
     platform = 'windows';
     arch = 'x64';
   } else if (config === 'macos-arm64') {
