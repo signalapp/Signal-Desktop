@@ -5740,10 +5740,6 @@ button.module-calling-participants-list__contact {
   }
 }
 
-.module-sticker-picker__recents--title {
-  color: $color-gray-05;
-}
-
 .module-sticker-picker__header__button {
   width: 28px;
   height: 28px;
@@ -5960,6 +5956,55 @@ button.module-calling-participants-list__contact {
   background-color: $color-gray-05;
 }
 
+.module-sticker-picker__pack-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+
+  margin-bottom: 5px;
+  height: 40px;
+
+  white-space: nowrap;
+
+  &__recents {
+    height: 20px;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  & > h3 {
+    height: 20px;
+
+    @include light-theme {
+      color: $color-gray-95;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  & > i {
+    @include light-theme {
+      color: $color-gray-90;
+    }
+
+    @include dark-theme {
+      color: $color-gray-15;
+    }
+    height: 20px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 .module-sticker-picker__body {
   position: relative;
 
@@ -5968,14 +6013,15 @@ button.module-calling-participants-list__contact {
     grid-gap: 8px;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 68px;
+
+    margin-bottom: 20px;
   }
 
   &__content {
     width: 332px;
-    height: 356px;
-    padding-block: 8px 16px;
+    height: 386px;
     padding-inline: 13px;
-    overflow-y: auto;
+    overflow: none;
 
     &--under-text {
       height: 320px;
@@ -6031,8 +6077,8 @@ button.module-calling-participants-list__contact {
     @include font-body-1-bold;
 
     text-align: center;
-    padding-block: 8px 12px;
-    padding-inline: 0 16px;
+    height: 30px;
+    padding: 0;
 
     @include light-theme() {
       color: $color-gray-60;
@@ -6057,6 +6103,7 @@ button.module-calling-participants-list__contact {
     }
 
     &--hint {
+      height: 60px;
       @include light-theme() {
         color: $color-ultramarine;
       }
@@ -6065,12 +6112,23 @@ button.module-calling-participants-list__contact {
         color: $color-ultramarine-light;
       }
     }
+  }
+}
 
-    &--pin {
-      padding-block: 8px 12px;
-      padding-inline: 0px 16px;
-      position: absolute;
-      top: 0;
+.module-sticker-picker__featured {
+  margin-bottom: 20px;
+
+  &--title {
+    height: 20px;
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    @include light-theme {
+      color: $color-gray-95;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
     }
   }
 }
