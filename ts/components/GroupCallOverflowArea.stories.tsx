@@ -14,6 +14,7 @@ import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import enMessages from '../../_locales/en/messages.json';
 import { generateAci } from '../types/ServiceId';
 import type { CallingImageDataCache } from './CallManager';
+import { MINUTE } from '../util/durations';
 
 const MAX_PARTICIPANTS = 32;
 
@@ -48,6 +49,7 @@ const defaultProps = {
   imageDataCache: React.createRef<CallingImageDataCache>(),
   i18n,
   isCallReconnecting: false,
+  joinedAt: new Date().getTime() - MINUTE,
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),
   remoteAudioLevels: new Map<number, number>(),
   remoteParticipantsCount: 1,

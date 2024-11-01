@@ -188,6 +188,7 @@ export function CallingPipRemoteVideo({
             imageDataCache={imageDataCache}
             i18n={i18n}
             isInPip
+            joinedAt={activeCall.joinedAt}
             remoteParticipant={activeGroupCallSpeaker}
             remoteParticipantsCount={activeCall.remoteParticipants.length}
             isActiveSpeakerInSpeakerView={false}

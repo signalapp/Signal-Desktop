@@ -21,6 +21,7 @@ import { getDefaultConversation } from '../test-both/helpers/getDefaultConversat
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { MINUTE } from '../util/durations';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -47,7 +48,7 @@ const getCommonActiveCallData = (overrides: Overrides) => ({
   hasLocalVideo: overrides.hasLocalVideo ?? false,
   localAudioLevel: overrides.localAudioLevel ?? 0,
   viewMode: overrides.viewMode ?? CallViewMode.Paginated,
-  joinedAt: Date.now(),
+  joinedAt: Date.now() - MINUTE,
   outgoingRing: true,
   pip: true,
   settingsDialogOpen: false,
