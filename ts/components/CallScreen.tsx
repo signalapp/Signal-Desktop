@@ -660,8 +660,7 @@ export function CallScreen({
         />
       );
     }
-    // joinedAt is only available for direct calls
-    if (isConnected) {
+    if (isConnected && activeCall.callMode === CallMode.Direct) {
       return <CallDuration joinedAt={activeCall.joinedAt} />;
     }
     if (hasLocalVideo) {
@@ -713,6 +712,7 @@ export function CallScreen({
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           imageDataCache={imageDataCache}
           i18n={i18n}
+          joinedAt={activeCall.joinedAt}
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
           remoteAudioLevels={activeCall.remoteAudioLevels}

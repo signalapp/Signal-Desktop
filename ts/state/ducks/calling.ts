@@ -3408,14 +3408,22 @@ export function reducer(
       state.activeCallState?.state === 'Active' &&
       state.activeCallState?.conversationId === conversationId
     ) {
-      newActiveCallState =
-        connectionState === GroupCallConnectionState.NotConnected
-          ? undefined
-          : {
-              ...state.activeCallState,
-              hasLocalAudio,
-              hasLocalVideo,
-            };
+      if (connectionState === GroupCallConnectionState.NotConnected) {
+        newActiveCallState = undefined;
+      } else {
+        const joinedAt =
+          state.activeCallState.joinedAt ??
+          (connectionState === GroupCallConnectionState.Connected
+            ? new Date().getTime()
+            : null);
+
+        newActiveCallState = {
+          ...state.activeCallState,
+          hasLocalAudio,
+          hasLocalVideo,
+          joinedAt,
+        };
+      }
 
       // The first time we detect call participants in the lobby, check participant count
       // and mute ourselves if over the threshold.

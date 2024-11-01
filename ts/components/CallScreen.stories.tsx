@@ -34,6 +34,7 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGr
 import enMessages from '../../_locales/en/messages.json';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
 import type { CallingImageDataCache } from './CallManager';
+import { MINUTE } from '../util/durations';
 
 const MAX_PARTICIPANTS = 75;
 const LOCAL_DEMUX_ID = 1;
@@ -158,7 +159,7 @@ const createActiveCallProp = (
   overrideProps: DirectCallOverrideProps | GroupCallOverrideProps
 ) => {
   const baseResult = {
-    joinedAt: Date.now(),
+    joinedAt: Date.now() - MINUTE,
     conversation,
     hasLocalAudio: overrideProps.hasLocalAudio ?? false,
     hasLocalVideo: overrideProps.hasLocalVideo ?? false,

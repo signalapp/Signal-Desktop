@@ -44,6 +44,7 @@ type BasePropsType = {
   isActiveSpeakerInSpeakerView: boolean;
   isCallReconnecting: boolean;
   isInOverflow?: boolean;
+  joinedAt: number | null;
   onClickRaisedHand?: () => void;
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
@@ -82,6 +83,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       isActiveSpeakerInSpeakerView,
       isCallReconnecting,
       isInOverflow,
+      joinedAt,
     } = props;
 
     const {
@@ -150,10 +152,17 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
     const wantsToShowVideo = hasRemoteVideo && !isBlocked && isVisible;
     const hasVideoToShow = wantsToShowVideo && hasReceivedVideoRecently;
+
+    // Use the later of participant join time (addedTime) vs your join time (joinedAt)
+    const timeForMissingMediaKeysCheck =
+      addedTime && joinedAt && addedTime > joinedAt ? addedTime : joinedAt;
     const showMissingMediaKeys = Boolean(
       !mediaKeysReceived &&
-        addedTime &&
-        isOlderThan(addedTime, DELAY_TO_SHOW_MISSING_MEDIA_KEYS)
+        timeForMissingMediaKeysCheck &&
+        isOlderThan(
+          timeForMissingMediaKeysCheck,
+          DELAY_TO_SHOW_MISSING_MEDIA_KEYS
+        )
     );
 
     const videoFrameSource = useMemo(
