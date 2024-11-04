@@ -38,6 +38,13 @@ export const getRingingCall = (
       return false;
     }
 
+    if (
+      activeCallState?.state === 'Active' &&
+      activeCallState.conversationId !== call.conversationId
+    ) {
+      return false;
+    }
+
     return isRinging(call.callState) && call.callEndedReason == null;
   });
 
@@ -50,11 +57,18 @@ export const getRingingCall = (
       return false;
     }
 
+    if (
+      activeCallState?.state === 'Active' &&
+      activeCallState.conversationId !== call.conversationId
+    ) {
+      return false;
+    }
+
     // Outgoing - ringerAci is not set for outgoing group calls
     if (
       activeCallState?.state === 'Active' &&
-      activeCallState.outgoingRing &&
       activeCallState.conversationId === call.conversationId &&
+      activeCallState.outgoingRing &&
       isConnected(call.connectionState) &&
       isJoined(call.joinState) &&
       !hasRemoteParticipants(call.remoteParticipants)
