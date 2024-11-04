@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
+import { loadImage } from '../util/loadImage';
 import { customFabricObjectControls } from './util/customFabricObjectControls';
 
 export class MediaEditorFabricSticker extends fabric.Image {
@@ -23,13 +24,21 @@ export class MediaEditorFabricSticker extends fabric.Image {
     this.on('modified', () => this.canvas?.bringToFront(this));
   }
 
-  static fromObject(
+  static async fromObject(
     // eslint-disable-next-line max-len
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     options: any,
-    callback: (_: MediaEditorFabricSticker) => unknown
-  ): void {
-    callback(new MediaEditorFabricSticker(options.src, options));
+    callback: (_: MediaEditorFabricSticker | null, isError: boolean) => unknown
+  ): Promise<void> {
+    let { src } = options;
+    try {
+      if (typeof src === 'string') {
+        src = await loadImage(src);
+      }
+      callback(new MediaEditorFabricSticker(src, options), false);
+    } catch {
+      callback(null, true);
+    }
   }
 }
 
