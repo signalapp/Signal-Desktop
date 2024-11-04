@@ -438,6 +438,7 @@ export const DataWriter: ServerWritableInterface = {
 
   saveMessage,
   saveMessages,
+  saveMessagesIndividually,
   removeMessage,
   removeMessages,
   markReactionAsRead,
@@ -2208,6 +2209,7 @@ export function saveMessage(
     ourAci: AciString;
   }
 ): string {
+  // NB: `saveMessagesIndividually` relies on `saveMessage` being atomic
   const { alreadyInTransaction, forceSave, jobToInsert, ourAci } = options;
 
   if (!alreadyInTransaction) {
@@ -2432,6 +2434,31 @@ function saveMessages(
       );
     }
     return result;
+  })();
+}
+
+function saveMessagesIndividually(
+  db: WritableDB,
+  arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
+  options: { forceSave?: boolean; ourAci: AciString }
+): { failedIndices: Array<number> } {
+  return db.transaction(() => {
+    const failedIndices: Array<number> = [];
+    arrayOfMessages.forEach((message, index) => {
+      try {
+        saveMessage(db, message, {
+          ...options,
+          alreadyInTransaction: true,
+        });
+      } catch (e) {
+        logger.error(
+          'saveMessagesIndividually: failed to save message',
+          Errors.toLogFormat(e)
+        );
+        failedIndices.push(index);
+      }
+    });
+    return { failedIndices };
   })();
 }
 

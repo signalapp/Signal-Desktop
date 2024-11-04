@@ -20,7 +20,7 @@ export async function migrateMessageData({
   numMessagesPerBatch,
   upgradeMessageSchema,
   getMessagesNeedingUpgrade,
-  saveMessages,
+  saveMessagesIndividually,
   incrementMessagesMigrationAttempts,
   maxVersion = CURRENT_SCHEMA_VERSION,
 }: Readonly<{
@@ -33,28 +33,25 @@ export async function migrateMessageData({
     limit: number,
     options: { maxVersion: number }
   ) => Promise<Array<MessageAttributesType>>;
-  saveMessages: (
+  saveMessagesIndividually: (
     data: ReadonlyArray<MessageAttributesType>,
     options: { ourAci: AciString }
-  ) => Promise<unknown>;
+  ) => Promise<{ failedIndices: Array<number> }>;
   incrementMessagesMigrationAttempts: (
     messageIds: ReadonlyArray<string>
   ) => Promise<void>;
   maxVersion?: number;
-}>): Promise<
-  | {
-      done: true;
-      numProcessed: 0;
-    }
-  | {
-      done: boolean;
-      numProcessed: number;
-      fetchDuration: number;
-      upgradeDuration: number;
-      saveDuration: number;
-      totalDuration: number;
-    }
-> {
+}>): Promise<{
+  done: boolean;
+  numProcessed: number;
+  numSucceeded?: number;
+  numFailedSave?: number;
+  numFailedUpgrade?: number;
+  fetchDuration?: number;
+  upgradeDuration?: number;
+  saveDuration?: number;
+  totalDuration?: number;
+}> {
   if (!isNumber(numMessagesPerBatch)) {
     throw new TypeError("'numMessagesPerBatch' is required");
   }
@@ -85,7 +82,7 @@ export async function migrateMessageData({
   const fetchDuration = Date.now() - fetchStartTime;
 
   const upgradeStartTime = Date.now();
-  const failedMessages = new Array<string>();
+  const failedToUpgradeMessageIds = new Array<string>();
   const upgradedMessages = (
     await pMap(
       messagesRequiringSchemaUpgrade,
@@ -97,7 +94,7 @@ export async function migrateMessageData({
             'migrateMessageData.upgradeMessageSchema error:',
             Errors.toLogFormat(error)
           );
-          failedMessages.push(message.id);
+          failedToUpgradeMessageIds.push(message.id);
           return undefined;
         }
       },
@@ -109,18 +106,37 @@ export async function migrateMessageData({
   const saveStartTime = Date.now();
 
   const ourAci = window.textsecure.storage.user.getCheckedAci();
-  await saveMessages(upgradedMessages, { ourAci });
-  if (failedMessages.length) {
-    await incrementMessagesMigrationAttempts(failedMessages);
+  const { failedIndices: failedToSaveIndices } = await saveMessagesIndividually(
+    upgradedMessages,
+    {
+      ourAci,
+    }
+  );
+
+  const failedToSaveMessageIds = failedToSaveIndices.map(
+    idx => upgradedMessages[idx].id
+  );
+
+  if (failedToUpgradeMessageIds.length || failedToSaveMessageIds.length) {
+    await incrementMessagesMigrationAttempts([
+      ...failedToUpgradeMessageIds,
+      ...failedToSaveMessageIds,
+    ]);
   }
   const saveDuration = Date.now() - saveStartTime;
 
   const totalDuration = Date.now() - startTime;
   const numProcessed = messagesRequiringSchemaUpgrade.length;
+  const numFailedUpgrade = failedToUpgradeMessageIds.length;
+  const numFailedSave = failedToSaveIndices.length;
+  const numSucceeded = numProcessed - numFailedSave - numFailedUpgrade;
   const done = numProcessed < numMessagesPerBatch;
   return {
     done,
     numProcessed,
+    numSucceeded,
+    numFailedUpgrade,
+    numFailedSave,
     fetchDuration,
     upgradeDuration,
     saveDuration,
@@ -137,7 +153,7 @@ export async function migrateBatchOfMessages({
     numMessagesPerBatch,
     upgradeMessageSchema: window.Signal.Migrations.upgradeMessageSchema,
     getMessagesNeedingUpgrade: DataReader.getMessagesNeedingUpgrade,
-    saveMessages: DataWriter.saveMessages,
+    saveMessagesIndividually: DataWriter.saveMessagesIndividually,
     incrementMessagesMigrationAttempts:
       DataWriter.incrementMessagesMigrationAttempts,
   });

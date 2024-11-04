@@ -761,6 +761,10 @@ type WritableInterface = {
     arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
     options: { forceSave?: boolean; ourAci: AciString }
   ) => Array<string>;
+  saveMessagesIndividually: (
+    arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
+    options: { forceSave?: boolean; ourAci: AciString }
+  ) => { failedIndices: Array<number> };
 
   getUnreadByConversationAndMarkRead: (options: {
     conversationId: string;
