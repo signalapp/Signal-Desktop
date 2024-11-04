@@ -363,7 +363,7 @@ function finishInstall(
     const accountManager = window.getAccountManager();
     strictAssert(accountManager, 'Expected an account manager');
 
-    if (isBackupEnabled()) {
+    if (isBackupEnabled() || provisioner.isLinkAndSync()) {
       dispatch({ type: SHOW_BACKUP_IMPORT });
     } else {
       dispatch({ type: SHOW_LINK_IN_PROGRESS });
