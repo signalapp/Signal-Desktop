@@ -2950,6 +2950,19 @@ export class CallingClass {
       localCallEvent,
       'CallingClass.handleAutoEndedIncomingCallRequest'
     );
+
+    if (!this.reduxInterface) {
+      log.error(
+        'handleAutoEndedIncomingCallRequest: Unable to update redux for call'
+      );
+    }
+    this.reduxInterface?.callStateChange({
+      acceptedTime: null,
+      callEndedReason,
+      callState: CallState.Ended,
+      conversationId: conversation.id,
+    });
+
     await updateCallHistoryFromLocalEvent(
       callEvent,
       receivedAtCounter ?? null,
