@@ -45,7 +45,7 @@ export const getRingingCall = (
       return false;
     }
 
-    return isRinging(call.callState) && call.callEndedReason == null;
+    return call.callState === CallState.Ringing && call.callEndedReason == null;
   });
 
   if (ringingDirect) {
@@ -109,10 +109,6 @@ export const isGroupCallActiveOnServer = (
 
 export function isLonelyGroup(conversation: CallingConversationType): boolean {
   return (conversation.sortedGroupMembers?.length ?? 0) < 2;
-}
-
-function isRinging(callState: CallState | undefined): boolean {
-  return callState === CallState.Prering || callState === CallState.Ringing;
 }
 
 function isConnected(connectionState: GroupCallConnectionState): boolean {
