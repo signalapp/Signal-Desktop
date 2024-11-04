@@ -25,10 +25,10 @@ import {
   decryptAttachmentV2ToSink,
   ReencryptedDigestMismatchError,
 } from '../AttachmentCrypto';
-import { deriveBackupMediaThumbnailInnerEncryptionKeyMaterial } from '../Crypto';
 import {
   getBackupMediaRootKey,
   deriveBackupMediaKeyMaterial,
+  deriveBackupThumbnailTransitKeyMaterial,
 } from '../services/backups/crypto';
 import {
   type AttachmentBackupJobType,
@@ -432,11 +432,10 @@ async function backupThumbnailAttachment(
     return;
   }
 
-  const { aesKey, macKey } =
-    deriveBackupMediaThumbnailInnerEncryptionKeyMaterial(
-      getBackupMediaRootKey().serialize(),
-      mediaId.bytes
-    );
+  const { aesKey, macKey } = deriveBackupThumbnailTransitKeyMaterial(
+    getBackupMediaRootKey(),
+    mediaId.bytes
+  );
 
   log.info(`${logId}: uploading thumbnail to transit tier`);
   const uploadResult = await uploadThumbnailToTransitTier({

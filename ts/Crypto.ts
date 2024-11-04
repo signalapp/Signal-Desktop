@@ -155,52 +155,6 @@ export function decryptDeviceName(
   return Bytes.toString(plaintext);
 }
 
-const BACKUP_KEY_LEN = 32;
-const BACKUP_MEDIA_THUMBNAIL_ENCRYPT_INFO =
-  '20241030_SIGNAL_BACKUPS_ENCRYPT_THUMBNAIL:';
-const BACKUP_MEDIA_AES_KEY_LEN = 32;
-const BACKUP_MEDIA_MAC_KEY_LEN = 32;
-const BACKUP_MEDIA_IV_LEN = 16;
-
-export type BackupMediaKeyMaterialType = Readonly<{
-  aesKey: Uint8Array;
-  macKey: Uint8Array;
-}>;
-
-export function deriveBackupMediaThumbnailInnerEncryptionKeyMaterial(
-  mediaRootKey: Uint8Array,
-  mediaId: Uint8Array
-): BackupMediaKeyMaterialType {
-  if (mediaRootKey.byteLength !== BACKUP_KEY_LEN) {
-    throw new Error(
-      'deriveBackupMediaThumbnailKeyMaterial: invalid backup key length'
-    );
-  }
-
-  if (!mediaId.length) {
-    throw new Error('deriveBackupMediaThumbnailKeyMaterial: mediaId missing');
-  }
-
-  const hkdf = HKDF.new(3);
-  const material = hkdf.deriveSecrets(
-    BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN + BACKUP_MEDIA_IV_LEN,
-    Buffer.from(mediaRootKey),
-    Buffer.concat([
-      Buffer.from(BACKUP_MEDIA_THUMBNAIL_ENCRYPT_INFO),
-      Buffer.from(mediaId),
-    ]),
-    Buffer.alloc(0)
-  );
-
-  return {
-    aesKey: material.subarray(0, BACKUP_MEDIA_AES_KEY_LEN),
-    macKey: material.subarray(
-      BACKUP_MEDIA_AES_KEY_LEN,
-      BACKUP_MEDIA_AES_KEY_LEN + BACKUP_MEDIA_MAC_KEY_LEN
-    ),
-  };
-}
-
 export function deriveMasterKey(accountEntropyPool: string): Uint8Array {
   return AccountEntropyPool.deriveSvrKey(accountEntropyPool);
 }

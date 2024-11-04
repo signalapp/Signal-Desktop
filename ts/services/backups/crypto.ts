@@ -104,3 +104,24 @@ export function deriveBackupMediaKeyMaterial(
     ),
   };
 }
+
+export function deriveBackupThumbnailTransitKeyMaterial(
+  mediaRootKey: BackupKey,
+  mediaId: Uint8Array
+): BackupMediaKeyMaterialType {
+  if (!mediaId.length) {
+    throw new Error('deriveBackupThumbnailTransitKeyMaterial: mediaId missing');
+  }
+
+  const material = mediaRootKey.deriveThumbnailTransitEncryptionKey(
+    Buffer.from(mediaId)
+  );
+
+  return {
+    macKey: material.subarray(0, BACKUP_MEDIA_MAC_KEY_LEN),
+    aesKey: material.subarray(
+      BACKUP_MEDIA_MAC_KEY_LEN,
+      BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN
+    ),
+  };
+}
