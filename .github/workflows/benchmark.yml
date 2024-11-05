@@ -35,7 +35,7 @@ jobs:
       run: npm install -g npm@10.2.5
 
     - name: Install xvfb
-      run: sudo apt-get install xvfb
+      run: sudo apt-get install xvfb libpulse0
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
