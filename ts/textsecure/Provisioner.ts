@@ -10,6 +10,7 @@ import { strictAssert } from '../util/assert';
 import { normalizeAci } from '../util/normalizeAci';
 import { normalizeDeviceName } from '../util/normalizeDeviceName';
 import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
+import { MINUTE } from '../util/durations';
 import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen';
 import * as Errors from '../types/errors';
 import {
@@ -33,6 +34,7 @@ import {
   type IncomingWebSocketRequest,
   ServerRequestType,
 } from './WebsocketResources';
+import { InactiveTimeoutError } from './Errors';
 
 enum Step {
   Idle = 'Idle',
@@ -72,16 +74,25 @@ export type PrepareLinkDataOptionsType = Readonly<{
   backupFile?: Uint8Array;
 }>;
 
+export type ProvisionerOptionsType = Readonly<{
+  server: WebAPIType;
+  appVersion: string;
+}>;
+
+const INACTIVE_SOCKET_TIMEOUT = 30 * MINUTE;
+
 export class Provisioner {
   private readonly cipher = new ProvisioningCipher();
+  private readonly server: WebAPIType;
+  private readonly appVersion: string;
 
   private state: StateType = { step: Step.Idle };
   private wsr: IWebSocketResource | undefined;
 
-  constructor(
-    private readonly server: WebAPIType,
-    private readonly appVersion: string
-  ) {}
+  constructor(options: ProvisionerOptionsType) {
+    this.server = options.server;
+    this.appVersion = options.appVersion;
+  }
 
   public close(error = new Error('Provisioner closed')): void {
     try {
@@ -122,6 +133,32 @@ export class Provisioner {
     });
     this.wsr = wsr;
 
+    let inactiveTimer: NodeJS.Timeout | undefined;
+
+    const onVisibilityChange = (): void => {
+      // Visible
+      if (!document.hidden) {
+        if (inactiveTimer != null) {
+          clearTimeout(inactiveTimer);
+        }
+        inactiveTimer = undefined;
+        return;
+      }
+
+      // Invisible, but already has a timer
+      if (inactiveTimer != null) {
+        return;
+      }
+
+      inactiveTimer = setTimeout(() => {
+        inactiveTimer = undefined;
+
+        this.close(new InactiveTimeoutError());
+      }, INACTIVE_SOCKET_TIMEOUT);
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     if (this.state.step !== Step.Connecting) {
       this.close();
       throw new Error('Provisioner closed early');
@@ -133,6 +170,13 @@ export class Provisioner {
     };
 
     wsr.addEventListener('close', ({ code, reason }) => {
+      // Unsubscribe from visibility changes
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      if (inactiveTimer != null) {
+        clearTimeout(inactiveTimer);
+      }
+      inactiveTimer = undefined;
+
       if (this.state.step === Step.ReadyToLink) {
         // WebSocket close is not an issue since we no longer need it
         return;

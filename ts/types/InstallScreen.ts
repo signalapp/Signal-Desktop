@@ -22,6 +22,7 @@ export enum InstallScreenError {
   TooOld = 'TooOld',
   ConnectionFailed = 'ConnectionFailed',
   QRCodeFailed = 'QRCodeFailed',
+  InactiveTimeout = 'InactiveTimeout',
 }
 
 export enum InstallScreenQRCodeError {
