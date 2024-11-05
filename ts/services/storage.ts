@@ -872,6 +872,9 @@ async function encryptManifest(
   manifestRecord.version = Long.fromNumber(version);
   manifestRecord.sourceDevice = window.storage.user.getDeviceId() ?? 0;
   manifestRecord.keys = Array.from(manifestRecordKeys);
+  if (recordIkm != null) {
+    manifestRecord.recordIkm = recordIkm;
+  }
 
   const storageKeyBase64 = window.storage.get('storageKey');
   if (!storageKeyBase64) {
