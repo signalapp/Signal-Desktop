@@ -12,21 +12,12 @@ const { AboutWindowProps } = window.Signal;
 
 strictAssert(AboutWindowProps, 'window values not provided');
 
-let platform = '';
-if (AboutWindowProps.platform === 'darwin') {
-  if (AboutWindowProps.arch === 'arm64') {
-    platform = ` (${i18n('icu:appleSilicon')})`;
-  } else {
-    platform = ' (Intel)';
-  }
-}
-
-const environmentText = `${AboutWindowProps.environmentText}${platform}`;
-
 ReactDOM.render(
   <About
     closeAbout={() => window.SignalContext.executeMenuRole('close')}
-    environment={environmentText}
+    appEnv={AboutWindowProps.appEnv}
+    platform={AboutWindowProps.platform}
+    arch={AboutWindowProps.arch}
     i18n={i18n}
     version={window.SignalContext.getVersion()}
   />,

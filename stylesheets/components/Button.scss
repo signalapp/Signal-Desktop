@@ -36,7 +36,7 @@
   }
 
   @include dark-keyboard-mode {
-    @include focus-box-shadow($color-black, $color-ultramarine-icon);
+    @include focus-box-shadow($color-black, $color-ultramarine);
   }
 
   @include disabled {

@@ -34,37 +34,24 @@
 }
 
 .module-splash-screen__logo {
-  @include color-svg('../images/signal-logo.svg', $color-white);
   margin-block: 24px;
   margin-inline: 0;
 
-  &.module-img--256 {
-    height: 256px;
-    width: 256px;
+  @include light-theme {
+    @include color-svg('../images/signal-logo.svg', $color-ultramarine-logo);
+  }
+  @include dark-theme {
+    @include color-svg('../images/signal-logo.svg', $color-white);
   }
 
-  &.module-img--200 {
-    height: 200px;
-    width: 200px;
-  }
-
-  &.module-img--150 {
-    height: 150px;
-    width: 150px;
-  }
-
-  &.module-img--128 {
+  &.module-splash-screen__logo--128 {
     height: 128px;
     width: 128px;
   }
 
-  &.module-img--80 {
-    height: 80px;
-    width: 80px;
-  }
-
-  &.module-logo-blue {
-    background-color: $color-ultramarine-icon;
+  &.module-splash-screen__logo--96 {
+    height: 96px;
+    width: 96px;
   }
 }
 
