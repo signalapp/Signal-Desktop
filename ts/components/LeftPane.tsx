@@ -536,26 +536,6 @@ export function LeftPane({
     [showConversation]
   );
 
-  const previousSelectedConversationId = usePrevious(
-    selectedConversationId,
-    selectedConversationId
-  );
-
-  const isScrollable = helper.isScrollable();
-
-  let rowIndexToScrollTo: undefined | number;
-  let scrollBehavior: ScrollBehavior;
-  if (isScrollable) {
-    rowIndexToScrollTo =
-      previousSelectedConversationId === selectedConversationId
-        ? undefined
-        : helper.getRowIndexToScrollTo(selectedConversationId);
-    scrollBehavior = ScrollBehavior.Default;
-  } else {
-    rowIndexToScrollTo = 0;
-    scrollBehavior = ScrollBehavior.Hard;
-  }
-
   // We ensure that the listKey differs between some modes (e.g. inbox/archived), ensuring
   //   that AutoSizer properly detects the new size of its slot in the flexbox. The
   //   archive explainer text at the top of the archive view causes problems otherwise.
@@ -565,6 +545,8 @@ export function LeftPane({
   const measureRef = useRef<HTMLDivElement>(null);
   const measureSize = useSizeObserver(measureRef);
 
+  const previousMeasureSize = usePrevious(null, measureSize);
+
   const widthBreakpoint = getNavSidebarWidthBreakpoint(
     measureSize?.width ?? preferredWidthFromStorage
   );
@@ -573,6 +555,47 @@ export function LeftPane({
     i18n,
     containerWidthBreakpoint: widthBreakpoint,
   };
+
+  // Control scroll position
+  const previousSelectedConversationId = usePrevious(
+    selectedConversationId,
+    selectedConversationId
+  );
+
+  const isScrollable = helper.isScrollable();
+
+  let rowIndexToScrollTo: undefined | number;
+  let scrollBehavior: ScrollBehavior;
+
+  const hasChangedModes =
+    previousModeSpecificProps?.mode !== modeSpecificProps.mode;
+
+  const hasSwitchedToInbox =
+    hasChangedModes && modeSpecificProps.mode === LeftPaneMode.Inbox;
+
+  const hasChangedConversations =
+    previousSelectedConversationId !== selectedConversationId;
+
+  const hasJustMounted = previousMeasureSize == null;
+  if (isScrollable) {
+    const rowIndexForSelectedConversation = helper.getRowIndexToScrollTo(
+      selectedConversationId
+    );
+    if (hasSwitchedToInbox) {
+      rowIndexToScrollTo = rowIndexForSelectedConversation;
+    } else if (
+      modeSpecificProps.mode === LeftPaneMode.Inbox &&
+      (hasChangedConversations || hasJustMounted)
+    ) {
+      rowIndexToScrollTo = rowIndexForSelectedConversation;
+    } else if (hasChangedModes) {
+      rowIndexToScrollTo = 0;
+    }
+    scrollBehavior = ScrollBehavior.Default;
+  } else {
+    rowIndexToScrollTo = 0;
+    scrollBehavior = ScrollBehavior.Hard;
+  }
 
   // Yellow dialogs
   let maybeYellowDialog: JSX.Element | undefined;
