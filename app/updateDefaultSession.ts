@@ -53,7 +53,7 @@ export function updateDefaultSession(
           }
         );
 
-        frame.send('select-capture-sources', {
+        frame?.send('select-capture-sources', {
           id,
           sources,
         } satisfies IpcResponseType);
