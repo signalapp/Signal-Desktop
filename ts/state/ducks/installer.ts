@@ -19,7 +19,7 @@ import { strictAssert } from '../../util/assert';
 import { SECOND } from '../../util/durations';
 import * as Registration from '../../util/registration';
 import { isBackupEnabled } from '../../util/isBackupEnabled';
-import { HTTPError } from '../../textsecure/Errors';
+import { HTTPError, InactiveTimeoutError } from '../../textsecure/Errors';
 import {
   Provisioner,
   type PrepareLinkDataOptionsType,
@@ -196,7 +196,10 @@ function startInstaller(): ThunkAction<
     const { server } = window.textsecure;
     strictAssert(server, 'Expected a server');
 
-    const provisioner = new Provisioner(server, window.getVersion());
+    const provisioner = new Provisioner({
+      server,
+      appVersion: window.getVersion(),
+    });
 
     const abortController = new AbortController();
     const { signal } = abortController;
@@ -294,6 +297,14 @@ function startInstaller(): ThunkAction<
         'installer: got an error while waiting for envelope code',
         Errors.toLogFormat(error)
       );
+
+      if (error instanceof InactiveTimeoutError) {
+        dispatch({
+          type: SET_ERROR,
+          payload: InstallScreenError.InactiveTimeout,
+        });
+        return;
+      }
 
       dispatch({
         type: SET_ERROR,

@@ -1,8 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactElement } from 'react';
-import React from 'react';
+import React, { type ReactElement, useEffect, useCallback } from 'react';
+import { noop } from 'lodash';
+
 import type { LocalizerType } from '../../types/Util';
 import { missingCaseError } from '../../util/missingCaseError';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
@@ -27,8 +28,30 @@ export function InstallScreenErrorStep({
 }: Props): ReactElement {
   let errorMessage: string;
   let buttonText = i18n('icu:installTryAgain');
-  let onClickButton = () => tryAgain();
+  let onClickButton = useCallback(() => tryAgain(), [tryAgain]);
   let shouldShowQuitButton = false;
+
+  useEffect(() => {
+    if (error !== InstallScreenError.InactiveTimeout) {
+      return noop;
+    }
+
+    const cleanup = () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        return;
+      }
+
+      cleanup();
+      tryAgain();
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return cleanup;
+  }, [error, tryAgain]);
 
   switch (error) {
     case InstallScreenError.TooManyDevices:
@@ -43,6 +66,7 @@ export function InstallScreenErrorStep({
       shouldShowQuitButton = true;
       break;
     case InstallScreenError.ConnectionFailed:
+    case InstallScreenError.InactiveTimeout:
       errorMessage = i18n('icu:installConnectionFailed');
       break;
     case InstallScreenError.QRCodeFailed:
