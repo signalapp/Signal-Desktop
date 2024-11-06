@@ -14,8 +14,8 @@ if (config.appInstance) {
 
 const Signal = {
   AboutWindowProps: {
+    appEnv: environments.join(' - '),
     arch: process.arch,
-    environmentText: environments.join(' - '),
     platform: process.platform,
   },
 };

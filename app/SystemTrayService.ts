@@ -1,11 +1,14 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
 import type { BrowserWindow, NativeImage } from 'electron';
-import { Menu, Tray, app, nativeImage } from 'electron';
+import { Menu, Tray, app, nativeImage, nativeTheme, screen } from 'electron';
+import os from 'node:os';
+import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
 import * as log from '../ts/logging/log';
 import type { LocalizerType } from '../ts/types/I18N';
+import { SystemThemeType } from '../ts/types/Util';
 
 export type SystemTrayServiceOptionsType = Readonly<{
   i18n: LocalizerType;
@@ -43,6 +46,8 @@ export class SystemTrayService {
     this.i18n = i18n;
     this.boundRender = this.render.bind(this);
     this.createTrayInstance = createTrayInstance || (icon => new Tray(icon));
+
+    nativeTheme.on('updated', this.boundRender);
   }
 
   /**
@@ -88,6 +93,7 @@ export class SystemTrayService {
 
     log.info(`System tray service: ${isEnabled ? 'enabling' : 'disabling'}`);
     this.isEnabled = isEnabled;
+
     this.render();
   }
 
@@ -137,7 +143,7 @@ export class SystemTrayService {
 
     log.info('System tray service: rendering the tray');
 
-    this.tray = this.tray || this.createTray();
+    this.tray ??= this.createTray();
     const { browserWindow, tray } = this;
 
     try {
@@ -245,32 +251,117 @@ export class SystemTrayService {
   }
 }
 
+const Variant = {
+  Size16: { size: 16, scaleFactor: 1 },
+  Size32: { size: 32, scaleFactor: 2 },
+  Size48: { size: 48, scaleFactor: 3 },
+  Size256: { size: 256, scaleFactor: 16 },
+} as const;
+
+const Variants = Object.values(Variant);
+
+function getDisplaysMaxScaleFactor(): number {
+  const displays = screen.getAllDisplays();
+  const scaleFactors = displays
+    .map(display => display.scaleFactor)
+    .filter(scaleFactor => Number.isFinite(scaleFactor) && scaleFactor > 1.0);
+  return Math.max(1.0, ...scaleFactors);
+}
+
+function getVariantForScaleFactor(scaleFactor: number) {
+  const match = Variants.find(variant => {
+    return variant.scaleFactor >= scaleFactor;
+  });
+
+  return match ?? Variant.Size32;
+}
+
+function getTrayIconImagePath(
+  size: number,
+  theme: SystemThemeType,
+  unreadCount: number
+): string {
+  let dirName: string;
+  let fileName: string;
+
+  if (unreadCount === 0) {
+    dirName = 'base';
+    fileName = `signal-tray-icon-${size}x${size}-${theme}-base.png`;
+  } else if (unreadCount < 10) {
+    dirName = 'alert';
+    fileName = `signal-tray-icon-${size}x${size}-${theme}-alert-${unreadCount}.png`;
+  } else {
+    dirName = 'alert';
+    fileName = `signal-tray-icon-${size}x${size}-${theme}-alert-9+.png`;
+  }
+
+  const iconPath = join(
+    __dirname,
+    '..',
+    'images',
+    'tray-icons',
+    dirName,
+    fileName
+  );
+
+  return iconPath;
+}
+
+const TrayIconCache = new Map<string, NativeImage>();
+
 function getIcon(unreadCount: number) {
-  let iconSize: string;
-  switch (process.platform) {
-    case 'darwin':
-      iconSize = '16';
-      break;
-    case 'linux':
-    case 'win32':
-      iconSize = '32';
-      break;
-    default:
-      iconSize = '256';
-      break;
+  const theme = nativeTheme.shouldUseDarkColors
+    ? SystemThemeType.dark
+    : SystemThemeType.light;
+
+  const cacheKey = `${theme}-${unreadCount}`;
+
+  const cached = TrayIconCache.get(cacheKey);
+  if (cached != null) {
+    return cached;
   }
 
-  if (unreadCount > 0) {
-    const filename = `${String(unreadCount >= 10 ? 10 : unreadCount)}.png`;
-    return join(__dirname, '..', 'images', 'alert', iconSize, filename);
+  const platform = os.platform();
+
+  let image: NativeImage;
+
+  if (platform === 'linux') {
+    // Linux: Static tray icons
+    // Use a single tray icon for Linux, as it does not support scale factors.
+    // We choose the best icon based on the highest display scale factor.
+    const scaleFactor = getDisplaysMaxScaleFactor();
+    const variant = getVariantForScaleFactor(scaleFactor);
+    const iconPath = getTrayIconImagePath(variant.size, theme, unreadCount);
+    const buffer = readFileSync(iconPath);
+    image = nativeImage.createFromBuffer(buffer, {
+      scaleFactor: 1.0, // Must be 1.0 for Linux
+      width: variant.size,
+      height: variant.size,
+    });
+  } else {
+    // Windows/macOS: Responsive tray icons
+    image = nativeImage.createEmpty();
+
+    for (const variant of Variants) {
+      const iconPath = getTrayIconImagePath(variant.size, theme, unreadCount);
+      const buffer = readFileSync(iconPath);
+      image.addRepresentation({
+        buffer,
+        width: variant.size,
+        height: variant.size,
+        scaleFactor: variant.scaleFactor,
+      });
+    }
   }
 
-  return join(__dirname, '..', 'images', `icon_${iconSize}.png`);
+  TrayIconCache.set(cacheKey, image);
+
+  return image;
 }
 
 let defaultIcon: undefined | NativeImage;
 function getDefaultIcon(): NativeImage {
-  defaultIcon ??= nativeImage.createFromPath(getIcon(0));
+  defaultIcon ??= getIcon(0);
   return defaultIcon;
 }
 

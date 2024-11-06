@@ -55,7 +55,7 @@
       text-decoration: none;
 
       @include light-theme {
-        color: $color-ultramarine-icon;
+        color: $color-ultramarine;
       }
       @include dark-theme {
         color: $color-ios-blue-tint;

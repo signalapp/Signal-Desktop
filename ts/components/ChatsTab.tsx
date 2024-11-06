@@ -7,7 +7,7 @@ import type { NavTabPanelProps } from './NavTabs';
 import { WhatsNewLink } from './WhatsNewLink';
 import type { UnreadStats } from '../util/countUnreadStats';
 
-type ChatsTabProps = Readonly<{
+export type ChatsTabProps = Readonly<{
   otherTabsUnreadStats: UnreadStats;
   i18n: LocalizerType;
   isStaging: boolean;
@@ -59,7 +59,7 @@ export function ChatsTab({
         ) : (
           <div className="Inbox__no-conversation-open">
             {renderMiniPlayer({ shouldFlow: false })}
-            <div className="module-splash-screen__logo module-img--80 module-logo-blue" />
+            <div className="module-splash-screen__logo module-splash-screen__logo--96" />
             <h3 className="Inbox__welcome">
               {isStaging
                 ? 'THIS IS A STAGING DESKTOP'

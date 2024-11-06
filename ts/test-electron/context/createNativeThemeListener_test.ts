@@ -10,6 +10,7 @@ import type {
 } from '../../context/createNativeThemeListener';
 import { createNativeThemeListener } from '../../context/createNativeThemeListener';
 import type { NativeThemeState } from '../../types/NativeThemeNotifier.d';
+import { SystemThemeType } from '../../types/Util';
 
 class FakeIPC extends EventEmitter implements MinimalIPC {
   constructor(private readonly state: NativeThemeState) {
@@ -29,7 +30,7 @@ class FakeIPC extends EventEmitter implements MinimalIPC {
 }
 
 describe('NativeThemeListener', () => {
-  const holder: SystemThemeHolder = { systemTheme: 'dark' };
+  const holder: SystemThemeHolder = { systemTheme: SystemThemeType.dark };
 
   it('syncs the initial native theme', () => {
     const dark = createNativeThemeListener(

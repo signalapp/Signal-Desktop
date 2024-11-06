@@ -11,7 +11,7 @@
   inset-inline-start: 32px;
 
   &::before {
-    @include color-svg('../images/signal-logo.svg', $color-ultramarine);
+    @include color-svg('../images/signal-logo.svg', $color-ultramarine-logo);
     content: '';
     display: block;
     height: 32px;

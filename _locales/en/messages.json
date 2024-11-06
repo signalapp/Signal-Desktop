@@ -87,6 +87,18 @@
     "messageformat": "Apple silicon",
     "description": "Shown in the about box for Apple silicon product name"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}",
+    "description": "AboutWindow > App Environment Info > On non-apple devices"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)",
+    "description": "AboutWindow > App Environment Info > On Apple Silicon Devices"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)",
+    "description": "AboutWindow > App Environment Info > On Apple Intel Devices"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "Copy error and quit",
     "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"

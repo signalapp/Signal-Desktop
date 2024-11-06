@@ -3,6 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 
 import type { NativeThemeState } from '../types/NativeThemeNotifier.d';
+import { SystemThemeType } from '../types/Util';
 
 export type Callback = (change: NativeThemeState) => void;
 
@@ -19,9 +20,6 @@ export interface MinimalIPC {
     listener: (event: unknown, ...args: ReadonlyArray<any>) => void
   ): this;
 }
-
-type SystemThemeType = 'dark' | 'light';
-
 export type SystemThemeHolder = { systemTheme: SystemThemeType };
 
 export type NativeThemeType = {
@@ -41,7 +39,9 @@ export function createNativeThemeListener(
   let systemTheme: SystemThemeType;
 
   function update(): SystemThemeType {
-    const nextSystemTheme = theme.shouldUseDarkColors ? 'dark' : 'light';
+    const nextSystemTheme = theme.shouldUseDarkColors
+      ? SystemThemeType.dark
+      : SystemThemeType.light;
     // eslint-disable-next-line no-param-reassign
     holder.systemTheme = nextSystemTheme;
     return nextSystemTheme;

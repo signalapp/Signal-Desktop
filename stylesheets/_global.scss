@@ -280,12 +280,14 @@ $loading-height: 16px;
    *       theme class.
    */
   @include explicit-light-theme {
-    background-color: $color-ultramarine-icon;
+    background-color: $color-white;
+    color: $color-black-alpha-80;
   }
   @include dark-theme {
     background-color: $color-gray-95;
+    color: $color-white-alpha-80;
   }
-  color: $color-white;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -301,12 +303,18 @@ $loading-height: 16px;
     .dot {
       width: 14px;
       height: 14px;
-      border: 3px solid $color-white;
+      border: 3px solid;
       border-radius: 50%;
       float: inline-start;
       margin-block: 0;
       margin-inline: 6px;
       transform: scale(0);
+      @include light-theme {
+        border-color: $color-black;
+      }
+      @include dark-theme {
+        border-color: $color-white;
+      }
 
       animation: loading 1500ms ease infinite 0ms;
       &:nth-child(2) {
@@ -321,8 +329,6 @@ $loading-height: 16px;
   &__progress {
     &--container {
       animation: fade-in 150ms ease 1 0ms;
-
-      background: $color-white-alpha-20;
       border-radius: 2px;
       height: 4px;
       max-width: 400px;
@@ -330,10 +336,15 @@ $loading-height: 16px;
       width: 100%;
       margin-block: 12px 26px;
       margin-inline: 0;
+      @include light-theme {
+        background: $color-black-alpha-20;
+      }
+      @include dark-theme {
+        background: $color-white-alpha-20;
+      }
     }
 
     &--bar {
-      background: $color-white;
       border-radius: 2px;
       display: block;
       height: 100%;
@@ -347,6 +358,13 @@ $loading-height: 16px;
         transform: translateX(100%);
       }
       transition: transform 500ms linear;
+
+      @include light-theme {
+        background: $color-black;
+      }
+      @include dark-theme {
+        background: $color-white;
+      }
     }
   }
   .message {

@@ -27,7 +27,7 @@ import type * as Crypto from './Crypto';
 import type * as Curve from './Curve';
 import type * as RemoteConfig from './RemoteConfig';
 import type { OSType } from './util/os/shared';
-import type { LocalizerType, ThemeType } from './types/Util';
+import type { LocalizerType, SystemThemeType, ThemeType } from './types/Util';
 import type { Receipt } from './types/Receipt';
 import type { ConversationController } from './ConversationController';
 import type { ReduxActions } from './state/types';
@@ -104,8 +104,8 @@ export type FeatureFlagType = {
 };
 
 type AboutWindowPropsType = {
+  appEnv: string;
   arch: string;
-  environmentText: string;
   platform: string;
 };
 
@@ -224,7 +224,7 @@ declare global {
     sendChallengeRequest: (request: IPCChallengeRequest) => void;
     showKeyboardShortcuts: () => void;
     storage: Storage;
-    systemTheme: ThemeType;
+    systemTheme: SystemThemeType;
 
     Signal: SignalCoreType;
 

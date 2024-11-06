@@ -150,7 +150,9 @@ export function Inbox({
       }
       logo = <div className="Inbox__logo">{parts}</div>;
     } else {
-      logo = <div className="module-splash-screen__logo module-img--150" />;
+      logo = (
+        <div className="module-splash-screen__logo module-splash-screen__logo--128" />
+      );
     }
 
     return (

@@ -60,6 +60,11 @@ export enum ThemeType {
   'dark' = 'dark',
 }
 
+export enum SystemThemeType {
+  light = 'light',
+  dark = 'dark',
+}
+
 // These are strings so they can be interpolated into class names.
 export enum ScrollBehavior {
   Default = 'default',
