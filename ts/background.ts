@@ -2610,7 +2610,9 @@ export async function startApp(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = window.ConversationController.get(id)!;
 
-    conversation.enableProfileSharing();
+    conversation.enableProfileSharing({
+      reason: 'handleMessageSentProfileUpdate',
+    });
     await DataWriter.updateConversation(conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
