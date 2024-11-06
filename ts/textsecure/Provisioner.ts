@@ -267,6 +267,20 @@ export class Provisioner {
     };
   }
 
+  public isLinkAndSync(): boolean {
+    strictAssert(
+      this.state.step === Step.ReadyToLink,
+      `Invalid state for prepareLinkData: ${this.state.step}`
+    );
+
+    const { envelope } = this.state;
+
+    return (
+      isLinkAndSyncEnabled(this.appVersion) &&
+      Bytes.isNotEmpty(envelope.ephemeralBackupKey)
+    );
+  }
+
   private handleRequest(request: IncomingWebSocketRequest): void {
     const pubKey = this.cipher.getPublicKey();
 
