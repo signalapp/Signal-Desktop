@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple silicon"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "複製錯誤然後離開"
   },
@@ -3606,10 +3615,10 @@
     "messageformat": "還原已暫停"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "還原咗 {currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "媒體會繼續喺背景下載"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "暫停轉移"
@@ -5735,9 +5744,12 @@
     "messageformat": "而家，當你收到有多過一個附件嘅訊息時，可以快速下載相簿入面嘅所有相。唔該晒，<linkMajorMayer>@major-mayer</linkMajorMayer>！"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "呢次更新做咗少少細微嘅優化，將 APP 大小稍為縮細咗大約 4 MB。呢啲空間夠你發送等於 4 本書咁多嘅文字訊息（或者 2-3 個 GIF 動畫）。"
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "另外，我哋仲修正咗一個 Linux 畫面分享掣嘅錯誤。"
+  },
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

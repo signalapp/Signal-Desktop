@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple silicon"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "Kopyahin ang error at mag-quit"
   },
@@ -3606,10 +3615,10 @@
     "messageformat": "Naka-pause ang pag-restore"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize} ng {totalSize} ang na-restore"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Patuloy na magda-download ng media sa background"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "I-pause ang transfer"
@@ -5735,9 +5744,12 @@
     "messageformat": "Mabilis mo nang mado-download ang bawat photo sa isang album kapag nakatanggap ka ng message na may multiple attachments. Maraming salamat, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Babawasan ng update na ito ang size ng app nang mga 4 megabytes."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "May inayos rin kaming bug sa screen sharing button sa Linux."
+  },
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

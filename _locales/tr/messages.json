@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple silicon"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "Hatayı kopyala ve çık"
   },
@@ -3606,10 +3615,10 @@
     "messageformat": "Geri yükleme duraklatıldı"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize} / {totalSize} geri yüklendi"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Medya arka planda indirilmeye devam edecek"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Aktarımı duraklat"
@@ -5735,9 +5744,12 @@
     "messageformat": "Bundan böyle çok sayıda eklenti içeren bir mesaj aldığında, bir albümdeki tüm fotoğrafları hızla indirebilirsin. İşleri uzatmaktan hoşlanıyorsan, fotoğrafları teker teker de indirebilirsin tabi. Teşekkürler, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Bu güncelleme, uygulamanın boyutunu yaklaşık 4 megabayt azaltmaktadır. Bu, ekstra yer kaplamadan yaklaşık 4 kitap değerinde kısa mesaj (veya 2-3 animasyonlu GIF) göndermen için yeterli alan demektir."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Linux'taki ekran paylaşımı düğmesiyle ilgili bir hatayı da düzelttik."
+  },
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

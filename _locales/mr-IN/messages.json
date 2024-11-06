@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple सिलिकॉन"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "त्रुटी कॉपी करा आणि सोडा"
   },
@@ -3606,10 +3615,10 @@
     "messageformat": "विराम दिलेले पुर्नस्थित करा"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{totalSize} पैकी {currentSize} पूर्ववत केले"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "मीडिया मागे डाऊनलोड होत राहील"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "हस्तांतरणाला विराम द्या"
@@ -5735,9 +5744,12 @@
     "messageformat": "आता अनेक संलग्नके असलेला संदेश आला की आपण प्रत्येक फोटो एका अल्बममध्ये लगेच डाऊनलोड करू शकता. पण जर आपण दुसऱ्या जन्मात कलाभिज्ञ, रसिक दर्दी असाल, तर आपण त्यांना स्वतंत्रपणेही जतन करू शकता. धन्यवाद, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "काही छोट्या ऑप्टिमायझेशन्समुळे, हे अपडेट सुमारे ४ मेगाबाइट्सनी ॲपचा आकार जरासा कमी करते. कोणतीही अतिरिक्त जागा न घेता एवढी जागा आपल्याला ४ पुस्तकांत मावतील एवढे संदेश मजकूर (किंवा २-३ ॲनिमेटेड GIF) पाठवण्यासाठी पुरेशी आहे."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "जर Wayland हा आपला कंपोझिटिंग विंडो मॅनेजर असेल (आणि फक्त बेवूल्फमधल्या आपल्याला कशाबशा आठवणाऱ्या लोहाराचे नाव नसेल) तर आपल्याला हे ऐकून आनंद होईल की आम्ही लिनक्सवरील स्क्रीन शेअरिंग बटणाशी संबंधित एक बग दुरुस्त केला आहे."
+  },
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

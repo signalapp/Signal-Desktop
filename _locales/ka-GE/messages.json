@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple silicon-ი"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "ხარვეზის დაკოპირება და დახურვა"
   },
@@ -3606,10 +3615,10 @@
     "messageformat": "აღდგენა დროებით შეჩერდა"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{totalSize}-დან {currentSize} აღდგენილია"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "მედია ფაილები ჩამოტვირთვას პარალელურად გააგრძელებს"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "გადატანის დროებით შეჩერება"
@@ -5735,9 +5744,12 @@
     "messageformat": "უკვე შეგიძლია ალბომში ყველა ფოტო სწრაფაც ჩამოტვირთო, როცა რამდენიმე შეტყობინებას მიიღებ მიმაგრებული ფაილით. მაგრამ თუ სხვა ცხოვრებაში გამორჩეული გემოვნების მქონდე გალერეის კურატორი იყავი, მათ ინდივიდუალურად შენახვას ისევ შეძლებ. მადლობა, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "მცირე ოპტიმიზაციების წყალობით, ეს განახლება ოდნავ ამცირებს აპლიკაციის ზომას დაახლოებით 4 მეგაბაიტით. ეს საკმარისია იმისთვის, რომ დაახლოებით 4 წიგნისხელა ტექსტური შეტყობინებები გააგზავნო (ან 2-3 ანიმაციური GIF) ზედმეტი სივრცის დაკავების გარეშე."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "თუ შენი window manager არის Wayland, შენთვის სასიხარულო ამბავი გვაქვს - Linux-ზე ეკრანის გაზიარების ღილაკთან დაკავშირებული შეცდომა გამოვასწორეთ."
+  },
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }
