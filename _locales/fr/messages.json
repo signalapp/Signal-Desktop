@@ -1062,10 +1062,10 @@
     "messageformat": "Problème de remise"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Impossible de distribuer un contenu de {sender}. Il peut s’agir d’un message, d’un sticker, d’une réaction, d’une confirmation de lecture ou d’un contenu multimédia que ce contact vous a envoyés directement ou dans un groupe."
+    "messageformat": "Impossible de distribuer un contenu de {sender}. Il peut s'agir d'un message, d'un sticker, d'une réaction, d'une confirmation de lecture ou d'un média que ce contact vous a envoyés directement ou dans un groupe."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "Impossible de distribuer un contenu de {sender} dans cette conversation. Il peut s’agir d’un message, d’un sticker, d’une réaction, d’une confirmation de lecture ou d’un contenu multimédia."
+    "messageformat": "Impossible de distribuer un contenu de {sender} dans cette conversation. Il peut s'agir d'un message, d'un sticker, d'une réaction, d'une confirmation de lecture ou d'un média."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} a changé de numéro de téléphone"
@@ -1293,7 +1293,7 @@
     "messageformat": "Le microphone a été désactivé"
   },
   "icu:calling__button--audio-off": {
-    "messageformat": "Couper le microphone"
+    "messageformat": "Couper le micro"
   },
   "icu:calling__button--audio-on": {
     "messageformat": "Réactiver le micro"
@@ -1713,7 +1713,7 @@
     "messageformat": "Le numéro de sécurité a changé"
   },
   "icu:safetyNumberChanges": {
-    "messageformat": "Changements des numéros de sécurité"
+    "messageformat": "Changements de numéros de sécurité"
   },
   "icu:safetyNumberChangedGroup": {
     "messageformat": "Le numéro de sécurité de {name} a changé"
@@ -1848,7 +1848,7 @@
     "messageformat": "Échec de la mise à jour du groupe. Vérifiez votre connexion et réessayez."
   },
   "icu:unlinkedWarning": {
-    "messageformat": "Cliquez pour relier Signal Desktop pour ordinateur à votre appareil mobile et continuer à communiquer."
+    "messageformat": "Pour continuer à utiliser Signal sur votre ordinateur, cliquez pour réassocier Signal Desktop à votre appareil mobile."
   },
   "icu:unlinked": {
     "messageformat": "Dissocié"
@@ -2910,16 +2910,16 @@
     "messageformat": "Sourdine désactivée"
   },
   "icu:muteHour": {
-    "messageformat": "Sourdine pendant une heure"
+    "messageformat": "Pendant une heure"
   },
   "icu:muteEightHours": {
-    "messageformat": "Sourdine pendant huit heures"
+    "messageformat": "Pendant huit heures"
   },
   "icu:muteDay": {
-    "messageformat": "Sourdine pendant un jour"
+    "messageformat": "Pendant 24 heures"
   },
   "icu:muteWeek": {
-    "messageformat": "Sourdine pendant une semaine"
+    "messageformat": "Pendant une semaine"
   },
   "icu:muteAlways": {
     "messageformat": "Toujours en sourdine"
@@ -3606,10 +3606,10 @@
     "messageformat": "Restauration mise en pause"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize} restaurés sur {totalSize} "
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Le téléchargement des médias se poursuivra en arrière-plan"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Mettre en pause le transfert"
@@ -3852,13 +3852,13 @@
     "messageformat": "Mentions"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Recevoir des notifications quand vous êtes mentionné dans des conversations en sourdine"
+    "messageformat": "Recevoir des notifications lorsqu'on vous mentionne dans des conversations mises en sourdine"
   },
   "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
     "messageformat": "Toujours m’avertir"
   },
   "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Ne pas m’avertir en sourdine"
+    "messageformat": "Ne pas m'avertir si la conversation est en sourdine"
   },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Le lien du groupe a été copié."
@@ -5735,9 +5735,9 @@
     "messageformat": "Lorsque vous recevez un message qui contient plusieurs photos, vous pouvez maintenant les télécharger simultanément et les enregistrer dans un album. Mais si vous avez la fibre artistique et que vous n'avez d'yeux que pour les photos dignes des grandes galeries d'art, vous pouvez aussi les télécharger séparément. Une fonctionnalité que l'on doit à un ingénieux contributeur qui se reconnaîtra. Merci !"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Au menu de cette mise à jour, quelques optimisations qui soumettent Signal à un petit régime. Résultat, l'appli perd non pas quelques kilos, mais quelques mégaoctets. Ce que ça change pour vous ? 4 mégaoctets, c'est à peu près l'équivalent de quatre romans : vous allez pouvoir raconter vos péripéties du week-end dans leurs moindres détails (ou envoyer 2-3 GIF animés) sans consommer plus d'espace de stockage."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Si vous utilisez le compositeur Wayland comme gestionnaire de fenêtres (pour ceux qui se demanderaient \" c'est qui, Wayland ? \", on parle ici d'un protocole de serveur d'affichage), vous serez ravi de savoir que le bouton de partage d'écran fonctionne maintenant correctement sous Linux."
   }
 }

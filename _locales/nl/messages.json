@@ -3606,10 +3606,10 @@
     "messageformat": "Herstellen gepauzeerd"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize} van {totalSize} hersteld"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Media worden op de achtergrond verder gedownload"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Overzetten pauzeren"
@@ -4989,7 +4989,7 @@
     "messageformat": "{name} naar {group}"
   },
   "icu:Stories__toast--sending-reply": {
-    "messageformat": "Antwoord verzenden…"
+    "messageformat": "Privéreactie aan het verzenden…"
   },
   "icu:Stories__toast--sending-reaction": {
     "messageformat": "Reactie versturen…"
@@ -5521,7 +5521,7 @@
     "messageformat": "Hiermee wordt de oproepgeschiedenis voorgoed gewist."
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body--call-links": {
-    "messageformat": "Hiermee wordt de oproepgeschiedenis voorgoed gewist. Deze oproeplinks zullen niet langer werken voor personen die ze al hebben ontvangen. "
+    "messageformat": "Hiermee wordt de oproepgeschiedenis voorgoed gewist. Oproeplinks die jij hebt gemaakt, zullen niet langer werken voor personen die ze al hebben ontvangen. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Wissen"
@@ -5735,9 +5735,9 @@
     "messageformat": "Je kunt nu snel alle foto's uit een album downloaden wanneer je een bericht met meerdere bijlagen ontvangt. Maar als het gevoel van verzamelen je een kick geeft, mag je ze ook één voor één downloaden. Bedankt, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Dankzij enkele kleine optimalisaties is deze nieuwe versie van de app zo'n 4 megabyte kleiner. Dat is genoeg ruimte om het equivalent van ongeveer 4 boeken aan tekstberichten (of 2-3 bewegende GIF's) te versturen zonder dat dit extra ruimte in beslag neemt."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "We hebben ook een bug opgelost met de knop voor het delen van je scherm op Linux."
   }
 }

@@ -3606,10 +3606,10 @@
     "messageformat": "Επαναφορά σε παύση"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "Έγινε επαναφορά {currentSize} από {totalSize}"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Η λήψη πολυμέσων θα συνεχιστεί στο παρασκήνιο"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Παύση μεταφοράς"
@@ -5735,9 +5735,9 @@
     "messageformat": "Τώρα μπορείς να κατεβάσεις γρήγορα κάθε φωτογραφία σε ένα άλμπουμ όταν λαμβάνεις ένα μήνυμα με πολλά συνημμένα. Ευχαριστούμε τον χρήστη <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Χάρη σε ορισμένες μικρές βελτιστοποιήσεις, αυτή η ενημέρωση μειώνει το μέγεθος της εφαρμογής κατά περίπου 4 megabytes."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Διορθώσαμε επίσης ένα σφάλμα με το κουμπί κοινής χρήσης οθόνης στο Linux."
   }
 }

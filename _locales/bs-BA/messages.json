@@ -3606,10 +3606,10 @@
     "messageformat": "Vraćanje je pauzirano"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "Vraćeno je {currentSize} od {totalSize}"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Mediji će nastaviti da se preuzimaju u pozadini"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pauzirajte prijenos"
@@ -5735,9 +5735,9 @@
     "messageformat": "Sada možete brzo preuzeti svaku fotografiju u albumu kada primite poruku s više privitaka. Hvala, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Zahvaljujući malim optimizacijama, ovo ažuriranje neznatno smanjuje veličinu aplikacije za otprilike 4 megabajta. To je dovoljno prostora da pošaljete tekstualne poruke u vrijednosti od otprilike 4 knjige (ili 2-3 animirana GIF-a) bez zauzimanja dodatnog prostora."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Također smo popravili grešku s gumbom za dijeljenje zaslona na Linuxu."
   }
 }

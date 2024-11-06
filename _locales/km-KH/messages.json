@@ -3606,10 +3606,10 @@
     "messageformat": "ការស្តារឡើងវិញត្រូវបានផ្អាក"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "បានស្ដារ {currentSize} លើ {totalSize}"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "មេឌៀនឹងបន្តទាញយកនៅផ្ទៃខាងក្រោយ"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "ផ្អាកការផ្ទេរ"
@@ -5735,9 +5735,9 @@
     "messageformat": "ឥឡូវនេះ អ្នកអាចទាញយករាល់រូបថតនៅក្នុងអាល់ប៊ុមបានយ៉ាងលឿន នៅពេលដែលអ្នកទទួលបានសារដែលមានឯកសារភ្ជាប់ច្រើន។ ប៉ុន្តែអ្នកនៅតែអាចរក្សាទុកពួកវាម្តងមួយៗបានដែរ ប្រសិនបើអ្នកចង់ផ្តោតលើព័ត៌មានលម្អិត។ សូមអរគុណ <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "ដោយសារមានការបង្កើនប្រសិទ្ធភាពបន្តិចបន្តួចមួយចំនួន កំណែថ្មីនេះជួយកាត់បន្ថយទំហំកម្មវិធីបានប្រហែល 4 មេកាបៃ។ វាមានទំហំល្មមគ្រប់គ្រាន់សម្រាប់អ្នកក្នុងការផ្ញើសារជាអក្សរបានជាច្រើនដែលស្មើទៅនឹងសៀវភៅប្រហែល 4 ក្បាល (ឬ 2-3 រូបចលនា) ដោយមិនបាច់ត្រូវការទំហំផ្ទុកបន្ថែមទេ។"
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "ប្រសិនបើ Wayland គឺជាកម្មវិធីគ្រប់គ្រងវីនដូរបស់អ្នក (ហើយមិនមែនគ្រាន់តែជាឈ្មោះរបស់ជាងដែកដែលអ្នកចាំមិនច្បាស់ពី Beowulf ទេ) អ្នកនឹងសប្បាយចិត្តដែលបានឮថាយើងក៏បានដោះស្រាយបញ្ហាជាមួយនឹងប៊ូតុងចែករំលែកអេក្រង់នៅលើ Linux ផងដែរ។"
   }
 }

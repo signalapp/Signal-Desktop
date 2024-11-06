@@ -3606,10 +3606,10 @@
     "messageformat": "ပြန်လည်ရယူခြင်းကို ခေတ္တရပ်ထားသည်"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{totalSize} မှ {currentSize} ကို ပြန်လည်ရယူခဲ့သည်"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "မီဒီယာသည် နောက်ခံတွင် ဆက်လက်ဒေါင်းလုဒ်လုပ်ပါမည်"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "လွှဲပြောင်းမှုကို ခေတ္တရပ်ပါ"
@@ -5735,9 +5735,9 @@
     "messageformat": "ပူးတွဲဖိုင်များစွာပါသော မက်ဆေ့ချ်တစ်စောင်ကို သင်လက်ခံရရှိသောအခါ အယ်လ်ဘမ်တစ်ခုရှိ ဓာတ်ပုံတိုင်းကို လျင်မြန်စွာ ဒေါင်းလုဒ်လုပ်နိုင်ပါပြီ။ ကျေးဇူးပါ <linkMajorMayer>@major-mayer</linkMajorMayer>"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "ဤအပ်ဒိတ်သည် အက်ပ်၏အရွယ်အစားကို ခန့်မှန်းခြေ 4 megabytes လျှော့ချပေးသည်။"
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Linux တွင် မျက်နှာပြင်မျှဝေခြင်းခလုတ်နှင့်ပတ်သက်သည့် ချွတ်ယွင်းချက်တစ်ခုကိုလည်း ပြင်ဆင်ထားသည်။"
   }
 }

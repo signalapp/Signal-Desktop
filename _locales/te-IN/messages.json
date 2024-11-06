@@ -3606,10 +3606,10 @@
     "messageformat": "పాజ్ చేసిన దానిని పునరుద్ధరించండి"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{totalSize} లో {currentSize} పునరుద్ధరించబడింది"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "నేపథ్యంలో మీడియా డౌన్ లోడ్ చేయడం కొనసాగిస్తుంది"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "బదిలీని పాజ్ చేయండి"
@@ -5735,9 +5735,9 @@
     "messageformat": "మీరు బహుళ అటాచ్మెంట్లతో సందేశాన్ని అందుకున్నప్పుడు ఆల్బమ్ లోని ప్రతి ఫోటోను ఇప్పుడు మీరు త్వరగా డౌన్‌లోడ్ చేసుకోవచ్చు. కానీ మీరు మరో జీవితంలో నిష్కళంకమైన అభిరుచి ఉన్ని గ్యాలరీ క్యురేటర్ అయితే అప్పడు కూడా మీరు వాటిని వ్యక్తిగతంగా సేవ్ చేసుకోవచ్చు. ధన్యవాదాలు, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "ఈ అప్‌డేట్ యాప్ యొక్క పరిమాణాన్ని దాదాపు 4 మెగాబైట్‌ల వరకు తగ్గిస్తుంది. ఎటువంటి అదనపు స్థలాన్ని తీసుకోకుండా దాదాపు 4 పుస్తకాల విలువైన టెక్స్ట్ సందేశాలకు సమానమైన వాటిని (లేదా 2-3 యానిమేటెడ్ GIFలు) పంపడానికి మీకు తగినంత స్థలం ఉంది."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Linux లో స్క్రీన్ షేరింగ్ బటన్‌తో ఒక బగ్‌ను కూడా మేము పరిష్కరించాము."
   }
 }

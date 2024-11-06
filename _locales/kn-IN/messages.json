@@ -3606,10 +3606,10 @@
     "messageformat": "ವಿರಾಮಗೊಳಿಸಿರುವುದನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಿ"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{totalSize} ನಲ್ಲಿ {currentSize} ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "ಬ್ಯಾಕ್ ಗ್ರೌಂಡ್ ನಲ್ಲಿ ಮೀಡಿಯಾ ಡೌನ್ ಲೋಡ್ ಮುಂದುವರೆಯುತ್ತದೆ"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ವಿರಾಮಗೊಳಿಸಿ"
@@ -5735,9 +5735,9 @@
     "messageformat": "ಹಲವು ಅಟ್ಯಾಚ್ ಮೆಂಟ್ ಗಳ ಜೊತೆ ಮೆಸೇಜ್ ನ್ನು ಸ್ವೀಕರಿಸಿದಾಗ ಈಗ ಆಲ್ಬಮ್‌ನಲ್ಲಿರುವ ಪ್ರತಿ ಫೊಟೋವನ್ನು ನೀವು ತ್ವರಿತವಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಬಹುದು. ಆದರೆ ನೀವು ಇನ್ನೊಂದು ಜೀವಿತದಲ್ಲಿ ಅತೀವ ಅಭಿರುಚಿ ಹೊಂದಿದ್ದ ಗ್ಯಾಲರಿ ಕ್ಯುರೇಟರ್ ಆಗಿದ್ದಿದ್ದರೆ, ನೀವು ಇನ್ನೂ ಸಹ ಅವುಗಳನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿ ಸೇವ್ ಮಾಡಿಟ್ಟುಕೊಳ್ಳಬಹುದು. ಧನ್ಯವಾದಗಳು <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "ಕೆಲವು ಸಣ್ಣ ಆಪ್ಟಿಮೈಜೇಶನ್‍ಗಳಿಗಾಗಿ ಧನ್ಯವಾದಗಳು. ಈ ಅಪ್‍ಡೇಟ್ ಆಪ್ ಗಾತ್ರವನ್ನು ಸುಮಾರು 4 ಮೆಗಾಬೈಟ್ ಗಳಷ್ಟು ಕಡಿಮೆ ಮಾಡುತ್ತದೆ. 4 ಪುಸ್ತಕಗಳಷ್ಟು ಗಾತ್ರದ ಸಂದೇಶಗಳನ್ನು (ಅಥವಾ 2-3 ಅನಿಮೇಟೆಡ್ GIF ಗಳನ್ನು) ಹೆಚ್ಚುವರಿ ಜಾಗ ಪಡೆದುಕೊಳ್ಳದೆಯೇ ಕಳಿಸಬಹುದಾದಷ್ಟು ಸ್ಥಳಾವಕಾಶ ಇದೆ."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "ನಿಮ್ಮ ವಿಂಡೋ ಮ್ಯಾನೇಜರ್ Wayland ಆಗಿದ್ದರೆ (ಅದು ಎಷ್ಟೇ ಉದ್ದವಾದ, ಅಸ್ಪಷ್ಟ ಹೆಸರಾಗಿದ್ದರೂ) Linux ನಲ್ಲಿ ಕೇವಲ ಸ್ಕ್ರೀನ್ ಶೇರಿಂಗ್ ಬಟನ್ ಬಳಸಿ ಮಾಡಿ, ಆ ದೋಷವನ್ನೂ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ ಎಂದು ಕೇಳಿದರೆ ನೀವು ಸಂತೋಷಪಡುವಿರಿ."
   }
 }

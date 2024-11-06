@@ -2688,10 +2688,10 @@
     "messageformat": "Videollamada entrante"
   },
   "icu:outgoingAudioCall": {
-    "messageformat": "Llamada realizada"
+    "messageformat": "Llamada saliente"
   },
   "icu:outgoingVideoCall": {
-    "messageformat": "Videollamada realizada"
+    "messageformat": "Videollamada saliente"
   },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "Llamada de {ringer}"
@@ -3606,10 +3606,10 @@
     "messageformat": "Restauración en pausa"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize} de {totalSize} restaurado"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Los archivos multimedia continuarán descargándose en segundo plano"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pausar transferencia"
@@ -3816,7 +3816,7 @@
     "messageformat": "{count, plural, one {{count,number} grupo en común} other {{count,number} grupos en común}}"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
-    "messageformat": "Sin grupos en común"
+    "messageformat": "No tienes grupos en común"
   },
   "icu:ConversationDetailsGroups--add-to-group": {
     "messageformat": "Añadir a un grupo"
@@ -5735,9 +5735,9 @@
     "messageformat": "Ahora, cuando recibas un mensaje con varios archivos adjuntos, podrás descargar rápidamente todas las fotos en un álbum. Pero si tu gusto y visión artística se viesen comprometidos, también podrás guardarlas de manera individual. ¡Gracias, <linkMajorMayer>@major-mayer</linkMajorMayer>, por ayudarnos a seguir mejorando Signal!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Gracias a algunos pequeños ajustes, en esta actualización la app es unos 4 megabytes más ligera. Esto significa que puedes enviar el equivalente a unos 4 libros en forma de mensajes (o 2-3 GIFs animados) sin ocupar espacio adicional."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Si usas Wayland como gestor de ventanas de composición, te alegrará saber que también hemos corregido un error con el botón de compartir pantalla en Linux."
   }
 }

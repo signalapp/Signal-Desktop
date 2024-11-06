@@ -3606,10 +3606,10 @@
     "messageformat": "Bərpaetmə dayandırıldı"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize} / {totalSize} bərpa edildi"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Media faylı ehtiyat nüsxədə endirilməyə davam edəcək"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Köçürməyə fasilə ver"
@@ -5735,9 +5735,9 @@
     "messageformat": "Çoxsaylı qoşması olan bir mesaj aldığınız zaman artıq bir albomdakı hər fotonu asanlıqla endirə bilərsiniz. Amma əvvəlki həyatınızda qüsursuzluğa əhəmiyyət verən bir qalereya kuratoru olmusunuzsa, onları tək-tək də endirə bilərsiniz. Təşəkkürlər, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Bəzi kimik optimallaşdırmalar sayəsində bu yeniləmə ilə tətbiqin həcmi təxminən 4 meqabayt qədər kiçilir. Bu sizə əlavə yaddaşa ehtiyac hiss etmədən təxminən 4 kitab həcminə bərabər mətn mesajı (və ya 2-3 hərəkətli GIF) göndərmək üçün kifayət qədər boş yer qazandırır."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Əgər Wayland sizin yazı tərtib etmək üzrə pəncərə menecerinizdirsə (və təkcə Beowulfdan qeyri-müəyyən xatırladığınız dəmirçinin adı deyilsə), bizim həm də Linux-da ekran paylaşma düyməsi ilə əlaqəli problemi də aradan qaldırdığımızı eşitdiyinizə sevinəcəksiniz."
   }
 }

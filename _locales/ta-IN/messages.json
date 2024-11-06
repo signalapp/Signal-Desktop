@@ -3606,10 +3606,10 @@
     "messageformat": "மீட்டமைப்பு இடைநிறுத்தப்பட்டது"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{totalSize} இல் {currentSize} மீட்டெடுக்கப்பட்டது"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "மீடியா பின்னணியில் தொடர்ந்து பதிவிறக்கம் செய்யப்படும்"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "பரிமாற்றத்தை இடைநிறுத்துக"
@@ -5735,9 +5735,9 @@
     "messageformat": "இப்போது நீங்கள் பல இணைப்புகளுடன் ஒரு மெசேஜைப் பெறும்போது, ஆல்பத்தில் உள்ள ஒவ்வொரு புகைப்படத்தையும் விரைவாகப் பதிவிறக்கலாம். நன்றி, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "இந்தப் புதுப்பிப்பு செயலியின் அளவை தோராயமாக 4 மெகாபைட்கள் குறைக்கிறது."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Linux இல் திரைப் பகிர்வு பட்டனுடன் காணப்பட்ட ஒரு பிழையையும் சரிசெய்துள்ளோம்."
   }
 }

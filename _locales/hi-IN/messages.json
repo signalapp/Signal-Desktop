@@ -3606,10 +3606,10 @@
     "messageformat": "रीस्टोर पॉज़ किया गया"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{totalSize} में से {currentSize} को रीस्टोर किया गया"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "मीडिया बैकग्राउंड में डाउनलोड होता रहेगा"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "ट्रांसफ़र पॉज़ करें"
@@ -5735,9 +5735,9 @@
     "messageformat": "अब आप कई अटैचमेंट वाला कोई संदेश मिलने पर, किसी एल्बम की हर फ़ोटो को तुरंत डाउनलोड कर सकते हैं। लेकिन अगर आप किसी जन्म में शानदार पसंद वाले गैलरी क्यूरेटर थे, तो आप अब भी उन्हें अलग-अलग सेव कर सकते हैं। शुक्रिया, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "कुछ छोटे ऑप्टिमाइज़ेशन की वजह से, यह अपडेट ऐप के आकार को लगभग 4 मेगाबाइट कम कर देता है। यह इतनी जगह है कि आप 4 किताबों (या 2-3 ऐनिमेटेड GIF) जितने टेक्स्ट संदेश भेज सकते हैं, वह भी बिना कोई अतिरिक्त स्पेस लिए।"
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "अगर Wayland आपका कंपोज़िटिंग विंडो मैनेजर है (और बस उस लोहार का नाम नहीं है जिसे आपने बियोवुल्फ़ में देखा था), तो आपको जानकर खुशी होगी कि हमने Linux पर स्क्रीन शेयर करने के बटन में गड़बड़ी भी ठीक कर दी है।"
   }
 }

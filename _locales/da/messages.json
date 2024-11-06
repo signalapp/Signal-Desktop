@@ -3606,10 +3606,10 @@
     "messageformat": "Gendannelse sat på pause"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize} af {totalSize} gendannet"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Medierne vil fortsætte med at blive downloadet i baggrunden"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Sæt overførsel på pause"
@@ -5735,9 +5735,9 @@
     "messageformat": "Nu kan du hurtigt downloade alle billeder i et album, når du modtager en besked med flere vedhæftede filer. Men hvis du var en gallerikurator med upåklagelig smag i et andet liv, kan du stadig også gemme dem individuelt. Tak, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Takket være nogle små optimeringer reducerer denne opdatering appens størrelse en smule med cirka 4 megabyte. Det er plads nok til, at du kan sende det, der svarer til omkring 4 bøger fyldt med tekstbeskeder (eller 2-3 animerede GIF'er) uden at optage ekstra plads."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Hvis Wayland er din vinduesbehandler (og ikke kun navnet på en smed, du vagt husker fra Beowulf), vil du blive glad for at høre, at vi også har rettet en fejl med skærmdelingsknappen på Linux."
   }
 }
