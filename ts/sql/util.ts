@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable max-classes-per-file */
 
 import { isNumber, last } from 'lodash';
 import type { ReadableDB, WritableDB } from './Interface';
@@ -44,10 +45,12 @@ export type QueryTemplateParam =
   | undefined;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
-export type QueryFragment = [
-  { fragment: string },
-  ReadonlyArray<QueryTemplateParam>,
-];
+export class QueryFragment {
+  constructor(
+    public readonly fragment: string,
+    public readonly fragmentParams: ReadonlyArray<QueryTemplateParam>
+  ) {}
+}
 
 /**
  * You can use tagged template literals to build "fragments" of SQL queries
@@ -79,8 +82,8 @@ export function sqlFragment(
     query += string;
 
     if (index < values.length) {
-      if (Array.isArray(value)) {
-        const [{ fragment }, fragmentParams] = value;
+      if (value instanceof QueryFragment) {
+        const { fragment, fragmentParams } = value;
         query += fragment;
         params.push(...fragmentParams);
       } else {
@@ -90,7 +93,7 @@ export function sqlFragment(
     }
   });
 
-  return [{ fragment: query }, params];
+  return new QueryFragment(query, params);
 }
 
 export function sqlConstant(value: QueryTemplateParam): QueryFragment {
@@ -104,7 +107,7 @@ export function sqlConstant(value: QueryTemplateParam): QueryFragment {
   } else {
     fragment = `'${value}'`;
   }
-  return [{ fragment }, []];
+  return new QueryFragment(fragment, []);
 }
 
 /**
@@ -118,7 +121,7 @@ export function sqlJoin(
   const params: Array<QueryTemplateParam> = [];
 
   items.forEach((item, index) => {
-    const [{ fragment }, fragmentParams] = sqlFragment`${item}`;
+    const { fragment, fragmentParams } = sqlFragment`${item}`;
     query += fragment;
     params.push(...fragmentParams);
 
@@ -127,7 +130,7 @@ export function sqlJoin(
     }
   });
 
-  return [{ fragment: query }, params];
+  return new QueryFragment(query, params);
 }
 
 export type QueryTemplate = [string, ReadonlyArray<QueryTemplateParam>];
@@ -155,8 +158,8 @@ export function sql(
   strings: TemplateStringsArray,
   ...values: Array<QueryFragment | QueryTemplateParam>
 ): QueryTemplate {
-  const [{ fragment }, params] = sqlFragment(strings, ...values);
-  return [fragment, params];
+  const { fragment, fragmentParams } = sqlFragment(strings, ...values);
+  return [fragment, fragmentParams];
 }
 
 type QueryPlanRow = Readonly<{
