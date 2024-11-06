@@ -240,7 +240,7 @@ function renderNode({
     isInvisible,
     mentions: node.mentions,
     onMentionTrigger,
-    text: node.text,
+    node,
   });
 
   // We use separate elements for these because we want screenreaders to understand them
@@ -287,18 +287,19 @@ function renderMentions({
   emojiSizeClass,
   isInvisible,
   mentions,
+  node,
   onMentionTrigger,
-  text,
 }: {
+  direction: 'incoming' | 'outgoing' | undefined;
+  disableLinks: boolean;
   emojiSizeClass: SizeClassType | undefined;
   isInvisible: boolean;
   mentions: ReadonlyArray<HydratedBodyRangeMention>;
-  text: string;
-  disableLinks: boolean;
-  direction: 'incoming' | 'outgoing' | undefined;
+  node: DisplayNode;
   onMentionTrigger: ((conversationId: string) => void) | undefined;
 }): ReactElement {
   const result: Array<ReactElement> = [];
+  const { text } = node;
 
   let offset = 0;
 
@@ -323,6 +324,7 @@ function renderMentions({
         disableLinks,
         direction,
         name: mention.replacementText,
+        node,
         onMentionTrigger,
       })
     );
@@ -345,19 +347,21 @@ function renderMentions({
 
 function renderMention({
   conversationId,
-  name,
+  direction,
+  disableLinks,
   isInvisible,
   key,
-  disableLinks,
-  direction,
+  name,
+  node,
   onMentionTrigger,
 }: {
   conversationId: string;
-  name: string;
+  direction: 'incoming' | 'outgoing' | undefined;
+  disableLinks: boolean;
   isInvisible: boolean;
   key: string;
-  disableLinks: boolean;
-  direction: 'incoming' | 'outgoing' | undefined;
+  name: string;
+  node: DisplayNode;
   onMentionTrigger: ((conversationId: string) => void) | undefined;
 }): ReactElement {
   if (disableLinks) {
@@ -374,6 +378,7 @@ function renderMention({
       key={key}
       id={conversationId}
       isInvisible={isInvisible}
+      isStrikethrough={node.isStrikethrough}
       name={name}
       direction={direction}
       onClick={() => {
