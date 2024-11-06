@@ -8,12 +8,17 @@
   width: 100vw;
   height: 100vh;
 
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
 .InstallScreenBackupImportStep__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
+  margin-top: 64px;
+  flex: 1;
 }
 
 .InstallScreenBackupImportStep__title {
@@ -55,14 +60,64 @@
   @include button-focus-outline;
   @include font-body-1-bold;
 
-  position: absolute;
-  bottom: 48px;
-
   @include light-theme() {
     color: $color-ultramarine;
   }
 
   @include dark-theme() {
     color: $color-ultramarine-light;
+  }
+}
+
+.InstallScreenBackupImportStep__footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 36px;
+  min-height: 94px;
+  gap: 26px;
+}
+
+.InstallScreenBackupImportStep__security {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 336px;
+
+  &--icon::after {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/lock/lock.svg',
+        rgba($color-gray-60, 0.8)
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v3/lock/lock.svg', $color-gray-25);
+    }
+
+    content: '';
+    display: block;
+    height: 16px;
+    width: 16px;
+    margin-bottom: 4px;
+  }
+
+  &--description {
+    @include font-caption;
+    text-align: center;
+
+    @include light-theme {
+      color: rgba($color-gray-60, 0.8);
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    a {
+      text-decoration: none;
+    }
   }
 }

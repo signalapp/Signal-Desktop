@@ -4747,6 +4747,10 @@
     "messageformat": "Cancel transfer",
     "description": "Text of the cancel button at the bottom of backup import screen"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Text shown while importing messages & chats from the user's primary device."
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Cancel transfer?",
     "description": "Title of the cancel confirmation modal in the backup import screen"

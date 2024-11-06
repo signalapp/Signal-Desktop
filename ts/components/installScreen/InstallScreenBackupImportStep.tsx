@@ -12,6 +12,8 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 import { roundFractionForProgressBar } from '../../util/numbers';
 import { missingCaseError } from '../../util/missingCaseError';
+import { SYNCING_MESSAGES_SECURITY_URL } from '../../types/support';
+import { I18n } from '../I18n';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
@@ -115,12 +117,17 @@ export function InstallScreenBackupImportStep({
     );
   }
 
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+    <a href={SYNCING_MESSAGES_SECURITY_URL} rel="noreferrer" target="_blank">
+      {parts}
+    </a>
+  );
+
   return (
     <div className="InstallScreenBackupImportStep">
       <TitlebarDragArea />
 
       <InstallScreenSignalLogo />
-
       <div className="InstallScreenBackupImportStep__content">
         <h3 className="InstallScreenBackupImportStep__title">
           {i18n('icu:BackupImportScreen__title')}
@@ -130,16 +137,28 @@ export function InstallScreenBackupImportStep({
           {i18n('icu:BackupImportScreen__description')}
         </div>
       </div>
+      <div className="InstallScreenBackupImportStep__footer">
+        <div className="InstallScreenBackupImportStep__security">
+          <div className="InstallScreenBackupImportStep__security--icon" />
+          <div className="InstallScreenBackupImportStep__security--description">
+            <I18n
+              i18n={i18n}
+              id="icu:BackupImportScreen__security-description"
+              components={{ learnMoreLink }}
+            />
+          </div>
+        </div>
 
-      {backupStep === InstallScreenBackupStep.Download && (
-        <button
-          className="InstallScreenBackupImportStep__cancel"
-          type="button"
-          onClick={confirmCancel}
-        >
-          {i18n('icu:BackupImportScreen__cancel')}
-        </button>
-      )}
+        {backupStep === InstallScreenBackupStep.Download && (
+          <button
+            className="InstallScreenBackupImportStep__cancel"
+            type="button"
+            onClick={confirmCancel}
+          >
+            {i18n('icu:BackupImportScreen__cancel')}
+          </button>
+        )}
+      </div>
 
       {isConfirmingCancel && (
         <ConfirmationDialog

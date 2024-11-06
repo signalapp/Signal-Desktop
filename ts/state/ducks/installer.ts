@@ -28,6 +28,7 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import * as log from '../../logging/log';
 import { backupsService } from '../../services/backups';
+import OS from '../../util/os/osMain';
 
 const SLEEP_ERROR = new TimeoutError();
 
@@ -318,26 +319,30 @@ function startInstaller(): ThunkAction<
     }
     provisionerByBaton.set(baton, provisioner);
 
-    // Switch to next UI phase
-    dispatch({
-      type: QR_CODE_SCANNED,
-      payload: {
-        deviceName:
-          window.textsecure.storage.user.getDeviceName() ||
-          window.getHostName() ||
-          '',
-        baton,
-      },
-    });
+    if (provisioner.isLinkAndSync()) {
+      dispatch(finishInstall({ deviceName: OS.getName() || 'Signal Desktop' }));
+    } else {
+      // Show screen to choose device name
+      dispatch({
+        type: QR_CODE_SCANNED,
+        payload: {
+          deviceName:
+            window.textsecure.storage.user.getDeviceName() ||
+            window.getHostName() ||
+            '',
+          baton,
+        },
+      });
 
-    // And feed it the CI data if present
-    const { SignalCI } = window;
-    if (SignalCI != null) {
-      dispatch(
-        finishInstall({
-          deviceName: SignalCI.deviceName,
-        })
-      );
+      // And feed it the CI data if present
+      const { SignalCI } = window;
+      if (SignalCI != null) {
+        dispatch(
+          finishInstall({
+            deviceName: SignalCI.deviceName,
+          })
+        );
+      }
     }
   };
 }
@@ -356,8 +361,9 @@ function finishInstall(
   return async (dispatch, getState) => {
     const state = getState();
     strictAssert(
-      state.installer.step === InstallScreenStep.ChoosingDeviceName,
-      'Not choosing device name'
+      state.installer.step === InstallScreenStep.ChoosingDeviceName ||
+        state.installer.step === InstallScreenStep.QrCodeNotScanned,
+      'Wrong step'
     );
 
     const { baton } = state.installer;
@@ -366,6 +372,13 @@ function finishInstall(
       provisioner != null,
       'Provisioner is not waiting for device info'
     );
+
+    if (state.installer.step === InstallScreenStep.QrCodeNotScanned) {
+      strictAssert(
+        provisioner.isLinkAndSync(),
+        'Can only skip device naming if link & sync'
+      );
+    }
 
     // Cleanup
     controllerByBaton.delete(baton);
@@ -563,8 +576,8 @@ export function reducer(
 
   if (action.type === SHOW_BACKUP_IMPORT) {
     if (
-      // Downloading backup after linking
-      state.step !== InstallScreenStep.ChoosingDeviceName &&
+      //  Downloading backup after linking
+      state.step !== InstallScreenStep.QrCodeNotScanned &&
       // Restarting backup download on startup
       state.step !== InstallScreenStep.NotStarted
     ) {
