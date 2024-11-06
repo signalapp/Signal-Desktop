@@ -697,7 +697,10 @@ function applyMessageRequestState(
   }
 
   if (record.whitelisted === false) {
-    conversation.disableProfileSharing({ viaStorageServiceSync: true });
+    conversation.disableProfileSharing({
+      reason: 'storage record not whitelisted',
+      viaStorageServiceSync: true,
+    });
   }
 }
 
