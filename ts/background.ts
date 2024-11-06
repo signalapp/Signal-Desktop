@@ -403,6 +403,8 @@ export async function startApp(): Promise<void> {
 
     accountManager = new window.textsecure.AccountManager(server);
     accountManager.addEventListener('startRegistration', () => {
+      pauseProcessing();
+
       backupReady.reject(new Error('startRegistration'));
       backupReady = explodePromise();
     });
@@ -741,9 +743,7 @@ export async function startApp(): Promise<void> {
             'WebAPI should be initialized together with MessageReceiver'
           );
           log.info('background/shutdown: shutting down messageReceiver');
-          server.unregisterRequestHandler(messageReceiver);
-          StorageService.disableStorageService();
-          messageReceiver.stopProcessing();
+          pauseProcessing();
           await window.waitForAllBatchers();
         }
 
@@ -1142,6 +1142,18 @@ export async function startApp(): Promise<void> {
 
   log.info('Storage fetch');
   drop(window.storage.fetch());
+
+  function pauseProcessing() {
+    strictAssert(server != null, 'WebAPI not initialized');
+    strictAssert(
+      messageReceiver != null,
+      'messageReceiver must be initialized'
+    );
+
+    StorageService.disableStorageService();
+    server.unregisterRequestHandler(messageReceiver);
+    messageReceiver.stopProcessing();
+  }
 
   function setupAppState() {
     initializeRedux(getParametersForRedux());
@@ -1623,6 +1635,9 @@ export async function startApp(): Promise<void> {
 
     server.registerRequestHandler(messageReceiver);
     drop(runStorageService({ reason: 'afterStart' }));
+
+    // Opposite of `messageReceiver.stopProcessing`
+    messageReceiver.reset();
   }
 
   window.getSyncRequest = (timeoutMillis?: number) => {
@@ -3047,9 +3062,8 @@ export async function startApp(): Promise<void> {
     if (messageReceiver) {
       log.info('unlinkAndDisconnect: logging out');
       strictAssert(server !== undefined, 'WebAPI not initialized');
-      server.unregisterRequestHandler(messageReceiver);
-      StorageService.disableStorageService();
-      messageReceiver.stopProcessing();
+
+      pauseProcessing();
 
       backupReady.reject(new Error('Aborted'));
       backupReady = explodePromise();
