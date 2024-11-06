@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple സിലിക്കൺ"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "പിശക് പകര്‍ത്തിയ ശേഷം പുറത്ത് കടക്കുക"
   },
@@ -3606,10 +3615,10 @@
     "messageformat": "പുനഃസ്ഥാപിക്കൽ താൽക്കാലികമായി നിർത്തി"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{totalSize} -ൽ {currentSize} പുനഃസ്ഥാപിച്ചു"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "പശ്ചാത്തലത്തിൽ മീഡിയ ഡൗൺലോഡ് ചെയ്യുന്നത് തുടരും"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "കൈമാറ്റം താൽക്കാലികമായി നിർത്തുക"
@@ -5735,9 +5744,12 @@
     "messageformat": "ഒന്നിലധികം അറ്റാച്ച്‌മെൻ്റുകളുള്ള ഒരു സന്ദേശം ലഭിക്കുമ്പോൾ, ഇപ്പോൾ നിങ്ങൾക്ക് ആൽബത്തിലെ എല്ലാ ഫോട്ടോകളും വേഗത്തിൽ ഡൗൺലോഡ് ചെയ്യാം. എന്നാൽ നിങ്ങൾ കുറ്റമറ്റ അഭിരുചിയുള്ള ഒരു ഗാലറി ക്യൂറേറ്റർ ആയിരുന്നെങ്കിൽ, നിങ്ങൾക്ക് ഇപ്പോഴും അവ വെവ്വേറെ സംരക്ഷിക്കാൻ കഴിയും. നന്ദി, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "ചില ചെറിയ ഒപ്റ്റിമൈസേഷനുകൾക്ക് നന്ദി, ഈ അപ്‌ഡേറ്റ് ആപ്പിൻ്റെ വലുപ്പം ഏകദേശം 4 മെഗാബൈറ്റുകൾ കുറയ്ക്കുന്നു. അധിക സ്ഥലമൊന്നും എടുക്കാതെ തന്നെ ഏകദേശം 4 പുസ്തകങ്ങളുടെ മൂല്യമുള്ള ടെക്‌സ്‌റ്റ് സന്ദേശങ്ങൾ (അല്ലെങ്കിൽ 2-3 ആനിമേറ്റഡ് GIF-കൾ) അയയ്‌ക്കാൻ ഇത് മതിയാകും."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Wayland നിങ്ങളുടെ കമ്പോസിറ്റിംഗ് വിൻഡോ മാനേജർ ആണെങ്കിൽ (ബിയോവുൾഫിൽ നിന്ന് നിങ്ങൾ അവ്യക്തമായി ഓർക്കുന്ന ഒരു ഇരുമ്പ് പണിക്കാരന്റെ പേര് മാത്രമല്ല) Linux-ലെ സ്‌ക്രീൻ പങ്കിടൽ ബട്ടണിലെ ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചെന്ന് കേൾക്കുമ്പോൾ നിങ്ങൾക്ക് സന്തോഷം തോന്നും."
+  },
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

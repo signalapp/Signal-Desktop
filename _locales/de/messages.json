@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple Silicon"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "Fehler kopieren und beenden"
   },
@@ -3606,10 +3615,10 @@
     "messageformat": "Wiederherstellung angehalten"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize} von {totalSize} wiederhergestellt"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "Der Medien-Download wird im Hintergrund fortgesetzt"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Übertragung anhalten"
@@ -5735,9 +5744,12 @@
     "messageformat": "Jetzt kannst du jedes Foto schnell in ein Album herunterladen, wenn du eine Nachricht mit mehreren Anhängen erhältst. Solltest du dich allerdings als Galerie-Kurator mit einem perfekten Sinn für Stil verstehen, kannst du sie natürlich auch weiterhin einzeln speichern. Vielen Dank, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "Dank einiger kleiner Optimierungen reduziert dieses Update die Größe der App geringfügig um etwa 4 Megabyte. Damit kannst du immerhin Textnachrichten im Umfang von etwa 4 Büchern (oder 2–3 animierte GIFs) versenden, ohne zusätzlichen Speicherplatz zu beanspruchen."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "Wenn sich dein Compositing-Window-Manager Wayland nennt (und das nicht nur der Name eines Schmieds aus Beowulf ist, an den du dich vage erinnerst), wirst du dich sicher darüber freuen, dass wir auch einen Fehler bezüglich der Schaltfläche zur Bildschirmfreigabe unter Linux behoben haben."
+  },
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

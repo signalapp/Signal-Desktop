@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple 실리콘"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "오류 복사 후 종료"
   },
@@ -3606,10 +3615,10 @@
     "messageformat": "전송을 일시 중지함"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
-    "messageformat": "{currentSize} of {totalSize} restored"
+    "messageformat": "{currentSize}/{totalSize} 복원됨"
   },
   "icu:BackupMediaDownloadProgress__description-idle": {
-    "messageformat": "Media will continue to download in the background"
+    "messageformat": "미디어가 백그라운드에서 계속 다운로드됩니다."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "전송 일시 중지"
@@ -5735,9 +5744,12 @@
     "messageformat": "이제 첨부 파일이 여러 개 있는 메시지를 받을 경우 앨범의 모든 사진을 빠르게 다운로드할 수 있습니다. 감사합니다, <linkMajorMayer>@major-mayer</linkMajorMayer> 님!"
   },
   "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Thanks to some small optimizations, this update slightly reduces the size of the app by approximately 4 megabytes. That's enough room for you to send the equivalent of about 4 books’ worth of text messages (or 2-3 animated GIFs) without taking up any extra space."
+    "messageformat": "본 업데이트는 앱 크기를 대략 4메가바이트 감소합니다."
   },
   "icu:WhatsNew__v7.32--1": {
-    "messageformat": "If Wayland is your compositing window manager (and not just the name of a blacksmith you vaguely remember from Beowulf) you'll be happy to hear that we also fixed a bug with the screen sharing button on Linux."
+    "messageformat": "또한 Linux의 화면 공유 버튼 버그를 수정했습니다."
+  },
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }
