@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as RemoteConfig from '../../RemoteConfig';
-import OS from '../os/osMain';
 import { isProduction } from '../version';
 
 export function getUseRingrtcAdm(): boolean {
@@ -13,7 +12,6 @@ export function getUseRingrtcAdm(): boolean {
 
   if (
     isProduction(window.getVersion()) ||
-    OS.isLinux() ||
     !RemoteConfig.isEnabled('desktop.internalUser')
   ) {
     return false;
