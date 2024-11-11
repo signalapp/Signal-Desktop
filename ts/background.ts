@@ -1742,8 +1742,32 @@ export async function startApp(): Promise<void> {
 
     strictAssert(server !== undefined, 'WebAPI not connected');
 
+    let contactSyncComplete: Promise<void> | undefined;
+    const areWePrimaryDevice =
+      window.ConversationController.areWePrimaryDevice();
+
+    const waitForEvent = createTaskWithTimeout(
+      (event: string): Promise<void> => {
+        const { promise, resolve } = explodePromise<void>();
+        window.Whisper.events.once(event, () => resolve());
+        return promise;
+      },
+      'connect:waitForEvent',
+      { timeout: 2 * durations.MINUTE }
+    );
+
     try {
       connectPromise = explodePromise();
+
+      if (firstRun === true && !areWePrimaryDevice) {
+        contactSyncComplete = waitForEvent('contactSync:complete');
+
+        // Send the contact sync message immediately (don't wait until after backup is
+        // downloaded & imported)
+        await singleProtoJobQueue.add(
+          MessageSender.getRequestContactSyncMessage()
+        );
+      }
 
       // Wait for backup to be downloaded
       try {
@@ -1831,7 +1855,7 @@ export async function startApp(): Promise<void> {
         !firstRun &&
         connectCount === 1 &&
         newVersion &&
-        window.textsecure.storage.user.getDeviceId() !== 1
+        !areWePrimaryDevice
       ) {
         log.info('Boot after upgrading. Requesting contact sync');
 
@@ -1853,8 +1877,6 @@ export async function startApp(): Promise<void> {
           );
         }
       }
-
-      const deviceId = window.textsecure.storage.user.getDeviceId();
 
       if (!window.textsecure.storage.user.getAci()) {
         log.error('UUID not captured during registration, unlinking');
@@ -1883,7 +1905,7 @@ export async function startApp(): Promise<void> {
         return unlinkAndDisconnect();
       }
 
-      if (firstRun === true && deviceId !== 1) {
+      if (firstRun === true && !areWePrimaryDevice) {
         if (!window.storage.get('accountEntropyPool')) {
           const lastSent =
             window.storage.get('accountEntropyPoolLastRequestTime') ?? 0;
@@ -1904,17 +1926,6 @@ export async function startApp(): Promise<void> {
             );
           }
         }
-
-        const waitForEvent = createTaskWithTimeout(
-          (event: string): Promise<void> => {
-            const { promise, resolve } = explodePromise<void>();
-            window.Whisper.events.once(event, () => resolve());
-            return promise;
-          },
-          'firstRun:waitForEvent',
-          { timeout: 2 * durations.MINUTE }
-        );
-
         let storageServiceSyncComplete: Promise<void>;
         if (window.ConversationController.areWePrimaryDevice()) {
           storageServiceSyncComplete = Promise.resolve();
@@ -1923,8 +1934,6 @@ export async function startApp(): Promise<void> {
             'storageService:syncComplete'
           );
         }
-
-        const contactSyncComplete = waitForEvent('contactSync:complete');
 
         log.info('firstRun: requesting initial sync');
         setIsInitialSync(true);
@@ -1938,9 +1947,6 @@ export async function startApp(): Promise<void> {
             ),
             singleProtoJobQueue.add(MessageSender.getRequestBlockSyncMessage()),
             runStorageService({ reason: 'firstRun/initialSync' }),
-            singleProtoJobQueue.add(
-              MessageSender.getRequestContactSyncMessage()
-            ),
           ]);
         } catch (error) {
           log.error(
@@ -1950,7 +1956,10 @@ export async function startApp(): Promise<void> {
         }
 
         log.info('firstRun: waiting for storage service and contact sync');
-
+        strictAssert(
+          contactSyncComplete,
+          'contact sync is awaited during first run'
+        );
         try {
           await Promise.all([storageServiceSyncComplete, contactSyncComplete]);
         } catch (error) {
