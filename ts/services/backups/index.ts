@@ -27,6 +27,9 @@ import { getIvAndDecipher } from '../../util/getIvAndDecipher';
 import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
 import { missingCaseError } from '../../util/missingCaseError';
 import { HOUR } from '../../util/durations';
+import type { ExplodePromiseResultType } from '../../util/explodePromise';
+import { explodePromise } from '../../util/explodePromise';
+import type { RetryBackupImportValue } from '../../state/ducks/installer';
 import { CipherType, HashType } from '../../types/Crypto';
 import { InstallScreenBackupStep } from '../../types/InstallScreen';
 import * as Errors from '../../types/errors';
@@ -35,6 +38,7 @@ import { HTTPError } from '../../textsecure/Errors';
 import { constantTimeEqual } from '../../Crypto';
 import { measureSize } from '../../AttachmentCrypto';
 import { isTestOrMockEnvironment } from '../../environment';
+import { runStorageServiceSyncJob } from '../storage';
 import { BackupExportStream } from './export';
 import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';
@@ -42,9 +46,6 @@ import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
 import { validateBackup } from './validator';
 import { BackupType } from './types';
-import type { ExplodePromiseResultType } from '../../util/explodePromise';
-import { explodePromise } from '../../util/explodePromise';
-import type { RetryBackupImportValue } from '../../state/ducks/installer';
 
 export { BackupType };
 
@@ -176,6 +177,24 @@ export class BackupsService {
   }
 
   public async upload(): Promise<void> {
+    // Make sure we are up-to-date on storage service
+    {
+      const { promise: storageService, resolve } = explodePromise<void>();
+      window.Whisper.events.once('storageService:syncComplete', resolve);
+
+      runStorageServiceSyncJob({ reason: 'backups.upload' });
+      await storageService;
+    }
+
+    // Clear message queue
+    await window.waitForEmptyEventQueue();
+
+    // Make sure all batches are flushed
+    await Promise.all([
+      window.waitForAllBatchers(),
+      window.flushAllWaitBatchers(),
+    ]);
+
     const fileName = `backup-${randomBytes(32).toString('hex')}`;
     const filePath = join(window.BasePaths.temp, fileName);
 
