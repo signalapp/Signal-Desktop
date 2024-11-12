@@ -3363,15 +3363,8 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'keySync');
 
-    if (!sync.storageService && !sync.master) {
-      return undefined;
-    }
-
     const ev = new KeysEvent(
       {
-        storageServiceKey: Bytes.isNotEmpty(sync.storageService)
-          ? sync.storageService
-          : undefined,
         masterKey: Bytes.isNotEmpty(sync.master) ? sync.master : undefined,
         accountEntropyPool: sync.accountEntropyPool || undefined,
         mediaRootBackupKey: Bytes.isNotEmpty(sync.mediaRootBackupKey)
