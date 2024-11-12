@@ -3276,7 +3276,6 @@ export async function startApp(): Promise<void> {
     ev.confirm();
 
     const { accountEntropyPool, masterKey, mediaRootBackupKey } = ev;
-    let { storageServiceKey } = ev;
 
     const prevMasterKeyBase64 = window.storage.get('masterKey');
     const prevMasterKey = prevMasterKeyBase64
@@ -3314,7 +3313,6 @@ export async function startApp(): Promise<void> {
         log.info('onKeysSync: updating masterKey');
       }
       // Override provided storageServiceKey because it is deprecated.
-      storageServiceKey = deriveStorageServiceKey(derivedMasterKey);
       await window.storage.put('masterKey', Bytes.toBase64(derivedMasterKey));
     }
 
@@ -3331,12 +3329,8 @@ export async function startApp(): Promise<void> {
       await window.storage.put('backupMediaRootKey', mediaRootBackupKey);
     }
 
-    if (storageServiceKey == null) {
-      log.warn('onKeysSync: deleting window.storageKey');
-      await window.storage.remove('storageKey');
-    }
-
-    if (storageServiceKey) {
+    if (derivedMasterKey != null) {
+      const storageServiceKey = deriveStorageServiceKey(derivedMasterKey);
       const storageServiceKeyBase64 = Bytes.toBase64(storageServiceKey);
       if (window.storage.get('storageKey') === storageServiceKeyBase64) {
         log.info(
