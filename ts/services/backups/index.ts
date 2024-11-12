@@ -79,7 +79,7 @@ export type ImportOptionsType = Readonly<{
 
 export class BackupsService {
   private isStarted = false;
-  private isRunning = false;
+  private isRunning: 'import' | 'export' | false = false;
   private downloadController: AbortController | undefined;
   private downloadRetryPromise:
     | ExplodePromiseResultType<RetryBackupImportValue>
@@ -275,7 +275,7 @@ export class BackupsService {
     window.IPC.startTrackingQueryStats();
 
     log.info(`importBackup: starting ${backupType}...`);
-    this.isRunning = true;
+    this.isRunning = 'import';
 
     try {
       const importStream = await BackupImportStream.create(backupType);
@@ -531,7 +531,7 @@ export class BackupsService {
     strictAssert(!this.isRunning, 'BackupService is already running');
 
     log.info('exportBackup: starting...');
-    this.isRunning = true;
+    this.isRunning = 'export';
 
     try {
       // TODO (DESKTOP-7168): Update mock-server to support this endpoint
@@ -593,6 +593,13 @@ export class BackupsService {
     } catch (error) {
       log.error('Backup: periodic refresh failed', Errors.toLogFormat(error));
     }
+  }
+
+  public isImportRunning(): boolean {
+    return this.isRunning === 'import';
+  }
+  public isExportRunning(): boolean {
+    return this.isRunning === 'export';
   }
 }
 

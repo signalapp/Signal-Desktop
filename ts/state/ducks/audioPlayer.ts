@@ -19,7 +19,7 @@ import type {
   MessageDeletedActionType,
   MessageChangedActionType,
   TargetedConversationChangedActionType,
-  ConversationChangedActionType,
+  ConversationsUpdatedActionType,
 } from './conversations';
 import * as log from '../../logging/log';
 import { isAudio } from '../../types/Attachment';
@@ -184,7 +184,7 @@ function setPlaybackRate(
   void,
   RootStateType,
   unknown,
-  SetPlaybackRate | ConversationChangedActionType
+  SetPlaybackRate | ConversationsUpdatedActionType
 > {
   return (dispatch, getState) => {
     const { audioPlayer } = getState();

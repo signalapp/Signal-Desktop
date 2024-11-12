@@ -3,10 +3,10 @@
 
 import { isNumber, groupBy, throttle } from 'lodash';
 import { render } from 'react-dom';
-import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
 import { v7 as generateUuid } from 'uuid';
+import { batch as batchDispatch } from 'react-redux';
 
 import * as Registration from './util/registration';
 import MessageReceiver from './textsecure/MessageReceiver';
@@ -1166,67 +1166,106 @@ export async function startApp(): Promise<void> {
     const convoCollection = window.getConversations();
 
     const {
-      conversationAdded,
-      conversationChanged,
+      conversationsUpdated,
       conversationRemoved,
       removeAllConversations,
       onConversationClosed,
     } = window.reduxActions.conversations;
 
-    convoCollection.on('remove', conversation => {
-      const { id } = conversation || {};
-
-      onConversationClosed(id, 'removed');
-      conversationRemoved(id);
-    });
-    convoCollection.on('add', conversation => {
-      if (!conversation) {
-        return;
-      }
-      conversationAdded(conversation.id, conversation.format());
-    });
-
-    const changedConvoBatcher = createBatcher<ConversationModel>({
+    // Conversation add/update/remove actions are batched in this batcher to ensure
+    // that we retain correct orderings
+    const convoUpdateBatcher = createBatcher<
+      | { type: 'change' | 'add'; conversation: ConversationModel }
+      | { type: 'remove'; id: string }
+    >({
       name: 'changedConvoBatcher',
       processBatch(batch) {
-        const deduped = new Set(batch);
-        log.info(
-          'changedConvoBatcher: deduped ' +
-            `${batch.length} into ${deduped.size}`
-        );
+        let changedOrAddedBatch = new Array<ConversationModel>();
+        function flushChangedOrAddedBatch() {
+          if (!changedOrAddedBatch.length) {
+            return;
+          }
+          conversationsUpdated(
+            changedOrAddedBatch.map(conversation => conversation.format())
+          );
+          changedOrAddedBatch = [];
+        }
 
         batchDispatch(() => {
-          deduped.forEach(conversation => {
-            conversationChanged(conversation.id, conversation.format());
-          });
+          for (const item of batch) {
+            if (item.type === 'add' || item.type === 'change') {
+              changedOrAddedBatch.push(item.conversation);
+            } else {
+              strictAssert(item.type === 'remove', 'must be remove');
+
+              flushChangedOrAddedBatch();
+
+              onConversationClosed(item.id, 'removed');
+              conversationRemoved(item.id);
+            }
+          }
+          flushChangedOrAddedBatch();
         });
       },
 
-      // This delay ensures that the .format() call isn't synchronous as a
-      //   Backbone property is changed. Important because our _byUuid/_byE164
-      //   lookups aren't up-to-date as the change happens; just a little bit
-      //   after.
-      wait: 1,
+      wait: () => {
+        if (backupsService.isImportRunning()) {
+          return 500;
+        }
+
+        if (messageReceiver && !messageReceiver.hasEmptied()) {
+          return 250;
+        }
+
+        // This delay ensures that the .format() call isn't synchronous as a
+        //   Backbone property is changed. Important because our _byUuid/_byE164
+        //   lookups aren't up-to-date as the change happens; just a little bit
+        //   after.
+        return 1;
+      },
       maxSize: Infinity,
     });
 
-    convoCollection.on('props-change', (conversation, isBatched) => {
+    convoCollection.on('add', (conversation: ConversationModel | undefined) => {
       if (!conversation) {
         return;
       }
-
-      // `isBatched` is true when the `.set()` call on the conversation model
-      // already runs from within `react-redux`'s batch. Instead of batching
-      // the redux update for later - clear all queued updates and update
-      // immediately.
-      if (isBatched) {
-        changedConvoBatcher.removeAll(conversation);
-        conversationChanged(conversation.id, conversation.format());
-        return;
+      if (
+        backupsService.isImportRunning() ||
+        !window.reduxStore.getState().app.hasInitialLoadCompleted
+      ) {
+        convoUpdateBatcher.add({ type: 'add', conversation });
+      } else {
+        // During normal app usage, we require conversations to be added synchronously
+        conversationsUpdated([conversation.format()]);
       }
-
-      changedConvoBatcher.add(conversation);
     });
+
+    convoCollection.on('remove', conversation => {
+      const { id } = conversation || {};
+
+      convoUpdateBatcher.add({ type: 'remove', id });
+    });
+
+    convoCollection.on(
+      'props-change',
+      (conversation: ConversationModel | undefined, isBatched?: boolean) => {
+        if (!conversation) {
+          return;
+        }
+
+        // `isBatched` is true when the `.set()` call on the conversation model already
+        // runs from within `react-redux`'s batch. Instead of batching the redux update
+        // for later, update immediately. To ensure correct update ordering, only do this
+        // optimization if there are no other pending conversation updates
+        if (isBatched && !convoUpdateBatcher.anyPending()) {
+          conversationsUpdated([conversation.format()]);
+          return;
+        }
+
+        convoUpdateBatcher.add({ type: 'change', conversation });
+      }
+    );
 
     // Called by SignalProtocolStore#removeAllData()
     convoCollection.on('reset', removeAllConversations);
