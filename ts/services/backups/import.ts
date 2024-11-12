@@ -14,6 +14,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import {
   AttachmentDownloadSource,
   type StoryDistributionWithMembersType,
+  type IdentityKeyType,
 } from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
@@ -209,6 +210,7 @@ export class BackupImportStream extends Writable {
     string,
     ConversationAttributesType
   >();
+  private readonly identityKeys = new Map<ServiceIdString, IdentityKeyType>();
   private readonly saveMessageBatch = new Set<MessageAttributesType>();
   private readonly stickerPacks = new Array<StickerPackPointerType>();
   private ourConversation?: ConversationAttributesType;
@@ -489,10 +491,14 @@ export class BackupImportStream extends Writable {
     const saves = Array.from(this.conversations.values());
     this.conversations.clear();
 
+    const identityKeys = Array.from(this.identityKeys.values());
+    this.identityKeys.clear();
+
     // Queue writes at the same time to prevent races.
     await Promise.all([
       DataWriter.saveConversations(saves),
       DataWriter.updateConversations(updates),
+      DataWriter.bulkAddIdentityKeys(identityKeys),
     ]);
   }
 
@@ -817,11 +823,13 @@ export class BackupImportStream extends Writable {
         break;
     }
 
+    const serviceId = aci ?? pni;
+
     const attrs: ConversationAttributesType = {
       id: generateUuid(),
       type: 'private',
       version: 2,
-      serviceId: aci ?? pni,
+      serviceId,
       pni,
       e164,
       removalStage,
@@ -836,6 +844,17 @@ export class BackupImportStream extends Writable {
       expireTimerVersion: 1,
     };
 
+    if (serviceId != null && Bytes.isNotEmpty(contact.identityKey)) {
+      this.identityKeys.set(serviceId, {
+        id: serviceId,
+        publicKey: contact.identityKey,
+        verified: contact.identityState || 0,
+        firstUse: true,
+        timestamp: this.now,
+        nonblockingApproval: true,
+      });
+    }
+
     if (contact.notRegistered) {
       const timestamp = contact.notRegistered.unregisteredTimestamp?.toNumber();
       attrs.discoveredUnregisteredAt = timestamp || this.now;
@@ -848,7 +867,6 @@ export class BackupImportStream extends Writable {
     }
 
     if (contact.blocked) {
-      const serviceId = aci || pni;
       if (serviceId) {
         await window.storage.blocked.addBlockedServiceId(serviceId);
       }
@@ -1671,8 +1689,11 @@ export class BackupImportStream extends Writable {
     type: Backups.Quote.Type | null | undefined
   ): SignalService.DataMessage.Quote.Type {
     switch (type) {
-      case Backups.Quote.Type.GIFTBADGE:
+      case Backups.Quote.Type.GIFT_BADGE:
         return SignalService.DataMessage.Quote.Type.GIFT_BADGE;
+      case Backups.Quote.Type.VIEW_ONCE:
+        // No special treatment, we'll compute it once we find the message
+        return SignalService.DataMessage.Quote.Type.NORMAL;
       case Backups.Quote.Type.NORMAL:
       case Backups.Quote.Type.UNKNOWN:
       case null:
