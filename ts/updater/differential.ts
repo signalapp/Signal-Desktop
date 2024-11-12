@@ -72,7 +72,7 @@ export type PrepareDownloadOptionsType = Readonly<{
 }>;
 
 export type DownloadOptionsType = Readonly<{
-  statusCallback?: (downloadedSize: number) => void;
+  statusCallback?: (downloadedSize: number, downloadSize: number) => void;
   logger?: LoggerType;
 
   // Testing
@@ -286,6 +286,10 @@ export async function download(
   );
 
   const downloadActions = diff.filter(({ action }) => action === 'download');
+  let downloadSize = 0;
+  for (const { size } of downloadActions) {
+    downloadSize += size;
+  }
 
   try {
     let downloadedSize = 0;
@@ -302,7 +306,7 @@ export async function download(
         chunkStatusCallback(chunkSize) {
           downloadedSize += chunkSize;
           if (!abortSignal.aborted) {
-            statusCallback?.(downloadedSize);
+            statusCallback?.(downloadedSize, downloadSize);
           }
         },
       }),
