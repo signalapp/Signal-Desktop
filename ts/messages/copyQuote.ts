@@ -55,7 +55,6 @@ export const copyFromQuotedMessage = async (
     referencedMessageNotFound: false,
     isGiftBadge: quote.type === SignalService.DataMessage.Quote.Type.GIFT_BADGE,
     isViewOnce: false,
-    messageId: '',
   };
 
   const queryMessage = await messageCache.findBySentAt(id, attributes =>

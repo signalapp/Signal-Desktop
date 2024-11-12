@@ -2126,7 +2126,10 @@ export class BackupExportStream extends Readable {
     }
 
     return {
-      targetSentTimestamp: Long.fromNumber(quote.id),
+      targetSentTimestamp:
+        quote.referencedMessageNotFound || quote.id == null
+          ? null
+          : Long.fromNumber(quote.id),
       authorId,
       text:
         quote.text != null

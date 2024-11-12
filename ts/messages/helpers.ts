@@ -117,7 +117,7 @@ export function getPaymentEventDescription(
 export function isQuoteAMatch(
   message: ReadonlyMessageAttributesType | null | undefined,
   conversationId: string,
-  quote: ReadonlyDeep<Pick<QuotedMessageType, 'id' | 'authorAci' | 'author'>>
+  quote: ReadonlyDeep<Pick<QuotedMessageType, 'id' | 'authorAci'>>
 ): message is ReadonlyMessageAttributesType {
   if (!message) {
     return false;

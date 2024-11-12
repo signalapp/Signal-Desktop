@@ -85,7 +85,6 @@ export type QuotedAttachmentType = {
 };
 
 export type QuotedMessageType = {
-  // TODO DESKTOP-3826
   attachments: ReadonlyArray<QuotedAttachmentType>;
   payment?: AnyPaymentEvent;
   // `author` is an old attribute that holds the author's E164. We shouldn't use it for
@@ -93,10 +92,13 @@ export type QuotedMessageType = {
   author?: string;
   authorAci?: AciString;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
-  id: number;
+  // id can be null if the referenced message was not found and we imported this quote
+  // from backup
+  id: number | null;
   isGiftBadge?: boolean;
   isViewOnce: boolean;
-  messageId: string;
+  // `messageId` is deprecated
+  messageId?: string;
   referencedMessageNotFound: boolean;
   text?: string;
 };

@@ -486,7 +486,6 @@ describe('backup/attachments', () => {
         isViewOnce: false,
         id: Date.now(),
         referencedMessageNotFound: false,
-        messageId: '',
         isGiftBadge: true,
         attachments: [{ thumbnail: attachment, contentType: VIDEO_MP4 }],
       };
@@ -502,7 +501,6 @@ describe('backup/attachments', () => {
           composeMessage(1, {
             quote: {
               ...quotedMessage,
-              referencedMessageNotFound: true,
               attachments: [
                 {
                   thumbnail: omit(attachment, NON_ROUNDTRIPPED_FIELDS),
@@ -524,7 +522,6 @@ describe('backup/attachments', () => {
         isViewOnce: false,
         id: Date.now(),
         referencedMessageNotFound: false,
-        messageId: '',
         isGiftBadge: true,
         attachments: [{ thumbnail: attachment, contentType: VIDEO_MP4 }],
       };
@@ -539,7 +536,6 @@ describe('backup/attachments', () => {
           composeMessage(1, {
             quote: {
               ...quotedMessage,
-              referencedMessageNotFound: true,
               attachments: [
                 {
                   thumbnail: {
@@ -575,7 +571,6 @@ describe('backup/attachments', () => {
         isViewOnce: false,
         id: existingMessageTimestamp,
         referencedMessageNotFound: false,
-        messageId: '',
         isGiftBadge: false,
         attachments: [{ thumbnail: quoteAttachment, contentType: VIDEO_MP4 }],
       };
@@ -636,7 +631,6 @@ describe('backup/attachments', () => {
         isViewOnce: false,
         id: originalMessage.timestamp,
         referencedMessageNotFound: false,
-        messageId: '',
         isGiftBadge: false,
         attachments: [
           {
