@@ -23,6 +23,7 @@ import type {
   TargetedConversationChangedActionType,
   ToggleConversationInChooseMembersActionType,
   MessageChangedActionType,
+  ConversationsUpdatedActionType,
 } from '../../../state/ducks/conversations';
 import {
   TARGETED_CONVERSATION_CHANGED,
@@ -37,7 +38,12 @@ import {
 import { ReadStatus } from '../../../messages/MessageReadStatus';
 import type { SingleServePromiseIdString } from '../../../services/singleServePromise';
 import { CallMode } from '../../../types/CallDisposition';
-import { generateAci, getAciFromPrefix } from '../../../types/ServiceId';
+import {
+  type AciString,
+  type PniString,
+  generateAci,
+  getAciFromPrefix,
+} from '../../../types/ServiceId';
 import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
 import {
   getDefaultConversation,
@@ -62,6 +68,7 @@ import {
 } from '../../../state/ducks/storyDistributionLists';
 import { MY_STORY_ID } from '../../../types/Stories';
 import type { ReadonlyMessageAttributesType } from '../../../model-types.d';
+import { strictAssert } from '../../../util/assert';
 
 const {
   clearGroupCreationError,
@@ -255,7 +262,7 @@ describe('both/state/ducks/conversations', () => {
           'e164-added': added,
         };
 
-        const actual = updateConversationLookups(added, removed, state);
+        const actual = updateConversationLookups([added], [removed], state);
 
         assert.deepEqual(actual.conversationsByE164, expected);
         assert.strictEqual(
@@ -289,7 +296,7 @@ describe('both/state/ducks/conversations', () => {
           [added.serviceId]: added,
         };
 
-        const actual = updateConversationLookups(added, removed, state);
+        const actual = updateConversationLookups([added], [removed], state);
 
         assert.strictEqual(
           state.conversationsByE164,
@@ -310,9 +317,9 @@ describe('both/state/ducks/conversations', () => {
           serviceId: undefined,
         });
 
-        const state = {
+        const state: ConversationsStateType = {
           ...getEmptyState(),
-          conversationsBygroupId: {
+          conversationsByGroupId: {
             'groupId-removed': removed,
           },
         };
@@ -327,7 +334,7 @@ describe('both/state/ducks/conversations', () => {
           'groupId-added': added,
         };
 
-        const actual = updateConversationLookups(added, removed, state);
+        const actual = updateConversationLookups([added], [removed], state);
 
         assert.strictEqual(
           state.conversationsByE164,
@@ -338,6 +345,93 @@ describe('both/state/ducks/conversations', () => {
           actual.conversationsByServiceId
         );
         assert.deepEqual(actual.conversationsByGroupId, expected);
+      });
+      it('adds and removes multiple conversations', () => {
+        const removed = getDefaultConversation({
+          id: 'id-removed',
+          groupId: 'groupId-removed',
+          e164: 'e164-removed',
+          serviceId: 'serviceId-removed' as unknown as AciString,
+          pni: 'pni-removed' as unknown as PniString,
+          username: 'username-removed',
+        });
+        const stable = getDefaultConversation({
+          id: 'id-stable',
+          groupId: 'groupId-stable',
+          e164: 'e164-stable',
+          serviceId: 'serviceId-stable' as unknown as AciString,
+          pni: 'pni-stable' as unknown as PniString,
+          username: 'username-stable',
+        });
+
+        const state: ConversationsStateType = {
+          ...getEmptyState(),
+          conversationsByServiceId: {
+            'serviceId-removed': removed,
+            'serviceId-stable': stable,
+            'pni-removed': removed,
+            'pni-stable': stable,
+          },
+          conversationsByE164: {
+            'e164-removed': removed,
+            'e164-stable': stable,
+          },
+          conversationsByGroupId: {
+            'groupId-removed': removed,
+            'groupId-stable': stable,
+          },
+          conversationsByUsername: {
+            'username-removed': removed,
+            'username-stable': stable,
+          },
+        };
+
+        const added1 = getDefaultConversation({
+          id: 'id-added1',
+          groupId: 'groupId-added1',
+          e164: 'e164-added1',
+          serviceId: 'serviceId-added1' as unknown as AciString,
+          pni: 'pni-added1' as unknown as PniString,
+          username: 'username-added1',
+        });
+        const added2 = getDefaultConversation({
+          id: 'id-added2',
+          groupId: 'groupId-added2',
+          e164: undefined,
+          serviceId: undefined,
+          pni: undefined,
+          username: undefined,
+        });
+
+        const actual = {
+          ...state,
+          ...updateConversationLookups([added1, added2], [removed], state),
+        };
+
+        const expected = {
+          ...getEmptyState(),
+          conversationsByServiceId: {
+            'serviceId-added1': added1,
+            'pni-added1': added1,
+            'serviceId-stable': stable,
+            'pni-stable': stable,
+          },
+          conversationsByE164: {
+            'e164-added1': added1,
+            'e164-stable': stable,
+          },
+          conversationsByGroupId: {
+            'groupId-added1': added1,
+            'groupId-stable': stable,
+            'groupId-added2': added2,
+          },
+          conversationsByUsername: {
+            'username-added1': added1,
+            'username-stable': stable,
+          },
+        };
+
+        assert.deepEqual(actual, expected);
       });
     });
   });
@@ -2496,6 +2590,144 @@ describe('both/state/ducks/conversations', () => {
             },
           },
         });
+      });
+    });
+
+    describe('CONVERSATIONS_UPDATED', () => {
+      it('adds and updates multiple conversations', () => {
+        const conversation1 = getDefaultConversation();
+        const conversation2 = getDefaultConversation();
+        const newConversation = getDefaultConversation();
+        strictAssert(conversation1.serviceId, 'must exist');
+        strictAssert(conversation1.e164, 'must exist');
+        strictAssert(conversation2.serviceId, 'must exist');
+        strictAssert(conversation2.e164, 'must exist');
+        strictAssert(newConversation.serviceId, 'must exist');
+        strictAssert(newConversation.e164, 'must exist');
+
+        const state = {
+          ...getEmptyState(),
+          conversationLookup: {
+            [conversation1.id]: conversation1,
+            [conversation2.id]: conversation2,
+          },
+          conversationsByE164: {
+            [conversation1.e164]: conversation1,
+            [conversation2.e164]: conversation2,
+          },
+          conversationsByServiceId: {
+            [conversation1.serviceId]: conversation1,
+            [conversation2.serviceId]: conversation2,
+          },
+        };
+
+        const updatedConversation1 = {
+          ...conversation1,
+          e164: undefined,
+          title: 'new title',
+        };
+        const updatedConversation2 = {
+          ...conversation2,
+          active_at: 12345,
+        };
+        const updatedConversation2Again = {
+          ...conversation2,
+          active_at: 98765,
+        };
+
+        const action: ConversationsUpdatedActionType = {
+          type: 'CONVERSATIONS_UPDATED',
+          payload: {
+            data: [
+              updatedConversation1,
+              updatedConversation2,
+              newConversation,
+              updatedConversation2Again,
+            ],
+          },
+        };
+
+        const actual = reducer(state, action);
+        const expected: ConversationsStateType = {
+          ...state,
+          conversationLookup: {
+            [conversation1.id]: updatedConversation1,
+            [conversation2.id]: updatedConversation2Again,
+            [newConversation.id]: newConversation,
+          },
+          conversationsByE164: {
+            [conversation2.e164]: updatedConversation2Again,
+            [newConversation.e164]: newConversation,
+          },
+          conversationsByServiceId: {
+            [conversation1.serviceId]: updatedConversation1,
+            [conversation2.serviceId]: updatedConversation2Again,
+            [newConversation.serviceId]: newConversation,
+          },
+        };
+        assert.deepEqual(actual, expected);
+      });
+
+      it('updates root state if conversation is selected', () => {
+        const conversation1 = getDefaultConversation({ isArchived: true });
+        const conversation2 = getDefaultConversation();
+        strictAssert(conversation1.serviceId, 'must exist');
+        strictAssert(conversation1.e164, 'must exist');
+        strictAssert(conversation2.serviceId, 'must exist');
+        strictAssert(conversation2.e164, 'must exist');
+
+        const state: ConversationsStateType = {
+          ...getEmptyState(),
+          selectedConversationId: conversation1.id,
+          showArchived: true,
+          conversationLookup: {
+            [conversation1.id]: conversation1,
+            [conversation2.id]: conversation2,
+          },
+          conversationsByE164: {
+            [conversation1.e164]: conversation1,
+            [conversation2.e164]: conversation2,
+          },
+          conversationsByServiceId: {
+            [conversation1.serviceId]: conversation1,
+            [conversation2.serviceId]: conversation2,
+          },
+        };
+
+        const updatedConversation1 = {
+          ...conversation1,
+          isArchived: false,
+        };
+        const updatedConversation2 = {
+          ...conversation2,
+          active_at: 12345,
+        };
+
+        const action: ConversationsUpdatedActionType = {
+          type: 'CONVERSATIONS_UPDATED',
+          payload: {
+            data: [updatedConversation1, updatedConversation2],
+          },
+        };
+
+        const actual = reducer(state, action);
+        const expected: ConversationsStateType = {
+          ...state,
+          showArchived: false,
+          conversationLookup: {
+            [conversation1.id]: updatedConversation1,
+            [conversation2.id]: updatedConversation2,
+          },
+          conversationsByE164: {
+            [conversation1.e164]: updatedConversation1,
+            [conversation2.e164]: updatedConversation2,
+          },
+          conversationsByServiceId: {
+            [conversation1.serviceId]: updatedConversation1,
+            [conversation2.serviceId]: updatedConversation2,
+          },
+        };
+        assert.deepEqual(actual, expected);
       });
     });
   });
