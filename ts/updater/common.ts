@@ -12,7 +12,7 @@ import { throttle } from 'lodash';
 import type { ParserConfiguration } from 'dashdash';
 import { createParser } from 'dashdash';
 import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
-import { gt, lt } from 'semver';
+import { gt, gte, lt } from 'semver';
 import config from 'config';
 import got from 'got';
 import { v4 as getGuid } from 'uuid';
@@ -20,6 +20,7 @@ import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
 import * as durations from '../util/durations';
+import { missingCaseError } from '../util/missingCaseError';
 import { getTempPath, getUpdateCachePath } from '../../app/attachments';
 import { markShouldNotQuit, markShouldQuit } from '../../app/window_state';
 import { DialogType } from '../types/Dialogs';
@@ -83,6 +84,7 @@ enum DownloadMode {
   DifferentialOnly = 'DifferentialOnly',
   FullOnly = 'FullOnly',
   Automatic = 'Automatic',
+  ForceUpdate = 'ForceUpdate',
 }
 
 type DownloadUpdateResultType = Readonly<{
@@ -96,6 +98,12 @@ export type UpdaterOptionsType = Readonly<{
   getMainWindow: () => BrowserWindow | undefined;
   canRunSilently: () => boolean;
 }>;
+
+enum CheckType {
+  Normal = 'Normal',
+  AllowSameVersion = 'AllowSameVersion',
+  ForceDownload = 'ForceDownload',
+}
 
 export abstract class Updater {
   protected fileName: string | undefined;
@@ -148,7 +156,7 @@ export abstract class Updater {
   //
 
   public async force(): Promise<void> {
-    return this.checkForUpdatesMaybeInstall(true);
+    return this.checkForUpdatesMaybeInstall(CheckType.ForceDownload);
   }
 
   // If the updater was about to restart the app but the user cancelled it, show dialog
@@ -163,7 +171,7 @@ export abstract class Updater {
     );
     this.restarting = false;
     markShouldNotQuit();
-    drop(this.force());
+    drop(this.checkForUpdatesMaybeInstall(CheckType.AllowSameVersion));
   }
 
   public async start(): Promise<void> {
@@ -172,7 +180,7 @@ export abstract class Updater {
     this.schedulePoll();
 
     await this.deletePreviousInstallers();
-    await this.checkForUpdatesMaybeInstall();
+    await this.checkForUpdatesMaybeInstall(CheckType.Normal);
   }
 
   //
@@ -184,7 +192,7 @@ export abstract class Updater {
   protected abstract installUpdate(
     updateFilePath: string,
     isSilent: boolean
-  ): Promise<void>;
+  ): Promise<() => Promise<void>>;
 
   //
   // Protected methods
@@ -223,7 +231,7 @@ export abstract class Updater {
       this.logger.info('updater/markCannotUpdate: retrying after user action');
 
       this.markedCannotUpdate = false;
-      await this.checkForUpdatesMaybeInstall();
+      await this.checkForUpdatesMaybeInstall(CheckType.Normal);
     });
   }
 
@@ -255,7 +263,7 @@ export abstract class Updater {
   private async safePoll(): Promise<void> {
     try {
       this.logger.info('updater/start: polling now');
-      await this.checkForUpdatesMaybeInstall();
+      await this.checkForUpdatesMaybeInstall(CheckType.Normal);
     } catch (error) {
       this.logger.error(`updater/start: ${Errors.toLogFormat(error)}`);
     } finally {
@@ -306,8 +314,11 @@ export abstract class Updater {
       if (!downloadResult) {
         logger.warn('downloadAndInstall: no update was downloaded');
         strictAssert(
-          mode !== DownloadMode.Automatic && mode !== DownloadMode.FullOnly,
-          'Automatic and full mode downloads are guaranteed to happen or error'
+          mode !== DownloadMode.ForceUpdate &&
+            mode !== DownloadMode.Automatic &&
+            mode !== DownloadMode.FullOnly,
+          'Automatic/full/force update mode downloads are ' +
+            'guaranteed to happen or error'
         );
         return false;
       }
@@ -330,14 +341,21 @@ export abstract class Updater {
         );
       }
 
-      await this.installUpdate(
-        updateFilePath,
+      const isSilent =
         updateInfo.vendor?.requireUserConfirmation !== 'true' &&
-          this.canRunSilently()
-      );
+        this.canRunSilently();
+
+      const handler = await this.installUpdate(updateFilePath, isSilent);
+      if (isSilent || mode === DownloadMode.ForceUpdate) {
+        await handler();
+      } else {
+        this.setUpdateListener(handler);
+      }
 
       const mainWindow = this.getMainWindow();
-      if (mainWindow) {
+      if (mode === DownloadMode.ForceUpdate) {
+        logger.info('downloadAndInstall: force update, no dialog...');
+      } else if (mainWindow) {
         logger.info('downloadAndInstall: showing update dialog...');
         mainWindow.webContents.send(
           'show-update-dialog',
@@ -362,19 +380,36 @@ export abstract class Updater {
     }
   }
 
-  private async checkForUpdatesMaybeInstall(force = false): Promise<void> {
+  private async checkForUpdatesMaybeInstall(
+    checkType: CheckType
+  ): Promise<void> {
     const { logger } = this;
 
     logger.info('checkForUpdatesMaybeInstall: checking for update...');
-    const updateInfo = await this.checkForUpdates(force);
+    const updateInfo = await this.checkForUpdates(checkType);
     if (!updateInfo) {
       return;
     }
 
     const { version: newVersion } = updateInfo;
 
-    if (!force && this.version && !gt(newVersion, this.version)) {
+    if (checkType === CheckType.ForceDownload) {
+      await this.downloadAndInstall(updateInfo, DownloadMode.ForceUpdate);
       return;
+    }
+
+    if (checkType === CheckType.Normal) {
+      // Verify that the downloaded version is greater than downloaded
+      if (this.version && !gt(newVersion, this.version)) {
+        return;
+      }
+    } else if (checkType === CheckType.AllowSameVersion) {
+      // Verify that the downloaded version is greater or the same as downloaded
+      if (this.version && !gte(newVersion, this.version)) {
+        return;
+      }
+    } else {
+      throw missingCaseError(checkType);
     }
 
     const autoDownloadUpdates = await this.getAutoDownloadUpdateSetting();
@@ -443,7 +478,7 @@ export abstract class Updater {
   }
 
   private async checkForUpdates(
-    forceUpdate = false
+    checkType: CheckType
   ): Promise<UpdateInformationType | undefined> {
     const yaml = await getUpdateYaml();
     const parsedYaml = parseYaml(yaml);
@@ -482,7 +517,7 @@ export abstract class Updater {
       return;
     }
 
-    if (!forceUpdate && !isVersionNewer(version)) {
+    if (checkType === CheckType.Normal && !isVersionNewer(version)) {
       this.logger.info(
         `checkForUpdates: ${version} is not newer than ${packageJson.version}; ` +
           'no new update available'
@@ -493,7 +528,7 @@ export abstract class Updater {
 
     this.logger.info(
       `checkForUpdates: found newer version ${version} ` +
-        `forceUpdate=${forceUpdate}`
+        `checkType=${checkType}`
     );
 
     const fileName = getUpdateFileName(
@@ -576,6 +611,7 @@ export abstract class Updater {
     const baseUrl = getUpdatesBase();
     const updateFileUrl = `${baseUrl}/${fileName}`;
 
+    // Show progress on DifferentialOnly, FullOnly, and ForceUpdate
     const updateOnProgress = mode !== DownloadMode.Automatic;
 
     const signatureFileName = getSignatureFileName(fileName);

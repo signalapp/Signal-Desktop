@@ -46,10 +46,10 @@ export class WindowsUpdater extends Updater {
   protected async installUpdate(
     updateFilePath: string,
     isSilent: boolean
-  ): Promise<void> {
+  ): Promise<() => Promise<void>> {
     const { logger } = this;
 
-    const doInstall = async () => {
+    return async () => {
       logger.info('downloadAndInstall: installing...');
       try {
         await this.install(updateFilePath, isSilent);
@@ -64,14 +64,6 @@ export class WindowsUpdater extends Updater {
       this.setUpdateListener(this.restart);
       this.restart();
     };
-
-    if (isSilent) {
-      logger.info('downloadAndInstall: running immediately...');
-      await doInstall();
-      return;
-    }
-
-    this.setUpdateListener(doInstall);
   }
 
   protected restart(): void {
