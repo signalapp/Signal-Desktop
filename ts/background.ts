@@ -1410,8 +1410,6 @@ export async function startApp(): Promise<void> {
       }
     }
 
-    window.dispatchEvent(new Event('storage_ready'));
-
     void badgeImageFileDownloader.checkForFilesToDownload();
 
     initializeExpiringMessageService(singleProtoJobQueue);
@@ -1922,6 +1920,11 @@ export async function startApp(): Promise<void> {
         return unlinkAndDisconnect();
       }
 
+      if (!window.textsecure.storage.user.getPni()) {
+        log.error('PNI not captured during registration, unlinking softly');
+        return unlinkAndDisconnect();
+      }
+
       if (connectCount === 1) {
         try {
           // Note: we always have to register our capabilities all at once, so we do this
@@ -1937,11 +1940,6 @@ export async function startApp(): Promise<void> {
             Errors.toLogFormat(error)
           );
         }
-      }
-
-      if (!window.textsecure.storage.user.getPni()) {
-        log.error('PNI not captured during registration, unlinking softly');
-        return unlinkAndDisconnect();
       }
 
       if (firstRun === true && !areWePrimaryDevice) {
@@ -2028,23 +2026,18 @@ export async function startApp(): Promise<void> {
             installed: true,
           }));
 
-          if (window.ConversationController.areWePrimaryDevice()) {
-            log.warn(
-              'background/connect: We are primary device; not sending sticker pack sync'
-            );
-            return;
-          }
-
-          log.info('firstRun: requesting stickers', operations.length);
-          try {
-            await singleProtoJobQueue.add(
-              MessageSender.getStickerPackSync(operations)
-            );
-          } catch (error) {
-            log.error(
-              'connect: Failed to queue sticker sync message',
-              Errors.toLogFormat(error)
-            );
+          if (!window.ConversationController.areWePrimaryDevice()) {
+            log.info('firstRun: requesting stickers', operations.length);
+            try {
+              await singleProtoJobQueue.add(
+                MessageSender.getStickerPackSync(operations)
+              );
+            } catch (error) {
+              log.error(
+                'connect: Failed to queue sticker sync message',
+                Errors.toLogFormat(error)
+              );
+            }
           }
         }
 
