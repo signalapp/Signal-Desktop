@@ -31,7 +31,10 @@ import type { ExplodePromiseResultType } from '../../util/explodePromise';
 import { explodePromise } from '../../util/explodePromise';
 import type { RetryBackupImportValue } from '../../state/ducks/installer';
 import { CipherType, HashType } from '../../types/Crypto';
-import { InstallScreenBackupStep } from '../../types/InstallScreen';
+import {
+  InstallScreenBackupStep,
+  InstallScreenBackupError,
+} from '../../types/InstallScreen';
 import * as Errors from '../../types/errors';
 import { BackupCredentialType } from '../../types/backups';
 import { HTTPError } from '../../textsecure/Errors';
@@ -46,6 +49,7 @@ import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
 import { validateBackup } from './validator';
 import { BackupType } from './types';
+import { UnsupportedBackupVersion } from './errors';
 
 export { BackupType };
 
@@ -142,7 +146,10 @@ export class BackupsService {
         );
         this.downloadRetryPromise = explodePromise<RetryBackupImportValue>();
         window.reduxActions.installer.updateBackupImportProgress({
-          hasError: true,
+          error:
+            error instanceof UnsupportedBackupVersion
+              ? InstallScreenBackupError.UnsupportedVersion
+              : InstallScreenBackupError.Unknown,
         });
 
         // eslint-disable-next-line no-await-in-loop

@@ -5,6 +5,7 @@ import React from 'react';
 import { noop } from 'lodash';
 
 import { DialogType } from '../../types/Dialogs';
+import { InstallScreenStep } from '../../types/InstallScreen';
 import type { LocalizerType } from '../../types/Util';
 import {
   PRODUCTION_DOWNLOAD_URL,
@@ -13,6 +14,8 @@ import {
 } from '../../types/support';
 import type { UpdatesStateType } from '../../state/ducks/updates';
 import { isBeta } from '../../util/version';
+import { missingCaseError } from '../../util/missingCaseError';
+import { roundFractionForProgressBar } from '../../util/numbers';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Modal } from '../Modal';
 import { I18n } from '../I18n';
@@ -21,19 +24,26 @@ import { formatFileSize } from '../../util/formatFileSize';
 export type PropsType = UpdatesStateType &
   Readonly<{
     i18n: LocalizerType;
+    step: InstallScreenStep;
+    forceUpdate: () => void;
     startUpdate: () => void;
     currentVersion: string;
     OS: string;
+    onClose?: () => void;
   }>;
 
 export function InstallScreenUpdateDialog({
   i18n,
+  step,
   dialogType,
+  isCheckingForUpdates,
   downloadSize,
   downloadedSize,
+  forceUpdate,
   startUpdate,
   currentVersion,
   OS,
+  onClose = noop,
 }: PropsType): JSX.Element | null {
   const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a
@@ -47,6 +57,40 @@ export function InstallScreenUpdateDialog({
   );
 
   const dialogName = `InstallScreenUpdateDialog.${dialogType}`;
+
+  if (dialogType === DialogType.None) {
+    if (step === InstallScreenStep.BackupImport) {
+      if (isCheckingForUpdates) {
+        return <DownloadingModal i18n={i18n} width={0} />;
+      }
+
+      return (
+        <ConfirmationDialog
+          i18n={i18n}
+          dialogName={dialogName}
+          noMouseClose
+          onClose={onClose}
+          noDefaultCancelButton
+          actions={[
+            {
+              id: 'ok',
+              text: i18n(
+                'icu:InstallScreenUpdateDialog--update-required__action-update'
+              ),
+              action: forceUpdate,
+              style: 'affirmative',
+              autoClose: false,
+            },
+          ]}
+          title={i18n('icu:InstallScreenUpdateDialog--update-required__title')}
+        >
+          {i18n('icu:InstallScreenUpdateDialog--update-required__body')}
+        </ConfirmationDialog>
+      );
+    }
+
+    return null;
+  }
 
   if (dialogType === DialogType.UnsupportedOS) {
     return (
@@ -109,6 +153,7 @@ export function InstallScreenUpdateDialog({
         i18n={i18n}
         dialogName={dialogName}
         title={title}
+        noMouseClose
         noDefaultCancelButton
         actions={[
           {
@@ -119,7 +164,7 @@ export function InstallScreenUpdateDialog({
             autoClose: false,
           },
         ]}
-        onClose={noop}
+        onClose={onClose}
       >
         {bodyText}
       </ConfirmationDialog>
@@ -127,27 +172,10 @@ export function InstallScreenUpdateDialog({
   }
 
   if (dialogType === DialogType.Downloading) {
-    // Focus trap can't be used because there are no elements that can be
-    // focused within the modal.
-    const width = Math.ceil(
-      ((downloadedSize || 1) / (downloadSize || 1)) * 100
+    const fractionComplete = roundFractionForProgressBar(
+      (downloadedSize || 0) / (downloadSize || 1)
     );
-    return (
-      <Modal
-        i18n={i18n}
-        modalName={dialogName}
-        noMouseClose
-        useFocusTrap={false}
-        title={i18n('icu:DialogUpdate__downloading')}
-      >
-        <div className="InstallScreenUpdateDialog__progress--container">
-          <div
-            className="InstallScreenUpdateDialog__progress--bar"
-            style={{ transform: `translateX(${width - 100}%)` }}
-          />
-        </div>
-      </Modal>
-    );
+    return <DownloadingModal i18n={i18n} width={fractionComplete * 100} />;
   }
 
   if (
@@ -179,6 +207,7 @@ export function InstallScreenUpdateDialog({
           dialogName={dialogName}
           moduleClassName="InstallScreenUpdateDialog"
           title={title}
+          noMouseClose
           noDefaultCancelButton
           actions={[
             {
@@ -188,7 +217,7 @@ export function InstallScreenUpdateDialog({
               autoClose: false,
             },
           ]}
-          onClose={noop}
+          onClose={onClose}
         >
           {body}
         </ConfirmationDialog>
@@ -230,5 +259,32 @@ export function InstallScreenUpdateDialog({
     );
   }
 
-  return null;
+  throw missingCaseError(dialogType);
+}
+
+export function DownloadingModal({
+  i18n,
+  width,
+}: {
+  i18n: LocalizerType;
+  width: number;
+}): JSX.Element {
+  // Focus trap can't be used because there are no elements that can be
+  // focused within the modal.
+  return (
+    <Modal
+      i18n={i18n}
+      modalName="InstallScreenUpdateDialog.Downloading"
+      noMouseClose
+      useFocusTrap={false}
+      title={i18n('icu:DialogUpdate__downloading')}
+    >
+      <div className="InstallScreenUpdateDialog__progress--container">
+        <div
+          className="InstallScreenUpdateDialog__progress--bar"
+          style={{ transform: `translateX(${width - 100}%)` }}
+        />
+      </div>
+    </Modal>
+  );
 }

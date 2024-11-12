@@ -6,3 +6,7 @@ import { ipcRenderer } from 'electron';
 export function startUpdate(): Promise<void> {
   return ipcRenderer.invoke('start-update');
 }
+
+export function forceUpdate(): Promise<void> {
+  return ipcRenderer.invoke('updater/force-update');
+}
