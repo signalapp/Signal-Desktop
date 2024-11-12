@@ -1484,15 +1484,6 @@ export async function startApp(): Promise<void> {
 
       strictAssert(server !== undefined, 'WebAPI not ready');
 
-      // Once this resolves it will trigger `online` event and cause
-      // `connect()`, but with `firstRun` set to `false`. Thus it is important
-      // not to await it and let execution fall through.
-      drop(
-        server.authenticate(
-          window.textsecure.storage.user.getWebAPICredentials()
-        )
-      );
-
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
       window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
       drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));

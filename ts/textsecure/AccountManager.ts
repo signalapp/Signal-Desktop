@@ -1146,6 +1146,8 @@ export default class AccountManager extends EventTarget {
       password,
     });
 
+    await this.server.authenticate(storage.user.getWebAPICredentials());
+
     // This needs to be done very early, because it changes how things are saved in the
     //   database. Your identity, for example, in the saveIdentityWithAttributes call
     //   below.
