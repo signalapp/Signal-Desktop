@@ -118,7 +118,10 @@ export abstract class Updater {
 
   protected readonly getMainWindow: () => BrowserWindow | undefined;
 
-  private throttledSendDownloadingUpdate: ((downloadedSize: number) => void) & {
+  private throttledSendDownloadingUpdate: ((
+    downloadedSize: number,
+    downloadSize: number
+  ) => void) & {
     cancel: () => void;
   };
 
@@ -141,14 +144,17 @@ export abstract class Updater {
     this.getMainWindow = getMainWindow;
     this.canRunSilently = canRunSilently;
 
-    this.throttledSendDownloadingUpdate = throttle((downloadedSize: number) => {
-      const mainWindow = this.getMainWindow();
-      mainWindow?.webContents.send(
-        'show-update-dialog',
-        DialogType.Downloading,
-        { downloadedSize }
-      );
-    }, 50);
+    this.throttledSendDownloadingUpdate = throttle(
+      (downloadedSize: number, downloadSize: number) => {
+        const mainWindow = this.getMainWindow();
+        mainWindow?.webContents.send(
+          'show-update-dialog',
+          DialogType.Downloading,
+          { downloadedSize, downloadSize }
+        );
+      },
+      50
+    );
   }
 
   //
@@ -156,6 +162,7 @@ export abstract class Updater {
   //
 
   public async force(): Promise<void> {
+    this.markedCannotUpdate = false;
     return this.checkForUpdatesMaybeInstall(CheckType.ForceDownload);
   }
 
@@ -605,7 +612,7 @@ export abstract class Updater {
   }
 
   private async downloadUpdate(
-    { fileName, sha512, differentialData }: UpdateInformationType,
+    { fileName, sha512, differentialData, size }: UpdateInformationType,
     mode: DownloadMode
   ): Promise<DownloadUpdateResultType | undefined> {
     const baseUrl = getUpdatesBase();
@@ -728,6 +735,7 @@ export abstract class Updater {
 
         await this.downloadAndReport(
           updateFileUrl,
+          size,
           tempUpdatePath,
           updateOnProgress
         );
@@ -798,6 +806,7 @@ export abstract class Updater {
 
   private async downloadAndReport(
     updateFileUrl: string,
+    downloadSize: number,
     targetUpdatePath: string,
     updateOnProgress = false
   ): Promise<void> {
@@ -810,7 +819,7 @@ export abstract class Updater {
 
         downloadStream.on('data', data => {
           downloadedSize += data.length;
-          this.throttledSendDownloadingUpdate(downloadedSize);
+          this.throttledSendDownloadingUpdate(downloadedSize, downloadSize);
         });
       }
 
