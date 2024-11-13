@@ -109,9 +109,11 @@ import type { RawBodyRange } from '../../types/BodyRange';
 import { fromAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { loadAllAndReinitializeRedux } from '../allLoaders';
-import { resetBackupMediaDownloadProgress } from '../../util/backupMediaDownload';
+import {
+  resetBackupMediaDownloadProgress,
+  startBackupMediaDownload,
+} from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
-import { drop } from '../../util/drop';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 
 const MAX_CONCURRENCY = 10;
@@ -353,12 +355,7 @@ export class BackupImportStream extends Writable {
         this.backupType !== BackupType.TestOnlyPlaintext &&
         !isTestEnvironment(getEnvironment())
       ) {
-        await AttachmentDownloadManager.start();
-        drop(
-          AttachmentDownloadManager.waitForIdle(async () => {
-            await window.storage.put('backupMediaDownloadIdle', true);
-          })
-        );
+        await startBackupMediaDownload();
       }
 
       done();

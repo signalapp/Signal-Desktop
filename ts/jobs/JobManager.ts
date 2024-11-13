@@ -88,9 +88,10 @@ export abstract class JobManager<CoreJobType> {
 
   async start(): Promise<void> {
     log.info(`${this.logPrefix}: starting`);
-
-    this.enabled = true;
-    await this.params.markAllJobsInactive();
+    if (!this.enabled) {
+      this.enabled = true;
+      await this.params.markAllJobsInactive();
+    }
     await this.maybeStartJobs();
     this.tick();
   }
