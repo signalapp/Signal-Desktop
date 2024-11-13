@@ -195,6 +195,11 @@ export class App extends EventEmitter {
     await window.evaluate('window.SignalCI.uploadBackup()');
   }
 
+  public async migrateAllMessages(): Promise<void> {
+    const window = await this.getWindow();
+    await window.evaluate('window.SignalCI.migrateAllMessages()');
+  }
+
   public async unlink(): Promise<void> {
     const window = await this.getWindow();
     return window.evaluate('window.SignalCI.unlink()');

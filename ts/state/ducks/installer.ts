@@ -577,7 +577,7 @@ export function reducer(
 
   if (action.type === SHOW_BACKUP_IMPORT) {
     if (
-      //  Downloading backup after linking
+      // Downloading backup after linking
       state.step !== InstallScreenStep.QrCodeNotScanned &&
       // Restarting backup download on startup
       state.step !== InstallScreenStep.NotStarted
