@@ -33,14 +33,6 @@ export function ExternalLink(props: {
   );
 }
 
-function linkKhuddite(
-  children: ReadonlyArray<string | JSX.Element>
-): JSX.Element {
-  return (
-    <ExternalLink href="https://github.com/khuddite">{children}</ExternalLink>
-  );
-}
-
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -51,13 +43,9 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <I18n
-        i18n={i18n}
-        id="icu:WhatsNew__v7.33--0"
-        components={{
-          linkKhuddite,
-        }}
-      />,
+      <I18n i18n={i18n} id="icu:WhatsNew__v7.34--0" />,
+      <I18n i18n={i18n} id="icu:WhatsNew__v7.34--1" />,
+      <I18n i18n={i18n} id="icu:WhatsNew__v7.34--2" />,
     ],
   };
 
