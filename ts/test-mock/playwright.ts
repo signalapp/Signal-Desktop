@@ -109,7 +109,7 @@ export class App extends EventEmitter {
     return this.waitForEvent('contactSync');
   }
 
-  public async waitForBackupImportComplete(): Promise<void> {
+  public async waitForBackupImportComplete(): Promise<{ duration: number }> {
     return this.waitForEvent('backupImportComplete');
   }
 

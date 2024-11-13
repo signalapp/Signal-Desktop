@@ -19,19 +19,15 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   await server.storeBackupOnCdn(backupId, backupStream);
 
-  const importStart = Date.now();
-
   const app = await bootstrap.link();
-  await app.waitForBackupImportComplete();
-
-  const importEnd = Date.now();
+  const { duration: importDuration } = await app.waitForBackupImportComplete();
 
   const exportStart = Date.now();
   await app.uploadBackup();
   const exportEnd = Date.now();
 
   console.log('run=%d info=%j', 0, {
-    importDuration: importEnd - importStart,
+    importDuration,
     exportDuration: exportEnd - exportStart,
   });
 });
