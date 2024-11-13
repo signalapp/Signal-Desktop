@@ -302,7 +302,7 @@ export class BackupsService {
 
     log.info(`importBackup: starting ${backupType}...`);
     this.isRunning = 'import';
-
+    const importStart = Date.now();
     try {
       const importStream = await BackupImportStream.create(backupType);
       if (backupType === BackupType.Ciphertext) {
@@ -390,7 +390,9 @@ export class BackupsService {
       this.isRunning = false;
       window.IPC.stopTrackingQueryStats({ epochName: 'Backup Import' });
       if (window.SignalCI) {
-        window.SignalCI.handleEvent('backupImportComplete', null);
+        window.SignalCI.handleEvent('backupImportComplete', {
+          duration: Date.now() - importStart,
+        });
       }
     }
   }
