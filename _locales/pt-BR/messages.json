@@ -5750,6 +5750,6 @@
     "messageformat": "Também corrigimos um bug com o botão de compartilhamento de tela no Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Esta atualização corrige um erro onde o menu de contexto errado aparecia ao clicar com o botão direito em um emoji durante a seleção do texto."
   }
 }

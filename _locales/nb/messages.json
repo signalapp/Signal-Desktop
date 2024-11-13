@@ -5750,6 +5750,6 @@
     "messageformat": "Vi har også fikset et lite problem med skjermdelingsknappen i Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Denne oppdateringen fikser også et problem med tekstvalg for emojier. Takk, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

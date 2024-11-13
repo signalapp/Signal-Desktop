@@ -5750,6 +5750,6 @@
     "messageformat": "ہم نے Linux پر اسکرین شیئرنگ کے بٹن کے نقص کو بھی ٹھیک کیا ہے۔"
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "اس ریلیز میں ایموجی ٹیکسٹ کو منتخب کرنے سے متعلقہ ایک نقص کو بھی ٹھیک کیا گیا ہے۔<linkKhuddite></linkKhuddite>"
   }
 }

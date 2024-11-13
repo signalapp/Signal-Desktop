@@ -5750,6 +5750,6 @@
     "messageformat": "Композитті терезе менеджеріңіздің аты Wayland па? \"Беовульф\" поэмасындағы ұстаның атына ұқсайды, иә? Онда сіз үшін қуанышты жаңалығымыз бар: Linux жүйесіндегі экранды бөлісу түймесіндегі ақауды да түзеттік."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Бұл жаңа нұсқада мәтінді таңдап жатып, эмоджиді тінтуірдің оң жақ түймесімен басқаннан кейін, дұрыс контекстік мәзір шықпай қалатын ақау түзетілді. Рақмет, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

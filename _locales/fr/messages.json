@@ -1839,7 +1839,7 @@
     "messageformat": "Nom du groupe (champ obligatoire)"
   },
   "icu:setGroupMetadata__group-description-placeholder": {
-    "messageformat": "Description"
+    "messageformat": "Présentation"
   },
   "icu:setGroupMetadata__create-group": {
     "messageformat": "Créer"
@@ -3420,22 +3420,22 @@
     "messageformat": "Le lien du groupe a été réinitialisé."
   },
   "icu:GroupV2--description--remove--you": {
-    "messageformat": "Vous avez effacé la description du groupe."
+    "messageformat": "Vous avez supprimé la présentation du groupe."
   },
   "icu:GroupV2--description--remove--other": {
-    "messageformat": "{memberName} a effacé la description du groupe."
+    "messageformat": "{memberName} a supprimé la présentation du groupe."
   },
   "icu:GroupV2--description--remove--unknown": {
-    "messageformat": "La description du groupe a été effacée."
+    "messageformat": "La présentation du groupe a été supprimée."
   },
   "icu:GroupV2--description--change--you": {
-    "messageformat": "Vous avez modifié la description du groupe."
+    "messageformat": "Vous avez modifié la présentation du groupe."
   },
   "icu:GroupV2--description--change--other": {
-    "messageformat": "{memberName} a modifié la description du groupe."
+    "messageformat": "{memberName} a modifié la présentation du groupe."
   },
   "icu:GroupV2--description--change--unknown": {
-    "messageformat": "La description du groupe a été changée."
+    "messageformat": "La présentation du groupe a été modifiée."
   },
   "icu:GroupV2--announcements--admin--you": {
     "messageformat": "Vous avez modifié les paramètres du groupe : seuls les admins peuvent maintenant envoyer des messages."
@@ -3747,7 +3747,7 @@
     "messageformat": "Qui peut modifier les informations du groupe"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Choisissez qui peut modifier le nom, la photo et la description du groupe, ou encore le délai avant disparition des messages éphémères."
+    "messageformat": "Choisissez qui peut modifier le nom, la photo et la présentation du groupe, ou encore le délai avant disparition des messages éphémères."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Qui peut ajouter des membres"
@@ -4302,10 +4302,10 @@
     "messageformat": "Lire la suite"
   },
   "icu:EditConversationAttributesModal__description-warning": {
-    "messageformat": "La description du groupe sera visible aux membres de ce groupe et aux personnes invitées."
+    "messageformat": "La présentation du groupe sera accessible aux membres de ce groupe et aux invités."
   },
   "icu:ConversationDetailsHeader--add-group-description": {
-    "messageformat": "Ajouter une description du groupe…"
+    "messageformat": "Présenter le groupe en quelques mots…"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Sélectionner la qualité des médias"
@@ -5750,6 +5750,6 @@
     "messageformat": "Si vous utilisez le compositeur Wayland comme gestionnaire de fenêtres (pour ceux qui se demanderaient \" c'est qui, Wayland ? \", on parle ici d'un protocole de serveur d'affichage), vous serez ravi de savoir que le bouton de partage d'écran fonctionne maintenant correctement sous Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Lorsqu'on sélectionnait du texte contenant un émoji et qu'on effectuait un clic droit, le menu contextuel qui apparaissait semait un peu la confusion. Un bug dans la corbeille, ça redonne tout de suite le sourire ! :-) Merci, <linkKhuddite>@khuddite</linkKhuddite> !"
   }
 }

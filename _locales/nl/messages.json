@@ -5750,6 +5750,6 @@
     "messageformat": "We hebben ook een bug opgelost met de knop voor het delen van je scherm op Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Deze update lost een bug op waarbij het juiste contextmenu niet verscheen na het klikken met de rechtermuisknop op een emoji bij tekstselectie. Bedankt <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

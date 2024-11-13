@@ -5750,6 +5750,6 @@
     "messageformat": "Мындан тышкары, Linux'тагы экранды бөлүшүү функциясындагы мүчүлүштүктү да жоюп койдук."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Бул жаңыртуу текстти тандап жатканда эмодзиди оң баскыч менен чыкылдаткандан кийин туура контексттик меню көрүнбөй калган мүчүлүштүктөрдү оңдойт. Рахмат, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

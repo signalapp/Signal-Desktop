@@ -5750,6 +5750,6 @@
     "messageformat": "Također smo popravili grešku s gumbom za dijeljenje zaslona na Linuxu."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Ovo izdanje također ispravlja pogrešku s odabirom teksta emotikona. Hvala, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

@@ -5750,6 +5750,6 @@
     "messageformat": "अगर Wayland आपका कंपोज़िटिंग विंडो मैनेजर है (और बस उस लोहार का नाम नहीं है जिसे आपने बियोवुल्फ़ में देखा था), तो आपको जानकर खुशी होगी कि हमने Linux पर स्क्रीन शेयर करने के बटन में गड़बड़ी भी ठीक कर दी है।"
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "इस अपडेट से वह गड़बड़ी ठीक होती है, जहाँ किसी टेक्स्ट को चुनते समय किसी इमोजी पर दायाँ क्लिक करने के बाद, संदर्भ मेनू दिखाई नहीं दे रहा था। शुक्रिया, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

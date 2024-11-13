@@ -5750,6 +5750,6 @@
     "messageformat": "Nëse Wayland është menaxheri i kompozimit të dritares (dhe jo vetëm emri i farkëtarit që pak e kujton nga Beowulf), atëherë do të gëzohesh kur të dëgjosh se kemi rregulluar edhe gabimin me butonin e ndarjes së ekranit në Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Përditësimi rregullon edhe gabimin ku menyja e saktë e kontekstit nuk shfaqej kur klikon me të djathtën mbi një emoxhi gjatë zgjedhjes së tekstit. Faleminderit, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

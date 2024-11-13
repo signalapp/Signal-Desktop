@@ -5750,6 +5750,6 @@
     "messageformat": "Se il protocollo Wayland è il tuo Window Manager (e no, con Wayland non intendiamo la cittadina americana nel Massachusetts), allora sarai felice di sapere che abbiamo risolto un bug relativo al pulsante per la condivisione schermo su Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Questo aggiornamento risolve un bug in cui il menu contestuale non appariva dopo il clic con tasto destro su un'emoji mentre si selezionava il testo. Grazie, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

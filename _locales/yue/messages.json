@@ -5750,6 +5750,6 @@
     "messageformat": "另外，我哋仲修正咗一個 Linux 畫面分享掣嘅錯誤。"
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "呢次更新修正嘅錯誤就係，喺選取內文嗰陣指住表情符號㩒滑鼠右掣之後，出現唔啱嘅內容選單。唔該晒，<linkKhuddite>@khuddite</linkKhuddite>！"
   }
 }

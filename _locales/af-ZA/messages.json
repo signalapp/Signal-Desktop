@@ -5750,6 +5750,6 @@
     "messageformat": "Ons het ook 'n fout met die skermdeel-knoppie op Linux herstel."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Hierdie vrystelling stel ook 'n fout reg wat by die selektering van emoji's voorgekom het. Dankie, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

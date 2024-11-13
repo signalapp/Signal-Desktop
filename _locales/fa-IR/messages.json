@@ -5750,6 +5750,6 @@
     "messageformat": "همچنین اشکال مربوط به دکمه اشتراک‌گذاری صفحه‌نمایش در لینوکس را برطرف کردیم."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "در این نسخه جدید، اشکال مربوط به انتخاب متن شکلک را نیز برطرف کرده‌ایم. با تشکر از <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

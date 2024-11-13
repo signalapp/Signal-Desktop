@@ -5750,6 +5750,6 @@
     "messageformat": "А чтобы вы не путались в окнах, мы также исправили ошибку с кнопкой демонстрации экрана в Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "В этом обновлении исправлена ошибка, из-за которой при выделении текста правильное контекстное меню не появлялось после щелчка правой кнопкой мыши по эмодзи. Спасибо, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

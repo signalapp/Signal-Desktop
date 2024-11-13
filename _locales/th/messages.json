@@ -5750,6 +5750,6 @@
     "messageformat": "เรายังจัดการแก้ไขบั๊กที่มักมาวุ่นวายตรงปุ่มแชร์หน้าจอบนเครื่อง Linux อีกด้วย"
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กเมื่อคลิกที่อีโมจิในข้อความ ขอขอบคุณ <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

@@ -5750,6 +5750,6 @@
     "messageformat": "ប្រសិនបើ Wayland គឺជាកម្មវិធីគ្រប់គ្រងវីនដូរបស់អ្នក (ហើយមិនមែនគ្រាន់តែជាឈ្មោះរបស់ជាងដែកដែលអ្នកចាំមិនច្បាស់ពី Beowulf ទេ) អ្នកនឹងសប្បាយចិត្តដែលបានឮថាយើងក៏បានដោះស្រាយបញ្ហាជាមួយនឹងប៊ូតុងចែករំលែកអេក្រង់នៅលើ Linux ផងដែរ។"
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "កំណែថ្មីនេះកែបញ្ហាមួយដែលបានធ្វើឱ្យម៉ឺនុយបរិបទដែលត្រឹមត្រូវមិនបង្ហាញឡើង បន្ទាប់ពីចុចម៉ៅស្ដាំលើរូបអារម្មណ៍ ពេលកំពុងជ្រើសរើសអត្ថបទ។ អរគុណ <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

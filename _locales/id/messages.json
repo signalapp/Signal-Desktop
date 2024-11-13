@@ -5750,6 +5750,6 @@
     "messageformat": "Kami juga memperbaiki bug pada tombol berbagi layar di Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Rilis ini juga memperbaiki bug terkait pemilihan teks emoji. Terima kasih, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

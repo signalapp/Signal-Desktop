@@ -5750,6 +5750,6 @@
     "messageformat": "Dacă Wayland este managerul tău de ferestre (și nu doar numele unui fierar de care îți amintești vag din Beowulf), te vei bucura să auzi că am remediat și o eroare cu butonul de partajare a ecranului pe Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Această actualizare remediază o eroare în care meniul context corect nu apărea după ce dădeai clic dreapta pe un emoji în timp ce selectai text. Mulțumesc, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

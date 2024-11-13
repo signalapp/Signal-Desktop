@@ -5750,6 +5750,6 @@
     "messageformat": "Samuti parandasime Linuxis esineva ekraanijagamise nupu vea."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Selle uuendusega parandatakse viga, mille tõttu teksti valides emojile paremklõpsates ei ilmunud õige kontekstimenüü. Aitäh, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

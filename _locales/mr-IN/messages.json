@@ -5750,6 +5750,6 @@
     "messageformat": "जर Wayland हा आपला कंपोझिटिंग विंडो मॅनेजर असेल (आणि फक्त बेवूल्फमधल्या आपल्याला कशाबशा आठवणाऱ्या लोहाराचे नाव नसेल) तर आपल्याला हे ऐकून आनंद होईल की आम्ही लिनक्सवरील स्क्रीन शेअरिंग बटणाशी संबंधित एक बग दुरुस्त केला आहे."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "या अपडेटमध्ये एक बग दुरुस्त केले आहे ज्यामुळे मजकूर निवडताना इमोजीवर राईट क्लिक केल्यावर योग्य तो संदर्भ मेन्यू उघडत नव्हता. धन्यवाद, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

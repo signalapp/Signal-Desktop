@@ -5750,6 +5750,6 @@
     "messageformat": "Kijavítottunk egy hibát is a képernyőmegosztó gombbal Linuxon."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Ez a kiadás a hangulatjelek szövegének kiválasztásával kapcsolatos hibát is javít. Köszönjük, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

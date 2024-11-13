@@ -5750,6 +5750,6 @@
     "messageformat": "Wayland നിങ്ങളുടെ കമ്പോസിറ്റിംഗ് വിൻഡോ മാനേജർ ആണെങ്കിൽ (ബിയോവുൾഫിൽ നിന്ന് നിങ്ങൾ അവ്യക്തമായി ഓർക്കുന്ന ഒരു ഇരുമ്പ് പണിക്കാരന്റെ പേര് മാത്രമല്ല) Linux-ലെ സ്‌ക്രീൻ പങ്കിടൽ ബട്ടണിലെ ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചെന്ന് കേൾക്കുമ്പോൾ നിങ്ങൾക്ക് സന്തോഷം തോന്നും."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "ടെക്‌സ്‌റ്റ് തിരഞ്ഞെടുക്കുമ്പോൾ ഒരു ഇമോജിയിൽ വലത് ക്ലിക്ക് ചെയ്‌തതിന് ശേഷം ശരിയായ കോണ്ടെക്സ്റ്റ് മെനു ദൃശ്യമാകാതെ വന്നിരുന്ന ഒരു ബഗ് ഈ അപ്‌ഡേറ്റ് പരിഹരിക്കുന്നു. നന്ദി, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

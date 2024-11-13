@@ -5750,6 +5750,6 @@
     "messageformat": "ನಿಮ್ಮ ವಿಂಡೋ ಮ್ಯಾನೇಜರ್ Wayland ಆಗಿದ್ದರೆ (ಅದು ಎಷ್ಟೇ ಉದ್ದವಾದ, ಅಸ್ಪಷ್ಟ ಹೆಸರಾಗಿದ್ದರೂ) Linux ನಲ್ಲಿ ಕೇವಲ ಸ್ಕ್ರೀನ್ ಶೇರಿಂಗ್ ಬಟನ್ ಬಳಸಿ ಮಾಡಿ, ಆ ದೋಷವನ್ನೂ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ ಎಂದು ಕೇಳಿದರೆ ನೀವು ಸಂತೋಷಪಡುವಿರಿ."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "ಪಠ್ಯವನ್ನು ಆಯ್ಕೆಮಾಡುವಾಗ ಎಮೋಜಿಯ ಮೇಲೆ ಬಲ ಕ್ಲಿಕ್ ಮಾಡಿದ ನಂತರ ಸರಿಯಾದ ಸಂದರ್ಭ ಮೆನು ಕಾಣಿಸದಿರುವ ದೋಷವನ್ನು ಈ ಅಪ್‌ಡೇಟ್ ಸರಿಪಡಿಸುತ್ತದೆ. ಧನ್ಯವಾದಗಳು, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

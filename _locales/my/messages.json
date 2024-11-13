@@ -5750,6 +5750,6 @@
     "messageformat": "Linux တွင် မျက်နှာပြင်မျှဝေခြင်းခလုတ်နှင့်ပတ်သက်သည့် ချွတ်ယွင်းချက်တစ်ခုကိုလည်း ပြင်ဆင်ထားသည်။"
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "ဤအပ်ဒိတ်သည် အီမိုဂျီ စာသားကိုရွေးချယ်မှုနှင့်ပတ်သက်သည့် ချို့ယွင်းချက်ကိုလည်း ပြင်ဆင်ထားသည်။ ကျေးဇူးပါ <linkKhuddite>@khuddite</linkKhuddite>"
   }
 }

@@ -5750,6 +5750,6 @@
     "messageformat": "또한 Linux의 화면 공유 버튼 버그를 수정했습니다."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "본 릴리스는 또한 이모지 텍스트 선택 버그를 수정합니다. 감사합니다, <linkKhuddite>@khuddite</linkKhuddite> 님!"
   }
 }

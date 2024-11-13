@@ -5750,6 +5750,6 @@
     "messageformat": "Linux இல் திரைப் பகிர்வு பட்டனுடன் காணப்பட்ட ஒரு பிழையையும் சரிசெய்துள்ளோம்."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "இந்த வெளியீடு ஈமோஜி டெக்ஸ்ட் தேர்வில் உள்ள பிழையையும் சரி செய்கிறது. நன்றி, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

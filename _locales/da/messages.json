@@ -5750,6 +5750,6 @@
     "messageformat": "Hvis Wayland er din vinduesbehandler (og ikke kun navnet på en smed, du vagt husker fra Beowulf), vil du blive glad for at høre, at vi også har rettet en fejl med skærmdelingsknappen på Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Denne opdatering retter en fejl, hvor den korrekte kontekstmenu ikke blev vist efter at have højreklikket på en emoji gennem tekstvalg. Tak, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

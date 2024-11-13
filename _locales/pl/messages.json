@@ -5750,6 +5750,6 @@
     "messageformat": "Jeśli używasz menedżera kompozycji okien o nazwie Wayland (albo nawet nie wiesz, że z niego korzystasz, ale nazwa brzmi jakoś znajomo), na pewno ucieszy Cię wiadomość, że naprawiliśmy przycisk udostępniania ekranu w systemie Linux."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "W tej aktualizacji naprawiliśmy błąd, który powodował, że po zaznaczeniu tekstu i kliknięciu emoji prawym przyciskiem myszy nie pojawiało się właściwe menu kontekstowe. Dzięki, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

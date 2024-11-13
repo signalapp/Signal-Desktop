@@ -5750,6 +5750,6 @@
     "messageformat": "Linux లో స్క్రీన్ షేరింగ్ బటన్‌తో ఒక బగ్‌ను కూడా మేము పరిష్కరించాము."
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "ఈ విడుదల ఎమోజి టెక్స్ట్ ఎంపికతో ఉన్న బగ్‌ను కూడా పరిష్కరిస్తుంది. ధన్యవాదాలు, <linkKhuddite>@khuddite</linkKhuddite>!"
   }
 }

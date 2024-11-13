@@ -5750,6 +5750,6 @@
     "messageformat": "此外我们还修复了 Linux 上屏幕共享按钮的一个漏洞。"
   },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "此版本还修复了表情符号在文本选择时出现的一个漏洞。对此我们由衷感谢 <linkKhuddite>@khuddite</linkKhuddite>！"
   }
 }
