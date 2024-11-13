@@ -22,6 +22,8 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const app = await bootstrap.link();
   const { duration: importDuration } = await app.waitForBackupImportComplete();
 
+  await app.migrateAllMessages();
+
   const exportStart = Date.now();
   await app.uploadBackup();
   const exportEnd = Date.now();

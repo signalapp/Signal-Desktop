@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 import { v7 as uuid } from 'uuid';
-import { migrateMessageData } from '../../messages/migrateMessageData';
+import { _migrateMessageData as migrateMessageData } from '../../messages/migrateMessageData';
 import type { MessageAttributesType } from '../../model-types';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';

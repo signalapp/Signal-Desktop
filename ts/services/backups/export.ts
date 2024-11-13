@@ -138,7 +138,7 @@ import { CallLinkRestrictions } from '../../types/CallLink';
 import { toAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { SeenStatus } from '../../MessageSeenStatus';
-import { migrateBatchOfMessages } from '../../messages/migrateMessageData';
+import { migrateAllMessages } from '../../messages/migrateMessageData';
 
 const MAX_CONCURRENCY = 10;
 
@@ -226,23 +226,7 @@ export class BackupExportStream extends Readable {
         log.info('BackupExportStream: starting...');
         drop(AttachmentBackupManager.stop());
         log.info('BackupExportStream: message migration starting...');
-        let batchMigrationResult:
-          | Awaited<ReturnType<typeof migrateBatchOfMessages>>
-          | undefined;
-        let totalMigrated = 0;
-        while (!batchMigrationResult?.done) {
-          // eslint-disable-next-line no-await-in-loop
-          batchMigrationResult = await migrateBatchOfMessages({
-            numMessagesPerBatch: 1000,
-          });
-          totalMigrated += batchMigrationResult.numProcessed;
-          log.info(
-            `BackupExportStream: Migrated batch of ${batchMigrationResult.numProcessed}`
-          );
-        }
-        log.info(
-          `BackupExportStream: message migration complete; ${totalMigrated} messages migrated`
-        );
+        await migrateAllMessages();
 
         await pauseWriteAccess();
         try {
