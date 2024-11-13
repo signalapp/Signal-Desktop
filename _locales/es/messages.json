@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "Buscar"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "Borrar búsqueda"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "No se han encontrado resultados para \"{searchTerm}\""
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Tus contactos con solo SMS/MMS no están disponibles en la aplicación de escritorio."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "No se encontró «{searchTerm}» en «{conversationName}»."
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Chats"
@@ -1998,7 +2016,7 @@
     "messageformat": "Comprueba tu teléfono para ver tu donación"
   },
   "icu:message--donation--preview--unopened": {
-    "messageformat": "{sender} ha hecho una donación por ti"
+    "messageformat": "{sender} ha hecho una donación en tu nombre"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "Has canjeado una donación"
@@ -2028,7 +2046,7 @@
     "messageformat": "Ver más"
   },
   "icu:message--donation--redeemed": {
-    "messageformat": "Canjeado"
+    "messageformat": "Canjeada"
   },
   "icu:messageAccessibilityLabel--outgoing": {
     "messageformat": "Mensaje enviado por ti"
@@ -2187,7 +2205,7 @@
     "messageformat": "Mensaje"
   },
   "icu:MessageBody--read-more": {
-    "messageformat": "Más información"
+    "messageformat": "Leer más"
   },
   "icu:MessageBody--message-too-long": {
     "messageformat": "El mensaje es demasiado largo para mostrar más."
@@ -2466,7 +2484,7 @@
     "messageformat": "Eliminar reacción"
   },
   "icu:Reactions--error": {
-    "messageformat": "Fallo al enviar la reacción. Inténtalo de nuevo."
+    "messageformat": "No se ha podido enviar la reacción. Inténtalo de nuevo."
   },
   "icu:Reactions--more": {
     "messageformat": "Más"
@@ -3156,13 +3174,13 @@
     "messageformat": "Alguien ha añadido a {inviteeName} al grupo."
   },
   "icu:GroupV2--member-add--from-invite--other": {
-    "messageformat": "{inviteeName} ha aceptado la invitación de {inviterName} para participar en el grupo."
+    "messageformat": "{inviteeName} ha aceptado una invitación de {inviterName} para unirse al grupo."
   },
   "icu:GroupV2--member-add--from-invite--other-no-from": {
     "messageformat": "{inviteeName} ha aceptado la invitación al grupo."
   },
   "icu:GroupV2--member-add--from-invite--you": {
-    "messageformat": "Has aceptado la invitación de {inviterName} para participar en el grupo."
+    "messageformat": "Has aceptado una invitación de {inviterName} para unirte al grupo."
   },
   "icu:GroupV2--member-add--from-invite--you-no-from": {
     "messageformat": "Has aceptado la invitación al grupo."
@@ -3574,6 +3592,9 @@
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cancelar transferencia"
+  },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "¿Cancelar transferencia?"
@@ -4299,7 +4320,7 @@
     "messageformat": "No se puede mostrar el mensaje. Haz clic para enviar un registro de depuración."
   },
   "icu:GroupDescription__read-more": {
-    "messageformat": "ver más"
+    "messageformat": "leer más"
   },
   "icu:EditConversationAttributesModal__description-warning": {
     "messageformat": "La descripción del grupo será visible para los participantes del grupo y para las personas que han sido invitadas."
@@ -4500,13 +4521,7 @@
     "messageformat": "Alias"
   },
   "icu:ProfileEditorModal--error": {
-    "messageformat": "Fallo al actualizar tu perfil. Inténtalo de nuevo más tarde."
-  },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Caracteres no válidos"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Uno o más caracteres de los que has introducido no pueden utilizarse. Vuelve a intentarlo."
+    "messageformat": "No se ha podido actualizar tu perfil. Inténtalo de nuevo más tarde."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Enviar mensaje a un admin"
@@ -4709,6 +4724,15 @@
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal está teniendo dificultades técnicas. Estamos trabajando para restablecer el servicio lo antes posible."
   },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
+  },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualización requerida"
   },
@@ -4767,7 +4791,7 @@
     "messageformat": "Haz clic para reemplazar un emoji"
   },
   "icu:CustomizingPreferredReactions__had-save-error": {
-    "messageformat": "Ha ocurrido un error al guardar tus ajustes. Inténtalo de nuevo."
+    "messageformat": "No se han podido guardar tus ajustes. Inténtalo de nuevo."
   },
   "icu:MediaEditor__input-placeholder": {
     "messageformat": "Mensaje"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Haz clic en <newCallButtonIcon></newCallButtonIcon> para iniciar una nueva llamada o videollamada."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Buscar"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrar por perdidas"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Aquí se mostrarán las llamadas recientes."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No hay llamadas perdidas"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Aquí se mostrarán las llamadas perdidas."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "No se encontraron resultados para «{query}»"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Crear un enlace de llamada"
@@ -5740,16 +5770,16 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Ahora, cuando recibas un mensaje con varios archivos adjuntos, podrás descargar rápidamente todas las fotos en un álbum. Pero si tu gusto y visión artística se viesen comprometidos, también podrás guardarlas de manera individual. ¡Gracias, <linkMajorMayer>@major-mayer</linkMajorMayer>, por ayudarnos a seguir mejorando Signal!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Gracias a algunos pequeños ajustes, en esta actualización la app es unos 4 megabytes más ligera. Esto significa que puedes enviar el equivalente a unos 4 libros en forma de mensajes (o 2-3 GIFs animados) sin ocupar espacio adicional."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "Si usas Wayland como gestor de ventanas de composición, te alegrará saber que también hemos corregido un error con el botón de compartir pantalla en Linux."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "En esta actualización hemos solucionado un error que impedía que el menú contextual adecuado se mostrara al hacer clic derecho en un emoji mientras seleccionabas texto. ¡Gracias, <linkKhuddite>@khuddite</linkKhuddite>, por ayudarnos a seguir mejorando Signal!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }
