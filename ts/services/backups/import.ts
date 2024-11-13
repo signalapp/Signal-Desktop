@@ -77,6 +77,7 @@ import { SeenStatus } from '../../MessageSeenStatus';
 import { constantTimeEqual } from '../../Crypto';
 import * as Bytes from '../../Bytes';
 import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants';
+import { UnsupportedBackupVersion } from './errors';
 import type { AboutMe, LocalChatStyle } from './types';
 import { BackupType } from './types';
 import { getBackupMediaRootKey } from './crypto';
@@ -253,7 +254,7 @@ export class BackupImportStream extends Writable {
         log.info(`${this.logId}: got BackupInfo`);
 
         if (info.version?.toNumber() !== BACKUP_VERSION) {
-          throw new Error(`Unsupported backup version: ${info.version}`);
+          throw new UnsupportedBackupVersion(info.version);
         }
 
         if (Bytes.isEmpty(info.mediaRootBackupKey)) {

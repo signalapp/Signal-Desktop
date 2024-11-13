@@ -155,6 +155,8 @@ export abstract class Updater {
       },
       50
     );
+
+    ipcMain.handle('updater/force-update', () => this.force());
   }
 
   //

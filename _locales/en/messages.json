@@ -6263,6 +6263,18 @@
     "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
     "description": "The title of outage dialog during service outage."
   },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required",
+    "description": "The title of update dialog on install screen when app update is required before proceeding with backup import"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now.",
+    "description": "The body of update dialog on install screen when app update is required before proceeding with backup import"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update",
+    "description": "The update action of update dialog on install screen when app update is required before proceeding with backup import"
+  },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Update Required",
     "description": "The title of update dialog on install screen when user OS is unsupported"

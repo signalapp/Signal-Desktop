@@ -24,6 +24,7 @@ const LOADED_URL = {
 const DEFAULT_UPDATES = {
   dialogType: DialogType.None,
   didSnooze: false,
+  isCheckingForUpdates: false,
   showEventsCount: 0,
   downloadSize: 67 * 1024 * 1024,
   downloadedSize: 15 * 1024 * 1024,
@@ -63,6 +64,7 @@ function Simulation({
       updates={DEFAULT_UPDATES}
       OS="macOS"
       startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
       currentVersion="v6.0.0"
       retryGetQrCode={action('retryGetQrCode')}
     />
@@ -80,6 +82,7 @@ export function QrCodeLoading(): JSX.Element {
       updates={DEFAULT_UPDATES}
       OS="macOS"
       startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
       currentVersion="v6.0.0"
       retryGetQrCode={action('retryGetQrCode')}
     />
@@ -98,6 +101,7 @@ export function QrCodeFailedToLoad(): JSX.Element {
       updates={DEFAULT_UPDATES}
       OS="macOS"
       startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
       currentVersion="v6.0.0"
       retryGetQrCode={action('retryGetQrCode')}
     />
@@ -113,6 +117,7 @@ export function QrCodeLoaded(): JSX.Element {
       updates={DEFAULT_UPDATES}
       OS="macOS"
       startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
       currentVersion="v6.0.0"
       retryGetQrCode={action('retryGetQrCode')}
     />
@@ -177,6 +182,7 @@ export const WithUpdateKnobs: StoryFn<PropsType & { dialogType: DialogType }> =
         }}
         OS="macOS"
         startUpdate={action('startUpdate')}
+        forceUpdate={action('forceUpdate')}
         currentVersion={currentVersion}
         retryGetQrCode={action('retryGetQrCode')}
       />

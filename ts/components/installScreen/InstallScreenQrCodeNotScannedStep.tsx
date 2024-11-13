@@ -6,7 +6,10 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../../types/Util';
-import { InstallScreenQRCodeError } from '../../types/InstallScreen';
+import {
+  InstallScreenStep,
+  InstallScreenQRCodeError,
+} from '../../types/InstallScreen';
 import { missingCaseError } from '../../util/missingCaseError';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
@@ -33,6 +36,7 @@ export type PropsType = Readonly<{
   isStaging: boolean;
   retryGetQrCode: () => void;
   startUpdate: () => void;
+  forceUpdate: () => void;
 }>;
 
 const getQrCodeClassName = getClassNamesFor(
@@ -51,6 +55,7 @@ export function InstallScreenQrCodeNotScannedStep({
   provisioningUrl,
   retryGetQrCode,
   startUpdate,
+  forceUpdate,
   updates,
 }: Readonly<PropsType>): ReactElement {
   return (
@@ -63,7 +68,9 @@ export function InstallScreenQrCodeNotScannedStep({
         <InstallScreenUpdateDialog
           i18n={i18n}
           {...updates}
+          step={InstallScreenStep.QrCodeNotScanned}
           startUpdate={startUpdate}
+          forceUpdate={forceUpdate}
           currentVersion={currentVersion}
           OS={OS}
         />
