@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "Търсене"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "Изчисти търсенето"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "Няма резултати за \"{searchTerm}\""
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS контакти не са достъпни на Desktop"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Няма резултати за \"{searchTerm}\" в {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Чатове"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Отмяна на трансфера"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Отмяна на трансфера?"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Грешка при обновяване на профила ви. Моля, опитайте пак."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Невалидни знаци"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Един или повече от въведените знаци не могат да бъдат използвани. Опитайте отново."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Пиши на администратор"
   },
@@ -4708,6 +4723,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal изпитва технически проблеми. Работим здраво, за да възстановим нормална операция възможно най-бързо."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Необходима е актуализация"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Кликнете върху <newCallButtonIcon></newCallButtonIcon>, за да започнете ново гласово или видео обаждане."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Търсене"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Филтриране по пропуснати"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Последните повиквания ще се появяват тук."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Няма пропуснати повиквания"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Пропуснатите повиквания ще се появяват тук."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Не са открити резултати за „{query}“"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Създаване на линк за обаждането"
@@ -5740,16 +5770,16 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Вече можете бързо да изтеглите всяка снимка в даден албум, когато получите съобщение с няколко прикачени файла. Благодарим, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Тази актуализация намалява размера на приложението с около 4 мегабайта."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "Също така коригирахме грешка с бутона за споделяне на екрана в Linux."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Тази версия коригира и грешка при избора на текст за емоджи. Мерси, <linkKhuddite>@khuddite</linkKhuddite>!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

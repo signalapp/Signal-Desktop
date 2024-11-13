@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "शोध"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "शोध साफ करा"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "\"{searchTerm}\" करिता कुठलेही परिणाम नाहीत"
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS संपर्क डेस्कटॉपवर उपलब्ध नाहीत."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} मध्ये \"{searchTerm}\" करिता कुठलेही परिणाम नाहीत"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "चॅट्स"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "हस्तांतरण रद्द करा"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "हस्तांतरण रद्द करायचे?"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "आपली प्रोफाईल अद्यतनित केली जाऊ शकली नाही. कृपया पुन्हा प्रयत्न करा."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "अवैध वर्ण"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "आपण प्रविष्ट केलेल्या एक किंवा अधिक वर्णांना वापरले जाऊ शकत नाही. पुन्हा प्रयत्न करा."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "प्रशासकाला संदेश पाठवा"
   },
@@ -4708,6 +4723,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal तांत्रिक समस्या अनुभवत आहे. आम्ही लवकरात लवकर सेवा पुनर्स्थित करण्यासाठी कठोर परिश्रम करत आहोत."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "अद्यतन आवश्यक आहे"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "नवीन व्हॉईस किंवा व्हिडिओ कॉल सुरू करण्यासाठी <newCallButtonIcon></newCallButtonIcon> क्लिक करा."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "शोध"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "मिस्ड झालेल्यानुसार फिल्टर करा"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "अलीकडील कॉल येथे दिसून येतील."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "कोणतेही मिस्ड कॉल नाहीत"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "मिस्ड कॉल येथे दिसून येतील."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” साठी कोणतेही परिणाम नाहीत"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "कॉल लिंक तयार करा"
@@ -5740,16 +5770,16 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "आता अनेक संलग्नके असलेला संदेश आला की आपण प्रत्येक फोटो एका अल्बममध्ये लगेच डाऊनलोड करू शकता. पण जर आपण दुसऱ्या जन्मात कलाभिज्ञ, रसिक दर्दी असाल, तर आपण त्यांना स्वतंत्रपणेही जतन करू शकता. धन्यवाद, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "काही छोट्या ऑप्टिमायझेशन्समुळे, हे अपडेट सुमारे ४ मेगाबाइट्सनी ॲपचा आकार जरासा कमी करते. कोणतीही अतिरिक्त जागा न घेता एवढी जागा आपल्याला ४ पुस्तकांत मावतील एवढे संदेश मजकूर (किंवा २-३ ॲनिमेटेड GIF) पाठवण्यासाठी पुरेशी आहे."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "जर Wayland हा आपला कंपोझिटिंग विंडो मॅनेजर असेल (आणि फक्त बेवूल्फमधल्या आपल्याला कशाबशा आठवणाऱ्या लोहाराचे नाव नसेल) तर आपल्याला हे ऐकून आनंद होईल की आम्ही लिनक्सवरील स्क्रीन शेअरिंग बटणाशी संबंधित एक बग दुरुस्त केला आहे."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "या अपडेटमध्ये एक बग दुरुस्त केले आहे ज्यामुळे मजकूर निवडताना इमोजीवर राईट क्लिक केल्यावर योग्य तो संदर्भ मेन्यू उघडत नव्हता. धन्यवाद, <linkKhuddite>@khuddite</linkKhuddite>!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

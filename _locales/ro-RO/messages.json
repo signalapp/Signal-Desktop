@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "Caută"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "Șterge căutarea"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "Nici un rezultat pentru \"{searchTerm}\""
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Contactele SMS/MMS nu sunt disponibile pe Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Nici un rezultat pentru \"{searchTerm}\" în {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Conversații"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Anulează transferul"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Anulezi transferul?"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profilul tău nu a putut fi actualizat. Te rugăm să încerci din nou."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Caractere nevalide"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Unul sau mai multe caractere pe care le-ai introdus nu pot fi folosite. Încearcă din nou."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Trimite un mesaj unui administrator"
   },
@@ -4708,6 +4723,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal întâmpină dificultăți tehnice. Muncim din greu pentru a restabili serviciul cât mai repede posibil."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualizare necesară"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Dă clic pe <newCallButtonIcon></newCallButtonIcon> pentru a începe un nou apel video sau vocal."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Caută"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrează după apeluri ratate"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Apelurile recente vor apărea aici."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Nu există apeluri pierdute"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Apelurile pierdute vor apărea aici."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Fără rezultate pentru „{query}“"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Creează un Link de Apel"
@@ -5740,16 +5770,16 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Acum poți descărca rapid fiecare fotografie dintr-un album atunci când primești un mesaj cu mai multe atașamente. Dar dacă într-o altă viață ai fost curator de galerie cu un gust impecabil, le poți salva totuși și individual. Mulţumesc, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Mulțumită unor mici optimizări, această actualizare reduce mărimea aplicației cu aproximativ 4 megabiți. Este suficient spațiu pentru a trimite echivalentul a aproximativ 4 cărți pline cu mesaje text (sau 2-3 GIF-uri animate) fără a ocupa spațiu suplimentar."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "Dacă Wayland este managerul tău de ferestre (și nu doar numele unui fierar de care îți amintești vag din Beowulf), te vei bucura să auzi că am remediat și o eroare cu butonul de partajare a ecranului pe Linux."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Această actualizare remediază o eroare în care meniul context corect nu apărea după ce dădeai clic dreapta pe un emoji în timp ce selectai text. Mulțumesc, <linkKhuddite>@khuddite</linkKhuddite>!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

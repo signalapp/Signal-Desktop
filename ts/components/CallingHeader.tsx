@@ -48,10 +48,10 @@ export function CallingHeader({
                   value: CallViewMode.Paginated,
                 },
                 {
-                  icon: 'CallSettingsButton__Icon--OverflowView',
+                  icon: 'CallSettingsButton__Icon--SidebarView',
                   label: i18n('icu:calling__view_mode--overflow'),
-                  onClick: () => changeCallView(CallViewMode.Overflow),
-                  value: CallViewMode.Overflow,
+                  onClick: () => changeCallView(CallViewMode.Sidebar),
+                  value: CallViewMode.Sidebar,
                 },
                 {
                   icon: 'CallSettingsButton__Icon--SpeakerView',
@@ -146,7 +146,7 @@ export function CallingHeader({
 }
 
 const CALL_VIEW_MODE_ICON_CLASSNAMES: Record<CallViewMode, string> = {
-  [CallViewMode.Overflow]: 'CallSettingsButton__Icon--OverflowView',
+  [CallViewMode.Sidebar]: 'CallSettingsButton__Icon--SidebarView',
   [CallViewMode.Paginated]: 'CallSettingsButton__Icon--PaginatedView',
   [CallViewMode.Speaker]: 'CallSettingsButton__Icon--SpeakerView',
   [CallViewMode.Presentation]: 'CallSettingsButton__Icon--SpeakerView',

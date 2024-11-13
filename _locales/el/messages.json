@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "Αναζήτηση"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "Εκκαθάριση αναζήτησης"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "Δεν υπάρχουν αποτελέσματα για \"{searchTerm}\""
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Οι επαφές SMS/MMS δεν είναι διαθέσιμες στο Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Δε βρέθηκαν αποτελέσματα για \"{searchTerm}\" στο {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Συνομιλίες"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Ακύρωση μεταφοράς"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Ακύρωση μεταφοράς;"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Το προφίλ σου δεν μπόρεσε να ανανεωθεί. Παρακαλώ προσπάθησε ξανά."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Μη έγκυροι χαρακτήρες"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Ένας ή περισσότεροι χαρακτήρες που έχεις εισαγάγει δεν μπορούν να χρησιμοποιηθούν. Ξαναπροσπάθησε."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Μήνυμα σε διαχειριστή"
   },
@@ -4708,6 +4723,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Το Signal αντιμετωπίζει τεχνικές δυσκολίες. Εργαζόμαστε σκληρά για να αποκαταστήσουμε την υπηρεσία το συντομότερο δυνατό."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Απαιτείται αναβάθμιση"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Πάτα <newCallButtonIcon></newCallButtonIcon> για να ξεκινήσεις μια νέα φωνητική κλήση ή μια βιντεοκλήση."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Αναζήτηση"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Φίλτρο ανά αναπάντητες"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Οι νέες κλήσεις θα εμφανίζονται εδώ."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Δεν υπάρχουν αναπάντητες κλήσεις"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Οι χαμένες κλήσεις θα εμφανίζονται εδώ."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Δεν βρέθηκαν αποτελέσματα για “{query}”"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Δημιουργήστε σύνδεσμο κλήσης"
@@ -5740,16 +5770,16 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Τώρα μπορείς να κατεβάσεις γρήγορα κάθε φωτογραφία σε ένα άλμπουμ όταν λαμβάνεις ένα μήνυμα με πολλά συνημμένα. Ευχαριστούμε τον χρήστη <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Χάρη σε ορισμένες μικρές βελτιστοποιήσεις, αυτή η ενημέρωση μειώνει το μέγεθος της εφαρμογής κατά περίπου 4 megabytes."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "Διορθώσαμε επίσης ένα σφάλμα με το κουμπί κοινής χρήσης οθόνης στο Linux."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Αυτή η έκδοση διορθώνει επίσης ένα σφάλμα στην επιλογή κειμένου emoji. Σε ευχαριστούμε, <linkKhuddite>@khuddite</linkKhuddite>"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

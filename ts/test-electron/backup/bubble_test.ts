@@ -229,9 +229,80 @@ describe('backup/bubble messages', () => {
     ]);
   });
 
-  it('roundtrips gift badge quote', async () => {
-    await symmetricRoundtripHarness([
-      {
+  describe('quotes', () => {
+    it('roundtrips gift badge quote', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          giftBadge: {
+            id: undefined,
+            level: 100,
+            expiration: 1723248000000,
+            receiptCredentialPresentation: BADGE_RECEIPT,
+            state: GiftBadgeStates.Opened,
+          },
+        },
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 4,
+          received_at_ms: 4,
+          sent_at: 4,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 4,
+          quote: {
+            authorAci: CONTACT_A,
+            attachments: [],
+            id: 3,
+            isViewOnce: false,
+            isGiftBadge: true,
+            referencedMessageNotFound: false,
+          },
+        },
+      ]);
+    });
+    it('roundtrips quote with referenced message found', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          quote: {
+            authorAci: CONTACT_A,
+            attachments: [],
+            id: 42,
+            isGiftBadge: false,
+            text: 'quote text',
+            isViewOnce: false,
+            referencedMessageNotFound: false,
+          },
+        },
+      ]);
+    });
+    it('roundtrips quote without referenced message found', async () => {
+      const message = {
         conversationId: contactA.id,
         id: generateGuid(),
         type: 'incoming',
@@ -243,37 +314,32 @@ describe('backup/bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
         timestamp: 3,
-        giftBadge: {
-          id: undefined,
-          level: 100,
-          expiration: 1723248000000,
-          receiptCredentialPresentation: BADGE_RECEIPT,
-          state: GiftBadgeStates.Opened,
-        },
-      },
-      {
-        conversationId: contactA.id,
-        id: generateGuid(),
-        type: 'incoming',
-        received_at: 4,
-        received_at_ms: 4,
-        sent_at: 4,
-        sourceServiceId: CONTACT_A,
-        readStatus: ReadStatus.Unread,
-        seenStatus: SeenStatus.Unseen,
-        unidentifiedDeliveryReceived: true,
-        timestamp: 4,
         quote: {
           authorAci: CONTACT_A,
           attachments: [],
-          id: 3,
+          id: 42,
+          text: 'quote text',
           isViewOnce: false,
-          isGiftBadge: true,
-          messageId: '',
-          referencedMessageNotFound: false,
+          isGiftBadge: false,
+          referencedMessageNotFound: true,
         },
-      },
-    ]);
+      } as const;
+
+      await asymmetricRoundtripHarness(
+        [message],
+        [
+          {
+            ...message,
+            quote: {
+              ...message.quote,
+              // id is removed during roundtrip
+              id: null,
+            },
+          },
+        ]
+      );
+    });
+    // TODO (DESKTOP-7899): Roundtrip view-once quotes
   });
 
   it('roundtrips sealed/unsealed incoming message', async () => {

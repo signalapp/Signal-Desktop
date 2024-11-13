@@ -36,11 +36,13 @@ import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } f
 import { UsernameSearchResultListItem } from './conversationList/UsernameSearchResultListItem';
 import { GroupListItem } from './conversationList/GroupListItem';
 import { ListView } from './ListView';
+import { Button, ButtonVariant } from './Button';
 
 export enum RowType {
   ArchiveButton = 'ArchiveButton',
   Blank = 'Blank',
   Contact = 'Contact',
+  ClearFilterButton = 'ClearFilterButton',
   ContactCheckbox = 'ContactCheckbox',
   PhoneNumberCheckbox = 'PhoneNumberCheckbox',
   UsernameCheckbox = 'UsernameCheckbox',
@@ -70,6 +72,11 @@ type ContactRowType = {
   contact: ContactListItemPropsType;
   isClickable?: boolean;
   hasContextMenu?: boolean;
+};
+
+type ClearFilterButtonRowType = {
+  type: RowType.ClearFilterButton;
+  isOnNoResultsPage: boolean;
 };
 
 type ContactCheckboxRowType = {
@@ -158,6 +165,7 @@ export type Row =
   | BlankRowType
   | ContactRowType
   | ContactCheckboxRowType
+  | ClearFilterButtonRowType
   | PhoneNumberCheckboxRowType
   | UsernameCheckboxRowType
   | ConversationRowType
@@ -197,6 +205,7 @@ export type PropsType = {
     conversationId: string,
     disabledReason: undefined | ContactCheckboxDisabledReason
   ) => void;
+  onClickClearFilterButton: () => void;
   onPreloadConversation: (conversationId: string, messageId?: string) => void;
   onSelectConversation: (conversationId: string, messageId?: string) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
@@ -221,6 +230,7 @@ export function ConversationList({
   blockConversation,
   onClickArchiveButton,
   onClickContactCheckbox,
+  onClickClearFilterButton,
   onPreloadConversation,
   onSelectConversation,
   onOutgoingAudioCallInConversation,
@@ -330,6 +340,24 @@ export function ConversationList({
               i18n={i18n}
               theme={theme}
             />
+          );
+          break;
+        case RowType.ClearFilterButton:
+          result = (
+            <div className="ClearFilterButton module-conversation-list__item--clear-filter-button">
+              <Button
+                variant={ButtonVariant.SecondaryAffirmative}
+                className={classNames('ClearFilterButton__inner', {
+                  // The clear filter button should be closer to the empty state
+                  // text than to the search results.
+                  'ClearFilterButton__inner-vertical-center':
+                    !row.isOnNoResultsPage,
+                })}
+                onClick={onClickClearFilterButton}
+              >
+                {i18n('icu:clearFilterButton')}
+              </Button>
+            </div>
           );
           break;
         case RowType.PhoneNumberCheckbox:
@@ -527,6 +555,7 @@ export function ConversationList({
       i18n,
       lookupConversationWithoutServiceId,
       onClickArchiveButton,
+      onClickClearFilterButton,
       onClickContactCheckbox,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,

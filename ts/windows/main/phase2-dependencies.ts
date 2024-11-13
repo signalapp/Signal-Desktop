@@ -23,7 +23,7 @@ window.textsecure = textsecure;
 const { config } = window.SignalContext;
 
 window.WebAPI = window.textsecure.WebAPI.initialize({
-  url: config.serverUrl,
+  chatServiceUrl: config.serverUrl,
   storageUrl: config.storageUrl,
   updatesUrl: config.updatesUrl,
   resourcesUrl: config.resourcesUrl,

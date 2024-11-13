@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "חיפוש"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "נקה חיפוש"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "אין תוצאות עבור \"{searchTerm}\""
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "אנשי קשר של מסרונים/מסרוני MMS אינם זמינים בשולחן עבודה."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "אין תוצאות עבור \"{searchTerm}\" בשיחה {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "צ'אטים"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "ביטול העברה"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "לבטל העברה?"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "הפרופיל שלך לא היה יכול להתעדכן. אנא נסה שוב."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "תווים לא חוקיים"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "לא ניתן להשתמש בתו אחד או יותר שהזנת. יש לנסות שוב."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "שלח הודעה אל מנהלן"
   },
@@ -4708,6 +4723,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal חווה קשיים טכניים. אנו עובדים קשות כדי לשחזר את השירות מהר ככל האפשר."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "נדרש עדכון"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "יש ללחוץ על <newCallButtonIcon></newCallButtonIcon> כדי להתחיל שיחה קולית או שיחת וידאו חדשה."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "חיפוש"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "סינון לפי שיחות שלא נענו"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "שיחות אחרונות יופיעו כאן."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "אין שיחות שלא נענו"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "שיחות שלא נענו יופיעו כאן."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "אין תוצאות עבור ״{query}״"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "יצירת לינק לשיחה"
@@ -5740,16 +5770,16 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "עכשיו אפשר להוריד במהירות כל תמונה באלבום כשמתקבלת הודעה עם מספר קבצים מצורפים. תודה, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "העדכון הזה מפחית את נפח האפליקציה בכ–4 מגה בייט."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "תיקנו גם באג בכפתור שיתוף המסך ב–Linux."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "העדכון הזה גם מתקן באג שקשור לבחירת טקסט שכולל אימוג׳י. תודה, <linkKhuddite>@khuddite</linkKhuddite>!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

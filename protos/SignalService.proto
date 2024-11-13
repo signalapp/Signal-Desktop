@@ -498,14 +498,14 @@ message SyncMessage {
       BLOCKED       = 3;
       CONFIGURATION = 4;
       KEYS          = 5;
-      PNI_IDENTITY  = 6;
+      reserved /* PNI_IDENTITY */ 6;
     }
 
     optional Type type = 1;
   }
 
   message Keys {
-    optional bytes storageService = 1; // deprecated: this field will be removed in a future release.
+    reserved /* storageService */ 1; // deprecated: this field will be removed in a future release.
     optional bytes master = 2; // deprecated: this field will be removed in a future release.
     optional string accountEntropyPool = 3;
     optional bytes mediaRootBackupKey = 4;

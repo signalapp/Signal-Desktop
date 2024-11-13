@@ -24,7 +24,12 @@ import type {
   ShowArchivedConversationsActionType,
   MessageType,
 } from './conversations';
-import { getQuery, getSearchConversation } from '../selectors/search';
+import {
+  getFilterByUnread,
+  getIsActivelySearching,
+  getQuery,
+  getSearchConversation,
+} from '../selectors/search';
 import { getAllConversations } from '../selectors/conversations';
 import {
   getIntl,
@@ -62,6 +67,7 @@ export type SearchStateType = ReadonlyDeep<{
   contactIds: Array<string>;
   conversationIds: Array<string>;
   query: string;
+  filterByUnread: boolean;
   messageIds: Array<string>;
   // We do store message data to pass through the selector
   messageLookup: MessageSearchResultLookupType;
@@ -98,8 +104,8 @@ type StartSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_START';
   payload: null;
 }>;
-type ClearSearchActionType = ReadonlyDeep<{
-  type: 'SEARCH_CLEAR';
+type ClearSearchQueryActionType = ReadonlyDeep<{
+  type: 'SEARCH_QUERY_CLEAR';
   payload: null;
 }>;
 type ClearConversationSearchActionType = ReadonlyDeep<{
@@ -119,12 +125,22 @@ type SearchInConversationActionType = ReadonlyDeep<{
   payload: { searchConversationId: string };
 }>;
 
+type UpdateFilterByUnreadActionType = ReadonlyDeep<{
+  type: 'FILTER_BY_UNREAD_UPDATE';
+  payload: { enabled: boolean };
+}>;
+
+type RefreshSearchActionType = ReadonlyDeep<{
+  type: 'SEARCH_REFRESH';
+  payload: null;
+}>;
+
 export type SearchActionType = ReadonlyDeep<
   | SearchMessagesResultsFulfilledActionType
   | SearchDiscussionsResultsFulfilledActionType
   | UpdateSearchTermActionType
   | StartSearchActionType
-  | ClearSearchActionType
+  | ClearSearchQueryActionType
   | ClearConversationSearchActionType
   | EndSearchActionType
   | EndConversationSearchActionType
@@ -134,18 +150,22 @@ export type SearchActionType = ReadonlyDeep<
   | TargetedConversationChangedActionType
   | ShowArchivedConversationsActionType
   | ConversationUnloadedActionType
+  | UpdateFilterByUnreadActionType
+  | RefreshSearchActionType
 >;
 
 // Action Creators
 
 export const actions = {
   startSearch,
-  clearSearch,
+  clearSearchQuery,
   clearConversationSearch,
   endSearch,
   endConversationSearch,
   searchInConversation,
   updateSearchTerm,
+  updateFilterByUnread,
+  refreshSearch,
 };
 
 export const useSearchActions = (): BoundActionCreatorsMapObject<
@@ -158,10 +178,22 @@ function startSearch(): StartSearchActionType {
     payload: null,
   };
 }
-function clearSearch(): ClearSearchActionType {
-  return {
-    type: 'SEARCH_CLEAR',
-    payload: null,
+function clearSearchQuery(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ClearSearchQueryActionType
+> {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: 'SEARCH_QUERY_CLEAR',
+      payload: null,
+    });
+
+    doSearch({
+      dispatch,
+      state: getState(),
+    });
   };
 }
 function clearConversationSearch(): ClearConversationSearchActionType {
@@ -191,6 +223,49 @@ function searchInConversation(
   };
 }
 
+function refreshSearch(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  RefreshSearchActionType
+> {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    if (!getIsActivelySearching(state)) {
+      return;
+    }
+
+    dispatch({
+      type: 'SEARCH_REFRESH',
+      payload: null,
+    });
+
+    doSearch({
+      dispatch,
+      state,
+    });
+  };
+}
+
+function updateFilterByUnread(
+  filterByUnread: boolean
+): ThunkAction<void, RootStateType, unknown, UpdateFilterByUnreadActionType> {
+  return (dispatch, getState) => {
+    dispatch({
+      type: 'FILTER_BY_UNREAD_UPDATE',
+      payload: {
+        enabled: filterByUnread,
+      },
+    });
+
+    doSearch({
+      dispatch,
+      state: getState(),
+    });
+  };
+}
+
 function updateSearchTerm(
   query: string
 ): ThunkAction<void, RootStateType, unknown, UpdateSearchTermActionType> {
@@ -200,23 +275,9 @@ function updateSearchTerm(
       payload: { query },
     });
 
-    const state = getState();
-    const ourConversationId = getUserConversationId(state);
-    strictAssert(
-      ourConversationId,
-      'updateSearchTerm our conversation is missing'
-    );
-
-    const i18n = getIntl(state);
-
     doSearch({
       dispatch,
-      allConversations: getAllConversations(state),
-      regionCode: getRegionCode(state),
-      noteToSelf: i18n('icu:noteToSelf').toLowerCase(),
-      ourConversationId,
-      query: getQuery(state),
-      searchConversationId: getSearchConversation(state)?.id,
+      state: getState(),
     });
   };
 }
@@ -224,12 +285,7 @@ function updateSearchTerm(
 const doSearch = debounce(
   ({
     dispatch,
-    allConversations,
-    regionCode,
-    noteToSelf,
-    ourConversationId,
-    query,
-    searchConversationId,
+    state,
   }: Readonly<{
     dispatch: ThunkDispatch<
       RootStateType,
@@ -237,21 +293,37 @@ const doSearch = debounce(
       | SearchMessagesResultsFulfilledActionType
       | SearchDiscussionsResultsFulfilledActionType
     >;
-    allConversations: ReadonlyArray<ConversationType>;
-    noteToSelf: string;
-    regionCode: string | undefined;
-    ourConversationId: string;
-    query: string;
-    searchConversationId: undefined | string;
+    state: RootStateType;
   }>) => {
-    if (!query) {
+    if (!getIsActivelySearching(state)) {
       return;
     }
+
+    const query = getQuery(state);
+    const filterByUnread = getFilterByUnread(state);
+    const i18n = getIntl(state);
+    const allConversations = getAllConversations(state);
+    const regionCode = getRegionCode(state);
+    const noteToSelf = i18n('icu:noteToSelf').toLowerCase();
+    const ourConversationId = getUserConversationId(state);
+    const searchConversationId = getSearchConversation(state)?.id;
+
+    strictAssert(ourConversationId, 'doSearch our conversation is missing');
 
     // Limit the number of contacts to something reasonable
     const MAX_MATCHING_CONTACTS = 100;
 
     void (async () => {
+      if (filterByUnread) {
+        dispatch({
+          type: 'SEARCH_MESSAGES_RESULTS_FULFILLED',
+          payload: {
+            messages: [],
+            query,
+          },
+        });
+        return;
+      }
       const segmenter = new Intl.Segmenter([], { granularity: 'word' });
       const queryWords = [...segmenter.segment(query)]
         .filter(word => word.isWordLike)
@@ -284,6 +356,7 @@ const doSearch = debounce(
       void (async () => {
         const { conversationIds, contactIds } =
           await queryConversationsAndContacts(query, {
+            filterByUnread,
             ourConversationId,
             noteToSelf,
             regionCode,
@@ -314,7 +387,7 @@ async function queryMessages({
   contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
 }): Promise<Array<ClientSearchResultMessageType>> {
   try {
-    if (query.length === 0) {
+    if (query.trim().length === 0) {
       return [];
     }
 
@@ -338,6 +411,7 @@ async function queryMessages({
 async function queryConversationsAndContacts(
   query: string,
   options: {
+    filterByUnread: boolean;
     ourConversationId: string;
     noteToSelf: string;
     regionCode: string | undefined;
@@ -347,8 +421,13 @@ async function queryConversationsAndContacts(
   contactIds: Array<string>;
   conversationIds: Array<string>;
 }> {
-  const { ourConversationId, noteToSelf, regionCode, allConversations } =
-    options;
+  const {
+    filterByUnread,
+    ourConversationId,
+    noteToSelf,
+    regionCode,
+    allConversations,
+  } = options;
 
   const normalizedQuery = removeDiacritics(query);
 
@@ -382,7 +461,8 @@ async function queryConversationsAndContacts(
   const searchResults: Array<ConversationType> = filterAndSortConversations(
     visibleConversations,
     normalizedQuery,
-    regionCode
+    regionCode,
+    filterByUnread
   );
 
   // Split into two groups - active conversations and items just from address book
@@ -408,6 +488,11 @@ async function queryConversationsAndContacts(
     contactIds.unshift(ourConversationId);
   }
 
+  // Don't show contacts in the left pane if we're filtering by unread
+  if (filterByUnread) {
+    contactIds = [];
+  }
+
   return { conversationIds, contactIds };
 }
 
@@ -417,6 +502,7 @@ export function getEmptyState(): SearchStateType {
   return {
     startSearchCounter: 0,
     query: '',
+    filterByUnread: false,
     messageIds: [],
     messageLookup: {},
     conversationIds: [],
@@ -426,10 +512,51 @@ export function getEmptyState(): SearchStateType {
   };
 }
 
+function handleSearchUpdate(
+  state: SearchStateType,
+  params: { query?: string; filterByUnread?: boolean }
+): SearchStateType {
+  const { query, filterByUnread } = params;
+
+  // Determine the new state values, falling back to existing state if not provided
+  const newQuery = query ?? state.query;
+  const newFilterByUnread = filterByUnread ?? state.filterByUnread;
+
+  const isValidSearch = newQuery.length > 0 || newFilterByUnread;
+  const isWithinConversation = Boolean(state.searchConversationId);
+
+  if (isValidSearch) {
+    return {
+      ...state,
+      query: newQuery,
+      filterByUnread: newFilterByUnread,
+      messagesLoading: true,
+      messageIds: [],
+      messageLookup: {},
+      discussionsLoading: !isWithinConversation,
+      contactIds: [],
+      conversationIds: [],
+    };
+  }
+
+  return {
+    ...getEmptyState(),
+    startSearchCounter: state.startSearchCounter,
+    searchConversationId: state.searchConversationId,
+    globalSearch: state.globalSearch,
+  };
+}
+
 export function reducer(
   state: Readonly<SearchStateType> = getEmptyState(),
   action: Readonly<SearchActionType>
 ): SearchStateType {
+  if (action.type === 'FILTER_BY_UNREAD_UPDATE') {
+    return handleSearchUpdate(state, {
+      filterByUnread: action.payload.enabled,
+    });
+  }
+
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
     log.info('search: show archived conversations, clearing message lookup');
     return getEmptyState();
@@ -444,15 +571,8 @@ export function reducer(
     };
   }
 
-  if (action.type === 'SEARCH_CLEAR') {
-    log.info('search: cleared, clearing message lookup');
-
-    return {
-      ...getEmptyState(),
-      startSearchCounter: state.startSearchCounter,
-      searchConversationId: state.searchConversationId,
-      globalSearch: state.globalSearch,
-    };
+  if (action.type === 'SEARCH_QUERY_CLEAR') {
+    return handleSearchUpdate(state, { query: '' });
   }
 
   if (action.type === 'SEARCH_END') {
@@ -463,26 +583,7 @@ export function reducer(
   }
 
   if (action.type === 'SEARCH_UPDATE') {
-    const { payload } = action;
-    const { query } = payload;
-
-    const hasQuery = Boolean(query);
-    const isWithinConversation = Boolean(state.searchConversationId);
-
-    return {
-      ...state,
-      query,
-      messagesLoading: hasQuery,
-      ...(hasQuery
-        ? {
-            messageIds: [],
-            messageLookup: {},
-            discussionsLoading: !isWithinConversation,
-            contactIds: [],
-            conversationIds: [],
-          }
-        : {}),
-    };
+    return handleSearchUpdate(state, { query: action.payload.query });
   }
 
   if (action.type === 'SEARCH_IN_CONVERSATION') {

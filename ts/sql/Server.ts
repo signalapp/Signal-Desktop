@@ -2274,9 +2274,8 @@ export function saveMessage(
     seenStatus = SeenStatus.Unseen;
   }
 
-  const payload = {
+  const payloadWithoutJson = {
     id,
-    json: objectToJSON(data),
 
     body: body || null,
     conversationId,
@@ -2334,7 +2333,7 @@ export function saveMessage(
         seenStatus = $seenStatus
       WHERE id = $id;
       `
-    ).run(payload);
+    ).run({ ...payloadWithoutJson, json: objectToJSON(data) });
 
     if (jobToInsert) {
       insertJob(db, jobToInsert);
@@ -2406,7 +2405,7 @@ export function saveMessage(
     );
     `
   ).run({
-    ...payload,
+    ...payloadWithoutJson,
     id: toCreate.id,
     json: objectToJSON(toCreate),
   });

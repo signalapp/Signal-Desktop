@@ -27,14 +27,7 @@ export async function makeQuote(
 
   strictAssert(contact, 'makeQuote: no contact');
 
-  const {
-    attachments,
-    bodyRanges,
-    id: messageId,
-    payment,
-    preview,
-    sticker,
-  } = quotedMessage;
+  const { attachments, bodyRanges, payment, preview, sticker } = quotedMessage;
 
   const quoteId = getMessageSentTimestamp(quotedMessage, { log });
 
@@ -48,7 +41,6 @@ export async function makeQuote(
     id: quoteId,
     isViewOnce: isTapToView(quotedMessage),
     isGiftBadge: isGiftBadge(quotedMessage),
-    messageId,
     referencedMessageNotFound: false,
     text: getQuoteBodyText(quotedMessage, quoteId),
   };

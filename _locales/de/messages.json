@@ -378,7 +378,7 @@
     "messageformat": "Chat lösen"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "Du kannst maximal 4 Chats anheften"
+    "messageformat": "Du kannst maximal 4 Chats anheften"
   },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Nachrichten von vor 1 Tag werden geladen …} other {Nachrichten von vor {daysAgo,number} Tagen werden geladen …}}"
@@ -513,7 +513,7 @@
     "messageformat": "Verifizierung entfernen"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Um die Ende-zu-Ende-Verschlüsselung mit {name} zu verifizieren, vergleiche die Nummern mit seinem/ihrem Gerät. Er/sie kann deinen Code auch mit seinem/ihrem Gerät scannen."
+    "messageformat": "Um die Ende-zu-Ende-Verschlüsselung mit {name} zu verifizieren, vergleiche die Nummern mit deren Gerät. Die Person kann deinen Code auch mit ihrem Gerät scannen."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Mehr erfahren"
@@ -600,7 +600,7 @@
     "messageformat": "Du kannst dieser Nachricht keine weiteren Anhänge hinzufügen."
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Entschuldigung, die ausgewählte Datei überschreitet die maximal erlaubte Nachrichtengröße. {limit,number}  {units}"
+    "messageformat": "Die ausgewählte Datei überschreitet leider die maximal erlaubte Nachrichtengröße. "
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ausgewählter Anhang kann nicht geladen werden."
@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "Suchen"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "Suche zurücksetzen"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "Keine Ergebnisse für »{searchTerm}«"
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS-/MMS-Kontakte sind auf Signal Desktop nicht verfügbar."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Keine Ergebnisse für »{searchTerm}« in {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Chats"
@@ -1086,7 +1104,7 @@
     "messageformat": "{obsoleteConversationTitle} und {conversationTitle} gehören zum selben Konto. Deinen Nachrichtenverlauf für beide Chats findest du hier."
   },
   "icu:ConversationMerge--notification--with-e164": {
-    "messageformat": "Dein Nachrichtenverlauf mit {conversationTitle} und seiner:ihrer Nummer {obsoleteConversationNumber} wurde zusammengeführt."
+    "messageformat": "Dein Nachrichtenverlauf mit {conversationTitle} und der Nummer {obsoleteConversationNumber} wurde zusammengeführt."
   },
   "icu:ConversationMerge--notification--no-title": {
     "messageformat": "Dein Nachrichtenverlauf mit {conversationTitle} und einem anderen Chat, der dazu gehört, wurde zusammengeführt."
@@ -1095,7 +1113,7 @@
     "messageformat": "Mehr erfahren"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
-    "messageformat": "Nach dem Nachrichtenaustausch mit {obsoleteConversationTitle} hast du erfahren, dass diese Nummer zu {conversationTitle} gehört. Deren Telefonnummer ist vertraulich."
+    "messageformat": "Nach dem Nachrichtenaustausch mit {obsoleteConversationTitle} hast du erfahren, dass diese Nummer zu {conversationTitle} gehört. Diese Telefonnummer ist privat."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "Dein Nachrichtenverlauf für beide Chats wurde hier zusammengeführt."
@@ -2040,7 +2058,7 @@
     "messageformat": "Danke für deine Unterstützung!"
   },
   "icu:modal--donation--description": {
-    "messageformat": "Du hast im Namen von {name} eine Spende an Signal getätigt. Sie erhalten die Möglichkeit, ihre Unterstützung in ihrem Profil zu zeigen."
+    "messageformat": "Du hast im Namen von {name} eine Spende an Signal getätigt. Die Person erhält die Möglichkeit, ihre Unterstützung in ihrem Profil zu zeigen."
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Sticker-Set konnte nicht installiert werden"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Übertragung abbrechen"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Übertragung abbrechen?"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Dein Profil konnte nicht aktualisiert werden. Bitte versuche es erneut."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Ungültige Zeichen"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Ein oder mehrere Zeichen, die du eingegeben hast, können nicht verwendet werden. Bitte erneut versuchen."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Schreib einem Admin"
   },
@@ -4708,6 +4723,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal hat derzeit technische Schwierigkeiten. Wir arbeiten hart daran, den Betrieb so schnell wie möglich wiederherzustellen."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Update erforderlich"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Klicke auf <newCallButtonIcon></newCallButtonIcon>, um einen neuen Sprach- oder Videoanruf zu starten."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Suchen"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Verpasste Anrufe filtern"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Die letzten Anrufe werden hier angezeigt."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Keine verpassten Anrufe"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Verpasste Anrufe werden hier angezeigt."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Keine Ergebnisse für »{query}«"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Einen Anruflink erstellen"
@@ -5740,16 +5770,16 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Jetzt kannst du jedes Foto schnell in ein Album herunterladen, wenn du eine Nachricht mit mehreren Anhängen erhältst. Solltest du dich allerdings als Galerie-Kurator mit einem perfekten Sinn für Stil verstehen, kannst du sie natürlich auch weiterhin einzeln speichern. Vielen Dank, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Dank einiger kleiner Optimierungen reduziert dieses Update die Größe der App geringfügig um etwa 4 Megabyte. Damit kannst du immerhin Textnachrichten im Umfang von etwa 4 Büchern (oder 2–3 animierte GIFs) versenden, ohne zusätzlichen Speicherplatz zu beanspruchen."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "Wenn sich dein Compositing-Window-Manager Wayland nennt (und das nicht nur der Name eines Schmieds aus Beowulf ist, an den du dich vage erinnerst), wirst du dich sicher darüber freuen, dass wir auch einen Fehler bezüglich der Schaltfläche zur Bildschirmfreigabe unter Linux behoben haben."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Dieses Update behebt einen Fehler, bei dem nicht das richtige Kontextmenü angezeigt wurde, wenn jemand beim Auswählen von Text mit der rechten Maustaste auf ein Emoji geklickt hat. Vielen Dank, <linkKhuddite>@khuddite</linkKhuddite>!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

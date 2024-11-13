@@ -5,6 +5,10 @@ import type { Ref } from 'react';
 import { useEffect, useState } from 'react';
 import { first, last, noop } from 'lodash';
 
+function getBottom(element: Readonly<Element>): number {
+  return element.getBoundingClientRect().bottom;
+}
+
 function getTop(element: Readonly<Element>): number {
   return element.getBoundingClientRect().top;
 }
@@ -22,7 +26,7 @@ function isWrapped(element: Readonly<null | HTMLElement>): boolean {
     firstChild &&
       lastChild &&
       firstChild !== lastChild &&
-      getTop(firstChild) !== getTop(lastChild)
+      getBottom(firstChild) <= getTop(lastChild)
   );
 }
 

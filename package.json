@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "7.35.0-alpha.1",
+  "version": "7.36.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -214,7 +214,7 @@
     "@indutny/rezip-electron": "1.3.2",
     "@indutny/symbolicate-mac": "2.3.0",
     "@napi-rs/canvas": "0.1.58",
-    "@signalapp/mock-server": "9.0.2",
+    "@signalapp/mock-server": "10.0.0",
     "@storybook/addon-a11y": "8.1.11",
     "@storybook/addon-actions": "8.1.11",
     "@storybook/addon-controls": "8.1.11",

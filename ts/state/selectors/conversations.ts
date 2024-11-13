@@ -774,7 +774,9 @@ export const getFilteredCandidateContactsForNewGroup = createSelector(
   getCandidateContactsForNewGroup,
   getNormalizedComposerConversationSearchTerm,
   getRegionCode,
-  filterAndSortConversations
+  (contacts, searchTerm, regionCode): Array<ConversationType> => {
+    return filterAndSortConversations(contacts, searchTerm, regionCode);
+  }
 );
 
 const getGroupCreationComposerState = createSelector(

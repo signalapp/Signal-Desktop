@@ -17,7 +17,10 @@ import {
   pauseWriteAccess,
   resumeWriteAccess,
 } from '../../sql/Client';
-import type { PageMessagesCursorType } from '../../sql/Interface';
+import type {
+  PageMessagesCursorType,
+  IdentityKeyType,
+} from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { type CustomColorType } from '../../types/Colors';
@@ -135,7 +138,7 @@ import { CallLinkRestrictions } from '../../types/CallLink';
 import { toAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { SeenStatus } from '../../MessageSeenStatus';
-import { migrateBatchOfMessages } from '../../messages/migrateMessageData';
+import { migrateAllMessages } from '../../messages/migrateMessageData';
 
 const MAX_CONCURRENCY = 10;
 
@@ -223,23 +226,7 @@ export class BackupExportStream extends Readable {
         log.info('BackupExportStream: starting...');
         drop(AttachmentBackupManager.stop());
         log.info('BackupExportStream: message migration starting...');
-        let batchMigrationResult:
-          | Awaited<ReturnType<typeof migrateBatchOfMessages>>
-          | undefined;
-        let totalMigrated = 0;
-        while (!batchMigrationResult?.done) {
-          // eslint-disable-next-line no-await-in-loop
-          batchMigrationResult = await migrateBatchOfMessages({
-            numMessagesPerBatch: 1000,
-          });
-          totalMigrated += batchMigrationResult.numProcessed;
-          log.info(
-            `BackupExportStream: Migrated batch of ${batchMigrationResult.numProcessed}`
-          );
-        }
-        log.info(
-          `BackupExportStream: message migration complete; ${totalMigrated} messages migrated`
-        );
+        await migrateAllMessages();
 
         await pauseWriteAccess();
         try {
@@ -290,6 +277,13 @@ export class BackupExportStream extends Readable {
       stickerPacks: 0,
     };
 
+    const identityKeys = await DataReader.getAllIdentityKeys();
+    const identityKeysById = new Map(
+      identityKeys.map(key => {
+        return [key.id, key];
+      })
+    );
+
     for (const { attributes } of window.ConversationController.getAll()) {
       const recipientId = this.getRecipientId({
         id: attributes.id,
@@ -297,7 +291,11 @@ export class BackupExportStream extends Readable {
         e164: attributes.e164,
       });
 
-      const recipient = this.toRecipient(recipientId, attributes);
+      const recipient = this.toRecipient(
+        recipientId,
+        attributes,
+        identityKeysById
+      );
       if (recipient === undefined) {
         // Can't be backed up.
         continue;
@@ -804,7 +802,8 @@ export class BackupExportStream extends Readable {
     convo: Omit<
       ConversationAttributesType,
       'id' | 'version' | 'expireTimerVersion'
-    >
+    >,
+    identityKeysById?: ReadonlyMap<IdentityKeyType['id'], IdentityKeyType>
   ): Backups.IRecipient | undefined {
     const res: Backups.IRecipient = {
       id: recipientId,
@@ -822,6 +821,11 @@ export class BackupExportStream extends Readable {
         visibility = Backups.Contact.Visibility.HIDDEN_MESSAGE_REQUEST;
       } else {
         throw missingCaseError(convo.removalStage);
+      }
+
+      let identityKey: IdentityKeyType | undefined;
+      if (identityKeysById != null && convo.serviceId != null) {
+        identityKey = identityKeysById.get(convo.serviceId);
       }
 
       res.contact = {
@@ -856,6 +860,10 @@ export class BackupExportStream extends Readable {
         profileGivenName: convo.profileName,
         profileFamilyName: convo.profileFamilyName,
         hideStory: convo.hideStory === true,
+        identityKey: identityKey?.publicKey || null,
+
+        // Integer values match so we can use it as is
+        identityState: identityKey?.verified ?? 0,
       };
     } else if (isGroupV2(convo) && convo.masterKey) {
       let storySendMode: Backups.Group.StorySendMode;
@@ -2092,8 +2100,20 @@ export class BackupExportStream extends Readable {
       return null;
     }
 
+    let quoteType: Backups.Quote.Type;
+    if (quote.isGiftBadge) {
+      quoteType = Backups.Quote.Type.GIFT_BADGE;
+    } else if (quote.isViewOnce) {
+      quoteType = Backups.Quote.Type.VIEW_ONCE;
+    } else {
+      quoteType = Backups.Quote.Type.NORMAL;
+    }
+
     return {
-      targetSentTimestamp: Long.fromNumber(quote.id),
+      targetSentTimestamp:
+        quote.referencedMessageNotFound || quote.id == null
+          ? null
+          : Long.fromNumber(quote.id),
       authorId,
       text:
         quote.text != null
@@ -2123,9 +2143,7 @@ export class BackupExportStream extends Readable {
           }
         )
       ),
-      type: quote.isGiftBadge
-        ? Backups.Quote.Type.GIFTBADGE
-        : Backups.Quote.Type.NORMAL,
+      type: quoteType,
     };
   }
 

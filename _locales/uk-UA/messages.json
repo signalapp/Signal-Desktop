@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "Пошук"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "Очистити пошук"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "Немає результатів для «{searchTerm}»"
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Контакти SMS/MMS недоступні в Signal Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Немає результатів для «{searchTerm}» у {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Чати"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Скасувати передачу даних"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Скасувати передачу даних?"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Ваш профіль не вдалось оновити. Будь ласка, спробуйте ще раз."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Недозволені символи"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Ви використали принаймні один недозволений символ. Відредагуйте текст."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Написати адміністратору"
   },
@@ -4707,7 +4722,16 @@
     "messageformat": "Оновлення завантажено"
   },
   "icu:DialogNetworkStatus__outage": {
-    "messageformat": "У Signal виникли технічні проблеми. Ми робимо все можливе, щоб якнайшвидше відновити роботу послуг."
+    "messageformat": "У Signal виникли технічні проблеми. Ми робимо все можливе, щоб якнайшвидше відновити роботу."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Необхідне оновлення"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Натисніть <newCallButtonIcon></newCallButtonIcon>, щоб почати новий аудіо- чи відеовиклик."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Пошук"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Фільтр за пропущеними"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Тут будуть недавні виклики."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Пропущених викликів немає"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Тут будуть пропущені виклики."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Немає результатів за запитом «{query}»"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Створити посилання на виклик"
@@ -5740,16 +5770,16 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Тепер можна швидко завантажити всі фото з альбому, якщо ви отримали кілька вкладень одним повідомленням. Та якщо в минулому житті ви були куратором художньої галереї з бездоганним смаком, для вас ми залишаємо можливість зберігати кожний файл окремо. Дякуємо, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Завдяки невеликій оптимізації в цьому оновленні ми зменшили розмір застосунку приблизно на 4 мегабайти. Цього достатньо, щоб написати повідомлень плюс-мінус на чотири книжки (або надіслати кілька анімованих гіфок), не використавши при цьому додаткової пам'яті."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "Якщо серед усіх птахів вам особливо до вподоби пінгвіни, ця новина для вас: ми виправили помилку з кнопкою для демонстрації екрана в Linux."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "У цьому оновленні ми виправили помилку, через яку вам іноді пропонувалося скопіювати зображення, хоч ви просто копіювали текст, у якому були емоджі. Дякуємо, <linkKhuddite>@khuddite</linkKhuddite>!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

@@ -60,4 +60,64 @@
       display: none;
     }
   }
+
+  &__FilterButton {
+    @include button-reset;
+    flex-shrink: 0;
+    padding: 4px;
+    margin-inline-end: 8px;
+    border-radius: 4px;
+
+    &:not(.LeftPaneSearchInput__FilterButton--pressed):hover {
+      @include light-theme {
+        background-color: $color-black-alpha-06;
+      }
+      @include dark-theme {
+        background-color: $color-white-alpha-06;
+      }
+    }
+
+    &:focus {
+      outline: none;
+      @include keyboard-mode {
+        box-shadow:
+          0 0 0 2px $color-white,
+          0 0 0 4px $color-ultramarine;
+      }
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 20px;
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/filter/filter.svg',
+          $color-black
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/filter/filter.svg',
+          $color-gray-15
+        );
+      }
+    }
+
+    &--pressed {
+      border-radius: 9999px;
+      background: $color-accent-blue;
+      &::before {
+        @include color-svg(
+          '../images/icons/v3/filter/filter.svg',
+          $color-white
+        );
+      }
+    }
+  }
+
+  &__FilterLabel {
+    @include sr-only;
+  }
 }

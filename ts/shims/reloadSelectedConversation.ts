@@ -14,8 +14,7 @@ export function reloadSelectedConversation(): void {
     return;
   }
   conversation.cachedProps = undefined;
-  window.reduxActions.conversations.conversationChanged(
-    conversation.id,
-    conversation.format()
-  );
+  window.reduxActions.conversations.conversationsUpdated([
+    conversation.format(),
+  ]);
 }

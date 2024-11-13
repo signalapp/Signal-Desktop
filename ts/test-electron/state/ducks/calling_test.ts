@@ -2788,7 +2788,7 @@ describe('calling duck', () => {
       it('switches to previously selected view after presentation', () => {
         const stateOverflow = reducer(
           stateWithActiveGroupCall,
-          changeCallView(CallViewMode.Overflow)
+          changeCallView(CallViewMode.Sidebar)
         );
         const statePresentation = reducer(
           stateOverflow,
@@ -2805,7 +2805,7 @@ describe('calling duck', () => {
         );
         assert.strictEqual(
           stateAfterPresentation.activeCallState?.viewMode,
-          CallViewMode.Overflow
+          CallViewMode.Sidebar
         );
       });
     });

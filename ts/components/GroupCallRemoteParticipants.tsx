@@ -229,7 +229,7 @@ export function GroupCallRemoteParticipants({
     0
   );
 
-  // In speaker or overflow views, not all participants will be on the grid; they'll
+  // In speaker or sidebar views, not all participants will be on the grid; they'll
   //   get put in the overflow zone.
   const overflowedParticipants: Array<GroupCallRemoteParticipantType> = useMemo(
     () =>

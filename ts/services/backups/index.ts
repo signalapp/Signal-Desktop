@@ -27,14 +27,21 @@ import { getIvAndDecipher } from '../../util/getIvAndDecipher';
 import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
 import { missingCaseError } from '../../util/missingCaseError';
 import { HOUR } from '../../util/durations';
+import type { ExplodePromiseResultType } from '../../util/explodePromise';
+import { explodePromise } from '../../util/explodePromise';
+import type { RetryBackupImportValue } from '../../state/ducks/installer';
 import { CipherType, HashType } from '../../types/Crypto';
-import { InstallScreenBackupStep } from '../../types/InstallScreen';
+import {
+  InstallScreenBackupStep,
+  InstallScreenBackupError,
+} from '../../types/InstallScreen';
 import * as Errors from '../../types/errors';
 import { BackupCredentialType } from '../../types/backups';
 import { HTTPError } from '../../textsecure/Errors';
 import { constantTimeEqual } from '../../Crypto';
 import { measureSize } from '../../AttachmentCrypto';
 import { isTestOrMockEnvironment } from '../../environment';
+import { runStorageServiceSyncJob } from '../storage';
 import { BackupExportStream } from './export';
 import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';
@@ -42,9 +49,7 @@ import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
 import { validateBackup } from './validator';
 import { BackupType } from './types';
-import type { ExplodePromiseResultType } from '../../util/explodePromise';
-import { explodePromise } from '../../util/explodePromise';
-import type { RetryBackupImportValue } from '../../state/ducks/installer';
+import { UnsupportedBackupVersion } from './errors';
 
 export { BackupType };
 
@@ -79,7 +84,7 @@ export type ImportOptionsType = Readonly<{
 
 export class BackupsService {
   private isStarted = false;
-  private isRunning = false;
+  private isRunning: 'import' | 'export' | false = false;
   private downloadController: AbortController | undefined;
   private downloadRetryPromise:
     | ExplodePromiseResultType<RetryBackupImportValue>
@@ -141,7 +146,10 @@ export class BackupsService {
         );
         this.downloadRetryPromise = explodePromise<RetryBackupImportValue>();
         window.reduxActions.installer.updateBackupImportProgress({
-          hasError: true,
+          error:
+            error instanceof UnsupportedBackupVersion
+              ? InstallScreenBackupError.UnsupportedVersion
+              : InstallScreenBackupError.Unknown,
         });
 
         // eslint-disable-next-line no-await-in-loop
@@ -176,6 +184,24 @@ export class BackupsService {
   }
 
   public async upload(): Promise<void> {
+    // Make sure we are up-to-date on storage service
+    {
+      const { promise: storageService, resolve } = explodePromise<void>();
+      window.Whisper.events.once('storageService:syncComplete', resolve);
+
+      runStorageServiceSyncJob({ reason: 'backups.upload' });
+      await storageService;
+    }
+
+    // Clear message queue
+    await window.waitForEmptyEventQueue();
+
+    // Make sure all batches are flushed
+    await Promise.all([
+      window.waitForAllBatchers(),
+      window.flushAllWaitBatchers(),
+    ]);
+
     const fileName = `backup-${randomBytes(32).toString('hex')}`;
     const filePath = join(window.BasePaths.temp, fileName);
 
@@ -275,8 +301,8 @@ export class BackupsService {
     window.IPC.startTrackingQueryStats();
 
     log.info(`importBackup: starting ${backupType}...`);
-    this.isRunning = true;
-
+    this.isRunning = 'import';
+    const importStart = Date.now();
     try {
       const importStream = await BackupImportStream.create(backupType);
       if (backupType === BackupType.Ciphertext) {
@@ -364,7 +390,9 @@ export class BackupsService {
       this.isRunning = false;
       window.IPC.stopTrackingQueryStats({ epochName: 'Backup Import' });
       if (window.SignalCI) {
-        window.SignalCI.handleEvent('backupImportComplete', null);
+        window.SignalCI.handleEvent('backupImportComplete', {
+          duration: Date.now() - importStart,
+        });
       }
     }
   }
@@ -531,7 +559,7 @@ export class BackupsService {
     strictAssert(!this.isRunning, 'BackupService is already running');
 
     log.info('exportBackup: starting...');
-    this.isRunning = true;
+    this.isRunning = 'export';
 
     try {
       // TODO (DESKTOP-7168): Update mock-server to support this endpoint
@@ -593,6 +621,13 @@ export class BackupsService {
     } catch (error) {
       log.error('Backup: periodic refresh failed', Errors.toLogFormat(error));
     }
+  }
+
+  public isImportRunning(): boolean {
+    return this.isRunning === 'import';
+  }
+  public isExportRunning(): boolean {
+    return this.isRunning === 'export';
   }
 }
 

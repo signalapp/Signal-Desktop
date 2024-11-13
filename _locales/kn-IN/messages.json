@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "ಹುಡುಕಿ"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "ಶೋಧ ತೆರವುಗೊಳಿಸಿ"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "\"{searchTerm}\" ಗೆ ಯಾವುದೇ ಹುಡುಕಾಟ ಇಲ್ಲ"
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ಎಸ್ಎಂಎಸ್/ಎಂಎಂಎಸ್ ಸಂಪರ್ಕಗಳು ಲಭ್ಯವಿಲ್ಲ."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName}ನಲ್ಲಿ \"{searchTerm}\" ಗೆ ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "ಚಾಟ್‌‌ ಗಳು"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಿ"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಬೇಕೇ?"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "ಅಮಾನ್ಯ ಅಕ್ಷರಗಳು"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "ನೀವು ನಮೂದಿಸಿದ ಒಂದು ಅಥವಾ ಹೆಚ್ಚಿನ ಅಕ್ಷರಗಳನ್ನು ಬಳಸಲಾಗುವುದಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ಅಡ್ಮಿನ್‌ಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ"
   },
@@ -4708,6 +4723,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ತಾಂತ್ರಿಕ ತೊಂದರೆಗಳನ್ನು ಎದುರಿಸುತ್ತಿದೆ. ಸಾಧ್ಯವಾದಷ್ಟು ಬೇಗ ಸೇವೆಯನ್ನು ಮರುಸ್ಥಾಪಿಸಲು ನಾವು ಶ್ರಮಿಸುತ್ತಿದ್ದೇವೆ."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "ಅಪ್ಡೇಟ್ ಆಗಬೇಕಾಗಿದೆ"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "ಹೊಸ ಧ್ವನಿ ಅಥವಾ ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು <newCallButtonIcon></newCallButtonIcon> ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ಹುಡುಕಿ"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "ತಪ್ಪಿ ಹೋದವುಗಳು ಎಂಬುದಾಗಿ ಫಿಲ್ಟರ್ ಮಾಡಿ"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "ಇತ್ತೀಚಿನ ಕರೆಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "ಯಾವುದೇ ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳಿಲ್ಲ"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "{query} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "ಒಂದು ಕರೆ ಲಿಂಕ್ ರಚಿಸಿ"
@@ -5740,16 +5770,16 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "ಹಲವು ಅಟ್ಯಾಚ್ ಮೆಂಟ್ ಗಳ ಜೊತೆ ಮೆಸೇಜ್ ನ್ನು ಸ್ವೀಕರಿಸಿದಾಗ ಈಗ ಆಲ್ಬಮ್‌ನಲ್ಲಿರುವ ಪ್ರತಿ ಫೊಟೋವನ್ನು ನೀವು ತ್ವರಿತವಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಬಹುದು. ಆದರೆ ನೀವು ಇನ್ನೊಂದು ಜೀವಿತದಲ್ಲಿ ಅತೀವ ಅಭಿರುಚಿ ಹೊಂದಿದ್ದ ಗ್ಯಾಲರಿ ಕ್ಯುರೇಟರ್ ಆಗಿದ್ದಿದ್ದರೆ, ನೀವು ಇನ್ನೂ ಸಹ ಅವುಗಳನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿ ಸೇವ್ ಮಾಡಿಟ್ಟುಕೊಳ್ಳಬಹುದು. ಧನ್ಯವಾದಗಳು <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "ಕೆಲವು ಸಣ್ಣ ಆಪ್ಟಿಮೈಜೇಶನ್‍ಗಳಿಗಾಗಿ ಧನ್ಯವಾದಗಳು. ಈ ಅಪ್‍ಡೇಟ್ ಆಪ್ ಗಾತ್ರವನ್ನು ಸುಮಾರು 4 ಮೆಗಾಬೈಟ್ ಗಳಷ್ಟು ಕಡಿಮೆ ಮಾಡುತ್ತದೆ. 4 ಪುಸ್ತಕಗಳಷ್ಟು ಗಾತ್ರದ ಸಂದೇಶಗಳನ್ನು (ಅಥವಾ 2-3 ಅನಿಮೇಟೆಡ್ GIF ಗಳನ್ನು) ಹೆಚ್ಚುವರಿ ಜಾಗ ಪಡೆದುಕೊಳ್ಳದೆಯೇ ಕಳಿಸಬಹುದಾದಷ್ಟು ಸ್ಥಳಾವಕಾಶ ಇದೆ."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "ನಿಮ್ಮ ವಿಂಡೋ ಮ್ಯಾನೇಜರ್ Wayland ಆಗಿದ್ದರೆ (ಅದು ಎಷ್ಟೇ ಉದ್ದವಾದ, ಅಸ್ಪಷ್ಟ ಹೆಸರಾಗಿದ್ದರೂ) Linux ನಲ್ಲಿ ಕೇವಲ ಸ್ಕ್ರೀನ್ ಶೇರಿಂಗ್ ಬಟನ್ ಬಳಸಿ ಮಾಡಿ, ಆ ದೋಷವನ್ನೂ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ ಎಂದು ಕೇಳಿದರೆ ನೀವು ಸಂತೋಷಪಡುವಿರಿ."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "ಪಠ್ಯವನ್ನು ಆಯ್ಕೆಮಾಡುವಾಗ ಎಮೋಜಿಯ ಮೇಲೆ ಬಲ ಕ್ಲಿಕ್ ಮಾಡಿದ ನಂತರ ಸರಿಯಾದ ಸಂದರ್ಭ ಮೆನು ಕಾಣಿಸದಿರುವ ದೋಷವನ್ನು ಈ ಅಪ್‌ಡೇಟ್ ಸರಿಪಡಿಸುತ್ತದೆ. ಧನ್ಯವಾದಗಳು, <linkKhuddite>@khuddite</linkKhuddite>!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

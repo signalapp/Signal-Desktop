@@ -129,6 +129,21 @@
   gap: 0px;
 }
 
+.CallsList__FilterHeader {
+  display: flex;
+  align-items: center;
+
+  @include font-body-1-bold;
+
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+  padding-inline-start: 24px;
+  text-overflow: ellipsis;
+  user-select: none;
+  white-space: nowrap;
+}
+
 .CallsList__ToggleFilterByMissed {
   @include button-reset;
   flex-shrink: 0;

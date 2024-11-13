@@ -109,7 +109,7 @@ export class App extends EventEmitter {
     return this.waitForEvent('contactSync');
   }
 
-  public async waitForBackupImportComplete(): Promise<void> {
+  public async waitForBackupImportComplete(): Promise<{ duration: number }> {
     return this.waitForEvent('backupImportComplete');
   }
 
@@ -193,6 +193,11 @@ export class App extends EventEmitter {
   public async uploadBackup(): Promise<void> {
     const window = await this.getWindow();
     await window.evaluate('window.SignalCI.uploadBackup()');
+  }
+
+  public async migrateAllMessages(): Promise<void> {
+    const window = await this.getWindow();
+    await window.evaluate('window.SignalCI.migrateAllMessages()');
   }
 
   public async unlink(): Promise<void> {

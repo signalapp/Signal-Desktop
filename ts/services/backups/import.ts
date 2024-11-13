@@ -14,6 +14,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import {
   AttachmentDownloadSource,
   type StoryDistributionWithMembersType,
+  type IdentityKeyType,
 } from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
@@ -76,6 +77,7 @@ import { SeenStatus } from '../../MessageSeenStatus';
 import { constantTimeEqual } from '../../Crypto';
 import * as Bytes from '../../Bytes';
 import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants';
+import { UnsupportedBackupVersion } from './errors';
 import type { AboutMe, LocalChatStyle } from './types';
 import { BackupType } from './types';
 import { getBackupMediaRootKey } from './crypto';
@@ -88,10 +90,8 @@ import {
   convertBackupMessageAttachmentToAttachment,
   convertFilePointerToAttachment,
 } from './util/filePointers';
-import { CircularMessageCache } from './util/CircularMessageCache';
 import { filterAndClean } from '../../types/BodyRange';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../../types/MIME';
-import { copyFromQuotedMessage } from '../../messages/copyQuote';
 import { groupAvatarJobQueue } from '../../jobs/groupAvatarJobQueue';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager';
 import {
@@ -109,17 +109,16 @@ import type { RawBodyRange } from '../../types/BodyRange';
 import { fromAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { loadAllAndReinitializeRedux } from '../allLoaders';
-import { resetBackupMediaDownloadProgress } from '../../util/backupMediaDownload';
+import {
+  resetBackupMediaDownloadProgress,
+  startBackupMediaDownload,
+} from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
-import { drop } from '../../util/drop';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 
 const MAX_CONCURRENCY = 10;
 
 const SAVE_MESSAGE_BATCH_SIZE = 10000;
-
-// Keep 1000 recent messages in memory to speed up quote lookup.
-const RECENT_MESSAGES_CACHE_SIZE = 1000;
 
 type ChatItemParseResult = {
   message: Partial<MessageAttributesType>;
@@ -209,6 +208,7 @@ export class BackupImportStream extends Writable {
     string,
     ConversationAttributesType
   >();
+  private readonly identityKeys = new Map<ServiceIdString, IdentityKeyType>();
   private readonly saveMessageBatch = new Set<MessageAttributesType>();
   private readonly stickerPacks = new Array<StickerPackPointerType>();
   private ourConversation?: ConversationAttributesType;
@@ -217,10 +217,6 @@ export class BackupImportStream extends Writable {
   private releaseNotesRecipientId: Long | undefined;
   private releaseNotesChatId: Long | undefined;
   private pendingGroupAvatars = new Map<string, string>();
-  private recentMessages = new CircularMessageCache({
-    size: RECENT_MESSAGES_CACHE_SIZE,
-    flush: () => this.flushMessages(),
-  });
 
   private constructor(private readonly backupType: BackupType) {
     super({ objectMode: true });
@@ -251,7 +247,7 @@ export class BackupImportStream extends Writable {
         log.info(`${this.logId}: got BackupInfo`);
 
         if (info.version?.toNumber() !== BACKUP_VERSION) {
-          throw new Error(`Unsupported backup version: ${info.version}`);
+          throw new UnsupportedBackupVersion(info.version);
         }
 
         if (Bytes.isEmpty(info.mediaRootBackupKey)) {
@@ -359,12 +355,7 @@ export class BackupImportStream extends Writable {
         this.backupType !== BackupType.TestOnlyPlaintext &&
         !isTestEnvironment(getEnvironment())
       ) {
-        await AttachmentDownloadManager.start();
-        drop(
-          AttachmentDownloadManager.waitForIdle(async () => {
-            await window.storage.put('backupMediaDownloadIdle', true);
-          })
-        );
+        await startBackupMediaDownload();
       }
 
       done();
@@ -468,7 +459,6 @@ export class BackupImportStream extends Writable {
   }
 
   private async saveMessage(attributes: MessageAttributesType): Promise<void> {
-    this.recentMessages.push(attributes);
     this.saveMessageBatch.add(attributes);
     if (this.saveMessageBatch.size >= SAVE_MESSAGE_BATCH_SIZE) {
       return this.flushMessages();
@@ -489,10 +479,14 @@ export class BackupImportStream extends Writable {
     const saves = Array.from(this.conversations.values());
     this.conversations.clear();
 
+    const identityKeys = Array.from(this.identityKeys.values());
+    this.identityKeys.clear();
+
     // Queue writes at the same time to prevent races.
     await Promise.all([
       DataWriter.saveConversations(saves),
       DataWriter.updateConversations(updates),
+      DataWriter.bulkAddIdentityKeys(identityKeys),
     ]);
   }
 
@@ -817,11 +811,13 @@ export class BackupImportStream extends Writable {
         break;
     }
 
+    const serviceId = aci ?? pni;
+
     const attrs: ConversationAttributesType = {
       id: generateUuid(),
       type: 'private',
       version: 2,
-      serviceId: aci ?? pni,
+      serviceId,
       pni,
       e164,
       removalStage,
@@ -836,6 +832,17 @@ export class BackupImportStream extends Writable {
       expireTimerVersion: 1,
     };
 
+    if (serviceId != null && Bytes.isNotEmpty(contact.identityKey)) {
+      this.identityKeys.set(serviceId, {
+        id: serviceId,
+        publicKey: contact.identityKey,
+        verified: contact.identityState || 0,
+        firstUse: true,
+        timestamp: this.now,
+        nonblockingApproval: true,
+      });
+    }
+
     if (contact.notRegistered) {
       const timestamp = contact.notRegistered.unregisteredTimestamp?.toNumber();
       attrs.discoveredUnregisteredAt = timestamp || this.now;
@@ -848,7 +855,6 @@ export class BackupImportStream extends Writable {
     }
 
     if (contact.blocked) {
-      const serviceId = aci || pni;
       if (serviceId) {
         await window.storage.blocked.addBlockedServiceId(serviceId);
       }
@@ -1309,7 +1315,7 @@ export class BackupImportStream extends Writable {
     if (item.standardMessage) {
       attributes = {
         ...attributes,
-        ...(await this.fromStandardMessage(item.standardMessage, chatConvo.id)),
+        ...(await this.fromStandardMessage(item.standardMessage)),
       };
     } else if (item.viewOnceMessage) {
       attributes = {
@@ -1543,8 +1549,7 @@ export class BackupImportStream extends Writable {
   }
 
   private async fromStandardMessage(
-    data: Backups.IStandardMessage,
-    conversationId: string
+    data: Backups.IStandardMessage
   ): Promise<Partial<MessageAttributesType>> {
     return {
       body: data.text?.body || undefined,
@@ -1573,9 +1578,7 @@ export class BackupImportStream extends Writable {
           })
         : undefined,
       reactions: this.fromReactions(data.reactions),
-      quote: data.quote
-        ? await this.fromQuote(data.quote, conversationId)
-        : undefined,
+      quote: data.quote ? await this.fromQuote(data.quote) : undefined,
     };
   }
 
@@ -1626,10 +1629,7 @@ export class BackupImportStream extends Writable {
           } = this.fromDirectionDetails(rev, timestamp);
 
           return {
-            ...(await this.fromStandardMessage(
-              rev.standardMessage,
-              mainMessage.conversationId
-            )),
+            ...(await this.fromStandardMessage(rev.standardMessage)),
             timestamp,
             received_at: incrementMessageCounter(),
             sendStateByConversationId,
@@ -1667,26 +1667,7 @@ export class BackupImportStream extends Writable {
     return result;
   }
 
-  private convertQuoteType(
-    type: Backups.Quote.Type | null | undefined
-  ): SignalService.DataMessage.Quote.Type {
-    switch (type) {
-      case Backups.Quote.Type.GIFTBADGE:
-        return SignalService.DataMessage.Quote.Type.GIFT_BADGE;
-      case Backups.Quote.Type.NORMAL:
-      case Backups.Quote.Type.UNKNOWN:
-      case null:
-      case undefined:
-        return SignalService.DataMessage.Quote.Type.NORMAL;
-      default:
-        throw missingCaseError(type);
-    }
-  }
-
-  private async fromQuote(
-    quote: Backups.IQuote,
-    conversationId: string
-  ): Promise<QuotedMessageType> {
+  private async fromQuote(quote: Backups.IQuote): Promise<QuotedMessageType> {
     strictAssert(quote.authorId != null, 'quote must have an authorId');
 
     const authorConvo = this.recipientIdToConvo.get(quote.authorId.toNumber());
@@ -1696,32 +1677,28 @@ export class BackupImportStream extends Writable {
       'must have ACI for authorId in quote'
     );
 
-    return copyFromQuotedMessage(
-      {
-        id: getTimestampFromLong(quote.targetSentTimestamp),
-        authorAci: authorConvo.serviceId,
-        text: dropNull(quote.text?.body),
-        bodyRanges: this.fromBodyRanges(quote.text),
-        attachments:
-          quote.attachments?.map(quotedAttachment => {
-            const { fileName, contentType, thumbnail } = quotedAttachment;
-            return {
-              fileName: dropNull(fileName),
-              contentType: contentType
-                ? stringToMIMEType(contentType)
-                : APPLICATION_OCTET_STREAM,
-              thumbnail: thumbnail?.pointer
-                ? convertFilePointerToAttachment(thumbnail.pointer)
-                : undefined,
-            };
-          }) ?? [],
-        type: this.convertQuoteType(quote.type),
-      },
-      conversationId,
-      {
-        messageCache: this.recentMessages,
-      }
-    );
+    return {
+      id: getTimestampFromLong(quote.targetSentTimestamp) || null,
+      referencedMessageNotFound: quote.targetSentTimestamp == null,
+      authorAci: authorConvo.serviceId,
+      text: dropNull(quote.text?.body),
+      bodyRanges: this.fromBodyRanges(quote.text),
+      isGiftBadge: quote.type === Backups.Quote.Type.GIFT_BADGE,
+      isViewOnce: quote.type === Backups.Quote.Type.VIEW_ONCE,
+      attachments:
+        quote.attachments?.map(quotedAttachment => {
+          const { fileName, contentType, thumbnail } = quotedAttachment;
+          return {
+            fileName: dropNull(fileName),
+            contentType: contentType
+              ? stringToMIMEType(contentType)
+              : APPLICATION_OCTET_STREAM,
+            thumbnail: thumbnail?.pointer
+              ? convertFilePointerToAttachment(thumbnail.pointer)
+              : undefined,
+          };
+        }) ?? [],
+    };
   }
 
   private fromBodyRanges(
@@ -2164,15 +2141,19 @@ export class BackupImportStream extends Writable {
         ? this.recipientIdToConvo.get(startedCallRecipientId)
         : undefined;
 
-      if (!callIdLong) {
-        throw new Error('groupCall: callId is required!');
+      let callId: string;
+      if (callIdLong) {
+        callId = callIdLong.toString();
+      } else {
+        // Legacy calls may not have a callId, so we generate one locally
+        callId = generateUuid();
       }
+
       if (!startedCallTimestamp) {
         throw new Error('groupCall: startedCallTimestamp is required!');
       }
       const isRingerMe = ringer?.serviceId === aboutMe.aci;
 
-      const callId = callIdLong.toString();
       const callHistory: CallHistoryDetails = {
         callId,
         status: fromGroupCallStateProto(state),
@@ -2212,9 +2193,14 @@ export class BackupImportStream extends Writable {
         read,
       } = updateMessage.individualCall;
 
-      if (!callIdLong) {
-        throw new Error('individualCall: callId is required!');
+      let callId: string;
+      if (callIdLong) {
+        callId = callIdLong.toString();
+      } else {
+        // Legacy calls may not have a callId, so we generate one locally
+        callId = generateUuid();
       }
+
       if (!startedCallTimestamp) {
         throw new Error('individualCall: startedCallTimestamp is required!');
       }
@@ -2222,7 +2208,6 @@ export class BackupImportStream extends Writable {
       const peerId = conversation.serviceId || conversation.e164;
       strictAssert(peerId, 'individualCall: no peerId found for call');
 
-      const callId = callIdLong.toString();
       const direction = fromIndividualCallDirectionProto(protoDirection);
       const ringerId =
         direction === CallDirection.Outgoing

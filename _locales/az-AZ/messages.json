@@ -686,6 +686,9 @@
   "icu:search": {
     "messageformat": "Axtar"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats"
+  },
   "icu:clearSearch": {
     "messageformat": "Axtarışı təmizlə"
   },
@@ -695,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "\"{searchTerm}\" üçün nəticə yoxdur"
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS əlaqələri Masaüstündə əlçatmazdır."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} danışığında \"{searchTerm}\" üçün nəticə yoxdur"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Çatlar"
@@ -3575,6 +3593,9 @@
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Köçürməni ləğv et"
   },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Köçürmə ləğv edilsin?"
   },
@@ -4502,12 +4523,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profiliniz yenilənə bilmir. Zəhmət olmasa yenidən sınayın."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Səhv simvollar"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Daxil etdiyiniz bir və ya daha çox simvol istifadə oluna bilmir. Yenidən cəhd edin."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir adminə mesaj yazın"
   },
@@ -4708,6 +4723,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal, hal-hazırda texniki çətinliklər yaşayır. Xidməti mümkün olan ən qısa vaxtda bərpa etmək üçün əlimizdən gələni edirik."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Update Required"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "To complete syncing your messages, update Signal desktop now."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Update"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Yeniləmə tələb olunur"
@@ -5547,8 +5571,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Yeni bir audio və ya video zəng başlamaq üçün <newCallButtonIcon></newCallButtonIcon> üzərinə klikləyin."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Axtar"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Buraxılmışlara görə filtrlə"
@@ -5562,14 +5592,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Son zənglər burada görünəcək."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Buraxılmış zəng yoxdur"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Buraxılmış zənglər burada görünəcək."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” üçün heç bir nəticə yoxdur"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Zəng Keçidi yarat"
@@ -5740,16 +5770,16 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.31--0": {
-    "messageformat": "Çoxsaylı qoşması olan bir mesaj aldığınız zaman artıq bir albomdakı hər fotonu asanlıqla endirə bilərsiniz. Amma əvvəlki həyatınızda qüsursuzluğa əhəmiyyət verən bir qalereya kuratoru olmusunuzsa, onları tək-tək də endirə bilərsiniz. Təşəkkürlər, <linkMajorMayer>@major-mayer</linkMajorMayer>!"
-  },
-  "icu:WhatsNew__v7.32--0": {
-    "messageformat": "Bəzi kimik optimallaşdırmalar sayəsində bu yeniləmə ilə tətbiqin həcmi təxminən 4 meqabayt qədər kiçilir. Bu sizə əlavə yaddaşa ehtiyac hiss etmədən təxminən 4 kitab həcminə bərabər mətn mesajı (və ya 2-3 hərəkətli GIF) göndərmək üçün kifayət qədər boş yer qazandırır."
-  },
-  "icu:WhatsNew__v7.32--1": {
-    "messageformat": "Əgər Wayland sizin yazı tərtib etmək üzrə pəncərə menecerinizdirsə (və təkcə Beowulfdan qeyri-müəyyən xatırladığınız dəmirçinin adı deyilsə), bizim həm də Linux-da ekran paylaşma düyməsi ilə əlaqəli problemi də aradan qaldırdığımızı eşitdiyinizə sevinəcəksiniz."
-  },
   "icu:WhatsNew__v7.33--0": {
-    "messageformat": "This update fixes a bug where the correct context menu wasn't appearing after right-clicking on an emoji while selecting text. Thanks, <linkKhuddite>@khuddite</linkKhuddite>!"
+    "messageformat": "Bu yeniləmə mətni seçərkən emojinin üzərinə sağla kliklədikdə müvafiq kontekst menyusunun görünməməsi ilə əlaqəli nasazlığı aradan qaldırır. Təşəkkürlər, <linkKhuddite>@khuddite</linkKhuddite>!"
+  },
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  },
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
   }
 }

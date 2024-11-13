@@ -15,7 +15,7 @@ export const CALLING_REACTIONS_LIFETIME = 4000;
 // once presentation is complete
 export enum CallViewMode {
   Paginated = 'Paginated',
-  Overflow = 'Overflow',
+  Sidebar = 'Sidebar',
   Speaker = 'Speaker',
   Presentation = 'Presentation',
 }
