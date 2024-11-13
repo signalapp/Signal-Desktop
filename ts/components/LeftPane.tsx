@@ -121,7 +121,7 @@ export type PropsType = {
   blockConversation: (conversationId: string) => void;
   clearConversationSearch: () => void;
   clearGroupCreationError: () => void;
-  clearSearch: () => void;
+  clearSearchQuery: () => void;
   closeMaximumGroupSizeModal: () => void;
   closeRecommendedGroupSizeModal: () => void;
   composeDeleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
@@ -160,7 +160,8 @@ export type PropsType = {
   toggleConversationInChooseMembers: (conversationId: string) => void;
   toggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   toggleProfileEditor: (initialEditState?: ProfileEditorEditState) => void;
-  updateSearchTerm: (_: string) => void;
+  updateSearchTerm: (query: string) => void;
+  updateFilterByUnread: (filterByUnread: boolean) => void;
 
   // Render Props
   renderMessageSearchResult: (id: string) => JSX.Element;
@@ -192,7 +193,7 @@ export function LeftPane({
   challengeStatus,
   clearConversationSearch,
   clearGroupCreationError,
-  clearSearch,
+  clearSearchQuery,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
   composeDeleteAvatarFromDisk,
@@ -264,6 +265,7 @@ export function LeftPane({
   usernameLinkCorrupted,
   updateSearchTerm,
   dismissBackupMediaDownloadBanner,
+  updateFilterByUnread,
 }: PropsType): JSX.Element {
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
@@ -460,7 +462,7 @@ export function LeftPane({
         const { conversationId, messageId } = conversationToOpen;
         showConversation({ conversationId, messageId });
         if (openedByNumber) {
-          clearSearch();
+          clearSearchQuery();
         }
         event.preventDefault();
         event.stopPropagation();
@@ -478,7 +480,7 @@ export function LeftPane({
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [
-    clearSearch,
+    clearSearchQuery,
     helper,
     isMacOS,
     searchInConversation,
@@ -498,7 +500,7 @@ export function LeftPane({
   const preRowsNode = helper.getPreRowsNode({
     clearConversationSearch,
     clearGroupCreationError,
-    clearSearch,
+    clearSearchQuery,
     closeMaximumGroupSizeModal,
     closeRecommendedGroupSizeModal,
     composeDeleteAvatarFromDisk,
@@ -758,7 +760,7 @@ export function LeftPane({
           <NavSidebarSearchHeader>
             {helper.getSearchInput({
               clearConversationSearch,
-              clearSearch,
+              clearSearchQuery,
               endConversationSearch,
               endSearch,
               i18n,
@@ -772,6 +774,7 @@ export function LeftPane({
               showUserNotFoundModal,
               setIsFetchingUUID,
               showInbox,
+              updateFilterByUnread,
             })}
           </NavSidebarSearchHeader>
         )}
@@ -825,6 +828,9 @@ export function LeftPane({
                     default:
                       throw missingCaseError(disabledReason);
                   }
+                }}
+                onClickClearFilterButton={() => {
+                  updateFilterByUnread(false);
                 }}
                 showUserNotFoundModal={showUserNotFoundModal}
                 setIsFetchingUUID={setIsFetchingUUID}

@@ -77,6 +77,7 @@ function Wrapper({
         'onOutgoingVideoCallInConversation'
       )}
       onClickArchiveButton={action('onClickArchiveButton')}
+      onClickClearFilterButton={action('onClickClearFilterButton')}
       onClickContactCheckbox={action('onClickContactCheckbox')}
       removeConversation={action('removeConversation')}
       renderMessageSearchResult={(id: string) => (

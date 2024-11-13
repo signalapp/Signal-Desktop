@@ -62,6 +62,7 @@ const defaultConversations: Array<ConversationType> = [
 ];
 
 const defaultSearchProps = {
+  filterByUnread: false,
   isSearchingGlobally: true,
   searchConversation: undefined,
   searchDisabled: false,
@@ -110,6 +111,7 @@ const pinnedConversations: Array<ConversationType> = [
 
 const defaultModeSpecificProps = {
   ...defaultSearchProps,
+  filterByUnread: false,
   mode: LeftPaneMode.Inbox as const,
   pinnedConversations,
   conversations: defaultConversations,
@@ -153,7 +155,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     },
     clearConversationSearch: action('clearConversationSearch'),
     clearGroupCreationError: action('clearGroupCreationError'),
-    clearSearch: action('clearSearch'),
+    clearSearchQuery: action('clearSearchQuery'),
     closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
     closeRecommendedGroupSizeModal: action('closeRecommendedGroupSizeModal'),
     composeDeleteAvatarFromDisk: action('composeDeleteAvatarFromDisk'),
@@ -316,6 +318,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     ),
     toggleNavTabsCollapse: action('toggleNavTabsCollapse'),
     toggleProfileEditor: action('toggleProfileEditor'),
+    updateFilterByUnread: action('updateFilterByUnread'),
     updateSearchTerm: action('updateSearchTerm'),
 
     ...overrideProps,
@@ -600,6 +603,43 @@ export function SearchNoResultsWhenSearchingInAConversation(): JSX.Element {
   );
 }
 
+export function SearchNoResultsUnreadFilterAndQuery(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          filterByUnread: true,
+          mode: LeftPaneMode.Search,
+          conversationResults: emptySearchResultsGroup,
+          contactResults: emptySearchResultsGroup,
+          messageResults: emptySearchResultsGroup,
+          primarySendsSms: false,
+        },
+      })}
+    />
+  );
+}
+
+export function SearchNoResultsUnreadFilterWithoutQuery(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          searchTerm: '',
+          filterByUnread: true,
+          mode: LeftPaneMode.Search,
+          conversationResults: emptySearchResultsGroup,
+          contactResults: emptySearchResultsGroup,
+          messageResults: emptySearchResultsGroup,
+          primarySendsSms: false,
+        },
+      })}
+    />
+  );
+}
+
 export function SearchAllResultsLoading(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -675,6 +715,30 @@ export function SearchAllResults(): JSX.Element {
               { id: 'msg1', type: 'outgoing', conversationId: 'foo' },
               { id: 'msg2', type: 'incoming', conversationId: 'bar' },
             ],
+          },
+          primarySendsSms: false,
+        },
+      })}
+    />
+  );
+}
+
+export function SearchAllResultsUnreadFilter(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          filterByUnread: true,
+          mode: LeftPaneMode.Search,
+          conversationResults: {
+            isLoading: false,
+            results: defaultConversations,
+          },
+          contactResults: { isLoading: false, results: [] },
+          messageResults: {
+            isLoading: false,
+            results: [],
           },
           primarySendsSms: false,
         },

@@ -85,7 +85,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
 
   override getSearchInput({
     clearConversationSearch,
-    clearSearch,
+    clearSearchQuery,
     endConversationSearch,
     endSearch,
     i18n,
@@ -93,7 +93,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     showConversation,
   }: Readonly<{
     clearConversationSearch: () => unknown;
-    clearSearch: () => unknown;
+    clearSearchQuery: () => unknown;
     endConversationSearch: () => unknown;
     endSearch: () => unknown;
     i18n: LocalizerType;
@@ -107,7 +107,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     return (
       <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
-        clearSearch={clearSearch}
+        clearSearchQuery={clearSearchQuery}
         endConversationSearch={endConversationSearch}
         endSearch={endSearch}
         i18n={i18n}

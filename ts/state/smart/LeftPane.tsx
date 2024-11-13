@@ -69,7 +69,9 @@ import {
   hasNetworkDialog as getHasNetworkDialog,
 } from '../selectors/network';
 import {
+  getFilterByUnread,
   getHasSearchQuery,
+  getIsActivelySearching,
   getIsSearching,
   getIsSearchingGlobally,
   getQuery,
@@ -172,7 +174,7 @@ const getModeSpecificProps = (
           ...(searchConversation && searchTerm ? getSearchResults(state) : {}),
         };
       }
-      if (getHasSearchQuery(state)) {
+      if (getIsActivelySearching(state)) {
         const primarySendsSms = Boolean(
           get(state.items, ['primarySendsSms'], false)
         );
@@ -195,6 +197,7 @@ const getModeSpecificProps = (
         searchDisabled: state.network.challengeStatus !== 'idle',
         searchTerm: getQuery(state),
         startSearchCounter: getStartSearchCounter(state),
+        filterByUnread: getFilterByUnread(state),
         ...getLeftPaneLists(state),
       };
     case ComposerStep.StartDirectConversation:
@@ -329,12 +332,13 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   } = useConversationsActions();
   const {
     clearConversationSearch,
-    clearSearch,
+    clearSearchQuery,
     endConversationSearch,
     endSearch,
     searchInConversation,
     startSearch,
     updateSearchTerm,
+    updateFilterByUnread,
   } = useSearchActions();
   const {
     onOutgoingAudioCallInConversation,
@@ -376,7 +380,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       challengeStatus={challengeStatus}
       clearConversationSearch={clearConversationSearch}
       clearGroupCreationError={clearGroupCreationError}
-      clearSearch={clearSearch}
+      clearSearchQuery={clearSearchQuery}
       closeMaximumGroupSizeModal={closeMaximumGroupSizeModal}
       closeRecommendedGroupSizeModal={closeRecommendedGroupSizeModal}
       composeDeleteAvatarFromDisk={composeDeleteAvatarFromDisk}
@@ -448,6 +452,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       updateSearchTerm={updateSearchTerm}
       usernameCorrupted={usernameCorrupted}
       usernameLinkCorrupted={usernameLinkCorrupted}
+      updateFilterByUnread={updateFilterByUnread}
     />
   );
 });

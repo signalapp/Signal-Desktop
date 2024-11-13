@@ -39,7 +39,7 @@ export abstract class LeftPaneHelper<T> {
   getSearchInput(
     _: Readonly<{
       clearConversationSearch: () => unknown;
-      clearSearch: () => unknown;
+      clearSearchQuery: () => unknown;
       endConversationSearch: () => unknown;
       endSearch: () => unknown;
       i18n: LocalizerType;
@@ -50,6 +50,7 @@ export abstract class LeftPaneHelper<T> {
       updateSearchTerm: (searchTerm: string) => unknown;
       showConversation: ShowConversationType;
       showInbox: () => void;
+      updateFilterByUnread: (filterByUnread: boolean) => void;
     }> &
       LookupConversationWithoutServiceIdActionsType
   ): null | ReactChild {
@@ -78,7 +79,7 @@ export abstract class LeftPaneHelper<T> {
     _: Readonly<{
       clearConversationSearch: () => unknown;
       clearGroupCreationError: () => void;
-      clearSearch: () => unknown;
+      clearSearchQuery: () => unknown;
       closeMaximumGroupSizeModal: () => unknown;
       closeRecommendedGroupSizeModal: () => unknown;
       composeDeleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
