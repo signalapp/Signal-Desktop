@@ -34,8 +34,10 @@
   @include CallSettingsButton-icon('../images/icons/v3/x/x.svg');
 }
 
-.CallSettingsButton__Icon--OverflowView {
-  @include CallSettingsButton-icon('../images/icons/v3/grid/overflow_view.svg');
+.CallSettingsButton__Icon--SidebarView {
+  @include CallSettingsButton-icon(
+    '../images/icons/v3/sidebar_view/sidebar_view.svg'
+  );
 }
 
 .CallSettingsButton__Icon--PaginatedView {
