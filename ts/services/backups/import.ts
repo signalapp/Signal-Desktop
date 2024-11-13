@@ -2141,15 +2141,19 @@ export class BackupImportStream extends Writable {
         ? this.recipientIdToConvo.get(startedCallRecipientId)
         : undefined;
 
-      if (!callIdLong) {
-        throw new Error('groupCall: callId is required!');
+      let callId: string;
+      if (callIdLong) {
+        callId = callIdLong.toString();
+      } else {
+        // Legacy calls may not have a callId, so we generate one locally
+        callId = generateUuid();
       }
+
       if (!startedCallTimestamp) {
         throw new Error('groupCall: startedCallTimestamp is required!');
       }
       const isRingerMe = ringer?.serviceId === aboutMe.aci;
 
-      const callId = callIdLong.toString();
       const callHistory: CallHistoryDetails = {
         callId,
         status: fromGroupCallStateProto(state),
@@ -2189,9 +2193,14 @@ export class BackupImportStream extends Writable {
         read,
       } = updateMessage.individualCall;
 
-      if (!callIdLong) {
-        throw new Error('individualCall: callId is required!');
+      let callId: string;
+      if (callIdLong) {
+        callId = callIdLong.toString();
+      } else {
+        // Legacy calls may not have a callId, so we generate one locally
+        callId = generateUuid();
       }
+
       if (!startedCallTimestamp) {
         throw new Error('individualCall: startedCallTimestamp is required!');
       }
@@ -2199,7 +2208,6 @@ export class BackupImportStream extends Writable {
       const peerId = conversation.serviceId || conversation.e164;
       strictAssert(peerId, 'individualCall: no peerId found for call');
 
-      const callId = callIdLong.toString();
       const direction = fromIndividualCallDirectionProto(protoDirection);
       const ringerId =
         direction === CallDirection.Outgoing
