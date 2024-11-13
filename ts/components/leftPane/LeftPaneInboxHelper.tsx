@@ -30,6 +30,7 @@ export type LeftPaneInboxPropsType = {
   searchDisabled: boolean;
   searchTerm: string;
   searchConversation: undefined | ConversationType;
+  filterByUnread: boolean;
 };
 
 export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> {
@@ -51,6 +52,8 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
 
   private readonly searchConversation: undefined | ConversationType;
 
+  private readonly filterByUnread: boolean;
+
   constructor({
     conversations,
     archivedConversations,
@@ -61,6 +64,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     searchDisabled,
     searchTerm,
     searchConversation,
+    filterByUnread,
   }: Readonly<LeftPaneInboxPropsType>) {
     super();
 
@@ -73,6 +77,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     this.searchDisabled = searchDisabled;
     this.searchTerm = searchTerm;
     this.searchConversation = searchConversation;
+    this.filterByUnread = filterByUnread;
   }
 
   getRowCount(): number {
@@ -88,25 +93,27 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
 
   override getSearchInput({
     clearConversationSearch,
-    clearSearch,
+    clearSearchQuery,
     endConversationSearch,
     endSearch,
     i18n,
     showConversation,
     updateSearchTerm,
+    updateFilterByUnread,
   }: Readonly<{
     clearConversationSearch: () => unknown;
-    clearSearch: () => unknown;
+    clearSearchQuery: () => unknown;
     endConversationSearch: () => unknown;
     endSearch: () => unknown;
     i18n: LocalizerType;
     showConversation: ShowConversationType;
     updateSearchTerm: (searchTerm: string) => unknown;
+    updateFilterByUnread: (filterByUnread: boolean) => void;
   }>): ReactChild {
     return (
       <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
-        clearSearch={clearSearch}
+        clearSearchQuery={clearSearchQuery}
         endConversationSearch={endConversationSearch}
         endSearch={endSearch}
         disabled={this.searchDisabled}
@@ -117,6 +124,9 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
         showConversation={showConversation}
         startSearchCounter={this.startSearchCounter}
         updateSearchTerm={updateSearchTerm}
+        onFilterClick={updateFilterByUnread}
+        filterButtonEnabled={!this.searchConversation}
+        filterPressed={this.filterByUnread}
       />
     );
   }

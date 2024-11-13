@@ -1217,6 +1217,7 @@ export function EditDistributionListModal({
                 i18n={i18n}
                 lookupConversationWithoutServiceId={asyncShouldNeverBeCalled}
                 onClickArchiveButton={shouldNeverBeCalled}
+                onClickClearFilterButton={shouldNeverBeCalled}
                 onClickContactCheckbox={(conversationId: string) => {
                   toggleSelectedConversation(conversationId);
                 }}

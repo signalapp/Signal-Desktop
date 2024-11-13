@@ -199,6 +199,7 @@ import {
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types';
 import { markCallHistoryReadInConversation } from './callHistory';
 import type { CapabilitiesType } from '../../textsecure/WebAPI';
+import { actions as searchActions } from './search';
 import type { SearchActionType } from './search';
 
 // State
@@ -2683,18 +2684,33 @@ function setPreJoinConversation(
 function conversationsUpdated(
   data: Array<ConversationType>
 ): ThunkAction<void, RootStateType, unknown, ConversationsUpdatedActionType> {
-  return dispatch => {
+  return (dispatch, getState) => {
     for (const conversation of data) {
       calling.groupMembersChanged(conversation.id);
     }
+
+    const { conversationLookup } = getState().conversations;
+
+    const someConversationsHaveNewMessages = data.some(conversation => {
+      return (
+        conversationLookup[conversation.id]?.lastMessageReceivedAt !==
+        conversation.lastMessageReceivedAt
+      );
+    });
+
     dispatch({
       type: 'CONVERSATIONS_UPDATED',
       payload: {
         data,
       },
     });
+
+    if (someConversationsHaveNewMessages) {
+      dispatch(searchActions.refreshSearch());
+    }
   };
 }
+
 function conversationRemoved(id: string): ConversationRemovedActionType {
   return {
     type: 'CONVERSATION_REMOVED',

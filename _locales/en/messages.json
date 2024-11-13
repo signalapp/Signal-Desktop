@@ -927,6 +927,10 @@
     "messageformat": "Search",
     "description": "Placeholder text in the search input"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Search unread chats",
+    "description": "Placeholder text in the search input when unread filter is enabled"
+  },
   "icu:clearSearch": {
     "messageformat": "Clear Search",
     "description": "Aria label for clear search button"
@@ -939,6 +943,14 @@
     "messageformat": "No results for \"{searchTerm}\"",
     "description": "Shown in the search left pane when no results were found"
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "No results for \"{searchTerm}\" in unread chats",
+    "description": "Shown in the search left pane when no results were found with a search query and filter by unread enabled"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "No unread chats",
+    "description": "Shown in the search left pane when no results were found with only filter by unread enabled"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS contacts are not available on Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
@@ -946,6 +958,18 @@
   "icu:noSearchResultsInConversation": {
     "messageformat": "No results for \"{searchTerm}\" in {conversationName}",
     "description": "Shown in the search left pane when no results were found"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtered by unread",
+    "description": "Shown to inform the user that the results are based off of filter by unread"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filter by unread",
+    "description": "Shown when you hover over the filter by unread button"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Clear filter",
+    "description": "Action button for clearing a filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Chats",
@@ -7389,9 +7413,17 @@
     "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call.",
     "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Search missed calls",
+    "description": "Calls Tab > Calls List > Search Input > Enable missed calls filter > Placeholder"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Search",
     "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtered by missed",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Header"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filter by missed",
@@ -7409,17 +7441,17 @@
     "messageformat": "Recent calls will appear here.",
     "description": "Calls Tab > Calls List > When no results found > With no search query. Message subtitle"
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls",
-    "description": "Calls Tab > Calls List > When no missed calls found > With no search query. Message title"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here.",
-    "description": "Calls Tab > Calls List > When no missed calls found > With no search query. Message subtitle"
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "No results for “{query}”",
-    "description": "Calls Tab > Calls List > When no results found > With a search query"
+    "description": "Calls Tab > Calls List > When no results found > With just a search query"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "No results for “{query}” in missed calls",
+    "description": "Calls Tab > Calls List > When no results found > With a search query and missed call filter enabled"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "No missed calls",
+    "description": "Calls Tab > Calls List > When no results found > With only missed call filter enabled"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Create a Call Link",

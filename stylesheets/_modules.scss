@@ -5270,6 +5270,10 @@ button.module-calling-participants-list__contact {
       }
     }
 
+    &--clear-filter-button {
+      height: $normal-row-height;
+    }
+
     &--header {
       @include font-body-1-bold;
 
@@ -5520,15 +5524,34 @@ button.module-calling-participants-list__contact {
     background-color: $color-gray-75;
   }
 }
+.module-left-pane__no-search-results__unread-header {
+  margin-bottom: 50px;
+}
+
+.module-left-pane__no-search-results--withHeader {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  // This applies only for filter by unread, set margin
+  // for clear filter button
+  margin-bottom: 20px;
+  padding-inline: 1em;
+  width: 100%;
+  text-align: center;
+  outline: none;
+}
 
 .module-left-pane__no-search-results,
 .module-left-pane__compose-no-contacts {
-  flex-grow: 1;
   margin-top: 27px;
   padding-inline: 1em;
   width: 100%;
   text-align: center;
   outline: none;
+}
+
+.module-left-pane__compose-no-contacts {
+  flex-grow: 1;
 }
 
 .module-left-pane__no-search-results__sms-only {

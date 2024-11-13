@@ -395,6 +395,7 @@ describe('both/state/selectors/search', () => {
         messageResults: { isLoading: true },
         searchConversationName: undefined,
         searchTerm: 'foo bar',
+        filterByUnread: false,
       });
     });
 
@@ -450,6 +451,7 @@ describe('both/state/selectors/search', () => {
         },
         searchConversationName: undefined,
         searchTerm: 'foo bar',
+        filterByUnread: false,
       });
     });
   });

@@ -34,6 +34,11 @@ import { getOwn } from '../../util/getOwn';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
+export const getFilterByUnread = createSelector(
+  getSearch,
+  (state: SearchStateType): boolean => state.filterByUnread
+);
+
 export const getQuery = createSelector(
   getSearch,
   (state: SearchStateType): string => state.query
@@ -96,6 +101,12 @@ export const getHasSearchQuery = createSelector(
   (query: string): boolean => query.trim().length > 0
 );
 
+export const getIsActivelySearching = createSelector(
+  [getFilterByUnread, getHasSearchQuery],
+  (filterByUnread: boolean, hasSearchQuery: boolean): boolean =>
+    filterByUnread || hasSearchQuery
+);
+
 export const getMessageSearchResultLookup = createSelector(
   getSearch,
   (state: SearchStateType) => state.messageLookup
@@ -114,6 +125,7 @@ export const getSearchResults = createSelector(
     | 'messageResults'
     | 'searchConversationName'
     | 'searchTerm'
+    | 'filterByUnread'
   > => {
     const {
       contactIds,
@@ -145,6 +157,7 @@ export const getSearchResults = createSelector(
           },
       searchConversationName,
       searchTerm: state.query,
+      filterByUnread: state.filterByUnread,
     };
   }
 );
