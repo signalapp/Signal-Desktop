@@ -1881,6 +1881,10 @@
     "messageformat": "{first}, {second}, and {others, plural, one {#} other {#}} others are in this call",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {# person is in this call} other {# people are in this call}}",
+    "description": "Shown in the calling lobby to describe people in the call when all are unknown contacts"
+  },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal will ring {person}",
     "description": "Shown in the calling lobby to describe who will be rung"
