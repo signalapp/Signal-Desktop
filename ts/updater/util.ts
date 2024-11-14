@@ -1,20 +1,16 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createReadStream } from 'fs';
-import { rename } from 'fs/promises';
-import { pipeline } from 'stream/promises';
 import { createHash } from 'crypto';
-import rimraf from 'rimraf';
-import { promisify } from 'util';
+import { createReadStream } from 'fs';
+import { rename, rm } from 'fs/promises';
+import { pipeline } from 'stream/promises';
 
-import * as Errors from '../types/errors';
 import type { LoggerType } from '../types/Logging';
+import * as Errors from '../types/errors';
 import * as durations from '../util/durations';
-import { isOlderThan } from '../util/timestamp';
 import { sleep } from '../util/sleep';
-
-const rimrafPromise = promisify(rimraf);
+import { isOlderThan } from '../util/timestamp';
 
 export type CheckIntegrityResultType = Readonly<
   | {
@@ -125,13 +121,17 @@ export async function gracefulRename(
   });
 }
 
-export async function gracefulRimraf(
+function rmRecursive(path: string): Promise<void> {
+  return rm(path, { recursive: true, force: true });
+}
+
+export async function gracefulRmRecursive(
   logger: LoggerType,
   path: string
 ): Promise<void> {
   return doGracefulFSOperation({
-    name: 'rimraf',
-    operation: rimrafPromise,
+    name: 'rmRecursive',
+    operation: rmRecursive,
     args: [path],
     logger,
     startedAt: Date.now(),

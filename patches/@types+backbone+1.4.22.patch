@@ -1,0 +1,49 @@
+diff --git a/node_modules/@types/backbone/index.d.ts b/node_modules/@types/backbone/index.d.ts
+index 15d9d4b..a431841 100644
+--- a/node_modules/@types/backbone/index.d.ts
++++ b/node_modules/@types/backbone/index.d.ts
+@@ -66,7 +66,7 @@ declare namespace Backbone {
+         collection?: Collection<TModel> | undefined;
+     }
+ 
+-    type CombinedModelConstructorOptions<E, M extends Model<any, any, E> = Model> = ModelConstructorOptions<M> & E;
++    type CombinedModelConstructorOptions<E, M extends Model<any, any, E> = Model<any, any, E>> = ModelConstructorOptions<M> & E;
+ 
+     interface ModelSetOptions extends Silenceable, Validable {}
+ 
+@@ -204,7 +204,7 @@ declare namespace Backbone {
+          */
+         static extend(properties: any, classProperties?: any): any;
+ 
+-        attributes: Partial<T>;
++        attributes: T;
+         changed: Partial<T>;
+         cidPrefix: string;
+         cid: string;
+@@ -220,7 +220,7 @@ declare namespace Backbone {
+          * That works only if you set it in the constructor or the initialize method.
+          */
+         defaults(): Partial<T>;
+-        id: string | number;
++        id: string;
+         idAttribute: string;
+         validationError: any;
+ 
+@@ -251,7 +251,7 @@ declare namespace Backbone {
+          *    return super.get("name");
+          * }
+          */
+-        get<A extends _StringKey<T>>(attributeName: A): T[A] | undefined;
++        get<A extends _StringKey<T>>(attributeName: A): T[A];
+ 
+         /**
+          * For strongly-typed assignment of attributes, use the `set` method only privately in public setter properties.
+@@ -285,7 +285,7 @@ declare namespace Backbone {
+         previousAttributes(): Partial<T>;
+         save(attributes?: Partial<T> | null, options?: ModelSaveOptions): JQueryXHR;
+         unset(attribute: _StringKey<T>, options?: Silenceable): this;
+-        validate(attributes: Partial<T>, options?: any): any;
++        validate(attributes: T, options?: any): any;
+         private _validate(attributes: Partial<T>, options: any): boolean;
+ 
+         // mixins from underscore

@@ -1,62 +1,61 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { DefaultStorage, RangeFinder } from '@indutny/range-finder';
+import {
+  DigestingPassThrough,
+  ValidatingPassThrough,
+  inferChunkSize,
+} from '@signalapp/libsignal-client/dist/incremental_mac';
 import { ipcMain, protocol } from 'electron';
-import { createReadStream } from 'node:fs';
+import LRU from 'lru-cache';
+import { randomBytes } from 'node:crypto';
+import { once } from 'node:events';
+import { createReadStream, rmSync } from 'node:fs';
 import { join, normalize } from 'node:path';
 import { PassThrough, type Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { randomBytes } from 'node:crypto';
-import { once } from 'node:events';
 import z from 'zod';
-import * as rimraf from 'rimraf';
-import LRU from 'lru-cache';
-import {
-  DigestingPassThrough,
-  inferChunkSize,
-  ValidatingPassThrough,
-} from '@signalapp/libsignal-client/dist/incremental_mac';
-import { RangeFinder, DefaultStorage } from '@indutny/range-finder';
-import {
-  getAllAttachments,
-  getAllDownloads,
-  getAvatarsPath,
-  getPath,
-  getStickersPath,
-  getTempPath,
-  getDraftPath,
-  getDownloadsPath,
-  deleteAll as deleteAllAttachments,
-  deleteAllBadges,
-  deleteAllDownloads,
-  deleteStaleDownloads,
-  getAllStickers,
-  deleteAllStickers,
-  getAllDraftAttachments,
-  deleteAllDraftAttachments,
-} from './attachments';
-import type { MainSQL } from '../ts/sql/main';
+import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
 import type { MessageAttachmentsCursorType } from '../ts/sql/Interface';
-import * as Errors from '../ts/types/errors';
+import type { MainSQL } from '../ts/sql/main';
 import {
   APPLICATION_OCTET_STREAM,
   MIMETypeToString,
   stringToMIMEType,
 } from '../ts/types/MIME';
-import { sleep } from '../ts/util/sleep';
-import { isPathInside } from '../ts/util/isPathInside';
-import { missingCaseError } from '../ts/util/missingCaseError';
-import { safeParseInteger } from '../ts/util/numbers';
-import { SECOND } from '../ts/util/durations';
-import { drop } from '../ts/util/drop';
-import { strictAssert } from '../ts/util/assert';
-import { toWebStream } from '../ts/util/toWebStream';
+import * as Errors from '../ts/types/errors';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../ts/util/GoogleChrome';
-import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
+import { strictAssert } from '../ts/util/assert';
+import { drop } from '../ts/util/drop';
+import { SECOND } from '../ts/util/durations';
+import { isPathInside } from '../ts/util/isPathInside';
+import { missingCaseError } from '../ts/util/missingCaseError';
+import { safeParseInteger } from '../ts/util/numbers';
 import { parseLoose } from '../ts/util/schemas';
+import { sleep } from '../ts/util/sleep';
+import { toWebStream } from '../ts/util/toWebStream';
+import {
+  deleteAll as deleteAllAttachments,
+  deleteAllBadges,
+  deleteAllDownloads,
+  deleteAllDraftAttachments,
+  deleteAllStickers,
+  deleteStaleDownloads,
+  getAllAttachments,
+  getAllDownloads,
+  getAllDraftAttachments,
+  getAllStickers,
+  getAvatarsPath,
+  getDownloadsPath,
+  getDraftPath,
+  getPath,
+  getStickersPath,
+  getTempPath,
+} from './attachments';
 
 let initialized = false;
 
@@ -429,23 +428,23 @@ export function initialize({
 
   ipcMain.handle(ERASE_TEMP_KEY, () => {
     strictAssert(tempDir != null, 'not initialized');
-    rimraf.sync(tempDir);
+    rmSync(tempDir);
   });
   ipcMain.handle(ERASE_ATTACHMENTS_KEY, () => {
     strictAssert(attachmentsDir != null, 'not initialized');
-    rimraf.sync(attachmentsDir);
+    rmSync(attachmentsDir, { recursive: true, force: true });
   });
   ipcMain.handle(ERASE_STICKERS_KEY, () => {
     strictAssert(stickersDir != null, 'not initialized');
-    rimraf.sync(stickersDir);
+    rmSync(stickersDir, { recursive: true, force: true });
   });
   ipcMain.handle(ERASE_DRAFTS_KEY, () => {
     strictAssert(draftDir != null, 'not initialized');
-    rimraf.sync(draftDir);
+    rmSync(draftDir, { recursive: true, force: true });
   });
   ipcMain.handle(ERASE_DOWNLOADS_KEY, () => {
     strictAssert(downloadsDir != null, 'not initialized');
-    rimraf.sync(downloadsDir);
+    rmSync(downloadsDir, { recursive: true, force: true });
   });
 
   ipcMain.handle(CLEANUP_ORPHANED_ATTACHMENTS_KEY, async () => {

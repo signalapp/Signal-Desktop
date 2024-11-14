@@ -3,7 +3,7 @@
 
 const esbuild = require('esbuild');
 const path = require('path');
-const glob = require('glob');
+const fastGlob = require('fast-glob');
 
 const ROOT_DIR = path.join(__dirname, '..');
 const BUNDLES_DIR = 'bundles';
@@ -106,10 +106,10 @@ async function main() {
       mainFields: ['browser', 'main'],
       entryPoints: [
         'preload.wrapper.ts',
-        ...glob
+        ...fastGlob
           .sync('{app,ts}/**/*.{ts,tsx}', {
-            nodir: true,
-            root: ROOT_DIR,
+            onlyFiles: true,
+            cwd: ROOT_DIR,
           })
           .filter(file => !file.endsWith('.d.ts')),
       ],

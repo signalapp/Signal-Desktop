@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "danger": "11.1.2",
+    "danger": "12.3.3",
     "endanger": "7.0.4",
     "typescript": "4.6.2"
   }

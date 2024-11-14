@@ -4,50 +4,50 @@
 /* eslint-disable no-console */
 import { createWriteStream } from 'fs';
 import { pathExists } from 'fs-extra';
-import { readdir, stat, writeFile, mkdir } from 'fs/promises';
-import { join, normalize, extname } from 'path';
-import { tmpdir, release as osRelease } from 'os';
+import { mkdir, readdir, stat, writeFile } from 'fs/promises';
 import { throttle } from 'lodash';
+import { release as osRelease, tmpdir } from 'os';
+import { extname, join, normalize } from 'path';
 
+import config from 'config';
 import type { ParserConfiguration } from 'dashdash';
 import { createParser } from 'dashdash';
 import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
 import { gt, gte, lt } from 'semver';
-import config from 'config';
 import got from 'got';
 import { v4 as getGuid } from 'uuid';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
-import * as durations from '../util/durations';
 import { missingCaseError } from '../util/missingCaseError';
 import { getTempPath, getUpdateCachePath } from '../../app/attachments';
 import { markShouldNotQuit, markShouldQuit } from '../../app/window_state';
 import { DialogType } from '../types/Dialogs';
 import * as Errors from '../types/errors';
-import { isAlpha, isBeta, isStaging } from '../util/version';
 import { strictAssert } from '../util/assert';
 import { drop } from '../util/drop';
+import * as durations from '../util/durations';
+import { isAlpha, isBeta, isStaging } from '../util/version';
 
 import * as packageJson from '../../package.json';
+import type { SettingsChannel } from '../main/settingsChannel';
+import { isPathInside } from '../util/isPathInside';
 import {
+  getSignatureFileName,
   hexToBinary,
   verifySignature,
-  getSignatureFileName,
 } from './signature';
-import { isPathInside } from '../util/isPathInside';
-import type { SettingsChannel } from '../main/settingsChannel';
 
 import type { LoggerType } from '../types/Logging';
-import { getGotOptions } from './got';
-import { checkIntegrity, gracefulRename, gracefulRimraf } from './util';
 import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential';
 import {
-  prepareDownload as prepareDifferentialDownload,
   download as downloadDifferentialData,
   getBlockMapFileName,
   isValidPreparedData as isValidDifferentialData,
+  prepareDownload as prepareDifferentialDownload,
 } from './differential';
+import { getGotOptions } from './got';
+import { checkIntegrity, gracefulRename, gracefulRmRecursive } from './util';
 
 const POLL_INTERVAL = 30 * durations.MINUTE;
 
@@ -732,7 +732,7 @@ export abstract class Updater {
         // We could have failed to update differentially due to low free disk
         // space. Remove all cached updates since we are doing a full download
         // anyway.
-        await gracefulRimraf(this.logger, cacheDir);
+        await gracefulRmRecursive(this.logger, cacheDir);
         cacheDir = await createUpdateCacheDirIfNeeded();
 
         await this.downloadAndReport(
@@ -1067,7 +1067,7 @@ export async function deleteTempDir(
     );
   }
 
-  await gracefulRimraf(logger, targetDir);
+  await gracefulRmRecursive(logger, targetDir);
 }
 
 export function getCliOptions<T>(options: ParserConfiguration['options']): T {
