@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { partition } from 'lodash';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { CallingConversationType } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
@@ -15,6 +16,16 @@ export enum RingMode {
   WillRing,
   IsRinging,
 }
+
+type PeekedParticipantType = Pick<
+  ConversationType,
+  | 'firstName'
+  | 'systemGivenName'
+  | 'systemNickname'
+  | 'title'
+  | 'serviceId'
+  | 'titleNoDefault'
+>;
 
 export type PropsType = {
   conversation: Pick<
@@ -44,12 +55,7 @@ export type PropsType = {
     >
   >;
   isCallFull?: boolean;
-  peekedParticipants?: Array<
-    Pick<
-      ConversationType,
-      'firstName' | 'systemGivenName' | 'systemNickname' | 'title' | 'serviceId'
-    >
-  >;
+  peekedParticipants?: Array<PeekedParticipantType>;
 };
 
 export function CallingPreCallInfo({
@@ -61,52 +67,70 @@ export function CallingPreCallInfo({
   peekedParticipants = [],
   ringMode,
 }: PropsType): JSX.Element {
+  const [visibleParticipants, unknownParticipants] = React.useMemo<
+    [Array<PeekedParticipantType>, Array<PeekedParticipantType>]
+  >(
+    () =>
+      partition(peekedParticipants, (participant: PeekedParticipantType) =>
+        Boolean(participant.titleNoDefault)
+      ),
+    [peekedParticipants]
+  );
+
   let subtitle: string;
   if (ringMode === RingMode.IsRinging) {
     subtitle = i18n('icu:outgoingCallRinging');
   } else if (isCallFull) {
     subtitle = i18n('icu:calling__call-is-full');
   } else if (peekedParticipants.length) {
-    // It should be rare to see yourself in this list, but it's possible if (1) you rejoin
-    //   quickly, causing the server to return stale state (2) you have joined on another
-    //   device.
-    let hasYou = false;
-    const participantNames = peekedParticipants.map(participant => {
-      if (participant.serviceId === me.serviceId) {
-        hasYou = true;
-        return i18n('icu:you');
+    if (unknownParticipants.length > 0) {
+      subtitle = i18n(
+        'icu:calling__pre-call-info--only-unknown-contacts-in-call',
+        {
+          count: peekedParticipants.length,
+        }
+      );
+    } else {
+      // It should be rare to see yourself in this list, but it's possible if (1) you
+      // rejoin quickly, causing the server to return stale state (2) you have joined on
+      // another device.
+      let hasYou = false;
+      const participantNames = visibleParticipants.map(participant => {
+        if (participant.serviceId === me.serviceId) {
+          hasYou = true;
+          return i18n('icu:you');
+        }
+        return getParticipantName(participant);
+      });
+      switch (participantNames.length) {
+        case 1:
+          subtitle = hasYou
+            ? i18n('icu:calling__pre-call-info--another-device-in-call')
+            : i18n('icu:calling__pre-call-info--1-person-in-call', {
+                first: participantNames[0],
+              });
+          break;
+        case 2:
+          subtitle = i18n('icu:calling__pre-call-info--2-people-in-call', {
+            first: participantNames[0],
+            second: participantNames[1],
+          });
+          break;
+        case 3:
+          subtitle = i18n('icu:calling__pre-call-info--3-people-in-call', {
+            first: participantNames[0],
+            second: participantNames[1],
+            third: participantNames[2],
+          });
+          break;
+        default:
+          subtitle = i18n('icu:calling__pre-call-info--many-people-in-call', {
+            first: participantNames[0],
+            second: participantNames[1],
+            others: participantNames.length - 2,
+          });
+          break;
       }
-      return getParticipantName(participant);
-    });
-
-    switch (participantNames.length) {
-      case 1:
-        subtitle = hasYou
-          ? i18n('icu:calling__pre-call-info--another-device-in-call')
-          : i18n('icu:calling__pre-call-info--1-person-in-call', {
-              first: participantNames[0],
-            });
-        break;
-      case 2:
-        subtitle = i18n('icu:calling__pre-call-info--2-people-in-call', {
-          first: participantNames[0],
-          second: participantNames[1],
-        });
-        break;
-      case 3:
-        subtitle = i18n('icu:calling__pre-call-info--3-people-in-call', {
-          first: participantNames[0],
-          second: participantNames[1],
-          third: participantNames[2],
-        });
-        break;
-      default:
-        subtitle = i18n('icu:calling__pre-call-info--many-people-in-call', {
-          first: participantNames[0],
-          second: participantNames[1],
-          others: participantNames.length - 2,
-        });
-        break;
     }
   } else {
     let memberNames: Array<string>;
