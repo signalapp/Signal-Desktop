@@ -15,6 +15,7 @@ import EventListener from 'events';
 
 import { AbortableProcess } from '../util/AbortableProcess';
 import { strictAssert } from '../util/assert';
+import { explodePromise } from '../util/explodePromise';
 import {
   BackOff,
   EXTENDED_FIBONACCI_TIMEOUTS,
@@ -421,7 +422,7 @@ export class SocketManager extends EventListener {
     const { path } = URL.parse(url);
     strictAssert(path, "Fetch can't have empty path");
 
-    const { method = 'GET', body, timeout } = init;
+    const { method = 'GET', body, timeout, signal } = init;
 
     let bodyBytes: Uint8Array | undefined;
     if (body === undefined) {
@@ -436,13 +437,26 @@ export class SocketManager extends EventListener {
       throw new Error(`Unsupported body type: ${typeof body}`);
     }
 
-    return resource.sendRequest({
+    const { promise: abortPromise, reject } = explodePromise<Response>();
+
+    const onAbort = () => reject(new Error('Aborted'));
+    const cleanup = () => signal?.removeEventListener('abort', onAbort);
+
+    signal?.addEventListener('abort', onAbort, { once: true });
+
+    const responsePromise = resource.sendRequest({
       verb: method,
       path,
       body: bodyBytes,
       headers: Array.from(headers.entries()),
       timeout,
     });
+
+    try {
+      return await Promise.race([responsePromise, abortPromise]);
+    } finally {
+      cleanup();
+    }
   }
 
   public registerRequestHandler(handler: IRequestHandler): void {
