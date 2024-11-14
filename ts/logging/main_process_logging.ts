@@ -5,31 +5,31 @@
 /* eslint-disable more/no-then */
 /* eslint-disable no-console */
 
-import { join } from 'path';
-import split2 from 'split2';
-import {
-  mkdirSync,
-  readdirSync,
-  createReadStream,
-  unlinkSync,
-  writeFileSync,
-} from 'fs';
+import { CircularBuffer } from 'cirbuf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain as ipc } from 'electron';
-import pino from 'pino';
-import type { StreamEntry } from 'pino';
-import { filter, flatten, map, pick, sortBy } from 'lodash';
 import readFirstLine from 'firstline';
+import { filter, flatten, map, pick, sortBy } from 'lodash';
+import {
+  createReadStream,
+  mkdirSync,
+  readdirSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
+import { rm } from 'node:fs/promises';
+import { join } from 'path';
+import type { StreamEntry } from 'pino';
+import pino from 'pino';
 import { read as readLastLines } from 'read-last-lines';
-import rimraf from 'rimraf';
-import { CircularBuffer } from 'cirbuf';
+import split2 from 'split2';
 
 import type { LoggerType } from '../types/Logging';
 import * as Errors from '../types/errors';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 
-import * as log from './log';
 import { Environment, getEnvironment } from '../environment';
+import * as log from './log';
 
 import type { FetchLogIpcData, LogEntryType } from './shared';
 import { LogLevel, cleanArgs, getLogLevelString, isLogEntry } from './shared';
@@ -161,21 +161,7 @@ export async function initialize(
 }
 
 async function deleteAllLogs(logPath: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    rimraf(
-      logPath,
-      {
-        disableGlob: true,
-      },
-      error => {
-        if (error) {
-          return reject(error);
-        }
-
-        return resolve();
-      }
-    );
-  });
+  await rm(logPath, { recursive: true, force: true });
 }
 
 async function cleanupLogs(logPath: string) {
