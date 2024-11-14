@@ -68,7 +68,7 @@ import type {
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url';
-import { SECOND } from '../util/durations';
+import { HOUR, MINUTE, SECOND } from '../util/durations';
 import { safeParseNumber } from '../util/numbers';
 import { isStagingServer } from '../util/isStagingServer';
 import type { IWebSocketResource } from './WebsocketResources';
@@ -165,8 +165,8 @@ function _validateResponse(response: any, schema: any) {
   return true;
 }
 
-const FIVE_MINUTES = 5 * durations.MINUTE;
-const GET_ATTACHMENT_CHUNK_TIMEOUT = 10 * durations.SECOND;
+const FIVE_MINUTES = 5 * MINUTE;
+const GET_ATTACHMENT_CHUNK_TIMEOUT = 10 * SECOND;
 
 type AgentCacheType = {
   [name: string]: {
@@ -545,7 +545,12 @@ async function _retryAjax(
   try {
     return await _promiseAjax(url, options);
   } catch (e) {
-    if (e instanceof HTTPError && e.code === -1 && count < limit) {
+    if (
+      e instanceof HTTPError &&
+      e.code === -1 &&
+      count < limit &&
+      !options.abortSignal?.aborted
+    ) {
       return new Promise(resolve => {
         setTimeout(() => {
           resolve(_retryAjax(url, options, limit, count));
@@ -2242,18 +2247,22 @@ export function initialize({
     }
 
     async function getTransferArchive({
-      timeout = durations.HOUR,
+      timeout = HOUR,
       abortSignal,
     }: GetTransferArchiveOptionsType): Promise<TransferArchiveType> {
       const timeoutTime = Date.now() + timeout;
 
-      const urlParameters = timeout
-        ? `?timeout=${encodeURIComponent(Math.round(timeout / SECOND))}`
-        : undefined;
-
       let remainingTime: number;
       do {
         remainingTime = Math.max(timeoutTime - Date.now(), 0);
+
+        const requestTimeoutInSecs = Math.round(
+          Math.min(remainingTime, 5 * MINUTE) / SECOND
+        );
+
+        const urlParameters = timeout
+          ? `?timeout=${encodeURIComponent(requestTimeoutInSecs)}`
+          : undefined;
 
         // eslint-disable-next-line no-await-in-loop
         const { data, response }: JSONWithDetailsType = await _ajax({
@@ -2261,7 +2270,8 @@ export function initialize({
           httpType: 'GET',
           responseType: 'jsonwithdetails',
           urlParameters,
-          timeout: remainingTime,
+          // Add a bit of leeway to let server respond properly
+          timeout: requestTimeoutInSecs + 15 * SECOND,
           abortSignal,
         });
 
@@ -2273,6 +2283,10 @@ export function initialize({
           response.status === 204,
           'Invalid transfer archive status code'
         );
+
+        if (abortSignal?.aborted) {
+          break;
+        }
 
         // Timed out, see if we can retry
       } while (!timeout || remainingTime != null);
@@ -3049,8 +3063,8 @@ export function initialize({
       startDayInMs,
       endDayInMs,
     }: GetBackupCredentialsOptionsType) {
-      const startDayInSeconds = startDayInMs / durations.SECOND;
-      const endDayInSeconds = endDayInMs / durations.SECOND;
+      const startDayInSeconds = startDayInMs / SECOND;
+      const endDayInSeconds = endDayInMs / SECOND;
       const res = await _ajax({
         call: 'getBackupCredentials',
         httpType: 'GET',
@@ -3616,7 +3630,7 @@ export function initialize({
       // Upload stickers
       const queue = new PQueue({
         concurrency: 3,
-        timeout: durations.MINUTE * 30,
+        timeout: MINUTE * 30,
         throwOnTimeout: true,
       });
       await Promise.all(
@@ -4060,8 +4074,8 @@ export function initialize({
       startDayInMs,
       endDayInMs,
     }: GetGroupCredentialsOptionsType): Promise<GetGroupCredentialsResultType> {
-      const startDayInSeconds = startDayInMs / durations.SECOND;
-      const endDayInSeconds = endDayInMs / durations.SECOND;
+      const startDayInSeconds = startDayInMs / SECOND;
+      const endDayInSeconds = endDayInMs / SECOND;
       const response = (await _ajax({
         call: 'getGroupCredentials',
         urlParameters:

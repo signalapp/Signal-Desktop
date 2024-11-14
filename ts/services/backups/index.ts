@@ -477,18 +477,25 @@ export class BackupsService {
       }
 
       let stream: Readable;
-      if (ephemeralKey == null) {
-        stream = await this.api.download({
-          downloadOffset,
-          onProgress: onDownloadProgress,
-          abortSignal: controller.signal,
-        });
-      } else {
-        stream = await this.api.downloadEphemeral({
-          downloadOffset,
-          onProgress: onDownloadProgress,
-          abortSignal: controller.signal,
-        });
+      try {
+        if (ephemeralKey == null) {
+          stream = await this.api.download({
+            downloadOffset,
+            onProgress: onDownloadProgress,
+            abortSignal: controller.signal,
+          });
+        } else {
+          stream = await this.api.downloadEphemeral({
+            downloadOffset,
+            onProgress: onDownloadProgress,
+            abortSignal: controller.signal,
+          });
+        }
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return false;
+        }
+        throw error;
       }
 
       if (controller.signal.aborted) {
