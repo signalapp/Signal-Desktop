@@ -890,12 +890,12 @@ export class BackupExportStream extends Readable {
         storySendMode,
         snapshot: {
           title: {
-            title: convo.name ?? '',
+            title: convo.name?.trim() ?? '',
           },
           description:
             convo.description != null
               ? {
-                  descriptionText: convo.description,
+                  descriptionText: convo.description.trim(),
                 }
               : null,
           avatarUrl: convo.avatar?.url,

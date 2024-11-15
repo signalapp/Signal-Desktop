@@ -927,8 +927,8 @@ export class BackupImportStream extends Writable {
         : undefined,
 
       // Snapshot
-      name: dropNull(title?.title),
-      description: dropNull(description?.descriptionText),
+      name: dropNull(title?.title)?.trim(),
+      description: dropNull(description?.descriptionText)?.trim(),
       expireTimer: expirationTimerS
         ? DurationInSeconds.fromSeconds(expirationTimerS)
         : undefined,
