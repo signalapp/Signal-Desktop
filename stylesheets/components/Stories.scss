@@ -1,5 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
 .Stories {
   display: flex;
   height: 100vh;
@@ -8,12 +11,12 @@
   top: 0;
   user-select: none;
   width: 100%;
-  z-index: $z-index-stories;
-  @include light-theme {
-    background: $color-white;
+  z-index: variables.$z-index-stories;
+  @include mixins.light-theme {
+    background: variables.$color-white;
   }
-  @include dark-theme {
-    background: $color-gray-95;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-95;
   }
 
   &__pane {
@@ -22,13 +25,13 @@
     height: 100%;
     width: 380px;
     padding-top: calc(2px + var(--title-bar-drag-area-height));
-    @include light-theme {
-      background: $color-gray-04;
-      border-inline-end: 1px solid $color-black-alpha-16;
+    @include mixins.light-theme {
+      background: variables.$color-gray-04;
+      border-inline-end: 1px solid variables.$color-black-alpha-16;
     }
-    @include dark-theme {
-      background: $color-gray-80;
-      border-inline-end: 1px solid $color-white-alpha-16;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-80;
+      border-inline-end: 1px solid variables.$color-white-alpha-16;
     }
 
     &__add-story__container {
@@ -36,11 +39,11 @@
       border-radius: 4px;
       &:hover,
       &:focus {
-        @include light-theme {
-          background-color: $color-black-alpha-06;
+        @include mixins.light-theme {
+          background-color: variables.$color-black-alpha-06;
         }
-        @include dark-theme {
-          background-color: $color-white-alpha-06;
+        @include mixins.dark-theme {
+          background-color: variables.$color-white-alpha-06;
         }
       }
     }
@@ -48,16 +51,22 @@
     &__add-story__button {
       height: 20px;
       width: 20px;
-      @include light-theme {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-black);
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/plus/plus.svg',
+          variables.$color-black
+        );
       }
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-15);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/plus/plus.svg',
+          variables.$color-gray-15
+        );
       }
 
       &:focus {
-        @include keyboard-mode {
-          background-color: $color-ultramarine;
+        @include mixins.keyboard-mode {
+          background-color: variables.$color-ultramarine;
         }
       }
     }
@@ -75,13 +84,13 @@
       }
 
       &--title {
-        @include font-title-medium;
+        @include mixins.font-title-medium;
         flex: 1;
-        @include light-theme {
-          color: $color-black;
+        @include mixins.light-theme {
+          color: variables.$color-black;
         }
-        @include dark-theme {
-          color: $color-gray-05;
+        @include mixins.dark-theme {
+          color: variables.$color-gray-05;
         }
       }
 
@@ -92,7 +101,7 @@
     }
 
     &__list {
-      @include NavTabs__Scroller;
+      @include mixins.NavTabs__Scroller;
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -100,18 +109,20 @@
       padding-inline: 16px;
 
       &--empty {
-        @include font-body-1;
+        @include mixins.font-body-1;
         align-items: center;
-        @include light-theme() {
-          color: $color-gray-60;
+        @include mixins.light-theme() {
+          color: variables.$color-gray-60;
         }
-        @include dark-theme() {
-          color: $color-gray-45;
+        @include mixins.dark-theme() {
+          color: variables.$color-gray-45;
         }
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        justify-content: center;
+        & {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          justify-content: center;
+        }
       }
     }
   }
@@ -125,27 +136,27 @@
     opacity: 0.7;
     padding-block: 78px 28px;
 
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
 
     &__icon {
       margin-bottom: 12px;
       width: 40px;
       height: 40px;
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/stories/stories-display-bold.svg',
-          $color-gray-60
+          variables.$color-gray-60
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/stories/stories-display-bold.svg',
-          $color-gray-25
+          variables.$color-gray-25
         );
       }
     }
@@ -160,30 +171,38 @@
 
       width: 16px;
       height: 16px;
-      @include light-theme {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-60);
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/plus/plus.svg',
+          variables.$color-gray-60
+        );
       }
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-25);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/plus/plus.svg',
+          variables.$color-gray-25
+        );
       }
     }
   }
 
   &__hidden-stories {
-    @include button-reset;
-    @include font-body-1-bold;
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    padding-block: 12px;
-    padding-inline: 24px;
-    position: relative;
-    width: 100%;
-    @include light-theme {
-      color: $color-black;
+    @include mixins.button-reset;
+    & {
+      @include mixins.font-body-1-bold;
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding-block: 12px;
+      padding-inline: 24px;
+      position: relative;
+      width: 100%;
     }
-    @include dark-theme {
-      color: $color-gray-05;
+    @include mixins.light-theme {
+      color: variables.$color-black;
+    }
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
     }
 
     &::after {
@@ -194,16 +213,16 @@
 
     &--collapsed {
       &::after {
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-right.svg',
-            $color-black
+            variables.$color-black
           );
         }
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-right.svg',
-            $color-gray-05
+            variables.$color-gray-05
           );
         }
       }
@@ -211,16 +230,16 @@
 
     &--expanded {
       &::after {
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-down.svg',
-            $color-black
+            variables.$color-black
           );
         }
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-down.svg',
-            $color-gray-05
+            variables.$color-gray-05
           );
         }
       }
@@ -232,10 +251,16 @@
   display: block;
   width: 20px;
   height: 20px;
-  @include light-theme {
-    @include color-svg('../images/icons/v3/more/more.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/more/more.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/more/more.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/more/more.svg',
+      variables.$color-gray-15
+    );
   }
 }

@@ -1,6 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CompositionTextArea {
   position: relative;
 
@@ -15,7 +18,7 @@
         border: none;
       }
 
-      @include dark-theme() {
+      @include mixins.dark-theme() {
         border: none;
 
         &:focus-within {
@@ -23,9 +26,9 @@
         }
       }
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus-within {
-          border: solid 1px $color-ultramarine;
+          border: solid 1px variables.$color-ultramarine;
         }
       }
     }
@@ -45,13 +48,13 @@
     top: 8px;
 
     button::after {
-      background-color: $color-black;
+      background-color: variables.$color-black;
     }
   }
 
   &__remaining-character-count {
-    @include font-subtitle;
-    color: $color-gray-45;
+    @include mixins.font-subtitle;
+    color: variables.$color-gray-45;
     position: absolute;
     bottom: 0;
     inset-inline-start: 0;

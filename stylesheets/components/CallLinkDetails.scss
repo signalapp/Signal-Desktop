@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallLinkDetails__Container {
   max-width: 750px;
   margin-block: 0;
@@ -27,18 +30,18 @@
 
 .CallLinkDetails__HeaderTitle {
   margin: 0;
-  @include font-title-medium;
+  @include mixins.font-title-medium;
 }
 
 .CallLinkDetails__HeaderDescription {
   margin: 0;
   user-select: text;
-  @include font-body-1;
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.font-body-1;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -47,35 +50,35 @@
 }
 
 .CallLinkDetails__HeaderButton--active-call {
-  @include button-active-call;
+  @include mixins.button-active-call;
 }
 
 .CallLinkDetails__DeleteLink {
   // Override the default icon color
   .ConversationDetails-icon__icon--trash::after {
-    @include any-theme {
-      background-color: $color-accent-red;
+    @include mixins.any-theme {
+      background-color: variables.$color-accent-red;
     }
   }
 
   // Override the default label color
   .ConversationDetails-panel-row__label {
-    color: $color-accent-red;
+    color: variables.$color-accent-red;
   }
 }
 
 .CallLinkDetails__DeleteLink--disabled-for-active-call {
   .ConversationDetails-icon__icon--trash::after {
-    @include any-theme {
-      background-color: $color-gray-45;
+    @include mixins.any-theme {
+      background-color: variables.$color-gray-45;
     }
   }
   .ConversationDetails-panel-row__label {
-    color: $color-gray-45;
+    color: variables.$color-gray-45;
   }
 }
 
 .CallLinkDetails__ApproveAllMembersDisabledTooltip,
 .CallLinkDetails__DeleteLinkTooltip {
-  @include tooltip;
+  @include mixins.tooltip;
 }

@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-SafetyNumberOnboarding {
   display: flex;
   flex-direction: column;
@@ -15,31 +18,33 @@
     margin-block: 0 25px;
     text-align: start;
 
-    @include font-body-2;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.font-body-2;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
 
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
   }
 
   svg {
     margin-block: 0 21px;
     border-radius: 12px;
-    @include light-theme {
-      border: 1.5px solid $color-black-alpha-12;
+    @include mixins.light-theme {
+      border: 1.5px solid variables.$color-black-alpha-12;
     }
-    @include dark-theme {
-      border: 1.5px solid $color-gray-60;
+    @include mixins.dark-theme {
+      border: 1.5px solid variables.$color-gray-60;
     }
-    background: $color-white;
+    & {
+      background: variables.$color-white;
+    }
   }
 
   &__help {
     a {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
       text-decoration: none;
     }
     margin-block: 0 24px;

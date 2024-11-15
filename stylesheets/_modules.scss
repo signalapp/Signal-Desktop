@@ -1,6 +1,10 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'sass:map';
+@use 'mixins';
+@use 'variables';
+
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
 // CAUTION: these styles are often overridden by other components
@@ -23,7 +27,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: $z-index-on-top-of-everything;
+  z-index: variables.$z-index-on-top-of-everything;
 }
 
 .module-splash-screen {
@@ -37,11 +41,17 @@
   margin-block: 24px;
   margin-inline: 0;
 
-  @include light-theme {
-    @include color-svg('../images/signal-logo.svg', $color-ultramarine-logo);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/signal-logo.svg',
+      variables.$color-ultramarine-logo
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/signal-logo.svg', $color-white);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/signal-logo.svg',
+      variables.$color-white
+    );
   }
 
   &.module-splash-screen__logo--128 {
@@ -70,15 +80,15 @@
 }
 
 .module-message__quote-story-reaction-header {
-  @include font-subtitle;
+  @include mixins.font-subtitle;
   margin-bottom: 6px;
 
   .module-message__container-outgoing & {
-    color: $color-white-alpha-80;
+    color: variables.$color-white-alpha-80;
   }
 
   .module-message__container-incoming & {
-    color: $color-gray-60;
+    color: variables.$color-gray-60;
   }
 }
 
@@ -182,35 +192,35 @@
   height: 20px;
   width: 20px;
 
-  @include light-theme {
-    @include color-svg($light-icon, $color-gray-45);
+  @include mixins.light-theme {
+    @include mixins.color-svg($light-icon, variables.$color-gray-45);
     &:hover {
-      @include color-svg($light-icon, $color-gray-90);
+      @include mixins.color-svg($light-icon, variables.$color-gray-90);
     }
   }
 
-  @include dark-theme {
-    @include color-svg($dark-icon, $color-gray-45);
+  @include mixins.dark-theme {
+    @include mixins.color-svg($dark-icon, variables.$color-gray-45);
     &:hover {
-      @include color-svg($dark-icon, $color-gray-02);
+      @include mixins.color-svg($dark-icon, variables.$color-gray-02);
     }
   }
 
   .module-message--targeted & {
-    @include mouse-mode {
-      background-color: $color-gray-60;
+    @include mixins.mouse-mode {
+      background-color: variables.$color-gray-60;
     }
-    @include dark-mouse-mode {
-      background-color: $color-white;
+    @include mixins.dark-mouse-mode {
+      background-color: variables.$color-white;
     }
   }
 
   .module-message:focus & {
-    @include keyboard-mode {
-      background-color: $color-gray-60;
+    @include mixins.keyboard-mode {
+      background-color: variables.$color-gray-60;
     }
-    @include dark-keyboard-mode {
-      background-color: $color-white;
+    @include mixins.dark-keyboard-mode {
+      background-color: variables.$color-white;
     }
   }
 }
@@ -239,7 +249,7 @@
     height: 20px;
     // the z-index here is so that this container is above the message and when
     // clicked on, doesn't propagate the click event to the message.
-    z-index: $z-index-above-base;
+    z-index: variables.$z-index-above-base;
   }
 }
 
@@ -255,30 +265,30 @@
   position: absolute;
   bottom: 4px;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/error/error-circle.svg',
-      $color-accent-red
+      variables.$color-accent-red
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/error/error-circle.svg',
-      $color-accent-red
+      variables.$color-accent-red
     );
   }
 }
 .module-message__error--paused {
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/error/error-circle.svg',
-      $color-gray-60
+      variables.$color-gray-60
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/error/error-circle.svg',
-      $color-gray-45
+      variables.$color-gray-45
     );
   }
 }
@@ -352,12 +362,12 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__container--targeted {
-  @include mouse-mode {
+  @include mixins.mouse-mode {
     animation: module-message__highlight 1.2s cubic-bezier(0.17, 0.17, 0, 1);
   }
 }
 .module-message__container--targeted-lighter {
-  @include mouse-mode {
+  @include mixins.mouse-mode {
     animation: module-message__highlight-lighter 1.2s
       cubic-bezier(0.17, 0.17, 0, 1);
   }
@@ -382,11 +392,11 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__alt-accessibility-tree {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 .module-message__wrapper--selected {
-  background: rgba($color-ultramarine, 8%);
+  background: rgba(variables.$color-ultramarine, 8%);
 }
 
 .module-message__select-checkbox {
@@ -398,7 +408,7 @@ $message-padding-horizontal: 12px;
   height: 20px;
   border-radius: 9999px;
   background: transparent;
-  border: 1px solid $color-gray-20;
+  border: 1px solid variables.$color-gray-20;
   animation: module-message__select-checkbox--fadeIn 0.2s ease-out;
   transition:
     background 0.1s ease-out,
@@ -410,17 +420,19 @@ $message-padding-horizontal: 12px;
     width: 14px;
     height: 14px;
     margin: 2px;
-    @include color-svg(
+    @include mixins.color-svg(
       '../images/icons/v3/check/check-compact-bold.svg',
-      $color-white
+      variables.$color-white
     );
-    opacity: 0;
-    transition: opacity 0.1s ease-out;
+    & {
+      opacity: 0;
+      transition: opacity 0.1s ease-out;
+    }
   }
 
   .module-message__wrapper--selected & {
-    background: $color-ultramarine;
-    border-color: $color-ultramarine;
+    background: variables.$color-ultramarine;
+    border-color: variables.$color-ultramarine;
     &::before {
       opacity: 1;
     }
@@ -434,11 +446,11 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message:focus-within {
-  @include keyboard-mode {
-    background: $color-selected-message-background-light;
+  @include mixins.keyboard-mode {
+    background: variables.$color-selected-message-background-light;
   }
-  @include dark-keyboard-mode {
-    background: $color-selected-message-background-dark;
+  @include mixins.dark-keyboard-mode {
+    background: variables.$color-selected-message-background-dark;
   }
 }
 
@@ -451,32 +463,32 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__container--outgoing {
-  @include light-theme {
-    background-color: $color-ultramarine;
-    color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-ultramarine;
+    color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-ultramarine;
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    background-color: variables.$color-ultramarine;
+    color: variables.$color-gray-05;
   }
 }
 
 // In case the color gets messed up
 .module-message__container--incoming {
-  background-color: $color-gray-05;
-  color: $color-gray-90;
+  background-color: variables.$color-gray-05;
+  color: variables.$color-gray-90;
 
-  @include dark-theme {
-    background-color: $color-gray-75;
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-75;
+    color: variables.$color-gray-05;
   }
 }
 
-@each $color, $value in $conversation-colors {
+@each $color, $value in variables.$conversation-colors {
   .module-message__container--outgoing-#{$color} {
     background-color: $value;
 
-    @include dark-theme {
+    @include mixins.dark-theme {
       background-color: $value;
     }
   }
@@ -486,13 +498,13 @@ $message-padding-horizontal: 12px;
   background-attachment: fixed;
 }
 
-@each $color, $value in $conversation-colors-gradient {
+@each $color, $value in variables.$conversation-colors-gradient {
   .module-message__container--outgoing-#{$color} {
     background-attachment: fixed;
     background-image: linear-gradient(
-      map-get($value, 'deg'),
-      map-get($value, 'start'),
-      map-get($value, 'end')
+      map.get($value, 'deg'),
+      map.get($value, 'start'),
+      map.get($value, 'end')
     );
   }
 }
@@ -504,7 +516,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__container--with-tap-to-view-pending {
-  background-color: $color-gray-15;
+  background-color: variables.$color-gray-15;
 }
 
 .module-message__container--with-tap-to-view-pending {
@@ -512,13 +524,13 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__container--with-tap-to-view-expired {
-  @include light-theme {
-    border: 1px solid $color-gray-15;
-    background-color: $color-white;
+  @include mixins.light-theme {
+    border: 1px solid variables.$color-gray-15;
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    border: 1px solid $color-gray-60;
-    background-color: $color-gray-95;
+  @include mixins.dark-theme {
+    border: 1px solid variables.$color-gray-60;
+    background-color: variables.$color-gray-95;
   }
 }
 
@@ -526,27 +538,27 @@ $message-padding-horizontal: 12px;
   width: auto;
   cursor: default;
 
-  @include light-theme {
-    background-color: $color-white;
-    border: 1px solid $color-deep-red;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
+    border: 1px solid variables.$color-deep-red;
   }
-  @include dark-theme {
-    background-color: $color-black;
-    border: 1px solid $color-deep-red;
+  @include mixins.dark-theme {
+    background-color: variables.$color-black;
+    border: 1px solid variables.$color-deep-red;
   }
 }
 
 .module-message__container--deleted-for-everyone {
-  @include light-theme {
-    color: $color-gray-90;
-    border: 1px solid $color-gray-25;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
+    border: 1px solid variables.$color-gray-25;
     background-color: transparent;
     background-image: none;
   }
 
-  @include dark-theme {
-    color: $color-gray-05;
-    border: 1px solid $color-gray-75;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
+    border: 1px solid variables.$color-gray-75;
     background-color: transparent;
     background-image: none;
   }
@@ -564,19 +576,19 @@ $message-padding-horizontal: 12px;
 
   border-radius: 18px;
 
-  @include font-body-1-italic;
+  @include mixins.font-body-1-italic;
 
-  @include light-theme {
-    color: $color-gray-90;
-    border: 1px solid $color-gray-05;
-    background-color: $color-white;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
+    border: 1px solid variables.$color-gray-05;
+    background-color: variables.$color-white;
     background-image: none;
   }
 
-  @include dark-theme {
-    color: $color-gray-05;
-    border: 1px solid $color-gray-75;
-    background-color: $color-gray-95;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
+    border: 1px solid variables.$color-gray-75;
+    background-color: variables.$color-gray-95;
     background-image: none;
   }
 }
@@ -637,71 +649,71 @@ $message-padding-horizontal: 12px;
   width: 20px;
   height: 20px;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/view_once/view_once.svg',
-      $color-gray-90
+      variables.$color-gray-90
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/view_once/view_once.svg',
-      $color-gray-05
+      variables.$color-gray-05
     );
   }
 }
 .module-message__tap-to-view__icon--expired {
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/view_once/view_once-dash.svg',
-      $color-gray-75
+      variables.$color-gray-75
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/view_once/view_once-dash.svg',
-      $color-gray-05
+      variables.$color-gray-05
     );
   }
 }
 .module-message__tap-to-view__icon--outgoing {
-  background-color: $color-gray-05;
+  background-color: variables.$color-gray-05;
 }
 .module-message__tap-to-view__text {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 
-  color: $color-gray-05;
+  color: variables.$color-gray-05;
 }
 .module-message__tap-to-view__text--incoming {
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 .module-message__tap-to-view__text--incoming-expired {
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 .module-message__tap-to-view__text--incoming-error {
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
 .module-message__tap-to-view__text--outgoing {
-  color: $color-white;
+  color: variables.$color-white;
 }
 .module-message__tap-to-view__text--outgoing-expired {
-  color: $color-gray-05;
+  color: variables.$color-gray-05;
 }
 
 .module-message__attachment-container {
@@ -716,11 +728,11 @@ $message-padding-horizontal: 12px;
   line-height: 0;
   overflow: hidden;
 
-  @include light-theme {
-    background-color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-gray-95;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-95;
   }
 
   &--with-content-below {
@@ -757,17 +769,18 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__generic-attachment {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  width: 100%;
+  & {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 }
@@ -811,16 +824,16 @@ $message-padding-horizontal: 12px;
   width: 16px;
 
   border-radius: 50%;
-  background-color: $color-white;
+  background-color: variables.$color-white;
 }
 
 .module-message__generic-attachment__icon-dangerous {
   height: 16px;
   width: 16px;
 
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v2/error-solid-24.svg',
-    $color-accent-red
+    variables.$color-accent-red
   );
 }
 
@@ -840,7 +853,7 @@ $message-padding-horizontal: 12px;
   white-space: nowrap;
   text-overflow: clip;
 
-  color: $color-gray-90;
+  color: variables.$color-gray-90;
 }
 
 .module-message__generic-attachment__text {
@@ -851,7 +864,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__generic-attachment__file-name {
-  @include font-body-2-bold;
+  @include mixins.font-body-2-bold;
 
   margin-top: 2px;
   user-select: none;
@@ -861,47 +874,47 @@ $message-padding-horizontal: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  @include light-theme {
-    color: $color-white;
+  @include mixins.light-theme {
+    color: variables.$color-white;
   }
-  @include dark-theme {
-    color: $color-gray-02;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-02;
   }
 }
 
 .module-message__generic-attachment__file-name--incoming {
-  color: $color-white;
+  color: variables.$color-white;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
 .module-message__generic-attachment__file-size {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   margin-top: 3px;
   user-select: none;
 
-  @include light-theme {
-    color: $color-white;
+  @include mixins.light-theme {
+    color: variables.$color-white;
   }
-  @include dark-theme {
-    color: $color-gray-02;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-02;
   }
 }
 
 .module-message__generic-attachment__file-size--incoming {
-  color: $color-white;
+  color: variables.$color-white;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -916,19 +929,21 @@ $message-padding-horizontal: 12px;
     }
   }
 
-  display: block;
+  & {
+    display: block;
 
-  margin-inline: -$message-padding-horizontal;
-  width: calc(100% + 24px);
-  outline: none;
+    margin-inline: -$message-padding-horizontal;
+    width: calc(100% + 24px);
+    outline: none;
 
-  margin-top: -$message-padding-vertical;
-  margin-bottom: 5px;
-  overflow: hidden;
+    margin-top: -$message-padding-vertical;
+    margin-bottom: 5px;
+    overflow: hidden;
 
-  @include keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+    @include mixins.keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
+      }
     }
   }
 }
@@ -944,11 +959,11 @@ $message-padding-horizontal: 12px;
   flex-direction: row;
   align-items: center;
 
-  @include light-theme {
-    background-color: $color-gray-02;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-02;
   }
-  @include dark-theme {
-    background-color: $color-gray-80;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-80;
   }
 }
 
@@ -963,23 +978,23 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__link-preview__title {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-message__link-preview__description {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   margin-top: 4px;
   overflow: hidden;
@@ -987,27 +1002,27 @@ $message-padding-horizontal: 12px;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-message__link-preview__footer {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   margin-top: 2px;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 
   > *:not(:first-child) {
@@ -1027,7 +1042,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__author {
-  @include font-body-2-bold;
+  @include mixins.font-body-2-bold;
 
   height: 18px;
   overflow-x: hidden;
@@ -1038,7 +1053,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__author--with-tap-to-view-expired {
-  @include font-body-2-bold;
+  @include mixins.font-body-2-bold;
 
   height: 18px;
   overflow-x: hidden;
@@ -1046,16 +1061,16 @@ $message-padding-horizontal: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  @include light-theme {
-    color: $color-gray-75;
+  @include mixins.light-theme {
+    color: variables.$color-gray-75;
   }
-  @include dark-theme {
-    color: $color-white;
+  @include mixins.dark-theme {
+    color: variables.$color-white;
   }
 }
 
 .module-message__author_with_sticker {
-  @include font-body-2-bold;
+  @include mixins.font-body-2-bold;
 
   height: 18px;
   overflow-x: hidden;
@@ -1069,16 +1084,16 @@ $message-padding-horizontal: 12px;
   //   look bad for RTL users if we make it too wide.
   width: 300px;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-message__text {
-  @include font-body-1;
+  @include mixins.font-body-1;
 
   text-align: start;
   overflow-wrap: break-word;
@@ -1086,11 +1101,11 @@ $message-padding-horizontal: 12px;
   word-break: break-word;
   white-space: pre-wrap;
 
-  @include light-theme {
-    color: $color-white-alpha-90;
+  @include mixins.light-theme {
+    color: variables.$color-white-alpha-90;
   }
-  @include dark-theme {
-    color: $color-white-alpha-90;
+  @include mixins.dark-theme {
+    color: variables.$color-white-alpha-90;
   }
 
   a {
@@ -1100,69 +1115,69 @@ $message-padding-horizontal: 12px;
     // when surrounded by text.
     word-break: break-all;
 
-    @include light-theme {
-      color: $color-white-alpha-90;
+    @include mixins.light-theme {
+      color: variables.$color-white-alpha-90;
     }
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        outline: 1px solid $color-gray-90;
+        outline: 1px solid variables.$color-gray-90;
       }
     }
 
-    @include dark-theme {
-      color: $color-white-alpha-90;
+    @include mixins.dark-theme {
+      color: variables.$color-white-alpha-90;
     }
-    @include dark-keyboard-mode {
+    @include mixins.dark-keyboard-mode {
       &:focus {
-        outline: 1px solid $color-white-alpha-90;
+        outline: 1px solid variables.$color-white-alpha-90;
       }
     }
   }
 }
 
 .module-message__text--incoming {
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 
   a {
     text-decoration: underline;
     outline: none;
 
-    @include light-theme {
-      color: $color-gray-90;
+    @include mixins.light-theme {
+      color: variables.$color-gray-90;
     }
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        outline: 1px solid $color-gray-90;
+        outline: 1px solid variables.$color-gray-90;
       }
     }
 
-    @include dark-theme {
-      color: $color-gray-05;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
     }
-    @include dark-keyboard-mode {
+    @include mixins.dark-keyboard-mode {
       &:focus {
-        outline: 1px solid $color-gray-05;
+        outline: 1px solid variables.$color-gray-05;
       }
     }
   }
 }
 
 .module-message__text--error {
-  @include font-body-1-italic;
+  @include mixins.font-body-1-italic;
 }
 .module-message__text--delete-for-everyone {
   user-select: none;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
@@ -1178,20 +1193,22 @@ $message-padding-horizontal: 12px;
     float: inline-end;
     margin-top: -14px;
     position: relative;
-    z-index: $z-index-base;
+    z-index: variables.$z-index-base;
   }
 }
 
 .module-message__metadata__edited {
-  @include button-reset;
-  @include font-caption;
-  color: $color-gray-60;
-  cursor: pointer;
-  margin-inline-end: 6px;
-  z-index: $z-index-base;
+  @include mixins.button-reset;
+  & {
+    @include mixins.font-caption;
+    color: variables.$color-gray-60;
+    cursor: pointer;
+    margin-inline-end: 6px;
+    z-index: variables.$z-index-base;
+  }
 
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -1203,30 +1220,30 @@ $message-padding-horizontal: 12px;
   // High margin to leave space for the increase when we go to two checks
   margin-bottom: 2px;
 
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v2/lock-unlock-outline-12.svg',
-    $color-white
+    variables.$color-white
   );
 }
 
 .module-message__metadata__sms--incoming {
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    background-color: $color-gray-25;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-25;
   }
 }
 
 .module-message__container--outgoing .module-message__metadata__edited {
-  color: $color-white-alpha-80;
+  color: variables.$color-white-alpha-80;
 }
 
 // With an image and no caption, this section needs to be on top of the image overlay
 .module-message__metadata--with-image-no-caption {
   position: absolute;
   bottom: 9px;
-  z-index: $z-index-above-base;
+  z-index: variables.$z-index-above-base;
 
   width: 100%;
   // Because this is absolutely positioned, we 100% is too big, take it down by parent
@@ -1238,69 +1255,69 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__metadata--outline-only-bubble {
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
 .module-message__metadata__date {
-  @include font-caption;
+  @include mixins.font-caption;
   user-select: none;
   white-space: nowrap;
 
-  @include light-theme {
-    color: $color-white-alpha-80;
+  @include mixins.light-theme {
+    color: variables.$color-white-alpha-80;
   }
-  @include dark-theme {
-    color: $color-white-alpha-80;
+  @include mixins.dark-theme {
+    color: variables.$color-white-alpha-80;
   }
 }
 .module-message__metadata__tapable {
-  @include button-reset;
+  @include mixins.button-reset;
 }
 .module-message__metadata__date--incoming {
-  color: $color-white-alpha-80;
+  color: variables.$color-white-alpha-80;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 .module-message__metadata__date--with-image-no-caption {
-  @include light-theme {
-    color: $color-white;
+  @include mixins.light-theme {
+    color: variables.$color-white;
   }
-  @include dark-theme {
-    color: $color-white-alpha-80;
+  @include mixins.dark-theme {
+    color: variables.$color-white-alpha-80;
   }
 }
 .module-message__metadata__date--outline-only-bubble {
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 .module-message__metadata__date.module-message__metadata__date--incoming-with-tap-to-view-expired {
-  color: $color-gray-75;
+  color: variables.$color-gray-75;
 
-  @include dark-theme {
-    color: $color-white-alpha-80;
+  @include mixins.dark-theme {
+    color: variables.$color-white-alpha-80;
   }
 }
 .module-message__metadata__date.module-message__metadata__date--outgoing-with-tap-to-view-expired {
-  color: $color-white-alpha-80;
+  color: variables.$color-white-alpha-80;
 }
 
 .module-message__metadata__date--with-sticker {
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
 }
 
@@ -1315,26 +1332,26 @@ $message-padding-horizontal: 12px;
 
 .module-message__metadata__status-icon--paused,
 .module-message__metadata__status-icon--sending {
-  @include only-when-page-is-visible {
+  @include mixins.only-when-page-is-visible {
     animation: rotate 4s linear infinite;
   }
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/message_status/messagestatus-sending.svg',
-    $color-white
+    variables.$color-white
   );
 }
 
 .module-message__metadata__status-icon--sent {
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/message_status/messagestatus-sent.svg',
-      $color-white-alpha-80
+      variables.$color-white-alpha-80
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/message_status/messagestatus-sent.svg',
-      $color-white-alpha-80
+      variables.$color-white-alpha-80
     );
   }
 }
@@ -1343,16 +1360,16 @@ $message-padding-horizontal: 12px;
   margin-inline-end: 0px;
   width: 18px;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/message_status/messagestatus-delivered.svg',
-      $color-white-alpha-80
+      variables.$color-white-alpha-80
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/message_status/messagestatus-delivered.svg',
-      $color-white-alpha-80
+      variables.$color-white-alpha-80
     );
   }
 }
@@ -1362,41 +1379,41 @@ $message-padding-horizontal: 12px;
   margin-inline-end: 0px;
   width: 18px;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/message_status/messagestatus-read.svg',
-      $color-white-alpha-80
+      variables.$color-white-alpha-80
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/message_status/messagestatus-read.svg',
-      $color-white-alpha-80
+      variables.$color-white-alpha-80
     );
   }
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
 .module-message__metadata__status-icon--with-image-no-caption {
-  @include dark-theme {
-    background-color: $color-gray-02;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-02;
   }
-  @include light-theme {
-    background-color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
   }
 }
 .module-message__metadata__status-icon--with-sticker {
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
 }
 
 .module-message__metadata__status-icon--outline-only-bubble {
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    background-color: $color-gray-25;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-25;
   }
 }
 
@@ -1405,36 +1422,39 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__send-message-button {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  width: calc(100% + 24px);
+  & {
+    width: calc(100% + 24px);
 
-  @include font-body-2-bold;
+    @include mixins.font-body-2-bold;
 
-  margin-top: $message-padding-vertical;
-  margin-bottom: -$message-padding-vertical;
-  margin-inline: -$message-padding-horizontal;
+    margin-top: $message-padding-vertical;
+    margin-bottom: -$message-padding-vertical;
+    margin-inline: -$message-padding-horizontal;
 
-  text-align: center;
-  padding: 10px;
+    text-align: center;
+    padding: 10px;
 
-  border-bottom-left-radius: 18px;
-  border-bottom-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
 
-  @include light-theme {
-    color: $color-ultramarine;
-    background-color: $color-gray-02;
-    border: 1px solid $color-black-alpha-20;
+    @include mixins.light-theme {
+      color: variables.$color-ultramarine;
+      background-color: variables.$color-gray-02;
+      border: 1px solid variables.$color-black-alpha-20;
+    }
+
+    @include mixins.dark-theme {
+      color: variables.$color-ultramarine-light;
+      background-color: variables.$color-gray-75;
+      border: 1px solid variables.$color-gray-45;
+    }
   }
-  @include dark-theme {
-    color: $color-ultramarine-light;
-    background-color: $color-gray-75;
-    border: 1px solid $color-gray-45;
-  }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 }
@@ -1477,7 +1497,7 @@ $message-padding-horizontal: 12px;
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
 
   &:not(:last-child) {
     margin-inline-start: -4px;
@@ -1485,19 +1505,19 @@ $message-padding-horizontal: 12px;
 
   &--overflow-count {
     .module-Avatar__contents {
-      @include light-theme() {
-        background: $color-gray-05;
-        color: $color-gray-60;
+      @include mixins.light-theme() {
+        background: variables.$color-gray-05;
+        color: variables.$color-gray-60;
       }
 
-      @include dark-theme() {
-        background: $color-gray-75;
-        color: $color-gray-25;
+      @include mixins.dark-theme() {
+        background: variables.$color-gray-75;
+        color: variables.$color-gray-25;
       }
     }
 
     .module-Avatar__label {
-      @include font-caption-bold;
+      @include mixins.font-caption-bold;
     }
   }
 
@@ -1510,12 +1530,12 @@ $message-padding-horizontal: 12px;
   .module-Avatar__contents {
     outline: 3px solid;
 
-    @include light-theme() {
-      outline-color: $color-white;
+    @include mixins.light-theme() {
+      outline-color: variables.$color-white;
     }
 
-    @include dark-theme() {
-      outline-color: $color-gray-95;
+    @include mixins.dark-theme() {
+      outline-color: variables.$color-gray-95;
     }
   }
 }
@@ -1527,7 +1547,7 @@ $message-padding-horizontal: 12px;
 .module-message__unopened-gift-badge {
   width: 240px;
   height: 132px;
-  background-color: $color-ultramarine;
+  background-color: variables.$color-ultramarine;
   position: relative;
 
   margin-inline: -$message-padding-horizontal;
@@ -1535,11 +1555,11 @@ $message-padding-horizontal: 12px;
   margin-bottom: $message-padding-vertical;
 
   &--outgoing {
-    @include light-theme {
-      border-bottom: 1px solid $color-white-alpha-80;
+    @include mixins.light-theme {
+      border-bottom: 1px solid variables.$color-white-alpha-80;
     }
-    @include dark-theme {
-      border-bottom: 1px solid $color-gray-95;
+    @include mixins.dark-theme {
+      border-bottom: 1px solid variables.$color-gray-95;
     }
   }
 
@@ -1554,20 +1574,20 @@ $message-padding-horizontal: 12px;
     height: 16px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: $color-white;
+    background-color: variables.$color-white;
   }
 
   &__ribbon-vertical {
-    @include position-absolute-center-x;
+    @include mixins.position-absolute-center-x;
     top: 0;
     bottom: 0;
     width: 16px;
-    background-color: $color-white;
+    background-color: variables.$color-white;
   }
 
   &__bow {
     // Centered
-    @include position-absolute-center;
+    @include mixins.position-absolute-center;
 
     // For proper alignment with the ribbons
     margin-top: 3px;
@@ -1578,36 +1598,36 @@ $message-padding-horizontal: 12px;
   }
 
   &__text {
-    @include font-body-2-italic;
+    @include mixins.font-body-2-italic;
 
     &--incoming {
-      @include light-theme {
-        color: $color-gray-60;
+      @include mixins.light-theme {
+        color: variables.$color-gray-60;
       }
-      @include dark-theme {
-        color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
       }
     }
   }
 
   &__container .module-message__text--incoming {
-    @include font-body-2-italic;
+    @include mixins.font-body-2-italic;
 
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
   }
   &__container .module-message__text--outgoing {
-    @include font-body-2-italic;
+    @include mixins.font-body-2-italic;
 
-    @include light-theme {
-      color: $color-white-alpha-80;
+    @include mixins.light-theme {
+      color: variables.$color-white-alpha-80;
     }
-    @include dark-theme {
-      color: $color-white-alpha-80;
+    @include mixins.dark-theme {
+      color: variables.$color-white-alpha-80;
     }
   }
 }
@@ -1632,21 +1652,21 @@ $message-padding-horizontal: 12px;
     &--missing-incoming {
       border-radius: 50%;
 
-      @include light-theme {
-        background-color: $color-gray-15;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-15;
       }
-      @include dark-theme {
-        background-color: $color-gray-60;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-60;
       }
     }
     &--missing-outgoing {
       border-radius: 50%;
 
-      @include light-theme {
-        background-color: $color-white-alpha-20;
+      @include mixins.light-theme {
+        background-color: variables.$color-white-alpha-20;
       }
-      @include dark-theme {
-        background-color: $color-white-alpha-20;
+      @include mixins.dark-theme {
+        background-color: variables.$color-white-alpha-20;
       }
     }
   }
@@ -1657,108 +1677,113 @@ $message-padding-horizontal: 12px;
   }
   &__title {
     margin-bottom: 6px;
-    @include font-body-1;
+    @include mixins.font-body-1;
   }
   &__remaining {
-    @include font-subtitle;
+    @include mixins.font-subtitle;
 
     &--incoming {
-      @include light-theme {
-        color: $color-gray-75;
+      @include mixins.light-theme {
+        color: variables.$color-gray-75;
       }
-      @include dark-theme {
-        color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
       }
     }
     &--outgoing {
-      @include light-theme {
-        color: $color-white-alpha-80;
+      @include mixins.light-theme {
+        color: variables.$color-white-alpha-80;
       }
-      @include dark-theme {
-        color: $color-white-alpha-80;
+      @include mixins.dark-theme {
+        color: variables.$color-white-alpha-80;
       }
     }
   }
 
   &__button {
-    @include button-reset;
-    @include button-secondary;
-    margin-inline: auto;
-    width: 216px;
-    margin-bottom: 7px;
-    text-align: center;
-    border-radius: 4px;
+    @include mixins.button-reset;
+    & {
+      @include mixins.button-secondary;
+    }
 
-    @include font-body-1-bold;
+    & {
+      margin-inline: auto;
+      width: 216px;
+      margin-bottom: 7px;
+      text-align: center;
+      border-radius: 4px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
+      @include mixins.font-body-1-bold;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
 
     &--incoming {
-      @include light-theme {
-        color: $color-gray-90;
-        background-color: $color-white;
+      @include mixins.light-theme {
+        color: variables.$color-gray-90;
+        background-color: variables.$color-white;
       }
-      @include dark-theme {
-        color: $color-gray-05;
-        background-color: $color-gray-62;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
+        background-color: variables.$color-gray-62;
       }
 
       // Disabling hover
       &:hover {
-        @include mouse-mode {
-          background-color: $color-white;
+        @include mixins.mouse-mode {
+          background-color: variables.$color-white;
         }
 
-        @include dark-mouse-mode {
-          background-color: $color-gray-62;
+        @include mixins.dark-mouse-mode {
+          background-color: variables.$color-gray-62;
         }
       }
     }
 
     &--outgoing {
-      @include light-theme {
-        color: $color-gray-90;
-        background-color: $color-white-alpha-80;
+      @include mixins.light-theme {
+        color: variables.$color-gray-90;
+        background-color: variables.$color-white-alpha-80;
       }
-      @include dark-theme {
-        color: $color-gray-90;
-        background-color: $color-white-alpha-80;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-90;
+        background-color: variables.$color-white-alpha-80;
       }
       &:hover {
-        @include mouse-mode {
-          background-color: $color-white-alpha-90;
+        @include mixins.mouse-mode {
+          background-color: variables.$color-white-alpha-90;
         }
 
-        @include dark-mouse-mode {
-          background-color: $color-white-alpha-90;
+        @include mixins.dark-mouse-mode {
+          background-color: variables.$color-white-alpha-90;
         }
       }
       &:focus {
-        @include keyboard-mode {
-          box-shadow: 0px 0px 0px 3px $color-ultramarine-light;
+        @include mixins.keyboard-mode {
+          box-shadow: 0px 0px 0px 3px variables.$color-ultramarine-light;
         }
-        @include dark-keyboard-mode {
-          box-shadow: 0px 0px 0px 3px $color-ultramarine-light;
+        @include mixins.dark-keyboard-mode {
+          box-shadow: 0px 0px 0px 3px variables.$color-ultramarine-light;
         }
       }
       &:active {
         // We need to include all four here for specificity precedence
 
-        @include mouse-mode {
-          background-color: $color-white;
+        @include mixins.mouse-mode {
+          background-color: variables.$color-white;
         }
-        @include dark-mouse-mode {
-          background-color: $color-white;
+        @include mixins.dark-mouse-mode {
+          background-color: variables.$color-white;
         }
 
-        @include keyboard-mode {
-          background-color: $color-white;
+        @include mixins.keyboard-mode {
+          background-color: variables.$color-white;
         }
-        @include dark-keyboard-mode {
-          background-color: $color-white;
+        @include mixins.dark-keyboard-mode {
+          background-color: variables.$color-white;
         }
       }
     }
@@ -1778,31 +1803,31 @@ $message-padding-horizontal: 12px;
     display: inline-block;
 
     &--incoming {
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/check/check-circle.svg',
-          $color-gray-90
+          variables.$color-gray-90
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/check/check-circle.svg',
-          $color-gray-05
+          variables.$color-gray-05
         );
       }
     }
 
     &--outgoing {
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/check/check-circle.svg',
-          $color-gray-90
+          variables.$color-gray-90
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/check/check-circle.svg',
-          $color-gray-90
+          variables.$color-gray-90
         );
       }
     }
@@ -1820,7 +1845,7 @@ $message-padding-horizontal: 12px;
 
 .module-message__reactions {
   position: relative;
-  z-index: $z-index-above-base;
+  z-index: variables.$z-index-above-base;
   height: 22px;
   display: flex;
   user-select: none;
@@ -1838,15 +1863,17 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__reactions__reaction {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  min-width: 28px;
-  height: 22px;
-  border: 1px solid;
-  border-radius: 33px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  & {
+    min-width: 28px;
+    height: 22px;
+    border: 1px solid;
+    border-radius: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &--with-count {
     min-width: 40px;
@@ -1855,7 +1882,7 @@ $message-padding-horizontal: 12px;
   }
 
   &__count {
-    @include font-caption-bold;
+    @include mixins.font-caption-bold;
 
     margin-inline-start: 4px;
 
@@ -1863,17 +1890,19 @@ $message-padding-horizontal: 12px;
       margin-inline-start: 0px;
     }
 
-    @include light-theme {
-      color: $color-gray-60;
-    }
+    & {
+      @include mixins.light-theme {
+        color: variables.$color-gray-60;
+      }
 
-    @include dark-theme {
-      color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
+      }
     }
 
     &--is-me {
-      @include dark-theme {
-        color: $color-gray-15;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-15;
       }
     }
   }
@@ -1882,29 +1911,31 @@ $message-padding-horizontal: 12px;
     outline: none;
   }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 
-  @include light-theme() {
-    border-color: $color-white;
-    background: $color-gray-05;
+  & {
+    @include mixins.light-theme() {
+      border-color: variables.$color-white;
+      background: variables.$color-gray-05;
+    }
   }
 
-  @include dark-theme() {
-    border-color: $color-gray-95;
-    background: $color-gray-90;
+  @include mixins.dark-theme() {
+    border-color: variables.$color-gray-95;
+    background: variables.$color-gray-90;
   }
 
   &--is-me {
-    @include dark-theme() {
-      background: $color-gray-60;
+    @include mixins.dark-theme() {
+      background: variables.$color-gray-60;
     }
 
-    @include light-theme() {
-      background: $color-gray-25;
+    @include mixins.light-theme() {
+      background: variables.$color-gray-25;
     }
   }
 }
@@ -1918,17 +1949,21 @@ $message-padding-horizontal: 12px;
   margin-inline-start: 6px;
   margin-bottom: 2px;
 
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v3/message_timer/messagetimer-60.svg',
-      $color-white-alpha-80
-    );
+  & {
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/message_timer/messagetimer-60.svg',
+        variables.$color-white-alpha-80
+      );
+    }
   }
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v3/message_timer/messagetimer-60.svg',
-      $color-white-alpha-80
-    );
+  & {
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/message_timer/messagetimer-60.svg',
+        variables.$color-white-alpha-80
+      );
+    }
   }
 }
 
@@ -1937,63 +1972,67 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 @each $timer-icon in $timer-icons {
   .module-expire-timer--#{$timer-icon} {
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
-        $color-white-alpha-80
-      );
+    & {
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
+          variables.$color-white-alpha-80
+        );
+      }
     }
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
-        $color-white-alpha-80
-      );
+    & {
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
+          variables.$color-white-alpha-80
+        );
+      }
     }
   }
 }
 
 .module-expire-timer--incoming {
-  background-color: $color-white-alpha-80;
+  background-color: variables.$color-white-alpha-80;
 
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    background-color: $color-gray-25;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-25;
   }
 }
 .module-expire-timer.module-expire-timer--incoming-with-tap-to-view-expired {
-  background-color: $color-gray-75;
+  background-color: variables.$color-gray-75;
 
-  @include dark-theme {
-    background-color: $color-white-alpha-80;
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-80;
   }
 }
 .module-expire-timer.module-expire-timer--outgoing-with-tap-to-view-expired {
-  background-color: $color-white-alpha-80;
+  background-color: variables.$color-white-alpha-80;
 }
 .module-expire-timer--with-sticker {
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
 .module-expire-timer--with-image-no-caption {
-  @include light-theme {
-    background-color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-gray-02;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-02;
   }
 }
 
 .module-expire-timer--outline-only-bubble {
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    background-color: $color-gray-25;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-25;
   }
 }
 
@@ -2005,20 +2044,22 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 
   &__text {
-    @include font-body-1;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.font-body-1;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
-    max-width: 400px;
+    & {
+      max-width: 400px;
 
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     img.emoji {
       height: 1em;
@@ -2033,26 +2074,28 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Embedded Contact
 
 .module-embedded-contact {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  width: 100%;
-  padding: 5px;
+  & {
+    width: 100%;
+    padding: 5px;
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 }
 
 .module-embedded-contact--outgoing {
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-white;
+      box-shadow: 0px 0px 0px 2px variables.$color-white;
     }
   }
 }
@@ -2077,7 +2120,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-embedded-contact__contact-name {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 
   margin-top: 6px;
 
@@ -2086,27 +2129,27 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   overflow-x: hidden;
   text-overflow: ellipsis;
 
-  @include light-theme {
-    color: $color-white;
+  @include mixins.light-theme {
+    color: variables.$color-white;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-embedded-contact__contact-name--incoming {
-  color: $color-white;
+  color: variables.$color-white;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
 .module-embedded-contact__contact-method {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   margin-top: 3px;
   max-width: 100%;
@@ -2114,19 +2157,19 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   overflow-x: hidden;
   text-overflow: ellipsis;
 
-  @include dark-theme {
-    color: $color-white-alpha-80;
+  @include mixins.dark-theme {
+    color: variables.$color-white-alpha-80;
   }
-  @include light-theme {
-    color: $color-white-alpha-80;
+  @include mixins.light-theme {
+    color: variables.$color-white-alpha-80;
   }
 }
 
 .module-embedded-contact__contact-method--incoming {
-  color: $color-white-alpha-80;
+  color: variables.$color-white-alpha-80;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
 }
 
@@ -2143,28 +2186,30 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-contact-detail__contact-name {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 }
 
 .module-contact-detail__contact-method {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   margin-top: 10px;
 }
 
 .module-contact-detail__send-message {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  border-radius: 4px;
-  background-color: $color-ultramarine;
-  display: inline-block;
-  padding: 6px;
-  margin-top: 20px;
+  & {
+    border-radius: 4px;
+    background-color: variables.$color-ultramarine;
+    display: inline-block;
+    padding: 6px;
+    margin-top: 20px;
 
-  color: $color-white;
+    color: variables.$color-white;
 
-  flex-direction: column;
-  align-items: center;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .module-contact-detail__send-message__inner {
@@ -2172,7 +2217,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   align-items: center;
   padding-inline-end: 5px;
 
-  @include font-body-2-bold;
+  @include mixins.font-body-2-bold;
 }
 
 .module-contact-detail__send-message__bubble-icon {
@@ -2180,11 +2225,17 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   width: 18px;
   display: inline-block;
   margin-inline-end: 5px;
-  @include light-theme {
-    @include color-svg('../images/icons/v3/chat/chat.svg', $color-white);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/chat/chat.svg',
+      variables.$color-white
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/chat/chat.svg', $color-white);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/chat/chat.svg',
+      variables.$color-white
+    );
   }
 }
 
@@ -2193,18 +2244,18 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-top: 15px;
   padding-top: 8px;
 
-  @include light-theme {
-    border-top: 1px solid $color-gray-05;
+  @include mixins.light-theme {
+    border-top: 1px solid variables.$color-gray-05;
   }
-  @include dark-theme {
-    border-top: 1px solid $color-gray-75;
+  @include mixins.dark-theme {
+    border-top: 1px solid variables.$color-gray-75;
   }
 }
 
 .module-contact-detail__additional-contact__type {
-  @include font-caption-bold;
+  @include mixins.font-caption-bold;
 
-  color: $color-gray-45;
+  color: variables.$color-gray-45;
 
   margin-bottom: 3px;
 }
@@ -2215,11 +2266,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   outline: none;
 
   &:focus {
-    @include keyboard-mode {
-      background: $color-selected-message-background-light;
+    @include mixins.keyboard-mode {
+      background: variables.$color-selected-message-background-light;
     }
-    @include dark-keyboard-mode {
-      background: $color-selected-message-background-dark;
+    @include mixins.dark-keyboard-mode {
+      background: variables.$color-selected-message-background-dark;
     }
   }
 }
@@ -2241,13 +2292,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   cursor: pointer;
 
   &:focus {
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       outline: 0;
     }
   }
 
   &:focus &__message {
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       opacity: 1;
     }
   }
@@ -2256,11 +2307,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     opacity: 0.8;
   }
 
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
+  & {
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
+    }
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
+    }
   }
 
   &__icon-container {
@@ -2277,16 +2330,16 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     display: inline-block;
     opacity: 0.6;
 
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v2/error-solid-24.svg',
-        $color-gray-60
+        variables.$color-gray-60
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v2/error-solid-24.svg',
-        $color-gray-05
+        variables.$color-gray-05
       );
     }
   }
@@ -2312,24 +2365,24 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-bottom: 2px;
   vertical-align: middle;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/person/person-circle-compact.svg',
-      $color-gray-60
+      variables.$color-gray-60
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/person/person-circle-compact.svg',
-      $color-gray-25
+      variables.$color-gray-25
     );
   }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/person/person-circle-compact.svg',
-        $color-ultramarine
+        variables.$color-ultramarine
       );
     }
   }
@@ -2398,7 +2451,7 @@ button.ConversationDetails__action-button {
 }
 
 .module-attachment-section__header {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 }
 
 .module-attachment-section__items {
@@ -2417,27 +2470,29 @@ button.ConversationDetails__action-button {
 }
 
 .module-document-list-item--with-separator {
-  @include light-theme {
-    border-bottom: 1px solid $color-gray-02;
+  @include mixins.light-theme {
+    border-bottom: 1px solid variables.$color-gray-02;
   }
-  @include dark-theme {
-    border-bottom: 1px solid $color-gray-75;
+  @include mixins.dark-theme {
+    border-bottom: 1px solid variables.$color-gray-75;
   }
 }
 
 .module-document-list-item__content {
-  @include button-reset;
-  width: 100%;
-  height: 100%;
+  @include mixins.button-reset;
+  & {
+    width: 100%;
+    height: 100%;
 
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 }
@@ -2447,7 +2502,7 @@ button.ConversationDetails__action-button {
 
   width: 48px;
   height: 48px;
-  @include color-svg('../images/file.svg', $color-gray-45);
+  @include mixins.color-svg('../images/file.svg', variables.$color-gray-45);
 }
 
 .module-document-list-item__metadata {
@@ -2461,7 +2516,7 @@ button.ConversationDetails__action-button {
 .module-document-list-item__file-size {
   display: inline-block;
   margin-top: 8px;
-  @include font-body-2;
+  @include mixins.font-body-2;
 }
 
 .module-document-list-item__date {
@@ -2472,18 +2527,19 @@ button.ConversationDetails__action-button {
 // Module: Media Grid Item
 
 .module-media-grid-item {
-  @include button-reset;
+  @include mixins.button-reset;
+  & {
+    height: 94px;
+    width: 94px;
+    background-color: variables.$color-gray-05;
+    margin-inline-end: 4px;
+    margin-bottom: 4px;
+    position: relative;
+  }
 
-  height: 94px;
-  width: 94px;
-  background-color: $color-gray-05;
-  margin-inline-end: 4px;
-  margin-bottom: 4px;
-  position: relative;
-
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 }
@@ -2502,7 +2558,7 @@ button.ConversationDetails__action-button {
 }
 
 .module-media-grid-item__icon-image {
-  @include color-svg('../images/image.svg', $color-gray-45);
+  @include mixins.color-svg('../images/image.svg', variables.$color-gray-45);
 }
 
 .module-media-grid-item__image-container {
@@ -2510,29 +2566,29 @@ button.ConversationDetails__action-button {
 }
 
 .module-media-grid-item__circle-overlay {
-  @include position-absolute-center;
+  @include mixins.position-absolute-center;
   width: 42px;
   height: 42px;
-  background-color: $color-white;
+  background-color: variables.$color-white;
   border-radius: 21px;
 }
 
 .module-media-grid-item__play-overlay {
-  @include position-absolute-center;
+  @include mixins.position-absolute-center;
   height: 24px;
   width: 24px;
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/play/play-fill.svg',
-    $color-ultramarine
+    variables.$color-ultramarine
   );
 }
 
 .module-media-grid-item__icon-video {
-  @include color-svg('../images/movie.svg', $color-gray-45);
+  @include mixins.color-svg('../images/movie.svg', variables.$color-gray-45);
 }
 
 .module-media-grid-item__icon-generic {
-  @include color-svg('../images/file.svg', $color-gray-45);
+  @include mixins.color-svg('../images/file.svg', variables.$color-gray-45);
 }
 
 /* Module: Empty State*/
@@ -2543,9 +2599,9 @@ button.ConversationDetails__action-button {
   align-items: center;
   flex-grow: 1;
 
-  @include font-title-1;
+  @include mixins.font-title-1;
 
-  color: $color-gray-45;
+  color: variables.$color-gray-45;
 }
 
 // Module: Message Request Actions
@@ -2554,29 +2610,29 @@ button.ConversationDetails__action-button {
   padding-block: 8px 12px;
   padding-inline: 16px;
 
-  @include light-theme {
-    background: $color-white;
+  @include mixins.light-theme {
+    background: variables.$color-white;
   }
 
-  @include dark-theme {
-    background: $color-gray-95;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-95;
   }
 
   &__message {
-    @include font-body-2;
+    @include mixins.font-body-2;
     text-align: center;
     margin-bottom: 12px;
 
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
 
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
 
     &__name {
-      @include font-body-2-bold;
+      @include mixins.font-body-2-bold;
     }
 
     &__learn-more {
@@ -2624,19 +2680,19 @@ button.ConversationDetails__action-button {
     border-radius: 48px;
     height: 48px;
     width: 48px;
-    background-color: $color-black-alpha-70;
+    background-color: variables.$color-black-alpha-70;
   }
 
   &:hover {
     span {
-      background-color: $color-black-alpha-80;
+      background-color: variables.$color-black-alpha-80;
     }
   }
 
   &:focus {
     span {
-      background-color: $color-gray-75;
-      border: 4px solid $color-ultramarine;
+      background-color: variables.$color-gray-75;
+      border: 4px solid variables.$color-ultramarine;
       box-sizing: border-box;
       outline: none;
     }
@@ -2649,7 +2705,10 @@ button.ConversationDetails__action-button {
     height: 24px;
     width: 24px;
 
-    @include color-svg('../images/icons/v3/arrow/arrow-down.svg', $color-white);
+    @include mixins.color-svg(
+      '../images/icons/v3/arrow/arrow-down.svg',
+      variables.$color-white
+    );
   }
 }
 
@@ -2663,8 +2722,8 @@ button.ConversationDetails__action-button {
     height: 24px;
     width: 24px;
 
-    @include font-body-1;
-    color: $color-white;
+    @include mixins.font-body-1;
+    color: variables.$color-white;
   }
 }
 
@@ -2683,7 +2742,7 @@ button.ConversationDetails__action-button {
   }
 
   &--spinner {
-    background-color: $color-gray-75;
+    background-color: variables.$color-gray-75;
     border-radius: 48px;
     height: 48px;
     width: 48px;
@@ -2695,16 +2754,16 @@ button.ConversationDetails__action-button {
       }
 
       &__arc {
-        background-color: $color-gray-75;
+        background-color: variables.$color-gray-75;
       }
 
       &__circle {
-        background-color: $color-white;
+        background-color: variables.$color-white;
       }
 
-      @include dark-theme {
+      @include mixins.dark-theme {
         &__arc {
-          background-color: $color-gray-75;
+          background-color: variables.$color-gray-75;
         }
       }
     }
@@ -2712,11 +2771,11 @@ button.ConversationDetails__action-button {
 }
 
 .module-image--with-background {
-  @include light-theme {
-    background-color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-black;
+  @include mixins.dark-theme {
+    background-color: variables.$color-black;
   }
 }
 
@@ -2731,16 +2790,18 @@ button.ConversationDetails__action-button {
 }
 
 .module-image__border-overlay {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  width: 100%;
-  cursor: inherit;
+  & {
+    width: 100%;
+    cursor: inherit;
 
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  inset-inline: 0;
-  z-index: $z-index-above-base;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline: 0;
+    z-index: variables.$z-index-above-base;
+  }
 }
 
 .module-image__border-overlay--with-click-handler {
@@ -2748,11 +2809,11 @@ button.ConversationDetails__action-button {
 }
 
 .module-image__border-overlay--with-border {
-  @include light-theme {
-    box-shadow: inset 0px 0px 0px 1px $color-black-alpha-085;
+  @include mixins.light-theme {
+    box-shadow: inset 0px 0px 0px 1px variables.$color-black-alpha-085;
   }
-  @include dark-theme {
-    box-shadow: inset 0px 0px 0px 1px $color-white-alpha-20;
+  @include mixins.dark-theme {
+    box-shadow: inset 0px 0px 0px 1px variables.$color-white-alpha-20;
   }
 }
 
@@ -2764,8 +2825,8 @@ button.ConversationDetails__action-button {
     padding-block: 2px;
     padding-inline: 8px;
 
-    color: $color-white;
-    background: $color-black-alpha-70;
+    color: variables.$color-white;
+    background: variables.$color-black-alpha-70;
 
     /* The height is: 14px + 2x2px from the padding */
     border-radius: 9px;
@@ -2782,13 +2843,13 @@ button.ConversationDetails__action-button {
 }
 
 button.module-image__border-overlay:focus {
-  @include keyboard-mode {
-    box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
+  @include mixins.keyboard-mode {
+    box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
   }
 }
 
 .module-image__border-overlay--dark {
-  background-color: $color-black-alpha-20;
+  background-color: variables.$color-black-alpha-20;
 }
 
 .module-image__loading-placeholder {
@@ -2796,11 +2857,11 @@ button.module-image__border-overlay:focus {
   flex-direction: row;
   align-items: center;
 
-  @include light-theme {
-    background-color: $color-black-alpha-20;
+  @include mixins.light-theme {
+    background-color: variables.$color-black-alpha-20;
   }
-  @include dark-theme {
-    background-color: $color-white-alpha-20;
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-20;
   }
 }
 
@@ -2832,26 +2893,26 @@ button.module-image__border-overlay:focus {
   );
   position: absolute;
   bottom: 0;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
   inset-inline: 0;
 }
 
 .module-image__play-overlay__circle {
-  @include position-absolute-center;
+  @include mixins.position-absolute-center;
   width: 48px;
   height: 48px;
-  background-color: $color-white;
+  background-color: variables.$color-white;
   border-radius: 24px;
 }
 
 .module-image__play-overlay__icon {
-  @include position-absolute-center;
+  @include mixins.position-absolute-center;
 
   height: 24px;
   width: 24px;
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/play/play-fill.svg',
-    $color-ultramarine
+    variables.$color-ultramarine
   );
 }
 
@@ -2860,34 +2921,40 @@ button.module-image__border-overlay:focus {
   top: 0;
   inset-inline: 0;
   bottom: 0;
-  z-index: $z-index-above-above-base;
+  z-index: variables.$z-index-above-above-base;
 
   // This allows click-through to the overlay button behind it
   pointer-events: none;
 
-  color: $color-white;
+  color: variables.$color-white;
 
-  @include font-body-1;
+  @include mixins.font-body-1;
 
   text-align: center;
 }
 
 .module-image__close-button {
-  @include staged-attachment-close-button;
+  @include mixins.staged-attachment-close-button;
 
   &::before {
     content: '';
     display: block;
     width: 16px;
     height: 16px;
-    @include color-svg('../images/icons/v3/x/x-compact.svg', $color-white);
+    @include mixins.color-svg(
+      '../images/icons/v3/x/x-compact.svg',
+      variables.$color-white
+    );
   }
-  background-image: url('../images/icons/v3/x/x-compact.svg');
-  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.6));
 
-  @include keyboard-mode {
+  & {
+    background-image: url('../images/icons/v3/x/x-compact.svg');
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.6));
+  }
+
+  @include mixins.keyboard-mode {
     &:focus {
-      outline: 2px solid $color-ultramarine;
+      outline: 2px solid variables.$color-ultramarine;
     }
   }
 }
@@ -2949,14 +3016,14 @@ button.module-image__border-overlay:focus {
   opacity: 0.4;
   will-change: transform, opacity;
 
-  @include dark-theme {
-    background-color: $color-white;
+  @include mixins.dark-theme {
+    background-color: variables.$color-white;
   }
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
 
-  @include only-when-page-is-visible {
+  @include mixins.only-when-page-is-visible {
     animation: {
       name: typing-animation;
       duration: 1600ms;
@@ -2967,16 +3034,16 @@ button.module-image__border-overlay:focus {
 }
 
 .module-left-pane .module-typing-animation__dot {
-  @include only-when-page-is-visible {
+  @include mixins.only-when-page-is-visible {
     animation-name: typing-animation-bare;
   }
 }
 
 .module-typing-animation__dot--light {
-  background-color: $color-white;
+  background-color: variables.$color-white;
 
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
 }
 
@@ -3026,7 +3093,7 @@ button.module-image__border-overlay:focus {
 
 .module-attachments__edit-icon {
   align-items: center;
-  background: $color-black-alpha-60;
+  background: variables.$color-black-alpha-60;
   border-radius: 100%;
   display: flex;
   height: 36px;
@@ -3040,13 +3107,15 @@ button.module-image__border-overlay:focus {
   width: 36px;
 
   &::after {
-    @include color-svg(
+    @include mixins.color-svg(
       '../images/icons/v3/edit/edit-compact.svg',
-      $color-white
+      variables.$color-white
     );
-    content: '';
-    height: 20px;
-    width: 20px;
+    & {
+      content: '';
+      height: 20px;
+      width: 20px;
+    }
   }
 }
 
@@ -3064,27 +3133,29 @@ button.module-image__border-overlay:focus {
 .module-attachments__close-button {
   $icon: '../images/icons/v3/x/x.svg';
 
-  @include button-reset;
+  @include mixins.button-reset;
 
-  position: absolute;
-  top: 8px;
-  inset-inline-end: 16px;
+  & {
+    position: absolute;
+    top: 8px;
+    inset-inline-end: 16px;
 
-  width: 20px;
-  height: 20px;
+    width: 20px;
+    height: 20px;
 
-  z-index: $z-index-above-base;
+    z-index: variables.$z-index-above-base;
 
-  @include light-theme {
-    @include color-svg($icon, $color-black);
+    @include mixins.light-theme {
+      @include mixins.color-svg($icon, variables.$color-black);
+    }
+    @include mixins.dark-theme {
+      @include mixins.color-svg($icon, variables.$color-white);
+    }
   }
-  @include dark-theme {
-    @include color-svg($icon, $color-white);
-  }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      @include color-svg($icon, $color-ultramarine);
+      @include mixins.color-svg($icon, variables.$color-ultramarine);
     }
   }
 }
@@ -3106,7 +3177,7 @@ button.module-image__border-overlay:focus {
   &.module-image::before {
     background: linear-gradient(
       180deg,
-      $color-black-alpha-30 0%,
+      variables.$color-black-alpha-30 0%,
       transparent 100%
     );
     content: '';
@@ -3134,25 +3205,33 @@ button.module-image__border-overlay:focus {
   vertical-align: middle;
   white-space: nowrap;
 
-  @include light-theme {
-    box-shadow: inset 0px 0px 0px 1px $color-black-alpha-20;
-    background-color: $color-gray-05;
+  @include mixins.light-theme {
+    box-shadow: inset 0px 0px 0px 1px variables.$color-black-alpha-20;
+    background-color: variables.$color-gray-05;
   }
-  @include dark-theme {
-    box-shadow: inset 0px 0px 0px 1px $color-gray-45;
-    background-color: $color-gray-75;
-    color: $color-gray-02;
+  @include mixins.dark-theme {
+    box-shadow: inset 0px 0px 0px 1px variables.$color-gray-45;
+    background-color: variables.$color-gray-75;
+    color: variables.$color-gray-02;
   }
 }
 
 .module-staged-generic-attachment__close-button {
-  @include staged-attachment-close-button;
+  @include mixins.staged-attachment-close-button;
 
-  @include light-theme {
-    @include color-svg('../images/icons/v3/x/x-compact.svg', $color-black);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-45);
+  & {
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x-compact.svg',
+        variables.$color-black
+      );
+    }
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x-compact.svg',
+        variables.$color-gray-45
+      );
+    }
   }
 }
 
@@ -3187,11 +3266,11 @@ button.module-image__border-overlay:focus {
   white-space: nowrap;
   text-overflow: clip;
 
-  color: $color-gray-90;
+  color: variables.$color-gray-90;
 }
 
 .module-staged-generic-attachment__filename {
-  @include font-caption;
+  @include mixins.font-caption;
 
   margin: 7px;
   margin-top: 5px;
@@ -3208,58 +3287,60 @@ button.module-image__border-overlay:focus {
 // Module: Staged Placeholder Attachment
 
 .module-staged-placeholder-attachment {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  margin: 1px;
-  border-radius: 4px;
+  & {
+    margin: 1px;
+    border-radius: 4px;
 
-  height: 120px;
-  width: 120px;
-  display: inline-block;
-  vertical-align: middle;
-  position: relative;
+    height: 120px;
+    width: 120px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
 
-  @include light-theme {
-    border: 1px solid $color-gray-25;
+    @include mixins.light-theme {
+      border: 1px solid variables.$color-gray-25;
+      &:hover {
+        background: variables.$color-gray-05;
+      }
+    }
+    @include mixins.keyboard-mode {
+      &:focus {
+        box-shadow: inset 0 0 0 2px variables.$color-ultramarine;
+      }
+    }
+  }
+
+  @include mixins.dark-theme {
+    border: 1px solid variables.$color-gray-60;
+
     &:hover {
-      background: $color-gray-05;
+      background: variables.$color-gray-75;
     }
   }
-  @include keyboard-mode {
+  @include mixins.dark-keyboard-mode {
     &:focus {
-      box-shadow: inset 0 0 0 2px $color-ultramarine;
-    }
-  }
-
-  @include dark-theme {
-    border: 1px solid $color-gray-60;
-
-    &:hover {
-      background: $color-gray-75;
-    }
-  }
-  @include dark-keyboard-mode {
-    &:focus {
-      box-shadow: inset 0 0 0 2px $color-ultramarine;
+      box-shadow: inset 0 0 0 2px variables.$color-ultramarine;
     }
   }
 }
 
 .module-staged-placeholder-attachment__plus-icon {
-  @include position-absolute-center;
+  @include mixins.position-absolute-center;
   height: 28px;
   width: 28px;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/plus/plus-light.svg',
-      $color-gray-45
+      variables.$color-gray-45
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/plus/plus-light.svg',
-      $color-gray-60
+      variables.$color-gray-60
     );
   }
 }
@@ -3272,13 +3353,13 @@ button.module-image__border-overlay:focus {
   &__label {
     margin-block: 0 7px;
     margin-inline: 0;
-    @include font-subtitle;
+    @include mixins.font-subtitle;
 
-    @include light-theme() {
-      color: $color-gray-60;
+    @include mixins.light-theme() {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme() {
-      color: $color-gray-25;
+    @include mixins.dark-theme() {
+      color: variables.$color-gray-25;
     }
   }
 
@@ -3286,7 +3367,7 @@ button.module-image__border-overlay:focus {
     display: flex;
     gap: 9px;
     align-items: center;
-    @include font-body-2;
+    @include mixins.font-body-2;
     padding-block: 22px;
     padding-inline: 7px;
     padding-inline-start: 12px;
@@ -3294,13 +3375,13 @@ button.module-image__border-overlay:focus {
     margin-block: 0;
     margin-inline: -4px;
 
-    @include light-theme() {
-      background: $color-white-alpha-60;
-      color: $color-gray-90;
+    @include mixins.light-theme() {
+      background: variables.$color-white-alpha-60;
+      color: variables.$color-gray-90;
     }
-    @include dark-theme() {
-      background: $color-white-alpha-20;
-      color: $color-white;
+    @include mixins.dark-theme() {
+      background: variables.$color-white-alpha-20;
+      color: variables.$color-white;
     }
 
     &::before {
@@ -3309,28 +3390,31 @@ button.module-image__border-overlay:focus {
       flex-shrink: 0;
       width: 16px;
       height: 16px;
-      @include color-svg('../images/icons/v3/info/info.svg', currentcolor);
+      @include mixins.color-svg(
+        '../images/icons/v3/info/info.svg',
+        currentcolor
+      );
     }
   }
 
   &__note {
     margin-block: 9px 0;
     margin-inline: 0;
-    @include font-body-1;
+    @include mixins.font-body-1;
   }
 
   &--outgoing &__label {
-    @include light-theme() {
-      color: $color-white-alpha-80;
+    @include mixins.light-theme() {
+      color: variables.$color-white-alpha-80;
     }
-    @include dark-theme() {
-      color: $color-white-alpha-80;
+    @include mixins.dark-theme() {
+      color: variables.$color-white-alpha-80;
     }
   }
 
   &--outgoing &__check_device_box {
-    background: $color-white-alpha-20;
-    color: $color-white;
+    background: variables.$color-white-alpha-20;
+    color: variables.$color-white;
   }
 }
 
@@ -3348,28 +3432,37 @@ button.module-image__border-overlay:focus {
   top: 0;
   inset-inline-start: 0;
 
-  z-index: $z-index-above-base;
+  z-index: variables.$z-index-above-base;
   height: 100%;
   width: 100%;
 
-  @include color-svg('../images/spinner-track-56.svg', $color-white-alpha-40);
+  @include mixins.color-svg(
+    '../images/spinner-track-56.svg',
+    variables.$color-white-alpha-40
+  );
 }
 .module-spinner__arc {
   position: absolute;
   top: 0;
   inset-inline-start: 0;
 
-  z-index: $z-index-above-above-base;
+  z-index: variables.$z-index-above-above-base;
   height: 100%;
   width: 100%;
 
   animation: rotate 1000ms linear infinite;
 
-  @include light-theme {
-    @include color-svg('../images/spinner-56.svg', $color-gray-60);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/spinner-56.svg',
+      variables.$color-gray-60
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/spinner-56.svg', $color-gray-05);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/spinner-56.svg',
+      variables.$color-gray-05
+    );
   }
 }
 
@@ -3386,7 +3479,7 @@ button.module-image__border-overlay:focus {
   -webkit-mask-size: 100%;
 
   // For specificity
-  @include dark-theme {
+  @include mixins.dark-theme {
     -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
     -webkit-mask-size: 100%;
   }
@@ -3396,81 +3489,81 @@ button.module-image__border-overlay:focus {
   -webkit-mask-size: 100%;
 
   // For specificity
-  @include dark-theme {
+  @include mixins.dark-theme {
     -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
     -webkit-mask-size: 100%;
   }
 }
 
 .module-spinner__circle--incoming {
-  background-color: $color-white-alpha-40;
+  background-color: variables.$color-white-alpha-40;
 }
 .module-spinner__arc--incoming {
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    background-color: $color-gray-02;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-02;
   }
 }
 
 .module-spinner__circle--outgoing {
-  @include light-theme {
-    background-color: $color-white-alpha-40;
+  @include mixins.light-theme {
+    background-color: variables.$color-white-alpha-40;
   }
-  @include dark-theme {
-    background-color: $color-white-alpha-40;
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-40;
   }
 }
 .module-spinner__arc--outgoing {
-  @include light-theme {
-    background-color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-gray-05;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-05;
   }
 }
 
 .module-spinner__circle--on-avatar {
-  background-color: $color-white-alpha-40;
+  background-color: variables.$color-white-alpha-40;
 }
 .module-spinner__circle--on-background {
-  @include light-theme {
-    background-color: $color-gray-05;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-05;
   }
-  @include dark-theme {
-    background-color: $color-gray-75;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-75;
   }
 }
 .module-spinner__arc--on-background {
-  @include light-theme {
-    background-color: $color-gray-60;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    background-color: $color-gray-25;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-25;
   }
 }
 
 .module-spinner__circle--on-primary-button {
-  background-color: $color-white-alpha-40;
+  background-color: variables.$color-white-alpha-40;
 }
 
 .module-spinner__circle--on-progress-dialog {
-  @include light-theme {
-    background-color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-gray-80;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-80;
   }
 }
 .module-spinner__arc--on-progress-dialog {
-  background-color: $color-ultramarine;
+  background-color: variables.$color-ultramarine;
 }
 .module-spinner__arc--on-avatar {
-  background-color: $color-white;
+  background-color: variables.$color-white;
 }
 .module-spinner__arc--on-primary-button {
-  background-color: $color-white;
+  background-color: variables.$color-white;
 }
 
 // Module: Reaction Viewer
@@ -3482,14 +3575,16 @@ button.module-image__border-overlay:focus {
   display: flex;
   flex-direction: column;
 
-  @include popper-shadow();
+  @include mixins.popper-shadow();
 
-  @include light-theme() {
-    background: $color-white;
-  }
+  & {
+    @include mixins.light-theme() {
+      background: variables.$color-white;
+    }
 
-  @include dark-theme() {
-    background: $color-gray-75;
+    @include mixins.dark-theme() {
+      background: variables.$color-gray-75;
+    }
   }
 
   &__header {
@@ -3522,36 +3617,36 @@ button.module-image__border-overlay:focus {
       &:focus {
         outline: none;
       }
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          box-shadow: 0px 0px 0px 2px $color-ultramarine;
+          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
         }
       }
 
       background: none;
 
       &--selected {
-        @include light-theme() {
-          background: $color-gray-05;
+        @include mixins.light-theme() {
+          background: variables.$color-gray-05;
         }
 
-        @include dark-theme() {
-          background: $color-gray-60;
+        @include mixins.dark-theme() {
+          background: variables.$color-gray-60;
         }
       }
 
       &__count,
       &__all {
-        @include font-body-2-bold();
+        @include mixins.font-body-2-bold();
 
         white-space: nowrap;
 
-        @include light-theme() {
-          color: $color-gray-90;
+        @include mixins.light-theme() {
+          color: variables.$color-gray-90;
         }
 
-        @include dark-theme() {
-          color: $color-gray-05;
+        @include mixins.dark-theme() {
+          color: variables.$color-gray-05;
         }
       }
 
@@ -3585,19 +3680,19 @@ button.module-image__border-overlay:focus {
       }
 
       &__name {
-        @include font-body-1-bold();
+        @include mixins.font-body-1-bold();
         flex-grow: 1;
         margin-inline-start: 8px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
 
-        @include light-theme() {
-          color: $color-gray-90;
+        @include mixins.light-theme() {
+          color: variables.$color-gray-90;
         }
 
-        @include dark-theme() {
-          color: $color-gray-05;
+        @include mixins.dark-theme() {
+          color: variables.$color-gray-05;
         }
       }
 
@@ -3620,12 +3715,12 @@ button.module-image__border-overlay:focus {
     position: fixed;
     top: 0;
     inset-inline-start: 0;
-    z-index: $z-index-calling-container;
+    z-index: variables.$z-index-calling-container;
   }
 
   &__container {
     align-items: center;
-    background-color: $calling-background-color;
+    background-color: variables.$calling-background-color;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -3635,7 +3730,7 @@ button.module-image__border-overlay:focus {
     left: 0;
     top: 0;
     width: 100%;
-    z-index: $z-index-calling;
+    z-index: variables.$z-index-calling;
   }
 
   &__background {
@@ -3662,10 +3757,10 @@ button.module-image__border-overlay:focus {
   }
 
   &__camera-is-off {
-    @include font-body-2;
-    @include calling-text-shadow;
+    @include mixins.font-body-2;
+    @include mixins.calling-text-shadow;
     align-items: center;
-    color: $color-white;
+    color: variables.$color-white;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -3675,12 +3770,12 @@ button.module-image__border-overlay:focus {
     text-align: center;
     transition: opacity 100ms ease-out;
     user-select: none;
-    z-index: $z-index-base;
+    z-index: variables.$z-index-base;
 
     &::before {
       content: '';
       display: block;
-      background-color: $color-white;
+      background-color: variables.$color-white;
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center;
       -webkit-mask-size: 100%;
@@ -3723,7 +3818,7 @@ button.module-image__border-overlay:focus {
   animation: {
     name: module-ongoing-call__controls--fade-in;
     duration: 1200ms;
-    timing-function: $ease-out-expo;
+    timing-function: variables.$ease-out-expo;
     fill-mode: forwards;
   }
 }
@@ -3732,7 +3827,7 @@ button.module-image__border-overlay:focus {
   animation: {
     name: module-ongoing-call__controls--fade-out;
     duration: 1200ms;
-    timing-function: $ease-out-expo;
+    timing-function: variables.$ease-out-expo;
     fill-mode: forwards;
   }
   pointer-events: none;
@@ -3748,7 +3843,7 @@ button.module-image__border-overlay:focus {
   $local-preview-height: 80px;
 
   &__remote-video-enabled {
-    background-color: $color-gray-95;
+    background-color: variables.$color-gray-95;
     height: 100%;
     width: 100%;
     &--reconnecting {
@@ -3757,7 +3852,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__remote-video-disabled {
-    background-color: $color-gray-95;
+    background-color: variables.$color-gray-95;
     height: 100vh;
     width: 100%;
     display: flex;
@@ -3775,18 +3870,20 @@ button.module-image__border-overlay:focus {
 
   &__next-page,
   &__prev-page {
-    @include button-reset;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 32px;
-    width: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: $color-gray-78;
-    z-index: $z-index-above-above-base;
+    @include mixins.button-reset;
+    & {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 32px;
+      width: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background-color: variables.$color-gray-78;
+      z-index: variables.$z-index-above-above-base;
+    }
 
     &--arrow {
       width: 20px;
@@ -3797,9 +3894,9 @@ button.module-image__border-overlay:focus {
   &__next-page {
     inset-inline-end: 4px;
     &--arrow {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-right.svg',
-        $color-white
+        variables.$color-white
       );
     }
   }
@@ -3807,9 +3904,9 @@ button.module-image__border-overlay:focus {
   &__prev-page {
     inset-inline-start: 4px;
     &--arrow {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-left.svg',
-        $color-white
+        variables.$color-white
       );
     }
   }
@@ -3823,7 +3920,7 @@ button.module-image__border-overlay:focus {
     flex: 1 1 0;
     width: 100%;
     margin-block-start: 24px;
-    z-index: $z-index-above-base;
+    z-index: variables.$z-index-above-base;
     -webkit-app-region: no-drag;
 
     &__grid--wrapper {
@@ -3911,16 +4008,18 @@ button.module-image__border-overlay:focus {
       &__scroll-marker {
         $scroll-marker-selector: &;
 
-        @include smooth-scroll;
+        @include mixins.smooth-scroll;
 
-        display: flex;
-        justify-content: center;
-        inset-inline-start: 0;
-        opacity: 1;
-        position: absolute;
-        transition: opacity 200ms ease-out;
-        width: 100%;
-        z-index: $z-index-above-above-base;
+        & {
+          display: flex;
+          justify-content: center;
+          inset-inline-start: 0;
+          opacity: 1;
+          position: absolute;
+          transition: opacity 200ms ease-out;
+          width: 100%;
+          z-index: variables.$z-index-above-above-base;
+        }
 
         &--hidden {
           opacity: 0;
@@ -3928,33 +4027,37 @@ button.module-image__border-overlay:focus {
 
         &__button {
           &::before {
-            @include color-svg(
+            @include mixins.color-svg(
               '../images/icons/v3/chevron/chevron-down.svg',
-              $color-gray-15
+              variables.$color-gray-15
             );
 
-            content: '';
-            display: block;
-            height: 100%;
-            width: 100%;
+            & {
+              content: '';
+              display: block;
+              height: 100%;
+              width: 100%;
+            }
           }
 
-          background: $color-gray-78;
-          border-radius: 100%;
-          border: 0;
-          height: 24px;
-          padding-inline: 4px;
-          margin-inline: 0;
-          opacity: 0;
-          outline: none;
-          transition: opacity 200ms ease-out;
-          width: 24px;
+          & {
+            background: variables.$color-gray-78;
+            border-radius: 100%;
+            border: 0;
+            height: 24px;
+            padding-inline: 4px;
+            margin-inline: 0;
+            opacity: 0;
+            outline: none;
+            transition: opacity 200ms ease-out;
+            width: 24px;
+          }
         }
 
         &--top {
           top: 0;
           background: linear-gradient(
-            $calling-background-color,
+            variables.$calling-background-color,
             transparent 20px,
             transparent
           );
@@ -3969,7 +4072,7 @@ button.module-image__border-overlay:focus {
           bottom: 0;
           background: linear-gradient(
             to top,
-            $calling-background-color,
+            variables.$calling-background-color,
             transparent 20px,
             transparent
           );
@@ -3987,30 +4090,36 @@ button.module-image__border-overlay:focus {
   }
 
   &__group-call--pagination-tile {
-    @include button-reset;
-    position: absolute;
-    border-radius: 10px;
-    background-color: $color-gray-78;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @include font-body-1;
-    color: $color-gray-20;
+    @include mixins.button-reset;
+    & {
+      position: absolute;
+      border-radius: 10px;
+      background-color: variables.$color-gray-78;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include mixins.font-body-1;
+      color: variables.$color-gray-20;
+    }
     &--next-arrow {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-right.svg',
-        $color-gray-20
+        variables.$color-gray-20
       );
-      height: 16px;
-      width: 16px;
+      & {
+        height: 16px;
+        width: 16px;
+      }
     }
     &--prev-arrow {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-20
+        variables.$color-gray-20
       );
-      height: 16px;
-      width: 16px;
+      & {
+        height: 16px;
+        width: 16px;
+      }
     }
   }
 
@@ -4036,7 +4145,7 @@ button.module-image__border-overlay:focus {
     &:after {
       content: '';
       position: absolute;
-      z-index: $z-index-above-above-base;
+      z-index: variables.$z-index-above-above-base;
       width: 100%;
       height: 100%;
       border: 0 solid transparent;
@@ -4050,7 +4159,7 @@ button.module-image__border-overlay:focus {
     }
     &--speaking:after {
       border-width: 3px;
-      border-color: $color-white;
+      border-color: variables.$color-white;
       // Turn off the transition when the user starts speaking to appear instantly
       transition-duration: 0ms;
       transition-delay: 0ms;
@@ -4058,14 +4167,14 @@ button.module-image__border-overlay:focus {
 
     &__remote-video {
       // The background-color is seen while the video loads.
-      background-color: $color-gray-75;
+      background-color: variables.$color-gray-75;
       &--reconnecting {
         filter: blur(15px);
       }
     }
 
     &-background.module-calling__background--no-avatar {
-      background-color: $color-gray-78;
+      background-color: variables.$color-gray-78;
     }
 
     &-background .module-calling__background--blur {
@@ -4081,23 +4190,25 @@ button.module-image__border-overlay:focus {
       margin-inline: 8px;
       font-size: 12px;
       line-height: 16px;
-      color: $color-white;
+      color: variables.$color-white;
       text-align: center;
-      z-index: $z-index-base;
+      z-index: variables.$z-index-base;
     }
 
     &__more-info {
-      @include button-reset;
-      padding-block: 3px;
-      padding-inline: 10px;
-      border-radius: 16px;
-      background-color: $color-black-alpha-30;
-      color: $color-white;
-      font-size: 12px;
-      line-height: 16px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      z-index: $z-index-above-base;
+      @include mixins.button-reset;
+      & {
+        padding-block: 3px;
+        padding-inline: 10px;
+        border-radius: 16px;
+        background-color: variables.$color-black-alpha-30;
+        color: variables.$color-white;
+        font-size: 12px;
+        line-height: 16px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        z-index: variables.$z-index-above-base;
+      }
 
       &-modal-title {
         -webkit-box-orient: vertical;
@@ -4114,13 +4225,16 @@ button.module-image__border-overlay:focus {
       }
 
       &--icon-blocked {
-        @include color-svg('../images/icons/v3/block/block.svg', $color-white);
+        @include mixins.color-svg(
+          '../images/icons/v3/block/block.svg',
+          variables.$color-white
+        );
       }
 
       &--icon-missing-media-keys {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/error/error-circle.svg',
-          $color-white
+          variables.$color-white
         );
       }
     }
@@ -4131,13 +4245,16 @@ button.module-image__border-overlay:focus {
       margin-block-end: 12px;
 
       &--blocked {
-        @include color-svg('../images/icons/v3/block/block.svg', $color-white);
+        @include mixins.color-svg(
+          '../images/icons/v3/block/block.svg',
+          variables.$color-white
+        );
       }
 
       &--missing-media-keys {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/error/error-circle.svg',
-          $color-white
+          variables.$color-white
         );
       }
     }
@@ -4151,7 +4268,7 @@ button.module-image__border-overlay:focus {
       padding-inline: 12px;
       user-select: none;
       width: 100%;
-      z-index: $z-index-above-base;
+      z-index: variables.$z-index-above-base;
     }
 
     &__info {
@@ -4165,7 +4282,7 @@ button.module-image__border-overlay:focus {
         flex-grow: 1;
         font-size: 13px;
         line-height: 18px;
-        color: $color-white;
+        color: variables.$color-white;
         overflow: hidden;
         text-overflow: ellipsis;
         visibility: hidden;
@@ -4174,7 +4291,7 @@ button.module-image__border-overlay:focus {
       }
 
       &--clickable {
-        @include button-reset;
+        @include mixins.button-reset;
       }
     }
 
@@ -4183,12 +4300,12 @@ button.module-image__border-overlay:focus {
     }
 
     &--hand-raised &__info {
-      background: $color-white;
+      background: variables.$color-white;
       border-radius: 40px;
 
       &__contact-name {
         display: none;
-        color: $color-black;
+        color: variables.$color-black;
         margin-inline-end: 12px;
       }
     }
@@ -4207,7 +4324,7 @@ button.module-image__border-overlay:focus {
         background: linear-gradient(
           180deg,
           transparent,
-          $color-black-alpha-60 100%
+          variables.$color-black-alpha-60 100%
         );
       }
     }
@@ -4225,10 +4342,10 @@ button.module-image__border-overlay:focus {
     justify-content: center;
     width: 100%;
     height: 100%;
-    z-index: $z-index-negative;
+    z-index: variables.$z-index-negative;
 
     video {
-      @include lonely-local-video-preview;
+      @include mixins.lonely-local-video-preview;
     }
 
     &--presenting {
@@ -4244,7 +4361,7 @@ button.module-image__border-overlay:focus {
     flex-direction: row-reverse;
     justify-content: space-between;
     width: 100%;
-    z-index: $z-index-above-base;
+    z-index: variables.$z-index-above-base;
 
     &__actions {
       align-items: center;
@@ -4262,10 +4379,10 @@ button.module-image__border-overlay:focus {
       margin-inline: 0 16px;
       overflow: hidden;
       position: relative;
-      width: $calling-local-preview-width;
+      width: variables.$calling-local-preview-width;
 
       &--active {
-        box-shadow: 0px 4px 14px 0px $color-black-alpha-40;
+        box-shadow: 0px 4px 14px 0px variables.$color-black-alpha-40;
       }
 
       &__video {
@@ -4274,7 +4391,7 @@ button.module-image__border-overlay:focus {
 
         video {
           // The background-color is seen while the video loads.
-          background-color: $color-gray-75;
+          background-color: variables.$color-gray-75;
           height: 100%;
           width: 100%;
 
@@ -4289,7 +4406,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__controls {
-    z-index: $z-index-above-above-base;
+    z-index: variables.$z-index-above-above-base;
   }
 
   &__controls--fadeIn {
@@ -4322,7 +4439,7 @@ button.module-image__border-overlay:focus {
 
 .module-calling-pip {
   backface-visibility: hidden;
-  background-color: $color-gray-95;
+  background-color: variables.$color-gray-95;
   border-radius: 4px;
   box-shadow:
     0px 0px 8px rgba(0, 0, 0, 0.05),
@@ -4331,7 +4448,7 @@ button.module-image__border-overlay:focus {
   height: 158px;
   position: fixed;
   width: 120px;
-  z-index: $z-index-calling-pip;
+  z-index: variables.$z-index-calling-pip;
 
   & .module-ongoing-call__group-call-remote-participant {
     border-radius: 0;
@@ -4340,7 +4457,7 @@ button.module-image__border-overlay:focus {
   &__video {
     &--remote {
       align-items: center;
-      background-color: $color-gray-95;
+      background-color: variables.$color-gray-95;
       border-radius: 4px 4px 0 0;
       display: flex;
       height: 120px; // This height should be kept in sync with <CallingPipRemoteVideo>'s hard-coded height.
@@ -4381,47 +4498,51 @@ button.module-image__border-overlay:focus {
 
   &__actions {
     align-items: center;
-    background-color: $color-gray-02;
+    background-color: variables.$color-gray-02;
     border-radius: 0 0 4px 4px;
     display: flex;
     flex-direction: row;
     height: 38px;
     justify-content: space-around;
 
-    @include dark-theme {
-      background-color: $color-gray-65;
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-65;
     }
   }
 
   &__button {
     &--hangup {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/phone/phone-down-light.svg',
-        $color-gray-75
+        variables.$color-gray-75
       );
-      height: 28px;
-      width: 28px;
-      border: none;
-      @include dark-theme {
-        @include color-svg(
+      & {
+        height: 28px;
+        width: 28px;
+        border: none;
+      }
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/phone/phone-down-light.svg',
-          $color-gray-15
+          variables.$color-gray-15
         );
       }
     }
 
     &--pip {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/pip/pip-maximize-light.svg',
-        $color-gray-75
+        variables.$color-gray-75
       );
-      height: 24px;
-      width: 24px;
-      border: none;
-      @include dark-theme {
-        @include color-svg(
+      & {
+        height: 24px;
+        width: 24px;
+        border: none;
+      }
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/pip/pip-maximize-light.svg',
-          $color-gray-15
+          variables.$color-gray-15
         );
       }
     }
@@ -4433,17 +4554,17 @@ button.module-image__border-overlay:focus {
   flex-direction: column;
   width: 320px;
   height: 440px;
-  max-height: calc(100vh - $CallControls__height - 22px);
+  max-height: calc(100vh - variables.$CallControls__height - 22px);
   padding-block: 5px 0;
   padding-inline: 5px;
   margin-block-end: 85px;
   margin-block-start: 20px;
   margin-inline: auto;
-  background-color: $color-gray-80;
+  background-color: variables.$color-gray-80;
   border-radius: 10px;
-  color: $color-white;
-  filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
-  outline: 1px solid $color-gray-62;
+  color: variables.$color-white;
+  filter: drop-shadow(0px 4px 3px variables.$color-black-alpha-20);
+  outline: 1px solid variables.$color-gray-62;
   overflow: hidden;
 
   &__overlay {
@@ -4456,7 +4577,7 @@ button.module-image__border-overlay:focus {
     padding-inline-start: 15px;
     align-items: flex-end;
     inset-inline-start: 0;
-    z-index: $z-index-calling;
+    z-index: variables.$z-index-calling;
 
     &::after {
       content: '';
@@ -4467,12 +4588,12 @@ button.module-image__border-overlay:focus {
   }
 
   &__title {
-    @include font-body-2-bold;
+    @include mixins.font-body-2-bold;
   }
 
   &__contact-icon {
     margin-inline-start: 0.3em;
-    background-color: $color-gray-25;
+    background-color: variables.$color-gray-25;
   }
 
   &__list {
@@ -4493,20 +4614,22 @@ button.module-image__border-overlay:focus {
   }
 
   &__contact {
-    @include font-body-1;
-    @include button-reset;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-block: 2px;
-    padding-block: 8px;
-    padding-inline-start: 10px;
-    padding-inline-end: 2px;
-    list-style-type: none;
-    border-radius: 6px;
-    cursor: auto;
+    @include mixins.font-body-1;
+    @include mixins.button-reset;
+    & {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-block: 2px;
+      padding-block: 8px;
+      padding-inline-start: 10px;
+      padding-inline-end: 2px;
+      list-style-type: none;
+      border-radius: 6px;
+      cursor: auto;
+    }
     &:hover {
-      background-color: $color-gray-62;
+      background-color: variables.$color-gray-62;
     }
     &[disabled] {
       cursor: auto;
@@ -4539,18 +4662,25 @@ button.module-image__border-overlay:focus {
   }
 
   &__close {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+    & {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-gray-15
+      );
+    }
 
-    height: 18px;
-    width: 18px;
-    margin-inline-end: 4px;
-    z-index: $z-index-above-base;
+    & {
+      height: 18px;
+      width: 18px;
+      margin-inline-end: 4px;
+      z-index: variables.$z-index-above-base;
+    }
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        background: $color-ultramarine;
+        background: variables.$color-ultramarine;
       }
     }
   }
@@ -4564,39 +4694,39 @@ button.module-image__border-overlay:focus {
   }
 
   &__hand-raised {
-    @include color-svg(
+    @include mixins.color-svg(
       '../images/icons/v3/raise_hand/raise_hand-light.svg',
-      $color-white
+      variables.$color-white
     );
   }
 
   &__muted {
     &--video {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/video/video-slash-compact-light.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--audio {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/mic/mic-slash-compact-light.svg',
-        $color-white
+        variables.$color-white
       );
     }
   }
 
   &__presenting {
-    @include color-svg(
+    @include mixins.color-svg(
       '../images/icons/v3/share_screen/share_screen-fill-light.svg',
-      $color-white
+      variables.$color-white
     );
   }
 
   &__remove {
-    @include color-svg(
+    @include mixins.color-svg(
       '../images/icons/v3/minus/minus-circle-compact.svg',
-      $color-white
+      variables.$color-white
     );
   }
 }
@@ -4607,8 +4737,8 @@ button.module-calling-participants-list__contact {
 
 .module-call-need-permission-screen {
   align-items: center;
-  background-color: $color-gray-95;
-  color: $color-gray-05;
+  background-color: variables.$color-gray-95;
+  color: variables.$color-gray-05;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -4623,7 +4753,7 @@ button.module-calling-participants-list__contact {
     margin-block: 2em;
     margin-inline: 1em;
     max-width: 400px;
-    @include font-body-1;
+    @include mixins.font-body-1;
     text-align: center;
   }
 
@@ -4632,9 +4762,9 @@ button.module-calling-participants-list__contact {
     padding-inline: 1em;
     border: 0;
     border-radius: 4px;
-    @include font-body-1-bold;
-    color: $color-gray-05;
-    background: $color-gray-65;
+    @include mixins.font-body-1-bold;
+    color: variables.$color-gray-05;
+    background: variables.$color-gray-65;
   }
 }
 
@@ -4643,7 +4773,7 @@ button.module-calling-participants-list__contact {
 .module-conversation-list {
   $normal-row-height: 72px;
 
-  @include NavTabs__Scroller;
+  @include mixins.NavTabs__Scroller;
   padding-inline: 10px;
 
   // list tiles in choose-group-members and compose extend to the edge
@@ -4661,32 +4791,34 @@ button.module-calling-participants-list__contact {
 
   &__item {
     &--archive-button {
-      @include button-reset;
+      @include mixins.button-reset;
 
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      border-radius: 10px;
-      height: $normal-row-height;
-      line-height: $normal-row-height;
-      text-align: center;
-      width: 100%;
-      padding-inline: 18px;
-      display: flex;
+      & {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        border-radius: 10px;
+        height: $normal-row-height;
+        line-height: $normal-row-height;
+        text-align: center;
+        width: 100%;
+        padding-inline: 18px;
+        display: flex;
 
-      @include light-theme {
-        color: $color-gray-60;
+        @include mixins.light-theme {
+          color: variables.$color-gray-60;
 
-        &:hover,
-        &:focus {
-          background-color: $color-gray-05;
+          &:hover,
+          &:focus {
+            background-color: variables.$color-gray-05;
+          }
         }
-      }
-      @include dark-theme {
-        color: $color-gray-25;
-        &:hover,
-        &:focus {
-          background-color: $color-gray-75;
+        @include mixins.dark-theme {
+          color: variables.$color-gray-25;
+          &:hover,
+          &:focus {
+            background-color: variables.$color-gray-75;
+          }
         }
       }
 
@@ -4697,28 +4829,28 @@ button.module-calling-participants-list__contact {
           width: 24px;
           height: 24px;
 
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/archive/archive.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/archive/archive.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
         }
       }
 
       &__text {
-        @include font-body-1-bold;
+        @include mixins.font-body-1-bold;
         margin-inline: 8px;
       }
 
       &__archived-count {
-        @include font-body-2-bold;
+        @include mixins.font-body-2-bold;
 
         padding: 6px;
         padding-top: 1px;
@@ -4726,13 +4858,13 @@ button.module-calling-participants-list__contact {
         border-radius: 10px;
         white-space: pre;
 
-        @include light-theme {
-          color: $color-gray-60;
-          background-color: $color-gray-05;
+        @include mixins.light-theme {
+          color: variables.$color-gray-60;
+          background-color: variables.$color-gray-05;
         }
-        @include dark-theme {
-          color: $color-gray-25;
-          background-color: $color-gray-75;
+        @include mixins.dark-theme {
+          color: variables.$color-gray-25;
+          background-color: variables.$color-gray-75;
         }
       }
 
@@ -4754,20 +4886,22 @@ button.module-calling-participants-list__contact {
     &--contact-or-conversation {
       $unread-indicator: '#{&}__unread-indicator';
 
-      @include button-reset;
+      @include mixins.button-reset;
 
-      align-items: center;
-      border-radius: 10px;
-      cursor: inherit;
-      display: flex;
-      flex-direction: row;
-      height: $normal-row-height;
-      margin-block: 2px;
-      margin-inline: 0;
-      padding-block: 8px;
-      padding-inline: 14px;
-      user-select: none;
-      width: 100%;
+      & {
+        align-items: center;
+        border-radius: 10px;
+        cursor: inherit;
+        display: flex;
+        flex-direction: row;
+        height: $normal-row-height;
+        margin-block: 2px;
+        margin-inline: 0;
+        padding-block: 8px;
+        padding-inline: 14px;
+        user-select: none;
+        width: 100%;
+      }
 
       #{$unread-indicator} {
         $size: 18px;
@@ -4783,26 +4917,31 @@ button.module-calling-participants-list__contact {
           display: none;
         }
 
-        @include light-theme {
-          background-color: $color-ultramarine;
+        @include mixins.light-theme {
+          background-color: variables.$color-ultramarine;
         }
-        @include dark-theme {
-          background-color: $color-ultramarine-dawn;
+        @include mixins.dark-theme {
+          background-color: variables.$color-ultramarine-dawn;
         }
         &--unread-messages,
         &--marked-unread {
-          @include font-caption-bold;
+          @include mixins.font-caption-bold;
           text-align: center;
           word-break: normal;
           padding-inline: 4px;
           line-height: 100%;
-          color: $color-white;
+          color: variables.$color-white;
           font-weight: 500;
         }
         &--unread-mentions__icon {
-          @include color-svg('../images/icons/v3/at/at.svg', $color-white);
-          width: 12px;
-          height: 12px;
+          @include mixins.color-svg(
+            '../images/icons/v3/at/at.svg',
+            variables.$color-white
+          );
+          & {
+            width: 12px;
+            height: 12px;
+          }
         }
       }
 
@@ -4824,38 +4963,38 @@ button.module-calling-participants-list__contact {
 
       &:hover:not(:disabled, &--disabled, &--is-selected),
       &:focus:not(:disabled, &--disabled, &--is-selected) {
-        @include light-theme {
-          background-color: $color-gray-05;
+        @include mixins.light-theme {
+          background-color: variables.$color-gray-05;
           #{$unread-indicator} {
-            border-color: $color-gray-05;
+            border-color: variables.$color-gray-05;
           }
         }
-        @include dark-theme {
-          background-color: $color-gray-75;
+        @include mixins.dark-theme {
+          background-color: variables.$color-gray-75;
           #{$unread-indicator} {
-            border-color: $color-gray-75;
+            border-color: variables.$color-gray-75;
           }
         }
       }
 
       &--is-selected {
-        @include light-theme {
-          background-color: $color-gray-15;
+        @include mixins.light-theme {
+          background-color: variables.$color-gray-15;
         }
-        @include dark-theme {
-          background-color: $color-gray-65;
+        @include mixins.dark-theme {
+          background-color: variables.$color-gray-65;
         }
       }
 
       &--is-selected &__avatar-container {
-        @include light-theme {
+        @include mixins.light-theme {
           #{$unread-indicator} {
-            border-color: $color-gray-15;
+            border-color: variables.$color-gray-15;
           }
         }
-        @include dark-theme {
+        @include mixins.dark-theme {
           #{$unread-indicator} {
-            border-color: $color-gray-65;
+            border-color: variables.$color-gray-65;
           }
         }
       }
@@ -4867,7 +5006,7 @@ button.module-calling-participants-list__contact {
           $border-width: 3px;
           $size: 21px + $border-width;
 
-          @include rounded-corners;
+          @include mixins.rounded-corners;
           border: $border-width solid transparent;
           height: $size;
           margin: 0;
@@ -4880,11 +5019,11 @@ button.module-calling-participants-list__contact {
             display: flex;
           }
 
-          @include light-theme {
-            border-color: $color-gray-02;
+          @include mixins.light-theme {
+            border-color: variables.$color-gray-02;
           }
-          @include dark-theme {
-            border-color: $color-gray-80;
+          @include mixins.dark-theme {
+            border-color: variables.$color-gray-80;
           }
 
           &--unread-messages,
@@ -4895,11 +5034,11 @@ button.module-calling-participants-list__contact {
             inset-inline-start: -(5px + $border-width);
           }
           &--is-selected {
-            @include light-theme {
-              border-color: $color-gray-15;
+            @include mixins.light-theme {
+              border-color: variables.$color-gray-15;
             }
-            @include dark-theme {
-              border-color: $color-gray-65;
+            @include mixins.dark-theme {
+              border-color: variables.$color-gray-65;
             }
           }
         }
@@ -4932,17 +5071,17 @@ button.module-calling-participants-list__contact {
             flex-grow: 1;
             flex-shrink: 1;
 
-            @include font-body-1-bold;
+            @include mixins.font-body-1-bold;
 
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
 
-            @include light-theme {
-              color: $color-gray-90;
+            @include mixins.light-theme {
+              color: variables.$color-gray-90;
             }
-            @include dark-theme {
-              color: $color-gray-05;
+            @include mixins.dark-theme {
+              color: variables.$color-gray-05;
             }
 
             &__contact-name {
@@ -4963,33 +5102,33 @@ button.module-calling-participants-list__contact {
               min-width: $size;
               width: $size;
 
-              @include light-theme {
-                @include color-svg(
+              @include mixins.light-theme {
+                @include mixins.color-svg(
                   '../images/icons/v3/bell/bell-slash-bold.svg',
-                  $color-gray-45
+                  variables.$color-gray-45
                 );
               }
 
-              @include dark-theme {
-                @include color-svg(
+              @include mixins.dark-theme {
+                @include mixins.color-svg(
                   '../images/icons/v3/bell/bell-slash-bold.svg',
-                  $color-gray-25
+                  variables.$color-gray-25
                 );
               }
             }
           }
 
           &__date {
-            @include font-caption;
+            @include mixins.font-caption;
             display: inline-block;
             flex-shrink: 0;
             margin-inline-start: 6px;
 
-            @include light-theme {
-              color: $color-gray-60;
+            @include mixins.light-theme {
+              color: variables.$color-gray-60;
             }
-            @include dark-theme {
-              color: $color-gray-25;
+            @include mixins.dark-theme {
+              color: variables.$color-gray-25;
             }
           }
         }
@@ -5016,7 +5155,7 @@ button.module-calling-participants-list__contact {
             flex-grow: 1;
             flex-shrink: 1;
 
-            @include font-body-2;
+            @include mixins.font-body-2;
 
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
@@ -5025,11 +5164,11 @@ button.module-calling-participants-list__contact {
             text-overflow: ellipsis;
             text-align: start;
 
-            @include light-theme {
-              color: $color-gray-60;
+            @include mixins.light-theme {
+              color: variables.$color-gray-60;
             }
-            @include dark-theme {
-              color: $color-gray-25;
+            @include mixins.dark-theme {
+              color: variables.$color-gray-25;
             }
 
             .module-conversation-list--width-narrow & {
@@ -5049,7 +5188,7 @@ button.module-calling-participants-list__contact {
                 width: 16px;
                 height: 16px;
                 margin-inline-end: 4px;
-                @include color-svg(
+                @include mixins.color-svg(
                   '../images/icons/v3/block/block.svg',
                   currentColor
                 );
@@ -5057,13 +5196,13 @@ button.module-calling-participants-list__contact {
             }
 
             &__message-request {
-              @include font-body-2-bold;
+              @include mixins.font-body-2-bold;
 
-              @include light-theme {
-                color: $color-gray-60;
+              @include mixins.light-theme {
+                color: variables.$color-gray-60;
               }
-              @include dark-theme {
-                color: $color-gray-25;
+              @include mixins.dark-theme {
+                color: variables.$color-gray-25;
               }
             }
 
@@ -5087,28 +5226,28 @@ button.module-calling-participants-list__contact {
               }
 
               @mixin normal-status-icon($icon) {
-                @include light-theme {
-                  @include color-svg($icon, $color-gray-45);
+                @include mixins.light-theme {
+                  @include mixins.color-svg($icon, variables.$color-gray-45);
                 }
-                @include dark-theme {
-                  @include color-svg($icon, $color-gray-25);
+                @include mixins.dark-theme {
+                  @include mixins.color-svg($icon, variables.$color-gray-25);
                 }
               }
 
               &--sending {
-                @include only-when-page-is-visible {
+                @include mixins.only-when-page-is-visible {
                   animation: rotate 4s linear infinite;
                 }
-                @include light-theme {
-                  @include color-svg(
+                @include mixins.light-theme {
+                  @include mixins.color-svg(
                     '../images/icons/v3/message_status/messagestatus-sending.svg',
-                    $color-gray-60
+                    variables.$color-gray-60
                   );
                 }
-                @include dark-theme {
-                  @include color-svg(
+                @include mixins.dark-theme {
+                  @include mixins.color-svg(
                     '../images/icons/v3/message_status/messagestatus-sending.svg',
-                    $color-gray-45
+                    variables.$color-gray-45
                   );
                 }
               }
@@ -5123,7 +5262,9 @@ button.module-calling-participants-list__contact {
                 @include normal-status-icon(
                   '../images/icons/v3/message_status/messagestatus-delivered.svg'
                 );
-                width: 18px;
+                & {
+                  width: 18px;
+                }
               }
 
               &--read,
@@ -5131,36 +5272,38 @@ button.module-calling-participants-list__contact {
                 @include normal-status-icon(
                   '../images/icons/v3/message_status/messagestatus-read.svg'
                 );
-                width: 18px;
+                & {
+                  width: 18px;
+                }
               }
 
               &--error,
               &--partial-sent {
-                @include light-theme {
-                  @include color-svg(
+                @include mixins.light-theme {
+                  @include mixins.color-svg(
                     '../images/icons/v3/error/error-circle.svg',
-                    $color-accent-red
+                    variables.$color-accent-red
                   );
                 }
-                @include dark-theme {
-                  @include color-svg(
+                @include mixins.dark-theme {
+                  @include mixins.color-svg(
                     '../images/icons/v3/error/error-circle.svg',
-                    $color-accent-red
+                    variables.$color-accent-red
                   );
                 }
               }
 
               &--paused {
-                @include light-theme {
-                  @include color-svg(
+                @include mixins.light-theme {
+                  @include mixins.color-svg(
                     '../images/icons/v3/error/error-circle.svg',
-                    $color-gray-60
+                    variables.$color-gray-60
                   );
                 }
-                @include dark-theme {
-                  @include color-svg(
+                @include mixins.dark-theme {
+                  @include mixins.color-svg(
                     '../images/icons/v3/error/error-circle.svg',
-                    $color-gray-45
+                    variables.$color-gray-45
                   );
                 }
               }
@@ -5174,7 +5317,7 @@ button.module-calling-participants-list__contact {
             }
 
             &__start-new-conversation {
-              @include font-body-1-italic;
+              @include mixins.font-body-1-italic;
             }
           }
         }
@@ -5191,7 +5334,7 @@ button.module-calling-participants-list__contact {
 
       &__checkbox {
         -webkit-appearance: none;
-        background: $color-white;
+        background: variables.$color-white;
         border-radius: 100%;
         height: 20px;
         margin-inline: 16px;
@@ -5199,33 +5342,33 @@ button.module-calling-participants-list__contact {
         min-width: 20px;
         pointer-events: none;
 
-        @include light-theme {
-          border: 1px solid $color-gray-15;
+        @include mixins.light-theme {
+          border: 1px solid variables.$color-gray-15;
         }
-        @include dark-theme {
-          border: 1px solid $color-gray-80;
+        @include mixins.dark-theme {
+          border: 1px solid variables.$color-gray-80;
         }
 
         &:focus {
           outline: none;
         }
 
-        @include keyboard-mode {
+        @include mixins.keyboard-mode {
           &:focus {
             border-width: 2px;
-            border-color: $color-ultramarine;
+            border-color: variables.$color-ultramarine;
             &:checked {
-              box-shadow: inset 0 0 0px 1px $color-white;
+              box-shadow: inset 0 0 0px 1px variables.$color-white;
             }
           }
         }
-        @include dark-keyboard-mode {
+        @include mixins.dark-keyboard-mode {
           &:focus {
             border-width: 2px;
-            border-color: $color-ultramarine-light;
+            border-color: variables.$color-ultramarine-light;
 
             &:checked {
-              box-shadow: inset 0 0 0px 1px $color-black;
+              box-shadow: inset 0 0 0px 1px variables.$color-black;
             }
           }
         }
@@ -5237,7 +5380,7 @@ button.module-calling-participants-list__contact {
         &:checked {
           $icon: '../images/icons/v3/check/check.svg';
 
-          background: $color-ultramarine;
+          background: variables.$color-ultramarine;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -5245,19 +5388,21 @@ button.module-calling-participants-list__contact {
           &::before {
             content: '';
             display: block;
-            @include color-svg($icon, $color-white);
-            width: 13px;
-            height: 13px;
-          }
-
-          @include light-theme {
-            &:disabled {
-              background: $color-gray-15;
+            @include mixins.color-svg($icon, variables.$color-white);
+            & {
+              width: 13px;
+              height: 13px;
             }
           }
-          @include dark-theme {
+
+          @include mixins.light-theme {
             &:disabled {
-              background: $color-gray-45;
+              background: variables.$color-gray-15;
+            }
+          }
+          @include mixins.dark-theme {
+            &:disabled {
+              background: variables.$color-gray-45;
             }
           }
         }
@@ -5275,7 +5420,7 @@ button.module-calling-participants-list__contact {
     }
 
     &--header {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
 
       align-items: flex-end;
       display: flex;
@@ -5287,12 +5432,12 @@ button.module-calling-participants-list__contact {
       user-select: none;
       white-space: nowrap;
 
-      @include dark-theme {
-        color: $color-gray-05;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
       }
 
       .module-conversation-list--width-narrow & {
-        @include rounded-corners;
+        @include mixins.rounded-corners;
         display: block;
         height: 2px;
         margin-block: 19px;
@@ -5305,12 +5450,12 @@ button.module-calling-participants-list__contact {
         overflow: hidden;
         text-indent: -99999px;
 
-        @include light-theme {
-          background: $color-black-alpha-12;
+        @include mixins.light-theme {
+          background: variables.$color-black-alpha-12;
         }
 
-        @include dark-theme {
-          background: $color-white-alpha-12;
+        @include mixins.dark-theme {
+          background: variables.$color-white-alpha-12;
         }
       }
     }
@@ -5333,12 +5478,12 @@ button.module-calling-participants-list__contact {
   width: 100%;
   position: relative;
 
-  @include light-theme {
-    $background-color: $color-gray-02;
+  @include mixins.light-theme {
+    $background-color: variables.$color-gray-02;
   }
 
-  @include dark-theme {
-    $background-color: $color-gray-80;
+  @include mixins.dark-theme {
+    $background-color: variables.$color-gray-80;
   }
 }
 
@@ -5359,78 +5504,80 @@ button.module-calling-participants-list__contact {
     padding-block: 15px;
 
     &__back-button {
-      @include button-reset;
+      @include mixins.button-reset;
 
-      margin-inline-start: 16px;
+      & {
+        margin-inline-start: 16px;
 
-      width: 20px;
-      height: 20px;
+        width: 20px;
+        height: 20px;
+      }
 
       &:disabled {
         cursor: not-allowed;
       }
 
-      @include light-theme {
+      @include mixins.light-theme {
         &:dir(ltr) {
-          @include color-svg(
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-left.svg',
-            $color-gray-60
+            variables.$color-gray-60
           );
         }
         &:dir(rtl) {
-          @include color-svg(
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-right.svg',
-            $color-gray-60
+            variables.$color-gray-60
           );
         }
       }
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:dir(ltr) {
           &:focus {
-            @include color-svg(
+            @include mixins.color-svg(
               '../images/icons/v3/chevron/chevron-left.svg',
-              $color-ultramarine
+              variables.$color-ultramarine
             );
           }
         }
         &:dir(rtl) {
           &:focus {
-            @include color-svg(
+            @include mixins.color-svg(
               '../images/icons/v3/chevron/chevron-right.svg',
-              $color-ultramarine
+              variables.$color-ultramarine
             );
           }
         }
       }
 
-      @include dark-theme {
+      @include mixins.dark-theme {
         &:dir(ltr) {
-          @include color-svg(
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-left.svg',
-            $color-gray-25
+            variables.$color-gray-25
           );
         }
         &:dir(rtl) {
-          @include color-svg(
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-right.svg',
-            $color-gray-25
+            variables.$color-gray-25
           );
         }
       }
-      @include dark-keyboard-mode {
+      @include mixins.dark-keyboard-mode {
         &:dir(ltr) {
           &:hover {
-            @include color-svg(
+            @include mixins.color-svg(
               '../images/icons/v3/chevron/chevron-left.svg',
-              $color-ultramarine-light
+              variables.$color-ultramarine-light
             );
           }
         }
         &:dir(rtl) {
           &:hover {
-            @include color-svg(
+            @include mixins.color-svg(
               '../images/icons/v3/chevron/chevron-right.svg',
-              $color-ultramarine-light
+              variables.$color-ultramarine-light
             );
           }
         }
@@ -5438,16 +5585,16 @@ button.module-calling-participants-list__contact {
     }
 
     &__text {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
       flex-grow: 1;
       padding-inline-end: 36px;
       text-align: center;
 
-      @include light-theme {
-        color: $color-gray-90;
+      @include mixins.light-theme {
+        color: variables.$color-gray-90;
       }
-      @include dark-theme {
-        color: $color-gray-05;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
       }
     }
   }
@@ -5480,16 +5627,16 @@ button.module-calling-participants-list__contact {
   display: block;
   width: 20px;
   height: 20px;
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/compose/compose.svg',
-      $color-gray-75
+      variables.$color-gray-75
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/compose/compose.svg',
-      $color-gray-15
+      variables.$color-gray-15
     );
   }
 }
@@ -5498,16 +5645,22 @@ button.module-calling-participants-list__contact {
   display: block;
   width: 20px;
   height: 20px;
-  @include light-theme {
-    @include color-svg('../images/icons/v3/more/more.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/more/more.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/more/more.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/more/more.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
 .module-left-pane__archive-helper-text {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   flex-grow: 0;
   flex-shrink: 0;
@@ -5515,13 +5668,13 @@ button.module-calling-participants-list__contact {
 
   padding: 1em;
 
-  @include light-theme {
-    color: $color-gray-60;
-    background-color: $color-gray-05;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
+    background-color: variables.$color-gray-05;
   }
-  @include dark-theme {
-    color: $color-gray-25;
-    background-color: $color-gray-75;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
+    background-color: variables.$color-gray-75;
   }
 }
 .module-left-pane__no-search-results__unread-header {
@@ -5556,11 +5709,11 @@ button.module-calling-participants-list__contact {
 
 .module-left-pane__no-search-results__sms-only {
   margin-top: 12px;
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -5595,12 +5748,12 @@ button.module-calling-participants-list__contact {
   position: absolute;
   width: 100%;
 
-  @include light-theme {
-    background: linear-gradient(transparent, $color-gray-02);
+  @include mixins.light-theme {
+    background: linear-gradient(transparent, variables.$color-gray-02);
   }
 
-  @include dark-theme {
-    background: linear-gradient(transparent, $color-gray-80);
+  @include mixins.dark-theme {
+    background: linear-gradient(transparent, variables.$color-gray-80);
   }
 }
 
@@ -5610,7 +5763,7 @@ button.module-calling-participants-list__contact {
   height: 100%;
   inset-inline-end: -8px;
   top: 0;
-  z-index: $z-index-above-base;
+  z-index: variables.$z-index-above-base;
   cursor: col-resize;
 }
 
@@ -5675,7 +5828,7 @@ button.module-calling-participants-list__contact {
 }
 
 .module-timeline__scrolldown-buttons {
-  z-index: $z-index-scroll-down-button;
+  z-index: variables.$z-index-scroll-down-button;
   position: absolute;
   inset-inline-end: 16px;
   bottom: 12px;
@@ -5689,42 +5842,17 @@ button.module-calling-participants-list__contact {
   outline: none;
 }
 
-// Module: CompositionPopper
-
-%module-composition-popper {
-  width: 332px;
-  border-radius: 4px;
-  margin-bottom: 6px;
-  z-index: $z-index-context-menu;
-  user-select: none;
-  overflow: hidden;
-
-  @include popper-shadow();
-
-  @include light-theme {
-    background: $color-gray-02;
-    ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-02;
-    }
-  }
-
-  @include dark-theme {
-    background: $color-gray-75;
-    ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-75;
-    }
-  }
-}
-
 // Module: StickerPicker
 
 .module-sticker-picker {
-  @extend %module-composition-popper;
-  height: 400px;
-  display: grid;
-  grid-template-rows: 44px 1fr;
-  grid-template-columns: 1fr;
-  z-index: $z-index-context-menu;
+  @include mixins.module-composition-popper;
+  & {
+    height: 400px;
+    display: grid;
+    grid-template-rows: 44px 1fr;
+    grid-template-columns: 1fr;
+    z-index: variables.$z-index-context-menu;
+  }
 }
 
 .module-sticker-picker__header {
@@ -5751,7 +5879,7 @@ button.module-calling-participants-list__contact {
 }
 
 .module-sticker-picker__recents--title {
-  color: $color-gray-05;
+  color: variables.$color-gray-05;
 }
 
 .module-sticker-picker__header__button {
@@ -5769,20 +5897,20 @@ button.module-calling-participants-list__contact {
 
   &:active,
   &:focus {
-    @include keyboard-mode {
-      background: $color-gray-05;
+    @include mixins.keyboard-mode {
+      background: variables.$color-gray-05;
     }
-    @include dark-keyboard-mode {
-      background: $color-gray-60;
+    @include mixins.dark-keyboard-mode {
+      background: variables.$color-gray-60;
     }
   }
 
   &--selected {
-    @include light-theme {
-      background: $color-gray-15;
+    @include mixins.light-theme {
+      background: variables.$color-gray-15;
     }
-    @include dark-theme {
-      background: $color-gray-45;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-45;
     }
   }
 
@@ -5798,16 +5926,16 @@ button.module-calling-participants-list__contact {
 
   &--recents {
     &::after {
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/recent/recent.svg',
-          $color-gray-60
+          variables.$color-gray-60
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/recent/recent.svg',
-          $color-gray-25
+          variables.$color-gray-25
         );
       }
     }
@@ -5815,11 +5943,17 @@ button.module-calling-participants-list__contact {
 
   &--add-pack {
     &::after {
-      @include light-theme {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-60);
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/plus/plus.svg',
+          variables.$color-gray-60
+        );
       }
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-25);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/plus/plus.svg',
+          variables.$color-gray-25
+        );
       }
     }
   }
@@ -5837,12 +5971,12 @@ button.module-calling-participants-list__contact {
       min-height: 16px;
     }
 
-    @include light-theme {
-      background: $color-gray-02;
+    @include mixins.light-theme {
+      background: variables.$color-gray-02;
     }
 
-    @include dark-theme {
-      background: $color-gray-75;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-75;
     }
   }
 
@@ -5852,32 +5986,32 @@ button.module-calling-participants-list__contact {
 
     &:dir(ltr) {
       &::after {
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-left.svg',
-            $color-gray-60
+            variables.$color-gray-60
           );
         }
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-left.svg',
-            $color-gray-25
+            variables.$color-gray-25
           );
         }
       }
     }
     &:dir(rtl) {
       &::after {
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-right.svg',
-            $color-gray-60
+            variables.$color-gray-60
           );
         }
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-right.svg',
-            $color-gray-25
+            variables.$color-gray-25
           );
         }
       }
@@ -5890,32 +6024,32 @@ button.module-calling-participants-list__contact {
 
     &:dir(ltr) {
       &::after {
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-right.svg',
-            $color-gray-60
+            variables.$color-gray-60
           );
         }
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-right.svg',
-            $color-gray-25
+            variables.$color-gray-25
           );
         }
       }
     }
     &:dir(rtl) {
       &::after {
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-left.svg',
-            $color-gray-60
+            variables.$color-gray-60
           );
         }
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/chevron/chevron-left.svg',
-            $color-gray-25
+            variables.$color-gray-25
           );
         }
       }
@@ -5933,9 +6067,9 @@ button.module-calling-participants-list__contact {
       position: absolute;
       inset-inline-start: 14px;
       top: 2px;
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/error/error-circle.svg',
-        $color-accent-red
+        variables.$color-accent-red
       );
     }
   }
@@ -5951,7 +6085,7 @@ button.module-calling-participants-list__contact {
       width: 14px;
       height: 14px;
       border-radius: 7px;
-      background: $color-ultramarine;
+      background: variables.$color-ultramarine;
     }
   }
 }
@@ -5967,7 +6101,7 @@ button.module-calling-participants-list__contact {
   min-height: 20px;
   max-width: 20px;
   max-height: 20px;
-  background-color: $color-gray-05;
+  background-color: variables.$color-gray-05;
 }
 
 .module-sticker-picker__body {
@@ -6006,7 +6140,7 @@ button.module-calling-participants-list__contact {
     justify-content: center;
     align-items: center;
 
-    @include mouse-mode {
+    @include mixins.mouse-mode {
       outline: none;
     }
 
@@ -6020,12 +6154,12 @@ button.module-calling-participants-list__contact {
     &__placeholder {
       border-radius: 4px;
 
-      @include light-theme() {
-        background-color: $color-gray-05;
+      @include mixins.light-theme() {
+        background-color: variables.$color-gray-05;
       }
 
-      @include dark-theme() {
-        background-color: $color-gray-60;
+      @include mixins.dark-theme() {
+        background-color: variables.$color-gray-60;
       }
     }
   }
@@ -6038,18 +6172,18 @@ button.module-calling-participants-list__contact {
   }
 
   &__text {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
 
     text-align: center;
     padding-block: 8px 12px;
     padding-inline: 0 16px;
 
-    @include light-theme() {
-      color: $color-gray-60;
+    @include mixins.light-theme() {
+      color: variables.$color-gray-60;
     }
 
-    @include dark-theme() {
-      color: $color-gray-25;
+    @include mixins.dark-theme() {
+      color: variables.$color-gray-25;
     }
 
     &:only-child {
@@ -6058,21 +6192,21 @@ button.module-calling-participants-list__contact {
     }
 
     &--error {
-      @include light-theme() {
-        color: $color-accent-red;
+      @include mixins.light-theme() {
+        color: variables.$color-accent-red;
       }
-      @include dark-theme() {
-        color: $color-accent-red;
+      @include mixins.dark-theme() {
+        color: variables.$color-accent-red;
       }
     }
 
     &--hint {
-      @include light-theme() {
-        color: $color-ultramarine;
+      @include mixins.light-theme() {
+        color: variables.$color-ultramarine;
       }
 
-      @include dark-theme() {
-        color: $color-ultramarine-light;
+      @include mixins.dark-theme() {
+        color: variables.$color-ultramarine-light;
       }
     }
 
@@ -6086,8 +6220,8 @@ button.module-calling-participants-list__contact {
 }
 
 .module-sticker-picker__time--digital {
-  @include time-fonts;
-  color: $color-white;
+  @include mixins.time-fonts;
+  color: variables.$color-white;
   font-size: 28px;
   line-height: 0px;
 }
@@ -6144,9 +6278,9 @@ button.module-calling-participants-list__contact {
   justify-content: center;
   align-items: center;
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      outline: 2px solid $color-ultramarine;
+      outline: 2px solid variables.$color-ultramarine;
     }
   }
 
@@ -6159,55 +6293,61 @@ button.module-calling-participants-list__contact {
     height: 20px;
     flex-shrink: 0;
 
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/sticker/sticker.svg',
-        $color-gray-75
+        variables.$color-gray-75
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/sticker/sticker.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &--active {
-    @include light-theme() {
-      background: $color-gray-05;
+    @include mixins.light-theme() {
+      background: variables.$color-gray-05;
     }
 
-    @include dark-theme() {
-      background: $color-gray-75;
+    @include mixins.dark-theme() {
+      background: variables.$color-gray-75;
     }
 
-    opacity: 1;
+    & {
+      opacity: 1;
+    }
   }
 }
 
 .module-sticker-button__tooltip {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  height: 34px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-block: 7px;
-  padding-inline: 12px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  z-index: $z-index-tooltip;
+  & {
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-block: 7px;
+    padding-inline: 12px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    z-index: variables.$z-index-tooltip;
 
-  @include light-theme {
-    background: $color-white;
+    @include mixins.light-theme {
+      background: variables.$color-white;
+    }
+
+    @include mixins.dark-theme {
+      background: variables.$color-gray-75;
+    }
+
+    & {
+      @include mixins.popper-shadow();
+    }
   }
-
-  @include dark-theme {
-    background: $color-gray-75;
-  }
-
-  @include popper-shadow();
 
   &__triangle {
     position: absolute;
@@ -6216,12 +6356,12 @@ button.module-calling-participants-list__contact {
     border-style: solid;
     border-width: 8px 8px 0 8px;
 
-    @include light-theme {
-      border-color: $color-white transparent transparent transparent;
+    @include mixins.light-theme {
+      border-color: variables.$color-white transparent transparent transparent;
     }
 
-    @include dark-theme {
-      border-color: $color-gray-75 transparent transparent transparent;
+    @include mixins.dark-theme {
+      border-color: variables.$color-gray-75 transparent transparent transparent;
     }
 
     &--top-end {
@@ -6241,19 +6381,19 @@ button.module-calling-participants-list__contact {
   &__image-placeholder {
     width: 20px;
     height: 20px;
-    background-color: $color-gray-05;
+    background-color: variables.$color-gray-05;
   }
 
   &__text {
     margin-inline-start: 4px;
     cursor: default;
 
-    @include light-theme {
-      color: $color-gray-90;
+    @include mixins.light-theme {
+      color: variables.$color-gray-90;
     }
 
-    @include dark-theme {
-      color: $color-gray-05;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
     }
 
     &__title {
@@ -6280,18 +6420,18 @@ button.module-calling-participants-list__contact {
       flex-direction: column;
       justify-content: center;
 
-      @include light-theme {
-        color: $color-gray-90;
+      @include mixins.light-theme {
+        color: variables.$color-gray-90;
       }
 
-      @include dark-theme {
-        color: $color-gray-05;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
       }
 
       &__title {
         margin: 0;
 
-        @include font-body-1-bold;
+        @include mixins.font-body-1-bold;
         height: 16px;
       }
 
@@ -6309,17 +6449,17 @@ button.module-calling-participants-list__contact {
         height: 16px;
         border: none;
 
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/x/x-compact.svg',
-            $color-gray-60
+            variables.$color-gray-60
           );
         }
 
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/x/x-compact.svg',
-            $color-gray-05
+            variables.$color-gray-05
           );
         }
       }
@@ -6337,11 +6477,13 @@ button.module-calling-participants-list__contact {
 }
 
 .module-emoji-picker {
-  @extend %module-composition-popper;
-  height: 428px;
-  display: grid;
-  grid-template-rows: 44px 1fr;
-  grid-template-columns: 1fr;
+  @include mixins.module-composition-popper;
+  & {
+    height: 428px;
+    display: grid;
+    grid-template-rows: 44px 1fr;
+    grid-template-columns: 1fr;
+  }
 
   &__header {
     @extend %module-emoji-picker--ribbon;
@@ -6354,7 +6496,7 @@ button.module-calling-participants-list__contact {
       margin-inline-start: 8px;
       position: relative;
 
-      @include font-body-2;
+      @include mixins.font-body-2;
 
       &::after {
         display: block;
@@ -6365,16 +6507,16 @@ button.module-calling-participants-list__contact {
         inset-inline-start: 8px;
         top: 6px;
 
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/search/search-compact.svg',
-            $color-gray-60
+            variables.$color-gray-60
           );
         }
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/search/search-compact.svg',
-            $color-gray-25
+            variables.$color-gray-25
           );
         }
       }
@@ -6383,7 +6525,7 @@ button.module-calling-participants-list__contact {
         width: 100%;
         height: 28px;
 
-        @include font-body-1;
+        @include mixins.font-body-1;
 
         line-height: 28px;
 
@@ -6397,31 +6539,31 @@ button.module-calling-participants-list__contact {
           outline: none;
         }
 
-        @include light-theme {
-          background: $color-white;
-          color: $color-gray-90;
-          border-color: $color-gray-60;
+        @include mixins.light-theme {
+          background: variables.$color-white;
+          color: variables.$color-gray-90;
+          border-color: variables.$color-gray-60;
 
           &:focus {
-            border-color: $color-ultramarine;
+            border-color: variables.$color-ultramarine;
           }
 
           &:placeholder {
-            color: $color-gray-45;
+            color: variables.$color-gray-45;
           }
         }
 
-        @include dark-theme {
-          border-color: $color-gray-25;
-          background: $color-gray-75;
-          color: $color-gray-05;
+        @include mixins.dark-theme {
+          border-color: variables.$color-gray-25;
+          background: variables.$color-gray-75;
+          color: variables.$color-gray-05;
 
           &:focus {
-            border-color: $color-ultramarine;
+            border-color: variables.$color-ultramarine;
           }
 
           &:placeholder {
-            color: $color-gray-45;
+            color: variables.$color-gray-45;
           }
         }
       }
@@ -6457,7 +6599,7 @@ button.module-calling-participants-list__contact {
     align-items: center;
     background: none;
 
-    @include mouse-mode {
+    @include mixins.mouse-mode {
       outline: none;
     }
 
@@ -6471,13 +6613,13 @@ button.module-calling-participants-list__contact {
       margin-inline-start: 12px;
       border-radius: 100%;
 
-      @include light-theme {
-        background: $color-white;
-        box-shadow: 0px 0px 4px $color-black-alpha-20;
+      @include mixins.light-theme {
+        background: variables.$color-white;
+        box-shadow: 0px 0px 4px variables.$color-black-alpha-20;
       }
 
-      @include dark-theme {
-        background: $color-gray-65;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-65;
       }
 
       &::before {
@@ -6486,29 +6628,29 @@ button.module-calling-participants-list__contact {
         height: 20px;
         content: '';
 
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/settings/settings.svg',
-            $color-gray-75
+            variables.$color-gray-75
           );
         }
 
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/settings/settings.svg',
-            $color-gray-25
+            variables.$color-gray-25
           );
         }
       }
     }
 
     &--selected {
-      @include light-theme {
-        background: $color-gray-05;
+      @include mixins.light-theme {
+        background: variables.$color-gray-05;
       }
 
-      @include dark-theme {
-        background: $color-gray-60;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-60;
       }
     }
 
@@ -6526,16 +6668,16 @@ button.module-calling-participants-list__contact {
 
       &--search {
         &::after {
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/search/search.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/search/search.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
         }
@@ -6543,27 +6685,33 @@ button.module-calling-participants-list__contact {
 
       &--close {
         &::after {
-          @include light-theme {
-            @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
+          @include mixins.light-theme {
+            @include mixins.color-svg(
+              '../images/icons/v3/x/x.svg',
+              variables.$color-gray-60
+            );
           }
-          @include dark-theme {
-            @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
+              '../images/icons/v3/x/x.svg',
+              variables.$color-gray-25
+            );
           }
         }
       }
 
       &--recents {
         &::after {
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/recent/recent.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/recent/recent.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
         }
@@ -6571,16 +6719,16 @@ button.module-calling-participants-list__contact {
 
       &--emoji {
         &::after {
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/emoji/emoji.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/emoji/emoji.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
         }
@@ -6591,16 +6739,16 @@ button.module-calling-participants-list__contact {
       @each $cat in $categories {
         &--#{$cat} {
           &::after {
-            @include light-theme {
-              @include color-svg(
+            @include mixins.light-theme {
+              @include mixins.color-svg(
                 '../images/icons/v3/emoji/emoji-#{$cat}.svg',
-                $color-gray-60
+                variables.$color-gray-60
               );
             }
-            @include dark-theme {
-              @include color-svg(
+            @include mixins.dark-theme {
+              @include mixins.color-svg(
                 '../images/icons/v3/emoji/emoji-#{$cat}.svg',
-                $color-gray-25
+                variables.$color-gray-25
               );
             }
           }
@@ -6626,14 +6774,14 @@ button.module-calling-participants-list__contact {
       padding: 0;
       justify-content: center;
       align-items: center;
-      @include font-body-1;
+      @include mixins.font-body-1;
 
-      @include light-theme {
-        color: $color-gray-60;
+      @include mixins.light-theme {
+        color: variables.$color-gray-60;
       }
 
-      @include dark-theme {
-        color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
       }
     }
   }
@@ -6661,9 +6809,9 @@ button.module-calling-participants-list__contact {
   justify-content: center;
   align-items: center;
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      outline: 2px solid $color-ultramarine;
+      outline: 2px solid variables.$color-ultramarine;
     }
   }
 
@@ -6676,25 +6824,31 @@ button.module-calling-participants-list__contact {
     height: 20px;
     flex-shrink: 0;
 
-    @include light-theme {
-      @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-gray-75);
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/emoji/emoji.svg',
+        variables.$color-gray-75
+      );
     }
-    @include dark-theme {
-      @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-gray-15);
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/emoji/emoji.svg',
+        variables.$color-gray-15
+      );
     }
   }
 
   &--profile-editor::after {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/emoji/emoji-plus.svg',
-        $color-gray-75
+        variables.$color-gray-75
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/emoji/emoji-plus.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
@@ -6708,15 +6862,17 @@ button.module-calling-participants-list__contact {
   }
 
   &--active {
-    @include light-theme() {
-      background: $color-gray-05;
+    @include mixins.light-theme() {
+      background: variables.$color-gray-05;
     }
 
-    @include dark-theme() {
-      background: $color-gray-75;
+    @include mixins.dark-theme() {
+      background: variables.$color-gray-75;
     }
 
-    opacity: 1;
+    & {
+      opacity: 1;
+    }
   }
 }
 
@@ -6747,12 +6903,12 @@ button.module-calling-participants-list__contact {
   color: transparent;
   font-family: auto;
 
-  @include light-theme() {
-    caret-color: $color-gray-90;
+  @include mixins.light-theme() {
+    caret-color: variables.$color-gray-90;
   }
 
-  @include dark-theme() {
-    caret-color: $color-gray-05;
+  @include mixins.dark-theme() {
+    caret-color: variables.$color-gray-05;
   }
 
   @include emoji-size(16px);
@@ -6775,7 +6931,7 @@ button.module-calling-participants-list__contact {
 }
 
 .module-last-seen-indicator__bar {
-  background-color: $color-gray-45;
+  background-color: variables.$color-gray-45;
   width: 100%;
   height: 1px;
 }
@@ -6783,15 +6939,15 @@ button.module-calling-participants-list__contact {
 .module-last-seen-indicator__text {
   margin-top: 3px;
 
-  @include font-body-2-bold;
+  @include mixins.font-body-2-bold;
 
   text-align: center;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
@@ -6802,34 +6958,40 @@ button.module-calling-participants-list__contact {
 }
 
 .module-calling-device-selection__close-button {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+  & {
+    @include mixins.color-svg(
+      '../images/icons/v3/x/x.svg',
+      variables.$color-gray-15
+    );
+  }
+  & {
+    height: 24px;
+    position: absolute;
+    inset-inline-end: 5px;
+    top: 0;
+    width: 24px;
+    z-index: variables.$z-index-above-base;
+  }
 
-  height: 24px;
-  position: absolute;
-  inset-inline-end: 5px;
-  top: 0;
-  width: 24px;
-  z-index: $z-index-above-base;
-
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus,
     &:active,
     &:hover {
-      background-color: $color-ultramarine;
+      background-color: variables.$color-ultramarine;
     }
   }
 }
 
 .module-calling-device-selection__title {
-  @include font-title-2;
+  @include mixins.font-title-2;
   margin-top: 12px;
   margin-bottom: 20px;
 }
 
 .module-calling-device-selection__label {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
   display: block;
   margin-bottom: 16px;
 }
@@ -6847,26 +7009,26 @@ button.module-calling-participants-list__contact {
   max-width: 650px;
   margin-inline: auto;
 
-  @include light-theme {
-    background: $color-white;
+  @include mixins.light-theme {
+    background: variables.$color-white;
   }
 
-  @include dark-theme {
-    background: $color-gray-95;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-95;
   }
 }
 
 .module-group-v1-disabled-actions__message {
-  @include font-body-2;
+  @include mixins.font-body-2;
   text-align: center;
   margin-bottom: 12px;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
 
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -6880,15 +7042,16 @@ button.module-calling-participants-list__contact {
   justify-content: center;
 }
 .module-group-v1-disabled-actions__buttons__button {
-  @include button-reset;
-  @include font-body-1-bold;
+  @include mixins.button-reset;
+  & {
+    @include mixins.font-body-1-bold;
+    border-radius: 4px;
 
-  border-radius: 4px;
+    padding: 8px;
+    padding-inline: 30px;
 
-  padding: 8px;
-  padding-inline: 30px;
-
-  @include button-primary;
+    @include mixins.button-primary;
+  }
 }
 
 // Module: GroupV2 Pending Approval Actions
@@ -6899,26 +7062,26 @@ button.module-calling-participants-list__contact {
   max-width: 650px;
   margin-inline: auto;
 
-  @include light-theme {
-    background: $color-white;
+  @include mixins.light-theme {
+    background: variables.$color-white;
   }
 
-  @include dark-theme {
-    background: $color-gray-95;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-95;
   }
 }
 
 .module-group-v2-pending-approval-actions__message {
-  @include font-body-2;
+  @include mixins.font-body-2;
   text-align: center;
   margin-bottom: 12px;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
 
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -6928,32 +7091,33 @@ button.module-calling-participants-list__contact {
   justify-content: center;
 }
 .module-group-v2-pending-approval-actions__buttons__button {
-  @include button-reset;
-  @include font-body-1-bold;
+  @include mixins.button-reset;
+  & {
+    @include mixins.font-body-1-bold;
+    border-radius: 4px;
 
-  border-radius: 4px;
+    padding: 8px;
+    padding-inline: 30px;
 
-  padding: 8px;
-  padding-inline: 30px;
+    @include mixins.button-secondary;
 
-  @include button-secondary;
-
-  @include light-theme {
-    color: $color-gray-60;
-    background-color: $color-gray-05;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
+      background-color: variables.$color-gray-05;
+    }
   }
 }
 
 // Module: Modal Host
 
 .module-modal-host__overlay {
-  background: $color-black-alpha-40;
+  background: variables.$color-black-alpha-40;
   width: 100vw;
   height: 100vh;
   inset-inline-start: 0;
   top: 0;
   position: fixed;
-  z-index: $z-index-modal-host;
+  z-index: variables.$z-index-modal-host;
 }
 
 .module-modal-host__overlay-container {
@@ -6968,7 +7132,7 @@ button.module-calling-participants-list__contact {
   overflow: hidden;
   padding: 20px;
   position: fixed;
-  z-index: $z-index-modal-host;
+  z-index: variables.$z-index-modal-host;
 }
 
 .module-modal-host__width-container {
@@ -6977,7 +7141,7 @@ button.module-calling-participants-list__contact {
 }
 
 .module-modal-host--on-top-of-everything {
-  $loading-screen-modal-overlay: $z-index-on-top-of-everything + 1;
+  $loading-screen-modal-overlay: variables.$z-index-on-top-of-everything + 1;
 
   .module-modal-host__overlay,
   .module-modal-host__overlay-container {
@@ -6988,7 +7152,7 @@ button.module-calling-participants-list__contact {
 // Module: GroupV2 Join Dialog
 
 .module-group-v2-join-dialog {
-  @include font-body-1;
+  @include mixins.font-body-1;
   border-radius: 8px;
   width: 360px;
   margin-inline: auto;
@@ -6996,42 +7160,49 @@ button.module-calling-participants-list__contact {
 
   position: relative;
 
-  @include light-theme {
-    background-color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-gray-95;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-95;
   }
 }
 .module-group-v2-join-dialog__close-button {
-  @include button-reset;
+  @include mixins.button-reset;
+  & {
+    position: absolute;
+    inset-inline-end: 12px;
+    top: 12px;
 
-  position: absolute;
-  inset-inline-end: 12px;
-  top: 12px;
+    height: 24px;
+    width: 24px;
 
-  height: 24px;
-  width: 24px;
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-gray-75
+      );
+    }
 
-  @include light-theme {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
-  }
-
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-gray-15
+      );
+    }
   }
 
   &:focus {
-    @include keyboard-mode {
-      background-color: $color-ultramarine;
+    @include mixins.keyboard-mode {
+      background-color: variables.$color-ultramarine;
     }
-    @include dark-keyboard-mode {
-      background-color: $color-ultramarine-light;
+    @include mixins.dark-keyboard-mode {
+      background-color: variables.$color-ultramarine-light;
     }
   }
 }
 .module-group-v2-join-dialog__title {
-  @include font-title-2;
+  @include mixins.font-title-2;
   text-align: center;
   margin-top: 12px;
   margin-bottom: 2px;
@@ -7040,15 +7211,15 @@ button.module-calling-participants-list__contact {
   text-align: center;
 }
 .module-group-v2-join-dialog__metadata {
-  color: $color-gray-60;
+  color: variables.$color-gray-60;
   text-align: center;
 }
 .module-group-v2-join-dialog__prompt {
   margin-top: 40px;
 
   &--approval {
-    @include font-subtitle;
-    color: $color-gray-45;
+    @include mixins.font-subtitle;
+    color: variables.$color-gray-45;
     margin-top: 40px;
   }
 }
@@ -7069,7 +7240,7 @@ button.module-calling-participants-list__contact {
   }
 }
 .module-group-v2-join-dialog__description {
-  color: $color-gray-60;
+  color: variables.$color-gray-60;
   margin-top: 12px;
 }
 
@@ -7079,21 +7250,23 @@ button.module-calling-participants-list__contact {
   width: 138px;
   padding: 18px;
   border-radius: 8px;
-  @include popper-shadow();
+  @include mixins.popper-shadow();
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  & {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-  @include light-theme() {
-    background: $color-white;
-    color: $color-gray-90;
-  }
+    @include mixins.light-theme() {
+      background: variables.$color-white;
+      color: variables.$color-gray-90;
+    }
 
-  @include dark-theme() {
-    background: $color-gray-80;
-    color: $color-gray-05;
+    @include mixins.dark-theme() {
+      background: variables.$color-gray-80;
+      color: variables.$color-gray-05;
+    }
   }
 }
 
@@ -7102,11 +7275,11 @@ button.module-calling-participants-list__contact {
 }
 
 .module-progress-dialog__text {
-  @include font-body-2;
+  @include mixins.font-body-2;
 }
 
 .module-progress-dialog__overlay {
-  background: $color-black-alpha-40;
+  background: variables.$color-black-alpha-40;
   position: fixed;
   inset-inline-start: 0;
   top: 0;
@@ -7115,7 +7288,7 @@ button.module-calling-participants-list__contact {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: $z-index-popup-overlay;
+  z-index: variables.$z-index-popup-overlay;
 }
 
 // Module: Error Modal
@@ -7129,66 +7302,72 @@ button.module-calling-participants-list__contact {
 
 .module-button {
   &__small {
-    @include font-body-2;
-    @include button-reset;
+    @include mixins.font-body-2;
+    @include mixins.button-reset;
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        box-shadow: 0px 0px 0px 2px $color-ultramarine;
+        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
       }
     }
 
-    @include light-theme {
-      color: $color-gray-90;
-      border-color: $color-gray-15;
+    & {
+      @include mixins.light-theme {
+        color: variables.$color-gray-90;
+        border-color: variables.$color-gray-15;
+      }
+
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
+        border-color: variables.$color-gray-65;
+      }
     }
 
-    @include dark-theme {
-      color: $color-gray-05;
-      border-color: $color-gray-65;
+    & {
+      border-radius: 4px;
+      border-style: solid;
+      border-width: 1px;
+      outline: none;
+      padding-block: 7px;
+      padding-inline: 12px;
     }
-
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px;
-    outline: none;
-    padding-block: 7px;
-    padding-inline: 12px;
   }
 }
 
 .module-background-color {
   &__default {
-    background-color: $color-black-alpha-40;
+    background-color: variables.$color-black-alpha-40;
   }
 
-  @include avatar-colors();
+  @include mixins.avatar-colors();
 }
 
 .module-tooltip {
-  --tooltip-text-color: #{$color-gray-75};
-  --tooltip-background-color: #{$color-gray-02};
+  --tooltip-text-color: #{variables.$color-gray-75};
+  --tooltip-background-color: #{variables.$color-gray-02};
 
   @mixin tooltip-dark-theme-variables {
-    --tooltip-text-color: #{$color-gray-05};
-    --tooltip-background-color: #{$color-gray-65};
+    --tooltip-text-color: #{variables.$color-gray-05};
+    --tooltip-background-color: #{variables.$color-gray-65};
   }
   &--dark-theme {
     @include tooltip-dark-theme-variables;
   }
-  @include dark-theme {
+  @include mixins.dark-theme {
     @include tooltip-dark-theme-variables;
   }
 
-  background-color: var(--tooltip-background-color);
-  border-radius: 8px;
-  color: var(--tooltip-text-color);
-  display: inline-block;
-  padding-block: 8px;
-  padding-inline: 21px;
-  position: fixed;
-  text-align: center;
-  z-index: $z-index-tooltip;
+  & {
+    background-color: var(--tooltip-background-color);
+    border-radius: 8px;
+    color: var(--tooltip-text-color);
+    display: inline-block;
+    padding-block: 8px;
+    padding-inline: 21px;
+    position: fixed;
+    text-align: center;
+    z-index: variables.$z-index-tooltip;
+  }
 
   .module-tooltip-arrow {
     position: absolute;
@@ -7265,7 +7444,7 @@ button.module-calling-participants-list__contact {
   text-align: center;
 }
 .module-chat-session-refreshed-dialog__title {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
   margin-top: 10px;
   margin-bottom: 3px;
 }
@@ -7276,7 +7455,7 @@ button.module-calling-participants-list__contact {
   text-align: center;
 }
 .module-delivery-issue-dialog__title {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
   margin-top: 10px;
   margin-bottom: 3px;
 }
@@ -7284,16 +7463,18 @@ button.module-calling-participants-list__contact {
 /* Third-party module: react-contextmenu*/
 
 .react-contextmenu {
-  @include popper-shadow();
+  @include mixins.popper-shadow();
 
-  outline: none;
-  border-radius: 4px;
-  min-width: 220px;
-  padding-block: 6px;
-  padding-inline: 0;
-  opacity: 0;
-  user-select: none;
-  visibility: hidden;
+  & {
+    outline: none;
+    border-radius: 4px;
+    min-width: 220px;
+    padding-block: 6px;
+    padding-inline: 0;
+    opacity: 0;
+    user-select: none;
+    visibility: hidden;
+  }
 
   // style a menu with only one option
   &:not(:has(:nth-child(2))) {
@@ -7303,18 +7484,20 @@ button.module-calling-participants-list__contact {
       border-radius: 4px;
     }
   }
-  @include light-theme {
-    background-color: $color-white;
-  }
-  @include dark-theme {
-    background-color: $color-gray-75;
+  & {
+    @include mixins.light-theme {
+      background-color: variables.$color-white;
+    }
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-75;
+    }
   }
 }
 
 .react-contextmenu--visible {
   opacity: 1;
   visibility: visible;
-  z-index: $z-index-context-menu;
+  z-index: variables.$z-index-context-menu;
   -webkit-app-region: no-drag;
 }
 
@@ -7326,17 +7509,17 @@ button.module-calling-participants-list__contact {
   width: 100%;
   align-items: center;
 
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   padding-block: 7px;
 
   padding-inline: 12px;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-02;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-02;
   }
 
   &--divider {
@@ -7345,11 +7528,11 @@ button.module-calling-participants-list__contact {
     margin-inline: 0;
     padding: 0;
 
-    @include light-theme {
-      background-color: $color-gray-15;
+    @include mixins.light-theme {
+      background-color: variables.$color-gray-15;
     }
-    @include dark-theme {
-      background-color: $color-gray-60;
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-60;
     }
   }
 }
@@ -7360,11 +7543,11 @@ button.module-calling-participants-list__contact {
   position: absolute;
   inset-inline-end: 7px;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-02;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-02;
   }
 }
 
@@ -7385,31 +7568,35 @@ button.module-calling-participants-list__contact {
   inset-inline-end: 7px;
   width: 12px;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/chevron/chevron-right.svg',
-      $color-gray-75
+      variables.$color-gray-75
     );
-    color: $color-gray-90;
+    & {
+      color: variables.$color-gray-90;
+    }
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/chevron/chevron-right.svg',
-      $color-gray-15
+      variables.$color-gray-15
     );
-    color: $color-gray-02;
+    & {
+      color: variables.$color-gray-02;
+    }
   }
 }
 
 .react-contextmenu-item.react-contextmenu-item--active,
 .react-contextmenu-item.react-contextmenu-item--selected {
-  color: $color-black;
-  @include light-theme {
-    background-color: $color-gray-15;
+  color: variables.$color-black;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-15;
   }
-  @include dark-theme {
-    background-color: $color-gray-60;
-    color: $color-white;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-60;
+    color: variables.$color-white;
   }
 }
 
@@ -7420,9 +7607,9 @@ button.module-calling-participants-list__contact {
 
 .react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
 .react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
-  color: $color-black;
-  @include dark-theme {
-    color: $color-white;
+  color: variables.$color-black;
+  @include mixins.dark-theme {
+    color: variables.$color-white;
   }
 }
 
@@ -7430,9 +7617,9 @@ button.module-calling-participants-list__contact {
   > .react-contextmenu-item.react-contextmenu-item--active:after,
 .react-contextmenu-item.react-contextmenu-submenu
   > .react-contextmenu-item.react-contextmenu-item--selected:after {
-  color: $color-black;
-  @include dark-theme {
-    color: $color-white;
+  color: variables.$color-black;
+  @include mixins.dark-theme {
+    color: variables.$color-white;
   }
 }
 
@@ -7468,204 +7655,212 @@ button.module-calling-participants-list__contact {
   }
 
   &__download::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/save/save-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/save/save-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &__reply::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/reply/reply-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/reply/reply-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &__react::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/heart/heart-plus-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/heart/heart-plus-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &__more-info::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/info/info-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/info/info-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &__select::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/check/check-circle-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/check/check-circle-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &__retry-send::before {
-    @include light-theme {
-      @include color-svg('../images/icons/v3/send/send.svg', $color-black);
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/send/send.svg',
+        variables.$color-black
+      );
     }
 
-    @include dark-theme {
-      @include color-svg('../images/icons/v3/send/send.svg', $color-gray-15);
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/send/send.svg',
+        variables.$color-gray-15
+      );
     }
   }
 
   &__forward-message::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/forward/forward-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/forward/forward-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &__edit-message::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/edit/edit-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/edit/edit-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &__delete-message::before,
   &__delete-message-for-everyone::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/trash/trash-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/trash/trash-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 
   &__copy-timestamp::before {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/copy/copy-compact.svg',
-        $color-black
+        variables.$color-black
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/copy/copy-compact.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 }
 
 .module-message__action {
-  @include button-reset();
-  border-radius: 30px;
-  margin-top: 14px;
-  margin-bottom: 4px;
-  padding: 8px;
-  text-align: center;
-  width: 100%;
+  @include mixins.button-reset();
+  & {
+    border-radius: 30px;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    padding: 8px;
+    text-align: center;
+    width: 100%;
 
-  @include font-body-1-bold();
+    @include mixins.font-body-1-bold();
+  }
 }
 .module-message__action--outgoing {
-  color: $color-white;
-  background-color: rgba($color-white, 0.22);
+  color: variables.$color-white;
+  background-color: rgba(variables.$color-white, 0.22);
   &:hover {
-    background-color: rgba($color-white, 0.36);
+    background-color: rgba(variables.$color-white, 0.36);
   }
 }
 .module-message__action--outgoing--in-another-call {
-  color: rgba($color-white, 0.5);
+  color: rgba(variables.$color-white, 0.5);
 }
 .module-message__action--incoming {
-  @include light-theme {
-    color: $color-link;
-    background-color: $color-white-alpha-70;
+  @include mixins.light-theme {
+    color: variables.$color-link;
+    background-color: variables.$color-white-alpha-70;
     &:hover {
-      background-color: $color-white;
+      background-color: variables.$color-white;
     }
   }
-  @include dark-theme {
-    color: $color-white;
-    background-color: rgba($color-white, 0.07);
+  @include mixins.dark-theme {
+    color: variables.$color-white;
+    background-color: rgba(variables.$color-white, 0.07);
     &:hover {
-      background-color: rgba($color-white, 0.17);
+      background-color: rgba(variables.$color-white, 0.17);
     }
   }
 }
 .module-message__action--incoming--in-another-call {
-  @include light-theme {
-    color: rgba($color-link, 0.5);
+  @include mixins.light-theme {
+    color: rgba(variables.$color-link, 0.5);
   }
-  @include dark-theme {
-    color: rgba($color-white, 0.5);
+  @include mixins.dark-theme {
+    color: rgba(variables.$color-white, 0.5);
   }
 }
 

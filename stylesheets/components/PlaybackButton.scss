@@ -1,14 +1,20 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+@use 'MessageAudio';
+
 .PlaybackButton {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  flex-shrink: 0;
-  margin-inline-end: $audio-attachment-button-margin-big;
+  & {
+    flex-shrink: 0;
+    margin-inline-end: MessageAudio.$audio-attachment-button-margin-big;
 
-  outline: none;
-  border-radius: 18px;
+    outline: none;
+    border-radius: 18px;
+  }
 
   &::before {
     display: block;
@@ -18,7 +24,7 @@
 
   @mixin audio-icon($name, $icon, $color) {
     &.PlaybackButton--#{$name}::before {
-      @include color-svg('../images/icons/#{$icon}.svg', $color, false);
+      @include mixins.color-svg('../images/icons/#{$icon}.svg', $color, false);
     }
   }
 
@@ -30,8 +36,8 @@
   }
 
   &--variant-message {
-    width: $audio-attachment-button-size;
-    height: $audio-attachment-button-size;
+    width: MessageAudio.$audio-attachment-button-size;
+    height: MessageAudio.$audio-attachment-button-size;
   }
 
   &--variant-mini {
@@ -57,28 +63,28 @@
     animation: rotate 1000ms linear infinite;
   }
 
-  @include light-theme {
+  @include mixins.light-theme {
     &--context-incoming {
       &.PlaybackButton--variant-message {
-        background: $color-white;
+        background: variables.$color-white;
       }
     }
-    @include all-audio-icons($color-gray-60);
+    @include all-audio-icons(variables.$color-gray-60);
   }
 
-  @include dark-theme {
+  @include mixins.dark-theme {
     &--context-incoming {
       &.PlaybackButton--variant-message {
-        background: $color-gray-60;
+        background: variables.$color-gray-60;
       }
     }
-    @include all-audio-icons($color-gray-15);
+    @include all-audio-icons(variables.$color-gray-15);
   }
 
   &--context-outgoing {
     &.PlaybackButton--variant-message {
-      background: $color-white-alpha-20;
+      background: variables.$color-white-alpha-20;
     }
-    @include all-audio-icons($color-white);
+    @include all-audio-icons(variables.$color-white);
   }
 }

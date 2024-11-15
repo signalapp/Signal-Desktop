@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .BetterAvatarBubble {
   align-items: center;
   background-clip: content-box;
@@ -18,21 +21,21 @@
   position: relative;
   width: 56px;
 
-  @include avatar-colors();
+  @include mixins.avatar-colors();
 
   &--selected {
-    @include light-theme {
-      border-color: $color-black;
+    @include mixins.light-theme {
+      border-color: variables.$color-black;
     }
 
-    @include dark-theme {
-      border-color: $color-white;
+    @include mixins.dark-theme {
+      border-color: variables.$color-white;
     }
   }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      border-color: $color-ultramarine;
+      border-color: variables.$color-ultramarine;
       outline: none;
     }
   }
@@ -42,7 +45,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 100%;
-    background: $color-black-alpha-20;
+    background: variables.$color-black-alpha-20;
     height: 100%;
     width: 100%;
 
@@ -51,31 +54,41 @@
       display: block;
       height: 24px;
       width: 24px;
-      @include color-svg('../images/icons/v3/edit/edit.svg', $color-white);
+      @include mixins.color-svg(
+        '../images/icons/v3/edit/edit.svg',
+        variables.$color-white
+      );
     }
   }
 
   &__delete {
-    @include button-reset;
-    align-items: center;
-    background-color: $color-white;
-    border-radius: 100%;
-    box-shadow:
-      0px 4px 16px rgba(0, 0, 0, 0.12),
-      0px 2px 4px rgba(0, 0, 0, 0.2);
-    display: none;
-    height: 20px;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    inset-inline-end: 0;
-    width: 20px;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      background-color: variables.$color-white;
+      border-radius: 100%;
+      box-shadow:
+        0px 4px 16px rgba(0, 0, 0, 0.12),
+        0px 2px 4px rgba(0, 0, 0, 0.2);
+      display: none;
+      height: 20px;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      inset-inline-end: 0;
+      width: 20px;
+    }
 
     &:after {
-      @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-75);
-      content: '';
-      height: 10px;
-      width: 10px;
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x-compact.svg',
+        variables.$color-gray-75
+      );
+      & {
+        content: '';
+        height: 10px;
+        width: 10px;
+      }
     }
   }
 

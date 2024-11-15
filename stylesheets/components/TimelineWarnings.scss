@@ -1,12 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../variables';
+
 .module-TimelineWarnings {
   inset-inline-start: 0;
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: $z-index-above-above-base;
+  z-index: variables.$z-index-above-above-base;
 
   display: flex;
   flex-direction: column;

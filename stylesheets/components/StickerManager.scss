@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-sticker-manager {
   padding-block: 0;
   padding-inline: 16px;
@@ -14,23 +17,23 @@
   line-height: 18px;
   padding-inline-start: 8px;
 
-  @include light-theme() {
-    color: $color-gray-60;
+  @include mixins.light-theme() {
+    color: variables.$color-gray-60;
   }
 
-  @include dark-theme() {
-    color: $color-gray-25;
+  @include mixins.dark-theme() {
+    color: variables.$color-gray-25;
   }
 
   &--heading {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
 
-    @include light-theme() {
-      color: $color-gray-90;
+    @include mixins.light-theme() {
+      color: variables.$color-gray-90;
     }
 
-    @include dark-theme() {
-      color: $color-gray-05;
+    @include mixins.dark-theme() {
+      color: variables.$color-gray-05;
     }
   }
 }
@@ -42,14 +45,14 @@
   height: 64px;
   border-radius: 8px;
 
-  @include light-theme {
-    background: $color-gray-02;
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    background: variables.$color-gray-02;
+    color: variables.$color-gray-60;
   }
 
-  @include dark-theme {
-    background: $color-gray-90;
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-90;
+    color: variables.$color-gray-25;
   }
 }
 
@@ -57,7 +60,7 @@
   height: 14px;
   width: 14px;
   border-radius: 8px;
-  background-color: $color-white;
+  background-color: variables.$color-white;
   display: inline-block;
   vertical-align: middle;
   margin-inline-start: 5px;
@@ -73,33 +76,35 @@
     top: -1px;
     inset-inline-start: -1px;
 
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/check/check-circle-fill.svg',
-        $color-accent-blue
+        variables.$color-accent-blue
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/check/check-circle-fill.svg',
-        $color-accent-blue
+        variables.$color-accent-blue
       );
     }
   }
 }
 
 .module-sticker-manager__pack-row {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  display: flex;
-  flex-direction: row;
-  padding: 16px;
-  padding-inline-start: 8px;
+  & {
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    padding-inline-start: 8px;
+  }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 
@@ -111,7 +116,7 @@
   &__cover-placeholder {
     width: 48px;
     height: 48px;
-    background: $color-gray-05;
+    background: variables.$color-gray-05;
   }
 
   &__meta {
@@ -131,12 +136,12 @@
     &__author {
       flex: 1;
 
-      @include light-theme() {
-        color: $color-gray-45;
+      @include mixins.light-theme() {
+        color: variables.$color-gray-45;
       }
 
-      @include dark-theme() {
-        color: $color-gray-25;
+      @include mixins.dark-theme() {
+        color: variables.$color-gray-25;
       }
     }
 
@@ -160,16 +165,16 @@
           display: block;
           min-width: 24px;
           min-height: 24px;
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/more/more.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/more/more.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
         }
@@ -181,12 +186,12 @@
 .module-sticker-manager__install-button {
   background: none;
   border: 0;
-  color: $color-gray-90;
+  color: variables.$color-gray-90;
 
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 
   height: 24px;
-  background: $color-gray-05;
+  background: variables.$color-gray-05;
   border-radius: 12px;
   display: flex;
   justify-content: center;
@@ -194,23 +199,23 @@
   padding-block: 0;
   padding-inline: 12px;
 
-  @include dark-theme {
-    color: $color-gray-05;
-    background: $color-gray-75;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
+    background: variables.$color-gray-75;
   }
 
-  @include mouse-mode {
+  @include mixins.mouse-mode {
     outline: none;
   }
 
   &--blue {
-    @include light-theme {
-      background: $color-ultramarine;
-      color: $color-white;
+    @include mixins.light-theme {
+      background: variables.$color-ultramarine;
+      color: variables.$color-white;
     }
-    @include dark-theme {
-      background: $color-ultramarine-light;
-      color: $color-white;
+    @include mixins.dark-theme {
+      background: variables.$color-ultramarine-light;
+      color: variables.$color-white;
     }
   }
 }
@@ -220,7 +225,7 @@
     width: fit-content;
   }
   &__error {
-    color: $color-accent-red;
+    color: variables.$color-accent-red;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -230,7 +235,7 @@
     padding-block: 0 30px;
     padding-inline: 80px;
 
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
   }
 
   &__sticker-grid {
@@ -255,12 +260,12 @@
       &--placeholder {
         border-radius: 4px;
 
-        @include light-theme() {
-          background: $color-gray-05;
+        @include mixins.light-theme() {
+          background: variables.$color-gray-05;
         }
 
-        @include dark-theme() {
-          background: $color-gray-60;
+        @include mixins.dark-theme() {
+          background: variables.$color-gray-60;
         }
       }
     }
@@ -285,14 +290,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
 
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
 
-      @include light-theme {
-        color: $color-gray-90;
+      @include mixins.light-theme {
+        color: variables.$color-gray-90;
       }
 
-      @include dark-theme {
-        color: $color-gray-05;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
       }
     }
 
@@ -302,12 +307,12 @@
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      @include light-theme {
-        color: $color-gray-45;
+      @include mixins.light-theme {
+        color: variables.$color-gray-45;
       }
 
-      @include dark-theme {
-        color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
       }
     }
 

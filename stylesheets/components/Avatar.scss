@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-Avatar {
   display: inline-flex;
   line-height: 0;
@@ -10,21 +13,23 @@
   vertical-align: middle;
 
   &__contents {
-    @include avatar-colors;
-    position: relative;
-    overflow: hidden;
-    border-radius: 100%;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    padding: 0;
-    margin: 0;
-    outline: none;
+    @include mixins.avatar-colors;
+    & {
+      position: relative;
+      overflow: hidden;
+      border-radius: 100%;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      outline: none;
+    }
 
     @at-root button#{&} {
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          box-shadow: 0 0 0 3px $color-ultramarine;
+          box-shadow: 0 0 0 3px variables.$color-ultramarine;
         }
       }
     }
@@ -46,10 +51,10 @@
   }
 
   &__click-to-view {
-    @include font-body-2;
+    @include mixins.font-body-2;
     align-items: center;
-    background: $color-black-alpha-20;
-    color: $color-white;
+    background: variables.$color-black-alpha-20;
+    color: variables.$color-white;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -58,19 +63,21 @@
     top: 0;
 
     &::before {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v2/click-outline-24.svg',
-        $color-white
+        variables.$color-white
       );
-      content: '';
-      display: block;
-      height: 24px;
-      margin-bottom: 8px;
-      width: 24px;
+      & {
+        content: '';
+        display: block;
+        height: 24px;
+        margin-bottom: 8px;
+        width: 24px;
+      }
     }
 
     &:hover {
-      background: $color-black-alpha-40;
+      background: variables.$color-black-alpha-40;
     }
   }
 
@@ -119,7 +126,7 @@
 
   &__badge {
     position: absolute;
-    z-index: $z-index-base;
+    z-index: variables.$z-index-base;
 
     // Positioning should be overridden by JavaScript. These are set defensively.
     bottom: 0;
@@ -136,9 +143,9 @@
       border: 0;
       outline: none;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          outline: 2px solid $color-ultramarine;
+          outline: 2px solid variables.$color-ultramarine;
           border-radius: 6px;
         }
       }
@@ -147,26 +154,26 @@
 
   &--with-story {
     border-radius: 100%;
-    border: 2px solid $color-black-alpha-40;
+    border: 2px solid variables.$color-black-alpha-40;
     padding: 3px;
 
-    @include dark-theme {
-      border-color: $color-white-alpha-40;
+    @include mixins.dark-theme {
+      border-color: variables.$color-white-alpha-40;
 
       &--unread {
-        border-color: $color-ultramarine-dawn;
+        border-color: variables.$color-ultramarine-dawn;
       }
     }
 
     &--unread {
-      border-color: $color-ultramarine-dawn;
+      border-color: variables.$color-ultramarine-dawn;
     }
   }
 
   &--signal-official {
     .module-Avatar__contents {
       align-items: center;
-      background-color: $color-ultramarine;
+      background-color: variables.$color-ultramarine;
       display: flex;
       justify-content: center;
     }

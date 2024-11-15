@@ -1,23 +1,28 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-Modal {
-  @include popper-shadow();
-  border-radius: 8px;
-  overflow: hidden;
-  // We need this to be a number not divisible by 5 so that if we have sticky
-  // buttons the bottom doesn't bleed through by 1px.
-  max-height: 89vh;
-  display: flex;
-  flex-direction: column;
-  @include light-theme() {
-    background: $color-white;
-    color: $color-gray-90;
+  @include mixins.popper-shadow();
+  & {
+    border-radius: 8px;
+    overflow: hidden;
+    // We need this to be a number not divisible by 5 so that if we have sticky
+    // buttons the bottom doesn't bleed through by 1px.
+    max-height: 89vh;
+    display: flex;
+    flex-direction: column;
+  }
+  @include mixins.light-theme() {
+    background: variables.$color-white;
+    color: variables.$color-gray-90;
   }
 
-  @include dark-theme() {
-    background: $color-gray-80;
-    color: $color-gray-05;
+  @include mixins.dark-theme() {
+    background: variables.$color-gray-80;
+    color: variables.$color-gray-05;
   }
 
   &__header {
@@ -35,18 +40,20 @@
   }
 
   &__title {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     margin: 0;
     padding: 0;
     flex: 1;
   }
 
   &__back-button {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    border-radius: 4px;
-    height: 20px;
-    width: 20px;
+    & {
+      border-radius: 4px;
+      height: 20px;
+      width: 20px;
+    }
 
     &::before {
       content: '';
@@ -54,33 +61,35 @@
       width: 100%;
       height: 100%;
 
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-left.svg',
-          $color-gray-75
+          variables.$color-gray-75
         );
       }
 
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-left.svg',
-          $color-gray-15
+          variables.$color-gray-15
         );
       }
     }
 
     &:hover,
     &:focus {
-      box-shadow: 0 0 0 2px $color-ultramarine;
+      box-shadow: 0 0 0 2px variables.$color-ultramarine;
     }
   }
 
   &__close-button {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    border-radius: 4px;
-    height: 20px;
-    width: 20px;
+    & {
+      border-radius: 4px;
+      height: 20px;
+      width: 20px;
+    }
 
     &::before {
       content: '';
@@ -88,24 +97,30 @@
       width: 100%;
       height: 100%;
 
-      @include light-theme {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-gray-75
+        );
       }
 
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-gray-15
+        );
       }
     }
 
     &:hover,
     &:focus {
-      box-shadow: 0 0 0 2px $color-ultramarine;
+      box-shadow: 0 0 0 2px variables.$color-ultramarine;
     }
   }
 
   &__body {
-    @include scrollbar;
-    @include font-body-1;
+    @include mixins.scrollbar;
+    @include mixins.font-body-1;
     margin: 0;
     overflow-y: overlay;
     overflow-x: auto;
@@ -126,11 +141,11 @@
 
   &--has-header#{&}--header-divider {
     .module-Modal__body {
-      @include light-theme() {
-        border-top-color: $color-gray-05;
+      @include mixins.light-theme() {
+        border-top-color: variables.$color-gray-05;
       }
-      @include dark-theme() {
-        border-top-color: $color-gray-90;
+      @include mixins.dark-theme() {
+        border-top-color: variables.$color-gray-90;
       }
     }
   }
@@ -142,12 +157,12 @@
       border-bottom: 1px solid transparent;
 
       &--scrolled {
-        @include light-theme {
-          border-top-color: $color-gray-05;
+        @include mixins.light-theme {
+          border-top-color: variables.$color-gray-05;
         }
 
-        @include dark-theme {
-          border-top-color: $color-gray-90;
+        @include mixins.dark-theme {
+          border-top-color: variables.$color-gray-90;
         }
       }
     }
@@ -155,11 +170,11 @@
 
   &--has-footer#{&}--footer-divider {
     .module-Modal__body {
-      @include light-theme() {
-        border-bottom-color: $color-gray-05;
+      @include mixins.light-theme() {
+        border-bottom-color: variables.$color-gray-05;
       }
-      @include dark-theme() {
-        border-bottom-color: $color-gray-90;
+      @include mixins.dark-theme() {
+        border-bottom-color: variables.$color-gray-90;
       }
     }
   }
@@ -169,12 +184,12 @@
       border-bottom: 1px solid transparent;
 
       &--overflow:not(&--scrolledToBottom) {
-        @include light-theme {
-          border-bottom-color: $color-gray-05;
+        @include mixins.light-theme {
+          border-bottom-color: variables.$color-gray-05;
         }
 
-        @include dark-theme {
-          border-bottom-color: $color-gray-90;
+        @include mixins.dark-theme {
+          border-bottom-color: variables.$color-gray-90;
         }
       }
     }
@@ -221,7 +236,7 @@
     }
 
     .module-Modal__title {
-      @include font-title-2;
+      @include mixins.font-title-2;
       text-align: center;
       margin-block: 10px 22px;
       margin-inline: 0;

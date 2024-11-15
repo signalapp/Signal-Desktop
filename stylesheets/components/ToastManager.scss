@@ -1,6 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../variables';
+
 .ToastManager {
   display: flex;
   flex-direction: column;
@@ -12,7 +14,7 @@
   position: fixed;
   width: inherit;
   bottom: 0;
-  z-index: $z-index-toast;
+  z-index: variables.$z-index-toast;
 
   padding: 16px;
 
@@ -27,7 +29,7 @@
 
     position: fixed;
     bottom: 16px;
-    z-index: $z-index-toast;
+    z-index: variables.$z-index-toast;
 
     inset-inline-start: 0;
     width: 100%;
@@ -45,5 +47,5 @@
 }
 
 .ToastManager--full-screen-call {
-  bottom: calc($CallControls__height + 32px);
+  bottom: calc(variables.$CallControls__height + 32px);
 }

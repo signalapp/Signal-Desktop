@@ -1,24 +1,29 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .StoryListItem {
   &__button {
-    @include button-reset;
-    align-items: center;
-    border-radius: 10px;
-    display: flex;
-    height: 96px;
-    min-height: 96px;
-    padding-block: 0;
-    padding-inline: 10px;
-    width: 100%;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      border-radius: 10px;
+      display: flex;
+      height: 96px;
+      min-height: 96px;
+      padding-block: 0;
+      padding-inline: 10px;
+      width: 100%;
+    }
 
     &:focus {
-      @include keyboard-mode {
-        background: $color-gray-15;
+      @include mixins.keyboard-mode {
+        background: variables.$color-gray-15;
       }
-      @include dark-keyboard-mode {
-        background: $color-gray-65;
+      @include mixins.dark-keyboard-mode {
+        background: variables.$color-gray-65;
       }
     }
 
@@ -26,11 +31,11 @@
     // that has not been closed yet (active)
     &:hover,
     &--active {
-      @include light-theme {
-        background: $color-gray-15;
+      @include mixins.light-theme {
+        background: variables.$color-gray-15;
       }
-      @include dark-theme {
-        background: $color-gray-65;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-65;
       }
     }
   }
@@ -52,9 +57,9 @@
       outline: none;
     }
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        outline: 1px solid $color-ultramarine;
+        outline: 1px solid variables.$color-ultramarine;
       }
     }
   }
@@ -67,26 +72,26 @@
     margin-inline: 12px;
 
     &--title {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
       display: flex;
       align-items: center;
-      @include light-theme {
-        color: $color-black;
+      @include mixins.light-theme {
+        color: variables.$color-black;
       }
-      @include dark-theme {
-        color: $color-gray-05;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
       }
     }
 
     &--timestamp,
     &--sending,
     &--send_failed {
-      @include font-body-2;
-      @include light-theme {
-        color: $color-gray-60;
+      @include mixins.font-body-2;
+      @include mixins.light-theme {
+        color: variables.$color-gray-60;
       }
-      @include dark-theme {
-        color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
       }
     }
 
@@ -100,30 +105,34 @@
         height: 12px;
         width: 12px;
         margin-inline-end: 8px;
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/error/error-circle.svg',
-          $color-accent-red
+          variables.$color-accent-red
         );
       }
     }
 
     &--replies {
       &--others {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/thread/thread-fill-compact.svg',
-          $color-gray-25
+          variables.$color-gray-25
         );
-        height: 16px;
-        width: 16px;
+        & {
+          height: 16px;
+          width: 16px;
+        }
       }
 
       &--self {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/reply/reply-fill-compact.svg',
-          $color-gray-25
+          variables.$color-gray-25
         );
-        height: 16px;
-        width: 16px;
+        & {
+          height: 16px;
+          width: 16px;
+        }
       }
     }
   }
@@ -134,25 +143,26 @@
     width: 46px;
 
     &--image {
-      @include button-reset;
-
-      align-items: center;
-      background-color: $color-gray-60;
-      background-size: cover;
-      border-radius: 8px;
-      display: flex;
-      height: 72px;
-      justify-content: center;
-      inset-inline-start: 0;
-      overflow: hidden;
-      position: absolute;
-      top: 0;
-      width: 46px;
-      z-index: $z-index-base;
+      @include mixins.button-reset;
+      & {
+        align-items: center;
+        background-color: variables.$color-gray-60;
+        background-size: cover;
+        border-radius: 8px;
+        display: flex;
+        height: 72px;
+        justify-content: center;
+        inset-inline-start: 0;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        width: 46px;
+        z-index: variables.$z-index-base;
+      }
     }
 
     &--multiple &--image {
-      border: 1px solid $color-gray-80;
+      border: 1px solid variables.$color-gray-80;
     }
 
     &--more {
@@ -166,11 +176,11 @@
   }
 
   @mixin StoryListItem__Icon($path) {
-    @include light-theme {
-      @include color-svg($path, $color-black);
+    @include mixins.light-theme {
+      @include mixins.color-svg($path, variables.$color-black);
     }
-    @include dark-theme {
-      @include color-svg($path, $color-white);
+    @include mixins.dark-theme {
+      @include mixins.color-svg($path, variables.$color-white);
     }
   }
 

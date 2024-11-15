@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .MessageBody {
   &__highlight {
     font-weight: bold;
@@ -8,12 +11,14 @@
 
   &__download-body,
   &__read-more {
-    @include button-reset;
-    font-weight: bold;
+    @include mixins.button-reset;
+    & {
+      font-weight: bold;
+    }
 
     &:focus {
-      @include keyboard-mode {
-        border: 1px solid $color-black;
+      @include mixins.keyboard-mode {
+        border: 1px solid variables.$color-black;
         outline: none;
       }
     }
@@ -30,31 +35,31 @@
     padding-inline: 4px;
     border: 1px solid transparent;
 
-    @include light-theme {
-      background-color: $color-gray-20;
+    @include mixins.light-theme {
+      background-color: variables.$color-gray-20;
     }
 
-    @include dark-theme {
-      background-color: $color-black-alpha-40;
+    @include mixins.dark-theme {
+      background-color: variables.$color-black-alpha-40;
     }
 
     &:focus {
-      border: 1px solid $color-black;
+      border: 1px solid variables.$color-black;
       outline: none;
     }
 
     &--incoming {
-      @include light-theme {
-        background-color: $color-gray-20;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-20;
       }
 
-      @include dark-theme {
-        background-color: $color-gray-60;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-60;
       }
     }
 
     &--outgoing {
-      background-color: $color-black-alpha-40;
+      background-color: variables.$color-black-alpha-40;
     }
 
     &--invisible {
@@ -63,6 +68,6 @@
   }
 
   &__author {
-    @include font-body-2-medium;
+    @include mixins.font-body-2-medium;
   }
 }

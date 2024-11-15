@@ -1,8 +1,11 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .UsernameMegaphone {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   border-radius: 10px;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.08);
@@ -10,17 +13,17 @@
   flex-direction: column;
 
   user-select: none;
-  z-index: $z-index-megaphone;
+  z-index: variables.$z-index-megaphone;
   padding-block: 12px;
   padding-inline: 8px;
 
-  @include light-theme {
-    background-color: $color-white;
-    border: 1px solid $color-gray-20;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
+    border: 1px solid variables.$color-gray-20;
   }
-  @include dark-theme {
-    background: $color-gray-75;
-    border: 1px solid $color-gray-60;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-75;
+    border: 1px solid variables.$color-gray-60;
   }
 
   &__row {
@@ -39,22 +42,22 @@
     margin-inline-start: 8px;
 
     background-size: cover;
-    @include light-theme {
+    @include mixins.light-theme {
       background-image: url(../images/usernames_40_color.svg);
     }
 
-    @include dark-theme {
+    @include mixins.dark-theme {
       background-image: url(../images/usernames_40_color_dark.svg);
     }
   }
 
   &__row__text {
-    @include font-body-2;
+    @include mixins.font-body-2;
 
     padding-inline-end: 8px;
 
     h2 {
-      @include font-body-2-bold;
+      @include mixins.font-body-2-bold;
       margin: 0;
       line-height: 20px;
     }
@@ -62,11 +65,11 @@
     p {
       margin: 0;
 
-      @include light-theme {
-        color: $color-gray-60;
+      @include mixins.light-theme {
+        color: variables.$color-gray-60;
       }
-      @include dark-theme {
-        color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
       }
     }
   }
@@ -83,23 +86,23 @@
     font-weight: 600;
     padding-block: 5px;
 
-    @include light-theme {
+    @include mixins.light-theme {
       background: transparent;
 
       &:hover,
       &:active {
-        @include not-disabled {
+        @include mixins.not-disabled {
           background: transparent;
         }
       }
     }
 
-    @include dark-theme {
+    @include mixins.dark-theme {
       background: transparent;
 
       &:hover,
       &:active {
-        @include not-disabled {
+        @include mixins.not-disabled {
           background: transparent;
         }
       }

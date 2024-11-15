@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .ConversationPanel {
   height: 100%;
   inset-inline-start: 0;
@@ -8,18 +11,20 @@
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: $z-index-above-base;
+  z-index: variables.$z-index-above-base;
 
-  @include light-theme() {
-    background-color: $color-white;
+  @include mixins.light-theme() {
+    background-color: variables.$color-white;
   }
 
-  @include dark-theme() {
-    background-color: $color-gray-95;
+  @include mixins.dark-theme() {
+    background-color: variables.$color-gray-95;
   }
 
   &__body {
-    margin-top: calc(#{$header-height} + var(--title-bar-drag-area-height));
+    margin-top: calc(
+      #{variables.$header-height} + var(--title-bar-drag-area-height)
+    );
     padding-inline: 24px;
   }
 
@@ -27,19 +32,21 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    height: calc(#{$header-height} + var(--title-bar-drag-area-height));
+    height: calc(
+      #{variables.$header-height} + var(--title-bar-drag-area-height)
+    );
     padding-top: var(--title-bar-drag-area-height);
     position: fixed;
     width: 100%;
-    z-index: $z-index-base;
+    z-index: variables.$z-index-base;
 
-    @include light-theme {
-      color: $color-gray-90;
-      background-color: $color-white;
+    @include mixins.light-theme {
+      color: variables.$color-gray-90;
+      background-color: variables.$color-white;
     }
-    @include dark-theme {
-      color: $color-gray-02;
-      background-color: $color-gray-95;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-02;
+      background-color: variables.$color-gray-95;
     }
 
     &__info {
@@ -48,7 +55,7 @@
       min-width: 0;
 
       &__title {
-        @include font-body-1-bold;
+        @include mixins.font-body-1-bold;
         display: flex;
         align-items: center;
 
@@ -79,27 +86,27 @@
         cursor: default;
       }
 
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-left.svg',
-          $color-gray-90
+          variables.$color-gray-90
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-left.svg',
-          $color-gray-02
+          variables.$color-gray-02
         );
       }
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          background-color: $color-ultramarine;
+          background-color: variables.$color-ultramarine;
         }
       }
-      @include dark-keyboard-mode {
+      @include mixins.dark-keyboard-mode {
         &:focus {
-          background-color: $color-ultramarine-light;
+          background-color: variables.$color-ultramarine-light;
         }
       }
     }
@@ -111,7 +118,7 @@
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: $z-index-above-base;
+    z-index: variables.$z-index-above-base;
   }
 
   &__hidden {

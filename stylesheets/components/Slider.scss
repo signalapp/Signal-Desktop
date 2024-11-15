@@ -1,17 +1,19 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../variables';
+
 .Slider {
-  background-color: $color-gray-15;
+  background-color: variables.$color-gray-15;
   cursor: pointer;
   height: 8px;
   position: relative;
   width: 100%;
 
   &__handle {
-    background-color: $color-gray-90;
+    background-color: variables.$color-gray-90;
     border-radius: 16px;
-    border: 1px solid $color-white;
+    border: 1px solid variables.$color-white;
     cursor: move;
     height: 16px;
     margin-inline-start: -4px;

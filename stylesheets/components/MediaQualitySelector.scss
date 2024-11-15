@@ -1,35 +1,44 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .MediaQualitySelector {
   &__popper {
-    @extend %module-composition-popper;
-    padding-block: 12px;
-    padding-inline: 16px;
-    width: auto;
+    @include mixins.module-composition-popper;
+    & {
+      padding-block: 12px;
+      padding-inline: 16px;
+      width: auto;
+    }
   }
 
   &__title {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     margin-bottom: 12px;
   }
 
   &__button {
-    @include button-reset();
-    align-items: center;
-    border-radius: 4px;
-    display: flex;
-    height: 32px;
-    justify-content: center;
-    width: 32px;
+    @include mixins.button-reset();
+    & {
+      align-items: center;
+      border-radius: 4px;
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      width: 32px;
+    }
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        outline: 2px solid $color-ultramarine;
+        outline: 2px solid variables.$color-ultramarine;
       }
     }
 
-    outline: none;
+    & {
+      outline: none;
+    }
 
     &::after {
       content: '';
@@ -38,32 +47,32 @@
       height: 20px;
       width: 20px;
 
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/quality/quality-standard.svg',
-          $color-gray-75
+          variables.$color-gray-75
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/quality/quality-standard.svg',
-          $color-gray-15
+          variables.$color-gray-15
         );
       }
     }
 
     &--hq {
       &::after {
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/quality/quality-high.svg',
-            $color-gray-75
+            variables.$color-gray-75
           );
         }
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/quality/quality-high.svg',
-            $color-gray-15
+            variables.$color-gray-15
           );
         }
       }
@@ -72,26 +81,28 @@
     &--active {
       opacity: 1;
 
-      @include light-theme() {
-        background-color: $color-gray-05;
+      @include mixins.light-theme() {
+        background-color: variables.$color-gray-05;
       }
 
-      @include dark-theme() {
-        background-color: $color-gray-75;
+      @include mixins.dark-theme() {
+        background-color: variables.$color-gray-75;
       }
     }
   }
 
   &__option {
-    @include button-reset();
+    @include mixins.button-reset();
 
-    align-items: center;
-    border-radius: 6px;
-    display: flex;
-    height: 42px;
-    margin-block: 2px;
-    margin-inline: 0;
-    min-width: 200px;
+    & {
+      align-items: center;
+      border-radius: 6px;
+      display: flex;
+      height: 42px;
+      margin-block: 2px;
+      margin-inline: 0;
+      min-width: 200px;
+    }
 
     &--checkmark {
       height: 12px;
@@ -101,27 +112,27 @@
     }
 
     &--selected {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/check/check-compact.svg',
-        $color-ultramarine
+        variables.$color-ultramarine
       );
     }
 
     &--title {
-      @include font-body-2;
+      @include mixins.font-body-2;
     }
 
     &--description {
-      @include font-subtitle;
+      @include mixins.font-subtitle;
     }
 
     &:hover {
-      @include light-theme() {
-        background-color: $color-gray-05;
+      @include mixins.light-theme() {
+        background-color: variables.$color-gray-05;
       }
 
-      @include dark-theme() {
-        background-color: $color-gray-65;
+      @include mixins.dark-theme() {
+        background-color: variables.$color-gray-65;
       }
     }
 
@@ -129,7 +140,7 @@
     &:focus,
     &:active {
       border-radius: 6px;
-      box-shadow: 0 0 1px 1px $color-ultramarine;
+      box-shadow: 0 0 1px 1px variables.$color-ultramarine;
       outline: none;
     }
   }

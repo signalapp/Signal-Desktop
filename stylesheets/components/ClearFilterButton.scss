@@ -1,6 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'sass:color';
+@use '../mixins';
+@use '../variables';
+
 .ClearFilterButton {
   display: flex;
   justify-content: center;
@@ -15,23 +19,31 @@
     padding-block: 5px;
     padding-inline: 15px;
 
-    @include dark-theme {
-      background-color: mix($color-gray-80, $color-gray-65, 40%);
-      color: $color-white;
+    @include mixins.dark-theme {
+      background-color: color.mix(
+        variables.$color-gray-80,
+        variables.$color-gray-65,
+        40%
+      );
+      color: variables.$color-white;
 
       &:hover {
-        @include not-disabled {
-          background-color: $color-gray-65;
+        @include mixins.not-disabled {
+          background-color: variables.$color-gray-65;
         }
       }
     }
 
-    @include light-theme {
-      background-color: mix($color-gray-04, $color-white, 15%);
-      color: $color-black;
+    @include mixins.light-theme {
+      background-color: color.mix(
+        variables.$color-gray-04,
+        variables.$color-white,
+        15%
+      );
+      color: variables.$color-black;
       &:hover {
-        @include not-disabled {
-          background-color: $color-white;
+        @include mixins.not-disabled {
+          background-color: variables.$color-white;
         }
       }
     }

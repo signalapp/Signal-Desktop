@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 @keyframes progress-animation {
   0% {
     background-position: 100%;
@@ -11,12 +14,12 @@
 }
 
 .LeftPaneDialog {
-  $default-background-color: $color-ultramarine;
-  $default-text-color: $color-white;
-  $error-background-color: $color-accent-red;
+  $default-background-color: variables.$color-ultramarine;
+  $default-text-color: variables.$color-white;
+  $error-background-color: variables.$color-accent-red;
   $error-text-color: $default-text-color;
-  $warning-background-color: $color-accent-yellow;
-  $warning-text-color: $color-black;
+  $warning-background-color: variables.$color-accent-yellow;
+  $warning-text-color: variables.$color-black;
 
   align-items: center;
   background: $default-background-color;
@@ -39,8 +42,10 @@
   }
 
   &__retry {
-    @include button-reset;
-    @include font-body-1-bold;
+    @include mixins.button-reset;
+    & {
+      @include mixins.font-body-1-bold;
+    }
   }
 
   &--clickable {
@@ -64,16 +69,16 @@
 
   &__spinner {
     &__arc {
-      background-color: $color-black;
+      background-color: variables.$color-black;
 
       // Needed for specificity
-      @include dark-theme {
-        background-color: $color-black;
+      @include mixins.dark-theme {
+        background-color: variables.$color-black;
       }
     }
 
     &__circle {
-      background-color: $color-accent-yellow;
+      background-color: variables.$color-accent-yellow;
     }
   }
 
@@ -81,7 +86,7 @@
     width: 24px;
     height: 24px;
     margin-inline-end: 18px;
-    background-color: $color-white;
+    background-color: variables.$color-white;
     -webkit-mask-size: contain;
 
     @media (forced-colors: active) {
@@ -115,22 +120,26 @@
   }
 
   &__action-text {
-    @include button-reset;
-    text-decoration: none;
-    color: $color-white-alpha-80;
+    @include mixins.button-reset;
+    & {
+      text-decoration: none;
+      color: variables.$color-white-alpha-80;
+    }
   }
 
   &__close-button {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    border-radius: 4px;
-    float: inline-end;
-    height: 20px;
-    width: 20px;
+    & {
+      border-radius: 4px;
+      float: inline-end;
+      height: 20px;
+      width: 20px;
+    }
 
     &::before {
       -webkit-mask: url('../images/icons/v3/x/x.svg') no-repeat center;
-      background-color: $color-white;
+      background-color: variables.$color-white;
       content: '';
       display: block;
       width: 100%;
@@ -138,7 +147,7 @@
 
       @media (forced-colors: active) {
         background-color: WindowText;
-        @include dark-theme {
+        @include mixins.dark-theme {
           background-color: WindowText;
         }
       }
@@ -146,10 +155,10 @@
 
     &:hover,
     &:focus {
-      background-color: $color-white-alpha-20;
+      background-color: variables.$color-white-alpha-20;
     }
     &:active {
-      background-color: $color-white-alpha-20;
+      background-color: variables.$color-white-alpha-20;
     }
 
     @media (forced-colors: active) {
@@ -158,7 +167,7 @@
       &:active {
         background-color: none;
       }
-      @include dark-theme {
+      @include mixins.dark-theme {
         &:hover,
         &:focus,
         &:active {
@@ -177,12 +186,12 @@
     max-width: 250px;
 
     h3 {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
       padding: 0px;
       margin: 0px;
     }
     span {
-      @include font-body-1;
+      @include mixins.font-body-1;
       display: inline-block;
     }
     a {
@@ -204,7 +213,7 @@
       background-color: $error-background-color;
       color: $error-text-color;
 
-      @include any-theme {
+      @include mixins.any-theme {
         --tooltip-background-color: #{$error-background-color};
         --tooltip-text-color: #{$error-text-color};
       }
@@ -222,7 +231,7 @@
       background-color: $warning-background-color;
       color: $warning-text-color;
 
-      @include any-theme {
+      @include mixins.any-theme {
         --tooltip-background-color: #{$warning-background-color};
         --tooltip-text-color: #{$warning-text-color};
       }
@@ -255,7 +264,7 @@
 
   &__progress {
     &--container {
-      background: $color-white-alpha-20;
+      background: variables.$color-white-alpha-20;
       border-radius: 2px;
       height: 4px;
       max-width: 210px;
@@ -269,11 +278,11 @@
       animation: progress-animation 2s linear infinite;
       background: linear-gradient(
         90deg,
-        $color-white-alpha-40,
-        $color-white-alpha-60,
-        $color-white-alpha-90,
-        $color-white-alpha-60,
-        $color-white-alpha-40
+        variables.$color-white-alpha-40,
+        variables.$color-white-alpha-60,
+        variables.$color-white-alpha-90,
+        variables.$color-white-alpha-60,
+        variables.$color-white-alpha-40
       );
       background-size: 200% 100%;
       border-radius: 2px;

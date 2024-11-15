@@ -1,6 +1,11 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'sass:color';
+@use 'sass:map';
+@use 'sass:string';
+@use 'variables';
+
 // Fonts
 
 @mixin localized-fonts {
@@ -32,12 +37,12 @@
 }
 
 @mixin font-family {
-  font-family: $inter;
+  font-family: variables.$inter;
   @include localized-fonts;
 }
 
 @mixin time-fonts {
-  font-family: Hatsuishi, $inter;
+  font-family: Hatsuishi, variables.$inter;
   @include localized-fonts;
 }
 
@@ -111,7 +116,9 @@
 }
 @mixin font-subtitle-bold {
   @include font-subtitle;
-  font-weight: 600;
+  & {
+    font-weight: 600;
+  }
 }
 
 @mixin font-caption {
@@ -132,7 +139,9 @@
 // Themes
 
 @mixin light-theme() {
-  @content;
+  & {
+    @content;
+  }
 }
 
 @mixin explicit-light-theme() {
@@ -187,10 +196,10 @@
   }
 
   @include light-theme {
-    background: $color-gray-05;
+    background: variables.$color-gray-05;
   }
   @include dark-theme {
-    background: $color-gray-65;
+    background: variables.$color-gray-65;
   }
 }
 
@@ -216,13 +225,13 @@
 // Icons
 
 @function str-replace($string, $search, $replace: '') {
-  $index: str-index($string, $search);
+  $index: string.index($string, $search);
 
   @if $index {
     @return (
-      str-slice($string, 1, $index - 1) + $replace +
+      string.slice($string, 1, $index - 1) + $replace +
         str-replace(
-          str-slice($string, $index + str-length($search)),
+          string.slice($string, $index + string.length($search)),
           $search,
           $replace
         )
@@ -263,28 +272,30 @@ $rtl-icon-map: (
 
 @function get-rtl-svg($svg) {
   @each $ltr, $rtl in $rtl-icon-map {
-    @if str-index($svg, $ltr) {
+    @if string.index($svg, $ltr) {
       @if $rtl == '' {
         @return $ltr;
       }
       @return str-replace($svg, $ltr, $rtl);
     }
   }
-  @if str-index($svg, 'left') or str-index($svg, 'right') {
+  @if string.index($svg, 'left') or string.index($svg, 'right') {
     @error "Missing RTL icon for #{$svg}";
   }
   @return false;
 }
 
 @mixin color-svg($svg, $color, $stretch: true, $mask-origin: null) {
-  -webkit-mask: url($svg) no-repeat center;
-  @if $stretch {
-    -webkit-mask-size: 100%;
+  & {
+    -webkit-mask: url($svg) no-repeat center;
+    @if $stretch {
+      -webkit-mask-size: 100%;
+    }
+    @if $mask-origin {
+      -webkit-mask-origin: $mask-origin;
+    }
+    background-color: $color;
   }
-  @if $mask-origin {
-    -webkit-mask-origin: $mask-origin;
-  }
-  background-color: $color;
   @media (forced-colors: active) {
     background-color: WindowText;
   }
@@ -325,9 +336,11 @@ $rtl-icon-map: (
 // Other
 
 @mixin popper-shadow() {
-  box-shadow:
-    0px 8px 20px rgba(0, 0, 0, 0.3),
-    0px 0px 8px rgba(0, 0, 0, 0.05);
+  & {
+    box-shadow:
+      0px 8px 20px rgba(0, 0, 0, 0.3),
+      0px 0px 8px rgba(0, 0, 0, 0.05);
+  }
 
   @media (forced-colors: active) {
     border: 1px solid WindowText;
@@ -335,15 +348,17 @@ $rtl-icon-map: (
 }
 
 @mixin button-reset {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-  text-align: inherit;
+  & {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    text-align: inherit;
+  }
 
   @media (forced-colors: active) {
     border: 1px solid WindowText;
@@ -353,16 +368,18 @@ $rtl-icon-map: (
 @mixin staged-attachment-close-button {
   @include button-reset;
 
-  position: absolute;
-  top: 4px;
-  inset-inline-end: 4px;
-  width: 16px;
-  height: 16px;
-  z-index: $z-index-above-base;
+  & {
+    position: absolute;
+    top: 4px;
+    inset-inline-end: 4px;
+    width: 16px;
+    height: 16px;
+    z-index: variables.$z-index-above-base;
+  }
 }
 
 @mixin calling-text-shadow {
-  text-shadow: 0 0 4px $color-black-alpha-40;
+  text-shadow: 0 0 4px variables.$color-black-alpha-40;
 }
 
 @mixin lonely-local-video-preview {
@@ -380,45 +397,53 @@ $rtl-icon-map: (
 @mixin button-focus-outline {
   &:focus {
     @include keyboard-mode {
-      box-shadow: 0px 0px 0px 3px $color-ultramarine;
+      box-shadow: 0px 0px 0px 3px variables.$color-ultramarine;
     }
     @include dark-keyboard-mode {
-      box-shadow: 0px 0px 0px 3px $color-ultramarine-light;
+      box-shadow: 0px 0px 0px 3px variables.$color-ultramarine-light;
     }
   }
 }
 
 @mixin button-blue-text {
   @include light-theme {
-    color: $color-ultramarine;
+    color: variables.$color-ultramarine;
   }
   @include dark-theme {
-    color: $color-ultramarine-light;
+    color: variables.$color-ultramarine-light;
   }
 }
 
 // Complete button styles
 
 @mixin button-primary {
-  background-color: $color-ultramarine;
+  background-color: variables.$color-ultramarine;
 
   // Note: the background colors here need to match the parent component
   @include light-theme {
-    color: $color-white;
+    color: variables.$color-white;
     border: 1px solid white;
   }
   @include dark-theme {
-    color: $color-white-alpha-90;
-    border: 1px solid $color-gray-95;
+    color: variables.$color-white-alpha-90;
+    border: 1px solid variables.$color-gray-95;
   }
 
   &:hover {
     @include mouse-mode {
-      background-color: mix($color-black, $color-ultramarine, 15%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-ultramarine,
+        15%
+      );
     }
 
     @include dark-mouse-mode {
-      background-color: mix($color-white, $color-ultramarine, 15%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-ultramarine,
+        15%
+      );
     }
   }
 
@@ -426,17 +451,33 @@ $rtl-icon-map: (
     // We need to include all four here for specificity precedence
 
     @include mouse-mode {
-      background-color: mix($color-black, $color-ultramarine, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-ultramarine,
+        25%
+      );
     }
     @include dark-mouse-mode {
-      background-color: mix($color-white, $color-ultramarine, 25%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-ultramarine,
+        25%
+      );
     }
 
     @include keyboard-mode {
-      background-color: mix($color-black, $color-ultramarine, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-ultramarine,
+        25%
+      );
     }
     @include dark-keyboard-mode {
-      background-color: mix($color-black, $color-ultramarine, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-ultramarine,
+        25%
+      );
     }
   }
 
@@ -445,21 +486,29 @@ $rtl-icon-map: (
 
 @mixin button-secondary {
   @include light-theme {
-    color: $color-gray-90;
-    background-color: $color-gray-05;
+    color: variables.$color-gray-90;
+    background-color: variables.$color-gray-05;
   }
   @include dark-theme {
-    color: $color-gray-05;
-    background-color: $color-gray-65;
+    color: variables.$color-gray-05;
+    background-color: variables.$color-gray-65;
   }
 
   &:hover {
     @include mouse-mode {
-      background-color: mix($color-black, $color-gray-05, 15%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-gray-05,
+        15%
+      );
     }
 
     @include dark-mouse-mode {
-      background-color: mix($color-white, $color-gray-65, 15%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-gray-65,
+        15%
+      );
     }
   }
 
@@ -467,17 +516,33 @@ $rtl-icon-map: (
     // We need to include all four here for specificity precedence
 
     @include mouse-mode {
-      background-color: mix($color-black, $color-gray-05, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-gray-05,
+        25%
+      );
     }
     @include dark-mouse-mode {
-      background-color: mix($color-white, $color-gray-65, 25%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-gray-65,
+        25%
+      );
     }
 
     @include keyboard-mode {
-      background-color: mix($color-black, $color-gray-05, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-gray-05,
+        25%
+      );
     }
     @include dark-keyboard-mode {
-      background-color: mix($color-white, $color-gray-65, 25%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-gray-65,
+        25%
+      );
     }
   }
 
@@ -491,21 +556,29 @@ $rtl-icon-map: (
 
 @mixin button-light {
   @include light-theme {
-    color: $color-gray-90;
-    background-color: $color-gray-02;
+    color: variables.$color-gray-90;
+    background-color: variables.$color-gray-02;
   }
   @include dark-theme {
-    color: $color-gray-05;
-    background-color: $color-gray-75;
+    color: variables.$color-gray-05;
+    background-color: variables.$color-gray-75;
   }
 
   &:hover {
     @include mouse-mode {
-      background-color: mix($color-black, $color-gray-02, 10%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-gray-02,
+        10%
+      );
     }
 
     @include dark-mouse-mode {
-      background-color: mix($color-white, $color-gray-75, 10%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-gray-75,
+        10%
+      );
     }
   }
 
@@ -513,17 +586,33 @@ $rtl-icon-map: (
     // We need to include all four here for specificity precedence
 
     @include mouse-mode {
-      background-color: mix($color-black, $color-gray-02, 20%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-gray-02,
+        20%
+      );
     }
     @include dark-mouse-mode {
-      background-color: mix($color-white, $color-gray-75, 20%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-gray-75,
+        20%
+      );
     }
 
     @include keyboard-mode {
-      background-color: mix($color-black, $color-gray-02, 20%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-gray-02,
+        20%
+      );
     }
     @include dark-keyboard-mode {
-      background-color: mix($color-white, $color-gray-75, 20%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-gray-75,
+        20%
+      );
     }
   }
 
@@ -537,21 +626,29 @@ $rtl-icon-map: (
 
 @mixin button-destructive {
   @include light-theme {
-    color: $color-white;
-    background-color: $color-accent-red;
+    color: variables.$color-white;
+    background-color: variables.$color-accent-red;
   }
   @include dark-theme {
-    color: $color-white-alpha-90;
-    background-color: $color-accent-red;
+    color: variables.$color-white-alpha-90;
+    background-color: variables.$color-accent-red;
   }
 
   &:hover {
     @include mouse-mode {
-      background-color: mix($color-black, $color-accent-red, 15%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-accent-red,
+        15%
+      );
     }
 
     @include dark-mouse-mode {
-      background-color: mix($color-white, $color-accent-red, 15%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-accent-red,
+        15%
+      );
     }
   }
 
@@ -559,17 +656,33 @@ $rtl-icon-map: (
     // We need to include all four here for specificity precedence
 
     @include mouse-mode {
-      background-color: mix($color-black, $color-accent-red, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-accent-red,
+        25%
+      );
     }
     @include dark-mouse-mode {
-      background-color: mix($color-white, $color-accent-red, 25%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-accent-red,
+        25%
+      );
     }
 
     @include keyboard-mode {
-      background-color: mix($color-black, $color-accent-red, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        variables.$color-accent-red,
+        25%
+      );
     }
     @include dark-keyboard-mode {
-      background-color: mix($color-white, $color-accent-red, 25%);
+      background-color: color.mix(
+        variables.$color-white,
+        variables.$color-accent-red,
+        25%
+      );
     }
   }
 
@@ -577,26 +690,42 @@ $rtl-icon-map: (
 }
 
 @mixin button-green {
-  $background-color: $color-accent-green;
+  $background-color: variables.$color-accent-green;
 
   background-color: $background-color;
-  color: $color-white;
+  color: variables.$color-white;
 
   &:active {
     // We need to include all four here for specificity precedence
 
     @include mouse-mode {
-      background-color: mix($color-black, $background-color, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        $background-color,
+        25%
+      );
     }
     @include dark-mouse-mode {
-      background-color: mix($color-white, $background-color, 25%);
+      background-color: color.mix(
+        variables.$color-white,
+        $background-color,
+        25%
+      );
     }
 
     @include keyboard-mode {
-      background-color: mix($color-black, $background-color, 25%);
+      background-color: color.mix(
+        variables.$color-black,
+        $background-color,
+        25%
+      );
     }
     @include dark-keyboard-mode {
-      background-color: mix($color-white, $background-color, 25%);
+      background-color: color.mix(
+        variables.$color-white,
+        $background-color,
+        25%
+      );
     }
   }
 
@@ -617,52 +746,57 @@ $rtl-icon-map: (
 
 @mixin modal-reset {
   @include popper-shadow();
-  border-radius: 8px;
-  margin-block: 0;
-  margin-inline: auto;
-  max-height: 100%;
-  max-width: 360px;
-  padding: 16px;
-  position: relative;
-  width: 95%;
-  display: flex;
-  flex-direction: column;
+
+  & {
+    border-radius: 8px;
+    margin-block: 0;
+    margin-inline: auto;
+    max-height: 100%;
+    max-width: 360px;
+    padding: 16px;
+    position: relative;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+  }
 
   @include light-theme() {
-    background: $color-white;
-    color: $color-gray-90;
+    background: variables.$color-white;
+    color: variables.$color-gray-90;
   }
 
   @include dark-theme() {
-    background: $color-gray-95;
-    color: $color-gray-05;
+    background: variables.$color-gray-95;
+    color: variables.$color-gray-05;
   }
 }
 
 @mixin modal-close-button {
   @include button-reset;
 
-  position: absolute;
-  inset-inline-end: 12px;
-  top: 12px;
+  & {
+    position: absolute;
+    inset-inline-end: 12px;
+    top: 12px;
 
-  height: 24px;
-  width: 24px;
+    height: 24px;
+    width: 24px;
+  }
 
   @include light-theme {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
+    @include color-svg('../images/icons/v3/x/x.svg', variables.$color-gray-75);
   }
 
   @include dark-theme {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+    @include color-svg('../images/icons/v3/x/x.svg', variables.$color-gray-15);
   }
 
   &:focus {
     @include keyboard-mode {
-      background-color: $color-ultramarine;
+      background-color: variables.$color-ultramarine;
     }
     @include dark-keyboard-mode {
-      background-color: $color-ultramarine-light;
+      background-color: variables.$color-ultramarine-light;
     }
   }
 }
@@ -678,27 +812,27 @@ $rtl-icon-map: (
   padding: 2px;
   width: $bubble-size;
 
-  @each $color, $value in $conversation-colors {
+  @each $color, $value in variables.$conversation-colors {
     &--#{$color} {
       background-color: $value;
     }
   }
-  @each $color, $value in $conversation-colors-gradient {
+  @each $color, $value in variables.$conversation-colors-gradient {
     &--#{$color} {
       background-image: linear-gradient(
-        map-get($value, 'deg'),
-        map-get($value, 'start'),
-        map-get($value, 'end')
+        map.get($value, 'deg'),
+        map.get($value, 'start'),
+        map.get($value, 'end')
       );
     }
   }
 }
 
 @mixin avatar-colors {
-  @each $color, $value in $avatar-colors {
+  @each $color, $value in variables.$avatar-colors {
     &--#{$color} {
-      --bg: #{map-get($value, 'bg')};
-      --fg: #{map-get($value, 'fg')};
+      --bg: #{map.get($value, 'bg')};
+      --fg: #{map.get($value, 'fg')};
 
       background-color: var(--bg);
       color: var(--fg);
@@ -721,10 +855,10 @@ $rtl-icon-map: (
     width: 6px;
 
     @include light-theme {
-      background: $color-black-alpha-40;
+      background: variables.$color-black-alpha-40;
     }
     @include dark-theme {
-      background: $color-white-alpha-40;
+      background: variables.$color-white-alpha-40;
     }
   }
 
@@ -751,26 +885,26 @@ $rtl-icon-map: (
   width: 100%;
 
   @include light-theme {
-    background: $color-white;
-    color: $color-black;
-    border-color: $color-gray-15;
+    background: variables.$color-white;
+    color: variables.$color-black;
+    border-color: variables.$color-gray-15;
 
     &:disabled {
-      background: $color-gray-02;
-      border-color: $color-gray-05;
-      color: $color-gray-90;
+      background: variables.$color-gray-02;
+      border-color: variables.$color-gray-05;
+      color: variables.$color-gray-90;
     }
   }
 
   @include dark-theme {
-    background: $color-gray-80;
-    color: $color-gray-05;
-    border-color: $color-gray-45;
+    background: variables.$color-gray-80;
+    color: variables.$color-gray-05;
+    border-color: variables.$color-gray-45;
 
     &:disabled {
-      background: $color-gray-95;
-      border-color: $color-gray-60;
-      color: $color-gray-20;
+      background: variables.$color-gray-95;
+      border-color: variables.$color-gray-60;
+      color: variables.$color-gray-20;
     }
   }
 
@@ -778,10 +912,10 @@ $rtl-icon-map: (
     outline: none;
 
     @include light-theme {
-      border-color: $color-ultramarine;
+      border-color: variables.$color-ultramarine;
     }
     @include dark-theme {
-      border-color: $color-ultramarine-light;
+      border-color: variables.$color-ultramarine-light;
     }
   }
 }
@@ -796,13 +930,13 @@ $rtl-icon-map: (
   user-select: none;
 
   @include light-theme {
-    background: $color-gray-02;
-    color: $color-black;
+    background: variables.$color-gray-02;
+    color: variables.$color-black;
   }
 
   @include dark-theme {
-    background: $color-gray-95;
-    color: $color-white;
+    background: variables.$color-gray-95;
+    color: variables.$color-white;
   }
 
   h1 {
@@ -817,13 +951,13 @@ $rtl-icon-map: (
 
 @mixin timeline-floating-header-node {
   @include rounded-corners;
-  box-shadow: 0 1px 4px $color-black-alpha-20;
+  box-shadow: 0 1px 4px variables.$color-black-alpha-20;
 
   @include light-theme {
-    background: $color-white;
+    background: variables.$color-white;
   }
   @include dark-theme {
-    background: $color-gray-80;
+    background: variables.$color-gray-80;
   }
 }
 
@@ -879,12 +1013,12 @@ $rtl-icon-map: (
   @include scrollbar;
   &::-webkit-scrollbar-thumb {
     @include light-theme {
-      background: $color-gray-25;
-      border-color: $color-gray-04;
+      background: variables.$color-gray-25;
+      border-color: variables.$color-gray-04;
     }
     @include dark-theme {
-      background: $color-gray-45;
-      border-color: $color-gray-80;
+      background: variables.$color-gray-45;
+      border-color: variables.$color-gray-80;
     }
   }
 }
@@ -901,22 +1035,24 @@ $rtl-icon-map: (
     @include font-body-2;
 
     @include light-theme {
-      background-color: $color-gray-04;
-      color: $color-black;
-      outline: 1px solid $color-gray-20;
+      background-color: variables.$color-gray-04;
+      color: variables.$color-black;
+      outline: 1px solid variables.$color-gray-20;
     }
 
     @include dark-theme {
-      background-color: $color-gray-80;
-      color: $color-gray-15;
-      outline: 1px solid $color-gray-62;
+      background-color: variables.$color-gray-80;
+      color: variables.$color-gray-15;
+      outline: 1px solid variables.$color-gray-62;
     }
 
-    padding-block: 5px;
-    padding-inline: 12px;
-    border-radius: 6px;
-    filter: drop-shadow(0px 4px 3px $color-black-alpha-16);
-    pointer-events: none;
+    & {
+      padding-block: 5px;
+      padding-inline: 12px;
+      border-radius: 6px;
+      filter: drop-shadow(0px 4px 3px variables.$color-black-alpha-16);
+      pointer-events: none;
+    }
   }
 
   & .module-tooltip-arrow::before {
@@ -928,55 +1064,59 @@ $rtl-icon-map: (
 
   &[data-placement='bottom'] .module-tooltip-arrow::before {
     @include light-theme {
-      border-color: transparent transparent $color-gray-20 transparent;
+      border-color: transparent transparent variables.$color-gray-20 transparent;
     }
 
     @include dark-theme {
-      border-color: transparent transparent $color-gray-62 transparent;
+      border-color: transparent transparent variables.$color-gray-62 transparent;
     }
 
-    margin-top: -14px;
-    /* stylelint-disable-next-line liberty/use-logical-spec */
-    margin-left: -7px;
+    & {
+      margin-top: -14px;
+      /* stylelint-disable-next-line liberty/use-logical-spec */
+      margin-left: -7px;
+    }
   }
 
   &[data-placement='bottom'] .module-tooltip-arrow::after {
     @include light-theme {
-      border-bottom-color: $color-gray-04;
+      border-bottom-color: variables.$color-gray-04;
     }
 
     @include dark-theme {
-      border-bottom-color: $color-gray-80;
+      border-bottom-color: variables.$color-gray-80;
     }
   }
 
   &[data-placement='top'] .module-tooltip-arrow::before {
     @include light-theme {
-      border-color: $color-gray-20 transparent transparent transparent;
+      border-color: variables.$color-gray-20 transparent transparent transparent;
     }
 
     @include dark-theme {
-      border-color: $color-gray-62 transparent transparent transparent;
+      border-color: variables.$color-gray-62 transparent transparent transparent;
     }
 
-    margin-top: 0;
-    /* stylelint-disable-next-line liberty/use-logical-spec */
-    margin-left: -7px;
+    & {
+      margin-top: 0;
+      /* stylelint-disable-next-line liberty/use-logical-spec */
+      margin-left: -7px;
+    }
   }
 
   &[data-placement='top'] .module-tooltip-arrow::after {
     @include light-theme {
-      border-top-color: $color-gray-04;
+      border-top-color: variables.$color-gray-04;
     }
 
     @include dark-theme {
-      border-top-color: $color-gray-80;
+      border-top-color: variables.$color-gray-80;
     }
   }
 }
 
 @mixin button-active-call {
-  $background: $color-accent-green;
+  $background: variables.$color-accent-green;
 
   @include font-body-2-bold;
   @include rounded-corners;
@@ -985,7 +1125,7 @@ $rtl-icon-map: (
   width: auto;
   align-items: center;
   background-color: $background;
-  color: $color-white;
+  color: variables.$color-white;
   outline: none;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -997,26 +1137,55 @@ $rtl-icon-map: (
 
     @include color-svg(
       '../images/icons/v3/video/video-compact-fill.svg',
-      $color-white
+      variables.$color-white
     );
-    content: '';
-    display: block;
-    height: $icon-size;
-    margin-inline-end: 4px;
-    min-width: $icon-size;
-    width: $icon-size;
+    & {
+      content: '';
+      display: block;
+      height: $icon-size;
+      margin-inline-end: 4px;
+      min-width: $icon-size;
+      width: $icon-size;
+    }
   }
 
   &:not(:disabled) {
     &:hover {
       @include any-theme {
-        background-color: darken($background, 16%);
+        background-color: color.adjust($background, $lightness: -16%);
       }
     }
 
     &:focus {
       @include keyboard-mode {
-        background-color: darken($background, 16%);
+        background-color: color.adjust($background, $lightness: -16%);
+      }
+    }
+  }
+}
+
+@mixin module-composition-popper {
+  width: 332px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  z-index: variables.$z-index-context-menu;
+  user-select: none;
+  overflow: hidden;
+
+  @include popper-shadow();
+
+  & {
+    @include light-theme {
+      background: variables.$color-gray-02;
+      ::-webkit-scrollbar-thumb {
+        border: 2px solid variables.$color-gray-02;
+      }
+    }
+
+    @include dark-theme {
+      background: variables.$color-gray-75;
+      ::-webkit-scrollbar-thumb {
+        border: 2px solid variables.$color-gray-75;
       }
     }
   }

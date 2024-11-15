@@ -1,14 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .Lightbox {
   &__container {
-    background-color: $color-black;
+    background-color: variables.$color-black;
     bottom: 0;
     inset-inline: 0;
     position: absolute;
     top: 0;
-    z-index: $z-index-popup;
+    z-index: variables.$z-index-popup;
   }
 
   &__animated {
@@ -51,13 +54,15 @@
   }
 
   &__thumbnail {
-    @include button-reset;
-    position: relative;
-    border-radius: 6px;
-    height: 44px;
-    margin-inline-end: 8px;
-    overflow: hidden;
-    width: 44px;
+    @include mixins.button-reset;
+    & {
+      position: relative;
+      border-radius: 6px;
+      height: 44px;
+      margin-inline-end: 8px;
+      overflow: hidden;
+      width: 44px;
+    }
 
     img {
       height: 100%;
@@ -74,13 +79,18 @@
       width: 100%;
       height: 100%;
       border-radius: 6px;
-      box-shadow: inset 0px 0px 0px 2px $color-white;
+      box-shadow: inset 0px 0px 0px 2px variables.$color-white;
     }
 
     &--unavailable {
-      @include color-svg('../images/image.svg', $color-gray-25);
-      height: 100%;
-      width: 100%;
+      @include mixins.color-svg(
+        '../images/image.svg',
+        variables.$color-gray-25
+      );
+      & {
+        height: 100%;
+        width: 100%;
+      }
     }
   }
 
@@ -92,7 +102,7 @@
       overflow: hidden;
       position: relative;
       // Using this so that the zoom cleanly goes over the footer
-      z-index: $z-index-base;
+      z-index: variables.$z-index-base;
 
       &--zoom {
         backface-visibility: hidden;
@@ -113,37 +123,47 @@
       }
     }
 
-    height: auto;
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-    outline: none;
-    width: auto;
+    & {
+      height: auto;
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      outline: none;
+      width: auto;
+    }
   }
 
   &__unsupported {
-    @include button-reset;
-    flex-grow: 1;
-    height: 100%;
-    max-width: 200px;
-    width: 100%;
+    @include mixins.button-reset;
+    & {
+      flex-grow: 1;
+      height: 100%;
+      max-width: 200px;
+      width: 100%;
+    }
 
     &--image {
-      @include color-svg('../images/image.svg', $color-gray-25);
+      @include mixins.color-svg(
+        '../images/image.svg',
+        variables.$color-gray-25
+      );
     }
 
     &--video {
-      @include color-svg('../images/movie.svg', $color-gray-25);
+      @include mixins.color-svg(
+        '../images/movie.svg',
+        variables.$color-gray-25
+      );
     }
 
     &--file {
-      @include color-svg('../images/file.svg', $color-gray-25);
+      @include mixins.color-svg('../images/file.svg', variables.$color-gray-25);
     }
 
     &--missing {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/full-screen-flow/alert-outline.svg',
-        $color-gray-25
+        variables.$color-gray-25
       );
     }
   }
@@ -158,10 +178,12 @@
   }
 
   &__zoom-button {
-    @include button-reset;
-    max-height: 100%;
-    max-width: 100%;
-    cursor: zoom-in;
+    @include mixins.button-reset;
+    & {
+      max-height: 100%;
+      max-width: 100%;
+      cursor: zoom-in;
+    }
   }
 
   &__object--container--zoom,
@@ -172,8 +194,8 @@
   }
 
   &__caption {
-    @include font-body-2;
-    color: $color-white;
+    @include mixins.font-body-2;
+    color: variables.$color-white;
     margin-block: 12px;
     margin-inline: 0;
     text-align: center;
@@ -184,8 +206,8 @@
   }
 
   &__timestamp {
-    @include font-body-1;
-    background-color: $color-black;
+    @include mixins.font-body-1;
+    background-color: variables.$color-black;
     border-radius: 15px;
     color: #eeefef;
     padding-block: 6px;
@@ -201,7 +223,7 @@
     height: var(--height);
 
     // We need this so that the buttons stack above the container
-    z-index: $z-index-above-base;
+    z-index: variables.$z-index-above-base;
 
     // Added extended click zone only when it wouldn't overlap video controls
     @media (min-height: 500px) {
@@ -242,13 +264,13 @@
     }
 
     &--name {
-      @include font-body-2-bold;
-      color: $color-white;
+      @include mixins.font-body-2-bold;
+      color: variables.$color-white;
     }
 
     &--timestamp {
-      @include font-caption;
-      color: $color-gray-25;
+      @include mixins.font-caption;
+      color: variables.$color-gray-25;
     }
   }
 
@@ -272,12 +294,13 @@
   }
 
   &__button {
-    @include button-reset;
-
-    border-radius: 4px;
-    display: inline-block;
-    height: 24px;
-    width: 24px;
+    @include mixins.button-reset;
+    & {
+      border-radius: 4px;
+      display: inline-block;
+      height: 24px;
+      width: 24px;
+    }
 
     &::before {
       content: '';
@@ -287,33 +310,39 @@
     }
 
     &:focus {
-      outline: 4px solid $color-ultramarine;
+      outline: 4px solid variables.$color-ultramarine;
     }
 
     &:disabled {
       &::before {
-        background: $color-gray-65;
+        background: variables.$color-gray-65;
       }
     }
 
     &--forward {
       &::before {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/forward/forward.svg',
-          $color-gray-15
+          variables.$color-gray-15
         );
       }
     }
 
     &--save {
       &::before {
-        @include color-svg('../images/icons/v3/save/save.svg', $color-gray-15);
+        @include mixins.color-svg(
+          '../images/icons/v3/save/save.svg',
+          variables.$color-gray-15
+        );
       }
     }
 
     &--close {
       &::before {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-gray-15
+        );
       }
     }
 
@@ -331,7 +360,7 @@
       &::before {
         width: 32px;
         height: 32px;
-        -webkit-filter: drop-shadow(0 0 4px $color-black-alpha-40);
+        -webkit-filter: drop-shadow(0 0 4px variables.$color-black-alpha-40);
         content: '';
         display: block;
         background-size: 100%;
@@ -346,12 +375,12 @@
         outline: none;
       }
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
           opacity: 1;
         }
       }
-      @include button-focus-outline;
+      @include mixins.button-focus-outline;
     }
 
     &--previous {

@@ -1,9 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallingReactionsToasts {
   position: absolute;
-  inset-block-end: calc($CallControls__height + 32px);
+  inset-block-end: calc(variables.$CallControls__height + 32px);
   inset-inline-start: 65px;
   width: 100%;
 }
@@ -25,9 +28,9 @@
 }
 
 .CallingReactionsToasts .CallingToast {
-  @include font-body-1;
+  @include mixins.font-body-1;
   padding-inline: 16px;
-  color: $color-gray-20;
+  color: variables.$color-gray-20;
   font-size: 15px;
   line-height: 20px;
   transform: rotate(-180deg);

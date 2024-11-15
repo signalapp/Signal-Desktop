@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .UsernameLinkModalBody {
   display: flex;
   flex-direction: column;
@@ -39,13 +42,13 @@
       justify-content: center;
 
       padding: 10px;
-      background-color: $color-white;
+      background-color: variables.$color-white;
       border-radius: 8px;
       width: 148px;
       height: 148px;
 
       .UsernameLinkModalBody__card--shadow & {
-        outline: 2px solid $color-gray-05;
+        outline: 2px solid variables.$color-gray-05;
       }
 
       &__spinner__arc {
@@ -62,9 +65,9 @@
         height: 28px;
         width: 28px;
 
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/error/error-circle.svg',
-          $color-gray-25
+          variables.$color-gray-25
         );
       }
     }
@@ -95,14 +98,16 @@
           width: 16px;
           height: 16px;
 
-          @include color-svg(
+          @include mixins.color-svg(
             '../images/icons/v3/copy/copy.svg',
             var(--text-color)
           );
         }
 
-        @include button-reset;
-        @include button-focus-outline;
+        & {
+          @include mixins.button-reset;
+          @include mixins.button-focus-outline;
+        }
       }
     }
   }
@@ -117,28 +122,30 @@
 
     &__save,
     &__color {
-      @include button-reset;
-      @include button-focus-outline;
-      @include font-caption;
+      @include mixins.button-reset;
+      @include mixins.button-focus-outline;
+      & {
+        @include mixins.font-caption;
 
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      align-items: center;
-      justify-content: center;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+        justify-content: center;
 
-      min-width: 68px;
-      border-radius: 8px;
-      padding: 5px;
-
-      @include light-theme() {
-        background-color: $color-gray-05;
-        color: $color-black;
+        min-width: 68px;
+        border-radius: 8px;
+        padding: 5px;
       }
 
-      @include dark-theme() {
-        background-color: $color-gray-75;
-        color: $color-gray-02;
+      @include mixins.light-theme() {
+        background-color: variables.$color-gray-05;
+        color: variables.$color-black;
+      }
+
+      @include mixins.dark-theme() {
+        background-color: variables.$color-gray-75;
+        color: variables.$color-gray-02;
       }
 
       i {
@@ -150,24 +157,33 @@
     }
 
     &__save i {
-      @include light-theme() {
-        @include color-svg('../images/icons/v3/save/save.svg', $color-black);
+      @include mixins.light-theme() {
+        @include mixins.color-svg(
+          '../images/icons/v3/save/save.svg',
+          variables.$color-black
+        );
       }
 
-      @include dark-theme() {
-        @include color-svg('../images/icons/v3/save/save.svg', $color-gray-02);
+      @include mixins.dark-theme() {
+        @include mixins.color-svg(
+          '../images/icons/v3/save/save.svg',
+          variables.$color-gray-02
+        );
       }
     }
 
     &__color i {
-      @include light-theme() {
-        @include color-svg('../images/icons/v3/color/color.svg', $color-black);
+      @include mixins.light-theme() {
+        @include mixins.color-svg(
+          '../images/icons/v3/color/color.svg',
+          variables.$color-black
+        );
       }
 
-      @include dark-theme() {
-        @include color-svg(
+      @include mixins.dark-theme() {
+        @include mixins.color-svg(
           '../images/icons/v3/color/color.svg',
-          $color-gray-02
+          variables.$color-gray-02
         );
       }
     }
@@ -185,17 +201,19 @@
     margin-block-start: 20px;
     max-width: 296px;
     width: 100%;
-    @include light-theme() {
-      border: 2px solid $color-gray-05;
+    @include mixins.light-theme() {
+      border: 2px solid variables.$color-gray-05;
     }
-    @include dark-theme() {
-      border: 2px solid $color-gray-75;
+    @include mixins.dark-theme() {
+      border: 2px solid variables.$color-gray-75;
     }
 
     &__icon {
-      @include button-reset;
-      @include button-focus-outline;
-      border-radius: 2px;
+      @include mixins.button-reset;
+      @include mixins.button-focus-outline;
+      & {
+        border-radius: 2px;
+      }
 
       &:after {
         content: '';
@@ -205,25 +223,28 @@
         height: 20px;
         flex-shrink: 0;
 
-        @include light-theme() {
-          @include color-svg('../images/icons/v3/copy/copy.svg', $color-black);
+        @include mixins.light-theme() {
+          @include mixins.color-svg(
+            '../images/icons/v3/copy/copy.svg',
+            variables.$color-black
+          );
         }
 
-        @include dark-theme() {
-          @include color-svg(
+        @include mixins.dark-theme() {
+          @include mixins.color-svg(
             '../images/icons/v3/copy/copy.svg',
-            $color-gray-02
+            variables.$color-gray-02
           );
         }
       }
 
       &:disabled:after {
-        @include light-theme() {
-          background-color: $color-gray-45;
+        @include mixins.light-theme() {
+          background-color: variables.$color-gray-45;
         }
 
-        @include dark-theme() {
-          background-color: $color-gray-25;
+        @include mixins.dark-theme() {
+          background-color: variables.$color-gray-25;
         }
       }
     }
@@ -233,44 +254,46 @@
       user-select: text;
 
       &--resetting {
-        @include light-theme() {
-          color: $color-gray-45;
+        @include mixins.light-theme() {
+          color: variables.$color-gray-45;
         }
 
-        @include dark-theme() {
-          color: $color-gray-25;
+        @include mixins.dark-theme() {
+          color: variables.$color-gray-25;
         }
       }
     }
   }
 
   &__help {
-    @include font-subtitle;
+    @include mixins.font-subtitle;
 
     margin-block-start: 16px;
     text-align: center;
 
-    @include light-theme() {
-      color: $color-gray-60;
+    @include mixins.light-theme() {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme() {
-      color: $color-gray-25;
+    @include mixins.dark-theme() {
+      color: variables.$color-gray-25;
     }
   }
 
   &__reset {
-    @include button-reset;
-    @include button-focus-outline;
-    @include font-body-1-bold;
+    @include mixins.button-reset;
+    @include mixins.button-focus-outline;
+    & {
+      @include mixins.font-body-1-bold;
 
-    margin-block: 12px 16px;
-
-    @include light-theme() {
-      color: $color-ultramarine;
+      margin-block: 12px 16px;
     }
 
-    @include dark-theme() {
-      color: $color-ultramarine-light;
+    @include mixins.light-theme() {
+      color: variables.$color-ultramarine;
+    }
+
+    @include mixins.dark-theme() {
+      color: variables.$color-ultramarine-light;
     }
   }
 
@@ -290,21 +313,23 @@
     }
 
     &__radio {
-      @include button-reset;
-      @include button-focus-outline;
+      @include mixins.button-reset;
+      @include mixins.button-focus-outline;
 
-      display: flex;
-      width: 48px;
-      height: 48px;
-      border-radius: 24px;
+      & {
+        display: flex;
+        width: 48px;
+        height: 48px;
+        border-radius: 24px;
+      }
 
       &[aria-pressed='true'] {
         padding: 3px;
-        @include light-theme() {
-          border: 2px solid $color-black;
+        @include mixins.light-theme() {
+          border: 2px solid variables.$color-black;
         }
-        @include dark-theme() {
-          border: 2px solid $color-ultramarine;
+        @include mixins.dark-theme() {
+          border: 2px solid variables.$color-ultramarine;
         }
       }
 
@@ -318,11 +343,11 @@
 
       &--white-bg {
         i {
-          @include light-theme() {
-            border-color: $color-gray-15;
+          @include mixins.light-theme() {
+            border-color: variables.$color-gray-15;
           }
-          @include dark-theme() {
-            border-color: $color-gray-60;
+          @include mixins.dark-theme() {
+            border-color: variables.$color-gray-60;
           }
         }
       }

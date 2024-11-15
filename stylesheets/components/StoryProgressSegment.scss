@@ -1,8 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../variables';
+
 .StoryProgressSegment {
-  background: $color-white-alpha-40;
+  background: variables.$color-white-alpha-40;
   border-radius: 2px;
   height: 2px;
   margin-block: 12px 0;
@@ -12,7 +14,7 @@
 }
 
 .StoryProgressSegment__bar {
-  background: $color-white;
+  background: variables.$color-white;
   border-radius: 2px;
   height: 100%;
   &:dir(ltr) {

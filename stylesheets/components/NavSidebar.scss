@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .NavSidebar {
   position: relative;
   // Note: Intentionally no z-index here so drag handle is above other content
@@ -10,13 +13,13 @@
   flex-shrink: 0;
   padding-top: var(--title-bar-drag-area-height);
   user-select: none;
-  @include light-theme {
-    background-color: $color-gray-04;
-    border-inline-end: 1px solid $color-black-alpha-16;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-04;
+    border-inline-end: 1px solid variables.$color-black-alpha-16;
   }
-  @include dark-theme {
-    background-color: $color-gray-80;
-    border-inline-end: 1px solid $color-white-alpha-16;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-80;
+    border-inline-end: 1px solid variables.$color-white-alpha-16;
   }
 }
 
@@ -25,10 +28,10 @@
   align-items: start;
   flex-shrink: 0;
   padding-bottom: 6px;
-  @include draggable-region;
+  @include mixins.draggable-region;
 
   .NavTabs__Toggle {
-    width: $NavTabs__width;
+    width: variables.$NavTabs__width;
   }
 
   .NavSidebar--narrow & {
@@ -44,7 +47,8 @@
   align-items: center;
   justify-content: center;
   padding-block: calc(
-    $NavTabs__Item__blockPadding + $NavTabs__ItemButton__blockPadding
+    variables.$NavTabs__Item__blockPadding +
+      variables.$NavTabs__ItemButton__blockPadding
   );
   padding-inline: 24px;
 
@@ -66,38 +70,40 @@
 .NavSidebar__HeaderTitle {
   flex: 1 1 0%;
   margin: 0;
-  @include font-title-medium;
+  @include mixins.font-title-medium;
   line-height: 20px;
 
   .NavSidebar--narrow & {
-    @include sr-only;
+    @include mixins.sr-only;
   }
 }
 
 .NavSidebar__HeaderTitle--withBackButton {
   text-align: center;
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 }
 
 .NavSidebar__BackButton {
-  @include button-reset();
-  margin-block: -4px;
-  padding: 4px;
-  border-radius: 4px;
+  @include mixins.button-reset();
+  & {
+    margin-block: -4px;
+    padding: 4px;
+    border-radius: 4px;
+  }
 
   &:hover {
-    @include light-theme {
-      background: $color-gray-20;
+    @include mixins.light-theme {
+      background: variables.$color-gray-20;
     }
-    @include dark-theme {
-      background: $color-gray-62;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-62;
     }
   }
 
   &:focus {
     outline: none;
-    @include keyboard-mode {
-      box-shadow: 0 0 0 2px $color-ultramarine;
+    @include mixins.keyboard-mode {
+      box-shadow: 0 0 0 2px variables.$color-ultramarine;
     }
   }
 
@@ -106,23 +112,23 @@
     display: block;
     width: 20px;
     height: 20px;
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-left.svg',
-        $color-black
+        variables.$color-black
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
 }
 
 .NavSidebar__BackButtonLabel {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 .NavSidebar .module-SearchInput__container {
@@ -139,7 +145,7 @@
 
 .NavSidebar__DragHandle {
   position: absolute;
-  z-index: $z-index-above-above-base;
+  z-index: variables.$z-index-above-above-base;
   top: 0;
   bottom: 0;
   inset-inline-start: 100%;
@@ -149,18 +155,18 @@
 
   &:focus {
     outline: none;
-    @include keyboard-mode {
-      box-shadow: inset 0 0 0 2px $color-ultramarine;
+    @include mixins.keyboard-mode {
+      box-shadow: inset 0 0 0 2px variables.$color-ultramarine;
     }
   }
 }
 
 .NavSidebar__DragHandle--dragging {
-  @include light-theme {
-    background-color: $color-black-alpha-12;
+  @include mixins.light-theme {
+    background-color: variables.$color-black-alpha-12;
   }
-  @include dark-theme {
-    background-color: $color-white-alpha-12;
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-12;
   }
 }
 
@@ -181,39 +187,41 @@
 }
 
 .NavSidebar__ActionButton {
-  @include button-reset();
-  padding: 4px;
-  border-radius: 4px;
+  @include mixins.button-reset();
+  & {
+    padding: 4px;
+    border-radius: 4px;
+  }
 
   &:hover,
   &:focus {
-    @include light-theme {
-      background-color: $color-black-alpha-06;
+    @include mixins.light-theme {
+      background-color: variables.$color-black-alpha-06;
     }
-    @include dark-theme {
-      background-color: $color-white-alpha-06;
+    @include mixins.dark-theme {
+      background-color: variables.$color-white-alpha-06;
     }
   }
 
   &:active {
-    @include light-theme {
-      background: $color-gray-20;
+    @include mixins.light-theme {
+      background: variables.$color-gray-20;
     }
-    @include dark-theme {
-      background: $color-gray-62;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-62;
     }
   }
 
   &:focus {
     outline: none;
-    @include keyboard-mode {
-      box-shadow: 0 0 0 2px $color-ultramarine;
+    @include mixins.keyboard-mode {
+      box-shadow: 0 0 0 2px variables.$color-ultramarine;
     }
   }
 }
 
 .NavSidebar__ActionButtonLabel {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 .NavSidebarSearchHeader {
@@ -251,12 +259,12 @@
 .NavSidebarEmpty__title {
   margin-block: 0px 6px;
 
-  @include font-title-medium;
-  color: $color-gray-45;
+  @include mixins.font-title-medium;
+  color: variables.$color-gray-45;
 }
 
 .NavSidebarEmpty__subtitle {
   margin-block: 0;
 
-  color: $color-gray-45;
+  color: variables.$color-gray-45;
 }

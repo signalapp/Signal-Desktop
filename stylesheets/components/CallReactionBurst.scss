@@ -1,16 +1,18 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../variables';
+
 .CallingReactionsBurstToasts {
   position: absolute;
   width: 100%;
-  inset-block-end: calc($CallControls__height + 32px);
+  inset-block-end: calc(variables.$CallControls__height + 32px);
   inset-inline-start: 15px;
 }
 
 .CallReactionBursts {
   position: absolute;
-  z-index: $z-index-toast;
+  z-index: variables.$z-index-toast;
   display: flex;
 }
 

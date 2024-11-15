@@ -1,19 +1,22 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallControls {
   position: relative;
   bottom: 0;
   display: flex;
   flex-grow: 1;
   flex-shrink: 0;
-  flex-basis: $CallControls__initial-width;
+  flex-basis: variables.$CallControls__initial-width;
   align-items: center;
   justify-content: space-between;
-  max-width: $CallControls__max-width;
-  height: $CallControls__height;
-  background-color: $color-gray-78;
-  box-shadow: 0px 4px 14px 0px $color-black-alpha-40;
+  max-width: variables.$CallControls__max-width;
+  height: variables.$CallControls__height;
+  background-color: variables.$color-gray-78;
+  box-shadow: 0px 4px 14px 0px variables.$color-black-alpha-40;
   border-radius: 18px;
   margin-block-end: 16px;
   margin-inline: 16px;
@@ -33,7 +36,7 @@
   display: flex;
   max-height: 40px;
   margin-block-end: 2px;
-  color: $color-gray-15;
+  color: variables.$color-gray-15;
   font-size: 14px;
   font-weight: bold;
   line-height: 20px;
@@ -44,33 +47,35 @@
   display: flex;
   min-height: 18px;
   max-height: 36px;
-  color: $color-gray-20;
+  color: variables.$color-gray-20;
   font-size: 13px;
   line-height: 18px;
   overflow: hidden;
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus-within {
-      outline: 2px solid $color-ultramarine;
+      outline: 2px solid variables.$color-ultramarine;
       outline-offset: 2px;
     }
   }
 }
 
 .CallControls__Status--ParticipantCount {
-  @include button-reset;
-  display: flex;
-  flex-basis: 100%;
-  align-items: center;
+  @include mixins.button-reset;
+  & {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+  }
   &::after {
     content: '';
     display: flex;
     width: 14px;
     height: 14px;
     margin-inline-start: 1px;
-    @include color-svg(
+    @include mixins.color-svg(
       '../images/icons/v3/chevron/chevron-right.svg',
-      $color-gray-20
+      variables.$color-gray-20
     );
   }
 }
@@ -95,17 +100,17 @@
   padding-inline: 16px;
   border-radius: 40px;
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
       box-shadow:
-        0 0 0 1px $color-gray-80,
-        0 0 0 3px $color-ultramarine !important;
+        0 0 0 1px variables.$color-gray-80,
+        0 0 0 3px variables.$color-ultramarine !important;
     }
   }
 }
 
 .CallControls__JoinLeaveButton--hangup {
-  background-color: $color-accent-red;
+  background-color: variables.$color-accent-red;
 }
 
 .CallControls__JoinLeaveButton .module-spinner__container {
@@ -113,20 +118,20 @@
 }
 
 .CallControls__OuterSpacer {
-  flex-basis: calc($calling-local-preview-width + 16px);
+  flex-basis: calc(variables.$calling-local-preview-width + 16px);
 }
 
 .CallControls__ReactionPickerContainer {
   position: absolute;
   inset-inline-start: min(44%, 32vw);
   inset-block-end: 70px;
-  z-index: $z-index-toast;
+  z-index: variables.$z-index-toast;
 
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 155px);
   font-size: 13px;
-  filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
+  filter: drop-shadow(0px 4px 3px variables.$color-black-alpha-20);
   pointer-events: auto;
 }
 

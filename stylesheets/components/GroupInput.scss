@@ -1,8 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-GroupInput {
-  @include normal-input;
+  @include mixins.normal-input;
 
   &__description {
     resize: none;
@@ -13,9 +16,9 @@
     }
 
     &--remaining {
-      @include font-subtitle;
+      @include mixins.font-subtitle;
       bottom: 0;
-      color: $color-gray-45;
+      color: variables.$color-gray-45;
       margin: 12px;
       position: absolute;
       inset-inline-end: 0;

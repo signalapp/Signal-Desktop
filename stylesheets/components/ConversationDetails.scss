@@ -1,9 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .ConversationDetails {
   &__chat-color {
-    @include color-bubble(32px);
+    @include mixins.color-bubble(32px);
   }
 
   &-membership-list,
@@ -11,11 +14,16 @@
     &__add-members-icon,
     &__add-to-group-icon {
       @mixin plus-icon($color) {
-        @include color-svg('../images/icons/v3/plus/plus-compact.svg', $color);
-        content: '';
-        display: block;
-        height: 18px;
-        width: 18px;
+        @include mixins.color-svg(
+          '../images/icons/v3/plus/plus-compact.svg',
+          $color
+        );
+        & {
+          content: '';
+          display: block;
+          height: 18px;
+          width: 18px;
+        }
       }
 
       align-items: center;
@@ -25,26 +33,26 @@
       justify-content: center;
       width: 32px;
 
-      @include light-theme {
-        background: $color-gray-02;
+      @include mixins.light-theme {
+        background: variables.$color-gray-02;
         &::before {
-          @include plus-icon($color-black);
+          @include plus-icon(variables.$color-black);
         }
       }
-      @include dark-theme {
-        background: $color-gray-90;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-90;
         &::before {
-          @include plus-icon($color-gray-15);
+          @include plus-icon(variables.$color-gray-15);
         }
       }
     }
   }
 
   &__block-group {
-    color: $color-accent-red;
+    color: variables.$color-accent-red;
   }
   &__unblock-group {
-    color: $color-accent-blue;
+    color: variables.$color-accent-blue;
   }
 
   &__tabs {
@@ -54,16 +62,18 @@
   }
 
   &__pending--info {
-    @include font-subtitle;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.font-subtitle;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
-    padding-block: 0;
-    padding-inline: 28px;
-    padding-top: 16px;
+    & {
+      padding-block: 0;
+      padding-inline: 28px;
+      padding-top: 16px;
+    }
   }
 
   &-icon {
@@ -76,8 +86,8 @@
         outline: none;
 
         .ConversationDetails-icon__icon::after {
-          @include keyboard-mode {
-            background-color: $color-ultramarine;
+          @include mixins.keyboard-mode {
+            background-color: variables.$color-ultramarine;
           }
         }
       }
@@ -99,15 +109,15 @@
 
       @mixin details-icon(
         $url,
-        $light-color: $color-gray-75,
-        $dark-color: $color-gray-15
+        $light-color: variables.$color-gray-75,
+        $dark-color: variables.$color-gray-15
       ) {
-        @include light-theme {
-          @include color-svg($url, $light-color);
+        @include mixins.light-theme {
+          @include mixins.color-svg($url, $light-color);
         }
 
-        @include dark-theme {
-          @include color-svg($url, $dark-color);
+        @include mixins.dark-theme {
+          @include mixins.color-svg($url, $dark-color);
         }
       }
 
@@ -205,12 +215,12 @@
 
       &--down {
         border-radius: 18px;
-        @include light-theme {
-          background-color: $color-gray-02;
+        @include mixins.light-theme {
+          background-color: variables.$color-gray-02;
         }
 
-        @include dark-theme {
-          background-color: $color-gray-90;
+        @include mixins.dark-theme {
+          background-color: variables.$color-gray-90;
         }
 
         &::after {
@@ -232,8 +242,8 @@
         &::after {
           @include details-icon(
             '../images/icons/v3/block/block.svg',
-            $color-accent-red,
-            $color-accent-red
+            variables.$color-accent-red,
+            variables.$color-accent-red
           );
         }
       }
@@ -241,8 +251,8 @@
         &::after {
           @include details-icon(
             '../images/icons/v3/block/block.svg',
-            $color-accent-blue,
-            $color-accent-blue
+            variables.$color-accent-blue,
+            variables.$color-accent-blue
           );
         }
       }
@@ -294,11 +304,11 @@
       border: none;
       padding: 0;
 
-      @include light-theme {
-        color: $color-gray-95;
+      @include mixins.light-theme {
+        color: variables.$color-gray-95;
       }
-      @include dark-theme {
-        color: $color-gray-05;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
       }
     }
   }
@@ -314,19 +324,19 @@
       padding-inline: 24px;
       user-select: none;
       width: 100%;
-      @include font-body-2;
+      @include mixins.font-body-2;
 
       &--button {
         color: inherit;
         background: none;
 
         &:hover:not(:disabled) {
-          @include light-theme {
-            background-color: $color-gray-02;
+          @include mixins.light-theme {
+            background-color: variables.$color-gray-02;
           }
 
-          @include dark-theme {
-            background-color: $color-gray-90;
+          @include mixins.dark-theme {
+            background-color: variables.$color-gray-90;
           }
 
           & .ConversationDetails-panel-row__actions {
@@ -345,11 +355,11 @@
         }
       }
 
-      @include keyboard-mode {
-        @include keyboard-focus-state($color-ultramarine);
+      @include mixins.keyboard-mode {
+        @include keyboard-focus-state(variables.$color-ultramarine);
       }
-      @include dark-keyboard-mode {
-        @include keyboard-focus-state($color-ultramarine-light);
+      @include mixins.dark-keyboard-mode {
+        @include keyboard-focus-state(variables.$color-ultramarine-light);
       }
     }
 
@@ -367,18 +377,18 @@
     &__info {
       margin-top: 4px;
 
-      @include light-theme {
-        color: $color-gray-60;
+      @include mixins.light-theme {
+        color: variables.$color-gray-60;
       }
 
-      @include dark-theme {
-        color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
       }
     }
 
     &__right {
       position: relative;
-      color: $color-gray-45;
+      color: variables.$color-gray-45;
       min-width: 143px;
     }
 
@@ -401,18 +411,20 @@
       &:not(:first-child)::before {
         border-top: 1px solid transparent;
 
-        @include light-theme {
-          border-top-color: $color-gray-15;
+        @include mixins.light-theme {
+          border-top-color: variables.$color-gray-15;
         }
 
-        @include dark-theme {
-          border-top-color: $color-gray-65;
+        @include mixins.dark-theme {
+          border-top-color: variables.$color-gray-65;
         }
 
-        content: '';
-        display: block;
-        margin-block: 8px;
-        margin-inline: 0;
+        & {
+          content: '';
+          display: block;
+          margin-block: 8px;
+          margin-inline: 0;
+        }
       }
 
       &--borderless {
@@ -434,7 +446,7 @@
     }
 
     &__title {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
     }
   }
 
@@ -483,29 +495,47 @@
 }
 
 .ConversationDetails__CallHistoryGroup__ItemIcon--Audio {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/phone/phone.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/phone/phone.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/phone/phone.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
 .ConversationDetails__CallHistoryGroup__ItemIcon--Video {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/video/video.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/video/video.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/video/video.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/video/video.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
 .ConversationDetails__CallHistoryGroup__ItemIcon--Adhoc {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/link/link.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/link/link.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/link/link.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/link/link.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
@@ -518,40 +548,48 @@
 }
 
 .ConversationDetails--nickname-actions {
-  @include button-reset;
-  width: 32px;
-  height: 32px;
+  @include mixins.button-reset;
+  & {
+    width: 32px;
+    height: 32px;
+  }
   &::before {
     display: inline-block;
     content: '';
     width: 20px;
     height: 20px;
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-down.svg',
-        $color-black
+        variables.$color-black
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-down.svg',
-        $color-white
+        variables.$color-white
       );
     }
   }
 }
 
 .ConversationDetails--nickname-actions-label {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 .ConversationDetails--nickname-actions--delete {
   width: 16px;
   height: 16px;
-  @include light-theme {
-    @include color-svg('../images/icons/v3/trash/trash.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/trash/trash.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/trash/trash.svg', $color-white);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/trash/trash.svg',
+      variables.$color-white
+    );
   }
 }

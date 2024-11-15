@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .IncomingCallBar {
   &__container {
     -webkit-app-region: no-drag;
@@ -9,14 +12,14 @@
     top: 22px;
     user-select: none;
     width: 100%;
-    z-index: $z-index-calling;
+    z-index: variables.$z-index-calling;
     padding-inline: 1rem;
   }
 
   &__bar {
     -webkit-app-region: no-drag;
     align-items: center;
-    background-color: $color-gray-75;
+    background-color: variables.$color-gray-75;
     border-radius: 8px;
     display: flex;
     height: 70px;
@@ -49,7 +52,7 @@
     }
 
     &--name-header {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
       color: #ffffff;
       overflow-x: hidden;
       text-overflow: ellipsis;
@@ -59,7 +62,7 @@
     &--message-text {
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
-      @include font-body-2;
+      @include mixins.font-body-2;
       color: #ffffff;
       display: -webkit-box;
       overflow: hidden;
@@ -90,102 +93,110 @@
     }
 
     &--accept-video-as-audio {
-      background-color: $color-gray-45;
+      background-color: variables.$color-gray-45;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          box-shadow: 0px 0px 0px 4px $color-ultramarine;
+          box-shadow: 0px 0px 0px 4px variables.$color-ultramarine;
         }
       }
 
-      @include mouse-mode {
+      @include mixins.mouse-mode {
         &:hover {
-          box-shadow: 0px 0px 0px 2px $color-ultramarine;
+          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
         }
       }
 
       div {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/video/video-slash-fill.svg',
-          $color-white
+          variables.$color-white
         );
-        height: 24px;
-        width: 24px;
+        & {
+          height: 24px;
+          width: 24px;
+        }
       }
     }
 
     &--accept-video {
-      background-color: $color-accent-green;
+      background-color: variables.$color-accent-green;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          box-shadow: 0px 0px 0px 4px $color-ultramarine;
+          box-shadow: 0px 0px 0px 4px variables.$color-ultramarine;
         }
       }
 
-      @include mouse-mode {
+      @include mixins.mouse-mode {
         &:hover {
-          box-shadow: 0px 0px 0px 2px $color-ultramarine;
+          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
         }
       }
 
       div {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/video/video-fill.svg',
-          $color-white
+          variables.$color-white
         );
-        height: 24px;
-        width: 24px;
+        & {
+          height: 24px;
+          width: 24px;
+        }
       }
     }
 
     &--accept-audio {
-      background-color: $color-accent-green;
+      background-color: variables.$color-accent-green;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          box-shadow: 0px 0px 0px 4px $color-ultramarine;
+          box-shadow: 0px 0px 0px 4px variables.$color-ultramarine;
         }
       }
 
-      @include mouse-mode {
+      @include mixins.mouse-mode {
         &:hover {
-          box-shadow: 0px 0px 0px 2px $color-ultramarine;
+          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
         }
       }
 
       div {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/phone/phone-fill.svg',
-          $color-white
+          variables.$color-white
         );
-        height: 24px;
-        width: 24px;
+        & {
+          height: 24px;
+          width: 24px;
+        }
       }
     }
 
     &--decline {
-      background-color: $color-accent-red;
+      background-color: variables.$color-accent-red;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          box-shadow: 0px 0px 0px 4px $color-ultramarine;
+          box-shadow: 0px 0px 0px 4px variables.$color-ultramarine;
         }
       }
 
-      @include mouse-mode {
+      @include mixins.mouse-mode {
         &:hover {
-          box-shadow: 0px 0px 0px 2px $color-ultramarine;
+          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
         }
       }
 
       div {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/phone/phone-down-fill.svg',
-          $color-white
+          variables.$color-white
         );
-        height: 24px;
-        width: 24px;
+        & {
+          height: 24px;
+          width: 24px;
+        }
       }
     }
   }

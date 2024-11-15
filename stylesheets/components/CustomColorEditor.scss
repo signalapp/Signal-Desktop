@@ -1,10 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CustomColorEditor {
   &__messages {
     border-radius: 8px;
-    border: 1px solid $color-gray-15;
+    border: 1px solid variables.$color-gray-15;
     padding-block: 27px;
     padding-inline: 0;
     margin-top: 16px;
@@ -16,9 +19,11 @@
   }
 
   &__gradient-knob {
-    @include color-bubble(42px);
-    cursor: move;
-    position: absolute;
+    @include mixins.color-bubble(42px);
+    & {
+      cursor: move;
+      position: absolute;
+    }
   }
 
   &__slider-container {
@@ -45,7 +50,7 @@
   &__hue-slider__handle {
     &:focus {
       outline: none;
-      border: 2px solid $color-white;
+      border: 2px solid variables.$color-white;
       border-radius: 8px;
     }
   }

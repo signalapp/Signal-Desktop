@@ -1,14 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-select {
   position: relative;
 
   select {
-    @include font-body-2;
+    @include mixins.font-body-2;
     -webkit-appearance: none;
     border-radius: 4px;
-    border: 1px solid $color-gray-25;
+    border: 1px solid variables.$color-gray-25;
     cursor: pointer;
     height: 40px;
     min-width: 124px;
@@ -18,15 +21,15 @@
     text-overflow: ellipsis;
     width: 100%;
 
-    @include dark-theme {
-      background-color: $color-gray-90;
-      border-color: $color-gray-60;
-      color: $color-gray-05;
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-90;
+      border-color: variables.$color-gray-60;
+      color: variables.$color-gray-05;
     }
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        border: 3px solid $color-ultramarine;
+        border: 3px solid variables.$color-ultramarine;
         line-height: 14px;
         padding-inline-start: 10px;
       }
@@ -42,17 +45,17 @@
     inset-inline-end: 8px;
     top: 11px;
     width: 16px;
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/dropdown/dropdown-compact-light.svg',
-        $color-gray-60
+        variables.$color-gray-60
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/dropdown/dropdown-compact-light.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }

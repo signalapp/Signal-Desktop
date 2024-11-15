@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-staged-link-preview {
   position: relative;
   display: flex;
@@ -11,7 +14,7 @@
 
   &__no-image {
     align-items: center;
-    background-color: $color-white;
+    background-color: variables.$color-white;
     border-radius: 14px;
     display: flex;
     flex-direction: row;
@@ -21,10 +24,15 @@
     width: 74px;
 
     &::after {
-      @include color-svg('../images/icons/v3/link/link.svg', $color-black);
-      content: '';
-      height: 44px;
-      width: 44px;
+      @include mixins.color-svg(
+        '../images/icons/v3/link/link.svg',
+        variables.$color-black
+      );
+      & {
+        content: '';
+        height: 44px;
+        width: 44px;
+      }
     }
   }
 }
@@ -37,11 +45,11 @@
   flex-grow: 1;
   flex-shrink: 1;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -62,22 +70,24 @@
   }
 }
 .module-staged-link-preview__title {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  & {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
 }
 .module-staged-link-preview__description {
-  @include font-body-1;
+  @include mixins.font-body-1;
 
   overflow: hidden;
   display: -webkit-box;
@@ -85,17 +95,17 @@
   -webkit-box-orient: vertical;
 }
 .module-staged-link-preview__footer {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   display: flex;
   flex-flow: row wrap;
   align-items: center;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 
   > *:not(:first-child) {
@@ -109,44 +119,55 @@
   }
 }
 .module-staged-link-preview__location {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   text-transform: lowercase;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 .module-staged-link-preview__close-button {
-  @include button-reset;
+  @include mixins.button-reset;
 
-  position: absolute;
-  top: 0px;
-  inset-inline-end: 0px;
+  & {
+    position: absolute;
+    top: 0px;
+    inset-inline-end: 0px;
 
-  height: 16px;
-  width: 16px;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
+    height: 16px;
+    width: 16px;
   }
-  @include keyboard-mode {
+
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/x/x.svg',
+      variables.$color-gray-60
+    );
+  }
+  @include mixins.keyboard-mode {
     &:focus {
-      @include color-svg('../images/icons/v3/x/x.svg', $color-ultramarine);
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-ultramarine
+      );
     }
   }
 
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/x/x.svg',
+      variables.$color-gray-25
+    );
   }
-  @include dark-keyboard-mode {
+  @include mixins.dark-keyboard-mode {
     &:focus {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/x/x.svg',
-        $color-ultramarine-light
+        variables.$color-ultramarine-light
       );
     }
   }

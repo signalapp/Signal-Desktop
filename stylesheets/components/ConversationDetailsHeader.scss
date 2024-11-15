@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .ConversationDetailsHeader {
   align-items: center;
   display: flex;
@@ -14,12 +17,14 @@
 
   &__edit-button,
   &__about-button {
-    @include button-reset();
-    cursor: pointer;
+    @include mixins.button-reset();
+    & {
+      cursor: pointer;
+    }
   }
 
   &__title {
-    @include font-title-1;
+    @include mixins.font-title-1;
     font-weight: 400;
     padding-bottom: 8px;
     padding-top: 12px;
@@ -33,13 +38,13 @@
   }
 
   &__subtitle {
-    @include font-body-1;
-    color: $color-gray-60;
+    @include mixins.font-body-1;
+    color: variables.$color-gray-60;
     justify-content: center;
     padding-bottom: 6px;
 
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
 
     &__about {
@@ -64,11 +69,11 @@
       transition: opacity 100ms ease-out;
       width: $size;
 
-      @include light-theme {
-        @include color-svg($icon, $color-gray-60);
+      @include mixins.light-theme {
+        @include mixins.color-svg($icon, variables.$color-gray-60);
       }
-      @include dark-theme {
-        @include color-svg($icon, $color-gray-25);
+      @include mixins.dark-theme {
+        @include mixins.color-svg($icon, variables.$color-gray-25);
       }
     }
   }
@@ -86,16 +91,16 @@
     position: relative;
     inset-block-start: 2px;
 
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-right-bold.svg',
-        $color-black
+        variables.$color-black
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-right-bold.svg',
-        $color-gray-05
+        variables.$color-gray-05
       );
     }
   }

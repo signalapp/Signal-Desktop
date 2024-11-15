@@ -1,6 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallingAudioIndicator {
   $size: 28px;
 
@@ -10,11 +13,11 @@
   height: $size;
   min-width: $size;
   width: $size;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
   border-radius: calc($size / 2);
 
   &--with-content {
-    background: rgba($color-gray-80, 0.7);
+    background: rgba(variables.$color-gray-80, 0.7);
   }
 
   &__content {
@@ -27,9 +30,9 @@
     justify-content: center;
 
     &--muted {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/mic/mic-slash-fill-compact-light.svg',
-        $color-white
+        variables.$color-white
       );
     }
   }
@@ -39,12 +42,12 @@
   position: absolute;
   top: 6px;
   inset-inline-end: 6px;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
 }
 
 .module-ongoing-call__group-call-remote-participant .CallingAudioIndicator {
   position: absolute;
   top: 8px;
   inset-inline-end: 8px;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
 }

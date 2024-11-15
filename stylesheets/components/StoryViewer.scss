@@ -1,6 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .StoryViewer {
   &__overlay {
     background-size: contain;
@@ -9,13 +12,13 @@
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: $z-index-popup-overlay;
+    z-index: variables.$z-index-popup-overlay;
   }
 
   &__content {
     align-items: center;
     backdrop-filter: blur(90px);
-    background: $color-black-alpha-20;
+    background: variables.$color-black-alpha-20;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -24,20 +27,27 @@
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: $z-index-popup-overlay;
+    z-index: variables.$z-index-popup-overlay;
   }
 
   &__close-button {
-    @include button-reset;
-    @include modal-close-button;
-    @include light-theme {
-      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+    @include mixins.button-reset;
+    & {
+      @include mixins.modal-close-button;
     }
-    width: 20px;
-    height: 20px;
-    top: var(--title-bar-drag-area-height);
-    inset-inline-end: 28px;
-    z-index: $z-index-above-above-base;
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-gray-15
+      );
+    }
+    & {
+      width: 20px;
+      height: 20px;
+      top: var(--title-bar-drag-area-height);
+      inset-inline-end: 28px;
+      z-index: variables.$z-index-above-above-base;
+    }
   }
 
   &__container {
@@ -57,30 +67,32 @@
   }
 
   &__meta {
-    @include position-absolute-center-x;
+    @include mixins.position-absolute-center-x;
     bottom: 0;
     min-width: 284px;
     padding-block: 0;
     padding-inline: 16px;
     width: clamp(0vh, 56.25vh, 100vw);
-    z-index: $z-index-story-meta;
+    z-index: variables.$z-index-story-meta;
 
     &__list {
-      @include font-body-2;
+      @include mixins.font-body-2;
       align-items: center;
       display: flex;
-      color: $color-white-alpha-80;
+      color: variables.$color-white-alpha-80;
 
       &::before {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/stories/stories-fill-compact.svg',
-          $color-white-alpha-80
+          variables.$color-white-alpha-80
         );
-        content: '';
-        display: block;
-        height: 14px;
-        margin-inline-end: 6px;
-        width: 14px;
+        & {
+          content: '';
+          display: block;
+          height: 14px;
+          margin-inline-end: 6px;
+          width: 14px;
+        }
       }
     }
 
@@ -93,15 +105,15 @@
     }
 
     &--title {
-      @include font-body-1-bold;
-      color: $color-white;
+      @include mixins.font-body-1-bold;
+      color: variables.$color-white;
       display: inline;
       margin-inline-end: 8px;
     }
 
     &--timestamp {
-      @include font-body-2;
-      color: $color-white-alpha-60;
+      @include mixins.font-body-2;
+      color: variables.$color-white-alpha-60;
     }
 
     &__playback-bar {
@@ -122,22 +134,24 @@
   }
 
   &__caption {
-    @include font-body-1;
-    color: $color-white;
+    @include mixins.font-body-1;
+    color: variables.$color-white;
     padding-block: 4px;
     padding-inline: 0;
     margin-bottom: 24px;
-    text-shadow: 0px 0px 48px 0px $color-black-alpha-80;
+    text-shadow: 0px 0px 48px 0px variables.$color-black-alpha-80;
 
     &__overlay {
-      @include button-reset;
-      background: $color-black-alpha-60;
-      height: 100%;
-      inset-inline-start: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-      z-index: $z-index-base;
+      @include mixins.button-reset;
+      & {
+        background: variables.$color-black-alpha-60;
+        height: 100%;
+        inset-inline-start: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: variables.$z-index-base;
+      }
     }
   }
 
@@ -147,11 +161,13 @@
     min-height: 60px;
 
     &__failed {
-      @include button-reset;
-      @include font-body-1;
-      align-items: center;
-      color: $color-white;
-      display: flex;
+      @include mixins.button-reset;
+      & {
+        @include mixins.font-body-1;
+        align-items: center;
+        color: variables.$color-white;
+        display: flex;
+      }
 
       &::before {
         content: '';
@@ -159,20 +175,22 @@
         height: 18px;
         margin-inline-end: 12px;
         width: 18px;
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/error/error-circle.svg',
-          $color-accent-red
+          variables.$color-accent-red
         );
       }
     }
   }
 
   &__reply {
-    @include button-reset;
-    color: $color-gray-05;
-    @include keyboard-mode {
+    @include mixins.button-reset;
+    & {
+      color: variables.$color-gray-05;
+    }
+    @include mixins.keyboard-mode {
       &:focus {
-        color: $color-ultramarine;
+        color: variables.$color-ultramarine;
       }
     }
 
@@ -185,7 +203,10 @@
         height: 20px;
         margin-inline-end: 12px;
         width: 20px;
-        @include color-svg('../images/icons/v3/reply/reply.svg', $color-white);
+        @include mixins.color-svg(
+          '../images/icons/v3/reply/reply.svg',
+          variables.$color-white
+        );
       }
     }
 
@@ -200,9 +221,9 @@
         margin-inline-start: 4px;
         vertical-align: middle;
         width: 16px;
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-right.svg',
-          $color-white
+          variables.$color-white
         );
       }
     }
@@ -216,87 +237,111 @@
     width: 24px;
 
     &::after {
-      @include color-svg('../images/icons/v3/more/more.svg', $color-white);
-      content: '';
-      height: 20px;
-      width: 20px;
+      @include mixins.color-svg(
+        '../images/icons/v3/more/more.svg',
+        variables.$color-white
+      );
+      & {
+        content: '';
+        height: 20px;
+        width: 20px;
+      }
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          background-color: $color-black;
+          background-color: variables.$color-black;
         }
       }
     }
   }
 
   &__mute {
-    @include button-reset;
-    height: 20px;
-    margin-block: 0;
-    margin-inline: 24px;
-    width: 20px;
-    @include color-svg('../images/icons/v3/speaker/speaker.svg', $color-white);
-    @include keyboard-mode {
+    @include mixins.button-reset;
+    & {
+      height: 20px;
+      margin-block: 0;
+      margin-inline: 24px;
+      width: 20px;
+    }
+    @include mixins.color-svg(
+      '../images/icons/v3/speaker/speaker.svg',
+      variables.$color-white
+    );
+    @include mixins.keyboard-mode {
       &:focus {
-        background-color: $color-white-alpha-80;
+        background-color: variables.$color-white-alpha-80;
       }
     }
   }
 
   &__pause {
-    @include button-reset;
-    height: 20px;
-    width: 20px;
-    @include color-svg('../images/icons/v3/pause/pause.svg', $color-white);
-    @include keyboard-mode {
+    @include mixins.button-reset;
+    & {
+      height: 20px;
+      width: 20px;
+    }
+    @include mixins.color-svg(
+      '../images/icons/v3/pause/pause.svg',
+      variables.$color-white
+    );
+    @include mixins.keyboard-mode {
       &:focus {
-        background-color: $color-white-alpha-80;
+        background-color: variables.$color-white-alpha-80;
       }
     }
   }
 
   &__play {
-    @include button-reset;
-    height: 20px;
-    width: 20px;
-    @include color-svg('../images/icons/v3/play/play-fill.svg', $color-white);
-    @include keyboard-mode {
+    @include mixins.button-reset;
+    & {
+      height: 20px;
+      width: 20px;
+    }
+    @include mixins.color-svg(
+      '../images/icons/v3/play/play-fill.svg',
+      variables.$color-white
+    );
+    @include mixins.keyboard-mode {
       &:focus {
-        background-color: $color-white-alpha-80;
+        background-color: variables.$color-white-alpha-80;
       }
     }
   }
 
   &__unmute {
-    @include button-reset;
-    height: 20px;
-    margin-block: 0;
-    margin-inline: 24px;
-    width: 20px;
-    @include color-svg(
+    @include mixins.button-reset;
+    & {
+      height: 20px;
+      margin-block: 0;
+      margin-inline: 24px;
+      width: 20px;
+    }
+    @include mixins.color-svg(
       '../images/icons/v3/speaker/speaker-slash.svg',
-      $color-white
+      variables.$color-white
     );
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        background-color: $color-white-alpha-80;
+        background-color: variables.$color-white-alpha-80;
       }
     }
   }
 
   &__soundless {
-    @include button-reset;
-    height: 20px;
-    margin-block: 0;
-    margin-inline: 24px;
-    width: 20px;
-    @include color-svg(
+    @include mixins.button-reset;
+    & {
+      height: 20px;
+      margin-block: 0;
+      margin-inline: 24px;
+      width: 20px;
+    }
+    @include mixins.color-svg(
       '../images/icons/v3/speaker/speaker-x.svg',
-      $color-white
+      variables.$color-white
     );
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        background-color: $color-white-alpha-80;
+        background-color: variables.$color-white-alpha-80;
       }
     }
   }
@@ -309,17 +354,19 @@
     height: 100%;
     position: absolute;
     width: 100%;
-    z-index: $z-index-above-base;
+    z-index: variables.$z-index-above-base;
   }
 
   &__arrow {
-    @include button-reset;
-    align-items: center;
-    display: flex;
-    height: 100%;
-    position: absolute;
-    width: 25%;
-    z-index: $z-index-above-above-base;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      position: absolute;
+      width: 25%;
+      z-index: variables.$z-index-above-above-base;
+    }
 
     &::before {
       content: '';
@@ -335,9 +382,9 @@
 
       &::before {
         margin-inline-start: 16px;
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-left.svg',
-          $color-white
+          variables.$color-white
         );
       }
     }
@@ -348,9 +395,9 @@
 
       &::before {
         margin-inline-end: 16px;
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-right.svg',
-          $color-white
+          variables.$color-white
         );
       }
     }
@@ -363,28 +410,40 @@
   &__protection {
     position: absolute;
     width: 100%;
-    z-index: $z-index-base;
+    z-index: variables.$z-index-base;
 
     &--top {
-      background: linear-gradient($color-black-alpha-16, $color-transparent);
+      background: linear-gradient(
+        variables.$color-black-alpha-16,
+        variables.$color-transparent
+      );
       top: 0;
       height: 80px;
     }
 
     &--bottom {
-      background: linear-gradient($color-transparent, $color-black-alpha-60);
+      background: linear-gradient(
+        variables.$color-transparent,
+        variables.$color-black-alpha-60
+      );
       bottom: 0;
       height: 140px;
     }
     &--bottom.StoryViewer__protection--has-caption {
-      background: linear-gradient($color-transparent, $color-black-alpha-80);
+      background: linear-gradient(
+        variables.$color-transparent,
+        variables.$color-black-alpha-80
+      );
       height: 280px;
     }
 
     &--whole {
       top: 0;
       bottom: 0;
-      background: linear-gradient($color-transparent, $color-black-alpha-40);
+      background: linear-gradient(
+        variables.$color-transparent,
+        variables.$color-black-alpha-40
+      );
     }
   }
 

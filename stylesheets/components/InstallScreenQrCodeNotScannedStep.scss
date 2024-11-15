@@ -1,28 +1,31 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-InstallScreenQrCodeNotScannedStep {
-  @include install-screen;
+  @include mixins.install-screen;
 
   &__contents {
     $base-max-width: 760px;
 
     align-items: center;
-    background: $color-white;
+    background: variables.$color-white;
     border-radius: 8px;
-    color: $color-black;
+    color: variables.$color-black;
     display: flex;
     flex-direction: row;
     animation: 500ms module-InstallScreenQrCodeNotScannedStep__slide-in;
     position: relative;
     top: 0;
 
-    @include light-theme {
+    @include mixins.light-theme {
       max-width: $base-max-width;
       padding: 22px;
     }
 
-    @include dark-theme {
+    @include mixins.dark-theme {
       max-width: $base-max-width + 44px;
       padding: 44px;
       margin-top: 44px; // Avoids overlap with the Signal logo
@@ -45,36 +48,40 @@
     width: $size;
 
     &--loaded {
-      background: $color-white;
+      background: variables.$color-white;
     }
 
     &--load-failed {
-      @include font-subtitle;
-      border-color: $color-gray-05;
+      @include mixins.font-subtitle;
+      border-color: variables.$color-gray-05;
       border-radius: 10px;
-      color: $color-gray-60;
+      color: variables.$color-gray-60;
     }
 
     &__link {
-      @include button-reset;
-      @include font-body-2-bold;
+      @include mixins.button-reset;
+      & {
+        @include mixins.font-body-2-bold;
 
-      display: flex;
-      gap: 4px;
-      align-items: center;
+        display: flex;
+        gap: 4px;
+        align-items: center;
 
-      color: $color-ultramarine;
-      margin-block-start: 16px;
+        color: variables.$color-ultramarine;
+        margin-block-start: 16px;
+      }
 
       &::before {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/refresh/refresh-bold.svg',
-          $color-ultramarine
+          variables.$color-ultramarine
         );
-        content: '';
-        display: block;
-        height: 16px;
-        width: 16px;
+        & {
+          content: '';
+          display: block;
+          height: 16px;
+          width: 16px;
+        }
       }
     }
 
@@ -87,22 +94,26 @@
 
     &__error-message {
       text-align: center;
-      @include font-body-2;
+      @include mixins.font-body-2;
 
       &::before {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/error/error-circle.svg',
-          $color-accent-red
+          variables.$color-accent-red
         );
-        content: '';
-        display: block;
-        height: 22px;
-        margin-block: 0 8px;
-        margin-inline: auto;
-        width: 22px;
+        & {
+          content: '';
+          display: block;
+          height: 22px;
+          margin-block: 0 8px;
+          margin-inline: auto;
+          width: 22px;
+        }
       }
 
-      margin-inline: 24px;
+      & {
+        margin-inline: 24px;
+      }
     }
 
     &__error-message p {
@@ -110,7 +121,7 @@
     }
 
     &__get-help {
-      @include font-body-2-bold;
+      @include mixins.font-body-2-bold;
 
       display: flex;
       gap: 4px;
@@ -118,24 +129,26 @@
 
       margin-block-start: 16px;
 
-      color: $color-ultramarine;
+      color: variables.$color-ultramarine;
       text-decoration: none;
 
       &::before {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/open/open-compact-bold.svg',
-          $color-ultramarine
+          variables.$color-ultramarine
         );
-        content: '';
-        display: block;
-        height: 16px;
-        width: 16px;
+        & {
+          content: '';
+          display: block;
+          height: 16px;
+          width: 16px;
+        }
       }
     }
   }
 
   ol {
-    @include font-body-1;
+    @include mixins.font-body-1;
     line-height: 26px;
     list-style-position: inside;
     padding-inline-start: 0;
@@ -143,7 +156,7 @@
 
   a {
     // We want the right link color in dark mode. This is a no-op in light mode.
-    color: $color-ultramarine;
+    color: variables.$color-ultramarine;
   }
 }
 

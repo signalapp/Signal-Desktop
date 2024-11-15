@@ -1,6 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'sass:color';
+@use '../mixins';
+@use '../variables';
+
 .module-ConversationHeader {
   @mixin icon-element($icon, $margin-right: 4px) {
     display: flex;
@@ -17,11 +21,11 @@
       display: block;
       margin-inline-end: $margin-right;
 
-      @include light-theme {
-        @include color-svg($icon, $color-gray-60);
+      @include mixins.light-theme {
+        @include mixins.color-svg($icon, variables.$color-gray-60);
       }
-      @include dark-theme {
-        @include color-svg($icon, $color-gray-25);
+      @include mixins.dark-theme {
+        @include mixins.color-svg($icon, variables.$color-gray-25);
       }
     }
   }
@@ -32,7 +36,7 @@
     --button-spacing: 4px;
   }
 
-  @include draggable-region;
+  @include mixins.draggable-region;
   // In Electron v23+, clicking on a `drag` region in an unfocused window may not
   // propagate clicks to no-drag elements that have a higher CSS order; this avoids that
   // scenario for interactive elements (e.g. IncomingCallBar) which overlap the
@@ -45,15 +49,15 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: calc(#{$header-height} + var(--title-bar-drag-area-height));
+  height: calc(#{variables.$header-height} + var(--title-bar-drag-area-height));
 
-  @include light-theme {
-    color: $color-gray-90;
-    background-color: $color-white;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    color: $color-gray-02;
-    background-color: $color-gray-95;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-02;
+    background-color: variables.$color-gray-95;
   }
 
   &__header {
@@ -70,24 +74,26 @@
     transition: margin-inline-end 200ms ease-out;
 
     &--clickable {
-      @include button-reset;
-      flex: 1;
-      border-radius: 4px;
-      -webkit-app-region: no-drag;
+      @include mixins.button-reset;
+      & {
+        flex: 1;
+        border-radius: 4px;
+        -webkit-app-region: no-drag;
 
-      // These are clobbered by button-reset:
-      margin-inline: 4px var(--button-spacing);
-      padding: $padding;
-      padding-inline-start: 0;
+        // These are clobbered by button-reset:
+        margin-inline: 4px var(--button-spacing);
+        padding: $padding;
+        padding-inline-start: 0;
+      }
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          color: $color-ultramarine;
+          color: variables.$color-ultramarine;
         }
       }
-      @include dark-keyboard-mode {
+      @include mixins.dark-keyboard-mode {
         &:focus {
-          color: $color-ultramarine-light;
+          color: variables.$color-ultramarine-light;
         }
       }
     }
@@ -105,7 +111,7 @@
       min-width: 0;
 
       &__title {
-        @include font-body-1-bold;
+        @include mixins.font-body-1-bold;
         display: flex;
         align-items: center;
 
@@ -121,18 +127,20 @@
 
       &__subtitle {
         display: flex;
-        @include font-body-2;
+        @include mixins.font-body-2;
 
-        @include light-theme {
-          color: $color-gray-60;
+        @include mixins.light-theme {
+          color: variables.$color-gray-60;
         }
-        @include dark-theme {
-          color: $color-gray-25;
+        @include mixins.dark-theme {
+          color: variables.$color-gray-25;
         }
 
         &__expiration {
           @include icon-element('../images/icons/v3/timer/timer-compact.svg');
-          margin-inline-end: 12px;
+          & {
+            margin-inline-end: 12px;
+          }
         }
 
         &__verified {
@@ -148,21 +156,23 @@
     $icon-size: 32px;
 
     -webkit-app-region: no-drag;
-    @include button-reset;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    border: 2px solid transparent;
-    display: flex;
-    height: $icon-size;
-    margin-inline-end: var(--button-spacing);
-    min-width: $icon-size;
-    padding: 2px;
-    transition:
-      margin-inline-end 200ms ease-out,
-      opacity 200ms ease-out,
-      background 100ms ease-out;
-    width: $icon-size;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 2px solid transparent;
+      display: flex;
+      height: $icon-size;
+      margin-inline-end: var(--button-spacing);
+      min-width: $icon-size;
+      padding: 2px;
+      transition:
+        margin-inline-end 200ms ease-out,
+        opacity 200ms ease-out,
+        background 100ms ease-out;
+      width: $icon-size;
+    }
 
     &:disabled {
       cursor: default;
@@ -174,50 +184,50 @@
     }
 
     &--in-another-call {
-      @include light-theme {
+      @include mixins.light-theme {
         opacity: 0.5;
       }
-      @include dark-theme {
+      @include mixins.dark-theme {
         opacity: 0.4;
       }
     }
 
     &:not(:disabled) {
-      @include light-theme {
+      @include mixins.light-theme {
         &:hover {
-          background: $color-gray-02;
+          background: variables.$color-gray-02;
         }
         &:focus {
-          @include keyboard-mode {
-            background: $color-gray-02;
+          @include mixins.keyboard-mode {
+            background: variables.$color-gray-02;
           }
         }
         &:active {
-          background: $color-gray-05;
+          background: variables.$color-gray-05;
         }
       }
-      @include dark-theme {
+      @include mixins.dark-theme {
         &:hover {
-          background: $color-gray-80;
+          background: variables.$color-gray-80;
         }
         &:focus {
-          @include keyboard-mode {
-            background: $color-gray-02;
+          @include mixins.keyboard-mode {
+            background: variables.$color-gray-02;
           }
         }
         &:active {
-          background: $color-gray-75;
+          background: variables.$color-gray-75;
         }
       }
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          border-color: $color-ultramarine;
+          border-color: variables.$color-ultramarine;
         }
       }
-      @include dark-keyboard-mode {
+      @include mixins.dark-keyboard-mode {
         &:focus {
-          border-color: $color-ultramarine-light;
+          border-color: variables.$color-ultramarine-light;
         }
       }
     }
@@ -229,20 +239,20 @@
         width: $size;
         height: $size;
 
-        @include light-theme {
-          @include color-svg($icon, $color-gray-75);
+        @include mixins.light-theme {
+          @include mixins.color-svg($icon, variables.$color-gray-75);
           &:hover,
           &:active,
           &:focus {
-            @include color-svg($icon, $color-gray-90);
+            @include mixins.color-svg($icon, variables.$color-gray-90);
           }
         }
-        @include dark-theme {
-          @include color-svg($icon, $color-gray-15);
+        @include mixins.dark-theme {
+          @include mixins.color-svg($icon, variables.$color-gray-15);
           &:hover,
           &:active,
           &:focus {
-            @include color-svg($icon, $color-gray-02);
+            @include mixins.color-svg($icon, variables.$color-gray-02);
           }
         }
       }
@@ -262,17 +272,19 @@
 
     &--more {
       @include normal-button('../images/icons/v3/more/more.svg', 20px);
-      margin-inline-end: 16px;
+      & {
+        margin-inline-end: 16px;
+      }
     }
 
     &--join-call {
-      $background: $color-accent-green;
+      $background: variables.$color-accent-green;
 
-      @include font-body-1;
-      @include rounded-corners;
+      @include mixins.font-body-1;
+      @include mixins.rounded-corners;
       align-items: center;
       background-color: $background;
-      color: $color-white;
+      color: variables.$color-white;
       display: flex;
       outline: none;
       overflow: hidden;
@@ -287,29 +299,31 @@
       &:before {
         $icon-size: 16px;
 
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/video/video-compact-fill.svg',
-          $color-white
+          variables.$color-white
         );
-        content: '';
-        display: block;
-        height: $icon-size;
-        margin-inline-end: 4px;
-        min-width: $icon-size;
-        width: $icon-size;
+        & {
+          content: '';
+          display: block;
+          height: $icon-size;
+          margin-inline-end: 4px;
+          min-width: $icon-size;
+          width: $icon-size;
+        }
       }
 
       &:not(:disabled) {
         // Override hover/focus/active state coming from __button above.
         &:hover,
         &:active {
-          @include any-theme {
-            background-color: darken($background, 16%);
+          @include mixins.any-theme {
+            background-color: color.adjust($background, $lightness: -16%);
           }
         }
         &:focus {
-          @include keyboard-mode {
-            background-color: darken($background, 16%);
+          @include mixins.keyboard-mode {
+            background-color: color.adjust($background, $lightness: -16%);
           }
         }
       }

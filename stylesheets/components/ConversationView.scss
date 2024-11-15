@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .ConversationView {
   display: flex;
   flex-direction: column;
@@ -9,20 +12,22 @@
   &__pane {
     display: flex;
     flex-direction: column;
-    height: calc(100% - #{$header-height} - var(--title-bar-drag-area-height));
+    height: calc(
+      100% - #{variables.$header-height} - var(--title-bar-drag-area-height)
+    );
     inset-inline-start: 0;
     overflow-y: overlay;
     position: absolute;
-    top: calc(#{$header-height} + var(--title-bar-drag-area-height));
+    top: calc(#{variables.$header-height} + var(--title-bar-drag-area-height));
     width: 100%;
-    z-index: $z-index-base;
+    z-index: variables.$z-index-base;
 
-    @include light-theme() {
-      background-color: $color-white;
+    @include mixins.light-theme() {
+      background-color: variables.$color-white;
     }
 
-    @include dark-theme() {
-      background-color: $color-gray-95;
+    @include mixins.dark-theme() {
+      background-color: variables.$color-gray-95;
     }
   }
 
@@ -35,15 +40,17 @@
       z-index: 0;
     }
 
-    -webkit-padding-start: 0px;
-    height: 100%;
-    margin: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
+    & {
+      -webkit-padding-start: 0px;
+      height: 100%;
+      margin: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
   }
 
   &__composition-area {

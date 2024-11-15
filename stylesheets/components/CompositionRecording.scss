@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CompositionRecording {
   display: flex;
   align-items: center;
@@ -18,11 +21,11 @@
     padding-block: 6px;
     padding-inline: 12px;
 
-    @include light-theme {
-      background: $color-gray-05;
+    @include mixins.light-theme {
+      background: variables.$color-gray-05;
     }
-    @include dark-theme {
-      background: $color-gray-75;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-75;
     }
   }
 
@@ -30,11 +33,13 @@
     display: inline-block;
     height: 20px;
     width: 20px;
-    @include color-svg(
+    @include mixins.color-svg(
       '../images/icons/v3/mic/mic-fill.svg',
-      $color-accent-red
+      variables.$color-accent-red
     );
-    animation: pulse 2s infinite;
+    & {
+      animation: pulse 2s infinite;
+    }
   }
 
   &__timer {

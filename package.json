@@ -314,7 +314,7 @@
     "protobufjs-cli": "1.1.1",
     "resedit": "2.0.2",
     "resolve-url-loader": "5.0.0",
-    "sass": "1.49.7",
+    "sass": "1.80.7",
     "sass-loader": "16.0.3",
     "sinon": "19.0.2",
     "storybook": "8.4.3",

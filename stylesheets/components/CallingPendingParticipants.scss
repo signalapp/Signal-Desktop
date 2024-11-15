@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallingPendingParticipants {
   width: 420px;
   height: auto;
@@ -18,7 +21,7 @@
 }
 
 .CallingPendingParticipants--Expandable {
-  background: $color-gray-78;
+  background: variables.$color-gray-78;
 }
 
 .CallingPendingParticipants--Expanded {
@@ -38,19 +41,19 @@
 }
 
 .CallingPendingParticipants__ParticipantButton {
-  @include button-reset();
+  @include mixins.button-reset();
 }
 
 .CallingPendingParticipants__ParticipantButton:focus {
-  @include keyboard-mode {
-    outline: 3px solid $color-ultramarine;
+  @include mixins.keyboard-mode {
+    outline: 3px solid variables.$color-ultramarine;
     outline-offset: 1px;
   }
 }
 
 .CallingPendingParticipants__ParticipantName {
-  @include font-body-1-bold;
-  color: $color-gray-15;
+  @include mixins.font-body-1-bold;
+  color: variables.$color-gray-15;
 }
 
 .CallingPendingParticipants__ParticipantAboutIcon {
@@ -61,15 +64,15 @@
   position: relative;
   inset-block-start: 3px;
 
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/chevron/chevron-right-bold.svg',
-    $color-gray-05
+    variables.$color-gray-05
   );
 }
 
 .CallingPendingParticipants__WouldLikeToJoin {
-  @include font-body-2;
-  color: $color-gray-20;
+  @include mixins.font-body-2;
+  color: variables.$color-gray-20;
 }
 
 .CallingPendingParticipants__PendingActionButton {
@@ -111,11 +114,17 @@
 }
 
 .CallingPendingParticipants__PendingActionButtonIcon--Approve {
-  @include color-svg('../images/icons/v3/check/check-bold.svg', $color-white);
+  @include mixins.color-svg(
+    '../images/icons/v3/check/check-bold.svg',
+    variables.$color-white
+  );
 }
 
 .CallingPendingParticipants__PendingActionButtonIcon--Deny {
-  @include color-svg('../images/icons/v3/x/x-bold.svg', $color-white);
+  @include mixins.color-svg(
+    '../images/icons/v3/x/x-bold.svg',
+    variables.$color-white
+  );
 }
 
 .CallingPendingParticipants__ActionPanel {
@@ -133,26 +142,28 @@
 }
 
 .CallingPendingParticipants__ShowAllRequestsButton {
-  @include button-reset;
-  @include font-body-2-bold;
-  display: flex;
-  padding-block: 5px;
-  padding-inline: 15px;
-  margin-block: 12px;
-  margin-inline: auto;
-  color: $color-white-alpha-90;
-  background: $color-gray-65;
-  border-radius: 46px;
-  outline: none;
+  @include mixins.button-reset;
+  & {
+    @include mixins.font-body-2-bold;
+    display: flex;
+    padding-block: 5px;
+    padding-inline: 15px;
+    margin-block: 12px;
+    margin-inline: auto;
+    color: variables.$color-white-alpha-90;
+    background: variables.$color-gray-65;
+    border-radius: 46px;
+    outline: none;
+  }
 }
 
 .CallingPendingParticipants__ShowAllRequestsButton:focus {
-  @include keyboard-mode {
-    outline: 3px solid $color-ultramarine;
+  @include mixins.keyboard-mode {
+    outline: 3px solid variables.$color-ultramarine;
     outline-offset: 1px;
   }
 }
 
 .CallingPendingParticipants__ShowAllRequestsButtonContainer {
-  background: $color-black-alpha-24;
+  background: variables.$color-black-alpha-24;
 }
