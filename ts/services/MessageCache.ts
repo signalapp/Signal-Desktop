@@ -3,7 +3,7 @@
 
 import cloneDeep from 'lodash/cloneDeep';
 import { throttle } from 'lodash';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 import type {
   MessageAttributesType,
   ReadonlyMessageAttributesType,
@@ -267,7 +267,10 @@ export class MessageCache {
     });
   }
 
-  private throttledReduxUpdaters = new LRU<string, typeof this.updateRedux>({
+  private throttledReduxUpdaters = new LRUCache<
+    string,
+    typeof this.updateRedux
+  >({
     max: MAX_THROTTLED_REDUX_UPDATERS,
   });
 

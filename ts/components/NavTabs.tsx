@@ -3,7 +3,7 @@
 
 import type { Key } from 'react';
 import React from 'react';
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from 'react-aria-components';
+import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
 import classNames from 'classnames';
 import { Avatar, AvatarSize } from './Avatar';
 import type { LocalizerType, ThemeType } from '../types/Util';
@@ -232,7 +232,12 @@ export function NavTabs({
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
   return (
-    <Tabs orientation="vertical" className="NavTabs__Container">
+    <Tabs
+      orientation="vertical"
+      className="NavTabs__Container"
+      selectedKey={selectedNavTab}
+      onSelectionChange={handleSelectionChange}
+    >
       <nav
         data-supertab
         className={classNames('NavTabs', {
@@ -248,11 +253,7 @@ export function NavTabs({
           hasPendingUpdate={false}
           otherTabsUnreadStats={null}
         />
-        <TabList
-          className="NavTabs__TabList"
-          selectedKey={selectedNavTab}
-          onSelectionChange={handleSelectionChange}
-        >
+        <TabList className="NavTabs__TabList">
           <NavTabsItem
             i18n={i18n}
             id={NavTab.Chats}
@@ -394,17 +395,15 @@ export function NavTabs({
           </button>
         </div>
       </nav>
-      <TabPanels>
-        <TabPanel id={NavTab.Chats} className="NavTabs__TabPanel">
-          {renderChatsTab}
-        </TabPanel>
-        <TabPanel id={NavTab.Calls} className="NavTabs__TabPanel">
-          {renderCallsTab}
-        </TabPanel>
-        <TabPanel id={NavTab.Stories} className="NavTabs__TabPanel">
-          {renderStoriesTab}
-        </TabPanel>
-      </TabPanels>
+      <TabPanel id={NavTab.Chats} className="NavTabs__TabPanel">
+        {renderChatsTab}
+      </TabPanel>
+      <TabPanel id={NavTab.Calls} className="NavTabs__TabPanel">
+        {renderCallsTab}
+      </TabPanel>
+      <TabPanel id={NavTab.Stories} className="NavTabs__TabPanel">
+        {renderStoriesTab}
+      </TabPanel>
     </Tabs>
   );
 }

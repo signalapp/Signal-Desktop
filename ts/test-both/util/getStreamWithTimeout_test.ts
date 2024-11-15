@@ -25,7 +25,9 @@ describe('getStreamWithTimeout', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    clock = sandbox.useFakeTimers();
+    clock = sandbox.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout'],
+    });
   });
 
   afterEach(() => {

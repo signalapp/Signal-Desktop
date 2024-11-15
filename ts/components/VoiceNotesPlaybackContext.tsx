@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import PQueue from 'p-queue';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 
 import type { WaveformCache } from '../types/Audio';
 import * as log from '../logging/log';
@@ -29,7 +29,7 @@ export type Contents = {
 //   created.)
 let audioContext: AudioContext | undefined;
 
-const waveformCache: WaveformCache = new LRU({
+const waveformCache: WaveformCache = new LRUCache({
   max: MAX_WAVEFORM_COUNT,
 });
 

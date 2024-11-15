@@ -22,7 +22,14 @@ module.exports = {
     'scss/operator-no-newline-after': null,
     'scss/operator-no-unspaced': null,
     'scss/function-no-unknown': null,
+    'scss/load-partial-extension': null,
     'unit-no-unknown': null,
+    'selector-pseudo-class-no-unknown': [
+      true,
+      {
+        ignorePseudoClasses: ['placeholder'],
+      },
+    ],
     // RTL
     'liberty/use-logical-spec': [
       'always',

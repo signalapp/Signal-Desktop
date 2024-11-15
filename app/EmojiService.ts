@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as z from 'zod';
 import { protocol } from 'electron';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 
 import type { OptionalResourceService } from './OptionalResourceService';
 import { SignalService as Proto } from '../ts/protobuf';
@@ -36,7 +36,7 @@ type SheetCacheEntry = Map<string, Uint8Array>;
 export class EmojiService {
   private readonly emojiMap = new Map<string, EmojiEntryType>();
 
-  private readonly sheetCache = new LRU<string, SheetCacheEntry>({
+  private readonly sheetCache = new LRUCache<string, SheetCacheEntry>({
     // Each sheet is roughly 500kb
     max: 10,
   });

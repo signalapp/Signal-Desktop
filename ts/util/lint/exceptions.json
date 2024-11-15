@@ -45,13 +45,6 @@
   },
   {
     "rule": "eval",
-    "path": "node_modules/@jest/fake-timers/node_modules/@sinonjs/commons/lib/function-name.test.js",
-    "line": "                fn = eval(\"(function*() {})\")().constructor;",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-25T17:33:38.376Z"
-  },
-  {
-    "rule": "eval",
     "path": "node_modules/@jsonjoy.com/util/lib/codegen/compile.js",
     "line": "const compile = (js) => eval(js);",
     "reasonCategory": "usageTrusted",
@@ -293,223 +286,195 @@
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
     "line": "  if (!element || !('innerHTML' in element)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
     "line": "  if (!element.innerHTML) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
     "line": "  const playgroundUrl = getPlaygroundUrl(element.innerHTML);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
     "line": "  if (!('outerHTML' in dom)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
     "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
     "line": "  if (!element || !('innerHTML' in element)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
     "line": "  if (!element.innerHTML) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
     "line": "  const playgroundUrl = getPlaygroundUrl(element.innerHTML);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
     "line": "  if (!('outerHTML' in dom)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
     "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
     "line": "\t  if (!element || !('innerHTML' in element)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
     "line": "\t  if (!element.innerHTML) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
     "line": "\t  const playgroundUrl = getPlaygroundUrl(element.innerHTML);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
     "line": "\t  if (!('outerHTML' in dom)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
     "line": "\t  return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.min.js",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.min.js",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/pretty-dom.js",
     "line": "  if (!('outerHTML' in dom)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/dom/dist/pretty-dom.js",
     "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? `${debugContent.slice(0, maxLength)}...` : debugContent;",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/screen.js",
     "line": "  if (!element || !('innerHTML' in element)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/screen.js",
     "line": "  if (!element.innerHTML) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/dom/dist/screen.js",
     "line": "  const playgroundUrl = getPlaygroundUrl(element.innerHTML);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/jest-dom/dist/matchers-4fe91ec3.js",
     "line": "    pass: element.innerHTML === '',",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/jest-dom/dist/matchers-4fe91ec3.js",
     "line": "        `  ${this.utils.printReceived(element.innerHTML)}`,",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/jest-dom/dist/matchers-4fe91ec3.js",
     "line": "        `  ${this.utils.printReceived(element.innerHTML)}`,",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/jest-dom/dist/matchers-4fe91ec3.js",
     "line": "  div.innerHTML = htmlText;",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@testing-library/jest-dom/dist/matchers-4fe91ec3.js",
     "line": "  return div.innerHTML",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/@testing-library/jest-dom/dist/matchers-4fe91ec3.js",
     "line": "    pass: container.outerHTML.includes(getNormalizedHtml(container, htmlText)),",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:31:32.324Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:31:32.324Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -542,33 +507,30 @@
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/axe-core/axe.js",
+    "line": "      var source = element.outerHTML;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T00:52:21.453Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/axe-core/axe.js",
     "line": "      if (!(element !== null && element !== void 0 && element.outerHTML)) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:33:49.776Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:33:49.776Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/axe-core/axe.js",
     "line": "        var outerHTML = node.outerHTML;",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:33:49.776Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-13T23:33:49.776Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/axe-core/axe.js",
     "line": "        node = cache_default.get(outerHTML, function() {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-11-13T23:33:49.776Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      var source = element.outerHTML;",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-04-13T00:52:21.453Z"
+    "updated": "2024-11-13T23:33:49.776Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -584,10 +546,10 @@
   },
   {
     "rule": "eval",
-    "path": "node_modules/config/lib/config.js",
-    "line": "      configObject = VisionmediaYaml.eval(util.stripYamlComments(content));",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "path": "node_modules/config/parser.js",
+    "line": "      return VisionmediaYaml.eval(Parser.stripYamlComments(content));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-14T01:39:46.132Z"
   },
   {
     "rule": "DOM-outerHTML",
@@ -1325,51 +1287,45 @@
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2022-06-04T00:50:49.405Z"
+    "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-14T18:53:33.345Z"
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2022-06-04T00:50:49.405Z"
+    "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-14T18:53:33.345Z"
   },
   {
     "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2022-06-04T00:50:49.405Z"
+    "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-14T18:53:33.345Z"
   },
   {
     "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2022-06-04T00:50:49.405Z"
+    "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-14T18:53:33.345Z"
   },
   {
     "rule": "React-ref",
-    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2022-06-04T00:50:49.405Z"
+    "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-14T18:53:33.345Z"
   },
   {
     "rule": "React-ref",
-    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2022-06-04T00:50:49.405Z"
+    "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-14T18:53:33.345Z"
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2022-06-04T00:50:49.405Z"
+    "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-11-14T18:53:33.345Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -1879,46 +1835,6 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CallsList.tsx",
-    "line": "  const searchStateItemsRef = useRef<ReadonlyArray<CallHistoryGroup> | null>(",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const peekQueueRef = useRef<Set<string>>(new Set());",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const peekQueueArgsRef = useRef<Map<string, PeekNotConnectedGroupCallType>>(",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const inactiveCallLinksPeekedAtRef = useRef<Map<string, number>>(new Map());",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const peekQueueTimerRef = useRef<NodeJS.Timeout | null>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
     "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T00:21:37.858Z"
@@ -1950,6 +1866,41 @@
     "line": "  const getCallHistoryGroupsRef = useRef(getCallHistoryGroups);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-11-27T20:25:10.634Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const searchStateItemsRef = useRef<ReadonlyArray<CallHistoryGroup> | null>(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const peekQueueRef = useRef<Set<string>>(new Set());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const peekQueueArgsRef = useRef<Map<string, PeekNotConnectedGroupCallType>>(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const inactiveCallLinksPeekedAtRef = useRef<Map<string, number>>(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const peekQueueTimerRef = useRef<NodeJS.Timeout | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z"
   },
   {
     "rule": "React-useRef",

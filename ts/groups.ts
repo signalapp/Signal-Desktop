@@ -12,7 +12,7 @@ import {
 } from 'lodash';
 import Long from 'long';
 import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 import * as log from './logging/log';
 import {
   getCheckedGroupCredentialsForToday,
@@ -264,7 +264,7 @@ export type GroupFields = {
 
 const MAX_CACHED_GROUP_FIELDS = 100;
 
-const groupFieldsCache = new LRU<string, GroupFields>({
+const groupFieldsCache = new LRUCache<string, GroupFields>({
   max: MAX_CACHED_GROUP_FIELDS,
 });
 

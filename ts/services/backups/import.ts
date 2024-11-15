@@ -8,6 +8,7 @@ import pMap from 'p-map';
 import { Writable } from 'stream';
 import { isNumber } from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
+import type Long from 'long';
 
 import { Backups, SignalService } from '../../protobuf';
 import { DataReader, DataWriter } from '../../sql/Client';
