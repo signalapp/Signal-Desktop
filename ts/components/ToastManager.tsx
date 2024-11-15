@@ -309,6 +309,20 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.FailedToImportBackup) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:Toast__ActionLabel--SubmitLog'),
+          onClick: onShowDebugLog,
+        }}
+      >
+        {i18n('icu:Toast--FailedToImportBackup')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.FileSaved) {
     return (
       <Toast
