@@ -7,6 +7,7 @@ import type {
   CallId,
   DeviceId,
   GroupCallObserver,
+  SpeechEvent,
   PeekInfo,
   UserId,
   VideoFrameSource,
@@ -1477,6 +1478,9 @@ export class CallingClass {
           conversationId,
           endedReason,
         });
+      },
+      onSpeechEvent: (_groupCall: GroupCall, event: SpeechEvent) => {
+        log.info('GroupCall#onSpeechEvent', event);
       },
     };
   }
