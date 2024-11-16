@@ -105,6 +105,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.FailedToFetchUsername };
     case ToastType.FailedToSendWithEndorsements:
       return { toastType: ToastType.FailedToSendWithEndorsements };
+    case ToastType.FailedToImportBackup:
+      return { toastType: ToastType.FailedToImportBackup };
     case ToastType.FileSaved:
       return {
         toastType: ToastType.FileSaved,

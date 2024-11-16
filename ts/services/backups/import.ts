@@ -115,6 +115,8 @@ import {
 } from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
+import { isAlpha } from '../../util/version';
+import { ToastType } from '../../types/Toast';
 
 const MAX_CONCURRENCY = 10;
 
@@ -217,6 +219,7 @@ export class BackupImportStream extends Writable {
   private releaseNotesRecipientId: Long | undefined;
   private releaseNotesChatId: Long | undefined;
   private pendingGroupAvatars = new Map<string, string>();
+  private frameErrorCount: number = 0;
 
   private constructor(private readonly backupType: BackupType) {
     super({ objectMode: true });
@@ -358,6 +361,20 @@ export class BackupImportStream extends Writable {
         await startBackupMediaDownload();
       }
 
+      if (this.frameErrorCount > 0) {
+        log.error(
+          `${this.logId}: errored while processing ${this.frameErrorCount} frames.`
+        );
+        if (isAlpha(window.getVersion())) {
+          window.reduxActions.toast.showToast({
+            toastType: ToastType.FailedToImportBackup,
+          });
+        }
+        // TODO (DESKTOP-7934): throw in tests if we cannot process a frame
+      } else {
+        log.info(`${this.logId}: successfully processed all frames.`);
+      }
+
       done();
     } catch (error) {
       done(error);
@@ -439,6 +456,7 @@ export class BackupImportStream extends Writable {
         log.warn(`${this.logId}: unsupported frame item ${frame.item}`);
       }
     } catch (error) {
+      this.frameErrorCount += 1;
       log.error(
         `${this.logId}: failed to process a frame ${frame.item}, ` +
           `${Errors.toLogFormat(error)}`
