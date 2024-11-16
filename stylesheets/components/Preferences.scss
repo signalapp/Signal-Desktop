@@ -1,13 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 @mixin preferences-icon($url) {
   &::before {
-    @include light-theme {
-      @include color-svg($url, $color-gray-75);
+    @include mixins.light-theme {
+      @include mixins.color-svg($url, variables.$color-gray-75);
     }
-    @include dark-theme {
-      @include color-svg($url, $color-gray-15);
+    @include mixins.dark-theme {
+      @include mixins.color-svg($url, variables.$color-gray-15);
     }
   }
 }
@@ -16,21 +19,21 @@
   display: flex;
   overflow: hidden;
   user-select: none;
-  @include light-theme {
-    background: $color-white;
+  @include mixins.light-theme {
+    background: variables.$color-white;
   }
-  @include dark-theme {
-    background: $color-gray-95;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-95;
   }
 
   &__page-selector {
     padding-top: calc(24px + var(--title-bar-drag-area-height));
     min-width: min(34%, 240px);
-    @include light-theme {
-      background: $color-gray-02;
+    @include mixins.light-theme {
+      background: variables.$color-gray-02;
     }
-    @include dark-theme {
-      background: $color-gray-80;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-80;
     }
   }
 
@@ -44,30 +47,32 @@
   }
 
   &__button {
-    @include button-reset;
-    @include font-body-1;
-    align-items: center;
-    display: flex;
-    height: 48px;
-    width: 100%;
-    padding-block: 14px;
-    padding-inline: 0;
+    @include mixins.button-reset;
+    & {
+      @include mixins.font-body-1;
+      align-items: center;
+      display: flex;
+      height: 48px;
+      width: 100%;
+      padding-block: 14px;
+      padding-inline: 0;
+    }
 
     &--selected {
-      @include light-theme {
-        background: $color-gray-15;
+      @include mixins.light-theme {
+        background: variables.$color-gray-15;
       }
-      @include dark-theme {
-        background: $color-gray-65;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-65;
       }
     }
 
     &:focus {
-      @include keyboard-mode {
-        background: $color-gray-05;
+      @include mixins.keyboard-mode {
+        background: variables.$color-gray-05;
       }
-      @include dark-keyboard-mode {
-        background: $color-gray-75;
+      @include mixins.dark-keyboard-mode {
+        background: variables.$color-gray-75;
       }
     }
 
@@ -115,7 +120,7 @@
   }
 
   &__title {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     align-items: center;
     display: flex;
     height: 48px;
@@ -123,12 +128,12 @@
     margin-bottom: 24px;
     text-align: center;
 
-    border-bottom: 1px solid $color-gray-15;
-    @include light-theme {
-      border-color: $color-gray-15;
+    border-bottom: 1px solid variables.$color-gray-15;
+    @include mixins.light-theme {
+      border-color: variables.$color-gray-15;
     }
-    @include dark-theme {
-      border-color: $color-gray-65;
+    @include mixins.dark-theme {
+      border-color: variables.$color-gray-65;
     }
 
     &--header {
@@ -144,7 +149,7 @@
     padding-bottom: 20px;
 
     h3 {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
       margin: 0;
       margin-bottom: 8px;
     }
@@ -155,14 +160,16 @@
   }
 
   &__settings-row:not(:last-child) {
-    border-bottom: 1px solid $color-gray-15;
-    @include light-theme {
-      border-color: $color-gray-15;
+    border-bottom: 1px solid variables.$color-gray-15;
+    @include mixins.light-theme {
+      border-color: variables.$color-gray-15;
     }
-    @include dark-theme {
-      border-color: $color-gray-65;
+    @include mixins.dark-theme {
+      border-color: variables.$color-gray-65;
     }
-    margin-bottom: 24px;
+    & {
+      margin-bottom: 24px;
+    }
   }
 
   &__pnp {
@@ -170,7 +177,7 @@
     width: 100%;
 
     h3 {
-      @include font-body-1;
+      @include mixins.font-body-1;
       font-weight: 400;
       margin: 0;
     }
@@ -197,21 +204,23 @@
     }
 
     &--value {
-      color: $color-gray-45;
+      color: variables.$color-gray-45;
       flex-shrink: 0;
     }
 
     &--clickable {
-      @include button-reset;
-      padding-block: 4px;
-      padding-inline: 24px;
-      width: 100%;
+      @include mixins.button-reset;
+      & {
+        padding-block: 4px;
+        padding-inline: 24px;
+        width: 100%;
+      }
       &:hover {
-        @include light-theme {
-          background: $color-gray-02;
+        @include mixins.light-theme {
+          background: variables.$color-gray-02;
         }
-        @include dark-theme {
-          background: $color-gray-80;
+        @include mixins.dark-theme {
+          background: variables.$color-gray-80;
         }
       }
     }
@@ -223,16 +232,16 @@
   }
 
   &__description {
-    @include font-subtitle;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.font-subtitle;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
 
     &--error {
-      color: $color-accent-red !important;
+      color: variables.$color-accent-red !important;
     }
   }
 
@@ -252,25 +261,27 @@
   }
 
   &__back-icon {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    display: inline-block;
-    height: 20px;
-    margin-inline-start: 12px;
-    min-width: 20px;
-    vertical-align: text-bottom;
-    width: 20px;
+    & {
+      display: inline-block;
+      height: 20px;
+      margin-inline-start: 12px;
+      min-width: 20px;
+      vertical-align: text-bottom;
+      width: 20px;
+    }
 
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-90
+        variables.$color-gray-90
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-02
+        variables.$color-gray-02
       );
     }
   }
@@ -296,17 +307,23 @@
 }
 
 .Preferences__LanguageIcon {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/globe/globe.svg', $color-gray-75);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/globe/globe.svg',
+      variables.$color-gray-75
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/globe/globe.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/globe/globe.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
 .Preferences__LanguageButton {
-  @include button-reset;
-  @include localized-fonts;
+  @include mixins.button-reset;
+  @include mixins.localized-fonts;
 }
 
 .Preferences__LanguageModal {
@@ -317,40 +334,42 @@
 }
 
 .Preferences__LanguageModal__Title {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
   margin-inline: 8px;
 }
 
 .Preferences__LanguageModal__NoResults {
-  @include font-body-1;
+  @include mixins.font-body-1;
   margin: 16px;
   text-align: center;
 }
 
 .Preferences__LanguageModal__Item {
-  @include button-reset;
-  width: 100%;
-  padding-block: 2px;
-  padding-inline: 8px;
+  @include mixins.button-reset;
+  & {
+    width: 100%;
+    padding-block: 2px;
+    padding-inline: 8px;
+  }
   &:hover {
     .Preferences__LanguageModal__Item__Inner {
-      @include light-theme {
-        background-color: $color-black-alpha-06;
+      @include mixins.light-theme {
+        background-color: variables.$color-black-alpha-06;
       }
-      @include dark-theme {
-        background-color: $color-white-alpha-06;
+      @include mixins.dark-theme {
+        background-color: variables.$color-white-alpha-06;
       }
     }
   }
   &:focus {
     outline: none;
     .Preferences__LanguageModal__Item__Inner {
-      @include keyboard-mode {
-        background-color: $color-black-alpha-06;
-        box-shadow: 0 0 0 2px $color-ultramarine;
+      @include mixins.keyboard-mode {
+        background-color: variables.$color-black-alpha-06;
+        box-shadow: 0 0 0 2px variables.$color-ultramarine;
       }
-      @include dark-keyboard-mode {
-        background-color: $color-white-alpha-06;
+      @include mixins.dark-keyboard-mode {
+        background-color: variables.$color-white-alpha-06;
       }
     }
   }
@@ -372,7 +391,7 @@
 
 .Preferences__LanguageModal__Item__Current {
   display: block;
-  @include font-body-1;
+  @include mixins.font-body-1;
 }
 
 .Preferences__LanguageModal__Item__Check {
@@ -381,24 +400,29 @@
   width: 20px;
   align-items: center;
   justify-content: center;
-  background: $color-ultramarine;
-  @include rounded-corners;
+  background: variables.$color-ultramarine;
+  @include mixins.rounded-corners;
   &::after {
-    @include color-svg('../images/icons/v3/check/check.svg', $color-white);
-    content: '';
-    height: 14px;
-    width: 14px;
+    @include mixins.color-svg(
+      '../images/icons/v3/check/check.svg',
+      variables.$color-white
+    );
+    & {
+      content: '';
+      height: 14px;
+      width: 14px;
+    }
   }
 }
 
 .Preferences__LanguageModal__Item__Matching {
   display: block;
-  @include localized-fonts;
-  @include font-body-2;
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.localized-fonts;
+  @include mixins.font-body-2;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }

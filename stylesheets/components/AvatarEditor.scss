@@ -1,35 +1,40 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .AvatarEditor {
   &__top-buttons {
     display: flex;
   }
 
   &__button {
-    @include button-reset;
-    align-items: center;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    font-size: 9px;
-    justify-content: center;
-    line-height: 14px;
-    margin-block: 0;
-    margin-inline: 8px;
-    min-height: 44px;
-    min-width: 60px;
-    padding-block: 0;
-    padding-inline: 8px;
-
-    @include light-theme {
-      background-color: $color-gray-05;
-      color: $color-black;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      font-size: 9px;
+      justify-content: center;
+      line-height: 14px;
+      margin-block: 0;
+      margin-inline: 8px;
+      min-height: 44px;
+      min-width: 60px;
+      padding-block: 0;
+      padding-inline: 8px;
     }
 
-    @include dark-theme {
-      background-color: $color-gray-65;
-      color: $color-gray-05;
+    @include mixins.light-theme {
+      background-color: variables.$color-gray-05;
+      color: variables.$color-black;
+    }
+
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-65;
+      color: variables.$color-gray-05;
     }
 
     &::before {
@@ -40,11 +45,11 @@
     }
 
     @mixin button-icon($icon) {
-      @include light-theme {
-        @include color-svg($icon, $color-black);
+      @include mixins.light-theme {
+        @include mixins.color-svg($icon, variables.$color-black);
       }
-      @include dark-theme {
-        @include color-svg($icon, $color-gray-05);
+      @include mixins.dark-theme {
+        @include mixins.color-svg($icon, variables.$color-gray-05);
       }
     }
 
@@ -57,7 +62,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 2px $color-ultramarine;
+      box-shadow: 0 0 0 2px variables.$color-ultramarine;
     }
   }
 
@@ -69,16 +74,16 @@
 
   &__divider {
     border: none;
-    border-bottom: 1px solid $color-gray-15;
+    border-bottom: 1px solid variables.$color-gray-15;
     margin-bottom: 24px;
     margin-top: 20px;
 
-    @include light-theme {
-      border-color: $color-gray-15;
+    @include mixins.light-theme {
+      border-color: variables.$color-gray-15;
     }
 
-    @include dark-theme {
-      border-color: $color-gray-75;
+    @include mixins.dark-theme {
+      border-color: variables.$color-gray-75;
     }
   }
 
@@ -91,7 +96,7 @@
   }
 
   &__avatar-selector-title {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     margin-bottom: 14px;
   }
 }

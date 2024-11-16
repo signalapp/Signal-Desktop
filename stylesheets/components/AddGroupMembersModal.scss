@@ -1,12 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+
 .module-AddGroupMembersModal {
   $root-selector: &;
   $padding: 16px;
 
   &__header {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     margin: 0;
     padding: 0;
   }
@@ -26,7 +28,7 @@
   }
 
   &__close-button {
-    @include modal-close-button;
+    @include mixins.modal-close-button;
   }
 
   .module-ContactPills {
@@ -46,10 +48,12 @@
   }
 
   &--choose-members {
-    @include modal-reset;
-    padding: 0; // The <ConversationList> has its own padding, so we pad various inner elements.
-    height: 60vh;
-    min-height: 400px;
+    @include mixins.modal-reset;
+    & {
+      padding: 0; // The <ConversationList> has its own padding, so we pad various inner elements.
+      height: 60vh;
+      min-height: 400px;
+    }
 
     #{$root-selector}__header {
       padding: $padding;
@@ -57,7 +61,7 @@
   }
 
   &--confirm-adds {
-    @include modal-reset;
+    @include mixins.modal-reset;
 
     #{$root-selector}__button-container {
       margin-top: 12px;

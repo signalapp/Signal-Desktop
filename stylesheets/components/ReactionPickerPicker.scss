@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 @use 'sass:math';
 
 .module-ReactionPickerPicker {
@@ -13,13 +16,13 @@
 
   $root-selector: &;
 
-  @include rounded-corners;
+  @include mixins.rounded-corners;
   align-items: center;
   border-style: solid;
   border-width: 1px;
   box-shadow:
-    0 1px 4px $color-black-alpha-05,
-    0 10px 16px $color-black-alpha-20;
+    0 1px 4px variables.$color-black-alpha-05,
+    0 10px 16px variables.$color-black-alpha-20;
   display: inline-flex;
   flex-direction: row;
   padding-block: 3px;
@@ -30,27 +33,29 @@
   @media (prefers-reduced-motion: no-preference) {
     animation-name: module-ReactionPickerPicker__appear;
     animation-duration: 400ms;
-    animation-timing-function: $ease-out-expo;
+    animation-timing-function: variables.$ease-out-expo;
     animation-fill-mode: forwards;
   }
 
-  @include light-theme {
-    background: $color-white;
-    border-color: $color-black-alpha-05;
+  @include mixins.light-theme {
+    background: variables.$color-white;
+    border-color: variables.$color-black-alpha-05;
   }
 
-  @include dark-theme {
-    background: $color-gray-75;
-    border-color: $color-gray-80;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-75;
+    border-color: variables.$color-gray-80;
   }
 
   &__button {
-    @include button-reset;
-    align-items: center;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    position: relative;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
 
     &--emoji {
       $emoji-button-selector: &;
@@ -58,7 +63,7 @@
       height: $button-size;
       width: $button-size;
       @media (prefers-reduced-motion: no-preference) {
-        transition: background 200ms $ease-out-expo;
+        transition: background 200ms variables.$ease-out-expo;
       }
 
       .module-emoji {
@@ -66,7 +71,7 @@
           math.div($button-content-size, $emoji-size-from-component)
         );
         @media (prefers-reduced-motion: no-preference) {
-          transition: transform 400ms $ease-out-expo;
+          transition: transform 400ms variables.$ease-out-expo;
         }
       }
     }
@@ -78,31 +83,31 @@
       margin: math.div($button-size - $button-content-size, 2);
       width: $button-content-size;
       @media (prefers-reduced-motion: no-preference) {
-        transition: background 200ms $ease-out-expo;
+        transition: background 200ms variables.$ease-out-expo;
       }
 
-      @include light-theme {
-        background: $color-gray-02;
+      @include mixins.light-theme {
+        background: variables.$color-gray-02;
 
         &:hover {
-          background: $color-gray-05;
+          background: variables.$color-gray-05;
         }
-        @include keyboard-mode {
+        @include mixins.keyboard-mode {
           &:focus {
-            background: $color-gray-05;
+            background: variables.$color-gray-05;
           }
         }
       }
 
-      @include dark-theme {
-        background: $color-gray-60;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-60;
 
         &:hover {
-          background: $color-gray-45;
+          background: variables.$color-gray-45;
         }
-        @include dark-keyboard-mode {
+        @include mixins.dark-keyboard-mode {
           &:focus {
-            background: $color-gray-45;
+            background: variables.$color-gray-45;
           }
         }
       }
@@ -113,17 +118,17 @@
         display: block;
         content: '';
 
-        @include light-theme {
-          @include color-svg(
+        @include mixins.light-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/more/more.svg',
-            $color-gray-45
+            variables.$color-gray-45
           );
         }
 
-        @include dark-theme {
-          @include color-svg(
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
             '../images/icons/v3/more/more.svg',
-            $color-gray-15
+            variables.$color-gray-15
           );
         }
       }
@@ -131,7 +136,7 @@
   }
 
   &--picker-style {
-    z-index: $z-index-above-base;
+    z-index: variables.$z-index-above-base;
 
     #{$root-selector}__button {
       @media (prefers-reduced-motion: no-preference) {
@@ -140,7 +145,7 @@
 
         animation-name: module-ReactionPickerPicker__button-appear;
         animation-duration: 400ms;
-        animation-timing-function: $ease-out-expo;
+        animation-timing-function: variables.$ease-out-expo;
         animation-fill-mode: forwards;
         // This delay is a fallback in case there are more than the expected number of
         //   buttons.
@@ -165,7 +170,7 @@
         &:hover {
           @include focus-or-hover-styles;
         }
-        @include keyboard-mode {
+        @include mixins.keyboard-mode {
           &:focus {
             @include focus-or-hover-styles;
           }
@@ -173,12 +178,12 @@
       }
 
       &--selected {
-        @include light-theme {
-          background: $color-black-alpha-20;
+        @include mixins.light-theme {
+          background: variables.$color-black-alpha-20;
         }
 
-        @include dark-theme {
-          background: $color-white-alpha-20;
+        @include mixins.dark-theme {
+          background: variables.$color-white-alpha-20;
         }
       }
     }
@@ -186,14 +191,14 @@
 
   &--menu-style {
     #{$root-selector}__button {
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          background: $color-black-alpha-20;
+          background: variables.$color-black-alpha-20;
         }
       }
-      @include dark-keyboard-mode {
+      @include mixins.dark-keyboard-mode {
         &:focus {
-          background: $color-white-alpha-40;
+          background: variables.$color-white-alpha-40;
         }
       }
 

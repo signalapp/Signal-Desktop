@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CircleCheckbox {
   &__checkbox {
     position: relative;
@@ -13,17 +16,17 @@
       position: absolute;
       width: 0;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
           &::before {
-            border-color: $color-ultramarine;
+            border-color: variables.$color-ultramarine;
           }
           outline: none;
         }
       }
 
       &::before {
-        @include rounded-corners;
+        @include mixins.rounded-corners;
         background: inherit;
         content: '';
         display: block;
@@ -31,11 +34,11 @@
         position: absolute;
         width: 20px;
 
-        @include light-theme {
-          border: 1.5px solid $color-gray-25;
+        @include mixins.light-theme {
+          border: 1.5px solid variables.$color-gray-25;
         }
-        @include dark-theme {
-          border: 1.5px solid $color-gray-65;
+        @include mixins.dark-theme {
+          border: 1.5px solid variables.$color-gray-65;
         }
       }
 
@@ -43,30 +46,30 @@
         cursor: inherit;
       }
 
-      @include light-theme {
+      @include mixins.light-theme {
         &:disabled {
           &::before {
-            border-color: $color-gray-15;
+            border-color: variables.$color-gray-15;
           }
         }
         &:disabled:checked {
           &::before {
-            background: $color-gray-15;
-            border-color: $color-gray-15;
+            background: variables.$color-gray-15;
+            border-color: variables.$color-gray-15;
           }
         }
       }
 
-      @include dark-theme {
+      @include mixins.dark-theme {
         &:disabled {
           &::before {
-            border-color: $color-gray-45;
+            border-color: variables.$color-gray-45;
           }
         }
         &:disabled:checked {
           &::before {
-            background: $color-gray-45;
-            border-color: $color-gray-45;
+            background: variables.$color-gray-45;
+            border-color: variables.$color-gray-45;
           }
         }
       }
@@ -83,19 +86,21 @@
     input[type='checkbox'] {
       &:checked {
         &:not([disabled])::before {
-          background: $color-ultramarine;
-          border: 1.5px solid $color-ultramarine;
+          background: variables.$color-ultramarine;
+          border: 1.5px solid variables.$color-ultramarine;
         }
 
         &::after {
-          @include color-svg(
+          @include mixins.color-svg(
             '../images/icons/v3/check/check-compact-bold.svg',
-            $color-white
+            variables.$color-white
           );
-          width: 14px;
-          height: 14px;
-          top: 3px;
-          inset-inline-start: 3px;
+          & {
+            width: 14px;
+            height: 14px;
+            top: 3px;
+            inset-inline-start: 3px;
+          }
         }
       }
     }
@@ -103,11 +108,11 @@
     input[type='radio'] {
       &:checked {
         &::before {
-          border: 2px solid $color-ultramarine;
+          border: 2px solid variables.$color-ultramarine;
         }
 
         &::after {
-          background: $color-ultramarine;
+          background: variables.$color-ultramarine;
           top: 4px;
           inset-inline-start: 4px;
           width: 12px;
@@ -131,12 +136,12 @@
       input[type='checkbox'] {
         &:checked {
           &::before {
-            background: $color-ultramarine;
-            border: 1.5px solid $color-ultramarine;
+            background: variables.$color-ultramarine;
+            border: 1.5px solid variables.$color-ultramarine;
           }
 
           &::after {
-            border: solid $color-white;
+            border: solid variables.$color-white;
             border-width: 0 2px 2px 0;
             height: 10px;
             /* stylelint-disable-next-line liberty/use-logical-spec */
@@ -151,11 +156,11 @@
       input[type='radio'] {
         &:checked {
           &::before {
-            border: 2px solid $color-ultramarine;
+            border: 2px solid variables.$color-ultramarine;
           }
 
           &::after {
-            background: $color-ultramarine;
+            background: variables.$color-ultramarine;
             top: 4px;
             /* stylelint-disable-next-line liberty/use-logical-spec */
             left: 4px;

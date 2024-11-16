@@ -1,6 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .SendStoryModal {
   &__body {
     // force
@@ -60,13 +63,18 @@
       padding-block: 5px;
       padding-inline: 10px;
       &::before {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-white);
-        content: '';
-        height: 16px;
-        width: 16px;
-        margin-inline-end: 8px;
-        display: inline-block;
-        vertical-align: text-bottom;
+        @include mixins.color-svg(
+          '../images/icons/v3/plus/plus.svg',
+          variables.$color-white
+        );
+        & {
+          content: '';
+          height: 16px;
+          width: 16px;
+          margin-inline-end: 8px;
+          display: inline-block;
+          vertical-align: text-bottom;
+        }
       }
     }
 
@@ -82,40 +90,54 @@
       }
 
       &--description {
-        color: $color-gray-25;
+        color: variables.$color-gray-25;
       }
     }
   }
 
   &__icon {
     &--delete {
-      @include color-svg('../images/icons/v3/trash/trash.svg', $color-white);
-      height: 14px;
-      width: 14px;
+      @include mixins.color-svg(
+        '../images/icons/v3/trash/trash.svg',
+        variables.$color-white
+      );
+      & {
+        height: 14px;
+        width: 14px;
+      }
     }
 
     &--custom {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/stories/stories.svg',
-        $color-white
+        variables.$color-white
       );
-      height: 16px;
-      width: 16px;
+      & {
+        height: 16px;
+        width: 16px;
+      }
     }
 
     &--group {
-      @include color-svg('../images/icons/v3/group/group.svg', $color-white);
-      height: 16px;
-      width: 16px;
+      @include mixins.color-svg(
+        '../images/icons/v3/group/group.svg',
+        variables.$color-white
+      );
+      & {
+        height: 16px;
+        width: 16px;
+      }
     }
 
     &--settings {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/settings/settings.svg',
-        $color-white
+        variables.$color-white
       );
-      height: 14px;
-      width: 14px;
+      & {
+        height: 14px;
+        width: 14px;
+      }
     }
   }
 
@@ -152,14 +174,14 @@
     }
 
     &__name {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
       font-weight: 400;
     }
 
     &__description {
-      @include font-body-2;
+      @include mixins.font-body-2;
       font-size: 12px;
-      color: $color-gray-25;
+      color: variables.$color-gray-25;
     }
 
     &__checkbox {
@@ -173,19 +195,19 @@
       position: absolute;
       width: 0;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
           &::before {
-            border-color: $color-ultramarine;
+            border-color: variables.$color-ultramarine;
           }
           outline: none;
         }
       }
 
       &::before {
-        @include rounded-corners;
+        @include mixins.rounded-corners;
         background: inherit;
-        border: 1.5px solid $color-gray-60;
+        border: 1.5px solid variables.$color-gray-60;
         content: '';
         display: block;
         height: 20px;
@@ -195,12 +217,12 @@
 
       &:checked {
         &::before {
-          background: $color-ultramarine;
-          border: 1.5px solid $color-ultramarine;
+          background: variables.$color-ultramarine;
+          border: 1.5px solid variables.$color-ultramarine;
         }
 
         &::after {
-          border: solid $color-white;
+          border: solid variables.$color-white;
           border-width: 0 2px 2px 0;
           content: '';
           display: block;
@@ -216,8 +238,8 @@
   }
 
   &__selected-lists {
-    @include font-body-2;
-    color: $color-gray-15;
+    @include mixins.font-body-2;
+    color: variables.$color-gray-15;
     padding-inline-end: 16px;
     user-select: none;
     flex: 1;
@@ -227,46 +249,60 @@
   }
 
   &__ok {
-    @include button-reset;
-    @include rounded-corners;
-    align-items: center;
-    background: $color-ultramarine;
-    display: flex;
-    height: 32px;
-    justify-content: center;
-    width: 32px;
+    @include mixins.button-reset;
+    & {
+      @include mixins.rounded-corners;
+      align-items: center;
+      background: variables.$color-ultramarine;
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      width: 32px;
+    }
 
     &::disabled {
-      background: $color-gray-60;
+      background: variables.$color-gray-60;
     }
 
     &::after {
-      @include color-svg('../images/icons/v3/check/check.svg', $color-white);
-      content: '';
-      height: 18px;
-      width: 18px;
+      @include mixins.color-svg(
+        '../images/icons/v3/check/check.svg',
+        variables.$color-white
+      );
+      & {
+        content: '';
+        height: 18px;
+        width: 18px;
+      }
     }
   }
 
   &__send {
-    @include button-reset;
-    @include rounded-corners;
-    align-items: center;
-    background: $color-ultramarine;
-    display: flex;
-    height: 32px;
-    justify-content: center;
-    width: 32px;
+    @include mixins.button-reset;
+    & {
+      @include mixins.rounded-corners;
+      align-items: center;
+      background: variables.$color-ultramarine;
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      width: 32px;
+    }
 
     &::disabled {
-      background: $color-gray-60;
+      background: variables.$color-gray-60;
     }
 
     &::after {
-      @include color-svg('../images/icons/v3/send/send-fill.svg', $color-white);
-      content: '';
-      height: 18px;
-      width: 18px;
+      @include mixins.color-svg(
+        '../images/icons/v3/send/send-fill.svg',
+        variables.$color-white
+      );
+      & {
+        content: '';
+        height: 18px;
+        width: 18px;
+      }
     }
   }
 

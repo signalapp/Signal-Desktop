@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .InstallScreenBackupImportStep {
   position: relative;
   display: flex;
@@ -22,7 +25,7 @@
 }
 
 .InstallScreenBackupImportStep__title {
-  @include font-title-2;
+  @include mixins.font-title-2;
   margin-block: 0 20px;
 }
 
@@ -31,41 +34,43 @@
 }
 
 .InstallScreenBackupImportStep__progressbar-hint {
-  @include font-caption;
+  @include mixins.font-caption;
   margin-block-end: 22px;
 
-  @include light-theme {
-    color: rgba($color-gray-60, 0.8);
+  @include mixins.light-theme {
+    color: rgba(variables.$color-gray-60, 0.8);
   }
 
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
 .InstallScreenBackupImportStep__description {
-  @include font-body-1;
+  @include mixins.font-body-1;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
 
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
 .InstallScreenBackupImportStep__cancel {
-  @include button-reset();
-  @include button-focus-outline;
-  @include font-body-1-bold;
-
-  @include light-theme() {
-    color: $color-ultramarine;
+  @include mixins.button-reset();
+  & {
+    @include mixins.button-focus-outline;
+    @include mixins.font-body-1-bold;
   }
 
-  @include dark-theme() {
-    color: $color-ultramarine-light;
+  @include mixins.light-theme() {
+    color: variables.$color-ultramarine;
+  }
+
+  @include mixins.dark-theme() {
+    color: variables.$color-ultramarine-light;
   }
 }
 
@@ -85,34 +90,39 @@
   max-width: 336px;
 
   &--icon::after {
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/lock/lock.svg',
-        rgba($color-gray-60, 0.8)
+        rgba(variables.$color-gray-60, 0.8)
       );
     }
 
-    @include dark-theme {
-      @include color-svg('../images/icons/v3/lock/lock.svg', $color-gray-25);
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/lock/lock.svg',
+        variables.$color-gray-25
+      );
     }
 
-    content: '';
-    display: block;
-    height: 16px;
-    width: 16px;
-    margin-bottom: 4px;
+    & {
+      content: '';
+      display: block;
+      height: 16px;
+      width: 16px;
+      margin-bottom: 4px;
+    }
   }
 
   &--description {
-    @include font-caption;
+    @include mixins.font-caption;
     text-align: center;
 
-    @include light-theme {
-      color: rgba($color-gray-60, 0.8);
+    @include mixins.light-theme {
+      color: rgba(variables.$color-gray-60, 0.8);
     }
 
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
 
     a {

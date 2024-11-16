@@ -1,6 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .StoriesSettingsModal {
   &__width-container {
     max-width: 420px;
@@ -33,51 +36,55 @@
       position: absolute;
       width: 0;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
           &::before {
-            border-color: $color-ultramarine;
+            border-color: variables.$color-ultramarine;
           }
           outline: none;
         }
       }
 
       &::before {
-        @include rounded-corners;
+        @include mixins.rounded-corners;
         background: inherit;
         border: 1.5px solid;
-        @include light-theme {
-          border-color: $color-gray-25;
+        @include mixins.light-theme {
+          border-color: variables.$color-gray-25;
         }
-        @include dark-theme {
-          border-color: $color-gray-60;
+        @include mixins.dark-theme {
+          border-color: variables.$color-gray-60;
         }
-        content: '';
-        display: block;
-        height: 20px;
-        position: absolute;
-        width: 20px;
+        & {
+          content: '';
+          display: block;
+          height: 20px;
+          position: absolute;
+          width: 20px;
+        }
       }
 
       &:checked {
         &::before {
           -webkit-mask: none;
-          background: $color-ultramarine;
-          border: 1.5px solid $color-ultramarine;
+          background: variables.$color-ultramarine;
+          border: 1.5px solid variables.$color-ultramarine;
         }
       }
     }
   }
 
   &__list {
-    @include button-reset;
-    @include font-body-1;
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding-block: 8px;
-    padding-inline: 0;
+    @include mixins.button-reset;
+    & {
+      @include mixins.font-body-1;
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding-block: 8px;
+      padding-inline: 0;
+    }
 
     &--no-pointer {
       cursor: inherit;
@@ -85,12 +92,12 @@
 
     &__viewers {
       display: flex;
-      @include font-body-2;
-      @include light-theme {
-        color: $color-gray-60;
+      @include mixins.font-body-2;
+      @include mixins.light-theme {
+        color: variables.$color-gray-60;
       }
-      @include dark-theme {
-        color: $color-gray-25;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-25;
       }
     }
 
@@ -101,28 +108,28 @@
 
     &__avatar {
       @mixin avatar($svg) {
-        @include rounded-corners;
+        @include mixins.rounded-corners;
         display: inline-flex;
         justify-content: center;
         align-items: center;
         width: 32px;
         height: 32px;
-        @include light-theme {
-          background: $color-gray-15;
+        @include mixins.light-theme {
+          background: variables.$color-gray-15;
         }
-        @include dark-theme {
-          background: $color-gray-75;
+        @include mixins.dark-theme {
+          background: variables.$color-gray-75;
         }
 
         &::after {
           content: '';
           height: 20px;
           width: 20px;
-          @include light-theme {
-            @include color-svg($svg, $color-black);
+          @include mixins.light-theme {
+            @include mixins.color-svg($svg, variables.$color-black);
           }
-          @include dark-theme {
-            @include color-svg($svg, $color-white);
+          @include mixins.dark-theme {
+            @include mixins.color-svg($svg, variables.$color-white);
           }
         }
       }
@@ -146,21 +153,23 @@
     }
 
     &__delete {
-      @include button-reset;
-      height: 20px;
-      width: 20px;
-      visibility: hidden;
+      @include mixins.button-reset;
+      & {
+        height: 20px;
+        width: 20px;
+        visibility: hidden;
+      }
 
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/trash/trash.svg',
-          $color-gray-45
+          variables.$color-gray-45
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/trash/trash.svg',
-          $color-gray-25
+          variables.$color-gray-25
         );
       }
     }
@@ -174,11 +183,11 @@
     width: 100%;
     border: 0 solid;
     border-top-width: 1px;
-    @include light-theme {
-      border-color: $color-gray-15;
+    @include mixins.light-theme {
+      border-color: variables.$color-gray-15;
     }
-    @include dark-theme {
-      border-color: $color-gray-65;
+    @include mixins.dark-theme {
+      border-color: variables.$color-gray-65;
     }
   }
 
@@ -188,30 +197,30 @@
   }
 
   &__visibility {
-    @include font-subtitle;
+    @include mixins.font-subtitle;
     margin-top: 10px;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
   }
 
   &__title {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     margin-top: 32px;
   }
 
   &__description {
-    @include font-subtitle;
+    @include mixins.font-subtitle;
     margin-top: 0px;
     margin-bottom: 16px;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
   }
 
@@ -222,28 +231,32 @@
 
   &__listHeader__title {
     flex: 1;
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     margin-inline-end: 8px;
   }
 
   &__delete-list {
-    @include button-reset;
-    align-items: center;
-    color: $color-accent-red;
-    display: flex;
-    padding-block: 8px;
-    padding-inline: 0;
-    width: 100%;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      color: variables.$color-accent-red;
+      display: flex;
+      padding-block: 8px;
+      padding-inline: 0;
+      width: 100%;
+    }
 
     &::before {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/trash/trash.svg',
-        $color-accent-red
+        variables.$color-accent-red
       );
-      content: '';
-      height: 20px;
-      margin-inline-end: 20px;
-      width: 20px;
+      & {
+        content: '';
+        height: 20px;
+        margin-inline-end: 20px;
+        width: 20px;
+      }
     }
   }
 
@@ -264,11 +277,11 @@
   }
 
   &__checkbox-description {
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
   }
 
@@ -279,21 +292,21 @@
   }
 
   &__disclaimer {
-    @include font-subtitle;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.font-subtitle;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
 
     &__learn-more {
-      @include button-reset;
-      @include light-theme {
-        color: $color-gray-90;
+      @include mixins.button-reset;
+      @include mixins.light-theme {
+        color: variables.$color-gray-90;
       }
-      @include dark-theme {
-        color: $color-gray-05;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
       }
     }
   }
@@ -306,12 +319,12 @@
 
   &__stories-off-text {
     flex: 1;
-    @include font-subtitle;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.font-subtitle;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
   }
 }
@@ -325,7 +338,7 @@
   }
 
   &__members_title {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
   }
 
   &__members_item {
@@ -334,39 +347,43 @@
     align-items: center;
 
     &__name {
-      @include font-body-1;
+      @include mixins.font-body-1;
     }
   }
 
   &__members_help {
-    @include font-body-2;
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.font-body-2;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
   }
 
   &__remove_group {
-    @include button-reset;
-    align-items: center;
-    color: $color-accent-red;
-    display: flex;
-    padding-block: 8px;
-    padding-inline: 0;
-    width: 100%;
-    margin-top: 12px;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      color: variables.$color-accent-red;
+      display: flex;
+      padding-block: 8px;
+      padding-inline: 0;
+      width: 100%;
+      margin-top: 12px;
+    }
 
     &::before {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/minus/minus-circle.svg',
-        $color-accent-red
+        variables.$color-accent-red
       );
-      content: '';
-      height: 20px;
-      margin-inline-end: 20px;
-      width: 20px;
+      & {
+        content: '';
+        height: 20px;
+        margin-inline-end: 20px;
+        width: 20px;
+      }
     }
   }
 }

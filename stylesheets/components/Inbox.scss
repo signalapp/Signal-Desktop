@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .Inbox {
   display: flex;
   flex-direction: row;
@@ -25,12 +28,12 @@
   }
 
   .__conversation {
-    @include light-theme {
-      background-color: $color-white;
+    @include mixins.light-theme {
+      background-color: variables.$color-white;
     }
 
-    @include dark-theme {
-      background-color: $color-gray-95;
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-95;
     }
   }
 }
@@ -48,6 +51,13 @@
   margin-block: 24px;
   position: relative;
 
+  @include mixins.light-theme() {
+    --Inbox__logo__bg: #{variables.$color-ultramarine-logo};
+  }
+  @include mixins.dark-theme() {
+    --Inbox__logo__bg: #{variables.$color-white};
+  }
+
   .Inbox__logo__part {
     width: 100%;
     height: 100%;
@@ -55,8 +65,13 @@
   }
 
   .Inbox__logo__part--base {
-    @include color-svg('../images/logo-parts/base.svg', $color-white);
-    z-index: 1;
+    @include mixins.color-svg(
+      '../images/logo-parts/base.svg',
+      var(--Inbox__logo__bg)
+    );
+    & {
+      z-index: 1;
+    }
   }
 
   .Inbox__logo__part--segment {
@@ -72,8 +87,13 @@
 
   @for $i from 1 through 16 {
     .Inbox__logo__part--segment:nth-child(#{$i + 1}) {
-      @include color-svg('../images/logo-parts/p#{$i}.svg', $color-white);
-      transform: rotate(#{(16 - $i) * 22.5}deg);
+      @include mixins.color-svg(
+        '../images/logo-parts/p#{$i}.svg',
+        var(--Inbox__logo__bg)
+      );
+      & {
+        transform: rotate(#{(16 - $i) * 22.5}deg);
+      }
     }
   }
 
@@ -86,7 +106,7 @@
 .Inbox__welcome {
   margin-block: 20px 6px;
 
-  @include font-title-medium;
+  @include mixins.font-title-medium;
   line-height: 24px;
 }
 

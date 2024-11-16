@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-CallingSelectPresentingSourcesModal {
   &__width-container {
     max-width: 665px;
@@ -10,7 +13,7 @@
   // there's no module-class-name on the footer,
   // so we have to reference it using the generic selector
   .module-Modal__button-footer {
-    background-color: $color-gray-95;
+    background-color: variables.$color-gray-95;
   }
 
   &__sources {
@@ -30,18 +33,19 @@
   }
 
   &__source {
-    @include button-reset();
-
-    border-radius: 4px;
-    border: 1px solid $color-gray-60;
-    overflow: hidden;
-    padding: 8px;
-    text-align: center;
-    width: 200px;
+    @include mixins.button-reset();
+    & {
+      border-radius: 4px;
+      border: 1px solid variables.$color-gray-60;
+      overflow: hidden;
+      padding: 8px;
+      text-align: center;
+      width: 200px;
+    }
 
     &--selected {
-      background-color: $color-ultramarine-dark;
-      border: 1px solid $color-ultramarine-dark;
+      background-color: variables.$color-ultramarine-dark;
+      border: 1px solid variables.$color-ultramarine-dark;
     }
 
     img {

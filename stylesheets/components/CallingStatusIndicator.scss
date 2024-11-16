@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallingStatusIndicator {
   $size: 28px;
 
@@ -10,9 +13,9 @@
   height: $size;
   min-width: $size;
   width: $size;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
   border-radius: calc($size / 2);
-  background: rgba($color-gray-80, 0.7);
+  background: rgba(variables.$color-gray-80, 0.7);
 
   &::after {
     content: '';
@@ -23,26 +26,26 @@
 }
 
 .CallingStatusIndicator--HandRaised {
-  background: $color-white;
+  background: variables.$color-white;
 }
 
 .CallingStatusIndicator--HandRaised::after {
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/raise_hand/raise_hand-light.svg',
-    $color-black
+    variables.$color-black
   );
 }
 
 .CallingStatusIndicator--Video::after {
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/video/video-slash-fill-light.svg',
-    $color-white
+    variables.$color-white
   );
 }
 
 .module-ongoing-call__footer__local-preview .CallingStatusIndicator {
   position: absolute;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
 }
 
 .module-ongoing-call__footer__local-preview .CallingStatusIndicator--Video {

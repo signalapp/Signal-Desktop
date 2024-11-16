@@ -1,15 +1,18 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-CallingLobby {
   &__local-preview {
     position: absolute;
-    z-index: $z-index-negative;
+    z-index: variables.$z-index-negative;
     top: 28px;
     -webkit-app-region: no-drag;
 
     &--camera-is-on {
-      @include lonely-local-video-preview;
+      @include mixins.lonely-local-video-preview;
       width: auto;
       height: 100%;
       max-height: calc(100% - 140px);
@@ -25,7 +28,7 @@
     }
 
     &--camera-is-off {
-      @include lonely-local-video-preview;
+      @include mixins.lonely-local-video-preview;
       width: auto;
       height: 100%;
       max-height: calc(100% - 140px);
@@ -36,7 +39,7 @@
         position: absolute;
         height: 100%;
         width: 100%;
-        background: $color-black-alpha-40;
+        background: variables.$color-black-alpha-40;
       }
     }
   }
@@ -53,21 +56,21 @@
 }
 
 .CallingLobby__CallLinkNotice {
-  @include font-caption;
+  @include mixins.font-caption;
   display: flex;
   padding-block: 12px;
   padding-inline: 18px;
   margin-block-end: 32px;
   width: 340px;
-  background: $color-gray-78;
-  color: $color-white;
+  background: variables.$color-gray-78;
+  color: variables.$color-white;
   border-radius: 10px;
   align-items: center;
   text-align: center;
 }
 
 .CallingLobby__CallLinkNotice--join-request-pending {
-  @include font-body-1;
+  @include mixins.font-body-1;
   width: auto;
 }
 

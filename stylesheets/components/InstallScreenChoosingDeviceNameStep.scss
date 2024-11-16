@@ -1,10 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-.module-InstallScreenChoosingDeviceNameStep {
-  @include install-screen;
+@use '../mixins';
 
-  text-align: center;
+.module-InstallScreenChoosingDeviceNameStep {
+  @include mixins.install-screen;
+
+  & {
+    text-align: center;
+  }
 
   &__inputs {
     display: flex;
@@ -15,9 +19,11 @@
   }
 
   &__input {
-    @include normal-input;
-    width: 90%;
-    max-width: 300px;
-    margin-bottom: 18px;
+    @include mixins.normal-input;
+    & {
+      width: 90%;
+      max-width: 300px;
+      margin-bottom: 18px;
+    }
   }
 }

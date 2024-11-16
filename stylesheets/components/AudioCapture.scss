@@ -1,6 +1,10 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'sass:color';
+@use '../mixins';
+@use '../variables';
+
 .AudioCapture {
   display: flex;
   text-align: center;
@@ -22,9 +26,9 @@
     padding: 0;
     border: none;
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        outline: 2px solid $color-ultramarine;
+        outline: 2px solid variables.$color-ultramarine;
       }
     }
 
@@ -36,11 +40,17 @@
       height: 20px;
       width: 20px;
 
-      @include light-theme {
-        @include color-svg('../images/icons/v3/mic/mic.svg', $color-gray-75);
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/mic/mic.svg',
+          variables.$color-gray-75
+        );
       }
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/mic/mic.svg', $color-gray-15);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/mic/mic.svg',
+          variables.$color-gray-15
+        );
       }
     }
   }
@@ -71,29 +81,32 @@
     }
 
     &--complete {
-      background: lighten($color-accent-green, 20%);
-      border: 1px solid $color-accent-green;
+      background: color.adjust(variables.$color-accent-green, $lightness: 20%);
+      border: 1px solid variables.$color-accent-green;
 
       .icon {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/check/check.svg',
-          $color-accent-green
+          variables.$color-accent-green
         );
       }
     }
 
     &--cancel {
-      background: lighten($color-accent-red, 20%);
-      border: 1px solid $color-accent-red;
+      background: color.adjust(variables.$color-accent-red, $lightness: 20%);
+      border: 1px solid variables.$color-accent-red;
 
       .icon {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-accent-red);
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-accent-red
+        );
       }
     }
   }
 
   &__time {
-    color: $color-gray-60;
+    color: variables.$color-gray-60;
     font-variant: tabular-nums;
     line-height: 36px;
     margin-block: 0;
@@ -117,7 +130,7 @@
       border-radius: 10px;
       width: 10px;
       height: 10px;
-      background: $color-accent-red;
+      background: variables.$color-accent-red;
       margin-inline-end: 10px;
       opacity: 0;
       animation: pulse 2s infinite;

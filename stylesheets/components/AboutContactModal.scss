@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .AboutContactModal {
   &__headerTitle.module-Modal__headerTitle {
     // No padding between header and avatar
@@ -26,7 +29,7 @@
   }
 
   &__title {
-    @include font-title-2;
+    @include mixins.font-title-2;
     font-weight: 500;
 
     margin: 0;
@@ -41,12 +44,12 @@
     flex-shrink: 0;
 
     @mixin about-modal-icon($url) {
-      @include light-theme {
-        @include color-svg($url, $color-black);
+      @include mixins.light-theme {
+        @include mixins.color-svg($url, variables.$color-black);
       }
 
-      @include dark-theme {
-        @include color-svg($url, $color-gray-05);
+      @include mixins.dark-theme {
+        @include mixins.color-svg($url, variables.$color-gray-05);
       }
     }
 
@@ -111,8 +114,10 @@
     align-items: center;
     min-width: 0;
 
-    @include button-reset();
-    cursor: pointer;
+    @include mixins.button-reset();
+    & {
+      cursor: pointer;
+    }
 
     &::after {
       content: '';
@@ -121,21 +126,23 @@
       width: 20px;
       flex-shrink: 0;
 
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-right-bold.svg',
-        $color-gray-45
+        variables.$color-gray-45
       );
     }
   }
 
   &__verified {
-    @include button-reset();
-    cursor: pointer;
+    @include mixins.button-reset();
+    & {
+      cursor: pointer;
+    }
   }
 }
 
 .AboutContactModal__TitleWithoutNickname {
-  color: $color-gray-45;
+  color: variables.$color-gray-45;
 }
 
 .AboutContactModal__OneLineEllipsis {

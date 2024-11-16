@@ -1,9 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallingButton {
   @mixin icon($path) {
-    @include color-svg($path, $color-white);
+    @include mixins.color-svg($path, variables.$color-white);
     height: 20px;
     width: 20px;
     border: none;
@@ -19,10 +22,10 @@
     outline: none;
     width: 36px;
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
         outline-offset: 1px;
-        outline: 2px solid $color-ultramarine;
+        outline: 2px solid variables.$color-ultramarine;
       }
     }
 
@@ -30,24 +33,42 @@
       background-color: $background-color;
 
       div {
-        @include color-svg($icon, $icon-color);
-        height: 20px;
-        width: 20px;
+        @include mixins.color-svg($icon, $icon-color);
+        & {
+          height: 20px;
+          width: 20px;
+        }
       }
     }
 
     @mixin calling-button-icon-highlighted($icon) {
-      @include calling-button-icon($icon, $color-gray-15, $color-gray-90);
+      @include calling-button-icon(
+        $icon,
+        variables.$color-gray-15,
+        variables.$color-gray-90
+      );
     }
 
     @mixin calling-button-icon-regular($icon) {
-      @include calling-button-icon($icon, $color-gray-60, $color-gray-15);
-      backdrop-filter: blur(10px);
+      @include calling-button-icon(
+        $icon,
+        variables.$color-gray-60,
+        variables.$color-gray-15
+      );
+      & {
+        backdrop-filter: blur(10px);
+      }
     }
 
     @mixin calling-button-icon-disabled($icon) {
-      @include calling-button-icon($icon, $color-gray-60, $color-gray-15);
-      opacity: 0.4;
+      @include calling-button-icon(
+        $icon,
+        variables.$color-gray-60,
+        variables.$color-gray-15
+      );
+      & {
+        opacity: 0.4;
+      }
     }
 
     &--audio {
@@ -83,8 +104,8 @@
     &--hangup {
       @include calling-button-icon(
         '../images/icons/v3/phone/phone-down-fill-light.svg',
-        $color-accent-red,
-        $color-white
+        variables.$color-accent-red,
+        variables.$color-white
       );
     }
 
@@ -168,13 +189,13 @@
   }
 
   &__tooltip {
-    background-color: $color-gray-80;
-    color: $color-gray-15;
+    background-color: variables.$color-gray-80;
+    color: variables.$color-gray-15;
     font-size: 13px;
-    outline: 1px solid $color-gray-62;
+    outline: 1px solid variables.$color-gray-62;
     padding-block: 5px;
     padding-inline: 12px;
-    filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
+    filter: drop-shadow(0px 4px 3px variables.$color-black-alpha-20);
     pointer-events: none;
   }
 
@@ -186,24 +207,24 @@
   }
 
   &__tooltip[data-placement='bottom'] .module-tooltip-arrow::before {
-    border-color: transparent transparent $color-gray-62 transparent;
+    border-color: transparent transparent variables.$color-gray-62 transparent;
     margin-top: -14px;
     /* stylelint-disable-next-line liberty/use-logical-spec */
     margin-left: -7px;
   }
 
   &__tooltip[data-placement='bottom'] .module-tooltip-arrow::after {
-    border-bottom-color: $color-gray-80 !important;
+    border-bottom-color: variables.$color-gray-80 !important;
   }
 
   &__tooltip[data-placement='top'] .module-tooltip-arrow::before {
-    border-color: $color-gray-62 transparent transparent transparent;
+    border-color: variables.$color-gray-62 transparent transparent transparent;
     margin-top: 0;
     /* stylelint-disable-next-line liberty/use-logical-spec */
     margin-left: -7px;
   }
 
   &__tooltip[data-placement='top'] .module-tooltip-arrow::after {
-    border-top-color: $color-gray-80 !important;
+    border-top-color: variables.$color-gray-80 !important;
   }
 }

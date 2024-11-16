@@ -1,6 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .EditUsernameModalBody {
   &__header {
     display: flex;
@@ -19,12 +22,12 @@
       margin-top: 21px;
       margin-bottom: 16px;
 
-      @include light-theme {
-        background-color: $color-gray-04;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-04;
       }
 
-      @include dark-theme {
-        background-color: $color-gray-65;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-65;
       }
 
       &::after {
@@ -33,12 +36,18 @@
         height: 36px;
         content: '';
 
-        @include light-theme {
-          @include color-svg('../images/icons/v3/at/at.svg', $color-gray-75);
+        @include mixins.light-theme {
+          @include mixins.color-svg(
+            '../images/icons/v3/at/at.svg',
+            variables.$color-gray-75
+          );
         }
 
-        @include dark-theme {
-          @include color-svg('../images/icons/v3/at/at.svg', $color-gray-15);
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
+            '../images/icons/v3/at/at.svg',
+            variables.$color-gray-15
+          );
         }
       }
     }
@@ -54,12 +63,12 @@
     margin-block: 0;
     margin-inline: 12px;
 
-    @include light-theme {
-      background-color: $color-gray-20;
+    @include mixins.light-theme {
+      background-color: variables.$color-gray-20;
     }
 
-    @include dark-theme {
-      background-color: $color-gray-45;
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-45;
     }
   }
 
@@ -68,27 +77,27 @@
   }
 
   &__error {
-    @include font-body-2;
+    @include mixins.font-body-2;
     margin-block: 8px 12px;
     margin-inline: 6px;
     font-size: 12px;
     line-height: 17px;
 
-    color: $color-accent-red;
+    color: variables.$color-accent-red;
   }
 
   &__info {
-    @include font-body-2;
+    @include mixins.font-body-2;
     font-size: 12px;
     line-height: 17px;
     margin-block: 12px;
     margin-inline: 6px;
 
-    @include light-theme {
-      color: $color-gray-60;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
     }
 
     // To account for missing error section: 8px top margin, 17px line height,
@@ -99,8 +108,10 @@
   }
 
   &__learn-more-button {
-    @include button-reset;
-    color: $color-accent-blue;
+    @include mixins.button-reset;
+    & {
+      color: variables.$color-accent-blue;
+    }
   }
 
   &__learn-more {
@@ -118,15 +129,17 @@
       -webkit-mask-size: 100%;
       content: '';
 
-      @include light-theme {
-        background-color: $color-gray-75;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-75;
       }
 
-      @include dark-theme {
-        background-color: $color-gray-15;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-15;
       }
 
-      -webkit-mask: url(../images/icons/v2/hashtag-24.svg) no-repeat center;
+      & {
+        -webkit-mask: url(../images/icons/v2/hashtag-24.svg) no-repeat center;
+      }
     }
   }
 

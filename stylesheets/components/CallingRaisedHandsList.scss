@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallingRaisedHandsList {
   width: 100%;
   height: auto;
@@ -45,22 +48,24 @@
 }
 
 .CallingRaisedHandsList__Button {
-  @include button-reset;
-  position: absolute;
-  inset-inline-start: 16px;
-  inset-block-end: 16px;
-  display: flex;
-  padding-block: 14px;
-  padding-inline: 12px;
-  background: $color-white;
-  border-radius: 24px;
-  color: $color-black;
-  font-size: 14px;
-  z-index: $z-index-above-above-base;
+  @include mixins.button-reset;
+  & {
+    position: absolute;
+    inset-inline-start: 16px;
+    inset-block-end: 16px;
+    display: flex;
+    padding-block: 14px;
+    padding-inline: 12px;
+    background: variables.$color-white;
+    border-radius: 24px;
+    color: variables.$color-black;
+    font-size: 14px;
+    z-index: variables.$z-index-above-above-base;
+  }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      outline: 2px solid $color-ultramarine;
+      outline: 2px solid variables.$color-ultramarine;
     }
   }
 }
@@ -73,9 +78,9 @@
   margin-inline-end: 4px;
   content: '';
 
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/raise_hand/raise_hand-light.svg',
-    $color-black
+    variables.$color-black
   );
 }
 
@@ -86,23 +91,25 @@
   height: $icon-size;
   content: '';
 
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/raise_hand/raise_hand-light.svg',
-    $color-gray-15
+    variables.$color-gray-15
   );
 }
 
 .CallingRaisedHandsList__LowerMyHandLink {
-  @include button-reset;
-  display: flex;
-  margin-inline-end: 16px;
-  font-size: 13px;
-  font-weight: 500;
-  color: $color-ultramarine-pastel;
+  @include mixins.button-reset;
+  & {
+    display: flex;
+    margin-inline-end: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: variables.$color-ultramarine-pastel;
+  }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      outline: 2px solid $color-ultramarine;
+      outline: 2px solid variables.$color-ultramarine;
     }
   }
 }

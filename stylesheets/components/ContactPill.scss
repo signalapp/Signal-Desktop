@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-ContactPill {
   align-items: center;
   display: inline-flex;
@@ -10,31 +13,31 @@
   padding-inline: 8px;
   border-radius: 6px;
 
-  @include light-theme {
-    background: $color-black-alpha-08;
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    background: variables.$color-black-alpha-08;
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    background: $color-white-alpha-12;
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    background: variables.$color-white-alpha-12;
+    color: variables.$color-gray-05;
   }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus-within {
-      @include light-theme {
-        background: $color-gray-45;
-        color: $color-white;
+      @include mixins.light-theme {
+        background: variables.$color-gray-45;
+        color: variables.$color-white;
       }
 
-      @include dark-theme {
-        background: $color-gray-25;
-        color: $color-gray-90;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-25;
+        color: variables.$color-gray-90;
       }
     }
   }
 
   &__contact-name {
-    @include font-body-2;
+    @include mixins.font-body-2;
     padding-block: 0;
     padding-inline: 6px;
     text-overflow: ellipsis;
@@ -45,14 +48,16 @@
   &__remove {
     $icon: '../images/icons/v3/x/x-compact-light.svg';
 
-    @include button-reset;
-    height: 100%;
-    display: flex;
-    width: 16px;
-    height: 16px;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
+    @include mixins.button-reset;
+    & {
+      height: 100%;
+      display: flex;
+      width: 16px;
+      height: 16px;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+    }
 
     &::before {
       content: '';
@@ -60,25 +65,25 @@
       height: 100%;
       display: block;
 
-      @include light-theme {
-        @include color-svg($icon, $color-gray-60);
+      @include mixins.light-theme {
+        @include mixins.color-svg($icon, variables.$color-gray-60);
       }
-      @include dark-theme {
-        @include color-svg($icon, $color-gray-25);
+      @include mixins.dark-theme {
+        @include mixins.color-svg($icon, variables.$color-gray-25);
       }
     }
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
         &::before {
-          @include color-svg($icon, $color-white);
+          @include mixins.color-svg($icon, variables.$color-white);
         }
       }
     }
-    @include dark-keyboard-mode {
+    @include mixins.dark-keyboard-mode {
       &:focus {
         &::before {
-          @include color-svg($icon, $color-gray-90);
+          @include mixins.color-svg($icon, variables.$color-gray-90);
         }
       }
     }

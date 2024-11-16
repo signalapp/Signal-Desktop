@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-composition-input {
   &__quill {
     height: 100%;
@@ -31,15 +34,15 @@
   }
 
   &__at-mention {
-    background-color: $color-gray-20;
+    background-color: variables.$color-gray-20;
     border-radius: 4px;
     display: inline;
     padding-inline: 4px;
     height: 22px;
     line-height: 22px;
 
-    @include dark-theme {
-      background-color: $color-gray-60;
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-60;
     }
   }
 
@@ -54,29 +57,29 @@
     .ql-container {
       // Inherit global font stack
       font-family: inherit;
-      @include font-body-1;
+      @include mixins.font-body-1;
     }
 
     .ql-blank::before {
-      @include light-theme() {
-        color: $color-gray-45;
+      @include mixins.light-theme() {
+        color: variables.$color-gray-45;
       }
 
-      @include dark-theme() {
-        color: $color-gray-25;
+      @include mixins.dark-theme() {
+        color: variables.$color-gray-25;
       }
     }
 
-    @include light-theme() {
+    @include mixins.light-theme() {
       // Same as background color
-      background-color: $color-gray-05;
-      color: $color-gray-90;
+      background-color: variables.$color-gray-05;
+      color: variables.$color-gray-90;
     }
 
-    @include dark-theme() {
+    @include mixins.dark-theme() {
       // Same as background color
-      background-color: $color-gray-75;
-      color: $color-gray-05;
+      background-color: variables.$color-gray-75;
+      color: variables.$color-gray-05;
     }
 
     &__scroller {
@@ -89,11 +92,11 @@
       overflow: auto;
 
       &::-webkit-scrollbar-thumb {
-        @include light-theme {
-          border: 2px solid $color-gray-05;
+        @include mixins.light-theme {
+          border: 2px solid variables.$color-gray-05;
         }
-        @include dark-theme {
-          border: 2px solid $color-gray-75;
+        @include mixins.dark-theme {
+          border: 2px solid variables.$color-gray-75;
         }
       }
 
@@ -116,12 +119,14 @@
       }
     }
 
-    border: $border-size solid transparent;
+    & {
+      border: $border-size solid transparent;
+    }
 
     &:focus-within {
       outline: 0;
-      @include keyboard-mode {
-        border: $border-size solid $color-ultramarine;
+      @include mixins.keyboard-mode {
+        border: $border-size solid variables.$color-ultramarine;
       }
     }
   }
@@ -131,7 +136,7 @@
     padding-block: 6px;
     padding-inline: 12px;
     border-radius: 8px;
-    z-index: $z-index-above-popup;
+    z-index: variables.$z-index-above-popup;
 
     display: flex;
     flex-direction: row;
@@ -144,85 +149,87 @@
       0px 4px 10px rgba(0, 0, 0, 30%),
       0px 0px 4px rgba(0, 0, 0, 5%);
 
-    @include light-theme() {
-      background: $color-white;
+    @include mixins.light-theme() {
+      background: variables.$color-white;
     }
-    @include dark-theme() {
-      background: $color-gray-65;
+    @include mixins.dark-theme() {
+      background: variables.$color-gray-65;
     }
 
     &__item {
       $parent: &;
-      @include button-reset;
-
-      height: 24px;
-      width: 24px;
-      border-radius: 4px;
-
-      margin-inline-end: 8px;
+      @include mixins.button-reset;
+      & {
+        height: 24px;
+        width: 24px;
+        border-radius: 4px;
+        margin-inline-end: 8px;
+      }
       &:last-child {
         margin-inline-end: 0;
       }
 
-      @include mouse-mode {
+      @include mixins.mouse-mode {
         &:hover {
-          background-color: $color-gray-05;
+          background-color: variables.$color-gray-05;
         }
       }
-      @include dark-mouse-mode {
+      @include mixins.dark-mouse-mode {
         &:hover {
-          background-color: $color-gray-60;
+          background-color: variables.$color-gray-60;
         }
       }
 
       &--active {
-        @include light-theme {
-          background-color: $color-gray-05;
+        @include mixins.light-theme {
+          background-color: variables.$color-gray-05;
         }
-        @include dark-theme {
-          background-color: rgba($color-gray-45, 30%);
+        @include mixins.dark-theme {
+          background-color: rgba(variables.$color-gray-45, 30%);
         }
 
-        @include mouse-mode {
+        @include mixins.mouse-mode {
           &:hover {
-            background-color: $color-gray-15;
+            background-color: variables.$color-gray-15;
           }
         }
-        @include dark-mouse-mode {
+        @include mixins.dark-mouse-mode {
           &:hover {
-            background-color: rgba($color-gray-45, 50%);
+            background-color: rgba(variables.$color-gray-45, 50%);
           }
         }
       }
 
       &__popover {
-        @include font-subtitle-bold;
-        padding-block: 5px;
-        padding-inline: 8px;
-        text-align: center;
-        border-radius: 4px;
-        margin-bottom: 8px;
+        @include mixins.font-subtitle-bold;
+        & {
+          padding-block: 5px;
+          padding-inline: 8px;
+          text-align: center;
+          border-radius: 4px;
+          margin-bottom: 8px;
 
-        opacity: 0;
-        transition: opacity 120ms ease-out;
-
-        @include light-theme {
-          background-color: $color-black;
-          color: $color-gray-05;
+          opacity: 0;
+          transition: opacity 120ms ease-out;
         }
-        @include dark-theme {
-          background-color: $color-gray-65;
-          color: $color-gray-05;
+
+        @include mixins.light-theme {
+          background-color: variables.$color-black;
+          color: variables.$color-gray-05;
+        }
+        @include mixins.dark-theme {
+          background-color: variables.$color-gray-65;
+          color: variables.$color-gray-05;
         }
 
         &__shortcut {
-          @include font-caption-bold;
+          @include mixins.font-caption-bold;
 
-          @include light-theme {
-            color: $color-gray-15;
+          @include mixins.light-theme {
+            color: variables.$color-gray-15;
           }
-          @include dark-theme {
-            color: $color-gray-25;
+          @include mixins.dark-theme {
+            color: variables.$color-gray-25;
           }
         }
       }
@@ -233,76 +240,76 @@
         margin: 2px;
 
         &--bold {
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-bold-bold.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-bold-bold.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
         }
 
         &--italic {
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-italic-bold.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-italic-bold.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
         }
 
         &--strike {
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-strikethrough-bold.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-strikethrough-bold.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
         }
 
         &--monospace {
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-monospace-bold.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-monospace-bold.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
         }
 
         &--spoiler {
-          @include dark-theme {
-            @include color-svg(
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-spoiler-bold.svg',
-              $color-gray-25
+              variables.$color-gray-25
             );
           }
-          @include light-theme {
-            @include color-svg(
+          @include mixins.light-theme {
+            @include mixins.color-svg(
               '../images/icons/v3/text_format/textformat-spoiler-bold.svg',
-              $color-gray-60
+              variables.$color-gray-60
             );
           }
         }
@@ -310,26 +317,26 @@
         // Here we look at hover for the parent so the 2px border is a hover target
         // Note: We can't use the mixins because .mouse-mode would end up after the >
         .mouse-mode #{$parent}:hover & {
-          background-color: $color-gray-90;
+          background-color: variables.$color-gray-90;
         }
         .dark-theme.mouse-mode #{$parent}:hover & {
-          background-color: $color-gray-15;
+          background-color: variables.$color-gray-15;
         }
 
         &--active {
-          @include dark-theme {
-            background-color: $color-ultramarine-light;
+          @include mixins.dark-theme {
+            background-color: variables.$color-ultramarine-light;
           }
-          @include light-theme {
-            background-color: $color-ultramarine;
+          @include mixins.light-theme {
+            background-color: variables.$color-ultramarine;
           }
 
           // Override above hover behaviors
           .mouse-mode #{$parent}:hover & {
-            background-color: $color-ultramarine;
+            background-color: variables.$color-ultramarine;
           }
           .dark-theme.mouse-mode #{$parent}:hover & {
-            background-color: $color-ultramarine-light;
+            background-color: variables.$color-ultramarine-light;
           }
         }
       }
@@ -341,7 +348,7 @@
     padding: 0;
     margin-bottom: 6px;
     border-radius: 8px;
-    z-index: $z-index-above-popup;
+    z-index: variables.$z-index-above-popup;
     overflow: hidden;
 
     &--scroller {
@@ -349,14 +356,14 @@
       overflow-y: auto;
     }
 
-    @include popper-shadow();
+    @include mixins.popper-shadow();
 
-    @include light-theme() {
-      background: $color-white;
+    @include mixins.light-theme() {
+      background: variables.$color-white;
     }
 
-    @include dark-theme() {
-      background: $color-gray-75;
+    @include mixins.dark-theme() {
+      background: variables.$color-gray-75;
     }
 
     &__row {
@@ -379,14 +386,16 @@
         outline: 0;
       }
 
-      @include font-body-2;
-
-      @include light-theme() {
-        color: $color-gray-60;
+      & {
+        @include mixins.font-body-2;
       }
 
-      @include dark-theme() {
-        color: $color-gray-25;
+      @include mixins.light-theme() {
+        color: variables.$color-gray-60;
+      }
+
+      @include mixins.dark-theme() {
+        color: variables.$color-gray-25;
       }
 
       &__short-name {
@@ -395,14 +404,14 @@
 
       &--selected,
       &:hover {
-        @include light-theme() {
-          background: $color-gray-05;
-          color: $color-gray-90;
+        @include mixins.light-theme() {
+          background: variables.$color-gray-05;
+          color: variables.$color-gray-90;
         }
 
-        @include dark-theme() {
-          background: $color-gray-60;
-          color: $color-gray-05;
+        @include mixins.dark-theme() {
+          background: variables.$color-gray-60;
+          color: variables.$color-gray-05;
         }
       }
     }
@@ -411,11 +420,13 @@
       padding-inline-start: 8px;
     }
 
-    stroke: $color-white;
+    & {
+      stroke: variables.$color-white;
+    }
   }
 
   &__editing-message {
-    @include font-body-2-bold;
+    @include mixins.font-body-2-bold;
     margin-top: 10px;
     user-select: none;
 
@@ -428,10 +439,16 @@
       width: 16px;
       vertical-align: middle;
 
-      @include color-svg('../images/icons/v3/edit/edit.svg', $color-black);
+      @include mixins.color-svg(
+        '../images/icons/v3/edit/edit.svg',
+        variables.$color-black
+      );
 
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/edit/edit.svg', $color-gray-15);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/edit/edit.svg',
+          variables.$color-gray-15
+        );
       }
     }
 
@@ -447,7 +464,7 @@
 }
 
 div.CompositionInput__link-preview {
-  background: $color-gray-02;
+  background: variables.$color-gray-02;
   border-radius: 8px;
   flex-direction: row-reverse;
   justify-content: space-between;
@@ -455,8 +472,8 @@ div.CompositionInput__link-preview {
   min-height: 74px;
   overflow: hidden;
 
-  @include dark-theme {
-    background: $color-gray-80;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-80;
   }
 
   &__icon-container {
@@ -480,10 +497,10 @@ div.CompositionInput__link-preview {
 
 button.CompositionInput__link-preview__close-button {
   -webkit-mask: none;
-  @include rounded-corners;
+  @include mixins.rounded-corners;
   align-items: center;
   backdrop-filter: blur(32px);
-  background: $color-white-alpha-80;
+  background: variables.$color-white-alpha-80;
   display: flex;
   height: 20px;
   justify-content: center;
@@ -492,13 +509,18 @@ button.CompositionInput__link-preview__close-button {
   width: 20px;
 
   &::before {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
-    content: '';
-    height: 16px;
-    width: 16px;
+    @include mixins.color-svg(
+      '../images/icons/v3/x/x.svg',
+      variables.$color-gray-75
+    );
+    & {
+      content: '';
+      height: 16px;
+      width: 16px;
+    }
 
-    @include dark-theme {
-      background-color: $color-gray-05;
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-05;
     }
   }
 }
@@ -506,16 +528,16 @@ button.CompositionInput__link-preview__close-button {
 // Note: These are referenced in formatting/matchers.ts, to detect these styles on paste
 .quill {
   &--monospace {
-    font-family: $monospace;
+    font-family: variables.$monospace;
   }
   &--spoiler {
-    @include light-theme {
+    @include mixins.light-theme {
       // vs color/$color-gray-90, background/$color-gray-05
-      background-color: $color-gray-25;
+      background-color: variables.$color-gray-25;
     }
-    @include dark-theme {
+    @include mixins.dark-theme {
       // vs color/$color-gray-05, background/$color-gray-95
-      background-color: $color-gray-45;
+      background-color: variables.$color-gray-45;
     }
   }
 }

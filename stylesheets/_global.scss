@@ -1,6 +1,9 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'mixins';
+@use 'variables';
+
 html {
   height: 100%;
   cursor: inherit;
@@ -16,18 +19,18 @@ body {
   width: 100%;
   margin: 0;
 
-  color: $color-gray-90;
+  color: variables.$color-gray-90;
 
-  @include font-family;
-  @include font-body-1;
+  @include mixins.font-family;
+  @include mixins.font-body-1;
 
   &.light-theme {
-    background-color: $color-white;
-    color: $color-gray-90;
+    background-color: variables.$color-white;
+    color: variables.$color-gray-90;
   }
   &.dark-theme {
-    background-color: $color-gray-95;
-    color: $color-gray-05;
+    background-color: variables.$color-gray-95;
+    color: variables.$color-gray-05;
   }
 
   &.is-resizing-left-pane {
@@ -87,31 +90,31 @@ textarea {
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
 
-  @include light-theme {
-    background: $color-gray-25;
-    border: 2px solid $color-white;
+  @include mixins.light-theme {
+    background: variables.$color-gray-25;
+    border: 2px solid variables.$color-white;
   }
-  @include dark-theme {
-    background: $color-gray-45;
-    border: 2px solid $color-gray-90;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-45;
+    border: 2px solid variables.$color-gray-90;
   }
 
   &:hover {
-    @include light-theme {
-      background: $color-gray-45;
+    @include mixins.light-theme {
+      background: variables.$color-gray-45;
     }
-    @include dark-theme {
-      background: $color-gray-25;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-25;
     }
   }
 }
 
 ::-webkit-scrollbar-corner {
-  @include light-theme {
-    background: $color-white;
+  @include mixins.light-theme {
+    background: variables.$color-white;
   }
-  @include dark-theme {
-    background: $color-black;
+  @include mixins.dark-theme {
+    background: variables.$color-black;
   }
 }
 
@@ -126,13 +129,13 @@ audio {
   bottom: 0;
 
   opacity: 0.25;
-  z-index: $z-index-popup-overlay;
+  z-index: variables.$z-index-popup-overlay;
 
-  @include light-theme {
-    background-color: $color-black;
+  @include mixins.light-theme {
+    background-color: variables.$color-black;
   }
-  @include dark-theme {
-    background-color: $color-gray-95;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-95;
   }
 }
 
@@ -156,31 +159,31 @@ button {
 }
 button.grey {
   border-radius: 5px;
-  border: solid 1px $color-gray-25;
+  border: solid 1px variables.$color-gray-25;
   cursor: pointer;
   margin-block: 1em;
   margin-inline: auto;
   padding: 1em;
   font-family: inherit;
 
-  @include light-theme {
-    color: $color-gray-60;
-    background: $color-gray-02;
-    box-shadow: 0 0 10px -5px $color-black-alpha-40;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
+    background: variables.$color-gray-02;
+    box-shadow: 0 0 10px -5px variables.$color-black-alpha-40;
   }
-  @include dark-theme {
-    border: solid 1px $color-gray-25;
-    color: $color-gray-60;
-    background: $color-gray-02;
-    box-shadow: 0 0 10px -5px $color-white-alpha-60;
+  @include mixins.dark-theme {
+    border: solid 1px variables.$color-gray-25;
+    color: variables.$color-gray-60;
+    background: variables.$color-gray-02;
+    box-shadow: 0 0 10px -5px variables.$color-white-alpha-60;
   }
 
   &:hover {
-    @include light-theme {
-      box-shadow: 0 0 10px -3px $color-black-alpha-60;
+    @include mixins.light-theme {
+      box-shadow: 0 0 10px -3px variables.$color-black-alpha-60;
     }
-    @include dark-theme {
-      box-shadow: 0 0 10px -3px $color-white-alpha-80;
+    @include mixins.dark-theme {
+      box-shadow: 0 0 10px -3px variables.$color-white-alpha-80;
     }
   }
 
@@ -195,12 +198,12 @@ button.grey {
 }
 
 a {
-  @include light-theme {
-    color: $color-ultramarine;
+  @include mixins.light-theme {
+    color: variables.$color-ultramarine;
   }
 
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
@@ -219,8 +222,8 @@ $loading-height: 16px;
     animation: rotate 1s linear infinite;
 
     border: solid 3px;
-    border-color: $color-ios-blue-tint $color-ios-blue-tint $color-gray-02
-      $color-gray-02 !important;
+    border-color: variables.$color-ios-blue-tint variables.$color-ios-blue-tint
+      variables.$color-gray-02 variables.$color-gray-02 !important;
   }
 }
 
@@ -232,14 +235,17 @@ $loading-height: 16px;
   width: 22px;
   height: 22px;
   padding: 3px;
-  background: $color-gray-60;
+  background: variables.$color-gray-60;
 
   &:before {
     content: '';
     display: block;
     width: 100%;
     height: 100%;
-    @include color-svg('../images/icons/v3/x/x.svg', $color-white);
+    @include mixins.color-svg(
+      '../images/icons/v3/x/x.svg',
+      variables.$color-white
+    );
   }
 }
 
@@ -268,7 +274,7 @@ $loading-height: 16px;
 }
 
 .app-loading-screen {
-  z-index: $z-index-on-top-of-everything;
+  z-index: variables.$z-index-on-top-of-everything;
   position: absolute;
   inset-inline: 0;
   top: 0;
@@ -279,13 +285,13 @@ $loading-height: 16px;
   /* Note: background-color is intentionally transparent until body has the
    *       theme class.
    */
-  @include explicit-light-theme {
-    background-color: $color-white;
-    color: $color-black-alpha-80;
+  @include mixins.explicit-light-theme {
+    background-color: variables.$color-white;
+    color: variables.$color-black-alpha-80;
   }
-  @include dark-theme {
-    background-color: $color-gray-95;
-    color: $color-white-alpha-80;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-95;
+    color: variables.$color-white-alpha-80;
   }
 
   display: flex;
@@ -309,14 +315,16 @@ $loading-height: 16px;
       margin-block: 0;
       margin-inline: 6px;
       transform: scale(0);
-      @include light-theme {
-        border-color: $color-black;
+      @include mixins.light-theme {
+        border-color: variables.$color-black;
       }
-      @include dark-theme {
-        border-color: $color-white;
+      @include mixins.dark-theme {
+        border-color: variables.$color-white;
       }
 
-      animation: loading 1500ms ease infinite 0ms;
+      & {
+        animation: loading 1500ms ease infinite 0ms;
+      }
       &:nth-child(2) {
         animation: loading 1500ms ease infinite 333ms;
       }
@@ -336,11 +344,11 @@ $loading-height: 16px;
       width: 100%;
       margin-block: 12px 26px;
       margin-inline: 0;
-      @include light-theme {
-        background: $color-black-alpha-20;
+      @include mixins.light-theme {
+        background: variables.$color-black-alpha-20;
       }
-      @include dark-theme {
-        background: $color-white-alpha-20;
+      @include mixins.dark-theme {
+        background: variables.$color-white-alpha-20;
       }
     }
 
@@ -359,11 +367,11 @@ $loading-height: 16px;
       }
       transition: transform 500ms linear;
 
-      @include light-theme {
-        background: $color-black;
+      @include mixins.light-theme {
+        background: variables.$color-black;
       }
-      @include dark-theme {
-        background: $color-white;
+      @include mixins.dark-theme {
+        background: variables.$color-white;
       }
     }
   }
@@ -383,12 +391,12 @@ $loading-height: 16px;
   bottom: 0;
 
   &.overlay {
-    z-index: $z-index-popup-overlay;
+    z-index: variables.$z-index-popup-overlay;
   }
 
-  color: $color-black;
+  color: variables.$color-black;
   a {
-    color: $color-ultramarine;
+    color: variables.$color-ultramarine;
   }
   background: linear-gradient(
     to bottom,
@@ -407,7 +415,7 @@ $loading-height: 16px;
   input {
     margin-top: 1em;
     font-size: 12pt;
-    border: 2px solid $color-ultramarine;
+    border: 2px solid variables.$color-ultramarine;
     padding: 0.5em;
     text-align: center;
     width: 20em;
@@ -491,54 +499,57 @@ $loading-height: 16px;
 
     // generic
     &.check-circle-outline {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/full-screen-flow/check-circle-outline.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
     &.alert-outline {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/full-screen-flow/alert-outline.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
 
     // import and export
     &.folder-outline {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/full-screen-flow/folder-outline.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
     &.import {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/full-screen-flow/import.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
 
     // registration process
     &.lead-pencil {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/full-screen-flow/lead-pencil.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
     &.sync {
-      @include color-svg('../images/full-screen-flow/sync.svg', $color-gray-15);
+      @include mixins.color-svg(
+        '../images/full-screen-flow/sync.svg',
+        variables.$color-gray-15
+      );
     }
 
     // delete
     &.alert-outline-red {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/full-screen-flow/alert-outline.svg',
-        $color-accent-red
+        variables.$color-accent-red
       );
     }
     &.delete {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/full-screen-flow/delete.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
@@ -551,18 +562,18 @@ $loading-height: 16px;
     padding: 0.75em;
     margin-top: 1em;
     margin-inline: 0.5em;
-    color: $color-white;
-    background: $color-ultramarine;
-    box-shadow: 2px 2px 4px $color-black-alpha-40;
+    color: variables.$color-white;
+    background: variables.$color-ultramarine;
+    box-shadow: 2px 2px 4px variables.$color-black-alpha-40;
 
     font-size: 12pt;
 
     &.neutral {
-      color: $color-black;
-      background: $color-gray-15;
+      color: variables.$color-black;
+      background: variables.$color-gray-15;
     }
     &.destructive {
-      background: $color-accent-red;
+      background: variables.$color-accent-red;
     }
 
     @media (min-height: 750px) and (min-width: 700px) {
@@ -570,23 +581,25 @@ $loading-height: 16px;
     }
 
     &:disabled {
-      background-color: $color-gray-20;
+      background-color: variables.$color-gray-20;
       cursor: auto;
     }
   }
 
   button.link {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    display: block;
-    margin-block: 0.5em;
-    margin-inline: auto;
-    text-align: center;
-    text-decoration: underline;
-    color: $color-ultramarine;
+    & {
+      display: block;
+      margin-block: 0.5em;
+      margin-inline: auto;
+      text-align: center;
+      text-decoration: underline;
+      color: variables.$color-ultramarine;
+    }
 
     &:disabled {
-      color: $color-gray-20;
+      color: variables.$color-gray-20;
       cursor: auto;
     }
   }
@@ -596,7 +609,7 @@ $loading-height: 16px;
     cursor: pointer;
     text-decoration: underline;
     margin: 0.5em;
-    color: $color-ultramarine;
+    color: variables.$color-ultramarine;
   }
 
   .progress {
@@ -608,14 +621,14 @@ $loading-height: 16px;
     .bar-container {
       height: 1em;
       margin: 1em;
-      background-color: $color-gray-02;
+      background-color: variables.$color-gray-02;
     }
     .bar {
       width: 100%;
       height: 100%;
-      background-color: $color-ios-blue-tint;
+      background-color: variables.$color-ios-blue-tint;
       transition: width 0.25s;
-      box-shadow: 2px 2px 4px $color-black-alpha-40;
+      box-shadow: 2px 2px 4px variables.$color-black-alpha-40;
     }
   }
 
@@ -651,7 +664,7 @@ $loading-height: 16px;
   }
 
   .StandaloneRegistration__error {
-    color: $color-accent-red;
+    color: variables.$color-accent-red;
   }
 }
 

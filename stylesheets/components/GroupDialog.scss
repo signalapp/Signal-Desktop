@@ -1,59 +1,72 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-.module-GroupDialog {
-  @include popper-shadow();
-  border-radius: 8px;
-  margin-block: 0;
-  margin-inline: auto;
-  max-height: 80vh;
-  max-width: 360px;
-  padding: 16px;
-  position: relative;
-  width: 95%;
-  display: flex;
-  flex-direction: column;
+@use '../mixins';
+@use '../variables';
 
-  @include light-theme() {
-    background: $color-white;
-    color: $color-gray-90;
+.module-GroupDialog {
+  @include mixins.popper-shadow();
+  & {
+    border-radius: 8px;
+    margin-block: 0;
+    margin-inline: auto;
+    max-height: 80vh;
+    max-width: 360px;
+    padding: 16px;
+    position: relative;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
   }
 
-  @include dark-theme() {
-    background: $color-gray-95;
-    color: $color-gray-05;
+  @include mixins.light-theme() {
+    background: variables.$color-white;
+    color: variables.$color-gray-90;
+  }
+
+  @include mixins.dark-theme() {
+    background: variables.$color-gray-95;
+    color: variables.$color-gray-05;
   }
 
   &__close-button {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    position: absolute;
-    inset-inline-end: 12px;
-    top: 12px;
+    & {
+      position: absolute;
+      inset-inline-end: 12px;
+      top: 12px;
 
-    height: 24px;
-    width: 24px;
-
-    @include light-theme {
-      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
+      height: 24px;
+      width: 24px;
     }
 
-    @include dark-theme {
-      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-gray-75
+      );
+    }
+
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-gray-15
+      );
     }
 
     &:focus {
-      @include keyboard-mode {
-        background-color: $color-ultramarine;
+      @include mixins.keyboard-mode {
+        background-color: variables.$color-ultramarine;
       }
-      @include dark-keyboard-mode {
-        background-color: $color-ultramarine-light;
+      @include mixins.dark-keyboard-mode {
+        background-color: variables.$color-ultramarine-light;
       }
     }
   }
 
   &__title {
-    @include font-title-2;
+    @include mixins.font-title-2;
     text-align: center;
     margin-bottom: 20px;
 
@@ -84,11 +97,11 @@
       top: 4px;
       width: 4px;
 
-      @include light-theme {
-        background-color: $color-gray-15;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-15;
       }
-      @include dark-theme {
-        background-color: $color-gray-65;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-65;
       }
     }
   }

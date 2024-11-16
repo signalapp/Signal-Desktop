@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .BadgeDialog {
   @mixin fixed-height($height) {
     height: $height;
@@ -19,16 +22,18 @@
   }
 
   &__nav {
-    $light-color: $color-gray-65;
-    $dark-color: $color-gray-05;
+    $light-color: variables.$color-gray-65;
+    $dark-color: variables.$color-gray-05;
 
-    @include button-reset;
-    align-items: center;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    padding-block: 3px;
-    padding-inline: 0;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      padding-block: 3px;
+      padding-inline: 0;
+    }
 
     &[disabled] {
       visibility: hidden;
@@ -41,34 +46,34 @@
       height: 20px;
     }
 
-    @include light-theme {
+    @include mixins.light-theme {
       &:hover,
       &:focus {
-        background: $color-gray-02;
+        background: variables.$color-gray-02;
       }
       &:active {
-        background: $color-gray-05;
+        background: variables.$color-gray-05;
       }
     }
-    @include dark-theme {
+    @include mixins.dark-theme {
       &:hover,
       &:focus {
-        background: $color-gray-80;
+        background: variables.$color-gray-80;
       }
       &:active {
-        background: $color-gray-75;
+        background: variables.$color-gray-75;
       }
     }
 
     &--previous::before {
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-left.svg',
           $light-color
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-left.svg',
           $dark-color
         );
@@ -76,14 +81,14 @@
     }
 
     &--next::before {
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-right.svg',
           $light-color
         );
       }
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-right.svg',
           $dark-color
         );
@@ -99,7 +104,7 @@
   }
 
   &__name {
-    @include font-title-2;
+    @include mixins.font-title-2;
     @include fixed-height(3.5em);
     align-items: center;
     display: flex;
@@ -109,7 +114,7 @@
   }
 
   &__description {
-    @include font-body-1;
+    @include mixins.font-body-1;
     @include fixed-height(5.5em);
     margin-bottom: 12px;
   }

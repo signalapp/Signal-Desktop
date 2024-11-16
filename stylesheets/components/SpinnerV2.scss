@@ -1,12 +1,14 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../variables';
+
 .SpinnerV2 {
   animation: SpinnerV2-rotate 2s linear infinite;
 }
 
 .SpinnerV2__Path {
-  stroke: $color-gray-15;
+  stroke: variables.$color-gray-15;
   stroke-linecap: round;
   animation: SpinnerV2-dash 1.5s ease-in-out infinite;
 }

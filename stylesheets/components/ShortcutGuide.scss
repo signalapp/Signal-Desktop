@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-shortcut-guide {
   border-radius: 4px;
   padding: 16px;
@@ -12,18 +15,18 @@
   display: flex;
   flex-direction: column;
 
-  @include popper-shadow;
+  @include mixins.popper-shadow;
 
-  @include light-theme {
-    color: $color-gray-90;
-    background-color: $color-white;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    color: $color-gray-05;
-    background-color: $color-gray-75;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
+    background-color: variables.$color-gray-75;
 
     ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-75;
+      border: 2px solid variables.$color-gray-75;
     }
   }
 }
@@ -37,38 +40,48 @@
 }
 
 .module-shortcut-guide__header-text {
-  @include font-title-2;
+  @include mixins.font-title-2;
 
   flex-grow: 1;
 }
 .module-shortcut-guide__header-close {
-  @include button-reset;
-
-  height: 24px;
-  width: 24px;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
+  @include mixins.button-reset;
+  & {
+    height: 24px;
+    width: 24px;
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-05);
+
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/x/x.svg',
+      variables.$color-gray-60
+    );
+  }
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/x/x.svg',
+      variables.$color-gray-05
+    );
   }
 
   &:focus {
-    @include keyboard-mode {
-      @include color-svg('../images/icons/v3/x/x.svg', $color-ultramarine);
-    }
-    @include dark-keyboard-mode {
-      @include color-svg(
+    @include mixins.keyboard-mode {
+      @include mixins.color-svg(
         '../images/icons/v3/x/x.svg',
-        $color-ultramarine-light
+        variables.$color-ultramarine
+      );
+    }
+    @include mixins.dark-keyboard-mode {
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-ultramarine-light
       );
     }
   }
 }
 
 .module-shortcut-guide__section-header {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 
   margin-bottom: 8px;
 }
@@ -95,19 +108,19 @@
   outline: none;
 
   &:focus {
-    @include keyboard-mode {
-      background-color: $color-gray-05;
+    @include mixins.keyboard-mode {
+      background-color: variables.$color-gray-05;
     }
-    @include dark-keyboard-mode {
-      background-color: $color-gray-90;
+    @include mixins.dark-keyboard-mode {
+      background-color: variables.$color-gray-90;
     }
   }
 
-  @include light-theme {
-    border-bottom: 1px solid $color-gray-05;
+  @include mixins.light-theme {
+    border-bottom: 1px solid variables.$color-gray-05;
   }
-  @include dark-theme {
-    border-bottom: 1px solid $color-gray-90;
+  @include mixins.dark-theme {
+    border-bottom: 1px solid variables.$color-gray-90;
   }
 }
 
@@ -137,11 +150,11 @@
   height: 30px;
   text-align: center;
 
-  @include light-theme {
-    border: 1px solid $color-gray-15;
+  @include mixins.light-theme {
+    border: 1px solid variables.$color-gray-15;
   }
-  @include dark-theme {
-    border: 1px solid $color-gray-90;
+  @include mixins.dark-theme {
+    border: 1px solid variables.$color-gray-90;
   }
 }
 
@@ -164,8 +177,8 @@
   flex-direction: row;
   align-items: center;
 
-  background-color: $color-black-alpha-40;
-  z-index: $z-index-above-context-menu;
+  background-color: variables.$color-black-alpha-40;
+  z-index: variables.$z-index-above-context-menu;
 }
 
 .module-shortcut-guide-container {

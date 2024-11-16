@@ -1,18 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-.module-ContactPills {
-  @include smooth-scroll;
+@use '../mixins';
 
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-  max-height: 88px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  padding-block: 4px;
-  padding-inline: 16px;
-  gap: 8px 12px;
+.module-ContactPills {
+  @include mixins.smooth-scroll;
+  & {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    max-height: 88px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-block: 4px;
+    padding-inline: 16px;
+    gap: 8px 12px;
+  }
 
   .module-ContactPill {
     max-width: calc(

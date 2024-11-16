@@ -1,6 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .TextAttachment {
   max-height: 100%;
   max-width: 100%;
@@ -69,7 +72,7 @@
 
   &__preview {
     align-items: center;
-    background: $color-black-alpha-40;
+    background: variables.$color-black-alpha-40;
     border-radius: 28px;
     display: flex;
     flex-direction: row;
@@ -82,19 +85,19 @@
     }
 
     &__location {
-      color: $color-white;
+      color: variables.$color-white;
       font: bold 22px Inter;
       max-width: 422px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
 
-      @include dark-theme {
-        color: $color-white;
+      @include mixins.dark-theme {
+        color: variables.$color-white;
       }
 
       .TextAttachment__preview-container--large & {
-        color: $color-white-alpha-60;
+        color: variables.$color-white-alpha-60;
         font: 18px Inter;
         max-width: 352px;
       }
@@ -103,7 +106,7 @@
     &__remove {
       align-items: center;
       backdrop-filter: blur(26px);
-      background: $color-black-alpha-40;
+      background: variables.$color-black-alpha-40;
       border-radius: 100%;
       display: flex;
       height: 48px;
@@ -112,13 +115,18 @@
       inset-inline-end: -16px;
       top: -16px;
       width: 48px;
-      z-index: $z-index-base;
+      z-index: variables.$z-index-base;
 
       button {
-        @include button-reset;
-        height: 24px;
-        width: 24px;
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+        @include mixins.button-reset;
+        & {
+          height: 24px;
+          width: 24px;
+        }
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-gray-15
+        );
       }
     }
 
@@ -149,21 +157,21 @@
     &__title {
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 3;
-      color: $color-white;
+      color: variables.$color-white;
       display: -webkit-box;
       font: bold 22px Inter;
       overflow: hidden;
 
-      @include dark-theme {
-        color: $color-white;
+      @include mixins.dark-theme {
+        color: variables.$color-white;
       }
     }
 
     &__tooltip {
       align-items: center;
-      background: $color-black-alpha-90;
+      background: variables.$color-black-alpha-90;
       border-radius: 12px;
-      color: $color-white;
+      color: variables.$color-white;
       display: flex;
       font-size: 13px;
       font-weight: 400;
@@ -173,7 +181,7 @@
       padding: 12px;
       position: absolute;
       text-decoration: none;
-      z-index: $z-index-above-base;
+      z-index: variables.$z-index-above-base;
 
       &::after {
         border-color: black transparent transparent transparent;
@@ -200,12 +208,14 @@
       }
 
       &__arrow {
-        @include color-svg(
+        @include mixins.color-svg(
           '../images/icons/v3/chevron/chevron-right.svg',
-          $color-white
+          variables.$color-white
         );
-        height: 24px;
-        width: 24px;
+        & {
+          height: 24px;
+          width: 24px;
+        }
       }
     }
   }

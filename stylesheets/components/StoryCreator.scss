@@ -1,14 +1,20 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .StoryCreator {
   $tools-height: 44px;
 
   @mixin svg($icon) {
-    @include color-svg('../images/icons/#{$icon}', $color-white);
+    @include mixins.color-svg(
+      '../images/icons/#{$icon}',
+      variables.$color-white
+    );
   }
 
-  background: $color-gray-95;
+  background: variables.$color-gray-95;
   display: flex;
   flex-direction: column;
   width: 100vw;
@@ -17,7 +23,7 @@
   position: absolute;
   top: 0;
   user-select: none;
-  z-index: $z-index-popup-overlay;
+  z-index: variables.$z-index-popup-overlay;
 
   &__container {
     display: flex;
@@ -54,16 +60,18 @@
   }
 
   &__control {
-    @include button-reset;
-    align-items: center;
-    border-radius: 32px;
-    display: inline-flex;
-    height: 32px;
-    justify-content: center;
-    margin-block: 0;
-    margin-inline: 15px;
-    opacity: 1;
-    width: 32px;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      border-radius: 32px;
+      display: inline-flex;
+      height: 32px;
+      justify-content: center;
+      margin-block: 0;
+      margin-inline: 15px;
+      opacity: 1;
+      width: 32px;
+    }
 
     &::after {
       content: ' ';
@@ -72,16 +80,22 @@
     }
 
     &--link::after {
-      @include color-svg('../images/icons/v3/link/link.svg', $color-white);
+      @include mixins.color-svg(
+        '../images/icons/v3/link/link.svg',
+        variables.$color-white
+      );
     }
 
     &--text::after {
-      @include color-svg('../images/icons/v2/text-24.svg', $color-white);
+      @include mixins.color-svg(
+        '../images/icons/v2/text-24.svg',
+        variables.$color-white
+      );
     }
 
     &--bg {
-      @include rounded-corners;
-      border: 1.5px solid $color-white;
+      @include mixins.rounded-corners;
+      border: 1.5px solid variables.$color-white;
       display: block;
       height: 24px;
       padding: 2.5px;
@@ -97,18 +111,18 @@
     }
 
     &--selected {
-      background-color: $color-white;
+      background-color: variables.$color-white;
 
       &::after {
-        background-color: $color-black;
+        background-color: variables.$color-black;
       }
     }
 
     &:hover {
-      background-color: $color-gray-80;
+      background-color: variables.$color-gray-80;
 
       &::after {
-        background-color: $color-white;
+        background-color: variables.$color-white;
       }
     }
   }
@@ -136,9 +150,9 @@
 
   &__tools {
     align-items: center;
-    background-color: $color-gray-90;
+    background-color: variables.$color-gray-90;
     border-radius: 10px;
-    color: $color-white;
+    color: variables.$color-white;
     display: flex;
     height: $tools-height;
     justify-content: center;
@@ -154,15 +168,19 @@
     &__button {
       @mixin icon($icon) {
         @include svg($icon);
-        height: 20px;
-        width: 20px;
-        border-radius: 0;
+        & {
+          height: 20px;
+          width: 20px;
+          border-radius: 0;
+        }
       }
 
-      @include button-reset;
-      margin-block: 0;
-      margin-inline: 8px;
-      padding: 8px;
+      @include mixins.button-reset;
+      & {
+        margin-block: 0;
+        margin-inline: 8px;
+        padding: 8px;
+      }
 
       &--bg {
         @include icon('v2/text-effect-on-24.svg');
@@ -210,21 +228,23 @@
   }
 
   &__bg {
-    @include button-reset;
-    @include rounded-corners;
+    @include mixins.button-reset;
+    & {
+      @include mixins.rounded-corners;
 
-    border: 2px solid transparent;
-    height: 24px;
-    margin: 4px;
-    width: 24px;
+      border: 2px solid transparent;
+      height: 24px;
+      margin: 4px;
+      width: 24px;
+    }
 
     &--selected {
-      border: 2px solid $color-white;
+      border: 2px solid variables.$color-white;
     }
   }
 
   &__popper {
-    background: $color-gray-80;
+    background: variables.$color-gray-80;
     border-radius: 10px;
     margin-bottom: 18px;
     padding: 8px;
@@ -233,8 +253,8 @@
     &__arrow {
       border-inline-start: 14px solid transparent;
       border-inline-end: 14px solid transparent;
-      border-top: 14px solid $color-gray-80;
-      @include position-absolute-center-x;
+      border-top: 14px solid variables.$color-gray-80;
+      @include mixins.position-absolute-center-x;
       bottom: -14px;
       height: 0;
       width: 0;
@@ -271,7 +291,7 @@
   }
 
   &__link-preview {
-    background: $color-black-alpha-40;
+    background: variables.$color-black-alpha-40;
     border-radius: 16px;
     display: flex;
     padding: 14px;
@@ -293,29 +313,34 @@
     &__title {
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
-      @include font-body-1-bold;
-      color: $color-white;
+      @include mixins.font-body-1-bold;
+      color: variables.$color-white;
       display: -webkit-box;
       overflow: hidden;
       user-select: none;
     }
 
     &__location {
-      @include font-subtitle;
-      color: $color-white-alpha-60;
+      @include mixins.font-subtitle;
+      color: variables.$color-white-alpha-60;
     }
   }
 
   &__link-preview-empty {
     align-items: center;
-    color: $color-gray-45;
+    color: variables.$color-gray-45;
     display: flex;
     flex-direction: column;
 
     &__icon {
-      @include color-svg('../images/icons/v3/link/link.svg', $color-gray-45);
-      height: 20px;
-      width: 20px;
+      @include mixins.color-svg(
+        '../images/icons/v3/link/link.svg',
+        variables.$color-gray-45
+      );
+      & {
+        height: 20px;
+        width: 20px;
+      }
     }
   }
 

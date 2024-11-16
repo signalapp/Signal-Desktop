@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .RecordingComposer {
   display: flex;
   align-items: center;
@@ -19,11 +22,11 @@
     padding-inline: 12px;
     overflow: hidden;
 
-    @include light-theme {
-      background: $color-gray-05;
+    @include mixins.light-theme {
+      background: variables.$color-gray-05;
     }
-    @include dark-theme {
-      background: $color-gray-75;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-75;
     }
   }
 

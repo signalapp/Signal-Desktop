@@ -1,11 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+
 .module-InstallScreenErrorStep {
-  @include install-screen;
-  flex-direction: column;
-  padding-inline: 2rem;
-  text-align: center;
+  @include mixins.install-screen;
+  & {
+    flex-direction: column;
+    padding-inline: 2rem;
+    text-align: center;
+  }
 
   &__buttons {
     margin-top: 1rem;

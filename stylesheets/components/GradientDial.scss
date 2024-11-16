@@ -1,10 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .GradientDial {
   &__container {
     height: 100%;
-    @include position-absolute-center;
+    @include mixins.position-absolute-center;
     width: 100%;
   }
 
@@ -17,8 +20,8 @@
     }
 
     &--node {
-      background: $color-white;
-      border: 1px solid $color-black-alpha-20;
+      background: variables.$color-white;
+      border: 1px solid variables.$color-black-alpha-20;
       height: 100%;
       height: 1000px;
       inset-inline-start: 50%;
@@ -30,20 +33,22 @@
   }
 
   &__knob {
-    @include color-bubble(42px);
-    box-shadow: 0 0 4px $color-black-alpha-20;
-    cursor: move;
-    margin-inline-start: -20px;
-    margin-top: -20px;
-    padding: 2px;
-    position: absolute;
-    z-index: $z-index-base;
+    @include mixins.color-bubble(42px);
+    & {
+      box-shadow: 0 0 4px variables.$color-black-alpha-20;
+      cursor: move;
+      margin-inline-start: -20px;
+      margin-top: -20px;
+      padding: 2px;
+      position: absolute;
+      z-index: variables.$z-index-base;
+    }
 
     &--selected {
-      border-color: $color-gray-75;
+      border-color: variables.$color-gray-75;
 
-      @include dark-theme {
-        border-color: $color-white;
+      @include mixins.dark-theme {
+        border-color: variables.$color-white;
       }
     }
 
@@ -51,9 +56,9 @@
       outline: none;
     }
 
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &:focus {
-        border-color: $color-ultramarine;
+        border-color: variables.$color-ultramarine;
         outline: none;
       }
     }

@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .ComposeStepButton {
   &__icon {
     display: flex;
@@ -11,11 +14,11 @@
     height: 32px;
     border-radius: 16px;
 
-    @include light-theme {
-      background-color: $color-black-alpha-06;
+    @include mixins.light-theme {
+      background-color: variables.$color-black-alpha-06;
     }
-    @include dark-theme {
-      background-color: $color-white-alpha-12;
+    @include mixins.dark-theme {
+      background-color: variables.$color-white-alpha-12;
     }
 
     &::before {
@@ -26,11 +29,11 @@
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center;
 
-      @include light-theme {
-        background-color: $color-black;
+      @include mixins.light-theme {
+        background-color: variables.$color-black;
       }
-      @include dark-theme {
-        background-color: $color-gray-05;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-05;
       }
     }
 

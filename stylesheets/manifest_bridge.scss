@@ -3,7 +3,7 @@
 
 // This file acts as a bridge to allow BEM modules to work in the newer CSS
 // modules development model
-@import 'variables';
-@import 'mixins';
-@import 'modules';
-@import 'titlebar';
+@use 'variables';
+@use 'mixins';
+@use 'modules';
+@use 'titlebar';
