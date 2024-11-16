@@ -45,6 +45,14 @@ export const getRingingCall = (
       return false;
     }
 
+    if (
+      activeCallState?.state === 'Active' &&
+      activeCallState?.outgoingRing &&
+      call.callState === CallState.Prering
+    ) {
+      return true;
+    }
+
     return call.callState === CallState.Ringing && call.callEndedReason == null;
   });
 
