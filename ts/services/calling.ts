@@ -1479,8 +1479,8 @@ export class CallingClass {
           endedReason,
         });
       },
-      onSpeechEvent: (_groupCall: GroupCall, event: SpeechEvent) => {
-        log.info('GroupCall#onSpeechEvent', event);
+      onSpeechEvent: (_groupCall: GroupCall, _event: SpeechEvent) => {
+        // Implementation to come later
       },
     };
   }
