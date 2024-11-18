@@ -33,6 +33,7 @@ import { DAY } from '../util/durations';
 import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 import type { ReencryptionInfo } from '../AttachmentCrypto';
+import { redactGenericText } from '../util/privacy';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -1237,4 +1238,12 @@ export function isAttachmentLocallySaved(
   attachment: AttachmentType
 ): attachment is LocallySavedAttachment {
   return Boolean(attachment.path);
+}
+
+export function getAttachmentIdForLogging(attachment: AttachmentType): string {
+  const { digest } = attachment;
+  if (typeof digest === 'string') {
+    return redactGenericText(digest);
+  }
+  return '[MissingDigest]';
 }
