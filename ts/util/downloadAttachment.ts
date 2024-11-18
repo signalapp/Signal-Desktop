@@ -5,11 +5,11 @@ import {
   type AttachmentType,
   mightBeOnBackupTier,
   AttachmentVariant,
+  getAttachmentIdForLogging,
 } from '../types/Attachment';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
 import { MediaTier } from '../types/AttachmentDownload';
 import * as log from '../logging/log';
-import { redactGenericText } from './privacy';
 import { HTTPError } from '../textsecure/Errors';
 import { toLogFormat } from '../types/errors';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
@@ -25,10 +25,10 @@ export async function downloadAttachment({
   variant?: AttachmentVariant;
   dependencies?: { downloadAttachmentFromServer: typeof doDownloadAttachment };
 }): Promise<ReencryptedAttachmentV2> {
-  const redactedDigest = redactGenericText(attachment.digest ?? '');
+  const attachmentId = getAttachmentIdForLogging(attachment);
   const variantForLogging =
     variant !== AttachmentVariant.Default ? `[${variant}]` : '';
-  const dataId = `${redactedDigest}${variantForLogging}`;
+  const dataId = `${attachmentId}${variantForLogging}`;
   const logId = `downloadAttachmentUtil(${dataId})`;
 
   const { server } = window.textsecure;

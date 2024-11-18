@@ -17,11 +17,11 @@ import {
   hasAllOriginalEncryptionInfo,
   isReencryptableToSameDigest,
   isReencryptableWithNewEncryptionInfo,
+  getAttachmentIdForLogging,
 } from '../types/Attachment';
 import { strictAssert } from './assert';
 import * as logging from '../logging/log';
 import { fromBase64, toBase64 } from '../Bytes';
-import { redactGenericText } from './privacy';
 import { toLogFormat } from '../types/errors';
 
 /**
@@ -37,7 +37,6 @@ import { toLogFormat } from '../types/errors';
 export async function ensureAttachmentIsReencryptable(
   attachment: LocallySavedAttachment
 ): Promise<ReencryptableAttachment> {
-  const logId = `ensureAttachmentIsReencryptable(digest=${redactGenericText(attachment.digest ?? '')})`;
   if (isReencryptableToSameDigest(attachment)) {
     return attachment;
   }
@@ -54,6 +53,8 @@ export async function ensureAttachmentIsReencryptable(
         isReencryptableToSameDigest: true,
       };
     } catch (e) {
+      const logId = `ensureAttachmentIsReencryptable(digest=${getAttachmentIdForLogging(attachment)})`;
+
       if (e instanceof ReencryptedDigestMismatchError) {
         logging.info(
           `${logId}: Unable to reencrypt attachment to original digest; must have had non-zero padding`

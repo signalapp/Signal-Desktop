@@ -15,6 +15,7 @@ import type {
 } from './Attachment';
 import {
   captureDimensionsAndScreenshot,
+  getAttachmentIdForLogging,
   isAttachmentLocallySaved,
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
@@ -51,7 +52,6 @@ import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { deepClone } from '../util/deepClone';
 import { LONG_ATTACHMENT_LIMIT } from './Message';
 import * as Bytes from '../Bytes';
-import { redactGenericText } from '../util/privacy';
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';
@@ -249,10 +249,11 @@ export const _withSchemaVersion = ({
       upgradedMessage = await upgrade(message, context);
     } catch (error) {
       logger.error(
-        `Message._withSchemaVersion: error updating message ${message.id}:`,
+        `Message._withSchemaVersion: error updating message ${message.id}, 
+        attempt ${message.schemaMigrationAttempts}:`,
         Errors.toLogFormat(error)
       );
-      return message;
+      throw error;
     }
 
     if (!isValid(upgradedMessage)) {
@@ -646,8 +647,6 @@ const toVersion14 = _withSchemaVersion({
       attachment,
       { logger, ensureAttachmentIsReencryptable, doesAttachmentExist }
     ) => {
-      const logId = `Message2.toVersion14(digest=${redactGenericText(attachment.digest ?? '')})`;
-
       if (!isAttachmentLocallySaved(attachment)) {
         return attachment;
       }
@@ -655,7 +654,9 @@ const toVersion14 = _withSchemaVersion({
       if (!(await doesAttachmentExist(attachment.path))) {
         // Attachments may be missing, e.g. for quote thumbnails that reference messages
         // which have been deleted
-        logger.info(`${logId}: File does not exist`);
+        logger.info(
+          `Message2.toVersion14(id=${getAttachmentIdForLogging(attachment)}: File does not exist`
+        );
         return attachment;
       }
 
@@ -711,8 +712,17 @@ export const upgradeSchema = async (
     deleteOnDisk,
     logger,
     maxVersion = CURRENT_SCHEMA_VERSION,
-  }: ContextType
+  }: ContextType,
+  upgradeOptions: {
+    versions: ReadonlyArray<
+      (
+        message: MessageAttributesType,
+        context: ContextType
+      ) => Promise<MessageAttributesType>
+    >;
+  } = { versions: VERSIONS }
 ): Promise<MessageAttributesType> => {
+  const { versions } = upgradeOptions;
   if (!isFunction(readAttachmentData)) {
     throw new TypeError('context.readAttachmentData is required');
   }
@@ -748,30 +758,45 @@ export const upgradeSchema = async (
   }
 
   let message = rawMessage;
-  for (let index = 0, max = VERSIONS.length; index < max; index += 1) {
+  const startingVersion = message.schemaVersion ?? 0;
+  for (let index = 0, max = versions.length; index < max; index += 1) {
     if (maxVersion < index) {
       break;
     }
 
-    const currentVersion = VERSIONS[index];
-    // We really do want this intra-loop await because this is a chained async action,
-    //   each step dependent on the previous
-    // eslint-disable-next-line no-await-in-loop
-    message = await currentVersion(message, {
-      readAttachmentData,
-      writeNewAttachmentData,
-      makeObjectUrl,
-      revokeObjectUrl,
-      doesAttachmentExist,
-      ensureAttachmentIsReencryptable,
-      getImageDimensions,
-      makeImageThumbnail,
-      makeVideoScreenshot,
-      logger,
-      getRegionCode,
-      writeNewStickerData,
-      deleteOnDisk,
-    });
+    const currentVersion = versions[index];
+    try {
+      // We really do want this intra-loop await because this is a chained async action,
+      //   each step dependent on the previous
+      // eslint-disable-next-line no-await-in-loop
+      message = await currentVersion(message, {
+        readAttachmentData,
+        writeNewAttachmentData,
+        makeObjectUrl,
+        revokeObjectUrl,
+        doesAttachmentExist,
+        ensureAttachmentIsReencryptable,
+        getImageDimensions,
+        makeImageThumbnail,
+        makeVideoScreenshot,
+        logger,
+        getRegionCode,
+        writeNewStickerData,
+        deleteOnDisk,
+      });
+    } catch (e) {
+      // Throw the error if we were unable to upgrade the message at all
+      if (message.schemaVersion === startingVersion) {
+        throw e;
+      } else {
+        // Otherwise, return the message upgraded as far as it could be. On the next
+        // migration attempt, it will fail.
+        logger.error(
+          `Upgraded message from ${startingVersion} -> ${message.schemaVersion}; failed on upgrade to ${index}`
+        );
+        break;
+      }
+    }
   }
 
   return message;
