@@ -5,7 +5,6 @@ import { createCanvas, GlobalFonts, loadImage } from '@napi-rs/canvas';
 import { join } from 'node:path';
 import { mkdir, rm, writeFile } from 'node:fs/promises';
 import { strictAssert } from '../util/assert';
-import { SystemThemeType } from '../types/Util';
 
 const cwd = __dirname;
 const fontsDir = join(cwd, '..', '..', 'fonts');
@@ -25,7 +24,6 @@ type TrayIconValue = number | string | null;
 
 type TrayIconImageRequest = Readonly<{
   size: TrayIconSize;
-  theme: SystemThemeType;
   value: TrayIconValue;
 }>;
 
@@ -38,7 +36,7 @@ type TrayIconVariant = {
   fontOffsetY: number;
   badgeShadowBlur: number;
   badgeShadowOffsetY: number;
-  images: Record<SystemThemeType, string>;
+  image: string;
 };
 
 GlobalFonts.loadFontsFromDir(fontsDir);
@@ -65,10 +63,7 @@ const Variants: Record<TrayIconSize, TrayIconVariant> = {
     fontOffsetY: 0,
     badgeShadowBlur: 0,
     badgeShadowOffsetY: 0,
-    images: {
-      light: join(trayIconsBaseDir, 'signal-tray-icon-16x16-light-base.png'),
-      dark: join(trayIconsBaseDir, 'signal-tray-icon-16x16-dark-base.png'),
-    },
+    image: join(trayIconsBaseDir, 'signal-tray-icon-16x16-base.png'),
   },
   [TrayIconSize.Size32]: {
     size: 32,
@@ -79,10 +74,7 @@ const Variants: Record<TrayIconSize, TrayIconVariant> = {
     fontOffsetY: 0,
     badgeShadowBlur: 1,
     badgeShadowOffsetY: 1,
-    images: {
-      light: join(trayIconsBaseDir, 'signal-tray-icon-32x32-light-base.png'),
-      dark: join(trayIconsBaseDir, 'signal-tray-icon-32x32-dark-base.png'),
-    },
+    image: join(trayIconsBaseDir, 'signal-tray-icon-32x32-base.png'),
   },
   [TrayIconSize.Size48]: {
     size: 48,
@@ -93,10 +85,7 @@ const Variants: Record<TrayIconSize, TrayIconVariant> = {
     fontOffsetY: -1,
     badgeShadowBlur: 1,
     badgeShadowOffsetY: 1,
-    images: {
-      light: join(trayIconsBaseDir, 'signal-tray-icon-48x48-light-base.png'),
-      dark: join(trayIconsBaseDir, 'signal-tray-icon-48x48-dark-base.png'),
-    },
+    image: join(trayIconsBaseDir, 'signal-tray-icon-48x48-base.png'),
   },
   [TrayIconSize.Size256]: {
     size: 256,
@@ -107,10 +96,7 @@ const Variants: Record<TrayIconSize, TrayIconVariant> = {
     badgePadding: 32,
     badgeShadowBlur: 8,
     badgeShadowOffsetY: 8,
-    images: {
-      light: join(trayIconsBaseDir, 'signal-tray-icon-256x256-light-base.png'),
-      dark: join(trayIconsBaseDir, 'signal-tray-icon-256x256-dark-base.png'),
-    },
+    image: join(trayIconsBaseDir, 'signal-tray-icon-256x256-base.png'),
   },
 };
 
@@ -152,14 +138,9 @@ async function generateTrayIconImage(
     throw new TypeError(`Invalid variant size (${request.size})`);
   }
 
-  const imagePath = variant.images[request.theme];
-  if (imagePath == null) {
-    throw new TypeError(`Invalid theme (theme: ${request.theme})`);
-  }
-
   const text = trayIconValueToText(request.value, variant);
 
-  const image = await loadImage(imagePath);
+  const image = await loadImage(variant.image);
   const canvas = createCanvas(variant.size, variant.size);
   const context = canvas.getContext('2d');
 
@@ -263,23 +244,21 @@ async function main() {
     const variant = Variants[size];
     const { maxCount } = variant;
     const values = range(1, maxCount + 1);
-    for (const theme of Object.values(SystemThemeType)) {
-      for (const value of values) {
-        requests.push({ size, theme, value });
-      }
+    for (const value of values) {
+      requests.push({ size, value });
     }
   }
 
   await Promise.all(
-    requests.map(async ({ size, theme, value }) => {
+    requests.map(async ({ size, value }) => {
       const variant = Variants[size];
       const text = trayIconValueToText(value, variant);
 
       const fileDir = join(trayIconsAlertsDir);
-      const fileName = `signal-tray-icon-${size}x${size}-${theme}-alert-${text}.png`;
+      const fileName = `signal-tray-icon-${size}x${size}-alert-${text}.png`;
       const filePath = join(fileDir, fileName);
 
-      const fileContents = await generateTrayIconImage({ size, theme, value });
+      const fileContents = await generateTrayIconImage({ size, value });
 
       console.log(`Writing "${fileName}"`);
       await mkdir(fileDir, { recursive: true });
