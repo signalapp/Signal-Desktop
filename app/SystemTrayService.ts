@@ -8,7 +8,6 @@ import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
 import * as log from '../ts/logging/log';
 import type { LocalizerType } from '../ts/types/I18N';
-import { SystemThemeType } from '../ts/types/Util';
 
 export type SystemTrayServiceOptionsType = Readonly<{
   i18n: LocalizerType;
@@ -276,23 +275,19 @@ function getVariantForScaleFactor(scaleFactor: number) {
   return match ?? Variant.Size32;
 }
 
-function getTrayIconImagePath(
-  size: number,
-  theme: SystemThemeType,
-  unreadCount: number
-): string {
+function getTrayIconImagePath(size: number, unreadCount: number): string {
   let dirName: string;
   let fileName: string;
 
   if (unreadCount === 0) {
     dirName = 'base';
-    fileName = `signal-tray-icon-${size}x${size}-${theme}-base.png`;
+    fileName = `signal-tray-icon-${size}x${size}-base.png`;
   } else if (unreadCount < 10) {
     dirName = 'alert';
-    fileName = `signal-tray-icon-${size}x${size}-${theme}-alert-${unreadCount}.png`;
+    fileName = `signal-tray-icon-${size}x${size}-alert-${unreadCount}.png`;
   } else {
     dirName = 'alert';
-    fileName = `signal-tray-icon-${size}x${size}-${theme}-alert-9+.png`;
+    fileName = `signal-tray-icon-${size}x${size}-alert-9+.png`;
   }
 
   const iconPath = join(
@@ -310,11 +305,7 @@ function getTrayIconImagePath(
 const TrayIconCache = new Map<string, NativeImage>();
 
 function getIcon(unreadCount: number) {
-  const theme = nativeTheme.shouldUseDarkColors
-    ? SystemThemeType.dark
-    : SystemThemeType.light;
-
-  const cacheKey = `${theme}-${unreadCount}`;
+  const cacheKey = `${Math.min(unreadCount, 10)}`;
 
   const cached = TrayIconCache.get(cacheKey);
   if (cached != null) {
@@ -331,7 +322,7 @@ function getIcon(unreadCount: number) {
     // We choose the best icon based on the highest display scale factor.
     const scaleFactor = getDisplaysMaxScaleFactor();
     const variant = getVariantForScaleFactor(scaleFactor);
-    const iconPath = getTrayIconImagePath(variant.size, theme, unreadCount);
+    const iconPath = getTrayIconImagePath(variant.size, unreadCount);
     const buffer = readFileSync(iconPath);
     image = nativeImage.createFromBuffer(buffer, {
       scaleFactor: 1.0, // Must be 1.0 for Linux
@@ -343,7 +334,7 @@ function getIcon(unreadCount: number) {
     image = nativeImage.createEmpty();
 
     for (const variant of Variants) {
-      const iconPath = getTrayIconImagePath(variant.size, theme, unreadCount);
+      const iconPath = getTrayIconImagePath(variant.size, unreadCount);
       const buffer = readFileSync(iconPath);
       image.addRepresentation({
         buffer,
