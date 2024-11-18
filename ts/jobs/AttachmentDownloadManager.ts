@@ -192,6 +192,16 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       source,
       urgency = AttachmentDownloadUrgency.STANDARD,
     } = newJobData;
+
+    const logId = `AttachmentDownloadManager/addJob(${sentAt}.${attachmentType})`;
+
+    if (attachment.error && source === AttachmentDownloadSource.BACKUP_IMPORT) {
+      log.info(
+        `${logId}: skipping InvalidAttachmentLocator from backup import`
+      );
+      return attachment;
+    }
+
     const parseResult = safeParsePartial(coreAttachmentDownloadJobSchema, {
       messageId,
       receivedAt,
@@ -213,10 +223,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     });
 
     if (!parseResult.success) {
-      log.error(
-        `AttachmentDownloadManager/addJob(${sentAt}.${attachmentType}): invalid data`,
-        parseResult.error
-      );
+      log.error(`${logId}: invalid data`, parseResult.error);
       return attachment;
     }
 

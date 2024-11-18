@@ -20,7 +20,7 @@ import {
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
-import type { ServiceIdString } from '../../types/ServiceId';
+import type { AciString, ServiceIdString } from '../../types/ServiceId';
 import {
   fromAciObject,
   fromPniObject,
@@ -571,7 +571,7 @@ export class BackupImportStream extends Writable {
         );
       }
     }
-    await Promise.all(attachmentDownloadJobPromises);
+    await Promise.allSettled(attachmentDownloadJobPromises);
     await AttachmentDownloadManager.saveBatchedJobs();
   }
 
@@ -1363,6 +1363,7 @@ export class BackupImportStream extends Writable {
         sentAt -= 1;
         additionalMessages.push({
           ...attributes,
+          ...generateMessageId(incrementMessageCounter()),
           sent_at: sentAt,
           ...additional,
         });
@@ -2776,12 +2777,12 @@ export class BackupImportStream extends Writable {
       }
       if (update.groupExpirationTimerUpdate) {
         const { updaterAci, expiresInMs } = update.groupExpirationTimerUpdate;
-        if (!updaterAci || Bytes.isEmpty(updaterAci)) {
-          throw new Error(
-            `${logId}: groupExpirationTimerUpdate was missing updaterAci!`
-          );
+        let sourceServiceId: AciString | undefined;
+
+        if (Bytes.isNotEmpty(updaterAci)) {
+          sourceServiceId = fromAciObject(Aci.fromUuidBytes(updaterAci));
         }
-        const sourceServiceId = fromAciObject(Aci.fromUuidBytes(updaterAci));
+
         const expireTimer = expiresInMs
           ? DurationInSeconds.fromMillis(expiresInMs.toNumber())
           : undefined;
