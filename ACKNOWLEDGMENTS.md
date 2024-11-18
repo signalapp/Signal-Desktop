@@ -12011,7 +12011,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-core 0.1.0, mrp 2.48.6, protobuf 2.48.6, ringrtc 2.48.6, regex-aot 0.1.0, partial-default-derive 0.1.0
+## libsignal-core 0.1.0, mrp 2.48.7, protobuf 2.48.7, ringrtc 2.48.7, regex-aot 0.1.0, partial-default-derive 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -13024,7 +13024,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bitflags 1.3.2, bitflags 2.6.0, log 0.4.22, regex-automata 0.4.7, regex-syntax 0.8.4, regex 1.10.5
+## bitflags 1.3.2, bitflags 2.6.0, log 0.4.22, regex-automata 0.4.8, regex-syntax 0.8.5, regex 1.11.1
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -16255,65 +16255,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-```
-
-## libevent
-
-```
-Libevent is available for use under the following license, commonly known
-as the 3-clause (or "modified") BSD license:
-
-==============================
-Copyright (c) 2000-2007 Niels Provos <provos@citi.umich.edu>
-Copyright (c) 2007-2010 Niels Provos and Nick Mathewson
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-1. Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
-3. The name of the author may not be used to endorse or promote products
-   derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-==============================
-
-Portions of Libevent are based on works by others, also made available by
-them under the three-clause BSD license above.  The copyright notices are
-available in the corresponding source files; the license is as above.  Here's
-a list:
-
-log.c:
-   Copyright (c) 2000 Dug Song <dugsong@monkey.org>
-   Copyright (c) 1993 The Regents of the University of California.
-
-strlcpy.c:
-   Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
-
-win32.c:
-   Copyright (c) 2003 Michael A. Davis <mike@datanerds.net>
-
-evport.c:
-   Copyright (c) 2007 Sun Microsystems
-
-min_heap.h:
-   Copyright (c) 2006 Maxim Yegorushkin <maxim.yegorushkin@gmail.com>
-
-tree.h:
-   Copyright 2002 Niels Provos <provos@citi.umich.edu>
 
 ```
 
