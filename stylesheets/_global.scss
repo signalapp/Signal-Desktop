@@ -413,11 +413,14 @@ $loading-height: 16px;
 
   font-size: 10pt;
   input {
-    margin-top: 1em;
     font-size: 12pt;
     border: 2px solid variables.$color-ultramarine;
     padding: 0.5em;
     text-align: center;
+  }
+
+  .phone-input .number {
+    margin-top: 1em;
     width: 20em;
   }
 

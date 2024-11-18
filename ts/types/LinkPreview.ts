@@ -46,7 +46,7 @@ export type AddLinkPreviewOptionsType = Readonly<{
   disableFetch?: boolean;
 }>;
 
-const linkify = LinkifyIt();
+const linkify = new LinkifyIt();
 
 export function isValidLink(maybeUrl: string | undefined): boolean {
   if (maybeUrl == null) {

@@ -6,6 +6,7 @@ import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as moment from 'moment';
+// @ts-expect-error -- no types
 import 'moment/min/locales.min';
 
 import { textsecure } from '../../textsecure';
