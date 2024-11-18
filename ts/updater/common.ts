@@ -12,7 +12,7 @@ import { extname, join, normalize } from 'path';
 import config from 'config';
 import type { ParserConfiguration } from 'dashdash';
 import { createParser } from 'dashdash';
-import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
+import { FAILSAFE_SCHEMA, load as loadYaml } from 'js-yaml';
 import { gt, gte, lt } from 'semver';
 import got from 'got';
 import { v4 as getGuid } from 'uuid';
@@ -996,7 +996,8 @@ function getSize(info: JSONUpdateSchema, fileName: string): number {
 }
 
 export function parseYaml(yaml: string): JSONUpdateSchema {
-  return safeLoad(yaml, { schema: FAILSAFE_SCHEMA, json: true });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return loadYaml(yaml, { schema: FAILSAFE_SCHEMA, json: true }) as any;
 }
 
 async function getUpdateYaml(): Promise<string> {

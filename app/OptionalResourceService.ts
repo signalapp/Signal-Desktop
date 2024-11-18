@@ -5,7 +5,7 @@ import { join, dirname } from 'node:path';
 import { mkdir, readFile, readdir, writeFile, unlink } from 'node:fs/promises';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { ipcMain } from 'electron';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 import got from 'got';
 import PQueue from 'p-queue';
 
@@ -31,10 +31,10 @@ const MAX_CACHE_SIZE = 50 * 1024 * 1024;
 export class OptionalResourceService {
   private maybeDeclaration: OptionalResourcesDictType | undefined;
 
-  private readonly cache = new LRU<string, Buffer>({
-    max: MAX_CACHE_SIZE,
+  private readonly cache = new LRUCache<string, Buffer>({
+    maxSize: MAX_CACHE_SIZE,
 
-    length: buf => buf.length,
+    sizeCalculation: buf => buf.length,
   });
 
   private readonly fileQueues = new Map<string, PQueue>();

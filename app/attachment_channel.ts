@@ -8,7 +8,7 @@ import {
   inferChunkSize,
 } from '@signalapp/libsignal-client/dist/incremental_mac';
 import { ipcMain, protocol } from 'electron';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 import { randomBytes } from 'node:crypto';
 import { once } from 'node:events';
 import { createReadStream, rmSync } from 'node:fs';
@@ -89,7 +89,7 @@ type DigestLRUEntryType = Readonly<{
   digest: Buffer;
 }>;
 
-const digestLRU = new LRU<string, DigestLRUEntryType>({
+const digestLRU = new LRUCache<string, DigestLRUEntryType>({
   // The size of each entry is roughgly 8kb per digest + 32 bytes per key. We
   // mostly need this cache for range requests, so keep it low.
   max: 100,

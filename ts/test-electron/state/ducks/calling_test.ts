@@ -1873,6 +1873,7 @@ describe('calling duck', () => {
         ]);
 
         const secondDate = new Date(NOW.getTime() + 1234);
+        this.clock.restore();
         this.sandbox.useFakeTimers({ now: secondDate });
         const secondAction = getAction({
           callMode: CallMode.Group,

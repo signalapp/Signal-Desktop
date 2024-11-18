@@ -359,7 +359,7 @@ export function getBytesForPeerId(callHistory: CallHistoryDetails): Uint8Array {
 
 export function getCallIdForProto(
   callHistory: CallHistoryDetails
-): Long.Long | undefined {
+): Long | undefined {
   try {
     return Long.fromString(callHistory.callId);
   } catch (error) {

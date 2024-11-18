@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 
 import type {
   AddressableAttachmentType,
@@ -20,7 +20,7 @@ let cleanupTimeout: NodeJS.Timeout | undefined;
 // Max number of orphaned attachments before we schedule a cleanup.
 const MAX_ORPHANED_COUNT = 10000;
 
-const lru = new LRU<string, Promise<LocalAttachmentV2Type>>({
+const lru = new LRUCache<string, Promise<LocalAttachmentV2Type>>({
   max: 1000,
 });
 
