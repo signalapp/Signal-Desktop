@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import type { Middleware } from 'redux';
+import type { Middleware, UnknownAction } from 'redux';
 
 import {
   COLORS_CHANGED,
@@ -13,7 +13,9 @@ import {
 export const dispatchItemsMiddleware: Middleware =
   ({ getState }) =>
   next =>
-  action => {
+  _action => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const action = _action as any as UnknownAction;
     const result = next(action);
     if (
       action.type === 'items/PUT' ||

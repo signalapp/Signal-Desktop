@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+// @ts-expect-error -- no types
 import 'react-quill/dist/quill.core.css';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';

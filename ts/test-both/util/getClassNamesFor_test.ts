@@ -18,6 +18,7 @@ describe('getClassNamesFor', () => {
   it('does not add anything if there is no modifier', () => {
     const f = getClassNamesFor('module');
     assert.equal(f(), '');
+    // @ts-expect-error -- test case
     assert.equal(f(undefined && '__modifier'), '');
   });
 

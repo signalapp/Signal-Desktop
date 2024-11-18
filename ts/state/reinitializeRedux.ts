@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AnyAction } from 'redux';
+import type { UnknownAction } from 'redux';
 
 import * as log from '../logging/log';
 import { getInitialState } from './getInitialState';
@@ -19,7 +19,7 @@ export function reinitializeRedux(options: ReduxInitData): void {
 
   const resetReducer = (
     state: StateType | undefined,
-    action: AnyAction
+    action: UnknownAction
   ): StateType => {
     if (state == null) {
       log.info(
@@ -51,7 +51,8 @@ export function reinitializeRedux(options: ReduxInitData): void {
   });
 
   log.info(`${logId}: restoring original reducer`);
-  window.reduxStore.replaceReducer(normalReducer);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  window.reduxStore.replaceReducer(normalReducer as any);
 
   log.info(`${logId}: complete!`);
 }

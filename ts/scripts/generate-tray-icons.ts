@@ -181,7 +181,6 @@ async function generateTrayIconImage(
       context.font = font;
       context.textAlign = 'center';
       context.textBaseline = 'middle';
-      // @ts-expect-error Missing types
       context.textRendering = 'optimizeLegibility';
       context.fontKerning = 'normal';
 

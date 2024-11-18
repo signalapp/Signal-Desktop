@@ -40,6 +40,10 @@ const config: StorybookConfig = {
       from: '../node_modules/emoji-datasource-apple/img',
       to: 'node_modules/emoji-datasource-apple/img',
     },
+    {
+      from: '../node_modules/intl-tel-input/build/img',
+      to: 'node_modules/intl-tel-input/build/img',
+    },
   ],
 
   webpackFinal(config) {

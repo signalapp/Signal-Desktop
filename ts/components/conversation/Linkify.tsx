@@ -10,7 +10,7 @@ import { isLinkSneaky, shouldLinkifyMessage } from '../../types/LinkPreview';
 import { splitByEmoji } from '../../util/emoji';
 import { missingCaseError } from '../../util/missingCaseError';
 
-export const linkify = LinkifyIt()
+export const linkify = new LinkifyIt()
   // This is all TLDs in place in 2010, according to [IANA's root zone database][0]
   //   except for those domains marked as [a test domain][1].
   //
