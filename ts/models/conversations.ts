@@ -4679,32 +4679,37 @@ export class ConversationModel extends window.Backbone
       expireTimer = undefined;
     }
 
+    const timerMatchesLocalValue =
+      this.get('expireTimer') === expireTimer ||
+      (!expireTimer && !this.get('expireTimer'));
+
+    const localVersion = this.getExpireTimerVersion();
+
     const logId =
       `updateExpirationTimer(${this.idForLogging()}, ` +
       `${expireTimer || 'disabled'}, version=${version || 0}) ` +
-      `source=${source ?? '?'} reason=${reason}`;
+      `source=${source ?? '?'} localValue=${this.get('expireTimer')} ` +
+      `localVersion=${localVersion}, reason=${reason}`;
 
     if (isSetByOther) {
-      const expireTimerVersion = this.getExpireTimerVersion();
       if (version) {
-        if (expireTimerVersion && version < expireTimerVersion) {
-          log.warn(
-            `${logId}: not updating, local version is ${expireTimerVersion}`
-          );
+        if (localVersion && version < localVersion) {
+          log.warn(`${logId}: not updating, local version is ${localVersion}`);
           return;
         }
-        if (version === expireTimerVersion) {
-          log.warn(`${logId}: expire version glare`);
+
+        if (version === localVersion) {
+          if (!timerMatchesLocalValue) {
+            log.warn(`${logId}: expire version glare`);
+          }
         } else {
           this.set({ expireTimerVersion: version });
           log.info(`${logId}: updating expire version`);
         }
       }
     }
-    if (
-      this.get('expireTimer') === expireTimer ||
-      (!expireTimer && !this.get('expireTimer'))
-    ) {
+
+    if (timerMatchesLocalValue) {
       return;
     }
 
