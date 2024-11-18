@@ -103,3 +103,21 @@ export function SetBySync(args: Props): JSX.Element {
     </>
   );
 }
+
+export function SetByUnknownContact(args: Props): JSX.Element {
+  const props: Props = {
+    ...args,
+    disabled: false,
+    expireTimer: DurationInSeconds.fromHours(1),
+    type: 'fromMember',
+    title: 'Unknown contact',
+  };
+
+  return (
+    <>
+      <TimerNotification {...props} />
+      <div style={{ padding: '1em' }} />
+      <TimerNotification {...props} disabled />
+    </>
+  );
+}
