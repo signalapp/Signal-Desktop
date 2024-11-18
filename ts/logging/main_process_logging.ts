@@ -9,7 +9,7 @@ import { CircularBuffer } from 'cirbuf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain as ipc } from 'electron';
 import readFirstLine from 'firstline';
-import { filter, flatten, map, pick, sortBy } from 'lodash';
+import { filter, flatten, map, noop, pick, sortBy } from 'lodash';
 import {
   createReadStream,
   mkdirSync,
@@ -100,6 +100,8 @@ export async function initialize(
   streams.push({ stream: rotatingStream });
 
   if (isRunningFromConsole) {
+    process.stdout.on('error', noop);
+
     streams.push({
       level: 'debug' as const,
       stream: process.stdout,
