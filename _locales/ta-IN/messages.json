@@ -687,7 +687,7 @@
     "messageformat": "தேடல்"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "படிக்காத சாட்களைத் தேடுங்கள்"
   },
   "icu:clearSearch": {
     "messageformat": "தேடலை நீக்கு"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "படிக்காத சாட்ஸ் எதுவுமில்லை"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "எஸ் எம் எஸ்/எம் எம் எஸ் தொடர்புகள் கிடைக்கவில்லை டெஸ்க்டாப்."
@@ -711,13 +711,13 @@
     "messageformat": "{conversationName}  இல் \"{searchTerm}\" க்கான முடிவுகள் எதுவும் இல்லை"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "படிக்காதவை வடிகட்டப்பட்டுள்ளன"
   },
   "icu:filterByUnreadButtonLabel": {
     "messageformat": "Filter by unread"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "ஃபில்டரை அழி"
   },
   "icu:conversationsHeader": {
     "messageformat": "சாட்ஸ்"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, மற்றும் {others,number}நபர்கள் அழைப்பில் உள்ளனர்} other {{first}, {second}, மற்றும் கூடுதலாக{others,number} நபர்கள் அழைப்பில் உள்ளனர்}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} person is in this call} other {{count,number} people are in this call}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "சிக்னல் {person}-ஐ அழைக்கும்"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal தொழில்நுட்ப சிக்கல்களை எதிர்கொள்கிறது. சேவையை விரைவாக மீட்டெடுக்க நாங்கள் விரைவாக வேலை செய்து வருகிறோம்."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "புதுப்பித்தல் தேவை"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "புதுப்பிக்கப்பட்டது"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "புதுப்பித்தல் தேவை"
@@ -5578,7 +5581,7 @@
     "messageformat": "தேடல்"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "தவறியதன் மூலம் வடிகட்டப்பட்டது"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "தவறவிட்டவை அடிப்படையில் வடிகட்டு"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "தவறிய அழைப்புகள் ஏதும் இல்லை"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "அழைப்பு இணைப்பை உருவாக்கவும்"

@@ -687,7 +687,7 @@
     "messageformat": "Buscar"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Buscar chats sin leer"
   },
   "icu:clearSearch": {
     "messageformat": "Borrar búsqueda"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "No hay chats sin leer"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Tus contactos con solo SMS/MMS no están disponibles en la aplicación de escritorio."
@@ -711,13 +711,13 @@
     "messageformat": "No se encontró «{searchTerm}» en «{conversationName}»."
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Filtrar por no leído"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filtrar por no leído"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Quitar filtro"
   },
   "icu:conversationsHeader": {
     "messageformat": "Chats"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} y {others,number} más están en esta llamada} other {{first}, {second} y {others,number} más están en esta llamada}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} persona está en esta llamada} other {{count,number} personas están en esta llamada}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal llamará a {person}"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal está teniendo dificultades técnicas. Estamos trabajando para restablecer el servicio lo antes posible."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Actualización requerida"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Actualizar"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualización requerida"
@@ -5578,7 +5581,7 @@
     "messageformat": "Buscar"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Filtrar por perdidas"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrar por perdidas"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "No hay llamadas perdidas"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Crear un enlace de llamada"

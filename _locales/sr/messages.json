@@ -687,7 +687,7 @@
     "messageformat": "Претрага"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Претражите непрочитана ћаскања"
   },
   "icu:clearSearch": {
     "messageformat": "Поништи претрагу"
@@ -699,10 +699,10 @@
     "messageformat": "Нема резултата за „{searchTerm}“"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Нема резултата за „{searchTerm}“ у непрочитаним ћаскањима"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Нема непрочитаних ћаскања"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS контакти нису доступни на Desktop-у."
@@ -711,13 +711,13 @@
     "messageformat": "Нема резултата за „{searchTerm}“ у ћаскању {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Филтрирано по непрочитаним"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Филтрирај по непрочитаним"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Уклони филтер"
   },
   "icu:conversationsHeader": {
     "messageformat": "Ћаскања"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {У овом позиву су {first}, {second} и још {others,number} особа} other {У овом позиву су {first}, {second} и још њих {others,number}}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {Укупан број особа у овом позиву: {count,number}} other {Укупан број особа у овом позиву: {count,number}}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal ће позвати корисника {person}"
@@ -3594,7 +3597,7 @@
     "messageformat": "Откажи пренос"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Поруке и информације о ћаскањима заштићене су потпуним шифровањем, укључујући процес синхронизације. <learnMoreLink>Сазнајте више</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Желите ли да откажете пренос?"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal тренутно има техничких проблема. Трудимо се да што пре поново покренемо услугу."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Неопходно је ажурирање апликације"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Да бисте обавили синхронизацију порука, ажурирајте Signal Desktop сада."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Сачувај"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Неопходно је ажурирање апликације"
@@ -5572,13 +5575,13 @@
     "messageformat": "Кликните на <newCallButtonIcon></newCallButtonIcon> да започнете нови гласовни или видео-позив."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Претражите пропуштене позиве"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Тражи"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Филтрирано према пропуштеним позивима"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Филтрирај према пропуштеним позивима"
@@ -5596,10 +5599,10 @@
     "messageformat": "Нема резултата за „{query}“"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Нема резултата за „{query}“ у пропуштеним позивима"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Нема пропуштених позива"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Креирајте линк за позив"
@@ -5774,12 +5777,12 @@
     "messageformat": "У овом ажурирању је исправљена и грешка са одабиром текстуалних емоџија. Хвала, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Нова икона филтера поред поља за претрагу олакшава брзо проналажење непрочитаних ћаскања."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "У овом ажурирању уведена је подршка за нове процесоре у Windows-у, као што је Snapdragon X Elite."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Такође смо исправили грешку у тамној теми у Signal-у када су подешавања оперативног система конфигурисана да користе светлу тему."
   }
 }

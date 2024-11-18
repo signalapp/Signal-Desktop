@@ -687,7 +687,7 @@
     "messageformat": "Ieškoti"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Ieškoti neperskaitytuose pokalbiuose"
   },
   "icu:clearSearch": {
     "messageformat": "Išvalyti paiešką"
@@ -699,10 +699,10 @@
     "messageformat": "„{searchTerm}“ negrąžino jokių rezultatų"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Nėra jokių rezultatų pagal „{searchTerm}“ neperskaitytuose pokalbiuose"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Nėra neskaitytų pokalbių"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS adresatai nėra prieinami Signal Desktop programoje."
@@ -711,13 +711,13 @@
     "messageformat": "Užklausa „{searchTerm}“, pokalbyje {conversationName}, negrąžino jokių rezultatų"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Filtruoti neperskaitytus"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filtruoti neperskaitytus"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Išvalyti filtrą"
   },
   "icu:conversationsHeader": {
     "messageformat": "Pokalbiai"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {Šiame skambutyje yra {first}, {second} ir dar {others,number} žmogus} few {Šiame skambutyje yra {first}, {second} ir dar {others,number} žmonės} many {Šiame skambutyje yra {first}, {second} ir dar {others,number} žmonių} other {Šiame skambutyje yra {first}, {second} ir dar {others,number} žmogus}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} asmuo dalyvauja šiame skambutyje} few {{count,number} asmenys dalyvauja šiame skambutyje} many {{count,number} asmenų dalyvauja šiame skambutyje} other {{count,number} asmenų dalyvauja šiame skambutyje}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal paskambins ir susisieks su {person}"
@@ -3594,7 +3597,7 @@
     "messageformat": "Atšaukti perkėlimą"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Žinutės ir pokalbių informacija yra visiškai užšifruoti, įskaitant ir sinchronizavimo procesą. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Atšaukti perkėlimą?"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal patiria techninius nesklandumus. Mes sunkiai dirbame, kad kaip įmanoma greičiau atkurtume paslaugą."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Reikia atnaujinimo"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Norėdami užbaigti žinučių sinchronizavimą, atnaujinkite „Signal Desktop“ dabar."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Atnaujinti"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Reikia atnaujinimo"
@@ -5572,13 +5575,13 @@
     "messageformat": "Spustelėkite <newCallButtonIcon></newCallButtonIcon> norėdami pradėti naują balso arba vaizdo skambutį."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Ieškoti praleistų skambučių"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Ieškoti"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Filtravimas pagal praleistus"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtruoti pagal praleistus"
@@ -5596,10 +5599,10 @@
     "messageformat": "Paieška „{query}“ be rezultatų"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Nėra jokių rezultatų pagal „{query}“ praleistuose skambučiuose"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nėra praleistų skambučių"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Sukurti skambučio nuorodą"
@@ -5774,12 +5777,12 @@
     "messageformat": "Šiuo naujiniu taip pat ištaisoma klaida pasirenkant tekstą su jaustuku. Ačiū, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Dėl naujos filtro piktogramos šalia paieškos laukelio lengvai ir greitai rasite neskaitytus pokalbius."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Šiuo naujinimu pristatomas naujų „Windows“ procesorių, pvz., „Snapdragon X Elite“, palaikymas."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Taip pat ištaisėme klaidą, nutraukusią „Signal“ tamsųjį apipavidalinimą, kai operacinės sistemos nustatymai buvo sukonfigūruoti naudoti šviesųjį apipavidalinimą."
   }
 }

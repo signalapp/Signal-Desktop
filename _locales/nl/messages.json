@@ -687,7 +687,7 @@
     "messageformat": "Zoeken"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Ongelezen chats zoeken"
   },
   "icu:clearSearch": {
     "messageformat": "Wis zoekopdracht"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Geen ongelezen chats"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS-contacten zijn niet beschikbaar in Signal Desktop."
@@ -711,13 +711,13 @@
     "messageformat": "Geen resultaten voor ‘{searchTerm}’ in ‘{conversationName}’"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Gefilterd op ongelezen"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filteren op ongelezen"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Filter verwijderen"
   },
   "icu:conversationsHeader": {
     "messageformat": "Chats"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} en {others,number} ander zijn in deze oproep aanwezig} other {{first}, {second} en {others,number} anderen zijn in deze oproep aanwezig}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} persoon is in deze oproep aanwezig} other {{count,number} personen zijn in deze oproep aanwezig}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Als je doorgaat zal Signal {person} bellen"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal ondervindt momenteel technische problemen. We zijn hard aan het werk om de service zo snel mogelijk te herstellen."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Update vereist"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Bijwerken"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Update vereist"
@@ -5578,7 +5581,7 @@
     "messageformat": "Zoeken"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Gefilterd op gemist"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filteren op gemist"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Geen gemiste oproepen"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Oproeplink maken"

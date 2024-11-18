@@ -687,7 +687,7 @@
     "messageformat": "ಹುಡುಕಿ"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "ಓದದಿರುವ ಚಾಟ್‌ಗಳನ್ನು ಹುಡುಕಿ"
   },
   "icu:clearSearch": {
     "messageformat": "ಶೋಧ ತೆರವುಗೊಳಿಸಿ"
@@ -699,10 +699,10 @@
     "messageformat": "\"{searchTerm}\" ಗೆ ಯಾವುದೇ ಹುಡುಕಾಟ ಇಲ್ಲ"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "ಓದದಿರುವ ಚಾಟ್‌ಗಳಲ್ಲಿ \"{searchTerm}\" ಗಾಗಿ ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "ಓದದಿರುವ ಯಾವುದೇ ಚಾಟ್‌ಗಳಿಲ್ಲ"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ಎಸ್ಎಂಎಸ್/ಎಂಎಂಎಸ್ ಸಂಪರ್ಕಗಳು ಲಭ್ಯವಿಲ್ಲ."
@@ -711,13 +711,13 @@
     "messageformat": "{conversationName}ನಲ್ಲಿ \"{searchTerm}\" ಗೆ ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "ಓದದಿರುವವು ಎಂದು ಫಿಲ್ಟರ್ ಮಾಡಲಾಗಿದೆ"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "ಓದದಿರುವುದು ಎಂಬ ಪ್ರಕಾರ ಫಿಲ್ಟರ್ ಮಾಡಿ"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "ಫಿಲ್ಟರ್ ತೆರವುಗೊಳಿಸಿ"
   },
   "icu:conversationsHeader": {
     "messageformat": "ಚಾಟ್‌‌ ಗಳು"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} ಮತ್ತು {others,number} ಇತರರು ಈ ಕರೆಯಲ್ಲಿದ್ದಾರೆ} other {{first}, {second} ಮತ್ತು {others,number} ಇತರರು ಈ ಕರೆಯಲ್ಲಿದ್ದಾರೆ}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} ವ್ಯಕ್ತಿ ಈ ಕರೆಯಲ್ಲಿದ್ದಾರೆ} other {{count,number} ಜನರು ಈ ಕರೆಯಲ್ಲಿದ್ದಾರೆ}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal {person} ಅವರಿಗೆ ರಿಂಗ್ ಮಾಡಲಿದೆ"
@@ -3594,7 +3597,7 @@
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಿ"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ಮೆಸೇಜ್‌ಗಳು ಮತ್ತು ಚಾಟ್ ಮಾಹಿತಿಯನ್ನು ಸಿಂಕ್ ಪ್ರಕ್ರಿಯೆ ಸೇರಿದಂತೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಮೂಲಕ ರಕ್ಷಿಸಲಾಗಿದೆ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಬೇಕೇ?"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal ತಾಂತ್ರಿಕ ತೊಂದರೆಗಳನ್ನು ಎದುರಿಸುತ್ತಿದೆ. ಸಾಧ್ಯವಾದಷ್ಟು ಬೇಗ ಸೇವೆಯನ್ನು ಮರುಸ್ಥಾಪಿಸಲು ನಾವು ಶ್ರಮಿಸುತ್ತಿದ್ದೇವೆ."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "ಅಪ್ಡೇಟ್ ಆಗಬೇಕಾಗಿದೆ"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡುವುದನ್ನು ಪೂರ್ಣಗೊಳಿಸಲು, ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಈಗ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "ನವೀಕರಿಸಿ"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "ಅಪ್ಡೇಟ್ ಆಗಬೇಕಾಗಿದೆ"
@@ -5572,13 +5575,13 @@
     "messageformat": "ಹೊಸ ಧ್ವನಿ ಅಥವಾ ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು <newCallButtonIcon></newCallButtonIcon> ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "ಮಿಸ್ಡ್‌ಕಾಲ್‌ಗಳನ್ನು ಹುಡುಕಿ"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ಹುಡುಕಿ"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "ತಪ್ಪಿಹೋದವುಗಳು ಎಂದು ಫಿಲ್ಟರ್ ಮಾಡಲಾಗಿದೆ"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "ತಪ್ಪಿ ಹೋದವುಗಳು ಎಂಬುದಾಗಿ ಫಿಲ್ಟರ್ ಮಾಡಿ"
@@ -5596,10 +5599,10 @@
     "messageformat": "{query} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳಲ್ಲಿ \"{query} \" ಗೆ ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "ಯಾವುದೇ ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳಿಲ್ಲ"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "ಒಂದು ಕರೆ ಲಿಂಕ್ ರಚಿಸಿ"
@@ -5774,12 +5777,12 @@
     "messageformat": "ಪಠ್ಯವನ್ನು ಆಯ್ಕೆಮಾಡುವಾಗ ಎಮೋಜಿಯ ಮೇಲೆ ಬಲ ಕ್ಲಿಕ್ ಮಾಡಿದ ನಂತರ ಸರಿಯಾದ ಸಂದರ್ಭ ಮೆನು ಕಾಣಿಸದಿರುವ ದೋಷವನ್ನು ಈ ಅಪ್‌ಡೇಟ್ ಸರಿಪಡಿಸುತ್ತದೆ. ಧನ್ಯವಾದಗಳು, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನ ಪಕ್ಕದಲ್ಲಿರುವ ಹೊಸ ಫಿಲ್ಟರ್ ಐಕಾನ್ ಓದದಿರುವ ಚಾಟ್‌ಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಹುಡುಕಲು ಸುಲಭಗೊಳಿಸುತ್ತದೆ, ಆದರೆ ಅವುಗಳು ಏನು ಹೇಳಬೇಕೆಂದಿವೆ ಎಂಬುದನ್ನು ನೋಡಿದ ನಂತರ ಅವುಗಳನ್ನು ಓದಲು ಬಿಡಬೇಕೆ ಅಥವಾ ಬೇಡವೇ ಎಂಬುದನ್ನು ನಿರ್ಧರಿಸಲು ನಿಮ್ಮ ಸಮಯವನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ಹಿಂಜರಿಯಬೇಡಿ."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ Snapdragon X Elite ನಂತಹ Windows ನಲ್ಲಿ ಹೊಸ ಪ್ರೊಸೆಸರ್‌ಗಳಿಗೆ ಬೆಂಬಲವನ್ನು ಪರಿಚಯಿಸುತ್ತದೆ, ಆದ್ದರಿಂದ ನೀವು ಇನ್ನು ಮುಂದೆ x86 ಅನ್ನು ಎಮ್ಯುಲೇಟ್ ಮಾಡಲು ನಿಮ್ಮ ARM ಅನ್ನು ಟ್ವಿಸ್ಟ್ ಮಾಡುವ ಅಗತ್ಯವಿಲ್ಲ."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "ನಿಮ್ಮ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಲೈಟ್ ಥೀಮ್ ಬಳಸುವಂತೆ ಕಾನ್ಫಿಗರ್ ಮಾಡಿದಾಗ Signal ನಲ್ಲಿ ಡಾರ್ಕ್ ಥೀಮ್‌ಗೆ ಹಾನಿಮಾಡುವ ದೋಷವನ್ನು ಸಹ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಈಗ ನಿಮ್ಮ ವಿಷಯಾಧಾರಿತವಾಗಿ ವಿಭಜಿತವಾದ ವ್ಯಕ್ತಿತ್ವವನ್ನು ಸರಿಯಾಗಿ ನಿಭಾಯಿಸುತ್ತದೆ."
   }
 }

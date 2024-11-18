@@ -687,7 +687,7 @@
     "messageformat": "검색"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "읽지 않은 대화 검색"
   },
   "icu:clearSearch": {
     "messageformat": "검색 기록 삭제"
@@ -699,10 +699,10 @@
     "messageformat": "\"{searchTerm}\" 검색 결과 없음"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "읽지 않은 메시지에 ''{searchTerm}' 검색 결과가 없습니다"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "안 읽은 대화 없음"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS 연락처는 데스크톱에서 사용할 수 없습니다."
@@ -711,13 +711,13 @@
     "messageformat": "{conversationName}에 {searchTerm}가 검색되지 않았습니다."
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "읽지 않은 메시지로 필터링함"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "읽지 않은 메시지로 필터링"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "필터 지우기"
   },
   "icu:conversationsHeader": {
     "messageformat": "대화"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, other {{first} 님, {second} 님 외 {others,number}명이 이 통화에 참여 중입니다.}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, other {{count,number}명이 이 통화에 참여 중입니다.}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal에서 {person} 님의 전화벨을 울립니다."
@@ -3594,7 +3597,7 @@
     "messageformat": "전송 취소"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "동기화 프로세스를 비롯하여 메시지와 대화 정보는 엔드투엔드 암호화로 보호됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "전송을 취소하시겠어요?"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal에 기술적 문제가 발생했습니다. 문제를 최대한 신속하게 처리하겠습니다."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "업데이트 필요"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "메시지 동기화를 완료하려면 지금 Signal 데스크톱을 업데이트하세요."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "업데이트"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "업데이트 필요"
@@ -5572,13 +5575,13 @@
     "messageformat": "새로운 음성 또는 영상 통화를 시작하려면 <newCallButtonIcon></newCallButtonIcon> 아이콘을 클릭하세요."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "부재중 전화 검색"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "검색"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "부재중 전화로 필터링함"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "부재중으로 필터링"
@@ -5596,10 +5599,10 @@
     "messageformat": "“{query}” 검색 결과 없음"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "부재중 전화에 ''{query}' 검색 결과가 없습니다"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "부재중 전화 없음"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "통화 링크 만들기"
@@ -5774,12 +5777,12 @@
     "messageformat": "본 릴리스는 또한 이모지 텍스트 선택 버그를 수정합니다. 감사합니다, <linkKhuddite>@khuddite</linkKhuddite> 님!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "검색창 옆의 새 필터 아이콘을 사용하면 쉽고 빠르게 읽지 않은 대화를 확인할 수 있습니다."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "본 업데이트는 Snapdragon X Elite와 같은 새로운 Windows 프로세서에 대한 지원을 제공합니다."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "또한 운영 체제에서 밝은 테마를 사용하도록 구성한 경우 Signal의 어두운 테마가 작동하지 않는 버그를 수정했습니다."
   }
 }

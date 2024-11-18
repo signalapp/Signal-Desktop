@@ -687,7 +687,7 @@
     "messageformat": "Axtar"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Oxunmamış çatları axtar"
   },
   "icu:clearSearch": {
     "messageformat": "Axtarışı təmizlə"
@@ -699,10 +699,10 @@
     "messageformat": "\"{searchTerm}\" üçün nəticə yoxdur"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Oxunmamış çatlarda \"{searchTerm}\" üçün heç bir nəticə tapılmadı"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Oxunmamış çatlar yoxdur"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS əlaqələri Masaüstündə əlçatmazdır."
@@ -711,13 +711,13 @@
     "messageformat": "{conversationName} danışığında \"{searchTerm}\" üçün nəticə yoxdur"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Oxunmamışlara görə filtrlənib"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Oxunmamışlara görə filtrlə"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Filtri təmizlə"
   },
   "icu:conversationsHeader": {
     "messageformat": "Çatlar"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} və digər {others,number} nəfər bu zəngdədir} other {{first}, {second} və digər {others,number} nəfər bu zəngdədir}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {bu zəngdə {count,number} nəfər var} other {Bu zəngdə {count,number} nəfər var}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal, {person} çağırır"
@@ -3594,7 +3597,7 @@
     "messageformat": "Köçürməni ləğv et"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Mesajlar və çat məlumatı sinxronlaşdırma prosesi daxil, tam şifrələmə ilə qorunur. <learnMoreLink>Daha ətraflı</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Köçürmə ləğv edilsin?"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal, hal-hazırda texniki çətinliklər yaşayır. Xidməti mümkün olan ən qısa vaxtda bərpa etmək üçün əlimizdən gələni edirik."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Yeniləmə tələb olunur"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Mesajların sinxronlaşdırılmasını tamamlamaq üçün Signal Desktop-u indi yeniləyin."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Yenilə"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Yeniləmə tələb olunur"
@@ -5572,13 +5575,13 @@
     "messageformat": "Yeni bir audio və ya video zəng başlamaq üçün <newCallButtonIcon></newCallButtonIcon> üzərinə klikləyin."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Buraxılmış zəngləri axtar"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Axtar"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Cavabsızlara görə filtrlənib"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Buraxılmışlara görə filtrlə"
@@ -5596,10 +5599,10 @@
     "messageformat": "“{query}” üçün heç bir nəticə yoxdur"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Buraxılmış zənglərdə “{query}” sorğusu üçün heç bir nəticə tapılmadı"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Buraxılmış zəng yoxdur"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Zəng Keçidi yarat"
@@ -5774,12 +5777,12 @@
     "messageformat": "Bu yeniləmə mətni seçərkən emojinin üzərinə sağla kliklədikdə müvafiq kontekst menyusunun görünməməsi ilə əlaqəli nasazlığı aradan qaldırır. Təşəkkürlər, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Axtarış qutusunun yanındakı yeni filtr piktoqramı oxunmamış çatların vaxt itirmədən tapılmasını asanlaşdırır, lakin onların dediklərini gördükdən sonra onları oxuyub-oxumamaq barədə qərar verməkdən çəkinməyin."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Bu yeniləmə Windows-da Snapdragon X Elite kimi yeni prosessorlar üçün dəstək təmin edir, beləliklə, ARM-inizi artıq x86-nı təqlid etmək üçün çevirməyə ehtiyac yoxdur."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Əməliyyat sistemi parametrləriniz açıq rəngli temadan istifadə etmək üçün konfiqurasiya edildikdə, Signal-da tünd rəngli temanı sıradan çıxaran səhvi də aradan qaldırdıq. Signal Desktop artıq tematik olaraq bölünmüş kimliyinizi müvafiq şəkildə idarə edə bilər."
   }
 }

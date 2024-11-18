@@ -687,7 +687,7 @@
     "messageformat": "搜尋"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "搜尋未讀聊天訊息"
   },
   "icu:clearSearch": {
     "messageformat": "清除搜尋"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "沒有未讀聊天訊息"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS / MMS聯絡人在電腦版上不可使用。"
@@ -711,13 +711,13 @@
     "messageformat": "在{conversationName}找不到\"{searchTerm}\"的結果"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "依據未讀訊息篩選"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "根據未讀訊息篩選"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "清除篩選器"
   },
   "icu:conversationsHeader": {
     "messageformat": "聊天"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, other {{first}、{second} 和另外 {others,number} 人現已在此通話中}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, other {{count,number} 人現已在此通話中}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal會給{person}打電話"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal 正面臨技術上的問題。我們正在盡力的盡快地恢復服務。"
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "必須更新"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "更新"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "必須更新"
@@ -5578,7 +5581,7 @@
     "messageformat": "搜尋"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "依據未接通話篩選"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "依據未接通話篩選"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "沒有未接來電"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "建立通話連結"

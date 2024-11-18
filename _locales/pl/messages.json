@@ -687,7 +687,7 @@
     "messageformat": "Szukaj"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Wyszukaj nieprzeczytane czaty"
   },
   "icu:clearSearch": {
     "messageformat": "Wyczyść wyszukiwanie"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Brak nieprzeczytanych czatów"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Kontakty SMS/MMS nie są dostępne w aplikacji Desktop."
@@ -711,13 +711,13 @@
     "messageformat": "Nie znaleziono \"{searchTerm}\" w {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Filtrowane według nieprzeczytanych"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filtruj według nieprzeczytanych"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Usuń filtr"
   },
   "icu:conversationsHeader": {
     "messageformat": "Czaty"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} i {others,number} inna osoba uczestniczy w rozmowie} few {{first}, {second} i {others,number} inne osoby uczestniczą w tej rozmowie} many {{first}, {second} i {others,number} innych osób uczestniczy w tej rozmowie} other {{first}, {second} i {others,number} innych uczestniczy w tej rozmowie}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {W rozmowie uczestniczy {count,number} osoba} few {W rozmowie uczestniczą {count,number} osoby} many {W rozmowie uczestniczy {count,number} osób} other {W rozmowie uczestniczy {count,number} osoby}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal zadzwoni do {person}"
@@ -4725,13 +4728,13 @@
     "messageformat": "Usługa Signal ma problemy techniczne. Prosimy o cierpliwość w trakcie usuwania awarii."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Wymagana aktualizacja"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Uaktualnij"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Wymagana aktualizacja"
@@ -5578,7 +5581,7 @@
     "messageformat": "Szukaj"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Filtruj po nieodebranych"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtruj według nieodebranych"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Brak nieodebranych połączeń"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Utwórz link do połączenia"

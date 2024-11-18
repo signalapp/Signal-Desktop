@@ -687,7 +687,7 @@
     "messageformat": "Cerca"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Buscar xats sense llegir"
   },
   "icu:clearSearch": {
     "messageformat": "Neteja la cerca"
@@ -699,10 +699,10 @@
     "messageformat": "No hi ha cap resultat per a \"{searchTerm}\"."
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "No hi ha resultats per a \"{searchTerm}\" a xats no llegits"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "No hi ha xats sense llegir"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Els contactes d'SMS / MMS no estan disponibles a la versió d'escriptori."
@@ -711,13 +711,13 @@
     "messageformat": "No hi ha resultats per a \"{searchTerm}\" a {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Filtrar per no llegit(s)"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filtrar per No llegit(s)"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Restablir filtres"
   },
   "icu:conversationsHeader": {
     "messageformat": "Xats"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} i {others,number} més són en aquesta trucada.} other {{first}, {second} i {others,number} més són en aquesta trucada.}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} persona està en aquesta trucada} other {{count,number} persones estan en aquesta trucada}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "El Signal trucarà a {person}"
@@ -3594,7 +3597,7 @@
     "messageformat": "Cancel·lar la transferència"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Els missatges i la informació del xat estan protegits mitjançant una codificació d'extrem a extrem, inclòs el procés de sincronització. <learnMoreLink>Més informació</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Cancel·lar la transferència?"
@@ -4725,13 +4728,13 @@
     "messageformat": "El Signal té problemes tècnics. Estem treballant per recuperar el servei tan ràpidament com sigui possible."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Actualització necessària"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Per completar la sincronització dels missatges, actualitza ara Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Actualitza-la"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualització necessària"
@@ -5572,13 +5575,13 @@
     "messageformat": "Fes clic a <newCallButtonIcon></newCallButtonIcon> per iniciar una nova trucada de veu o vídeo."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Buscar trucades perdudes"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cerca"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Filtrat per perdudes"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrar per perdudes"
@@ -5596,10 +5599,10 @@
     "messageformat": "No s'ha trobat cap resultat per a «{query}»"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "No hi ha resultats per a \"{query}\" a trucades perdudes"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "No hi ha trucades perdudes"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Crear un enllaç de trucada"
@@ -5774,12 +5777,12 @@
     "messageformat": "Aquesta actualització també corregeix un error a l'hora de seleccionar text amb emojis. Gràcies, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Amb la nova icona de filtre al costat del quadre de cerca, podràs trobar més ràpidament els xats no llegits."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Aquesta actualització és compatible amb els nous processadors de Windows, com ara el Snapdragon X Elite."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "També hem corregit un error que feia que no funcionés el mode fosc a Signal quan els ajustos del teu sistema operatiu estaven configurats per utilitzar el mode clar."
   }
 }

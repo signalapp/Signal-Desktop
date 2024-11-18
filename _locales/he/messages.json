@@ -687,7 +687,7 @@
     "messageformat": "חיפוש"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "חיפוש בצ'אטים שלא נקראו"
   },
   "icu:clearSearch": {
     "messageformat": "נקה חיפוש"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "אין צ׳אטים שלא נקראו"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "אנשי קשר של מסרונים/מסרוני MMS אינם זמינים בשולחן עבודה."
@@ -711,13 +711,13 @@
     "messageformat": "אין תוצאות עבור \"{searchTerm}\" בשיחה {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "מסונן לפי צ׳אטים שלא נקראו"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "סינון לפי צ׳אטים שלא נקראו"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "ניקוי מסנן"
   },
   "icu:conversationsHeader": {
     "messageformat": "צ'אטים"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, ועוד {others,number} נמצאים בשיחה זו} two {{first}, {second}, ועוד {others,number} נמצאים בשיחה זו} many {{first}, {second}, ועוד {others,number} נמצאים בשיחה זו} other {{first}, {second}, ועוד {others,number} נמצאים בשיחה זו}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {אדם {count,number} נמצא בשיחה זו} two {{count,number} אנשים נמצאים בשיחה זו} many {{count,number} אנשים נמצאים בשיחה זו} other {{count,number} אנשים נמצאים בשיחה זו}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal יצלצל אל {person}"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal חווה קשיים טכניים. אנו עובדים קשות כדי לשחזר את השירות מהר ככל האפשר."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "נדרש עדכון"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "עדכן"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "נדרש עדכון"
@@ -5578,7 +5581,7 @@
     "messageformat": "חיפוש"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "סינון לפי שיחות שלא נענו"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "סינון לפי שיחות שלא נענו"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "אין שיחות שלא נענו"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "יצירת לינק לשיחה"

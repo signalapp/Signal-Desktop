@@ -687,7 +687,7 @@
     "messageformat": "Іздеу"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Оқылмаған чаттарды іздеу"
   },
   "icu:clearSearch": {
     "messageformat": "Ізделген сөзді өшіру"
@@ -699,10 +699,10 @@
     "messageformat": "\"{searchTerm}\" үшін нәтиже жоқ"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Оқылмаған чаттарда \"{searchTerm}\" бойынша нәтиже жоқ"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Оқылмаған чаттар жоқ"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Компьютерлік нұсқада SMS/MMS контактілері жоқ."
@@ -711,13 +711,13 @@
     "messageformat": "{conversationName} сұхбатында \"{searchTerm}\" бойынша нәтиже жоқ"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Оқылмағандар бойынша фильтр қойылды"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Оқылмаған хабарлар бойынша іріктеу"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Сүзгіні тазалау"
   },
   "icu:conversationsHeader": {
     "messageformat": "Чаттар"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} және тағы {others,number} адам осы қоңырауға қатысып жатыр} other {{first}, {second} және тағы {others,number} адам осы қоңырауға қатысып жатыр}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {Бұл қоңырауға {count,number} адам қатысып жатыр} other {Бұл қоңырауға {count,number} адам қатысып жатыр}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal {person} деген кісіге қоңырау шалады"
@@ -3594,7 +3597,7 @@
     "messageformat": "Тасымалдаудан бас тарту"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Хабарлар мен чат туралы ақпарат тура шифрлау әдісімен, соның ішінде синхрондау процесімен қорғалған. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Тасымалдаудан бас тарту керек пе?"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal қолданбасында техникалық қиындықтар туындады. Қызметті мүмкіндігінше тезірек қалпына келтіру үшін аянбай жұмыс істеп жатырмыз."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Жаңарту керек"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Хабарларды синхрондау процесін аяқтау үшін Signal Desktop қолданбасын қазір жаңартыңыз."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Жаңарту"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Жаңарту керек"
@@ -5572,13 +5575,13 @@
     "messageformat": "Жаңа дауыстық немесе видеоқоңырау шалу үшін <newCallButtonIcon></newCallButtonIcon> түймесін басыңыз."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Өткізіп алған қоңырауларды іздеу"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Іздеу"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Қабылданбаған қоңыраулар ғана көрсетілді"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Қабылданбаған қоңырауларды ғана көрсету"
@@ -5596,10 +5599,10 @@
     "messageformat": "\"{query}\" бойынша нәтижелер жоқ"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Өткізіп алған қоңырауларда \"{query}\" бойынша нәтиже жоқ"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Өткізіп алған қоңыраулар жоқ"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Қоңырау сілтемесін жасау"
@@ -5774,12 +5777,12 @@
     "messageformat": "Бұл жаңа нұсқада мәтінді таңдап жатып, эмоджиді тінтуірдің оң жақ түймесімен басқаннан кейін, дұрыс контекстік мәзір шықпай қалатын ақау түзетілді. Рақмет, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Іздеу өрісінің жанындағы жаңа сүзгі белгішесі оқылмаған чаттарды жылдам табуға көмектеседі. Дегенмен чаттағы жаңа хабарларды оқып алған соң, чатты оқылған немесе оқылмаған деп белгілеу өз еркіңізде екенін ұмытпаңыз."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Бұл жаңа нұсқа Snapdragon X Elite сияқты Windows жүйесіндегі жаңа процессорларға қолдау көрсетеді."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Сонымен қатар операциялық жүйе параметрлері жарық режимді пайдалануға конфигурацияланғанда, Signal-дағы қараңғы режим жұмыс істемей қалатын ақау түзетілді. Signal Desktop енді қалаған режиміңізді дұрыс анықтай алады."
   }
 }

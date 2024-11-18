@@ -687,7 +687,7 @@
     "messageformat": "ئىزدە"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "ئوقۇلمىغان پاراڭلارنى ئىزدەش"
   },
   "icu:clearSearch": {
     "messageformat": "ئىزدەشنى تازىلاش"
@@ -699,10 +699,10 @@
     "messageformat": "«{searchTerm}» ئۈچۈن ئىزدەش نەتىجىسى تېپىلمىدى"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "ئوقۇلمىغان پاراڭلاردا \"{searchTerm}\" نىڭ نەتىجىسى يوق"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "ئوقۇلمىغان پاراڭ يوق"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "ئۈستەليۈزى نەشرىدە SMS/MMS ئالاقىداشلىرى ئىقتىدارىنى ئىشلەتكىلى بولمايدۇ."
@@ -711,13 +711,13 @@
     "messageformat": "«{conversationName}» دە «{searchTerm}» ئۈچۈن ئىزدەش نەتىجىسى تېپىلمىدى"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "ئوقۇلمىغانلارنى سۈزۈش"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "ئوقۇلمىغانلارنى سۈزۈش"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "سۈزگۈچلەرنى بىكار قىلىش"
   },
   "icu:conversationsHeader": {
     "messageformat": "پاراڭ"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, other {{first}، {second} ۋە {others,number} قاتارلىقلار بۇ چاقىرىقتا}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, other {{count,number} كىشى بۇ چاقىرىقتا}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal {person} نى چاقىرىدۇ"
@@ -3594,7 +3597,7 @@
     "messageformat": "يۆتكەشنى ئەمەلدىن قالدۇرۇڭ"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ئۇچۇر ۋە پاراڭ مەزمۇنلىرى ماس قەدەملىك جەرياننى ئۆز ئىچىگە ئالغان ئاخىرىغىچە شىفىرلىق مەخپىيلەشتۈرۈش ئارقىلىق قوغدىلىدۇ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "يۆتكەشنى ئەمەلدىن قالدۇرامسىز؟"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal دا تېخنىكىلىق قىيىنچىلىق كۆرۈلدى. بىز ئامالنىڭ بارىچە تىرىشىپ ئىشلەپ مۇلازىمەتنى ئەڭ تېز سۈرئەتتە ئەسلىگە كەلتۈرىمىز."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "يېڭىلاش كېرەك"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "ئۇچۇرلىرىڭىزنى ماسقەدەملەش ئۈچۈن ، سىگنال ئۈستەليۈزىنى ھازىرلا يېڭىلاڭ."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "يېڭىلا"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "يېڭىلاش كېرەك"
@@ -5572,13 +5575,13 @@
     "messageformat": "<newCallButtonIcon></newCallButtonIcon>نى چېكىپ يېڭى ئاۋازلىق ياكى سىنلىق چاقىرىقنى باشلاڭ."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "ئېلىنمىغان تېلېفونلارنى ئىزدەش"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ئىزدە"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "ئېلىنمىغانلارنى سۈزۈش"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "يوقالغانلار بىلەن سۈزۈش"
@@ -5596,10 +5599,10 @@
     "messageformat": "{query} ئۈچۈن نەتىجە يوق"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "ئېلىنمىغان تېلېفونلاردا {query} نىڭ نەتىجىسى يوق"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "ئېلىنمىغان چاقىرىق يوق"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "چاقىرىق ئۇلانمىسى قۇرۇش"
@@ -5774,12 +5777,12 @@
     "messageformat": "بۇ قېتىملىق يېڭىلانما emoji تېكىست تاللانمىسىدىكى كەمتۈكلۈكنىمۇ ئوڭشايدۇ. رەھمەت ،<linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "ئىزدەش رامكىسىنىڭ يېنىدىكى يېڭى سۈزگۈچ سىنبەلگىسى ئوقۇلمىغان پاراڭلارنى تېز تېپىشنى ئاسانلاشتۇرىدۇ."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "بۇ يېڭىلانما Windows دىكى Snapdragon X Elite غا ئوخشاش يېڭى بىر تەرەپ قىلغۇچلارنى قوللايدۇ."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "بىز يانفۇن مەشغۇلات سىستېمىڭىزنىڭ تەڭشىكى يېنىك تېمىغا تەڭشەلگەندە ، سىگنالدىكى قاراڭغۇ تېمىنى ئۆچۈرۈۋېتىدىغان كەمتۈكنىمۇ ئوڭشىدۇق. سىگنال ئۈستەلئۈستى ھازىر باشتېما بۆلۈنىدىغان ئەھۋالنى مۇۋاپىق بىر تەرەپ قىلالايدۇ."
   }
 }

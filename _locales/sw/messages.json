@@ -687,7 +687,7 @@
     "messageformat": "Tafuta"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Tafuta jumbe ambazo hazijasomwa"
   },
   "icu:clearSearch": {
     "messageformat": "Futa Utafutaji"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Hakuna jumbe ambazo hazijasomwa"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Mawasiliano ya SMS/MMS hayapatikani kwenye toleo la Kompyuta."
@@ -711,13 +711,13 @@
     "messageformat": "Hakuna matokeo ya \";{searchTerm}\" kwenye  {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Imechujwa kwa jumbe ambazo hazijasomwa"
   },
   "icu:filterByUnreadButtonLabel": {
     "messageformat": "Filter by unread"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Futa chujio"
   },
   "icu:conversationsHeader": {
     "messageformat": "Gumzo"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} na {others,number} wako katika mazungumzo haya ya simu} other {{first}, {second}, na {others,number} wako katika mazungumzo haya ya simu}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} person is in this call} other {{count,number} people are in this call}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "{person}atapigiwa simu na Signal"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal inakabiliwa na matatizo ya kiufundi. Tunajitahidi kurejesha huduma haraka iwezekanavyo."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Sasisho Linahitajika"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Sasisha"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Sasisho Linahitajika"
@@ -5578,7 +5581,7 @@
     "messageformat": "Tafuta"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Imechujwa kwa simu fifi"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Chuja kwa zilizokoswa"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Hakuna simu fifi"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Unda Kiungo cha Simu"

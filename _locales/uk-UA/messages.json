@@ -687,7 +687,7 @@
     "messageformat": "Пошук"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Пошук непрочитаних чатів"
   },
   "icu:clearSearch": {
     "messageformat": "Очистити пошук"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Непрочитаних чатів немає"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Контакти SMS/MMS недоступні в Signal Desktop."
@@ -711,13 +711,13 @@
     "messageformat": "Немає результатів для «{searchTerm}» у {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Відфільтровано за непрочитаними"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Показати непрочитані"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Скасувати фільтр"
   },
   "icu:conversationsHeader": {
     "messageformat": "Чати"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} і ще {others,number} у цьому виклику} few {{first}, {second} і ще {others,number} у цьому виклику} many {{first}, {second} і ще {others,number} у цьому виклику} other {{first}, {second} і ще {others,number} у цьому виклику}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {У виклику бере участь {count,number} людина} few {У виклику беруть участь {count,number} людини} many {У виклику беруть участь {count,number} людей} other {У виклику беруть участь {count,number} людини}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Буде здійснено виклик користувача {person} у Signal"
@@ -4725,13 +4728,13 @@
     "messageformat": "У Signal виникли технічні проблеми. Ми робимо все можливе, щоб якнайшвидше відновити роботу."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Необхідне оновлення"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Оновити"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Необхідне оновлення"
@@ -5578,7 +5581,7 @@
     "messageformat": "Пошук"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Фільтр за пропущеними"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Фільтр за пропущеними"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Пропущених викликів немає"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Створити посилання на виклик"

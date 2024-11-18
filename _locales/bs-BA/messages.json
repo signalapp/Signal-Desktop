@@ -687,7 +687,7 @@
     "messageformat": "Traži"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Pretraži nepročitane chatove"
   },
   "icu:clearSearch": {
     "messageformat": "Obriši pretraživanje"
@@ -699,10 +699,10 @@
     "messageformat": "Nema rezultata za \"{searchTerm}\""
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Nema rezultata za \"{searchTerm}\" u nepročitanim chatovima"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Nema nepročitanih chatova"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS kontakti nisu dostupni na Desktopu."
@@ -711,13 +711,13 @@
     "messageformat": "Nema rezultata za \"{searchTerm}\" u razgovoru {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Filtrirano prema nepročitanim porukama"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filtriraj prema nepročitanom"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Ukloni filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Chatovi"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} i još {others,number} druga osoba učestvuju u ovom pozivu} few {{first}, {second} i još {others,number} druge osobe učestvuju u ovom pozivu} many {{first}, {second} i još {others,number} drugih osoba učestvuje u ovom pozivu} other {{first}, {second} i još {others,number} drugih osoba učestvuju u ovom pozivu}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} osoba u ovom pozivu} few {{count,number} osobe u ovom pozivu} many {{count,number} osoba u ovom pozivu} other {{count,number} osoba u ovom pozivu}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal će pozvati {person}"
@@ -3594,7 +3597,7 @@
     "messageformat": "Otkaži transfer"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Poruke i informacije o chatu zaštićene su sveobuhvatnim šifriranjem, uključujući postupak sinhronizacije. <learnMoreLink>Saznajte više</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Otkazati transfer?"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal ima tehničkih poteškoća. Trudimo se da što prije uslugu ponovo osposobimo."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Potrebno je ažuriranje"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Da biste dovršili sinhronizaciju poruka, odmah ažurirajte Signal desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Ažuriraj"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Potrebno je ažuriranje"
@@ -5572,13 +5575,13 @@
     "messageformat": "Kliknite na <newCallButtonIcon></newCallButtonIcon> da pokrenete novi glasovni ili video poziv."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Traži propuštene pozive"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Traži"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Filtrirano prema propuštenim"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtriraj prema propuštenom pozivu"
@@ -5596,10 +5599,10 @@
     "messageformat": "Nema rezultata za “{query}”"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Nema rezultata za “{query}” u propuštenim pozivima"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nema propuštenih poziva"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Kreiranje poveznice za poziv"
@@ -5774,12 +5777,12 @@
     "messageformat": "Ovo izdanje također ispravlja pogrešku s odabirom teksta emotikona. Hvala, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Nova ikona filtera pored okvira za pretragu olakšava brzo pronalaženje nepročitanih chatova, ali slobodno odlučite da li ćete ih ostaviti za čitanje nakon što vidite šta su imali da kažu."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Ovo ažuriranje uvodi podršku za nove procesore na Windowsu kao što je Snapdragon X Elite, tako da više ne morate da uvijate svoj ARM u emulaciju x86."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Također smo popravili grešku koja je kvarila tamnu temu u Signalu kada su postavke vašeg operativnog sustava bile konfigurirane za korištenje svijetle teme."
   }
 }

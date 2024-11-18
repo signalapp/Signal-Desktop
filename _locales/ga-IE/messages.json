@@ -687,7 +687,7 @@
     "messageformat": "Cuardaigh"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Cuardaigh comhráite neamhléite"
   },
   "icu:clearSearch": {
     "messageformat": "Glan an Cuardach"
@@ -702,7 +702,7 @@
     "messageformat": "No results for \"{searchTerm}\" in unread chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Níl aon chomhrá neamhléite ar fáil"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Níl teagmhálaithe SMS/MMS ar fáil ar an Deasc."
@@ -711,13 +711,13 @@
     "messageformat": "Níl aon toradh ar \"{searchTerm}\" in {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Scagtha de réir neamhléite"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Scag de réir Neamhléite"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Glan an scagaire"
   },
   "icu:conversationsHeader": {
     "messageformat": "Comhráite"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {Tá {first}, {second} agus {others,number} duine eile sa ghlao seo} two {Tá {first}, {second} agus {others,number} dhuine eile sa ghlao seo} few {Tá {first}, {second} agus {others,number} dhuine eile sa ghlao seo} many {Tá {first}, {second} agus {others,number} nduine eile sa ghlao seo} other {Tá {first}, {second} agus {others,number} duine eile sa ghlao seo}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {Tá {count,number} duine sa ghlao seo} two {Tá {count,number} dhuine sa ghlao seo} few {Tá {count,number} dhuine sa ghlao seo} many {Tá {count,number} nduine sa ghlao seo} other {Tá {count,number} duine sa ghlao seo}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Cuirfidh Signal glao ar {person}"
@@ -4725,13 +4728,13 @@
     "messageformat": "Tá Signal buailte le deacrachtaí teicniúla faoi láthair. Táimid ag déanamh ár ndíchill an fhadhb a réiteach chomh luath agus is féidir."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Nuashonrú De Dhíth"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
     "messageformat": "To complete syncing your messages, update Signal desktop now."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Nuashonraigh"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Nuashonrú De Dhíth"
@@ -5578,7 +5581,7 @@
     "messageformat": "Cuardaigh"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Scagtha de réir caillte"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Scag de réir caillte"
@@ -5599,7 +5602,7 @@
     "messageformat": "No results for “{query}” in missed calls"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Níl glaonna caillte ann"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Cruthaigh Nasc Glao"

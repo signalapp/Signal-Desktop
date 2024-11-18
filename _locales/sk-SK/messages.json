@@ -687,7 +687,7 @@
     "messageformat": "Hľadať"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Vyhľadať v neprečítaných četoch"
   },
   "icu:clearSearch": {
     "messageformat": "Vyčistiť vyhľadávanie"
@@ -699,10 +699,10 @@
     "messageformat": "Žiadne výsledky pre \"{searchTerm}\""
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Žiadne výsledky pre „{searchTerm}“ v neprečítaných četoch"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Žiadne neprečítané čety"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Kontakty pre SMS/MMS nie sú k dispozícii na Signal Desktop."
@@ -711,13 +711,13 @@
     "messageformat": "Žiadne výsledky pre „{searchTerm}“ v {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Filtrované podľa neprečítaných"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filtrovať podľa neprečítaných"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Zrušiť filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Čety"
@@ -1414,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {Tohto hovoru sa zúčastňujú {first}, {second} a {others,number} ďalší používateľ} few {Tohto hovoru sa zúčastňujú {first}, {second} a {others,number} ďalší používatelia} many {Tohto hovoru sa zúčastňujú {first}, {second} a {others,number} ďalšieho používateľa} other {Tohto hovoru sa zúčastňujú {first}, {second} a {others,number} ďalších používateľov}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {Tohto hovoru sa zúčastňuje {count,number} používateľ} few {Tohto hovoru sa zúčastňujú {count,number} používatelia} many {Tohto hovoru sa zúčastňuje {count,number} používateľa} other {Tohto hovoru sa zúčastňuje {count,number} používateľov}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal zazvoní {person}"
@@ -3594,7 +3597,7 @@
     "messageformat": "Zrušiť prenos"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Správy a informácie o četoch sú chránené end-to-end šifrovaním vrátane procesu synchronizácie. <learnMoreLink>Zistiť viac</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Zrušiť prenos?"
@@ -4725,13 +4728,13 @@
     "messageformat": "Signal má technické ťažkosti. Pracujeme na tom, aby sme čo najskôr obnovili našu službu."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Vyžaduje sa aktualizácia"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Ak chcete dokončiť synchronizáciu správ, aktualizujte Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Aktualizovať"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Vyžaduje sa aktualizácia"
@@ -5572,13 +5575,13 @@
     "messageformat": "Kliknite na <newCallButtonIcon></newCallButtonIcon> a zahájte nový hlasový hovor alebo videohovor."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Vyhľadať zmeškané hovory"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Hľadať"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Filtrovať podľa zmeškaných"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrovať podľa zmeškaných"
@@ -5596,10 +5599,10 @@
     "messageformat": "Žiadne výsledky pre „{query}“"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Žiadne výsledky pre „{query}“ v zmeškaných hovoroch"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Žiadne zmeškané hovory"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Vytvoriť odkaz na hovor"
@@ -5774,12 +5777,12 @@
     "messageformat": "Toto vydanie tiež opravuje chybu s emoji pri výbere textu. Ďakujeme, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Nová ikona filtra vedľa vyhľadávacieho poľa uľahčuje rýchle vyhľadanie neprečítaných četov."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Táto aktualizácia zavádza podporu pre nové procesory v systéme Windows, ako je Snapdragon X Elite."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Opravili sme tiež chybu, ktorá spôsobovala zrušenie tmavej témy v aplikácii, keď boli nastavenia operačného systému nakonfigurované na používanie svetlej témy."
   }
 }
