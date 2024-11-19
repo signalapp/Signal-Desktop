@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import type {
   ConversationType,
@@ -13,6 +13,7 @@ import { SearchInput } from './SearchInput';
 import { usePrevious } from '../hooks/usePrevious';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
+import { isProduction } from '../util/version';
 
 type BasePropsType = {
   clearConversationSearch: () => void;
@@ -123,6 +124,11 @@ export function LeftPaneSearchInput({
     label = i18n('icu:search');
   }
 
+  const eligibleToShowFilterByUnread = useMemo(
+    () => window.getVersion && !isProduction(window.getVersion()),
+    []
+  );
+
   return (
     <>
       <SearchInput
@@ -196,7 +202,7 @@ export function LeftPaneSearchInput({
           </div>
         )}
       </SearchInput>
-      {filterButtonEnabled && (
+      {filterButtonEnabled && eligibleToShowFilterByUnread && (
         <Tooltip
           direction={TooltipPlacement.Bottom}
           content={i18n('icu:filterByUnreadButtonLabel')}
