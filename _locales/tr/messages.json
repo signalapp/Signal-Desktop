@@ -590,6 +590,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--FailedToImportBackup": {
+    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Dosyalarla birlikte fotoğrafları ve videoları seçemezsin."
   },
@@ -687,7 +690,7 @@
     "messageformat": "Ara"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Okunmamış sohbetlerde ara"
   },
   "icu:clearSearch": {
     "messageformat": "Aramayı Temizle"
@@ -699,10 +702,10 @@
     "messageformat": "\"{searchTerm}\" için arama sonucu yok"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Okunmamış sohbetlerde \"{searchTerm}\" için sonuç bulunamadı"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Okunmamış sohbet yok"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS kişileri Desktop'ta mevcut değil."
@@ -711,13 +714,13 @@
     "messageformat": "{conversationName} konuşması \"{searchTerm}\" için sonuç bulunamadı"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Okunmamış olarak filtrelendi"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Okunmayanları filtrele"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Filtreyi temizle"
   },
   "icu:conversationsHeader": {
     "messageformat": "Sohbetler"
@@ -1414,6 +1417,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, ve {others,number} diğer kişi bu aramada} other {{first}, {second} ve {others,number} diğer kişi bu aramada}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} kişi bu aramada} other {{count,number} kişi bu aramada}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal {person} kişisini arayacak"
@@ -3594,7 +3600,7 @@
     "messageformat": "Transferi iptal et"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Mesajlar ve sohbet bilgileri, senkronizasyon süreci de dahil olmak üzere uçtan uca şifreleme ile korunmaktadır. <learnMoreLink>Dahasını öğren</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Transfer iptal edilsin mi?"
@@ -4725,13 +4731,13 @@
     "messageformat": "Signal teknik sorunlar yaşıyor. Hizmeti olabildiğince çabuk düzeltmek için sıkı çalışıyoruz."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Güncelleme Gerekli"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Mesajlarını senkronize etmeyi tamamlamak için Signal Desktop'ı şimdi güncelle."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Güncelle"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Güncelleme Gerekli"
@@ -5572,13 +5578,13 @@
     "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallButtonIcon></newCallButtonIcon> ögesine tıkla."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Cevapsız aramaları ara"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Ara"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Cevapsıza göre filtrelendi"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Kaçırılana göre filtrele"
@@ -5596,10 +5602,10 @@
     "messageformat": "\"{query}\" için sonuç yok"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Cevapsız aramalarda \"{query}\" için sonuç bulunamadı"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Cevapsız arama yok"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Bir Arama Bağlantısı oluştur"
@@ -5770,16 +5776,16 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.33--0": {
-    "messageformat": "Bu sürümde, emoji metni seçimiyle ilgili bir hatayı düzelttik. Teşekkürler, <linkKhuddite>@khuddite</linkKhuddite>!"
-  },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Arama kutusunun yanındaki yeni filtre simgesi, okunmamış sohbetleri hızlıca bulmayı kolaylaştırır."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Bu güncelleme, Snapdragon X Elite gibi Windows'taki yeni işlemciler için destek sunmaktadır."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "İşletim sistemi ayarların açık tema kullanacak şekilde yapılandırıldığında Signal'deki koyu temayı bozan bir hatayı da düzelttik. Signal Desktop bundan böyle tematik olarak bölünmüş kişiliğini doğru bir şekilde ele alabilir."
+  },
+  "icu:WhatsNew__v7.35--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
   }
 }

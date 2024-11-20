@@ -590,6 +590,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--FailedToImportBackup": {
+    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ფოტოებსა და ვიდეოებს ფაილებთან ერთად ვერ აირჩევ."
   },
@@ -687,7 +690,7 @@
     "messageformat": "ძიება"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "წაუკითხავი ჩატების მოძებნა"
   },
   "icu:clearSearch": {
     "messageformat": "ძიების გასუფთავება"
@@ -699,10 +702,10 @@
     "messageformat": "\"{searchTerm}\"-ზე ვერაფერი მოიძებნა"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "„{searchTerm}“-ის შედეგი წაუკითხავ ჩატებში არ არის"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "წაუკითხავი ჩატები არ მოიძებნა"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS კონტაქტები Desktop ვერსიაზე არაა ხელმისაწვდომი."
@@ -711,13 +714,13 @@
     "messageformat": "\"{searchTerm}\"-ზე {conversationName}-ში ვერაფერი მოიძებნა"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "გაფილტრულია წაუკითხავის მიხედვით"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "წაუკითხავის მიხედვით გაფილტვრა"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "ფილტრის გასუფთავება"
   },
   "icu:conversationsHeader": {
     "messageformat": "ჩატები"
@@ -1414,6 +1417,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, და {others,number} ამ ზარში არიან} other {{first}, {second}, და {others,number} ამ ზარზე არიან}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {ამ ზარზე {count,number} ადამიანია} other {ამ ზარზე {count,number} ადამიანია}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal-ი {person}-ს დაურეკავს"
@@ -3594,7 +3600,7 @@
     "messageformat": "გადატანის გაუქმება"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "შეტყობინებები და ჩატის ინფორმაცია, სინქრონიზაციის პროცესის ჩათვლით, ბოლომდეა დაშიფრული. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "გსურს გადატანის გაუქმება?"
@@ -4725,13 +4731,13 @@
     "messageformat": "Signal-ი ტექნიკურ სირთულეებს განიცდის. ჩვენ ბევრს ვმუშაობთ სერვისის რაც შეიძლება სწრაფად აღდგენისთვის."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "საჭიროა განახლება"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "განაახლე Signal Desktop ახლა, შენი შეტყობინებების დასინქრონების დასასრულებლად."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "განახლება"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "საჭიროა განახლება"
@@ -5572,13 +5578,13 @@
     "messageformat": "დააწკაპუნე <newCallButtonIcon></newCallButtonIcon> ახალი ხმოვანი ან ვიდეო ზარის წამოსაწყებად."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "გამოტოვებული ზარების ძებნა"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ძიება"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "გაფილტრულია გამოტოვებულის მიხედვით"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "გამოტოვებულის მიხედვით გაფილტვრა"
@@ -5596,10 +5602,10 @@
     "messageformat": "„{query}“-ზე ვერაფერი მოიძებნა"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "„{query}“-ის შედეგი გამოტოვებულ ზარებში არ არის"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "გამოტოვებული ზარები ვერ მოიძებნა"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "ზარის ბმულის შექმნა"
@@ -5770,16 +5776,16 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.33--0": {
-    "messageformat": "ეს განახლება ასწორებს შეცდომას, რომლის გამოც ტექსტის არჩევისას emoji-ზე მარჯვენა ღილაკით დაწკაპუნებისას სწორი კონტექსტური მენიუ არ ჩანდა. მადლობა, <linkKhuddite>@khuddite</linkKhuddite>!"
-  },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "საძიებო ველის გვერდით ახალი ფილტრის ნიშანი წაუკითხავი ჩატების სწრაფად პოვნას აადვილებს. ნახე რას გწერენ და შემდეგ გადაწვიტე უპასუხოდ დატოვებ თუ არა."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "ახალი ვერსია Windows-ზე ისეთი ახალი პროცესორების მხარდაჭერას გთავაზობს, როგორიცაა Snapdragon X Elite."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "ჩვენ ასევე გამოვასწორეთ ბაგი, რომელიც Signal-ზე მუქი აპის ფონს არღვევდა, როცა შენი ოპერაციული სისტემის პარამეტრები ღია აპის ფონზე იყო დაყენებული. ახლა Signal Desktop უკეთ გაუმკლავდება შენს თემატურად გაორებულ პიროვნებას."
+  },
+  "icu:WhatsNew__v7.35--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
   }
 }

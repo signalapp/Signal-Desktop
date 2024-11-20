@@ -590,6 +590,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--FailedToImportBackup": {
+    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Nu poți selecta fotografii și videoclipuri împreună cu fișiere."
   },
@@ -687,7 +690,7 @@
     "messageformat": "Caută"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Caută conversații necitite"
   },
   "icu:clearSearch": {
     "messageformat": "Șterge căutarea"
@@ -699,10 +702,10 @@
     "messageformat": "Nici un rezultat pentru \"{searchTerm}\""
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Nu există rezultate pentru „ {searchTerm} ” în conversațiile necitite"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Fără conversații necitite"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Contactele SMS/MMS nu sunt disponibile pe Desktop."
@@ -711,13 +714,13 @@
     "messageformat": "Nici un rezultat pentru \"{searchTerm}\" în {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Filtrează după necitite"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filtrează după Necitite"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Șterge filtru"
   },
   "icu:conversationsHeader": {
     "messageformat": "Conversații"
@@ -1414,6 +1417,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} și alte {others,number} persoane sunt în acest apel} few {{first}, {second} și alți {others,number} sunt în acest apel} other {{first}, {second} și alți {others,number} sunt în acest apel}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} persoană este în acest apel} few {{count,number} persoane sunt în acest apel} other {{count,number} de persoane sunt în acest apel}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal va suna pe {person}"
@@ -3594,7 +3600,7 @@
     "messageformat": "Anulează transferul"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Mesajele și informațiile legate de conversații sunt protejate prin criptare end-to-end, inclusiv prin procesul de sincronizare. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Anulezi transferul?"
@@ -4725,13 +4731,13 @@
     "messageformat": "Signal întâmpină dificultăți tehnice. Muncim din greu pentru a restabili serviciul cât mai repede posibil."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Actualizare necesară"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Pentru a finaliza sincronizarea mesajelor, actualizează acum Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Actualizează"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualizare necesară"
@@ -5572,13 +5578,13 @@
     "messageformat": "Dă clic pe <newCallButtonIcon></newCallButtonIcon> pentru a începe un nou apel video sau vocal."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Caută apeluri pierdute"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Caută"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Filtrat pe bază de ratate"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrează după apeluri ratate"
@@ -5596,10 +5602,10 @@
     "messageformat": "Fără rezultate pentru „{query}“"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Nu există rezultate pentru „ {query}” în apelurile nepreluate"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nu există apeluri pierdute"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Creează un Link de Apel"
@@ -5770,16 +5776,16 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.33--0": {
-    "messageformat": "Această actualizare remediază o eroare în care meniul context corect nu apărea după ce dădeai clic dreapta pe un emoji în timp ce selectai text. Mulțumesc, <linkKhuddite>@khuddite</linkKhuddite>!"
-  },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Noua pictogramă de filtru de lângă caseta de căutare facilitează găsirea rapidă a conversațiilor necitite, dar nu ezita să-ți acorzi timp pentru a decide dacă le lași citite sau nu după ce ai văzut ce au de spus."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Această actualizare introduce asistență pentru noi procesoare pe Windows, cum ar fi Snapdragon X Elite, astfel încât nu mai trebuie să-ți forțezi ARM-ul pentru a emula x86."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Am remediat și o eroare care făcea să cedeze modul întunecat în Signal atunci când setările sistemului de operare erau configurate pentru a utiliza modul luminos. Signal Desktop poate gestiona acum corect personalitatea ta dublă din punct de vedere tematic."
+  },
+  "icu:WhatsNew__v7.35--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
   }
 }

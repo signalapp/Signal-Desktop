@@ -590,6 +590,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--FailedToImportBackup": {
+    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "आप फ़ाइलों के साथ फ़ोटो और वीडियो नहीं चुन सकते।"
   },
@@ -687,7 +690,7 @@
     "messageformat": "सर्च"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "अपठित चैट में ढूँढ़ें"
   },
   "icu:clearSearch": {
     "messageformat": "सर्च को साफ करें"
@@ -699,10 +702,10 @@
     "messageformat": "\"{searchTerm}\" के लिये कोई परिणाम नहीं मिले"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "पढ़ी न गई चैट में, \"{searchTerm}\" के लिए कोई नतीजा नहीं"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "कोई भी अपठित चैट नहीं"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "डेस्कटॉप पर SMS/MMS संपर्क उपलब्ध नहीं हैं।"
@@ -711,13 +714,13 @@
     "messageformat": "{conversationName} में \"{searchTerm}\" के कोई परिणाम नहीं मिले"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "अपठित द्वारा छांटा गया"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "अपठित द्वारा फ़िल्टर करें"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "फ़िल्टर हटाएँ"
   },
   "icu:conversationsHeader": {
     "messageformat": "चैट"
@@ -1414,6 +1417,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, और {others,number} अन्य इस कॉल में हैं} other {{first}, {second}, और {others,number} अन्य इस कॉल में हैं}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} व्यक्ति इस कॉल में है} other {{count,number} लोग इस कॉल में हैं}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "सिग्नल {person} को रिंग करेगा"
@@ -3594,7 +3600,7 @@
     "messageformat": "ट्रांसफ़र रद्द करें"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "संदेश और चैट जानकारी शुरू से अंत तक एनक्रिप्शन से सुरक्षित है, जिसमें सिंक करने की प्रोसेस शामिल है। <learnMoreLink>ज़्यादा जानें</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "ट्रांसफ़र रद्द करें?"
@@ -4725,13 +4731,13 @@
     "messageformat": "Signal तकनीकी कठिनाइयों का सामना कर रहा है। हम जितनी जल्दी हो सके सेवा बहाल करने के लिए कड़ी मेहनत कर रहे हैं।"
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "अपडेट आवश्यक है"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "अपने संदेशों का सिंक पूरा करने के लिए, अभी Signal डेस्कटॉप अपडेट करें।"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "अपडेट"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "अपडेट आवश्यक है"
@@ -5572,13 +5578,13 @@
     "messageformat": "नया वॉइस या वीडियो कॉल शुरू करने के लिए, <newCallButtonIcon></newCallButtonIcon> पर क्लिक करें।"
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "मिस्ड कॉल खोजें"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "सर्च"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "मिस्ड द्वारा फ़िल्टर किया गया"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "मिस्ड द्वारा फ़िल्टर करें"
@@ -5596,10 +5602,10 @@
     "messageformat": "“{query}” के लिए कोई परिणाम नहीं"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "मिस्ड कॉल में, \"{query}\" के लिए कोई नतीजा नहीं"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "कोई मिस्ड कॉल नहीं"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "कॉल लिंक बनाएं"
@@ -5770,16 +5776,16 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.33--0": {
-    "messageformat": "इस अपडेट से वह गड़बड़ी ठीक होती है, जहाँ किसी टेक्स्ट को चुनते समय किसी इमोजी पर दायाँ क्लिक करने के बाद, संदर्भ मेनू दिखाई नहीं दे रहा था। शुक्रिया, <linkKhuddite>@khuddite</linkKhuddite>!"
-  },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "सर्च बॉक्स के पास बने नए फ़िल्टर आइकन की मदद से, आप पढ़ी न चैट आसानी से ढूँढ सकते हैं, लेकिन इस बात का फ़ैसला लेने के लिए समय लें कि वे क्या कह रहे हैं, यह देखने के बाद, आप उन्हें पढ़कर छोड़ना चाहते हैं या नहीं।"
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "इस अपडेट में, Windows पर Snapdragon X Elite जैसे नए प्रोसेसर के लिए सपोर्ट पेश किया गया है, ताकि आप ARM के बजाय x86 का इस्तेमाल कर सकें।"
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "हमने उस गड़बड़ी को भी ठीक कर दिया है जो आपके ऑपरेटिंग सिस्टम की सेटिंग्स के हल्की थीम पर कॉन्फ़िगर होने पर, Signal में गहरी थीम को हटा देती थी। अब Signal डेस्कटॉप अलग-अलग थीम को लेकर आपकी अलग-अलग पसंद को अच्छे से संभाल सकता है।"
+  },
+  "icu:WhatsNew__v7.35--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
   }
 }

@@ -590,6 +590,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--FailedToImportBackup": {
+    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Du kan ikke vælge billeder og videoer sammen med filer."
   },
@@ -687,7 +690,7 @@
     "messageformat": "Søg"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Søg i ulæste chats"
   },
   "icu:clearSearch": {
     "messageformat": "Ryd søgning"
@@ -699,10 +702,10 @@
     "messageformat": "Ingen resultater for \"{searchTerm}\""
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Ingen resultater for \"{searchTerm}\" i ulæste chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Ingen ulæste chats"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS-kontakter er ikke tilgængelige på Signal Desktop."
@@ -711,13 +714,13 @@
     "messageformat": "Ingen resultater på \"{searchTerm} efter {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Filtreret efter ulæst"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Filtrér efter ulæst"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Ryd filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Chats"
@@ -1414,6 +1417,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, og {others,number} anden deltager i dette opkald} other {{first}, {second} og {others,number} andre deltager i dette opkald}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} person er med i dette opkald} other {{count,number} personer er med i dette opkald}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal vil ringe til {person}"
@@ -3594,7 +3600,7 @@
     "messageformat": "Annuller overførsel"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Beskeder og chatoplysninger er beskyttet af end-to-end-kryptering, herunder også under synkroniseringen. <learnMoreLink>Få mere at vide</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Vil du annullere overførslen?"
@@ -4725,13 +4731,13 @@
     "messageformat": "Signal oplever tekniske vanskeligheder. Vi arbejder hårdt på at genoprette tjenesten så hurtigt som muligt!"
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Opdatering påkrævet"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "For at fuldføre synkroniseringen af dine beskeder skal du opdatere Signal Desktop nu."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Opdatér"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Opdatering påkrævet"
@@ -5572,13 +5578,13 @@
     "messageformat": "Klik <newCallButtonIcon></newCallButtonIcon> for at starte et nyt tale- eller videoopkald."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Søg i ubesvarede opkald"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Søg"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Filtreret efter ubesvaret"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrér efter ubesvaret"
@@ -5596,10 +5602,10 @@
     "messageformat": "Ingen resultater for \"{query}\""
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Ingen resultater for \"{query}\" i ubesvarede opkald"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Ingen ubesvarede opkald"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Opret et opkaldslink"
@@ -5770,16 +5776,16 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.33--0": {
-    "messageformat": "Denne opdatering retter en fejl, hvor den korrekte kontekstmenu ikke blev vist efter at have højreklikket på en emoji gennem tekstvalg. Tak, <linkKhuddite>@khuddite</linkKhuddite>!"
-  },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Det nye filterikon ved siden af søgefeltet gør det nemt hurtigt at finde ulæste chats, men du er velkommen til at tage dig tid til at beslutte, om du vil lade dem være læst, efter at have set, hvad personen havde at sige."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Denne opdatering introducerer understøttelse af nye processorer på Windows som Snapdragon X Elite, så du ikke længere behøver at vride din ARM for at emulere x86."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Vi har også rettet en fejl, der ødelagde det mørke tema i Signal, når operativsystemindstillingerne blev konfigureret til at bruge et lyst tema. Signal Desktop kan nu korrekt håndtere din tematisk opdelte personlighed."
+  },
+  "icu:WhatsNew__v7.35--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
   }
 }

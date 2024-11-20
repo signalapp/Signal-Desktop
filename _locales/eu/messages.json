@@ -590,6 +590,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--FailedToImportBackup": {
+    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Fitxategiekin batera, ezin dituzu hautatu argazki eta bideoak."
   },
@@ -687,7 +690,7 @@
     "messageformat": "Bilatu"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "Bilatu irakurri gabeko txatak"
   },
   "icu:clearSearch": {
     "messageformat": "Garbitu Bilaketa"
@@ -699,10 +702,10 @@
     "messageformat": "Ez da topatu emaitzarik \"{searchTerm}\" bilaketarako"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Ez dago \"{searchTerm}\" bilaketaren emaitzarik irakurri gabeko txatetan"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "Ez dago irakurri gabeko txatik"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS kontaktuak ez daude erabilgarri ordenagailurako bertsioan."
@@ -711,13 +714,13 @@
     "messageformat": "Ez da topatu emaitzarik \"{searchTerm}\" bilaketarako {conversationName} solasaldian"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "Irakurri gabekoen arabera iragazita"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "Iragazi irakurri gabekoen arabera"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "Garbitu iragazkia"
   },
   "icu:conversationsHeader": {
     "messageformat": "Txatak"
@@ -1414,6 +1417,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, eta beste {others,number} dei honetan daude} other {{first}, {second}, eta beste {others,number} dei honetan daude.}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} pertsona dago dei honetan} other {{count,number} pertsona daude dei honetan}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal-ek {person}(r)i deituko dio"
@@ -3594,7 +3600,7 @@
     "messageformat": "Utzi transferentzia bertan behera"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Mezuak eta txatari buruzko informazioa muturretik muturrerako enkriptatzearen bidez daude babestuta (sinkronizazio-prozesua barne). <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Transferentzia bertan behera utzi nahi duzu?"
@@ -4725,13 +4731,13 @@
     "messageformat": "Signal arazo teknikoak izaten ari da. Gogor ari gara lanean zerbitzua ahal bezain laster berriro martxan jartzeko."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "Eguneratu behar da"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Mezuak sinkronizatzen amaitzeko, eguneratu Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "Eguneratu"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Eguneratu behar da"
@@ -5572,13 +5578,13 @@
     "messageformat": "Egin klik hemen: <newCallButtonIcon></newCallButtonIcon> beste dei edo bideodei bat hasteko."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Bilatu dei galduak"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Bilatu"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "Galduen arabera iragazita"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Iragazi dei galduen arabera"
@@ -5596,10 +5602,10 @@
     "messageformat": "Ez dago honen emaitzarik: \"{query}\""
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Ez dago \"{query}\" bilaketaren emaitzarik dei galduetan"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "Dei galdurik ez"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Sortu dei-esteka bat"
@@ -5770,16 +5776,16 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.33--0": {
-    "messageformat": "Eguneratze honen bidez, emoji-testuen hautapenarekin lotutako akats bat ere konpondu da. Aupa zu, <linkKhuddite>@khuddite</linkKhuddite>!"
-  },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Bilaketa-koadroaren alboko iragazkiaren ikono berriari esker, irakurri gabeko txatak erraz aurki daitezke."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Eguneratze honen bidez, Windows-eko prozesadore berriekiko bateragarritasuna eskaintzen da (adibidez, Snapdragon X Elite)."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Halaber, sistema eragilearen ezarpenak gai argia erabiltzeko konfiguratuta zeudenean Signal-en gai iluna hondatzen zuen akats bat konpondu dugu."
+  },
+  "icu:WhatsNew__v7.35--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
   }
 }
