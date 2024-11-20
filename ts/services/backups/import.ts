@@ -315,6 +315,9 @@ export class BackupImportStream extends Writable {
       window.storage.reset();
       await window.storage.fetch();
 
+      // Load identity keys we just saved.
+      await window.storage.protocol.hydrateCaches();
+
       const allConversations = window.ConversationController.getAll();
 
       // Update last message in every active conversation now that we have
