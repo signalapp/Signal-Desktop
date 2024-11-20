@@ -5,7 +5,6 @@ import type { AttachmentType } from '../types/Attachment';
 import type {
   MessageAttributesType,
   QuotedAttachmentType,
-  QuotedMessageType,
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { StickerType } from '../types/Stickers';
@@ -19,15 +18,23 @@ import { map, take, collect } from './iterables';
 import { strictAssert } from './assert';
 import { getMessageSentTimestamp } from './getMessageSentTimestamp';
 import { getLocalAttachmentUrl } from './getLocalAttachmentUrl';
+import type { QuotedMessageForComposerType } from '../state/ducks/composer';
 
 export async function makeQuote(
   quotedMessage: MessageAttributesType
-): Promise<QuotedMessageType> {
+): Promise<QuotedMessageForComposerType['quote']> {
   const contact = getAuthor(quotedMessage);
 
   strictAssert(contact, 'makeQuote: no contact');
 
-  const { attachments, bodyRanges, payment, preview, sticker } = quotedMessage;
+  const {
+    attachments,
+    bodyRanges,
+    id: messageId,
+    payment,
+    preview,
+    sticker,
+  } = quotedMessage;
 
   const quoteId = getMessageSentTimestamp(quotedMessage, { log });
 
@@ -41,6 +48,7 @@ export async function makeQuote(
     id: quoteId,
     isViewOnce: isTapToView(quotedMessage),
     isGiftBadge: isGiftBadge(quotedMessage),
+    messageId,
     referencedMessageNotFound: false,
     text: getQuoteBodyText(quotedMessage, quoteId),
   };

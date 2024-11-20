@@ -466,7 +466,6 @@ describe('Message', () => {
           text: 'hey!',
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any,
@@ -478,7 +477,6 @@ describe('Message', () => {
           attachments: [],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -502,7 +500,6 @@ describe('Message', () => {
           attachments: [],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -531,7 +528,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -564,7 +560,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -584,7 +579,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -619,7 +613,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -639,7 +632,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -732,7 +724,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
         preview: [
@@ -774,7 +765,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
         preview: [

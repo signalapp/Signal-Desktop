@@ -4,7 +4,10 @@
 import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer';
-import type { ComposerStateType, QuotedMessageType } from '../ducks/composer';
+import type {
+  ComposerStateType,
+  QuotedMessageForComposerType,
+} from '../ducks/composer';
 import { getComposerStateForConversation } from '../ducks/composer';
 
 export const getComposerState = (state: StateType): ComposerStateType =>
@@ -19,6 +22,6 @@ export const getComposerStateForConversationIdSelector = createSelector(
 export const getQuotedMessageSelector = createSelector(
   getComposerStateForConversationIdSelector,
   composerStateForConversationIdSelector =>
-    (conversationId: string): QuotedMessageType | undefined =>
+    (conversationId: string): QuotedMessageForComposerType | undefined =>
       composerStateForConversationIdSelector(conversationId).quotedMessage
 );
