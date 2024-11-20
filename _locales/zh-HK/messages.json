@@ -590,6 +590,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--FailedToImportBackup": {
+    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "你無法同時選擇相片、影片以及檔案。"
   },
@@ -687,7 +690,7 @@
     "messageformat": "搜尋"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "搜尋未讀聊天訊息"
   },
   "icu:clearSearch": {
     "messageformat": "清除搜尋"
@@ -699,10 +702,10 @@
     "messageformat": "無 \"{searchTerm}\" 的搜尋結果"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "在未讀聊天中找不到「{searchTerm}」的結果"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "沒有未讀聊天訊息"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS / MMS聯絡人在電腦版上不可使用。"
@@ -711,13 +714,13 @@
     "messageformat": "在{conversationName}找不到\"{searchTerm}\"的結果"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "依據未讀訊息篩選"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "根據未讀訊息篩選"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "清除篩選器"
   },
   "icu:conversationsHeader": {
     "messageformat": "聊天"
@@ -1414,6 +1417,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, other {{first}、{second} 和另外 {others,number} 人現已在此通話中}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, other {{count,number} 人現已在此通話中}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal會給{person}打電話"
@@ -3594,7 +3600,7 @@
     "messageformat": "取消轉移"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "訊息和聊天資訊均受端對端加密的保護，包括同步過程。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "要取消轉移嗎？"
@@ -4725,13 +4731,13 @@
     "messageformat": "Signal 出現技術問題。我們正努力搶修，儘快回復服務。"
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "必須更新"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "要完成訊息同步，請立即更新 Signal 桌面版。"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "更新"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "必須更新"
@@ -5572,13 +5578,13 @@
     "messageformat": "點擊 <newCallButtonIcon></newCallButtonIcon> 以開始新的語音或視訊通話。"
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "搜尋未接來電"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "搜尋"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "依據未接通話篩選"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "依據未接通話篩選"
@@ -5596,10 +5602,10 @@
     "messageformat": "沒有符合「{query}」的結果"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "在未接來電中找不到「{query}」的結果"
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "沒有未接來電"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "建立通話連結"
@@ -5770,16 +5776,16 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.33--0": {
-    "messageformat": "此更新修正了在選擇文字時右鍵單擊圖示後，沒有出現正確內容選單的錯誤。<linkKhuddite>@khuddite</linkKhuddite>，謝謝你！"
-  },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "搜尋方塊旁邊的新篩選圖示可讓你輕鬆快速找到未讀的聊天，但在看到聊天內容後，你也可以慢慢決定是否讓聊天內容變為已讀狀態。"
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "此更新推出了支援 Windows 上的新處理器，例如 Snapdragon X Elite，因此你不再需要將 ARM 轉化為模擬 x86。"
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "我們還修正了一個錯誤，就是當你的作業系統設定為使用淺色主題時，會破壞 Signal 深色主題的錯誤。"
+  },
+  "icu:WhatsNew__v7.35--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
   }
 }

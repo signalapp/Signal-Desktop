@@ -7678,15 +7678,15 @@
   },
   "icu:WhatsNew__v7.34--0": {
     "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say.",
-    "description": "Release notes for version 7.34"
+    "description": "(Deleted 2024/11/20) Release notes for version 7.34"
   },
   "icu:WhatsNew__v7.34--1": {
     "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore.",
-    "description": "Release notes for version 7.34"
+    "description": "(Deleted 2024/11/20) Release notes for version 7.34"
   },
   "icu:WhatsNew__v7.34--2": {
     "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality.",
-    "description": "Release notes for version 7.34"
+    "description": "(Deleted 2024/11/20) Release notes for version 7.34"
   },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say.",

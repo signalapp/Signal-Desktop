@@ -590,6 +590,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--FailedToImportBackup": {
+    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "لا يُمكنك تحديد الصور ومقاطع الفيديو مع الملفات."
   },
@@ -687,7 +690,7 @@
     "messageformat": "بحث"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Search unread chats"
+    "messageformat": "البحث في الدردشات غير المقروءة"
   },
   "icu:clearSearch": {
     "messageformat": "محو البحث"
@@ -699,10 +702,10 @@
     "messageformat": "لم يعثر على نتائج حول \"{searchTerm}\""
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "لا توجد نتائج لـ \"{searchTerm}\" في الدردشات غير المقروءة."
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "No unread chats"
+    "messageformat": "لا توجد دردشات غير مقروءة"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "جهات اتصال الرسائل القصيرة ورسائل الوسائط المتعددة غير متاحة في هذا التطبيق."
@@ -711,13 +714,13 @@
     "messageformat": "لم يعثر على نتائج حول \"{searchTerm}\" في {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtered by unread"
+    "messageformat": "الفلترة حسب المحادثات غير المقروءة"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "الفلترة حسب المحادثات غير المقروءة"
   },
   "icu:clearFilterButton": {
-    "messageformat": "Clear filter"
+    "messageformat": "إزالة الفلتر"
   },
   "icu:conversationsHeader": {
     "messageformat": "الدردشات"
@@ -1414,6 +1417,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, zero {{first} و {second} و {others,number} آخرون في هذه المُكالمة} one {{first} و {second} و{others,number} آخر موجود في هذه المكالمة} two {{first} و {second} و {others,number} آخران في هذه المُكالمة} few {{first} و {second} و {others,number} آخرون في هذه المُكالمة} many {{first} و {second} و {others,number} آخرون في هذه المُكالمة} other {{first} و {second} و {others,number} آخرون في هذه المُكالمة}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, zero {{count,number} أشخاص في هذه المكالمة} one {{count,number} شخص في هذه المكالمة} two {{count,number} شخصان في هذه المكالمة} few {{count,number} أشخاص في هذه المكالمة} many {{count,number} شخصًا في هذه المكالمة} other {{count,number} شخص في هذه المكالمة}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "سوف يرن سيجنال على {person}"
@@ -3594,7 +3600,7 @@
     "messageformat": "إلغاء التحويل"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "معلومات الرسائل والدردشات محمية من خلال التشفير من طرف لِطرف، بما في ذلك عملية المزامنة. <learnMoreLink>اعرف المزيد</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "أترغبُ بإلغاء التحويل؟"
@@ -4725,13 +4731,13 @@
     "messageformat": "إنَّ سيجنال يواجِهُ صُعوبات تَقنية. نحنُ نعملُ بجد لاستعادة الخِدمة في أسرع وقت ممكن."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Update Required"
+    "messageformat": "التحديث مطلوب"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "لإكمال مزامنة الرسائل، قُم بتحديث سيجنال Desktop الآن."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
-    "messageformat": "Update"
+    "messageformat": "تحديث"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "يَجب تحديث التطبيق"
@@ -5572,13 +5578,13 @@
     "messageformat": "انقر على <newCallButtonIcon></newCallButtonIcon> لبدء مُكالمة صوتية أو فيديو جديدة."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "البحث في المُكالمات الفائتة"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "بحث"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtered by missed"
+    "messageformat": "تمَّت التصفية بحسب المكالمات الفائتة"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "الفلترة حسب المكالمات الفائتة"
@@ -5596,10 +5602,10 @@
     "messageformat": "لا توجد نتيجة لـ \"{query}\""
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "لا توجد نتائج لـ \"{query}\" في المكالمات الفائتة."
   },
   "icu:CallsList__EmptyState--missedCalls": {
-    "messageformat": "No missed calls"
+    "messageformat": "لا توجد مكالمات فائتة"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "إنشاء رابط المكالمة"
@@ -5770,16 +5776,16 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.33--0": {
-    "messageformat": "يعمل هذا التحديث على إصلاح خطأ يتعلَّق باختيار الرموز التعبيرية (الإيموجي). شكرًا، <linkKhuddite>@khuddite</linkKhuddite>!"
-  },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "تُسهّل أيقونة الفلتر الجديدة الموجودة قرب مربع البحث العثور بسرعة على الدردشات غير المقروءة."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "يُقدم هذا التحديث دعمًا للمعالجات الجديدة على نظام التشغيل Windows مثل Snapdragon X Elite."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "أصلحنا أيضًا خطًأ كان يُعطِّل النّمط الدّاكن في سيجنال عندما تكون إعدادات نظام التشغيل على جهازك مهيأة لاستخدام النمط الفاتح."
+  },
+  "icu:WhatsNew__v7.35--0": {
+    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
   }
 }
