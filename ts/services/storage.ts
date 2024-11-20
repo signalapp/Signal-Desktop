@@ -1080,7 +1080,7 @@ async function fetchManifest(
     const encryptedManifest = Proto.StorageManifest.decode(manifestBinary);
 
     try {
-      return decryptManifest(encryptedManifest);
+      return await decryptManifest(encryptedManifest);
     } catch (err) {
       await stopStorageServiceSync(err);
     }
