@@ -38,6 +38,7 @@ import type { AnyPaymentEvent } from './types/Payment';
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
 import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent';
+import type { QuotedMessageForComposerType } from './state/ducks/composer';
 
 export type LastMessageStatus =
   | 'paused'
@@ -97,10 +98,11 @@ export type QuotedMessageType = {
   id: number | null;
   isGiftBadge?: boolean;
   isViewOnce: boolean;
-  // `messageId` is deprecated
-  messageId?: string;
   referencedMessageNotFound: boolean;
   text?: string;
+  /** @deprecated `messageId` is used only in composer state, but still may exist in DB
+   * records, particularly for messages sent from this device */
+  messageId?: string;
 };
 
 type StoryReplyContextType = {
@@ -324,7 +326,7 @@ export type DraftEditMessageType = {
   body: string;
   preview?: LinkPreviewType;
   targetMessageId: string;
-  quote?: QuotedMessageType;
+  quote?: QuotedMessageForComposerType['quote'];
 };
 
 export type ConversationAttributesType = {

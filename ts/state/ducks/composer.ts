@@ -105,19 +105,17 @@ type ComposerStateByConversationType = {
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
   messageCompositionId: string;
-  quotedMessage?: Pick<
-    ReadonlyMessageAttributesType,
-    'conversationId' | 'quote'
-  >;
+  quotedMessage?: QuotedMessageForComposerType;
   sendCounter: number;
   shouldSendHighQualityAttachments?: boolean;
 };
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type QuotedMessageType = Pick<
-  ReadonlyMessageAttributesType,
-  'conversationId' | 'quote'
->;
+export type QuotedMessageForComposerType = ReadonlyDeep<{
+  conversationId: ReadonlyMessageAttributesType['conversationId'];
+  quote: ReadonlyMessageAttributesType['quote'] & {
+    messageId?: string;
+  };
+}>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ComposerStateType = {
@@ -212,7 +210,7 @@ export type SetQuotedMessageActionType = {
   type: typeof SET_QUOTED_MESSAGE;
   payload: {
     conversationId: string;
-    quotedMessage?: QuotedMessageType;
+    quotedMessage?: QuotedMessageForComposerType;
   };
 };
 
@@ -713,7 +711,7 @@ export function setQuoteByMessageId(
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('sendStickerMessage: No conversation found');
+      throw new Error('setQuoteByMessageId: No conversation found');
     }
 
     const draftEditMessage = conversation.get('draftEditMessage');
@@ -1373,7 +1371,7 @@ function setMediaQualitySetting(
 
 function setQuotedMessage(
   conversationId: string,
-  quotedMessage?: QuotedMessageType
+  quotedMessage?: QuotedMessageForComposerType
 ): SetQuotedMessageActionType {
   return {
     type: SET_QUOTED_MESSAGE,
