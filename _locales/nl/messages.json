@@ -699,7 +699,7 @@
     "messageformat": "Geen resultaten voor ‘{searchTerm}’"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Geen resultaten voor ‘{searchTerm}’ in ongelezen chats"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Geen ongelezen chats"
@@ -3597,7 +3597,7 @@
     "messageformat": "Overzetten annuleren"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Berichten en chatgegevens worden beschermd door end-to-end-versleuteling, ook tijdens het synchronisatieproces. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Overzetten annuleren?"
@@ -4731,7 +4731,7 @@
     "messageformat": "Update vereist"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Om het synchroniseren van je berichten te kunnen voltooien, moet je Signal Desktop nu bijwerken."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Bijwerken"
@@ -5575,7 +5575,7 @@
     "messageformat": "Klik op <newCallButtonIcon></newCallButtonIcon> om een nieuwe spraak- of video-oproep te starten."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Gemiste oproepen zoeken"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Zoeken"
@@ -5599,7 +5599,7 @@
     "messageformat": "Geen resultaten voor ‘{query}’"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Geen resultaten voor ‘{query}’ in gemiste oproepen"
   },
   "icu:CallsList__EmptyState--missedCalls": {
     "messageformat": "Geen gemiste oproepen"
@@ -5777,12 +5777,12 @@
     "messageformat": "Deze update lost een bug op waarbij het juiste contextmenu niet verscheen na het klikken met de rechtermuisknop op een emoji bij tekstselectie. Bedankt <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Het nieuwe filterpictogram naast het zoekvak maakt het gemakkelijk om snel ongelezen chats te vinden. Maar neem gerust de tijd om te beslissen of je ook daadwerkelijk gaat antwoorden als je ze eenmaal hebt gelezen."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Deze update introduceert ondersteuning voor nieuwe processors op Windows zoals de Snapdragon X Elite."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "We hebben ook een fout opgelost waardoor het donkere thema in Signal niet meer werkte als de instellingen van je besturingssysteem waren ingesteld op een licht thema."
   }
 }

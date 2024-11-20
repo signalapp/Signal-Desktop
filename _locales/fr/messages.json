@@ -687,7 +687,7 @@
     "messageformat": "Rechercher"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Rechercher des conversations non lues"
+    "messageformat": "Rechercher dans les conversations non lues"
   },
   "icu:clearSearch": {
     "messageformat": "Effacer la recherche"
@@ -699,7 +699,7 @@
     "messageformat": "Aucun résultat ne correspond à votre recherche : \"{searchTerm}\""
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Aucun résultat ne correspond à \"{searchTerm}\" dans les conversations non lues"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Aucune conversation non lue"
@@ -711,10 +711,10 @@
     "messageformat": "Aucun résultat ne correspond à \"{searchTerm}\" dans \"{conversationName}\""
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtrées par conversations non lues"
+    "messageformat": "Résultats filtrés par conversations non lues"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filtrer les conversations non lues"
+    "messageformat": "Filtrer par conversations non lues"
   },
   "icu:clearFilterButton": {
     "messageformat": "Supprimer le filtre"
@@ -3597,7 +3597,7 @@
     "messageformat": "Annuler le transfert"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Avec son protocole de chiffrement de bout en bout, Signal protège systématiquement vos messages et vos conversations. Même pendant la synchronisation. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Annuler le transfert ?"
@@ -4728,10 +4728,10 @@
     "messageformat": "Petit souci technique... Nous mettons tout en œuvre pour restaurer le service le plus rapidement possible."
   },
   "icu:InstallScreenUpdateDialog--update-required__title": {
-    "messageformat": "Mise à jour requise"
+    "messageformat": "Une petite mise à jour est nécessaire"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Pour terminer la synchronisation de vos messages, passez à la dernière version de Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Mettre à jour"
@@ -5575,13 +5575,13 @@
     "messageformat": "Cliquez sur <newCallButtonIcon></newCallButtonIcon> pour passer un appel vocal ou vidéo."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Rechercher dans les appels manqués"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Rechercher"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtrés par appels manqués"
+    "messageformat": "Résultats filtrés par appels manqués"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrer par appels manqués"
@@ -5599,7 +5599,7 @@
     "messageformat": "Aucun résultat ne correspond à votre recherche : \"{query}\""
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Aucun résultat ne correspond à \"{query}\" dans les appels manqués"
   },
   "icu:CallsList__EmptyState--missedCalls": {
     "messageformat": "Aucun appel manqué"
@@ -5777,12 +5777,12 @@
     "messageformat": "Lorsqu'on sélectionnait du texte contenant un émoji et qu'on effectuait un clic droit, le menu contextuel qui apparaissait semait un peu la confusion. Un bug dans la corbeille, ça redonne tout de suite le sourire ! :-) Merci, <linkKhuddite>@khuddite</linkKhuddite> !"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Vous aviez du mal à rechercher vos conversations non lues ? La nouvelle icône de filtre près du champ de recherche vous facilite la tâche ! Ensuite, libre à vous d'ouvrir ces conversations, de les ignorer ou de les marquer comme \"non lues\" pour y revenir plus tard."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Cette mise à jour prend en charge de nouveaux processeurs sous Windows, comme le Snapdragon X Elite. Rien de plus normal, quand on représente l'élite des applications de messagerie.  ;-)"
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Vous avez peut-être remarqué que le thème sombre se désactivait sur Signal lorsque vous passiez votre ordinateur en thème clair. Ce n'est plus le cas : chez Signal, on respecte tous les styles ! Qui a dit que les gothiques n'aimaient pas les soirées blanches ?"
   }
 }

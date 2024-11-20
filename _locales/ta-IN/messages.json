@@ -699,7 +699,7 @@
     "messageformat": "\"{searchTerm}\" க்கான முடிவுகள் எதுவும் இல்லை"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "படிக்காத சாட்ஸில் \"{searchTerm}\" க்கான முடிவுகள் இல்லை"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "படிக்காத சாட்ஸ் எதுவுமில்லை"
@@ -714,7 +714,7 @@
     "messageformat": "படிக்காதவை வடிகட்டப்பட்டுள்ளன"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filter by unread"
+    "messageformat": "படிக்காதவையின் படி வடிகட்டு"
   },
   "icu:clearFilterButton": {
     "messageformat": "ஃபில்டரை அழி"
@@ -1416,7 +1416,7 @@
     "messageformat": "{others, plural, one {{first}, {second}, மற்றும் {others,number}நபர்கள் அழைப்பில் உள்ளனர்} other {{first}, {second}, மற்றும் கூடுதலாக{others,number} நபர்கள் அழைப்பில் உள்ளனர்}}"
   },
   "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
-    "messageformat": "{count, plural, one {{count,number} person is in this call} other {{count,number} people are in this call}}"
+    "messageformat": "{count, plural, one {{count,number}நபர் இந்த அழைப்பில் உள்ளார்} other {{count,number}நபர்கள் இந்த அழைப்பில் உள்ளனர்}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "சிக்னல் {person}-ஐ அழைக்கும்"
@@ -3597,7 +3597,7 @@
     "messageformat": "பரிமாற்றத்தை ரத்துசெய்க"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ஒத்திசைவு செயல்முறை உட்பட, மெசேஜ்கள் மற்றும் சாட் தகவல் ஆகியவை எண்டு-டு-எண்டு குறியாக்கத்தால் பாதுகாக்கப்படுகின்றன. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "பரிமாற்றத்தை ரத்து செய்ய வேண்டுமா?"
@@ -4731,7 +4731,7 @@
     "messageformat": "புதுப்பித்தல் தேவை"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "உங்கள் மெசேஜ்களை ஒத்திசைப்பதை முடிக்க, சிக்னல் டெஸ்க்டாப்பை இப்போதே புதுப்பிக்கவும்."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "புதுப்பிக்கப்பட்டது"
@@ -5575,7 +5575,7 @@
     "messageformat": "புதிய குரல் அல்லது வீடியோ அழைப்பை மேற்கொள்ள <newCallButtonIcon></newCallButtonIcon> ஐக் க்ளிக் செய்யவும்."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "தவறவிட்ட அழைப்புகளைத் தேடுக"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "தேடல்"
@@ -5599,7 +5599,7 @@
     "messageformat": "''{query}' க்கான முடிவுகள் எதுவும் கிடைக்கவில்லை"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "தவறவிட்ட அழைப்புகளில் “{query}”க்கான முடிவுகள் இல்லை"
   },
   "icu:CallsList__EmptyState--missedCalls": {
     "messageformat": "தவறிய அழைப்புகள் ஏதும் இல்லை"
@@ -5777,12 +5777,12 @@
     "messageformat": "இந்த வெளியீடு ஈமோஜி டெக்ஸ்ட் தேர்வில் உள்ள பிழையையும் சரி செய்கிறது. நன்றி, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "தேடல் பெட்டிக்கு அடுத்துள்ள புதிய வடிகட்டி ஐகான் படிக்காத சாட்ஸை விரைவாகக் கண்டறிவதை எளிதாக்குகிறது."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "இந்தப் புதுப்பிப்பு Snapdragon X Elite போன்ற Windows இல் புதிய செயலிகளுக்கான ஆதரவை அறிமுகப்படுத்துகிறது."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "பிரகாசமான தீமைப் பயன்படுத்த உங்கள் இயக்க முறைமை அமைப்புகள் உள்ளமைக்கப்பட்டபோது, சிக்னலில் இருண்ட தீம் செயலிழக்கும் பிழையையும் நாங்கள் சரிசெய்துள்ளோம்."
   }
 }

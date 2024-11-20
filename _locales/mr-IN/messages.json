@@ -5783,6 +5783,6 @@
     "messageformat": "हे अद्यतन विंडोजवरील नवीन प्रोसेसर्ससाठी सपोर्ट सुरु करते उदाहरणार्थ स्नॅपड्रॅगन X एलिट, ज्यामुळे आता x86 शी स्पर्धा करण्यात आपल्या ARM ला कष्ट पडण्याचे काही कारण नाही."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "आम्ही एक बगसुद्धा दुरुस्त केला जो आपल्या ऑपरेटिंग सिस्टीम सेटिंग्ज मध्ये Signal मधील गडद थीम काढून हलकी थीम वापरण्याची व्यवस्था केलेली असेल. Signal डेक्सटॉप आता आपले थीमनुसार दुभंगलेले व्यक्तिमत्त्व नीट हाताळू शकते."
   }
 }

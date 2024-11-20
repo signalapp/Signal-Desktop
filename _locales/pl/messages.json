@@ -687,7 +687,7 @@
     "messageformat": "Szukaj"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Wyszukaj nieprzeczytane czaty"
+    "messageformat": "Wyszukaj nieodczytane czaty"
   },
   "icu:clearSearch": {
     "messageformat": "Wyczyść wyszukiwanie"
@@ -699,10 +699,10 @@
     "messageformat": "Nie znaleziono \"{searchTerm}\""
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No results for \"{searchTerm}\" in unread chats"
+    "messageformat": "Nie znaleziono „{searchTerm}” w nieodczytanych czatach"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
-    "messageformat": "Brak nieprzeczytanych czatów"
+    "messageformat": "Brak nieodczytanych czatów"
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Kontakty SMS/MMS nie są dostępne w aplikacji Desktop."
@@ -711,7 +711,7 @@
     "messageformat": "Nie znaleziono \"{searchTerm}\" w {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtrowane według nieprzeczytanych"
+    "messageformat": "Filtrowane według nieodczytanych"
   },
   "icu:filterByUnreadButtonLabel": {
     "messageformat": "Filtruj według nieprzeczytanych"
@@ -3597,7 +3597,7 @@
     "messageformat": "Anuluj przenoszenie"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Messages and chat info are protected by end-to-end encryption, including the sync process. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Wiadomości i informacje o czacie są szyfrowane metodą end-to-end. Dotyczy to także synchronizacji. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Anulować przenoszenie?"
@@ -4731,7 +4731,7 @@
     "messageformat": "Wymagana aktualizacja"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To complete syncing your messages, update Signal desktop now."
+    "messageformat": "Aby dokończyć synchronizację wiadomości, zaktualizuj Signal Desktop teraz."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Uaktualnij"
@@ -5575,13 +5575,13 @@
     "messageformat": "Kliknij <newCallButtonIcon></newCallButtonIcon>, aby rozpocząć nowe połączenie głosowe lub wideo."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Search missed calls"
+    "messageformat": "Wyszukaj nieodebrane połączenia"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Szukaj"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Filtruj po nieodebranych"
+    "messageformat": "Filtrowane według nieodebranych"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtruj według nieodebranych"
@@ -5599,7 +5599,7 @@
     "messageformat": "Brak wyników dla „{query}”"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No results for “{query}” in missed calls"
+    "messageformat": "Nie znaleziono „{query}” w nieodebranych połączeniach"
   },
   "icu:CallsList__EmptyState--missedCalls": {
     "messageformat": "Brak nieodebranych połączeń"
@@ -5777,12 +5777,12 @@
     "messageformat": "W tej aktualizacji naprawiliśmy błąd, który powodował, że po zaznaczeniu tekstu i kliknięciu emoji prawym przyciskiem myszy nie pojawiało się właściwe menu kontekstowe. Dzięki, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
   "icu:WhatsNew__v7.34--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Nowa ikona filtra obok pola wyszukiwania ułatwia odnajdywanie czatów z nieodczytanymi wiadomościami. Czy odpiszesz? Ta decyzja należy do Ciebie."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "This update introduces support for new processors on Windows like the Snapdragon X Elite, so you don't need to twist your ARM into emulating x86 anymore."
+    "messageformat": "Od teraz ARM nie musi już udawać x86. W tej aktualizacji dodaliśmy obsługę nowych procesorów w systemie Windows, takich jak Snapdragon X Elite. Każdy procesor może więc pozostać sobą."
   },
   "icu:WhatsNew__v7.34--2": {
-    "messageformat": "We also fixed a bug that broke the dark theme in Signal when your operating system settings were configured to use a light theme. Signal Desktop can now properly handle your thematically split personality."
+    "messageformat": "Naprawiliśmy również błąd, który powodował niepoprawne działanie trybu ciemnego w aplikacji Signal wtedy, gdy w ustawieniach systemowych komputera skonfigurowano tryb jasny. Teraz Signal Desktop i Twój komputer mogą być niczym yin i yang."
   }
 }
