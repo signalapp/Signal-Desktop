@@ -1497,38 +1497,46 @@ export async function updateLocalGroupCallHistoryTimestamp(
   if (conversation == null) {
     return null;
   }
-  const peerId = getPeerIdFromConversation(conversation.attributes);
 
-  const prevCallHistory =
-    (await DataReader.getCallHistory(callId, peerId)) ?? null;
+  return conversation.queueJob<CallHistoryDetails | null>(
+    'updateLocalGroupCallHistoryTimestamp',
+    async () => {
+      const peerId = getPeerIdFromConversation(conversation.attributes);
 
-  // We don't have all the details to add new call history here
-  if (prevCallHistory != null) {
-    log.info(
-      'updateLocalGroupCallHistoryTimestamp: Found previous call history:',
-      formatCallHistory(prevCallHistory)
-    );
-  } else {
-    log.info('updateLocalGroupCallHistoryTimestamp: No previous call history');
-    return null;
-  }
+      const prevCallHistory =
+        (await DataReader.getCallHistory(callId, peerId)) ?? null;
 
-  if (timestamp >= prevCallHistory.timestamp) {
-    log.info(
-      'updateLocalGroupCallHistoryTimestamp: New timestamp is later than existing call history, ignoring'
-    );
-    return prevCallHistory;
-  }
+      // We don't have all the details to add new call history here
+      if (prevCallHistory != null) {
+        log.info(
+          'updateLocalGroupCallHistoryTimestamp: Found previous call history:',
+          formatCallHistory(prevCallHistory)
+        );
+      } else {
+        log.info(
+          'updateLocalGroupCallHistoryTimestamp: No previous call history'
+        );
+        return null;
+      }
 
-  const updatedCallHistory = await saveCallHistory({
-    callHistory: {
-      ...prevCallHistory,
-      timestamp,
-    },
-    conversation,
-    receivedAtCounter: null,
-    receivedAtMS: null,
-  });
+      if (timestamp >= prevCallHistory.timestamp) {
+        log.info(
+          'updateLocalGroupCallHistoryTimestamp: New timestamp is later than existing call history, ignoring'
+        );
+        return prevCallHistory;
+      }
 
-  return updatedCallHistory;
+      const updatedCallHistory = await saveCallHistory({
+        callHistory: {
+          ...prevCallHistory,
+          timestamp,
+        },
+        conversation,
+        receivedAtCounter: null,
+        receivedAtMS: null,
+      });
+
+      return updatedCallHistory;
+    }
+  );
 }
