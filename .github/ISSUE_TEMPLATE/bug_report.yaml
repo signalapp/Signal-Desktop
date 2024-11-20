@@ -19,7 +19,7 @@ body:
     id: supported-version-and-no-duplicates
     attributes:
       label: "Using a supported version?"
-      description: "Search issues here: https://github.com/signalapp/Signal-Desktop/issues"
+      description: "Search issues here: https://github.com/signalapp/Signal-Desktop/issues?q=is%3Aissue+"
       options:
         - label: I have searched searched open and closed issues for duplicates.
           required: true
