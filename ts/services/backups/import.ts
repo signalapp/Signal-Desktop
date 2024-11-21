@@ -1695,15 +1695,14 @@ export class BackupImportStream extends Writable {
 
     const authorConvo = this.recipientIdToConvo.get(quote.authorId.toNumber());
     strictAssert(authorConvo !== undefined, 'author conversation not found');
-    strictAssert(
-      isAciString(authorConvo.serviceId),
-      'must have ACI for authorId in quote'
-    );
 
     return {
       id: getTimestampFromLong(quote.targetSentTimestamp) || null,
       referencedMessageNotFound: quote.targetSentTimestamp == null,
-      authorAci: authorConvo.serviceId,
+      authorAci: isAciString(authorConvo.serviceId)
+        ? authorConvo.serviceId
+        : undefined,
+      author: isAciString(authorConvo.serviceId) ? undefined : authorConvo.e164,
       text: dropNull(quote.text?.body),
       bodyRanges: this.fromBodyRanges(quote.text),
       isGiftBadge: quote.type === Backups.Quote.Type.GIFT_BADGE,
@@ -1906,7 +1905,6 @@ export class BackupImportStream extends Writable {
           sticker: { emoji, packId, packKey, stickerId, data },
         },
       } = chatItem;
-      strictAssert(emoji != null, 'stickerMessage must have an emoji');
       strictAssert(
         packId?.length === STICKERPACK_ID_BYTE_LEN,
         'stickerMessage must have a valid pack id'
@@ -1920,7 +1918,7 @@ export class BackupImportStream extends Writable {
       return {
         message: {
           sticker: {
-            emoji,
+            emoji: dropNull(emoji),
             packId: Bytes.toHex(packId),
             packKey: Bytes.toBase64(packKey),
             stickerId,
