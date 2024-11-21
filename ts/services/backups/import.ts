@@ -116,7 +116,7 @@ import {
 } from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
-import { isAlpha } from '../../util/version';
+import { isNightly } from '../../util/version';
 import { ToastType } from '../../types/Toast';
 
 const MAX_CONCURRENCY = 10;
@@ -369,7 +369,7 @@ export class BackupImportStream extends Writable {
         log.error(
           `${this.logId}: errored while processing ${this.frameErrorCount} frames.`
         );
-        if (isAlpha(window.getVersion())) {
+        if (isNightly(window.getVersion())) {
           window.reduxActions.toast.showToast({
             toastType: ToastType.FailedToImportBackup,
           });

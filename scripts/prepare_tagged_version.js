@@ -6,7 +6,13 @@ const { execSync } = require('child_process');
 
 const _ = require('lodash');
 
-const { generateAlphaVersion } = require('../ts/util/version');
+const release = process.argv[2];
+if (release !== 'alpha' && release !== 'axolotl') {
+  console.error(`Invalid release line: ${release}`);
+  process.exit(1);
+}
+
+const { generateTaggedVersion } = require('../ts/util/version');
 
 const packageJson = require('../package.json');
 
@@ -16,15 +22,15 @@ const shortSha = execSync('git rev-parse --short HEAD')
   .toString('utf8')
   .replace(/[\n\r]/g, '');
 
-const alphaVersion = generateAlphaVersion({ currentVersion, shortSha });
+const newVersion = generateTaggedVersion({ release, currentVersion, shortSha });
 
 console.log(
-  `prepare_alpha_version: updating package.json.\n  Previous: ${currentVersion}\n  New:      ${alphaVersion}`
+  `prepare_tagged_version: updating package.json.\n  Previous: ${currentVersion}\n  New:      ${newVersion}`
 );
 
 // -------
 
-_.set(packageJson, 'version', alphaVersion);
+_.set(packageJson, 'version', newVersion);
 
 // -------
 

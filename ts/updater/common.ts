@@ -27,7 +27,7 @@ import * as Errors from '../types/errors';
 import { strictAssert } from '../util/assert';
 import { drop } from '../util/drop';
 import * as durations from '../util/durations';
-import { isAlpha, isBeta, isStaging } from '../util/version';
+import { isAlpha, isAxolotl, isBeta, isStaging } from '../util/version';
 
 import * as packageJson from '../../package.json';
 import type { SettingsChannel } from '../main/settingsChannel';
@@ -911,6 +911,9 @@ function getChannel(): string {
   }
   if (isAlpha(version)) {
     return 'alpha';
+  }
+  if (isAxolotl(version)) {
+    return 'axolotl';
   }
   if (isBeta(version)) {
     return 'beta';

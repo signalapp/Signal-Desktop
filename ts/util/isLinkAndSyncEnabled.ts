@@ -3,7 +3,7 @@
 
 import { isTestOrMockEnvironment } from '../environment';
 import { isStagingServer } from './isStagingServer';
-import { isAlpha } from './version';
+import { isNightly } from './version';
 import { everDone as wasRegistrationEverDone } from './registration';
 
 export function isLinkAndSyncEnabled(version: string): boolean {
@@ -12,5 +12,5 @@ export function isLinkAndSyncEnabled(version: string): boolean {
     return false;
   }
 
-  return isStagingServer() || isTestOrMockEnvironment() || isAlpha(version);
+  return isStagingServer() || isTestOrMockEnvironment() || isNightly(version);
 }

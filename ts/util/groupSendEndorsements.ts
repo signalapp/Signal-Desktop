@@ -27,7 +27,7 @@ import { DurationInSeconds, MINUTE } from './durations';
 import { ToastType } from '../types/Toast';
 import * as Errors from '../types/errors';
 import { isTestOrMockEnvironment } from '../environment';
-import { isAlpha } from './version';
+import { isNightly } from './version';
 import { parseStrict } from './schemas';
 import { DataReader } from '../sql/Client';
 import { maybeUpdateGroup } from '../groups';
@@ -331,7 +331,7 @@ const showFailedToSendWithEndorsementsToast = throttle(
 
 export function onFailedToSendWithEndorsements(error: Error): void {
   log.error('onFailedToSendWithEndorsements', Errors.toLogFormat(error));
-  if (isTestOrMockEnvironment() || isAlpha(window.getVersion())) {
+  if (isTestOrMockEnvironment() || isNightly(window.getVersion())) {
     showFailedToSendWithEndorsementsToast();
   }
   if (window.SignalCI) {

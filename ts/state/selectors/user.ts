@@ -12,7 +12,7 @@ import type { StateType } from '../reducer';
 import type { CallingStateType } from '../ducks/calling';
 import type { UserStateType } from '../ducks/user';
 
-import { isAlpha, isBeta } from '../../util/version';
+import { isNightly, isBeta } from '../../util/version';
 
 export const getUser = (state: StateType): UserStateType => state.user;
 
@@ -108,7 +108,7 @@ const getVersion = createSelector(
   (state: UserStateType) => state.version
 );
 
-export const getIsAlpha = createSelector(getVersion, isAlpha);
+export const getIsNightly = createSelector(getVersion, isNightly);
 
 export const getIsBeta = createSelector(getVersion, isBeta);
 

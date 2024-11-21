@@ -7,7 +7,7 @@ import type { StateType } from '../../../state/reducer';
 import type { UserStateType } from '../../../state/ducks/user';
 import { getEmptyState } from '../../../state/ducks/user';
 
-import { getIsAlpha, getIsBeta } from '../../../state/selectors/user';
+import { getIsNightly, getIsBeta } from '../../../state/selectors/user';
 
 describe('both/state/selectors/user', () => {
   function getRootState(
@@ -22,20 +22,20 @@ describe('both/state/selectors/user', () => {
     } as any;
   }
 
-  describe('#getIsAlpha', () => {
+  describe('#getIsNightly', () => {
     it('returns false for beta', () => {
       const state = getRootState({ version: '1.23.4-beta.5' });
-      assert.isFalse(getIsAlpha(state));
+      assert.isFalse(getIsNightly(state));
     });
 
     it('returns false for production', () => {
       const state = getRootState({ version: '1.23.4' });
-      assert.isFalse(getIsAlpha(state));
+      assert.isFalse(getIsNightly(state));
     });
 
     it('returns true for alpha', () => {
       const state = getRootState({ version: '1.23.4-alpha.987' });
-      assert.isTrue(getIsAlpha(state));
+      assert.isTrue(getIsNightly(state));
     });
   });
 

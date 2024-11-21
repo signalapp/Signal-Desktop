@@ -46,7 +46,7 @@ import WebSocketResource, {
 import { ConnectTimeoutError, HTTPError } from './Errors';
 import type { IRequestHandler, WebAPICredentials } from './Types.d';
 import { connect as connectWebSocket } from './WebSocket';
-import { isAlpha, isBeta, isStaging } from '../util/version';
+import { isNightly, isBeta, isStaging } from '../util/version';
 import { getBasicAuth } from '../util/getBasicAuth';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
@@ -601,7 +601,7 @@ export class SocketManager extends EventListener {
 
     // in alpha, switch to using libsignal transport, unless user opts out,
     // in which case switching to shadowing
-    if (isAlpha(this.options.version)) {
+    if (isNightly(this.options.version)) {
       const configValue = window.Signal.RemoteConfig.isEnabled(
         'desktop.experimentalTransportEnabled.alpha'
       );

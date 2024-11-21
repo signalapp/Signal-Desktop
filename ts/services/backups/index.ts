@@ -51,7 +51,7 @@ import { validateBackup } from './validator';
 import { BackupType } from './types';
 import { UnsupportedBackupVersion } from './errors';
 import { ToastType } from '../../types/Toast';
-import { isAlpha } from '../../util/version';
+import { isNightly } from '../../util/version';
 
 export { BackupType };
 
@@ -388,7 +388,7 @@ export class BackupsService {
     } catch (error) {
       log.info(`importBackup: failed, error: ${Errors.toLogFormat(error)}`);
 
-      if (isAlpha(window.getVersion())) {
+      if (isNightly(window.getVersion())) {
         window.reduxActions.toast.showToast({
           toastType: ToastType.FailedToImportBackup,
         });
