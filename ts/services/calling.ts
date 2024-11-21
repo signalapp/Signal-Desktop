@@ -137,7 +137,7 @@ import {
 import { isNormalNumber } from '../util/isNormalNumber';
 import type { AciString, ServiceIdString } from '../types/ServiceId';
 import { isServiceIdString } from '../types/ServiceId';
-import { isInSystemContacts } from '../util/isInSystemContacts';
+import { isSignalConnection } from '../util/getSignalConnections';
 import { toAdminKeyBytes } from '../util/callLinks';
 import {
   getCallLinkAuthCredentialPresentation,
@@ -3198,11 +3198,11 @@ export class CallingClass {
       return false;
     }
 
-    // If the peer is not in the user's system contacts, force IP hiding.
-    const isContactUntrusted = !isInSystemContacts(conversation.attributes);
+    // If the peer is not a Signal Connection, force IP hiding.
+    const isContactUntrusted = !isSignalConnection(conversation.attributes);
 
-    // proritize ice servers with IPs to avoid DNS
-    // only include hostname with urlsWithIps
+    // Prioritize ice servers with IPs to avoid DNS only include
+    // hostname with urlsWithIps.
     let iceServers = iceServerConfigToList(iceServerConfig);
 
     if (this._iceServerOverride) {
