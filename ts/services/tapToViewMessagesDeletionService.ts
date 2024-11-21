@@ -6,6 +6,7 @@ import { DataReader } from '../sql/Client';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import * as Errors from '../types/errors';
+import { strictAssert } from '../util/assert';
 
 async function eraseTapToViewMessages() {
   try {
@@ -15,8 +16,15 @@ async function eraseTapToViewMessages() {
     const maxTimestamp = Date.now() - getMessageQueueTime();
     const messages =
       await DataReader.getTapToViewMessagesNeedingErase(maxTimestamp);
+
     await Promise.all(
       messages.map(async fromDB => {
+        strictAssert(fromDB.isViewOnce === true, 'Must be view once');
+        strictAssert(
+          (fromDB.received_at_ms ?? 0) <= maxTimestamp,
+          'Must be older than maxTimestamp'
+        );
+
         const message = window.MessageCache.__DEPRECATED$register(
           fromDB.id,
           fromDB,
@@ -55,13 +63,14 @@ class TapToViewMessagesDeletionService {
   }
 
   private async checkTapToViewMessages() {
-    const receivedAt =
+    const receivedAtMsForOldestTapToViewMessage =
       await DataReader.getNextTapToViewMessageTimestampToAgeOut();
-    if (!receivedAt) {
+    if (!receivedAtMsForOldestTapToViewMessage) {
       return;
     }
 
-    const nextCheck = receivedAt + getMessageQueueTime();
+    const nextCheck =
+      receivedAtMsForOldestTapToViewMessage + getMessageQueueTime();
     window.SignalContext.log.info(
       'checkTapToViewMessages: next check at',
       new Date(nextCheck).toISOString()
