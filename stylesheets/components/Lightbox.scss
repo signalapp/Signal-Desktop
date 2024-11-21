@@ -360,6 +360,15 @@
       }
     }
 
+    &--jump {
+      &::before {
+        @include mixins.color-svg(
+          '../images/icons/v3/chat/chat.svg',
+          variables.$color-gray-15
+        );
+      }
+    }
+
     &--close {
       &::before {
         @include mixins.color-svg(

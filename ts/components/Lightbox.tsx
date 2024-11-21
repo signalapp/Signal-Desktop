@@ -13,6 +13,7 @@ import type {
   ConversationType,
   SaveAttachmentActionCreatorType,
 } from '../state/ducks/conversations';
+import { useConversationsActions } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import type { MediaItemType } from '../types/MediaItem';
 import * as GoogleChrome from '../util/GoogleChrome';
@@ -99,6 +100,7 @@ export function Lightbox({
   hasNextMessage,
   hasPrevMessage,
 }: PropsType): JSX.Element | null {
+  const { scrollToMessage } = useConversationsActions();
   const hasThumbnails = media.length > 1;
   const messageId = media.at(0)?.message.id;
   const prevMessageId = usePrevious(messageId, messageId);
@@ -241,6 +243,21 @@ export function Lightbox({
       saveAttachment(attachmentToSave, message.sentAt, index + 1);
     },
     [isViewOnce, media, saveAttachment, selectedIndex]
+  );
+
+  const handleJumpToConversation = useCallback(
+    (
+      event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      if (isViewOnce) {
+        return;
+      }
+      const mediaItem = media[selectedIndex];
+      const { message } = mediaItem;
+      const { conversationId, id } = message;
+      scrollToMessage(conversationId, id);
+    },
+    [isViewOnce, media, selectedIndex, scrollToMessage]
   );
 
   const handleForward = (
@@ -726,6 +743,14 @@ export function Lightbox({
                   <div />
                 )}
                 <div className="Lightbox__controls">
+                  {!isViewOnce ? (
+                    <button
+                      aria-label={i18n('icu:jumpto')}
+                      className="Lightbox__button Lightbox__button--jump"
+                      onClick={handleJumpToConversation}
+                      type="button"
+                    />
+                  ) : null}
                   {!isViewOnce ? (
                     <button
                       aria-label={i18n('icu:forwardMessage')}
