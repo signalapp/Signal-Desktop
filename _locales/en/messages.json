@@ -3635,6 +3635,10 @@
     "messageformat": "{ringer} is calling you, {first}, {second}, and {remaining, plural, one {# other} other {# others}}",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Connecting...",
+    "description": "Shown in the call screen when placing an outgoing call that is connecting (prior to ringing)"
+  },
   "icu:outgoingCallRinging": {
     "messageformat": "Ringing...",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
