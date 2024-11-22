@@ -201,7 +201,6 @@ import { markCallHistoryReadInConversation } from './callHistory';
 import type { CapabilitiesType } from '../../textsecure/WebAPI';
 import { actions as searchActions } from './search';
 import type { SearchActionType } from './search';
-
 // State
 
 export type DBConversationType = ReadonlyDeep<{
@@ -2689,14 +2688,8 @@ function conversationsUpdated(
       calling.groupMembersChanged(conversation.id);
     }
 
-    const { conversationLookup } = getState().conversations;
-
-    const someConversationsHaveNewMessages = data.some(conversation => {
-      return (
-        conversationLookup[conversation.id]?.lastMessageReceivedAt !==
-        conversation.lastMessageReceivedAt
-      );
-    });
+    const { conversationLookup: oldConversationLookup } =
+      getState().conversations;
 
     dispatch({
       type: 'CONVERSATIONS_UPDATED',
@@ -2705,9 +2698,12 @@ function conversationsUpdated(
       },
     });
 
-    if (someConversationsHaveNewMessages) {
-      dispatch(searchActions.refreshSearch());
-    }
+    dispatch(
+      searchActions.updateSearchResultsOnConversationUpdate(
+        oldConversationLookup,
+        data
+      )
+    );
   };
 }
 
@@ -4627,6 +4623,8 @@ function onConversationClosed(
         conversationId,
       },
     });
+
+    dispatch(searchActions.maybeRemoveReadConversations([conversationId]));
   };
 }
 
