@@ -1891,6 +1891,7 @@ export class BackupImportStream extends Writable {
       return {
         message: {
           isErased: true,
+          deletedForEveryone: true,
         },
         additionalMessages: [],
       };

@@ -405,6 +405,7 @@ describe('backup/non-bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
         isErased: true,
+        deletedForEveryone: true,
       },
     ]);
   });
