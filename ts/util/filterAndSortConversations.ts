@@ -165,11 +165,16 @@ export function filterAndSortConversations(
   conversations: ReadonlyArray<ConversationType>,
   searchTerm: string,
   regionCode: string | undefined,
-  filterByUnread: boolean = false
+  filterByUnread: boolean = false,
+  conversationToInject?: ConversationType
 ): Array<ConversationType> {
-  const filteredConversations = filterByUnread
+  let filteredConversations = filterByUnread
     ? filterConversationsByUnread(conversations, true)
     : conversations;
+
+  if (conversationToInject) {
+    filteredConversations = [...filteredConversations, conversationToInject];
+  }
 
   if (searchTerm.length) {
     const now = Date.now();
