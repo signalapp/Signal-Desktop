@@ -4584,7 +4584,8 @@ function getNextTapToViewMessageTimestampToAgeOut(
       `
       SELECT json FROM messages
       WHERE
-        isViewOnce = 1
+        -- we want this query to use the messages_view_once index rather than received_at
+        likelihood(isViewOnce = 1, 0.01)
         AND (isErased IS NULL OR isErased != 1)
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
@@ -4595,9 +4596,8 @@ function getNextTapToViewMessageTimestampToAgeOut(
   if (!row) {
     return undefined;
   }
-
   const data = jsonToObject<MessageType>(row.json);
-  const result = data.received_at_ms || data.received_at;
+  const result = data.received_at_ms;
   return isNormalNumber(result) ? result : undefined;
 }
 
@@ -4613,8 +4613,9 @@ function getTapToViewMessagesNeedingErase(
       WHERE
         isViewOnce = 1
         AND (isErased IS NULL OR isErased != 1)
-        AND received_at <= $maxTimestamp
-      ORDER BY received_at ASC, sent_at ASC;
+        AND (
+          IFNULL(json ->> '$.received_at_ms', 0) <= $maxTimestamp
+        )
       `
     )
     .all({
