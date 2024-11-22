@@ -7,7 +7,7 @@ import type { MIMEType } from './MIME';
 
 export type MediaItemMessageType = Pick<
   ReadonlyMessageAttributesType,
-  'attachments' | 'conversationId' | 'id'
+  'attachments' | 'conversationId' | 'authorId' | 'id'
 > & {
   receivedAt: number;
   receivedAtMs?: number;

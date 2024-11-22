@@ -899,7 +899,7 @@ function LightboxHeader({
   item: ReadonlyDeep<MediaItemType>;
 }): JSX.Element {
   const { message } = item;
-  const conversation = getConversation(message.conversationId);
+  const conversation = getConversation(message.authorId);
 
   const now = Date.now();
 
