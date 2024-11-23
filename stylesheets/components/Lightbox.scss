@@ -95,6 +95,13 @@
   }
 
   &__object {
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    outline: none;
+    width: auto;
+
     &--container {
       display: inline-flex;
       flex-grow: 1;
@@ -121,15 +128,6 @@
         inset-inline-start: 40px;
         width: calc(100% - 80px);
       }
-    }
-
-    & {
-      height: auto;
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-      outline: none;
-      width: auto;
     }
   }
 
