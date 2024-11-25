@@ -1078,7 +1078,7 @@ export class BackupExportStream extends Readable {
         message,
         backupLevel,
       });
-    } else if (message.isErased) {
+    } else if (message.deletedForEveryone) {
       result.remoteDeletedMessage = {};
     } else if (messageHasPaymentEvent(message)) {
       const { payment } = message;
