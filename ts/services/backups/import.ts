@@ -2452,7 +2452,9 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'pending-add-one',
-          serviceId: fromAciObject(Aci.fromUuidBytes(inviteeServiceId)),
+          serviceId: fromServiceIdObject(
+            ServiceId.parseFromServiceIdBinary(Buffer.from(inviteeServiceId))
+          ),
         });
       }
       if (update.groupUnknownInviteeUpdate) {
