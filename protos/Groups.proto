@@ -190,6 +190,9 @@ message GroupChange {
 
              bytes                                      sourceUserId                       = 1; // Who made the change
              uint32                                     version                            = 2; // The change version number
+    // clients should not provide this value; the server will provide it in the response buffer to ensure the signature is binding to a particular group
+    // if clients set it during a request the server will respond with 400.
+    bytes                                               groupId                            = 25;
     repeated AddMemberAction                            addMembers                         = 3; // Members added
     repeated DeleteMemberAction                         deleteMembers                      = 4; // Members deleted
     repeated ModifyMemberRoleAction                     modifyMemberRoles                  = 5; // Modified member roles
@@ -212,7 +215,7 @@ message GroupChange {
     repeated AddMemberBannedAction                      addMembersBanned                   = 22; // change epoch = 4
     repeated DeleteMemberBannedAction                   deleteMembersBanned                = 23; // change epoch = 4
     repeated PromoteMemberPendingPniAciProfileKeyAction promoteMembersPendingPniAciProfileKey = 24;  // change epoch = 5
-    // next: 25
+    // next: 26
   }
 
   bytes  actions         = 1; // The serialized actions
