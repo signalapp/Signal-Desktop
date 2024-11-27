@@ -51,6 +51,8 @@ export default function updateToSchemaVersion45(
       --- Message insert/update triggers to exclude stories and story replies
 
       DROP   TRIGGER messages_on_insert;
+      -- Note: any changes to this trigger must be reflected in 
+      -- Server.ts: enableMessageInsertTriggersAndBackfill
       CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
       WHEN new.isViewOnce IS NOT 1 AND new.storyId IS NULL
       BEGIN

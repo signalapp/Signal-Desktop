@@ -105,6 +105,7 @@ import {
   updateToSchemaVersion1250,
   version as MAX_VERSION,
 } from './1250-defunct-call-links-storage';
+import { DataWriter } from '../Server';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2132,6 +2133,7 @@ export function updateSchema(db: WritableDB, logger: LoggerType): void {
     runSchemaUpdate(startingVersion, db, logger);
   }
 
+  DataWriter.ensureMessageInsertTriggersAreEnabled(db);
   enableFTS5SecureDelete(db, logger);
 
   if (startingVersion !== MAX_VERSION) {

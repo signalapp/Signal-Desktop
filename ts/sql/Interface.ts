@@ -952,6 +952,10 @@ type WritableInterface = {
   insertJob(job: Readonly<StoredJob>): void;
   deleteJob(id: string): void;
 
+  disableMessageInsertTriggers(): void;
+  enableMessageInsertTriggersAndBackfill(): void;
+  ensureMessageInsertTriggersAreEnabled(): void;
+
   processGroupCallRingCancellation(ringId: bigint): void;
   cleanExpiredGroupCallRingCancellations(): void;
 };

@@ -305,6 +305,9 @@ export class BackupsService {
     log.info(`importBackup: starting ${backupType}...`);
     this.isRunning = 'import';
     const importStart = Date.now();
+
+    await DataWriter.disableMessageInsertTriggers();
+
     try {
       const importStream = await BackupImportStream.create(backupType);
       if (backupType === BackupType.Ciphertext) {
@@ -397,6 +400,8 @@ export class BackupsService {
       throw error;
     } finally {
       this.isRunning = false;
+      await DataWriter.enableMessageInsertTriggersAndBackfill();
+
       window.IPC.stopTrackingQueryStats({ epochName: 'Backup Import' });
       if (window.SignalCI) {
         window.SignalCI.handleEvent('backupImportComplete', {

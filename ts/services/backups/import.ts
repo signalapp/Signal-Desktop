@@ -374,7 +374,6 @@ export class BackupImportStream extends Writable {
             toastType: ToastType.FailedToImportBackup,
           });
         }
-        // TODO (DESKTOP-7934): throw in tests if we cannot process a frame
       } else {
         log.info(`${this.logId}: successfully processed all frames.`);
       }
