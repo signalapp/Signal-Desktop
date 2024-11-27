@@ -1343,6 +1343,10 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    if (isSignalConversation(this.attributes)) {
+      return;
+    }
+
     // Coalesce multiple sendTypingMessage calls into one.
     //
     // `lastIsTyping` is set to the last `isTyping` value passed to the

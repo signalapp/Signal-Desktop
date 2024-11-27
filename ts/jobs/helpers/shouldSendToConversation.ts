@@ -5,6 +5,7 @@ import type { ConversationModel } from '../../models/conversations';
 import type { LoggerType } from '../../types/Logging';
 import { getRecipients } from '../../util/getRecipients';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
+import { isSignalConversation } from '../../util/isSignalConversation';
 import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
 
 export function shouldSendToConversation(
@@ -31,6 +32,13 @@ export function shouldSendToConversation(
   if (conversation.isBlocked()) {
     log.info(
       `conversation ${conversation.idForLogging()} is blocked; refusing to send`
+    );
+    return false;
+  }
+
+  if (isSignalConversation(conversation.attributes)) {
+    log.info(
+      `conversation ${conversation.idForLogging()} is Signal conversation; refusing to send`
     );
     return false;
   }

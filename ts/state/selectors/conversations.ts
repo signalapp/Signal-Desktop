@@ -380,10 +380,6 @@ export const _getLeftPaneLists = (
       };
     }
 
-    if (isSignalConversation(conversation)) {
-      continue;
-    }
-
     // We always show pinned conversations
     if (conversation.isPinned) {
       pinnedConversations.push(conversation);
