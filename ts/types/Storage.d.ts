@@ -152,6 +152,7 @@ export type StorageAccessType = {
   backupMediaDownloadPaused: boolean;
   backupMediaDownloadBannerDismissed: boolean;
   backupMediaDownloadIdle: boolean;
+  messageInsertTriggersDisabled: boolean;
   setBackupMessagesSignatureKey: boolean;
   setBackupMediaSignatureKey: boolean;
   lastReceivedAtCounter: number;

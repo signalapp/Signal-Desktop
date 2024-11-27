@@ -543,6 +543,10 @@ export const DataWriter: ServerWritableInterface = {
   processGroupCallRingCancellation,
   cleanExpiredGroupCallRingCancellations,
 
+  disableMessageInsertTriggers,
+  enableMessageInsertTriggersAndBackfill,
+  ensureMessageInsertTriggersAreEnabled,
+
   // Server-only
 
   removeKnownStickers,
@@ -7461,5 +7465,86 @@ function getUnreadEditedMessagesAndMarkRead(
         sent_at: row.sentAt,
       };
     });
+  })();
+}
+
+function disableMessageInsertTriggers(db: WritableDB): void {
+  db.transaction(() => {
+    createOrUpdateItem(db, {
+      id: 'messageInsertTriggersDisabled',
+      value: true,
+    });
+    db.exec('DROP TRIGGER IF EXISTS messages_on_insert;');
+    db.exec('DROP TRIGGER IF EXISTS messages_on_insert_insert_mentions;');
+  })();
+}
+
+const selectMentionsFromMessages = `
+  SELECT messages.id, bodyRanges.value ->> 'mentionAci' as mentionAci,
+    bodyRanges.value ->> 'start' as start,
+    bodyRanges.value ->> 'length' as length
+  FROM messages, json_each(messages.json ->> 'bodyRanges') as bodyRanges
+  WHERE bodyRanges.value ->> 'mentionAci' IS NOT NULL
+`;
+
+function enableMessageInsertTriggersAndBackfill(db: WritableDB): void {
+  const createTriggersQuery = `
+      DROP TRIGGER IF EXISTS messages_on_insert;
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+        WHEN new.isViewOnce IS NOT 1 AND new.storyId IS NULL
+        BEGIN
+          INSERT INTO messages_fts
+            (rowid, body)
+          VALUES
+            (new.rowid, new.body);
+      END;
+  
+      DROP TRIGGER IF EXISTS messages_on_insert_insert_mentions;
+      CREATE TRIGGER messages_on_insert_insert_mentions AFTER INSERT ON messages
+      BEGIN
+        INSERT INTO mentions (messageId, mentionAci, start, length)
+        ${selectMentionsFromMessages}
+        AND messages.id = new.id;
+      END;
+  `;
+  db.transaction(() => {
+    backfillMentionsTable(db);
+    backfillMessagesFtsTable(db);
+    db.exec(createTriggersQuery);
+    createOrUpdateItem(db, {
+      id: 'messageInsertTriggersDisabled',
+      value: false,
+    });
+  })();
+}
+
+function backfillMessagesFtsTable(db: WritableDB): void {
+  db.exec(`
+    DELETE FROM messages_fts;
+    INSERT OR REPLACE INTO messages_fts (rowid, body)
+      SELECT rowid, body
+      FROM messages
+      WHERE isViewOnce IS NOT 1 AND storyId IS NULL;
+  `);
+}
+
+function backfillMentionsTable(db: WritableDB): void {
+  db.exec(`
+    DELETE FROM mentions;
+    INSERT INTO mentions (messageId, mentionAci, start, length)
+    ${selectMentionsFromMessages};
+  `);
+}
+
+function ensureMessageInsertTriggersAreEnabled(db: WritableDB): void {
+  db.transaction(() => {
+    const storedItem = getItemById(db, 'messageInsertTriggersDisabled');
+    const triggersDisabled = storedItem?.value;
+    if (triggersDisabled) {
+      logger.warn(
+        'Message insert triggers were disabled; reenabling and backfilling data'
+      );
+      enableMessageInsertTriggersAndBackfill(db);
+    }
   })();
 }
