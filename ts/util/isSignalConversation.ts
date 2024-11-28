@@ -16,3 +16,7 @@ export function isSignalConversation(conversation: {
 
   return window.ConversationController.isSignalConversationId(id);
 }
+
+export function isSignalServiceId(serviceId: ServiceIdString): boolean {
+  return serviceId === SIGNAL_ACI;
+}

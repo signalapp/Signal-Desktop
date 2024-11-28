@@ -198,6 +198,7 @@ import { restoreRemoteConfigFromStorage } from './RemoteConfig';
 import { getParametersForRedux, loadAll } from './services/allLoaders';
 import { checkFirstEnvelope } from './util/checkFirstEnvelope';
 import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked';
+import { ReleaseNotesFetcher } from './services/releaseNotesFetcher';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -2160,6 +2161,8 @@ export async function startApp(): Promise<void> {
     }
 
     drop(usernameIntegrity.start());
+
+    drop(ReleaseNotesFetcher.init(window.Whisper.events, newVersion));
   }
 
   let initialStartupCount = 0;

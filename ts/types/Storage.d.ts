@@ -196,6 +196,9 @@ export type StorageAccessType = {
     // Note: Upon capability deprecation - change the value type to `never` and
     // remove it in `ts/background.ts`
   };
+  releaseNotesNextFetchTime: number;
+  releaseNotesVersionWatermark: string;
+  releaseNotesPreviousManifestHash: string;
 
   // If present - we are downloading backup
   backupDownloadPath: string;
