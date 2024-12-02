@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Session, DesktopCapturerSource, IpcMainEvent } from 'electron';
-import { desktopCapturer, ipcMain } from 'electron';
+import { desktopCapturer, ipcMain, systemPreferences } from 'electron';
 import { v4 as generateUuid } from 'uuid';
 
 import OS from '../ts/util/os/osMain';
@@ -27,6 +27,16 @@ export function updateDefaultSession(
       try {
         strictAssert(videoRequested, 'Not requesting video');
         strictAssert(!audioRequested, 'Requesting audio');
+
+        // macOS: if screen sharing is actively denied, Sonoma will crash
+        // when we try to get the sources.
+        if (
+          OS.isMacOS() &&
+          systemPreferences.getMediaAccessStatus('screen') === 'denied'
+        ) {
+          callback({});
+          return;
+        }
 
         const sources = await desktopCapturer.getSources({
           fetchWindowIcons: true,
