@@ -135,7 +135,7 @@
     "form-data": "4.0.1",
     "fs-extra": "11.2.0",
     "fuse.js": "6.5.3",
-    "google-libphonenumber": "3.2.38",
+    "google-libphonenumber": "3.2.39",
     "got": "11.8.5",
     "heic-convert": "2.1.0",
     "humanize-duration": "3.27.1",
