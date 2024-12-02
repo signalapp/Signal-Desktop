@@ -2369,7 +2369,7 @@ export function initialize({
           responseType: 'jsonwithdetails',
           urlParameters,
           // Add a bit of leeway to let server respond properly
-          timeout: requestTimeoutInSecs + 15 * SECOND,
+          timeout: (requestTimeoutInSecs + 15) * SECOND,
           abortSignal,
         });
 
