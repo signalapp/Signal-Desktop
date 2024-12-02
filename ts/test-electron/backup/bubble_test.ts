@@ -339,7 +339,45 @@ describe('backup/bubble messages', () => {
         ]
       );
     });
-    // TODO (DESKTOP-7899): Roundtrip view-once quotes
+
+    it('roundtrips view-once-quotes', async () => {
+      const message = {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        sourceServiceId: CONTACT_A,
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+        timestamp: 3,
+        quote: {
+          authorAci: CONTACT_A,
+          attachments: [],
+          id: 42,
+          text: 'quote text',
+          isViewOnce: true,
+          isGiftBadge: false,
+          referencedMessageNotFound: true,
+        },
+      } as const;
+
+      await asymmetricRoundtripHarness(
+        [message],
+        [
+          {
+            ...message,
+            quote: {
+              ...message.quote,
+              // id is removed during roundtrip
+              id: null,
+            },
+          },
+        ]
+      );
+    });
   });
 
   it('roundtrips sealed/unsealed incoming message', async () => {
