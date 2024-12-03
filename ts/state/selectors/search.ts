@@ -26,6 +26,7 @@ import type { GetConversationByIdType } from './conversations';
 import {
   getConversationLookup,
   getConversationSelector,
+  getSelectedConversationId,
 } from './conversations';
 
 import { hydrateRanges } from '../../types/BodyRange';
@@ -113,11 +114,17 @@ export const getMessageSearchResultLookup = createSelector(
 );
 
 export const getSearchResults = createSelector(
-  [getSearch, getSearchConversationName, getConversationLookup],
+  [
+    getSearch,
+    getSearchConversationName,
+    getConversationLookup,
+    getSelectedConversationId,
+  ],
   (
     state: SearchStateType,
     searchConversationName,
-    conversationLookup: ConversationLookupType
+    conversationLookup: ConversationLookupType,
+    selectedConversationId: string | undefined
   ): Pick<
     LeftPaneSearchPropsType,
     | 'conversationResults'
@@ -136,7 +143,7 @@ export const getSearchResults = createSelector(
       messagesLoading,
     } = state;
 
-    return {
+    const searchResults: ReturnType<typeof getSearchResults> = {
       conversationResults: discussionsLoading
         ? { isLoading: true }
         : {
@@ -159,6 +166,21 @@ export const getSearchResults = createSelector(
       searchTerm: state.query,
       filterByUnread: state.filterByUnread,
     };
+
+    if (
+      state.filterByUnread &&
+      searchResults.conversationResults.isLoading === false
+    ) {
+      searchResults.conversationResults.results =
+        searchResults.conversationResults.results.map(conversation => {
+          return {
+            ...conversation,
+            isSelected: selectedConversationId === conversation.id,
+          };
+        });
+    }
+
+    return searchResults;
   }
 );
 
