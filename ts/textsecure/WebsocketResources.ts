@@ -34,7 +34,6 @@ import net from 'net';
 import { z } from 'zod';
 import { clearInterval } from 'timers';
 import { random } from 'lodash';
-import type { ChatServiceDebugInfo } from '@signalapp/libsignal-client/Native';
 
 import type { LibSignalError, Net } from '@signalapp/libsignal-client';
 import { Buffer } from 'node:buffer';
@@ -75,19 +74,6 @@ const AGGREGATED_STATS_KEY = 'websocketStats';
 export enum IpVersion {
   IPv4 = 'ipv4',
   IPv6 = 'ipv6',
-}
-
-export namespace IpVersion {
-  export function fromDebugInfoCode(ipType: number): IpVersion | undefined {
-    switch (ipType) {
-      case 1:
-        return IpVersion.IPv4;
-      case 2:
-        return IpVersion.IPv6;
-      default:
-        return undefined;
-    }
-  }
 }
 
 const AggregatedStatsSchema = z.object({
@@ -361,7 +347,10 @@ export function connectUnauthenticatedLibsignal({
       },
     };
   return connectLibsignal(
-    libsignalNet.newUnauthenticatedChatService(listener),
+    abortSignal =>
+      libsignalNet.connectUnauthenticatedChat(listener, {
+        abortSignal,
+      }),
     listener,
     logId,
     keepalive
@@ -423,12 +412,14 @@ export function connectAuthenticatedLibsignal({
     },
   };
   return connectLibsignal(
-    libsignalNet.newAuthenticatedChatService(
-      credentials.username,
-      credentials.password,
-      receiveStories,
-      listener
-    ),
+    (abortSignal: AbortSignal) =>
+      libsignalNet.connectAuthenticatedChat(
+        credentials.username,
+        credentials.password,
+        receiveStories,
+        listener,
+        { abortSignal }
+      ),
     listener,
     logId,
     keepalive
@@ -440,18 +431,25 @@ function logDisconnectedListenerWarn(logId: string, method: string): void {
 }
 
 function connectLibsignal(
-  chatService: Net.ChatService,
+  makeConnection: (
+    abortSignal: AbortSignal
+  ) => Promise<
+    Net.UnauthenticatedChatConnection | Net.AuthenticatedChatConnection
+  >,
   resourceHolder: LibsignalWebSocketResourceHolder,
   logId: string,
   keepalive: KeepAliveOptionsType
 ): AbortableProcess<LibsignalWebSocketResource> {
+  const abortController = new AbortController();
   const connectAsync = async () => {
     try {
-      const debugInfo = await chatService.connect();
-      log.info(`${logId} connected`, debugInfo);
+      const service = await makeConnection(abortController.signal);
+      log.info(`${logId} connected`);
+      const connectionInfo = service.connectionInfo();
       const resource = new LibsignalWebSocketResource(
-        chatService,
-        IpVersion.fromDebugInfoCode(debugInfo.ipType),
+        service,
+        IpVersion[connectionInfo.ipVersion],
+        connectionInfo.localPort,
         logId,
         keepalive
       );
@@ -466,12 +464,7 @@ function connectLibsignal(
   };
   return new AbortableProcess<LibsignalWebSocketResource>(
     `${logId}.connect`,
-    {
-      abort() {
-        // if interrupted, trying to disconnect
-        drop(chatService.disconnect());
-      },
-    },
+    abortController,
     connectAsync()
   );
 }
@@ -489,8 +482,9 @@ export class LibsignalWebSocketResource
   private keepalive: KeepAliveSender;
 
   constructor(
-    private readonly chatService: Net.ChatService,
-    private readonly socketIpVersion: IpVersion | undefined,
+    private readonly chatService: Net.ChatConnection,
+    private readonly socketIpVersion: IpVersion,
+    private readonly localPortNumber: number,
     private readonly logId: string,
     keepalive: KeepAliveOptionsType
   ) {
@@ -499,11 +493,11 @@ export class LibsignalWebSocketResource
     this.keepalive = new KeepAliveSender(this, this.logId, keepalive);
   }
 
-  public localPort(): number | undefined {
-    return undefined;
+  public localPort(): number {
+    return this.localPortNumber;
   }
 
-  public ipVersion(): IpVersion | undefined {
+  public ipVersion(): IpVersion {
     return this.socketIpVersion;
   }
 
@@ -561,28 +555,25 @@ export class LibsignalWebSocketResource
   }
 
   public async sendRequest(options: SendRequestOptions): Promise<Response> {
-    const [response] = await this.sendRequestGetDebugInfo(options);
+    const response = await this.sendRequestGetDebugInfo(options);
     return response;
   }
 
   public async sendRequestGetDebugInfo(
     options: SendRequestOptions
-  ): Promise<[Response, ChatServiceDebugInfo]> {
-    const { response, debugInfo } = await this.chatService.fetchAndDebug({
+  ): Promise<Response> {
+    const response = await this.chatService.fetch({
       verb: options.verb,
       path: options.path,
       headers: options.headers ? options.headers : [],
       body: options.body,
       timeoutMillis: options.timeout,
     });
-    return [
-      new Response(response.body, {
-        status: response.status,
-        statusText: response.message,
-        headers: [...response.headers],
-      }),
-      debugInfo,
-    ];
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.message,
+      headers: [...response.headers],
+    });
   }
 }
 
