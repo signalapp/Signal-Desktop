@@ -1312,7 +1312,14 @@ export class BackupExportStream extends Readable {
           groupCall.startedCallRecipientId = recipientId;
         }
 
-        groupCall.callId = Long.fromString(callId);
+        try {
+          groupCall.callId = Long.fromString(callId);
+        } catch (e) {
+          // Could not convert callId to long; likely a legacy backfilled callId with uuid
+          // TODO (DESKTOP-8007)
+          groupCall.callId = Long.fromNumber(0);
+        }
+
         groupCall.state = toGroupCallStateProto(callHistory.status);
         groupCall.startedCallTimestamp = Long.fromNumber(callHistory.timestamp);
         if (callHistory.endedTimestamp != null) {
@@ -1333,7 +1340,14 @@ export class BackupExportStream extends Readable {
         return { kind: NonBubbleResultKind.Drop };
       }
 
-      individualCall.callId = Long.fromString(callId);
+      try {
+        individualCall.callId = Long.fromString(callId);
+      } catch (e) {
+        // TODO (DESKTOP-8007)
+        // Could not convert callId to long; likely a legacy backfilled callId with uuid
+        individualCall.callId = Long.fromNumber(0);
+      }
+
       individualCall.type = toIndividualCallTypeProto(type);
       individualCall.direction = toIndividualCallDirectionProto(direction);
       individualCall.state = toIndividualCallStateProto(status);

@@ -318,6 +318,10 @@ export class BackupImportStream extends Writable {
       // Load identity keys we just saved.
       await window.storage.protocol.hydrateCaches();
 
+      // Load all data into redux (need to do this before updating a
+      // conversation's last message, which uses redux selectors)
+      await loadAllAndReinitializeRedux();
+
       const allConversations = window.ConversationController.getAll();
 
       // Update last message in every active conversation now that we have
@@ -350,8 +354,6 @@ export class BackupImportStream extends Writable {
           })
           .map(([, id]) => id)
       );
-
-      await loadAllAndReinitializeRedux();
 
       await window.storage.put(
         'backupMediaDownloadTotalBytes',
@@ -2163,7 +2165,7 @@ export class BackupImportStream extends Writable {
         : undefined;
 
       let callId: string;
-      if (callIdLong) {
+      if (callIdLong?.toNumber()) {
         callId = callIdLong.toString();
       } else {
         // Legacy calls may not have a callId, so we generate one locally
@@ -2215,7 +2217,7 @@ export class BackupImportStream extends Writable {
       } = updateMessage.individualCall;
 
       let callId: string;
-      if (callIdLong) {
+      if (callIdLong?.toNumber()) {
         callId = callIdLong.toString();
       } else {
         // Legacy calls may not have a callId, so we generate one locally
@@ -2983,9 +2985,14 @@ export class BackupImportStream extends Writable {
     state,
     callTimestamp,
   }: Backups.IAdHocCall): Promise<void> {
-    strictAssert(callIdLong, 'AdHocCall must have a callId');
+    let callId: string;
+    if (callIdLong?.toNumber()) {
+      callId = callIdLong.toString();
+    } else {
+      // Legacy calls may not have a callId, so we generate one locally
+      callId = generateUuid();
+    }
 
-    const callId = callIdLong.toString();
     const logId = `fromAdhocCall(${callId.slice(-2)})`;
 
     strictAssert(callTimestamp, `${logId}: must have a valid timestamp`);
