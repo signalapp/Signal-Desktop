@@ -190,7 +190,6 @@ export type StorageAccessType = {
   needOrphanedAttachmentCheck: boolean;
   observedCapabilities: {
     deleteSync?: true;
-    versionedExpirationTimer?: true;
     ssre2?: true;
 
     // Note: Upon capability deprecation - change the value type to `never` and
@@ -223,6 +222,7 @@ export type StorageAccessType = {
   formattingWarningShown: never;
   hasRegisterSupportForUnauthenticatedDelivery: never;
   masterKeyLastRequestTime: never;
+  versionedExpirationTimer: never;
 };
 
 export type StorageInterface = {

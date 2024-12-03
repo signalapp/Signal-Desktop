@@ -69,7 +69,6 @@ type JobType = {
 
 const OBSERVED_CAPABILITY_KEYS = Object.keys({
   deleteSync: true,
-  versionedExpirationTimer: true,
   ssre2: true,
 } satisfies CapabilitiesType) as ReadonlyArray<keyof CapabilitiesType>;
 

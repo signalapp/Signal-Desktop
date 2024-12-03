@@ -754,7 +754,6 @@ export type WebAPIConnectType = {
 // ts/types/Storage.d.ts
 export type CapabilitiesType = {
   deleteSync: boolean;
-  versionedExpirationTimer: boolean;
   ssre2: boolean;
 };
 export type CapabilitiesUploadType = {

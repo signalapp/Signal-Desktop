@@ -5383,28 +5383,12 @@ export class ConversationModel extends window.Backbone
     if (!isDirectConversation(this.attributes)) {
       return;
     }
-    const { expireTimerVersion, capabilities } = this.attributes;
+    const { expireTimerVersion } = this.attributes;
 
     // This should not happen in practice, but be ready to handle
     if (expireTimerVersion >= MAX_EXPIRE_TIMER_VERSION) {
       log.warn(`${logId}: expire version overflow`);
       return;
-    }
-
-    if (expireTimerVersion <= 2) {
-      if (!capabilities?.versionedExpirationTimer) {
-        log.warn(`${logId}: missing recipient capability`);
-        return;
-      }
-      const me = window.ConversationController.getOurConversationOrThrow();
-      if (!me.get('capabilities')?.versionedExpirationTimer) {
-        log.warn(`${logId}: missing sender capability`);
-        return;
-      }
-
-      // Increment only if sender and receiver are both capable
-    } else {
-      // If we or them updated the timer version past 2 - we are both capable
     }
 
     const newVersion = expireTimerVersion + 1;
