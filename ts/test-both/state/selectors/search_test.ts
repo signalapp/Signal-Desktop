@@ -454,5 +454,74 @@ describe('both/state/selectors/search', () => {
         filterByUnread: false,
       });
     });
+
+    it('adds isSelected flag to conversations when filterByUnread is true', () => {
+      const conversations: Array<ConversationType> = [
+        getDefaultConversation({ id: '1' }),
+        getDefaultConversation({ id: 'selected-id' }),
+      ];
+
+      const state: StateType = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyConversationState(),
+          conversationLookup: makeLookup(conversations, 'id'),
+          selectedConversationId: 'selected-id',
+        },
+        search: {
+          ...getEmptySearchState(),
+          query: 'foo bar',
+          conversationIds: conversations.map(({ id }) => id),
+          discussionsLoading: false,
+          filterByUnread: true,
+        },
+      };
+
+      const searchResults = getSearchResults(state);
+
+      assert.deepEqual(searchResults.conversationResults, {
+        isLoading: false,
+        results: [
+          {
+            ...conversations[0],
+            isSelected: false,
+          },
+          {
+            ...conversations[1],
+            isSelected: true,
+          },
+        ],
+      });
+    });
+
+    it('does not add isSelected flag to conversations when filterByUnread is false', () => {
+      const conversations: Array<ConversationType> = [
+        getDefaultConversation({ id: '1' }),
+        getDefaultConversation({ id: '2' }),
+      ];
+
+      const state: StateType = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyConversationState(),
+          conversationLookup: makeLookup(conversations, 'id'),
+          selectedConversationId: '2',
+        },
+        search: {
+          ...getEmptySearchState(),
+          query: 'foo bar',
+          conversationIds: conversations.map(({ id }) => id),
+          discussionsLoading: false,
+          filterByUnread: false,
+        },
+      };
+
+      const searchResults = getSearchResults(state);
+
+      assert.deepEqual(searchResults.conversationResults, {
+        isLoading: false,
+        results: conversations,
+      });
+    });
   });
 });
