@@ -27,7 +27,8 @@ export async function updateConversationsWithUuidLookup({
     return;
   }
 
-  const { entries: serverLookup } = await getServiceIdsForE164s(server, e164s);
+  const { entries: serverLookup, transformedE164s } =
+    await getServiceIdsForE164s(server, e164s);
 
   await Promise.all(
     conversations.map(async conversation => {
@@ -38,13 +39,14 @@ export async function updateConversationsWithUuidLookup({
 
       let finalConversation: ConversationModel;
 
-      const pairFromServer = serverLookup.get(e164);
+      const e164ToUse = transformedE164s.get(e164) ?? e164;
+      const pairFromServer = serverLookup.get(e164ToUse);
       if (pairFromServer) {
         const { conversation: maybeFinalConversation } =
           conversationController.maybeMergeContacts({
             aci: pairFromServer.aci,
             pni: pairFromServer.pni,
-            e164,
+            e164: e164ToUse,
             reason: 'updateConversationsWithUuidLookup',
           });
         assertDev(

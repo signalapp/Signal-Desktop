@@ -1402,15 +1402,15 @@ export class ConversationController {
   async _forgetE164(e164: string): Promise<void> {
     const { server } = window.textsecure;
     strictAssert(server, 'Server must be initialized');
-    const { entries: serviceIdMap } = await getServiceIdsForE164s(server, [
-      e164,
-    ]);
+    const { entries: serviceIdMap, transformedE164s } =
+      await getServiceIdsForE164s(server, [e164]);
 
-    const pni = serviceIdMap.get(e164)?.pni;
+    const e164ToUse = transformedE164s.get(e164) ?? e164;
+    const pni = serviceIdMap.get(e164ToUse)?.pni;
 
-    log.info(`ConversationController: forgetting e164=${e164} pni=${pni}`);
+    log.info(`ConversationController: forgetting e164=${e164ToUse} pni=${pni}`);
 
-    const convos = [this.get(e164), this.get(pni)];
+    const convos = [this.get(e164ToUse), this.get(pni)];
 
     for (const convo of convos) {
       if (!convo) {
