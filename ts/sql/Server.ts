@@ -119,7 +119,6 @@ import {
 } from '../util/search';
 import type { SyncTaskType } from '../util/syncTasks';
 import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types';
-import { isMoreRecentThan } from '../util/timestamp';
 import type {
   AdjacentMessagesByConversationOptionsType,
   BackupCdnMediaObjectType,
@@ -475,7 +474,7 @@ export const DataWriter: ServerWritableInterface = {
 
   removeSyncTaskById,
   saveSyncTasks,
-  getAllSyncTasks,
+  dequeueOldestSyncTasks,
 
   getUnprocessedByIdsAndIncrementAttempts,
   getAllUnprocessedIds,
@@ -2158,47 +2157,68 @@ function saveSyncTask(db: WritableDB, task: SyncTaskType): void {
 
   db.prepare(query).run(parameters);
 }
-export function getAllSyncTasks(db: WritableDB): Array<SyncTaskType> {
+
+export function dequeueOldestSyncTasks(
+  db: WritableDB,
+  previousRowId: number | null
+): { tasks: Array<SyncTaskType>; lastRowId: number | null } {
   return db.transaction(() => {
-    const [selectAllQuery] = sql`
-      SELECT * FROM syncTasks ORDER BY createdAt ASC, sentAt ASC, id ASC
+    const orderBy = sqlFragment`ORDER BY rowid ASC`;
+    const limit = sqlFragment`LIMIT 10000`;
+    const predicate = sqlFragment`rowid > ${previousRowId ?? 0}`;
+
+    const [deleteOldQuery, deleteOldParams] = sql`
+      DELETE FROM syncTasks
+      WHERE
+        attempts >= ${MAX_SYNC_TASK_ATTEMPTS} AND
+        createdAt < ${Date.now() - durations.WEEK}
     `;
 
-    const rows = db.prepare(selectAllQuery).all();
+    const result = db.prepare(deleteOldQuery).run(deleteOldParams);
 
-    const tasks: Array<SyncTaskType> = rows.map(row => ({
-      ...row,
-      data: jsonToObject(row.data),
-    }));
-
-    const [query] = sql`
-      UPDATE syncTasks
-      SET attempts = attempts + 1
-    `;
-    db.prepare(query).run();
-
-    const [toDelete, toReturn] = partition(tasks, task => {
-      if (
-        isNormalNumber(task.attempts) &&
-        task.attempts < MAX_SYNC_TASK_ATTEMPTS
-      ) {
-        return false;
-      }
-      if (isMoreRecentThan(task.createdAt, durations.WEEK)) {
-        return false;
-      }
-
-      return true;
-    });
-
-    if (toDelete.length > 0) {
-      logger.warn(`getAllSyncTasks: Removing ${toDelete.length} expired tasks`);
-      toDelete.forEach(task => {
-        removeSyncTaskById(db, task.id);
-      });
+    if (result.changes > 0) {
+      logger.info(
+        `dequeueOldestSyncTasks: Deleted ${result.changes} expired sync tasks`
+      );
     }
 
-    return toReturn;
+    const [selectAllQuery, selectAllParams] = sql`
+      SELECT rowid, * FROM syncTasks
+      WHERE ${predicate}
+      ${orderBy}
+      ${limit}
+    `;
+
+    const rows = db.prepare(selectAllQuery).all(selectAllParams);
+    if (!rows.length) {
+      return { tasks: [], lastRowId: null };
+    }
+
+    const firstRowId = rows.at(0)?.rowid;
+    const lastRowId = rows.at(-1)?.rowid;
+
+    strictAssert(firstRowId, 'dequeueOldestSyncTasks: firstRowId is null');
+    strictAssert(lastRowId, 'dequeueOldestSyncTasks: lastRowId is null');
+
+    const tasks: Array<SyncTaskType> = rows.map(row => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { rowid: _rowid, ...rest } = row;
+      return {
+        ...rest,
+        data: jsonToObject(row.data),
+      };
+    });
+
+    const [updateQuery, updateParams] = sql`
+      UPDATE syncTasks
+      SET attempts = attempts + 1
+      WHERE rowid >= ${firstRowId}
+      AND rowid <= ${lastRowId}
+    `;
+
+    db.prepare(updateQuery).run(updateParams);
+
+    return { tasks, lastRowId };
   })();
 }
 
@@ -7498,7 +7518,7 @@ function enableMessageInsertTriggersAndBackfill(db: WritableDB): void {
           VALUES
             (new.rowid, new.body);
       END;
-  
+
       DROP TRIGGER IF EXISTS messages_on_insert_insert_mentions;
       CREATE TRIGGER messages_on_insert_insert_mentions AFTER INSERT ON messages
       BEGIN

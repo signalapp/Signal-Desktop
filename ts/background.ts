@@ -186,7 +186,7 @@ import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager';
 import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync';
 import { CallMode } from './types/CallDisposition';
 import type { SyncTaskType } from './util/syncTasks';
-import { queueSyncTasks } from './util/syncTasks';
+import { queueSyncTasks, runAllSyncTasks } from './util/syncTasks';
 import type { ViewSyncTaskType } from './messageModifiers/ViewSyncs';
 import type { ReceiptSyncTaskType } from './messageModifiers/MessageReceipts';
 import type { ReadSyncTaskType } from './messageModifiers/ReadSyncs';
@@ -1469,15 +1469,7 @@ export async function startApp(): Promise<void> {
     }
     log.info('Expiration start timestamp cleanup: complete');
 
-    {
-      log.info('Startup/syncTasks: Fetching tasks');
-      const syncTasks = await DataWriter.getAllSyncTasks();
-
-      log.info(`Startup/syncTasks: Queueing ${syncTasks.length} sync tasks`);
-      await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
-
-      log.info('Startup/syncTasks: Done');
-    }
+    await runAllSyncTasks();
 
     log.info('listening for registration events');
     window.Whisper.events.on('registration_done', () => {

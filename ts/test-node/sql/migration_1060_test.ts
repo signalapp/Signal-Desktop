@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
 import {
-  getAllSyncTasks,
+  dequeueOldestSyncTasks,
   getMostRecentAddressableMessages,
   removeSyncTaskById,
   saveSyncTasks,
@@ -217,23 +217,23 @@ describe('SQL/updateToSchemaVersion1060', () => {
 
       saveSyncTasks(db, expected);
 
-      const actual = getAllSyncTasks(db);
-      assert.deepEqual(expected, actual, 'before delete');
+      const actual = dequeueOldestSyncTasks(db, null);
+      assert.deepEqual(expected, actual.tasks, 'before delete');
 
       removeSyncTaskById(db, expected[1].id);
 
-      const actualAfterDelete = getAllSyncTasks(db);
+      const actualAfterDelete = dequeueOldestSyncTasks(db, null);
       assert.deepEqual(
         [
           { ...expected[0], attempts: 2 },
           { ...expected[2], attempts: 4 },
         ],
-        actualAfterDelete,
+        actualAfterDelete.tasks,
         'after delete'
       );
     });
 
-    it('getAllSyncTasksSync expired tasks', () => {
+    it('dequeueOldestSyncTasks expired tasks', () => {
       const now = Date.now();
       const twoWeeksAgo = now - WEEK * 2;
       const expected: Array<SyncTaskType> = [
@@ -289,10 +289,10 @@ describe('SQL/updateToSchemaVersion1060', () => {
 
       saveSyncTasks(db, expected);
 
-      const actual = getAllSyncTasks(db);
+      const actual = dequeueOldestSyncTasks(db, null);
 
-      assert.lengthOf(actual, 3);
-      assert.deepEqual([expected[1], expected[2], expected[3]], actual);
+      assert.lengthOf(actual.tasks, 3);
+      assert.deepEqual([expected[1], expected[2], expected[3]], actual.tasks);
     });
   });
 });
