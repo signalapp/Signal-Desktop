@@ -118,6 +118,7 @@ import { getEnvironment, isTestEnvironment } from '../../environment';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 import { isNightly } from '../../util/version';
 import { ToastType } from '../../types/Toast';
+import { isConversationAccepted } from '../../util/isConversationAccepted';
 
 const MAX_CONCURRENCY = 10;
 
@@ -299,8 +300,9 @@ export class BackupImportStream extends Writable {
   override async _final(done: (error?: Error) => void): Promise<void> {
     try {
       // Finish saving remaining conversations/messages
-      await this.flushConversations();
+      // Save messages first since they depend on conversations in memory
       await this.flushMessages();
+      await this.flushConversations();
       log.info(`${this.logId}: flushed messages and conversations`);
 
       // Store sticker packs and schedule downloads
@@ -568,11 +570,14 @@ export class BackupImportStream extends Writable {
       }
 
       if (hasAttachmentDownloads(attributes)) {
-        attachmentDownloadJobPromises.push(
-          queueAttachmentDownloads(attributes, {
-            source: AttachmentDownloadSource.BACKUP_IMPORT,
-          })
-        );
+        const conversation = this.conversations.get(attributes.conversationId);
+        if (conversation && isConversationAccepted(conversation)) {
+          attachmentDownloadJobPromises.push(
+            queueAttachmentDownloads(attributes, {
+              source: AttachmentDownloadSource.BACKUP_IMPORT,
+            })
+          );
+        }
       }
     }
     await Promise.allSettled(attachmentDownloadJobPromises);
@@ -940,6 +945,10 @@ export class BackupImportStream extends Writable {
       secretParams: Bytes.toBase64(secretParams),
       publicParams: Bytes.toBase64(publicParams),
       profileSharing: group.whitelisted === true,
+      messageRequestResponseType:
+        group.whitelisted === true
+          ? SignalService.SyncMessage.MessageRequestResponse.Type.ACCEPT
+          : undefined,
       hideStory: group.hideStory === true,
       storySendMode,
       avatar: avatarUrl
@@ -1377,7 +1386,7 @@ export class BackupImportStream extends Writable {
     if (item.revisions?.length) {
       strictAssert(
         item.standardMessage,
-        'Only standard message can have revisions'
+        `${logId}: Only standard message can have revisions`
       );
 
       const history = await this.fromRevisions(attributes, item.revisions);
@@ -1386,7 +1395,7 @@ export class BackupImportStream extends Writable {
       // Update timestamps on the parent message
       const oldest = history.at(-1);
 
-      assertDev(oldest != null, 'History is non-empty');
+      assertDev(oldest != null, `${logId}: History is non-empty`);
 
       attributes.editMessageReceivedAt = attributes.received_at;
       attributes.editMessageReceivedAtMs = attributes.received_at_ms;
