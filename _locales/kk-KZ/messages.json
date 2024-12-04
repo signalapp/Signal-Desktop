@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Дауыстық хат жазу құралында қате шықты."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Тіркеме сақталды."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Тіркеме сақталды} other {{count,number} тіркеме сақталды}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Ақпарат"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Хаттарды жою"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Хаттарды жою керек пе?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Осы чаттағы хаттардың барлығы бұл құрылғыдан жойылады. Хаттарды жойған соң да, бұл чатты іздеп табуыңызға болады."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Осы чаттағы хаттардың барлығы барлық құрылғыларыңыздан жойылады. Хабарларды жойғаннан кейін бұл чатты әлі де іздей аласыз."
   },
   "icu:deleteConversation": {
     "messageformat": "Жою"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} сізге, {first}, {second} және тағы {remaining,number} адамға қоңырау шалып жатыр} other {{ringer} сізге, сондай-ақ {first}, {second} және тағы {remaining,number} адамға қоңырау шалып жатыр}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Connecting..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Қоңырау соғылуда..."
@@ -5776,16 +5764,13 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
+  "icu:WhatsNew__v7.35--0": {
     "messageformat": "Іздеу өрісінің жанындағы жаңа сүзгі белгішесі оқылмаған чаттарды жылдам табуға көмектеседі. Дегенмен чаттағы жаңа хабарларды оқып алған соң, чатты оқылған немесе оқылмаған деп белгілеу өз еркіңізде екенін ұмытпаңыз."
   },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Бұл жаңа нұсқа Snapdragon X Elite сияқты Windows жүйесіндегі жаңа процессорларға қолдау көрсетеді."
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
   },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Сонымен қатар операциялық жүйе параметрлері жарық режимді пайдалануға конфигурацияланғанда, Signal-дағы қараңғы режим жұмыс істемей қалатын ақау түзетілді. Signal Desktop енді қалаған режиміңізді дұрыс анықтай алады."
-  },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

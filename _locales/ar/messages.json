@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "حدث خطأ في مسجل الصوت."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "تم حفظ المرفق."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, zero {تمَّ حفظ {count,number} ملف مُرفَق} one {تمَّ حفظ ملف مُرفَق واحد} two {تمَّ حفظ {count,number} ملفين مُرفَقين} few {تمَّ حفظ {count,number} ملفات مُرفَقة} many {تمَّ حفظ {count,number} ملفًا مُرفقًا} other {تمَّ حفظ {count,number} ملف مُرفَق}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "معلومات"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "حذف الرسائل"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "حذف الرسائل؟"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "ستُحذَف رسائل هذه المحادثة من هذا الجهاز. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل."
   },
   "icu:deleteConversation": {
     "messageformat": "حذف"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, zero {إن {ringer} يتصل بك وبـ{first} وبـ {second}. ({remaining,number})} one {إن {ringer} يتصل بك وبـ{first} وبـ {second} ويـ {remaining,number} آخر} two {إن {ringer} يتصل بك وبـ{first} وبـ {second} و بـ {remaining,number} آخريْن} few {إن {ringer} يتصل بك وبـ{first} وبـ {second} وبـ {remaining,number} آخرين} many {إن {ringer} يتصل بك وبـ{first} وبـ {second} وبـ {remaining,number} آخرين} other {{ringer} يتصل بك وبـ{first} وبـ {second} وبـ {remaining,number} آخرين}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Connecting..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "يرن…"
@@ -5776,16 +5764,13 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
+  "icu:WhatsNew__v7.35--0": {
     "messageformat": "تُسهّل أيقونة الفلتر الجديدة الموجودة قرب مربع البحث العثور بسرعة على الدردشات غير المقروءة."
   },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "يُقدم هذا التحديث دعمًا للمعالجات الجديدة على نظام التشغيل Windows مثل Snapdragon X Elite."
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
   },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "أصلحنا أيضًا خطًأ كان يُعطِّل النّمط الدّاكن في سيجنال عندما تكون إعدادات نظام التشغيل على جهازك مهيأة لاستخدام النمط الفاتح."
-  },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

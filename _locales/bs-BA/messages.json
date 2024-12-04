@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Pojavila se greška sa snimačem glasa."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Prilog je sačuvan."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Prilog je sačuvan} few {{count,number} priloga su sačuvana} many {{count,number} priloga je sačuvano} other {{count,number} priloga je sačuvano}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Informacije"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Izbriši poruku"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Izbrisati poruku?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Poruke u ovom chatu će biti izbrisane s ovog uređaja. I dalje možete tražiti ovaj chat nakon što izbrišete poruke."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Sve poruke u ovom chatu će biti izbrisane sa svih vaših uređaja. I dalje možete tražiti ovaj chat nakon što izbrišete poruke."
   },
   "icu:deleteConversation": {
     "messageformat": "Izbriši"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} poziva vas, {first}, {second} i {remaining,number} drugu osobu} few {{ringer} poziva vas, {first}, {second} i {remaining,number} druge osobe} many {{ringer} poziva vas, {first}, {second} i {remaining,number} drugih osoba} other {{ringer} poziva vas, {first}, {second} i {remaining,number} drugih osoba}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Connecting..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Zvoni…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
+  "icu:WhatsNew__v7.35--0": {
     "messageformat": "Nova ikona filtera pored okvira za pretragu olakšava brzo pronalaženje nepročitanih chatova, ali slobodno odlučite da li ćete ih ostaviti za čitanje nakon što vidite šta su imali da kažu."
   },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Ovo ažuriranje uvodi podršku za nove procesore na Windowsu kao što je Snapdragon X Elite, tako da više ne morate da uvijate svoj ARM u emulaciju x86."
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
   },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Također smo popravili grešku koja je kvarila tamnu temu u Signalu kada su postavke vašeg operativnog sustava bile konfigurirane za korištenje svijetle teme."
-  },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "При записи голосового сообщения произошла ошибка."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Вложение сохранено."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Вложение сохранено} few {{count,number} вложения сохранено} many {{count,number} вложений сохранено} other {{count,number} вложения сохранено}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Информация"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Удалить сообщения"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Удалить сообщения?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Все сообщения в этом чате будут удалены с этого устройства. После удаления сообщений вы сможете продолжать поиск по этому чату."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Все сообщения в этом чате будут удалены со всех ваших устройств. После удаления сообщений вы сможете продолжать поиск по этому чату."
   },
   "icu:deleteConversation": {
     "messageformat": "Удалить"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} звонит вам, {first}, {second} и ещё {remaining,number} человеку} few {{ringer} звонит вам, {first}, {second} и ещё {remaining,number} людям} many {{ringer} звонит вам, {first}, {second} и ещё {remaining,number} людям} other {{ringer} звонит вам, {first}, {second} и ещё {remaining,number} людям}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Connecting..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Звоним…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
+  "icu:WhatsNew__v7.35--0": {
     "messageformat": "Новый значок фильтра рядом с окном поиска позволяет легко находить непрочитанные чаты, но не спешите решать, стоит ли оставлять их в прочитанном после прочтения."
   },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "В этом обновлении представлена поддержка новых процессоров на Windows, таких как Snapdragon X Elite."
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
   },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Мы также исправили ошибку, из-за которой тёмная тема в Signal не работала, если в настройках операционной системы было задано использование светлой темы. Signal Desktop теперь может успешно подстраиваться под вашу тематически раздвоенную личность."
-  },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

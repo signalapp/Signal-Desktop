@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Probléma történt a hangrögzítés során."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Csatolmány elmentve."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Melléklet mentve} other {{count,number} melléklet mentve}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Részletek"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Üzenetek törlése"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Üzenetek törlése?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Az ebben a csevegésben lévő összes üzenet törlődik erről az eszközről. Az üzenetek törlése után továbbra is rákereshetsz erre a csevegésre."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "A csevegésben lévő összes üzenet törlődik az összes eszközödről. Az üzenetek törlése után továbbra is rákereshetsz erre a csevegésre."
   },
   "icu:deleteConversation": {
     "messageformat": "Törlés"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} hív téged, {first}-t, és {second}-t és {remaining,number} más személyt} other {{ringer} hív téged, {first}-t, és {second}-t és {remaining,number} más személyt}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Connecting..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Kicseng…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
+  "icu:WhatsNew__v7.35--0": {
     "messageformat": "A keresőmező melletti új szűrőikon megkönnyíti az olvasatlan csevegések gyors megtalálását."
   },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Ez a frissítés támogatja az olyan új Windows processzorokat, mint a Snapdragon X Elite."
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
   },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Kijavítottunk egy olyan hibát is, amely megszakította a Signal sötét témáját, amikor az operációs rendszer beállításai világos téma használatára voltak konfigurálva."
-  },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

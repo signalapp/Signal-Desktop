@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Nagkaroon ng error sa voice recorder."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Attachment saved."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Na-save ang attachment} other {{count,number} attachments ang na-save}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Info"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Burahin ang message"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Gusto mo bang burahin ang message?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Buburahin mula sa device na ito ang lahat ng messages sa chat na ito. Pwede mo pa ring i-search ang chat na ito pagkatapos mong magbura ng messages."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Buburahin mula sa lahat ng devices mo ang lahat ng messages sa chat na ito. Pwede mo pa ring hanapin ang chat na ito pagkatapos mong magbura ng messages."
   },
   "icu:deleteConversation": {
     "messageformat": "Burahin"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {Ikaw, si {first}, {second}, at {remaining,number} other ay tinatawagan ni {ringer}} other {Ikaw, si {first}, {second}, at {remaining,number} others ay tinatawagan ni {ringer}}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Connecting..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Nagri-ring…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
+  "icu:WhatsNew__v7.35--0": {
     "messageformat": "Pinapadali ng bagong filter icon sa tabi ng search box ang paghahanap ng unread chats."
   },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Kasama ng update na ito ang suporta para sa bagong processors sa Windows gaya ng Snapdragon X Elite."
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
   },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Inayos rin namin ang bug na sumisira sa dark theme sa Signal kapag ang operating system settings mo ay naka-set na gamitin ang light theme."
-  },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }
