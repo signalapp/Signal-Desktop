@@ -21,6 +21,7 @@
 
     @include mixins.dark-theme {
       background-color: color.mix(
+        // Gray 80 is the left pane background color
         variables.$color-gray-80,
         variables.$color-gray-65,
         40%
@@ -43,7 +44,12 @@
       color: variables.$color-black;
       &:hover {
         @include mixins.not-disabled {
-          background-color: variables.$color-white;
+          background-color: color.mix(
+            // gray 04 is the left pane background color
+            variables.$color-gray-04,
+            variables.$color-gray-15,
+            40%
+          );
         }
       }
     }
