@@ -1029,6 +1029,7 @@ export function CallsList({
           content={i18n('icu:CallsList__ToggleFilterByMissedLabel')}
           theme={Theme.Dark}
           delay={600}
+          wrapperClassName="CallsList__ToggleFilterByMissedWrapper"
         >
           <button
             className={classNames('CallsList__ToggleFilterByMissed', {

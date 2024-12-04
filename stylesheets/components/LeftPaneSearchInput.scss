@@ -72,12 +72,15 @@
     }
   }
 
+  &__FilterButtonWrapper {
+    margin-inline-end: 8px;
+  }
+
   &__FilterButton {
     @include mixins.button-reset;
     & {
       flex-shrink: 0;
       padding: 4px;
-      margin-inline-end: 8px;
       border-radius: 4px;
     }
 

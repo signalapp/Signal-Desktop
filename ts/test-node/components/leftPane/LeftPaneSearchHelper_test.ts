@@ -106,6 +106,28 @@ describe('LeftPaneSearchHelper', () => {
 
       assert.strictEqual(helper.getRowCount(), 5);
     });
+
+    it('adds a row for the clear unread filter button when filterByUnread is true', () => {
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        filterByUnread: true,
+        conversationResults: {
+          isLoading: false,
+          results: [getDefaultConversation(), getDefaultConversation()],
+        },
+        contactResults: {
+          isLoading: false,
+          results: [],
+        },
+        messageResults: {
+          isLoading: false,
+          results: [],
+        },
+      });
+
+      // 2 conversations + 1 header + 1 clear filter row = 4
+      assert.strictEqual(helper.getRowCount(), 4);
+    });
   });
 
   describe('getRow', () => {
@@ -256,6 +278,53 @@ describe('LeftPaneSearchHelper', () => {
         type: RowType.MessageSearchResult,
         messageId: messages[1].id,
       });
+    });
+
+    it('returns the correct row for filter clear button with filterByUnread=true', () => {
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        filterByUnread: true,
+        conversationResults: {
+          isLoading: false,
+          results: [getDefaultConversation(), getDefaultConversation()],
+        },
+        contactResults: {
+          isLoading: false,
+          results: [],
+        },
+        messageResults: {
+          isLoading: false,
+          results: [],
+        },
+      });
+
+      // Row 0: Conversations header
+      // Row 1: First conversation
+      // Row 2: Second conversation
+      // Row 3: Clear filter button
+      assert.deepEqual(helper.getRow(3), {
+        type: RowType.ClearFilterButton,
+        isOnNoResultsPage: false,
+      });
+
+      // Out of bounds
+      assert.isUndefined(helper.getRow(4));
+    });
+
+    it('shows unread header when filterByUnread=true', () => {
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        filterByUnread: true,
+        conversationResults: {
+          isLoading: false,
+          results: [getDefaultConversation()],
+        },
+      });
+
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'icu:conversationsUnreadHeader'
+      );
     });
   });
 
@@ -529,6 +598,37 @@ describe('LeftPaneSearchHelper', () => {
       assert.isUndefined(
         helper.getConversationAndMessageAtIndex(-100)?.messageId
       );
+    });
+
+    it('handles accurate row indexing when filterByUnread is enabled', () => {
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
+
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        filterByUnread: true,
+        conversationResults: {
+          isLoading: false,
+          results: conversations,
+        },
+        contactResults: { isLoading: false, results: [] },
+        messageResults: { isLoading: false, results: [] },
+      });
+
+      // Verify conversation row indexing
+      assert.strictEqual(
+        helper.getConversationAndMessageAtIndex(0)?.conversationId,
+        conversations[0].id
+      );
+      assert.strictEqual(
+        helper.getConversationAndMessageAtIndex(1)?.conversationId,
+        conversations[1].id
+      );
+
+      // Verify clear filter row is skipped (index 2 doesn't map to a conversation)
+      assert.isUndefined(helper.getConversationAndMessageAtIndex(2));
     });
   });
 });

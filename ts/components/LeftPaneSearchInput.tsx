@@ -201,7 +201,8 @@ export function LeftPaneSearchInput({
           direction={TooltipPlacement.Bottom}
           content={i18n('icu:filterByUnreadButtonLabel')}
           theme={Theme.Dark}
-          delay={600}
+          delay={2000}
+          wrapperClassName="LeftPaneSearchInput__FilterButtonWrapper"
         >
           <button
             className={classNames('LeftPaneSearchInput__FilterButton', {
