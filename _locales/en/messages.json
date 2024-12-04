@@ -1098,10 +1098,6 @@
     "messageformat": "There was an error with the voice recorder.",
     "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Attachment saved.",
-    "description": "(Deleted 2024/10/23) Shown after user selects to save to downloads"
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Attachment} other {# attachments}} saved",
     "description": "Shown after user selects to save to downloads"
@@ -1365,22 +1361,6 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Delete messages",
-    "description": "(Deleted 2024/10/23) Menu item for deleting all messages in a conversation from your device"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Delete messages?",
-    "description": "(Deleted 2024/10/23) Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
-    "description": "(Deleted 2024/10/23) Description for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages.",
-    "description": "(Deleted 2024/10/23) Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:deleteConversation": {
     "messageformat": "Delete",
@@ -7682,7 +7662,7 @@
   },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say.",
-    "description": "Release notes for version 7.35"
+    "description": "(Deleted 2024/12/04) Release notes for version 7.35"
   },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message.",

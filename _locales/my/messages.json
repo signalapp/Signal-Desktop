@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "အသံဖမ်းစက်တွင် ချို့ယွင်းချက် ဖြစ်ခဲ့ပါသည်။"
   },
-  "icu:attachmentSaved": {
-    "messageformat": "ပူးတွဲဖိုင်ကို သိမ်းပြီး။"
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, other {ပူးတွဲဖိုင် {count,number} ခုကို သိမ်းပြီး}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "အချက်အလက်"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "မက်ဆေ့ချ်များကို ဖျက်ရန်"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "မက်ဆေ့ချ်များကို ဖျက်မည်လား။"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "ဤချက်(တ်)မှ မက်ဆေ့ချ်များအားလုံးကို ယခုစက်မှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "ဤချက်(တ်)ရှိ မက်ဆေ့ချ်များအားလုံးကို သင်၏စက်များအားလုံးမှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။"
   },
   "icu:deleteConversation": {
     "messageformat": "ဖျက်ရန်"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, other {{ringer} က သင်၊ {first} ၊ {second} နှင့် အခြား {remaining,number} ဦးကို ခေါ်နေပါသည်}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Connecting..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "ဖုန်းမြည်နေဆဲ..."
@@ -5776,16 +5764,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
+  "icu:WhatsNew__v7.35--0": {
     "messageformat": "ရှာဖွေရေးဘောက်စ်ဘေးရှိ စစ်ထုတ်သည့်အိုင်ကွန်အသစ်သည် မဖတ်ရသေးသော ချက်(တ်)များကို လျင်မြန်စွာရှာဖွေရန် လွယ်ကူစေသည်။"
   },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "ဤအပ်ဒိတ်သည် Snapdragon X Elite ကဲ့သို့သော Window များပေါ်ရှိ ပရိုဆက်ဆာအသစ်များအတွက် အထောက်အပံ့ကို မိတ်ဆက်ပေးထားသည်။"
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
   },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "သင်၏ လည်ပတ်မှုစနစ်ဆက်တင်တွင် အလင်း Theme ကို အသုံးပြုရန် သတ်မှတ်သည့်အခါ Signal တွင် အမှောင် Theme ကို ပျက်စီးစေသည့် ချို့ယွင်းချက်တစ်ခုကိုလည်း ပြုပြင်ပေးခဲ့သည်။"
-  },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }
