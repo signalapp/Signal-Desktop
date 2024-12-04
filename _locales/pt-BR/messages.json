@@ -5786,6 +5786,6 @@
     "messageformat": "Corrigimos um erro que impedia o tema escuro do Signal de funcionar quando o sistema operacional estava configurado para o tema claro."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "O novo ícone de filtro ao lado da barra de pesquisa torna ainda mais fácil localizar rapidamente suas conversas não lidas. Você pode visualizar e gerenciar essas mensagens com praticidade, decidindo se deseja marcá-las como lidas ou manter como não lidas, conforme sua preferência."
   }
 }

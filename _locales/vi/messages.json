@@ -5786,6 +5786,6 @@
     "messageformat": "Chúng tôi cũng đã sửa lỗi ảnh hưởng đến giao diện chủ đề tối của Signal khi hệ điều hành sử dụng chủ đề sáng."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Biểu tượng bộ lọc mới ở cạnh ô tìm kiếm giúp tìm cuộc trò chuyện chưa đọc dễ dàng hơn."
   }
 }

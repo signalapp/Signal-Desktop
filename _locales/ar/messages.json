@@ -5786,6 +5786,6 @@
     "messageformat": "أصلحنا أيضًا خطًأ كان يُعطِّل النّمط الدّاكن في سيجنال عندما تكون إعدادات نظام التشغيل على جهازك مهيأة لاستخدام النمط الفاتح."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "تُسهّل أيقونة الفلتر الجديدة الموجودة قرب مربع البحث العثور بسرعة على الدردشات غير المقروءة."
   }
 }

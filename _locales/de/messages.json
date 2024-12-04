@@ -714,7 +714,7 @@
     "messageformat": "Keine Ergebnisse für »{searchTerm}« in {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Gefiltert nach Ungelesen"
+    "messageformat": "Gefiltert nach: Ungelesen"
   },
   "icu:filterByUnreadButtonLabel": {
     "messageformat": "Nach Ungelesen filtern"
@@ -5780,12 +5780,12 @@
     "messageformat": "Mit dem neuen Filtersymbol neben dem Suchfeld kannst du ungelesene Chats jetzt viel schneller finden. Aber lass dir ruhig Zeit bei der Entscheidung, ob du etwas Ungelesen lassen möchtest oder nicht."
   },
   "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Mit diesem Update werden neue Prozessoren unter Windows, wie Snapdragon X Elite, vorgestellt – jetzt musst du dir keinen ARM mehr abhacken, um es mit x86 aufnehmen zu können."
+    "messageformat": "Mit diesem Update wird die Unterstützung neuer Prozessoren unter Windows, wie Snapdragon X Elite, vorgestellt – jetzt musst du dir keinen ARM mehr abhacken, um es mit x86 aufnehmen zu können."
   },
   "icu:WhatsNew__v7.34--2": {
     "messageformat": "Wir haben auch einen Fehler behoben, der den Dunkelmodus geschrottet hat, sobald deine Systemeinstellungen für Hellmodus konfiguriert waren. Signal Desktop kann deine gespaltene Modus-Persönlichkeit jetzt problemlos bewältigen."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Mit dem neuen Filtersymbol neben dem Suchfeld kannst du ungelesene Chats jetzt viel schneller finden. Aber lass dir ruhig Zeit bei der Entscheidung, ob du etwas Ungelesen lassen möchtest oder nicht."
   }
 }

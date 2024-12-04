@@ -5786,6 +5786,6 @@
     "messageformat": "Vi har også rettet en fejl, der ødelagde det mørke tema i Signal, når operativsystemindstillingerne blev konfigureret til at bruge et lyst tema. Signal Desktop kan nu korrekt håndtere din tematisk opdelte personlighed."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Det nye filterikon ved siden af søgefeltet gør det nemt hurtigt at finde ulæste chats, men du er velkommen til at tage dig tid til at beslutte, om du vil lade dem være læst, efter at have set, hvad personen havde at sige."
   }
 }

@@ -5786,6 +5786,6 @@
     "messageformat": "我哋仲修正咗一個錯誤，以後當你嘅作業系統設定咗用淺色主題嗰陣，Signal 嘅深色主題都唔會受到影響。"
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "搜尋方格隔離嘅新篩選圖示可以幫你極速搵到未讀嘅聊天。"
   }
 }

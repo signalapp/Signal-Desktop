@@ -5786,6 +5786,6 @@
     "messageformat": "हमने उस गड़बड़ी को भी ठीक कर दिया है जो आपके ऑपरेटिंग सिस्टम की सेटिंग्स के हल्की थीम पर कॉन्फ़िगर होने पर, Signal में गहरी थीम को हटा देती थी। अब Signal डेस्कटॉप अलग-अलग थीम को लेकर आपकी अलग-अलग पसंद को अच्छे से संभाल सकता है।"
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "सर्च बॉक्स के पास बने नए फ़िल्टर आइकन की मदद से, आप पढ़ी न चैट आसानी से ढूँढ सकते हैं, लेकिन इस बात का फ़ैसला लेने के लिए समय लें कि वे क्या कह रहे हैं, यह देखने के बाद, आप उन्हें पढ़कर छोड़ना चाहते हैं या नहीं।"
   }
 }

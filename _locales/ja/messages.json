@@ -5786,6 +5786,6 @@
     "messageformat": "また、基本ソフトウェアのテーマ設定がライトテーマに設定されている場合に、Signalのダークテーマが正しく表示されないバグも修正されました。"
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "検索ボックスの横にある新しい検索アイコンで、未読のチャットをすぐに見つけることができます。"
   }
 }

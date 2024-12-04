@@ -5786,6 +5786,6 @@
     "messageformat": "Također smo popravili grešku koja je kvarila tamnu temu u Signalu kada su postavke vašeg operativnog sustava bile konfigurirane za korištenje svijetle teme."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Nova ikona filtera pored okvira za pretragu olakšava brzo pronalaženje nepročitanih chatova, ali slobodno odlučite da li ćete ih ostaviti za čitanje nakon što vidite šta su imali da kažu."
   }
 }

@@ -4125,7 +4125,7 @@
     "messageformat": "Поради щодо безпеки"
   },
   "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "У вас немає спільних груп з цією особою. Уважно розглядайте запити перед тим, як їх прийняти, щоб уникнути небажаних повідомлень."
+    "messageformat": "У вас немає спільних груп із цією людиною. Щоб уникнути небажаних повідомлень, не приймайте запитів без уважної перевірки відправника."
   },
   "icu:MessageRequestWarning__dialog__learn-even-more": {
     "messageformat": "Про запити на листування"
@@ -5786,6 +5786,6 @@
     "messageformat": "Ми також виправили помилку, через яку не працювала темна тема в Signal, якщо ваша операційна система використовувала світлу. Тепер Signal Desktop не виринатиме з темряви, навіть якщо деінде ви надаєте перевагу світлу."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "З новим значком фільтра біля поля пошуку можна швидко й легко знаходити непрочитані чати. А от відповісти одразу чи потягнути час ще трошки — вирішувати тільки вам."
   }
 }

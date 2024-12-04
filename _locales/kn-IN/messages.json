@@ -5786,6 +5786,6 @@
     "messageformat": "ನಿಮ್ಮ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಲೈಟ್ ಥೀಮ್ ಬಳಸುವಂತೆ ಕಾನ್ಫಿಗರ್ ಮಾಡಿದಾಗ Signal ನಲ್ಲಿ ಡಾರ್ಕ್ ಥೀಮ್‌ಗೆ ಹಾನಿಮಾಡುವ ದೋಷವನ್ನು ಸಹ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಈಗ ನಿಮ್ಮ ವಿಷಯಾಧಾರಿತವಾಗಿ ವಿಭಜಿತವಾದ ವ್ಯಕ್ತಿತ್ವವನ್ನು ಸರಿಯಾಗಿ ನಿಭಾಯಿಸುತ್ತದೆ."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನ ಪಕ್ಕದಲ್ಲಿರುವ ಹೊಸ ಫಿಲ್ಟರ್ ಐಕಾನ್ ಓದದಿರುವ ಚಾಟ್‌ಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಹುಡುಕಲು ಸುಲಭಗೊಳಿಸುತ್ತದೆ, ಆದರೆ ಅವುಗಳು ಏನು ಹೇಳಬೇಕೆಂದಿವೆ ಎಂಬುದನ್ನು ನೋಡಿದ ನಂತರ ಅವುಗಳನ್ನು ಓದಲು ಬಿಡಬೇಕೆ ಅಥವಾ ಬೇಡವೇ ಎಂಬುದನ್ನು ನಿರ್ಧರಿಸಲು ನಿಮ್ಮ ಸಮಯವನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ಹಿಂಜರಿಯಬೇಡಿ."
   }
 }

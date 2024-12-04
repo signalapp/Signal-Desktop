@@ -5786,6 +5786,6 @@
     "messageformat": "ہم نے ایک ایسے نقص کو بھی ٹھیک کیا جو آپ کے آپریٹنگ سسٹم کی سیٹنگز کو لائٹ تھیم پر سیٹ کرنے کے بعد Signal کی ڈارک تھیم کو خراب کر رہا تھا۔ Signal Desktop اب آپ کی تھیم پر مبنی سپلٹ شخصیت کو اچھی طرح ہینڈل کر سکتا ہے۔"
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "تلاش کے باکس کے ساتھ موجود نئے فلٹر آئیکن کی مدد سے غیر پڑھی ہوئی چیٹس کو جلدی سے تلاش کرنا آسان ہو جاتا ہے۔"
   }
 }

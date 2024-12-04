@@ -5786,6 +5786,6 @@
     "messageformat": "Əməliyyat sistemi parametrləriniz açıq rəngli temadan istifadə etmək üçün konfiqurasiya edildikdə, Signal-da tünd rəngli temanı sıradan çıxaran səhvi də aradan qaldırdıq. Signal Desktop artıq tematik olaraq bölünmüş kimliyinizi müvafiq şəkildə idarə edə bilər."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Axtarış qutusunun yanındakı yeni filtr piktoqramı oxunmamış çatların vaxt itirmədən tapılmasını asanlaşdırır, lakin onların dediklərini gördükdən sonra onları oxuyub-oxumamaq barədə qərar verməkdən çəkinməyin."
   }
 }

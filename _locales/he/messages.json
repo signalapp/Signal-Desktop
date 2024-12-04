@@ -5786,6 +5786,6 @@
     "messageformat": "תיקנו גם באג ששיבש את ערכת הנושא הכהה ב–Signal כשמערכת ההפעלה הוגדרה לשימוש בערכת נושא בהירה."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "סמל הסינון החדש ליד תיבת החיפוש מקל ומזרז איתור צ׳אטים שלא נקראו."
   }
 }

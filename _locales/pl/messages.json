@@ -5786,6 +5786,6 @@
     "messageformat": "Naprawiliśmy również błąd, który powodował niepoprawne działanie trybu ciemnego w aplikacji Signal wtedy, gdy w ustawieniach systemowych komputera skonfigurowano tryb jasny. Teraz Signal Desktop i Twój komputer mogą być niczym yin i yang."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Nowa ikona filtra obok pola wyszukiwania ułatwia odnajdywanie czatów z nieodczytanymi wiadomościami. Czy odpiszesz? Ta decyzja należy do Ciebie."
   }
 }

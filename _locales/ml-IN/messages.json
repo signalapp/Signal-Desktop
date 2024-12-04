@@ -5786,6 +5786,6 @@
     "messageformat": "ഒരു ലൈറ്റ് തീം ഉപയോഗിക്കുന്നതിന് നിങ്ങളുടെ ഓപ്പറേറ്റിംഗ് സിസ്റ്റം ക്രമീകരണങ്ങൾ കോൺഫിഗർ ചെയ്തപ്പോൾ Signal-ലെ ഡാർക്ക് തീം തകർത്ത ഒരു ബഗും ഞങ്ങൾ പരിഹരിച്ചു. Signal ഡെസ്ക്ടോപ്പിന് ഇപ്പോൾ നിങ്ങളുടെ പ്രമേയപരമായി വിഭജിക്കപ്പെട്ട വ്യക്തിത്വം ശരിയായി കൈകാര്യം ചെയ്യാൻ കഴിയും."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "തിരയൽ ബോക്‌സിന് അടുത്തുള്ള പുതിയ ഫിൽട്ടർ ഐക്കൺ വായിക്കാത്ത ചാറ്റുകൾ വേഗത്തിൽ കണ്ടെത്തുന്നത് എളുപ്പമാക്കുന്നു, എന്നാൽ അവർക്ക് എന്താണ് പറയാനുള്ളത് എന്ന് കണ്ടതിന് ശേഷം അവ വായിച്ചത് എന്നതിൽ ഇടണോ വേണ്ടയോ എന്ന് തീരുമാനിക്കാൻ മടിക്കേണ്ടതില്ല."
   }
 }

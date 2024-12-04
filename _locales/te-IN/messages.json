@@ -5786,6 +5786,6 @@
     "messageformat": "మీ ఆపరేటింగ్ సిస్టమ్ సెట్టింగ్‌లు లైట్ థీమ్‌ను ఉపయోగించడానికి కాన్ఫిగర్ చేయబడినప్పుడు Signal లో డార్క్ థీమ్‌ను విచ్ఛిన్నం చేసిన బగ్‌ను కూడా మేము పరిష్కరించాము. Signal డెస్క్‌టాప్ ఇప్పుడు మీ ఇతివృత్తంగా విభజించబడిన వ్యక్తిత్వాన్ని సరిగ్గా నిర్వహించగలదు."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "శోధన పెట్టె పక్కన ఉన్న కొత్త ఫిల్టర్ ఐకాన్ చదవని చాట్లను త్వరగా కనుగొనడాన్ని సులభతరం చేస్తుంది."
   }
 }

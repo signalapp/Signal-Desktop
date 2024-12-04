@@ -5786,6 +5786,6 @@
     "messageformat": "我们还修复了一个漏洞，当您的操作系统设置配置为使用日间模式时，该漏洞会使 Signal 显示夜间模式。"
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "搜索框旁边的新筛选图标可以让用户轻松快捷地查找未读聊天。"
   }
 }

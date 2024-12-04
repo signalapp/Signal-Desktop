@@ -5786,6 +5786,6 @@
     "messageformat": "Inayos rin namin ang bug na sumisira sa dark theme sa Signal kapag ang operating system settings mo ay naka-set na gamitin ang light theme."
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "Pinapadali ng bagong filter icon sa tabi ng search box ang paghahanap ng unread chats."
   }
 }

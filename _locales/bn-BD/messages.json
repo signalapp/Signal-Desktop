@@ -5786,6 +5786,6 @@
     "messageformat": "আপনার অপারেটিং সিস্টেম সেটিংস যখন লাইট থিম ব্যবহার করার জন্য কনফিগার করা হয়েছিলো তখন আমরা এমন একটি বাগ সংশোধন করেছি যা Signal-এ ডার্ক থিমটি ভেঙে দিচ্ছিল।"
   },
   "icu:WhatsNew__v7.35--0": {
-    "messageformat": "The new filter icon next to the search box makes it easy to quickly find unread chats, but feel free to take your time deciding whether or not to leave them on read after seeing what they had to say."
+    "messageformat": "অনুসন্ধান বক্সের পাশে থাকা নতুন ফিল্টার আইকনটি অপঠিত চ্যাট দ্রুত খুঁজে পাওয়া সহজ করে তোলে।"
   }
 }
