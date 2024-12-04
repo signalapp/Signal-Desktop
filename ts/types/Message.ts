@@ -6,8 +6,6 @@ import type { AttachmentType } from './Attachment';
 import type { EmbeddedContactType } from './EmbeddedContact';
 import type { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
-export const LONG_ATTACHMENT_LIMIT = 2048;
-
 export function getMentionsRegex(): RegExp {
   return /\uFFFC/g;
 }
