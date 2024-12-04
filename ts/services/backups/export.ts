@@ -32,7 +32,6 @@ import {
   type ServiceIdString,
 } from '../../types/ServiceId';
 import type { RawBodyRange } from '../../types/BodyRange';
-import { LONG_ATTACHMENT_LIMIT } from '../../types/Message';
 import { PaymentEventKind } from '../../types/Payment';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent';
 import type {
@@ -139,6 +138,7 @@ import { toAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { migrateAllMessages } from '../../messages/migrateMessageData';
+import { trimBody } from '../../util/longAttachment';
 
 const MAX_CONCURRENCY = 10;
 
@@ -2456,7 +2456,7 @@ export class BackupExportStream extends Readable {
       text:
         message.body != null
           ? {
-              body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
+              body: message.body ? trimBody(message.body) : undefined,
               bodyRanges: message.bodyRanges?.map(range =>
                 this.toBodyRange(range)
               ),

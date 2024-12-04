@@ -50,8 +50,8 @@ import {
 } from '../util/getLocalAttachmentUrl';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { deepClone } from '../util/deepClone';
-import { LONG_ATTACHMENT_LIMIT } from './Message';
 import * as Bytes from '../Bytes';
+import { isBodyTooLong } from '../util/longAttachment';
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';
@@ -1183,16 +1183,15 @@ export async function migrateBodyAttachmentToDisk(
     return message;
   }
 
-  if (!message.body || (message.body?.length ?? 0) <= LONG_ATTACHMENT_LIMIT) {
+  if (!message.body || !isBodyTooLong(message.body)) {
     return message;
   }
 
   logger.info(`${logId}: Writing bodyAttachment to disk`);
 
-  const data = Bytes.fromString(message.body);
   const bodyAttachment = {
     contentType: LONG_MESSAGE,
-    ...(await writeNewAttachmentData(data)),
+    ...(await writeNewAttachmentData(Bytes.fromString(message.body))),
   };
 
   return {
