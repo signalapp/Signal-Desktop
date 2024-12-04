@@ -31,7 +31,6 @@ import type {
   UploadedAttachmentType,
 } from '../../types/Attachment';
 import { copyCdnFields } from '../../util/attachments';
-import { LONG_ATTACHMENT_LIMIT } from '../../types/Message';
 import type { RawBodyRange } from '../../types/BodyRange';
 import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact';
 import type { StoryContextType } from '../../types/Util';
@@ -55,6 +54,7 @@ import {
   getChangesForPropAtTimestamp,
 } from '../../util/editHelpers';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
+import { isBodyTooLong, trimBody } from '../../util/longAttachment';
 
 const MAX_CONCURRENT_ATTACHMENT_UPLOADS = 5;
 
@@ -587,8 +587,8 @@ async function getMessageSendData({
     targetTimestamp,
   });
 
-  if (body && body.length > LONG_ATTACHMENT_LIMIT) {
-    body = body.slice(0, LONG_ATTACHMENT_LIMIT);
+  if (body && isBodyTooLong(body)) {
+    body = trimBody(body);
   }
 
   const uploadQueue = new PQueue({
