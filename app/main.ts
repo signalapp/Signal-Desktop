@@ -5,6 +5,8 @@ import { join, normalize, extname, dirname, basename } from 'path';
 import { pathToFileURL } from 'url';
 import * as os from 'os';
 import { chmod, realpath, writeFile } from 'fs-extra';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import { randomBytes } from 'crypto';
 import { createParser } from 'dashdash';
 
@@ -3019,6 +3021,32 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
     getLogger().warn('show-save-dialog: no main window');
 
     return { canceled: true };
+  }
+
+  if (
+    process.platform === 'linux' &&
+    defaultPath &&
+    defaultPath.charAt(0) !== '/'
+  ) {
+    // On Linux the defaultPath should be an absolute path, otherwise the save dialog will have an empty filename on KDE/Plasma
+    let downloadsPath = '';
+    try {
+      downloadsPath = (
+        await promisify(exec)('xdg-user-dir DOWNLOAD')
+      ).stdout.trim();
+      getLogger().info(
+        'show-save-dialog: saving to user downloads directory: ' + downloadsPath
+      );
+    } catch (e) {
+      // If we cannot get Downloads path, fall back to the user's home directory
+      downloadsPath = process.env['HOME'] || '';
+      getLogger().info(
+        'show-save-dialog: saving to user home directory: ' + downloadsPath
+      );
+    }
+    if (downloadsPath) {
+      defaultPath = downloadsPath + '/' + defaultPath;
+    }
   }
 
   const { canceled, filePath: selectedFilePath } = await dialog.showSaveDialog(
