@@ -1638,24 +1638,29 @@ export async function startApp(): Promise<void> {
       onOffline();
     }
 
-    // Download backup before enabling request handler and storage service
-    try {
-      await backupsService.download({
-        onProgress: (backupStep, currentBytes, totalBytes) => {
-          window.reduxActions.installer.updateBackupImportProgress({
-            backupStep,
-            currentBytes,
-            totalBytes,
-          });
-        },
-      });
+    const backupDownloadPath = window.storage.get('backupDownloadPath');
+    if (backupDownloadPath) {
+      // Download backup before enabling request handler and storage service
+      try {
+        await backupsService.downloadAndImport({
+          onProgress: (backupStep, currentBytes, totalBytes) => {
+            window.reduxActions.installer.updateBackupImportProgress({
+              backupStep,
+              currentBytes,
+              totalBytes,
+            });
+          },
+        });
 
-      log.info('afterStart: backup downloaded, resolving');
+        log.info('afterStart: backup downloaded, resolving');
+        backupReady.resolve();
+      } catch (error) {
+        log.error('afterStart: backup download failed, rejecting');
+        backupReady.reject(error);
+        throw error;
+      }
+    } else {
       backupReady.resolve();
-    } catch (error) {
-      log.error('afterStart: backup download failed, rejecting');
-      backupReady.reject(error);
-      throw error;
     }
 
     server.registerRequestHandler(messageReceiver);

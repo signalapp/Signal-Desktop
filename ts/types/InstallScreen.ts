@@ -18,8 +18,9 @@ export enum InstallScreenBackupStep {
 }
 
 export enum InstallScreenBackupError {
-  Unknown = 'Unknown',
   UnsupportedVersion = 'UnsupportedVersion',
+  Retriable = 'Retriable',
+  Fatal = 'Fatal',
 }
 
 export enum InstallScreenError {

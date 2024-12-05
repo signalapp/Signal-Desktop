@@ -32,6 +32,7 @@ export type PropsType = Readonly<{
   error?: InstallScreenBackupError;
   onCancel: () => void;
   onRetry: () => void;
+  onRestartLink: () => void;
 
   // Updater UI
   updates: UpdatesStateType;
@@ -49,6 +50,7 @@ export function InstallScreenBackupImportStep({
   error,
   onCancel,
   onRetry,
+  onRestartLink,
 
   updates,
   currentVersion,
@@ -158,7 +160,7 @@ export function InstallScreenBackupImportStep({
         OS={OS}
       />
     );
-  } else if (error === InstallScreenBackupError.Unknown) {
+  } else if (error === InstallScreenBackupError.Retriable) {
     if (!isConfirmingSkip) {
       errorElem = (
         <ConfirmationDialog
@@ -179,6 +181,27 @@ export function InstallScreenBackupImportStep({
         </ConfirmationDialog>
       );
     }
+  } else if (error === InstallScreenBackupError.Fatal) {
+    errorElem = (
+      <ConfirmationDialog
+        dialogName="InstallScreenBackupImportStep.error"
+        title={i18n('icu:BackupImportScreen__error__title')}
+        actions={[
+          {
+            action: onRestartLink,
+            style: 'affirmative',
+            text: i18n('icu:BackupImportScreen__error__confirm'),
+          },
+        ]}
+        i18n={i18n}
+        onClose={() => null}
+        noMouseClose
+        noDefaultCancelButton
+        noEscapeClose
+      >
+        {i18n('icu:BackupImportScreen__error-fatal__body')}
+      </ConfirmationDialog>
+    );
   } else {
     throw missingCaseError(error);
   }
