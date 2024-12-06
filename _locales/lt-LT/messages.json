@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Įvyko klaida su balso rašytuvu."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Priedas įrašytas."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Priedas įrašytas} few {{count,number} priedai įrašyti} many {{count,number} priedo įrašyta} other {{count,number} priedų įrašyti}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Informacija"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Ištrinti žinutes"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Ištrinti žinutes?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš šio įrenginio. Net kai ištrinsite žinutes, vis tiek galėsite ieškoti šio pokalbio."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš visų jūsų įrenginių. Net kai ištrinsite žinutes, vis tiek galėsite ieškoti šio pokalbio."
   },
   "icu:deleteConversation": {
     "messageformat": "Ištrinti"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} skambina jums ir naudotojams {first}, {second} bei dar {remaining,number} žmogui} few {{ringer} skambina jums ir naudotojams {first}, {second} bei dar {remaining,number} žmonėms} many {{ringer} skambina jums ir naudotojams {first}, {second} bei dar {remaining,number} žmonių} other {{ringer} skambina jums ir naudotojams {first}, {second} bei dar {remaining,number} žmogui}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Jungiamasi…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Skambinama…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "Dėl naujos filtro piktogramos šalia paieškos laukelio lengvai ir greitai rasite neskaitytus pokalbius."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Šiuo naujinimu pristatomas naujų „Windows“ procesorių, pvz., „Snapdragon X Elite“, palaikymas."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Taip pat ištaisėme klaidą, nutraukusią „Signal“ tamsųjį apipavidalinimą, kai operacinės sistemos nustatymai buvo sukonfigūruoti naudoti šviesųjį apipavidalinimą."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "Dėl naujos filtro piktogramos šalia paieškos laukelio lengvai ir greitai rasite neskaitytus pokalbius."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

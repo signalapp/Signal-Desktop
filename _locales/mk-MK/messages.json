@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Имаше грешка со диктафонот."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Прилогот е зачуван."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Прилогот е зачуван} other {Зачувани се {count,number} прилози}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Информации"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Избриши ги пораките"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Да се избришат пораките?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Пораките во овој разговор ќе бидат избришани од овој уред. Ќе можете да го пронајдате овој разговор и откако ќе ги избришете пораките."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Сите пораки во овој разговор ќе бидат избришани од вашите уреди. Ќе можете да го пронајдeте овој разговор и откако ќе ги избришете пораките."
   },
   "icu:deleteConversation": {
     "messageformat": "Избриши"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} Ве повикува Вас, {first}, {second}, и {remaining,number} друг} other {{ringer} Ве повикува Вас, {first}, {second} и {remaining,number} други}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Се поврзува…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Ѕвонам…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "Новата икона за филтер до полето за пребарување ви го олеснува пронаоѓањето на непрочитаните разговори."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Во оваа верзија се воведува поддршка за новите процесори на Windows како што е Snapdragon X Elite."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Исто така, поправивме грешка која го оневозможуваше темниот режим во Signal кога поставките на оперативниот систем беа конфигурирани за користење на светол режим."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "Новата икона за филтер до полето за пребарување ви го олеснува пронаоѓањето на непрочитаните разговори."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "Во оваа верзија е решена грешка при споделување на сликата од екранот на macOS Sonoma."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Опцијата „Филтрирајте по непрочитани“ сега го истакнува избраниот разговор и се ажурира како што пристигаат и се читаат новите разговори."
   }
 }

@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "خطایی در ضبط صدا وجود داشت"
   },
-  "icu:attachmentSaved": {
-    "messageformat": "پیوست ذخیره شد"
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {پیوست ذخیره شد} other {{count,number} پیوست ذخیره شد}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "اطلاعات"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "پاک کردن پیام‌ها"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "پیام‌ها پاک شود؟"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "همۀ پیام‌های این گفتگو از این دستگاه حذف خواهد شد. بعد از حذف پیام‌ها همچنان می‌توانید این گفتگو را جستجو کنید."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "همه پیام‌های این گفتگو از همه دستگاه‌های شما حذف خواهد شد. بعد از حذف پیام‌ها همچنان می‌توانید این گفتگو را جستجو کنید."
   },
   "icu:deleteConversation": {
     "messageformat": "پاک کردن"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} در حال تماس گرفتن با شما، {first}، {second}، و {remaining,number} نفر دیگر است} other {{ringer} در حال تماس گرفتن با شما، {first}، {second}، و {remaining,number} نفر دیگر است}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "در حال اتصال..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "در حال زنگ خوردن…"
@@ -5776,16 +5764,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "نماد فیلتر جدید در کنار کادر جستجو، یافتن سریع گفتگوهای خوانده‌نشده را آسان می‌کند."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "این به‌روزرسانی از پردازنده‌های جدید ویندوز مانند Snapdragon X Elite پشتیبانی می‌کند."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "همچنین باگی را برطرف کردیم که وقتی تنظیمات سیستم‌عامل شما برای استفاده از طرح زمینه روشن پیکربندی شده بود، مانع عملکرد صحیح طرح زمینه‌ی تیره سیگنال می‌شد."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "نماد فیلتر جدید در کنار کادر جستجو، یافتن سریع گفتگوهای خوانده‌نشده را آسان می‌کند."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

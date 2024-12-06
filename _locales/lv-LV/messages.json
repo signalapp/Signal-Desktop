@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Balss ierakstīšanas laikā radās kļūda."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Pielikums saglabāts."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, zero {Saglabāti {count,number} pielikumi} one {Pielikums saglabāts} other {Saglabāti {count,number} pielikumi}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Informācija"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Ziņu dzēšana"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Vai dzēst ziņas?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Visas ziņas šajā sarunā tiks dzēstas no šīs ierīces. Pēc ziņu dzēšanas joprojām varēsiet atrast šo sarunu, izmantojot meklēšanas funkciju."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Visas ziņas šajā sarunā tiks dzēstas no visām jūsu ierīcēm. Pēc ziņu dzēšanas joprojām varēsiet atrast šo sarunu, izmantojot meklēšanas funkciju."
   },
   "icu:deleteConversation": {
     "messageformat": "Dzēst"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, zero {{ringer} zvana Jums, {first}, {second}, un {remaining,number} citiem} one {{ringer} zvana Jums, {first}, {second}, un {remaining,number} citam} other {{ringer} zvana Jums, {first}, {second}, un {remaining,number} citiem}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Notiek savienošanās"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Zvana…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "Jaunā filtru ikona blakus meklēšanas lodziņam ļauj ātri un ērti atrast nelasītās sarunas. Kad atbildēt uz šīm ziņām, vēl aizvien paliek jūsu ziņā."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Šajā atjauninājumā ir ieviests atbalsts jauniem Windows procesoriem, piemēram, Snapdragon X Elite."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Tāpat izlabojām kļūdu, kas pārtrauc Signal tumšā dizaina izmantošanu, ja operētājsistēmas iestatījumos ir uzstādīts gaišais dizains. Signal Desktop tagad spēj pienācīgi tikt galā ar jūsu personības dalīšanos."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "Jaunā filtru ikona blakus meklēšanas lodziņam ļauj ātri un ērti atrast nelasītās sarunas. Kad atbildēt uz šīm ziņām, vēl aizvien paliek jūsu ziņā."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

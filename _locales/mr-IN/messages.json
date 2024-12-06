@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "व्हॉइस रेकॉर्डरमध्ये दोष होते."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "संलग्नक/अटॅचमेंट सेव्ह झाली"
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {संलग्नक जतन केले} other {{count,number} संलग्नके जतन केली}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "माहिती"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "संदेश हटवा"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "संदेश हटवायचा?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "या चॅट्समधील सर्व संदेश या डिव्हाइस वरून हटवले जातील. आपण संदेश हटवल्यानंतर देखील अद्याप हे चॅट्स शोधू शकता."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "या चॅट्स मधील सर्व संदेश आपल्या सर्व डिव्हाइसेस वरून हटवण्यात येतील. आपण संदेश हटवल्यानंतर देखील अद्याप आपण हे चॅट्स शोधू शकता."
   },
   "icu:deleteConversation": {
     "messageformat": "हटवा"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} तुम्हाला, {first}, {second} आणि इतर {remaining,number} जणांना काॅल करत आहे} other {{ringer} तुम्हाला, {first}, {second} आणि इतर {remaining,number} जणांना काॅल करत आहे}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "कनेक्ट करत आहे(...)"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "रिंग होत आहे…"
@@ -5776,16 +5764,13 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "शोध बॉक्सच्या शेजारी असलेले नवीन फिल्टर आयकन त्वरित न वाचलेले चॅट्स शोधणे सोपे करते, परंतु त्यांना काय म्हणायचे आहे ते पाहिल्यानंतर त्यांना उत्तर द्यायचे की नाही हे ठरवायला हवा तेवढा वेळ घ्या."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "हे अद्यतन विंडोजवरील नवीन प्रोसेसर्ससाठी सपोर्ट सुरु करते उदाहरणार्थ स्नॅपड्रॅगन X एलिट, ज्यामुळे आता x86 शी स्पर्धा करण्यात आपल्या ARM ला कष्ट पडण्याचे काही कारण नाही."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "आम्ही एक बगसुद्धा दुरुस्त केला जो आपल्या ऑपरेटिंग सिस्टीम सेटिंग्ज मध्ये Signal मधील गडद थीम काढून हलकी थीम वापरण्याची व्यवस्था केलेली असेल. Signal डेक्सटॉप आता आपले थीमनुसार दुभंगलेले व्यक्तिमत्त्व नीट हाताळू शकते."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "शोध बॉक्सच्या शेजारी असलेले नवीन फिल्टर आयकन त्वरित न वाचलेले चॅट्स शोधणे सोपे करते, परंतु त्यांना काय म्हणायचे आहे ते पाहिल्यानंतर त्यांना उत्तर द्यायचे की नाही हे ठरवायला हवा तेवढा वेळ घ्या."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

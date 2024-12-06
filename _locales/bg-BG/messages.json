@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Възникна грешка с диктофона."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Прикаченият файл е запазен."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Прикаченият файл е запазен} other {{count,number} прикачени файла са запазени}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Информация"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Изтриване на съобщенията"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Изтриване на съобщенията?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Всички съобщения в този чат ще бъдат изтрити от това устройство. Пак ще можете да търсите този чат, след като изтриете съобщенията."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Всички съобщения в този чат ще бъдат изтрити от всички ваши устройства. Пак ще можете да търсите този чат, след като изтриете съобщенията."
   },
   "icu:deleteConversation": {
     "messageformat": "Изтриване"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} звъни на вас, на {first}, на {second} и на още {remaining,number}} other {{ringer} звъни на вас, на {first}, на {second} и на още {remaining,number}}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Свързване…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Звънене…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "Новата икона за филтриране до полето за търсене улеснява бързото намиране на непрочетени чатове."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Тази актуализация въвежда поддръжка за новите процесори на Windows като Snapdragon X Elite."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Поправихме и грешка, която нарушаваше тъмната тема в Signal, когато настройките на операционната ви система са конфигурирани да използват светла тема."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "Новата икона за филтриране до полето за търсене улеснява бързото намиране на непрочетени чатове."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "ਵੌਇਸ ਰਿਕਾਰਡਰ ਵਿੱਚ ਕੋਈ ਗੜਬੜੀ ਸੀ।"
   },
-  "icu:attachmentSaved": {
-    "messageformat": "ਅਟੈਚਮੈਂਟ ਸੇਵ ਕੀਤੀ ਗਈ।"
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {ਅਟੈਚਮੈਂਟ ਸੇਵ ਕੀਤੀ ਗਈ।} other {{count,number} ਅਟੈਚਮੈਂਟਾਂ ਨੂੰ ਸੇਵ ਕੀਤਾ ਗਿਆ}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "ਜਾਣਕਾਰੀ"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "ਸੁਨੇਹੇ ਮਿਟਾਓ"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "ਕੀ ਸੁਨੇਹਿਆਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "ਇਸ ਚੈਟ ਵਿਚਲੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਇਸ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਸੁਨੇਹੇ ਮਿਟਾਉਣ ਤੋਂ ਬਾਅਦ ਵੀ ਤੁਸੀਂ ਇਸ ਚੈਟ ਦੀ ਖੋਜ ਕਰ ਸਕਦੇ ਹੋ।"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "ਇਸ ਚੈਟ ਵਿਚਲੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਸੁਨੇਹੇ ਮਿਟਾਉਣ ਤੋਂ ਬਾਅਦ ਵੀ ਤੁਸੀਂ ਇਸ ਚੈਟ ਦੀ ਖੋਜ ਕਰ ਸਕਦੇ ਹੋ।"
   },
   "icu:deleteConversation": {
     "messageformat": "ਮਿਟਾਓ"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer}, ਤੁਹਾਨੂੰ,{first}, {second}, ਅਤੇ {remaining,number} ਹੋਰ ਵਰਤੋਂਕਾਰ ਨੂੰ ਕਾਲ ਕਰ ਰਹੇ ਹਨ} other {{ringer}, ਤੁਹਾਨੂੰ, {first}, {second}, ਅਤੇ {remaining,number} ਹੋਰ ਜਣਿਆਂ ਨੂੰ ਕਾਲ ਕਰ ਰਹੇ ਹਨ }}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "ਕਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "ਘੰਟੀ ਜਾ ਰਹੀ ਹੈ…"
@@ -5776,16 +5764,13 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "ਖੋਜ ਬਾਕਸ ਦੇ ਅੱਗੇ ਮੌਜੂਦ ਨਵਾਂ ਫਿਲਟਰ ਆਈਕਨ ਤੇਜ਼ੀ ਨਾਲ ਨਹੀਂ-ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ ਨੂੰ ਲੱਭਣਾ ਆਸਾਨ ਬਣਾਉਂਦਾ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "ਇਹ ਅੱਪਡੇਟ Windows 'ਤੇ Snapdragon X Elite ਵਰਗੇ ਨਵੇਂ ਪ੍ਰੋਸੈਸਰਾਂ ਦਾ ਸਮਰਥਨ ਕਰਦਾ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "ਅਸੀਂ ਇੱਕ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ ਜਿਸ ਵਿੱਚ ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਨੂੰ ਲਾਈਟ ਥੀਮ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਕੌਂਫਿਗਰ ਕਰਨ 'ਤੇ Signal ਦੀ ਡਾਰਕ ਥੀਮ ਖ਼ਰਾਬ ਹੋ ਜਾਂਦੀ ਸੀ।"
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "ਖੋਜ ਬਾਕਸ ਦੇ ਅੱਗੇ ਮੌਜੂਦ ਨਵਾਂ ਫਿਲਟਰ ਆਈਕਨ ਤੇਜ਼ੀ ਨਾਲ ਨਹੀਂ-ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ ਨੂੰ ਲੱਭਣਾ ਆਸਾਨ ਬਣਾਉਂਦਾ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

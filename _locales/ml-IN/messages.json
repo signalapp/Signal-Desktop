@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "ശബ്‌ദ റെക്കോർഡറിൽ ഒരു പിശക് ഉണ്ടായിരുന്നു."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "അറ്റാച്ചുമെന്റ് സംരക്ഷിച്ചു."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {അറ്റാച്ച്മെൻ്റ് സംരക്ഷിച്ചു} other {{count,number} അറ്റാച്ച്മെൻ്റ് സംരക്ഷിച്ചു}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "വിവരം"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "സന്ദേശങ്ങൾ ഇല്ലാതാക്കൂ"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "സന്ദേശങ്ങൾ ഇല്ലാതാക്കണോ?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "ഈ ഉപകരണത്തിൽ നിന്ന് ഈ ചാറ്റിലെ എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കപ്പെടും. സന്ദേശങ്ങൾ ഇല്ലാതാക്കിയതിന് ശേഷവും നിങ്ങൾക്ക് ഈ ചാറ്റ് തിരയാനാകും."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "ഈ ചാറ്റിലെ എല്ലാ സന്ദേശങ്ങളും നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കപ്പെടും. സന്ദേശങ്ങൾ ഇല്ലാതാക്കിയതിന് ശേഷവും നിങ്ങൾക്ക് ഈ ചാറ്റ് തിരയാനാകും."
   },
   "icu:deleteConversation": {
     "messageformat": "ഇല്ലാതാക്കൂ"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} നിങ്ങളെയും {first}-നെയും {second}-നെയും മറ്റ് {remaining,number} പേരെയും വിളിക്കുന്നു} other {{ringer} നിങ്ങളെയും {first}-നെയും {second}-നെയും മറ്റ് {remaining,number} പേരെയും വിളിക്കുന്നു}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "കണക്റ്റ് ചെയ്യുന്നു..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "റിംഗ് ചെയ്യുന്നു..."
@@ -5776,16 +5764,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "തിരയൽ ബോക്‌സിന് അടുത്തുള്ള പുതിയ ഫിൽട്ടർ ഐക്കൺ വായിക്കാത്ത ചാറ്റുകൾ വേഗത്തിൽ കണ്ടെത്തുന്നത് എളുപ്പമാക്കുന്നു, എന്നാൽ അവർക്ക് എന്താണ് പറയാനുള്ളത് എന്ന് കണ്ടതിന് ശേഷം അവ വായിച്ചത് എന്നതിൽ ഇടണോ വേണ്ടയോ എന്ന് തീരുമാനിക്കാൻ മടിക്കേണ്ടതില്ല."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Snapdragon X Elite പോലെയുള്ള Windows-ലെ പുതിയ പ്രോസസ്സറുകൾക്കുള്ള പിന്തുണ ഈ അപ്‌ഡേറ്റ് അവതരിപ്പിക്കുന്നു, അതിനാൽ x86 അനുകരിക്കുന്നതിന് നിങ്ങളുടെ ARM-നെ ട്വിസ്റ്റ് ചെയ്യേണ്ടതില്ല."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "ഒരു ലൈറ്റ് തീം ഉപയോഗിക്കുന്നതിന് നിങ്ങളുടെ ഓപ്പറേറ്റിംഗ് സിസ്റ്റം ക്രമീകരണങ്ങൾ കോൺഫിഗർ ചെയ്തപ്പോൾ Signal-ലെ ഡാർക്ക് തീം തകർത്ത ഒരു ബഗും ഞങ്ങൾ പരിഹരിച്ചു. Signal ഡെസ്ക്ടോപ്പിന് ഇപ്പോൾ നിങ്ങളുടെ പ്രമേയപരമായി വിഭജിക്കപ്പെട്ട വ്യക്തിത്വം ശരിയായി കൈകാര്യം ചെയ്യാൻ കഴിയും."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "തിരയൽ ബോക്‌സിന് അടുത്തുള്ള പുതിയ ഫിൽട്ടർ ഐക്കൺ വായിക്കാത്ത ചാറ്റുകൾ വേഗത്തിൽ കണ്ടെത്തുന്നത് എളുപ്പമാക്കുന്നു, എന്നാൽ അവർക്ക് എന്താണ് പറയാനുള്ളത് എന്ന് കണ്ടതിന് ശേഷം അവ വായിച്ചത് എന്നതിൽ ഇടണോ വേണ്ടയോ എന്ന് തീരുമാനിക്കാൻ മടിക്കേണ്ടതില്ല."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

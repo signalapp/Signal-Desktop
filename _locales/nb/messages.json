@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Det oppstod et problem med opptaket."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Vedlegget er lagret."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Vedlegget ble lagret} other {{count,number} vedlegg ble lagret}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Info"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Slett meldingene"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Vil du slette meldingene?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Alle meldingene i denne samtalen slettes fra enheten. Du kan søke etter samtalen selv om meldingene er slettet."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Alle meldingene i denne samtalen slettes fra alle enhetene dine. Du kan søke etter samtalen selv om meldingene er slettet."
   },
   "icu:deleteConversation": {
     "messageformat": "Slett"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} ringer deg, {first}, {second} og {remaining,number} annen} other {{ringer} ringer deg, {first}, {second} og {remaining,number} andre}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Kobler til…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Det ringer …"
@@ -5776,16 +5764,13 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "Det nye filtreringsikonet ved siden av søkefeltet gjør det enkelt å finne uleste samtaler."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Denne oppdateringen inkluderer støtte for nye prosessorer på Windows, som Snapdragon X Elite."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Vi rettet også en feil som førte til at du ikke kunne slå på mørkt tema i Signal hvis du hadde slått på lyst tema i operasjonssystemet."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "Det nye filtreringsikonet ved siden av søkefeltet gjør det enkelt å finne uleste samtaler."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

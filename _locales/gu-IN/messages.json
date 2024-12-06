@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "વૉઈસ રેકોર્ડર સાથે કોઈ ત્રુટિ આવી હતી."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "અટેચમેન્ટ સેવ કર્યું."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {જોડાણ સેવ કર્યું} other {{count,number} જોડાણો સેવ કર્યા}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "માહિતી"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "મેસેજ ડિલીટ કરો"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "મેસેજ ડિલીટ કરવા છે?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "આ ડિવાઇસમાંથી આ ચેટમાંના તમામ મેસેજને ડિલીટ કરવામાં આવશે. તમે મેસેજ ડિલીટ કરી નાખો તે પછી પણ તમે આ ચેટ માટે શોધ કરી શકો છો."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "આ ચેટમાંના તમામ મેસેજને તમારા બધા ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે. તમે મેસેજ ડિલીટ કરી નાખો તે પછી પણ તમે આ ચેટ માટે શોધ કરી શકો છો."
   },
   "icu:deleteConversation": {
     "messageformat": "ડિલીટ કરો"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} તમને, {first}, {second} અને {remaining,number} અન્યને કૉલ કરી રહ્યાં છે} other {{ringer} તમને, {first}, {second} અને {remaining,number} અન્યોને કૉલ કરી રહ્યાં છે}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "કનેક્ટ થાય છે..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "રીંગિંગ..."
@@ -5776,16 +5764,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "શોધ બોક્સની બાજુમાં આવેલો નવો ફિલ્ટર આઇકન ન વાંચેલી ચેટને ઝડપથી શોધવાનું સરળ બનાવે છે."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "આ અપડેટ Windows પર Snapdragon X Elite જેવા નવા પ્રોસેસર માટે સપોર્ટ પ્રસ્તુત કરે છે."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "જ્યારે તમારી ઓપરેટિંગ સિસ્ટમ સેટિંગ્સને લાઇટ થીમનો ઉપયોગ કરવા માટે કન્ફિગર કરવામાં આવી હતી ત્યારે અમે Signalમાં ડાર્ક થીમને બગાડતાં બગને પણ ઠીક કર્યો છે."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "શોધ બોક્સની બાજુમાં આવેલો નવો ફિલ્ટર આઇકન ન વાંચેલી ચેટને ઝડપથી શોધવાનું સરળ બનાવે છે."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

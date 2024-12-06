@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "Prišlo je do težav s snemalcem zvoka."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Priponka je bila shranjena."
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Priponka je shranjena} two {{count,number} priponki sta shranjeni} few {{count,number} priponke so shranjene} other {{count,number} priponk je shranjenih}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Info"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Izbriši sporočila"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Izbrišem sporočila?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz te naprave. Ko izbrišete sporočila, lahko še vedno poiščete ta klepet."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz vseh vaših naprav. Ko izbrišete sporočila, lahko še vedno poiščete ta klepet."
   },
   "icu:deleteConversation": {
     "messageformat": "Izbriši"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} kliče vas, uporabnika_ci {first}, {second} in še {remaining,number} drugega_go} two {{ringer} kliče vas, uporabnika_ci {first}, {second} in še {remaining,number} druga_gi} few {{ringer} kliče vas, uporabnika_ci {first}, {second} in še {remaining,number} druge} other {{ringer} kliče vas, uporabnika_ci {first}, {second} in še {remaining,number} drugih}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Povezujem ..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Zvonjenje ..."
@@ -5776,16 +5764,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "Z novo ikono filtra poleg polja za iskanje lahko hitro poiščete neprebrane klepete."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Ta posodobitev uvaja podporo za nove procesorje v sistemu Windows, kot je Snapdragon X Elite."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Odpravili smo tudi napako, ki je onemogočala temno temo v Signalu, če so bile nastavitve operacijskega sistema konfigurirane za uporabo svetle teme. Signal Desktop lahko zdaj ustrezno obravnava vašo tematsko razdeljeno osebnost."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "Z novo ikono filtra poleg polja za iskanje lahko hitro poiščete neprebrane klepete."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }

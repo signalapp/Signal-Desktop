@@ -815,9 +815,6 @@
   "icu:voiceNoteError": {
     "messageformat": "V hlasovém záznamníku došlo k chybě."
   },
-  "icu:attachmentSaved": {
-    "messageformat": "Příloha uložena"
-  },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Příloha uložena} few {{count,number} přílohy uloženy} many {{count,number} příloh uloženo} other {{count,number} příloh uloženo}}"
   },
@@ -1024,18 +1021,6 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Info"
-  },
-  "icu:deleteMessagesInConversation": {
-    "messageformat": "Odstranit zprávy"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Odstranit zprávy?"
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Všechny zprávy v tomto chatu budou z tohoto zařízení odstraněny. Po odstranění zpráv můžete tento chat nadále používat."
-  },
-  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "Všechny zprávy v tomto chatu budou odstraněny ze všech vašich zařízení. Po odstranění zpráv můžete tento chat nadále používat."
   },
   "icu:deleteConversation": {
     "messageformat": "Odstranit"
@@ -2740,6 +2725,9 @@
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {{ringer} volá vám, {first}, {second} a {remaining,number} dalšímu} few {{ringer} volá vám, {first}, {second} a {remaining,number} dalším} many {{ringer} volá vám, {first}, {second} a {remaining,number} dalším} other {{ringer} volá vám, {first}, {second} a {remaining,number} další}}"
+  },
+  "icu:outgoingCallConnecting": {
+    "messageformat": "Připojování…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Vyzvání…"
@@ -5776,16 +5764,13 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.34--0": {
-    "messageformat": "Nová ikona filtru vedle vyhledávacího pole usnadňuje rychlé vyhledání nepřečtených chatů."
-  },
-  "icu:WhatsNew__v7.34--1": {
-    "messageformat": "Tato aktualizace zavádí podporu nových procesorů ve Windows, jako je Snapdragon X Elite."
-  },
-  "icu:WhatsNew__v7.34--2": {
-    "messageformat": "Také jsme opravili chybu, která způsobovala nefunkčnost tmavého motivu v aplikaci Signal, pokud byl operační systém v nastavení nakonfigurován na použití světlého motivu."
-  },
   "icu:WhatsNew__v7.35--0": {
     "messageformat": "Nová ikona filtru vedle vyhledávacího pole usnadňuje rychlé vyhledání nepřečtených chatů."
+  },
+  "icu:WhatsNew__v7.36--0": {
+    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+  },
+  "icu:WhatsNew__v7.36--1": {
+    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
   }
 }
