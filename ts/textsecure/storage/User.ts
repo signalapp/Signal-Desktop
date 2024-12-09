@@ -153,6 +153,10 @@ export class User {
     return this.storage.get('device_name');
   }
 
+  public async setDeviceName(name: string): Promise<void> {
+    return this.storage.put('device_name', name);
+  }
+
   public async setDeviceNameEncrypted(): Promise<void> {
     return this.storage.put('deviceNameEncrypted', true);
   }
@@ -175,9 +179,7 @@ export class User {
       this.storage.put('uuid_id', `${aci}.${deviceId}`),
       this.storage.put('password', password),
       this.setPni(pni),
-      deviceName
-        ? this.storage.put('device_name', deviceName)
-        : Promise.resolve(),
+      deviceName ? this.setDeviceName(deviceName) : Promise.resolve(),
     ]);
   }
 

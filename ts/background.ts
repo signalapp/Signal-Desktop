@@ -199,6 +199,10 @@ import { getParametersForRedux, loadAll } from './services/allLoaders';
 import { checkFirstEnvelope } from './util/checkFirstEnvelope';
 import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked';
 import { ReleaseNotesFetcher } from './services/releaseNotesFetcher';
+import {
+  maybeQueueDeviceNameFetch,
+  onDeviceNameChangeSync,
+} from './util/onDeviceNameChangeSync';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -696,6 +700,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'deleteForMeSync',
       queuedEventListener(onDeleteForMeSync, false)
+    );
+    messageReceiver.addEventListener(
+      'deviceNameChangeSync',
+      queuedEventListener(onDeviceNameChangeSync, false)
     );
 
     if (!window.storage.get('defaultConversationColor')) {
@@ -1929,6 +1937,12 @@ export async function startApp(): Promise<void> {
             Errors.toLogFormat(error)
           );
         }
+
+        // Ensure we have the correct device name locally (allowing us to get eventually
+        // consistent with primary, in case we failed to process a deviceNameChangeSync
+        // for some reason). We do this after calling `maybeUpdateDeviceName` to ensure
+        // that the device name on server is encrypted.
+        drop(maybeQueueDeviceNameFetch());
       }
 
       if (firstRun === true && !areWePrimaryDevice) {

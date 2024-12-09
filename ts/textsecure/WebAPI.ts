@@ -862,6 +862,19 @@ export type GetAccountForUsernameResultType = z.infer<
   typeof getAccountForUsernameResultZod
 >;
 
+const getDevicesResultZod = z.object({
+  devices: z.array(
+    z.object({
+      id: z.number(),
+      name: z.string().nullish(), // primary devices may not have a name
+      lastSeen: z.number().nullish(),
+      created: z.number().nullish(),
+    })
+  ),
+});
+
+export type GetDevicesResultType = z.infer<typeof getDevicesResultZod>;
+
 export type GetIceServersResultType = Readonly<{
   relays?: ReadonlyArray<IceServerGroupType>;
 }>;
@@ -873,15 +886,6 @@ export type IceServerGroupType = Readonly<{
   urlsWithIps?: ReadonlyArray<string>;
   hostname?: string;
 }>;
-
-export type GetDevicesResultType = ReadonlyArray<
-  Readonly<{
-    id: number;
-    name: string;
-    lastSeen: number;
-    created: number;
-  }>
->;
 
 export type GetSenderCertificateResultType = Readonly<{ certificate: string }>;
 
@@ -1376,6 +1380,7 @@ export type WebAPIType = {
   getAccountForUsername: (
     options: GetAccountForUsernameOptionsType
   ) => Promise<GetAccountForUsernameResultType>;
+  getDevices: () => Promise<GetDevicesResultType>;
   getProfileUnauth: (
     serviceId: ServiceIdString,
     options: ProfileFetchUnauthRequestOptions
@@ -1847,6 +1852,7 @@ export function initialize({
       getBackupUploadForm,
       getBadgeImageFile,
       getConfig,
+      getDevices,
       getGroup,
       getGroupAvatar,
       getGroupCredentials,
@@ -2933,6 +2939,15 @@ export function initialize({
         httpType: 'DELETE',
         urlParameters: `/${deviceId}`,
       });
+    }
+
+    async function getDevices() {
+      const result = await _ajax({
+        call: 'devices',
+        httpType: 'GET',
+        responseType: 'json',
+      });
+      return parseUnknown(getDevicesResultZod, result);
     }
 
     async function updateDeviceName(deviceName: string) {
