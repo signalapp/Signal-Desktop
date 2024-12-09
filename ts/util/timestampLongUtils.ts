@@ -24,3 +24,13 @@ export function getTimestampFromLong(value?: Long | null): number {
 
   return num;
 }
+
+export function getTimestampOrUndefinedFromLong(
+  value?: Long | null
+): number | undefined {
+  if (!value || value.isZero()) {
+    return undefined;
+  }
+
+  return getTimestampFromLong(value);
+}

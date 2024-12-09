@@ -398,7 +398,7 @@ export class BackupExportStream extends Readable {
             name,
             restrictions: toCallLinkRestrictionsProto(restrictions),
             expirationMs: isNumber(expiration)
-              ? Long.fromNumber(expiration)
+              ? getSafeLongFromTimestamp(expiration)
               : null,
           },
         },
@@ -848,7 +848,7 @@ export class BackupExportStream extends Readable {
           ? {
               notRegistered: {
                 unregisteredTimestamp: convo.firstUnregisteredAt
-                  ? Long.fromNumber(convo.firstUnregisteredAt)
+                  ? getSafeLongFromTimestamp(convo.firstUnregisteredAt)
                   : null,
               },
             }
@@ -1323,7 +1323,7 @@ export class BackupExportStream extends Readable {
         groupCall.state = toGroupCallStateProto(callHistory.status);
         groupCall.startedCallTimestamp = Long.fromNumber(callHistory.timestamp);
         if (callHistory.endedTimestamp != null) {
-          groupCall.endedCallTimestamp = Long.fromNumber(
+          groupCall.endedCallTimestamp = getSafeLongFromTimestamp(
             callHistory.endedTimestamp
           );
         }
