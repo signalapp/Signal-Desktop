@@ -805,13 +805,14 @@ export function CallScreen({
           toggleSettings={toggleSettings}
         />
       </div>
-      {isRinging && (
+      {(isConnecting || isRinging) && (
         <>
           <div className="module-CallingPreCallInfo-spacer " />
           <CallingPreCallInfo
             conversation={conversation}
             groupMembers={groupMembers}
             i18n={i18n}
+            isConnecting={isConnecting}
             me={me}
             ringMode={RingMode.IsRinging}
           />
