@@ -1179,7 +1179,7 @@ export class BackupImportStream extends Writable {
       name,
       restrictions: fromCallLinkRestrictionsProto(restrictions),
       revoked: false,
-      expiration: expirationMs?.toNumber() || null,
+      expiration: getTimestampFromLong(expirationMs) || null,
       storageNeedsSync: false,
     };
 
