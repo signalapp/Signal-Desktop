@@ -55,7 +55,10 @@ import type {
   QuotedMessageType,
 } from '../../model-types.d';
 import { assertDev, strictAssert } from '../../util/assert';
-import { getTimestampFromLong } from '../../util/timestampLongUtils';
+import {
+  getTimestampFromLong,
+  getTimestampOrUndefinedFromLong,
+} from '../../util/timestampLongUtils';
 import { DurationInSeconds, SECOND } from '../../util/durations';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { dropNull } from '../../util/dropNull';
@@ -872,7 +875,9 @@ export class BackupImportStream extends Writable {
     }
 
     if (contact.notRegistered) {
-      const timestamp = contact.notRegistered.unregisteredTimestamp?.toNumber();
+      const timestamp = getTimestampOrUndefinedFromLong(
+        contact.notRegistered.unregisteredTimestamp
+      );
       attrs.discoveredUnregisteredAt = timestamp || this.now;
       attrs.firstUnregisteredAt = timestamp || undefined;
     } else {
@@ -1216,10 +1221,9 @@ export class BackupImportStream extends Writable {
         ? DurationInSeconds.fromMillis(chat.expirationTimerMs.toNumber())
         : undefined;
     conversation.expireTimerVersion = chat.expireTimerVersion || 1;
-    conversation.muteExpiresAt =
-      chat.muteUntilMs && !chat.muteUntilMs.isZero()
-        ? getTimestampFromLong(chat.muteUntilMs)
-        : undefined;
+    conversation.muteExpiresAt = getTimestampOrUndefinedFromLong(
+      chat.muteUntilMs
+    );
     conversation.markedUnread = chat.markedUnread === true;
     conversation.dontNotifyForMentionsIfMuted =
       chat.dontNotifyForMentionsIfMuted === true;
@@ -1298,10 +1302,9 @@ export class BackupImportStream extends Writable {
       chatConvo.unreadCount = (chatConvo.unreadCount ?? 0) + 1;
     }
 
-    const expirationStartTimestamp =
-      item.expireStartDate && !item.expireStartDate.isZero()
-        ? getTimestampFromLong(item.expireStartDate)
-        : undefined;
+    const expirationStartTimestamp = getTimestampOrUndefinedFromLong(
+      item.expireStartDate
+    );
     const expireTimer =
       item.expiresInMs && !item.expiresInMs.isZero()
         ? DurationInSeconds.fromMillis(item.expiresInMs.toNumber())
@@ -2198,7 +2201,7 @@ export class BackupImportStream extends Writable {
         peerId: groupId,
         direction: isRingerMe ? CallDirection.Outgoing : CallDirection.Incoming,
         timestamp: startedCallTimestamp.toNumber(),
-        endedTimestamp: endedCallTimestamp?.toNumber() || null,
+        endedTimestamp: getTimestampFromLong(endedCallTimestamp) || null,
       };
 
       await this.saveCallHistory(callHistory);

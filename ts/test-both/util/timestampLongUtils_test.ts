@@ -7,6 +7,7 @@ import Long from 'long';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
+  getTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils';
 
 describe('getSafeLongFromTimestamp', () => {
@@ -44,5 +45,29 @@ describe('getTimestampFromLong', () => {
 
   it('returns 0 for null value', () => {
     assert.equal(getTimestampFromLong(null), 0);
+  });
+});
+
+describe('getTimestampOrUndefinedFromLong', () => {
+  it('returns undefined when passed 0 Long', () => {
+    assert.equal(
+      getTimestampOrUndefinedFromLong(Long.fromNumber(0)),
+      undefined
+    );
+  });
+
+  it('returns Number.MAX_SAFE_INTEGER when passed Long.MAX_VALUE', () => {
+    assert.equal(
+      getTimestampOrUndefinedFromLong(Long.MAX_VALUE),
+      Number.MAX_SAFE_INTEGER
+    );
+  });
+
+  it('returns a normal number', () => {
+    assert.equal(getTimestampOrUndefinedFromLong(Long.fromNumber(16)), 16);
+  });
+
+  it('returns undefined for null value', () => {
+    assert.equal(getTimestampOrUndefinedFromLong(null), undefined);
   });
 });
