@@ -55,6 +55,7 @@ export type PropsType = {
     >
   >;
   isCallFull?: boolean;
+  isConnecting?: boolean;
   peekedParticipants?: Array<PeekedParticipantType>;
 };
 
@@ -63,6 +64,7 @@ export function CallingPreCallInfo({
   groupMembers = [],
   i18n,
   isCallFull = false,
+  isConnecting = false,
   me,
   peekedParticipants = [],
   ringMode,
@@ -79,7 +81,11 @@ export function CallingPreCallInfo({
 
   let subtitle: string;
   if (ringMode === RingMode.IsRinging) {
-    subtitle = i18n('icu:outgoingCallRinging');
+    if (isConnecting) {
+      subtitle = i18n('icu:outgoingCallConnecting');
+    } else {
+      subtitle = i18n('icu:outgoingCallRinging');
+    }
   } else if (isCallFull) {
     subtitle = i18n('icu:calling__call-is-full');
   } else if (peekedParticipants.length) {
