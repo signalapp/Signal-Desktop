@@ -4,7 +4,6 @@
 import { v4 as generateUuid } from 'uuid';
 
 import type {
-  AttachmentType,
   AttachmentDraftType,
   ThumbnailType,
   AttachmentForUIType,
@@ -12,7 +11,7 @@ import type {
 import { IMAGE_JPEG } from '../../types/MIME';
 
 export const fakeAttachment = (
-  overrides: Partial<AttachmentType> = {}
+  overrides: Partial<AttachmentForUIType> = {}
 ): AttachmentForUIType => ({
   contentType: IMAGE_JPEG,
   width: 800,

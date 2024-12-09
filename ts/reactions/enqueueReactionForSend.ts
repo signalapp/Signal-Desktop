@@ -29,7 +29,10 @@ export async function enqueueReactionForSend({
   messageId: string;
   remove: boolean;
 }>): Promise<void> {
-  const message = await __DEPRECATED$getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(
+    messageId,
+    'enqueueReactionForSend'
+  );
   strictAssert(message, 'enqueueReactionForSend: no message found');
 
   const targetAuthorAci = getSourceServiceId(message.attributes);

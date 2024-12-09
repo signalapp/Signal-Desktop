@@ -393,7 +393,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         `doubleCheckMissingQuoteReference/${logId}: missing story reference`
       );
 
-      const message = window.MessageCache.__DEPRECATED$getById(storyId);
+      const message = window.MessageCache.__DEPRECATED$getById(
+        storyId,
+        'doubleCheckMissingQuoteReference'
+      );
       if (!message) {
         return;
       }

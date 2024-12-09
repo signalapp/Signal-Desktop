@@ -8,13 +8,18 @@ import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
 
 export async function getMessagesById(
-  messageIds: Iterable<string>
+  messageIds: Iterable<string>,
+  location: string
 ): Promise<Array<MessageModel>> {
+  const innerLocation = `getMessagesById/${location}`;
   const messagesFromMemory: Array<MessageModel> = [];
   const messageIdsToLookUpInDatabase: Array<string> = [];
 
   for (const messageId of messageIds) {
-    const message = window.MessageCache.__DEPRECATED$getById(messageId);
+    const message = window.MessageCache.__DEPRECATED$getById(
+      messageId,
+      innerLocation
+    );
     if (message) {
       messagesFromMemory.push(message);
     } else {
@@ -43,7 +48,7 @@ export async function getMessagesById(
     return window.MessageCache.__DEPRECATED$register(
       message.id,
       message,
-      'getMessagesById'
+      innerLocation
     );
   });
 

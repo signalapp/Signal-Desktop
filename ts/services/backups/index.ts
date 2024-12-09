@@ -669,8 +669,10 @@ export class BackupsService {
           createCipheriv(CipherType.AES256CBC, aesKey, iv),
           prependStream(iv),
           appendMacStream(macKey),
-          measureSize(size => {
-            totalBytes = size;
+          measureSize({
+            onComplete: size => {
+              totalBytes = size;
+            },
           }),
           sink
         );

@@ -100,9 +100,9 @@ describe('processDataMessage', () => {
     assert.deepStrictEqual(out.attachments, [
       {
         ...PROCESSED_ATTACHMENT,
-        chunkSize: 2,
         downloadPath: 'random-path',
         incrementalMac: 'AAAA',
+        chunkSize: 2,
       },
     ]);
   });

@@ -731,7 +731,7 @@ export function setQuoteByMessageId(
     }
 
     const message = messageId
-      ? await __DEPRECATED$getMessageById(messageId)
+      ? await __DEPRECATED$getMessageById(messageId, 'setQuoteByMessageId')
       : undefined;
     const state = getState();
 

@@ -14,13 +14,13 @@ export async function addAttachmentToMessage(
   jobLogId: string,
   { type }: { type: AttachmentDownloadJobTypeType }
 ): Promise<void> {
-  const message = await __DEPRECATED$getMessageById(messageId);
+  const logPrefix = `${jobLogId}/addAttachmentToMessage`;
+  const message = await __DEPRECATED$getMessageById(messageId, logPrefix);
 
   if (!message) {
     return;
   }
 
-  const logPrefix = `${jobLogId}/addAttachmentToMessage`;
   const attachmentSignature = getAttachmentSignature(attachment);
 
   if (type === 'long-message') {

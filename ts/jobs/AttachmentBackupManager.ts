@@ -190,7 +190,10 @@ type RunAttachmentBackupJobDependenciesType = {
 
 export async function runAttachmentBackupJob(
   job: AttachmentBackupJobType,
-  _isLastAttempt: boolean,
+  _options: {
+    isLastAttempt: boolean;
+    abortSignal: AbortSignal;
+  },
   dependencies: RunAttachmentBackupJobDependenciesType = {
     getAbsoluteAttachmentPath:
       window.Signal.Migrations.getAbsoluteAttachmentPath,

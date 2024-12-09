@@ -35,7 +35,10 @@ export async function sendDeleteForEveryoneMessage(
     timestamp: targetTimestamp,
     id: messageId,
   } = options;
-  const message = await __DEPRECATED$getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(
+    messageId,
+    'sendDeleteForEveryoneMessage'
+  );
   if (!message) {
     throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
   }

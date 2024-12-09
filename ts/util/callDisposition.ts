@@ -1356,7 +1356,10 @@ export async function updateCallHistoryFromLocalEvent(
 
 export function updateDeletedMessages(messageIds: ReadonlyArray<string>): void {
   messageIds.forEach(messageId => {
-    const message = window.MessageCache.__DEPRECATED$getById(messageId);
+    const message = window.MessageCache.__DEPRECATED$getById(
+      messageId,
+      'updateDeletedMessages'
+    );
     const conversation = message?.getConversation();
     if (message == null || conversation == null) {
       return;

@@ -9,7 +9,10 @@ import * as log from '../logging/log';
 export async function deleteGroupStoryReplyForEveryone(
   replyMessageId: string
 ): Promise<void> {
-  const messageModel = await __DEPRECATED$getMessageById(replyMessageId);
+  const messageModel = await __DEPRECATED$getMessageById(
+    replyMessageId,
+    'deleteGroupStoryReplyForEveryone'
+  );
 
   if (!messageModel) {
     log.warn(

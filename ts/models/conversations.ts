@@ -3556,7 +3556,10 @@ export class ConversationModel extends window.Backbone
       `maybeRemoveUniversalTimer(${this.idForLogging()}): removed notification`
     );
 
-    const message = window.MessageCache.__DEPRECATED$getById(notificationId);
+    const message = window.MessageCache.__DEPRECATED$getById(
+      notificationId,
+      'maybeRemoveUniversalTimer'
+    );
     if (message) {
       await DataWriter.removeMessage(message.id, {
         singleProtoJobQueue,
@@ -3599,7 +3602,10 @@ export class ConversationModel extends window.Backbone
       `maybeClearContactRemoved(${this.idForLogging()}): removed notification`
     );
 
-    const message = window.MessageCache.__DEPRECATED$getById(notificationId);
+    const message = window.MessageCache.__DEPRECATED$getById(
+      notificationId,
+      'maybeClearContactRemoved'
+    );
     if (message) {
       await DataWriter.removeMessage(message.id, {
         singleProtoJobQueue,

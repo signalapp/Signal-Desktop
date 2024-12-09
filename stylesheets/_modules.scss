@@ -2677,9 +2677,9 @@ button.ConversationDetails__action-button {
     align-items: center;
     display: flex;
     justify-content: center;
-    border-radius: 48px;
-    height: 48px;
-    width: 48px;
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
     background-color: variables.$color-black-alpha-70;
   }
 
@@ -2719,52 +2719,38 @@ button.ConversationDetails__action-button {
     align-items: center;
 
     content: 'GIF';
-    height: 24px;
-    width: 24px;
 
     @include mixins.font-body-1;
     color: variables.$color-white;
   }
 }
 
-.module-image__download-pending {
-  position: relative;
+.module-image__progress-circle-wrapper {
+  @include mixins.position-absolute-center;
 
-  &--spinner-container {
-    align-items: center;
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    inset-inline-start: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
+  .ProgressCircle .ProgressCircle__background {
+    stroke: variables.$color-white-alpha-20;
   }
+  .ProgressCircle .ProgressCircle__fill {
+    stroke: variables.$color-white;
+  }
+}
 
-  &--spinner {
-    background-color: variables.$color-gray-75;
-    border-radius: 48px;
-    height: 48px;
-    width: 48px;
+.module-image__spinner-container {
+  @include mixins.position-absolute-center;
 
-    .module-image-spinner {
-      &__container {
-        margin-block: 12px;
-        margin-inline: auto;
-      }
+  .module-image-spinner {
+    &__arc {
+      background-color: variables.$color-black-alpha-80;
+    }
 
+    &__circle {
+      background-color: variables.$color-white;
+    }
+
+    @include mixins.dark-theme {
       &__arc {
-        background-color: variables.$color-gray-75;
-      }
-
-      &__circle {
-        background-color: variables.$color-white;
-      }
-
-      @include mixins.dark-theme {
-        &__arc {
-          background-color: variables.$color-gray-75;
-        }
+        background-color: variables.$color-black-alpha-80;
       }
     }
   }
@@ -2791,10 +2777,10 @@ button.ConversationDetails__action-button {
 
 .module-image__border-overlay {
   @include mixins.button-reset;
-
   & {
     width: 100%;
     cursor: inherit;
+    pointer-events: none;
 
     position: absolute;
     top: 0;
@@ -2806,6 +2792,7 @@ button.ConversationDetails__action-button {
 
 .module-image__border-overlay--with-click-handler {
   cursor: pointer;
+  pointer-events: all;
 }
 
 .module-image__border-overlay--with-border {
@@ -2818,24 +2805,6 @@ button.ConversationDetails__action-button {
 }
 
 .module-image--gif {
-  &__filesize {
-    position: absolute;
-    top: 10px;
-    inset-inline-start: 10px;
-    padding-block: 2px;
-    padding-inline: 8px;
-
-    color: variables.$color-white;
-    background: variables.$color-black-alpha-70;
-
-    /* The height is: 14px + 2x2px from the padding */
-    border-radius: 9px;
-
-    font-size: 11px;
-    line-height: 14px;
-    user-select: none;
-  }
-
   video {
     cursor: pointer;
     object-fit: cover;
@@ -2897,22 +2866,46 @@ button.module-image__border-overlay:focus {
   inset-inline: 0;
 }
 
-.module-image__play-overlay__circle {
+.module-image__overlay-circle {
   @include mixins.position-absolute-center;
-  width: 48px;
-  height: 48px;
-  background-color: variables.$color-white;
-  border-radius: 24px;
+  @include mixins.button-reset;
+  & {
+    width: 50px;
+    height: 50px;
+    background-color: variables.$color-black-alpha-80;
+    border-radius: 25px;
+  }
 }
 
-.module-image__play-overlay__icon {
+.module-image__play-icon {
   @include mixins.position-absolute-center;
 
   height: 24px;
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/play/play-fill.svg',
-    variables.$color-ultramarine
+    variables.$color-white
+  );
+}
+.module-image__stop-icon {
+  @include mixins.position-absolute-center;
+
+  // Smaller to fit within the spinner
+  height: 24px;
+  width: 24px;
+  @include mixins.color-svg(
+    '../images/icons/v3/stop/stop-fill.svg',
+    variables.$color-white
+  );
+}
+.module-image__download-icon {
+  @include mixins.position-absolute-center;
+
+  height: 24px;
+  width: 24px;
+  @include mixins.color-svg(
+    '../images/icons/v3/arrow/arrow-down.svg',
+    variables.$color-white
   );
 }
 
@@ -2962,11 +2955,49 @@ button.module-image__border-overlay:focus {
 // Module: Image Grid
 
 .module-image-grid {
+  position: relative;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
 
   gap: 1px;
+}
+
+.module-image-grid__download-pill {
+  @include mixins.position-absolute-center;
+  @include mixins.button-reset;
+
+  & {
+    background-color: variables.$color-black-alpha-80;
+    color: variables.$color-white;
+
+    height: 44px;
+    border-radius: 44px;
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+.module-image-grid__download_pill__icon-wrapper {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  margin-inline-end: -6px;
+}
+.module-image-grid__download_pill__download-icon {
+  @include mixins.position-absolute-center;
+
+  height: 24px;
+  width: 24px;
+  @include mixins.color-svg(
+    '../images/icons/v3/arrow/arrow-down.svg',
+    variables.$color-white
+  );
+}
+.module-image-grid__download_pill__text-wrapper {
+  @include mixins.font-body-1;
+  margin-inline-end: 14px;
 }
 
 .module-image-grid--one-image {

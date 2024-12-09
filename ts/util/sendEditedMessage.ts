@@ -65,7 +65,10 @@ export async function sendEditedMessage(
     conversation.attributes
   )})`;
 
-  const targetMessage = await __DEPRECATED$getMessageById(targetMessageId);
+  const targetMessage = await __DEPRECATED$getMessageById(
+    targetMessageId,
+    'sendEditedMessage'
+  );
   strictAssert(targetMessage, 'could not find message to edit');
 
   if (isGroupV1(conversation.attributes)) {

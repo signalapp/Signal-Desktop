@@ -20,7 +20,8 @@ export const SmartEditHistoryMessagesModal = memo(
     const platform = useSelector(getPlatform);
 
     const { closeEditHistoryModal } = useGlobalModalActions();
-    const { kickOffAttachmentDownload } = useConversationsActions();
+    const { cancelAttachmentDownload, kickOffAttachmentDownload } =
+      useConversationsActions();
     const { showLightbox } = useLightboxActions();
 
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
@@ -46,6 +47,7 @@ export const SmartEditHistoryMessagesModal = memo(
 
     return (
       <EditHistoryMessagesModal
+        cancelAttachmentDownload={cancelAttachmentDownload}
         closeEditHistoryModal={closeEditHistoryModal}
         editHistoryMessages={editHistoryMessages}
         getPreferredBadge={getPreferredBadge}

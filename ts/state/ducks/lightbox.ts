@@ -156,7 +156,10 @@ function showLightboxForViewOnceMedia(
   return async dispatch => {
     log.info('showLightboxForViewOnceMedia: attempting to display message');
 
-    const message = await __DEPRECATED$getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(
+      messageId,
+      'showLightboxForViewOnceMedia'
+    );
     if (!message) {
       throw new Error(
         `showLightboxForViewOnceMedia: Message ${messageId} missing!`
@@ -250,7 +253,10 @@ function showLightbox(opts: {
   return async (dispatch, getState) => {
     const { attachment, messageId } = opts;
 
-    const message = await __DEPRECATED$getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(
+      messageId,
+      'showLightbox'
+    );
     if (!message) {
       throw new Error(`showLightbox: Message ${messageId} missing!`);
     }
@@ -387,7 +393,10 @@ function showLightboxForAdjacentMessage(
     const [media] = lightbox.media;
     const { id: messageId, receivedAt, sentAt } = media.message;
 
-    const message = await __DEPRECATED$getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(
+      messageId,
+      'showLightboxForAdjacentMessage'
+    );
     if (!message) {
       log.warn('showLightboxForAdjacentMessage: original message is gone');
       dispatch({

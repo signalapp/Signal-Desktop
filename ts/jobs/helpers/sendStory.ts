@@ -71,38 +71,40 @@ export async function sendStory(
   }
 
   const notFound = new Set(messageIds);
-  const messages = (await getMessagesById(messageIds)).filter(message => {
-    notFound.delete(message.id);
+  const messages = (await getMessagesById(messageIds, 'sendStory')).filter(
+    message => {
+      notFound.delete(message.id);
 
-    const distributionId = message.get('storyDistributionListId');
-    const logId = `stories.sendStory(${timestamp}/${distributionId})`;
+      const distributionId = message.get('storyDistributionListId');
+      const logId = `stories.sendStory(${timestamp}/${distributionId})`;
 
-    const messageConversation = message.getConversation();
-    if (messageConversation !== conversation) {
-      log.error(
-        `${logId}: Message conversation ` +
-          `'${messageConversation?.idForLogging()}' does not match job ` +
-          `conversation ${conversation.idForLogging()}`
-      );
-      return false;
+      const messageConversation = message.getConversation();
+      if (messageConversation !== conversation) {
+        log.error(
+          `${logId}: Message conversation ` +
+            `'${messageConversation?.idForLogging()}' does not match job ` +
+            `conversation ${conversation.idForLogging()}`
+        );
+        return false;
+      }
+
+      if (message.get('timestamp') !== timestamp) {
+        log.error(
+          `${logId}: Message timestamp ${message.get(
+            'timestamp'
+          )} does not match job timestamp`
+        );
+        return false;
+      }
+
+      if (message.isErased() || message.get('deletedForEveryone')) {
+        log.info(`${logId}: message was erased. Giving up on sending it`);
+        return false;
+      }
+
+      return true;
     }
-
-    if (message.get('timestamp') !== timestamp) {
-      log.error(
-        `${logId}: Message timestamp ${message.get(
-          'timestamp'
-        )} does not match job timestamp`
-      );
-      return false;
-    }
-
-    if (message.isErased() || message.get('deletedForEveryone')) {
-      log.info(`${logId}: message was erased. Giving up on sending it`);
-      return false;
-    }
-
-    return true;
-  });
+  );
 
   for (const messageId of notFound) {
     log.info(

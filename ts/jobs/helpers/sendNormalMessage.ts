@@ -73,7 +73,10 @@ export async function sendNormalMessage(
   const { Message } = window.Signal.Types;
 
   const { messageId, revision, editedMessageTimestamp } = data;
-  const message = await __DEPRECATED$getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(
+    messageId,
+    'sendNormalMessage'
+  );
   if (!message) {
     log.info(
       `message ${messageId} was not found, maybe because it was deleted. Giving up on sending it`
@@ -654,7 +657,9 @@ async function getMessageSendData({
       uploadQueue,
     }),
     uploadMessageSticker(message, uploadQueue),
-    storyId ? __DEPRECATED$getMessageById(storyId) : undefined,
+    storyId
+      ? __DEPRECATED$getMessageById(storyId, 'sendNormalMessage')
+      : undefined,
   ]);
 
   // Save message after uploading attachments

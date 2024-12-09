@@ -488,6 +488,7 @@ export const DataWriter: ServerWritableInterface = {
   saveAttachmentDownloadJobs,
   resetAttachmentDownloadActive,
   removeAttachmentDownloadJob,
+  removeAttachmentDownloadJobsForMessage,
   removeAllBackupAttachmentDownloadJobs,
 
   getNextAttachmentBackupJobs,
@@ -5124,6 +5125,18 @@ function removeAttachmentDownloadJob(
       attachmentType = ${job.attachmentType}
     AND
       digest = ${job.digest};
+  `;
+
+  db.prepare(query).run(params);
+}
+
+function removeAttachmentDownloadJobsForMessage(
+  db: WritableDB,
+  messageId: string
+): void {
+  const [query, params] = sql`
+    DELETE FROM attachment_downloads
+    WHERE messageId = ${messageId}
   `;
 
   db.prepare(query).run(params);

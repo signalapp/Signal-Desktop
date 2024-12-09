@@ -1328,6 +1328,7 @@ export type WebAPIType = {
       disableRetries?: boolean;
       timeout?: number;
       downloadOffset?: number;
+      abortSignal: AbortSignal;
     };
   }) => Promise<Readable>;
   getAttachment: (args: {
@@ -1337,6 +1338,7 @@ export type WebAPIType = {
       disableRetries?: boolean;
       timeout?: number;
       downloadOffset?: number;
+      abortSignal?: AbortSignal;
     };
   }) => Promise<Readable>;
   getAttachmentUploadForm: () => Promise<AttachmentUploadFormResponseType>;
@@ -3784,6 +3786,7 @@ export function initialize({
         disableRetries?: boolean;
         timeout?: number;
         downloadOffset?: number;
+        abortSignal?: AbortSignal;
       };
     }) {
       return _getAttachment({

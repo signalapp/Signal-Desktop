@@ -142,15 +142,20 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     const decryptAttachmentV2ToSink = sinon.stub();
 
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
+    const abortController = new AbortController();
     runJob = sandbox.stub().callsFake((job: AttachmentBackupJobType) => {
-      return runAttachmentBackupJob(job, false, {
-        // @ts-expect-error incomplete stubbing
-        backupsService,
-        backupMediaBatch,
-        getAbsoluteAttachmentPath,
-        encryptAndUploadAttachment,
-        decryptAttachmentV2ToSink,
-      });
+      return runAttachmentBackupJob(
+        job,
+        { abortSignal: abortController.signal, isLastAttempt: false },
+        {
+          // @ts-expect-error incomplete stubbing
+          backupsService,
+          backupMediaBatch,
+          getAbsoluteAttachmentPath,
+          encryptAndUploadAttachment,
+          decryptAttachmentV2ToSink,
+        }
+      );
     });
 
     backupManager = new AttachmentBackupManager({

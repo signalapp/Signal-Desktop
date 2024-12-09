@@ -60,7 +60,7 @@ describe('convertFilePointerToAttachment', () => {
       digest: Bytes.toBase64(Bytes.fromString('digest')),
       uploadTimestamp: 1970,
       incrementalMac: Bytes.toBase64(Bytes.fromString('incrementalMac')),
-      incrementalMacChunkSize: 1000,
+      chunkSize: 1000,
       downloadPath: 'downloadPath',
     });
   });
@@ -102,7 +102,7 @@ describe('convertFilePointerToAttachment', () => {
       key: Bytes.toBase64(Bytes.fromString('key')),
       digest: Bytes.toBase64(Bytes.fromString('digest')),
       incrementalMac: Bytes.toBase64(Bytes.fromString('incrementalMac')),
-      incrementalMacChunkSize: 1000,
+      chunkSize: 1000,
       backupLocator: {
         mediaName: 'mediaName',
         cdnNumber: 3,
@@ -135,7 +135,7 @@ describe('convertFilePointerToAttachment', () => {
       fileName: 'filename',
       caption: 'caption',
       incrementalMac: Bytes.toBase64(Bytes.fromString('incrementalMac')),
-      incrementalMacChunkSize: 1000,
+      chunkSize: 1000,
       size: 0,
       error: true,
     });
@@ -163,7 +163,7 @@ describe('convertFilePointerToAttachment', () => {
       key: undefined,
       digest: undefined,
       incrementalMac: undefined,
-      incrementalMacChunkSize: undefined,
+      chunkSize: undefined,
       backupLocator: undefined,
     });
   });
@@ -190,7 +190,7 @@ function composeAttachment(
     fileName: 'filename',
     caption: 'caption',
     incrementalMac: 'incrementalMac',
-    incrementalMacChunkSize: 1000,
+    chunkSize: 1000,
     uploadTimestamp: 1234,
     localKey: Bytes.toBase64(generateKeys()),
     isReencryptableToSameDigest: true,

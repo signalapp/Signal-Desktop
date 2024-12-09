@@ -44,7 +44,9 @@ export default {
     direction: 'incoming',
     i18n,
     isSticker: false,
-    onClick: action('onClick'),
+    showVisualAttachment: action('showVisualAttachment'),
+    startDownload: action('startDownload'),
+    cancelDownload: action('cancelDownload'),
     onError: action('onError'),
     stickerSize: 0,
     tabIndex: 0,
@@ -57,13 +59,111 @@ export function OneImage(args: Props): JSX.Element {
   return <ImageGrid {...args} />;
 }
 
+export function OneVideo(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        height: 1200,
+        url: pngUrl,
+        width: 800,
+        screenshot: {
+          path: 'something',
+          url: pngUrl,
+          contentType: IMAGE_PNG,
+          height: 1200,
+          width: 800,
+        },
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoNotDownloadedNotPending(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoPendingWDownloadQueued(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        url: undefined,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoDownloadProgressNotPending(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
 export function TwoImages(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
       attachments={[
         fakeAttachment({
-          contentType: IMAGE_PNG,
+          contentType: VIDEO_MP4,
           fileName: 'sax.png',
           height: 1200,
           url: pngUrl,
@@ -79,6 +179,62 @@ export function TwoImages(args: Props): JSX.Element {
       ]}
     />
   );
+}
+
+export function TwoImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+      ]}
+    />
+  );
+}
+
+export function TwoImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
 }
 
 export function ThreeImages(args: Props): JSX.Element {
@@ -106,6 +262,74 @@ export function ThreeImages(args: Props): JSX.Element {
           height: 1200,
           url: pngUrl,
           width: 800,
+        }),
+      ]}
+    />
+  );
+}
+
+export function ThreeImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function ThreeImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
       ]}
     />
@@ -144,6 +368,89 @@ export function FourImages(args: Props): JSX.Element {
           height: 1680,
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           width: 3000,
+        }),
+      ]}
+    />
+  );
+}
+
+export function FourImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function FourImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
       ]}
     />
@@ -189,6 +496,104 @@ export function FiveImages(args: Props): JSX.Element {
           height: 1200,
           url: pngUrl,
           width: 800,
+        }),
+      ]}
+    />
+  );
+}
+
+export function FiveImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function FiveImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
       ]}
     />
@@ -254,6 +659,63 @@ export const _6Images = (args: Props): JSX.Element => {
   );
 };
 
+export function _6ImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
 export function MixedContentTypes(args: Props): JSX.Element {
   return (
     <ImageGrid
@@ -289,6 +751,80 @@ export function MixedContentTypes(args: Props): JSX.Element {
           contentType: AUDIO_MP3,
           fileName: 'incompetech-com-Agnus-Dei-X.mp3',
           url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+        }),
+      ]}
+    />
+  );
+}
+
+export function EightImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
       ]}
     />

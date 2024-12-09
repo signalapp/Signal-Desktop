@@ -83,7 +83,7 @@ export type CdnFieldsType = Pick<
   | 'cdnNumber'
   | 'digest'
   | 'incrementalMac'
-  | 'incrementalMacChunkSize'
+  | 'chunkSize'
   | 'isReencryptableToSameDigest'
   | 'iv'
   | 'key'
@@ -104,7 +104,7 @@ export function copyCdnFields(
     incrementalMac: uploaded.incrementalMac
       ? Bytes.toBase64(uploaded.incrementalMac)
       : undefined,
-    incrementalMacChunkSize: dropNull(uploaded.chunkSize),
+    chunkSize: dropNull(uploaded.chunkSize),
     isReencryptableToSameDigest: uploaded.isReencryptableToSameDigest,
     iv: Bytes.toBase64(uploaded.iv),
     key: Bytes.toBase64(uploaded.key),

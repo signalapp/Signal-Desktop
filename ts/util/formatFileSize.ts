@@ -2,6 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import filesize from 'filesize';
 
-export function formatFileSize(size: number): string {
-  return filesize(size, { round: 0 });
+export function formatFileSize(size: number, decimals = 0): string {
+  return filesize(size, { round: decimals });
 }

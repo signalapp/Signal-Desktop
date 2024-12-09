@@ -46,7 +46,10 @@ export async function sendDeleteStoryForEveryone(
 
   const logId = `sendDeleteStoryForEveryone(${storyId})`;
 
-  const message = await __DEPRECATED$getMessageById(storyId);
+  const message = await __DEPRECATED$getMessageById(
+    storyId,
+    'sendDeleteStoryForEveryone'
+  );
   if (!message) {
     log.error(`${logId}: Failed to fetch message. Failing job.`);
     return;

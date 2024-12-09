@@ -55,6 +55,7 @@ const MESSAGE_DEFAULT_PROPS = {
   onToggleSelect: shouldNeverBeCalled,
   onReplyToMessage: shouldNeverBeCalled,
   kickOffAttachmentDownload: shouldNeverBeCalled,
+  cancelAttachmentDownload: shouldNeverBeCalled,
   markAttachmentAsCorrupted: shouldNeverBeCalled,
   messageExpanded: shouldNeverBeCalled,
   openGiftBadge: shouldNeverBeCalled,

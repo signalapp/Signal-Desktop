@@ -12,7 +12,7 @@ export function getMessageModelLogger(model: MessageModel): MessageModel {
   }
 
   const proxyHandler: ProxyHandler<MessageModel> = {
-    get(target: MessageModel, property: keyof MessageModel) {
+    get(_: MessageModel, property: keyof MessageModel) {
       // Allowed set of attributes & methods
       if (property === 'attributes') {
         return model.attributes;
@@ -31,17 +31,17 @@ export function getMessageModelLogger(model: MessageModel): MessageModel {
       }
 
       if (property === 'registerLocations') {
-        return target.registerLocations;
+        return model.registerLocations;
       }
 
       // Disallowed set of methods & attributes
 
-      if (typeof target[property] === 'function') {
-        return target[property].bind(target);
+      if (typeof model[property] === 'function') {
+        return model[property].bind(model);
       }
 
-      if (typeof target[property] !== 'undefined') {
-        return target[property];
+      if (typeof model[property] !== 'undefined') {
+        return model[property];
       }
 
       return undefined;

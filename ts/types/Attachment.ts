@@ -66,7 +66,6 @@ export type AttachmentType = {
   /** For messages not already on disk, this will be a data url */
   url?: string;
   size: number;
-  fileSize?: string;
   pending?: boolean;
   width?: number;
   height?: number;
@@ -88,8 +87,9 @@ export type AttachmentType = {
   textAttachment?: TextAttachmentType;
   wasTooBig?: boolean;
 
+  totalDownloaded?: number;
   incrementalMac?: string;
-  incrementalMacChunkSize?: number;
+  chunkSize?: number;
 
   backupLocator?: {
     mediaName: string;
@@ -775,6 +775,21 @@ function resolveNestedAttachment<
 export function isDownloaded(
   attachment?: Pick<AttachmentType, 'path' | 'textAttachment'>
 ): boolean {
+  const resolved = resolveNestedAttachment(attachment);
+  return Boolean(resolved && (resolved.path || resolved.textAttachment));
+}
+
+export function isReadyToView(
+  attachment?: Pick<
+    AttachmentType,
+    'incrementalMac' | 'chunkSize' | 'path' | 'textAttachment'
+  >
+): boolean {
+  const fullyDownloaded = isDownloaded(attachment);
+  if (fullyDownloaded) {
+    return fullyDownloaded;
+  }
+
   const resolved = resolveNestedAttachment(attachment);
   return Boolean(resolved && (resolved.path || resolved.textAttachment));
 }

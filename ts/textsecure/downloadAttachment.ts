@@ -102,16 +102,18 @@ export async function downloadAttachment(
   server: WebAPIType,
   attachment: ProcessedAttachment,
   options: {
-    variant?: AttachmentVariant;
     disableRetries?: boolean;
-    timeout?: number;
-    mediaTier?: MediaTier;
     logPrefix?: string;
-  } = { variant: AttachmentVariant.Default }
+    mediaTier?: MediaTier;
+    onSizeUpdate: (totalBytes: number) => void;
+    timeout?: number;
+    variant: AttachmentVariant;
+    abortSignal: AbortSignal;
+  }
 ): Promise<ReencryptedAttachmentV2 & { size?: number }> {
   const logId = `downloadAttachment/${options.logPrefix ?? ''}`;
 
-  const { chunkSize, digest, incrementalMac, key, size } = attachment;
+  const { digest, incrementalMac, chunkSize, key, size } = attachment;
 
   strictAssert(digest, `${logId}: missing digest`);
   strictAssert(key, `${logId}: missing key`);
@@ -127,7 +129,7 @@ export async function downloadAttachment(
   let downloadOffset = 0;
   if (downloadPath) {
     const absoluteDownloadPath =
-      window.Signal.Migrations.getAbsoluteAttachmentPath(downloadPath);
+      window.Signal.Migrations.getAbsoluteDownloadsPath(downloadPath);
     try {
       ({ size: downloadOffset } = await stat(absoluteDownloadPath));
     } catch (error) {
@@ -173,10 +175,11 @@ export async function downloadAttachment(
       },
     });
     downloadResult = await downloadToDisk({
-      downloadStream,
-      size,
-      downloadPath,
       downloadOffset,
+      downloadPath,
+      downloadStream,
+      onSizeUpdate: options.onSizeUpdate,
+      size,
     });
   } else {
     const mediaId =
@@ -209,6 +212,7 @@ export async function downloadAttachment(
       downloadStream,
       downloadPath,
       downloadOffset,
+      onSizeUpdate: options.onSizeUpdate,
       size: getAttachmentCiphertextLength(
         options.variant === AttachmentVariant.ThumbnailFromBackup
           ? // be generous, accept downloads of up to twice what we expect for thumbnail
@@ -275,19 +279,23 @@ export async function downloadAttachment(
       }
     }
   } finally {
-    await safeUnlink(cipherTextAbsolutePath);
+    if (!downloadPath) {
+      await safeUnlink(cipherTextAbsolutePath);
+    }
   }
 }
 
 async function downloadToDisk({
-  downloadStream,
-  downloadPath,
   downloadOffset = 0,
+  downloadPath,
+  downloadStream,
+  onSizeUpdate,
   size,
 }: {
-  downloadStream: Readable;
-  downloadPath?: string;
   downloadOffset?: number;
+  downloadPath?: string;
+  downloadStream: Readable;
+  onSizeUpdate: (totalBytes: number) => void;
   size: number;
 }): Promise<{ absolutePath: string; downloadSize: number }> {
   const absoluteTargetPath = downloadPath
@@ -317,8 +325,12 @@ async function downloadToDisk({
     await pipeline(
       downloadStream,
       checkSize(targetSize),
-      measureSize(bytesSeen => {
-        downloadSize = bytesSeen;
+      measureSize({
+        downloadOffset,
+        onSizeUpdate,
+        onComplete: bytesSeen => {
+          downloadSize = bytesSeen;
+        },
       }),
       writeStream
     );

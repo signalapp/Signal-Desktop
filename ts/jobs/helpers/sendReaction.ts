@@ -61,7 +61,7 @@ export async function sendReaction(
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
 
-  const message = await __DEPRECATED$getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(messageId, 'sendReaction');
   if (!message) {
     log.info(
       `message ${messageId} was not found, maybe because it was deleted. Giving up on sending its reactions`

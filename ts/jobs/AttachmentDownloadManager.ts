@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { omit } from 'lodash';
+import { debounce, noop, omit } from 'lodash';
 
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
@@ -37,6 +37,7 @@ import {
   JobManager,
   type JobManagerParamsType,
   type JobManagerJobResultType,
+  type JobManagerJobType,
 } from './JobManager';
 import {
   isImageTypeSupported,
@@ -93,7 +94,10 @@ type AttachmentDownloadManagerParamsType = Omit<
   runDownloadAttachmentJob: (args: {
     job: AttachmentDownloadJobType;
     isLastAttempt: boolean;
-    options?: { isForCurrentlyVisibleMessage: boolean };
+    options: {
+      abortSignal: AbortSignal;
+      isForCurrentlyVisibleMessage: boolean;
+    };
     dependencies?: DependenciesType;
   }) => Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>>;
 };
@@ -164,7 +168,13 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
           timestamp: Date.now(),
         });
       },
-      runJob: (job: AttachmentDownloadJobType, isLastAttempt: boolean) => {
+      runJob: (
+        job: AttachmentDownloadJobType,
+        {
+          abortSignal,
+          isLastAttempt,
+        }: { abortSignal: AbortSignal; isLastAttempt: boolean }
+      ) => {
         const isForCurrentlyVisibleMessage = this.visibleTimelineMessages.has(
           job.messageId
         );
@@ -172,6 +182,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
           job,
           isLastAttempt,
           options: {
+            abortSignal,
             isForCurrentlyVisibleMessage,
           },
         });
@@ -268,6 +279,14 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     return AttachmentDownloadManager.instance.addJob(newJob);
   }
 
+  static async cancelJobs(
+    predicate: (
+      job: CoreAttachmentDownloadJobType & JobManagerJobType
+    ) => boolean
+  ): Promise<void> {
+    return AttachmentDownloadManager.instance.cancelJobs(predicate);
+  }
+
   static updateVisibleTimelineMessages(messageIds: Array<string>): void {
     AttachmentDownloadManager.instance.updateVisibleTimelineMessages(
       messageIds
@@ -283,6 +302,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 }
 
 type DependenciesType = {
+  deleteDownloadData: typeof window.Signal.Migrations.deleteDownloadData;
   downloadAttachment: typeof downloadAttachmentUtil;
   processNewAttachment: typeof window.Signal.Migrations.processNewAttachment;
 };
@@ -291,19 +311,26 @@ async function runDownloadAttachmentJob({
   isLastAttempt,
   options,
   dependencies = {
+    deleteDownloadData: window.Signal.Migrations.deleteDownloadData,
     downloadAttachment: downloadAttachmentUtil,
     processNewAttachment: window.Signal.Migrations.processNewAttachment,
   },
 }: {
   job: AttachmentDownloadJobType;
   isLastAttempt: boolean;
-  options?: { isForCurrentlyVisibleMessage: boolean };
+  options: {
+    abortSignal: AbortSignal;
+    isForCurrentlyVisibleMessage: boolean;
+  };
   dependencies?: DependenciesType;
 }): Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>> {
   const jobIdForLogging = getJobIdForLogging(job);
   const logId = `AttachmentDownloadManager/runDownloadAttachmentJob/${jobIdForLogging}`;
 
-  const message = await __DEPRECATED$getMessageById(job.messageId);
+  const message = await __DEPRECATED$getMessageById(
+    job.messageId,
+    'runDownloadAttachmentJob'
+  );
 
   if (!message) {
     log.error(`${logId} message not found`);
@@ -315,6 +342,7 @@ async function runDownloadAttachmentJob({
 
     const result = await runDownloadAttachmentJobInner({
       job,
+      abortSignal: options.abortSignal,
       isForCurrentlyVisibleMessage:
         options?.isForCurrentlyVisibleMessage ?? false,
       dependencies,
@@ -342,6 +370,14 @@ async function runDownloadAttachmentJob({
       status: 'finished',
     };
   } catch (error) {
+    if (options.abortSignal.aborted) {
+      log.warn(
+        `${logId}: Cancelled attempt ${job.attempts}. Not scheduling a retry. Error:`,
+        Errors.toLogFormat(error)
+      );
+      return { status: 'finished' };
+    }
+
     log.error(
       `${logId}: Failed to download attachment, attempt ${job.attempts}:`,
       Errors.toLogFormat(error)
@@ -407,10 +443,12 @@ type DownloadAttachmentResultType =
 
 export async function runDownloadAttachmentJobInner({
   job,
+  abortSignal,
   isForCurrentlyVisibleMessage,
   dependencies,
 }: {
   job: AttachmentDownloadJobType;
+  abortSignal: AbortSignal;
   isForCurrentlyVisibleMessage: boolean;
   dependencies: DependenciesType;
 }): Promise<DownloadAttachmentResultType> {
@@ -458,6 +496,7 @@ export async function runDownloadAttachmentJobInner({
     try {
       const attachmentWithThumbnail = await downloadBackupThumbnail({
         attachment,
+        abortSignal,
         dependencies,
       });
       await addAttachmentToMessage(messageId, attachmentWithThumbnail, logId, {
@@ -482,9 +521,29 @@ export async function runDownloadAttachmentJobInner({
   );
 
   try {
+    let totalDownloaded = 0;
+
+    const onSizeUpdate = async (totalBytes: number) => {
+      if (abortSignal.aborted) {
+        return;
+      }
+
+      totalDownloaded = Math.min(totalBytes, attachment.size);
+      await addAttachmentToMessage(
+        messageId,
+        { ...attachment, totalDownloaded, pending: true },
+        logId,
+        { type: attachmentType }
+      );
+    };
+
     const downloaded = await dependencies.downloadAttachment({
       attachment,
-      variant: AttachmentVariant.Default,
+      options: {
+        variant: AttachmentVariant.Default,
+        onSizeUpdate: debounce(onSizeUpdate, 200),
+        abortSignal,
+      },
     });
 
     const upgradedAttachment = await dependencies.processNewAttachment({
@@ -510,6 +569,7 @@ export async function runDownloadAttachmentJobInner({
         const attachmentWithThumbnail = omit(
           await downloadBackupThumbnail({
             attachment,
+            abortSignal,
             dependencies,
           }),
           'pending'
@@ -539,14 +599,20 @@ export async function runDownloadAttachmentJobInner({
 
 async function downloadBackupThumbnail({
   attachment,
+  abortSignal,
   dependencies,
 }: {
   attachment: AttachmentType;
+  abortSignal: AbortSignal;
   dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
 }): Promise<AttachmentType> {
   const downloadedThumbnail = await dependencies.downloadAttachment({
     attachment,
-    variant: AttachmentVariant.ThumbnailFromBackup,
+    options: {
+      onSizeUpdate: noop,
+      variant: AttachmentVariant.ThumbnailFromBackup,
+      abortSignal,
+    },
   });
 
   const attachmentWithThumbnail = {

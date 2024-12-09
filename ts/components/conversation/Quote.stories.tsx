@@ -108,6 +108,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   isSMS: false,
   isSpoilerExpanded: {},
   toggleSelectMessage: action('toggleSelectMessage'),
+  cancelAttachmentDownload: action('default--cancelAttachmentDownload'),
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('default--markAttachmentAsCorrupted'),
   messageExpanded: action('default--message-expanded'),
