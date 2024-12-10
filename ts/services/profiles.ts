@@ -292,11 +292,13 @@ async function buildProfileFetchOptions({
   lastProfile,
   clientZkProfileCipher,
   groupId,
+  options,
 }: {
   conversation: ConversationModel;
   lastProfile: ConversationLastProfileType | null;
   clientZkProfileCipher: ClientZkProfileOperations;
   groupId: string | null;
+  options: { ignoreProfileKey: boolean; ignoreGroupSendToken: boolean };
 }): Promise<ProfileFetchOptions.Auth | ProfileFetchOptions.Unauth> {
   const logId = `buildGetProfileOptions(${conversation.idForLogging()})`;
 
@@ -310,12 +312,12 @@ async function buildProfileFetchOptions({
   const accessKey = conversation.get('accessKey');
   const serviceId = conversation.getCheckedServiceId('getProfile');
 
-  if (profileKey) {
-    strictAssert(
-      profileKeyVersion != null && accessKey != null,
-      `${logId}: profileKeyVersion and accessKey are derived from profileKey`
-    );
-
+  if (
+    profileKey &&
+    profileKeyVersion &&
+    accessKey &&
+    !options.ignoreProfileKey
+  ) {
     if (!conversation.hasProfileKeyCredentialExpired()) {
       log.info(`${logId}: using unexpired profile key credential`);
       return {
@@ -351,15 +353,12 @@ async function buildProfileFetchOptions({
     };
   }
 
-  strictAssert(
-    accessKey == null,
-    `${logId}: accessKey have to be absent because there is no profileKey`
-  );
-
-  // If we have a `lastProfile`, try getting the versioned profile with auth.
-  // Note: We can't try the group send token here because the versioned profile
-  // can't be decrypted without an up to date profile key.
+  // If we're ignoring profileKey, try getting the versioned profile with lastProfile.
+  // Note: No access key, since this is almost guaranteed not to be their current profile.
+  // Also, we can't try the group send token here because the versioned profile can't be
+  // decrypted without an up to date profile key.
   if (
+    options.ignoreProfileKey &&
     lastProfile != null &&
     lastProfile.profileKey != null &&
     lastProfile.profileKeyVersion != null
@@ -379,7 +378,7 @@ async function buildProfileFetchOptions({
   }
 
   // Fallback to group send tokens for unversioned profiles
-  if (groupId != null) {
+  if (groupId != null && !options.ignoreGroupSendToken) {
     log.info(`${logId}: fetching group endorsements`);
     let result = await maybeCreateGroupSendEndorsementState(groupId, false);
 
@@ -456,7 +455,14 @@ function getFetchOptionsLabel(
 
 async function doGetProfile(
   c: ConversationModel,
-  groupId: string | null
+  groupId: string | null,
+  {
+    ignoreProfileKey,
+    ignoreGroupSendToken,
+  }: {
+    ignoreProfileKey: boolean;
+    ignoreGroupSendToken: boolean;
+  } = { ignoreProfileKey: false, ignoreGroupSendToken: false }
 ): Promise<void> {
   const logId = groupId
     ? `getProfile(${c.idForLogging()} in groupv2(${groupId}))`
@@ -482,10 +488,8 @@ async function doGetProfile(
 
   const serviceId = c.getCheckedServiceId('getProfile');
 
-  // Step #: Grab the profile key and version we last were successful decrypting with
-  // `lastProfile` is saved at the end of `doGetProfile` after successfully decrypting.
-  // `lastProfile` is used in case the `profileKey` was cleared because of a 401/403.
-  // `lastProfile` is cleared when we get a 404 fetching a profile.
+  // Step #: Grab the profile key and version we last were successful decrypting with.
+  // We'll use it in case we've failed to fetch with our `profileKey`.
   const lastProfile = c.get('lastProfile');
 
   // Step #: Build the request options we will use for fetching and decrypting the profile
@@ -494,6 +498,10 @@ async function doGetProfile(
     lastProfile: lastProfile ?? null,
     clientZkProfileCipher,
     groupId,
+    options: {
+      ignoreProfileKey,
+      ignoreGroupSendToken,
+    },
   });
   const { request } = options;
 
@@ -523,43 +531,30 @@ async function doGetProfile(
           // Fallback from failed unauth (access key) request
           if (request.accessKey != null) {
             log.warn(
-              `${logId}: Got ${error.code} when using access key, removing profileKey and retrying`
+              `${logId}: Got ${error.code} when using access key, failing over to lastProfile`
             );
-            await c.setProfileKey(undefined, {
-              reason: 'doGetProfile/accessKey/401+403',
-            });
 
-            // Retry fetch using last known profileKeyVersion or fetch
-            // unversioned profile.
-            return doGetProfile(c, groupId);
+            // Record that the accessKey we have in the conversation is invalid
+            const sealedSender = c.get('sealedSender');
+            if (sealedSender !== SEALED_SENDER.DISABLED) {
+              c.set('sealedSender', SEALED_SENDER.DISABLED);
+            }
+
+            // Retry fetch using last known profileKey or fetch unversioned profile.
+            return doGetProfile(c, groupId, {
+              ignoreProfileKey: true,
+              ignoreGroupSendToken,
+            });
           }
 
           // Fallback from failed unauth (group send token) request
           if (request.groupSendToken != null) {
             log.warn(`${logId}: Got ${error.code} when using group send token`);
-            return doGetProfile(c, null);
-          }
-        }
-
-        // Step #: Record if the accessKey we have in the conversation is valid
-        const sealedSender = c.get('sealedSender');
-        if (
-          sealedSender === SEALED_SENDER.ENABLED ||
-          sealedSender === SEALED_SENDER.UNRESTRICTED
-        ) {
-          if (!isMe(c.attributes)) {
-            log.warn(
-              `${logId}: Got ${error.code} when using accessKey, removing profileKey`
-            );
-            await c.setProfileKey(undefined, {
-              reason: 'doGetProfile/accessKey/401+403',
+            return doGetProfile(c, null, {
+              ignoreProfileKey,
+              ignoreGroupSendToken: true,
             });
           }
-        } else if (sealedSender === SEALED_SENDER.UNKNOWN) {
-          log.warn(
-            `${logId}: Got ${error.code} fetching profile, setting sealedSender = DISABLED`
-          );
-          c.set('sealedSender', SEALED_SENDER.DISABLED);
         }
 
         // TODO: Is it safe to ignore these errors?
@@ -571,10 +566,8 @@ async function doGetProfile(
         log.info(`${logId}: Profile not found`);
 
         c.set('profileLastFetchedAt', Date.now());
-        // Note: Writes to DB:
-        await c.removeLastProfile(lastProfile);
 
-        if (!isVersioned) {
+        if (!isVersioned || ignoreProfileKey) {
           log.info(`${logId}: Marking conversation unregistered`);
           c.setUnregistered();
         }
