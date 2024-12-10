@@ -3157,7 +3157,12 @@ async function updateGroup(
   // By updating activeAt we force this conversation into the left panel. We don't want
   //   all groups to show up on link, and we don't want Unknown Group in the left pane.
   let activeAt = conversation.get('active_at') || null;
-  if (!viaFirstStorageSync && newAttributes.name) {
+  const justDiscoveredGroupName =
+    !conversation.get('name') && newAttributes.name;
+  if (
+    !viaFirstStorageSync &&
+    (justDiscoveredGroupName || groupChangeMessages.length)
+  ) {
     activeAt = initialSentAt;
   }
 
