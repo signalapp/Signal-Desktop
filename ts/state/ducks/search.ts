@@ -566,7 +566,7 @@ async function queryConversationsAndContacts(
   const normalizedQuery = removeDiacritics(query);
 
   const visibleConversations = allConversations.filter(conversation => {
-    const { activeAt, removalStage, isBlocked } = conversation;
+    const { activeAt, removalStage, isBlocked, messagesDeleted } = conversation;
 
     if (isDirectConversation(conversation)) {
       // if a conversation has messages (i.e. is not "deleted"), always show it
@@ -588,8 +588,8 @@ async function queryConversationsAndContacts(
       return true;
     }
 
-    // We don't show groups in search results that don't have any messages
-    return activeAt != null;
+    // We don't show groups that were deleted in search results
+    return !messagesDeleted;
   });
 
   const searchResults: Array<ConversationType> = filterAndSortConversations(

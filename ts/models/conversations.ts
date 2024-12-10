@@ -407,6 +407,8 @@ export class ConversationModel extends window.Backbone
     this.unset('tokens');
 
     this.on('change:members change:membersV2', this.fetchContacts);
+    this.on('change:active_at', this.onActiveAtChange);
+
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
@@ -4455,6 +4457,13 @@ export class ConversationModel extends window.Backbone
     }
   }
 
+  private async onActiveAtChange(): Promise<void> {
+    if (this.get('active_at') && this.get('messagesDeleted')) {
+      this.set('messagesDeleted', false);
+      await DataWriter.updateConversation(this.attributes);
+    }
+  }
+
   async refreshGroupLink(): Promise<void> {
     if (!isGroupV2(this.attributes)) {
       return;
@@ -5228,6 +5237,7 @@ export class ConversationModel extends window.Backbone
       timestamp: null,
       active_at: null,
       pendingUniversalTimer: undefined,
+      messagesDeleted: true,
     });
     await DataWriter.updateConversation(this.attributes);
 

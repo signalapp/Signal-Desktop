@@ -379,6 +379,7 @@ export type ConversationAttributesType = {
   messageCount?: number;
   messageCountBeforeMessageRequests?: number | null;
   messageRequestResponseType?: number;
+  messagesDeleted?: boolean;
   muteExpiresAt?: number;
   dontNotifyForMentionsIfMuted?: boolean;
   sharingPhoneNumber?: boolean;
