@@ -155,6 +155,7 @@ export const actions = {
   updateBackupImportProgress,
   retryBackupImport,
   showBackupImport,
+  handleMissingBackup,
   showLinkInProgress,
 };
 
@@ -447,6 +448,11 @@ function showBackupImport(): ShowBackupImportActionType {
 }
 
 function showLinkInProgress(): ShowLinkInProgressActionType {
+  return { type: SHOW_LINK_IN_PROGRESS };
+}
+
+function handleMissingBackup(): ShowLinkInProgressActionType {
+  // If backup is missing, go to normal link-in-progress view
   return { type: SHOW_LINK_IN_PROGRESS };
 }
 

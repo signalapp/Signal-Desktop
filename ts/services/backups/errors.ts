@@ -13,3 +13,7 @@ export class UnsupportedBackupVersion extends Error {
 export class BackupDownloadFailedError extends Error {}
 
 export class BackupProcessingError extends Error {}
+
+export class RelinkRequestedError extends Error {}
+
+export class ContinueWithoutSyncingError extends Error {}

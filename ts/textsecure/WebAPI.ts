@@ -1289,10 +1289,18 @@ const StickerPackUploadFormSchema = z.object({
   stickers: z.array(StickerPackUploadAttributesSchema),
 });
 
-const TransferArchiveSchema = z.object({
-  cdn: z.number(),
-  key: z.string(),
-});
+const TransferArchiveSchema = z.union([
+  z.object({
+    cdn: z.number(),
+    key: z.string(),
+  }),
+  z.object({
+    error: z.union([
+      z.literal('RELINK_REQUESTED'),
+      z.literal('CONTINUE_WITHOUT_UPLOAD'),
+    ]),
+  }),
+]);
 
 export type TransferArchiveType = z.infer<typeof TransferArchiveSchema>;
 
@@ -2381,7 +2389,7 @@ export function initialize({
         });
 
         if (response.status === 200) {
-          return TransferArchiveSchema.parse(data);
+          return parseUnknown(TransferArchiveSchema, data);
         }
 
         strictAssert(
