@@ -69,6 +69,7 @@ export const sendTypesEnum = z.enum([
   'callEventSync',
   'callLinkUpdateSync',
   'callLogEventSync',
+  'deviceNameChangeSync',
 
   // No longer used, all non-urgent
   'legacyGroupChange',

@@ -113,6 +113,7 @@ import {
   DecryptionErrorEvent,
   DeleteForMeSyncEvent,
   DeliveryEvent,
+  DeviceNameChangeSyncEvent,
   EmptyEvent,
   EnvelopeQueuedEvent,
   EnvelopeUnsealedEvent,
@@ -699,6 +700,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'deleteForMeSync',
     handler: (ev: DeleteForMeSyncEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'deviceNameChangeSync',
+    handler: (ev: DeviceNameChangeSyncEvent) => void
   ): void;
 
   public override addEventListener(name: string, handler: EventHandler): void {
@@ -3191,6 +3197,12 @@ export default class MessageReceiver
     if (syncMessage.deleteForMe) {
       return this.handleDeleteForMeSync(envelope, syncMessage.deleteForMe);
     }
+    if (syncMessage.deviceNameChange) {
+      return this.handleDeviceNameChangeSync(
+        envelope,
+        syncMessage.deviceNameChange
+      );
+    }
 
     this.removeFromCache(envelope);
     const envelopeId = getEnvelopeId(envelope);
@@ -3815,6 +3827,39 @@ export default class MessageReceiver
     await this.dispatchAndWait(logId, deleteSyncEventSync);
 
     log.info('handleDeleteForMeSync: finished');
+  }
+
+  private async handleDeviceNameChangeSync(
+    envelope: ProcessedEnvelope,
+    deviceNameChange: Proto.SyncMessage.IDeviceNameChange
+  ): Promise<void> {
+    const logId = `MessageReceiver.handleDeviceNameChangeSync: ${getEnvelopeId(envelope)}`;
+    log.info(logId);
+
+    logUnexpectedUrgentValue(envelope, 'deviceNameChangeSync');
+
+    const { deviceId } = deviceNameChange;
+    const localDeviceId = parseIntOrThrow(
+      this.storage.user.getDeviceId(),
+      'MessageReceiver.handleDeviceNameChangeSync: localDeviceId'
+    );
+
+    if (deviceId == null) {
+      log.warn(logId, 'deviceId was falsey');
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    if (deviceId !== localDeviceId) {
+      log.info(logId, 'meant for other device:', deviceId);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    const deviceNameChangeEvent = new DeviceNameChangeSyncEvent(
+      this.removeFromCache.bind(this, envelope)
+    );
+    await this.dispatchAndWait(logId, deviceNameChangeEvent);
   }
 
   private async handleContacts(

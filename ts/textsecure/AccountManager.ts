@@ -315,6 +315,7 @@ export default class AccountManager extends EventTarget {
 
     if (base64) {
       await this.server.updateDeviceName(base64);
+      await window.textsecure.storage.user.setDeviceNameEncrypted();
     }
   }
 

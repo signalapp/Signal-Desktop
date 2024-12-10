@@ -493,6 +493,12 @@ export class CallLinkUpdateSyncEvent extends ConfirmableEvent {
   }
 }
 
+export class DeviceNameChangeSyncEvent extends ConfirmableEvent {
+  constructor(confirm: ConfirmCallback) {
+    super('deviceNameChangeSync', confirm);
+  }
+}
+
 const messageToDeleteSchema = z.union([
   z.object({
     type: z.literal('aci').readonly(),
