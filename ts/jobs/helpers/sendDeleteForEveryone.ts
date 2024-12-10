@@ -60,7 +60,7 @@ export async function sendDeleteForEveryone(
 
   const logId = `sendDeleteForEveryone(${conversation.idForLogging()}, ${messageId})`;
 
-  const message = await __DEPRECATED$getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(messageId, logId);
   if (!message) {
     log.error(`${logId}: Failed to fetch message. Failing job.`);
     return;

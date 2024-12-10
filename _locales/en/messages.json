@@ -1502,6 +1502,30 @@
     "messageformat": "Icon showing that this image has a caption",
     "description": "Used for the icon layered on top of an image in message bubbles"
   },
+  "icu:imageOpenAlt": {
+    "messageformat": "Open this attachment in a larger view",
+    "description": "Used for the button that overlays all attachments in the timeline"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start download",
+    "description": "Describes a button shown on an an attachment to kick off the download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancel download",
+    "description": "Describes a button shown on an existing download to stop that in-progress or pending download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Retry download",
+    "description": "Label for button shown on an existing download to restart a download that was partially completed"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Retry",
+    "description": "Describes a button shown on an existing download to restart a download that was partially completed"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {# item} other {# items}}",
+    "description": "Describes a button shown on an existing download to restart a download that was partially completed"
+  },
   "icu:save": {
     "messageformat": "Save",
     "description": "Used on save buttons"

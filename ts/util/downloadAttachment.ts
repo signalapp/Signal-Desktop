@@ -18,11 +18,15 @@ export class AttachmentPermanentlyUndownloadableError extends Error {}
 
 export async function downloadAttachment({
   attachment,
-  variant = AttachmentVariant.Default,
+  options: { variant = AttachmentVariant.Default, onSizeUpdate, abortSignal },
   dependencies = { downloadAttachmentFromServer: doDownloadAttachment },
 }: {
   attachment: AttachmentType;
-  variant?: AttachmentVariant;
+  options: {
+    variant?: AttachmentVariant;
+    onSizeUpdate: (totalBytes: number) => void;
+    abortSignal: AbortSignal;
+  };
   dependencies?: { downloadAttachmentFromServer: typeof doDownloadAttachment };
 }): Promise<ReencryptedAttachmentV2> {
   const attachmentId = getAttachmentIdForLogging(attachment);
@@ -54,9 +58,11 @@ export async function downloadAttachment({
         server,
         migratedAttachment,
         {
-          variant,
-          mediaTier: MediaTier.BACKUP,
           logPrefix: dataId,
+          mediaTier: MediaTier.BACKUP,
+          onSizeUpdate,
+          variant,
+          abortSignal,
         }
       );
     } catch (error) {
@@ -80,9 +86,11 @@ export async function downloadAttachment({
       server,
       migratedAttachment,
       {
-        variant,
-        mediaTier: MediaTier.STANDARD,
         logPrefix: dataId,
+        mediaTier: MediaTier.STANDARD,
+        onSizeUpdate,
+        variant,
+        abortSignal,
       }
     );
   } catch (error) {

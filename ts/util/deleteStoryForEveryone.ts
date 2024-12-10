@@ -47,7 +47,10 @@ export async function deleteStoryForEveryone(
   }
 
   const logId = `deleteStoryForEveryone(${story.messageId})`;
-  const message = await __DEPRECATED$getMessageById(story.messageId);
+  const message = await __DEPRECATED$getMessageById(
+    story.messageId,
+    'deleteStoryForEveryone'
+  );
   if (!message) {
     throw new Error('Story not found');
   }

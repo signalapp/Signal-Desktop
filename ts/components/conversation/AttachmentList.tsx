@@ -91,7 +91,6 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
             isVideo ||
             attachment.pending
           ) {
-            const isDownloaded = !attachment.pending;
             const imageUrl =
               url || (isVideo ? BLANK_VIDEO_THUMBNAIL : undefined);
 
@@ -108,7 +107,6 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
                 className="module-staged-attachment"
                 i18n={i18n}
                 attachment={attachment}
-                isDownloaded={isDownloaded}
                 curveBottomLeft={CurveType.Tiny}
                 curveBottomRight={CurveType.Tiny}
                 curveTopLeft={CurveType.Tiny}
@@ -118,7 +116,7 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
                 width={IMAGE_WIDTH}
                 url={imageUrl}
                 closeButton
-                onClick={clickAttachment}
+                showVisualAttachment={clickAttachment}
                 onClickClose={closeAttachment}
                 onError={closeAttachment}
               />

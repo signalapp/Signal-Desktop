@@ -13,7 +13,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import getDirection from 'direction';
-import { drop, groupBy, noop, orderBy, take, unescape } from 'lodash';
+import { drop, groupBy, orderBy, take, unescape } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 import type { ReadonlyDeep } from 'type-fest';
@@ -52,7 +52,10 @@ import type { WidthBreakpoint } from '../_util';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
 import * as log from '../../logging/log';
 import { StoryViewModeType } from '../../types/Stories';
-import type { AttachmentType } from '../../types/Attachment';
+import type {
+  AttachmentForUIType,
+  AttachmentType,
+} from '../../types/Attachment';
 import {
   canDisplayImage,
   getExtensionForDisplay,
@@ -101,6 +104,7 @@ import { UserText } from '../UserText';
 import { getColorForCallLink } from '../../util/getColorForCallLink';
 import { getKeyFromCallLink } from '../../util/callLinks';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip';
+import { formatFileSize } from '../../util/formatFileSize';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -173,7 +177,7 @@ export type AudioAttachmentProps = {
   i18n: LocalizerType;
   buttonRef: React.RefObject<HTMLButtonElement>;
   theme: ThemeType | undefined;
-  attachment: AttachmentType;
+  attachment: AttachmentForUIType;
   collapseMetadata: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
@@ -226,7 +230,7 @@ export type PropsData = {
   activeCallConversationId?: string;
   text?: string;
   textDirection: TextDirection;
-  textAttachment?: AttachmentType;
+  textAttachment?: AttachmentForUIType;
   isEditedMessage?: boolean;
   isSticker?: boolean;
   isTargeted?: boolean;
@@ -255,7 +259,7 @@ export type PropsData = {
     | 'unblurredAvatarUrl'
   >;
   conversationType: ConversationTypeType;
-  attachments?: ReadonlyArray<AttachmentType>;
+  attachments?: ReadonlyArray<AttachmentForUIType>;
   giftBadge?: GiftBadgeType;
   payment?: AnyPaymentEvent;
   quote?: {
@@ -312,6 +316,8 @@ export type PropsData = {
   onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
 
   item?: never;
+  // test-only, to force GIF's reduced motion experience
+  _forceTapToPlay?: boolean;
 };
 
 export type PropsHousekeeping = {
@@ -344,10 +350,8 @@ export type PropsActions = {
   showContactModal: (contactId: string, conversationId?: string) => void;
   showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 
-  kickOffAttachmentDownload: (options: {
-    attachment: AttachmentType;
-    messageId: string;
-  }) => void;
+  cancelAttachmentDownload: (options: { messageId: string }) => void;
+  kickOffAttachmentDownload: (options: { messageId: string }) => void;
   markAttachmentAsCorrupted: (options: {
     attachment: AttachmentType;
     messageId: string;
@@ -919,10 +923,12 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       attachmentDroppedDueToSize,
+      cancelAttachmentDownload,
       conversationId,
       direction,
       expirationLength,
       expirationTimestamp,
+      _forceTapToPlay,
       i18n,
       id,
       isSticker,
@@ -978,9 +984,10 @@ export class Message extends React.PureComponent<Props, State> {
             <GIF
               attachment={firstAttachment}
               size={GIF_SIZE}
+              tabIndex={0}
+              _forceTapToPlay={_forceTapToPlay}
               theme={theme}
               i18n={i18n}
-              tabIndex={0}
               onError={this.handleImageError}
               showVisualAttachment={() => {
                 showLightbox({
@@ -988,9 +995,13 @@ export class Message extends React.PureComponent<Props, State> {
                   messageId: id,
                 });
               }}
-              kickOffAttachmentDownload={() => {
+              startDownload={() => {
                 kickOffAttachmentDownload({
-                  attachment: firstAttachment,
+                  messageId: id,
+                });
+              }}
+              cancelDownload={() => {
+                cancelAttachmentDownload({
                   messageId: id,
                 });
               }}
@@ -1026,12 +1037,14 @@ export class Message extends React.PureComponent<Props, State> {
               shouldCollapseAbove={shouldCollapseAbove}
               shouldCollapseBelow={shouldCollapseBelow}
               tabIndex={tabIndex}
-              onClick={attachment => {
-                if (!isDownloaded(attachment)) {
-                  kickOffAttachmentDownload({ attachment, messageId: id });
-                } else {
-                  showLightbox({ attachment, messageId: id });
-                }
+              showVisualAttachment={attachment => {
+                showLightbox({ attachment, messageId: id });
+              }}
+              startDownload={() => {
+                kickOffAttachmentDownload({ messageId: id });
+              }}
+              cancelDownload={() => {
+                cancelAttachmentDownload({ messageId: id });
               }}
             />
           </div>
@@ -1063,10 +1076,7 @@ export class Message extends React.PureComponent<Props, State> {
         timestamp,
 
         kickOffAttachmentDownload() {
-          kickOffAttachmentDownload({
-            attachment: firstAttachment,
-            messageId: id,
-          });
+          kickOffAttachmentDownload({ messageId: id });
         },
         onCorrupted() {
           markAttachmentAsCorrupted({
@@ -1076,7 +1086,7 @@ export class Message extends React.PureComponent<Props, State> {
         },
       });
     }
-    const { pending, fileName, fileSize, contentType } = firstAttachment;
+    const { pending, fileName, size, contentType } = firstAttachment;
     const extension = getExtensionForDisplay({ contentType, fileName });
     const isDangerous = isFileDangerous(fileName || '');
 
@@ -1100,7 +1110,6 @@ export class Message extends React.PureComponent<Props, State> {
 
           if (!isDownloaded(firstAttachment)) {
             kickOffAttachmentDownload({
-              attachment: firstAttachment,
               messageId: id,
             });
           } else {
@@ -1143,7 +1152,7 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message__generic-attachment__file-size--${direction}`
             )}
           >
-            {fileSize}
+            {formatFileSize(size)}
           </div>
         </div>
       </button>
@@ -1158,6 +1167,7 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       kickOffAttachmentDownload,
+      cancelAttachmentDownload,
       previews,
       quote,
       shouldCollapseAbove,
@@ -1209,18 +1219,6 @@ export class Message extends React.PureComponent<Props, State> {
         'module-message__link-preview--nonclickable': !isClickable,
       }
     );
-    const onPreviewImageClick = isClickable
-      ? () => {
-          if (first.image && !isDownloaded(first.image)) {
-            kickOffAttachmentDownload({
-              attachment: first.image,
-              messageId: id,
-            });
-            return;
-          }
-          openLinkInWebBrowser(first.url);
-        }
-      : noop;
     const contents = (
       <>
         {first.image && previewHasImage && isFullSizeImage ? (
@@ -1233,7 +1231,15 @@ export class Message extends React.PureComponent<Props, State> {
             onError={this.handleImageError}
             i18n={i18n}
             theme={theme}
-            onClick={onPreviewImageClick}
+            showVisualAttachment={() => {
+              openLinkInWebBrowser(first.url);
+            }}
+            startDownload={() => {
+              kickOffAttachmentDownload({ messageId: id });
+            }}
+            cancelDownload={() => {
+              cancelAttachmentDownload({ messageId: id });
+            }}
           />
         ) : null}
         <div dir="auto" className="module-message__link-preview__content">
@@ -1261,7 +1267,15 @@ export class Message extends React.PureComponent<Props, State> {
                 blurHash={first.image.blurHash}
                 onError={this.handleImageError}
                 i18n={i18n}
-                onClick={onPreviewImageClick}
+                showVisualAttachment={() => {
+                  openLinkInWebBrowser(first.url);
+                }}
+                startDownload={() => {
+                  kickOffAttachmentDownload({ messageId: id });
+                }}
+                cancelDownload={() => {
+                  cancelAttachmentDownload({ messageId: id });
+                }}
               />
             </div>
           ) : null}
@@ -1970,7 +1984,6 @@ export class Message extends React.PureComponent<Props, State> {
               return;
             }
             kickOffAttachmentDownload({
-              attachment: textAttachment,
               messageId: id,
             });
           }}
@@ -2574,10 +2587,7 @@ export class Message extends React.PureComponent<Props, State> {
       }
 
       if (attachments && !isDownloaded(attachments[0])) {
-        kickOffAttachmentDownload({
-          attachment: attachments[0],
-          messageId: id,
-        });
+        kickOffAttachmentDownload({ messageId: id });
 
         return;
       }
@@ -2597,9 +2607,7 @@ export class Message extends React.PureComponent<Props, State> {
       event.preventDefault();
       event.stopPropagation();
 
-      const attachment = attachments[0];
-
-      kickOffAttachmentDownload({ attachment, messageId: id });
+      kickOffAttachmentDownload({ messageId: id });
 
       return;
     }
@@ -2699,10 +2707,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const attachment = attachments[0];
     if (!isDownloaded(attachment)) {
-      kickOffAttachmentDownload({
-        attachment,
-        messageId: id,
-      });
+      kickOffAttachmentDownload({ messageId: id });
       return;
     }
 

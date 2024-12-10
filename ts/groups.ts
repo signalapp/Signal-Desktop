@@ -3466,7 +3466,10 @@ async function appendChangeMessages(
 
   let newMessages = 0;
   for (const changeMessage of mergedMessages) {
-    const existing = window.MessageCache.__DEPRECATED$getById(changeMessage.id);
+    const existing = window.MessageCache.__DEPRECATED$getById(
+      changeMessage.id,
+      'appendChangeMessages'
+    );
 
     // Update existing message
     if (existing) {

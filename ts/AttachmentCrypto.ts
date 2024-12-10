@@ -244,8 +244,10 @@ export async function encryptAttachmentV2({
         }),
         peekAndUpdateHash(digest),
         incrementalDigestCreator,
-        measureSize(finalSize => {
-          ciphertextSize = finalSize;
+        measureSize({
+          onComplete: finalSize => {
+            ciphertextSize = finalSize;
+          },
         }),
         sink ?? new PassThrough().resume(),
       ].filter(isNotNil)
@@ -434,6 +436,7 @@ export async function decryptAttachmentV2ToSink(
   let isPaddingAllZeros = false;
   let readFd;
   let iv: Uint8Array | undefined;
+
   try {
     try {
       readFd = await open(ciphertextPath, 'r');
@@ -652,15 +655,27 @@ function peekAndUpdateHash(hash: Hash) {
   });
 }
 
-export function measureSize(onComplete: (size: number) => void): Transform {
+export function measureSize({
+  downloadOffset = 0,
+  onComplete,
+  onSizeUpdate,
+}: {
+  downloadOffset?: number;
+  onComplete: (size: number) => void;
+  onSizeUpdate?: (size: number) => void;
+}): Transform {
   let totalBytes = 0;
+
   const passthrough = new PassThrough();
+
   passthrough.on('data', chunk => {
     totalBytes += chunk.length;
+    onSizeUpdate?.(totalBytes + downloadOffset);
   });
   passthrough.on('end', () => {
     onComplete(totalBytes);
   });
+
   return passthrough;
 }
 

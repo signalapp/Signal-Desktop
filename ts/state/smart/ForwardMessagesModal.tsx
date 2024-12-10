@@ -118,7 +118,8 @@ function SmartForwardMessagesModalInner({
               return { draft, originalMessage: null };
             }
             const message = await __DEPRECATED$getMessageById(
-              draft.originalMessageId
+              draft.originalMessageId,
+              'doForwardMessages'
             );
             strictAssert(message, 'no message found');
             return {

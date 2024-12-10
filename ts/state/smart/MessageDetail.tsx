@@ -39,19 +39,20 @@ export const SmartMessageDetail = memo(
     const theme = useSelector(getTheme);
     const { checkForAccount } = useAccountsActions();
     const {
+      cancelAttachmentDownload,
       clearTargetedMessage: clearSelectedMessage,
       doubleCheckMissingQuoteReference,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       messageExpanded,
       openGiftBadge,
-      retryMessageSend,
       popPanelForConversation,
       pushPanelForConversation,
+      retryMessageSend,
       saveAttachment,
       saveAttachments,
-      showConversation,
       showAttachmentDownloadStillInProgressToast,
+      showConversation,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
       showSpoiler,
@@ -91,6 +92,7 @@ export const SmartMessageDetail = memo(
         i18n={i18n}
         platform={platform}
         interactionMode={interactionMode}
+        cancelAttachmentDownload={cancelAttachmentDownload}
         kickOffAttachmentDownload={kickOffAttachmentDownload}
         markAttachmentAsCorrupted={markAttachmentAsCorrupted}
         message={message}

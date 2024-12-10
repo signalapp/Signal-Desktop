@@ -382,7 +382,10 @@ function markStoryRead(
       return;
     }
 
-    const message = await __DEPRECATED$getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(
+      messageId,
+      'markStoryRead'
+    );
 
     if (!message) {
       log.warn(`markStoryRead: no message found ${messageId}`);
@@ -521,7 +524,10 @@ function queueStoryDownload(
       return;
     }
 
-    const message = await __DEPRECATED$getMessageById(storyId);
+    const message = await __DEPRECATED$getMessageById(
+      storyId,
+      'queueStoryDownload'
+    );
 
     if (message) {
       // We want to ensure that we re-hydrate the story reply context with the
@@ -1396,7 +1402,10 @@ function removeAllContactStories(
     const messages = (
       await Promise.all(
         messageIds.map(async messageId => {
-          const message = await __DEPRECATED$getMessageById(messageId);
+          const message = await __DEPRECATED$getMessageById(
+            messageId,
+            'removeAllContactStories'
+          );
 
           if (!message) {
             log.warn(`${logId}: no message found ${messageId}`);

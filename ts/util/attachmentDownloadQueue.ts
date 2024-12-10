@@ -66,7 +66,10 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
   let numMessagesQueued = 0;
   await Promise.all(
     messageIdsToDownload.map(async messageId => {
-      const message = window.MessageCache.__DEPRECATED$getById(messageId);
+      const message = window.MessageCache.__DEPRECATED$getById(
+        messageId,
+        'flushAttachmentDownloadQueue'
+      );
       if (!message) {
         log.warn(
           'attachmentDownloadQueue: message not found in messageCache, maybe it was deleted?'

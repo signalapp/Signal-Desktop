@@ -20,7 +20,9 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
   }
 
   const messages = await Promise.all(
-    existingOnboardingStoryMessageIds.map(__DEPRECATED$getMessageById)
+    existingOnboardingStoryMessageIds.map(id =>
+      __DEPRECATED$getMessageById(id, 'markOnboardingStoryAsRead')
+    )
   );
 
   const storyReadDate = Date.now();

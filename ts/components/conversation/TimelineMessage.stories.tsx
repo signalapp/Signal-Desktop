@@ -300,6 +300,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isTapToView: overrideProps.isTapToView,
   isTapToViewError: overrideProps.isTapToViewError,
   isTapToViewExpired: overrideProps.isTapToViewExpired,
+  cancelAttachmentDownload: action('cancelAttachmentDownload'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   messageExpanded: action('messageExpanded'),
@@ -1400,6 +1401,22 @@ Gif.args = {
   status: 'sent',
 };
 
+export const GifReducedMotion = Template.bind({});
+GifReducedMotion.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      url: '/fixtures/cat-gif.mp4',
+      width: 400,
+      height: 332,
+    }),
+  ],
+  status: 'sent',
+  _forceTapToPlay: true,
+};
+
 export const GifInAGroup = Template.bind({});
 GifInAGroup.args = {
   attachments: [
@@ -1423,10 +1440,10 @@ NotDownloadedGif.args = {
       contentType: VIDEO_MP4,
       flags: SignalService.AttachmentPointer.Flags.GIF,
       fileName: 'cat-gif.mp4',
-      fileSize: '188.61 KB',
       blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
       width: 400,
       height: 332,
+      path: undefined,
     }),
   ],
   status: 'sent',
@@ -1440,10 +1457,48 @@ PendingGif.args = {
       contentType: VIDEO_MP4,
       flags: SignalService.AttachmentPointer.Flags.GIF,
       fileName: 'cat-gif.mp4',
-      fileSize: '188.61 KB',
+      size: 188610,
       blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
       width: 400,
       height: 332,
+      path: undefined,
+    }),
+  ],
+  status: 'sent',
+};
+
+export const DownloadingGif = Template.bind({});
+DownloadingGif.args = {
+  attachments: [
+    fakeAttachment({
+      pending: true,
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      size: 188610,
+      totalDownloaded: 101010,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      width: 400,
+      height: 332,
+      path: undefined,
+    }),
+  ],
+  status: 'sent',
+};
+
+export const PartialDownloadNotPendingGif = Template.bind({});
+PartialDownloadNotPendingGif.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      size: 188610,
+      totalDownloaded: 101010,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      width: 400,
+      height: 332,
+      path: undefined,
     }),
   ],
   status: 'sent',
@@ -1553,7 +1608,6 @@ OtherFileType.args = {
       contentType: stringToMIMEType('text/plain'),
       fileName: 'my-resume.txt',
       url: 'my-resume.txt',
-      fileSize: '10MB',
     }),
   ],
   status: 'sent',
@@ -1566,7 +1620,6 @@ OtherFileTypeWithCaption.args = {
       contentType: stringToMIMEType('text/plain'),
       fileName: 'my-resume.txt',
       url: 'my-resume.txt',
-      fileSize: '10MB',
     }),
   ],
   status: 'sent',
@@ -1581,7 +1634,6 @@ OtherFileTypeWithLongFilename.args = {
       fileName:
         'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
       url: 'a2/a2334324darewer4234',
-      fileSize: '10MB',
     }),
   ],
   status: 'sent',

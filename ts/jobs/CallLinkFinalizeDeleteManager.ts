@@ -184,7 +184,7 @@ async function removeJob(
 
 async function runJob(
   job: CallLinkDeleteJobType,
-  _isLastAttempt: boolean
+  _options: { isLastAttempt: boolean; abortSignal: AbortSignal }
 ): Promise<JobManagerJobResultType<CoreCallLinkDeleteJobType>> {
   const logId = `CallLinkDeleteJobType/runJob/${getJobId(job)}`;
 

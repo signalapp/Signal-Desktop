@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as z from 'zod';
-import { MINUTE } from '../util/durations';
+import { MINUTE, SECOND } from '../util/durations';
 import {
   explodePromise,
   type ExplodePromiseResultType,
@@ -15,6 +15,7 @@ import {
   exponentialBackoffSleepTime,
 } from '../util/exponentialBackoff';
 import * as Errors from '../types/errors';
+import { sleep } from '../util/sleep';
 
 export type JobManagerJobType = {
   active: boolean;
@@ -46,7 +47,10 @@ export type JobManagerParamsType<
   removeJob: (job: JobType) => Promise<void>;
   runJob: (
     job: JobType,
-    isLastAttempt: boolean
+    options: {
+      abortSignal: AbortSignal;
+      isLastAttempt: boolean;
+    }
   ) => Promise<JobManagerJobResultType<CoreJobType>>;
   shouldHoldOffOnStartingQueuedJobs?: () => boolean;
   getJobId: (job: CoreJobType) => string;
@@ -66,15 +70,15 @@ export type JobManagerJobResultType<CoreJobType> =
   | { status: 'finished'; newJob?: CoreJobType }
   | { status: 'rate-limited'; pauseDurationMs: number };
 
+export type ActiveJobData<CoreJobType> = {
+  completionPromise: ExplodePromiseResultType<void>;
+  abortController: AbortController;
+  job: CoreJobType & JobManagerJobType;
+};
+
 export abstract class JobManager<CoreJobType> {
   private enabled: boolean = false;
-  private activeJobs: Map<
-    string,
-    {
-      completionPromise: ExplodePromiseResultType<void>;
-      job: CoreJobType & JobManagerJobType;
-    }
-  > = new Map();
+  private activeJobs: Map<string, ActiveJobData<CoreJobType>> = new Map();
   private jobStartPromises: Map<string, ExplodePromiseResultType<void>> =
     new Map();
   private jobCompletePromises: Map<string, ExplodePromiseResultType<void>> =
@@ -108,7 +112,10 @@ export abstract class JobManager<CoreJobType> {
     clearTimeoutIfNecessary(this.tickTimeout);
     this.tickTimeout = null;
     await Promise.all(
-      activeJobs.map(({ completionPromise }) => completionPromise.promise)
+      activeJobs.map(async ({ abortController, completionPromise }) => {
+        abortController.abort();
+        await completionPromise.promise;
+      })
     );
   }
 
@@ -291,9 +298,12 @@ export abstract class JobManager<CoreJobType> {
     let jobRunResult: JobManagerJobResultType<CoreJobType> | undefined;
     try {
       log.info(`${logId}: starting job`);
-      this.addRunningJob(job);
+      const { abortController } = this.addRunningJob(job);
       await this.params.saveJob({ ...job, active: true });
-      const runJobPromise = this.params.runJob(job, isLastAttempt);
+      const runJobPromise = this.params.runJob(job, {
+        abortSignal: abortController.signal,
+        isLastAttempt,
+      });
       this.handleJobStartPromises(job);
       jobRunResult = await runJobPromise;
       const { status } = jobRunResult;
@@ -388,17 +398,71 @@ export abstract class JobManager<CoreJobType> {
     this.activeJobs.delete(id);
   }
 
-  private addRunningJob(job: CoreJobType & JobManagerJobType) {
+  public async cancelJobs(
+    predicate: (job: CoreJobType & JobManagerJobType) => boolean
+  ): Promise<void> {
+    const logId = `${this.logPrefix}/cancelJobs`;
+    const jobs = Array.from(this.activeJobs.values()).filter(data =>
+      predicate(data.job)
+    );
+
+    if (jobs.length === 0) {
+      log.warn(`${logId}: found no target jobs`);
+      return;
+    }
+
+    await Promise.all(
+      jobs.map(async jobData => {
+        const { abortController, completionPromise, job } = jobData;
+
+        abortController.abort();
+
+        // First tell those waiting for the job that it's not happening
+        const rejectionError = new Error('Cancelled at JobManager.cancelJobs');
+        const idWithAttempts = this.getJobIdIncludingAttempts(job);
+        this.jobCompletePromises.get(idWithAttempts)?.reject(rejectionError);
+        this.jobCompletePromises.delete(idWithAttempts);
+
+        // Give the job 1 second to cancel itself
+        await Promise.race([completionPromise.promise, sleep(SECOND)]);
+
+        const jobId = this.params.getJobId(job);
+        const hasCompleted = Boolean(this.activeJobs.get(jobId));
+
+        if (!hasCompleted) {
+          const jobIdForLogging = this.params.getJobIdForLogging(job);
+          log.warn(
+            `${logId}: job ${jobIdForLogging} didn't complete; rejecting promises`
+          );
+          completionPromise.reject(rejectionError);
+          this.activeJobs.delete(jobId);
+        }
+
+        await this.params.removeJob(job);
+      })
+    );
+
+    log.warn(`${logId}: Successfully cancelled ${jobs.length} jobs`);
+  }
+
+  private addRunningJob(
+    job: CoreJobType & JobManagerJobType
+  ): ActiveJobData<CoreJobType> {
     if (this.isJobRunning(job)) {
       const jobIdForLogging = this.params.getJobIdForLogging(job);
       log.warn(
         `${this.logPrefix}/addRunningJob: job ${jobIdForLogging} is already running`
       );
     }
-    this.activeJobs.set(this.params.getJobId(job), {
+
+    const activeJob = {
       completionPromise: explodePromise<void>(),
+      abortController: new AbortController(),
       job,
-    });
+    };
+    this.activeJobs.set(this.params.getJobId(job), activeJob);
+
+    return activeJob;
   }
 
   private handleJobStartPromises(job: CoreJobType & JobManagerJobType) {

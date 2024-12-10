@@ -8,9 +8,14 @@ import * as Errors from '../types/errors';
 import type { MessageModel } from '../models/messages';
 
 export async function __DEPRECATED$getMessageById(
-  messageId: string
+  messageId: string,
+  location: string
 ): Promise<MessageModel | undefined> {
-  const message = window.MessageCache.__DEPRECATED$getById(messageId);
+  const innerLocation = `__DEPRECATED$getMessageById/${location}`;
+  const message = window.MessageCache.__DEPRECATED$getById(
+    messageId,
+    innerLocation
+  );
   if (message) {
     return message;
   }
@@ -32,6 +37,6 @@ export async function __DEPRECATED$getMessageById(
   return window.MessageCache.__DEPRECATED$register(
     found.id,
     found,
-    '__DEPRECATED$getMessageById'
+    innerLocation
   );
 }

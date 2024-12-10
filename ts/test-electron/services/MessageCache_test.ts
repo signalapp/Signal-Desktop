@@ -97,7 +97,10 @@ describe('MessageCache', () => {
         'same objects from mc.__DEPRECATED$register'
       );
 
-      const messageById = window.MessageCache.__DEPRECATED$getById(message1.id);
+      const messageById = window.MessageCache.__DEPRECATED$getById(
+        message1.id,
+        'test'
+      );
 
       assert.strictEqual(message1, messageById, 'same objects from mc.getById');
 
@@ -123,7 +126,8 @@ describe('MessageCache', () => {
       );
 
       const newMessageById = window.MessageCache.__DEPRECATED$getById(
-        message1.id
+        message1.id,
+        'test'
       );
       assert.deepEqual(
         message1.attributes,

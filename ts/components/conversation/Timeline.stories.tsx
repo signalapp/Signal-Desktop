@@ -296,6 +296,7 @@ const actions = () => ({
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   showConversation: action('showConversation'),
+  cancelAttachmentDownload: action('cancelAttachmentDownload'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   messageExpanded: action('messageExpanded'),

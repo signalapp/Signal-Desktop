@@ -40,6 +40,7 @@ import { bytesToUuid } from '../../../util/uuidToBytes';
 import { createName } from '../../../util/attachmentPath';
 import { ensureAttachmentIsReencryptable } from '../../../util/ensureAttachmentIsReencryptable';
 import type { ReencryptionInfo } from '../../../AttachmentCrypto';
+import { dropZero } from '../../../util/dropZero';
 
 export function convertFilePointerToAttachment(
   filePointer: Backups.FilePointer,
@@ -72,7 +73,7 @@ export function convertFilePointerToAttachment(
     incrementalMac: incrementalMac?.length
       ? Bytes.toBase64(incrementalMac)
       : undefined,
-    incrementalMacChunkSize: incrementalMacChunkSize ?? undefined,
+    chunkSize: dropZero(incrementalMacChunkSize),
     downloadPath: doCreateName(),
   };
 
@@ -182,7 +183,7 @@ export async function getFilePointerForAttachment({
     incrementalMac: attachment.incrementalMac
       ? Bytes.fromBase64(attachment.incrementalMac)
       : undefined,
-    incrementalMacChunkSize: attachment.incrementalMacChunkSize,
+    incrementalMacChunkSize: dropZero(attachment.chunkSize),
     fileName: attachment.fileName,
     width: attachment.width,
     height: attachment.height,

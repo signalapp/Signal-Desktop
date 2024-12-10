@@ -152,7 +152,6 @@ import { CallMode, CallDirection } from '../../types/CallDisposition';
 import { getCallIdFromEra } from '../../util/callDisposition';
 import { LONG_MESSAGE } from '../../types/MIME';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification';
-import { formatFileSize } from '../../util/formatFileSize';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -1837,12 +1836,11 @@ export function getPropsForAttachment(
     return undefined;
   }
 
-  const { path, pending, size, screenshot, thumbnail, thumbnailFromBackup } =
+  const { path, pending, screenshot, thumbnail, thumbnailFromBackup } =
     attachment;
 
   return {
     ...attachment,
-    fileSize: size ? formatFileSize(size) : undefined,
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
     url: path ? getLocalAttachmentUrl(attachment) : undefined,

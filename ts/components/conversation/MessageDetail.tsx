@@ -85,6 +85,7 @@ export type PropsSmartActions = Pick<MessagePropsType, 'renderAudioAttachment'>;
 
 export type PropsReduxActions = Pick<
   MessagePropsType,
+  | 'cancelAttachmentDownload'
   | 'checkForAccount'
   | 'clearTargetedMessage'
   | 'doubleCheckMissingQuoteReference'
@@ -125,6 +126,7 @@ export function MessageDetail({
   message,
   receivedAt,
   sentAt,
+  cancelAttachmentDownload,
   checkForAccount,
   clearTargetedMessage,
   contactNameColor,
@@ -330,6 +332,7 @@ export function MessageDetail({
           <Message
             {...message}
             renderingContext="conversation/MessageDetail"
+            cancelAttachmentDownload={cancelAttachmentDownload}
             checkForAccount={checkForAccount}
             clearTargetedMessage={clearTargetedMessage}
             contactNameColor={contactNameColor}

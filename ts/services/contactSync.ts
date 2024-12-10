@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
+import { noop } from 'lodash';
 
 import { DataWriter } from '../sql/Client';
 import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents';
@@ -23,6 +24,7 @@ import { downloadAttachment } from '../textsecure/downloadAttachment';
 import { strictAssert } from '../util/assert';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 import { SECOND } from '../util/durations';
+import { AttachmentVariant } from '../types/Attachment';
 
 // When true - we are running the very first storage and contact sync after
 // linking.
@@ -103,12 +105,16 @@ async function downloadAndParseContactAttachment(
   strictAssert(window.textsecure.server, 'server must exist');
   let downloaded: ReencryptedAttachmentV2 | undefined;
   try {
+    const abortController = new AbortController();
     downloaded = await downloadAttachment(
       window.textsecure.server,
       contactAttachment,
       {
+        variant: AttachmentVariant.Default,
+        onSizeUpdate: noop,
         disableRetries: true,
         timeout: 90 * SECOND,
+        abortSignal: abortController.signal,
       }
     );
 

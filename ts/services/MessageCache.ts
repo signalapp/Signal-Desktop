@@ -420,7 +420,7 @@ export class MessageCache {
       );
     }
 
-    const existing = this.__DEPRECATED$getById(id);
+    const existing = this.__DEPRECATED$getById(id, location);
 
     if (existing) {
       this.addMessageToCache(existing.attributes);
@@ -447,13 +447,18 @@ export class MessageCache {
   }
 
   // Finds a message in the cache by Id
-  public __DEPRECATED$getById(id: string): MessageModel | undefined {
+  public __DEPRECATED$getById(
+    id: string,
+    location: string
+  ): MessageModel | undefined {
     const data = this.state.messages.get(id);
     if (!data) {
       return undefined;
     }
 
-    return this.toModel(data);
+    const model = this.toModel(data);
+    model.registerLocations.add(location);
+    return model;
   }
 
   public async upgradeSchema(
@@ -513,9 +518,9 @@ export class MessageCache {
     model.attributes = { ...messageAttributes };
 
     if (getEnvironment() === Environment.Development) {
-      log.warn('MessageCache: stale model', {
+      log.warn('MessageCache: updating cached backbone model', {
         cid: model.cid,
-        locations: Array.from(model.registerLocations).join('+'),
+        locations: Array.from(model.registerLocations).join(', '),
       });
     }
   }
