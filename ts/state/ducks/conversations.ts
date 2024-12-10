@@ -320,6 +320,7 @@ export type ConversationType = ReadonlyDeep<
     phoneNumber?: string;
     membersCount?: number;
     hasMessages?: boolean;
+    messagesDeleted?: boolean;
     accessControlAddFromInviteLink?: number;
     accessControlAttributes?: number;
     accessControlMembers?: number;
