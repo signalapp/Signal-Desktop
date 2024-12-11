@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { rgbToHSL } from '../../util/rgbToHSL';
+import { rgbIntToHSL, rgbToHSL } from '../../util/rgbToHSL';
 
 describe('rgbToHSL', () => {
   it('converts pure rgb colors', () => {
@@ -38,5 +38,13 @@ describe('rgbToHSL', () => {
       s: 0.7326732673267328,
       l: 0.396078431372549,
     });
+  });
+});
+
+describe('rgbIntToHSL', () => {
+  it('converts pure rgb colors', () => {
+    assert.deepStrictEqual(rgbIntToHSL(4294901760), { h: 0, s: 1, l: 0.5 });
+    assert.deepStrictEqual(rgbIntToHSL(4278255360), { h: 120, s: 1, l: 0.5 });
+    assert.deepStrictEqual(rgbIntToHSL(4278190335), { h: 240, s: 1, l: 0.5 });
   });
 });

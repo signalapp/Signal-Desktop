@@ -89,7 +89,7 @@ import type { GroupV2ChangeDetailType } from '../../groups';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { isNotNil } from '../../util/isNotNil';
 import { isGroup } from '../../util/whatTypeOfConversation';
-import { rgbToHSL } from '../../util/rgbToHSL';
+import { rgbIntToHSL } from '../../util/rgbToHSL';
 import {
   convertBackupMessageAttachmentToAttachment,
   convertFilePointerToAttachment,
@@ -3061,7 +3061,7 @@ export class BackupImportStream extends Writable {
 
       if (color.solid) {
         value = {
-          start: rgbIntToHSL(color.solid),
+          start: rgbIntToDesktopHSL(color.solid),
         };
       } else {
         strictAssert(color.gradient != null, 'Either solid or gradient');
@@ -3076,8 +3076,8 @@ export class BackupImportStream extends Writable {
         strictAssert(deg != null, 'Missing angle');
 
         value = {
-          start: rgbIntToHSL(start),
-          end: rgbIntToHSL(end),
+          start: rgbIntToDesktopHSL(start),
+          end: rgbIntToDesktopHSL(end),
           deg,
         };
       }
@@ -3226,20 +3226,15 @@ export class BackupImportStream extends Writable {
   }
 }
 
-function rgbIntToHSL(intValue: number): {
+function rgbIntToDesktopHSL(intValue: number): {
   hue: number;
   saturation: number;
-  luminance: number;
+  lightness: number;
 } {
-  // eslint-disable-next-line no-bitwise
-  const r = (intValue >>> 16) & 0xff;
-  // eslint-disable-next-line no-bitwise
-  const g = (intValue >>> 8) & 0xff;
-  // eslint-disable-next-line no-bitwise
-  const b = intValue & 0xff;
-  const { h: hue, s: saturation, l: luminance } = rgbToHSL(r, g, b);
+  const { h: hue, s: saturation, l: lightness } = rgbIntToHSL(intValue);
 
-  return { hue, saturation, luminance };
+  // Desktop stores saturation not as 0.123 (0 to 1.0) but 12.3 (percentage)
+  return { hue, saturation: saturation * 100, lightness };
 }
 
 function fromGroupCallStateProto(

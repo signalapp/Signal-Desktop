@@ -159,8 +159,8 @@ export const ContactNameColors = [
 export type ContactNameColorType = (typeof ContactNameColors)[number];
 
 export type CustomColorType = {
-  start: { hue: number; saturation: number; luminance?: number };
-  end?: { hue: number; saturation: number; luminance?: number };
+  start: { hue: number; saturation: number; lightness?: number };
+  end?: { hue: number; saturation: number; lightness?: number };
   deg?: number;
 };
 
