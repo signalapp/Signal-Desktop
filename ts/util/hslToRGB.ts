@@ -24,3 +24,13 @@ export function hslToRGB(
     b: Math.round(255 * f(4)),
   };
 }
+
+export function hslToRGBInt(
+  hue: number,
+  saturation: number,
+  lightness: number
+): number {
+  const { r, g, b } = hslToRGB(hue, saturation, lightness);
+  // eslint-disable-next-line no-bitwise
+  return ((0xff << 24) | (r << 16) | (g << 8) | b) >>> 0;
+}

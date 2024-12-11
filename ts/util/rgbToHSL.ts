@@ -26,7 +26,7 @@ export function rgbToHSL(
   if (c === 0) {
     h = 0;
   } else if (v === rn) {
-    h = 60 * (((gn - bn) / c) % 6);
+    h = 60 * (((gn - bn) / c + 6) % 6);
   } else if (v === gn) {
     h = 60 * ((bn - rn) / c + 2);
   } else {
@@ -42,4 +42,18 @@ export function rgbToHSL(
   }
 
   return { h, s, l };
+}
+
+export function rgbIntToHSL(intValue: number): {
+  h: number;
+  s: number;
+  l: number;
+} {
+  // eslint-disable-next-line no-bitwise
+  const r = (intValue >>> 16) & 0xff;
+  // eslint-disable-next-line no-bitwise
+  const g = (intValue >>> 8) & 0xff;
+  // eslint-disable-next-line no-bitwise
+  const b = intValue & 0xff;
+  return rgbToHSL(r, g, b);
 }

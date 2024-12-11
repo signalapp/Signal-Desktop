@@ -110,7 +110,7 @@ import {
   AdhocCallStatus,
 } from '../../types/CallDisposition';
 import { isAciString } from '../../util/isAciString';
-import { hslToRGB } from '../../util/hslToRGB';
+import { hslToRGBInt } from '../../util/hslToRGB';
 import type { AboutMe, LocalChatStyle } from './types';
 import { BackupType } from './types';
 import { messageHasPaymentEvent } from '../../messages/helpers';
@@ -2588,10 +2588,10 @@ export class BackupExportStream extends Readable {
       const id = Long.fromNumber(result.length + 1);
       this.customColorIdByUuid.set(uuid, id);
 
-      const start = hslToRGBInt(
+      const start = desktopHslToRgbInt(
         color.start.hue,
         color.start.saturation,
-        color.start.luminance
+        color.start.lightness
       );
 
       if (color.end == null) {
@@ -2600,10 +2600,10 @@ export class BackupExportStream extends Readable {
           solid: start,
         });
       } else {
-        const end = hslToRGBInt(
+        const end = desktopHslToRgbInt(
           color.end.hue,
           color.end.saturation,
-          color.end.luminance
+          color.end.lightness
         );
 
         result.push({
@@ -2776,10 +2776,13 @@ function checkServiceIdEquivalence(
   return leftConvo && rightConvo && leftConvo === rightConvo;
 }
 
-function hslToRGBInt(hue: number, saturation: number, luminance = 1): number {
-  const { r, g, b } = hslToRGB(hue, saturation, luminance);
-  // eslint-disable-next-line no-bitwise
-  return ((0xff << 24) | (r << 16) | (g << 8) | b) >>> 0;
+function desktopHslToRgbInt(
+  hue: number,
+  saturation: number,
+  lightness = 1
+): number {
+  // Desktop stores saturation not as 0.123 (0 to 1.0) but 12.3 (percentage)
+  return hslToRGBInt(hue, saturation / 100, lightness);
 }
 
 function toGroupCallStateProto(state: CallStatus): Backups.GroupCall.State {
