@@ -1105,6 +1105,16 @@ export function getAttachmentSignature(attachment: AttachmentType): string {
   return attachment.digest;
 }
 
+export function getAttachmentSignatureSafe(
+  attachment: AttachmentType
+): string | undefined {
+  try {
+    return getAttachmentSignature(attachment);
+  } catch {
+    return undefined;
+  }
+}
+
 type RequiredPropertiesForDecryption = 'key' | 'digest';
 type RequiredPropertiesForReencryption = 'path' | 'key' | 'digest' | 'iv';
 

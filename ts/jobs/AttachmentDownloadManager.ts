@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { debounce, noop, omit } from 'lodash';
+import { noop, omit, throttle } from 'lodash';
 
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
@@ -46,7 +46,10 @@ import {
 import type { MIMEType } from '../types/MIME';
 import { AttachmentDownloadSource } from '../sql/Interface';
 import { drop } from '../util/drop';
-import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
+import {
+  getAttachmentCiphertextLength,
+  type ReencryptedAttachmentV2,
+} from '../AttachmentCrypto';
 import { safeParsePartial } from '../util/schemas';
 import { createBatcher } from '../util/batcher';
 
@@ -522,9 +525,13 @@ export async function runDownloadAttachmentJobInner({
 
   try {
     let totalDownloaded = 0;
+    let downloadedAttachment: ReencryptedAttachmentV2 | undefined;
 
     const onSizeUpdate = async (totalBytes: number) => {
       if (abortSignal.aborted) {
+        return;
+      }
+      if (downloadedAttachment) {
         return;
       }
 
@@ -537,18 +544,18 @@ export async function runDownloadAttachmentJobInner({
       );
     };
 
-    const downloaded = await dependencies.downloadAttachment({
+    downloadedAttachment = await dependencies.downloadAttachment({
       attachment,
       options: {
         variant: AttachmentVariant.Default,
-        onSizeUpdate: debounce(onSizeUpdate, 200),
+        onSizeUpdate: throttle(onSizeUpdate, 200),
         abortSignal,
       },
     });
 
     const upgradedAttachment = await dependencies.processNewAttachment({
       ...omit(attachment, ['error', 'pending', 'downloadPath']),
-      ...downloaded,
+      ...downloadedAttachment,
     });
 
     await addAttachmentToMessage(messageId, upgradedAttachment, logId, {
