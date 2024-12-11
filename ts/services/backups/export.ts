@@ -139,6 +139,7 @@ import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { migrateAllMessages } from '../../messages/migrateMessageData';
 import { trimBody } from '../../util/longAttachment';
+import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData';
 
 const MAX_CONCURRENCY = 10;
 
@@ -258,6 +259,8 @@ export class BackupExportStream extends Readable {
         version: Long.fromNumber(BACKUP_VERSION),
         backupTimeMs: this.backupTimeMs,
         mediaRootBackupKey: getBackupMediaRootKey().serialize(),
+        firstAppVersion: window.storage.get('restoredBackupFirstAppVersion'),
+        currentAppVersion: `Desktop ${window.getVersion()}`,
       }).finish()
     );
 
@@ -660,7 +663,8 @@ export class BackupExportStream extends Readable {
     const usernameLink = storage.get('usernameLink');
 
     const subscriberId = storage.get('subscriberId');
-    const backupsSubscriberId = storage.get('backupsSubscriberId');
+
+    const backupsSubscriberData = generateBackupsSubscriberData();
 
     return {
       profileKey: storage.get('profileKey'),
@@ -676,16 +680,7 @@ export class BackupExportStream extends Readable {
       givenName: me.get('profileName'),
       familyName: me.get('profileFamilyName'),
       avatarUrlPath: storage.get('avatarUrl'),
-      backupsSubscriberData: Bytes.isNotEmpty(backupsSubscriberId)
-        ? {
-            subscriberId: backupsSubscriberId,
-            currencyCode: storage.get('backupsSubscriberCurrencyCode'),
-            manuallyCancelled: storage.get(
-              'backupsSubscriptionManuallyCancelled',
-              false
-            ),
-          }
-        : null,
+      backupsSubscriberData,
       donationSubscriberData: Bytes.isNotEmpty(subscriberId)
         ? {
             subscriberId,
