@@ -5,7 +5,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const { execSync } = require('child_process');
 
-const packageJson = require('../package.json');
+const packageJson = require('../package.json')h
 const { isAdHoc } = require('../ts/util/version');
 
 const { version } = packageJson;
@@ -16,7 +16,7 @@ const { version } = packageJson;
 //   debian package name, the install directory under /opt on linux, etc. We tried
 //   adding the ${channel} macro to these values, but Electron-Builder didn't like that.
 
-if (!isAdHoc(version)) {
+if (!isAdhoc(version)) {
   console.error(`Version '${version}' is not an adhoc version!`);
   process.exit(1);
 }
