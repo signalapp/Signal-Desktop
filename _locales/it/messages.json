@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Termini di servizio e politica sulla privacy"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icona che mostra che questa immagine ha una didascalia"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Open this attachment in a larger view"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Retry"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
   },
   "icu:save": {
     "messageformat": "Salva"
@@ -2727,7 +2742,7 @@
     "messageformat": "{remaining, plural, one {{ringer} sta chiamando te, {first}, {second} e {remaining,number} altra persona} other {{ringer} sta chiamando te, {first}, {second} e {remaining,number} altre persone}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Connessione in corso…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Sta squillando…"
@@ -3607,6 +3622,9 @@
   },
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Non è stato possibile trasferire i tuoi messaggi. Controlla la tua connessione Internet e riprova."
+  },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Riprova"
@@ -5764,13 +5782,13 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Il nuovo filtro accanto alla barra di ricerca aiuta a cercare più rapidamente le chat non lette… se poi proprio non vuoi leggerle, questo è un altro discorso!"
-  },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Questo aggiornamento risolve un bug su macOS Sonoma che impediva il funzionamento della condivisione dello schermo se l'autorizzazione alla condivisione era stata negata in una richiesta precedente. Così da ora puoi condividere il tuo schermo senza mostrare un messaggio di errore."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "La funzione per filtrare i messaggi non letti ora mette in evidenza la chat selezionata e l'elenco delle chat non lette si aggiorna in automatico man mano che ti arrivano messaggi nuovi da leggere o mentre controlli i messaggi arretrati da leggere."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Téarmaí Úsáide ⁊ Polasaí Príobháideachais"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Íocón a léiríonn go bhfuil fotheideal leis an íomhá seo"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Open this attachment in a larger view"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Retry"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
   },
   "icu:save": {
     "messageformat": "Cuir i dtaisce é"
@@ -2727,7 +2742,7 @@
     "messageformat": "{remaining, plural, one {Tá {ringer} ag glaoch ort, ar {first}, ar {second} agus ar {remaining,number} eile} two {Tá {ringer} ag glaoch ort, ar {first}, ar {second} agus ar {remaining,number} eile} few {Tá {ringer} ag glaoch ort, ar {first}, ar {second} agus ar {remaining,number} eile} many {Tá {ringer} ag glaoch ort, ar {first}, ar {second} agus ar {remaining,number} eile} other {Tá {ringer} ag glaoch ort, ar {first}, ar {second} agus ar {remaining,number} eile}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Nascadh…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Glaoch…"
@@ -3607,6 +3622,9 @@
   },
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Níorbh fhéidir do theachtaireachtaí a aistriú. Seiceáil do nasc Idirlín agus triail arís é."
+  },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Bain triail eile as"
@@ -5764,13 +5782,13 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Is éasca é comhráite neamhléite a fháil go tapa a bhuí leis an deilbhín scagaire nua atá in aice leis an mbosca cuardaigh."
-  },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Réitíonn an nuashonrú seo fabht le comhroinnt scáileáin ar macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Déanann Scag de réir Neamhléite an comhrá roghnaithe a aibhsiú agus nuashonraíonn mar a léitear agus a fhaightear teachtaireachtaí."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
   }
 }
