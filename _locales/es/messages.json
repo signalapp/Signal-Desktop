@@ -231,16 +231,16 @@
     "messageformat": "Chats"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Ha habido un problema con tu alias; ya no está asignado a tu cuenta. Puedes intentar configurarlo de nuevo o elegir uno distinto."
+    "messageformat": "Ha habido un problema con tu alias, por lo que ya no está asignado a tu cuenta. Puedes intentar crearlo de nuevo o elegir uno distinto."
   },
   "icu:LeftPane--corrupted-username--action-text": {
-    "messageformat": "Reparalo ahora"
+    "messageformat": "Corregir ahora"
   },
   "icu:LeftPane--corrupted-username-link--text": {
     "messageformat": "Hubo un problema con el código QR y el enlace de tu alias; ya no es válido. Crea un nuevo enlace para compartir."
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
-    "messageformat": "Reparalo ahora"
+    "messageformat": "Corregir ahora"
   },
   "icu:LeftPane__compose__findByUsername": {
     "messageformat": "Buscar por alias"
@@ -2727,7 +2727,7 @@
     "messageformat": "{remaining, plural, one {Llamada de {ringer} con {first}, {second} y {remaining,number} más} other {Llamada de {ringer} con {first}, {second} y {remaining,number} más}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Conectando…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Sonando…"
@@ -4371,7 +4371,7 @@
     "messageformat": "Alias"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Ha habido un problema con tu alias; ya no está asignado a tu cuenta. Puedes intentar configurarlo de nuevo o elegir uno distinto."
+    "messageformat": "Ha habido un problema con tu alias, por lo que ya no está asignado a tu cuenta. Puedes intentar crearlo de nuevo o elegir uno distinto."
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
     "messageformat": "Corregir ahora"
@@ -4485,19 +4485,19 @@
     "messageformat": "Ahora, las personas pueden enviarte mensajes usando tu alias opcional, con lo que no necesitas dar tu número de teléfono."
   },
   "icu:Bio--speak-freely": {
-    "messageformat": "Habla con libertad"
+    "messageformat": "¡Hola, hola!"
   },
   "icu:Bio--encrypted": {
-    "messageformat": "Cifrado y seguro"
+    "messageformat": "Privacidad ante todo"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "Libre para charlar"
+    "messageformat": "Todo bien por aquí"
   },
   "icu:Bio--coffee-lover": {
-    "messageformat": "Amante del café"
+    "messageformat": "Recargando energías"
   },
   "icu:Bio--taking-break": {
-    "messageformat": "Tomándome un descanso"
+    "messageformat": "Desconectando para conectar"
   },
   "icu:ProfileEditorModal--profile": {
     "messageformat": "Perfil"
@@ -5768,9 +5768,9 @@
     "messageformat": "Con el nuevo icono de filtro junto al cuadro de búsqueda no tardarás en encontrar tus chats no leídos, pero no dudes en tomarte tu tiempo para decidir si les dejas o no en visto."
   },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Esta actualización corrige un error en macOS Sonoma que daba problemas al compartir pantalla si antes habías denegado el permiso de compartir. ¡Adiós a los mensajes de error! Ahora podrás compartir tu pantalla sin dramas ni rechazos."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "¡Eso no es todo! La función Filtrar por no leídos resalta el chat que seleccionaste y la lista de chats no leídos se actualiza automáticamente a medida que vas leyendo los chats que tenías pendientes o cuando llegan nuevos mensajes."
   }
 }

@@ -2727,7 +2727,7 @@
     "messageformat": "{remaining, plural, other {{ringer}正在呼叫您、{first}、{second}和其他 {remaining,number} 人}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "连接中……"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "响铃中…"
@@ -5768,9 +5768,9 @@
     "messageformat": "搜索框旁边的新筛选图标可以让用户轻松快捷地查找未读聊天。"
   },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "此次更新修复了 macOS Sonoma 上的屏幕共享漏洞。"
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "现在按“未读”筛选聊天会突出显示选定的聊天，并且未读聊天列表会在读取和接收消息时更新。"
   }
 }

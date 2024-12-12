@@ -2727,7 +2727,7 @@
     "messageformat": "{remaining, plural, one {{ringer} звъни на вас, на {first}, на {second} и на още {remaining,number}} other {{ringer} звъни на вас, на {first}, на {second} и на още {remaining,number}}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Свързване…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Звънене…"
@@ -5768,9 +5768,9 @@
     "messageformat": "Новата икона за филтриране до полето за търсене улеснява бързото намиране на непрочетени чатове."
   },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Тази актуализация коригира проблем със споделяне на екран на macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Филтрирането по непрочетени вече акцентира избрания чат и се актуализира, когато съобщенията бъдат прочетени и получени."
   }
 }

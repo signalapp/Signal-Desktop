@@ -2727,7 +2727,7 @@
     "messageformat": "{remaining, plural, one {{ringer} po thërret ju, {first}, {second}, dhe {remaining,number} tjetër} other {{ringer} po thërret ju, {first}, {second}, dhe {remaining,number} të tjerë}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Po lidhet…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Po i bihet ziles…"
@@ -5768,9 +5768,9 @@
     "messageformat": "Ikona e re e filtrit pranë kutisë së kërkimit e bën të lehtë gjetjen e shpejtë të bisedave të palexuara, por mos ngurro të marrësh kohën tënde për të vendosur nëse do t'i lësh ose jo të lexuara pasi të shohëh se çfarë kishin për të thënë."
   },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Përditësimi ka rregulluar defektin në macOS Sonoma që pengonte funksionimin e duhur të ndarjes së ekranit nëse leja për të ndarë ekranin ishte refuzuar më parë — ndaj nuk ke më nevojë ta ndash ekranin me një mesazh gabimi."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Filtrimi sipas opsionit \"Të palexuar\" thekson bisedën e zgjedhur dhe lista e bisedave të palexuara do të përditësohet automatikisht teska të vijnë mesazhe të reja ose kur rikthehesh në një bisedë dhe klikon në një tjetër."
   }
 }

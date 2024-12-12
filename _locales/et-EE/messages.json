@@ -2727,7 +2727,7 @@
     "messageformat": "{remaining, plural, one {{ringer} helistab sulle, kasutajatele {first}, {second} ja {remaining,number} teisele} other {{ringer} helistab sulle, kasutajatele {first}, {second} ja {remaining,number} teisele}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Ühendamine…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Helisemine…"
@@ -5768,9 +5768,9 @@
     "messageformat": "Otsingukasti kõrval olev uus filtri ikoon muudab lugemata vestluste leidmise kiireks ja lihtsaks."
   },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Selle uuendusega parandatakse macOS Sonoma viga, mis takistas ekraani jagamise korrektset toimimist, kui ekraani jagamise luba oli varem keelatud – enam ei pea sa oma ekraani tõrketeatega jagama."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Filtreerimine lugemata oleku alusel tõstab nüüd valitud vestluse esile ning uuendab automaatselt uute sõnumite saabumisel või kui lülitud ühelt vestluselt teisele."
   }
 }

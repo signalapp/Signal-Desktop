@@ -2163,7 +2163,7 @@
     "messageformat": "Тварина"
   },
   "icu:EmojiPicker__button--food": {
-    "messageformat": "Їжа"
+    "messageformat": "Їжа і напої"
   },
   "icu:EmojiPicker__button--activity": {
     "messageformat": "Активність"
@@ -2727,7 +2727,7 @@
     "messageformat": "{remaining, plural, one {Вам, користувачам {first}, {second} і ще {remaining,number} користувачу дзвонить {ringer}} few {Вам, користувачам {first}, {second} і ще {remaining,number} користувачам дзвонить {ringer}} many {Вам, користувачам {first}, {second} і ще {remaining,number} користувачам дзвонить {ringer}} other {Вам, користувачам {first}, {second} і ще {remaining,number} користувача дзвонить {ringer}}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Триває з'єднання…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Лунає дзвінок…"
@@ -5434,7 +5434,7 @@
     "messageformat": "Колір"
   },
   "icu:UsernameLinkModalBody__copy": {
-    "messageformat": "Копіювати до буферу обміну"
+    "messageformat": "Копіювати в буфер обміну"
   },
   "icu:UsernameLinkModalBody__help": {
     "messageformat": "Діліться QR-кодом і посиланням лише з тими, кому довіряєте. Перейшовши за посиланням чи зісканувавши код, інші користувачі побачать ваше ім'я користувача й зможуть почати з вами чат."
@@ -5572,7 +5572,7 @@
     "messageformat": "Пошук"
   },
   "icu:CallsList__FilteredByMissedHeader": {
-    "messageformat": "Показати пропущені"
+    "messageformat": "Показано пропущені"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Фільтр за пропущеними"
@@ -5768,9 +5768,9 @@
     "messageformat": "З новим значком фільтра біля поля пошуку можна швидко й легко знаходити непрочитані чати. А от відповісти одразу чи потягнути час ще трошки — вирішувати тільки вам."
   },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "У цьому оновленні ми виправили помилку на macOS Sonoma, через яку демонстрація екрана не працювала належним чином, якщо раніше ви вже відхиляли дозвіл на його демонстрацію. Тепер сповіщення про помилку не відхилятиме вашої уваги від важливих справ."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Фільтр за непрочитаними тепер виділяє вибраний чат, а список непрочитаних чатів автоматично оновлюється, коли ви отримуєте нові повідомлення або спілкуєтеся в одному чаті, а потім натискаєте на інший."
   }
 }

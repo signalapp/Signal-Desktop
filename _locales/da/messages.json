@@ -2727,7 +2727,7 @@
     "messageformat": "{remaining, plural, one {{ringer} ringer til dig, {first}, {second} og {remaining,number} anden} other {{ringer} ringer til dig, {first}, {second} og {remaining,number} andre}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Forbinder…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Ringer…"
@@ -5768,9 +5768,9 @@
     "messageformat": "Det nye filterikon ved siden af søgefeltet gør det nemt hurtigt at finde ulæste chats, men du er velkommen til at tage dig tid til at beslutte, om du vil lade dem være læst, efter at have set, hvad personen havde at sige."
   },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Denne opdatering retter en fejl på macOS Sonoma, der forhindrede skærmdeling i at fungere korrekt, hvis tilladelsen til at dele skærmen tidligere var blevet nægtet – så nu behøver du ikke længere at dele din skærm med en fejlbesked."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Filtrér efter ulæst fremhæver nu den valgte chat, og listen over ulæste chats opdateres automatisk, når der kommer nye beskeder, eller når du læser en chat og klikker på en anden."
   }
 }

@@ -2727,7 +2727,7 @@
     "messageformat": "{remaining, plural, one {{ringer} skambina jums ir naudotojams {first}, {second} bei dar {remaining,number} žmogui} few {{ringer} skambina jums ir naudotojams {first}, {second} bei dar {remaining,number} žmonėms} many {{ringer} skambina jums ir naudotojams {first}, {second} bei dar {remaining,number} žmonių} other {{ringer} skambina jums ir naudotojams {first}, {second} bei dar {remaining,number} žmogui}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Jungiamasi…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Skambinama…"
@@ -5768,9 +5768,9 @@
     "messageformat": "Dėl naujos filtro piktogramos šalia paieškos laukelio lengvai ir greitai rasite neskaitytus pokalbius."
   },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Šiuo naujiniu ištaisoma ekrano bendrinimo klaida sistemoje „macOS Sonoma“."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Funkcija „Filtruoti pagal neperskaitytus“ dabar paryškina pasirinktą pokalbį ir atnaujina, kai žinutės perskaitomos ir gaunamos."
   }
 }
