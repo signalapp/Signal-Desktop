@@ -21,7 +21,7 @@ import type {
 } from '../model-types.d';
 import * as Errors from '../types/errors';
 import {
-  getAttachmentSignature,
+  getAttachmentSignatureSafe,
   isDownloading,
   isDownloaded,
 } from '../types/Attachment';
@@ -43,16 +43,6 @@ export type MessageAttachmentsDownloadedType = {
   quote?: QuotedMessageType;
   sticker?: StickerType;
 };
-
-function getAttachmentSignatureSafe(
-  attachment: AttachmentType
-): string | undefined {
-  try {
-    return getAttachmentSignature(attachment);
-  } catch {
-    return undefined;
-  }
-}
 
 function getLogger(source: AttachmentDownloadSource) {
   const verbose = source !== AttachmentDownloadSource.BACKUP_IMPORT;
