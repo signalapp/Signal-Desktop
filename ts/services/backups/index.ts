@@ -49,7 +49,11 @@ import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
 import { validateBackup } from './validator';
 import { BackupType } from './types';
-import { UnsupportedBackupVersion } from './errors';
+import {
+  BackupDownloadFailedError,
+  BackupProcessingError,
+  UnsupportedBackupVersion,
+} from './errors';
 import { ToastType } from '../../types/Toast';
 import { isNightly } from '../../util/version';
 
@@ -117,14 +121,14 @@ export class BackupsService {
     });
   }
 
-  public async download(options: DownloadOptionsType): Promise<void> {
+  public async downloadAndImport(options: DownloadOptionsType): Promise<void> {
     const backupDownloadPath = window.storage.get('backupDownloadPath');
     if (!backupDownloadPath) {
-      log.warn('backups.download: no backup download path, skipping');
+      log.warn('backups.downloadAndImport: no backup download path, skipping');
       return;
     }
 
-    log.info('backups.download: downloading...');
+    log.info('backups.downloadAndImport: downloading...');
 
     const ephemeralKey = window.storage.get('backupEphemeralKey');
 
@@ -136,22 +140,66 @@ export class BackupsService {
     while (true) {
       try {
         // eslint-disable-next-line no-await-in-loop
-        hasBackup = await this.doDownload({
+        hasBackup = await this.doDownloadAndImport({
           downloadPath: absoluteDownloadPath,
           onProgress: options.onProgress,
           ephemeralKey,
         });
       } catch (error) {
-        log.warn(
-          'backups.download: error, prompting user to retry',
-          Errors.toLogFormat(error)
-        );
         this.downloadRetryPromise = explodePromise<RetryBackupImportValue>();
+
+        let installerError: InstallScreenBackupError;
+        if (error instanceof UnsupportedBackupVersion) {
+          installerError = InstallScreenBackupError.UnsupportedVersion;
+          log.error(
+            'backups.downloadAndImport: unsupported version',
+            Errors.toLogFormat(error)
+          );
+        } else if (error instanceof BackupDownloadFailedError) {
+          installerError = InstallScreenBackupError.Retriable;
+          log.warn(
+            'backups.downloadAndImport: download error, prompting user to retry',
+            Errors.toLogFormat(error)
+          );
+        } else if (error instanceof BackupProcessingError) {
+          installerError = InstallScreenBackupError.Fatal;
+          log.error(
+            'backups.downloadAndImport: fatal error during processing; unlinking & deleting data',
+            Errors.toLogFormat(error)
+          );
+
+          try {
+            // eslint-disable-next-line no-await-in-loop
+            await window.textsecure.server?.unlink();
+          } catch (e) {
+            log.warn(
+              'Error while unlinking; this may be expected for the unlink operation',
+              Errors.toLogFormat(e)
+            );
+          }
+
+          try {
+            log.info('backups.downloadAndImport: deleting all data');
+            // eslint-disable-next-line no-await-in-loop
+            await window.textsecure.storage.protocol.removeAllData();
+            log.info(
+              'backups.downloadAndImport: all data deleted successfully'
+            );
+          } catch (e) {
+            log.error(
+              'backups.downloadAndImport: unable to remove all data',
+              Errors.toLogFormat(e)
+            );
+          }
+        } else {
+          log.error(
+            'backups.downloadAndImport: unknown error, prompting user to retry'
+          );
+          installerError = InstallScreenBackupError.Retriable;
+        }
+
         window.reduxActions.installer.updateBackupImportProgress({
-          error:
-            error instanceof UnsupportedBackupVersion
-              ? InstallScreenBackupError.UnsupportedVersion
-              : InstallScreenBackupError.Unknown,
+          error: installerError,
         });
 
         // eslint-disable-next-line no-await-in-loop
@@ -174,7 +222,7 @@ export class BackupsService {
     await window.storage.remove('backupEphemeralKey');
     await window.storage.put('isRestoredFromBackup', hasBackup);
 
-    log.info(`backups.download: done, had backup=${hasBackup}`);
+    log.info(`backups.downloadAndImport: done, had backup=${hasBackup}`);
   }
 
   public retryDownload(): void {
@@ -454,7 +502,7 @@ export class BackupsService {
     return { isInBackupTier: true, cdnNumber: storedInfo.cdnNumber };
   }
 
-  private async doDownload({
+  private async doDownloadAndImport({
     downloadPath,
     ephemeralKey,
     onProgress,
@@ -509,7 +557,17 @@ export class BackupsService {
         if (controller.signal.aborted) {
           return false;
         }
-        throw error;
+
+        // No backup on the server
+        if (error instanceof HTTPError && error.code === 404) {
+          return false;
+        }
+
+        log.error(
+          'backups.doDownloadAndImport: error downloading backup file',
+          Errors.toLogFormat(error)
+        );
+        throw new BackupDownloadFailedError();
       }
 
       if (controller.signal.aborted) {
@@ -551,17 +609,15 @@ export class BackupsService {
 
         // Restore password on success
         await window.storage.put('password', password);
+      } catch (e) {
+        // Error during import; this is non-retriable
+        throw new BackupProcessingError();
       } finally {
         await unlink(downloadPath);
       }
     } catch (error) {
       // Download canceled
       if (error.name === 'AbortError') {
-        return false;
-      }
-
-      // No backup on the server
-      if (error instanceof HTTPError && error.code === 404) {
         return false;
       }
 

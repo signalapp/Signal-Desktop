@@ -116,7 +116,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
           error: installerState.error,
           onCancel: onCancelBackupImport,
           onRetry: retryBackupImport,
-
+          onRestartLink: startInstaller,
           updates,
           currentVersion: window.getVersion(),
           forceUpdate,

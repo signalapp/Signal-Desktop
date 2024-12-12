@@ -99,7 +99,15 @@ Error.args = {
   backupStep: InstallScreenBackupStep.Download,
   currentBytes: 500 * 1024,
   totalBytes: 1024 * 1024,
-  error: InstallScreenBackupError.Unknown,
+  error: InstallScreenBackupError.Retriable,
+};
+
+export const FatalError = Template.bind({});
+FatalError.args = {
+  backupStep: InstallScreenBackupStep.Process,
+  currentBytes: 500 * 1024,
+  totalBytes: 1024 * 1024,
+  error: InstallScreenBackupError.Fatal,
 };
 
 export const UnsupportedVersion = Template.bind({});
