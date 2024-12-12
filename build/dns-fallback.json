@@ -4,51 +4,51 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "13.227.74.123"
+        "address": "18.161.21.122"
       },
       {
         "family": "ipv4",
-        "address": "13.227.74.19"
+        "address": "18.161.21.4"
       },
       {
         "family": "ipv4",
-        "address": "13.227.74.59"
+        "address": "18.161.21.66"
       },
       {
         "family": "ipv4",
-        "address": "13.227.74.77"
+        "address": "18.161.21.70"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:2202:200:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:1200:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:2202:4a00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:400:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:2202:7600:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:8000:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:2202:8000:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:ae00:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:2202:b000:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:c000:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:2202:da00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:d200:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:2202:f200:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:e600:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:2202:f800:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:f200:1d:4f32:50c0:93a1"
       }
     ]
   },
@@ -133,11 +133,11 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "34.117.120.77"
+        "address": "34.102.228.46"
       },
       {
         "family": "ipv6",
-        "address": "2600:1901:0:3bd6::"
+        "address": "2600:1901:0:ff9f::"
       }
     ]
   },
@@ -146,11 +146,11 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "142.250.191.83"
+        "address": "172.217.165.147"
       },
       {
         "family": "ipv6",
-        "address": "2607:f8b0:4005:814::2013"
+        "address": "2607:f8b0:4006:808::2013"
       }
     ]
   },
