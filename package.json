@@ -38,6 +38,8 @@
     "prepare-alpha-version": "node scripts/prepare_tagged_version.js alpha",
     "prepare-axolotl-build": "node scripts/prepare_axolotl_build.js",
     "prepare-axolotl-version": "node scripts/prepare_tagged_version.js axolotl",
+    "prepare-adhoc-build": "node scripts/prepare_adhoc_build.js",
+    "prepare-adhoc-version": "node scripts/prepare_tagged_version.js adhoc",
     "prepare-staging-build": "node scripts/prepare_staging_build.js",
     "prepare-windows-cert": "node scripts/prepare_windows_cert.js",
     "test": "run-s test-node test-electron test-lint-intl test-eslint",

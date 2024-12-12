@@ -27,7 +27,13 @@ import * as Errors from '../types/errors';
 import { strictAssert } from '../util/assert';
 import { drop } from '../util/drop';
 import * as durations from '../util/durations';
-import { isAlpha, isAxolotl, isBeta, isStaging } from '../util/version';
+import {
+  isAdhoc,
+  isAlpha,
+  isAxolotl,
+  isBeta,
+  isStaging,
+} from '../util/version';
 
 import * as packageJson from '../../package.json';
 import type { SettingsChannel } from '../main/settingsChannel';
@@ -489,6 +495,13 @@ export abstract class Updater {
   private async checkForUpdates(
     checkType: CheckType
   ): Promise<UpdateInformationType | undefined> {
+    if (isAdhoc(packageJson.version)) {
+      this.logger.info(
+        'checkForUpdates: not checking for updates, this is an adhoc build'
+      );
+      return;
+    }
+
     const yaml = await getUpdateYaml();
     const parsedYaml = parseYaml(yaml);
 
@@ -905,7 +918,10 @@ export function getUpdatesFileName(): string {
 
 function getChannel(): string {
   const { version } = packageJson;
-
+  if (isAdhoc(version)) {
+    // we don't want ad hoc versions to update
+    return version;
+  }
   if (isStaging(version)) {
     return 'staging';
   }

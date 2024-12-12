@@ -7,7 +7,7 @@ const { execSync } = require('child_process');
 const _ = require('lodash');
 
 const release = process.argv[2];
-if (release !== 'alpha' && release !== 'axolotl') {
+if (release !== 'alpha' && release !== 'axolotl' && release !== 'adhoc') {
   console.error(`Invalid release line: ${release}`);
   process.exit(1);
 }

@@ -25,6 +25,9 @@ export const isAlpha = (version: string): boolean =>
 export const isAxolotl = (version: string): boolean =>
   semver.parse(version)?.prerelease[0] === 'axolotl';
 
+export const isAdhoc = (version: string): boolean =>
+  semver.parse(version)?.prerelease[0] === 'adhoc';
+
 export const isStaging = (version: string): boolean =>
   semver.parse(version)?.prerelease[0] === 'staging';
 
