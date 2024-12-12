@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "നിബന്ധനകളും സ്വകാര്യതാ നയവും"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple സിലിക്കൺ"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ഈ ചിത്രത്തിന് ഒരു അടിക്കുറിപ്പ് ഉണ്ടെന്ന് കാണിക്കുന്ന ഐക്കൺ"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Open this attachment in a larger view"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Retry"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
   },
   "icu:save": {
     "messageformat": "സംരക്ഷിക്കൂ"
@@ -2727,7 +2742,7 @@
     "messageformat": "{remaining, plural, one {{ringer} നിങ്ങളെയും {first}-നെയും {second}-നെയും മറ്റ് {remaining,number} പേരെയും വിളിക്കുന്നു} other {{ringer} നിങ്ങളെയും {first}-നെയും {second}-നെയും മറ്റ് {remaining,number} പേരെയും വിളിക്കുന്നു}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "കണക്റ്റ് ചെയ്യുന്നു..."
   },
   "icu:outgoingCallRinging": {
     "messageformat": "റിംഗ് ചെയ്യുന്നു..."
@@ -3607,6 +3622,9 @@
   },
   "icu:BackupImportScreen__error__body": {
     "messageformat": "നിങ്ങളുടെ സന്ദേശങ്ങൾ കൈമാറാൻ കഴിഞ്ഞില്ല. നിങ്ങളുടെ ഇൻ്റർനെറ്റ് കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക."
+  },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "വീണ്ടും ശ്രമിക്കുക"
@@ -5764,13 +5782,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "തിരയൽ ബോക്‌സിന് അടുത്തുള്ള പുതിയ ഫിൽട്ടർ ഐക്കൺ വായിക്കാത്ത ചാറ്റുകൾ വേഗത്തിൽ കണ്ടെത്തുന്നത് എളുപ്പമാക്കുന്നു, എന്നാൽ അവർക്ക് എന്താണ് പറയാനുള്ളത് എന്ന് കണ്ടതിന് ശേഷം അവ വായിച്ചത് എന്നതിൽ ഇടണോ വേണ്ടയോ എന്ന് തീരുമാനിക്കാൻ മടിക്കേണ്ടതില്ല."
-  },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "സ്‌ക്രീൻ പങ്കിടാനുള്ള അനുമതി മുമ്പ് നിരസിക്കപ്പെട്ടിരുന്നെങ്കിൽ സ്‌ക്രീൻ പങ്കിടൽ ശരിയായി പ്രവർത്തിക്കുന്നത് തടഞ്ഞിരുന്ന MacOS Sonoma-യിലെ ഒരു ബഗ് ഈ അപ്‌ഡേറ്റ് പരിഹരിക്കുന്നു - അതിനാൽ നിങ്ങൾക്ക് ഒരു പിശക് സന്ദേശവുമായി ഇനി സ്‌ക്രീൻ പങ്കിടേണ്ടി വരില്ല."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "വായിക്കാത്തവ പ്രകാരം ഫിൽട്ടർ ചെയ്യൽ, ഇപ്പോൾ തിരഞ്ഞെടുത്ത ചാറ്റിനെ ഹൈലൈറ്റ് ചെയ്യുന്നു, പുതിയ സന്ദേശങ്ങൾ വരുമ്പോൾ അല്ലെങ്കിൽ നിങ്ങൾ ഒരു ചാറ്റ് നോക്കിയ ശേഷം മറ്റൊന്നിൽ ക്ലിക്ക് ചെയ്യുമ്പോൾ വായിക്കാത്ത ചാറ്റുകളുടെ ലിസ്റ്റ് സ്വയമേവ അപ്‌ഡേറ്റ് ചെയ്യപ്പെടും."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
   }
 }

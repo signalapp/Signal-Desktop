@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "เงื่อนไขและนโยบายความเป็นส่วนตัว"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ไอคอนแสดงว่ารูปภาพนี้มีคำอธิบายภาพ"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Open this attachment in a larger view"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Retry"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
   },
   "icu:save": {
     "messageformat": "บันทึก"
@@ -2727,7 +2742,7 @@
     "messageformat": "{remaining, plural, other {{ringer} กำลังโทรหาคุณ {first}, {second}, และ {remaining,number} อื่นๆ}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "กำลังเชื่อมต่อ…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "กำลังเรียกสาย…"
@@ -3607,6 +3622,9 @@
   },
   "icu:BackupImportScreen__error__body": {
     "messageformat": "ไม่สามารถถ่ายโอนข้อความของคุณได้ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง"
+  },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ลองอีกครั้ง"
@@ -5764,13 +5782,13 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "เพิ่มไอคอนตัวกรองไว้ด้านข้างกล่องค้นหาเพื่อให้คุณค้นหาแชทที่ยังไม่ได้อ่านได้ง่ายและรวดเร็วขึ้น"
-  },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "การอัปเดตครั้งนี้แก้ไขบั๊กเมื่อแชร์หน้าจอบน macOS Sonoma"
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "พัฒนาฟีเจอร์กรองตามแชทที่ยังไม่ได้อ่านให้ไฮไลท์แชทที่ถูกเลือก พร้อมอัปเดตแบบเรียลไทม์เมื่อคุณได้รับและอ่านข้อความแล้ว"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
   }
 }

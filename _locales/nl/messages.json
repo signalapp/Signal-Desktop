@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Voorwaarden & privacybeleid"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1127,6 +1124,24 @@
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icoon dat laat zien dat deze afbeelding een bijschrift heeft"
   },
+  "icu:imageOpenAlt": {
+    "messageformat": "Open this attachment in a larger view"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Retry"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+  },
   "icu:save": {
     "messageformat": "Opslaan"
   },
@@ -1371,7 +1386,7 @@
     "messageformat": "{count, plural, one {+ {count,number} verzoek} other {+ {count,number} verzoeken}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} persoon is toegevoegd aan de oproep } other {{count,number} personen zijn toegevoegd aan de oproep}}"
+    "messageformat": "{count, plural, one {{count,number} persoon is toegevoegd aan de oproep} other {{count,number} personen zijn toegevoegd aan de oproep}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} opgestoken hand} other {{count,number} opgestoken handen}}"
@@ -2727,7 +2742,7 @@
     "messageformat": "{remaining, plural, one {{ringer} belt jou, {first}, {second} en {remaining,number} ander} other {{ringer} belt jou, {first}, {second} en {remaining,number} anderen}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "Aan het verbinden…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Gaat over…"
@@ -3607,6 +3622,9 @@
   },
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Je berichten konden niet worden overgezet. Controleer je internetverbinding en probeer het opnieuw."
+  },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Opnieuw proberen"
@@ -4926,7 +4944,7 @@
     "messageformat": "Je hebt deze persoon geblokkeerd"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "Je hebt de groep geblokkeerd "
+    "messageformat": "Je hebt de groep geblokkeerd"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
     "messageformat": "Je hebt deze persoon gedeblokkeerd"
@@ -5764,13 +5782,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Het nieuwe filterpictogram naast het zoekvak maakt het gemakkelijk om snel ongelezen chats te vinden. Maar neem gerust de tijd om te beslissen of je ook daadwerkelijk gaat antwoorden als je ze eenmaal hebt gelezen."
-  },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Deze update lost een bug op voor gebruikers van macOS Sonoma waarbij schermdeling niet correct werkte als de toestemming om het scherm te delen eerder was geweigerd. Nu hoef je de foutmeldingen op je scherm niet langer te delen."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Met Filteren op ongelezen wordt de geselecteerde chat nu gemarkeerd, en de lijst met ongelezen chats wordt automatisch bijgewerkt als er nieuwe berichten binnenkomen."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
   }
 }

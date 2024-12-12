@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "ਸ਼ਰਤਾਂ ਅਤੇ ਪਰਦੇਦਾਰੀ ਨੀਤੀ"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ਆਈਕਾਨ ਦਿਖਾ ਰਿਹਾ ਹੈ ਕਿ ਇਸ ਚਿੱਤਰ ਦੀ ਕੋਈ ਕੈਪਸ਼ਨ ਹੈ"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Open this attachment in a larger view"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Retry"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
   },
   "icu:save": {
     "messageformat": "ਸੰਭਾਲੋ"
@@ -2727,7 +2742,7 @@
     "messageformat": "{remaining, plural, one {{ringer}, ਤੁਹਾਨੂੰ,{first}, {second}, ਅਤੇ {remaining,number} ਹੋਰ ਵਰਤੋਂਕਾਰ ਨੂੰ ਕਾਲ ਕਰ ਰਹੇ ਹਨ} other {{ringer}, ਤੁਹਾਨੂੰ, {first}, {second}, ਅਤੇ {remaining,number} ਹੋਰ ਜਣਿਆਂ ਨੂੰ ਕਾਲ ਕਰ ਰਹੇ ਹਨ }}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Connecting..."
+    "messageformat": "ਕਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "ਘੰਟੀ ਜਾ ਰਹੀ ਹੈ…"
@@ -3607,6 +3622,9 @@
   },
   "icu:BackupImportScreen__error__body": {
     "messageformat": "ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਟ੍ਰਾਂਸਫਰ ਨਹੀਂ ਕੀਤੇ ਜਾ ਸਕੇ। ਆਪਣੇ ਇੰਟਰਨੈੱਟ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
+  },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
@@ -5764,13 +5782,13 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "ਖੋਜ ਬਾਕਸ ਦੇ ਅੱਗੇ ਮੌਜੂਦ ਨਵਾਂ ਫਿਲਟਰ ਆਈਕਨ ਤੇਜ਼ੀ ਨਾਲ ਨਹੀਂ-ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ ਨੂੰ ਲੱਭਣਾ ਆਸਾਨ ਬਣਾਉਂਦਾ ਹੈ।"
-  },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ macOS Sequoia ਵਿੱਚ ਸਕ੍ਰੀਨ ਸ਼ੇਅਰਿੰਗ ਸਬੰਧੀ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ।"
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "\"ਨਹੀਂ-ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ ਅਨੁਸਾਰ ਫਿਲਟਰ ਕਰੋ\" ਵਿਕਲਪ ਹੁਣ ਚੁਣੀਆਂ ਗਈਆਂ ਚੈਟ ਨੂੰ ਹਾਈਲਾਈਟ ਕਰਦਾ ਹੈ ਅਤੇ ਜਿਵੇਂ-ਜਿਵੇਂ ਸੁਨੇਹੇ ਪੜ੍ਹੇ ਜਾਂਦੇ ਹਨ ਅਤੇ ਪ੍ਰਾਪਤ ਹੁੰਦੇ ਹਨ ਉਹਨਾਂ ਨੂੰ ਅੱਪਡੇਟ ਕਰਦਾ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
   }
 }
