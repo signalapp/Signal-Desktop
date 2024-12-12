@@ -175,8 +175,8 @@ export type StorageAccessType = {
   subscriberCurrencyCode: string;
   donorSubscriptionManuallyCancelled: boolean;
   backupsSubscriberId: Uint8Array;
-  backupsSubscriberCurrencyCode: string;
-  backupsSubscriptionManuallyCancelled: boolean;
+  backupsSubscriberPurchaseToken: string;
+  backupsSubscriberOriginalTransactionId: string;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
   usernameLastIntegrityCheck: number;
@@ -208,6 +208,9 @@ export type StorageAccessType = {
 
   // If true Desktop message history was restored from backup
   isRestoredFromBackup: boolean;
+
+  // The `firstAppVersion` present on an BackupInfo from an imported backup.
+  restoredBackupFirstAppVersion: string;
 
   // Deprecated
   'challenge:retry-message-ids': never;

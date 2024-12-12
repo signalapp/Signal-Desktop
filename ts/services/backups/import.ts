@@ -122,6 +122,7 @@ import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 import { isNightly } from '../../util/version';
 import { ToastType } from '../../types/Toast';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
+import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData';
 
 const MAX_CONCURRENCY = 10;
 
@@ -261,6 +262,11 @@ export class BackupImportStream extends Writable {
         if (Bytes.isEmpty(info.mediaRootBackupKey)) {
           throw new Error('Missing mediaRootBackupKey');
         }
+
+        await window.storage.put(
+          'restoredBackupFirstAppVersion',
+          info.firstAppVersion
+        );
 
         const theirKey = info.mediaRootBackupKey;
         const ourKey = getBackupMediaRootKey().serialize();
@@ -658,22 +664,8 @@ export class BackupImportStream extends Writable {
         );
       }
     }
-    if (backupsSubscriberData != null) {
-      const { subscriberId, currencyCode, manuallyCancelled } =
-        backupsSubscriberData;
-      if (Bytes.isNotEmpty(subscriberId)) {
-        await storage.put('backupsSubscriberId', subscriberId);
-      }
-      if (currencyCode != null) {
-        await storage.put('backupsSubscriberCurrencyCode', currencyCode);
-      }
-      if (manuallyCancelled != null) {
-        await storage.put(
-          'backupsSubscriptionManuallyCancelled',
-          manuallyCancelled
-        );
-      }
-    }
+
+    await saveBackupsSubscriberData(backupsSubscriberData);
 
     await storage.put(
       'read-receipt-setting',
@@ -1213,6 +1205,7 @@ export class BackupImportStream extends Writable {
     if (conversation.active_at == null) {
       conversation.active_at = Math.max(chat.id.toNumber(), 1);
     }
+
     conversation.isArchived = chat.archived === true;
     conversation.isPinned = (chat.pinnedOrder || 0) !== 0;
 

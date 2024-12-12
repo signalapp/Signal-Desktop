@@ -80,6 +80,10 @@ import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks';
 import { isOlderThan } from '../util/timestamp';
 import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
+import {
+  generateBackupsSubscriberData,
+  saveBackupsSubscriberData,
+} from '../util/backupSubscriptionData';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
@@ -406,9 +410,7 @@ export function toAccountRecord(
   if (Bytes.isNotEmpty(subscriberId)) {
     accountRecord.subscriberId = subscriberId;
   }
-  const subscriberCurrencyCode = window.storage.get(
-    'backupsSubscriberCurrencyCode'
-  );
+  const subscriberCurrencyCode = window.storage.get('subscriberCurrencyCode');
   if (typeof subscriberCurrencyCode === 'string') {
     accountRecord.subscriberCurrencyCode = subscriberCurrencyCode;
   }
@@ -419,23 +421,9 @@ export function toAccountRecord(
     accountRecord.donorSubscriptionManuallyCancelled =
       donorSubscriptionManuallyCancelled;
   }
-  const backupsSubscriberId = window.storage.get('backupsSubscriberId');
-  if (Bytes.isNotEmpty(backupsSubscriberId)) {
-    accountRecord.backupsSubscriberId = backupsSubscriberId;
-  }
-  const backupsSubscriberCurrencyCode = window.storage.get(
-    'backupsSubscriberCurrencyCode'
-  );
-  if (typeof backupsSubscriberCurrencyCode === 'string') {
-    accountRecord.backupsSubscriberCurrencyCode = backupsSubscriberCurrencyCode;
-  }
-  const backupsSubscriptionManuallyCancelled = window.storage.get(
-    'backupsSubscriptionManuallyCancelled'
-  );
-  if (typeof backupsSubscriptionManuallyCancelled === 'boolean') {
-    accountRecord.backupsSubscriptionManuallyCancelled =
-      backupsSubscriptionManuallyCancelled;
-  }
+
+  accountRecord.backupSubscriberData = generateBackupsSubscriberData();
+
   const displayBadgesOnProfile = window.storage.get('displayBadgesOnProfile');
   if (displayBadgesOnProfile !== undefined) {
     accountRecord.displayBadgesOnProfile = displayBadgesOnProfile;
@@ -1327,9 +1315,7 @@ export async function mergeAccountRecord(
     subscriberId,
     subscriberCurrencyCode,
     donorSubscriptionManuallyCancelled,
-    backupsSubscriberId,
-    backupsSubscriberCurrencyCode,
-    backupsSubscriptionManuallyCancelled,
+    backupSubscriberData,
     displayBadgesOnProfile,
     keepMutedChatsArchived,
     hasCompletedUsernameOnboarding,
@@ -1548,21 +1534,9 @@ export async function mergeAccountRecord(
       donorSubscriptionManuallyCancelled
     );
   }
-  if (Bytes.isNotEmpty(backupsSubscriberId)) {
-    await window.storage.put('backupsSubscriberId', backupsSubscriberId);
-  }
-  if (typeof backupsSubscriberCurrencyCode === 'string') {
-    await window.storage.put(
-      'backupsSubscriberCurrencyCode',
-      backupsSubscriberCurrencyCode
-    );
-  }
-  if (backupsSubscriptionManuallyCancelled != null) {
-    await window.storage.put(
-      'backupsSubscriptionManuallyCancelled',
-      backupsSubscriptionManuallyCancelled
-    );
-  }
+
+  await saveBackupsSubscriberData(backupSubscriberData);
+
   await window.storage.put(
     'displayBadgesOnProfile',
     Boolean(displayBadgesOnProfile)

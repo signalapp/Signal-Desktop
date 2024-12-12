@@ -10,6 +10,8 @@ message BackupInfo {
   uint64 version = 1;
   uint64 backupTimeMs = 2;
   bytes mediaRootBackupKey = 3; // 32-byte random value generated when the backup is uploaded for the first time.
+  string currentAppVersion = 4;
+  string firstAppVersion = 5;
 }
 
 // Frames must follow in the following ordering rules:
@@ -19,9 +21,13 @@ message BackupInfo {
 //    e.g. a Recipient must come before any Chat referencing it.
 // 3. All ChatItems must appear in global Chat rendering order.
 //    (The order in which they were received by the client.)
+// 4. ChatFolders must appear in render order (e.g., left to right for 
+//    LTR locales), but can appear anywhere relative to other frames respecting
+//    rule 2 (after Recipients and Chats).
 //
-// Recipients, Chats, StickerPacks, and AdHocCalls can be in any order.
-// (But must respect rule 2.)
+// Recipients, Chats, StickerPacks, AdHocCalls, and NotificationProfiles
+// can be in any order. (But must respect rule 2.)
+//
 // For example, Chats may all be together at the beginning,
 // or may each immediately precede its first ChatItem.
 message Frame {
@@ -32,6 +38,8 @@ message Frame {
     ChatItem chatItem = 4;
     StickerPack stickerPack = 5;
     AdHocCall adHocCall = 6;
+    NotificationProfile notificationProfile = 7;
+    ChatFolder chatFolder = 8;
   }
 }
 
@@ -87,6 +95,17 @@ message AccountData {
     bool manuallyCancelled = 3;
   }
 
+  message IAPSubscriberData {
+    bytes subscriberId = 1;
+
+    oneof iapSubscriptionId {
+      // Identifies an Android Play Store IAP subscription.
+      string purchaseToken = 2;
+      // Identifies an iOS App Store IAP subscription.
+      uint64 originalTransactionId = 3;
+    }
+  }
+
   bytes profileKey = 1;
   optional string username = 2;
   UsernameLink usernameLink = 3;
@@ -94,8 +113,9 @@ message AccountData {
   string familyName = 5;
   string avatarUrlPath = 6;
   SubscriberData donationSubscriberData = 7;
-  SubscriberData backupsSubscriberData = 8;
+  reserved /*backupsSubscriberData*/ 8; // A deprecated format
   AccountSettings accountSettings = 9;
+  IAPSubscriberData backupsSubscriberData = 10;
 }
 
 message Recipient {
@@ -249,7 +269,7 @@ message Chat {
   bool archived = 3;
   optional uint32 pinnedOrder = 4; // will be displayed in ascending order
   optional uint64 expirationTimerMs = 5;
-  optional uint64 muteUntilMs = 6; // UINT64_MAX (2^63 - 1) = "always muted".
+  optional uint64 muteUntilMs = 6; // INT64_MAX (2^63 - 1) = "always muted".
   bool markedUnread = 7;
   bool dontNotifyForMentionsIfMuted = 8;
   ChatStyle style = 9;
@@ -275,7 +295,7 @@ message CallLink {
   optional bytes adminKey = 2; // Only present if the user is an admin
   string name = 3;
   Restrictions restrictions = 4;
-  optional uint64 expirationMs = 5;
+  uint64 expirationMs = 5;
 }
 
 message AdHocCall {
@@ -1171,4 +1191,49 @@ message ChatStyle {
   }
 
   bool dimWallpaperInDarkMode = 7;
+}
+
+message NotificationProfile {
+  enum DayOfWeek {
+    UNKNOWN = 0;
+    MONDAY = 1;
+    TUESDAY = 2;
+    WEDNESDAY = 3;
+    THURSDAY = 4;
+    FRIDAY = 5;
+    SATURDAY = 6;
+    SUNDAY = 7;
+  }
+
+  string name = 1;
+  optional string emoji = 2;
+  fixed32 color = 3; // 0xAARRGGBB
+  uint64 createdAtMs = 4;
+  bool allowAllCalls = 5;
+  bool allowAllMentions = 6;
+  repeated uint64 allowedMembers = 7; // generated recipient id for allowed groups and contacts
+  bool scheduleEnabled = 8;
+  uint32 scheduleStartTime = 9; // 24-hour clock int, 0000-2359 (e.g., 15, 900, 1130, 2345)
+  uint32 scheduleEndTime = 10; // 24-hour clock int, 0000-2359 (e.g., 15, 900, 1130, 2345)
+  repeated DayOfWeek scheduleDaysEnabled = 11;
+}
+
+message ChatFolder {
+  // Represents the default "All chats" folder record vs all other custom folders
+  enum FolderType {
+    UNKNOWN = 0;
+    ALL = 1;
+    CUSTOM = 2;
+  }
+
+  string name = 1;
+  bool showOnlyUnread = 2;
+  bool showMutedChats = 3;
+  // Folder includes all 1:1 chats, unless excluded
+  bool includeAllIndividualChats = 4;
+  // Folder includes all group chats, unless excluded
+  bool includeAllGroupChats = 5;
+  FolderType folderType = 6;
+  repeated uint64 includedRecipientIds = 7; // generated recipient id of groups, contacts, and/or note to self
+  repeated uint64 excludedRecipientIds = 8; // generated recipient id of groups, contacts, and/or note to self
 }
