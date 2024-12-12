@@ -1660,7 +1660,7 @@ export async function startApp(): Promise<void> {
           },
         });
 
-        log.info('afterStart: backup downloaded, resolving');
+        log.info('afterStart: backup download attempt completed, resolving');
         backupReady.resolve();
       } catch (error) {
         log.error('afterStart: backup download failed, rejecting');

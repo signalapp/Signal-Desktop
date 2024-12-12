@@ -52,6 +52,8 @@ import { BackupType } from './types';
 import {
   BackupDownloadFailedError,
   BackupProcessingError,
+  ContinueWithoutSyncingError,
+  RelinkRequestedError,
   UnsupportedBackupVersion,
 } from './errors';
 import { ToastType } from '../../types/Toast';
@@ -149,7 +151,15 @@ export class BackupsService {
         this.downloadRetryPromise = explodePromise<RetryBackupImportValue>();
 
         let installerError: InstallScreenBackupError;
-        if (error instanceof UnsupportedBackupVersion) {
+        if (error instanceof RelinkRequestedError) {
+          installerError = InstallScreenBackupError.Fatal;
+          log.error(
+            'backups.downloadAndImport: primary requested relink; unlinking & deleting data',
+            Errors.toLogFormat(error)
+          );
+          // eslint-disable-next-line no-await-in-loop
+          await this.unlinkAndDeleteAllData();
+        } else if (error instanceof UnsupportedBackupVersion) {
           installerError = InstallScreenBackupError.UnsupportedVersion;
           log.error(
             'backups.downloadAndImport: unsupported version',
@@ -167,30 +177,8 @@ export class BackupsService {
             'backups.downloadAndImport: fatal error during processing; unlinking & deleting data',
             Errors.toLogFormat(error)
           );
-
-          try {
-            // eslint-disable-next-line no-await-in-loop
-            await window.textsecure.server?.unlink();
-          } catch (e) {
-            log.warn(
-              'Error while unlinking; this may be expected for the unlink operation',
-              Errors.toLogFormat(e)
-            );
-          }
-
-          try {
-            log.info('backups.downloadAndImport: deleting all data');
-            // eslint-disable-next-line no-await-in-loop
-            await window.textsecure.storage.protocol.removeAllData();
-            log.info(
-              'backups.downloadAndImport: all data deleted successfully'
-            );
-          } catch (e) {
-            log.error(
-              'backups.downloadAndImport: unable to remove all data',
-              Errors.toLogFormat(e)
-            );
-          }
+          // eslint-disable-next-line no-await-in-loop
+          await this.unlinkAndDeleteAllData();
         } else {
           log.error(
             'backups.downloadAndImport: unknown error, prompting user to retry'
@@ -221,6 +209,10 @@ export class BackupsService {
     await window.storage.remove('backupDownloadPath');
     await window.storage.remove('backupEphemeralKey');
     await window.storage.put('isRestoredFromBackup', hasBackup);
+
+    if (!hasBackup) {
+      window.reduxActions.installer.handleMissingBackup();
+    }
 
     log.info(`backups.downloadAndImport: done, had backup=${hasBackup}`);
   }
@@ -563,6 +555,19 @@ export class BackupsService {
           return false;
         }
 
+        // Primary decided to abort syncing process; continue on with no backup
+        if (error instanceof ContinueWithoutSyncingError) {
+          log.error(
+            'backups.doDownloadAndImport: primary requested to continue without syncing'
+          );
+          return false;
+        }
+
+        // Primary wants to try link & sync again
+        if (error instanceof RelinkRequestedError) {
+          throw error;
+        }
+
         log.error(
           'backups.doDownloadAndImport: error downloading backup file',
           Errors.toLogFormat(error)
@@ -699,6 +704,28 @@ export class BackupsService {
       log.info('Backup: refreshed');
     } catch (error) {
       log.error('Backup: periodic refresh failed', Errors.toLogFormat(error));
+    }
+  }
+
+  private async unlinkAndDeleteAllData() {
+    try {
+      await window.textsecure.server?.unlink();
+    } catch (e) {
+      log.warn(
+        'Error while unlinking; this may be expected for the unlink operation',
+        Errors.toLogFormat(e)
+      );
+    }
+
+    try {
+      log.info('backups.unlinkAndDeleteAllData: deleting all data');
+      await window.textsecure.storage.protocol.removeAllData();
+      log.info('backups.unlinkAndDeleteAllData: all data deleted successfully');
+    } catch (e) {
+      log.error(
+        'backups.unlinkAndDeleteAllData: unable to remove all data',
+        Errors.toLogFormat(e)
+      );
     }
   }
 

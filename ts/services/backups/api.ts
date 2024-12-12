@@ -15,6 +15,8 @@ import type {
 import type { BackupCredentials } from './credentials';
 import { BackupCredentialType } from '../../types/backups';
 import { uploadFile } from '../../util/uploadAttachment';
+import { ContinueWithoutSyncingError, RelinkRequestedError } from './errors';
+import { missingCaseError } from '../../util/missingCaseError';
 
 export type DownloadOptionsType = Readonly<{
   downloadOffset: number;
@@ -109,9 +111,22 @@ export class BackupAPI {
     onProgress,
     abortSignal,
   }: DownloadOptionsType): Promise<Readable> {
-    const { cdn, key } = await this.server.getTransferArchive({
+    const response = await this.server.getTransferArchive({
       abortSignal,
     });
+
+    if ('error' in response) {
+      switch (response.error) {
+        case 'RELINK_REQUESTED':
+          throw new RelinkRequestedError();
+        case 'CONTINUE_WITHOUT_UPLOAD':
+          throw new ContinueWithoutSyncingError();
+        default:
+          throw missingCaseError(response.error);
+      }
+    }
+
+    const { cdn, key } = response;
 
     return this.server.getEphemeralBackupStream({
       cdn,
