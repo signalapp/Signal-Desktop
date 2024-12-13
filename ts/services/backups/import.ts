@@ -119,7 +119,7 @@ import {
 } from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
-import { isNightly } from '../../util/version';
+import { isAdhoc, isNightly } from '../../util/version';
 import { ToastType } from '../../types/Toast';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData';
@@ -382,7 +382,7 @@ export class BackupImportStream extends Writable {
         log.error(
           `${this.logId}: errored while processing ${this.frameErrorCount} frames.`
         );
-        if (isNightly(window.getVersion())) {
+        if (isNightly(window.getVersion()) || isAdhoc(window.getVersion())) {
           window.reduxActions.toast.showToast({
             toastType: ToastType.FailedToImportBackup,
           });
