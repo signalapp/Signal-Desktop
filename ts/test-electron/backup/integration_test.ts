@@ -60,12 +60,6 @@ describe('backup/integration', () => {
 
   const files = readdirSync(BACKUP_INTEGRATION_DIR)
     .filter(file => file.endsWith('.binproto'))
-    .filter(
-      file =>
-        // TODO (DESKTOP-8025)
-        !file.startsWith('chat_folder_') &&
-        !file.startsWith('notification_profile_')
-    )
     .map(file => join(BACKUP_INTEGRATION_DIR, file));
 
   if (files.length === 0) {
@@ -104,7 +98,12 @@ describe('backup/integration', () => {
       const actualString = actual.comparableString();
       const expectedString = expected.comparableString();
 
-      if (expectedString.includes('ReleaseChannelDonationRequest')) {
+      if (
+        expectedString.includes('ReleaseChannelDonationRequest') ||
+        // TODO (DESKTOP-8025) roundtrip these frames
+        fullPath.includes('chat_folder') ||
+        fullPath.includes('notification_profile')
+      ) {
         // Skip the unsupported tests
         return;
       }
