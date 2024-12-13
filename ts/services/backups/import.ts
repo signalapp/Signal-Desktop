@@ -1201,9 +1201,8 @@ export class BackupImportStream extends Writable {
 
     this.chatIdToConvo.set(chat.id.toNumber(), conversation);
 
-    // Make sure conversation appears in left pane
-    if (conversation.active_at == null) {
-      conversation.active_at = Math.max(chat.id.toNumber(), 1);
+    if (isTestEnvironment(getEnvironment())) {
+      conversation.test_chatFrameImportedFromBackup = true;
     }
 
     conversation.isArchived = chat.archived === true;
@@ -1412,14 +1411,12 @@ export class BackupImportStream extends Writable {
       ...additionalMessages.map(additional => this.saveMessage(additional)),
     ]);
 
-    // TODO (DESKTOP-6964): We'll want to increment for more types here - stickers, etc.
-    if (item.standardMessage) {
-      if (item.outgoing != null) {
-        chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
-      } else {
-        chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
-      }
+    if (item.outgoing != null) {
+      chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
+    } else if (item.incoming != null) {
+      chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
     }
+
     await this.updateConversation(chatConvo);
   }
 
@@ -1574,6 +1571,7 @@ export class BackupImportStream extends Writable {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
       },
+      newActiveAt: timestamp,
     };
   }
 

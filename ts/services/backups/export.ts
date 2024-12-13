@@ -140,6 +140,7 @@ import { SeenStatus } from '../../MessageSeenStatus';
 import { migrateAllMessages } from '../../messages/migrateMessageData';
 import { trimBody } from '../../util/longAttachment';
 import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData';
+import { getEnvironment, isTestEnvironment } from '../../environment';
 
 const MAX_CONCURRENCY = 10;
 
@@ -448,9 +449,18 @@ export class BackupExportStream extends Readable {
         pinnedOrder = Math.max(1, index + 1);
       }
 
-      // Skip conversations that have no presence in left pane (no chats)
-      if (!attributes.isPinned && !attributes.active_at) {
-        continue;
+      if (isTestEnvironment(getEnvironment())) {
+        // In backup integration tests, we may import a Contact/Group without a Chat,
+        // so we don't wan't to export the (empty) Chat to satisfy the tests.
+        if (
+          !attributes.test_chatFrameImportedFromBackup &&
+          !attributes.isPinned &&
+          !attributes.active_at &&
+          !attributes.expireTimer &&
+          !attributes.muteExpiresAt
+        ) {
+          continue;
+        }
       }
 
       this.pushFrame({

@@ -504,6 +504,13 @@ export type ConversationAttributesType = {
 
   // Legacy field, mapped to above in getConversation()
   unblurredAvatarPath?: string;
+
+  // Only used during backup integration tests. After import, our data model merges
+  // Contact and Chat frames from a backup, and we will then by default export both, even
+  // if the Chat frame was not imported. That's fine in normal usage, but breaks
+  // integration tests that aren't expecting to see a Chat frame on export that was not
+  // there on import.
+  test_chatFrameImportedFromBackup?: boolean;
 };
 
 export type ConversationRenderInfoType = Pick<
