@@ -6,6 +6,8 @@ import { execSync } from 'child_process';
 import { writeFileSync } from 'fs';
 
 import { DAY } from '../util/durations';
+import { version } from '../../package.json';
+import { isAdhoc } from '../util/version';
 
 const unixTimestamp = parseInt(
   process.env.SOURCE_DATE_EPOCH ||
@@ -20,7 +22,13 @@ const localProductionPath = join(
   __dirname,
   '../../config/local-production.json'
 );
-const localProductionConfig = { buildCreation, buildExpiration };
+
+const localProductionConfig = {
+  buildCreation,
+  buildExpiration,
+  ...(isAdhoc(version) ? { updatesEnabled: false } : {}),
+};
+
 writeFileSync(
   localProductionPath,
   `${JSON.stringify(localProductionConfig)}\n`

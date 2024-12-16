@@ -6,7 +6,7 @@ const _ = require('lodash');
 const { execSync } = require('child_process');
 
 const packageJson = require('../package.json');
-const { isAdHoc } = require('../ts/util/version');
+const { isAdhoc } = require('../ts/util/version');
 
 const { version } = packageJson;
 
@@ -16,7 +16,7 @@ const { version } = packageJson;
 //   debian package name, the install directory under /opt on linux, etc. We tried
 //   adding the ${channel} macro to these values, but Electron-Builder didn't like that.
 
-if (!isAdHoc(version)) {
+if (!isAdhoc(version)) {
   console.error(`Version '${version}' is not an adhoc version!`);
   process.exit(1);
 }
@@ -53,7 +53,7 @@ const ADHOC_NAME = `signal-desktop-adhoc-${formattedDate}-${shortSha}`;
 
 const PRODUCT_NAME_PATH = 'productName';
 const PRODUCTION_PRODUCT_NAME = 'Signal';
-const ADHOC_PRODUCT_NAME = `Signal AdHoc ${formattedDate} ${shortSha}`;
+const ADHOC_PRODUCT_NAME = `Signal Adhoc ${formattedDate}.${shortSha}`;
 
 const APP_ID_PATH = 'build.appId';
 const PRODUCTION_APP_ID = 'org.whispersystems.signal-desktop';
@@ -61,7 +61,7 @@ const ADHOC_APP_ID = `org.whispersystems.signal-desktop-adhoc-${formattedDate}-$
 
 const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.StartupWMClass';
 const PRODUCTION_STARTUP_WM_CLASS = 'Signal';
-const ADHOC_STARTUP_WM_CLASS = `Signal AdHoc ${formattedDate} ${shortSha}`;
+const ADHOC_STARTUP_WM_CLASS = `Signal Adhoc ${formattedDate}.${shortSha}`;
 
 const DESKTOP_NAME_PATH = 'desktopName';
 
