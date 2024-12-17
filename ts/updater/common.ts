@@ -111,6 +111,10 @@ enum CheckType {
   ForceDownload = 'ForceDownload',
 }
 
+const MAX_AUTO_RETRY_ATTEMPTS = 1;
+
+const AUTO_RETRY_DELAY = durations.DAY;
+
 export abstract class Updater {
   protected fileName: string | undefined;
 
@@ -138,6 +142,10 @@ export abstract class Updater {
   private restarting = false;
 
   private readonly canRunSilently: () => boolean;
+
+  private autoRetryAttempts = 0;
+
+  private autoRetryAfter: number | undefined;
 
   constructor({
     settingsChannel,
@@ -268,7 +276,7 @@ export abstract class Updater {
     );
     const timeoutMs = selectedPollTime - now;
 
-    this.logger.info(`updater/start: polling in ${timeoutMs}ms`);
+    this.logger.info(`updater/schedulePoll: polling in ${timeoutMs}ms`);
 
     setTimeout(() => {
       drop(this.safePoll());
@@ -277,10 +285,17 @@ export abstract class Updater {
 
   private async safePoll(): Promise<void> {
     try {
-      this.logger.info('updater/start: polling now');
+      if (this.autoRetryAfter != null && Date.now() < this.autoRetryAfter) {
+        this.logger.info(
+          `updater/safePoll: not polling until ${this.autoRetryAfter}`
+        );
+        return;
+      }
+
+      this.logger.info('updater/safePoll: polling now');
       await this.checkForUpdatesMaybeInstall(CheckType.Normal);
     } catch (error) {
-      this.logger.error(`updater/start: ${Errors.toLogFormat(error)}`);
+      this.logger.error(`updater/safePoll: ${Errors.toLogFormat(error)}`);
     } finally {
       this.schedulePoll();
     }
@@ -323,8 +338,26 @@ export abstract class Updater {
         // Restore state in case of download error
         this.version = oldVersion;
 
+        if (
+          mode === DownloadMode.Automatic &&
+          this.autoRetryAttempts < MAX_AUTO_RETRY_ATTEMPTS
+        ) {
+          this.autoRetryAttempts += 1;
+          this.autoRetryAfter = Date.now() + AUTO_RETRY_DELAY;
+          logger.warn(
+            'downloadAndInstall: transient error ' +
+              `${Errors.toLogFormat(error)}, ` +
+              `attempts=${this.autoRetryAttempts}, ` +
+              `retryAfter=${this.autoRetryAfter}`
+          );
+          return false;
+        }
+
         throw error;
       }
+
+      this.autoRetryAttempts = 0;
+      this.autoRetryAfter = undefined;
 
       if (!downloadResult) {
         logger.warn('downloadAndInstall: no update was downloaded');
@@ -389,7 +422,9 @@ export abstract class Updater {
 
       return true;
     } catch (error) {
-      logger.error(`downloadAndInstall: ${Errors.toLogFormat(error)}`);
+      logger.error(
+        `downloadAndInstall: fatal error ${Errors.toLogFormat(error)}`
+      );
       this.markCannotUpdate(error);
       throw error;
     }
