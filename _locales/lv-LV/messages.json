@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Noteikumi un privātuma politika"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona, kas parāda, ka šim attēlam ir paraksts"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Atvērt šo pielikumu lielākā skatā"
+  },
+  "icu:startDownload": {
+    "messageformat": "Sākt lejupielādi"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Atcelt lejupielādi"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Mēģināt lejupielādēt vēlreiz"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Mēģināt vēlreiz"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, zero {{count,number} priekšmeti} one {{count,number} priekšmets} other {{count,number} vienumi}}"
   },
   "icu:save": {
     "messageformat": "Saglabāt"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Ziņas neizdevās pārsūtīt. Pārbaudiet interneta savienojumu un mēģiniet vēlreiz."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Ziņas neizdevās pārsūtīt kļūdas dēļ. Mēģiniet atkārtot, vēlreiz saistot šo datoru."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Mēģināt vēlreiz"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Jaunā filtru ikona blakus meklēšanas lodziņam ļauj ātri un ērti atrast nelasītās sarunas. Kad atbildēt uz šīm ziņām, vēl aizvien paliek jūsu ziņā."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Šajā atjauninājumā ir novērsta kļūda, kas traucēja kopīgot ekrānu macOS Sonoma operētājsistēmas ierīcēs, ja atļauja kopīgot ekrānu iepriekš tika noraidīta."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtrējot nelasītās ziņas, tagad tiks izcelta atlasītā saruna, un saraksts ar nelasītajām sarunām automātiski atjaunināsies, kolīdz parādīsies jaunas ziņas vai kad pārslēgsieties no vienas sarunas uz citu."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Tagad varat ērti apskatīt pielikumu lejupielādēs progresu, kā arī apturēt lejupielādes un tās atsākt. Ja failu pārsūtīšanas ātrums samazinās, jo atrodaties ceļā (piemēram, lidmašīnā) vai jums hotelī pieejams tikai lēns Wi-Fi tīkls, tagad varat atsākt failu lejupielādi, kolīdz tiekat pie ātrāka interneta savienojuma."
   }
 }

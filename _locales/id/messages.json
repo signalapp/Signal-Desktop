@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Syarat & Kebijakan Privasi"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon menunjukkan bahwa gambar ini memiliki keterangan"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Buka lampiran ini dalam tampilan yang lebih besar"
+  },
+  "icu:startDownload": {
+    "messageformat": "Unduh"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Batalkan unduhan"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Coba lagi"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Coba lagi"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number} item}}"
   },
   "icu:save": {
     "messageformat": "Simpan"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Pesan Anda tidak dapat ditransfer. Periksa koneksi internet Anda dan coba lagi."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Pesan Anda tidak dapat ditransfer karena terjadi kesalahan. Coba lagi dengan menghubungkan ulang desktop ini."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Coba lagi"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Ikon filter baru di samping kotak pencarian membantu agar Anda bisa dengan cepat menemukan obrolan yang belum dibaca."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Pembaruan ini memperbaiki bug berbagi layar di macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filter berdasarkan Belum Dibaca kini menyoroti obrolan yang dipilih serta memberikan pembaruan saat pesan dibaca dan diterima."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Kini Anda dapat dengan mudah melihat progres pengunduhan lampiran. Anda juga bisa menghentikan dan memulai ulang pengunduhan yang sedang berlangsung."
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "條款同私隱政策"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "用嚟表示呢張圖片有描述嘅圖示"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "放大啲嚟打開呢個附件"
+  },
+  "icu:startDownload": {
+    "messageformat": "開始下載"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "取消下載"
+  },
+  "icu:retryDownload": {
+    "messageformat": "再試多次下載"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "再試多次"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number} 個項目}}"
   },
   "icu:save": {
     "messageformat": "儲存"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "轉移唔到你嘅訊息。請檢查你嘅互聯網連線，然後再試多次。"
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "發生錯誤，所以轉移唔到你嘅訊息。連結多次呢部桌面電腦再試過啦。"
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "再試多次"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "搜尋方格隔離嘅新篩選圖示可以幫你極速搵到未讀嘅聊天。"
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "呢次更新修正咗一個 macOS Sonoma 嘅畫面分享錯誤，以後就算你曾經被拒絕過分享畫面，分享畫面功能都可以正常運作喇。"
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "「用未讀訊息篩選」而家會重點顯示揀咗嘅聊天，而喺收到新訊息或者睇咗某個聊天訊息之後，未讀聊天清單將會自動更新。"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "你而家可以好方便咁睇到附件嘅下載進度，仲可以㩒停進行緊嘅下載，或者重新開始。所以，就算你坐緊車 (或者開咗飛行模式)，又或者酒店 WiFi 唔係好掂，都可以等一等，等到網路順暢時先至重新載入。"
   }
 }

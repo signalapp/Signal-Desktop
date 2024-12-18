@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Termini di servizio e politica sulla privacy"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icona che mostra che questa immagine ha una didascalia"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Apri questo allegato a schermo intero"
+  },
+  "icu:startDownload": {
+    "messageformat": "Avvia download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Annulla download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Riprova download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Riprova"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementi}}"
   },
   "icu:save": {
     "messageformat": "Salva"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Non è stato possibile trasferire i tuoi messaggi. Controlla la tua connessione Internet e riprova."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Non è stato possibile trasferire i tuoi messaggi per via di un errore. Riprova dopo aver ricollegato questo computer."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Riprova"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Il nuovo filtro accanto alla barra di ricerca aiuta a cercare più rapidamente le chat non lette… se poi proprio non vuoi leggerle, questo è un altro discorso!"
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Questo aggiornamento risolve un bug su macOS Sonoma che impediva il funzionamento della condivisione dello schermo se l'autorizzazione alla condivisione era stata negata in una richiesta precedente. Così da ora puoi condividere il tuo schermo senza mostrare un messaggio di errore."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "La funzione per filtrare i messaggi non letti ora mette in evidenza la chat selezionata e l'elenco delle chat non lette si aggiorna in automatico man mano che ti arrivano messaggi nuovi da leggere o mentre controlli i messaggi arretrati da leggere."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Da ora puoi vedere facilmente il progresso dei download degli allegati. Puoi anche bloccare e riavviare i download in corso. Così se stai per salire su un aereo o se la connessione del tuo hotel è lenta puoi sempre riprovare in un secondo momento."
   }
 }

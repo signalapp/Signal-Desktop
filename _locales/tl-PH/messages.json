@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Mga Tutunin at Patakaran sa Privacy"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icon showing na may caption ang image na ito"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Buksan ang attachment na ito sa mas malaking view"
+  },
+  "icu:startDownload": {
+    "messageformat": "Simulan ang pag-download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Kanselahin ang pag-download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Subukan ulit ang pag-download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Subukang muli"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} na item} other {{count,number} Item}}"
   },
   "icu:save": {
     "messageformat": "I-save"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Hindi ma-transfer ang messages mo. I-check ang iyong connection at subukan ulit."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Hindi mailipat ang messages mo dahil sa error. Subukan ulit sa pamamagitan ng pag-link ulit sa desktop na ito."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Subukang muli"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Pinapadali ng bagong filter icon sa tabi ng search box ang paghahanap ng unread chats."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Inaayos ng update na ito ang isang screen sharing bug sa macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Hina-highlight na ng Filter by Unread ang piniling chat at nag-u-update habang nagbabasa at tumatanggap ng messages."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Madali mo nang makikita ang progress ng attachment downloads. Pwede mo na ring ihinto at simulan ulit ang in-progress download."
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Termeni și politică de confidențialitate"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Pictogramă ce arată că această imagine are titlu"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Deschide acest atașament într-o vizualizare mai mare"
+  },
+  "icu:startDownload": {
+    "messageformat": "Începe descărcarea"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Anulează descărcarea"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Reîncearcă descărcarea"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Încearcă din nou"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} articol} few {{count,number} itemi} other {{count,number} de itemi}}"
   },
   "icu:save": {
     "messageformat": "Salvează"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Mesajele tale nu au putut fi transferate. Verifică conexiunea la internet a telefonului și încearcă din nou."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Mesajele tale nu au putut fi transferate din cauza unei erori. Încearcă din nou reconectând acest desktop."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Încearcă din nou"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Noua pictogramă de filtru de lângă caseta de căutare facilitează găsirea rapidă a conversațiilor necitite, dar nu ezita să-ți acorzi timp pentru a decide dacă le lași citite sau nu după ce ai văzut ce au de spus."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Această actualizare remediază o eroare pe macOS Sonoma care împiedica partajarea ecranului să funcționeze corect dacă permisiunea de a partaja ecranul a fost refuzată anterior — astfel încât nu mai trebuie să partajezi ecranul cu un mesaj de eroare."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtrarea după mesaje necitite evidențiază acum conversația selectată, iar lista de conversații necitite se va actualiza automat pe măsură ce sosesc mesaje noi sau când ai parcurs mesajele dintr-un chat și dai clic pe altul."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Acum poți vedea cu ușurință progresul descărcărilor de atașamente. De asemenea, poți opri și reporni și descărcările în curs. Așadar, dacă un transfer e lent pentru că ești pe drum sau WiFi-ul este slab, poți aștepta să reîncarci când există mai multă lățime de bandă."
   }
 }

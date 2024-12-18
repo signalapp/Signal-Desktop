@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "使用条件とプライバシーポリシー"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Appleシリコン"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "この画像にキャプションがついていることを示すアイコン"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "この添付ファイルを拡大表示で開く"
+  },
+  "icu:startDownload": {
+    "messageformat": "ダウンロードを開始する"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "ダウンロードをキャンセルする"
+  },
+  "icu:retryDownload": {
+    "messageformat": "もう一度ダウンロードする"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "再試行"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number}個}}"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "メッセージを移行できませんでした。インターネット接続を確認して再度試してください。"
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "エラーが発生したため、メッセージを移行できませんでした。このDesktopを再リンクして、もう一度お試しください。"
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "再試行"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "検索ボックスの横にある新しい検索アイコンで、未読のチャットをすぐに見つけることができます。"
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "今回のアップデートで、macOS Sonomaで画面共有する際のバグを修正しています。"
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "「未読でフィルタリング」内で、選択されたチャットをハイライトしたり、メッセージを読んだときまたは受信したりときには未読チャットが更新されるようになりました。"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "添付ファイルのダウンロードの進捗状況を簡単に確認できるようになりました。また、進行中のダウンロードを停止したり再開したりすることもできます。"
   }
 }

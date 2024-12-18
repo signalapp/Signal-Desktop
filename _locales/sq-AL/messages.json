@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Kushte & Rregulla Privatësie"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikonë që tregon  se për këtë figurë ka një titull"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Hap bashkëngjitjen në një pamje më të madhe"
+  },
+  "icu:startDownload": {
+    "messageformat": "Fillo shkarkimin"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Anulo shkarkimin"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Riprovo shkarkimin"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Riprovo"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} Objekt} other {{count,number} Objekte}}"
   },
   "icu:save": {
     "messageformat": "Ruaje"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Mesazhet nuk mund të transferoheshin. Kontrollo lidhjen e internetit dhe riprovo."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Mesazhet nuk mund të transferoheshin për shkak të një gabimi. Provo sërish duke rilidhur desktopin."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Riprovo"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Ikona e re e filtrit pranë kutisë së kërkimit e bën të lehtë gjetjen e shpejtë të bisedave të palexuara, por mos ngurro të marrësh kohën tënde për të vendosur nëse do t'i lësh ose jo të lexuara pasi të shohëh se çfarë kishin për të thënë."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Përditësimi ka rregulluar defektin në macOS Sonoma që pengonte funksionimin e duhur të ndarjes së ekranit nëse leja për të ndarë ekranin ishte refuzuar më parë — ndaj nuk ke më nevojë ta ndash ekranin me një mesazh gabimi."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtrimi sipas opsionit \"Të palexuar\" thekson bisedën e zgjedhur dhe lista e bisedave të palexuara do të përditësohet automatikisht teska të vijnë mesazhe të reja ose kur rikthehesh në një bisedë dhe klikon në një tjetër."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Tani mund ta shohësh lehtësisht ecurinë e shkarkimeve të bashkëngjitjeve. Po ashtu, mund t'i ndalosh dhe t'i rinisësh shkarkimet që janë në proces e sipër. Pra, nëse një transferim ngadalësohet pasi je në rrugë (ose në modalitet avioni?) ose sepse WiFi-ja e hotelit është gati të japë shpirt, mund të presësh ta rifillosh ngarkimin kur të kesh më shumë gjerësi bande në dispozicion."
   }
 }

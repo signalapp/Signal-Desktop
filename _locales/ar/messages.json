@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "الشروط وسياسة الخصوصية"
   },
-  "icu:appleSilicon": {
-    "messageformat": "شريحة Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "أيقونة تظهر أنّ هذه الصورة تحوي تسمية توضيحية"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "افتح هذا الملف المُرفَق في نافذة أكبر."
+  },
+  "icu:startDownload": {
+    "messageformat": "بدء التنزيل"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "إلغاء التنزيل"
+  },
+  "icu:retryDownload": {
+    "messageformat": "محاولة التنزيل مُجدَّدًا"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "إعادة المُحاولة"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, zero {{count,number} عناصر} one {{count,number} عنصر} two {{count,number} عنصرين} few {{count,number} عناصر} many {{count,number} عناصر} other {{count,number} عناصر}}"
   },
   "icu:save": {
     "messageformat": "حفظ"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "تعذَّر نقل رسائلك. تحقَّق من اتصالك بالإنترنت وحاول مُجدَّدًا."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "تعذَّر نقل رسائلك بسبب حدوث خطأ. حاوِل من جديد من خلال إعادة ربط هذا الحاسوب."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "إعادة المُحاولة"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "تُسهّل أيقونة الفلتر الجديدة الموجودة قرب مربع البحث العثور بسرعة على الدردشات غير المقروءة."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "يُصلِح هذا التحديث خطأ متعلقًا بمشاركة الشاشة على نظام macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "تُبرِز الآن خاصية \"الفلترة بحسب الدردشات غير المقروءة\" المحادثة المُختارة ويتمُّ تحديثها بالموازاة مع قراءة الرسائل والتوصل بها."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "يُمكنك الآن رؤية تقدّم تنزيل الملفات المُرفَقة بسهولة. يُمكنك أيضًا توقيف التنزيلات الجارية وإعادة بدئها من جديد."
   }
 }

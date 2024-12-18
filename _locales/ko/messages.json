@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "이용약관 및 개인정보 처리방침"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple 실리콘"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "이 이미지가 자막이 있다는 아이콘"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "이 첨부 파일 더 크게 보기"
+  },
+  "icu:startDownload": {
+    "messageformat": "다운로드 시작"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "다운로드 취소"
+  },
+  "icu:retryDownload": {
+    "messageformat": "다운로드 재시도"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "재시도"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {항목 {count,number}개}}"
   },
   "icu:save": {
     "messageformat": "저장"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "메시지를 전송하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "오류로 인해 메시지를 전송할 수 없습니다. 이 데스크톱을 다시 연결하여 재시도하세요."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "재시도"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "검색창 옆의 새 필터 아이콘을 사용하면 쉽고 빠르게 읽지 않은 대화를 확인할 수 있습니다."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "본 업데이트는 macOS Sonoma의 화면 공유 버그를 수정합니다."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "이제 읽지 않은 메시지로 필터링하면 선택한 대화가 강조 표시되며, 메시지를 읽고 새 메시지를 받을 때 대화가 업데이트됩니다."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "이제 첨부 파일 다운로드 진행 상황을 쉽게 확인할 수 있습니다. 진행 중인 다운로드를 중지했다가 다시 시작할 수도 있습니다."
   }
 }

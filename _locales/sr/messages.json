@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Услови коришћења и Правила за заштиту приватности"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Икона на којој је приказано да ова слика има натпис"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Отвори овај прилог у већем приказу"
+  },
+  "icu:startDownload": {
+    "messageformat": "Започни преузимање"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Откажи преузимање"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Поново пробај преузимање"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Пробај поново"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {Ставки: {count,number}} other {Ставки: {count,number}}}"
   },
   "icu:save": {
     "messageformat": "Сачувај"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Поруке нису пренете. Проверите да ли сте повезани на интернет и покушајте поново."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Ваше поруке нису пренете због грешке која се догодила. Пробајте да поново повежете овај рачунар."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Пробај поново"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Нова икона филтера поред поља за претрагу олакшава брзо проналажење непрочитаних ћаскања."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "У овом ажурирању је исправљена грешка у вези са дељењем екрана на оперативном систему macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Филтрирањем по непрочитаним ћаскањима сада се означава изабрано ћаскање и оно се мења како како стижу нове поруке и како их прочитате."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Сада можете лако видети напредак преузимања прилога. Такође можете зауставити и поново покренути преузимања која су у току."
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "תנאים ומדיניות פרטיות"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ראות איקון שיש לתמונה זו כיתוב"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "פתיחת הקובץ המצורף הזה בתצוגה גדולה יותר"
+  },
+  "icu:startDownload": {
+    "messageformat": "התחלת הורדה"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "ביטול הורדה"
+  },
+  "icu:retryDownload": {
+    "messageformat": "ניסיון הורדה חוזר"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "נסה שוב"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {פריט {count,number}} two {{count,number} פריטים} many {{count,number} פריטים} other {{count,number} פריטים}}"
   },
   "icu:save": {
     "messageformat": "שמור"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "לא היה ניתן להעביר את ההודעות שלך. יש לבדוק את חיבור האינטרנט שלך ולנסות שוב."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "לא ניתן היה להעביר את ההודעות שלך עקב שגיאה. יש לנסות שוב באמצעות קישור מחדש של שולחן העבודה הזה."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "נסה שוב"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "סמל הסינון החדש ליד תיבת החיפוש מקל ומזרז איתור צ׳אטים שלא נקראו."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "העדכון הזה מתקן באג שיתוף מסך ב–macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "סינון לפי ׳לא נקרא׳ מדגיש כעת את הצ׳אט הנבחר ומתעדכן כשהודעות נקראות ומתקבלות."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "עכשיו אפשר לראות בקלות את התקדמות ההורדה של קבצים מצורפים. אפשר גם לעצור ולהתחיל מחדש הורדות שכבר החלו את התהליך."
   }
 }

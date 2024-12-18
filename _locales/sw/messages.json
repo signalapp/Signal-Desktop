@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Sera ya Masharti na Usiri"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikoni inaonyesha kuwa taswira hii ina maelezo mafupi"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Fungua kiambatisho hiki katika mwonekano mkubwa zaidi"
+  },
+  "icu:startDownload": {
+    "messageformat": "Anza kupakua"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Ghairi upakuaji"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Jaribu kupakua tena"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Jaribu Upya"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {Kitu {count,number}} other {Vitu {count,number}}}"
   },
   "icu:save": {
     "messageformat": "Hifadhi"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Jumbe zako zimeshindwa kuhama. Angalia muunganisho wako wa mtandao kisha ujaribu tena."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Jumbe zako hazikuweza kuhamishwa kwa sababu ya hitilafu. Jaribu tena kwa kuunganisha tena eneo-kazi hili."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Jaribu Upya"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Aikoni mpya ya chujio karibu na kisanduku cha kutafutia hurahisisha kupata gumzo ambazo hazijasomwa kwa haraka, lakini jisikie huru kuchukua muda wako kuamua kuziacha zikisomwa au kutoziacha baada ya kuona walichosema."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Sasisho hili hurekebisha hitilafu kwenye macOS Sonoma ambayo ilizuia kushiriki skrini kufanya kazi ipasavyo ikiwa ruhusa ya kushiriki skrini ilikuwa imekataliwa hapo awali — kwa hivyo huhitaji tena kushiriki skrini yako na ujumbe wa hitilafu."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Chuja kwa Haijasomwa sasa huangazia gumzo iliyochaguliwa na orodha ya gumzo ambazo hazijasomwa zitasasishwa kiotomatiki ujumbe mpya unapofika au unapoingia kwenye gumzo moja na kubofya gumzo jingine."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Sasa unaweza kuona kwa urahisi maendeleo ya upakuaji wa viambatisho. Unaweza pia kusimamisha na kuanzisha upya vipakuliwa vinavyoendelea. Endapo uhamishaji upo taratibu kwa sababu upo barabarani (au kwenye airplane mode?) au WiFi ya hoteli inakaribia kuzima, unaweza kusubiri ili upakie tena pale nguvu ya mtandao inapokuwa vizuri."
   }
 }

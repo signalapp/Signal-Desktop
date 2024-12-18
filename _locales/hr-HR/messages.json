@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Uvjeti i pravila o privatnosti"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona koja pokazuje da ova slika ima natpis"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Otvori ovaj privitak u proširenom prikazu"
+  },
+  "icu:startDownload": {
+    "messageformat": "Započni preuzimanje"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Otkaži preuzimanje"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Ponovno pokreni preuzimanje"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Pokušajte ponovno"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {1 stavka} few {{count,number} stavke} many {{count,number} stavki} other {{count,number} stavki}}"
   },
   "icu:save": {
     "messageformat": "Spremi"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Prijenos vaših poruka nije uspio. Provjerite internetsku vezu i pokušajte ponovno."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Prijenos vaših poruka nije uspio jer je došlo do pogreške. Pokušajte ponovno povezati računalo."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Pokušajte ponovno"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Brzo pronađite nepročitane razgovore pomoću nove ikone za filtriranje pored okvira za pretraživanje."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Ovo ažuriranje ispravlja programsku pogrešku u sustavu macOS Sonoma koja je sprječavala ispravno funkcioniranje dijeljenja zaslona."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtriranje nepročitanih poruka sada ističe odabrani razgovor i ažurira ga svaki put kad stigne nova poruka ili kada pročitate postojeće."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Sada možete pratiti napredak preuzimanja privitaka te otkazati i ponovno pokrenuti preuzimanja dok su još u tijeku."
   }
 }

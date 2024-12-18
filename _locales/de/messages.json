@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Bedingungen & Datenschutzerklärung"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Symbol, das auf eine Beschriftung des Bildes hinweist"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Öffne diesen Anhang in einer größeren Ansicht"
+  },
+  "icu:startDownload": {
+    "messageformat": "Download starten"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Download abbrechen"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Download wiederholen"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Erneut versuchen"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} Element} other {{count,number} Elemente}}"
   },
   "icu:save": {
     "messageformat": "Speichern"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Deine Nachrichten konnten nicht übertragen werden. Überprüfe deine Internetverbindung und versuche es erneut."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Deine Nachrichten konnten aufgrund eines Fehlers nicht übertragen werden. Versuche es noch einmal, indem du diesen Computer erneut koppelst."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Erneut versuchen"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Mit dem neuen Filtersymbol neben dem Suchfeld kannst du ungelesene Chats jetzt viel schneller finden. Aber lass dir ruhig Zeit bei der Entscheidung, ob du etwas Ungelesen lassen möchtest oder nicht."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Dieses Update behebt einen Fehler unter macOS Sonoma, der dafür verantwortlich war, dass die Bildschirmfreigabe nicht richtig funktionierte, wenn die Berechtigung zuvor verweigert wurde. Jetzt kannst du deinen Bildschirm ohne Fehlermeldung freigeben."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Der Ungelesen-Filter hebt jetzt den ausgewählten Chat hervor – außerdem wird die Liste der ungelesenen Chats automatisch aktualisiert, wenn neue Nachrichten eingehen oder wenn du in einem Chat plauderst und auf einen anderen klickst."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Jetzt kannst du den Fortschritt des Herunterladens von Anhängen ganz einfach verfolgen. Du kannst auch laufende Downloads stoppen und neu starten. Wenn eine Übertragung verlangsamt wird, weil du unterwegs (im Flugmodus?) bist oder das mittelmäßige WLAN im Hotel kurz vor dem Zusammenbruch steht, kannst du mit dem Neuladen warten, bis du mehr Bandbreite hast."
   }
 }

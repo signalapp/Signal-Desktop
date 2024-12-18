@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Téarmaí Úsáide ⁊ Polasaí Príobháideachais"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Íocón a léiríonn go bhfuil fotheideal leis an íomhá seo"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Oscail an ceangaltán seo in amharc níos mó"
+  },
+  "icu:startDownload": {
+    "messageformat": "Tosaigh an íoslódáil"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cuir íoslódáil ar ceal"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Atriail an íoslódáil"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Bain triail eile as"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {1 cheann} two {{count,number} cheann} few {{count,number} cinn} many {{count,number} gcinn} other {{count,number} ceann}}"
   },
   "icu:save": {
     "messageformat": "Cuir i dtaisce é"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Níorbh fhéidir do theachtaireachtaí a aistriú. Seiceáil do nasc Idirlín agus triail arís é."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Níorbh fhéidir do theachtaireachtaí a aistriú de dheasca earráide. Triail arís tríd an deasc seo a athnascadh."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Bain triail eile as"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Is éasca é comhráite neamhléite a fháil go tapa a bhuí leis an deilbhín scagaire nua atá in aice leis an mbosca cuardaigh."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Réitíonn an nuashonrú seo fabht le comhroinnt scáileáin ar macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Déanann Scag de réir Neamhléite an comhrá roghnaithe a aibhsiú agus nuashonraíonn mar a léitear agus a fhaightear teachtaireachtaí."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Anois is féidir leat dul chun cinn íoslódáil na gceangaltán a fheiceáil go héasca. Is féidir leat íoslódálacha atá ar siúl a stopadh agus a atosú freisin."
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Smluvní podmínky a zásady ochrany osobních údajů"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona znázorňující, že tento obrázek má popisek"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Otevřít tuto přílohu ve větším zobrazení"
+  },
+  "icu:startDownload": {
+    "messageformat": "Spustit stahování"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Zrušit stahování"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Znovu spustit stahování"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Spustit znovu"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} položka} few {{count,number} položky} many {{count,number} položek} other {{count,number} položek}}"
   },
   "icu:save": {
     "messageformat": "Uložit"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Vaše zprávy se nepodařilo přenést. Zkontrolujte připojení k internetu a zkuste to znovu."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Vaše zprávy se kvůli chybě nepodařilo přenést. Zkuste to znovu po opětovném připojení této plochy."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Zkusit znovu"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Nová ikona filtru vedle vyhledávacího pole usnadňuje rychlé vyhledání nepřečtených chatů."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Tato aktualizace opravuje chybu sdílení obrazovky v systému macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtrování podle Nepřečtených nyní zvýrazňuje vybraný chat a aktualizuje se podle toho, jak jsou zprávy čteny a přijímány."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Nyní můžete snadno sledovat průběh stahování příloh. Probíhající stahování můžete také zastavit a znovu spustit."
   }
 }

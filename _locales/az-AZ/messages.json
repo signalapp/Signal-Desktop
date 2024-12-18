@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Şərtlər və Gizlilik Siyasəti"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Nişan, bu təsvirin başlığının olduğunu göstərir"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Bu qoşmanı geniş görünüşdə açın"
+  },
+  "icu:startDownload": {
+    "messageformat": "Endirməyə başla"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Endirməni ləğv et"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Yenidən endirməyə cəhd et"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Yenidən sına"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} Bənd} other {{count,number} element}}"
   },
   "icu:save": {
     "messageformat": "Saxla"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Mesajlarınızı köçürmək mümkün olmadı. İnternet bağlantınızı yoxlayıb yenidən cəhd edin."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Bir xəta səbəbilə mesajlarınızı köçürmək mümkün olmadı. Bu masaüstünü təkrar qoşub yenidən cəhd edin."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Yenidən sına"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Axtarış qutusunun yanındakı yeni filtr piktoqramı oxunmamış çatların vaxt itirmədən tapılmasını asanlaşdırır, lakin onların dediklərini gördükdən sonra onları oxuyub-oxumamaq barədə qərar verməkdən çəkinməyin."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "macOS Sonoma-da ekranı paylaşma icazəsi əvvəl rədd edilibsə, bu yeniləmə həmin nasazlığı aradan qaldırır — bununla da ekranı xəta mesajı ilə paylaşmırsınız."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Artıq \"Oxunmamışlara görə filtrlə\" seçimini etmək seçilmiş çatı vurğulayır, yeni mesajlar gəldikdən, oxunduqdan və qəbul edildikdən sonra isə siyahı yenilənir."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Artıq endirilən qoşmanın gedişatını asanlıqla görə bilərsiniz. Siz həm də davam edən endirimləri dayandıra və təkrar başlada bilərsiniz. Yolda olduğunuz üçün (təyyarə rejimində?) köçürmə ləngiyirsə və ya adi bir otel WiFi-ı yükləməyə tab gətirmirsə, daha müvafiq bir internetiniz olanadək gözləyin."
   }
 }

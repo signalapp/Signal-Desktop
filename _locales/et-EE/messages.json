@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Tingimused ja privaatsuspoliitika"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikoon näitamaks, et sellel pildil on seletus."
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Ava see manus suuremas vaates"
+  },
+  "icu:startDownload": {
+    "messageformat": "Alusta allalaadimist"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Tühista allalaadimine"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Proovi uuesti alla laadida"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Proovi uuesti"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} üksus} other {{count,number} üksust}}"
   },
   "icu:save": {
     "messageformat": "Salvesta"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Sinu sõnumeid ei saanud edastada. Kontrolli oma võrguühendust ja proovi uuesti."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Sinu sõnumeid ei saanud edastada vea tõttu. Seo see arvuti uuesti ning proovi uuesti."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Proovi uuesti"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Otsingukasti kõrval olev uus filtri ikoon muudab lugemata vestluste leidmise kiireks ja lihtsaks."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Selle uuendusega parandatakse macOS Sonoma viga, mis takistas ekraani jagamise korrektset toimimist, kui ekraani jagamise luba oli varem keelatud – enam ei pea sa oma ekraani tõrketeatega jagama."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtreerimine lugemata oleku alusel tõstab nüüd valitud vestluse esile ning uuendab automaatselt uute sõnumite saabumisel või kui lülitud ühelt vestluselt teisele."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Nüüd on lihtne näha manuste allalaadimise edenemist. Samuti saad pooleliolevaid allalaadimisi peatada ja uuesti alustada. Nüüd on lihtne näha manuste allalaadimise edenemist. Samuti saad pooleliolevaid allalaadimisi peatada ja uuesti alustada."
   }
 }

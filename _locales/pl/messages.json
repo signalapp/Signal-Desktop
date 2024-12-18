@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Regulamin i Polityka prywatności"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Sillicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona informująca, że to zdjęcie ma podpis"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Otwórz ten załącznik w większym formacie"
+  },
+  "icu:startDownload": {
+    "messageformat": "Rozpocznij pobieranie"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Anuluj pobieranie"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Ponów próbę pobrania"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Ponów"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} element} few {{count,number} elementy} many {{count,number} elementów} other {{count,number} elementu}}"
   },
   "icu:save": {
     "messageformat": "Zapisz"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Nie udało się przenieść Twoich wiadomości. Sprawdź połączenie z internetem i spróbuj ponownie."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Nie udało się przenieść Twoich wiadomości z powodu błędu. Połącz ten komputer jeszcze raz i spróbuj ponownie."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Ponów"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Nowa ikona filtra obok pola wyszukiwania ułatwia odnajdywanie czatów z nieodczytanymi wiadomościami. Czy odpiszesz? Ta decyzja należy do Ciebie."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "W tej aktualizacji naprawiliśmy błąd, który występował w systemie macOS Sonoma i powodował nieprawidłowe działanie funkcji udostępnienia ekranu, jeśli wcześniej nie udzielono pozwolenia na udostępnianie. Teraz możesz śmiało pokazywać swój ekran światu – nie będzie na nim komunikatu o błędzie."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Od teraz funkcja filtrowania według nieodczytanych podświetli wybrany czat, a lista nieodczytanych czatów będzie automatycznie aktualizowana w miarę przychodzenia nowych wiadomości oraz wtedy, gdy skończysz przeglądać któryś z czatów i klikniesz inny."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Od teraz możesz z łatwością śledzić postęp pobierania załączników. Możesz też wstrzymywać i wznawiać już rozpoczęte pobieranie. Jesteś w trasie i zrywa Ci połączenie? Hotelowe Wi-Fi odmawia współpracy? Żaden problem – pobierz załączniki później, kiedy złapiesz lepsze łącze."
   }
 }

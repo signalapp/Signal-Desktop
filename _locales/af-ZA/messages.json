@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Bepalings & Privaatheidsbeleid"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikoon wat wys dat hierdie beeld 'n onderskrif het"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Maak hierdie aanhangsel in 'n groter uitleg oop"
+  },
+  "icu:startDownload": {
+    "messageformat": "Begin aflaai"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Kanselleer aflaai"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Probeer weer aflaai"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Probeer weer"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} Item} other {{count,number} Items}}"
   },
   "icu:save": {
     "messageformat": "Stoor"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Jou boodskappe kon nie oorgedra word nie. Gaan jou internetverbinding na en probeer weer."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Jou boodskappe kon nie oorgedra word nie weens 'n fout. Probeer weer deur hierdie rekenaar te herkoppel."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Probeer weer"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Die nuwe filtreer-ikoon langs die soekblokkie maak dit maklik om ongeleesde kletse vinnig op te spoor, maar neem gerus jou tyd om te besluit of jy dit as gelees moet laat al dan nie nadat jy gesien het wat hulle te sê het."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Hierdie opdatering stel 'n skermdelingsfout in macOS Sonoma reg."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtreer volgens Ongelees verlig nou die geselekteerde klets, en doen opdatering na gelang boodskappe gelees en ontvang word."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Nou kan jy maklik die vordering van die aflaai van aanhegsels sien. Jy kan ook aflaaie wat aan die gang is, stop en herbegin. As 'n oorplasing dus vertraag word omdat jy op reis is (in vlugmodus?) of 'n swak Wi-Fi-sein gaan wegraak, kan jy daarmee wag totdat meer bandwydte beskikbaar is."
   }
 }

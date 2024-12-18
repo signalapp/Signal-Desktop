@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Terma & Dasar Privasi"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Silikon Apple"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon menunjukkan bahawa imej ini mempunyai kapsyen"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Buka lampiran ini dalam paparan yang lebih besar"
+  },
+  "icu:startDownload": {
+    "messageformat": "Mulakan muat turun"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Batalkan muat turun"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Cuba muat turun semula"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Cuba Semula"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number} item}}"
   },
   "icu:save": {
     "messageformat": "Simpan"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Mesej anda tidak dapat dipindahkan. Semak sambungan internet anda dan cuba lagi."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Mesej anda gagal dipindahkan kerana berlaku ralat. Cuba lagi dengan memautkan semula desktop ini."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Cuba Semula"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Ikon penapis baharu di sebelah kotak carian memudahkan anda mencari sembang yang belum dibaca."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Kemas kini ini membetulkan pepijat pada macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Tapis mengikut Belum Dibaca kini menyerlahkan sembang yang dipilih dan akan dikemas kini apabila mesej dibaca dan diterima."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Kini anda boleh melihat kemajuan muat turun lampiran dengan mudah. Anda juga boleh menghentikan dan memulakan semula muat turun yang sedang berjalan. Jika pemindahan menjadi perlahan kerana anda sedang dalam perjalanan (dalam mod kapal terbang?) atau WiFi hotel yang lemah hampir terputus, anda boleh menunggu untuk memuat semula apabila jalur lebar yang lebih baik tersedia."
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "شەرتلەر &  مەخپىيەتلىك تۈزۈمى"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "بۇ رەسىمنىڭ ئىزاھلانغانلىقىنى كۆرسىتىدىغان سىنبەلگە"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "بۇ قوشۇمچە ھۆججەتنى چوڭايتىلغان كۆرۈنۈشتە ئېچىڭ"
+  },
+  "icu:startDownload": {
+    "messageformat": "چۈشۈرۈشنى باشلاڭ"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "چۈشۈرۈشنى بىكار قىلىش"
+  },
+  "icu:retryDownload": {
+    "messageformat": "چۈشۈرۈشنى قايتا سىناڭ"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "قايتا سىنا"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number} تۈر}}"
   },
   "icu:save": {
     "messageformat": "ساقلا"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "ئۇچۇرلىرىڭىزنى يۆتكىگىلى بولمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناپ بېقىڭ."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "بىر خاتالىقى تۈپەيلى ئۇچۇرلىرىڭىزنى يۆتكىگىلى بولمىدى. بۇ ئۈستەلئۈستىنى قايتا ئۇلاپ قايتا سىناڭ."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "قايتا سىنا"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "ئىزدەش رامكىسىنىڭ يېنىدىكى يېڭى سۈزگۈچ سىنبەلگىسى ئوقۇلمىغان پاراڭلارنى تېز تېپىشنى ئاسانلاشتۇرىدۇ."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "بۇ يېڭىلانما macOS Sonoma دىكى ئېكراننى ھەمبەھىرلىگەندىكى كەمتۈكلۈكنى ئوڭشايدۇ. 7.36 نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى"
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "ھازىر«ئوقۇلمىغانلار سۈزگۈچى» تاللانغان پاراڭنى گەۋدىلەندۈرىدۇ ھەمدە ئوقۇلغان ۋە تاپشۇرۇۋېلىنغان ئۇچۇرلارنى ئۆز ۋاقتىدا ئاپتوماتىك يېڭىلايدۇ. 7.36 نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "ھازىر سىز قوشۇمچە ھۆججەتلەرنىڭ چۈشۈش ئەھۋالىنى ئاسانلا كۆرەلەيسىز. سىز ھەمدە داۋاملىق چۈشۈۋاتقانلارنى توختىتالايسىز ۋە قايتا قوزغىتالايسىز. ئەگەر يولدا (ئايروپىلان ھالىتىدە؟)بولسىڭىز ياكى مېھمانخانىدىكى WiFi تازا تارتمىسا ، تېخىمۇ ياخشى كەڭ بەلۋاغ تورى بار بولغاندا قايتا يۈكلسىڭىز بولىدۇ."
   }
 }

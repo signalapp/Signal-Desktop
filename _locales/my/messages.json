@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "လိုက်နာဆောင်ရွက်ရမည့် အချက်များ"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ဤပုံတွင် စာတန်းပါကြောင်း ပြသသည့် အိုင်ကွန်"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "ဤပူးတွဲပါဖိုင်ကို ပိုကြီးသောမြင်ကွင်းဖြင့် ဖွင့်ပါ"
+  },
+  "icu:startDownload": {
+    "messageformat": "စတင်ဒေါင်းလုဒ် လုပ်မည်"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "ဒေါင်းလုဒ်လုပ်ခြင်း ပယ်ဖျက်မည်"
+  },
+  "icu:retryDownload": {
+    "messageformat": "ဒေါင်းလုဒ် ပြန်လုပ်ကြည့်မည်"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "ထပ်ကြိုးစားပါ"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {ဒေါင်းလုဒ် {count,number} ခု}}"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "မက်ဆေ့ချ်ကို လွှဲပြောင်း၍မရနိုင်ပါ။ သင့်အင်တာနက်ချိတ်ဆက်မှုကို ပြန်စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။"
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "ချွတ်ယွင်းချက်တစ်ခုကြောင့် သင့်မက်ဆေ့ချ်များကို လွှဲပြောင်း၍မရပါ။ ဤ Desktop ကို ပြန်လည်ချိတ်ဆက်၍ ထပ်စမ်းကြည့်ပါ။"
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ထပ်ကြိုးစားပါ"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "ရှာဖွေရေးဘောက်စ်ဘေးရှိ စစ်ထုတ်သည့်အိုင်ကွန်အသစ်သည် မဖတ်ရသေးသော ချက်(တ်)များကို လျင်မြန်စွာရှာဖွေရန် လွယ်ကူစေသည်။"
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "ဤအပ်ဒိတ်သည် macOS Sonoma တွင် မျက်နှာပြင် မျှဝေခြင်းနှင့်ပတ်သက်သည့် ချွတ်ယွင်းချက်ကိုပြင်ဆင်ထားသည်။"
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "ယခုအခါ မဖတ်ရသေးသော မက်ဆေ့ချ်များအား စစ်ထုတ်ခြင်းဖြင့် ရွေးချယ်ထားသော ချက်(တ်)ကို အသားပေးဖော်ပြပေးကာ လက်ခံရရှိ၊ ဖတ်ရှုပြီးစီးသော မက်ဆေ့ချ်များကို အပ်ဒိတ်လုပ်ပေးသည်။"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "ပူးတွဲဖိုင် ဒေါင်းလုဒ်များ၏ တိုးတက်မှုကို ယခုအခါ အလွယ်တကူ ကြည့်နိုင်ပါပြီ။ လက်ရှိဒေါင်းလုဒ်များကိုလည်း ရပ်ပြီး ပြန်လည်စတင်နိုင်သည်။"
   }
 }

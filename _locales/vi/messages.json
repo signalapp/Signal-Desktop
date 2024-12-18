@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Điều khoản và Chính sách bảo mật"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Biểu tượng cho biết hình ảnh này có chú thích"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Mở tập tin đính kèm ở chế độ xem lớn hơn"
+  },
+  "icu:startDownload": {
+    "messageformat": "Bắt đầu tải"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Hủy tải xuống"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Thử tải lại"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Thử lại"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number} Mục}}"
   },
   "icu:save": {
     "messageformat": "Lưu"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Tin nhắn của bạn không thể được chuyển. Kiểm tra kết nối internet của bạn và thử lại."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Tin nhắn của bạn không thể được chuyển vì có lỗi xảy ra. Thử lại bằng cách liên kết lại với máy tính này."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Thử lại"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Biểu tượng bộ lọc mới ở cạnh ô tìm kiếm giúp tìm cuộc trò chuyện chưa đọc dễ dàng hơn."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Bản cập nhật này sửa lỗi liên qua đến tác vụ chia sẻ màn hình trên macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Lọc theo trạng thái Chưa đọc giờ đây làm nổi bật các cuộc trò chuyện được chọn và cập nhật khi tin nhắn đã được đọc và nhận."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Giờ đây bạn có thể dễ dàng xem tiến trình tải tập tin. Bạn cũng có thể dừng và chạy lại quá trình tải giữa chừng."
   }
 }

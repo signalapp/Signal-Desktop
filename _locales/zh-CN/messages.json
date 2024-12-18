@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "协议与隐私政策"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "表示该图片带有描述的图标"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "在更大的视图中打开此附件"
+  },
+  "icu:startDownload": {
+    "messageformat": "开始下载"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "取消下载"
+  },
+  "icu:retryDownload": {
+    "messageformat": "重试下载"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "重试"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number} 个项目}}"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "您的消息无法转移。请检查您的互联网连接并重试。"
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "由于发生错误，您的消息无法转移。请重新链接此电脑再试一次。"
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "重试"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "搜索框旁边的新筛选图标可以让用户轻松快捷地查找未读聊天。"
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "此次更新修复了 macOS Sonoma 上的屏幕共享漏洞。"
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "现在按“未读”筛选聊天会突出显示选定的聊天，并且未读聊天列表会在读取和接收消息时更新。"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "现在用户可以轻松查看附件下载的进度，还可以停止和重启正在进行的下载。"
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Condicions de servei i política de privadesa"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icona que mostra que aquesta imatge té un títol"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Obrir aquest fitxer adjunt en una vista més gran"
+  },
+  "icu:startDownload": {
+    "messageformat": "Iniciar la descàrrega"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancel·la la descàrrega"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Tornar a intentar la descàrrega"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Torna a provar-ho"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} element} other {{count,number} elements}}"
   },
   "icu:save": {
     "messageformat": "Desa"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "No s'han pogut transferir els teus missatges. Comprova la connexió a Internet i torna-ho a provar."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "S'ha produït un error i no s'han pogut transferir els teus missatges. Torna-ho a provar enllaçant de nou aquest dispositiu."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Torna a provar-ho"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Amb la nova icona de filtre al costat del quadre de cerca, podràs trobar més ràpidament els xats no llegits."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Aquesta actualització corregeix un error amb la funció de compartir pantalla a macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Ara, la funció Filtrar per No llegit(s) destaca el xat seleccionat i s'actualitza automàticament a mesura que llegeixis o rebis nous missatges."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Ara, quan descarreguis fitxers adjunts, podràs veure'n fàcilment el progrés. També podràs aturar i reiniciar les descàrregues en curs."
   }
 }

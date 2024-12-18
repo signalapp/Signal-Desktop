@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Licens- och integritetspolicy"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple-chip"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon visandes att den här bilden har en bildtext"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Öppna denna bilaga i en större vy"
+  },
+  "icu:startDownload": {
+    "messageformat": "Starta nedladdning"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Avbryt nedladdning"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Försök att ladda ner igen"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Försök igen"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} objekt} other {{count,number} objekt}}"
   },
   "icu:save": {
     "messageformat": "Spara"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Dina meddelanden kunde inte överföras. Kontrollera din internetanslutning och försök igen."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Dina meddelanden kunde inte överföras på grund av ett fel. Försök igen genom att länka om det här skrivbordet."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Försök igen"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Den nya filterikonen bredvid sökrutan gör det enkelt att snabbt hitta olästa chattar."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Den här uppdateringen åtgärdar en skärmdelningsbugg i macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtrera efter oläst markerar nu den valda chatten och uppdateras när meddelanden läses och tas emot."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Nu kan du enkelt se statusen för nedladdningen av bilagor. Du kan också stoppa och starta om pågående nedladdningar."
   }
 }

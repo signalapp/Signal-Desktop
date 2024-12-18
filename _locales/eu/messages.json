@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Baldintzak eta pribatutasun arauak"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Irudi honek azpitestu bak duela erakusteko ikonoa"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Ireki eranskin hau ikuspegi handiago batean"
+  },
+  "icu:startDownload": {
+    "messageformat": "Hasi deskargatzen"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Utzi deskarga bertan behera"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Saiatu berriro deskargatzen"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Berriro saiatu"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {Elementu {count,number}} other {{count,number} elementu}}"
   },
   "icu:save": {
     "messageformat": "Gorde"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Ezin izan dira transferitu mezuak. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Errore bat dela eta, ezin izan dira transferitu mezuak. Saiatu berriro ordenagailu hau berriro lotuta."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Berriro saiatu"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Bilaketa-koadroaren alboko iragazkiaren ikono berriari esker, irakurri gabeko txatak erraz aurki daitezke."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Eguneraketa honen bidez, macOS Sonoma-n pantaila partekatzeko akats bat konpondu da."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Orain, irakurri gabeen arabera iragaztean, hautatutako txata nabarmentzen da eta, mezuak irakurri eta jaso ahala, txaten zerrenda eguneratu egiten da."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Orain, erraz ikus dezakezu eranskinen deskargaren aurrerapena. Halaber, abian diren deskargak geldiarazi eta berrabiaraz ditzakezu."
   }
 }

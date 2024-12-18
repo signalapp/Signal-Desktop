@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Voorwaarden & privacybeleid"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1127,6 +1124,24 @@
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icoon dat laat zien dat deze afbeelding een bijschrift heeft"
   },
+  "icu:imageOpenAlt": {
+    "messageformat": "Open deze bijlage in een grotere weergave"
+  },
+  "icu:startDownload": {
+    "messageformat": "Download starten"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Download annuleren"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Download opnieuw proberen"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Opnieuw proberen"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+  },
   "icu:save": {
     "messageformat": "Opslaan"
   },
@@ -1503,7 +1518,7 @@
     "messageformat": "Open de systeemvoorkeuren."
   },
   "icu:calling__presenting--permission-instruction-step2": {
-    "messageformat": "Klik op het pictogram van een hangslot linksonder en voer vervolgens het wachtwoord van je computer in."
+    "messageformat": "Klik op het hangslot-icoon linksonder en voer vervolgens het wachtwoord van je computer in."
   },
   "icu:calling__presenting--permission-instruction-step3": {
     "messageformat": "Vink het selectievakje naast Signal aan aan de rechterkant van het scherm. Als je Signal niet in de lijst ziet, klik dan op het ‘+’-symbool om Signal aan de lijst toe te voegen."
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Je berichten konden niet worden overgezet. Controleer je internetverbinding en probeer het opnieuw."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Je berichten konden niet worden overgezet vanwege een fout. Probeer het opnieuw door deze desktop opnieuw te koppelen."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Opnieuw proberen"
   },
@@ -3708,7 +3726,7 @@
     "messageformat": "De beheerdersbevoegdheden van {contact} intrekken?"
   },
   "icu:ContactModal--add-to-group": {
-    "messageformat": "Aan nog een andere groep toevoegen"
+    "messageformat": "Aan een andere groep toevoegen"
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Uit de groep verwijderen"
@@ -5764,13 +5782,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Het nieuwe filterpictogram naast het zoekvak maakt het gemakkelijk om snel ongelezen chats te vinden. Maar neem gerust de tijd om te beslissen of je ook daadwerkelijk gaat antwoorden als je ze eenmaal hebt gelezen."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Deze update lost een bug op voor gebruikers van macOS Sonoma waarbij schermdeling niet correct werkte als de toestemming om het scherm te delen eerder was geweigerd. Nu hoef je de foutmeldingen op je scherm niet langer te delen."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Met Filteren op ongelezen wordt de geselecteerde chat nu gemarkeerd, en de lijst met ongelezen chats wordt automatisch bijgewerkt als er nieuwe berichten binnenkomen."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Je kunt nu eenvoudig de voortgang van het downloaden van bijlagen zien. Je kunt lopende downloads nu ook stoppen en opnieuw starten. Dus als een transfer traag gaat omdat je onderweg bent (in vliegtuigmodus?) of door de matige wifi van het hotel… Wacht dan op een snellere verbinding en upload het bestand gewoon verder."
   }
 }

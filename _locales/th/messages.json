@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "เงื่อนไขและนโยบายความเป็นส่วนตัว"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ไอคอนแสดงว่ารูปภาพนี้มีคำอธิบายภาพ"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "เปิดไฟล์แนบนี้ในมุมมองที่ใหญ่ขึ้น"
+  },
+  "icu:startDownload": {
+    "messageformat": "เริ่มดาวน์โหลด"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "ยกเลิกการดาวน์โหลด"
+  },
+  "icu:retryDownload": {
+    "messageformat": "ลองดาวน์โหลดอีกครั้ง"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "ลองอีกครั้ง"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number} รายการ}}"
   },
   "icu:save": {
     "messageformat": "บันทึก"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "ไม่สามารถถ่ายโอนข้อความของคุณได้ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง"
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "ไม่สามารถถ่ายโอนข้อความของคุณได้เนื่องจากมีข้อผิดพลาดเกิดขึ้น โปรดลองใหม่ด้วยการเชื่อมโยงเดสก์ท็อปเครื่องนี้อีกครั้ง"
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ลองอีกครั้ง"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "เพิ่มไอคอนตัวกรองไว้ด้านข้างกล่องค้นหาเพื่อให้คุณค้นหาแชทที่ยังไม่ได้อ่านได้ง่ายและรวดเร็วขึ้น"
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "การอัปเดตครั้งนี้แก้ไขบั๊กเมื่อแชร์หน้าจอบน macOS Sonoma"
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "พัฒนาฟีเจอร์กรองตามแชทที่ยังไม่ได้อ่านให้ไฮไลท์แชทที่ถูกเลือก พร้อมอัปเดตแบบเรียลไทม์เมื่อคุณได้รับและอ่านข้อความแล้ว"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "พัฒนาให้คุณมองเห็นความคืบหน้าของไฟล์แนบที่กำลังดาวน์โหลดอยู่ได้ทันที ทั้งยังสามารถหยุดและรีสตาร์ทการดาวน์โหลดที่ยังไม่เสร็จสิ้นได้ทุกเมื่ออีกด้วย"
   }
 }

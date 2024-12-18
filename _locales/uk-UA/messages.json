@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Умови надання послуг і Політика конфіденційності"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -213,7 +210,7 @@
     "messageformat": "Переглянути архів"
   },
   "icu:loading": {
-    "messageformat": "Оновлення…"
+    "messageformat": "Завантаження…"
   },
   "icu:optimizingApplication": {
     "messageformat": "Оптимізація застосунку…"
@@ -225,7 +222,7 @@
     "messageformat": "Архівні чати"
   },
   "icu:LeftPane--pinned": {
-    "messageformat": "Закріплено"
+    "messageformat": "Закріплені"
   },
   "icu:LeftPane--chats": {
     "messageformat": "Чати"
@@ -396,13 +393,13 @@
     "messageformat": "Ви більше не учасник цієї групи."
   },
   "icu:invalidConversation": {
-    "messageformat": "Ця група недійсна. Будь ласка, створіть нову групу."
+    "messageformat": "Ця група недійсна. Створіть нову групу."
   },
   "icu:scrollDown": {
     "messageformat": "Перейти в кінець чату"
   },
   "icu:messagesBelow": {
-    "messageformat": "Нові повідомлення нижче"
+    "messageformat": "Нижче є інші нові повідомлення"
   },
   "icu:mentionsBelow": {
     "messageformat": "Нові згадки нижче"
@@ -426,28 +423,28 @@
     "messageformat": "Ви позначили з іншого пристрою, що код безпеки для чатів з користувачем {name} не перевірено"
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "Код безпеки, який ви намагаєтеся підтвердити, змінився. Перевірте новий код безпеки, який {name1} використовує для зв’язку з вами. Пам’ятайте: зміна коду означає, що хтось намагався перехопити ваші повідомлення або додаток чи програма Signal, яку використовує {name2}, просто була перевстановлена."
+    "messageformat": "Код безпеки, який ви хочете підтвердити, змінився. Перегляньте ваш новий код безпеки для чатів з користувачем {name1}. Пам'ятайте: зміна коду може означати, що хтось намагається перехопити ваші розмови або користувач {name2} просто перевстановив Signal."
   },
   "icu:safetyNumberChangeDialog__message": {
     "messageformat": "Можливо, ці люди перевстановили Signal або замінили пристрій. Натисніть на користувача, щоб підтвердити новий код безпеки. Це необов'язково."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
-    "messageformat": "Відправити повідомлення, що очікують"
+    "messageformat": "Надіслати ненадіслані повідомлення"
   },
   "icu:safetyNumberChangeDialog__review": {
-    "messageformat": "Огляд"
+    "messageformat": "Ознайомитися"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
     "messageformat": "{count, plural, one {{count,number} ваш контакт міг заново встановити Signal або змінити пристрій. За бажанням ви можете переглянути код безпеки перед надсиланням.} few {{count,number} ваші контакти могли заново встановити Signal або змінити пристрої. За бажанням ви можете переглянути їхні коди безпеки перед надсиланням.} many {{count,number} ваших контактів могли заново встановити Signal або змінити пристрої. За бажанням ви можете переглянути їхні коди безпеки перед надсиланням.} other {{count,number} вашого контакту могли заново встановити Signal або змінити пристрої. За бажанням ви можете переглянути їхні коди безпеки перед надсиланням.}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
-    "messageformat": "Усі контакти було переглянуто. Натисніть «Відправити», щоб продовжити."
+    "messageformat": "Ви ознайомилися з оновленнями всіх контактів. Натисніть «Надіслати», щоб продовжити."
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
     "messageformat": "{count, plural, one {Ви точно хочете приховати історію «{story}» від {count,number} одержувача?} few {Ви точно хочете приховати історію «{story}» від {count,number} одержувачів?} many {Ви точно хочете приховати історію «{story}» від {count,number} одержувачів?} other {Ви точно хочете приховати історію «{story}» від {count,number} одержувача?}}"
   },
   "icu:safetyNumberChangeDialog__remove-all": {
-    "messageformat": "Видалити все"
+    "messageformat": "Видалити всі"
   },
   "icu:safetyNumberChangeDialog__verify-number": {
     "messageformat": "Перевірити код безпеки"
@@ -456,7 +453,7 @@
     "messageformat": "Вилучити з історії"
   },
   "icu:safetyNumberChangeDialog__actions-contact": {
-    "messageformat": "Дії для контакту {contact}"
+    "messageformat": "Доступні дії для контакту {contact}"
   },
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Дії з історією «{story}»"
@@ -471,7 +468,7 @@
     "messageformat": "Готово"
   },
   "icu:callAnyway": {
-    "messageformat": "Усе одно зателефонувати"
+    "messageformat": "Усе одно подзвонити"
   },
   "icu:joinAnyway": {
     "messageformat": "Усе одно приєднатися"
@@ -480,16 +477,16 @@
     "messageformat": "Коли ви натиснете «Надіслати», журнал буде вивантажено в мережу на 30 днів за унікальною URL-адресою, до якої немає загального доступу. Перед надсиланням його також можна зберегти на пристрої."
   },
   "icu:debugLogError": {
-    "messageformat": "Під час завантаження сталася помилка! Надішліть електронний лист support@signal.org та прикріпіть свій журнал у вигляді текстового файлу."
+    "messageformat": "Під час вивантаження сталася помилка! Надішліть електронний лист на адресу support@signal.org, вклавши до нього журнал налагодження як текстовий файл."
   },
   "icu:debugLogSuccess": {
     "messageformat": "Журнал налагодження надіслано"
   },
   "icu:debugLogSuccessNextSteps": {
-    "messageformat": "Журнал налагодження вивантажено. Під час спілкування з підтримкою скопіюйте URL-адресу та долучіть її до опису проблеми, яку ви побачили, разом з кроками по її відтворенню."
+    "messageformat": "Журнал налагодження вивантажено. Оформлюючи звернення в службу підтримки, скопіюйте URL-адресу й долучіть її до опису вашої проблеми разом з кроками для її відтворення."
   },
   "icu:debugLogLogIsIncomplete": {
-    "messageformat": "… для перегляду повного журналу натисніть «Зберегти»"
+    "messageformat": "…для перегляду повного журналу натисніть «Зберегти»"
   },
   "icu:debugLogCopy": {
     "messageformat": "Копіювати посилання"
@@ -531,7 +528,7 @@
     "messageformat": "Новий код безпеки"
   },
   "icu:incomingError": {
-    "messageformat": "Помилка при обробці вхідного повідомлення"
+    "messageformat": "Помилка опрацювання вхідного повідомлення"
   },
   "icu:media": {
     "messageformat": "Медіафайли"
@@ -561,13 +558,13 @@
     "messageformat": "Цього місяця"
   },
   "icu:unsupportedAttachment": {
-    "messageformat": "Непідтримуваний формат вкладення. Клацніть щоб зберегти."
+    "messageformat": "Непідтримуваний формат вкладення. Клацніть, щоб зберегти."
   },
   "icu:voiceMessage": {
     "messageformat": "Голосове повідомлення"
   },
   "icu:dangerousFileType": {
-    "messageformat": "Тип додатку не дозволений з міркувань безпеки"
+    "messageformat": "Такий тип вкладення заборонено з міркувань безпеки"
   },
   "icu:loadingPreview": {
     "messageformat": "Завантаження попереднього вигляду…"
@@ -579,10 +576,10 @@
     "messageformat": "Мініатюра попереднього вигляду вебсторінки {domain}"
   },
   "icu:stagedImageAttachment": {
-    "messageformat": "Чернетка вкладення зображення: {path}"
+    "messageformat": "Чернетка вкладеного зображення: {path}"
   },
   "icu:decryptionErrorToast": {
-    "messageformat": "У застосунку виникла помилка шифрування з {name}, пристрій {deviceId}"
+    "messageformat": "У застосунку виникла помилка шифрування: користувач {name}, пристрій {deviceId}"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Надіслати журнал"
@@ -594,31 +591,31 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
-    "messageformat": "Неможливо вибрати фото і відео разом із файлами."
+    "messageformat": "Неможливо вибрати фото і відео разом з файлами."
   },
   "icu:cannotSelectMultipleFileAttachments": {
     "messageformat": "За раз можна вибрати тільки один файл."
   },
   "icu:maximumAttachments": {
-    "messageformat": "Ви не можете додати більше вкладень до цього повідомлення."
+    "messageformat": "До цього повідомлення неможливо додати ще більше вкладень."
   },
   "icu:fileSizeWarning": {
     "messageformat": "Вибачте, але розмір обраного файлу перевищує обмеження. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
-    "messageformat": "Не вдається завантажити обране вкладення."
+    "messageformat": "Не вдається вивантажити обране вкладення."
   },
   "icu:disconnected": {
-    "messageformat": "Від'єднано"
+    "messageformat": "З'єднання розірвано"
   },
   "icu:connecting": {
     "messageformat": "Триває з'єднання…"
   },
   "icu:connect": {
-    "messageformat": "Натисніть для повторного підключення."
+    "messageformat": "Натисніть для повторного з'єднання."
   },
   "icu:connectingHangOn": {
-    "messageformat": "Не займе багато часу"
+    "messageformat": "Дайте нам хвилинку"
   },
   "icu:offline": {
     "messageformat": "Поза мережею"
@@ -633,7 +630,7 @@
     "messageformat": "Журнал налагодження"
   },
   "icu:forceUpdate": {
-    "messageformat": "Примусово Обновити"
+    "messageformat": "Примусово оновити"
   },
   "icu:helpMenuShowKeyboardShortcuts": {
     "messageformat": "Показати сполучення клавіш"
@@ -663,7 +660,7 @@
     "messageformat": "Про Signal Desktop"
   },
   "icu:screenShareWindow": {
-    "messageformat": "Показати екран"
+    "messageformat": "Демонстрація екрана"
   },
   "icu:callingDeveloperTools": {
     "messageformat": "Інструменти розробника для викликів"
@@ -672,7 +669,7 @@
     "messageformat": "Це вікно використовується під час розробки для показу діагностики поточних викликів."
   },
   "icu:speech": {
-    "messageformat": "Розмова"
+    "messageformat": "Голос"
   },
   "icu:show": {
     "messageformat": "Показати"
@@ -699,7 +696,7 @@
     "messageformat": "Пошук у чаті"
   },
   "icu:noSearchResults": {
-    "messageformat": "Немає результатів для «{searchTerm}»"
+    "messageformat": "«{searchTerm}» не знайдено"
   },
   "icu:noSearchResultsWithUnreadFilter": {
     "messageformat": "«{searchTerm}» не знайдено в непрочитаних чатах"
@@ -708,7 +705,7 @@
     "messageformat": "Непрочитаних чатів немає"
   },
   "icu:noSearchResults--sms-only": {
-    "messageformat": "Контакти SMS/MMS недоступні в Signal Desktop."
+    "messageformat": "Контакти з SMS/MMS недоступні в Signal Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Немає результатів для «{searchTerm}» у {conversationName}"
@@ -780,10 +777,10 @@
     "messageformat": "адреса"
   },
   "icu:poBox": {
-    "messageformat": "поштова скринька"
+    "messageformat": "абонементна скринька"
   },
   "icu:downloading": {
-    "messageformat": "Завантаження"
+    "messageformat": "Триває завантаження"
   },
   "icu:downloadFullMessage": {
     "messageformat": "Завантажити повідомлення повністю"
@@ -798,22 +795,22 @@
     "messageformat": "Відповісти на повідомлення"
   },
   "icu:originalMessageNotFound": {
-    "messageformat": "Оригінальне повідомлення не знайдено"
+    "messageformat": "Початкове повідомлення не знайдено"
   },
   "icu:voiceRecording--start": {
     "messageformat": "Почати запис голосового повідомлення"
   },
   "icu:voiceRecordingInterruptedMax": {
-    "messageformat": "Запис голосового повідомлення зупинився, тому що був досягнутий максимальний поріг тривалості."
+    "messageformat": "Запис голосового повідомлення зупинено, бо досягнуто його максимальної тривалості."
   },
   "icu:voiceNoteLimit": {
-    "messageformat": "Довжина голосових повідомлень обмежена однією годиною. Запис зупиниться, якщо ви перейдете до іншого застосунку."
+    "messageformat": "Голосове повідомлення може тривати до однієї години. Якщо ви перейдете в інший застосунок, запис зупиниться."
   },
   "icu:voiceNoteMustBeOnlyAttachment": {
-    "messageformat": "Голосове повідомлення повинно містити тільки одне вкладення."
+    "messageformat": "Голосове повідомлення може включати тільки одне вкладення."
   },
   "icu:voiceNoteError": {
-    "messageformat": "Сталася помилка з записувачем голосового повідомлення."
+    "messageformat": "Під час запису голосового повідомлення сталася помилка."
   },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {Вкладення збережено} few {{count,number} вкладення збережено} many {{count,number} вкладень збережено} other {{count,number} вкладення збережено}}"
@@ -828,7 +825,7 @@
     "messageformat": "Ви"
   },
   "icu:audioPermissionNeeded": {
-    "messageformat": "Щоб надсилати голосові повідомлення, потрібно надати програмі Signal доступ до мікрофона."
+    "messageformat": "Щоб надсилати голосові повідомлення, надайте Signal Desktop доступ до мікрофона."
   },
   "icu:audioCallingPermissionNeeded": {
     "messageformat": "Щоб здійснювати виклики, необхідно надати Signal Desktop доступ до вашого мікрофона."
@@ -849,13 +846,13 @@
     "messageformat": "Фото"
   },
   "icu:text": {
-    "messageformat": "Опис"
+    "messageformat": "Текст"
   },
   "icu:cannotUpdate": {
     "messageformat": "Неможливо оновити"
   },
   "icu:mute": {
-    "messageformat": "Вимкнути звук"
+    "messageformat": "Вимкнути сповіщення"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Не вдалось оновити Signal. <retryUpdateButton>Запустіть оновлення ще раз</retryUpdateButton> або перейдіть на сторінку {url} для ручного встановлення. Потім <contactSupportLink>повідомте службу підтримки</contactSupportLink> про цю проблему"
@@ -864,7 +861,7 @@
     "messageformat": "Не вдалось оновити Signal. Перейдіть на сторінку {url} для ручного встановлення. Потім <contactSupportLink>повідомте службу підтримки</contactSupportLink> про цю проблему"
   },
   "icu:readOnlyVolume": {
-    "messageformat": "Швидше за все, Signal Desktop знаходиться в карантині macOS і не зможе автоматично оновлюватись. Будь ласка, спробуйте перемістити {app} в {folder} за допомогою Finder."
+    "messageformat": "Найімовірніше, Signal Desktop перебуває в карантині macOS і не зможе автоматично оновлюватися. Спробуйте перемістити {app} в {folder} за допомогою Finder."
   },
   "icu:ok": {
     "messageformat": "Зрозуміло"
@@ -981,10 +978,10 @@
     "messageformat": "Назад"
   },
   "icu:goBack": {
-    "messageformat": "Назад"
+    "messageformat": "Повернутися назад"
   },
   "icu:moreInfo": {
-    "messageformat": "Детальніше"
+    "messageformat": "Подробиці"
   },
   "icu:copy": {
     "messageformat": "Скопіювати текст"
@@ -996,10 +993,10 @@
     "messageformat": "Спойлер"
   },
   "icu:retrySend": {
-    "messageformat": "Відправити ще раз"
+    "messageformat": "Надіслати ще раз"
   },
   "icu:retryDeleteForEveryone": {
-    "messageformat": "Повторити видалення для всіх"
+    "messageformat": "Ще раз спробувати видалити для всіх"
   },
   "icu:forwardMessage": {
     "messageformat": "Переслати повідомлення"
@@ -1050,7 +1047,7 @@
     "messageformat": "Перш ніж покинути цю групу, необхідно обрати щонайменше одного нового адміністратора."
   },
   "icu:sessionEnded": {
-    "messageformat": "Захищену сесію перезапущено"
+    "messageformat": "Безпечний сеанс скинуто"
   },
   "icu:ChatRefresh--notification": {
     "messageformat": "Сесію чату оновлено"
@@ -1065,16 +1062,16 @@
     "messageformat": "Звернутися в службу підтримки"
   },
   "icu:DeliveryIssue--preview": {
-    "messageformat": "Проблема з доставкою"
+    "messageformat": "Проблема з доставлянням"
   },
   "icu:DeliveryIssue--notification": {
-    "messageformat": "Повідомлення від {sender} не вдалось доставити"
+    "messageformat": "Повідомлення від користувача {sender} не вдалося доставити"
   },
   "icu:DeliveryIssue--learnMore": {
     "messageformat": "Дізнатися більше"
   },
   "icu:DeliveryIssue--title": {
-    "messageformat": "Проблема з Доставкою"
+    "messageformat": "Проблема з доставлянням"
   },
   "icu:DeliveryIssue--summary": {
     "messageformat": "Не вдалося доставити вам повідомлення, стікер, реакцію, медіафайл або відмітку про читання від користувача {sender}. Користувач намагався надіслати це безпосередньо вам або в груповий чат."
@@ -1083,7 +1080,7 @@
     "messageformat": "Не вдалося доставити вам повідомлення, стікер, реакцію, відмітку про читання або медіафайл у цьому чаті від користувача {sender}."
   },
   "icu:ChangeNumber--notification": {
-    "messageformat": "У {sender} змінився номер телефону"
+    "messageformat": "У користувача {sender} змінився номер телефону"
   },
   "icu:JoinedSignal--notification": {
     "messageformat": "Контакт приєднався до Signal"
@@ -1119,13 +1116,31 @@
     "messageformat": "Зображення, прикріплене до повідомлення"
   },
   "icu:videoAttachmentAlt": {
-    "messageformat": "Скріншот відео, прикріпленого до повідомлення"
+    "messageformat": "Скриншот відео, прикріпленого до повідомлення"
   },
   "icu:lightboxImageAlt": {
     "messageformat": "Зображення, надіслане в чат"
   },
   "icu:imageCaptionIconAlt": {
-    "messageformat": "Значок який показує, що в цьому зображенні є підпис"
+    "messageformat": "Значок на позначення того, що це зображення має підпис"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Відкрити це вкладення в повному розмірі"
+  },
+  "icu:startDownload": {
+    "messageformat": "Почати завантаження"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Скасувати завантаження"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Повторити завантаження"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Повторити"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} файл} few {{count,number} файли} many {{count,number} файлів} other {{count,number} файлу}}"
   },
   "icu:save": {
     "messageformat": "Зберегти"
@@ -1188,34 +1203,34 @@
     "messageformat": "Назва пристрою"
   },
   "icu:chooseDeviceName": {
-    "messageformat": "Обрати назву пристрою"
+    "messageformat": "Оберіть назву пристрою"
   },
   "icu:finishLinkingPhone": {
     "messageformat": "Завершити зв'язування з телефоном"
   },
   "icu:initialSync": {
-    "messageformat": "Синхронізування контактів та груп"
+    "messageformat": "Синхронізація контактів і груп"
   },
   "icu:initialSync__subtitle": {
     "messageformat": "Примітка: історія чату не синхронізується із цим пристроєм"
   },
   "icu:installConnectionFailed": {
-    "messageformat": "Не вдалося підключитись до сервера."
+    "messageformat": "Не вдалося з'єднатися з сервером."
   },
   "icu:installTooManyDevices": {
-    "messageformat": "Вибачте, у вас забагато пов'язаних пристроїв. Видаліть які-небудь."
+    "messageformat": "На жаль, у вас забагато зв'язаних пристроїв. Спробуйте відв'язати якісь із них."
   },
   "icu:installTooOld": {
     "messageformat": "Оновіть Signal на цьому пристрої, щоб зв'язати його зі своїм телефоном."
   },
   "icu:installErrorHeader": {
-    "messageformat": "Щось пішло не так!"
+    "messageformat": "Сталася помилка!"
   },
   "icu:installUnknownError": {
-    "messageformat": "Сталася непередбачувана помилка. Спробуйте пізніше, будь ласка."
+    "messageformat": "Сталася неочікувана помилка. Спробуйте пізніше."
   },
   "icu:installTryAgain": {
-    "messageformat": "Спробувати знову"
+    "messageformat": "Спробувати знов"
   },
   "icu:Preferences--theme": {
     "messageformat": "Тема"
@@ -1296,7 +1311,7 @@
     "messageformat": "Попросити приєднатися"
   },
   "icu:calling__button--video-disabled": {
-    "messageformat": "Камера вимкнута"
+    "messageformat": "Камеру вимкнено"
   },
   "icu:calling__button--video-off": {
     "messageformat": "Вимкнути камеру"
@@ -1305,7 +1320,7 @@
     "messageformat": "Увімкнути камеру"
   },
   "icu:calling__button--audio-disabled": {
-    "messageformat": "Мікрофон вимкнутий"
+    "messageformat": "Мікрофон вимкнено"
   },
   "icu:calling__button--audio-off": {
     "messageformat": "Вимкнути мікрофон"
@@ -1314,7 +1329,7 @@
     "messageformat": "Увімкнути мікрофон"
   },
   "icu:calling__button--presenting-disabled": {
-    "messageformat": "Представлення відключено"
+    "messageformat": "Демонстрацію екрана вимкнено"
   },
   "icu:calling__button--presenting-on": {
     "messageformat": "Почати демонстрацію"
@@ -1383,7 +1398,7 @@
     "messageformat": "Ви"
   },
   "icu:calling__your-video-is-off": {
-    "messageformat": "Камера вимкнена"
+    "messageformat": "Вашу камеру вимкнено"
   },
   "icu:calling__pre-call-info--empty-group": {
     "messageformat": "Тут більше нікого немає"
@@ -1419,13 +1434,13 @@
     "messageformat": "{others, plural, one {{first}, {second} і {others,number} інший користувач отримають виклик у Signal} few {{first}, {second} і {others,number} інших отримають виклик у Signal} many {{first}, {second} і {others,number} інших отримають виклик у Signal} other {{first}, {second} і {others,number} інших отримають виклик у Signal}}"
   },
   "icu:calling__pre-call-info--will-notify-1": {
-    "messageformat": "{person} буде сповіщений"
+    "messageformat": "Користувач {person} отримає сповіщення"
   },
   "icu:calling__pre-call-info--will-notify-2": {
-    "messageformat": "{first} та {second} будуть сповіщені"
+    "messageformat": "{first} і {second} отримають сповіщення"
   },
   "icu:calling__pre-call-info--will-notify-3": {
-    "messageformat": "{first}, {second} та {third} будуть сповіщені"
+    "messageformat": "{first}, {second} і {third} отримають сповіщення"
   },
   "icu:calling__pre-call-info--will-notify-many": {
     "messageformat": "{others, plural, one {{first}, {second} і {others,number} інший користувач отримають сповіщення} few {{first}, {second} і {others,number} інших отримають сповіщення} many {{first}, {second} і {others,number} інших отримають сповіщення} other {{first}, {second} і {others,number} інших отримають сповіщення}}"
@@ -1461,7 +1476,7 @@
     "messageformat": "Прокрутити вниз"
   },
   "icu:calling__presenting--notification-title": {
-    "messageformat": "Ви покажете всім свій екран."
+    "messageformat": "Ви демонструєте свій екран."
   },
   "icu:calling__presenting--notification-body": {
     "messageformat": "Коли захочете зупинити демонстрацію, натисніть тут. Ви повернетеся до виклику."
@@ -1473,7 +1488,7 @@
     "messageformat": "З'єднання було втрачено. Триває відновлення."
   },
   "icu:calling__presenting--info": {
-    "messageformat": "Signal обмінюється {window}."
+    "messageformat": "Signal демонструє {window}."
   },
   "icu:calling__presenting--info--unknown": {
     "messageformat": "Увімкнено демонстрацію екрана в Signal"
@@ -1482,10 +1497,10 @@
     "messageformat": "Триває відновлення з'єднання…"
   },
   "icu:calling__presenting--stop": {
-    "messageformat": "Припинити обмін"
+    "messageformat": "Зупинити демонстрацію"
   },
   "icu:calling__presenting--you-stopped": {
-    "messageformat": "Ви зупинили представлення"
+    "messageformat": "Ви зупинили демонстрацію"
   },
   "icu:calling__presenting--person-ongoing": {
     "messageformat": "{name} демонструє свій екран"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Не вдалося перенести повідомлення. Перевірте з'єднання з інтернетом і здійсніть перенесення ще раз."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Повідомлення не вдалося перенести через помилку. Зв'яжіть цей комп'ютер знов і повторіть спробу."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Перенести ще раз"
   },
@@ -4200,10 +4218,10 @@
     "messageformat": "{num, plural, one {Цей спеціальний колір використовується в {num,number} чаті. Бажаєте видалити його для всіх чатів?} few {Цей спеціальний колір використовується в {num,number} чатах. Бажаєте видалити його для всіх чатів?} many {Цей спеціальний колір використовується в {num,number} чатах. Бажаєте видалити його для всіх чатів?} other {Цей спеціальний колір використовується в {num,number} чату. Бажаєте видалити його для всіх чатів?}}"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Колір чату"
+    "messageformat": "Колір чатів"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Скинути колір чату"
+    "messageformat": "Скинути колір цього чату"
   },
   "icu:ChatColorPicker__resetDefault": {
     "messageformat": "Скинути кольори чатів"
@@ -5764,13 +5782,13 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "З новим значком фільтра біля поля пошуку можна швидко й легко знаходити непрочитані чати. А от відповісти одразу чи потягнути час ще трошки — вирішувати тільки вам."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "У цьому оновленні ми виправили помилку на macOS Sonoma, через яку демонстрація екрана не працювала належним чином, якщо раніше ви вже відхиляли дозвіл на його демонстрацію. Тепер сповіщення про помилку не відхилятиме вашої уваги від важливих справ."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Фільтр за непрочитаними тепер виділяє вибраний чат, а список непрочитаних чатів автоматично оновлюється, коли ви отримуєте нові повідомлення або спілкуєтеся в одному чаті, а потім натискаєте на інший."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Тепер ви можете бачити прогрес завантаження вкладень, а також зупиняти й відновлювати завантаження. Тож якщо інтернет повільний, бо ви в дорозі (чи просто в режимі польоту) або слабенький готельний Wi-Fi не справляється, можна зупинити завантаження й спокійно дочекатися швидшого інтернету."
   }
 }

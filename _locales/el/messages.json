@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Όροι & Πολιτική απορρήτου"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Εικονίδιο που δείχνει ότι αυτή η εικόνα έχει λεζάντα"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Άνοιξε αυτό το συνημμένο σε μεγαλύτερη προβολή"
+  },
+  "icu:startDownload": {
+    "messageformat": "Έναρξη λήψης"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Ακύρωση λήψης"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Επανάληψη λήψης"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Επανάληψη"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} αντικείμενο} other {{count,number} αντικείμενα}}"
   },
   "icu:save": {
     "messageformat": "Αποθήκευση"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Δεν ήταν δυνατή η μεταφορά των μηνυμάτων σου. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και ξαναδοκίμασε."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Δεν ήταν δυνατή η μεταφορά των μηνυμάτων σου λόγω σφάλματος. Δοκίμασε ξανά συνδέοντας ξανά αυτόν τον υπολογιστή."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Επανάληψη"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Το νέο εικονίδιο φίλτρου δίπλα στο πλαίσιο αναζήτησης διευκολύνει τη γρήγορη εύρεση μη αναγνωσμένων συνομιλιών."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα κοινής χρήσης οθόνης στο macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Το Φιλτράρισμα με μη αναγνωσμένα επισημαίνει τώρα την επιλεγμένη συνομιλία και ενημερώνεται όσο τα μηνύματα διαβάζονται και λαμβάνονται."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Τώρα μπορείς εύκολα να δεις την πρόοδο των λήψεων των συνημμένων. Μπορείς επίσης να σταματήσεις και να επανεκκινήσεις τις λήψεις σε εξέλιξη. Εάν μια μεταφορά αργεί επειδή το δίκτυο είναι αργό, μπορείς να περιμένεις μέχρι να υπάρχει μεγαλύτερο διαθέσιμο εύρος ζώνης."
   }
 }

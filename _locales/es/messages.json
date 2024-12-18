@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Términos y Política de privacidad"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icono que indica que esta imagen tiene una descripción"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Abrir este archivo para verlo más grande"
+  },
+  "icu:startDownload": {
+    "messageformat": "Iniciar descarga"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancelar descarga"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Reintentar descarga"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Reintentar"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementos}}"
   },
   "icu:save": {
     "messageformat": "Guardar"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "No se han podido transferir tus mensajes. Comprueba tu conexión e inténtalo de nuevo."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Se ha producido un error y no se han podido transferir tus mensajes. Vuelve a vincular este escritorio para internarlo de nuevo."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Reintentar"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Con el nuevo icono de filtro junto al cuadro de búsqueda no tardarás en encontrar tus chats no leídos, pero no dudes en tomarte tu tiempo para decidir si les dejas o no en visto."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Esta actualización corrige un error en macOS Sonoma que daba problemas al compartir pantalla si antes habías denegado el permiso de compartir. ¡Adiós a los mensajes de error! Ahora podrás compartir tu pantalla sin dramas ni rechazos."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "¡Eso no es todo! La función Filtrar por no leídos resalta el chat que seleccionaste y la lista de chats no leídos se actualiza automáticamente a medida que vas leyendo los chats que tenías pendientes o cuando llegan nuevos mensajes."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Ahora es más fácil que nunca ver el progreso de las descargas de tus archivos adjuntos, y también puedes detenerlas o reiniciarlas cuando quieras. Así que, si una descarga va a paso de tortuga porque estás viajando (¿quizá con el modo avión activado?) o porque el Wi-Fi de tu hotel está saturado, no pasa nada: espera y vuelve a intentarlo cuando el internet decida cooperar."
   }
 }

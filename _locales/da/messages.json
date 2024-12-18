@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Vilkår og privatlivspolitik"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon, der viser, at dette billede har en billedtekst"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Åbn den vedhæftede fil i en større visning"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Annuller download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Prøv download igen"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Prøv igen"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} Enheder} other {{count,number} emner}}"
   },
   "icu:save": {
     "messageformat": "Gem"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Dine beskeder kunne ikke overføres. Tjek din internetforbindelse, og prøv igen."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Dine beskeder kunne ikke overføres på grund af en fejl. Prøv igen ved at genoprette forbindelse til denne computer."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Prøv igen"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Det nye filterikon ved siden af søgefeltet gør det nemt hurtigt at finde ulæste chats, men du er velkommen til at tage dig tid til at beslutte, om du vil lade dem være læst, efter at have set, hvad personen havde at sige."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Denne opdatering retter en fejl på macOS Sonoma, der forhindrede skærmdeling i at fungere korrekt, hvis tilladelsen til at dele skærmen tidligere var blevet nægtet – så nu behøver du ikke længere at dele din skærm med en fejlbesked."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtrér efter ulæst fremhæver nu den valgte chat, og listen over ulæste chats opdateres automatisk, når der kommer nye beskeder, eller når du læser en chat og klikker på en anden."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Nu kan du nemt se udviklingen af vedhæftede filer. Du kan også stoppe og genstarte igangværende downloads. Så hvis en overførsel bliver langsommere, fordi du er på farten (i flytilstand?), og hvis det middelmådige hotelnetværk er ved at implodere, kan du vente med at genindlæse, når mere tilgængelig båndbredde er tildelt."
   }
 }

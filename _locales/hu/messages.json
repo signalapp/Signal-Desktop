@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Adatvédelmi és Általános Szerződési Feltételek"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon, amely azt jelzi, hogy a kép feliratot tartalmaz"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Nyisd meg ezt a mellékletet nagyobb nézetben"
+  },
+  "icu:startDownload": {
+    "messageformat": "Letöltés elindítása"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Letöltés megszakítása"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Letöltés újrapróbálása"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Újra"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} db elem} other {{count,number} elem}}"
   },
   "icu:save": {
     "messageformat": "Mentés"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Az üzeneteidet nem sikerült átvinni. Ellenőrizd az internetkapcsolatot, és próbáld újra."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Az üzeneteidet egy hiba miatt nem sikerült átvinni. Próbáld újra az eszköz újbóli összekapcsolásával."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Újra"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "A keresőmező melletti új szűrőikon megkönnyíti az olvasatlan csevegések gyors megtalálását."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Ez a frissítés a macOS Sonoma képernyőmegosztási hibáját javítja."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Az Olvasatlan üzenetek szűrése mostantól kiemeli a kiválasztott csevegést, és az üzenetek olvasása és fogadása közben frissül."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Mostantól egyszerűbben láthatod a mellékletek letöltésének folyamatát. Leállíthatod és újraindíthatod a folyamatban lévő letöltéseket is."
   }
 }

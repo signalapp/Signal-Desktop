@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Conditions générales d’utilisation et règles de confidentialité"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icône qui indique que cette image a une légende"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Agrandir l'aperçu de cette pièce jointe"
+  },
+  "icu:startDownload": {
+    "messageformat": "Lancer le téléchargement"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Annuler le téléchargement"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Reprendre le téléchargement"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Réessayer"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} élément} other {{count,number} éléments}}"
   },
   "icu:save": {
     "messageformat": "Enregistrer"
@@ -2628,7 +2643,7 @@
     "messageformat": "Poursuivre votre conversation avec ce groupe et partager vos nom et photo avec ses membres ? <learnMoreLink>En savoir plus.</learnMoreLink>"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Poursuivre cette conversation avec {firstName} et partager vos nom et photo avec cette personne ? <learnMoreLink>En savoir plus</learnMoreLink>"
+    "messageformat": "Poursuivre cette conversation et partager votre nom et votre photo avec {firstName} ? <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 membre} other {{count,number} membres}}"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Impossible de transférer vos messages pour le moment. Vérifiez votre connexion Internet et réessayez."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Une erreur nous empêche de transférer vos messages. Veuillez associer cet ordinateur de nouveau et réessayer."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Réessayer"
   },
@@ -3699,10 +3717,10 @@
     "messageformat": "Supprimer en tant qu’administrateur"
   },
   "icu:ContactModal--make-admin": {
-    "messageformat": "Nommer administrateur"
+    "messageformat": "Accorder des droits d'admin"
   },
   "icu:ContactModal--make-admin-info": {
-    "messageformat": "{contact} pourra modifier ce groupe et ses membres."
+    "messageformat": "{contact} pourra apporter des modifications à ce groupe, y ajouter et en supprimer des membres."
   },
   "icu:ContactModal--rm-admin-info": {
     "messageformat": "Supprimer {contact} en tant qu’administrateur du groupe ?"
@@ -4212,7 +4230,7 @@
     "messageformat": "Réinitialiser toutes les couleurs de la conversation"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Réinitialiser à la valeur par défaut"
+    "messageformat": "Revenir aux couleurs par défaut"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Réinitialiser"
@@ -5764,13 +5782,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Vous aviez du mal à retrouver vos messages non lus ? La nouvelle icône de filtre placée près du champ de recherche vous facilite la tâche ! Ensuite, libre à vous d'y répondre, de les ignorer ou de les marquer comme non lus pour y revenir plus tard."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Sur macOS Sonoma, si on commençait par refuser le partage d'écran avant de se raviser, le partage ne fonctionnait pas correctement. Ce bug est maintenant corrigé. Partager son écran sans message d'erreur, c'est quand même bien mieux."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Le filtre \"Conversations non lues\" affiche les messages non ouverts ou marqués comme non lus. La liste des conversations non lues se met à jour automatiquement dès que vous recevez ou lisez de nouveaux messages."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Avec cette nouvelle version, vous pouvez suivre la progression de vos téléchargements lorsque vous recevez des pièces jointes. Mieux encore : vous pouvez suspendre les téléchargements en cours et les reprendre plus tard. Dans le TGV ou à l'hôtel ? La connexion Internet ou le Wi-Fi n'arrivent pas à suivre le rythme ? Il vous suffit de reprendre le téléchargement là où vous l'aviez mis en pause."
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Услови и политика на приватност"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Икона која што прикажува дека оваа слика има наслов"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Отворете го овој прилог во поголем приказ"
+  },
+  "icu:startDownload": {
+    "messageformat": "Започнете со преземање"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Откажете го преземањето"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Обидете се повторно да преземете"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Обидете се повторно"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} предмет} other {{count,number} предмети}}"
   },
   "icu:save": {
     "messageformat": "Зачувај"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Вашите пораки не можеа да се пренесат. Проверете ја интернет врската и обидете се повторно."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Вашите пораки не можеа да се пренесат поради грешка. Обидете се одново со повторно поврзување на овој десктоп уред."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Обидете се повторно"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Новата икона за филтер до полето за пребарување ви го олеснува пронаоѓањето на непрочитаните разговори."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Во оваа верзија е решена грешка при споделување на сликата од екранот на macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Опцијата „Филтрирајте по непрочитани“ сега го истакнува избраниот разговор и се ажурира како што пристигаат и се читаат новите разговори."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Сега лесно можете да го видите прогресот на преземање прилози. Исто така можете да стопирате и рестартирате преземања кои се во тек."
   }
 }

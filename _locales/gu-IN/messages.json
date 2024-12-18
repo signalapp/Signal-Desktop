@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "શરતો અને ગોપનીયતા નીતિ"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple સિલિકોન"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "આ ઈમેજનું કૅપ્શન છે તે દર્શાવતું આઈકોન"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "આ અટેચમેન્ટને મોટા વ્યૂમાં ખોલો"
+  },
+  "icu:startDownload": {
+    "messageformat": "ડાઉનલોડ શરૂ કરો"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "ડાઉનલોડ રદ કરો"
+  },
+  "icu:retryDownload": {
+    "messageformat": "ડાઉનલોડ કરવાનો ફરી પ્રયાસ કરો"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "ફરી પ્રયાસ કરો"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} આઇટમ} other {{count,number} આઇટમ}}"
   },
   "icu:save": {
     "messageformat": "સેવ કરો"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "તમારા મેસેજ ટ્રાન્સફર કરી શકાયા નથી. તમારું ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "એક એરરને કારણે તમારા મેસેજ ટ્રાન્સફર કરી શકાયા નથી. આ ડેસ્કટોપને ફરીથી લિંક કરીને ફરી પ્રયાસ કરો."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ફરી પ્રયાસ કરો"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "શોધ બોક્સની બાજુમાં આવેલો નવો ફિલ્ટર આઇકન ન વાંચેલી ચેટને ઝડપથી શોધવાનું સરળ બનાવે છે."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "આ અપડેટ macOS Sonoma પર સ્ક્રીન શેરિંગને લગતા બગને ઠીક કરે છે."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "ન વાંચેલા દ્વારા ફિલ્ટર કરવાનું હવે પસંદ કરેલ ચેટને હાઇલાઇટ કરે છે, અને જેમ-જેમ મેસેજ વાંચવામાં આવે અને પ્રાપ્ત થાય તે મુજબ અપડેટ થાય છે."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "હવે તમે અટેચમેન્ટ ડાઉનલોડની પ્રગતિ સરળતાથી જોઈ શકો છો. તમે પ્રગતિ ચાલુ હોય તેવા ડાઉનલોડને રોકી અને ફરીથી શરૂ પણ કરી શકો છો."
   }
 }

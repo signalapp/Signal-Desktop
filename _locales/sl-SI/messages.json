@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Pogoji uporabe in Pravilnik o zasebnosti"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona, ki označuje, da ima ta slika besedilo"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Odprite to priponko v večjem pogledu"
+  },
+  "icu:startDownload": {
+    "messageformat": "Začetek prenosa"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Prekliči prenos"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Ponovno poskusi prenesti"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Ponovno"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} predmet} two {{count,number} predmeta} few {{count,number} predmeti} other {{count,number} predmetov}}"
   },
   "icu:save": {
     "messageformat": "Shrani"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Vaših sporočil ni bilo mogoče prenesti. Preverite internetno povezavo in poskusite znova."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Vaših sporočil ni bilo mogoče prenesti zaradi napake. Poskusite znova s ponovno povezavo tega namizja."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Ponovno"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Z novo ikono filtra poleg polja za iskanje lahko hitro poiščete neprebrane klepete."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Ta posodobitev odpravlja napako pri deljenju zaslona v sistemu macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtriranje po Neprebranih sporočilih zdaj poudari izbrani klepet in se posodobi, ko so sporočila prebrana ali prejeta."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Zdaj si lahko preprosto ogledate potek prenosa priponk. Prav tako lahko ustavite in ponovno zaženete prenose, ki potekajo. Če je prenos upočasnjen, ker ste na poti (v letalskem načinu?) ali če povprečen hotelski WiFi ne deluje, lahko nadaljujete s ponovnim nalaganjem, ko boste imeli boljšo internetno povezavo."
   }
 }

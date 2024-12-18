@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "شرایط و خط مشی حریم خصوصی"
   },
-  "icu:appleSilicon": {
-    "messageformat": "اپل سیلیکون"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "آیکون نشان می‌دهد که این تصویر دارای یک متن است"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "این پیوست در نمای بزرگ‌تر باز شود"
+  },
+  "icu:startDownload": {
+    "messageformat": "شروع دانلود"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "لغو دانلود"
+  },
+  "icu:retryDownload": {
+    "messageformat": "امتحان مجدد دانلود"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "تلاش مجدد"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} مورد} other {{count,number} مورد}}"
   },
   "icu:save": {
     "messageformat": "ذخیره"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "پیام‌های شما قابل انتقال نیست. اتصال اینترنت خود را بررسی و دوباره امتحان کنید."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "پیام‌هایتان به‌دلیل خطا منتقل نشد. با متصل کردن مجدد این دسک‌تاپ، دوباره امتحان کنید."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "تلاش مجدد"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "نماد فیلتر جدید در کنار کادر جستجو، یافتن سریع گفتگوهای خوانده‌نشده را آسان می‌کند."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "در نسخه جدید، اشکال مربوط به هم‌رسانی صفحه‌نمایش در macOS Sonoma رفع شده است."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "گزینه «فیلتر بر اساس خوانده‌نشده‌ها» اکنون گفتگوی انتخابی را برجسته می‌کند و با دریافت و خوانده‌شدن پیام‌ها، به‌روزرسانی می‌شود."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "اکنون می‌توانید پیشرفت دانلود پیوست‌ها را به‌راحتی ببینید. همچنین می‌توانید دانلود‌های در حال انجام را متوقف کنید. و دوباره از سر بگیرید."
   }
 }

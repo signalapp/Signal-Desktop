@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Käyttöehdot ja tietosuoja"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Kuvake, joka näyttää, että tällä kuvalla on kuvateksti"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Avaa liite suuremmassa näkymässä"
+  },
+  "icu:startDownload": {
+    "messageformat": "Aloita lataus"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Peruuta lataus"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Yritä latausta uudelleen"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Yritä uudelleen"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} kappale} other {{count,number} kohdetta}}"
   },
   "icu:save": {
     "messageformat": "Tallenna"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Viestejäsi ei voitu siirtää. Tarkista verkkoyhteytesi ja yritä uudelleen."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Viestejäsi ei voitu siirtää virheen vuoksi. Yritä uudelleen yhdistämällä laite uudelleen."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Yritä uudelleen"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Hakukentän vieressä oleva uusi suodatinkuvake helpottaa lukemattomien keskustelujen löytämistä."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Tämä päivitys korjaa macOS Sonoman virheen näytön jakamisessa."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Suodata lukemattomat viestit korostaa nyt valitun keskustelun ja päivittyy, kun uusia viestejä saapuu tai niitä luetaan."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Nyt voit helposti nähdä liitteiden latauksen edistymisen. Voit myös pysäyttää ja käynnistää uudelleen käynnissä olevat lataukset."
   }
 }

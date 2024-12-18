@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "شراٰئط اور پرائیویسی پالیسی"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple سیلیکون"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "آئیکن ظاہر کررہی ہے کہ اس تصویر میں ایک عنوان ہے"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "اس اٹیچمنٹ کو بڑی تصویر میں دیکھیں"
+  },
+  "icu:startDownload": {
+    "messageformat": "ڈاؤن لوڈ شروع کریں"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "ڈاؤن لوڈ منسوخ کریں"
+  },
+  "icu:retryDownload": {
+    "messageformat": "دوبارہ ڈاؤن لوڈ کرنے کی کوشش کریں"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "دوبارہ کوشش کریں"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number}} other {{count,number} آئٹمز}}"
   },
   "icu:save": {
     "messageformat": "محفوظ کریں"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "آپ کے میسجز ٹرانسفر نہیں ہو سکے۔ اپنا انٹرنیٹ کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "کسی خرابی کے باعث آپ کے میسجز ٹرانسفر نہیں ہو سکے۔ اس ڈیسک ٹاپ کو دوبارہ لنک کر کے دوبارہ کوشش کریں۔"
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "دوبارہ کوشش کریں"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "تلاش کے باکس کے ساتھ موجود نئے فلٹر آئیکن کی مدد سے غیر پڑھی ہوئی چیٹس کو جلدی سے تلاش کرنا آسان ہو جاتا ہے۔"
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "اس اپ ڈیٹ میں macOS Sonoma میں بگ کو ٹھیک کیا گیا جس میں اگرسکرین شیئرنگ کی اجازت مسترد کر دی گئی ہو تو سکرین شیئرنگ صحیح کام نہیں کرتی تھی — تو اب آپ کو ایرر کے ساتھ اپنی سکرین شیئرنگ کی ضرورت نہیں۔"
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "بغیر پڑھے ہوئے کے لحاظ سے فلٹر کریں اب منتخب کردہ چیٹ کو نمایاں کرتا ہے اور جیسے ہی میسجز پڑھ لیے جاتے اور موصول ہو جاتے ہیں، تو اپ ڈیٹ ہو جاتا ہے۔"
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "اب آپ اٹیچمنٹ کی ڈاؤن لوڈز کی پیشرفت آسانی سے دیکھ سکتے ہیں۔ آپ جاری ڈاؤن لوڈز کو روک سکتے ہیں اور ری اسٹارٹ بھی کر سکتے ہیں۔ تو اگر آپ روڈ پر ہیں (ایئر پلین موڈ میں؟) اور ٹرانسفر آہستہ ہو گیا ہے یا ہوٹل کے ہلکے وائی فائی کی بس ہونے والی ہے تو زیادہ بینڈ واڈتھ ملنے پر آپ ری لوڈ کرنے کا انتظار کر سکتے ہیں۔"
   }
 }

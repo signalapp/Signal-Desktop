@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Podmienky a Ochrana osobných údajov"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona indukujúca, že tento obrázok má popis"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Otvoriť prílohu vo väčšom zobrazení"
+  },
+  "icu:startDownload": {
+    "messageformat": "Spustiť sťahovanie"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Zrušiť sťahovanie"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Zopakovať sťahovanie"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Skúsiť znovu"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} položka} few {{count,number} položky} many {{count,number} položiek} other {{count,number} položiek}}"
   },
   "icu:save": {
     "messageformat": "Uložiť"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Vaše správy nebolo možné preniesť. Skontrolujte internetové pripojenie a skúste to znova."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Vyskytla sa chyba a vaše správy nebolo možné preniesť. Skúste to znova opätovným prepojením tohto počítača."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Skúsiť znovu"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Nová ikona filtra vedľa vyhľadávacieho poľa uľahčuje rýchle vyhľadanie neprečítaných četov."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Táto aktualizácia opravuje chybu súvisiacu so zdieľaním obrazovky v systéme macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Možnosť Filtrovať podľa neprečítaných správ teraz zvýrazní vybratý čet a aktualizuje sa pri čítaní a prijímaní správ."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Teraz môžete jednoducho sledovať priebeh sťahovania príloh. Prebiehajúce sťahovanie môžete tiež zastaviť a reštartovať."
   }
 }

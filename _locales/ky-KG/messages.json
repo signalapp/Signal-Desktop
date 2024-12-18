@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Пайдалануу шарттары жана Купуялык саясаты"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Бул сүрөттүн колтамгасы бар экенин көрсөткөн сүрөтчөсү"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Тиркемени чоңураак өлчөмдө ачуу"
+  },
+  "icu:startDownload": {
+    "messageformat": "Жүктөп баштоо"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Токтотуу"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Кайра жүктөө"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Кайра аракет кылуу"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, other {{count,number} нерсе}}"
   },
   "icu:save": {
     "messageformat": "Сактоо"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Билдирүүлөрүңүздү өткөрүү мүмкүн болгон жок. Байланышыңызды текшерип, кайталап көрүңүз."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Ката кеткендиктен билдирүүлөрүңүздү өткөрүү мүмкүн эмес. Компьютерди ажыратып, кайра туташтырып көрүңүз."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Кайра аракет кылуу"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Эми издөө тилкеси аркылуу окула элек маектерди оңой таба аласыз."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Бул жаңы версияда macOS Sonoma'да буга чейин экранды бөлүшүүгө уруксат берилген эмес болсо, аны бөлүшүүгө тоскоол болгон мүчүлүштүк оңдолду — эми ката деген билдирүүсү бар экраныңызды бөлүшпөйсүз."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Окулбагандар боюнча иргөө параметри тандалган маекти көрсөтүп, жаңы билдирүүлөр келгенде же кайсы бир маекке кирип, дагы бирөөсүн бассаңыз, окулбаган билдирүүлөрдүн тизмеси автоматтык түрдө жаңырат."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Тиркемелердин жүктөлүп жатканын оңой эле көрө аласыз. Жүктөп алуу процессин токтотуп, кайра уланта аласыз. Жолдо жүргөндүктөн (же учак режиминде болгондуктан) же орточо мейманканада Wi-Fi жай иштегендиктен жай өтүп жатса, Интернет ылдамыраак иштегенде жүктөй аласыз."
   }
 }

@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Termos e política de privacidade"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ícone que mostra que esta imagem tem uma legenda"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Abrir este anexo numa vista maior"
+  },
+  "icu:startDownload": {
+    "messageformat": "Iniciar descarregamento"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancelar transferência"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Voltar a tentar descarregamento"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Tentar novamente"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {1 item} other {{count,number} itens}}"
   },
   "icu:save": {
     "messageformat": "Guardar"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "As suas mensagens não puderam ser transferidas. Verifique a sua ligação à internet e tente novamente."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "As suas mensagens não puderam ser transferidas devido a um erro. Tente novamente ligando de novo este desktop."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tentar novamente"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "O novo ícone de filtro na caixa de pesquisa torna fácil encontrar chats não lidos."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Esta atualização corrige um erro de partilha de ecrã no macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "O \"filtrar por não lido\" agora destaca o chat selecionado e atualiza-se enquanto as mensagens são lidas e recebidas."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Agora pode ver facilmente o progresso de descarregamento de anexos. Também pode parar e reiniciar descarregamentos em curso."
   }
 }

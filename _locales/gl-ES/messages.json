@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Condicións e política de privacidade"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple Silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icona que mostra que esta imaxe ten un texto"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Visualizar este arquivo nun tamaño maior"
+  },
+  "icu:startDownload": {
+    "messageformat": "Iniciar descarga"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancelar descarga"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Volver intentar descargar"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Tentar de novo"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementos}}"
   },
   "icu:save": {
     "messageformat": "Gardar"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "As túas mensaxes non se transferiron. Comproba a túa conexión a Internet e inténtao de novo."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Non se puideron transferir as mensaxes debido a un erro. Volve intentalo vinculando de novo este dispositivo."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tentar de novo"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "A nova icona de filtro ao lado da caixa de busca permite atopar facilmente as conversas sen ler."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Esta actualización corrixe un problema que ocorre ao compartir pantalla en macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "«Filtrar por Sen ler» agora destaca a conversa seleccionada e actualízase ao ler e recibir mensaxes."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Agora podes visualizar facilmente o progreso da descarga dos anexos. Tamén podes parar e reiniciar as descargas en curso."
   }
 }

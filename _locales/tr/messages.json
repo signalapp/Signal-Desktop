@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Şartlar ve Gizlilik İlkesi"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Bu görüntünün başlığı olduğunu gösteren ikon"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Bu eklentiyi daha büyük bir görünümde aç"
+  },
+  "icu:startDownload": {
+    "messageformat": "İndirmeyi başlat"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "İndirmeyi iptal et"
+  },
+  "icu:retryDownload": {
+    "messageformat": "İndirmeyi yeniden dene"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Tekrar dene"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} Öğe} other {{count,number} öğe}}"
   },
   "icu:save": {
     "messageformat": "Kaydet"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Mesajların aktarılamadı. İnternet bağlantını kontrol et ve tekrar dene."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Mesajların bir hata nedeniyle aktarılamadı. Bu masaüstünü yeniden bağlayarak tekrar dene."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tekrar dene"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Arama kutusunun yanındaki yeni filtre simgesi, okunmamış sohbetleri hızlıca bulmayı kolaylaştırır."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Bu güncelleme, macOS Sonoma'daki bir ekran paylaşımı hatasını düzeltmektedir."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Okunmayanları filtrele özelliği, artık seçilen sohbeti vurgular ve mesajlar okundukça ve alındıkça güncelleme yapar."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Artık eklenti indirmelerinin ilerleyişini kolayca görebilirsin. Ayrıca devam eden indirmeleri de durdurabilir ve yeniden başlatabilirsin. Böylece yoldayken aktarım yavaşlarsa, yeterli bant genişliği sağlandığında yeniden yükleme yapabilirsin."
   }
 }

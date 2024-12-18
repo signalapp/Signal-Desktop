@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Sąlygos ir Privatumo politika"
   },
-  "icu:appleSilicon": {
-    "messageformat": "„Apple Silicon“"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Piktograma, rodanti, kad šis paveikslas turi paaiškinimą"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Atidaryti šį priedą didesniu rodiniu"
+  },
+  "icu:startDownload": {
+    "messageformat": "Pradėti atsisiuntimą"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Atšaukti atsisiuntimą"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Bandyti atsisiųsti dar kartą"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Bandyti dar kartą"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} elementas} few {{count,number} elementai} many {{count,number} elementų} other {{count,number} elementas}}"
   },
   "icu:save": {
     "messageformat": "Įrašyti"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Nepavyko perkelti žinučių. Patikrinkite interneto ryšį ir bandykite dar kartą."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Nepavyko perkelti jūsų žinučių, nes įvyko klaida. Bandykite dar kartą iš naujo susiedami šį darbalaukį."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Bandyti dar kartą"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Dėl naujos filtro piktogramos šalia paieškos laukelio lengvai ir greitai rasite neskaitytus pokalbius."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Šiuo naujiniu ištaisoma ekrano bendrinimo klaida sistemoje „macOS Sonoma“."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Funkcija „Filtruoti pagal neperskaitytus“ dabar paryškina pasirinktą pokalbį ir atnaujina, kai žinutės perskaitomos ir gaunamos."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Dabar galite lengvai matyti priedų atsisiuntimo eigą. Taip pat galite sustabdyti ir iš naujo paleisti vykdomus atsisiuntimus."
   }
 }

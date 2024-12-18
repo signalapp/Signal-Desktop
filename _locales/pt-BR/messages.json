@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Termos e Política de Privacidade"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ícone mostrando que esta imagem possui uma legenda"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Abrir este anexo em uma visualização ampliada"
+  },
+  "icu:startDownload": {
+    "messageformat": "Iniciar download"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Cancelar download"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Reiniciar download"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Tente novamente"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {1 item} other {{count,number} itens}}"
   },
   "icu:save": {
     "messageformat": "Salvar"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Não foi possível transferir suas mensagens. Verifique sua conexão à Internet e tente novamente."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Suas mensagens não puderam ser transferidas devido a um erro. Tente novamente vinculando este desktop."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tente novamente"
   },
@@ -5764,13 +5782,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "O novo ícone de filtro ao lado da barra de pesquisa torna ainda mais fácil localizar rapidamente suas conversas não lidas. Você pode visualizar e gerenciar essas mensagens com praticidade, decidindo se deseja marcá-las como lidas ou manter como não lidas, conforme sua preferência."
-  },
   "icu:WhatsNew__v7.36--0": {
     "messageformat": "Essa atualização corrige um erro no macOS Sonoma que impedia o funcionamento correto do compartilhamento de tela caso a permissão tivesse sido negada anteriormente. Agora, você não precisa mais lidar com mensagens de erro ao tentar compartilhar sua tela."
   },
   "icu:WhatsNew__v7.36--1": {
     "messageformat": "Filtrar por não lidas agora destaca a conversa selecionada, e a lista de conversas não lidas é atualizada automaticamente à medida que novas mensagens chegam ou quando você acompanha uma conversa e seleciona outra."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Agora você pode ver facilmente o progresso dos downloads de anexos. Também é possível pausar e reiniciar downloads em andamento."
   }
 }
