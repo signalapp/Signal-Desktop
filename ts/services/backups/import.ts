@@ -856,14 +856,16 @@ export class BackupImportStream extends Writable {
     };
 
     if (serviceId != null && Bytes.isNotEmpty(contact.identityKey)) {
+      const verified = contact.identityState || 0;
       this.identityKeys.set(serviceId, {
         id: serviceId,
         publicKey: contact.identityKey,
-        verified: contact.identityState || 0,
+        verified,
         firstUse: true,
         timestamp: this.now,
         nonblockingApproval: true,
       });
+      attrs.verified = verified;
     }
 
     if (contact.notRegistered) {
