@@ -107,19 +107,7 @@ function processError(error: unknown): void {
       'private'
     );
     if (error.code === 401 || error.code === 403) {
-      if (
-        conversation.get('sealedSender') === SEALED_SENDER.ENABLED ||
-        conversation.get('sealedSender') === SEALED_SENDER.UNRESTRICTED
-      ) {
-        log.warn(
-          `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, removing profile key`
-        );
-
-        void conversation.setProfileKey(undefined, {
-          reason: 'handleMessageSend/processError',
-        });
-      }
-      if (conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN) {
+      if (conversation.get('sealedSender') !== SEALED_SENDER.DISABLED) {
         log.warn(
           `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
         );

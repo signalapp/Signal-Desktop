@@ -2341,6 +2341,9 @@ export class ConversationModel extends window.Backbone
   async addMessageRequestResponseEventMessage(
     event: MessageRequestResponseEvent
   ): Promise<void> {
+    const idForLogging = getConversationIdForLogging(this.attributes);
+    log.info(`addMessageRequestResponseEventMessage/${idForLogging}: ${event}`);
+
     const timestamp = Date.now();
     const lastMessageTimestamp =
       // Fallback to `timestamp` since `lastMessageReceivedAtMs` is new
@@ -5012,7 +5015,7 @@ export class ConversationModel extends window.Backbone
   }
 
   async setProfileKey(
-    profileKey: string | undefined,
+    profileKey: string,
     {
       viaStorageServiceSync = false,
       reason,
@@ -5022,6 +5025,10 @@ export class ConversationModel extends window.Backbone
       profileKey == null || profileKey.length > 0,
       'setProfileKey: Profile key cannot be an empty string'
     );
+    if (profileKey === undefined) {
+      log.warn('setProfileKey: Refusing to set an undefined profileKey');
+      return false;
+    }
 
     const oldProfileKey = this.get('profileKey');
 
@@ -5071,7 +5078,7 @@ export class ConversationModel extends window.Backbone
     // If our profile key was cleared above, we don't tell our linked devices about it.
     //   We want linked devices to tell us what it should be, instead of telling them to
     //   erase their local value.
-    if (!viaStorageServiceSync && profileKey) {
+    if (!viaStorageServiceSync) {
       this.captureChange('profileKey');
     }
 
@@ -5145,10 +5152,8 @@ export class ConversationModel extends window.Backbone
     const profileKeyVersion = deriveProfileKeyVersion(profileKey, serviceId);
     if (!profileKeyVersion) {
       log.warn(
-        'deriveProfileKeyVersion: Failed to derive profile key version, ' +
-          'clearing profile key.'
+        'deriveProfileKeyVersion: Failed to derive profile key version, return nothing.'
       );
-      void this.setProfileKey(undefined, { reason: 'deriveProfileKeyVersion' });
       return;
     }
 
@@ -5179,32 +5184,6 @@ export class ConversationModel extends window.Backbone
     );
 
     this.set({ lastProfile: { profileKey, profileKeyVersion } });
-
-    await DataWriter.updateConversation(this.attributes);
-  }
-
-  async removeLastProfile(
-    oldValue: ConversationLastProfileType | undefined
-  ): Promise<void> {
-    // Atomic updates only
-    if (this.get('lastProfile') !== oldValue) {
-      return;
-    }
-
-    log.warn(
-      'ConversationModel.removeLastProfile: called for',
-      this.idForLogging()
-    );
-
-    this.set({
-      lastProfile: undefined,
-
-      // We don't have any knowledge of profile anymore. Drop all associated
-      // data.
-      about: undefined,
-      aboutEmoji: undefined,
-      profileAvatar: undefined,
-    });
 
     await DataWriter.updateConversation(this.attributes);
   }
