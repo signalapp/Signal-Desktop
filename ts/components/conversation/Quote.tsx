@@ -477,6 +477,14 @@ export function Quote(props: Props): JSX.Element | null {
     );
   }
 
+  const customColorStyle = getCustomColorStyle(customColor, true);
+
+  // We don't set a custom color for outgoing quotes
+  const borderInlineStartColor =
+    isIncoming || isCompose
+      ? customColorStyle?.borderInlineStartColor
+      : undefined;
+
   function renderReferenceWarning() {
     if (!referencedMessageNotFound || isStoryReply) {
       return null;
@@ -490,9 +498,7 @@ export function Quote(props: Props): JSX.Element | null {
             ? getClassName(`--incoming-${conversationColor}`)
             : getClassName(`--outgoing-${conversationColor}`)
         )}
-        style={{
-          ...getCustomColorStyle(customColor, true),
-        }}
+        style={{ ...customColorStyle, borderInlineStartColor }}
       >
         <div
           className={classNames(
@@ -546,9 +552,14 @@ export function Quote(props: Props): JSX.Element | null {
           !onClick && getClassName('--no-click'),
           referencedMessageNotFound && getClassName('--with-reference-warning')
         )}
-        style={{ ...getCustomColorStyle(customColor, true) }}
+        style={customColorStyle}
       >
-        <div className={getClassName('__primary')}>
+        <div
+          className={getClassName('__primary')}
+          style={
+            borderInlineStartColor ? { borderInlineStartColor } : undefined
+          }
+        >
           {renderAuthor()}
           {renderGenericFile()}
           {renderPayment()}

@@ -141,6 +141,7 @@ import { migrateAllMessages } from '../../messages/migrateMessageData';
 import { trimBody } from '../../util/longAttachment';
 import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import { getEnvironment, isTestEnvironment } from '../../environment';
+import { calculateLightness } from '../../util/getHSL';
 
 const MAX_CONCURRENCY = 10;
 
@@ -2784,10 +2785,14 @@ function checkServiceIdEquivalence(
 function desktopHslToRgbInt(
   hue: number,
   saturation: number,
-  lightness = 1
+  lightness?: number
 ): number {
   // Desktop stores saturation not as 0.123 (0 to 1.0) but 12.3 (percentage)
-  return hslToRGBInt(hue, saturation / 100, lightness);
+  return hslToRGBInt(
+    hue,
+    saturation / 100,
+    lightness ?? calculateLightness(hue)
+  );
 }
 
 function toGroupCallStateProto(state: CallStatus): Backups.GroupCall.State {
