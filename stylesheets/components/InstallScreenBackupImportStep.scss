@@ -20,7 +20,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  margin-top: 84px;
+  margin-top: calc(64px + var(--title-bar-drag-area-height));
   flex: 1;
 }
 
@@ -30,15 +30,16 @@
 }
 
 .InstallScreenBackupImportStep .ProgressBar {
-  margin-block-end: 14px;
+  margin-block-end: 18px;
 }
 
 .InstallScreenBackupImportStep__progressbar-hint {
   @include mixins.font-caption;
-  margin-block-end: 22px;
+  font-weight: 500;
+  margin-block-end: 8px;
 
   @include mixins.light-theme {
-    color: rgba(variables.$color-gray-60, 0.8);
+    color: rgba(variables.$color-black-alpha-40, 0.8);
   }
 
   @include mixins.dark-theme {
@@ -47,7 +48,7 @@
 }
 
 .InstallScreenBackupImportStep__description {
-  @include mixins.font-body-1;
+  @include mixins.font-caption;
 
   @include mixins.light-theme {
     color: variables.$color-gray-60;
@@ -61,16 +62,18 @@
 .InstallScreenBackupImportStep__cancel {
   @include mixins.button-reset();
   & {
-    @include mixins.button-focus-outline;
     @include mixins.font-body-1-bold;
+    @include mixins.button-blue-text();
+    @include mixins.button-focus-outline;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-80;
+    }
   }
-
-  @include mixins.light-theme() {
-    color: variables.$color-ultramarine;
-  }
-
-  @include mixins.dark-theme() {
-    color: variables.$color-ultramarine-light;
+  & {
+    padding-block: 8px;
+    padding-inline: 24px;
+    border-radius: 48px;
+    background-color: variables.$color-gray-05;
   }
 }
 
@@ -79,7 +82,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 36px;
-  min-height: 94px;
+  min-height: 110px;
   gap: 26px;
 }
 

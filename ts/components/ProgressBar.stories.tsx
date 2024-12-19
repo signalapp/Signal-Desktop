@@ -16,6 +16,9 @@ export default {
   },
 } satisfies ComponentMeta<Props>;
 
+export function Spinning(args: Props): JSX.Element {
+  return <ProgressBar {...args} fractionComplete={null} />;
+}
 export function Zero(args: Props): JSX.Element {
   return <ProgressBar {...args} />;
 }

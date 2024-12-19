@@ -285,6 +285,21 @@ $rtl-icon-map: (
   @return false;
 }
 
+@mixin color-svg-themed(
+  $svg,
+  $light-theme-color,
+  $dark-theme-color,
+  $stretch: true,
+  $mask-origin: null
+) {
+  @include light-theme() {
+    @include color-svg($svg, $light-theme-color, $stretch, $mask-origin);
+  }
+  @include dark-theme() {
+    @include color-svg($svg, $dark-theme-color, $stretch, $mask-origin);
+  }
+}
+
 @mixin color-svg($svg, $color, $stretch: true, $mask-origin: null) {
   & {
     -webkit-mask: url($svg) no-repeat center;
