@@ -7,7 +7,7 @@ import { getHSL } from './getHSL';
 import { getUserTheme } from '../shims/getUserTheme';
 
 type ExtraQuotePropsType = {
-  borderLeftColor?: string;
+  borderInlineStartColor?: string;
 };
 
 type BackgroundPropertyType =
@@ -18,7 +18,7 @@ type BackgroundPropertyType =
 export function getCustomColorStyle(
   color?: CustomColorType,
   isQuote = false
-): BackgroundPropertyType {
+): (BackgroundPropertyType & ExtraQuotePropsType) | undefined {
   if (!color) {
     return undefined;
   }
@@ -33,7 +33,7 @@ export function getCustomColorStyle(
     if (theme === ThemeType.dark) {
       adjustedLightness = -0.4;
     }
-    extraQuoteProps.borderLeftColor = getHSL(color.start);
+    extraQuoteProps.borderInlineStartColor = getHSL(color.start);
   }
 
   if (!color.end) {

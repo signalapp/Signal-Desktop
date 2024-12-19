@@ -162,6 +162,13 @@
   }
 }
 
+.module-quote--outgoing-custom {
+  .module-quote__primary,
+  &.module-quote__reference-warning {
+    border-inline-start-color: variables.$color-white;
+  }
+}
+
 .module-quote__primary {
   flex-grow: 1;
   padding-inline: 8px;
