@@ -107,6 +107,7 @@ export type PropsType = {
   onSetSkinTone: (tone: number) => unknown;
   onTextTooLong: () => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
+  ourConversationId: string | undefined;
   preferredReactionEmoji: ReadonlyArray<string>;
   recentEmojis?: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
@@ -138,6 +139,7 @@ export function StoryViewsNRepliesModal({
   onSetSkinTone,
   onTextTooLong,
   onUseEmoji,
+  ourConversationId,
   preferredReactionEmoji,
   recentEmojis,
   renderEmojiPicker,
@@ -254,6 +256,7 @@ export function StoryViewsNRepliesModal({
                 onReply(...args);
               }}
               onTextTooLong={onTextTooLong}
+              ourConversationId={ourConversationId}
               placeholder={
                 group
                   ? i18n('icu:StoryViewer__reply-group')

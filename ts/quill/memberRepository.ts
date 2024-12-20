@@ -82,9 +82,9 @@ export class MemberRepository {
     this.isFuseReady = false;
   }
 
-  getMembers(omit?: Pick<MemberType, 'id'>): ReadonlyArray<MemberType> {
-    if (omit) {
-      return this.members.filter(({ id }) => id !== omit.id);
+  getMembers(omitId?: string): ReadonlyArray<MemberType> {
+    if (omitId) {
+      return this.members.filter(({ id }) => id !== omitId);
     }
 
     return this.members;
@@ -102,10 +102,7 @@ export class MemberRepository {
       : undefined;
   }
 
-  search(
-    pattern: string,
-    omit?: Pick<MemberType, 'id'>
-  ): ReadonlyArray<MemberType> {
+  search(pattern: string, omitId?: string): ReadonlyArray<MemberType> {
     if (!this.isFuseReady) {
       this.fuse.setCollection(this.members);
       this.isFuseReady = true;
@@ -115,8 +112,8 @@ export class MemberRepository {
       .search(removeDiacritics(pattern))
       .map(result => result.item);
 
-    if (omit) {
-      return results.filter(({ id }) => id !== omit.id);
+    if (omitId) {
+      return results.filter(({ id }) => id !== omitId);
     }
 
     return results;

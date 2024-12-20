@@ -14,7 +14,7 @@ import {
   getTextFormattingEnabled,
   isInternalUser,
 } from '../selectors/items';
-import { getIntl, getPlatform } from '../selectors/user';
+import { getIntl, getPlatform, getUserConversationId } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getSelectedStoryData,
@@ -64,6 +64,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
 
   const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
+  const ourConversationId = useSelector(getUserConversationId);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const preferredReactionEmoji = useSelector(getPreferredReactionEmoji);
   const selectedStoryData = useSelector(getSelectedStoryData);
@@ -154,6 +155,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
       onSetSkinTone={onSetSkinTone}
       onTextTooLong={handleTextTooLong}
       onUseEmoji={onUseEmoji}
+      ourConversationId={ourConversationId}
       platform={platform}
       preferredReactionEmoji={preferredReactionEmoji}
       queueStoryDownload={queueStoryDownload}

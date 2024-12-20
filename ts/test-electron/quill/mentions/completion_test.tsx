@@ -82,7 +82,7 @@ describe('MentionCompletion', () => {
     const options: MentionCompletionOptions = {
       getPreferredBadge: () => undefined,
       i18n: setupI18n('en', {}),
-      me,
+      ourConversationId: me.id,
       memberRepositoryRef,
       setMentionPickerElement: sinon.stub(),
       theme: ThemeType.dark,

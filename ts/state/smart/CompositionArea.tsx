@@ -255,6 +255,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       lastEditableMessageId={lastEditableMessageId ?? null}
       messageCompositionId={messageCompositionId}
       platform={platform}
+      ourConversationId={ourConversationId}
       sendCounter={sendCounter}
       shouldHidePopovers={shouldHidePopovers}
       theme={theme}

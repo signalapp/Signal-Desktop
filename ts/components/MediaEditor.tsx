@@ -89,6 +89,7 @@ export type PropsType = {
     | 'isFormattingEnabled'
     | 'onPickEmoji'
     | 'onTextTooLong'
+    | 'ourConversationId'
     | 'platform'
     | 'sortedGroupMembers'
   > &
@@ -157,6 +158,7 @@ export function MediaEditor({
   isFormattingEnabled,
   onPickEmoji,
   onTextTooLong,
+  ourConversationId,
   platform,
   sortedGroupMembers,
 
@@ -1315,6 +1317,7 @@ export function MediaEditor({
                   onPickEmoji={onPickEmoji}
                   onSubmit={noop}
                   onTextTooLong={onTextTooLong}
+                  ourConversationId={ourConversationId}
                   placeholder={i18n('icu:MediaEditor__input-placeholder')}
                   platform={platform}
                   quotedMessageId={null}

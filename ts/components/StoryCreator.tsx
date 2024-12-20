@@ -274,6 +274,7 @@ export function StoryCreator({
               }}
               onPickEmoji={onPickEmoji}
               onTextTooLong={onTextTooLong}
+              ourConversationId={ourConversationId}
               platform={platform}
               recentStickers={recentStickers}
               skinTone={skinTone}

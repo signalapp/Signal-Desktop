@@ -43,6 +43,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     onPickEmoji: action('onPickEmoji'),
     onSubmit: action('onSubmit'),
     onTextTooLong: action('onTextTooLong'),
+    ourConversationId: 'me',
     platform: 'darwin',
     quotedMessageId: null,
     sendCounter: 0,

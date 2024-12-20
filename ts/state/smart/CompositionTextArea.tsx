@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import type { CompositionTextAreaProps } from '../../components/CompositionTextArea';
 import { CompositionTextArea } from '../../components/CompositionTextArea';
-import { getIntl, getPlatform } from '../selectors/user';
+import { getIntl, getPlatform, getUserConversationId } from '../selectors/user';
 import { useEmojisActions as useEmojiActions } from '../ducks/emojis';
 import { useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
@@ -31,6 +31,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
 ) {
   const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
+  const ourConversationId = useSelector(getUserConversationId);
 
   const { onUseEmoji: onPickEmoji } = useEmojiActions();
   const { onSetSkinTone } = useItemsActions();
@@ -50,6 +51,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
       onSetSkinTone={onSetSkinTone}
       onTextTooLong={onTextTooLong}
       platform={platform}
+      ourConversationId={ourConversationId}
     />
   );
 });
