@@ -7,6 +7,7 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import * as Errors from '../types/errors';
 import { strictAssert } from '../util/assert';
+import { toBoundedDate } from '../util/timestamp';
 
 async function eraseTapToViewMessages() {
   try {
@@ -73,7 +74,7 @@ class TapToViewMessagesDeletionService {
       receivedAtMsForOldestTapToViewMessage + getMessageQueueTime();
     window.SignalContext.log.info(
       'checkTapToViewMessages: next check at',
-      new Date(nextCheck).toISOString()
+      toBoundedDate(nextCheck).toISOString()
     );
 
     let wait = nextCheck - Date.now();

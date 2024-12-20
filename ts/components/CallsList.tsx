@@ -30,7 +30,11 @@ import {
   isSameCallHistoryGroup,
   CallMode,
 } from '../types/CallDisposition';
-import { formatDateTimeShort, isMoreRecentThan } from '../util/timestamp';
+import {
+  formatDateTimeShort,
+  isMoreRecentThan,
+  toBoundedDate,
+} from '../util/timestamp';
 import type { ConversationType } from '../state/ducks/conversations';
 import * as log from '../logging/log';
 import { refMerger } from '../util/refMerger';
@@ -89,7 +93,7 @@ function Timestamp({
   }, []);
 
   const dateTime = useMemo(() => {
-    return new Date(timestamp).toISOString();
+    return toBoundedDate(timestamp).toISOString();
   }, [timestamp]);
 
   const formatted = useMemo(() => {
