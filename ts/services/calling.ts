@@ -7,7 +7,6 @@ import type {
   CallId,
   DeviceId,
   GroupCallObserver,
-  SpeechEvent,
   PeekInfo,
   UserId,
   VideoFrameSource,
@@ -39,6 +38,7 @@ import {
   RingRTC,
   RingUpdate,
   GroupCallKind,
+  SpeechEvent,
 } from '@signalapp/ringrtc';
 import { uniqBy, noop, compact } from 'lodash';
 
@@ -158,6 +158,7 @@ import { createIdenticon } from '../util/createIdenticon';
 import { getColorForCallLink } from '../util/getColorForCallLink';
 import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
 import OS from '../util/os/osMain';
+import { isLowerHandSuggestionEnabled } from '../util/isLowerHandSuggestionEnabled';
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -207,10 +208,12 @@ type CallingReduxInterface = Pick<
   | 'refreshIODevices'
   | 'remoteSharingScreenChange'
   | 'remoteVideoChange'
+  | 'sendGroupCallRaiseHand'
   | 'startCallingLobby'
   | 'startCallLinkLobby'
   | 'startCallLinkLobbyByRoomId'
   | 'peekNotConnectedGroupCall'
+  | 'setSuggestLowerHand'
 > & {
   areAnyCallsActiveOrRinging(): boolean;
 };
@@ -1479,8 +1482,22 @@ export class CallingClass {
           endedReason,
         });
       },
-      onSpeechEvent: (_groupCall: GroupCall, _event: SpeechEvent) => {
-        // Implementation to come later
+      onSpeechEvent: (_groupCall: GroupCall, event: SpeechEvent) => {
+        if (!isLowerHandSuggestionEnabled()) {
+          return;
+        }
+        log.info('GroupCall#onSpeechEvent', event);
+        if (event === SpeechEvent.LowerHandSuggestion) {
+          this.reduxInterface?.setSuggestLowerHand(true);
+        } else if (event === SpeechEvent.StoppedSpeaking) {
+          this.reduxInterface?.setSuggestLowerHand(false);
+        } else {
+          log.error(
+            'GroupCall#onSpeechEvent, unknown speechEvent',
+            SpeechEvent,
+            Errors.toLogFormat(missingCaseError(event))
+          );
+        }
       },
     };
   }

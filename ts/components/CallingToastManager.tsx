@@ -11,6 +11,7 @@ import { usePrevious } from '../hooks/usePrevious';
 import { difference as setDifference } from '../util/setUtil';
 import { isMoreRecentThan } from '../util/timestamp';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
+import { SECOND } from '../util/durations';
 
 type PropsType = {
   activeCall: ActiveCallType;
@@ -251,6 +252,75 @@ function useRaisedHandsToast({
   ]);
 }
 
+function useLowerHandSuggestionToast({
+  suggestLowerHand,
+  handleLowerHand,
+  i18n,
+  isHandRaised,
+}: {
+  suggestLowerHand: boolean | undefined;
+  i18n: LocalizerType;
+  handleLowerHand: (() => void) | undefined;
+  isHandRaised: boolean | undefined;
+}): void {
+  const previousSuggestLowerHand = usePrevious(
+    suggestLowerHand,
+    suggestLowerHand
+  );
+  const { showToast, hideToast } = useCallingToasts();
+  const SUGGEST_LOWER_HAND_TOAST_KEY = 'SUGGEST_LOWER_HAND_TOAST_KEY';
+
+  useEffect(() => {
+    if (!handleLowerHand) {
+      return;
+    }
+    if (
+      previousSuggestLowerHand !== undefined &&
+      suggestLowerHand !== previousSuggestLowerHand
+    ) {
+      if (suggestLowerHand && isHandRaised) {
+        showToast({
+          key: SUGGEST_LOWER_HAND_TOAST_KEY,
+          content: (
+            <div className="CallingRaisedHandsToast__Content">
+              <span className="CallingRaisedHandsToast__HandIcon" />
+              {i18n('icu:CallControls__LowerHandSuggestionToast')}
+              <button
+                className="CallingRaisedHandsToasts__Link"
+                type="button"
+                onClick={() => {
+                  handleLowerHand();
+                  hideToast(SUGGEST_LOWER_HAND_TOAST_KEY);
+                }}
+              >
+                {i18n('icu:CallControls__LowerHandSuggestionToast--button')}
+              </button>
+            </div>
+          ),
+          dismissable: false,
+          autoClose: true,
+          lifetime: 10 * SECOND,
+        });
+      }
+    }
+  }, [
+    suggestLowerHand,
+    handleLowerHand,
+    previousSuggestLowerHand,
+    hideToast,
+    showToast,
+    SUGGEST_LOWER_HAND_TOAST_KEY,
+    isHandRaised,
+    i18n,
+  ]);
+
+  useEffect(() => {
+    if (!isHandRaised) {
+      hideToast(SUGGEST_LOWER_HAND_TOAST_KEY);
+    }
+  }, [isHandRaised, hideToast]);
+}
+
 type CallingButtonToastsType = {
   hasLocalAudio: boolean;
   outgoingRing: boolean | undefined;
@@ -258,6 +328,9 @@ type CallingButtonToastsType = {
   renderRaisedHandsToast?: (
     hands: Array<number>
   ) => JSX.Element | string | undefined;
+  suggestLowerHand?: boolean;
+  isHandRaised?: boolean;
+  handleLowerHand?: () => void;
   i18n: LocalizerType;
 };
 
@@ -284,11 +357,20 @@ function CallingButtonToasts({
   outgoingRing,
   raisedHands,
   renderRaisedHandsToast,
+  suggestLowerHand,
+  handleLowerHand,
+  isHandRaised,
   i18n,
 }: CallingButtonToastsType) {
   useMutedToast({ hasLocalAudio, i18n });
   useOutgoingRingToast({ outgoingRing, i18n });
   useRaisedHandsToast({ raisedHands, renderRaisedHandsToast });
+  useLowerHandSuggestionToast({
+    suggestLowerHand,
+    i18n,
+    handleLowerHand,
+    isHandRaised,
+  });
 
   return null;
 }

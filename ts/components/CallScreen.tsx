@@ -855,6 +855,13 @@ export function CallScreen({
         outgoingRing={undefined}
         raisedHands={raisedHands}
         renderRaisedHandsToast={renderRaisedHandsToast}
+        handleLowerHand={() => toggleRaiseHand(false)}
+        suggestLowerHand={
+          isGroupOrAdhocActiveCall(activeCall)
+            ? activeCall.suggestLowerHand
+            : false
+        }
+        isHandRaised={localHandRaised}
         i18n={i18n}
       />
       {isCallLinkAdmin ? (
