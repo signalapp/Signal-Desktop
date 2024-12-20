@@ -67,6 +67,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       onPickEmoji={action('onPickEmoji')}
       onSetSkinTone={action('onSetSkinTone')}
       onTextTooLong={action('onTextTooLong')}
+      ourConversationId="me"
       platform="darwin"
       skinTone={0}
     />

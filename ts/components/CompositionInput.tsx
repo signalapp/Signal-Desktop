@@ -139,6 +139,7 @@ export type Props = Readonly<{
     timestamp: number
   ): unknown;
   onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
+  ourConversationId: string | undefined;
   platform: string;
   quotedMessageId: string | null;
   shouldHidePopovers: boolean | null;
@@ -173,6 +174,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     onPickEmoji,
     onScroll,
     onSubmit,
+    ourConversationId,
     placeholder,
     platform,
     quotedMessageId,
@@ -781,11 +783,9 @@ export function CompositionInput(props: Props): React.ReactElement {
             },
             mentionCompletion: {
               getPreferredBadge,
-              me: sortedGroupMembers
-                ? sortedGroupMembers.find(foo => foo.isMe)
-                : undefined,
               memberRepositoryRef,
               setMentionPickerElement: setMentionCompletionElement,
+              ourConversationId,
               i18n,
               theme,
             },

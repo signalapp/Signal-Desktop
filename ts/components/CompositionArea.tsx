@@ -198,6 +198,7 @@ export type Props = Pick<
   | 'getPreferredBadge'
   | 'onEditorStateChange'
   | 'onTextTooLong'
+  | 'ourConversationId'
   | 'quotedMessageId'
   | 'sendCounter'
   | 'sortedGroupMembers'
@@ -280,6 +281,7 @@ export const CompositionArea = memo(function CompositionArea({
   isFormattingEnabled,
   onEditorStateChange,
   onTextTooLong,
+  ourConversationId,
   sendCounter,
   sortedGroupMembers,
   // EmojiButton
@@ -947,6 +949,7 @@ export const CompositionArea = memo(function CompositionArea({
             }}
             onPickEmoji={onPickEmoji}
             onTextTooLong={onTextTooLong}
+            ourConversationId={ourConversationId}
             platform={platform}
             recentStickers={recentStickers}
             skinTone={skinTone}
@@ -1042,6 +1045,7 @@ export const CompositionArea = memo(function CompositionArea({
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
             onTextTooLong={onTextTooLong}
+            ourConversationId={ourConversationId}
             platform={platform}
             quotedMessageId={quotedMessageId}
             sendCounter={sendCounter}
