@@ -181,6 +181,7 @@ const getActiveCallForCallLink = (
     pendingParticipants: overrideProps.pendingParticipants ?? [],
     raisedHands: new Set<number>(),
     remoteAudioLevels: new Map<number, number>(),
+    suggestLowerHand: false,
   };
 };
 
@@ -232,6 +233,7 @@ export function OngoingGroupCall(): JSX.Element {
           raisedHands: new Set<number>(),
           remoteParticipants: [],
           remoteAudioLevels: new Map<number, number>(),
+          suggestLowerHand: false,
         },
       })}
     />

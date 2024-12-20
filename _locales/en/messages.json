@@ -3699,6 +3699,14 @@
     "messageformat": "Mic on",
     "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?",
+    "description": "Shown in a call when the user has their hand raised but has been talking, next to a button to lower their hand."
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower",
+    "description": "Text of button that, when clicked, will lower your raised hand after you've been speaking"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Ringing on",
     "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."

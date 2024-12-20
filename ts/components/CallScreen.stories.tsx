@@ -74,6 +74,7 @@ type GroupCallOverrideProps = OverridePropsBase & {
   raisedHands?: Set<number>;
   remoteParticipants?: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevel?: number;
+  suggestLowerHand?: boolean;
 };
 
 const createActiveDirectCallProp = (
@@ -153,6 +154,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
     ])
   ),
   reactions: overrideProps.reactions || [],
+  suggestLowerHand: overrideProps.suggestLowerHand ?? false,
 });
 
 const createActiveCallProp = (
@@ -797,6 +799,37 @@ export function GroupCallHandRaising(): JSX.Element {
   const activeCall = useHandRaiser(props.activeCall as ActiveGroupCallType);
 
   return <CallScreen {...props} activeCall={activeCall} />;
+}
+
+export function GroupCallSuggestLowerHand(): JSX.Element {
+  const remoteParticipants = allRemoteParticipants.slice(0, 10);
+
+  const [props, setProps] = React.useState(
+    createProps({
+      callMode: CallMode.Group,
+      remoteParticipants,
+      raisedHands: new Set([LOCAL_DEMUX_ID]),
+      viewMode: CallViewMode.Sidebar,
+      suggestLowerHand: false,
+    })
+  );
+
+  React.useEffect(() => {
+    setTimeout(
+      () =>
+        setProps(
+          createProps({
+            callMode: CallMode.Group,
+            remoteParticipants,
+            viewMode: CallViewMode.Sidebar,
+            suggestLowerHand: true,
+          })
+        ),
+      200
+    );
+  }, [remoteParticipants]);
+
+  return <CallScreen {...props} />;
 }
 
 // Every [frequency] ms, all hands are lowered and [random min to max] random hands

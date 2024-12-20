@@ -333,6 +333,7 @@ const mapStateToActiveCallProp = (
         raisedHands,
         remoteParticipants,
         remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
+        suggestLowerHand: Boolean(activeCallState.suggestLowerHand),
       } satisfies ActiveGroupCallType;
     }
     default:

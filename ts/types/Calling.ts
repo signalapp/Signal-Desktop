@@ -95,6 +95,7 @@ export type ActiveGroupCallType = ActiveCallBaseType & {
   raisedHands: Set<number>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
+  suggestLowerHand: boolean;
 };
 
 export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;

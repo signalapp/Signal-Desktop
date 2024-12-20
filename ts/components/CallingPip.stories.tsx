@@ -144,6 +144,7 @@ export function GroupCall(args: PropsType): JSX.Element {
         raisedHands: new Set<number>(),
         remoteParticipants: [],
         remoteAudioLevels: new Map<number, number>(),
+        suggestLowerHand: false,
       }}
     />
   );
