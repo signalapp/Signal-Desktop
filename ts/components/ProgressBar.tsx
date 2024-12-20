@@ -7,9 +7,16 @@ export function ProgressBar({
   fractionComplete,
   isRTL,
 }: {
-  fractionComplete: number;
+  fractionComplete: number | null;
   isRTL: boolean;
 }): JSX.Element {
+  if (fractionComplete == null) {
+    return (
+      <div className="ProgressBar">
+        <div className="ProgressBar__fill ProgressBar__fill--spinning" />
+      </div>
+    );
+  }
   return (
     <div className="ProgressBar">
       <div

@@ -4776,11 +4776,11 @@
     "description": "Hint under the progressbar in the backup import screen when download size is not yet known"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup",
+    "messageformat": "This may take a few minutes depending on the size of your message history",
     "description": "Description at the bottom of backup import screen"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer",
+    "messageformat": "Cancel",
     "description": "Text of the cancel button at the bottom of backup import screen"
   },
   "icu:BackupImportScreen__security-description": {
@@ -4792,7 +4792,7 @@
     "description": "Title of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings.",
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history.",
     "description": "Body of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {

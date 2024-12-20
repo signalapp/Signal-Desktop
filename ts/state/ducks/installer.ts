@@ -63,13 +63,22 @@ export type InstallerStateType = ReadonlyDeep<
   | {
       step: InstallScreenStep.LinkInProgress;
     }
-  | {
+  | ({
       step: InstallScreenStep.BackupImport;
       backupStep: InstallScreenBackupStep;
-      currentBytes?: number;
-      totalBytes?: number;
       error?: InstallScreenBackupError;
-    }
+    } & (
+      | {
+          backupStep:
+            | InstallScreenBackupStep.Download
+            | InstallScreenBackupStep.Process;
+          currentBytes: number;
+          totalBytes: number;
+        }
+      | {
+          backupStep: InstallScreenBackupStep.WaitForBackup;
+        }
+    ))
 >;
 
 export type RetryBackupImportValue = ReadonlyDeep<'retry' | 'cancel'>;
@@ -594,7 +603,7 @@ export function reducer(
 
     return {
       step: InstallScreenStep.BackupImport,
-      backupStep: InstallScreenBackupStep.Download,
+      backupStep: InstallScreenBackupStep.WaitForBackup,
     };
   }
 

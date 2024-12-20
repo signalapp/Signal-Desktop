@@ -13,6 +13,7 @@ export enum InstallScreenStep {
 }
 
 export enum InstallScreenBackupStep {
+  WaitForBackup = 'WaitForBackup',
   Download = 'Download',
   Process = 'Process',
 }

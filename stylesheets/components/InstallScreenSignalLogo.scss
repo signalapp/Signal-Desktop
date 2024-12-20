@@ -14,16 +14,16 @@
   inset-inline-start: 32px;
 
   &::before {
-    @include mixins.color-svg(
-      '../images/signal-logo.svg',
-      variables.$color-ultramarine-logo
+    @include mixins.color-svg-themed(
+      '../images/signal-logo-and-wordmark.svg',
+      variables.$color-ultramarine-logo,
+      variables.$color-white
     );
     & {
       content: '';
       display: block;
       height: 32px;
-      margin-inline-end: 6px;
-      width: 32px;
+      width: 112px;
     }
   }
 }

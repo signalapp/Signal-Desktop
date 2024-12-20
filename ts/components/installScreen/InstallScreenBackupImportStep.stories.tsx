@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../../util/setupI18n';
@@ -73,11 +73,48 @@ const Template: StoryFn<PropsType> = (args: PropsType) => {
   );
 };
 
-export const NoBytes = Template.bind({});
-NoBytes.args = {
-  backupStep: InstallScreenBackupStep.Download,
-  currentBytes: undefined,
-  totalBytes: undefined,
+export function FullFlow(): JSX.Element {
+  const [backupStep, setBackupStep] = useState<InstallScreenBackupStep>(
+    InstallScreenBackupStep.WaitForBackup
+  );
+  const [currentBytes, setCurrentBytes] = useState<number>(0);
+  const [totalBytes, setTotalBytes] = useState<number>(0);
+  const TOTAL_BYTES = 1024 * 1024;
+
+  useEffect(() => {
+    setTimeout(() => {
+      setBackupStep(InstallScreenBackupStep.Download);
+      setCurrentBytes(0);
+      setTotalBytes(TOTAL_BYTES);
+      for (let i = 0; i < 4; i += 1) {
+        setTimeout(() => {
+          setCurrentBytes(TOTAL_BYTES / (4 - i));
+        }, i * 900);
+      }
+    }, 1000);
+  }, [TOTAL_BYTES]);
+
+  return (
+    <InstallScreenBackupImportStep
+      i18n={i18n}
+      updates={DEFAULT_UPDATES}
+      currentVersion="v6.0.0"
+      OS="macOS"
+      startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
+      onCancel={action('onCancel')}
+      onRetry={action('onRetry')}
+      currentBytes={currentBytes}
+      totalBytes={totalBytes}
+      backupStep={backupStep}
+      onRestartLink={action('onRestartLink')}
+    />
+  );
+}
+
+export const Waiting = Template.bind({});
+Waiting.args = {
+  backupStep: InstallScreenBackupStep.WaitForBackup,
 };
 
 export const Bytes = Template.bind({});

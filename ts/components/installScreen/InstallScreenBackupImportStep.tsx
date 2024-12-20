@@ -24,40 +24,50 @@ import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog';
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
 
-export type PropsType = Readonly<{
-  i18n: LocalizerType;
-  backupStep: InstallScreenBackupStep;
-  currentBytes?: number;
-  totalBytes?: number;
-  error?: InstallScreenBackupError;
-  onCancel: () => void;
-  onRetry: () => void;
-  onRestartLink: () => void;
+export type PropsType = Readonly<
+  {
+    i18n: LocalizerType;
 
-  // Updater UI
-  updates: UpdatesStateType;
-  currentVersion: string;
-  OS: string;
-  startUpdate: () => void;
-  forceUpdate: () => void;
-}>;
+    error?: InstallScreenBackupError;
+    onCancel: () => void;
+    onRetry: () => void;
+    onRestartLink: () => void;
 
-export function InstallScreenBackupImportStep({
-  i18n,
-  backupStep,
-  currentBytes,
-  totalBytes,
-  error,
-  onCancel,
-  onRetry,
-  onRestartLink,
+    // Updater UI
+    updates: UpdatesStateType;
+    currentVersion: string;
+    OS: string;
+    startUpdate: () => void;
+    forceUpdate: () => void;
+  } & (
+    | {
+        backupStep: InstallScreenBackupStep.WaitForBackup;
+      }
+    | {
+        backupStep:
+          | InstallScreenBackupStep.Download
+          | InstallScreenBackupStep.Process;
+        currentBytes: number;
+        totalBytes: number;
+      }
+  )
+>;
 
-  updates,
-  currentVersion,
-  OS,
-  startUpdate,
-  forceUpdate,
-}: PropsType): JSX.Element {
+export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
+  const {
+    i18n,
+    backupStep,
+    error,
+    onCancel,
+    onRetry,
+    onRestartLink,
+    updates,
+    currentVersion,
+    OS,
+    startUpdate,
+    forceUpdate,
+  } = props;
+
   const [isConfirmingCancel, setIsConfirmingCancel] = useState(false);
   const [isConfirmingSkip, setIsConfirmingSkip] = useState(false);
 
@@ -91,52 +101,6 @@ export function InstallScreenBackupImportStep({
     onRetry();
     setIsConfirmingSkip(false);
   }, [onRetry]);
-
-  let progress: JSX.Element;
-  if (currentBytes != null && totalBytes != null) {
-    const fractionComplete = roundFractionForProgressBar(
-      currentBytes / totalBytes
-    );
-
-    let hint: string;
-    if (backupStep === InstallScreenBackupStep.Download) {
-      hint = i18n('icu:BackupImportScreen__progressbar-hint', {
-        currentSize: formatFileSize(currentBytes),
-        totalSize: formatFileSize(totalBytes),
-        fractionComplete,
-      });
-    } else if (backupStep === InstallScreenBackupStep.Process) {
-      hint = i18n('icu:BackupImportScreen__progressbar-hint--processing');
-    } else {
-      throw missingCaseError(backupStep);
-    }
-
-    progress = (
-      <>
-        <ProgressBar
-          key={backupStep}
-          fractionComplete={fractionComplete}
-          isRTL={i18n.getLocaleDirection() === 'rtl'}
-        />
-        <div className="InstallScreenBackupImportStep__progressbar-hint">
-          {hint}
-        </div>
-      </>
-    );
-  } else {
-    progress = (
-      <>
-        <ProgressBar
-          key={backupStep}
-          fractionComplete={0}
-          isRTL={i18n.getLocaleDirection() === 'rtl'}
-        />
-        <div className="InstallScreenBackupImportStep__progressbar-hint">
-          {i18n('icu:BackupImportScreen__progressbar-hint--preparing')}
-        </div>
-      </>
-    );
-  }
 
   const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a href={SYNCING_MESSAGES_SECURITY_URL} rel="noreferrer" target="_blank">
@@ -209,13 +173,12 @@ export function InstallScreenBackupImportStep({
   return (
     <div className="InstallScreenBackupImportStep">
       <TitlebarDragArea />
-
       <InstallScreenSignalLogo />
       <div className="InstallScreenBackupImportStep__content">
         <h3 className="InstallScreenBackupImportStep__title">
           {i18n('icu:BackupImportScreen__title')}
         </h3>
-        {progress}
+        <ProgressBarAndDescription {...props} />
         <div className="InstallScreenBackupImportStep__description">
           {i18n('icu:BackupImportScreen__description')}
         </div>
@@ -288,4 +251,77 @@ export function InstallScreenBackupImportStep({
       {errorElem}
     </div>
   );
+}
+
+type ProgressBarPropsType = Readonly<
+  {
+    i18n: LocalizerType;
+  } & (
+    | {
+        backupStep: InstallScreenBackupStep.WaitForBackup;
+      }
+    | {
+        backupStep:
+          | InstallScreenBackupStep.Download
+          | InstallScreenBackupStep.Process;
+        currentBytes: number;
+        totalBytes: number;
+      }
+  )
+>;
+
+function ProgressBarAndDescription(props: ProgressBarPropsType): JSX.Element {
+  const { backupStep, i18n } = props;
+  if (backupStep === InstallScreenBackupStep.WaitForBackup) {
+    return (
+      <>
+        <ProgressBar
+          fractionComplete={null}
+          isRTL={i18n.getLocaleDirection() === 'rtl'}
+        />
+        <div className="InstallScreenBackupImportStep__progressbar-hint">
+          {i18n('icu:BackupImportScreen__progressbar-hint--preparing')}
+        </div>
+      </>
+    );
+  }
+
+  const { currentBytes, totalBytes } = props;
+
+  const fractionComplete = roundFractionForProgressBar(
+    currentBytes / totalBytes
+  );
+
+  if (backupStep === InstallScreenBackupStep.Download) {
+    return (
+      <>
+        <ProgressBar
+          fractionComplete={fractionComplete}
+          isRTL={i18n.getLocaleDirection() === 'rtl'}
+        />
+        <div className="InstallScreenBackupImportStep__progressbar-hint">
+          {i18n('icu:BackupImportScreen__progressbar-hint', {
+            currentSize: formatFileSize(currentBytes),
+            totalSize: formatFileSize(totalBytes),
+            fractionComplete,
+          })}
+        </div>
+      </>
+    );
+    // eslint-disable-next-line no-else-return
+  } else if (backupStep === InstallScreenBackupStep.Process) {
+    return (
+      <>
+        <ProgressBar
+          fractionComplete={fractionComplete}
+          isRTL={i18n.getLocaleDirection() === 'rtl'}
+        />
+        <div className="InstallScreenBackupImportStep__progressbar-hint">
+          {i18n('icu:BackupImportScreen__progressbar-hint--processing')}
+        </div>
+      </>
+    );
+  } else {
+    throw missingCaseError(backupStep);
+  }
 }
