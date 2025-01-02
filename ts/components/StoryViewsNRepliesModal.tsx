@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import { noop, orderBy } from 'lodash';
 
 import type { DraftBodyRanges } from '../types/BodyRange';
 import type { LocalizerType } from '../types/Util';
@@ -176,6 +176,10 @@ export function StoryViewsNRepliesModal({
       ? StoryViewsNRepliesTab.Replies
       : StoryViewsNRepliesTab.Views;
   }, [viewTarget]);
+
+  const sortedViews = useMemo(() => {
+    return orderBy(views, 'updatedAt', 'desc');
+  }, [views]);
 
   const onTabChange = (tab: string) => {
     onChangeViewTarget(
@@ -364,10 +368,10 @@ export function StoryViewsNRepliesModal({
         {i18n('icu:StoryViewsNRepliesModal__read-receipts-off')}
       </div>
     );
-  } else if (views.length) {
+  } else if (sortedViews.length) {
     viewsElement = (
       <div className="StoryViewsNRepliesModal__views">
-        {views.map(view => (
+        {sortedViews.map(view => (
           <div
             className="StoryViewsNRepliesModal__view"
             key={view.recipient.id}
