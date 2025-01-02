@@ -152,6 +152,8 @@
   width: 8px;
   background: transparent;
   cursor: col-resize;
+  // Disable browser handling of gestures so element can be dragged with touch events
+  touch-action: none;
 
   &:focus {
     outline: none;
