@@ -8,8 +8,9 @@ import { DAY, HOUR, SECOND } from '../../util/durations';
 describe('groupSendEndorsements', () => {
   describe('validateGroupSendEndorsementsExpiration', () => {
     function validateDistance(distance: number) {
-      const expiration = Date.now() + distance;
-      return validateGroupSendEndorsementsExpiration(expiration);
+      const now = Date.now();
+      const expiration = now + distance;
+      return validateGroupSendEndorsementsExpiration(expiration, now);
     }
 
     function checkValid(label: string, distance: number) {

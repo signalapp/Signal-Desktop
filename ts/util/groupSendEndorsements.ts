@@ -134,10 +134,11 @@ export type ValidationResult =
   | { valid: false; reason: string };
 
 export function validateGroupSendEndorsementsExpiration(
-  expiration: number
+  expiration: number,
+  now: number = Date.now()
 ): ValidationResult {
   const expSeconds = DurationInSeconds.fromMillis(expiration);
-  const nowSeconds = DurationInSeconds.fromMillis(Date.now());
+  const nowSeconds = DurationInSeconds.fromMillis(now);
   const info = `now: ${nowSeconds}, exp: ${expSeconds}`;
   if (expSeconds <= nowSeconds) {
     return { valid: false, reason: `already expired, ${info}` };
