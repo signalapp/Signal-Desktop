@@ -1216,6 +1216,7 @@ export type GetBackupInfoResponseType = z.infer<
 
 export type GetReleaseNoteOptionsType = Readonly<{
   uuid: string;
+  locale: string;
 }>;
 
 export const releaseNoteSchema = z.object({
@@ -1408,6 +1409,9 @@ export type WebAPIType = {
   getReleaseNote: (
     options: GetReleaseNoteOptionsType
   ) => Promise<ReleaseNoteResponseType>;
+  getReleaseNoteHash: (
+    options: GetReleaseNoteOptionsType
+  ) => Promise<string | undefined>;
   getReleaseNotesManifest: () => Promise<ReleaseNotesManifestResponseType>;
   getReleaseNotesManifestHash: () => Promise<string | undefined>;
   getSticker: (packId: string, stickerId: number) => Promise<Uint8Array>;
@@ -1880,6 +1884,7 @@ export function initialize({
       getProfileUnauth,
       getProvisioningResource,
       getReleaseNote,
+      getReleaseNoteHash,
       getReleaseNotesManifest,
       getReleaseNotesManifestHash,
       getTransferArchive,
@@ -2174,15 +2179,43 @@ export function initialize({
         languages: Record<string, Array<string>>;
       };
     }
+
+    async function getReleaseNoteHash({
+      uuid,
+      locale,
+    }: {
+      uuid: string;
+      locale: string;
+    }): Promise<string | undefined> {
+      const { response } = await _ajax({
+        call: 'releaseNotes',
+        host: resourcesUrl,
+        httpType: 'HEAD',
+        urlParameters: `/${uuid}/${locale}.json`,
+        responseType: 'byteswithdetails',
+      });
+
+      const etag = response.headers.get('etag');
+
+      if (etag == null) {
+        return undefined;
+      }
+
+      return etag;
+    }
     async function getReleaseNote({
       uuid,
-    }: GetReleaseNoteOptionsType): Promise<ReleaseNoteResponseType> {
+      locale,
+    }: {
+      uuid: string;
+      locale: string;
+    }): Promise<ReleaseNoteResponseType> {
       const rawRes = await _ajax({
         call: 'releaseNotes',
         host: resourcesUrl,
         httpType: 'GET',
         responseType: 'json',
-        urlParameters: `/${uuid}/en.json`,
+        urlParameters: `/${uuid}/${locale}.json`,
       });
       return parseUnknown(releaseNoteSchema, rawRes);
     }

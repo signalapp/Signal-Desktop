@@ -106,20 +106,51 @@ export class ReleaseNotesFetcher {
     }
 
     const { uuid, ctaId, link } = note;
-    const result = await window.textsecure.server.getReleaseNote({
-      uuid,
-    });
-    strictAssert(
-      result.uuid === uuid,
-      'UUID of localized release note should match requested UUID'
-    );
+    const globalLocale = new Intl.Locale(window.SignalContext.getI18nLocale());
+    const localesToTry = [
+      globalLocale.toString(),
+      globalLocale.language.toString(),
+      'en',
+    ].map(locale => locale.toLocaleLowerCase().replace('-', '_'));
 
-    return {
-      ...result,
-      uuid,
-      ctaId,
-      link,
-    };
+    for (const localeToTry of localesToTry) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const hash = await window.textsecure.server.getReleaseNoteHash({
+          uuid,
+          locale: localeToTry,
+        });
+
+        if (hash === undefined) {
+          continue;
+        }
+
+        // eslint-disable-next-line no-await-in-loop
+        const result = await window.textsecure.server.getReleaseNote({
+          uuid,
+          locale: localeToTry,
+        });
+
+        strictAssert(
+          result.uuid === uuid,
+          'UUID of localized release note should match requested UUID'
+        );
+
+        return {
+          ...result,
+          uuid,
+          ctaId,
+          link,
+        };
+      } catch {
+        // If either request fails, try the next locale
+        continue;
+      }
+    }
+
+    throw new Error(
+      `Could not fetch release note with any locale for UUID ${uuid}`
+    );
   }
 
   private async processReleaseNotes(
