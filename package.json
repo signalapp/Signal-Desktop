@@ -109,7 +109,7 @@
     "@popperjs/core": "2.11.8",
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
-    "@signalapp/better-sqlite3": "9.0.8",
+    "@signalapp/better-sqlite3": "9.0.9",
     "@signalapp/libsignal-client": "0.64.1",
     "@signalapp/ringrtc": "2.49.1",
     "@types/fabric": "4.5.3",
