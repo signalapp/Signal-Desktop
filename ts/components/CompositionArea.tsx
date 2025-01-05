@@ -118,7 +118,7 @@ export type OwnProps = Readonly<{
   recordingState: RecordingState;
   messageCompositionId: string;
   shouldHidePopovers: boolean | null;
-  isSMSOnly: boolean | null;
+  isSmsOnlyOrUnregistered: boolean | null;
   left: boolean | null;
   linkPreviewLoading: boolean;
   linkPreviewResult: LinkPreviewType | null;
@@ -331,7 +331,7 @@ export const CompositionArea = memo(function CompositionArea({
   cancelJoinRequest,
   showConversation,
   // SMS-only contacts
-  isSMSOnly,
+  isSmsOnlyOrUnregistered,
   isFetchingUUID,
   renderSmartCompositionRecording,
   renderSmartCompositionRecordingDraft,
@@ -800,7 +800,7 @@ export const CompositionArea = memo(function CompositionArea({
     );
   }
 
-  if (conversationType === 'direct' && isSMSOnly) {
+  if (conversationType === 'direct' && isSmsOnlyOrUnregistered) {
     return (
       <div
         className={classNames([

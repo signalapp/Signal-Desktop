@@ -19,9 +19,13 @@ export function isConversationSMSOnly(
     return false;
   }
 
-  if (e164 && !serviceId) {
-    return true;
+  if (serviceId) {
+    return false;
   }
 
-  return conversation.discoveredUnregisteredAt !== undefined;
+  if (!e164) {
+    return false;
+  }
+
+  return true;
 }

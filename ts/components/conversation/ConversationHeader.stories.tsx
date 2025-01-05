@@ -211,7 +211,7 @@ export function PrivateConvo(): JSX.Element {
       title: 'SMS-only conversation',
       props: {
         ...commonProps,
-        isSMSOnly: true,
+        isSmsOnlyOrUnregistered: true,
         conversation: getDefaultConversation({
           color: getRandomColor(),
           title: '(202) 555-0006',

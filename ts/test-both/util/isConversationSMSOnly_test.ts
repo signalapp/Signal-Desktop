@@ -18,47 +18,11 @@ describe('isConversationSMSOnly', () => {
   });
 
   ['direct', 'private'].forEach(type => {
-    it('returns false if passed an undefined discoveredUnregisteredAt', () => {
-      assert.isFalse(
-        isConversationSMSOnly({ type, discoveredUnregisteredAt: undefined })
-      );
-    });
-
-    it('returns true if passed a very old discoveredUnregisteredAt', () => {
-      assert.isTrue(
-        isConversationSMSOnly({
-          type,
-          e164: 'e164',
-          serviceId,
-          discoveredUnregisteredAt: 1,
-        })
-      );
-    });
-
-    it(`returns true if passed a time fewer than 6 hours ago and is ${type}`, () => {
-      assert.isTrue(
-        isConversationSMSOnly({
-          type,
-          e164: 'e164',
-          serviceId,
-          discoveredUnregisteredAt: Date.now(),
-        })
-      );
-
-      const fiveHours = 1000 * 60 * 60 * 5;
-      assert.isTrue(
-        isConversationSMSOnly({
-          type,
-          e164: 'e164',
-          serviceId,
-          discoveredUnregisteredAt: Date.now() - fiveHours,
-        })
-      );
-    });
-
-    it(`returns true conversation is ${type} and has no uuid`, () => {
-      assert.isTrue(isConversationSMSOnly({ type, e164: 'e164' }));
+    it(`requires an e164 but no serviceId, type ${type}`, () => {
       assert.isFalse(isConversationSMSOnly({ type }));
+      assert.isFalse(isConversationSMSOnly({ type, serviceId }));
+      assert.isFalse(isConversationSMSOnly({ type, e164: 'e164', serviceId }));
+      assert.isTrue(isConversationSMSOnly({ type, e164: 'e164' }));
     });
   });
 

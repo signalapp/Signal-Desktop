@@ -43,6 +43,7 @@ import { getIntl, getTheme, getUserACI } from '../selectors/user';
 import { useItemsActions } from '../ducks/items';
 import { getLocalDeleteWarningShown } from '../selectors/items';
 import { getDeleteSyncSendEnabled } from '../selectors/items-extra';
+import { isConversationEverUnregistered } from '../../util/isConversationUnregistered';
 
 export type OwnProps = {
   id: string;
@@ -275,7 +276,10 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
       isMissingMandatoryProfileSharing={isMissingMandatoryProfileSharing}
       isSelectMode={isSelectMode}
       isSignalConversation={isSignalConversation(conversation)}
-      isSMSOnly={isConversationSMSOnly(conversation)}
+      isSmsOnlyOrUnregistered={
+        isConversationSMSOnly(conversation) ||
+        isConversationEverUnregistered(conversation)
+      }
       onConversationAccept={onConversationAccept}
       onConversationArchive={onConversationArchive}
       onConversationBlock={onConversationBlock}
