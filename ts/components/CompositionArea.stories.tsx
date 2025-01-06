@@ -36,6 +36,7 @@ export default {
     areWePendingApproval: { control: { type: 'boolean' } },
   },
   args: {
+    acceptedMessageRequest: true,
     addAttachment: action('addAttachment'),
     conversationId: '123',
     convertDraftBodyRangesIntoHydrated: () => undefined,
@@ -116,8 +117,7 @@ export default {
     groupAdmins: [],
     cancelJoinRequest: action('cancelJoinRequest'),
     showConversation: action('showConversation'),
-    // SMS-only
-    isSMSOnly: false,
+    isSmsOnlyOrUnregistered: false,
     isFetchingUUID: false,
     renderSmartCompositionRecording: _ => <div>RECORDING</div>,
     renderSmartCompositionRecordingDraft: _ => <div>RECORDING DRAFT</div>,
@@ -158,17 +158,26 @@ export function StickerButton(args: Props): JSX.Element {
 
 export function MessageRequest(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
-  return <CompositionArea {...args} theme={theme} />;
+  return (
+    <CompositionArea {...args} theme={theme} acceptedMessageRequest={false} />
+  );
 }
 
 export function SmsOnlyFetchingUuid(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
-  return <CompositionArea {...args} theme={theme} isSMSOnly isFetchingUUID />;
+  return (
+    <CompositionArea
+      {...args}
+      theme={theme}
+      isSmsOnlyOrUnregistered
+      isFetchingUUID
+    />
+  );
 }
 
 export function SmsOnly(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
-  return <CompositionArea {...args} theme={theme} isSMSOnly />;
+  return <CompositionArea {...args} theme={theme} isSmsOnlyOrUnregistered />;
 }
 
 export function Attachments(args: Props): JSX.Element {

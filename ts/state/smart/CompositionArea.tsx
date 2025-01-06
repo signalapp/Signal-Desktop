@@ -65,6 +65,7 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStickersActions } from '../ducks/stickers';
 import { useToastActions } from '../ducks/toast';
 import { isShowingAnyModal } from '../selectors/globalModals';
+import { isConversationEverUnregistered } from '../../util/isConversationUnregistered';
 
 function renderSmartCompositionRecording(
   recProps: SmartCompositionRecordingProps
@@ -318,7 +319,10 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       isBlocked={conversation.isBlocked ?? false}
       isReported={conversation.isReported ?? false}
       isHidden={conversation.removalStage != null}
-      isSMSOnly={Boolean(isConversationSMSOnly(conversation))}
+      isSmsOnlyOrUnregistered={
+        isConversationSMSOnly(conversation) ||
+        isConversationEverUnregistered(conversation)
+      }
       isSignalConversation={isSignalConversation(conversation)}
       isFetchingUUID={conversation.isFetchingUUID ?? null}
       isMissingMandatoryProfileSharing={isMissingRequiredProfileSharing(
