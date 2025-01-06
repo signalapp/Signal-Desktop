@@ -260,12 +260,15 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], {
-        message,
-        logger,
-        getRegionCode: () => '1',
-        writeNewAttachmentData,
-      });
+      const result = await upgradeVersion(
+        message.contact[0],
+        {
+          logger,
+          getRegionCode: () => '1',
+          writeNewAttachmentData,
+        },
+        message
+      );
       assert.deepEqual(result, message.contact[0]);
     });
 
@@ -302,12 +305,15 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], {
-        message,
-        getRegionCode: () => 'US',
-        logger,
-        writeNewAttachmentData,
-      });
+      const result = await upgradeVersion(
+        message.contact[0],
+        {
+          getRegionCode: () => 'US',
+          logger,
+          writeNewAttachmentData,
+        },
+        message
+      );
       assert.deepEqual(result, expected);
     });
 
@@ -347,12 +353,15 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], {
-        getRegionCode: () => '1',
-        writeNewAttachmentData,
-        message,
-        logger,
-      });
+      const result = await upgradeVersion(
+        message.contact[0],
+        {
+          getRegionCode: () => '1',
+          writeNewAttachmentData,
+          logger,
+        },
+        message
+      );
       assert.deepEqual(result, expected);
     });
 
@@ -432,12 +441,15 @@ describe('Contact', () => {
         },
       };
 
-      const result = await upgradeVersion(message.contact[0], {
-        getRegionCode: () => '1',
-        writeNewAttachmentData,
-        message,
-        logger,
-      });
+      const result = await upgradeVersion(
+        message.contact[0],
+        {
+          getRegionCode: () => '1',
+          writeNewAttachmentData,
+          logger,
+        },
+        message
+      );
       assert.deepEqual(result, expected);
     });
 
@@ -479,12 +491,15 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], {
-        getRegionCode: () => '1',
-        writeNewAttachmentData,
-        message,
-        logger,
-      });
+      const result = await upgradeVersion(
+        message.contact[0],
+        {
+          getRegionCode: () => '1',
+          writeNewAttachmentData,
+          logger,
+        },
+        message
+      );
       assert.deepEqual(result, expected);
     });
 
@@ -526,12 +541,15 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], {
-        getRegionCode: () => '1',
-        writeNewAttachmentData,
-        message,
-        logger,
-      });
+      const result = await upgradeVersion(
+        message.contact[0],
+        {
+          getRegionCode: () => '1',
+          writeNewAttachmentData,
+          logger,
+        },
+        message
+      );
       assert.deepEqual(result, expected);
     });
 
@@ -569,12 +587,15 @@ describe('Contact', () => {
           nickname: 'Someone Somewhere',
         },
       };
-      const result = await upgradeVersion(message.contact[0], {
-        getRegionCode: () => '1',
-        writeNewAttachmentData,
-        message,
-        logger,
-      });
+      const result = await upgradeVersion(
+        message.contact[0],
+        {
+          getRegionCode: () => '1',
+          writeNewAttachmentData,
+          logger,
+        },
+        message
+      );
       assert.deepEqual(result, expected);
     });
 
@@ -598,12 +619,15 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], {
-        getRegionCode: () => '1',
-        writeNewAttachmentData,
-        message,
-        logger,
-      });
+      const result = await upgradeVersion(
+        message.contact[0],
+        {
+          getRegionCode: () => '1',
+          writeNewAttachmentData,
+          logger,
+        },
+        message
+      );
       assert.deepEqual(result, message.contact[0]);
     });
   });

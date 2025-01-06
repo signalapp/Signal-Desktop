@@ -223,15 +223,15 @@ export function parseAndWriteAvatar(
   return async (
     contact: EmbeddedContactType,
     context: {
-      message: ReadonlyMessageAttributesType;
       getRegionCode: () => string | undefined;
       logger: LoggerType;
       writeNewAttachmentData: (
         data: Uint8Array
       ) => Promise<LocalAttachmentV2Type>;
-    }
+    },
+    message: ReadonlyMessageAttributesType
   ): Promise<EmbeddedContactType> => {
-    const { message, getRegionCode, logger } = context;
+    const { getRegionCode, logger } = context;
     const { avatar } = contact;
 
     const contactWithUpdatedAvatar =

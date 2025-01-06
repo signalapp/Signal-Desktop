@@ -166,6 +166,8 @@ describe('backup/attachments', () => {
         // path & iv will not be roundtripped
         [
           composeMessage(1, {
+            hasAttachments: 1,
+            hasVisualMediaAttachments: 1,
             attachments: [
               omit(longMessageAttachment, NON_ROUNDTRIPPED_FIELDS),
               omit(normalAttachment, NON_ROUNDTRIPPED_FIELDS),
@@ -282,6 +284,8 @@ describe('backup/attachments', () => {
         // path & iv will not be roundtripped
         [
           composeMessage(1, {
+            hasAttachments: 1,
+            hasVisualMediaAttachments: 1,
             attachments: [
               omit(attachment1, NON_ROUNDTRIPPED_FIELDS),
               omit(attachment2, NON_ROUNDTRIPPED_FIELDS),
@@ -303,6 +307,9 @@ describe('backup/attachments', () => {
         ],
         [
           composeMessage(1, {
+            hasAttachments: 1,
+            hasVisualMediaAttachments: 1,
+
             // path, iv, and uploadTimestamp will not be roundtripped,
             // but there will be a backupLocator
             attachments: [
@@ -334,6 +341,7 @@ describe('backup/attachments', () => {
         ],
         [
           composeMessage(1, {
+            hasAttachments: 1,
             attachments: [
               {
                 ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
@@ -584,6 +592,8 @@ describe('backup/attachments', () => {
         [
           {
             ...existingMessage,
+            hasAttachments: 1,
+            hasVisualMediaAttachments: 1,
             attachments: [
               {
                 ...omit(
