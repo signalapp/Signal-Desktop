@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isFunction, isObject } from 'lodash';
+import { isFunction, isObject, identity } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
 import * as Contact from './EmbeddedContact';
@@ -93,10 +93,6 @@ export type ContextType = {
   writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
   writeNewStickerData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
   deleteOnDisk: (path: string) => Promise<void>;
-};
-
-export type ContextWithMessageType = ContextType & {
-  message: MessageAttributesType;
 };
 
 // Schema version history
@@ -278,14 +274,20 @@ export type UpgradeAttachmentType = (
   message: MessageAttributesType
 ) => Promise<AttachmentType>;
 
+// As regrettable as it is we have to fight back against esbuild's `__name`
+// wrapper for functions that are created at high rate, because `__name` affects
+// runtime performance.
+const esbuildAnonymize = identity;
+
 export const _mapAttachments =
   (upgradeAttachment: UpgradeAttachmentType) =>
   async (
     message: MessageAttributesType,
     context: ContextType
   ): Promise<MessageAttributesType> => {
-    const upgradeWithContext = (attachment: AttachmentType) =>
-      upgradeAttachment(attachment, context, message);
+    const upgradeWithContext = esbuildAnonymize((attachment: AttachmentType) =>
+      upgradeAttachment(attachment, context, message)
+    );
     const attachments = await Promise.all(
       (message.attachments || []).map(upgradeWithContext)
     );
@@ -345,7 +347,8 @@ export const _mapAllAttachments =
 
 export type UpgradeContactType = (
   contact: EmbeddedContactType,
-  contextWithMessage: ContextWithMessageType
+  context: ContextType,
+  message: MessageAttributesType
 ) => Promise<EmbeddedContactType>;
 export const _mapContact =
   (upgradeContact: UpgradeContactType) =>
@@ -353,9 +356,10 @@ export const _mapContact =
     message: MessageAttributesType,
     context: ContextType
   ): Promise<MessageAttributesType> => {
-    const contextWithMessage = { ...context, message };
-    const upgradeWithContext = (contact: EmbeddedContactType) =>
-      upgradeContact(contact, contextWithMessage);
+    const upgradeWithContext = esbuildAnonymize(
+      (contact: EmbeddedContactType) =>
+        upgradeContact(contact, context, message)
+    );
     const contact = await Promise.all(
       (message.contact || []).map(upgradeWithContext)
     );
@@ -378,21 +382,23 @@ export const _mapQuotedAttachments =
       throw new Error('_mapQuotedAttachments: context must have logger object');
     }
 
-    const upgradeWithContext = async (
-      attachment: QuotedAttachmentType
-    ): Promise<QuotedAttachmentType> => {
-      const { thumbnail } = attachment;
-      if (!thumbnail) {
-        return attachment;
-      }
+    const upgradeWithContext = esbuildAnonymize(
+      async (
+        attachment: QuotedAttachmentType
+      ): Promise<QuotedAttachmentType> => {
+        const { thumbnail } = attachment;
+        if (!thumbnail) {
+          return attachment;
+        }
 
-      const upgradedThumbnail = await upgradeAttachment(
-        thumbnail as AttachmentType,
-        context,
-        message
-      );
-      return { ...attachment, thumbnail: upgradedThumbnail };
-    };
+        const upgradedThumbnail = await upgradeAttachment(
+          thumbnail as AttachmentType,
+          context,
+          message
+        );
+        return { ...attachment, thumbnail: upgradedThumbnail };
+      }
+    );
 
     const quotedAttachments =
       (message.quote && message.quote.attachments) || [];
@@ -421,15 +427,17 @@ export const _mapPreviewAttachments =
       );
     }
 
-    const upgradeWithContext = async (preview: LinkPreviewType) => {
-      const { image } = preview;
-      if (!image) {
-        return preview;
-      }
+    const upgradeWithContext = esbuildAnonymize(
+      async (preview: LinkPreviewType) => {
+        const { image } = preview;
+        if (!image) {
+          return preview;
+        }
 
-      const upgradedImage = await upgradeAttachment(image, context, message);
-      return { ...preview, image: upgradedImage };
-    };
+        const upgradedImage = await upgradeAttachment(image, context, message);
+        return { ...preview, image: upgradedImage };
+      }
+    );
 
     const preview = await Promise.all(
       (message.preview || []).map(upgradeWithContext)
@@ -462,9 +470,11 @@ const toVersion4 = _withSchemaVersion({
   schemaVersion: 4,
   upgrade: _mapQuotedAttachments(migrateDataToFileSystem),
 });
+// NOOP: Used to be initializeAttachmentMetadata, but it happens in version 7
+// now.
 const toVersion5 = _withSchemaVersion({
   schemaVersion: 5,
-  upgrade: initializeAttachmentMetadata,
+  upgrade: noopUpgrade,
 });
 const toVersion6 = _withSchemaVersion({
   schemaVersion: 6,
@@ -723,40 +733,6 @@ export const upgradeSchema = async (
   } = { versions: VERSIONS }
 ): Promise<MessageAttributesType> => {
   const { versions } = upgradeOptions;
-  if (!isFunction(readAttachmentData)) {
-    throw new TypeError('context.readAttachmentData is required');
-  }
-  if (!isFunction(writeNewAttachmentData)) {
-    throw new TypeError('context.writeNewAttachmentData is required');
-  }
-  if (!isFunction(getRegionCode)) {
-    throw new TypeError('context.getRegionCode is required');
-  }
-  if (!isFunction(makeObjectUrl)) {
-    throw new TypeError('context.makeObjectUrl is required');
-  }
-  if (!isFunction(revokeObjectUrl)) {
-    throw new TypeError('context.revokeObjectUrl is required');
-  }
-  if (!isFunction(getImageDimensions)) {
-    throw new TypeError('context.getImageDimensions is required');
-  }
-  if (!isFunction(makeImageThumbnail)) {
-    throw new TypeError('context.makeImageThumbnail is required');
-  }
-  if (!isFunction(makeVideoScreenshot)) {
-    throw new TypeError('context.makeVideoScreenshot is required');
-  }
-  if (!isObject(logger)) {
-    throw new TypeError('context.logger is required');
-  }
-  if (!isFunction(writeNewStickerData)) {
-    throw new TypeError('context.writeNewStickerData is required');
-  }
-  if (!isFunction(deleteOnDisk)) {
-    throw new TypeError('context.deleteOnDisk is required');
-  }
-
   let message = rawMessage;
   const startingVersion = message.schemaVersion ?? 0;
   for (let index = 0, max = versions.length; index < max; index += 1) {

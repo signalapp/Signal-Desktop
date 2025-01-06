@@ -68,9 +68,12 @@ function sortAndNormalize(
       reactions,
       sendStateByConversationId,
       verifiedChanged,
-      attachments,
+
+      // Set to an empty array after message migration
+      attachments = [],
+      contact = [],
+
       preview,
-      contact,
       quote,
       sticker,
 
@@ -106,6 +109,9 @@ function sortAndNormalize(
     // Get rid of unserializable `undefined` values.
     return JSON.parse(
       JSON.stringify({
+        // Migration defaults
+        hasAttachments: 0,
+
         ...rest,
         conversationId: mapConvoId(conversationId),
         reactions: reactions?.map(({ fromId, ...restOfReaction }) => {
@@ -132,14 +138,14 @@ function sortAndNormalize(
           };
         }),
 
-        attachments: attachments?.map(attachment =>
+        attachments: attachments.map(attachment =>
           omit(attachment, 'downloadPath')
         ),
         preview: preview?.map(previewItem => ({
           ...previewItem,
           image: omit(previewItem.image, 'downloadPath'),
         })),
-        contact: contact?.map(contactItem => ({
+        contact: contact.map(contactItem => ({
           ...contactItem,
           avatar: {
             ...contactItem.avatar,

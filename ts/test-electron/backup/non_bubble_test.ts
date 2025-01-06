@@ -74,6 +74,9 @@ describe('backup/non-bubble messages', () => {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         flags: Proto.DataMessage.Flags.END_SESSION,
+        attachments: [],
+        contact: [],
+        hasAttachments: 0,
       },
     ]);
   });

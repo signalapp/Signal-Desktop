@@ -217,7 +217,11 @@ export class BackupImportStream extends Writable {
     ConversationAttributesType
   >();
   private readonly identityKeys = new Map<ServiceIdString, IdentityKeyType>();
-  private readonly saveMessageBatch = new Set<MessageAttributesType>();
+  private readonly saveMessageBatch = new Map<
+    MessageAttributesType,
+    Promise<MessageAttributesType>
+  >();
+  private flushMessagesPromise: Promise<void> | undefined;
   private readonly stickerPacks = new Array<StickerPackPointerType>();
   private ourConversation?: ConversationAttributesType;
   private pinnedConversations = new Array<[number, string]>();
@@ -310,6 +314,10 @@ export class BackupImportStream extends Writable {
     try {
       // Finish saving remaining conversations/messages
       // Save messages first since they depend on conversations in memory
+      while (this.flushMessagesPromise) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.flushMessagesPromise;
+      }
       await this.flushMessages();
       await this.flushConversations();
       log.info(`${this.logId}: flushed messages and conversations`);
@@ -341,7 +349,16 @@ export class BackupImportStream extends Writable {
         allConversations.filter(convo => {
           return convo.get('active_at') || convo.get('isPinned');
         }),
-        convo => convo.updateLastMessage(),
+        async convo => {
+          try {
+            await convo.updateLastMessage();
+          } catch (error) {
+            log.error(
+              `${this.logId}: failed to update conversation's last message` +
+                `${Errors.toLogFormat(error)}`
+            );
+          }
+        },
         { concurrency: MAX_CONCURRENCY }
       );
 
@@ -493,9 +510,30 @@ export class BackupImportStream extends Writable {
   }
 
   private async saveMessage(attributes: MessageAttributesType): Promise<void> {
-    this.saveMessageBatch.add(attributes);
+    this.saveMessageBatch.set(attributes, this.safeUpgradeMessage(attributes));
     if (this.saveMessageBatch.size >= SAVE_MESSAGE_BATCH_SIZE) {
-      return this.flushMessages();
+      // Wait for previous flush to finish before scheduling a new one.
+      // (Unlikely to happen, but needed to make sure we don't save too many
+      // messages at once)
+      while (this.flushMessagesPromise) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.flushMessagesPromise;
+      }
+      this.flushMessagesPromise = this.flushMessages();
+    }
+  }
+
+  private async safeUpgradeMessage(
+    attributes: MessageAttributesType
+  ): Promise<MessageAttributesType> {
+    try {
+      return await window.Signal.Migrations.upgradeMessageSchema(attributes);
+    } catch (error) {
+      log.error(
+        `${this.logId}: failed to migrate a message ${attributes.sent_at}, ` +
+          `${Errors.toLogFormat(error)}`
+      );
+      return attributes;
     }
   }
 
@@ -528,8 +566,10 @@ export class BackupImportStream extends Writable {
     const ourAci = this.ourConversation?.serviceId;
     strictAssert(isAciString(ourAci), 'Must have our aci for messages');
 
-    const batch = Array.from(this.saveMessageBatch);
+    const batchPromises = Array.from(this.saveMessageBatch.values());
     this.saveMessageBatch.clear();
+
+    const batch = await Promise.all(batchPromises);
 
     // There are a few indexes that start with message id, and many more that
     // start with conversationId. Sort messages by both to make sure that we
@@ -591,6 +631,8 @@ export class BackupImportStream extends Writable {
     }
     await Promise.allSettled(attachmentDownloadJobPromises);
     await AttachmentDownloadManager.saveBatchedJobs();
+
+    this.flushMessagesPromise = undefined;
   }
 
   private async saveCallHistory(

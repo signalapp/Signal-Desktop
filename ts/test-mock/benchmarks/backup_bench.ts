@@ -22,7 +22,9 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const app = await bootstrap.link();
   const { duration: importDuration } = await app.waitForBackupImportComplete();
 
+  const migrateStart = Date.now();
   await app.migrateAllMessages();
+  const migrateEnd = Date.now();
 
   const exportStart = Date.now();
   await app.uploadBackup();
@@ -31,5 +33,6 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   console.log('run=%d info=%j', 0, {
     importDuration,
     exportDuration: exportEnd - exportStart,
+    migrationDuration: migrateEnd - migrateStart,
   });
 });
