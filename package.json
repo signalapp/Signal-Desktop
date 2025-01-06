@@ -1,4 +1,5 @@
 {
+  "$schema": "./package.schema.json",
   "name": "signal-desktop",
   "productName": "Signal",
   "description": "Private messaging from your desktop",
@@ -283,7 +284,7 @@
     "danger": "12.3.3",
     "debug": "4.3.7",
     "electron": "33.2.1",
-    "electron-builder": "24.13.3",
+    "electron-builder": "26.0.0-alpha.8",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
     "enquirer": "2.4.1",
@@ -303,8 +304,8 @@
     "log-symbols": "4.1.0",
     "mini-css-extract-plugin": "2.9.2",
     "mocha": "10.8.2",
-    "node-gyp": "10.2.0",
-    "node-gyp-build": "4.8.3",
+    "node-gyp": "11.0.0",
+    "node-gyp-build": "4.8.4",
     "npm-run-all": "4.1.5",
     "p-limit": "3.1.0",
     "patch-package": "8.0.0",
@@ -441,9 +442,6 @@
     },
     "linux": {
       "category": "Network;InstantMessaging;Chat",
-      "desktop": {
-        "StartupWMClass": "Signal"
-      },
       "target": [
         "deb"
       ],

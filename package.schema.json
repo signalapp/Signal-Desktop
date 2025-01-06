@@ -1,0 +1,15 @@
+{
+  "allOf": [
+    {
+      "$ref": "https://json.schemastore.org/package.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "build": {
+          "$ref": "./node_modules/app-builder-lib/scheme.json"
+        }
+      }
+    }
+  ]
+}
