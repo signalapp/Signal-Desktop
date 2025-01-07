@@ -100,7 +100,7 @@ export const setup = (
       params.mediaType === 'image' &&
       params.hasImageContents &&
       params.srcURL &&
-      !editFlags.canCopy; // emoji should not be treated as an image
+      !params.selectionText.trim();
 
     const showMenu =
       params.isEditable || editFlags.canCopy || isLink || isImage;
