@@ -206,9 +206,7 @@ function prepareContact(
     return undefined;
   }
 
-  const aci = proto.aci
-    ? normalizeAci(proto.aci, 'ContactBuffer.aci')
-    : proto.aci;
+  const aci = proto.aci ? normalizeAci(proto.aci, 'ContactBuffer.aci') : null;
 
   const result = {
     ...proto,
