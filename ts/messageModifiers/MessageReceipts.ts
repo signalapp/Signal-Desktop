@@ -193,17 +193,20 @@ async function processReceiptsForMessage(
     messageId
   );
 
-  const { updatedMessage, validReceipts } = await updateMessageWithReceipts(
-    message,
-    receipts
-  );
+  // Note: it is important to have no `await` in between `resolveAttributes` and
+  // `setAttributes` since it might overwrite other updates otherwise.
+  const { updatedMessage, validReceipts, droppedReceipts } =
+    updateMessageWithReceipts(message, receipts);
 
-  // Save it to cache & to DB
-  await window.MessageCache.setAttributes({
-    messageId,
-    messageAttributes: updatedMessage,
-    skipSaveToDatabase: false,
-  });
+  // Save it to cache & to DB, and remove dropped receipts
+  await Promise.all([
+    window.MessageCache.setAttributes({
+      messageId,
+      messageAttributes: updatedMessage,
+      skipSaveToDatabase: false,
+    }),
+    Promise.all(droppedReceipts.map(remove)),
+  ]);
 
   // Confirm/remove receipts, and delete sent protos
   for (const receipt of validReceipts) {
@@ -219,23 +222,24 @@ async function processReceiptsForMessage(
   conversation?.debouncedUpdateLastMessage?.();
 }
 
-async function updateMessageWithReceipts(
+function updateMessageWithReceipts(
   message: MessageAttributesType,
   receipts: Array<MessageReceiptAttributesType>
-): Promise<{
+): {
   updatedMessage: MessageAttributesType;
   validReceipts: Array<MessageReceiptAttributesType>;
-}> {
+  droppedReceipts: Array<MessageReceiptAttributesType>;
+} {
   const logId = `updateMessageWithReceipts(timestamp=${message.timestamp})`;
 
-  const toRemove: Array<MessageReceiptAttributesType> = [];
+  const droppedReceipts: Array<MessageReceiptAttributesType> = [];
   const receiptsToProcess = receipts.filter(receipt => {
     if (shouldDropReceipt(receipt, message)) {
       const { receiptSync } = receipt;
       log.info(
         `${logId}: Dropping a receipt ${receiptSync.type} for sentAt=${receiptSync.messageSentAt}`
       );
-      toRemove.push(receipt);
+      droppedReceipts.push(receipt);
       return false;
     }
 
@@ -246,8 +250,6 @@ async function updateMessageWithReceipts(
 
     return true;
   });
-
-  await Promise.all(toRemove.map(remove));
 
   log.info(
     `${logId}: batch processing ${receipts.length}` +
@@ -262,7 +264,7 @@ async function updateMessageWithReceipts(
       ...updateMessageSendStateWithReceipt(updatedMessage, receipt),
     };
   }
-  return { updatedMessage, validReceipts: receiptsToProcess };
+  return { updatedMessage, validReceipts: receiptsToProcess, droppedReceipts };
 }
 
 const deleteSentProtoBatcher = createWaitBatcher({
