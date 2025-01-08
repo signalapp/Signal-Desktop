@@ -1125,22 +1125,22 @@
     "messageformat": "ဤပုံတွင် စာတန်းပါကြောင်း ပြသသည့် အိုင်ကွန်"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "ဤပူးတွဲပါဖိုင်ကို ပိုကြီးသောမြင်ကွင်းဖြင့် ဖွင့်ပါ"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "စတင်ဒေါင်းလုဒ် လုပ်မည်"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ဒေါင်းလုဒ်လုပ်ခြင်း ပယ်ဖျက်မည်"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ဒေါင်းလုဒ် ပြန်လုပ်ကြည့်မည်"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ထပ်ကြိုးစားပါ"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, other {ဒေါင်းလုဒ် {count,number} ခု}}"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -3624,7 +3624,7 @@
     "messageformat": "မက်ဆေ့ချ်ကို လွှဲပြောင်း၍မရနိုင်ပါ။ သင့်အင်တာနက်ချိတ်ဆက်မှုကို ပြန်စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "ချွတ်ယွင်းချက်တစ်ခုကြောင့် သင့်မက်ဆေ့ချ်များကို လွှဲပြောင်း၍မရပါ။ ဤ Desktop ကို ပြန်လည်ချိတ်ဆက်၍ ထပ်စမ်းကြည့်ပါ။"
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ထပ်ကြိုးစားပါ"
@@ -5789,6 +5789,6 @@
     "messageformat": "ယခုအခါ မဖတ်ရသေးသော မက်ဆေ့ချ်များအား စစ်ထုတ်ခြင်းဖြင့် ရွေးချယ်ထားသော ချက်(တ်)ကို အသားပေးဖော်ပြပေးကာ လက်ခံရရှိ၊ ဖတ်ရှုပြီးစီးသော မက်ဆေ့ချ်များကို အပ်ဒိတ်လုပ်ပေးသည်။"
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "ပူးတွဲဖိုင် ဒေါင်းလုဒ်များ၏ တိုးတက်မှုကို ယခုအခါ အလွယ်တကူ ကြည့်နိုင်ပါပြီ။ လက်ရှိဒေါင်းလုဒ်များကိုလည်း ရပ်ပြီး ပြန်လည်စတင်နိုင်သည်။"
   }
 }

@@ -1125,22 +1125,22 @@
     "messageformat": "ह्या चित्रामध्ये कॅप्शन आहे हे दाखवणारे चिन्ह"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "हे अटॅचमेंट मोठ्या आकारात उघडून बघा"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "डाऊनलोड सुरु करा"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "डाउनलोड रद्द करा"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "पुन्हा डाऊनलोड करून पाहा"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "पुन्हा प्रयत्न करा"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} आयटम} other {{count,number} आयटम्स}}"
   },
   "icu:save": {
     "messageformat": "जतन करा"
@@ -3624,7 +3624,7 @@
     "messageformat": "आपले संदेश स्थलांतरित केले जाऊ शकत नाहीत. आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा तपासा."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "आपले संदेश एका त्रुटीमुळे हस्तांतरित करता आले नाहीत. हा डेस्कटॉप पुन्हा लिंक करून पुन्हा प्रयत्न करा."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "पुन्हा प्रयत्न करा"
@@ -5789,6 +5789,6 @@
     "messageformat": "न वाचलेले फिल्टर केल्याने आता निवडलेले चॅट ठळक करते, आणि नवीन संदेश आल्यावर किंवा आपण एका चॅटमध्ये संभाषण करून दुसऱ्या चॅटवर क्लिक करता तेव्हा न वाचलेल्या चॅट्सची यादी आपोआप अद्ययावत होईल."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "आपण आता सहज अटॅचमेंट डाऊनलोड्सची प्रगती पाहू शकता. आपण चालू असणारे डाऊनलोडसुद्धा थांबवून पुन्हा सुरु करू शकता. आपण प्रवासात (एअरप्लेन मोडमध्ये?) असाल, किंवा जिथले WiFi कधीही बंद पडू शकते अशा एखाद्या सुमार हॉटेलमध्ये असाल, आणि म्हणून हस्तांतरणाचा वेग मंदावला असेल, तर आपण थांबून जास्त बँडविड्थ मिळाल्यावर रीलोड करू शकता."
   }
 }

@@ -1125,22 +1125,22 @@
     "messageformat": "Ikonë që tregon  se për këtë figurë ka një titull"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Hap bashkëngjitjen në një pamje më të madhe"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Fillo shkarkimin"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Anulo shkarkimin"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Riprovo shkarkimin"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Riprovo"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} Objekt} other {{count,number} Objekte}}"
   },
   "icu:save": {
     "messageformat": "Ruaje"
@@ -3624,7 +3624,7 @@
     "messageformat": "Mesazhet nuk mund të transferoheshin. Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Mesazhet nuk mund të transferoheshin për shkak të një gabimi. Provo sërish duke rilidhur desktopin."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Riprovo"
@@ -5789,6 +5789,6 @@
     "messageformat": "Filtrimi sipas opsionit \"Të palexuar\" thekson bisedën e zgjedhur dhe lista e bisedave të palexuara do të përditësohet automatikisht teska të vijnë mesazhe të reja ose kur rikthehesh në një bisedë dhe klikon në një tjetër."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Tani mund ta shohësh lehtësisht ecurinë e shkarkimeve të bashkëngjitjeve. Po ashtu, mund t'i ndalosh dhe t'i rinisësh shkarkimet që janë në proces e sipër. Pra, nëse një transferim ngadalësohet pasi je në rrugë (ose në modalitet avioni?) ose sepse WiFi-ja e hotelit është gati të japë shpirt, mund të presësh ta rifillosh ngarkimin kur të kesh më shumë gjerësi bande në dispozicion."
   }
 }

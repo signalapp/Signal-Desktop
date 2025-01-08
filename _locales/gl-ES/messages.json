@@ -1125,22 +1125,22 @@
     "messageformat": "Icona que mostra que esta imaxe ten un texto"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Visualizar este arquivo nun tamaño maior"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Iniciar descarga"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Cancelar descarga"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Volver intentar descargar"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Tentar de novo"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementos}}"
   },
   "icu:save": {
     "messageformat": "Gardar"
@@ -3624,7 +3624,7 @@
     "messageformat": "As túas mensaxes non se transferiron. Comproba a túa conexión a Internet e inténtao de novo."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Non se puideron transferir as mensaxes debido a un erro. Volve intentalo vinculando de novo este dispositivo."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tentar de novo"
@@ -5789,6 +5789,6 @@
     "messageformat": "«Filtrar por Sen ler» agora destaca a conversa seleccionada e actualízase ao ler e recibir mensaxes."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Agora podes visualizar facilmente o progreso da descarga dos anexos. Tamén podes parar e reiniciar as descargas en curso."
   }
 }

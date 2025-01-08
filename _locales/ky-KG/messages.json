@@ -1125,22 +1125,22 @@
     "messageformat": "Бул сүрөттүн колтамгасы бар экенин көрсөткөн сүрөтчөсү"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Тиркемени чоңураак өлчөмдө ачуу"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Жүктөп баштоо"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Токтотуу"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Кайра жүктөө"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Кайра аракет кылуу"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, other {{count,number} нерсе}}"
   },
   "icu:save": {
     "messageformat": "Сактоо"
@@ -3624,7 +3624,7 @@
     "messageformat": "Билдирүүлөрүңүздү өткөрүү мүмкүн болгон жок. Байланышыңызды текшерип, кайталап көрүңүз."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Ката кеткендиктен билдирүүлөрүңүздү өткөрүү мүмкүн эмес. Компьютерди ажыратып, кайра туташтырып көрүңүз."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Кайра аракет кылуу"
@@ -5789,6 +5789,6 @@
     "messageformat": "Окулбагандар боюнча иргөө параметри тандалган маекти көрсөтүп, жаңы билдирүүлөр келгенде же кайсы бир маекке кирип, дагы бирөөсүн бассаңыз, окулбаган билдирүүлөрдүн тизмеси автоматтык түрдө жаңырат."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Тиркемелердин жүктөлүп жатканын оңой эле көрө аласыз. Жүктөп алуу процессин токтотуп, кайра уланта аласыз. Жолдо жүргөндүктөн (же учак режиминде болгондуктан) же орточо мейманканада Wi-Fi жай иштегендиктен жай өтүп жатса, Интернет ылдамыраак иштегенде жүктөй аласыз."
   }
 }

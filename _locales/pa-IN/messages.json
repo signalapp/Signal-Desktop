@@ -1125,22 +1125,22 @@
     "messageformat": "ਆਈਕਾਨ ਦਿਖਾ ਰਿਹਾ ਹੈ ਕਿ ਇਸ ਚਿੱਤਰ ਦੀ ਕੋਈ ਕੈਪਸ਼ਨ ਹੈ"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "ਇਸ ਅਟੈਚਮੈਂਟ ਨੂੰ ਵੱਡੇ ਵਿਊ ਵਿੱਚ ਖੋਲ੍ਹੋ"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "ਡਾਊਨਲੋਡ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ਡਾਊਨਲੋਡ ਰੱਦ ਕਰੋ"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ਦੁਬਾਰਾ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} ਚੀਜਾਂ } other {{count,number} ਆਈਟਮਾਂ}}"
   },
   "icu:save": {
     "messageformat": "ਸੰਭਾਲੋ"
@@ -3624,7 +3624,7 @@
     "messageformat": "ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਟ੍ਰਾਂਸਫਰ ਨਹੀਂ ਕੀਤੇ ਜਾ ਸਕੇ। ਆਪਣੇ ਇੰਟਰਨੈੱਟ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "ਕਿਸੇ ਗੜਬੜ ਕਾਰਨ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਟ੍ਰਾਂਸਫਰ ਨਹੀਂ ਕੀਤੇ ਜਾ ਸਕੇ। ਇਸ ਡੈਸਕਟੌਪ ਨੂੰ ਦੁਬਾਰਾ ਲਿੰਕ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
@@ -5789,6 +5789,6 @@
     "messageformat": "\"ਨਹੀਂ-ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ ਅਨੁਸਾਰ ਫਿਲਟਰ ਕਰੋ\" ਵਿਕਲਪ ਹੁਣ ਚੁਣੀਆਂ ਗਈਆਂ ਚੈਟ ਨੂੰ ਹਾਈਲਾਈਟ ਕਰਦਾ ਹੈ ਅਤੇ ਜਿਵੇਂ-ਜਿਵੇਂ ਸੁਨੇਹੇ ਪੜ੍ਹੇ ਜਾਂਦੇ ਹਨ ਅਤੇ ਪ੍ਰਾਪਤ ਹੁੰਦੇ ਹਨ ਉਹਨਾਂ ਨੂੰ ਅੱਪਡੇਟ ਕਰਦਾ ਹੈ।"
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਡਾਊਨਲੋਡ ਕੀਤੀਆਂ ਜਾ ਰਹੀਆਂ ਅਟੈਚਮੈਂਟ ਦੀ ਪ੍ਰਗਤੀ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਦੇਖ ਸਕਦੇ ਹੋ। ਤੁਸੀਂ ਚੱਲ ਰਹੇ ਡਾਉਨਲੋਡ ਨੂੰ ਰੋਕ ਵੀ ਸਕਦੇ ਹੋ ਅਤੇ ਮੁੜ-ਸ਼ੁਰੂ ਵੀ ਕਰ ਸਕਦੇ ਹੋ।"
   }
 }

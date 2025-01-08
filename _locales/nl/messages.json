@@ -1125,19 +1125,19 @@
     "messageformat": "Icoon dat laat zien dat deze afbeelding een bijschrift heeft"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Open deze bijlage in een grotere weergave"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Download starten"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Download annuleren"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Download opnieuw proberen"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Opnieuw proberen"
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
@@ -1518,7 +1518,7 @@
     "messageformat": "Open de systeemvoorkeuren."
   },
   "icu:calling__presenting--permission-instruction-step2": {
-    "messageformat": "Klik op het pictogram van een hangslot linksonder en voer vervolgens het wachtwoord van je computer in."
+    "messageformat": "Klik op het hangslot-icoon linksonder en voer vervolgens het wachtwoord van je computer in."
   },
   "icu:calling__presenting--permission-instruction-step3": {
     "messageformat": "Vink het selectievakje naast Signal aan aan de rechterkant van het scherm. Als je Signal niet in de lijst ziet, klik dan op het ‘+’-symbool om Signal aan de lijst toe te voegen."
@@ -3624,7 +3624,7 @@
     "messageformat": "Je berichten konden niet worden overgezet. Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Je berichten konden niet worden overgezet vanwege een fout. Probeer het opnieuw door deze desktop opnieuw te koppelen."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Opnieuw proberen"
@@ -3726,7 +3726,7 @@
     "messageformat": "De beheerdersbevoegdheden van {contact} intrekken?"
   },
   "icu:ContactModal--add-to-group": {
-    "messageformat": "Aan nog een andere groep toevoegen"
+    "messageformat": "Aan een andere groep toevoegen"
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Uit de groep verwijderen"
@@ -5220,7 +5220,7 @@
     "messageformat": "Reageren op {firstName}"
   },
   "icu:StoryViewer__reply-group": {
-    "messageformat": "Naar de groep reageren"
+    "messageformat": "Reageren op groepsverhaal"
   },
   "icu:StoryViewer__mute": {
     "messageformat": "Dempen"
@@ -5789,6 +5789,6 @@
     "messageformat": "Met Filteren op ongelezen wordt de geselecteerde chat nu gemarkeerd, en de lijst met ongelezen chats wordt automatisch bijgewerkt als er nieuwe berichten binnenkomen."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Je kunt nu eenvoudig de voortgang van het downloaden van bijlagen zien. Je kunt lopende downloads nu ook stoppen en opnieuw starten. Dus als een transfer traag gaat omdat je onderweg bent (in vliegtuigmodus?) of door de matige wifi van het hotel… Wacht dan op een snellere verbinding en upload het bestand gewoon verder."
   }
 }

@@ -1125,22 +1125,22 @@
     "messageformat": "Ikona informująca, że to zdjęcie ma podpis"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Otwórz ten załącznik w większym formacie"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Rozpocznij pobieranie"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Anuluj pobieranie"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Ponów próbę pobrania"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Ponów"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} element} few {{count,number} elementy} many {{count,number} elementów} other {{count,number} elementu}}"
   },
   "icu:save": {
     "messageformat": "Zapisz"
@@ -3624,7 +3624,7 @@
     "messageformat": "Nie udało się przenieść Twoich wiadomości. Sprawdź połączenie z internetem i spróbuj ponownie."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Nie udało się przenieść Twoich wiadomości z powodu błędu. Połącz ten komputer jeszcze raz i spróbuj ponownie."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Ponów"
@@ -5789,6 +5789,6 @@
     "messageformat": "Od teraz funkcja filtrowania według nieodczytanych podświetli wybrany czat, a lista nieodczytanych czatów będzie automatycznie aktualizowana w miarę przychodzenia nowych wiadomości oraz wtedy, gdy skończysz przeglądać któryś z czatów i klikniesz inny."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Od teraz możesz z łatwością śledzić postęp pobierania załączników. Możesz też wstrzymywać i wznawiać już rozpoczęte pobieranie. Jesteś w trasie i zrywa Ci połączenie? Hotelowe Wi-Fi odmawia współpracy? Żaden problem – pobierz załączniki później, kiedy złapiesz lepsze łącze."
   }
 }

@@ -1125,22 +1125,22 @@
     "messageformat": "រូបតំណាងបង្ហាញថារូបភាពនេះមានចំណងជើង"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "បើកឯកសារភ្ជាប់នេះក្នុងទិដ្ឋភាពធំជាងនេះ"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "ចាប់ផ្តើមទាញយក"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "បោះបង់ការទាញយក"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ព្យាយាមទាញយកម្តងទៀត"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ព្យាយាមម្តងទៀត"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, other {{count,number} ធាតុ}}"
   },
   "icu:save": {
     "messageformat": "រក្សាទុក"
@@ -3624,7 +3624,7 @@
     "messageformat": "សាររបស់អ្នកមិនអាចផ្ទេរបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "សាររបស់អ្នកមិនអាចផ្ទេរបានទេ ដោយសារតែមានបញ្ហា។ ព្យាយាមម្តងទៀតដោយភ្ជាប់កុំព្យូទ័រលើតុនេះឡើងវិញ។"
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ព្យាយាមម្តងទៀត"
@@ -5789,6 +5789,6 @@
     "messageformat": "ឥឡូវនេះ តម្រងច្រោះរកសារមិនទាន់អានរំលេចនូវការជជែកដែលបានជ្រើសរើស ហើយបញ្ជីនៃការជជែកដែលមិនទាន់អាននឹងធ្វើបច្ចុប្បន្នភាពដោយស្វ័យប្រវត្តិ នៅពេលដែលសារថ្មីៗមកដល់ ឬនៅពេលអ្នកអានវានៅក្នុងការជជែកណាមួយ រួចហើយចុចទៅមួយទៀត។"
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "ឥឡូវនេះ អ្នកអាចមើលឃើញដំណើរការនៃការទាញយកឯកសារភ្ជាប់យ៉ាងងាយស្រួល។ អ្នកក៏អាចបញ្ឈប់ និងចាប់ផ្តើមឡើងវិញនូវការទាញយកដែលកំពុងដំណើរការបានផងដែរ។ ដូច្នេះ ប្រសិនបើការផ្ទេរមានល្បឿនយឺត ដោយសារអ្នកកំពុងធ្វើដំណើរតាមផ្លូវ (នៅក្នុងមុខងារនៅលើយន្តហោះ?) ឬ WiFi របស់សណ្ឋាគារដំណើរការមិនស្រួល អ្នកអាចរង់ចាំឱ្យវាផ្ទុកឡើងវិញនៅពេលមានកម្រិតបញ្ជូនខ្លាំងជាងមុន។"
   }
 }

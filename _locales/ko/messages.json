@@ -1125,22 +1125,22 @@
     "messageformat": "이 이미지가 자막이 있다는 아이콘"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "이 첨부 파일 더 크게 보기"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "다운로드 시작"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "다운로드 취소"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "다운로드 재시도"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "재시도"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, other {항목 {count,number}개}}"
   },
   "icu:save": {
     "messageformat": "저장"
@@ -3624,7 +3624,7 @@
     "messageformat": "메시지를 전송하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "오류로 인해 메시지를 전송할 수 없습니다. 이 데스크톱을 다시 연결하여 재시도하세요."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "재시도"
@@ -5789,6 +5789,6 @@
     "messageformat": "이제 읽지 않은 메시지로 필터링하면 선택한 대화가 강조 표시되며, 메시지를 읽고 새 메시지를 받을 때 대화가 업데이트됩니다."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "이제 첨부 파일 다운로드 진행 상황을 쉽게 확인할 수 있습니다. 진행 중인 다운로드를 중지했다가 다시 시작할 수도 있습니다."
   }
 }

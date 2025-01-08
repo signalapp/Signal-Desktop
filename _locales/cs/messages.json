@@ -1125,22 +1125,22 @@
     "messageformat": "Ikona znázorňující, že tento obrázek má popisek"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Otevřít tuto přílohu ve větším zobrazení"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Spustit stahování"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Zrušit stahování"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Znovu spustit stahování"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Spustit znovu"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} položka} few {{count,number} položky} many {{count,number} položek} other {{count,number} položek}}"
   },
   "icu:save": {
     "messageformat": "Uložit"
@@ -3624,7 +3624,7 @@
     "messageformat": "Vaše zprávy se nepodařilo přenést. Zkontrolujte připojení k internetu a zkuste to znovu."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Vaše zprávy se kvůli chybě nepodařilo přenést. Zkuste to znovu po opětovném připojení této plochy."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Zkusit znovu"
@@ -5789,6 +5789,6 @@
     "messageformat": "Filtrování podle Nepřečtených nyní zvýrazňuje vybraný chat a aktualizuje se podle toho, jak jsou zprávy čteny a přijímány."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Nyní můžete snadno sledovat průběh stahování příloh. Probíhající stahování můžete také zastavit a znovu spustit."
   }
 }

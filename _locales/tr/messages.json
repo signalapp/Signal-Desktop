@@ -1125,22 +1125,22 @@
     "messageformat": "Bu görüntünün başlığı olduğunu gösteren ikon"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Bu eklentiyi daha büyük bir görünümde aç"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "İndirmeyi başlat"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "İndirmeyi iptal et"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "İndirmeyi yeniden dene"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Tekrar dene"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} Öğe} other {{count,number} öğe}}"
   },
   "icu:save": {
     "messageformat": "Kaydet"
@@ -3624,7 +3624,7 @@
     "messageformat": "Mesajların aktarılamadı. İnternet bağlantını kontrol et ve tekrar dene."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Mesajların bir hata nedeniyle aktarılamadı. Bu masaüstünü yeniden bağlayarak tekrar dene."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tekrar dene"
@@ -5789,6 +5789,6 @@
     "messageformat": "Okunmayanları filtrele özelliği, artık seçilen sohbeti vurgular ve mesajlar okundukça ve alındıkça güncelleme yapar."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Artık eklenti indirmelerinin ilerleyişini kolayca görebilirsin. Ayrıca devam eden indirmeleri de durdurabilir ve yeniden başlatabilirsin. Böylece yoldayken aktarım yavaşlarsa, yeterli bant genişliği sağlandığında yeniden yükleme yapabilirsin."
   }
 }

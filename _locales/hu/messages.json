@@ -1125,22 +1125,22 @@
     "messageformat": "Ikon, amely azt jelzi, hogy a kép feliratot tartalmaz"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Nyisd meg ezt a mellékletet nagyobb nézetben"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Letöltés elindítása"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Letöltés megszakítása"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Letöltés újrapróbálása"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Újra"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} db elem} other {{count,number} elem}}"
   },
   "icu:save": {
     "messageformat": "Mentés"
@@ -3624,7 +3624,7 @@
     "messageformat": "Az üzeneteidet nem sikerült átvinni. Ellenőrizd az internetkapcsolatot, és próbáld újra."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Az üzeneteidet egy hiba miatt nem sikerült átvinni. Próbáld újra az eszköz újbóli összekapcsolásával."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Újra"
@@ -5789,6 +5789,6 @@
     "messageformat": "Az Olvasatlan üzenetek szűrése mostantól kiemeli a kiválasztott csevegést, és az üzenetek olvasása és fogadása közben frissül."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Mostantól egyszerűbben láthatod a mellékletek letöltésének folyamatát. Leállíthatod és újraindíthatod a folyamatban lévő letöltéseket is."
   }
 }

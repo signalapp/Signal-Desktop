@@ -1125,22 +1125,22 @@
     "messageformat": "圖示顯示此圖片有說明文字"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "以較大的檢視畫面開啟此附件"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "開始下載"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "取消下載"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "重試下載"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "重試"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, other {{count,number} 個項目}}"
   },
   "icu:save": {
     "messageformat": "儲存"
@@ -3624,7 +3624,7 @@
     "messageformat": "你的訊息無法轉移。請檢查你的網路連線，然後重試。"
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "由於發生錯誤，你的訊息無法轉移。重新連結此桌面電腦並再試一次。"
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "重試"
@@ -5789,6 +5789,6 @@
     "messageformat": "「根據未讀訊息篩選」現在會重點顯示選定的聊天，並在接收新訊息或已讀取聊天訊息時，未讀清單會自動更新。"
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "現在，你可以輕鬆查看附件下載的進度。你也可以停止並重新開始進行中的下載。因此，就算你正在路上（或開啟了飛行模式），又或者飯店 WiFi 不順時，都可以稍等一下，等到寬頻網路更順暢時才重新上傳。"
   }
 }

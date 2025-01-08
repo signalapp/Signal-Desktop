@@ -1125,22 +1125,22 @@
     "messageformat": "আইকনটি দেখায় যে, এই চিত্রটির একটি ক্যাপশন রয়েছে"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "অপেক্ষাকৃত বড় ভিউতে এই সংযুক্তিটি খুলুন"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "ডাউনলোড শুরু করুন"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ডাউনলোড বাতিল করুন"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "আবার ডাউনলোড করার চেষ্টা করুন"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "পুনরায় চেষ্টা করুন"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} টি বস্তু} other {{count,number}-টি আইটেম}}"
   },
   "icu:save": {
     "messageformat": "সংরক্ষণ"
@@ -3624,7 +3624,7 @@
     "messageformat": "আপনার মেসেজ ট্রান্সফার করা যায়নি। আপনার ইন্টারনেট সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন।"
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "একটি ত্রুটির কারণে আপনার মেসেজ ট্রান্সফার করা যায়নি। এই ডেস্কটপটি পুনরায় লিংক করে আবার চেষ্টা করুন।"
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "পুনরায় চেষ্টা করুন"
@@ -5789,6 +5789,6 @@
     "messageformat": "'অপঠিত চ্যাট ফিল্টার করুন' এখন নির্বাচিত চ্যাট হাইলাইট করে এবং মেসেজ গৃহীত হয়েছে ও পড়া হয়েছে হিসেবে আপডেট করে।"
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "এখন আপনি সহজেই সংযুক্তি ডাউনলোডের অগ্রগতি দেখতে পারবেন। এছাড়াও আপনি চলমান ডাউনলোডগুলো বন্ধ করে পুনরায় চালু করতে পারবেন।"
   }
 }

@@ -1125,22 +1125,22 @@
     "messageformat": "Бұл суреттің атауы бар екенін білдіретін белгіше"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Бұл тіркемені үлкенірек көріністе ашыңыз"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Жүктеп алуды бастау"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Жүктеп алудан бас тарту"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Жүктеп алуды қайталау"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Қайталап көру"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} элемент} other {{count,number} элемент}}"
   },
   "icu:save": {
     "messageformat": "Сақтау"
@@ -3624,7 +3624,7 @@
     "messageformat": "Хабарларыңыз тасымалданбады. Интернет байланысын тексеріп, қайталап көріңіз."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Қате шыққандықтан, хабарларыңыз тасымалданбады. Осы компьютерді қайта байланыстырып көріңіз."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Қайтадан байқап көру"
@@ -5789,6 +5789,6 @@
     "messageformat": "Оқылмаған чаттар бойынша іріктеу функциясы енді таңдалған чатты ерекшелейді. Сондай-ақ оқылмаған чаттар тізімі жаңа хабарлар келген сайын немесе бір чатқа кіріп, екіншісіне ауысқанда автоматты түрде жаңарып отырады."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Енді тіркемені жүктеп алу процесін оңай бақылай аласыз. Сонымен қатар жүктеп алу процесін тоқтатуға және қайта бастауға болады. Жолда болғандықтан (мысалы, ұшақ режимі) немесе қонақүйде WiFi дұрыс таралмағандықтан, тасымалдау процесі баяулап жатса, қайта жүктеуді желі жұмысы жақсарғанда бастауға болады."
   }
 }

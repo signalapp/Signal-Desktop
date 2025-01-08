@@ -1125,22 +1125,22 @@
     "messageformat": "Icon showing na may caption ang image na ito"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Buksan ang attachment na ito sa mas malaking view"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Simulan ang pag-download"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Kanselahin ang pag-download"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Subukan ulit ang pag-download"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Subukang muli"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} na item} other {{count,number} Item}}"
   },
   "icu:save": {
     "messageformat": "I-save"
@@ -3624,7 +3624,7 @@
     "messageformat": "Hindi ma-transfer ang messages mo. I-check ang iyong connection at subukan ulit."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Hindi mailipat ang messages mo dahil sa error. Subukan ulit sa pamamagitan ng pag-link ulit sa desktop na ito."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Subukang muli"
@@ -5789,6 +5789,6 @@
     "messageformat": "Hina-highlight na ng Filter by Unread ang piniling chat at nag-u-update habang nagbabasa at tumatanggap ng messages."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Madali mo nang makikita ang progress ng attachment downloads. Pwede mo na ring ihinto at simulan ulit ang in-progress download."
   }
 }

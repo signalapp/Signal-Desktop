@@ -1125,22 +1125,22 @@
     "messageformat": "بۇ رەسىمنىڭ ئىزاھلانغانلىقىنى كۆرسىتىدىغان سىنبەلگە"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "بۇ قوشۇمچە ھۆججەتنى چوڭايتىلغان كۆرۈنۈشتە ئېچىڭ"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "چۈشۈرۈشنى باشلاڭ"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "چۈشۈرۈشنى بىكار قىلىش"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "چۈشۈرۈشنى قايتا سىناڭ"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "قايتا سىنا"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, other {{count,number} تۈر}}"
   },
   "icu:save": {
     "messageformat": "ساقلا"
@@ -3624,7 +3624,7 @@
     "messageformat": "ئۇچۇرلىرىڭىزنى يۆتكىگىلى بولمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناپ بېقىڭ."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "بىر خاتالىقى تۈپەيلى ئۇچۇرلىرىڭىزنى يۆتكىگىلى بولمىدى. بۇ ئۈستەلئۈستىنى قايتا ئۇلاپ قايتا سىناڭ."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "قايتا سىنا"
@@ -5789,6 +5789,6 @@
     "messageformat": "ھازىر«ئوقۇلمىغانلار سۈزگۈچى» تاللانغان پاراڭنى گەۋدىلەندۈرىدۇ ھەمدە ئوقۇلغان ۋە تاپشۇرۇۋېلىنغان ئۇچۇرلارنى ئۆز ۋاقتىدا ئاپتوماتىك يېڭىلايدۇ. 7.36 نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى"
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "ھازىر سىز قوشۇمچە ھۆججەتلەرنىڭ چۈشۈش ئەھۋالىنى ئاسانلا كۆرەلەيسىز. سىز ھەمدە داۋاملىق چۈشۈۋاتقانلارنى توختىتالايسىز ۋە قايتا قوزغىتالايسىز. ئەگەر يولدا (ئايروپىلان ھالىتىدە؟)بولسىڭىز ياكى مېھمانخانىدىكى WiFi تازا تارتمىسا ، تېخىمۇ ياخشى كەڭ بەلۋاغ تورى بار بولغاندا قايتا يۈكلسىڭىز بولىدۇ."
   }
 }

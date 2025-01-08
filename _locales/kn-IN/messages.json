@@ -1125,22 +1125,22 @@
     "messageformat": "ಈ ಚಿತ್ರಕ್ಕೆ ಶೀರ್ಷಿಕೆ ಇದೆ ಎಂದು ತೋರಿಸುವ ಐಕಾನ್"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "ಈ ಲಗತ್ತನ್ನು ದೊಡ್ಡ ವೀಕ್ಷಣೆಯಲ್ಲಿ ತೆರೆಯಿರಿ"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "ಡೌನ್‌ಲೋಡ್ ಪ್ರಾರಂಭಿಸಿ"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ಡೌನ್ ಲೋಡ್ ರದ್ದು ಮಾಡಿ"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} ಐಟಂ} other {{count,number} ಐಟಂಗಳು}}"
   },
   "icu:save": {
     "messageformat": "ಉಳಿಸಿ"
@@ -3624,7 +3624,7 @@
     "messageformat": "ನಿಮ್ಮ ಸಂದೇಶಗಳನ್ನು ವರ್ಗಾಯಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ನಿಮ್ಮ ಇಂಟರ್ ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನ ಮಾಡಿ."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "ದೋಷದಿಂದಾಗಿ ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳನ್ನು ವರ್ಗಾಯಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಈ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಮರುಲಿಂಕ್ ಮಾಡುವ ಮೂಲಕ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ಮರುಪ್ರಯತ್ನಿಸಿ"
@@ -5789,6 +5789,6 @@
     "messageformat": "ಓದದಿರುವ ಎಂಬ ಮೂಲಕ ಫಿಲ್ಟರ್ ಮಾಡುವುದರಿಂದ ಆಯ್ಕೆಮಾಡಿದ ಚಾಟ್ ಅನ್ನು ಹೈಲೈಟ್ ಮಾಡುತ್ತದೆ ಮತ್ತು ಹೊಸ ಮೆಸೇಜ್‌ಗಳು ಬಂದಾಗ ಅಥವಾ ನೀವು ಒಂದು ಚಾಟ್‌ನಲ್ಲಿರುವಾಗ ಮತ್ತು ಇನ್ನೊಂದನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಓದದಿರುವ ಚಾಟ್‌ಗಳ ಪಟ್ಟಿಯು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತದೆ."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "ಈಗ ನೀವು ಲಗತ್ತು ಡೌನ್‌ಲೋಡ್‌ಗಳ ಪ್ರಗತಿಯನ್ನು ಸುಲಭವಾಗಿ ನೋಡಬಹುದು. ನೀವು ಪ್ರಗತಿಯಲ್ಲಿರುವ ಡೌನ್‌ಲೋಡ್‌ಗಳನ್ನು ಸಹ ನಿಲ್ಲಿಸಬಹುದು ಮತ್ತು ಮರುಪ್ರಾರಂಭಿಸಬಹುದು. ನೀವು ರಸ್ತೆಯಲ್ಲಿರುವ ಕಾರಣ (ಏರ್‌ಪ್ಲೇನ್ ಮೋಡ್‌ನಲ್ಲಿ?) ವರ್ಗಾವಣೆ ನಿಧಾನಗೊಂಡರೆ ಅಥವಾ ಸಾಧಾರಣ ಹೋಟೆಲ್ WiFi ಸ್ಥಗಿತವಾದರೆ, ಮರುಲೋಡ್‌ಗಾಗಿ ನೀವು ಅಧಿಕ ಬ್ಯಾಂಡ್‌ವಿಡ್ತ್ ದೊರೆಯುವ ತನಕ ಕಾಯಬಹುದು."
   }
 }

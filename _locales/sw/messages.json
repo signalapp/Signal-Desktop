@@ -1125,22 +1125,22 @@
     "messageformat": "Ikoni inaonyesha kuwa taswira hii ina maelezo mafupi"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Fungua kiambatisho hiki katika mwonekano mkubwa zaidi"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Anza kupakua"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Ghairi upakuaji"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Jaribu kupakua tena"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Jaribu Upya"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {Kitu {count,number}} other {Vitu {count,number}}}"
   },
   "icu:save": {
     "messageformat": "Hifadhi"
@@ -3624,7 +3624,7 @@
     "messageformat": "Jumbe zako zimeshindwa kuhama. Angalia muunganisho wako wa mtandao kisha ujaribu tena."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Jumbe zako hazikuweza kuhamishwa kwa sababu ya hitilafu. Jaribu tena kwa kuunganisha tena eneo-kazi hili."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Jaribu Upya"
@@ -5789,6 +5789,6 @@
     "messageformat": "Chuja kwa Haijasomwa sasa huangazia gumzo iliyochaguliwa na orodha ya gumzo ambazo hazijasomwa zitasasishwa kiotomatiki ujumbe mpya unapofika au unapoingia kwenye gumzo moja na kubofya gumzo jingine."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Sasa unaweza kuona kwa urahisi maendeleo ya upakuaji wa viambatisho. Unaweza pia kusimamisha na kuanzisha upya vipakuliwa vinavyoendelea. Endapo uhamishaji upo taratibu kwa sababu upo barabarani (au kwenye airplane mode?) au WiFi ya hoteli inakaribia kuzima, unaweza kusubiri ili upakie tena pale nguvu ya mtandao inapokuwa vizuri."
   }
 }

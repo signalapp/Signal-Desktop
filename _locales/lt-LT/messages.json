@@ -1125,22 +1125,22 @@
     "messageformat": "Piktograma, rodanti, kad šis paveikslas turi paaiškinimą"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Atidaryti šį priedą didesniu rodiniu"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Pradėti atsisiuntimą"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Atšaukti atsisiuntimą"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Bandyti atsisiųsti dar kartą"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Bandyti dar kartą"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} elementas} few {{count,number} elementai} many {{count,number} elementų} other {{count,number} elementas}}"
   },
   "icu:save": {
     "messageformat": "Įrašyti"
@@ -3624,7 +3624,7 @@
     "messageformat": "Nepavyko perkelti žinučių. Patikrinkite interneto ryšį ir bandykite dar kartą."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Nepavyko perkelti jūsų žinučių, nes įvyko klaida. Bandykite dar kartą iš naujo susiedami šį darbalaukį."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Bandyti dar kartą"
@@ -5789,6 +5789,6 @@
     "messageformat": "Funkcija „Filtruoti pagal neperskaitytus“ dabar paryškina pasirinktą pokalbį ir atnaujina, kai žinutės perskaitomos ir gaunamos."
   },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Dabar galite lengvai matyti priedų atsisiuntimo eigą. Taip pat galite sustabdyti ir iš naujo paleisti vykdomus atsisiuntimus."
   }
 }
