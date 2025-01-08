@@ -11912,7 +11912,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-core 0.1.0, mrp 2.49.1, protobuf 2.49.1, ringrtc 2.49.1, regex-aot 0.1.0, partial-default-derive 0.1.0
+## libsignal-core 0.1.0, mrp 2.49.2, protobuf 2.49.2, ringrtc 2.49.2, regex-aot 0.1.0, partial-default-derive 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -12335,7 +12335,7 @@ END OF TERMS AND CONDITIONS
 
 ```
 
-## prost-build 0.13.1, prost-derive 0.13.1, prost-types 0.13.1, prost 0.13.1
+## prost-build 0.13.3, prost-derive 0.13.3, prost-types 0.13.3, prost 0.13.3
 
 ```
                               Apache License
@@ -12678,7 +12678,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## libloading 0.8.4
+## libloading 0.8.6
 
 ```
 Copyright © 2015, Simonas Kazlauskas
@@ -12715,7 +12715,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ```
 
-## windows-sys 0.45.0, windows-sys 0.52.0, windows-targets 0.42.2, windows-targets 0.52.6, windows_aarch64_msvc 0.42.2, windows_aarch64_msvc 0.52.6, windows_x86_64_gnu 0.52.6, windows_x86_64_msvc 0.42.2, windows_x86_64_msvc 0.52.6
+## windows-sys 0.45.0, windows-sys 0.52.0, windows-sys 0.59.0, windows-targets 0.42.2, windows-targets 0.52.6, windows_aarch64_msvc 0.42.2, windows_aarch64_msvc 0.52.6, windows_x86_64_gnu 0.52.6, windows_x86_64_msvc 0.42.2, windows_x86_64_msvc 0.52.6
 
 ```
     MIT License
@@ -12806,7 +12806,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## core-foundation-sys 0.8.6
+## core-foundation-sys 0.8.7
 
 ```
 Copyright (c) 2012-2013 Mozilla Foundation
@@ -12863,7 +12863,7 @@ SOFTWARE.
 
 ```
 
-## cc 1.1.31, cfg-if 1.0.0, cmake 0.1.50, pkg-config 0.3.30
+## cc 1.2.2, cfg-if 1.0.0, cmake 0.1.52, pkg-config 0.3.31
 
 ```
 Copyright (c) 2014 Alex Crichton
@@ -12894,7 +12894,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## errno 0.3.9
+## errno 0.3.10
 
 ```
 Copyright (c) 2014 Chris Wong
@@ -12925,7 +12925,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bitflags 1.3.2, bitflags 2.6.0, log 0.4.22, regex-automata 0.4.8, regex-syntax 0.8.5, regex 1.11.1
+## bitflags 1.3.2, bitflags 2.6.0, log 0.4.22, regex-automata 0.4.9, regex-syntax 0.8.5, regex 1.11.1
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -12956,7 +12956,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## uuid 1.10.0
+## uuid 1.11.0
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -12988,7 +12988,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## libc 0.2.155
+## libc 0.2.167
 
 ```
 Copyright (c) 2014-2020 The Rust Project Developers
@@ -13019,7 +13019,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## either 1.13.0, itertools 0.12.1, petgraph 0.6.5, serde_with 3.9.0, serde_with_macros 3.9.0
+## either 1.13.0, itertools 0.13.0, petgraph 0.6.5, serde_with 3.11.0, serde_with_macros 3.11.0
 
 ```
 Copyright (c) 2015
@@ -13075,7 +13075,7 @@ THE SOFTWARE.
 
 ```
 
-## tempfile 3.10.1
+## tempfile 3.14.0
 
 ```
 Copyright (c) 2015 Steven Allen
@@ -13250,7 +13250,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## futures-channel 0.3.30, futures-core 0.3.30, futures-executor 0.3.30, futures-io 0.3.30, futures-macro 0.3.30, futures-sink 0.3.30, futures-task 0.3.30, futures-util 0.3.30, futures 0.3.30
+## futures-channel 0.3.31, futures-core 0.3.31, futures-executor 0.3.31, futures-io 0.3.31, futures-macro 0.3.31, futures-sink 0.3.31, futures-task 0.3.31, futures-util 0.3.31, futures 0.3.31
 
 ```
 Copyright (c) 2016 Alex Crichton
@@ -13282,7 +13282,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## hashbrown 0.14.5
+## hashbrown 0.15.2
 
 ```
 Copyright (c) 2016 Amanieu d'Antras
@@ -13313,7 +13313,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## rustc_version 0.4.0
+## rustc_version 0.4.1
 
 ```
 Copyright (c) 2016 The Rust Project Developers
@@ -13375,7 +13375,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## indexmap 2.2.6
+## indexmap 2.7.0
 
 ```
 Copyright (c) 2016--2017
@@ -13593,7 +13593,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bytes 1.6.1
+## bytes 1.9.0
 
 ```
 Copyright (c) 2018 Carl Lerche
@@ -13624,7 +13624,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## autocfg 1.3.0
+## autocfg 1.4.0
 
 ```
 Copyright (c) 2018 Josh Stone
@@ -13905,7 +13905,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## ppv-lite86 0.2.17
+## ppv-lite86 0.2.20
 
 ```
 Copyright (c) 2019 The CryptoCorrosion Contributors
@@ -14061,7 +14061,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tonic-build 0.12.1
+## tonic-build 0.12.3
 
 ```
 Copyright (c) 2020 Lucio Franco
@@ -14086,7 +14086,7 @@ THE SOFTWARE.
 
 ```
 
-## cpufeatures 0.2.12
+## cpufeatures 0.2.16
 
 ```
 Copyright (c) 2020 The RustCrypto Project Developers
@@ -14180,7 +14180,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## toml_datetime 0.6.6, toml_edit 0.19.15, toml_edit 0.21.1
+## toml_datetime 0.6.8, toml_edit 0.19.15
 
 ```
 Copyright (c) Individual contributors
@@ -14234,6 +14234,38 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+```
+
+## zerocopy-derive 0.7.35, zerocopy 0.7.35
+
+```
+Copyright 2023 The Fuchsia Authors
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
 
 ```
 
@@ -14412,7 +14444,7 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.1, anyhow 1.0.86, displaydoc 0.2.5, fastrand 2.1.0, itoa 1.0.11, linux-raw-sys 0.4.14, num_enum 0.6.1, num_enum 0.7.2, num_enum_derive 0.6.1, num_enum_derive 0.7.2, once_cell 1.19.0, pin-project-lite 0.2.14, prettyplease 0.2.20, proc-macro-crate 1.3.1, proc-macro-crate 3.1.0, proc-macro2 1.0.86, quote 1.0.36, rustix 0.38.34, semver 1.0.23, send_wrapper 0.6.0, serde 1.0.208, serde_derive 1.0.208, serde_json 1.0.120, syn-mid 0.6.0, syn 1.0.109, syn 2.0.71, thiserror-impl 1.0.62, thiserror 1.0.62, unicode-ident 1.0.12
+## curve25519-dalek-derive 0.1.1, anyhow 1.0.94, displaydoc 0.2.5, fastrand 2.2.0, itoa 1.0.14, linux-raw-sys 0.4.14, num_enum 0.6.1, num_enum_derive 0.6.1, once_cell 1.20.2, pin-project-lite 0.2.15, prettyplease 0.2.25, proc-macro-crate 1.3.1, proc-macro2 1.0.92, quote 1.0.37, rustix 0.38.41, semver 1.0.23, send_wrapper 0.6.0, serde 1.0.215, serde_derive 1.0.215, serde_json 1.0.133, syn-mid 0.6.0, syn 1.0.109, syn 2.0.90, thiserror-impl 1.0.69, thiserror 1.0.69, unicode-ident 1.0.14
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -14542,7 +14574,7 @@ THE SOFTWARE.
 
 ```
 
-## aho-corasick 1.1.3, memchr 2.7.4, walkdir 2.5.0
+## aho-corasick 1.1.3, byteorder 1.5.0, memchr 2.7.4, walkdir 2.5.0
 
 ```
 The MIT License (MIT)
@@ -14598,7 +14630,7 @@ SOFTWARE.
 
 ```
 
-## sysinfo 0.31.2
+## sysinfo 0.31.4
 
 ```
 The MIT License (MIT)
@@ -14708,7 +14740,7 @@ SOFTWARE.
 
 ```
 
-## same-file 1.0.6, winapi-util 0.1.8
+## same-file 1.0.6, winapi-util 0.1.9
 
 ```
 The MIT License (MIT)
@@ -14768,7 +14800,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## version_check 0.9.4
+## version_check 0.9.5
 
 ```
 The MIT License (MIT)
@@ -14846,55 +14878,48 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## unicode-ident 1.0.12
+## unicode-ident 1.0.14
 
 ```
-UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE
-
-See Terms of Use <https://www.unicode.org/copyright.html>
-for definitions of Unicode Inc.’s Data Files and Software.
-
-NOTICE TO USER: Carefully read the following legal agreement.
-BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE INC.'S
-DATA FILES ("DATA FILES"), AND/OR SOFTWARE ("SOFTWARE"),
-YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
-TERMS AND CONDITIONS OF THIS AGREEMENT.
-IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE
-THE DATA FILES OR SOFTWARE.
+UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright © 1991-2022 Unicode, Inc. All rights reserved.
-Distributed under the Terms of Use in https://www.unicode.org/copyright.html.
+Copyright © 1991-2023 Unicode, Inc.
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of the Unicode data files and any associated documentation
-(the "Data Files") or Unicode software and any associated documentation
-(the "Software") to deal in the Data Files or Software
-without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, and/or sell copies of
-the Data Files or Software, and to permit persons to whom the Data Files
-or Software are furnished to do so, provided that either
-(a) this copyright and permission notice appear with all copies
-of the Data Files or Software, or
-(b) this copyright and permission notice appear in associated
-Documentation.
+NOTICE TO USER: Carefully read the following legal agreement. BY
+DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
+SOFTWARE, YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
+TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT
+DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
 
-THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT OF THIRD PARTY RIGHTS.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS
-NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL
-DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of data files and any associated documentation (the "Data Files") or
+software and any associated documentation (the "Software") to deal in the
+Data Files or Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, and/or sell
+copies of the Data Files or Software, and to permit persons to whom the
+Data Files or Software are furnished to do so, provided that either (a)
+this copyright and permission notice appear with all copies of the Data
+Files or Software, or (b) this copyright and permission notice appear in
+associated Documentation.
 
-Except as contained in this notice, the name of a copyright holder
-shall not be used in advertising or otherwise to promote the sale,
-use or other dealings in these Data Files or Software without prior
-written authorization of the copyright holder.
+THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+THIRD PARTY RIGHTS.
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE
+BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA
+FILES OR SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder shall
+not be used in advertising or otherwise to promote the sale, use or other
+dealings in these Data Files or Software without prior written
+authorization of the copyright holder.
 
 ```
 
@@ -16899,6 +16924,39 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+```
+
+## re2
+
+```
+// Copyright (c) 2009 The RE2 Authors. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//    * Redistributions of source code must retain the above copyright
+// notice, this list of conditions and the following disclaimer.
+//    * Redistributions in binary form must reproduce the above
+// copyright notice, this list of conditions and the following disclaimer
+// in the documentation and/or other materials provided with the
+// distribution.
+//    * Neither the name of Google Inc. nor the names of its
+// contributors may be used to endorse or promote products derived from
+// this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
