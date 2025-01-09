@@ -1125,22 +1125,22 @@
     "messageformat": "Nişan, bu təsvirin başlığının olduğunu göstərir"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Bu qoşmanı geniş görünüşdə açın"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Endirməyə başla"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Endirməni ləğv et"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Yenidən endirməyə cəhd et"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Yenidən sına"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} Bənd} other {{count,number} element}}"
   },
   "icu:save": {
     "messageformat": "Saxla"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon açıqdır"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zəng aktivdir"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Endirməyə hazırlaşır..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Ehtiyat nüsxənizin həcmindən asılı olaraq bu, bir qədər çəkə bilər"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Köçürməni ləğv et"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajlar və çat məlumatı sinxronlaşdırma prosesi daxil, tam şifrələmə ilə qorunur. <learnMoreLink>Daha ətraflı</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Köçürmə ləğv edilsin?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Mesajlarınız və media faylınızın bərpası tamamlanmayıb. Ləğv etsəniz, Parametrlərdən yenidən köçürə bilərsiniz."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Köçürməni davam et"
@@ -3624,7 +3630,7 @@
     "messageformat": "Mesajlarınızı köçürmək mümkün olmadı. İnternet bağlantınızı yoxlayıb yenidən cəhd edin."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Bir xəta səbəbilə mesajlarınızı köçürmək mümkün olmadı. Bu masaüstünü təkrar qoşub yenidən cəhd edin."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Yenidən sına"
@@ -5782,13 +5788,10 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "macOS Sonoma-da ekranı paylaşma icazəsi əvvəl rədd edilibsə, bu yeniləmə həmin nasazlığı aradan qaldırır — bununla da ekranı xəta mesajı ilə paylaşmırsınız."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Artıq \"Oxunmamışlara görə filtrlə\" seçimini etmək seçilmiş çatı vurğulayır, yeni mesajlar gəldikdən, oxunduqdan və qəbul edildikdən sonra isə siyahı yenilənir."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Artıq endirilən qoşmanın gedişatını asanlıqla görə bilərsiniz. Siz həm də davam edən endirimləri dayandıra və təkrar başlada bilərsiniz. Yolda olduğunuz üçün (təyyarə rejimində?) köçürmə ləngiyirsə və ya adi bir otel WiFi-ı yükləməyə tab gətirmirsə, daha müvafiq bir internetiniz olanadək gözləyin."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

@@ -1125,22 +1125,22 @@
     "messageformat": "この画像にキャプションがついていることを示すアイコン"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "この添付ファイルを拡大表示で開く"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "ダウンロードを開始する"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ダウンロードをキャンセルする"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "もう一度ダウンロードする"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "再試行"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, other {{count,number}個}}"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "マイクオン"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "呼び出し音が鳴っています"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "ダウンロード中..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "バックアップのサイズによっては、数分かかる場合があります"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "転送をキャンセルする"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "同期のプロセスも含め、メッセージ情報とチャット情報はエンドツーエンドの暗号化で保護されています。<learnMoreLink>さらに詳しく</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "転送をキャンセルしますか？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "メッセージとメディアの復元が完了していません。キャンセルした場合は、設定からもう一度転送できます。"
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "転送を続行する"
@@ -3624,7 +3630,7 @@
     "messageformat": "メッセージを移行できませんでした。インターネット接続を確認して再度試してください。"
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "エラーが発生したため、メッセージを移行できませんでした。このDesktopを再リンクして、もう一度お試しください。"
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "再試行"
@@ -5782,13 +5788,10 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "今回のアップデートで、macOS Sonomaで画面共有する際のバグを修正しています。"
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "「未読でフィルタリング」内で、選択されたチャットをハイライトしたり、メッセージを読んだときまたは受信したりときには未読チャットが更新されるようになりました。"
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "添付ファイルのダウンロードの進捗状況を簡単に確認できるようになりました。また、進行中のダウンロードを停止したり再開したりすることもできます。"
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

@@ -1125,22 +1125,22 @@
     "messageformat": "Pictogramă ce arată că această imagine are titlu"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Deschide acest atașament într-o vizualizare mai mare"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Începe descărcarea"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Anulează descărcarea"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Reîncearcă descărcarea"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Încearcă din nou"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} articol} few {{count,number} itemi} other {{count,number} de itemi}}"
   },
   "icu:save": {
     "messageformat": "Salvează"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Microfon activat"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sunet de apel activat"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Se pregătește descărcarea..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Poate dura câteva minute, în funcție de dimensiunea backup-ului"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Anulează transferul"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajele și informațiile legate de conversații sunt protejate prin criptare end-to-end, inclusiv prin procesul de sincronizare. <learnMoreLink>Află mai multe</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Anulezi transferul?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Nu s-a finalizat restabilirea mesajelor și ale fișierelor. Dacă alegi să anulezi, poți transfera din nou din Setări."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuă transferul"
@@ -3624,7 +3630,7 @@
     "messageformat": "Mesajele tale nu au putut fi transferate. Verifică conexiunea la internet a telefonului și încearcă din nou."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Mesajele tale nu au putut fi transferate din cauza unei erori. Încearcă din nou reconectând acest desktop."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Încearcă din nou"
@@ -5782,13 +5788,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Această actualizare remediază o eroare pe macOS Sonoma care împiedica partajarea ecranului să funcționeze corect dacă permisiunea de a partaja ecranul a fost refuzată anterior — astfel încât nu mai trebuie să partajezi ecranul cu un mesaj de eroare."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrarea după mesaje necitite evidențiază acum conversația selectată, iar lista de conversații necitite se va actualiza automat pe măsură ce sosesc mesaje noi sau când ai parcurs mesajele dintr-un chat și dai clic pe altul."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Acum poți vedea cu ușurință progresul descărcărilor de atașamente. De asemenea, poți opri și reporni și descărcările în curs. Așadar, dacă un transfer e lent pentru că ești pe drum sau WiFi-ul este slab, poți aștepta să reîncarci când există mai multă lățime de bandă."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

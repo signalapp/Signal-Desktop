@@ -1125,22 +1125,22 @@
     "messageformat": "Ícone mostrando que esta imagem possui uma legenda"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Abrir este anexo em uma visualização ampliada"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Iniciar download"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Cancelar download"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Reiniciar download"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Tente novamente"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {1 item} other {{count,number} itens}}"
   },
   "icu:save": {
     "messageformat": "Salvar"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Microfone ligado"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Toque ligado"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Preparando para download…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Isso pode demorar alguns minutos, dependendo do tamanho do seu backup"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancelar transferência"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "As mensagens e informações das conversas são protegidas por criptografia de ponta a ponta, incluindo o processo de sincronização. <learnMoreLink>Saiba mais</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Cancelar transferência?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Suas mensagens e arquivos de mídia não foram totalmente restauradas. Se cancelar, você pode transferir novamente em Configurações."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuar transferência"
@@ -3624,7 +3630,7 @@
     "messageformat": "Não foi possível transferir suas mensagens. Verifique sua conexão à Internet e tente novamente."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Suas mensagens não puderam ser transferidas devido a um erro. Tente novamente vinculando este desktop."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tente novamente"
@@ -5782,13 +5788,10 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Essa atualização corrige um erro no macOS Sonoma que impedia o funcionamento correto do compartilhamento de tela caso a permissão tivesse sido negada anteriormente. Agora, você não precisa mais lidar com mensagens de erro ao tentar compartilhar sua tela."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrar por não lidas agora destaca a conversa selecionada, e a lista de conversas não lidas é atualizada automaticamente à medida que novas mensagens chegam ou quando você acompanha uma conversa e seleciona outra."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Agora você pode ver facilmente o progresso dos downloads de anexos. Também é possível pausar e reiniciar downloads em andamento."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

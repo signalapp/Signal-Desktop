@@ -1125,22 +1125,22 @@
     "messageformat": "ხატულა, რომელიც აჩვენებს, რომ ამ სურათს აქვს წარწერა"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "გახსენი ეს დანართი უფრო დიდად"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "გადმოწერის დაწყება"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "გადმოწერის გაუქმება"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "გადმოწერის თავიდან ცდა"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "თავიდან ცდა"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} ელემენტი} other {{count,number} ელემენტი}}"
   },
   "icu:save": {
     "messageformat": "შენახვა"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "მიკროფონი ჩართულია"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "ზარის ხმა ჩართულია"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "მზადება ჩამოსატვირთად..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "ამას შეიძლება რამდენიმე წუთი დასჭირდეს იმის მიხედვით, თუ რა ზომაა შენი სათადარიგო ასლი"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "გადატანის გაუქმება"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "შეტყობინებები და ჩატის ინფორმაცია, სინქრონიზაციის პროცესის ჩათვლით, ბოლომდეა დაშიფრული. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "გსურს გადატანის გაუქმება?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "შენი შეტყობინებების და მედია ფაილების აღდგენა არ დასრულებულა. თუ გაუქმებას გადაწყვეტ, პარამეტრებიდან გადატანას ისევ შეძლებ."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "გადატანის გაგრძელება"
@@ -3624,7 +3630,7 @@
     "messageformat": "შენი შეტყობინებების გადატანა ვერ მოხერხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "შენი შეტყობინებების გადატანა ხარვეზის გამო ვერ მოხერხდა. თავიდან სცადე ამ დესკტოპის ხელახლა მიბმით."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "თავიდან ცდა"
@@ -5782,13 +5788,10 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "ახალ ვერსიაში macOS Sonoma-ზე ეკრანის გაზიარების შეცდომა გამოვასწორეთ — ახლა უკვე თავისუფლად შეძლებ ეკრანის გაზიარებას შეცომის შესახებ შეტყობინების გარეშე."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "წაუკითხავის მიხედვით ფილტრი ახლა უკევე არჩეულ ჩატს გამოკვეთს. წაუკითხავი ჩატების სია განახლდება, როცა ახალი შეტყობინებები შემოვა ან როცა ერთი ჩატიდან მეორეზე გადახვალ."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "ახლა უკვე შეგიძლია, დანართების ჩამოტვირთვის პროგრესი მარტივად ნახო. ასევე შეგიძლია, შეაჩერო და გადატვირთო მიმდინარე ჩამოტვირთვები. თუ გზაში ხარ და მონაცემების გადაცემა შენელებულია (მაგალითად თვითმფრინავის რეჟიმი თუ გაქვს ჩართული) ან სასტუმროს ინტერნეტი არ ვარგა, შეგიძლია ინტერნეტის გაუმჯობესებას და ახლიდან ჩატვირთვას დაელოდო."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

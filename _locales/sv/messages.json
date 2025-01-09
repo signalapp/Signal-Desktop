@@ -1125,22 +1125,22 @@
     "messageformat": "Ikon visandes att den här bilden har en bildtext"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Öppna denna bilaga i en större vy"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Starta nedladdning"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Avbryt nedladdning"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Försök att ladda ner igen"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Försök igen"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} objekt} other {{count,number} objekt}}"
   },
   "icu:save": {
     "messageformat": "Spara"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon på"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Ringsignal på"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Förbereder nedladdning …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Detta kan ta några minuter beroende på storleken på din säkerhetskopia"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Avbryt överföringen"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Meddelanden och chattinformation skyddas av totalstreckskryptering, inklusive synkroniseringsprocessen. <learnMoreLink>Läs mer</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Vill du avbryta överföringen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Återställningen av dina meddelanden och media har inte slutförts. Om du väljer att avbryta kan du överföra igen från Inställningar."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Fortsätt överföringen"
@@ -3624,7 +3630,7 @@
     "messageformat": "Dina meddelanden kunde inte överföras. Kontrollera din internetanslutning och försök igen."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Dina meddelanden kunde inte överföras på grund av ett fel. Försök igen genom att länka om det här skrivbordet."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Försök igen"
@@ -5782,13 +5788,10 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Den här uppdateringen åtgärdar en skärmdelningsbugg i macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrera efter oläst markerar nu den valda chatten och uppdateras när meddelanden läses och tas emot."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Nu kan du enkelt se statusen för nedladdningen av bilagor. Du kan också stoppa och starta om pågående nedladdningar."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

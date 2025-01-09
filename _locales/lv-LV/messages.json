@@ -1125,22 +1125,22 @@
     "messageformat": "Ikona, kas parāda, ka šim attēlam ir paraksts"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Atvērt šo pielikumu lielākā skatā"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Sākt lejupielādi"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Atcelt lejupielādi"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Mēģināt lejupielādēt vēlreiz"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Mēģināt vēlreiz"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, zero {{count,number} priekšmeti} one {{count,number} priekšmets} other {{count,number} vienumi}}"
   },
   "icu:save": {
     "messageformat": "Saglabāt"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofons ieslēgts"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvana signāls ieslēgts"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Gatavo lejupielādi…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Process var aizņemt dažas minūtes atkarībā no rezerves kopijas izmēra"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Atcelt pārsūtīšanu"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Ziņas un sarunu informāciju aizsargā pilnīga šifrēšana, tostarp sinhronizēšanas process. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Vai atcelt pārsūtīšanu?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Ziņu un multivides atjaunošana nav pabeigta. Ja atcelsiet to, pārsūtīšanu varēsiet veikt vēlreiz iestatījumos."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Turpināt pārsūtīšanu"
@@ -3624,7 +3630,7 @@
     "messageformat": "Ziņas neizdevās pārsūtīt. Pārbaudiet interneta savienojumu un mēģiniet vēlreiz."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Ziņas neizdevās pārsūtīt kļūdas dēļ. Mēģiniet atkārtot, vēlreiz saistot šo datoru."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Mēģināt vēlreiz"
@@ -5782,13 +5788,10 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Šajā atjauninājumā ir novērsta kļūda, kas traucēja kopīgot ekrānu macOS Sonoma operētājsistēmas ierīcēs, ja atļauja kopīgot ekrānu iepriekš tika noraidīta."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrējot nelasītās ziņas, tagad tiks izcelta atlasītā saruna, un saraksts ar nelasītajām sarunām automātiski atjaunināsies, kolīdz parādīsies jaunas ziņas vai kad pārslēgsieties no vienas sarunas uz citu."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Tagad varat ērti apskatīt pielikumu lejupielādēs progresu, kā arī apturēt lejupielādes un tās atsākt. Ja failu pārsūtīšanas ātrums samazinās, jo atrodaties ceļā (piemēram, lidmašīnā) vai jums hotelī pieejams tikai lēns Wi-Fi tīkls, tagad varat atsākt failu lejupielādi, kolīdz tiekat pie ātrāka interneta savienojuma."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

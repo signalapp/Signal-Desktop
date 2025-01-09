@@ -1125,22 +1125,22 @@
     "messageformat": "Значок, показывающий, что у этого изображения есть подпись"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Открыть это вложение в увеличенном масштабе"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Начать загрузку"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Отменить загрузку"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Повторить загрузку"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Повторить попытку"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} элемент} few {{count,number} элемента} many {{count,number} элементов} other {{count,number} элемента}}"
   },
   "icu:save": {
     "messageformat": "Сохранить"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Микрофон включён"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Звонки включены"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Готовимся к загрузке..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Это может занять несколько минут в зависимости от размера резервной копии"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Отменить трансфер"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Сообщения и информация о чате защищены сквозным шифрованием, включая процесс синхронизации. <learnMoreLink>Узнать больше</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Отменить трансфер?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Восстановление сообщений и медиафайлов не завершено. Если вы решите отменить трансфер, то сможете снова запустить его в настройках."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Продолжить трансфер"
@@ -3624,7 +3630,7 @@
     "messageformat": "Не удалось перенести ваши сообщения. Проверьте ваше подключение к интернету и попробуйте ещё раз."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Ваши сообщения не могут быть перенесены из-за ошибки. Повторите попытку, снова привязав этот ПК."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Повторить попытку"
@@ -5782,13 +5788,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "В этом обновлении исправлена ошибка в macOS Sonoma, из-за которой общий доступ к экрану не обеспечивался должным образом, если до этого в демонстрации экрана было отказано. Теперь вам больше не нужно делиться экраном, на котором лишь сообщение об ошибке."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Фильтр по непрочитанным теперь выделяет выбранный чат, а список непрочитанных чатов будет автоматически обновляться по мере поступления новых сообщений или когда вы прочтёте один чат и перейдёте в другой."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Теперь вы можете наглядно видеть прогресс загрузки вложений. Вы также можете останавливать и перезапускать текущие загрузки. Если передача данных замедлилась, так как вы в дороге (в авиарежиме?) или пользуетесь слабым WiFi в отеле, вы можете выполнить загрузку позже, когда будет более быстрое интернет-соединение."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

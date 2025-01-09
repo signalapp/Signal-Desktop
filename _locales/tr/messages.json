@@ -1125,22 +1125,22 @@
     "messageformat": "Bu görüntünün başlığı olduğunu gösteren ikon"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Bu eklentiyi daha büyük bir görünümde aç"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "İndirmeyi başlat"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "İndirmeyi iptal et"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "İndirmeyi yeniden dene"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Tekrar dene"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} Öğe} other {{count,number} öğe}}"
   },
   "icu:save": {
     "messageformat": "Kaydet"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon açık"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zil açık"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "İndirmeye hazırlanıyor..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Yedeklemenin boyutuna bağlı olarak birkaç dakika sürebilir"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Transferi iptal et"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajlar ve sohbet bilgileri, senkronizasyon süreci de dahil olmak üzere uçtan uca şifreleme ile korunmaktadır. <learnMoreLink>Dahasını öğren</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Transfer iptal edilsin mi?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Mesajlarının ve medyanın geri yüklenmesi tamamlanmadı. İptal etmeyi seçersen, Ayarlar'dan tekrar transfer yapabilirsin."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Transfere devam et"
@@ -3624,7 +3630,7 @@
     "messageformat": "Mesajların aktarılamadı. İnternet bağlantını kontrol et ve tekrar dene."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Mesajların bir hata nedeniyle aktarılamadı. Bu masaüstünü yeniden bağlayarak tekrar dene."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tekrar dene"
@@ -5782,13 +5788,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Bu güncelleme, macOS Sonoma'daki bir ekran paylaşımı hatasını düzeltmektedir."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Okunmayanları filtrele özelliği, artık seçilen sohbeti vurgular ve mesajlar okundukça ve alındıkça güncelleme yapar."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Artık eklenti indirmelerinin ilerleyişini kolayca görebilirsin. Ayrıca devam eden indirmeleri de durdurabilir ve yeniden başlatabilirsin. Böylece yoldayken aktarım yavaşlarsa, yeterli bant genişliği sağlandığında yeniden yükleme yapabilirsin."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

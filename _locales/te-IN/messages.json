@@ -1125,22 +1125,22 @@
     "messageformat": "ఈ చిత్రానికి శీర్షిక ఉందని చూపించే ఐకాన్"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "ఈ జోడింపును పెద్ద వీక్షణలో తెరవండి"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "డౌన్‌లోడ్‌ను ప్రారంభించండి"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "డౌన్‌లోడ్‌ను రద్దు చేయండి"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "డౌన్‌లోడ్‌ను మళ్ళీ ప్రయత్నించండి"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "మళ్ళీ ప్రయత్నించు"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} అంశం} other {{count,number}అంశాలు}}"
   },
   "icu:save": {
     "messageformat": "భద్రపరుచు"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "మైక్ ఆన్‌లో ఉంది"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "రింగ్ ఆన్‌లో ఉంది"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "డౌన్‌లోడ్ చేయడానికి సిద్ధమవుతోంది..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "మీ బ్యాకప్ పరిమాణాన్ని బట్టి దీనికి ఇంకాస్త సమయం పట్టవచ్చు"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "బదిలీని రద్దు చేయండి"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "సమకాలీకరణ ప్రక్రియతో సహా ఎండ్-టు-ఎండ్ గుప్తీకరణ ద్వారా సందేశాలు మరియు చాట్ సమాచారం సంరక్షించబడతాయి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "బదిలీని రద్దు చేసేదా?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీరు మళ్ళీ సెట్టింగ్‌ల నుండి బదిలీ చేయవచ్చు."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "బదిలీని కొనసాగించండి"
@@ -3624,7 +3630,7 @@
     "messageformat": "మీ సందేశాలు బదిలీ చేయడం సాధ్యం కాదు. మీ ఇంటర్నెట్ కనెక్షన్‌ను తనిఖీ చేసుకొని మళ్ళీ ప్రయత్నించండి."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "లోపం కారణంగా మీ సందేశాలను బదిలీ చేయడం సాధ్యపడలేదు. ఈ డెస్క్‌టాప్‌ను మళ్ళీ లింక్ చేయడం ద్వారా మళ్ళీ ప్రయత్నించండి."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "మళ్ళీ ప్రయత్నించు"
@@ -5782,13 +5788,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "ఈ అప్‌డేట్ macOS Sonoma లో స్క్రీన్ షేరింగ్ బగ్‌ను పరిష్కరిస్తుంది."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "చదవని వాటి ద్వారా ఫిల్టర్ ఇప్పుడు ఎంచుకున్న చాట్‌ను హైలైట్ చేస్తుంది మరియు సందేశాలు చదవబడినప్పుడు మరియు అందుకోబడినప్పుడు అప్‌డేట్‌ చేస్తుంది."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "ఇప్పుడు మీరు అటాచ్‌మెంట్ డౌన్‌లోడ్‌ల పురోగతిని సులభంగా చూడవచ్చు. మీరు పురోగతిలో ఉన్న డౌన్‌లోడ్‌లను కూడా ఆపివేయవచ్చు మరియు పునఃప్రారంభించవచ్చు. కాబట్టి మీరు రోడ్డుపై ఉన్నందున (విమాన మోడ్‌లో?) ఒకవేళ బదిలీ నెమ్మదించినట్లయితే లేదా మధ్యస్థమైన హోటల్ వైఫై విచ్ఛిన్నం కాబోతున్నట్లయితే, మరింత అందుబాటులో ఉన్న బ్యాండ్‌విడ్త్ ఇవ్వబడినప్పుడు మీరు తిరిగి లోడ్ చేయడానికి వేచి ఉండవచ్చు."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

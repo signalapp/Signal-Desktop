@@ -1125,22 +1125,22 @@
     "messageformat": "Ikoon näitamaks, et sellel pildil on seletus."
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Ava see manus suuremas vaates"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Alusta allalaadimist"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Tühista allalaadimine"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Proovi uuesti alla laadida"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Proovi uuesti"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} üksus} other {{count,number} üksust}}"
   },
   "icu:save": {
     "messageformat": "Salvesta"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon sees"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Helin sees"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Allalaadimise ettevalmistamine …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Olenevalt sinu varukoopia suurusest võib see mõne minuti aega võtta"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Tühista edastus"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Sõnumid ja vestluste info on kaitstud kõigis seadmetes otspunktkrüpteeringuga, sh sünkroniseerimisprotsess. <learnMoreLink>Rohkem teavet</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Kas tühistada edastus?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Sinu sõnumite ja meedia taastamine ei ole lõppenud. Kui valid tühistamise, saad edastuse uuesti käivitada Sätete alt."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jätka edastust"
@@ -3624,7 +3630,7 @@
     "messageformat": "Sinu sõnumeid ei saanud edastada. Kontrolli oma võrguühendust ja proovi uuesti."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Sinu sõnumeid ei saanud edastada vea tõttu. Seo see arvuti uuesti ning proovi uuesti."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Proovi uuesti"
@@ -5782,13 +5788,10 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Selle uuendusega parandatakse macOS Sonoma viga, mis takistas ekraani jagamise korrektset toimimist, kui ekraani jagamise luba oli varem keelatud – enam ei pea sa oma ekraani tõrketeatega jagama."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtreerimine lugemata oleku alusel tõstab nüüd valitud vestluse esile ning uuendab automaatselt uute sõnumite saabumisel või kui lülitud ühelt vestluselt teisele."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Nüüd on lihtne näha manuste allalaadimise edenemist. Samuti saad pooleliolevaid allalaadimisi peatada ja uuesti alustada. Nüüd on lihtne näha manuste allalaadimise edenemist. Samuti saad pooleliolevaid allalaadimisi peatada ja uuesti alustada."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

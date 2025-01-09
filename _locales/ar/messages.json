@@ -1125,22 +1125,22 @@
     "messageformat": "أيقونة تظهر أنّ هذه الصورة تحوي تسمية توضيحية"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "افتح هذا الملف المُرفَق في نافذة أكبر."
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "بدء التنزيل"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "إلغاء التنزيل"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "محاولة التنزيل مُجدَّدًا"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "إعادة المُحاولة"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, zero {{count,number} عناصر} one {{count,number} عنصر} two {{count,number} عنصرين} few {{count,number} عناصر} many {{count,number} عناصر} other {{count,number} عناصر}}"
   },
   "icu:save": {
     "messageformat": "حفظ"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "الميكروفون مفعل"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "تم تفعيل الرنين"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "جارٍ الإعداد للتنزيل..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "قد يستغرق هذا بضع دقائق حسب حجم نسختك الاحتياطية"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "إلغاء التحويل"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "معلومات الرسائل والدردشات محمية من خلال التشفير من طرف لِطرف، بما في ذلك عملية المزامنة. <learnMoreLink>اعرف المزيد</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "أترغبُ بإلغاء التحويل؟"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "لم تكتمل استعادة رسائلك ووسائطك. إذا اخترتَ الإلغاء، يمكنك تحويلها مجددًا من خلال \"الإعدادات\"."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "مواصلة التحويل"
@@ -3624,7 +3630,7 @@
     "messageformat": "تعذَّر نقل رسائلك. تحقَّق من اتصالك بالإنترنت وحاول مُجدَّدًا."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "تعذَّر نقل رسائلك بسبب حدوث خطأ. حاوِل من جديد من خلال إعادة ربط هذا الحاسوب."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "إعادة المُحاولة"
@@ -5782,13 +5788,10 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "يُصلِح هذا التحديث خطأ متعلقًا بمشاركة الشاشة على نظام macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "تُبرِز الآن خاصية \"الفلترة بحسب الدردشات غير المقروءة\" المحادثة المُختارة ويتمُّ تحديثها بالموازاة مع قراءة الرسائل والتوصل بها."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "يُمكنك الآن رؤية تقدّم تنزيل الملفات المُرفَقة بسهولة. يُمكنك أيضًا توقيف التنزيلات الجارية وإعادة بدئها من جديد."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

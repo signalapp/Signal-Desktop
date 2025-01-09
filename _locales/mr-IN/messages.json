@@ -1125,22 +1125,22 @@
     "messageformat": "ह्या चित्रामध्ये कॅप्शन आहे हे दाखवणारे चिन्ह"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "हे अटॅचमेंट मोठ्या आकारात उघडून बघा"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "डाऊनलोड सुरु करा"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "डाउनलोड रद्द करा"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "पुन्हा डाऊनलोड करून पाहा"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "पुन्हा प्रयत्न करा"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} आयटम} other {{count,number} आयटम्स}}"
   },
   "icu:save": {
     "messageformat": "जतन करा"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "माईक चालू आहे"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "रिंग होणे सुरू झाले"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "डाउनलोड करण्याची तयारी करत आहे..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "आपल्या बॅकअप आकारावर अवलंबून याला काही मिनिटे लागू शकतात"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "हस्तांतरण रद्द करा"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "संदेश आणि चॅट्ची माहिती एन्ड-टू-एन्ड एन्क्रिप्शनने संरक्षित आहेत, अगदी सिंकची प्रक्रियासुद्धा. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "हस्तांतरण रद्द करायचे?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "आपले ,संदेश आणि मिडीया यांचे पुनर्संचयन पूर्ण झालेले नाहीत. आपण रद्द करणे निवडल्यास, आपण सेटिंग्ज मधून हस्तांतरण पुन्हा करू शकता."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "हस्तांतरण सुरू ठेवा"
@@ -3624,7 +3630,7 @@
     "messageformat": "आपले संदेश स्थलांतरित केले जाऊ शकत नाहीत. आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा तपासा."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "आपले संदेश एका त्रुटीमुळे हस्तांतरित करता आले नाहीत. हा डेस्कटॉप पुन्हा लिंक करून पुन्हा प्रयत्न करा."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "पुन्हा प्रयत्न करा"
@@ -5782,13 +5788,10 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "ह्या अद्यतनातून एक बग दुरुस्त झाला आहे ज्यामुळे पूर्वी कधी स्क्रीन शेअर करण्याची अनुमती नाकारली असेल तर नंतर स्क्रीन शेअरिंग नीट काम करत नव्हते — त्यामुळे आता आपल्याला आपली स्क्रीन शेअर करताना त्रुटीच्या संदेशाचा त्रास सहन करावा लागणार नाही."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "न वाचलेले फिल्टर केल्याने आता निवडलेले चॅट ठळक करते, आणि नवीन संदेश आल्यावर किंवा आपण एका चॅटमध्ये संभाषण करून दुसऱ्या चॅटवर क्लिक करता तेव्हा न वाचलेल्या चॅट्सची यादी आपोआप अद्ययावत होईल."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "आपण आता सहज अटॅचमेंट डाऊनलोड्सची प्रगती पाहू शकता. आपण चालू असणारे डाऊनलोडसुद्धा थांबवून पुन्हा सुरु करू शकता. आपण प्रवासात (एअरप्लेन मोडमध्ये?) असाल, किंवा जिथले WiFi कधीही बंद पडू शकते अशा एखाद्या सुमार हॉटेलमध्ये असाल, आणि म्हणून हस्तांतरणाचा वेग मंदावला असेल, तर आपण थांबून जास्त बँडविड्थ मिळाल्यावर रीलोड करू शकता."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }
