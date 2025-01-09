@@ -8,7 +8,10 @@ import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
   getTimestampOrUndefinedFromLong,
+  getCheckedTimestampFromLong,
+  getCheckedTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils';
+import { MAX_SAFE_DATE } from '../../util/timestamp';
 
 describe('getSafeLongFromTimestamp', () => {
   it('returns zero when passed undefined', () => {
@@ -21,22 +24,38 @@ describe('getSafeLongFromTimestamp', () => {
     assert.strictEqual(getSafeLongFromTimestamp(-456).toString(), '-456');
   });
 
-  it('returns Long.MAX_VALUE when passed Infinity', () => {
-    assert(getSafeLongFromTimestamp(Infinity).equals(Long.MAX_VALUE));
+  it('returns MAX_SAFE_DATE when passed Infinity', () => {
+    assert.strictEqual(
+      getSafeLongFromTimestamp(Infinity).toNumber(),
+      MAX_SAFE_DATE
+    );
   });
 
-  it("returns Long.MAX_VALUE when passed very large numbers, outside of JavaScript's safely representable range", () => {
-    assert.equal(getSafeLongFromTimestamp(Number.MAX_VALUE), Long.MAX_VALUE);
+  it('returns Long.MAX_VALUE when passed Infinity and overriden', () => {
+    assert(
+      getSafeLongFromTimestamp(Infinity, Long.MAX_VALUE).equals(Long.MAX_VALUE)
+    );
+  });
+
+  it("returns MAX_SAFE_DATE when passed very large numbers, outside of JavaScript's safely representable range", () => {
+    assert.strictEqual(
+      getSafeLongFromTimestamp(Number.MAX_VALUE).toNumber(),
+      MAX_SAFE_DATE
+    );
   });
 });
 
 describe('getTimestampFromLong', () => {
+  it('returns zero when passed negative Long', () => {
+    assert.equal(getTimestampFromLong(Long.fromNumber(-1)), 0);
+  });
+
   it('returns zero when passed 0 Long', () => {
     assert.equal(getTimestampFromLong(Long.fromNumber(0)), 0);
   });
 
-  it('returns Number.MAX_SAFE_INTEGER when passed Long.MAX_VALUE', () => {
-    assert.equal(getTimestampFromLong(Long.MAX_VALUE), Number.MAX_SAFE_INTEGER);
+  it('returns MAX_SAFE_DATE when passed Long.MAX_VALUE', () => {
+    assert.equal(getTimestampFromLong(Long.MAX_VALUE), MAX_SAFE_DATE);
   });
 
   it('returns a normal number', () => {
@@ -48,6 +67,24 @@ describe('getTimestampFromLong', () => {
   });
 });
 
+describe('getCheckedTimestampFromLong', () => {
+  it('throws on absent Long', () => {
+    assert.throws(() => getCheckedTimestampFromLong(null));
+  });
+
+  it('throws on negative Long', () => {
+    assert.throws(() => getCheckedTimestampFromLong(Long.fromNumber(-1)));
+  });
+
+  it('throws on Long.MAX_VALUE', () => {
+    assert.throws(() => getCheckedTimestampFromLong(Long.MAX_VALUE));
+  });
+
+  it('does not throw otherwise', () => {
+    assert.equal(getCheckedTimestampFromLong(Long.fromNumber(16)), 16);
+  });
+});
+
 describe('getTimestampOrUndefinedFromLong', () => {
   it('returns undefined when passed 0 Long', () => {
     assert.equal(
@@ -56,10 +93,10 @@ describe('getTimestampOrUndefinedFromLong', () => {
     );
   });
 
-  it('returns Number.MAX_SAFE_INTEGER when passed Long.MAX_VALUE', () => {
+  it('returns MAX_SAFE_DATE when passed Long.MAX_VALUE', () => {
     assert.equal(
       getTimestampOrUndefinedFromLong(Long.MAX_VALUE),
-      Number.MAX_SAFE_INTEGER
+      MAX_SAFE_DATE
     );
   });
 
@@ -69,5 +106,28 @@ describe('getTimestampOrUndefinedFromLong', () => {
 
   it('returns undefined for null value', () => {
     assert.equal(getTimestampOrUndefinedFromLong(null), undefined);
+  });
+});
+
+describe('getCheckedTimestampOrUndefinedFromLong', () => {
+  it('throws on negative Long', () => {
+    assert.throws(() =>
+      getCheckedTimestampOrUndefinedFromLong(Long.fromNumber(-1))
+    );
+  });
+
+  it('returns undefined on absent Long', () => {
+    assert.equal(getCheckedTimestampOrUndefinedFromLong(null), undefined);
+  });
+
+  it('returns undefined on zero Long', () => {
+    assert.equal(getCheckedTimestampOrUndefinedFromLong(Long.ZERO), undefined);
+  });
+
+  it('returns a normal number', () => {
+    assert.equal(
+      getCheckedTimestampOrUndefinedFromLong(Long.fromNumber(16)),
+      16
+    );
   });
 });

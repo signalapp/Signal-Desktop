@@ -3,23 +3,55 @@
 
 import Long from 'long';
 
-export function getSafeLongFromTimestamp(timestamp = 0): Long {
-  if (timestamp >= Number.MAX_SAFE_INTEGER) {
-    return Long.MAX_VALUE;
+import { MAX_SAFE_DATE } from './timestamp';
+
+export function getSafeLongFromTimestamp(
+  timestamp = 0,
+  maxValue: Long | number = MAX_SAFE_DATE
+): Long {
+  if (timestamp >= MAX_SAFE_DATE) {
+    if (typeof maxValue === 'number') {
+      return Long.fromNumber(maxValue);
+    }
+    return maxValue;
   }
 
   return Long.fromNumber(timestamp);
 }
 
 export function getTimestampFromLong(value?: Long | null): number {
-  if (!value) {
+  if (!value || value.isNegative()) {
     return 0;
   }
 
   const num = value.toNumber();
 
-  if (num >= Number.MAX_SAFE_INTEGER) {
-    return Number.MAX_SAFE_INTEGER;
+  if (num > MAX_SAFE_DATE) {
+    return MAX_SAFE_DATE;
+  }
+
+  return num;
+}
+
+export class InvalidTimestampError extends Error {
+  constructor(message: string) {
+    super(`InvalidTimestampError: ${message}`);
+  }
+}
+
+export function getCheckedTimestampFromLong(value?: Long | null): number {
+  if (value == null) {
+    throw new InvalidTimestampError('No number');
+  }
+
+  const num = value.toNumber();
+
+  if (num < 0) {
+    throw new InvalidTimestampError('Underflow');
+  }
+
+  if (num > MAX_SAFE_DATE) {
+    throw new InvalidTimestampError('Overflow');
   }
 
   return num;
@@ -33,4 +65,14 @@ export function getTimestampOrUndefinedFromLong(
   }
 
   return getTimestampFromLong(value);
+}
+
+export function getCheckedTimestampOrUndefinedFromLong(
+  value?: Long | null
+): number | undefined {
+  if (!value || value.isZero()) {
+    return undefined;
+  }
+
+  return getCheckedTimestampFromLong(value);
 }

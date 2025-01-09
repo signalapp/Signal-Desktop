@@ -207,8 +207,8 @@ export function formatDate(
   });
 }
 
-const MAX_SAFE_DATE = 8640000000000000;
-const MIN_SAFE_DATE = -8640000000000000;
+export const MAX_SAFE_DATE = 8640000000000000;
+export const MIN_SAFE_DATE = -8640000000000000;
 
 export function toBoundedDate(timestamp: number): Date {
   return new Date(Math.max(MIN_SAFE_DATE, Math.min(timestamp, MAX_SAFE_DATE)));

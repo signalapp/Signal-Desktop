@@ -56,9 +56,10 @@ import type {
 } from '../../model-types.d';
 import { assertDev, strictAssert } from '../../util/assert';
 import {
-  getTimestampFromLong,
-  getTimestampOrUndefinedFromLong,
+  getCheckedTimestampFromLong,
+  getCheckedTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils';
+import { MAX_SAFE_DATE } from '../../util/timestamp';
 import { DurationInSeconds, SECOND } from '../../util/durations';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { dropNull } from '../../util/dropNull';
@@ -913,7 +914,7 @@ export class BackupImportStream extends Writable {
     }
 
     if (contact.notRegistered) {
-      const timestamp = getTimestampOrUndefinedFromLong(
+      const timestamp = getCheckedTimestampOrUndefinedFromLong(
         contact.notRegistered.unregisteredTimestamp
       );
       attrs.discoveredUnregisteredAt = timestamp || this.now;
@@ -1053,7 +1054,8 @@ export class BackupImportStream extends Writable {
             serviceId,
             role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
             addedByUserId: fromAciObject(Aci.fromUuidBytes(addedByUserId)),
-            timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+            timestamp:
+              timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
           };
         }
       ),
@@ -1066,7 +1068,8 @@ export class BackupImportStream extends Writable {
 
           return {
             aci: fromAciObject(Aci.fromUuidBytes(userId)),
-            timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+            timestamp:
+              timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
           };
         }
       ),
@@ -1082,7 +1085,8 @@ export class BackupImportStream extends Writable {
 
         return {
           serviceId,
-          timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+          timestamp:
+            timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
         };
       }),
       revision: dropNull(version),
@@ -1186,7 +1190,9 @@ export class BackupImportStream extends Writable {
         isBlockList: false,
         members: [],
 
-        deletedAtTimestamp: getTimestampFromLong(listItem.deletionTimestamp),
+        deletedAtTimestamp: getCheckedTimestampFromLong(
+          listItem.deletionTimestamp
+        ),
       };
     }
 
@@ -1217,7 +1223,7 @@ export class BackupImportStream extends Writable {
       name,
       restrictions: fromCallLinkRestrictionsProto(restrictions),
       revoked: false,
-      expiration: getTimestampFromLong(expirationMs) || null,
+      expiration: getCheckedTimestampOrUndefinedFromLong(expirationMs) ?? null,
       storageNeedsSync: false,
     };
 
@@ -1259,9 +1265,18 @@ export class BackupImportStream extends Writable {
         ? DurationInSeconds.fromMillis(chat.expirationTimerMs.toNumber())
         : undefined;
     conversation.expireTimerVersion = chat.expireTimerVersion || 1;
-    conversation.muteExpiresAt = getTimestampOrUndefinedFromLong(
-      chat.muteUntilMs
-    );
+
+    if (
+      chat.muteUntilMs != null &&
+      chat.muteUntilMs.toNumber() >= MAX_SAFE_DATE
+    ) {
+      // Muted forever
+      conversation.muteExpiresAt = Number.MAX_SAFE_INTEGER;
+    } else {
+      conversation.muteExpiresAt = getCheckedTimestampOrUndefinedFromLong(
+        chat.muteUntilMs
+      );
+    }
     conversation.markedUnread = chat.markedUnread === true;
     conversation.dontNotifyForMentionsIfMuted =
       chat.dontNotifyForMentionsIfMuted === true;
@@ -1303,7 +1318,7 @@ export class BackupImportStream extends Writable {
   ): Promise<void> {
     const { aboutMe } = options;
 
-    const timestamp = item?.dateSent?.toNumber();
+    const timestamp = getCheckedTimestampOrUndefinedFromLong(item?.dateSent);
     const logId = `fromChatItem(${timestamp})`;
 
     strictAssert(this.ourConversation != null, `${logId}: AccountData missing`);
@@ -1344,7 +1359,7 @@ export class BackupImportStream extends Writable {
       chatConvo.unreadCount = (chatConvo.unreadCount ?? 0) + 1;
     }
 
-    const expirationStartTimestamp = getTimestampOrUndefinedFromLong(
+    const expirationStartTimestamp = getCheckedTimestampOrUndefinedFromLong(
       item.expireStartDate
     );
     const expireTimer =
@@ -1566,7 +1581,7 @@ export class BackupImportStream extends Writable {
           status: sendStatus,
           updatedAt:
             status.timestamp != null && !status.timestamp.isZero()
-              ? getTimestampFromLong(status.timestamp)
+              ? getCheckedTimestampFromLong(status.timestamp)
               : undefined,
         };
       }
@@ -1584,8 +1599,12 @@ export class BackupImportStream extends Writable {
       };
     }
     if (incoming) {
-      const receivedAtMs = incoming.dateReceived?.toNumber() || this.now;
-      const serverTimestamp = incoming.dateServerSent?.toNumber() || undefined;
+      const receivedAtMs =
+        getCheckedTimestampOrUndefinedFromLong(incoming.dateReceived) ??
+        this.now;
+      const serverTimestamp = getCheckedTimestampOrUndefinedFromLong(
+        incoming.dateServerSent
+      );
 
       const unidentifiedDeliveryReceived = incoming.sealedSender === true;
 
@@ -1704,7 +1723,7 @@ export class BackupImportStream extends Writable {
               url,
               title: dropNull(preview.title),
               description: dropNull(preview.description),
-              date: getTimestampFromLong(preview.date),
+              date: getCheckedTimestampFromLong(preview.date),
               image: preview.image
                 ? convertFilePointerToAttachment(preview.image)
                 : undefined,
@@ -1749,7 +1768,7 @@ export class BackupImportStream extends Writable {
             'Edit history has non-standard messages'
           );
 
-          const timestamp = getTimestampFromLong(rev.dateSent);
+          const timestamp = getCheckedTimestampFromLong(rev.dateSent);
 
           const {
             patch: {
@@ -1808,7 +1827,9 @@ export class BackupImportStream extends Writable {
     strictAssert(authorConvo !== undefined, 'author conversation not found');
 
     return {
-      id: getTimestampFromLong(quote.targetSentTimestamp) || null,
+      id:
+        getCheckedTimestampOrUndefinedFromLong(quote.targetSentTimestamp) ??
+        null,
       referencedMessageNotFound: quote.targetSentTimestamp == null,
       authorAci: isAciString(authorConvo.serviceId)
         ? authorConvo.serviceId
@@ -1888,8 +1909,8 @@ export class BackupImportStream extends Writable {
         return {
           emoji,
           fromId: authorConvo.id,
-          targetTimestamp: getTimestampFromLong(sentTimestamp),
-          timestamp: getTimestampFromLong(sentTimestamp),
+          targetTimestamp: getCheckedTimestampFromLong(sentTimestamp),
+          timestamp: getCheckedTimestampFromLong(sentTimestamp),
         };
       });
   }
@@ -2300,8 +2321,9 @@ export class BackupImportStream extends Writable {
           : null,
         peerId: groupId,
         direction: isRingerMe ? CallDirection.Outgoing : CallDirection.Incoming,
-        timestamp: startedCallTimestamp.toNumber(),
-        endedTimestamp: getTimestampFromLong(endedCallTimestamp) || null,
+        timestamp: getCheckedTimestampFromLong(startedCallTimestamp),
+        endedTimestamp:
+          getCheckedTimestampOrUndefinedFromLong(endedCallTimestamp) ?? null,
       };
 
       await this.saveCallHistory(callHistory);
@@ -2359,7 +2381,7 @@ export class BackupImportStream extends Writable {
         startedById: null,
         peerId,
         direction,
-        timestamp: startedCallTimestamp.toNumber(),
+        timestamp: getCheckedTimestampFromLong(startedCallTimestamp),
         endedTimestamp: null,
       };
 
@@ -3128,7 +3150,7 @@ export class BackupImportStream extends Writable {
       mode: CallMode.Adhoc,
       type: CallType.Adhoc,
       direction: CallDirection.Unknown,
-      timestamp: callTimestamp.toNumber(),
+      timestamp: getCheckedTimestampFromLong(callTimestamp),
       status: fromAdHocCallStateProto(state),
       endedTimestamp: null,
     };

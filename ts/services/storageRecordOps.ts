@@ -251,7 +251,8 @@ export async function toContactRecord(
   contactRecord.archived = Boolean(conversation.get('isArchived'));
   contactRecord.markedUnread = Boolean(conversation.get('markedUnread'));
   contactRecord.mutedUntilTimestamp = getSafeLongFromTimestamp(
-    conversation.get('muteExpiresAt')
+    conversation.get('muteExpiresAt'),
+    Long.MAX_VALUE
   );
   if (conversation.get('hideStory') !== undefined) {
     contactRecord.hideStory = Boolean(conversation.get('hideStory'));
@@ -505,7 +506,8 @@ export function toGroupV1Record(
   groupV1Record.archived = Boolean(conversation.get('isArchived'));
   groupV1Record.markedUnread = Boolean(conversation.get('markedUnread'));
   groupV1Record.mutedUntilTimestamp = getSafeLongFromTimestamp(
-    conversation.get('muteExpiresAt')
+    conversation.get('muteExpiresAt'),
+    Long.MAX_VALUE
   );
 
   applyUnknownFields(groupV1Record, conversation);
@@ -527,7 +529,8 @@ export function toGroupV2Record(
   groupV2Record.archived = Boolean(conversation.get('isArchived'));
   groupV2Record.markedUnread = Boolean(conversation.get('markedUnread'));
   groupV2Record.mutedUntilTimestamp = getSafeLongFromTimestamp(
-    conversation.get('muteExpiresAt')
+    conversation.get('muteExpiresAt'),
+    Long.MAX_VALUE
   );
   groupV2Record.dontNotifyForMentionsIfMuted = Boolean(
     conversation.get('dontNotifyForMentionsIfMuted')
