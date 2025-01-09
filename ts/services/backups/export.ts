@@ -134,7 +134,10 @@ import { getBackupCdnInfo } from './util/mediaId';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { CallLinkRestrictions } from '../../types/CallLink';
-import { toAdminKeyBytes } from '../../util/callLinks';
+import {
+  isCallHistoryForUnusedCallLink,
+  toAdminKeyBytes,
+} from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { migrateAllMessages } from '../../messages/migrateMessageData';
@@ -512,7 +515,7 @@ export class BackupExportStream extends Readable {
     for (const item of allCallHistoryItems) {
       const { callId, type, peerId: roomId, status, timestamp } = item;
 
-      if (type !== CallType.Adhoc) {
+      if (type !== CallType.Adhoc || isCallHistoryForUnusedCallLink(item)) {
         continue;
       }
 

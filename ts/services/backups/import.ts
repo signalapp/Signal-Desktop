@@ -58,6 +58,7 @@ import { assertDev, strictAssert } from '../../util/assert';
 import {
   getCheckedTimestampFromLong,
   getCheckedTimestampOrUndefinedFromLong,
+  getTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils';
 import { MAX_SAFE_DATE } from '../../util/timestamp';
 import { DurationInSeconds, SECOND } from '../../util/durations';
@@ -108,10 +109,13 @@ import {
   GroupCallStatus,
 } from '../../types/CallDisposition';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
-import { CallLinkRestrictions } from '../../types/CallLink';
+import { CallLinkRestrictions, isCallLinkAdmin } from '../../types/CallLink';
 import type { CallLinkType } from '../../types/CallLink';
 import type { RawBodyRange } from '../../types/BodyRange';
-import { fromAdminKeyBytes } from '../../util/callLinks';
+import {
+  fromAdminKeyBytes,
+  toCallHistoryFromUnusedCallLink,
+} from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { loadAllAndReinitializeRedux } from '../allLoaders';
 import {
@@ -209,6 +213,7 @@ export class BackupImportStream extends Writable {
     ConversationAttributesType
   >();
   private readonly recipientIdToCallLink = new Map<number, CallLinkType>();
+  private readonly adminCallLinksToHasCall = new Map<CallLinkType, boolean>();
   private readonly chatIdToConvo = new Map<
     number,
     ConversationAttributesType
@@ -325,6 +330,15 @@ export class BackupImportStream extends Writable {
 
       // Store sticker packs and schedule downloads
       await createPacksFromBackup(this.stickerPacks);
+
+      // Add placeholder call history for unused admin call links to show in calls tab
+      for (const [callLink, hasCall] of this.adminCallLinksToHasCall) {
+        if (!hasCall) {
+          const callHistory = toCallHistoryFromUnusedCallLink(callLink);
+          // eslint-disable-next-line no-await-in-loop
+          await this.saveCallHistory(callHistory);
+        }
+      }
 
       // Reset and reload conversations and storage again
       window.ConversationController.reset();
@@ -1223,11 +1237,18 @@ export class BackupImportStream extends Writable {
       name,
       restrictions: fromCallLinkRestrictionsProto(restrictions),
       revoked: false,
-      expiration: getCheckedTimestampOrUndefinedFromLong(expirationMs) ?? null,
+      expiration: getTimestampOrUndefinedFromLong(expirationMs) ?? null,
       storageNeedsSync: false,
     };
 
     this.recipientIdToCallLink.set(recipientId, callLink);
+
+    if (
+      isCallLinkAdmin(callLink) &&
+      !this.adminCallLinksToHasCall.has(callLink)
+    ) {
+      this.adminCallLinksToHasCall.set(callLink, false);
+    }
 
     await DataWriter.insertCallLink(callLink);
   }
@@ -3172,6 +3193,10 @@ export class BackupImportStream extends Writable {
     };
 
     await this.saveCallHistory(callHistory);
+
+    if (isCallLinkAdmin(callLink)) {
+      this.adminCallLinksToHasCall.set(callLink, true);
+    }
   }
 
   private async fromCustomChatColors(

@@ -116,3 +116,26 @@ export function toCallHistoryFromUnusedCallLink(
     status: AdhocCallStatus.Pending,
   };
 }
+
+export function isCallHistoryForUnusedCallLink(
+  callHistory: CallHistoryDetails
+): boolean {
+  const {
+    ringerId,
+    startedById,
+    endedTimestamp,
+    mode,
+    type,
+    direction,
+    status,
+  } = callHistory;
+  return (
+    ringerId == null &&
+    startedById == null &&
+    endedTimestamp == null &&
+    mode === CallMode.Adhoc &&
+    type === CallType.Adhoc &&
+    direction === CallDirection.Incoming &&
+    status === AdhocCallStatus.Pending
+  );
+}
