@@ -210,6 +210,7 @@ export class BackupExportStream extends Readable {
   private readonly serviceIdToRecipientId = new Map<string, number>();
   private readonly e164ToRecipientId = new Map<string, number>();
   private readonly roomIdToRecipientId = new Map<string, number>();
+  private ourConversation?: ConversationAttributesType;
   private attachmentBackupJobs: Array<CoreAttachmentBackupJobType> = [];
   private buffers = new Array<Uint8Array>();
   private nextRecipientId = 1;
@@ -256,6 +257,8 @@ export class BackupExportStream extends Readable {
   }
 
   private async unsafeRun(backupLevel: BackupLevel): Promise<void> {
+    this.ourConversation =
+      window.ConversationController.getOurConversationOrThrow().attributes;
     this.push(
       Backups.BackupInfo.encodeDelimited({
         version: Long.fromNumber(BACKUP_VERSION),
@@ -1073,7 +1076,8 @@ export class BackupExportStream extends Readable {
         if (authorId === me) {
           result.outgoing = this.getOutgoingMessageDetails(
             message.sent_at,
-            message
+            message,
+            { conversationId: message.conversationId }
           );
         } else {
           result.incoming = this.getIncomingMessageDetails(message);
@@ -1229,7 +1233,8 @@ export class BackupExportStream extends Readable {
     if (isOutgoing) {
       result.outgoing = this.getOutgoingMessageDetails(
         message.sent_at,
-        message
+        message,
+        { conversationId: message.conversationId }
       );
     } else {
       result.incoming = this.getIncomingMessageDetails(message);
@@ -2345,7 +2350,8 @@ export class BackupExportStream extends Readable {
     }: Pick<
       MessageAttributesType,
       'sendStateByConversationId' | 'unidentifiedDeliveries' | 'errors'
-    >
+    >,
+    { conversationId }: { conversationId: string }
   ): Backups.ChatItem.IOutgoingMessageDetails {
     const sealedSenderServiceIds = new Set(unidentifiedDeliveries);
     const errorMap = new Map(
@@ -2361,6 +2367,17 @@ export class BackupExportStream extends Readable {
         log.warn(`backups: no send target for a message ${sentAt}`);
         continue;
       }
+
+      // Filter out our conversationId from non-"Note-to-Self" messages
+      // TODO: DESKTOP-8089
+      strictAssert(this.ourConversation?.id, 'our conversation must exist');
+      if (
+        id === this.ourConversation.id &&
+        conversationId !== this.ourConversation.id
+      ) {
+        continue;
+      }
+
       const { serviceId } = target.attributes;
       const recipientId = this.getOrPushPrivateRecipient(target.attributes);
       const timestamp =
@@ -2561,7 +2578,9 @@ export class BackupExportStream extends Readable {
 
             // Directional details
             outgoing: isOutgoing
-              ? this.getOutgoingMessageDetails(history.timestamp, history)
+              ? this.getOutgoingMessageDetails(history.timestamp, history, {
+                  conversationId: message.conversationId,
+                })
               : undefined,
             incoming: isOutgoing
               ? undefined
