@@ -745,20 +745,28 @@ function doRecordsConflict(
       continue;
     }
 
+    const isRemoteNullish =
+      !remoteValue || (Long.isLong(remoteValue) && remoteValue.isZero());
+    const isLocalNullish =
+      !localValue || (Long.isLong(localValue) && localValue.isZero());
+
     // Sometimes we get `null` values from Protobuf and they should default to
     // false, empty string, or 0 for these records we do not count them as
     // conflicting.
-    if (
-      (!remoteValue || (Long.isLong(remoteValue) && remoteValue.isZero())) &&
-      (!localValue || (Long.isLong(localValue) && localValue.isZero()))
-    ) {
+    if (isRemoteNullish && isLocalNullish) {
       continue;
     }
 
     const areEqual = isEqual(localValue, remoteValue);
 
     if (!areEqual) {
-      details.push(`key=${key}: different values`);
+      if (isRemoteNullish) {
+        details.push(`key=${key}: removed`);
+      } else if (isLocalNullish) {
+        details.push(`key=${key}: added`);
+      } else {
+        details.push(`key=${key}: different values`);
+      }
     }
   }
 
