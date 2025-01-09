@@ -2,20 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
-import { DataReader } from '../sql/Client';
-import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
-import type { MessageModel } from '../models/messages';
+import { DataReader } from '../sql/Client';
+import { MessageModel } from '../models/messages';
+import type { MessageAttributesType } from '../model-types.d';
 
-export async function __DEPRECATED$getMessageById(
-  messageId: string,
-  location: string
+export async function getMessageById(
+  messageId: string
 ): Promise<MessageModel | undefined> {
-  const innerLocation = `__DEPRECATED$getMessageById/${location}`;
-  const message = window.MessageCache.__DEPRECATED$getById(
-    messageId,
-    innerLocation
-  );
+  const message = window.MessageCache.getById(messageId);
   if (message) {
     return message;
   }
@@ -34,9 +29,5 @@ export async function __DEPRECATED$getMessageById(
     return undefined;
   }
 
-  return window.MessageCache.__DEPRECATED$register(
-    found.id,
-    found,
-    innerLocation
-  );
+  return window.MessageCache.register(new MessageModel(found));
 }

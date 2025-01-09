@@ -13,6 +13,7 @@ import {
   isAttachmentDownloadQueueEmpty,
   registerQueueEmptyCallback,
 } from '../util/attachmentDownloadQueue';
+import { MessageModel } from '../models/messages';
 
 export type EditAttributesType = {
   conversationId: string;
@@ -134,10 +135,8 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
           return;
         }
 
-        const message = window.MessageCache.__DEPRECATED$register(
-          targetMessage.id,
-          targetMessage,
-          'Edits.onEdit'
+        const message = window.MessageCache.register(
+          new MessageModel(targetMessage)
         );
 
         await handleEditMessage(message.attributes, edit);

@@ -23,7 +23,7 @@ import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { SmartCompositionTextArea } from './CompositionTextArea';
 import { useToastActions } from '../ducks/toast';
 import { isDownloaded } from '../../types/Attachment';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import { strictAssert } from '../../util/assert';
 import type {
   ForwardMessageData,
@@ -117,10 +117,7 @@ function SmartForwardMessagesModalInner({
             if (draft.originalMessageId == null) {
               return { draft, originalMessage: null };
             }
-            const message = await __DEPRECATED$getMessageById(
-              draft.originalMessageId,
-              'doForwardMessages'
-            );
+            const message = await getMessageById(draft.originalMessageId);
             strictAssert(message, 'no message found');
             return {
               draft,

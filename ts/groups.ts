@@ -102,6 +102,8 @@ import {
 } from './util/groupSendEndorsements';
 import { getProfile } from './util/getProfile';
 import { generateMessageId } from './util/generateMessageId';
+import { postSaveUpdates } from './util/cleanup';
+import { MessageModel } from './models/messages';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -253,7 +255,7 @@ export type GroupV2ChangeDetailType =
 
 export type GroupV2ChangeType = {
   from?: ServiceIdString;
-  details: Array<GroupV2ChangeDetailType>;
+  details: ReadonlyArray<GroupV2ChangeDetailType>;
 };
 
 export type GroupFields = {
@@ -2016,7 +2018,7 @@ export async function createGroupV2(
     revision: groupV2Info.revision,
   });
 
-  const createdTheGroupMessage: MessageAttributesType = {
+  const createdTheGroupMessage = new MessageModel({
     ...generateMessageId(incrementMessageCounter()),
 
     schemaVersion: MAX_MESSAGE_SCHEMA,
@@ -2032,17 +2034,12 @@ export async function createGroupV2(
       from: ourAci,
       details: [{ type: 'create' }],
     },
-  };
-  await DataWriter.saveMessages([createdTheGroupMessage], {
-    forceSave: true,
-    ourAci,
   });
-  window.MessageCache.__DEPRECATED$register(
-    createdTheGroupMessage.id,
-    new window.Whisper.Message(createdTheGroupMessage),
-    'createGroupV2'
-  );
-  conversation.trigger('newmessage', createdTheGroupMessage);
+  await window.MessageCache.saveMessage(createdTheGroupMessage, {
+    forceSave: true,
+  });
+  window.MessageCache.register(createdTheGroupMessage);
+  drop(conversation.onNewMessage(createdTheGroupMessage));
 
   if (expireTimer) {
     await conversation.updateExpirationTimer(expireTimer, {
@@ -3442,6 +3439,7 @@ async function appendChangeMessages(
     log.info(`appendChangeMessages/${logId}: updating ${first.id}`);
     await DataWriter.saveMessage(first, {
       ourAci,
+      postSaveUpdates,
 
       // We don't use forceSave here because this is an update of existing
       // message.
@@ -3453,6 +3451,7 @@ async function appendChangeMessages(
     await DataWriter.saveMessages(rest, {
       ourAci,
       forceSave: true,
+      postSaveUpdates,
     });
   } else {
     log.info(
@@ -3461,15 +3460,13 @@ async function appendChangeMessages(
     await DataWriter.saveMessages(mergedMessages, {
       ourAci,
       forceSave: true,
+      postSaveUpdates,
     });
   }
 
   let newMessages = 0;
   for (const changeMessage of mergedMessages) {
-    const existing = window.MessageCache.__DEPRECATED$getById(
-      changeMessage.id,
-      'appendChangeMessages'
-    );
+    const existing = window.MessageCache.getById(changeMessage.id);
 
     // Update existing message
     if (existing) {
@@ -3481,12 +3478,8 @@ async function appendChangeMessages(
       continue;
     }
 
-    window.MessageCache.__DEPRECATED$register(
-      changeMessage.id,
-      new window.Whisper.Message(changeMessage),
-      'appendChangeMessages'
-    );
-    conversation.trigger('newmessage', changeMessage);
+    const model = window.MessageCache.register(new MessageModel(changeMessage));
+    drop(conversation.onNewMessage(model));
     newMessages += 1;
   }
 

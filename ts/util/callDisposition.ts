@@ -46,10 +46,7 @@ import { incrementMessageCounter } from './incrementMessageCounter';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus, maxSeenStatus } from '../MessageSeenStatus';
 import { canConversationBeUnarchived } from './canConversationBeUnarchived';
-import type {
-  ConversationAttributesType,
-  MessageAttributesType,
-} from '../model-types';
+import type { ConversationAttributesType } from '../model-types';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import MessageSender from '../textsecure/SendMessage';
 import * as Bytes from '../Bytes';
@@ -71,6 +68,8 @@ import { storageServiceUploadJob } from '../services/storage';
 import { CallLinkFinalizeDeleteManager } from '../jobs/CallLinkFinalizeDeleteManager';
 import { parsePartial, parseStrict } from './schemas';
 import { calling } from '../services/calling';
+import { cleanupMessages } from './cleanup';
+import { MessageModel } from '../models/messages';
 
 // utils
 // -----
@@ -1192,7 +1191,7 @@ async function saveCallHistory({
     if (prevMessage != null) {
       await DataWriter.removeMessage(prevMessage.id, {
         fromSync: true,
-        singleProtoJobQueue,
+        cleanupMessages,
       });
     }
     return callHistory;
@@ -1222,7 +1221,7 @@ async function saveCallHistory({
 
   const { id: newId } = generateMessageId(counter);
 
-  const message: MessageAttributesType = {
+  const message = new MessageModel({
     id: prevMessage?.id ?? newId,
     conversationId: conversation.id,
     type: 'call-history',
@@ -1234,20 +1233,15 @@ async function saveCallHistory({
     readStatus: ReadStatus.Read,
     seenStatus,
     callId: callHistory.callId,
-  };
+  });
 
-  message.id = await DataWriter.saveMessage(message, {
-    ourAci: window.textsecure.storage.user.getCheckedAci(),
-    // We don't want to force save if we're updating an existing message
+  const id = await window.MessageCache.saveMessage(message, {
     forceSave: prevMessage == null,
   });
+  message.set({ id });
   log.info('saveCallHistory: Saved call history message:', message.id);
 
-  window.MessageCache.__DEPRECATED$register(
-    message.id,
-    message,
-    'callDisposition'
-  );
+  const model = window.MessageCache.register(message);
 
   if (prevMessage == null) {
     if (callHistory.direction === CallDirection.Outgoing) {
@@ -1255,7 +1249,7 @@ async function saveCallHistory({
     } else {
       conversation.incrementMessageCount();
     }
-    conversation.trigger('newmessage', message);
+    drop(conversation.onNewMessage(model));
   }
 
   await conversation.updateLastMessage().catch(error => {
@@ -1356,11 +1350,10 @@ export async function updateCallHistoryFromLocalEvent(
 
 export function updateDeletedMessages(messageIds: ReadonlyArray<string>): void {
   messageIds.forEach(messageId => {
-    const message = window.MessageCache.__DEPRECATED$getById(
-      messageId,
-      'updateDeletedMessages'
+    const message = window.MessageCache.getById(messageId);
+    const conversation = window.ConversationController.get(
+      message?.get('conversationId')
     );
-    const conversation = message?.getConversation();
     if (message == null || conversation == null) {
       return;
     }
@@ -1369,7 +1362,7 @@ export function updateDeletedMessages(messageIds: ReadonlyArray<string>): void {
       message.get('conversationId')
     );
     conversation.debouncedUpdateLastMessage();
-    window.MessageCache.__DEPRECATED$unregister(messageId);
+    window.MessageCache.unregister(messageId);
   });
 }
 

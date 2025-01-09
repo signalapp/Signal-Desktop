@@ -3,11 +3,12 @@
 
 import * as log from '../logging/log';
 import { DataWriter } from '../sql/Client';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import { getMessageById } from '../messages/getMessageById';
 import { isNotNil } from './isNotNil';
 import { DurationInSeconds } from './durations';
 import { markViewed } from '../services/MessageUpdater';
 import { storageServiceUploadJob } from '../services/storage';
+import { postSaveUpdates } from './cleanup';
 
 export async function markOnboardingStoryAsRead(): Promise<boolean> {
   const existingOnboardingStoryMessageIds = window.storage.get(
@@ -20,9 +21,7 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
   }
 
   const messages = await Promise.all(
-    existingOnboardingStoryMessageIds.map(id =>
-      __DEPRECATED$getMessageById(id, 'markOnboardingStoryAsRead')
-    )
+    existingOnboardingStoryMessageIds.map(id => getMessageById(id))
   );
 
   const storyReadDate = Date.now();
@@ -49,6 +48,7 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
 
   await DataWriter.saveMessages(messageAttributes, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
+    postSaveUpdates,
   });
 
   await window.storage.put('hasViewedOnboardingStory', true);

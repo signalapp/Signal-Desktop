@@ -27,6 +27,7 @@ import { generateAci, generatePni } from '../../types/ServiceId';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { getRandomBytes } from '../../Crypto';
 import * as Bytes from '../../Bytes';
+import { postSaveUpdates } from '../../util/cleanup';
 
 export const OUR_ACI = generateAci();
 export const OUR_PNI = generatePni();
@@ -213,7 +214,11 @@ export async function asymmetricRoundtripHarness(
   try {
     const targetOutputFile = path.join(outDir, 'backup.bin');
 
-    await DataWriter.saveMessages(before, { forceSave: true, ourAci: OUR_ACI });
+    await DataWriter.saveMessages(before, {
+      forceSave: true,
+      ourAci: OUR_ACI,
+      postSaveUpdates,
+    });
 
     await backupsService.exportToDisk(targetOutputFile, options.backupLevel);
 

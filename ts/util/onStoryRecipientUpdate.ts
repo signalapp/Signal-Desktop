@@ -13,6 +13,8 @@ import { isStory } from '../state/selectors/message';
 import { queueUpdateMessage } from './messageBatcher';
 import { isMe } from './whatTypeOfConversation';
 import { drop } from './drop';
+import { handleDeleteForEveryone } from './deleteForEveryone';
+import { MessageModel } from '../models/messages';
 
 export async function onStoryRecipientUpdate(
   event: StoryRecipientUpdateEvent
@@ -162,11 +164,7 @@ export async function onStoryRecipientUpdate(
           return true;
         }
 
-        const message = window.MessageCache.__DEPRECATED$register(
-          item.id,
-          item,
-          'onStoryRecipientUpdate'
-        );
+        const message = window.MessageCache.register(new MessageModel(item));
 
         const sendStateConversationIds = new Set(
           Object.keys(nextSendStateByConversationId)
@@ -190,7 +188,7 @@ export async function onStoryRecipientUpdate(
           // sent timestamp doesn't happen (it would return all copies of the
           // story, not just the one we want to delete).
           drop(
-            message.handleDeleteForEveryone({
+            handleDeleteForEveryone(message, {
               fromId: ourConversationId,
               serverTimestamp: Number(item.serverTimestamp),
               targetSentTimestamp: item.timestamp,

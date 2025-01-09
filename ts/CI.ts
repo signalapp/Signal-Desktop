@@ -15,6 +15,7 @@ import { migrateAllMessages } from './messages/migrateMessageData';
 import { SECOND } from './util/durations';
 import { isSignalRoute } from './util/signalRoutes';
 import { strictAssert } from './util/assert';
+import { MessageModel } from './models/messages';
 
 type ResolveType = (data: unknown) => void;
 
@@ -142,12 +143,7 @@ export function getCI({ deviceName }: GetCIOptionsType): CIType {
       [sentAt]
     );
     return messages.map(
-      m =>
-        window.MessageCache.__DEPRECATED$register(
-          m.id,
-          m,
-          'CI.getMessagesBySentAt'
-        ).attributes
+      m => window.MessageCache.register(new MessageModel(m)).attributes
     );
   }
 

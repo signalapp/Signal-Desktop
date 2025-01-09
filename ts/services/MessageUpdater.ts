@@ -2,10 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d';
+import type { MessageModel } from '../models/messages';
 import { ReadStatus, maxReadStatus } from '../messages/MessageReadStatus';
 import { notificationService } from './notifications';
 import { SeenStatus } from '../MessageSeenStatus';
 import { queueUpdateMessage } from '../util/messageBatcher';
+import * as Errors from '../types/errors';
+import * as log from '../logging/log';
+import { isValidTapToView } from '../util/isValidTapToView';
+import { getMessageIdForLogging } from '../util/idForLogging';
+import { eraseMessageContents } from '../util/cleanup';
+import { getSource, getSourceServiceId } from '../messages/helpers';
+import { isAciString } from '../util/isAciString';
+import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
 
 function markReadOrViewed(
   messageAttrs: Readonly<MessageAttributesType>,
@@ -54,3 +63,65 @@ export const markViewed = (
   { skipSave = false } = {}
 ): MessageAttributesType =>
   markReadOrViewed(messageAttrs, ReadStatus.Viewed, viewedAt, skipSave);
+
+export async function markViewOnceMessageViewed(
+  message: MessageModel,
+  options?: {
+    fromSync?: boolean;
+  }
+): Promise<void> {
+  const { fromSync } = options || {};
+
+  if (!isValidTapToView(message.attributes)) {
+    log.warn(
+      `markViewOnceMessageViewed: Message ${getMessageIdForLogging(message.attributes)} is not a valid tap to view message!`
+    );
+    return;
+  }
+  if (message.attributes.isErased) {
+    log.warn(
+      `markViewOnceMessageViewed: Message ${getMessageIdForLogging(message.attributes)} is already erased!`
+    );
+    return;
+  }
+
+  if (message.get('readStatus') !== ReadStatus.Viewed) {
+    message.set(markViewed(message.attributes));
+  }
+
+  await eraseMessageContents(message);
+
+  if (!fromSync) {
+    const senderE164 = getSource(message.attributes);
+    const senderAci = getSourceServiceId(message.attributes);
+    const timestamp = message.get('sent_at');
+
+    if (senderAci === undefined || !isAciString(senderAci)) {
+      throw new Error('markViewOnceMessageViewed: senderAci is undefined');
+    }
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      log.warn(
+        'markViewOnceMessageViewed: We are primary device; not sending view once open sync'
+      );
+      return;
+    }
+
+    try {
+      await viewOnceOpenJobQueue.add({
+        viewOnceOpens: [
+          {
+            senderE164,
+            senderAci,
+            timestamp,
+          },
+        ],
+      });
+    } catch (error) {
+      log.error(
+        'markViewOnceMessageViewed: Failed to queue view once open sync',
+        Errors.toLogFormat(error)
+      );
+    }
+  }
+}

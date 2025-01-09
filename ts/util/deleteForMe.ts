@@ -14,7 +14,6 @@ import { missingCaseError } from './missingCaseError';
 import { getMessageSentTimestampSet } from './getMessageSentTimestampSet';
 import { getAuthor } from '../messages/helpers';
 import { isPniString } from '../types/ServiceId';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { DataReader, DataWriter, deleteAndCleanup } from '../sql/Client';
 import { deleteData } from '../types/Attachment';
 
@@ -29,7 +28,8 @@ import type {
 } from '../textsecure/messageReceiverEvents';
 import type { AciString, PniString } from '../types/ServiceId';
 import type { AttachmentType } from '../types/Attachment';
-import type { MessageModel } from '../models/messages';
+import { MessageModel } from '../models/messages';
+import { cleanupMessages, postSaveUpdates } from './cleanup';
 
 const { getMessagesBySentAt, getMostRecentAddressableMessages } = DataReader;
 
@@ -98,8 +98,8 @@ export async function deleteMessage(
     return false;
   }
 
-  const message = window.MessageCache.toMessageAttributes(found);
-  await applyDeleteMessage(message, logId);
+  const message = window.MessageCache.register(new MessageModel(found));
+  await applyDeleteMessage(message.attributes, logId);
 
   return true;
 }
@@ -109,7 +109,7 @@ export async function applyDeleteMessage(
 ): Promise<void> {
   await deleteAndCleanup([message], logId, {
     fromSync: true,
-    singleProtoJobQueue,
+    cleanupMessages,
   });
 }
 
@@ -141,11 +141,7 @@ export async function deleteAttachmentFromMessage(
     return false;
   }
 
-  const message = window.MessageCache.__DEPRECATED$register(
-    found.id,
-    found,
-    'ReadSyncs.onSync'
-  );
+  const message = window.MessageCache.register(new MessageModel(found));
 
   return applyDeleteAttachmentFromMessage(message, deleteAttachmentData, {
     deleteOnDisk,
@@ -209,7 +205,7 @@ export async function applyDeleteAttachmentFromMessage(
           attachments: attachments?.filter(item => item !== attachment),
         });
         if (shouldSave) {
-          await saveMessage(message.attributes, { ourAci });
+          await saveMessage(message.attributes, { ourAci, postSaveUpdates });
         }
         await deleteData({ deleteOnDisk, deleteDownloadOnDisk })(attachment);
 
@@ -291,10 +287,10 @@ export async function deleteConversation(
     const { received_at: receivedAt } = newestMessage;
 
     await removeMessagesInConversation(conversation.id, {
+      cleanupMessages,
       fromSync: true,
-      receivedAt,
       logId: `${logId}(receivedAt=${receivedAt})`,
-      singleProtoJobQueue,
+      receivedAt,
     });
   }
 
@@ -315,10 +311,10 @@ export async function deleteConversation(
       const { received_at: receivedAt } = newestNondisappearingMessage;
 
       await removeMessagesInConversation(conversation.id, {
+        cleanupMessages,
         fromSync: true,
-        receivedAt,
         logId: `${logId}(receivedAt=${receivedAt})`,
-        singleProtoJobQueue,
+        receivedAt,
       });
     }
   }

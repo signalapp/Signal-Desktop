@@ -5,10 +5,6 @@ import { omit } from 'lodash';
 
 import * as log from '../logging/log';
 import type { QuotedMessageType } from '../model-types';
-import type {
-  MessageAttributesType,
-  ReadonlyMessageAttributesType,
-} from '../model-types.d';
 import { SignalService } from '../protobuf';
 import { isGiftBadge, isTapToView } from '../state/selectors/message';
 import type { ProcessedQuote } from '../textsecure/Types';
@@ -18,16 +14,15 @@ import { getQuoteBodyText } from '../util/getQuoteBodyText';
 import { isQuoteAMatch, messageHasPaymentEvent } from './helpers';
 import * as Errors from '../types/errors';
 import { isDownloadable } from '../types/Attachment';
+import type { MessageModel } from '../models/messages';
 
 export type MinimalMessageCache = Readonly<{
   findBySentAt(
     sentAt: number,
-    predicate: (attributes: ReadonlyMessageAttributesType) => boolean
-  ): Promise<MessageAttributesType | undefined>;
-  upgradeSchema(
-    attributes: MessageAttributesType,
-    minSchemaVersion: number
-  ): Promise<MessageAttributesType>;
+    predicate: (attributes: MessageModel) => boolean
+  ): Promise<MessageModel | undefined>;
+  upgradeSchema(message: MessageModel, minSchemaVersion: number): Promise<void>;
+  register(message: MessageModel): MessageModel;
 }>;
 
 export type CopyQuoteOptionsType = Readonly<{
@@ -57,8 +52,11 @@ export const copyFromQuotedMessage = async (
     isViewOnce: false,
   };
 
-  const queryMessage = await messageCache.findBySentAt(id, attributes =>
-    isQuoteAMatch(attributes, conversationId, result)
+  const queryMessage = await messageCache.findBySentAt(
+    id,
+    (message: MessageModel) => {
+      return isQuoteAMatch(message.attributes, conversationId, result);
+    }
   );
 
   if (queryMessage == null) {
@@ -74,21 +72,19 @@ export const copyFromQuotedMessage = async (
 };
 
 export const copyQuoteContentFromOriginal = async (
-  providedOriginalMessage: MessageAttributesType,
+  message: MessageModel,
   quote: QuotedMessageType,
   { messageCache = window.MessageCache }: CopyQuoteOptionsType = {}
 ): Promise<void> => {
-  let originalMessage = providedOriginalMessage;
-
   const { attachments } = quote;
   const firstAttachment = attachments ? attachments[0] : undefined;
 
-  if (messageHasPaymentEvent(originalMessage)) {
+  if (messageHasPaymentEvent(message.attributes)) {
     // eslint-disable-next-line no-param-reassign
-    quote.payment = originalMessage.payment;
+    quote.payment = message.get('payment');
   }
 
-  if (isTapToView(originalMessage)) {
+  if (isTapToView(message.attributes)) {
     // eslint-disable-next-line no-param-reassign
     quote.text = undefined;
     // eslint-disable-next-line no-param-reassign
@@ -103,7 +99,7 @@ export const copyQuoteContentFromOriginal = async (
     return;
   }
 
-  const isMessageAGiftBadge = isGiftBadge(originalMessage);
+  const isMessageAGiftBadge = isGiftBadge(message.attributes);
   if (isMessageAGiftBadge !== quote.isGiftBadge) {
     log.warn(
       `copyQuoteContentFromOriginal: Quote.isGiftBadge: ${quote.isGiftBadge}, isGiftBadge(message): ${isMessageAGiftBadge}`
@@ -124,18 +120,18 @@ export const copyQuoteContentFromOriginal = async (
   quote.isViewOnce = false;
 
   // eslint-disable-next-line no-param-reassign
-  quote.text = getQuoteBodyText(originalMessage, quote.id);
+  quote.text = getQuoteBodyText(message.attributes, quote.id);
 
   // eslint-disable-next-line no-param-reassign
-  quote.bodyRanges = originalMessage.bodyRanges;
+  quote.bodyRanges = message.attributes.bodyRanges;
 
   if (!firstAttachment || !firstAttachment.contentType) {
     return;
   }
 
   try {
-    originalMessage = await messageCache.upgradeSchema(
-      originalMessage,
+    await messageCache.upgradeSchema(
+      message,
       window.Signal.Types.Message.VERSION_NEEDED_FOR_DISPLAY
     );
   } catch (error) {
@@ -150,7 +146,7 @@ export const copyQuoteContentFromOriginal = async (
     attachments: queryAttachments = [],
     preview: queryPreview = [],
     sticker,
-  } = originalMessage;
+  } = message.attributes;
 
   if (queryAttachments.length > 0) {
     const queryFirst = queryAttachments[0];

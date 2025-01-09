@@ -25,6 +25,7 @@ import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
 import { modifyTargetMessage } from './modifyTargetMessage';
 import { isMessageNoteToSelf } from './isMessageNoteToSelf';
+import { MessageModel } from '../models/messages';
 
 const RECURSION_LIMIT = 15;
 
@@ -103,15 +104,13 @@ export async function handleEditMessage(
     return;
   }
 
-  const mainMessageModel = window.MessageCache.__DEPRECATED$register(
-    mainMessage.id,
-    mainMessage,
-    'handleEditMessage'
+  const mainMessageModel = window.MessageCache.register(
+    new MessageModel(mainMessage)
   );
 
   // Pull out the edit history from the main message. If this is the first edit
   // then the original message becomes the first item in the edit history.
-  let editHistory: Array<EditHistoryType> = mainMessage.editHistory || [
+  let editHistory: ReadonlyArray<EditHistoryType> = mainMessage.editHistory || [
     {
       attachments: mainMessage.attachments,
       body: mainMessage.body,
@@ -215,8 +214,10 @@ export async function handleEditMessage(
   const { quote: upgradedQuote } = upgradedEditedMessageData;
   let nextEditedMessageQuote: QuotedMessageType | undefined;
   if (!upgradedQuote) {
-    // Quote dropped
-    log.info(`${idLog}: dropping quote`);
+    if (mainMessage.quote) {
+      // Quote dropped
+      log.info(`${idLog}: dropping quote`);
+    }
   } else if (!upgradedQuote.id || upgradedQuote.id === mainMessage.quote?.id) {
     // Quote preserved
     nextEditedMessageQuote = mainMessage.quote;
@@ -370,7 +371,9 @@ export async function handleEditMessage(
     conversation.clearContactTypingTimer(typingToken);
   }
 
-  const mainMessageConversation = mainMessageModel.getConversation();
+  const mainMessageConversation = window.ConversationController.get(
+    mainMessageModel.get('conversationId')
+  );
   if (mainMessageConversation) {
     drop(mainMessageConversation.updateLastMessage());
     // Apply any other operations, excluding edits that target this message
@@ -386,7 +389,7 @@ export async function handleEditMessage(
 
   // Apply any other pending edits that target this message
   const edits = Edits.forMessage({
-    ...mainMessage,
+    ...mainMessageModel.attributes,
     sent_at: editedMessage.timestamp,
     timestamp: editedMessage.timestamp,
   });

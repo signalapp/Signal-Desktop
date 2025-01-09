@@ -4,22 +4,21 @@
 import { batch } from 'react-redux';
 import { debounce } from 'lodash';
 
+import * as Errors from '../types/errors';
+import * as log from '../logging/log';
 import { DataReader, DataWriter } from '../sql/Client';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
-import * as Errors from '../types/errors';
-import * as log from '../logging/log';
-
-import type { MessageModel } from '../models/messages';
-import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import { MessageModel } from '../models/messages';
+import { cleanupMessages } from '../util/cleanup';
 
 class ExpiringMessagesDeletionService {
   public update: typeof this.checkExpiringMessages;
 
   private timeout?: ReturnType<typeof setTimeout>;
 
-  constructor(private readonly singleProtoJobQueue: SingleProtoJobQueue) {
+  constructor() {
     this.update = debounce(this.checkExpiringMessages, 1000);
   }
 
@@ -37,17 +36,15 @@ class ExpiringMessagesDeletionService {
       const inMemoryMessages: Array<MessageModel> = [];
 
       messages.forEach(dbMessage => {
-        const message = window.MessageCache.__DEPRECATED$register(
-          dbMessage.id,
-          dbMessage,
-          'destroyExpiredMessages'
+        const message = window.MessageCache.register(
+          new MessageModel(dbMessage)
         );
         messageIds.push(message.id);
         inMemoryMessages.push(message);
       });
 
       await DataWriter.removeMessages(messageIds, {
-        singleProtoJobQueue: this.singleProtoJobQueue,
+        cleanupMessages,
       });
 
       batch(() => {
@@ -57,7 +54,6 @@ class ExpiringMessagesDeletionService {
           });
 
           // We do this to update the UI, if this message is being displayed somewhere
-          message.trigger('expired');
           window.reduxActions.conversations.messageExpired(message.id);
         });
       });
@@ -114,14 +110,12 @@ class ExpiringMessagesDeletionService {
   }
 }
 
-// Because this service is used inside of Client.ts, it can't directly reference
-//   SingleProtoJobQueue. Instead of direct access, it is provided once on startup.
-export function initialize(singleProtoJobQueue: SingleProtoJobQueue): void {
+export function initialize(): void {
   if (instance) {
     log.warn('Expiring Messages Deletion service is already initialized!');
     return;
   }
-  instance = new ExpiringMessagesDeletionService(singleProtoJobQueue);
+  instance = new ExpiringMessagesDeletionService();
 }
 
 export async function update(): Promise<void> {

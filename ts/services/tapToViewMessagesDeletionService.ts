@@ -8,6 +8,9 @@ import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import * as Errors from '../types/errors';
 import { strictAssert } from '../util/assert';
 import { toBoundedDate } from '../util/timestamp';
+import { getMessageIdForLogging } from '../util/idForLogging';
+import { eraseMessageContents } from '../util/cleanup';
+import { MessageModel } from '../models/messages';
 
 async function eraseTapToViewMessages() {
   try {
@@ -26,22 +29,17 @@ async function eraseTapToViewMessages() {
           'Must be older than maxTimestamp'
         );
 
-        const message = window.MessageCache.__DEPRECATED$register(
-          fromDB.id,
-          fromDB,
-          'eraseTapToViewMessages'
-        );
+        const message = window.MessageCache.register(new MessageModel(fromDB));
 
         window.SignalContext.log.info(
           'eraseTapToViewMessages: erasing message contents',
-          message.idForLogging()
+          getMessageIdForLogging(message.attributes)
         );
 
         // We do this to update the UI, if this message is being displayed somewhere
-        message.trigger('expired');
         window.reduxActions.conversations.messageExpired(message.id);
 
-        await message.eraseContents();
+        await eraseMessageContents(message);
       })
     );
   } catch (error) {

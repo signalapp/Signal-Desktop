@@ -49,6 +49,7 @@ import type { CallLinkType } from '../../types/CallLink';
 import type { LocalizerType } from '../../types/I18N';
 import { linkCallRoute } from '../../util/signalRoutes';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
+import { getMessageById } from '../../messages/getMessageById';
 
 // State
 
@@ -624,12 +625,13 @@ function toggleForwardMessagesModal(
     if (payload.type === ForwardMessagesModalType.Forward) {
       messageDrafts = await Promise.all(
         payload.messageIds.map(async messageId => {
-          const messageAttributes = await window.MessageCache.resolveAttributes(
-            'toggleForwardMessagesModal',
-            messageId
-          );
-
-          const { attachments = [] } = messageAttributes;
+          const message = await getMessageById(messageId);
+          if (!message) {
+            throw new Error(
+              'toggleForwardMessagesModal: failed to find target message'
+            );
+          }
+          const { attachments = [] } = message.attributes;
 
           if (!attachments.every(isDownloaded)) {
             dispatch(
@@ -641,7 +643,7 @@ function toggleForwardMessagesModal(
           const messagePropsSelector = getMessagePropsSelector(state);
           const conversationSelector = getConversationSelector(state);
 
-          const messageProps = messagePropsSelector(messageAttributes);
+          const messageProps = messagePropsSelector(message.attributes);
           const messageDraft = toMessageForwardDraft(
             messageProps,
             conversationSelector
@@ -944,12 +946,14 @@ function showEditHistoryModal(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, ShowEditHistoryModalActionType> {
   return async dispatch => {
-    const messageAttributes = await window.MessageCache.resolveAttributes(
-      'showEditHistoryModal',
-      messageId
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error('showEditHistoryModal: failed to find target message');
+    }
+
+    const nextEditHistoryMessages = copyOverMessageAttributesIntoEditHistory(
+      message.attributes
     );
-    const nextEditHistoryMessages =
-      copyOverMessageAttributesIntoEditHistory(messageAttributes);
 
     if (!nextEditHistoryMessages) {
       log.warn('showEditHistoryModal: no edit history for message');

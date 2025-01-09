@@ -16,11 +16,12 @@ import {
   getConversationIdForLogging,
   getMessageIdForLogging,
 } from './idForLogging';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import { getMessageById } from '../messages/getMessageById';
 import { getRecipientConversationIds } from './getRecipientConversationIds';
 import { getRecipients } from './getRecipients';
 import { repeat, zipObject } from './iterables';
 import { isMe } from './whatTypeOfConversation';
+import { postSaveUpdates } from './cleanup';
 
 export async function sendDeleteForEveryoneMessage(
   conversationAttributes: ConversationAttributesType,
@@ -35,10 +36,7 @@ export async function sendDeleteForEveryoneMessage(
     timestamp: targetTimestamp,
     id: messageId,
   } = options;
-  const message = await __DEPRECATED$getMessageById(
-    messageId,
-    'sendDeleteForEveryoneMessage'
-  );
+  const message = await getMessageById(messageId);
   if (!message) {
     throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
   }
@@ -88,6 +86,7 @@ export async function sendDeleteForEveryoneMessage(
       await DataWriter.saveMessage(message.attributes, {
         jobToInsert,
         ourAci: window.textsecure.storage.user.getCheckedAci(),
+        postSaveUpdates,
       });
     });
   } catch (error) {

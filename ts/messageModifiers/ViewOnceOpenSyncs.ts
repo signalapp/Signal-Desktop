@@ -7,6 +7,8 @@ import { DataReader } from '../sql/Client';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { getMessageIdForLogging } from '../util/idForLogging';
+import { markViewOnceMessageViewed } from '../services/MessageUpdater';
+import { MessageModel } from '../models/messages';
 
 export type ViewOnceOpenSyncAttributesType = {
   removeFromMessageReceiverCache: () => unknown;
@@ -93,12 +95,8 @@ export async function onSync(
       return;
     }
 
-    const message = window.MessageCache.__DEPRECATED$register(
-      found.id,
-      found,
-      'ViewOnceOpenSyncs.onSync'
-    );
-    await message.markViewOnceMessageViewed({ fromSync: true });
+    const message = window.MessageCache.register(new MessageModel(found));
+    await markViewOnceMessageViewed(message, { fromSync: true });
 
     viewOnceSyncs.delete(sync.timestamp);
     sync.removeFromMessageReceiverCache();

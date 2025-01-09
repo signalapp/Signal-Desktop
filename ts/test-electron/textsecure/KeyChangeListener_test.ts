@@ -12,7 +12,7 @@ import { SignalProtocolStore } from '../../SignalProtocolStore';
 import type { ConversationModel } from '../../models/conversations';
 import * as KeyChangeListener from '../../textsecure/KeyChangeListener';
 import * as Bytes from '../../Bytes';
-import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
+import { cleanupMessages } from '../../util/cleanup';
 
 describe('KeyChangeListener', () => {
   let oldNumberId: string | undefined;
@@ -71,7 +71,7 @@ describe('KeyChangeListener', () => {
   afterEach(async () => {
     await DataWriter.removeMessagesInConversation(convo.id, {
       logId: ourServiceIdWithKeyChange,
-      singleProtoJobQueue,
+      cleanupMessages,
     });
     await DataWriter.removeConversation(convo.id);
 
@@ -109,7 +109,7 @@ describe('KeyChangeListener', () => {
     afterEach(async () => {
       await DataWriter.removeMessagesInConversation(groupConvo.id, {
         logId: ourServiceIdWithKeyChange,
-        singleProtoJobQueue,
+        cleanupMessages,
       });
       await DataWriter.removeConversation(groupConvo.id);
     });

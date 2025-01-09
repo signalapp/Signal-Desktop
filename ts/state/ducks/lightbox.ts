@@ -17,7 +17,7 @@ import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
 
 import * as log from '../../logging/log';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import { isGIF } from '../../types/Attachment';
 import {
@@ -40,6 +40,8 @@ import {
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { DataReader } from '../../sql/Client';
+import { getMessageIdForLogging } from '../../util/idForLogging';
+import { markViewOnceMessageViewed } from '../../services/MessageUpdater';
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type LightboxStateType =
@@ -156,10 +158,7 @@ function showLightboxForViewOnceMedia(
   return async dispatch => {
     log.info('showLightboxForViewOnceMedia: attempting to display message');
 
-    const message = await __DEPRECATED$getMessageById(
-      messageId,
-      'showLightboxForViewOnceMedia'
-    );
+    const message = await getMessageById(messageId);
     if (!message) {
       throw new Error(
         `showLightboxForViewOnceMedia: Message ${messageId} missing!`
@@ -168,20 +167,20 @@ function showLightboxForViewOnceMedia(
 
     if (!isTapToView(message.attributes)) {
       throw new Error(
-        `showLightboxForViewOnceMedia: Message ${message.idForLogging()} is not a tap to view message`
+        `showLightboxForViewOnceMedia: Message ${getMessageIdForLogging(message.attributes)} is not a tap to view message`
       );
     }
 
-    if (message.isErased()) {
+    if (message.get('isErased')) {
       throw new Error(
-        `showLightboxForViewOnceMedia: Message ${message.idForLogging()} is already erased`
+        `showLightboxForViewOnceMedia: Message ${getMessageIdForLogging(message.attributes)} is already erased`
       );
     }
 
     const firstAttachment = (message.get('attachments') || [])[0];
     if (!firstAttachment || !firstAttachment.path) {
       throw new Error(
-        `showLightboxForViewOnceMedia: Message ${message.idForLogging()} had no first attachment with path`
+        `showLightboxForViewOnceMedia: Message ${getMessageIdForLogging(message.attributes)} had no first attachment with path`
       );
     }
 
@@ -195,7 +194,7 @@ function showLightboxForViewOnceMedia(
       path: tempPath,
     };
 
-    await message.markViewOnceMessageViewed();
+    await markViewOnceMessageViewed(message);
 
     const { contentType } = tempAttachment;
 
@@ -253,10 +252,7 @@ function showLightbox(opts: {
   return async (dispatch, getState) => {
     const { attachment, messageId } = opts;
 
-    const message = await __DEPRECATED$getMessageById(
-      messageId,
-      'showLightbox'
-    );
+    const message = await getMessageById(messageId);
     if (!message) {
       throw new Error(`showLightbox: Message ${messageId} missing!`);
     }
@@ -393,10 +389,7 @@ function showLightboxForAdjacentMessage(
     const [media] = lightbox.media;
     const { id: messageId, receivedAt, sentAt } = media.message;
 
-    const message = await __DEPRECATED$getMessageById(
-      messageId,
-      'showLightboxForAdjacentMessage'
-    );
+    const message = await getMessageById(messageId);
     if (!message) {
       log.warn('showLightboxForAdjacentMessage: original message is gone');
       dispatch({

@@ -8,6 +8,9 @@ import { isMe } from './whatTypeOfConversation';
 import { getAuthorId } from '../messages/helpers';
 import { isStory } from '../state/selectors/message';
 import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
+import { drop } from './drop';
+import { eraseMessageContents } from './cleanup';
+import { notificationService } from '../services/notifications';
 
 export async function deleteForEveryone(
   message: MessageModel,
@@ -18,7 +21,9 @@ export async function deleteForEveryone(
   shouldPersist = true
 ): Promise<void> {
   if (isDeletionByMe(message, doe)) {
-    const conversation = message.getConversation();
+    const conversation = window.ConversationController.get(
+      message.get('conversationId')
+    );
 
     // Our 1:1 stories are deleted through ts/util/onStoryRecipientUpdate.ts
     if (
@@ -29,7 +34,7 @@ export async function deleteForEveryone(
       return;
     }
 
-    await message.handleDeleteForEveryone(doe, shouldPersist);
+    await handleDeleteForEveryone(message, doe, shouldPersist);
     return;
   }
 
@@ -44,7 +49,7 @@ export async function deleteForEveryone(
     return;
   }
 
-  await message.handleDeleteForEveryone(doe, shouldPersist);
+  await handleDeleteForEveryone(message, doe, shouldPersist);
 }
 
 function isDeletionByMe(
@@ -57,4 +62,50 @@ function isDeletionByMe(
     getAuthorId(message.attributes) === ourConversationId &&
     doe.fromId === ourConversationId
   );
+}
+
+export async function handleDeleteForEveryone(
+  message: MessageModel,
+  del: Pick<
+    DeleteAttributesType,
+    'fromId' | 'targetSentTimestamp' | 'serverTimestamp'
+  >,
+  shouldPersist = true
+): Promise<void> {
+  if (message.deletingForEveryone || message.get('deletedForEveryone')) {
+    return;
+  }
+
+  log.info('Handling DOE.', {
+    messageId: message.id,
+    fromId: del.fromId,
+    targetSentTimestamp: del.targetSentTimestamp,
+    messageServerTimestamp: message.get('serverTimestamp'),
+    deleteServerTimestamp: del.serverTimestamp,
+  });
+
+  try {
+    // eslint-disable-next-line no-param-reassign
+    message.deletingForEveryone = true;
+
+    // Remove any notifications for this message
+    notificationService.removeBy({ messageId: message.get('id') });
+
+    // Erase the contents of this message
+    await eraseMessageContents(
+      message,
+      { deletedForEveryone: true, reactions: [] },
+      shouldPersist
+    );
+
+    // Update the conversation's last message in case this was the last message
+    drop(
+      window.ConversationController.get(
+        message.attributes.conversationId
+      )?.updateLastMessage()
+    );
+  } finally {
+    // eslint-disable-next-line no-param-reassign
+    message.deletingForEveryone = undefined;
+  }
 }

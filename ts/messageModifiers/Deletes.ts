@@ -9,6 +9,7 @@ import * as Errors from '../types/errors';
 import { deleteForEveryone } from '../util/deleteForEveryone';
 import { drop } from '../util/drop';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
+import { MessageModel } from '../models/messages';
 
 export type DeleteAttributesType = {
   envelopeId: string;
@@ -86,10 +87,8 @@ export async function onDelete(del: DeleteAttributesType): Promise<void> {
           return;
         }
 
-        const message = window.MessageCache.__DEPRECATED$register(
-          targetMessage.id,
-          targetMessage,
-          'Deletes.onDelete'
+        const message = window.MessageCache.register(
+          new MessageModel(targetMessage)
         );
 
         await deleteForEveryone(message, del);

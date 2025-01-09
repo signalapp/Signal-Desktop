@@ -128,6 +128,7 @@ import { isAdhoc, isNightly } from '../../util/version';
 import { ToastType } from '../../types/Toast';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData';
+import { postSaveUpdates } from '../../util/cleanup';
 
 const MAX_CONCURRENCY = 10;
 
@@ -609,6 +610,7 @@ export class BackupImportStream extends Writable {
     await DataWriter.saveMessages(batch, {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     const attachmentDownloadJobPromises: Array<Promise<unknown>> = [];

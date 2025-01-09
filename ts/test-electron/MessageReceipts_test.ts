@@ -17,6 +17,7 @@ import {
   messageReceiptTypeSchema,
 } from '../messageModifiers/MessageReceipts';
 import { ReadStatus } from '../messages/MessageReadStatus';
+import { postSaveUpdates } from '../util/cleanup';
 
 describe('MessageReceipts', () => {
   let ourAci: AciString;
@@ -81,6 +82,7 @@ describe('MessageReceipts', () => {
     await DataWriter.saveMessage(messageAttributes, {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     await Promise.all([
@@ -158,6 +160,7 @@ describe('MessageReceipts', () => {
     await DataWriter.saveMessage(messageAttributes, {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
     await DataWriter.saveEditedMessage(messageAttributes, ourAci, {
       conversationId: messageAttributes.conversationId,

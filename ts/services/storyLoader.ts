@@ -18,6 +18,7 @@ import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { DurationInSeconds } from '../util/durations';
 import { SIGNAL_ACI } from '../types/SignalConversation';
+import { postSaveUpdates } from '../util/cleanup';
 
 let storyData: GetAllStoriesResultType | undefined;
 
@@ -174,6 +175,7 @@ async function repairUnexpiredStories(): Promise<void> {
     storiesWithExpiry.map(messageAttributes => {
       return DataWriter.saveMessage(messageAttributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
+        postSaveUpdates,
       });
     })
   );

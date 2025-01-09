@@ -16,6 +16,7 @@ import { stats } from '../util/benchmark/stats';
 import type { StatsType } from '../util/benchmark/stats';
 import type { MessageAttributesType } from '../model-types.d';
 import * as log from '../logging/log';
+import { postSaveUpdates } from '../util/cleanup';
 
 const BUFFER_DELAY_MS = 50;
 
@@ -90,6 +91,7 @@ export async function populateConversationWithMessages({
   await DataWriter.saveMessages(messages, {
     forceSave: true,
     ourAci,
+    postSaveUpdates,
   });
 
   conversation.set('active_at', Date.now());

@@ -17,6 +17,8 @@ import { queueUpdateMessage } from '../util/messageBatcher';
 import { strictAssert } from '../util/assert';
 import { isAciString } from '../util/isAciString';
 import { DataReader, DataWriter } from '../sql/Client';
+import { markRead } from '../services/MessageUpdater';
+import { MessageModel } from '../models/messages';
 
 const { removeSyncTaskById } = DataWriter;
 
@@ -146,11 +148,7 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
 
     notificationService.removeBy({ messageId: found.id });
 
-    const message = window.MessageCache.__DEPRECATED$register(
-      found.id,
-      found,
-      'ReadSyncs.onSync'
-    );
+    const message = window.MessageCache.register(new MessageModel(found));
     const readAt = Math.min(readSync.readAt, Date.now());
     const newestSentAt = readSync.timestamp;
 
@@ -158,11 +156,12 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
     //   timer to the time specified by the read sync if it's earlier than
     //   the previous read time.
     if (isMessageUnread(message.attributes)) {
-      // TODO DESKTOP-1509: use MessageUpdater.markRead once this is TS
-      message.markRead(readAt, { skipSave: true });
+      message.set(markRead(message.attributes, readAt, { skipSave: true }));
 
       const updateConversation = async () => {
-        const conversation = message.getConversation();
+        const conversation = window.ConversationController.get(
+          message.get('conversationId')
+        );
         strictAssert(conversation, `${logId}: conversation not found`);
         // onReadMessage may result in messages older than this one being
         //   marked read. We want those messages to have the same expire timer
@@ -174,7 +173,9 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
 
       // only available during initialization
       if (StartupQueue.isAvailable()) {
-        const conversation = message.getConversation();
+        const conversation = window.ConversationController.get(
+          message.get('conversationId')
+        );
         strictAssert(
           conversation,
           `${logId}: conversation not found (StartupQueue)`

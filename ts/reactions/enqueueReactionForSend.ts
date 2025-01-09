@@ -5,10 +5,13 @@ import noop from 'lodash/noop';
 import { v7 as generateUuid } from 'uuid';
 
 import { DataWriter } from '../sql/Client';
-import type { MessageModel } from '../models/messages';
-import type { ReactionAttributesType } from '../messageModifiers/Reactions';
+import { MessageModel } from '../models/messages';
+import {
+  handleReaction,
+  type ReactionAttributesType,
+} from '../messageModifiers/Reactions';
 import { ReactionSource } from './ReactionSource';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import { getMessageById } from '../messages/getMessageById';
 import { getSourceServiceId, isStory } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
@@ -19,6 +22,7 @@ import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import { isAciString } from '../util/isAciString';
 import { SendStatus } from '../messages/MessageSendState';
 import * as log from '../logging/log';
+import { getMessageIdForLogging } from '../util/idForLogging';
 
 export async function enqueueReactionForSend({
   emoji,
@@ -29,20 +33,17 @@ export async function enqueueReactionForSend({
   messageId: string;
   remove: boolean;
 }>): Promise<void> {
-  const message = await __DEPRECATED$getMessageById(
-    messageId,
-    'enqueueReactionForSend'
-  );
+  const message = await getMessageById(messageId);
   strictAssert(message, 'enqueueReactionForSend: no message found');
 
   const targetAuthorAci = getSourceServiceId(message.attributes);
   strictAssert(
     targetAuthorAci,
-    `enqueueReactionForSend: message ${message.idForLogging()} had no source UUID`
+    `enqueueReactionForSend: message ${getMessageIdForLogging(message.attributes)} had no source UUID`
   );
   strictAssert(
     isAciString(targetAuthorAci),
-    `enqueueReactionForSend: message ${message.idForLogging()} had no source ACI`
+    `enqueueReactionForSend: message ${getMessageIdForLogging(message.attributes)} had no source ACI`
   );
 
   const targetTimestamp = getMessageSentTimestamp(message.attributes, {
@@ -50,11 +51,13 @@ export async function enqueueReactionForSend({
   });
   strictAssert(
     targetTimestamp,
-    `enqueueReactionForSend: message ${message.idForLogging()} had no timestamp`
+    `enqueueReactionForSend: message ${getMessageIdForLogging(message.attributes)} had no timestamp`
   );
 
   const timestamp = Date.now();
-  const messageConversation = message.getConversation();
+  const messageConversation = window.ConversationController.get(
+    message.get('conversationId')
+  );
   strictAssert(
     messageConversation,
     'enqueueReactionForSend: No conversation extracted from target message'
@@ -94,7 +97,7 @@ export async function enqueueReactionForSend({
   // Only used in story scenarios, where we use a whole message to represent the reaction
   let storyReactionMessage: MessageModel | undefined;
   if (storyMessage) {
-    storyReactionMessage = new window.Whisper.Message({
+    storyReactionMessage = new MessageModel({
       ...generateMessageId(incrementMessageCounter()),
       type: 'outgoing',
       conversationId: targetConversation.id,
@@ -132,5 +135,5 @@ export async function enqueueReactionForSend({
     timestamp,
   };
 
-  await message.handleReaction(reaction, { storyMessage });
+  await handleReaction(message, reaction, { storyMessage });
 }

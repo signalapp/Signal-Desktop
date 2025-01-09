@@ -203,6 +203,9 @@ import {
   maybeQueueDeviceNameFetch,
   onDeviceNameChangeSync,
 } from './util/onDeviceNameChangeSync';
+import { postSaveUpdates } from './util/cleanup';
+import { handleDataMessage } from './messages/handleDataMessage';
+import { MessageModel } from './models/messages';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -1421,7 +1424,7 @@ export async function startApp(): Promise<void> {
 
     void badgeImageFileDownloader.checkForFilesToDownload();
 
-    initializeExpiringMessageService(singleProtoJobQueue);
+    initializeExpiringMessageService();
 
     log.info('Blocked uuids cleanup: starting...');
     const blockedUuids = window.storage.get(BLOCKED_UUIDS_ID, []);
@@ -1473,6 +1476,7 @@ export async function startApp(): Promise<void> {
 
       await DataWriter.saveMessages(newMessageAttributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
+        postSaveUpdates,
       });
     }
     log.info('Expiration start timestamp cleanup: complete');
@@ -2627,7 +2631,7 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    drop(message.handleDataMessage(data.message, event.confirm));
+    drop(handleDataMessage(message, data.message, event.confirm));
   }
 
   async function onProfileKey({
@@ -2803,7 +2807,7 @@ export async function startApp(): Promise<void> {
       unidentifiedDeliveries,
     };
 
-    return new window.Whisper.Message(partialMessage);
+    return new MessageModel(partialMessage);
   }
 
   // Works with 'sent' and 'message' data sent from MessageReceiver
@@ -3021,7 +3025,7 @@ export async function startApp(): Promise<void> {
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     drop(
-      message.handleDataMessage(data.message, event.confirm, {
+      handleDataMessage(message, data.message, event.confirm, {
         data,
       })
     );
@@ -3060,7 +3064,7 @@ export async function startApp(): Promise<void> {
       type: data.message.isStory ? 'story' : 'incoming',
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
     };
-    return new window.Whisper.Message(partialMessage);
+    return new MessageModel(partialMessage);
   }
 
   // Returns `false` if this message isn't a group call message.

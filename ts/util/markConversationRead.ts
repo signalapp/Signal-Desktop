@@ -103,10 +103,7 @@ export async function markConversationRead(
 
   const allReadMessagesSync = allUnreadMessages
     .map(messageSyncData => {
-      const message = window.MessageCache.__DEPRECATED$getById(
-        messageSyncData.id,
-        'markConversationRead'
-      );
+      const message = window.MessageCache.getById(messageSyncData.id);
       // we update the in-memory MessageModel with fresh read/seen status
       if (message) {
         message.set(

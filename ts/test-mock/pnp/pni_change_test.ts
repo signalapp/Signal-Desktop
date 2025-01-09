@@ -274,7 +274,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     }
   });
 
-  it('shows identity and phone number change on send to contact when e165 has changed owners', async () => {
+  it('shows identity and phone number change on send to contact when e164 has changed owners', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();

@@ -33,6 +33,7 @@ import type { MIMEType } from '../../types/MIME';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { StateType as RootStateType } from '../reducer';
 import type { MessageAttributesType } from '../../model-types';
+import { MessageModel } from '../../models/messages';
 
 type MediaItemMessage = ReadonlyDeep<{
   attachments: Array<AttachmentType>;
@@ -141,13 +142,13 @@ function _getMediaItemMessage(
 }
 
 function _cleanVisualAttachments(
-  rawMedia: ReadonlyDeep<ReadonlyArray<MessageAttributesType>>
+  rawMedia: ReadonlyDeep<ReadonlyArray<MessageModel>>
 ): ReadonlyArray<MediaType> {
   return rawMedia
     .flatMap(message => {
       let index = 0;
 
-      return (message.attachments || []).map(
+      return (message.get('attachments') || []).map(
         (attachment: AttachmentType): MediaType | undefined => {
           if (
             !attachment.path ||
@@ -168,7 +169,7 @@ function _cleanVisualAttachments(
             contentType: attachment.contentType,
             index,
             attachment,
-            message: _getMediaItemMessage(message),
+            message: _getMediaItemMessage(message.attributes),
           };
 
           index += 1;
@@ -181,11 +182,11 @@ function _cleanVisualAttachments(
 }
 
 function _cleanFileAttachments(
-  rawDocuments: ReadonlyDeep<ReadonlyArray<MessageAttributesType>>
+  rawDocuments: ReadonlyDeep<ReadonlyArray<MessageModel>>
 ): ReadonlyArray<MediaItemType> {
   return rawDocuments
     .map(message => {
-      const attachments = message.attachments || [];
+      const attachments = message.get('attachments') || [];
       const attachment = attachments[0];
       if (!attachment) {
         return;
@@ -196,7 +197,7 @@ function _cleanFileAttachments(
         index: 0,
         attachment,
         message: {
-          ..._getMediaItemMessage(message),
+          ..._getMediaItemMessage(message.attributes),
           attachments: [attachment],
         },
       };
@@ -205,27 +206,25 @@ function _cleanFileAttachments(
 }
 
 async function _upgradeMessages(
-  messages: ReadonlyArray<MessageAttributesType>
-): Promise<ReadonlyArray<MessageAttributesType>> {
+  messages: ReadonlyArray<MessageModel>
+): Promise<void> {
   // We upgrade these messages so they are sure to have thumbnails
-  const upgraded = await Promise.all(
+  await Promise.all(
     messages.map(async message => {
       try {
-        return await window.MessageCache.upgradeSchema(
+        await window.MessageCache.upgradeSchema(
           message,
           VERSION_NEEDED_FOR_DISPLAY
         );
       } catch (error) {
         log.warn(
           '_upgradeMessages: Failed to upgrade message ' +
-            `${getMessageIdForLogging(message)}: ${Errors.toLogFormat(error)}`
+            `${getMessageIdForLogging(message.attributes)}: ${Errors.toLogFormat(error)}`
         );
         return undefined;
       }
     })
   );
-
-  return upgraded.filter(isNotNil);
 }
 
 function initialLoad(
@@ -242,24 +241,28 @@ function initialLoad(
       payload: { loading: true },
     });
 
-    const rawMedia = await DataReader.getOlderMessagesByConversation({
-      conversationId,
-      includeStoryReplies: false,
-      limit: FETCH_CHUNK_COUNT,
-      requireVisualMediaAttachments: true,
-      storyId: undefined,
-    });
-    const rawDocuments = await DataReader.getOlderMessagesByConversation({
-      conversationId,
-      includeStoryReplies: false,
-      limit: FETCH_CHUNK_COUNT,
-      requireFileAttachments: true,
-      storyId: undefined,
-    });
+    const rawMedia = (
+      await DataReader.getOlderMessagesByConversation({
+        conversationId,
+        includeStoryReplies: false,
+        limit: FETCH_CHUNK_COUNT,
+        requireVisualMediaAttachments: true,
+        storyId: undefined,
+      })
+    ).map(item => window.MessageCache.register(new MessageModel(item)));
+    const rawDocuments = (
+      await DataReader.getOlderMessagesByConversation({
+        conversationId,
+        includeStoryReplies: false,
+        limit: FETCH_CHUNK_COUNT,
+        requireFileAttachments: true,
+        storyId: undefined,
+      })
+    ).map(item => window.MessageCache.register(new MessageModel(item)));
 
-    const upgraded = await _upgradeMessages(rawMedia);
-    const media = _cleanVisualAttachments(upgraded);
+    await _upgradeMessages(rawMedia);
 
+    const media = _cleanVisualAttachments(rawMedia);
     const documents = _cleanFileAttachments(rawDocuments);
 
     dispatch({
@@ -305,19 +308,22 @@ function loadMoreMedia(
 
     const { sentAt, receivedAt, id: messageId } = oldestLoadedMedia.message;
 
-    const rawMedia = await DataReader.getOlderMessagesByConversation({
-      conversationId,
-      includeStoryReplies: false,
-      limit: FETCH_CHUNK_COUNT,
-      messageId,
-      receivedAt,
-      requireVisualMediaAttachments: true,
-      sentAt,
-      storyId: undefined,
-    });
+    const rawMedia = (
+      await DataReader.getOlderMessagesByConversation({
+        conversationId,
+        includeStoryReplies: false,
+        limit: FETCH_CHUNK_COUNT,
+        messageId,
+        receivedAt,
+        requireVisualMediaAttachments: true,
+        sentAt,
+        storyId: undefined,
+      })
+    ).map(item => window.MessageCache.register(new MessageModel(item)));
 
-    const upgraded = await _upgradeMessages(rawMedia);
-    const media = _cleanVisualAttachments(upgraded);
+    await _upgradeMessages(rawMedia);
+
+    const media = _cleanVisualAttachments(rawMedia);
 
     dispatch({
       type: LOAD_MORE_MEDIA,
@@ -367,16 +373,18 @@ function loadMoreDocuments(
 
     const { sentAt, receivedAt, id: messageId } = oldestLoadedDocument.message;
 
-    const rawDocuments = await DataReader.getOlderMessagesByConversation({
-      conversationId,
-      includeStoryReplies: false,
-      limit: FETCH_CHUNK_COUNT,
-      messageId,
-      receivedAt,
-      requireFileAttachments: true,
-      sentAt,
-      storyId: undefined,
-    });
+    const rawDocuments = (
+      await DataReader.getOlderMessagesByConversation({
+        conversationId,
+        includeStoryReplies: false,
+        limit: FETCH_CHUNK_COUNT,
+        messageId,
+        receivedAt,
+        requireFileAttachments: true,
+        sentAt,
+        storyId: undefined,
+      })
+    ).map(item => window.MessageCache.register(new MessageModel(item)));
 
     const documents = _cleanFileAttachments(rawDocuments);
 
@@ -500,8 +508,12 @@ export function reducer(
     const oldestLoadedMedia = state.media[0];
     const oldestLoadedDocument = state.documents[0];
 
-    const newMedia = _cleanVisualAttachments([message]);
-    const newDocuments = _cleanFileAttachments([message]);
+    const newMedia = _cleanVisualAttachments([
+      window.MessageCache.register(new MessageModel(message)),
+    ]);
+    const newDocuments = _cleanFileAttachments([
+      window.MessageCache.register(new MessageModel(message)),
+    ]);
 
     let { documents, haveOldestDocument, haveOldestMedia, media } = state;
 

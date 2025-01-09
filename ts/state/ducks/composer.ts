@@ -69,7 +69,7 @@ import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftDat
 import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk';
 import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import { canReply, isNormalBubble } from '../selectors/message';
 import { getAuthorId } from '../../messages/helpers';
 import { getConversationSelector } from '../selectors/conversations';
@@ -730,9 +730,7 @@ export function setQuoteByMessageId(
       return;
     }
 
-    const message = messageId
-      ? await __DEPRECATED$getMessageById(messageId, 'setQuoteByMessageId')
-      : undefined;
+    const message = messageId ? await getMessageById(messageId) : undefined;
     const state = getState();
 
     if (

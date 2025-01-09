@@ -24,7 +24,7 @@ import {
   AttachmentVariant,
   mightBeOnBackupTier,
 } from '../types/Attachment';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import { getMessageById } from '../messages/getMessageById';
 import {
   KIBIBYTE,
   getMaximumIncomingAttachmentSizeInKb,
@@ -52,6 +52,7 @@ import {
 } from '../AttachmentCrypto';
 import { safeParsePartial } from '../util/schemas';
 import { createBatcher } from '../util/batcher';
+import { postSaveUpdates } from '../util/cleanup';
 
 export enum AttachmentDownloadUrgency {
   IMMEDIATE = 'immediate',
@@ -327,10 +328,7 @@ async function runDownloadAttachmentJob({
   const jobIdForLogging = getJobIdForLogging(job);
   const logId = `AttachmentDownloadManager/runDownloadAttachmentJob/${jobIdForLogging}`;
 
-  const message = await __DEPRECATED$getMessageById(
-    job.messageId,
-    'runDownloadAttachmentJob'
-  );
+  const message = await getMessageById(job.messageId);
 
   if (!message) {
     log.error(`${logId} message not found`);
@@ -430,6 +428,7 @@ async function runDownloadAttachmentJob({
     // is good
     await DataWriter.saveMessage(message.attributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
+      postSaveUpdates,
     });
   }
 }

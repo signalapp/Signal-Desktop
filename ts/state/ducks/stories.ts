@@ -36,7 +36,7 @@ import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUnti
 import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
 import { deleteGroupStoryReplyForEveryone as doDeleteGroupStoryReplyForEveryone } from '../../util/deleteGroupStoryReplyForEveryone';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import { markOnboardingStoryAsRead } from '../../util/markOnboardingStoryAsRead';
 import { markViewed } from '../../services/MessageUpdater';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
@@ -69,7 +69,7 @@ import {
   conversationQueueJobEnum,
 } from '../../jobs/conversationJobQueue';
 import { ReceiptType } from '../../types/Receipt';
-import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
+import { cleanupMessages, postSaveUpdates } from '../../util/cleanup';
 
 export type StoryDataType = ReadonlyDeep<
   {
@@ -286,7 +286,7 @@ function deleteGroupStoryReply(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, StoryReplyDeletedActionType> {
   return async dispatch => {
-    await DataWriter.removeMessage(messageId, { singleProtoJobQueue });
+    await DataWriter.removeMessage(messageId, { cleanupMessages });
     dispatch({
       type: STORY_REPLY_DELETED,
       payload: messageId,
@@ -382,10 +382,7 @@ function markStoryRead(
       return;
     }
 
-    const message = await __DEPRECATED$getMessageById(
-      messageId,
-      'markStoryRead'
-    );
+    const message = await getMessageById(messageId);
 
     if (!message) {
       log.warn(`markStoryRead: no message found ${messageId}`);
@@ -427,6 +424,7 @@ function markStoryRead(
     drop(
       DataWriter.saveMessage(message.attributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
+        postSaveUpdates,
       })
     );
 
@@ -524,10 +522,7 @@ function queueStoryDownload(
       return;
     }
 
-    const message = await __DEPRECATED$getMessageById(
-      storyId,
-      'queueStoryDownload'
-    );
+    const message = await getMessageById(storyId);
 
     if (message) {
       // We want to ensure that we re-hydrate the story reply context with the
@@ -1402,10 +1397,7 @@ function removeAllContactStories(
     const messages = (
       await Promise.all(
         messageIds.map(async messageId => {
-          const message = await __DEPRECATED$getMessageById(
-            messageId,
-            'removeAllContactStories'
-          );
+          const message = await getMessageById(messageId);
 
           if (!message) {
             log.warn(`${logId}: no message found ${messageId}`);
@@ -1419,7 +1411,7 @@ function removeAllContactStories(
 
     log.info(`${logId}: removing ${messages.length} stories`);
 
-    await DataWriter.removeMessages(messageIds, { singleProtoJobQueue });
+    await DataWriter.removeMessages(messageIds, { cleanupMessages });
 
     dispatch({
       type: 'NOOP',

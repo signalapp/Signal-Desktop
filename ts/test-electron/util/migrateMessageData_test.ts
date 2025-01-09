@@ -7,6 +7,7 @@ import { _migrateMessageData as migrateMessageData } from '../../messages/migrat
 import type { MessageAttributesType } from '../../model-types';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
+import { postSaveUpdates } from '../../util/cleanup';
 
 function composeMessage(timestamp: number): MessageAttributesType {
   return {
@@ -39,6 +40,7 @@ describe('utils/migrateMessageData', async () => {
     await DataWriter.saveMessages(messages, {
       forceSave: true,
       ourAci: generateAci(),
+      postSaveUpdates,
     });
 
     const result = await migrateMessageData({

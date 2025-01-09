@@ -65,8 +65,7 @@ if (
       )?.attributes;
     },
     getConversation: (id: string) => window.ConversationController.get(id),
-    getMessageById: (id: string) =>
-      window.MessageCache.__DEPRECATED$getById(id, 'SignalDebug'),
+    getMessageById: (id: string) => window.MessageCache.getById(id),
     getMessageBySentAt: (timestamp: number) =>
       window.MessageCache.findBySentAt(timestamp, () => true),
     getReduxState: () => window.reduxStore.getState(),

@@ -12,6 +12,7 @@ import type { MessageAttributesType } from '../model-types.d';
 import type { AciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 import { DataReader, DataWriter } from '../sql/Client';
+import { postSaveUpdates } from '../util/cleanup';
 
 const MAX_CONCURRENCY = 5;
 
@@ -57,7 +58,7 @@ export async function _migrateMessageData({
   ) => Promise<Array<MessageAttributesType>>;
   saveMessagesIndividually: (
     data: ReadonlyArray<MessageAttributesType>,
-    options: { ourAci: AciString }
+    options: { ourAci: AciString; postSaveUpdates: () => Promise<void> }
   ) => Promise<{ failedIndices: Array<number> }>;
   incrementMessagesMigrationAttempts: (
     messageIds: ReadonlyArray<string>
@@ -122,6 +123,7 @@ export async function _migrateMessageData({
     upgradedMessages,
     {
       ourAci,
+      postSaveUpdates,
     }
   );
 

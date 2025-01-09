@@ -8,6 +8,7 @@ import { generateAci } from '../../types/ServiceId';
 import { DataReader, DataWriter } from '../../sql/Client';
 
 import type { MessageAttributesType } from '../../model-types';
+import { postSaveUpdates } from '../../util/cleanup';
 
 const { _getAllMessages, getMessagesBetween } = DataReader;
 const { saveMessages, _removeAllMessages } = DataWriter;
@@ -45,6 +46,7 @@ describe('sql/getMessagesBetween', () => {
     await saveMessages([message1, message2, message3, message4, message5], {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     assert.lengthOf(await _getAllMessages(), 5);
@@ -93,6 +95,7 @@ describe('sql/getMessagesBetween', () => {
     await saveMessages([message1, message2, message3, message5], {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     assert.lengthOf(await _getAllMessages(), 4);

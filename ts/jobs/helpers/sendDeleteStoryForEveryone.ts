@@ -21,7 +21,7 @@ import { getUntrustedConversationServiceIds } from './getUntrustedConversationSe
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import { isNotNil } from '../../util/isNotNil';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import type { MessageModel } from '../../models/messages';
@@ -29,6 +29,7 @@ import { SendMessageProtoError } from '../../textsecure/Errors';
 import { strictAssert } from '../../util/assert';
 import type { LoggerType } from '../../types/Logging';
 import { isStory } from '../../messages/helpers';
+import { postSaveUpdates } from '../../util/cleanup';
 
 export async function sendDeleteStoryForEveryone(
   ourConversation: ConversationModel,
@@ -46,10 +47,7 @@ export async function sendDeleteStoryForEveryone(
 
   const logId = `sendDeleteStoryForEveryone(${storyId})`;
 
-  const message = await __DEPRECATED$getMessageById(
-    storyId,
-    'sendDeleteStoryForEveryone'
-  );
+  const message = await getMessageById(storyId);
   if (!message) {
     log.error(`${logId}: Failed to fetch message. Failing job.`);
     return;
@@ -284,6 +282,7 @@ async function updateMessageWithSuccessfulSends(
     });
     await DataWriter.saveMessage(message.attributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
+      postSaveUpdates,
     });
 
     return;
@@ -307,6 +306,7 @@ async function updateMessageWithSuccessfulSends(
   });
   await DataWriter.saveMessage(message.attributes, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
+    postSaveUpdates,
   });
 }
 
@@ -323,5 +323,6 @@ async function updateMessageWithFailure(
   message.set({ deletedForEveryoneFailed: true });
   await DataWriter.saveMessage(message.attributes, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
+    postSaveUpdates,
   });
 }

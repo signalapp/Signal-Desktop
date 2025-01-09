@@ -26,9 +26,9 @@ import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 
 type GenericEmbeddedContactType<AvatarType> = {
   name?: Name;
-  number?: Array<Phone>;
-  email?: Array<Email>;
-  address?: Array<PostalAddress>;
+  number?: ReadonlyArray<Phone>;
+  email?: ReadonlyArray<Email>;
+  address?: ReadonlyArray<PostalAddress>;
   avatar?: AvatarType;
   organization?: string;
 

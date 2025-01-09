@@ -20,10 +20,11 @@ import {
 import { onStoryRecipientUpdate } from './onStoryRecipientUpdate';
 import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage';
 import { isGroupV2 } from './whatTypeOfConversation';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import { getMessageById } from '../messages/getMessageById';
 import { strictAssert } from './assert';
 import { repeat, zipObject } from './iterables';
 import { isOlderThan } from './timestamp';
+import { postSaveUpdates } from './cleanup';
 
 export async function deleteStoryForEveryone(
   stories: ReadonlyArray<StoryDataType>,
@@ -47,10 +48,7 @@ export async function deleteStoryForEveryone(
   }
 
   const logId = `deleteStoryForEveryone(${story.messageId})`;
-  const message = await __DEPRECATED$getMessageById(
-    story.messageId,
-    'deleteStoryForEveryone'
-  );
+  const message = await getMessageById(story.messageId);
   if (!message) {
     throw new Error('Story not found');
   }
@@ -197,6 +195,7 @@ export async function deleteStoryForEveryone(
       await DataWriter.saveMessage(message.attributes, {
         jobToInsert,
         ourAci: window.textsecure.storage.user.getCheckedAci(),
+        postSaveUpdates,
       });
     });
   } catch (error) {

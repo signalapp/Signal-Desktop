@@ -26,6 +26,7 @@ import type {
   ReleaseNoteResponseType,
 } from '../textsecure/WebAPI';
 import type { WithRequiredProperties } from '../types/Util';
+import { MessageModel } from '../models/messages';
 
 const FETCH_INTERVAL = 3 * durations.DAY;
 const ERROR_RETRY_DELAY = 3 * durations.HOUR;
@@ -187,7 +188,7 @@ export class ReleaseNotesFetcher {
       ];
       const timestamp = Date.now() + index;
 
-      const message: MessageAttributesType = {
+      const message = new MessageModel({
         ...generateMessageId(incrementMessageCounter()),
         body: messageBody,
         bodyRanges,
@@ -201,12 +202,12 @@ export class ReleaseNotesFetcher {
         sourceServiceId: signalConversation.getServiceId(),
         timestamp,
         type: 'incoming',
-      };
+      });
 
-      window.MessageCache.toMessageAttributes(message);
-      signalConversation.trigger('newmessage', message);
+      window.MessageCache.register(message);
+      drop(signalConversation.onNewMessage(message));
 
-      messages.push(message);
+      messages.push(message.attributes);
     });
 
     await Promise.all(

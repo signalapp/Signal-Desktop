@@ -33,13 +33,23 @@ import {
   AttachmentDownloadUrgency,
 } from '../jobs/AttachmentDownloadManager';
 import { AttachmentDownloadSource } from '../sql/Interface';
+import type { MessageModel } from '../models/messages';
+import type { ConversationModel } from '../models/conversations';
+import { isOutgoing, isStory } from '../messages/helpers';
+import { shouldDownloadStory } from './shouldDownloadStory';
+import { hasAttachmentDownloads } from './hasAttachmentDownloads';
+import {
+  addToAttachmentDownloadQueue,
+  shouldUseAttachmentDownloadQueue,
+} from './attachmentDownloadQueue';
+import { queueUpdateMessage } from './messageBatcher';
 
 export type MessageAttachmentsDownloadedType = {
   bodyAttachment?: AttachmentType;
-  attachments: Array<AttachmentType>;
-  editHistory?: Array<EditHistoryType>;
-  preview: Array<LinkPreviewType>;
-  contact: Array<EmbeddedContactType>;
+  attachments: ReadonlyArray<AttachmentType>;
+  editHistory?: ReadonlyArray<EditHistoryType>;
+  preview: ReadonlyArray<LinkPreviewType>;
+  contact: ReadonlyArray<EmbeddedContactType>;
   quote?: QuotedMessageType;
   sticker?: StickerType;
 };
@@ -49,6 +59,50 @@ function getLogger(source: AttachmentDownloadSource) {
   const log = verbose ? logger : { ...logger, info: () => null };
   return log;
 }
+
+export async function handleAttachmentDownloadsForNewMessage(
+  message: MessageModel,
+  conversation: ConversationModel
+): Promise<void> {
+  const idLog = `handleAttachmentDownloadsForNewMessage/${conversation.idForLogging()} ${getMessageIdForLogging(message.attributes)}`;
+
+  // Only queue attachments for downloads if this is a story (with additional logic), or
+  // if it's either an outgoing message or we've accepted the conversation
+  let shouldQueueForDownload = false;
+  if (isStory(message.attributes)) {
+    shouldQueueForDownload = await shouldDownloadStory(conversation.attributes);
+  } else {
+    shouldQueueForDownload =
+      hasAttachmentDownloads(message.attributes) &&
+      (conversation.getAccepted() || isOutgoing(message.attributes));
+  }
+
+  if (shouldQueueForDownload) {
+    if (shouldUseAttachmentDownloadQueue()) {
+      addToAttachmentDownloadQueue(idLog, message);
+    } else {
+      await queueAttachmentDownloadsForMessage(message);
+    }
+  }
+}
+
+export async function queueAttachmentDownloadsForMessage(
+  message: MessageModel,
+  urgency?: AttachmentDownloadUrgency
+): Promise<boolean> {
+  const updates = await queueAttachmentDownloads(message.attributes, {
+    urgency,
+  });
+  if (!updates) {
+    return false;
+  }
+
+  message.set(updates);
+  queueUpdateMessage(message.attributes);
+
+  return true;
+}
+
 // Receive logic
 // NOTE: If you're changing any logic in this function that deals with the
 // count then you'll also have to modify ./hasAttachmentsDownloads

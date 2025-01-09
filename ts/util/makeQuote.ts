@@ -55,8 +55,8 @@ export async function makeQuote(
 }
 
 export async function getQuoteAttachment(
-  attachments?: Array<AttachmentType>,
-  preview?: Array<LinkPreviewType>,
+  attachments?: ReadonlyArray<AttachmentType>,
+  preview?: ReadonlyArray<LinkPreviewType>,
   sticker?: StickerType
 ): Promise<Array<QuotedAttachmentType>> {
   const { loadAttachmentData } = window.Signal.Migrations;

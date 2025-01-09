@@ -5,7 +5,8 @@ import * as log from '../logging/log';
 import { DataWriter } from '../sql/Client';
 import { calculateExpirationTimestamp } from './expirationTimer';
 import { DAY } from './durations';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import { cleanupMessages } from './cleanup';
+import { getMessageById } from '../messages/getMessageById';
 
 export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
   const existingOnboardingStoryMessageIds = window.storage.get(
@@ -19,12 +20,14 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
   const hasExpired = await (async () => {
     const [storyId] = existingOnboardingStoryMessageIds;
     try {
-      const messageAttributes = await window.MessageCache.resolveAttributes(
-        'findAndDeleteOnboardingStoryIfExists',
-        storyId
-      );
+      const message = await getMessageById(storyId);
+      if (!message) {
+        throw new Error(
+          `findAndDeleteOnboardingStoryIfExists: Failed to find message ${storyId}`
+        );
+      }
 
-      const expires = calculateExpirationTimestamp(messageAttributes) ?? 0;
+      const expires = calculateExpirationTimestamp(message.attributes) ?? 0;
 
       const now = Date.now();
       const isExpired = expires < now;
@@ -46,7 +49,7 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
   log.info('findAndDeleteOnboardingStoryIfExists: removing onboarding stories');
 
   await DataWriter.removeMessages(existingOnboardingStoryMessageIds, {
-    singleProtoJobQueue,
+    cleanupMessages,
   });
 
   await window.storage.put('existingOnboardingStoryMessageIds', undefined);

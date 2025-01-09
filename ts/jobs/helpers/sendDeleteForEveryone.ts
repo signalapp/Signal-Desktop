@@ -28,7 +28,7 @@ import { getUntrustedConversationServiceIds } from './getUntrustedConversationSe
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import { isNotNil } from '../../util/isNotNil';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import type { MessageModel } from '../../models/messages';
@@ -38,6 +38,7 @@ import type { LoggerType } from '../../types/Logging';
 import type { ServiceIdString } from '../../types/ServiceId';
 import { isStory } from '../../messages/helpers';
 import { sendToGroup } from '../../util/sendToGroup';
+import { postSaveUpdates } from '../../util/cleanup';
 
 export async function sendDeleteForEveryone(
   conversation: ConversationModel,
@@ -60,7 +61,7 @@ export async function sendDeleteForEveryone(
 
   const logId = `sendDeleteForEveryone(${conversation.idForLogging()}, ${messageId})`;
 
-  const message = await __DEPRECATED$getMessageById(messageId, logId);
+  const message = await getMessageById(messageId);
   if (!message) {
     log.error(`${logId}: Failed to fetch message. Failing job.`);
     return;
@@ -307,6 +308,7 @@ async function updateMessageWithSuccessfulSends(
     });
     await DataWriter.saveMessage(message.attributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
+      postSaveUpdates,
     });
 
     return;
@@ -330,6 +332,7 @@ async function updateMessageWithSuccessfulSends(
   });
   await DataWriter.saveMessage(message.attributes, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
+    postSaveUpdates,
   });
 }
 
@@ -346,5 +349,6 @@ async function updateMessageWithFailure(
   message.set({ deletedForEveryoneFailed: true });
   await DataWriter.saveMessage(message.attributes, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
+    postSaveUpdates,
   });
 }
