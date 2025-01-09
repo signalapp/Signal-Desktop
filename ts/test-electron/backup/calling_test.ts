@@ -39,7 +39,6 @@ const GROUP_ID_STRING = Bytes.toBase64(deriveGroupID(GROUP_SECRET_PARAMS));
 describe('backup/calling', () => {
   let contactA: ConversationModel;
   let groupA: ConversationModel;
-  let callLink: CallLinkType;
 
   beforeEach(async () => {
     await DataWriter.removeAll();
@@ -63,24 +62,6 @@ describe('backup/calling', () => {
         active_at: 1,
       }
     );
-
-    const rootKey = CallLinkRootKey.generate();
-    const adminKey = CallLinkRootKey.generateAdminPassKey();
-    callLink = {
-      rootKey: rootKey.toString(),
-      roomId: getRoomIdFromRootKey(rootKey),
-      adminKey: fromAdminKeyBytes(adminKey),
-      name: "Let's Talk Rocks",
-      restrictions: CallLinkRestrictions.AdminApproval,
-      revoked: false,
-      expiration: null,
-      storageID: undefined,
-      storageVersion: undefined,
-      storageUnknownFields: undefined,
-      storageNeedsSync: false,
-    };
-
-    await DataWriter.insertCallLink(callLink);
 
     await loadAllAndReinitializeRedux();
   });
@@ -137,6 +118,7 @@ describe('backup/calling', () => {
       assert.deepEqual(callHistory, allCallHistory[0]);
     });
   });
+
   describe('Group calls', () => {
     it('roundtrips with a missed call', async () => {
       const now = Date.now();
@@ -187,22 +169,28 @@ describe('backup/calling', () => {
     });
   });
   describe('Call Links', () => {
-    it('roundtrips with a link with admin details', async () => {
-      const allCallLinksBefore = await DataReader.getAllCallLinks();
-      assert.strictEqual(allCallLinksBefore.length, 1);
+    let callLink: CallLinkType;
+    let adminCallLink: CallLinkType;
 
-      await symmetricRoundtripHarness([]);
-
-      const allCallLinks = await DataReader.getAllCallLinks();
-      assert.strictEqual(allCallLinks.length, 1);
-
-      assert.deepEqual(callLink, allCallLinks[0]);
-    });
-    it('roundtrips with a link without admin details', async () => {
-      await DataWriter._removeAllCallLinks();
+    beforeEach(async () => {
+      const adminRootKey = CallLinkRootKey.generate();
+      const adminKey = CallLinkRootKey.generateAdminPassKey();
+      adminCallLink = {
+        rootKey: adminRootKey.toString(),
+        roomId: getRoomIdFromRootKey(adminRootKey),
+        adminKey: fromAdminKeyBytes(adminKey),
+        name: "Let's Talk Rocks",
+        restrictions: CallLinkRestrictions.AdminApproval,
+        revoked: false,
+        expiration: null,
+        storageID: undefined,
+        storageVersion: undefined,
+        storageUnknownFields: undefined,
+        storageNeedsSync: false,
+      };
 
       const rootKey = CallLinkRootKey.generate();
-      const callLinkNoAdmin = {
+      callLink = {
         rootKey: rootKey.toString(),
         roomId: getRoomIdFromRootKey(rootKey),
         adminKey: null,
@@ -215,7 +203,15 @@ describe('backup/calling', () => {
         storageUnknownFields: undefined,
         storageNeedsSync: false,
       };
-      await DataWriter.insertCallLink(callLinkNoAdmin);
+      await DataWriter.insertCallLink(callLink);
+
+      await loadAllAndReinitializeRedux();
+    });
+
+    it('roundtrips with a link with admin details', async () => {
+      await DataWriter._removeAllCallLinks();
+
+      await DataWriter.insertCallLink(adminCallLink);
 
       const allCallLinksBefore = await DataReader.getAllCallLinks();
       assert.strictEqual(allCallLinksBefore.length, 1);
@@ -225,11 +221,37 @@ describe('backup/calling', () => {
       const allCallLinks = await DataReader.getAllCallLinks();
       assert.strictEqual(allCallLinks.length, 1);
 
-      assert.deepEqual(callLinkNoAdmin, allCallLinks[0]);
+      assert.deepEqual(adminCallLink, allCallLinks[0]);
     });
-  });
-  describe('Adhoc calls', () => {
-    it('roundtrips with a joined call', async () => {
+    it('creates placeholder call history for a link with admin details', async () => {
+      await DataWriter._removeAllCallLinks();
+
+      await DataWriter.insertCallLink(adminCallLink);
+
+      const allCallHistoryBefore = await DataReader.getAllCallHistory();
+      assert.strictEqual(allCallHistoryBefore.length, 0);
+
+      await symmetricRoundtripHarness([]);
+
+      const allCallHistory = await DataReader.getAllCallHistory();
+      assert.strictEqual(allCallHistory.length, 1);
+    });
+    it('roundtrips with a link without admin details', async () => {
+      await DataWriter._removeAllCallLinks();
+
+      await DataWriter.insertCallLink(callLink);
+
+      const allCallLinksBefore = await DataReader.getAllCallLinks();
+      assert.strictEqual(allCallLinksBefore.length, 1);
+
+      await symmetricRoundtripHarness([]);
+
+      const allCallLinks = await DataReader.getAllCallLinks();
+      assert.strictEqual(allCallLinks.length, 1);
+
+      assert.deepEqual(callLink, allCallLinks[0]);
+    });
+    it('roundtrips with a joined adhoc call', async () => {
       const now = Date.now();
       const callId = '333333';
       const callHistory: CallHistoryDetails = {
@@ -254,8 +276,7 @@ describe('backup/calling', () => {
 
       assert.deepEqual(callHistory, allCallHistory[0]);
     });
-
-    it('does not roundtrip call with missing call link', async () => {
+    it('does not roundtrip adhoc call with missing call link', async () => {
       const now = Date.now();
       const callId = '44444';
       const callHistory: CallHistoryDetails = {
