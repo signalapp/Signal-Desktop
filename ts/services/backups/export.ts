@@ -1233,6 +1233,16 @@ export class BackupExportStream extends Readable {
   private aciToBytes(aci: AciString | string): Uint8Array {
     return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
   }
+
+  private aciToBytesOrUndefined(
+    aci: AciString | string
+  ): Uint8Array | undefined {
+    if (isAciString(aci)) {
+      return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
+    }
+    return undefined;
+  }
+
   private serviceIdToBytes(serviceId: ServiceIdString): Uint8Array {
     return ServiceId.parseFromServiceIdString(serviceId).getRawUuidBytes();
   }
@@ -1599,7 +1609,7 @@ export class BackupExportStream extends Readable {
           {
             genericGroupUpdate: {
               updaterAci: message.sourceServiceId
-                ? this.serviceIdToBytes(message.sourceServiceId)
+                ? this.aciToBytesOrUndefined(message.sourceServiceId)
                 : undefined,
             },
           },
@@ -1721,7 +1731,7 @@ export class BackupExportStream extends Readable {
       if (type === 'create') {
         const innerUpdate = new Backups.GroupCreationUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         update.groupCreationUpdate = innerUpdate;
         updates.push(update);
@@ -1729,7 +1739,7 @@ export class BackupExportStream extends Readable {
         const innerUpdate =
           new Backups.GroupAttributesAccessLevelChangeUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.accessLevel = detail.newPrivilege;
 
@@ -1739,7 +1749,7 @@ export class BackupExportStream extends Readable {
         const innerUpdate =
           new Backups.GroupMembershipAccessLevelChangeUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.accessLevel = detail.newPrivilege;
 
@@ -1748,7 +1758,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'access-invite-link') {
         const innerUpdate = new Backups.GroupInviteLinkAdminApprovalUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.linkRequiresAdminApproval =
           detail.newPrivilege ===
@@ -1759,7 +1769,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'announcements-only') {
         const innerUpdate = new Backups.GroupAnnouncementOnlyChangeUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.isAnnouncementOnly = detail.announcementsOnly;
 
@@ -1768,7 +1778,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'avatar') {
         const innerUpdate = new Backups.GroupAvatarUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.wasRemoved = detail.removed;
 
@@ -1777,7 +1787,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'title') {
         const innerUpdate = new Backups.GroupNameUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.newGroupName = detail.newTitle;
 
@@ -1786,7 +1796,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'group-link-add') {
         const innerUpdate = new Backups.GroupInviteLinkEnabledUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.linkRequiresAdminApproval =
           detail.privilege ===
@@ -1797,7 +1807,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'group-link-reset') {
         const innerUpdate = new Backups.GroupInviteLinkResetUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
 
         update.groupInviteLinkResetUpdate = innerUpdate;
@@ -1805,7 +1815,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'group-link-remove') {
         const innerUpdate = new Backups.GroupInviteLinkDisabledUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
 
         update.groupInviteLinkDisabledUpdate = innerUpdate;
@@ -1813,7 +1823,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'member-add') {
         if (from && from === detail.aci) {
           const innerUpdate = new Backups.GroupMemberJoinedUpdate();
-          innerUpdate.newMemberAci = this.serviceIdToBytes(from);
+          innerUpdate.newMemberAci = this.aciToBytes(from);
 
           update.groupMemberJoinedUpdate = innerUpdate;
           updates.push(update);
@@ -1822,7 +1832,7 @@ export class BackupExportStream extends Readable {
 
         const innerUpdate = new Backups.GroupMemberAddedUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.newMemberAci = this.aciToBytes(detail.aci);
 
@@ -1849,7 +1859,7 @@ export class BackupExportStream extends Readable {
         const innerUpdate = new Backups.GroupMemberAddedUpdate();
         innerUpdate.newMemberAci = this.aciToBytes(detail.aci);
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         if (detail.inviter) {
           innerUpdate.inviterAci = this.aciToBytes(detail.inviter);
@@ -1867,7 +1877,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'member-add-from-admin-approval') {
         const innerUpdate = new Backups.GroupJoinRequestApprovalUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
 
         innerUpdate.requestorAci = this.aciToBytes(detail.aci);
@@ -1878,7 +1888,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'member-privilege') {
         const innerUpdate = new Backups.GroupAdminStatusUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
 
         innerUpdate.memberAci = this.aciToBytes(detail.aci);
@@ -1890,7 +1900,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'member-remove') {
         if (from && from === detail.aci) {
           const innerUpdate = new Backups.GroupMemberLeftUpdate();
-          innerUpdate.aci = this.serviceIdToBytes(from);
+          innerUpdate.aci = this.aciToBytes(from);
 
           update.groupMemberLeftUpdate = innerUpdate;
           updates.push(update);
@@ -1899,7 +1909,7 @@ export class BackupExportStream extends Readable {
 
         const innerUpdate = new Backups.GroupMemberRemovedUpdate();
         if (from) {
-          innerUpdate.removerAci = this.serviceIdToBytes(from);
+          innerUpdate.removerAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.removedAci = this.aciToBytes(detail.aci);
 
@@ -1912,7 +1922,7 @@ export class BackupExportStream extends Readable {
         ) {
           const innerUpdate = new Backups.SelfInvitedToGroupUpdate();
           if (from) {
-            innerUpdate.inviterAci = this.serviceIdToBytes(from);
+            innerUpdate.inviterAci = this.aciToBytesOrUndefined(from);
           }
 
           update.selfInvitedToGroupUpdate = innerUpdate;
@@ -1936,7 +1946,7 @@ export class BackupExportStream extends Readable {
 
         const innerUpdate = new Backups.GroupUnknownInviteeUpdate();
         if (from) {
-          innerUpdate.inviterAci = this.serviceIdToBytes(from);
+          innerUpdate.inviterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.inviteeCount = 1;
 
@@ -1945,7 +1955,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'pending-add-many') {
         const innerUpdate = new Backups.GroupUnknownInviteeUpdate();
         if (from) {
-          innerUpdate.inviterAci = this.serviceIdToBytes(from);
+          innerUpdate.inviterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.inviteeCount = detail.count;
 
@@ -1971,7 +1981,7 @@ export class BackupExportStream extends Readable {
         ) {
           const innerUpdate = new Backups.GroupSelfInvitationRevokedUpdate();
           if (from) {
-            innerUpdate.revokerAci = this.serviceIdToBytes(from);
+            innerUpdate.revokerAci = this.aciToBytesOrUndefined(from);
           }
 
           update.groupSelfInvitationRevokedUpdate = innerUpdate;
@@ -1981,7 +1991,7 @@ export class BackupExportStream extends Readable {
 
         const innerUpdate = new Backups.GroupInvitationRevokedUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
         innerUpdate.invitees = [
           {
@@ -1999,7 +2009,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'pending-remove-many') {
         const innerUpdate = new Backups.GroupInvitationRevokedUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
 
         innerUpdate.invitees = [];
@@ -2028,7 +2038,7 @@ export class BackupExportStream extends Readable {
 
         const innerUpdate = new Backups.GroupJoinRequestApprovalUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
 
         innerUpdate.requestorAci = this.aciToBytes(detail.aci);
@@ -2065,7 +2075,7 @@ export class BackupExportStream extends Readable {
           ? undefined
           : detail.description;
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
 
         update.groupDescriptionUpdate = innerUpdate;
@@ -2073,7 +2083,7 @@ export class BackupExportStream extends Readable {
       } else if (type === 'summary') {
         const innerUpdate = new Backups.GenericGroupUpdate();
         if (from) {
-          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+          innerUpdate.updaterAci = this.aciToBytesOrUndefined(from);
         }
 
         update.genericGroupUpdate = innerUpdate;
