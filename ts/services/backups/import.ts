@@ -1499,7 +1499,23 @@ export class BackupImportStream extends Writable {
 
       const unidentifiedDeliveries = new Array<ServiceIdString>();
       const errors = new Array<CustomError>();
-      for (const status of outgoing.sendStatus ?? []) {
+
+      let sendStatuses = outgoing.sendStatus;
+      if (!sendStatuses?.length) {
+        // TODO: DESKTOP-8089
+        // If this outgoing message was not sent to anyone, we add ourselves to
+        // sendStateByConversationId and mark read. This is to match existing desktop
+        // behavior.
+        sendStatuses = [
+          {
+            recipientId: item.authorId,
+            read: new Backups.SendStatus.Read(),
+            timestamp: item.dateSent,
+          },
+        ];
+      }
+
+      for (const status of sendStatuses) {
         strictAssert(
           status.recipientId,
           'sendStatus recipient must have an id'
