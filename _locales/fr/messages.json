@@ -42,7 +42,7 @@
     "messageformat": "Standard"
   },
   "icu:sentMediaQualityHigh": {
-    "messageformat": "Élevée"
+    "messageformat": "Haute qualité"
   },
   "icu:softwareAcknowledgments": {
     "messageformat": "Reconnaissance de logiciels"
@@ -1125,22 +1125,22 @@
     "messageformat": "Icône qui indique que cette image a une légende"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Agrandir l'aperçu de cette pièce jointe"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Lancer le téléchargement"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Annuler le téléchargement"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Reprendre le téléchargement"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Réessayer"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} élément} other {{count,number} éléments}}"
   },
   "icu:save": {
     "messageformat": "Enregistrer"
@@ -2160,7 +2160,7 @@
     "messageformat": "Émoji introuvable"
   },
   "icu:EmojiPicker--search-close": {
-    "messageformat": "Quitter la recherche d’émoji"
+    "messageformat": "Fermer la zone de recherche d'émojis"
   },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Rechercher un émoji"
@@ -2451,7 +2451,7 @@
     "messageformat": "Passer un appel vocal"
   },
   "icu:Keyboard--start-video-call": {
-    "messageformat": "Lancer un appel vidéo"
+    "messageformat": "Passer un appel vidéo"
   },
   "icu:Keyboard--decline-call": {
     "messageformat": "Rejeter l’appel"
@@ -2643,7 +2643,7 @@
     "messageformat": "Poursuivre votre conversation avec ce groupe et partager vos nom et photo avec ses membres ? <learnMoreLink>En savoir plus.</learnMoreLink>"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Poursuivre cette conversation avec {firstName} et partager vos nom et photo avec cette personne ? <learnMoreLink>En savoir plus</learnMoreLink>"
+    "messageformat": "Poursuivre cette conversation et partager votre nom et votre photo avec {firstName} ? <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 membre} other {{count,number} membres}}"
@@ -2788,6 +2788,12 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Micro activé"
+  },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sonnerie activée"
@@ -3120,22 +3126,22 @@
     "messageformat": "Un membre a supprimé la photo du groupe."
   },
   "icu:GroupV2--access-attributes--admins--other": {
-    "messageformat": "{adminName} a défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
+    "messageformat": "{adminName} a défini l'autorisation de modifier les infos du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "Vous avez défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
+    "messageformat": "Vous avez défini l'autorisation de modifier les infos du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "Un administrateur a défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
+    "messageformat": "Un admin a défini l'autorisation de modifier les infos du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--all--other": {
-    "messageformat": "{adminName} a défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
+    "messageformat": "{adminName} a défini l'autorisation de modifier les infos du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-attributes--all--you": {
-    "messageformat": "Vous avez défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
+    "messageformat": "Vous avez défini l'autorisation de modifier les infos du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Un administrateur a défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
+    "messageformat": "Un admin a défini l'autorisation de modifier les infos du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-members--admins--other": {
     "messageformat": "{adminName} a défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
@@ -3597,10 +3603,10 @@
     "messageformat": "Préparation du téléchargement…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Cela peut prendre quelques minutes en fonction de la taille de votre sauvegarde."
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Annuler le transfert"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Avec son protocole de chiffrement de bout en bout, Signal protège systématiquement vos messages et vos conversations. Même pendant la synchronisation. <learnMoreLink>En savoir plus</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Annuler le transfert ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Signal n'a pas terminé de restaurer vos messages et médias. Si vous décidez d'annuler ce transfert, vous pourrez en effectuer un nouveau depuis les paramètres."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Poursuivre le transfert"
@@ -3624,7 +3630,7 @@
     "messageformat": "Impossible de transférer vos messages pour le moment. Vérifiez votre connexion Internet et réessayez."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Une erreur nous empêche de transférer vos messages. Veuillez associer cet ordinateur de nouveau et réessayer."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Réessayer"
@@ -3717,10 +3723,10 @@
     "messageformat": "Supprimer en tant qu’administrateur"
   },
   "icu:ContactModal--make-admin": {
-    "messageformat": "Nommer administrateur"
+    "messageformat": "Accorder des droits d'admin"
   },
   "icu:ContactModal--make-admin-info": {
-    "messageformat": "{contact} pourra modifier ce groupe et ses membres."
+    "messageformat": "{contact} pourra apporter des modifications à ce groupe, y ajouter et en supprimer des membres."
   },
   "icu:ContactModal--rm-admin-info": {
     "messageformat": "Supprimer {contact} en tant qu’administrateur du groupe ?"
@@ -3735,7 +3741,7 @@
     "messageformat": "Audio"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "Couleur de la conversation"
+    "messageformat": "Couleur des bulles"
   },
   "icu:showConversationDetails": {
     "messageformat": "Paramètres du groupe"
@@ -3777,7 +3783,7 @@
     "messageformat": "Notifications"
   },
   "icu:ConversationDetails--group-info-label": {
-    "messageformat": "Qui peut modifier les informations du groupe"
+    "messageformat": "Qui peut modifier les infos du groupe"
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Choisissez qui peut modifier le nom, la photo et la présentation du groupe, ou encore le délai avant disparition des messages éphémères."
@@ -3795,7 +3801,7 @@
     "messageformat": "Choisissez qui peut envoyer des messages au groupe."
   },
   "icu:ConversationDetails--requests-and-invites": {
-    "messageformat": "Demandes et invitations"
+    "messageformat": "Demandes d'adhésion et invitations"
   },
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Quitter le groupe"
@@ -4218,31 +4224,31 @@
     "messageformat": "{num, plural, one {Cette couleur personnalisée est utilisée dans {num,number} conversation. Souhaitez-vous la supprimer pour toutes les conversations ?} other {Cette couleur personnalisée est utilisée dans {num,number} conversations. Souhaitez-vous la supprimer pour toutes les conversations ?}}"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Couleur de la conversation"
+    "messageformat": "Couleur des bulles"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Réinitialiser la couleur de la conversation"
+    "messageformat": "Réinitialiser la couleur des bulles"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Réinitialiser les couleurs de la conversation"
+    "messageformat": "Réinitialiser la couleur des bulles"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Réinitialiser toutes les couleurs de la conversation"
+    "messageformat": "Toutes les couleurs de toutes les conversations"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Réinitialiser à la valeur par défaut"
+    "messageformat": "Seulement la couleur que j'ai choisie par défaut"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Réinitialiser"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Souhaitez-vous remplacer toutes les couleurs de la conversation ?"
+    "messageformat": "Réinitialiser la couleur des bulles dans toutes les conversations ?"
   },
   "icu:ChatColorPicker__custom-color--label": {
     "messageformat": "Afficher l’éditeur de couleurs personnalisées"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "Voici un aperçu de la couleur de la conversation."
+    "messageformat": "Voici un aperçu de la couleur des bulles."
   },
   "icu:ChatColorPicker__sampleBubble2": {
     "messageformat": "Une autre bulle"
@@ -4350,13 +4356,13 @@
     "messageformat": "Standard"
   },
   "icu:MediaQualitySelector--standard-quality-description": {
-    "messageformat": "Plus rapide, moins de données"
+    "messageformat": "Plus rapide, consomme moins de données"
   },
   "icu:MediaQualitySelector--high-quality-title": {
-    "messageformat": "Élevée"
+    "messageformat": "Haute qualité"
   },
   "icu:MediaQualitySelector--high-quality-description": {
-    "messageformat": "Lent, plus lourd"
+    "messageformat": "Moins rapide, consomme plus de données"
   },
   "icu:MessageDetailsHeader--Failed": {
     "messageformat": "N’a pas été envoyé"
@@ -5782,13 +5788,10 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Sur macOS Sonoma, si on commençait par refuser le partage d'écran avant de se raviser, le partage ne fonctionnait pas correctement. Ce bug est maintenant corrigé. Partager son écran sans message d'erreur, c'est quand même bien mieux."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Le filtre \"Conversations non lues\" affiche les messages non ouverts ou marqués comme non lus. La liste des conversations non lues se met à jour automatiquement dès que vous recevez ou lisez de nouveaux messages."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Avec cette nouvelle version, vous pouvez suivre la progression de vos téléchargements lorsque vous recevez des pièces jointes. Mieux encore : vous pouvez suspendre les téléchargements en cours et les reprendre plus tard. Dans le TGV ou à l'hôtel ? La connexion Internet ou le Wi-Fi n'arrivent pas à suivre le rythme ? Il vous suffit de reprendre le téléchargement là où vous l'aviez mis en pause."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

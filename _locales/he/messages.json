@@ -1125,22 +1125,22 @@
     "messageformat": "ראות איקון שיש לתמונה זו כיתוב"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "פתיחת הקובץ המצורף הזה בתצוגה גדולה יותר"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "התחלת הורדה"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ביטול הורדה"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ניסיון הורדה חוזר"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "נסה שוב"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {פריט {count,number}} two {{count,number} פריטים} many {{count,number} פריטים} other {{count,number} פריטים}}"
   },
   "icu:save": {
     "messageformat": "שמור"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "מיקרופון מופעל"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "צלצול מופעל"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "מתכוננים להורדה…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "זה עשוי לקחת מספר דקות בהתאם לגודל הגיבוי שלך"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "ביטול העברה"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "הודעות ופרטי צ׳אט מוגנים באמצעות הצפנה מקצה לקצה, כולל תהליך הסנכרון. <learnMoreLink>למידע נוסף</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "לבטל העברה?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "שחזור ההודעות והמדיה שלך לא הושלם. אם תבחר/י לבטל, אפשר לבצע העברה שוב מתוך ההגדרות."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "המשך העברה"
@@ -3624,7 +3630,7 @@
     "messageformat": "לא היה ניתן להעביר את ההודעות שלך. יש לבדוק את חיבור האינטרנט שלך ולנסות שוב."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "לא ניתן היה להעביר את ההודעות שלך עקב שגיאה. יש לנסות שוב באמצעות קישור מחדש של שולחן העבודה הזה."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "נסה שוב"
@@ -5782,13 +5788,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "העדכון הזה מתקן באג שיתוף מסך ב–macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "סינון לפי ׳לא נקרא׳ מדגיש כעת את הצ׳אט הנבחר ומתעדכן כשהודעות נקראות ומתקבלות."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "עכשיו אפשר לראות בקלות את התקדמות ההורדה של קבצים מצורפים. אפשר גם לעצור ולהתחיל מחדש הורדות שכבר החלו את התהליך."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

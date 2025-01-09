@@ -1125,22 +1125,22 @@
     "messageformat": "Íocón a léiríonn go bhfuil fotheideal leis an íomhá seo"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Oscail an ceangaltán seo in amharc níos mó"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Tosaigh an íoslódáil"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Cuir íoslódáil ar ceal"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Atriail an íoslódáil"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Bain triail eile as"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {1 cheann} two {{count,number} cheann} few {{count,number} cinn} many {{count,number} gcinn} other {{count,number} ceann}}"
   },
   "icu:save": {
     "messageformat": "Cuir i dtaisce é"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Micreafón air"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Glaoch air"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Íoslódáil á hullmhú..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do chúltaca"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cuir an t-aistriú ar ceal"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Déantar teachtaireachtaí agus faisnéis comhráite a chosaint le criptiú ó cheann ceann, an próiseas sioncronaithe san áireamh. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Cuir an t-aistriú ar ceal?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Níl aischur na dteachtaireachtaí agus na meán agat críochnaithe. Má roghnaíonn tú é a chur ar ceal, is féidir leat an t-aistriú a dhéanamh arís ó Shocruithe."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Lean leis an aistriú"
@@ -3624,7 +3630,7 @@
     "messageformat": "Níorbh fhéidir do theachtaireachtaí a aistriú. Seiceáil do nasc Idirlín agus triail arís é."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Níorbh fhéidir do theachtaireachtaí a aistriú de dheasca earráide. Triail arís tríd an deasc seo a athnascadh."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Bain triail eile as"
@@ -5782,13 +5788,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Réitíonn an nuashonrú seo fabht le comhroinnt scáileáin ar macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Déanann Scag de réir Neamhléite an comhrá roghnaithe a aibhsiú agus nuashonraíonn mar a léitear agus a fhaightear teachtaireachtaí."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Anois is féidir leat dul chun cinn íoslódáil na gceangaltán a fheiceáil go héasca. Is féidir leat íoslódálacha atá ar siúl a stopadh agus a atosú freisin."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

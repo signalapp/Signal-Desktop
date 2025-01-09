@@ -1125,22 +1125,22 @@
     "messageformat": "Ikoni inaonyesha kuwa taswira hii ina maelezo mafupi"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Fungua kiambatisho hiki katika mwonekano mkubwa zaidi"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Anza kupakua"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Ghairi upakuaji"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Jaribu kupakua tena"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Jaribu Upya"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {Kitu {count,number}} other {Vitu {count,number}}}"
   },
   "icu:save": {
     "messageformat": "Hifadhi"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Washa mic"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sauti ya kuitana imewashwa"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Inajiandaa kupakua..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Hii inaweza kuchukua sekunde kadhaa kulingana na ukubwa wa mchakato wako wa uhifadhi nakala"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Ghairi uhamishaji"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Maelezo ya ujumbe na gumzo yanalindwa na kusimbwa fiche, ikiwemo mchakato wa ku-sync. <learnMoreLink>Jifunze zaidi</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Je, ghairi uhamishaji?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Jumbe na picha na video zako hazijakamilika kurejeshwa. Ukichagua kughairi, unaweza kuhamisha tena kutoka kwenye Mipangilio."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Endelea na uhamishaji"
@@ -3624,7 +3630,7 @@
     "messageformat": "Jumbe zako zimeshindwa kuhama. Angalia muunganisho wako wa mtandao kisha ujaribu tena."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Jumbe zako hazikuweza kuhamishwa kwa sababu ya hitilafu. Jaribu tena kwa kuunganisha tena eneo-kazi hili."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Jaribu Upya"
@@ -5782,13 +5788,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Sasisho hili hurekebisha hitilafu kwenye macOS Sonoma ambayo ilizuia kushiriki skrini kufanya kazi ipasavyo ikiwa ruhusa ya kushiriki skrini ilikuwa imekataliwa hapo awali — kwa hivyo huhitaji tena kushiriki skrini yako na ujumbe wa hitilafu."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Chuja kwa Haijasomwa sasa huangazia gumzo iliyochaguliwa na orodha ya gumzo ambazo hazijasomwa zitasasishwa kiotomatiki ujumbe mpya unapofika au unapoingia kwenye gumzo moja na kubofya gumzo jingine."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Sasa unaweza kuona kwa urahisi maendeleo ya upakuaji wa viambatisho. Unaweza pia kusimamisha na kuanzisha upya vipakuliwa vinavyoendelea. Endapo uhamishaji upo taratibu kwa sababu upo barabarani (au kwenye airplane mode?) au WiFi ya hoteli inakaribia kuzima, unaweza kusubiri ili upakie tena pale nguvu ya mtandao inapokuwa vizuri."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

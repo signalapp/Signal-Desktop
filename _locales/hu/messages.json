@@ -1125,22 +1125,22 @@
     "messageformat": "Ikon, amely azt jelzi, hogy a kép feliratot tartalmaz"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Nyisd meg ezt a mellékletet nagyobb nézetben"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Letöltés elindítása"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Letöltés megszakítása"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Letöltés újrapróbálása"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Újra"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} db elem} other {{count,number} elem}}"
   },
   "icu:save": {
     "messageformat": "Mentés"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon be"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Csengés be"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Felkészülés a letöltésre..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Ez a biztonsági másolat méretétől függően eltarthat néhány percig"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Átvitel törlése"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Az üzeneteket és a csevegési információkat végpontok közötti titkosítás védi, beleértve a szinkronizálási folyamatot is. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Átvitel törlése?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Az üzenetek és a médiafájl helyreállítása nem fejeződött be. Ha a törlés mellett döntesz, újra átviheted a fájljaid a Beállításokból."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Átvitel folytatása"
@@ -3624,7 +3630,7 @@
     "messageformat": "Az üzeneteidet nem sikerült átvinni. Ellenőrizd az internetkapcsolatot, és próbáld újra."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Az üzeneteidet egy hiba miatt nem sikerült átvinni. Próbáld újra az eszköz újbóli összekapcsolásával."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Újra"
@@ -5782,13 +5788,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Ez a frissítés a macOS Sonoma képernyőmegosztási hibáját javítja."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Az Olvasatlan üzenetek szűrése mostantól kiemeli a kiválasztott csevegést, és az üzenetek olvasása és fogadása közben frissül."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Mostantól egyszerűbben láthatod a mellékletek letöltésének folyamatát. Leállíthatod és újraindíthatod a folyamatban lévő letöltéseket is."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

@@ -1125,22 +1125,22 @@
     "messageformat": "Ikona, ki označuje, da ima ta slika besedilo"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Odprite to priponko v večjem pogledu"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Začetek prenosa"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Prekliči prenos"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Ponovno poskusi prenesti"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Ponovno"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} predmet} two {{count,number} predmeta} few {{count,number} predmeti} other {{count,number} predmetov}}"
   },
   "icu:save": {
     "messageformat": "Shrani"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon je vključen"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvonjenje je vključeno"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Priprava na prenos ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "To lahko traja nekaj minut, odvisno od velikosti varnostne kopije"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Prekliči prenos"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Sporočila in informacije o klepetu so zaščitene s šifriranjem od konca do konca, vključno s postopkom sinhronizacije. <learnMoreLink>Več o tem</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Želite preklicati prenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Vaša sporočila in mediji se še niso obnovili. Če se odločite za preklic, lahko prenos ponovno izvedete v nastavitvah."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Nadaljuj prenos"
@@ -3624,7 +3630,7 @@
     "messageformat": "Vaših sporočil ni bilo mogoče prenesti. Preverite internetno povezavo in poskusite znova."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Vaših sporočil ni bilo mogoče prenesti zaradi napake. Poskusite znova s ponovno povezavo tega namizja."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Ponovno"
@@ -5782,13 +5788,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Ta posodobitev odpravlja napako pri deljenju zaslona v sistemu macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtriranje po Neprebranih sporočilih zdaj poudari izbrani klepet in se posodobi, ko so sporočila prebrana ali prejeta."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Zdaj si lahko preprosto ogledate potek prenosa priponk. Prav tako lahko ustavite in ponovno zaženete prenose, ki potekajo. Če je prenos upočasnjen, ker ste na poti (v letalskem načinu?) ali če povprečen hotelski WiFi ne deluje, lahko nadaljujete s ponovnim nalaganjem, ko boste imeli boljšo internetno povezavo."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

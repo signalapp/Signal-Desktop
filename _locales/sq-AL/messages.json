@@ -1125,22 +1125,22 @@
     "messageformat": "Ikonë që tregon  se për këtë figurë ka një titull"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Hap bashkëngjitjen në një pamje më të madhe"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Fillo shkarkimin"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Anulo shkarkimin"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Riprovo shkarkimin"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Riprovo"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} Objekt} other {{count,number} Objekte}}"
   },
   "icu:save": {
     "messageformat": "Ruaje"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofoni i ndezur"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Po bie zilja"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Po përgatitet për t'u shkarkuar..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Kjo mund të zgjasë disa minuta në varësi të madhësisë së kopjeruajtjes"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Anulo transferimin"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesazhet dhe informacionet e bisedës mbrohen nga kodimi skaji në skaj, duke përfshirë procesin e sinkronizimit. <learnMoreLink>Mëso më shumë</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Të anulohet transferimi?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Mesazhet dhe media nuk kanë përfunduar rikthimin. Nëse zgjedh ta anulosh, mund t'i transferosh përsëri nga parametrat."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Vazhdo transferimin"
@@ -3624,7 +3630,7 @@
     "messageformat": "Mesazhet nuk mund të transferoheshin. Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Mesazhet nuk mund të transferoheshin për shkak të një gabimi. Provo sërish duke rilidhur desktopin."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Riprovo"
@@ -5782,13 +5788,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Përditësimi ka rregulluar defektin në macOS Sonoma që pengonte funksionimin e duhur të ndarjes së ekranit nëse leja për të ndarë ekranin ishte refuzuar më parë — ndaj nuk ke më nevojë ta ndash ekranin me një mesazh gabimi."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrimi sipas opsionit \"Të palexuar\" thekson bisedën e zgjedhur dhe lista e bisedave të palexuara do të përditësohet automatikisht teska të vijnë mesazhe të reja ose kur rikthehesh në një bisedë dhe klikon në një tjetër."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Tani mund ta shohësh lehtësisht ecurinë e shkarkimeve të bashkëngjitjeve. Po ashtu, mund t'i ndalosh dhe t'i rinisësh shkarkimet që janë në proces e sipër. Pra, nëse një transferim ngadalësohet pasi je në rrugë (ose në modalitet avioni?) ose sepse WiFi-ja e hotelit është gati të japë shpirt, mund të presësh ta rifillosh ngarkimin kur të kesh më shumë gjerësi bande në dispozicion."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

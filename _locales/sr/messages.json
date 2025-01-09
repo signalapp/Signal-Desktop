@@ -1125,22 +1125,22 @@
     "messageformat": "Икона на којој је приказано да ова слика има натпис"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Отвори овај прилог у већем приказу"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Започни преузимање"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Откажи преузимање"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Поново пробај преузимање"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Пробај поново"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {Ставки: {count,number}} other {Ставки: {count,number}}}"
   },
   "icu:save": {
     "messageformat": "Сачувај"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Микрофон је укључен"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Звоно је укључено"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Припрема за преузимање…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "То може потрајати неколико минута у зависности од величине ваше резервне копије"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Откажи пренос"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Поруке и информације о ћаскањима заштићене су потпуним шифровањем, укључујући процес синхронизације. <learnMoreLink>Сазнајте више</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Желите ли да откажете пренос?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Није завршено враћање ваших порука и медија. Ако откажете, можете поново покренути пренос у подешавањима."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Настави пренос"
@@ -3624,7 +3630,7 @@
     "messageformat": "Поруке нису пренете. Проверите да ли сте повезани на интернет и покушајте поново."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Ваше поруке нису пренете због грешке која се догодила. Пробајте да поново повежете овај рачунар."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Пробај поново"
@@ -5782,13 +5788,10 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "У овом ажурирању је исправљена грешка у вези са дељењем екрана на оперативном систему macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Филтрирањем по непрочитаним ћаскањима сада се означава изабрано ћаскање и оно се мења како како стижу нове поруке и како их прочитате."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Сада можете лако видети напредак преузимања прилога. Такође можете зауставити и поново покренути преузимања која су у току."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

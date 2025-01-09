@@ -1125,22 +1125,22 @@
     "messageformat": "Ikona indukujúca, že tento obrázok má popis"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Otvoriť prílohu vo väčšom zobrazení"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Spustiť sťahovanie"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Zrušiť sťahovanie"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Zopakovať sťahovanie"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Skúsiť znovu"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} položka} few {{count,number} položky} many {{count,number} položiek} other {{count,number} položiek}}"
   },
   "icu:save": {
     "messageformat": "Uložiť"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofón zapnutý"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvonenie zapnuté"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Pripravuje sa sťahovanie…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "V závislosti od veľkosti zálohy to môže trvať niekoľko minút"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Zrušiť prenos"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Správy a informácie o četoch sú chránené end-to-end šifrovaním vrátane procesu synchronizácie. <learnMoreLink>Zistiť viac</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Zrušiť prenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Obnovenie vašich správ a médií sa nedokončilo. Ak sa rozhodnete prenos zrušiť, môžete ho znova začať v Nastaveniach."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Pokračovať v prenose"
@@ -3624,7 +3630,7 @@
     "messageformat": "Vaše správy nebolo možné preniesť. Skontrolujte internetové pripojenie a skúste to znova."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Vyskytla sa chyba a vaše správy nebolo možné preniesť. Skúste to znova opätovným prepojením tohto počítača."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Skúsiť znovu"
@@ -5782,13 +5788,10 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Táto aktualizácia opravuje chybu súvisiacu so zdieľaním obrazovky v systéme macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Možnosť Filtrovať podľa neprečítaných správ teraz zvýrazní vybratý čet a aktualizuje sa pri čítaní a prijímaní správ."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Teraz môžete jednoducho sledovať priebeh sťahovania príloh. Prebiehajúce sťahovanie môžete tiež zastaviť a reštartovať."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

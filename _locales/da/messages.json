@@ -1125,22 +1125,22 @@
     "messageformat": "Ikon, der viser, at dette billede har en billedtekst"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Åbn den vedhæftede fil i en større visning"
   },
   "icu:startDownload": {
     "messageformat": "Start download"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Annuller download"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Prøv download igen"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Prøv igen"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} Enheder} other {{count,number} emner}}"
   },
   "icu:save": {
     "messageformat": "Gem"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon slået til"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Opringning slået til"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Forbereder download..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Det kan tage et par minutter afhængigt af sikkerhedskopiens størrelse"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Annuller overførsel"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Beskeder og chatoplysninger er beskyttet af end-to-end-kryptering, herunder også under synkroniseringen. <learnMoreLink>Få mere at vide</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Vil du annullere overførslen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Dine beskeder og medier er ikke gendannet endnu. Hvis du vælger at annullere, kan du overføre igen fra Indstillinger."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Fortsæt overførsel"
@@ -3624,7 +3630,7 @@
     "messageformat": "Dine beskeder kunne ikke overføres. Tjek din internetforbindelse, og prøv igen."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Dine beskeder kunne ikke overføres på grund af en fejl. Prøv igen ved at genoprette forbindelse til denne computer."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Prøv igen"
@@ -5782,13 +5788,10 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Denne opdatering retter en fejl på macOS Sonoma, der forhindrede skærmdeling i at fungere korrekt, hvis tilladelsen til at dele skærmen tidligere var blevet nægtet – så nu behøver du ikke længere at dele din skærm med en fejlbesked."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrér efter ulæst fremhæver nu den valgte chat, og listen over ulæste chats opdateres automatisk, når der kommer nye beskeder, eller når du læser en chat og klikker på en anden."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Nu kan du nemt se udviklingen af vedhæftede filer. Du kan også stoppe og genstarte igangværende downloads. Så hvis en overførsel bliver langsommere, fordi du er på farten (i flytilstand?), og hvis det middelmådige hotelnetværk er ved at implodere, kan du vente med at genindlæse, når mere tilgængelig båndbredde er tildelt."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

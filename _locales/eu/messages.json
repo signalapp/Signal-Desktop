@@ -1125,22 +1125,22 @@
     "messageformat": "Irudi honek azpitestu bak duela erakusteko ikonoa"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Ireki eranskin hau ikuspegi handiago batean"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Hasi deskargatzen"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Utzi deskarga bertan behera"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Saiatu berriro deskargatzen"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Berriro saiatu"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {Elementu {count,number}} other {{count,number} elementu}}"
   },
   "icu:save": {
     "messageformat": "Gorde"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofonoa aktibatuta"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Dei-tonua aktibatuta"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Deskargatzeko prestatzen…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Zure babeskopiaren tamainaren arabera, baliteke minutu batzuk behar izatea"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Utzi transferentzia bertan behera"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mezuak eta txatari buruzko informazioa muturretik muturrerako enkriptatzearen bidez daude babestuta (sinkronizazio-prozesua barne). <learnMoreLink>Informazio gehiago</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Transferentzia bertan behera utzi nahi duzu?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Oraindik ez dira leheneratu mezuak eta multimedia-fitxategiak. Bertan behera utzi arren, berriro transferitu ahalko dituzu ezarpenetatik."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jarraitu transferitzen"
@@ -3624,7 +3630,7 @@
     "messageformat": "Ezin izan dira transferitu mezuak. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Errore bat dela eta, ezin izan dira transferitu mezuak. Saiatu berriro ordenagailu hau berriro lotuta."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Berriro saiatu"
@@ -5782,13 +5788,10 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Eguneraketa honen bidez, macOS Sonoma-n pantaila partekatzeko akats bat konpondu da."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Orain, irakurri gabeen arabera iragaztean, hautatutako txata nabarmentzen da eta, mezuak irakurri eta jaso ahala, txaten zerrenda eguneratu egiten da."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Orain, erraz ikus dezakezu eranskinen deskargaren aurrerapena. Halaber, abian diren deskargak geldiarazi eta berrabiaraz ditzakezu."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

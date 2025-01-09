@@ -1125,22 +1125,22 @@
     "messageformat": "Icona que mostra que aquesta imatge té un títol"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Obrir aquest fitxer adjunt en una vista més gran"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Iniciar la descàrrega"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Cancel·la la descàrrega"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Tornar a intentar la descàrrega"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Torna a provar-ho"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} element} other {{count,number} elements}}"
   },
   "icu:save": {
     "messageformat": "Desa"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Micròfon encès"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "So activat"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Preparant per descarregar…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "En funció de la mida de la teva còpia de seguretat, això pot trigar uns quants minuts."
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel·lar la transferència"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Els missatges i la informació del xat estan protegits mitjançant una codificació d'extrem a extrem, inclòs el procés de sincronització. <learnMoreLink>Més informació</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Cancel·lar la transferència?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "No s'ha completat la restauració dels teus missatges i arxius multimèdia. Si decideixes cancel·lar, podràs tornar-los a transferir des d'Ajustos."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuar la transferència"
@@ -3624,7 +3630,7 @@
     "messageformat": "No s'han pogut transferir els teus missatges. Comprova la connexió a Internet i torna-ho a provar."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "S'ha produït un error i no s'han pogut transferir els teus missatges. Torna-ho a provar enllaçant de nou aquest dispositiu."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Torna a provar-ho"
@@ -5782,13 +5788,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Aquesta actualització corregeix un error amb la funció de compartir pantalla a macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Ara, la funció Filtrar per No llegit(s) destaca el xat seleccionat i s'actualitza automàticament a mesura que llegeixis o rebis nous missatges."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Ara, quan descarreguis fitxers adjunts, podràs veure'n fàcilment el progrés. També podràs aturar i reiniciar les descàrregues en curs."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

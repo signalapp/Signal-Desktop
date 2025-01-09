@@ -1125,22 +1125,22 @@
     "messageformat": "Εικονίδιο που δείχνει ότι αυτή η εικόνα έχει λεζάντα"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "Άνοιξε αυτό το συνημμένο σε μεγαλύτερη προβολή"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "Έναρξη λήψης"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Ακύρωση λήψης"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Επανάληψη λήψης"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Επανάληψη"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} αντικείμενο} other {{count,number} αντικείμενα}}"
   },
   "icu:save": {
     "messageformat": "Αποθήκευση"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Μικρόφωνο ενεργό"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Κουδούνισμα ενεργό"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Προετοιμασία για λήψη..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Μπορεί να διαρκέσει μερικά λεπτά, ανάλογα με το μέγεθος του αντιγράφου ασφαλείας σου"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Ακύρωση μεταφοράς"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Τα μηνύματα και οι πληροφορίες συνομιλίας προστατεύονται με κρυπτογράφηση από άκρο σε άκρο, συμπεριλαμβανομένης της διαδικασίας συγχρονισμού. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Ακύρωση μεταφοράς;"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Η επαναφορά των μηνυμάτων και των πολυμέσων σου δεν έχει ολοκληρωθεί. Εάν επιλέξεις να την ακυρώσεις, μπορείς να τα μεταφέρεις ξανά από τις Ρυθμίσεις."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Συνέχεια μεταφοράς"
@@ -3624,7 +3630,7 @@
     "messageformat": "Δεν ήταν δυνατή η μεταφορά των μηνυμάτων σου. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και ξαναδοκίμασε."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "Δεν ήταν δυνατή η μεταφορά των μηνυμάτων σου λόγω σφάλματος. Δοκίμασε ξανά συνδέοντας ξανά αυτόν τον υπολογιστή."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Επανάληψη"
@@ -5782,13 +5788,10 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα κοινής χρήσης οθόνης στο macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Το Φιλτράρισμα με μη αναγνωσμένα επισημαίνει τώρα την επιλεγμένη συνομιλία και ενημερώνεται όσο τα μηνύματα διαβάζονται και λαμβάνονται."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "Τώρα μπορείς εύκολα να δεις την πρόοδο των λήψεων των συνημμένων. Μπορείς επίσης να σταματήσεις και να επανεκκινήσεις τις λήψεις σε εξέλιξη. Εάν μια μεταφορά αργεί επειδή το δίκτυο είναι αργό, μπορείς να περιμένεις μέχρι να υπάρχει μεγαλύτερο διαθέσιμο εύρος ζώνης."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

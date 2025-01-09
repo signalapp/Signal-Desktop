@@ -1125,22 +1125,22 @@
     "messageformat": "表示该图片带有描述的图标"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "在更大的视图中打开此附件"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "开始下载"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "取消下载"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "重试下载"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "重试"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, other {{count,number} 个项目}}"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "麦克风开启"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "铃声开启"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "正在准备下载…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "这可能需要几分钟时间，视您的备份大小而定"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "取消转移"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "消息和聊天信息受端对端加密保护，包括同步过程。<learnMoreLink>了解更多</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "要取消转移吗？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "您的消息和媒体未完成恢复。如果您选择取消，您可以在设置中再次进行转移。"
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "继续转移"
@@ -3624,7 +3630,7 @@
     "messageformat": "您的消息无法转移。请检查您的互联网连接并重试。"
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "由于发生错误，您的消息无法转移。请重新链接此电脑再试一次。"
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "重试"
@@ -5782,13 +5788,10 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "此次更新修复了 macOS Sonoma 上的屏幕共享漏洞。"
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "现在按“未读”筛选聊天会突出显示选定的聊天，并且未读聊天列表会在读取和接收消息时更新。"
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "现在用户可以轻松查看附件下载的进度，还可以停止和重启正在进行的下载。"
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }

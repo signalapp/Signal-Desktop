@@ -1125,22 +1125,22 @@
     "messageformat": "આ ઈમેજનું કૅપ્શન છે તે દર્શાવતું આઈકોન"
   },
   "icu:imageOpenAlt": {
-    "messageformat": "Open this attachment in a larger view"
+    "messageformat": "આ અટેચમેન્ટને મોટા વ્યૂમાં ખોલો"
   },
   "icu:startDownload": {
-    "messageformat": "Start download"
+    "messageformat": "ડાઉનલોડ શરૂ કરો"
   },
   "icu:cancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ડાઉનલોડ રદ કરો"
   },
   "icu:retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ડાઉનલોડ કરવાનો ફરી પ્રયાસ કરો"
   },
   "icu:retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ફરી પ્રયાસ કરો"
   },
   "icu:downloadNItems": {
-    "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+    "messageformat": "{count, plural, one {{count,number} આઇટમ} other {{count,number} આઇટમ}}"
   },
   "icu:save": {
     "messageformat": "સેવ કરો"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "માઇક ચાલુ"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "રિંગ ચાલુ"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "ડાઉનલોડ કરવાની તૈયારી કરી ચાલુ છે..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "તમારા બેકઅપની સાઇઝના આધારે આમાં થોડો સમય લાગી શકે છે"
+    "messageformat": "This may take a few minutes depending on the size of your message history"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "ટ્રાન્સફર રદ કરો"
+    "messageformat": "Cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "મેસેજ અને ચેટની માહિતી સિંક પ્રક્રિયા સહિત એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્શન દ્વારા સુરક્ષિત છે. <learnMoreLink>વધુ જાણો</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "ટ્રાન્સફર રદ કરીએ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "તમારા મેસેજ અને મીડિયા રિસ્ટોર કરવાનું પૂર્ણ થયું નથી. જો તમે રદ કરવાનું પસંદ કરો છો, તો તમે સેટિંગ્સમાંથી ફરીથી ટ્રાન્સફર કરી શકો છો."
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "ટ્રાન્સફર ચાલુ રાખો"
@@ -3624,7 +3630,7 @@
     "messageformat": "તમારા મેસેજ ટ્રાન્સફર કરી શકાયા નથી. તમારું ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Your messages could not be transferred due to an error. Try again by re-linking this desktop."
+    "messageformat": "એક એરરને કારણે તમારા મેસેજ ટ્રાન્સફર કરી શકાયા નથી. આ ડેસ્કટોપને ફરીથી લિંક કરીને ફરી પ્રયાસ કરો."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ફરી પ્રયાસ કરો"
@@ -5782,13 +5788,10 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "આ અપડેટ macOS Sonoma પર સ્ક્રીન શેરિંગને લગતા બગને ઠીક કરે છે."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "ન વાંચેલા દ્વારા ફિલ્ટર કરવાનું હવે પસંદ કરેલ ચેટને હાઇલાઇટ કરે છે, અને જેમ-જેમ મેસેજ વાંચવામાં આવે અને પ્રાપ્ત થાય તે મુજબ અપડેટ થાય છે."
-  },
   "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed."
+    "messageformat": "હવે તમે અટેચમેન્ટ ડાઉનલોડની પ્રગતિ સરળતાથી જોઈ શકો છો. તમે પ્રગતિ ચાલુ હોય તેવા ડાઉનલોડને રોકી અને ફરીથી શરૂ પણ કરી શકો છો."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
   }
 }
