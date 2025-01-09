@@ -210,9 +210,6 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     const logId = `AttachmentDownloadManager/addJob(${sentAt}.${attachmentType})`;
 
     if (attachment.error && source === AttachmentDownloadSource.BACKUP_IMPORT) {
-      log.info(
-        `${logId}: skipping InvalidAttachmentLocator from backup import`
-      );
       return attachment;
     }
 
