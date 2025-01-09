@@ -364,12 +364,14 @@ describe('backup/attachments', () => {
       await asymmetricRoundtripHarness(
         [
           composeMessage(1, {
+            body: 'url',
             preview: [{ url: 'url', date: 1, image: attachment }],
           }),
         ],
         // path & iv will not be roundtripped
         [
           composeMessage(1, {
+            body: 'url',
             preview: [
               {
                 url: 'url',
@@ -389,6 +391,7 @@ describe('backup/attachments', () => {
       await asymmetricRoundtripHarness(
         [
           composeMessage(1, {
+            body: 'url',
             preview: [
               {
                 url: 'url',
@@ -402,6 +405,7 @@ describe('backup/attachments', () => {
         ],
         [
           composeMessage(1, {
+            body: 'url',
             preview: [
               {
                 url: 'url',
@@ -501,12 +505,14 @@ describe('backup/attachments', () => {
       await asymmetricRoundtripHarness(
         [
           composeMessage(1, {
+            body: '123',
             quote: quotedMessage,
           }),
         ],
         // path & iv will not be roundtripped
         [
           composeMessage(1, {
+            body: '123',
             quote: {
               ...quotedMessage,
               attachments: [
@@ -537,11 +543,13 @@ describe('backup/attachments', () => {
       await asymmetricRoundtripHarness(
         [
           composeMessage(1, {
+            body: '123',
             quote: quotedMessage,
           }),
         ],
         [
           composeMessage(1, {
+            body: '123',
             quote: {
               ...quotedMessage,
               attachments: [
@@ -566,6 +574,7 @@ describe('backup/attachments', () => {
       const existingAttachment = composeAttachment(1);
       const existingMessageTimestamp = Date.now();
       const existingMessage = composeMessage(existingMessageTimestamp, {
+        body: '123',
         attachments: [existingAttachment],
       });
 
@@ -584,6 +593,7 @@ describe('backup/attachments', () => {
       };
 
       const quoteMessage = composeMessage(existingMessageTimestamp + 1, {
+        body: 'quote',
         quote: quotedMessage,
       });
 
@@ -635,7 +645,9 @@ describe('backup/attachments', () => {
     });
 
     it('handles quotes which have been copied over from the original (and lack all encryption info)', async () => {
-      const originalMessage = composeMessage(1);
+      const originalMessage = composeMessage(1, {
+        body: 'original',
+      });
       const quotedMessage: QuotedMessageType = {
         authorAci: originalMessage.sourceServiceId as AciString,
         isViewOnce: false,
@@ -655,6 +667,7 @@ describe('backup/attachments', () => {
       };
 
       const quoteMessage = composeMessage(originalMessage.timestamp + 1, {
+        body: 'quote',
         quote: quotedMessage,
       });
 

@@ -264,6 +264,7 @@ describe('backup/bubble messages', () => {
           seenStatus: SeenStatus.Unseen,
           unidentifiedDeliveryReceived: true,
           timestamp: 4,
+          body: '123',
           quote: {
             authorAci: CONTACT_A,
             attachments: [],
@@ -289,6 +290,7 @@ describe('backup/bubble messages', () => {
           seenStatus: SeenStatus.Unseen,
           unidentifiedDeliveryReceived: true,
           timestamp: 3,
+          body: '123',
           quote: {
             authorAci: CONTACT_A,
             attachments: [],
@@ -314,6 +316,7 @@ describe('backup/bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
         timestamp: 3,
+        body: '123',
         quote: {
           authorAci: CONTACT_A,
           attachments: [],
@@ -353,6 +356,7 @@ describe('backup/bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
         timestamp: 3,
+        body: '123',
         quote: {
           authorAci: CONTACT_A,
           attachments: [],

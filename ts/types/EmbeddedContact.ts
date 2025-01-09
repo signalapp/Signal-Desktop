@@ -306,21 +306,11 @@ export function _validate(
   contact: EmbeddedContactType,
   { messageId }: { messageId: string }
 ): Error | undefined {
-  const { number, email, address, organization } = contact;
+  const { organization } = contact;
 
   if (!getDisplayName(contact) && !organization) {
     return new Error(
       `Message ${messageId}: Contact had neither 'displayName' nor 'organization'`
-    );
-  }
-
-  if (
-    (!number || !number.length) &&
-    (!email || !email.length) &&
-    (!address || !address.length)
-  ) {
-    return new Error(
-      `Message ${messageId}: Contact had no included numbers, email or addresses`
     );
   }
 

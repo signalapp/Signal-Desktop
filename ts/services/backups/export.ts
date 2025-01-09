@@ -212,7 +212,7 @@ export class BackupExportStream extends Readable {
   private readonly roomIdToRecipientId = new Map<string, number>();
   private attachmentBackupJobs: Array<CoreAttachmentBackupJobType> = [];
   private buffers = new Array<Uint8Array>();
-  private nextRecipientId = 0;
+  private nextRecipientId = 1;
   private flushResolve: (() => void) | undefined;
 
   // Map from custom color uuid to an index in accountSettings.customColors
@@ -836,6 +836,8 @@ export class BackupExportStream extends Readable {
         identityKey = identityKeysById.get(convo.serviceId);
       }
 
+      const { nicknameGivenName, nicknameFamilyName } = convo;
+
       res.contact = {
         aci:
           convo.serviceId && convo.serviceId !== convo.pni
@@ -872,6 +874,13 @@ export class BackupExportStream extends Readable {
 
         // Integer values match so we can use it as is
         identityState: identityKey?.verified ?? 0,
+        nickname:
+          nicknameGivenName || nicknameFamilyName
+            ? {
+                given: nicknameGivenName,
+                family: nicknameFamilyName,
+              }
+            : null,
       };
     } else if (isGroupV2(convo) && convo.masterKey) {
       let storySendMode: Backups.Group.StorySendMode;
@@ -1123,32 +1132,31 @@ export class BackupExportStream extends Readable {
           throw missingCaseError(payment);
       }
     } else if (contact && contact[0]) {
+      const [contactDetails] = contact;
       const contactMessage = new Backups.ContactMessage();
 
-      contactMessage.contact = await Promise.all(
-        contact.map(async contactDetails => ({
-          ...contactDetails,
-          number: contactDetails.number?.map(number => ({
-            ...number,
-            type: numberToPhoneType(number.type),
-          })),
-          email: contactDetails.email?.map(email => ({
-            ...email,
-            type: numberToPhoneType(email.type),
-          })),
-          address: contactDetails.address?.map(address => ({
-            ...address,
-            type: numberToAddressType(address.type),
-          })),
-          avatar: contactDetails.avatar?.avatar
-            ? await this.processAttachment({
-                attachment: contactDetails.avatar.avatar,
-                backupLevel,
-                messageReceivedAt: message.received_at,
-              })
-            : undefined,
-        }))
-      );
+      contactMessage.contact = {
+        ...contactDetails,
+        number: contactDetails.number?.map(number => ({
+          ...number,
+          type: numberToPhoneType(number.type),
+        })),
+        email: contactDetails.email?.map(email => ({
+          ...email,
+          type: numberToPhoneType(email.type),
+        })),
+        address: contactDetails.address?.map(address => ({
+          ...address,
+          type: numberToAddressType(address.type),
+        })),
+        avatar: contactDetails.avatar?.avatar
+          ? await this.processAttachment({
+              attachment: contactDetails.avatar.avatar,
+              backupLevel,
+              messageReceivedAt: message.received_at,
+            })
+          : undefined,
+      };
 
       const reactions = this.getMessageReactions(message);
       if (reactions != null) {

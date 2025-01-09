@@ -895,6 +895,8 @@ export class BackupImportStream extends Writable {
       hideStory: contact.hideStory === true,
       username: dropNull(contact.username),
       expireTimerVersion: 1,
+      nicknameGivenName: dropNull(contact.nickname?.given),
+      nicknameFamilyName: dropNull(contact.nickname?.family),
     };
 
     if (serviceId != null && Bytes.isNotEmpty(contact.identityKey)) {
@@ -1908,21 +1910,23 @@ export class BackupImportStream extends Writable {
       throw new Error(`${logId}: Got chat item with standardMessage set!`);
     }
     if (chatItem.contactMessage) {
+      const { contact: details } = chatItem.contactMessage;
+      strictAssert(details != null, 'contactMessage must have a contact');
+
+      const { avatar, name, number, email, address, organization } = details;
+
       return {
         message: {
-          contact: (chatItem.contactMessage.contact ?? []).map(details => {
-            const { avatar, name, number, email, address, organization } =
-              details;
-
-            return {
+          contact: [
+            {
               name: name
                 ? {
-                    givenName: dropNull(name.givenName),
-                    familyName: dropNull(name.familyName),
-                    prefix: dropNull(name.prefix),
-                    suffix: dropNull(name.suffix),
-                    middleName: dropNull(name.middleName),
-                    nickname: dropNull(name.nickname),
+                    givenName: name.givenName || undefined,
+                    familyName: name.familyName || undefined,
+                    prefix: name.prefix || undefined,
+                    suffix: name.suffix || undefined,
+                    middleName: name.middleName || undefined,
+                    nickname: name.nickname || undefined,
                   }
                 : undefined,
               number: number?.length
@@ -1935,7 +1939,7 @@ export class BackupImportStream extends Writable {
                       return {
                         value,
                         type: phoneToContactFormType(type),
-                        label: dropNull(label),
+                        label: label || undefined,
                       };
                     })
                     .filter(isNotNil)
@@ -1950,7 +1954,7 @@ export class BackupImportStream extends Writable {
                       return {
                         value,
                         type: emailToContactFormType(type),
-                        label: dropNull(label),
+                        label: label || undefined,
                       };
                     })
                     .filter(isNotNil)
@@ -1971,26 +1975,26 @@ export class BackupImportStream extends Writable {
 
                     return {
                       type: addressToContactAddressType(type),
-                      label: dropNull(label),
-                      street: dropNull(street),
-                      pobox: dropNull(pobox),
-                      neighborhood: dropNull(neighborhood),
-                      city: dropNull(city),
-                      region: dropNull(region),
-                      postcode: dropNull(postcode),
-                      country: dropNull(country),
+                      label: label || undefined,
+                      street: street || undefined,
+                      pobox: pobox || undefined,
+                      neighborhood: neighborhood || undefined,
+                      city: city || undefined,
+                      region: region || undefined,
+                      postcode: postcode || undefined,
+                      country: country || undefined,
                     };
                   })
                 : undefined,
-              organization: dropNull(organization),
+              organization: organization || undefined,
               avatar: avatar
                 ? {
                     avatar: convertFilePointerToAttachment(avatar),
                     isProfile: false,
                   }
                 : undefined,
-            };
-          }),
+            },
+          ],
           reactions: this.fromReactions(chatItem.contactMessage.reactions),
         },
         additionalMessages: [],

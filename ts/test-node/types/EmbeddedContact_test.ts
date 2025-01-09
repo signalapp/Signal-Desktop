@@ -652,21 +652,5 @@ describe('Contact', () => {
       const result = _validate(contact, { messageId });
       assert.deepEqual(result?.message, expected);
     });
-
-    it('logs if no values remain in contact', async () => {
-      const messageId = 'the-message-id';
-      const contact = {
-        name: {
-          nickname: 'Someone Somewhere',
-        },
-        number: [],
-        email: [],
-      };
-      const expected =
-        'Message the-message-id: Contact had no included numbers, email or addresses';
-
-      const result = _validate(contact, { messageId });
-      assert.deepEqual(result?.message, expected);
-    });
   });
 });
