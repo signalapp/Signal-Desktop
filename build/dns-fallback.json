@@ -20,35 +20,35 @@
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:1200:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:2000:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:400:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:200:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:8000:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:2600:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:ae00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:4800:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:c000:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:8e00:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:d200:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:9200:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:e600:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:c00:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:f200:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:f400:1d:4f32:50c0:93a1"
       }
     ]
   },
@@ -133,11 +133,11 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "34.102.228.46"
+        "address": "34.117.136.13"
       },
       {
         "family": "ipv6",
-        "address": "2600:1901:0:ff9f::"
+        "address": "2600:1901:0:e149::"
       }
     ]
   },
@@ -146,11 +146,11 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "172.217.165.147"
+        "address": "142.251.40.179"
       },
       {
         "family": "ipv6",
-        "address": "2607:f8b0:4006:808::2013"
+        "address": "2607:f8b0:4006:821::2013"
       }
     ]
   },
