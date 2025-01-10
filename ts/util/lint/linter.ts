@@ -227,6 +227,8 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/protobufjs/cli/.+',
     '^node_modules/ramda/.+',
     '^node_modules/rambda/.+',
+    '^node_modules/react-devtools/.+',
+    '^node_modules/react-devtools-core/.+',
     '^node_modules/react-dev-utils/.+',
     '^node_modules/react-docgen/.+',
     '^node_modules/react-error-overlay/.+',
