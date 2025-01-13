@@ -1760,7 +1760,7 @@ export class BackupImportStream extends Writable {
               url,
               title: dropNull(preview.title),
               description: dropNull(preview.description),
-              date: getCheckedTimestampFromLong(preview.date),
+              date: getCheckedTimestampOrUndefinedFromLong(preview.date),
               image: preview.image
                 ? convertFilePointerToAttachment(preview.image)
                 : undefined,
