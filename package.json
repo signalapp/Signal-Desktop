@@ -93,7 +93,9 @@
     "verify": "run-p --print-label verify:*",
     "verify:ts": "tsc --noEmit",
     "electron:install-app-deps": "electron-builder install-app-deps",
-    "check-upgradeable-deps": "ts-node ts/scripts/check-upgradeable-deps.ts"
+    "check-upgradeable-deps": "ts-node ts/scripts/check-upgradeable-deps.ts",
+    "react-devtools": "react-devtools",
+    "run-with-devtools": "cross-env REACT_DEVTOOLS=1 run-p --print-label react-devtools start"
   },
   "optionalDependencies": {
     "fs-xattr": "0.3.0"
@@ -171,6 +173,7 @@
     "react-aria-components": "1.4.1",
     "react-blurhash": "0.3.0",
     "react-contextmenu": "2.14.0",
+    "react-devtools-core": "6.0.1",
     "react-dom": "17.0.2",
     "react-hot-loader": "4.13.1",
     "react-intl": "6.8.7",
@@ -314,6 +317,7 @@
     "pngjs": "7.0.0",
     "prettier": "3.3.3",
     "protobufjs-cli": "1.1.1",
+    "react-devtools": "6.0.1",
     "resedit": "2.0.2",
     "resolve-url-loader": "5.0.0",
     "sass": "1.80.7",

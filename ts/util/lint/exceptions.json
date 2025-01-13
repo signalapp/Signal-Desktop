@@ -2803,5 +2803,48 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\t\tmultiArgs: false,",
+    "reasonCategory": "falseMatch",
+    "updated": "2024-12-20T19:43:51.589Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2024-12-20T19:43:51.589Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tmultiArgs: false,",
+    "reasonCategory": "falseMatch",
+    "updated": "2024-12-20T19:43:51.589Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2024-12-20T19:43:51.589Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\terror = options.multiArgs ? args : args[0];",
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2024-12-20T19:46:49.191Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2024-12-20T19:46:49.191Z"
   }
 ]

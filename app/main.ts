@@ -2004,7 +2004,9 @@ app.on('ready', async () => {
   }
 
   installWebHandler({
-    enableHttp: Boolean(process.env.SIGNAL_ENABLE_HTTP),
+    enableHttp:
+      Boolean(process.env.SIGNAL_ENABLE_HTTP) ||
+      Boolean(process.env.REACT_DEVTOOLS),
     session: session.defaultSession,
   });
 

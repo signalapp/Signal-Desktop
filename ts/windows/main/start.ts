@@ -6,6 +6,7 @@ import { contextBridge } from 'electron';
 
 import * as log from '../../logging/log';
 
+import './phase0-devtools';
 import './phase1-ipc';
 import '../preload';
 import './phase2-dependencies';
