@@ -2212,7 +2212,9 @@ async function upload({
       // The sync job will check for conflicts and as part of that conflict
       // check if an item needs sync and doesn't match with the remote record
       // it'll kick off another upload.
-      setTimeout(runStorageServiceSyncJob);
+      setTimeout(() =>
+        runStorageServiceSyncJob({ reason: `409 conflict backoff/${reason}` })
+      );
       return;
     }
     log.error(`${logId}/${version}: error`, Errors.toLogFormat(err));

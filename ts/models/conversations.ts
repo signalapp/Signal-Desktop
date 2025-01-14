@@ -2388,11 +2388,27 @@ export class ConversationModel extends window.Backbone
       const isLocalAction = !fromSync && !viaStorageServiceSync;
 
       const currentMessageRequestState = this.get('messageRequestResponseType');
-      const didResponseChange = response !== currentMessageRequestState;
-      const wasPreviouslyAccepted = this.getAccepted();
-
+      const hasSpam = (messageRequestValue: number | undefined): boolean => {
+        return (
+          messageRequestValue === messageRequestEnum.SPAM ||
+          messageRequestValue === messageRequestEnum.BLOCK_AND_SPAM
+        );
+      };
+      const hasBlock = (messageRequestValue: number | undefined): boolean => {
+        return (
+          messageRequestValue === messageRequestEnum.BLOCK ||
+          messageRequestValue === messageRequestEnum.BLOCK_AND_SPAM ||
+          messageRequestValue === messageRequestEnum.BLOCK_AND_DELETE
+        );
+      };
+      const didSpamChange =
+        hasSpam(currentMessageRequestState) !== hasSpam(response);
+      const didBlockChange = hasBlock(response) !== this.isBlocked();
       const didUnblock =
         response === messageRequestEnum.ACCEPT && this.isBlocked();
+
+      const didResponseChange = response !== currentMessageRequestState;
+      const wasPreviouslyAccepted = this.getAccepted();
 
       if (didResponseChange) {
         if (response === messageRequestEnum.ACCEPT) {
@@ -2408,21 +2424,15 @@ export class ConversationModel extends window.Backbone
             );
           }
         }
-        if (
-          response === messageRequestEnum.BLOCK ||
-          response === messageRequestEnum.BLOCK_AND_SPAM ||
-          response === messageRequestEnum.BLOCK_AND_DELETE
-        ) {
+
+        if (hasBlock(response) && didBlockChange) {
           drop(
             this.addMessageRequestResponseEventMessage(
               MessageRequestResponseEvent.BLOCK
             )
           );
         }
-        if (
-          response === messageRequestEnum.SPAM ||
-          response === messageRequestEnum.BLOCK_AND_SPAM
-        ) {
+        if (hasSpam(response) && didSpamChange) {
           drop(
             this.addMessageRequestResponseEventMessage(
               MessageRequestResponseEvent.SPAM
