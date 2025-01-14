@@ -2106,7 +2106,7 @@
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data",
+    "messageformat": "Disconnecting and deleting all data…",
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "icu:deleteOldIndexedDBData": {
@@ -4746,6 +4746,10 @@
   "icu:next": {
     "messageformat": "next",
     "description": "Generic next label"
+  },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history",
+    "description": "Description at the bottom of clearing all data screen"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donate to Signal",

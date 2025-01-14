@@ -9,7 +9,6 @@
 @use 'titlebar';
 
 // Old style: components
-@use 'progress';
 @use 'emoji';
 
 // Old style: modules
@@ -65,6 +64,7 @@
 @use 'components/Checkbox.scss';
 @use 'components/CircleCheckbox.scss';
 @use 'components/ClearFilterButton.scss';
+@use 'components/ClearingData.scss';
 @use 'components/CollidingAvatars.scss';
 @use 'components/ComposeStepButton.scss';
 @use 'components/CompositionArea.scss';
