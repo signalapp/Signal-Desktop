@@ -349,7 +349,8 @@ export class SocketManager extends EventListener {
 
   // Creates new IWebSocketResource for AccountManager's provisioning
   public async getProvisioningResource(
-    handler: IRequestHandler
+    handler: IRequestHandler,
+    timeout?: number
   ): Promise<IWebSocketResource> {
     if (this.#isRemotelyExpired) {
       throw new Error('Remotely expired, not connecting provisioning socket');
@@ -366,6 +367,10 @@ export class SocketManager extends EventListener {
         },
         keepalive: { path: '/v1/keepalive/provisioning' },
       },
+      extraHeaders: {
+        'x-signal-websocket-timeout': 'true',
+      },
+      timeout,
     }).getResult();
   }
 
@@ -704,6 +709,7 @@ export class SocketManager extends EventListener {
     resourceOptions,
     query = {},
     extraHeaders = {},
+    timeout,
   }: {
     name: string;
     path: string;
@@ -711,6 +717,7 @@ export class SocketManager extends EventListener {
     resourceOptions: WebSocketResourceOptions;
     query?: Record<string, string>;
     extraHeaders?: Record<string, string>;
+    timeout?: number;
   }): AbortableProcess<IWebSocketResource> {
     const queryWithDefaults = {
       agent: 'OWD',
@@ -728,6 +735,7 @@ export class SocketManager extends EventListener {
       version,
       certificateAuthority: this.options.certificateAuthority,
       proxyAgent,
+      timeout,
 
       extraHeaders,
 

@@ -33,6 +33,7 @@ export enum InstallScreenError {
 }
 
 export enum InstallScreenQRCodeError {
+  MaxRotations = 'MaxRotations',
   Timeout = 'Timeout',
   Unknown = 'Unknown',
   NetworkIssue = 'NetworkIssue',

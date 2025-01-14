@@ -128,6 +128,17 @@ export function SimulatedLoading(): JSX.Element {
   return <Simulation finalResult={LOADED_URL} />;
 }
 
+export function SimulatedMaxRotationsError(): JSX.Element {
+  return (
+    <Simulation
+      finalResult={{
+        loadingState: LoadingState.LoadFailed,
+        error: InstallScreenQRCodeError.MaxRotations,
+      }}
+    />
+  );
+}
+
 export function SimulatedUnknownError(): JSX.Element {
   return (
     <Simulation

@@ -41,9 +41,17 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
   const onSubmitDeviceName = useCallback(async () => {
     if (backupFile != null) {
       // This is only for testing so don't bother catching errors
-      finishInstall({ deviceName, backupFile: await fileToBytes(backupFile) });
+      finishInstall({
+        deviceName,
+        backupFile: await fileToBytes(backupFile),
+        isLinkAndSync: false,
+      });
     } else {
-      finishInstall({ deviceName, backupFile: undefined });
+      finishInstall({
+        deviceName,
+        backupFile: undefined,
+        isLinkAndSync: false,
+      });
     }
   }, [backupFile, deviceName, finishInstall]);
 
