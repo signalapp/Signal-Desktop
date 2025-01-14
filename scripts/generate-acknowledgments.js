@@ -35,7 +35,7 @@ async function getMarkdownForDependency(dependencyName) {
   // fs-xattr is an optional dependency that may fail to install (on Windows, most
   //   commonly), so we have a special case for it here. We may need to do something
   //   similar for new optionalDependencies in the future.
-  if (dependencyName === 'fs-xattr') {
+  if (dependencyName === 'fs-xattr' || dependencyName === 'growing-file') {
     licenseBody = 'License: MIT';
   } else {
     const dependencyRootPath = join(nodeModulesPath, dependencyName);

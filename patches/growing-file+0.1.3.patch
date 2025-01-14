@@ -1,0 +1,25 @@
+diff --git a/node_modules/growing-file/lib/growing_file.js b/node_modules/growing-file/lib/growing_file.js
+index a25d618..0ff7634 100644
+--- a/node_modules/growing-file/lib/growing_file.js
++++ b/node_modules/growing-file/lib/growing_file.js
+@@ -69,11 +69,15 @@ GrowingFile.prototype._readUntilEof = function() {
+ 
+   this._reading = true;
+ 
+-  this._stream = fs.createReadStream(this._path, {
+-    start: this._offset,
+-    // @todo: Remove if this gets merged: https://github.com/joyent/node/pull/881
+-    end: Infinity
+-  });
++  try {
++    this._stream = fs.createReadStream(this._path, {
++      start: this._offset,
++      // @todo: Remove if this gets merged: https://github.com/joyent/node/pull/881
++      end: Infinity
++    });
++  } catch (error) {
++    this._handleError(error);
++  }
+ 
+   this._stream.on('error', this._handleError.bind(this));
+   this._stream.on('data', this._handleData.bind(this));

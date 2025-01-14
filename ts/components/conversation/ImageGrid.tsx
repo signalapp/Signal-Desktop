@@ -14,6 +14,7 @@ import {
   getImageDimensions,
   getThumbnailUrl,
   getUrl,
+  isIncremental,
   isVideoAttachment,
 } from '../../types/Attachment';
 
@@ -539,10 +540,11 @@ function renderDownloadPill({
   startDownloadClick: (event: React.MouseEvent) => void;
   startDownloadKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
 }): JSX.Element | null {
-  const downloadedOrPending = attachments.some(
-    attachment => attachment.path || attachment.pending
+  const downloadedOrPendingOrIncremental = attachments.some(
+    attachment =>
+      attachment.path || attachment.pending || isIncremental(attachment)
   );
-  if (downloadedOrPending) {
+  if (downloadedOrPendingOrIncremental) {
     return null;
   }
 

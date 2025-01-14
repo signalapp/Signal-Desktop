@@ -12,7 +12,11 @@ import type {
   AttachmentForUIType,
   AttachmentType,
 } from '../../types/Attachment';
-import { defaultBlurHash, isReadyToView } from '../../types/Attachment';
+import {
+  defaultBlurHash,
+  isIncremental,
+  isReadyToView,
+} from '../../types/Attachment';
 import { ProgressCircle } from '../ProgressCircle';
 
 export enum CurveType {
@@ -180,7 +184,10 @@ export function Image({
   );
 
   const startDownloadButton =
-    startDownload && !attachment.path && !attachment.pending ? (
+    startDownload &&
+    !attachment.path &&
+    !attachment.pending &&
+    !isIncremental(attachment) ? (
       <button
         type="button"
         className="module-image__overlay-circle"
@@ -193,15 +200,16 @@ export function Image({
       </button>
     ) : undefined;
 
-  const spinner = !cancelDownload
-    ? undefined
-    : getSpinner({
-        attachment,
-        i18n,
-        cancelDownloadClick,
-        cancelDownloadKeyDown,
-        tabIndex,
-      });
+  const spinner =
+    isIncremental(attachment) || !cancelDownload
+      ? undefined
+      : getSpinner({
+          attachment,
+          i18n,
+          cancelDownloadClick,
+          cancelDownloadKeyDown,
+          tabIndex,
+        });
 
   return (
     <div
@@ -237,7 +245,7 @@ export function Image({
           }}
         />
       ) : null}
-      {attachment.path && playIconOverlay ? (
+      {(attachment.path || isIncremental(attachment)) && playIconOverlay ? (
         <div className="module-image__overlay-circle">
           <div className="module-image__play-icon" />
         </div>
@@ -308,7 +316,10 @@ export function getSpinner({
   tabIndex: number | undefined;
 }): JSX.Element | undefined {
   const downloadFraction =
-    attachment.pending && attachment.size && attachment.totalDownloaded
+    attachment.pending &&
+    !isIncremental(attachment) &&
+    attachment.size &&
+    attachment.totalDownloaded
       ? attachment.totalDownloaded / attachment.size
       : undefined;
 

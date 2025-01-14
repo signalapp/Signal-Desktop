@@ -173,6 +173,82 @@ export function NotPendingWDownloadProgress(): JSX.Element {
   return <Image {...props} />;
 }
 
+export function PendingIncrementalNoProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      pending: true,
+      size: 5300000,
+      incrementalMac: 'something',
+      chunkSize: 100,
+    }),
+    playIconOverlay: true,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
+export function PendingIncrementalDownloadProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      pending: true,
+      size: 5300000,
+      totalDownloaded: 1230000,
+      incrementalMac: 'something',
+      chunkSize: 100,
+    }),
+    playIconOverlay: true,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
+export function NotPendingIncrementalNoProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      size: 5300000,
+      incrementalMac: 'something',
+      chunkSize: 100,
+    }),
+    playIconOverlay: true,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
+export function NotPendingIncrementalWProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      size: 5300000,
+      totalDownloaded: 1230000,
+      incrementalMac: 'something',
+      chunkSize: 100,
+    }),
+    playIconOverlay: true,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
 export function CurvedCorners(): JSX.Element {
   const props = createProps({
     curveBottomLeft: CurveType.Normal,

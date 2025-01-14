@@ -21,5 +21,7 @@ export type MediaItemType = {
   loop?: boolean;
   message: MediaItemMessageType;
   objectURL?: string;
+  incrementalObjectUrl?: string;
   thumbnailObjectUrl?: string;
+  size?: number;
 };

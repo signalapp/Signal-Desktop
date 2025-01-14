@@ -347,3 +347,30 @@ export function ViewOnceVideo(): JSX.Element {
     />
   );
 }
+
+export function IncrementalVideo(): JSX.Element {
+  const item = createMediaItem({
+    contentType: VIDEO_MP4,
+    objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+  });
+
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          {
+            ...item,
+            attachment: {
+              ...item.attachment,
+              incrementalMac: 'something',
+              chunkSize: 42,
+              pending: true,
+              totalDownloaded: 50000,
+              size: 100000,
+            },
+          },
+        ],
+      })}
+    />
+  );
+}

@@ -213,6 +213,31 @@
     text-align: center;
   }
 
+  &__toast-container {
+    opacity: 0;
+    transition: opacity 500ms;
+
+    position: absolute;
+    bottom: 45px;
+    pointer-events: none;
+
+    // We need this so our toast goes on top of the video
+    z-index: variables.$z-index-above-base;
+
+    .Toast {
+      background-color: variables.$color-black-alpha-80;
+    }
+    .Toast__content {
+      padding-block: 7px;
+      padding-inline: 12px;
+      @include mixins.font-caption;
+    }
+
+    &--visible {
+      opacity: 1;
+    }
+  }
+
   &__nav-next,
   &__nav-prev {
     --height: 224px;

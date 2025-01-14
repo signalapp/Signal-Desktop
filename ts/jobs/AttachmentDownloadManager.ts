@@ -51,6 +51,7 @@ import {
   type ReencryptedAttachmentV2,
 } from '../AttachmentCrypto';
 import { safeParsePartial } from '../util/schemas';
+import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
 import { createBatcher } from '../util/batcher';
 import { postSaveUpdates } from '../util/cleanup';
 
@@ -520,6 +521,7 @@ export async function runDownloadAttachmentJobInner({
   );
 
   try {
+    const { downloadPath } = attachment;
     let totalDownloaded = 0;
     let downloadedAttachment: ReencryptedAttachmentV2 | undefined;
 
@@ -550,13 +552,52 @@ export async function runDownloadAttachmentJobInner({
     });
 
     const upgradedAttachment = await dependencies.processNewAttachment({
-      ...omit(attachment, ['error', 'pending', 'downloadPath']),
+      ...omit(attachment, ['error', 'pending']),
       ...downloadedAttachment,
     });
 
-    await addAttachmentToMessage(messageId, upgradedAttachment, logId, {
-      type: attachmentType,
-    });
+    const isShowingLightbox = (): boolean => {
+      const lightboxState = window.reduxStore.getState().lightbox;
+      if (!lightboxState.isShowingLightbox) {
+        return false;
+      }
+      if (lightboxState.selectedIndex == null) {
+        return false;
+      }
+
+      const selectedMedia = lightboxState.media[lightboxState.selectedIndex];
+      if (selectedMedia?.message.id !== messageId) {
+        return false;
+      }
+
+      return selectedMedia.attachment.digest === attachment.digest;
+    };
+
+    const shouldDeleteDownload = downloadPath && !isShowingLightbox();
+    if (downloadPath) {
+      if (shouldDeleteDownload) {
+        await dependencies.deleteDownloadData(downloadPath);
+      } else {
+        deleteDownloadsJobQueue.pause();
+        await deleteDownloadsJobQueue.add({
+          digest: attachment.digest,
+          downloadPath,
+          messageId,
+          plaintextHash: attachment.plaintextHash,
+        });
+      }
+    }
+
+    await addAttachmentToMessage(
+      messageId,
+      shouldDeleteDownload
+        ? omit(upgradedAttachment, ['downloadPath', 'totalDownloaded'])
+        : omit(upgradedAttachment, ['totalDownloaded']),
+      logId,
+      {
+        type: attachmentType,
+      }
+    );
     return { downloadedVariant: AttachmentVariant.Default };
   } catch (error) {
     if (

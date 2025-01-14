@@ -111,9 +111,11 @@ export async function queueAttachmentDownloads(
   {
     urgency = AttachmentDownloadUrgency.STANDARD,
     source = AttachmentDownloadSource.STANDARD,
+    attachmentDigestForImmediate,
   }: {
     urgency?: AttachmentDownloadUrgency;
     source?: AttachmentDownloadSource;
+    attachmentDigestForImmediate?: string;
   } = {}
 ): Promise<MessageAttachmentsDownloadedType | undefined> {
   const attachmentsToQueue = message.attachments || [];
@@ -187,6 +189,7 @@ export async function queueAttachmentDownloads(
       sentAt: message.sent_at,
       urgency,
       source,
+      attachmentDigestForImmediate,
     }
   );
   count += attachmentsCount;
@@ -387,7 +390,7 @@ export async function queueAttachmentDownloads(
   };
 }
 
-async function queueNormalAttachments({
+export async function queueNormalAttachments({
   idLog,
   messageId,
   attachments = [],
@@ -396,6 +399,7 @@ async function queueNormalAttachments({
   sentAt,
   urgency,
   source,
+  attachmentDigestForImmediate,
 }: {
   idLog: string;
   messageId: string;
@@ -405,6 +409,7 @@ async function queueNormalAttachments({
   sentAt: number;
   urgency: AttachmentDownloadUrgency;
   source: AttachmentDownloadSource;
+  attachmentDigestForImmediate?: string;
 }): Promise<{
   attachments: Array<AttachmentType>;
   count: number;
@@ -456,13 +461,18 @@ async function queueNormalAttachments({
 
       count += 1;
 
+      const urgencyForAttachment =
+        attachmentDigestForImmediate &&
+        attachmentDigestForImmediate === attachment.digest
+          ? AttachmentDownloadUrgency.IMMEDIATE
+          : urgency;
       return AttachmentDownloadManager.addJob({
         attachment,
         messageId,
         attachmentType: 'attachment',
         receivedAt,
         sentAt,
-        urgency,
+        urgency: urgencyForAttachment,
         source,
       });
     })

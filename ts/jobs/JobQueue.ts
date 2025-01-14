@@ -14,6 +14,8 @@ import { JobLogger } from './JobLogger';
 import * as Errors from '../types/errors';
 import type { LoggerType } from '../types/Logging';
 import { drop } from '../util/drop';
+import { sleep } from '../util/sleep';
+import { SECOND } from '../util/durations';
 
 const noopOnCompleteCallbacks = {
   resolve: noop,
@@ -62,6 +64,7 @@ export abstract class JobQueue<T> {
   private readonly logPrefix: string;
 
   private shuttingDown = false;
+  private paused = false;
 
   private readonly onCompleteCallbacks = new Map<
     string,
@@ -77,6 +80,9 @@ export abstract class JobQueue<T> {
 
   get isShuttingDown(): boolean {
     return this.shuttingDown;
+  }
+  get isPaused(): boolean {
+    return this.paused;
   }
 
   constructor(options: Readonly<JobQueueOptions>) {
@@ -150,6 +156,14 @@ export abstract class JobQueue<T> {
       if (this.shuttingDown) {
         log.info(`${this.logPrefix} is shutting down. Can't accept more work.`);
         break;
+      }
+      if (this.paused) {
+        log.info(`${this.logPrefix} is paused. Waiting until resume.`);
+        while (this.paused) {
+          // eslint-disable-next-line no-await-in-loop
+          await sleep(SECOND);
+        }
+        log.info(`${this.logPrefix} has been resumed. Queuing job.`);
       }
       drop(this.enqueueStoredJob(storedJob));
     }
@@ -358,5 +372,13 @@ export abstract class JobQueue<T> {
     this.shuttingDown = true;
     await Promise.all([...queues].map(q => q.onIdle()));
     log.info(`${this.logPrefix} shutdown: complete`);
+  }
+  pause(): void {
+    log.info(`${this.logPrefix}: pausing queue`);
+    this.paused = true;
+  }
+  resume(): void {
+    log.info(`${this.logPrefix}: resuming queue`);
+    this.paused = false;
   }
 }

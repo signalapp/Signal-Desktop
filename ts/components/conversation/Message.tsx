@@ -1010,13 +1010,7 @@ export class Message extends React.PureComponent<Props, State> {
         );
       }
 
-      if (
-        isImage(attachments) ||
-        (isVideo(attachments) &&
-          (!isDownloaded(attachments[0]) ||
-            !attachments?.[0].pending ||
-            hasVideoScreenshot(attachments)))
-      ) {
+      if (isImage(attachments) || isVideo(attachments)) {
         const bottomOverlay = !isSticker && !collapseMetadata;
         // We only want users to tab into this if there's more than one
         const tabIndex = attachments.length > 1 ? 0 : -1;

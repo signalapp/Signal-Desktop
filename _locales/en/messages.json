@@ -1494,6 +1494,10 @@
     "messageformat": "Image sent in chat",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}",
+    "description": "When watching a video while it is downloaded, a toast will appear over the video along with the playback controls showing download progress."
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icon showing that this image has a caption",
     "description": "Used for the icon layered on top of an image in message bubbles"
@@ -1512,15 +1516,15 @@
   },
   "icu:retryDownload": {
     "messageformat": "Retry download",
-    "description": "(Deleted 2024/12/12) Label for button shown on an existing download to restart a download that was partially completed"
+    "description": "Label for button shown on an existing download to restart a download that was partially completed"
   },
   "icu:retryDownloadShort": {
     "messageformat": "Retry",
-    "description": "(Deleted 2024/12/12) Describes a button shown on an existing download to restart a download that was partially completed"
+    "description": "Describes a button shown on an existing download to restart a download that was partially completed"
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {# item} other {# items}}",
-    "description": "Describes a button shown on an existing download to restart a download that was partially completed"
+    "description": "Describes a button shown on a grid of attachments to start of them downloading"
   },
   "icu:save": {
     "messageformat": "Save",

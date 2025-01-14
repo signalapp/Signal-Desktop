@@ -89,3 +89,87 @@ export function OneNotPendingSomeDownloaded(args: PropsType): JSX.Element {
     />
   );
 }
+
+export function OneIncrementalDownloadedBlank(args: PropsType): JSX.Element {
+  return (
+    <AttachmentDetailPill
+      {...args}
+      attachments={[
+        fakeAttachment({
+          incrementalMac: 'something',
+          chunkSize: 10,
+        }),
+      ]}
+    />
+  );
+}
+
+export function OneIncrementalNotPendingNotDownloaded(
+  args: PropsType
+): JSX.Element {
+  return (
+    <AttachmentDetailPill
+      {...args}
+      attachments={[
+        fakeAttachment({
+          incrementalMac: 'something',
+          chunkSize: 10,
+          path: undefined,
+        }),
+      ]}
+    />
+  );
+}
+
+export function OneIncrementalPendingNotDownloading(
+  args: PropsType
+): JSX.Element {
+  return (
+    <AttachmentDetailPill
+      {...args}
+      attachments={[
+        fakeAttachment({
+          incrementalMac: 'something',
+          chunkSize: 10,
+          pending: true,
+          path: undefined,
+        }),
+      ]}
+    />
+  );
+}
+
+export function OneIncrementalDownloading(args: PropsType): JSX.Element {
+  return (
+    <AttachmentDetailPill
+      {...args}
+      attachments={[
+        fakeAttachment({
+          incrementalMac: 'something',
+          chunkSize: 10,
+          pending: true,
+          path: undefined,
+          totalDownloaded: 5000,
+        }),
+      ]}
+    />
+  );
+}
+
+export function OneIncrementalNotPendingSomeDownloaded(
+  args: PropsType
+): JSX.Element {
+  return (
+    <AttachmentDetailPill
+      {...args}
+      attachments={[
+        fakeAttachment({
+          incrementalMac: 'something',
+          chunkSize: 10,
+          path: undefined,
+          totalDownloaded: 5000,
+        }),
+      ]}
+    />
+  );
+}

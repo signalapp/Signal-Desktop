@@ -772,6 +772,12 @@ function resolveNestedAttachment<
   return attachment;
 }
 
+export function isIncremental(
+  attachment: Pick<AttachmentForUIType, 'incrementalMac' | 'chunkSize'>
+): boolean {
+  return Boolean(attachment.incrementalMac && attachment.chunkSize);
+}
+
 export function isDownloaded(
   attachment?: Pick<AttachmentType, 'path' | 'textAttachment'>
 ): boolean {
@@ -791,7 +797,10 @@ export function isReadyToView(
   }
 
   const resolved = resolveNestedAttachment(attachment);
-  return Boolean(resolved && (resolved.path || resolved.textAttachment));
+  return Boolean(
+    resolved &&
+      (resolved.path || resolved.textAttachment || isIncremental(resolved))
+  );
 }
 
 export function hasNotResolved(attachment?: AttachmentType): boolean {

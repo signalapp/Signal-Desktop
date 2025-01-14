@@ -14,7 +14,7 @@ import type {
   SaveAttachmentActionCreatorType,
 } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
-import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
+import type { MediaItemType } from '../types/MediaItem';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
@@ -22,7 +22,7 @@ import { Avatar, AvatarSize } from './Avatar';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import { formatDateTimeForAttachment } from '../util/timestamp';
 import { formatDuration } from '../util/formatDuration';
-import { isGIF } from '../types/Attachment';
+import { isGIF, isIncremental } from '../types/Attachment';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import { usePrevious } from '../hooks/usePrevious';
 import { arrow } from '../util/keyboard';
@@ -31,6 +31,9 @@ import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
 import { ForwardMessagesModalType } from './ForwardMessagesModal';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { formatFileSize } from '../util/formatFileSize';
+import { SECOND } from '../util/durations';
+import { Toast } from './Toast';
 
 export type PropsType = {
   children?: ReactNode;
@@ -52,6 +55,8 @@ export type PropsType = {
 };
 
 const ZOOM_SCALE = 3;
+
+const TWO_SECONDS = 2.5 * SECOND;
 
 const INITIAL_IMAGE_TRANSFORM = {
   scale: 1,
@@ -103,6 +108,9 @@ export function Lightbox({
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
     null
   );
+  const [shouldShowDownloadToast, setShouldShowDownloadToast] = useState(false);
+  const downloadToastTimeout = useRef<NodeJS.Timeout | number | undefined>();
+
   const [videoTime, setVideoTime] = useState<number | undefined>();
   const [isZoomed, setIsZoomed] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -127,6 +135,55 @@ export function Lightbox({
       }
     | undefined
   >();
+
+  const currentItem = media[selectedIndex];
+  const {
+    attachment,
+    contentType,
+    loop = false,
+    objectURL,
+    incrementalObjectUrl,
+  } = currentItem || {};
+
+  const isAttachmentGIF = isGIF(attachment ? [attachment] : undefined);
+  const isDownloading =
+    attachment &&
+    isIncremental(attachment) &&
+    attachment.pending &&
+    !attachment.path;
+
+  const onMouseLeaveVideo = useCallback(() => {
+    if (downloadToastTimeout.current) {
+      clearTimeout(downloadToastTimeout.current);
+      downloadToastTimeout.current = undefined;
+    }
+    if (!isDownloading) {
+      return;
+    }
+
+    setShouldShowDownloadToast(false);
+  }, [isDownloading, setShouldShowDownloadToast]);
+  const onUserInteractionOnVideo = useCallback(
+    (event: React.MouseEvent<HTMLVideoElement, MouseEvent>) => {
+      if (downloadToastTimeout.current) {
+        clearTimeout(downloadToastTimeout.current);
+        downloadToastTimeout.current = undefined;
+      }
+      if (!isDownloading) {
+        return;
+      }
+      const elementRect = event.currentTarget.getBoundingClientRect();
+      const bottomThreshold = elementRect.bottom - 75;
+
+      setShouldShowDownloadToast(true);
+
+      if (event.clientY >= bottomThreshold) {
+        return;
+      }
+      downloadToastTimeout.current = setTimeout(onMouseLeaveVideo, TWO_SECONDS);
+    },
+    [isDownloading, onMouseLeaveVideo, setShouldShowDownloadToast]
+  );
 
   const onPrevious = useCallback(
     (
@@ -179,9 +236,9 @@ export function Lightbox({
       event.preventDefault();
 
       const mediaItem = media[selectedIndex];
-      const { attachment, message, index } = mediaItem;
+      const { attachment: attachmentToSave, message, index } = mediaItem;
 
-      saveAttachment(attachment, message.sentAt, index + 1);
+      saveAttachment(attachmentToSave, message.sentAt, index + 1);
     },
     [isViewOnce, media, saveAttachment, selectedIndex]
   );
@@ -287,16 +344,6 @@ export function Lightbox({
       document.removeEventListener('keydown', onKeyDown, useCapture);
     };
   }, [onKeyDown]);
-
-  const {
-    attachment,
-    contentType,
-    loop = false,
-    objectURL,
-    message,
-  } = media[selectedIndex] || {};
-
-  const isAttachmentGIF = isGIF(attachment ? [attachment] : undefined);
 
   useEffect(() => {
     playVideo();
@@ -596,11 +643,13 @@ export function Lightbox({
         <video
           className="Lightbox__object Lightbox__object--video"
           controls={!shouldLoop}
-          key={objectURL}
+          key={objectURL || incrementalObjectUrl}
           loop={shouldLoop}
           ref={setVideoElement}
+          onMouseMove={onUserInteractionOnVideo}
+          onMouseLeave={onMouseLeaveVideo}
         >
-          <source src={objectURL} />
+          <source src={objectURL || incrementalObjectUrl} />
         </video>
       );
     } else if (isUnsupportedImageType || isUnsupportedVideoType) {
@@ -671,7 +720,7 @@ export function Lightbox({
                   <LightboxHeader
                     getConversation={getConversation}
                     i18n={i18n}
-                    message={message}
+                    item={currentItem}
                   />
                 ) : (
                   <div />
@@ -713,6 +762,28 @@ export function Lightbox({
                   ),
                 }}
               >
+                {isDownloading ? (
+                  <div
+                    className={classNames(
+                      'Lightbox__toast-container',
+                      shouldShowDownloadToast
+                        ? 'Lightbox__toast-container--visible'
+                        : null
+                    )}
+                  >
+                    <Toast onClose={noop}>
+                      {attachment.totalDownloaded && attachment.size
+                        ? i18n('icu:lightBoxDownloading', {
+                            downloaded: formatFileSize(
+                              attachment.totalDownloaded,
+                              2
+                            ),
+                            total: formatFileSize(attachment.size, 2),
+                          })
+                        : undefined}
+                    </Toast>
+                  </div>
+                ) : null}
                 {content}
 
                 {hasPrevious && (
@@ -797,12 +868,13 @@ export function Lightbox({
 function LightboxHeader({
   getConversation,
   i18n,
-  message,
+  item,
 }: {
   getConversation: (id: string) => ConversationType;
   i18n: LocalizerType;
-  message: ReadonlyDeep<MediaItemMessageType>;
+  item: ReadonlyDeep<MediaItemType>;
 }): JSX.Element {
+  const { message } = item;
   const conversation = getConversation(message.conversationId);
 
   const now = Date.now();
