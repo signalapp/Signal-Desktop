@@ -18,13 +18,10 @@ export class Storage implements StorageInterface {
 
   public readonly blocked: Blocked;
 
-  private ready = false;
-
-  private readyCallbacks: Array<() => void> = [];
-
-  private items: Partial<Access> = Object.create(null);
-
-  private privProtocol: SignalProtocolStore | undefined;
+  #ready = false;
+  #readyCallbacks: Array<() => void> = [];
+  #items: Partial<Access> = Object.create(null);
+  #privProtocol: SignalProtocolStore | undefined;
 
   constructor() {
     this.user = new User(this);
@@ -35,14 +32,14 @@ export class Storage implements StorageInterface {
 
   get protocol(): SignalProtocolStore {
     assertDev(
-      this.privProtocol !== undefined,
+      this.#privProtocol !== undefined,
       'SignalProtocolStore not initialized'
     );
-    return this.privProtocol;
+    return this.#privProtocol;
   }
 
   set protocol(value: SignalProtocolStore) {
-    this.privProtocol = value;
+    this.#privProtocol = value;
   }
 
   // `StorageInterface` implementation
@@ -60,11 +57,11 @@ export class Storage implements StorageInterface {
     key: K,
     defaultValue?: Access[K]
   ): Access[K] | undefined {
-    if (!this.ready) {
+    if (!this.#ready) {
       log.warn('Called storage.get before storage is ready. key:', key);
     }
 
-    const item = this.items[key];
+    const item = this.#items[key];
     if (item === undefined) {
       return defaultValue;
     }
@@ -76,22 +73,22 @@ export class Storage implements StorageInterface {
     key: K,
     value: Access[K]
   ): Promise<void> {
-    if (!this.ready) {
+    if (!this.#ready) {
       log.warn('Called storage.put before storage is ready. key:', key);
     }
 
-    this.items[key] = value;
+    this.#items[key] = value;
     await DataWriter.createOrUpdateItem({ id: key, value });
 
     window.reduxActions?.items.putItemExternal(key, value);
   }
 
   public async remove<K extends keyof Access>(key: K): Promise<void> {
-    if (!this.ready) {
+    if (!this.#ready) {
       log.warn('Called storage.remove before storage is ready. key:', key);
     }
 
-    delete this.items[key];
+    delete this.#items[key];
     await DataWriter.removeItemById(key);
 
     window.reduxActions?.items.removeItemExternal(key);
@@ -100,29 +97,29 @@ export class Storage implements StorageInterface {
   // Regular methods
 
   public onready(callback: () => void): void {
-    if (this.ready) {
+    if (this.#ready) {
       callback();
     } else {
-      this.readyCallbacks.push(callback);
+      this.#readyCallbacks.push(callback);
     }
   }
 
   public async fetch(): Promise<void> {
     this.reset();
 
-    Object.assign(this.items, await DataReader.getAllItems());
+    Object.assign(this.#items, await DataReader.getAllItems());
 
-    this.ready = true;
-    this.callListeners();
+    this.#ready = true;
+    this.#callListeners();
   }
 
   public reset(): void {
-    this.ready = false;
-    this.items = Object.create(null);
+    this.#ready = false;
+    this.#items = Object.create(null);
   }
 
   public getItemsState(): Partial<Access> {
-    if (!this.ready) {
+    if (!this.#ready) {
       log.warn('Called getItemsState before storage is ready');
     }
 
@@ -130,8 +127,7 @@ export class Storage implements StorageInterface {
 
     const state = Object.create(null);
 
-    // TypeScript isn't smart enough to figure out the types automatically.
-    const { items } = this;
+    const items = this.#items;
     const allKeys = Object.keys(items) as Array<keyof typeof items>;
 
     for (const key of allKeys) {
@@ -141,12 +137,12 @@ export class Storage implements StorageInterface {
     return state;
   }
 
-  private callListeners(): void {
-    if (!this.ready) {
+  #callListeners(): void {
+    if (!this.#ready) {
       return;
     }
-    const callbacks = this.readyCallbacks;
-    this.readyCallbacks = [];
+    const callbacks = this.#readyCallbacks;
+    this.#readyCallbacks = [];
     callbacks.forEach(callback => callback());
   }
 }

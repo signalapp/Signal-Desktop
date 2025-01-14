@@ -39,13 +39,10 @@ export function getDeltaIntoPast(delta?: number): number {
 }
 
 export class RetryPlaceholders {
-  private items: Array<RetryItemType>;
-
-  private byConversation: ByConversationLookupType;
-
-  private byMessage: ByMessageLookupType;
-
-  private retryReceiptLifespan: number;
+  #items: Array<RetryItemType>;
+  #byConversation: ByConversationLookupType;
+  #byMessage: ByMessageLookupType;
+  #retryReceiptLifespan: number;
 
   constructor(options: { retryReceiptLifespan?: number } = {}) {
     if (!window.storage) {
@@ -66,41 +63,41 @@ export class RetryPlaceholders {
       );
     }
 
-    this.items = parsed.success ? parsed.data : [];
+    this.#items = parsed.success ? parsed.data : [];
     this.sortByExpiresAtAsc();
-    this.byConversation = this.makeByConversationLookup();
-    this.byMessage = this.makeByMessageLookup();
-    this.retryReceiptLifespan = options.retryReceiptLifespan || HOUR;
+    this.#byConversation = this.makeByConversationLookup();
+    this.#byMessage = this.makeByMessageLookup();
+    this.#retryReceiptLifespan = options.retryReceiptLifespan || HOUR;
 
     log.info(
-      `RetryPlaceholders.constructor: Started with ${this.items.length} items, lifespan of ${this.retryReceiptLifespan}`
+      `RetryPlaceholders.constructor: Started with ${this.#items.length} items, lifespan of ${this.#retryReceiptLifespan}`
     );
   }
 
   // Arranging local data for efficiency
 
   sortByExpiresAtAsc(): void {
-    this.items.sort(
+    this.#items.sort(
       (left: RetryItemType, right: RetryItemType) =>
         left.receivedAt - right.receivedAt
     );
   }
 
   makeByConversationLookup(): ByConversationLookupType {
-    return groupBy(this.items, item => item.conversationId);
+    return groupBy(this.#items, item => item.conversationId);
   }
 
   makeByMessageLookup(): ByMessageLookupType {
     const lookup = new Map<string, RetryItemType>();
-    this.items.forEach(item => {
+    this.#items.forEach(item => {
       lookup.set(getItemId(item.conversationId, item.sentAt), item);
     });
     return lookup;
   }
 
   makeLookups(): void {
-    this.byConversation = this.makeByConversationLookup();
-    this.byMessage = this.makeByMessageLookup();
+    this.#byConversation = this.makeByConversationLookup();
+    this.#byMessage = this.makeByMessageLookup();
   }
 
   // Basic data management
@@ -115,33 +112,33 @@ export class RetryPlaceholders {
       );
     }
 
-    this.items.push(item);
+    this.#items.push(item);
     this.sortByExpiresAtAsc();
     this.makeLookups();
     await this.save();
   }
 
   async save(): Promise<void> {
-    await window.storage.put(STORAGE_KEY, this.items);
+    await window.storage.put(STORAGE_KEY, this.#items);
   }
 
   // Finding items in different ways
 
   getCount(): number {
-    return this.items.length;
+    return this.#items.length;
   }
 
   getNextToExpire(): RetryItemType | undefined {
-    return this.items[0];
+    return this.#items[0];
   }
 
   async getExpiredAndRemove(): Promise<Array<RetryItemType>> {
-    const expiration = getDeltaIntoPast(this.retryReceiptLifespan);
-    const max = this.items.length;
+    const expiration = getDeltaIntoPast(this.#retryReceiptLifespan);
+    const max = this.#items.length;
     const result: Array<RetryItemType> = [];
 
     for (let i = 0; i < max; i += 1) {
-      const item = this.items[i];
+      const item = this.#items[i];
       if (item.receivedAt <= expiration) {
         result.push(item);
       } else {
@@ -153,7 +150,7 @@ export class RetryPlaceholders {
       `RetryPlaceholders.getExpiredAndRemove: Found ${result.length} expired items`
     );
 
-    this.items.splice(0, result.length);
+    this.#items.splice(0, result.length);
     this.makeLookups();
     await this.save();
 
@@ -162,7 +159,7 @@ export class RetryPlaceholders {
 
   async findByConversationAndMarkOpened(conversationId: string): Promise<void> {
     let changed = 0;
-    const items = this.byConversation[conversationId];
+    const items = this.#byConversation[conversationId];
     (items || []).forEach(item => {
       if (!item.wasOpened) {
         changed += 1;
@@ -184,14 +181,14 @@ export class RetryPlaceholders {
     conversationId: string,
     sentAt: number
   ): Promise<RetryItemType | undefined> {
-    const result = this.byMessage.get(getItemId(conversationId, sentAt));
+    const result = this.#byMessage.get(getItemId(conversationId, sentAt));
     if (!result) {
       return undefined;
     }
 
-    const index = this.items.findIndex(item => item === result);
+    const index = this.#items.findIndex(item => item === result);
 
-    this.items.splice(index, 1);
+    this.#items.splice(index, 1);
     this.makeLookups();
 
     log.info(

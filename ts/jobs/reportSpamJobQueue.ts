@@ -38,10 +38,10 @@ const reportSpamJobDataSchema = z.object({
 export type ReportSpamJobData = z.infer<typeof reportSpamJobDataSchema>;
 
 export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
-  private server?: WebAPIType;
+  #server?: WebAPIType;
 
   public initialize({ server }: { server: WebAPIType }): void {
-    this.server = server;
+    this.#server = server;
   }
 
   protected parseData(data: unknown): ReportSpamJobData {
@@ -65,7 +65,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
 
     await waitForOnline();
 
-    const { server } = this;
+    const server = this.#server;
     strictAssert(server !== undefined, 'ReportSpamJobQueue not initialized');
 
     try {

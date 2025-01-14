@@ -23,7 +23,7 @@ export class MacOSUpdater extends Updater {
 
     logger.info('downloadAndInstall: handing download to electron...');
     try {
-      await this.handToAutoUpdate(updateFilePath);
+      await this.#handToAutoUpdate(updateFilePath);
     } catch (error) {
       const readOnly = 'Cannot update while running on a read-only volume';
       const message: string = error.message || '';
@@ -47,7 +47,7 @@ export class MacOSUpdater extends Updater {
     };
   }
 
-  private async handToAutoUpdate(filePath: string): Promise<void> {
+  async #handToAutoUpdate(filePath: string): Promise<void> {
     const { logger } = this;
     const { promise, resolve, reject } = explodePromise<void>();
 

@@ -20,12 +20,12 @@ type OptionsType = {
 };
 
 export class WebAudioRecorder {
-  private buffer: Array<Float32Array>;
-  private options: OptionsType;
-  private context: BaseAudioContext;
-  private input: GainNode;
-  private onComplete: (recorder: WebAudioRecorder, blob: Blob) => unknown;
-  private onError: (recorder: WebAudioRecorder, error: string) => unknown;
+  #buffer: Array<Float32Array>;
+  #options: OptionsType;
+  #context: BaseAudioContext;
+  #input: GainNode;
+  #onComplete: (recorder: WebAudioRecorder, blob: Blob) => unknown;
+  #onError: (recorder: WebAudioRecorder, error: string) => unknown;
   private processor?: ScriptProcessorNode;
   public worker?: Worker;
 
@@ -37,19 +37,19 @@ export class WebAudioRecorder {
       onError: (recorder: WebAudioRecorder, error: string) => unknown;
     }
   ) {
-    this.options = {
+    this.#options = {
       ...DEFAULT_OPTIONS,
       ...options,
     };
 
-    this.context = sourceNode.context;
-    this.input = this.context.createGain();
-    sourceNode.connect(this.input);
-    this.buffer = [];
-    this.initWorker();
+    this.#context = sourceNode.context;
+    this.#input = this.#context.createGain();
+    sourceNode.connect(this.#input);
+    this.#buffer = [];
+    this.#initWorker();
 
-    this.onComplete = callbacks.onComplete;
-    this.onError = callbacks.onError;
+    this.#onComplete = callbacks.onComplete;
+    this.#onError = callbacks.onError;
   }
 
   isRecording(): boolean {
@@ -62,21 +62,22 @@ export class WebAudioRecorder {
       return;
     }
 
-    const { buffer, worker } = this;
-    const { bufferSize, numChannels } = this.options;
+    const { worker } = this;
+    const buffer = this.#buffer;
+    const { bufferSize, numChannels } = this.#options;
 
     if (!worker) {
       this.error('startRecording: worker not initialized');
       return;
     }
 
-    this.processor = this.context.createScriptProcessor(
+    this.processor = this.#context.createScriptProcessor(
       bufferSize,
       numChannels,
       numChannels
     );
-    this.input.connect(this.processor);
-    this.processor.connect(this.context.destination);
+    this.#input.connect(this.processor);
+    this.processor.connect(this.#context.destination);
     this.processor.onaudioprocess = event => {
       // eslint-disable-next-line no-plusplus
       for (let ch = 0; ch < numChannels; ++ch) {
@@ -101,7 +102,7 @@ export class WebAudioRecorder {
       return;
     }
 
-    this.input.disconnect();
+    this.#input.disconnect();
     this.processor.disconnect();
     delete this.processor;
     this.worker.postMessage({ command: 'cancel' });
@@ -118,13 +119,13 @@ export class WebAudioRecorder {
       return;
     }
 
-    this.input.disconnect();
+    this.#input.disconnect();
     this.processor.disconnect();
     delete this.processor;
     this.worker.postMessage({ command: 'finish' });
   }
 
-  private initWorker(): void {
+  #initWorker(): void {
     if (this.worker != null) {
       this.worker.terminate();
     }
@@ -134,7 +135,7 @@ export class WebAudioRecorder {
       const { data } = event;
       switch (data.command) {
         case 'complete':
-          this.onComplete(this, data.blob);
+          this.#onComplete(this, data.blob);
           break;
         case 'error':
           this.error(data.message);
@@ -146,14 +147,14 @@ export class WebAudioRecorder {
     this.worker.postMessage({
       command: 'init',
       config: {
-        sampleRate: this.context.sampleRate,
-        numChannels: this.options.numChannels,
+        sampleRate: this.#context.sampleRate,
+        numChannels: this.#options.numChannels,
       },
-      options: this.options,
+      options: this.#options,
     });
   }
 
   error(message: string): void {
-    this.onError(this, `WebAudioRecorder.js: ${message}`);
+    this.#onError(this, `WebAudioRecorder.js: ${message}`);
   }
 }

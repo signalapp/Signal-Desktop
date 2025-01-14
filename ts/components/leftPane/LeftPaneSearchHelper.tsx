@@ -50,36 +50,24 @@ export type LeftPaneSearchPropsType = {
   searchConversation: undefined | ConversationType;
 };
 
-const searchResultKeys: Array<
-  'conversationResults' | 'contactResults' | 'messageResults'
-> = ['conversationResults', 'contactResults', 'messageResults'];
-
 export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType> {
-  private readonly conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
+  readonly #conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
+  readonly #contactResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
+  readonly #isSearchingGlobally: boolean;
 
-  private readonly contactResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
-
-  private readonly isSearchingGlobally: boolean;
-
-  private readonly messageResults: MaybeLoadedSearchResultsType<{
+  readonly #messageResults: MaybeLoadedSearchResultsType<{
     id: string;
     conversationId: string;
     type: string;
   }>;
 
-  private readonly searchConversationName?: string;
-
-  private readonly primarySendsSms: boolean;
-
-  private readonly searchTerm: string;
-
-  private readonly startSearchCounter: number;
-
-  private readonly searchDisabled: boolean;
-
-  private readonly searchConversation: undefined | ConversationType;
-
-  private readonly filterByUnread: boolean;
+  readonly #searchConversationName?: string;
+  readonly #primarySendsSms: boolean;
+  readonly #searchTerm: string;
+  readonly #startSearchCounter: number;
+  readonly #searchDisabled: boolean;
+  readonly #searchConversation: undefined | ConversationType;
+  readonly #filterByUnread: boolean;
 
   constructor({
     contactResults,
@@ -96,18 +84,17 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }: Readonly<LeftPaneSearchPropsType>) {
     super();
 
-    this.contactResults = contactResults;
-    this.conversationResults = conversationResults;
-    this.isSearchingGlobally = isSearchingGlobally;
-    this.messageResults = messageResults;
-    this.primarySendsSms = primarySendsSms;
-    this.searchConversation = searchConversation;
-    this.searchConversationName = searchConversationName;
-    this.searchDisabled = searchDisabled;
-    this.searchTerm = searchTerm;
-    this.startSearchCounter = startSearchCounter;
-    this.filterByUnread = filterByUnread;
-    this.onEnterKeyDown = this.onEnterKeyDown.bind(this);
+    this.#contactResults = contactResults;
+    this.#conversationResults = conversationResults;
+    this.#isSearchingGlobally = isSearchingGlobally;
+    this.#messageResults = messageResults;
+    this.#primarySendsSms = primarySendsSms;
+    this.#searchConversation = searchConversation;
+    this.#searchConversationName = searchConversationName;
+    this.#searchDisabled = searchDisabled;
+    this.#searchTerm = searchTerm;
+    this.#startSearchCounter = startSearchCounter;
+    this.#filterByUnread = filterByUnread;
   }
 
   override getSearchInput({
@@ -135,17 +122,17 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
         clearSearchQuery={clearSearchQuery}
         endConversationSearch={endConversationSearch}
         endSearch={endSearch}
-        disabled={this.searchDisabled}
+        disabled={this.#searchDisabled}
         i18n={i18n}
-        isSearchingGlobally={this.isSearchingGlobally}
-        onEnterKeyDown={this.onEnterKeyDown}
-        searchConversation={this.searchConversation}
-        searchTerm={this.searchTerm}
+        isSearchingGlobally={this.#isSearchingGlobally}
+        onEnterKeyDown={this.#onEnterKeyDown}
+        searchConversation={this.#searchConversation}
+        searchTerm={this.#searchTerm}
         showConversation={showConversation}
-        startSearchCounter={this.startSearchCounter}
+        startSearchCounter={this.#startSearchCounter}
         updateSearchTerm={updateSearchTerm}
-        filterButtonEnabled={!this.searchConversation}
-        filterPressed={this.filterByUnread}
+        filterButtonEnabled={!this.#searchConversation}
+        filterPressed={this.#filterByUnread}
         onFilterClick={updateFilterByUnread}
       />
     );
@@ -156,7 +143,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }: Readonly<{
     i18n: LocalizerType;
   }>): ReactChild | null {
-    const mightHaveSearchResults = this.allResults().some(
+    const mightHaveSearchResults = this.#allResults().some(
       searchResult => searchResult.isLoading || searchResult.results.length
     );
 
@@ -164,7 +151,9 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       return null;
     }
 
-    const { searchConversationName, primarySendsSms, searchTerm } = this;
+    const searchTerm = this.#searchTerm;
+    const primarySendsSms = this.#primarySendsSms;
+    const searchConversationName = this.#searchConversationName;
 
     let noResults: ReactChild;
     if (searchConversationName) {
@@ -182,11 +171,11 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       );
     } else {
       let noResultsMessage: string;
-      if (this.filterByUnread && this.searchTerm.length > 0) {
+      if (this.#filterByUnread && this.#searchTerm.length > 0) {
         noResultsMessage = i18n('icu:noSearchResultsWithUnreadFilter', {
           searchTerm,
         });
-      } else if (this.filterByUnread) {
+      } else if (this.#filterByUnread) {
         noResultsMessage = i18n('icu:noSearchResultsOnlyUnreadFilter');
       } else {
         noResultsMessage = i18n('icu:noSearchResults', {
@@ -195,7 +184,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       }
       noResults = (
         <>
-          {this.filterByUnread && (
+          {this.#filterByUnread && (
             <div
               className="module-conversation-list__item--header module-left-pane__no-search-results__unread-header"
               aria-label={i18n('icu:conversationsUnreadHeader')}
@@ -218,7 +207,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
         // We need this for Ctrl-T shortcut cycling through parts of app
         tabIndex={-1}
         className={
-          this.filterByUnread
+          this.#filterByUnread
             ? 'module-left-pane__no-search-results--withHeader'
             : 'module-left-pane__no-search-results'
         }
@@ -230,19 +219,19 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }
 
   getRowCount(): number {
-    if (this.isLoading()) {
+    if (this.#isLoading()) {
       // 1 for the header.
       return 1 + SEARCH_RESULTS_FAKE_ROW_COUNT;
     }
 
-    let count = this.allResults().reduce(
+    let count = this.#allResults().reduce(
       (result: number, searchResults) =>
         result + getRowCountForLoadedSearchResults(searchResults),
       0
     );
 
     // The clear unread filter button adds an extra row
-    if (this.filterByUnread) {
+    if (this.#filterByUnread) {
       count += 1;
     }
 
@@ -257,9 +246,11 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }
 
   getRow(rowIndex: number): undefined | Row {
-    const { conversationResults, contactResults, messageResults } = this;
+    const messageResults = this.#messageResults;
+    const contactResults = this.#contactResults;
+    const conversationResults = this.#conversationResults;
 
-    if (this.isLoading()) {
+    if (this.#isLoading()) {
       if (rowIndex === 0) {
         return { type: RowType.SearchResultsLoadingFakeHeader };
       }
@@ -273,7 +264,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       getRowCountForLoadedSearchResults(conversationResults);
     const contactRowCount = getRowCountForLoadedSearchResults(contactResults);
     const messageRowCount = getRowCountForLoadedSearchResults(messageResults);
-    const clearFilterButtonRowCount = this.filterByUnread ? 1 : 0;
+    const clearFilterButtonRowCount = this.#filterByUnread ? 1 : 0;
 
     let rowOffset = 0;
 
@@ -283,7 +274,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
         return {
           type: RowType.Header,
           getHeaderText: i18n =>
-            this.filterByUnread
+            this.#filterByUnread
               ? i18n('icu:conversationsUnreadHeader')
               : i18n('icu:conversationsHeader'),
         };
@@ -350,7 +341,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     if (rowIndex < rowOffset) {
       return {
         type: RowType.ClearFilterButton,
-        isOnNoResultsPage: this.allResults().every(
+        isOnNoResultsPage: this.#allResults().every(
           searchResult =>
             searchResult.isLoading || searchResult.results.length === 0
         ),
@@ -361,24 +352,30 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }
 
   override isScrollable(): boolean {
-    return !this.isLoading();
+    return !this.#isLoading();
   }
 
   shouldRecomputeRowHeights(old: Readonly<LeftPaneSearchPropsType>): boolean {
     const oldSearchPaneHelper = new LeftPaneSearchHelper(old);
-    const oldIsLoading = oldSearchPaneHelper.isLoading();
-    const newIsLoading = this.isLoading();
+    const oldIsLoading = oldSearchPaneHelper.#isLoading();
+    const newIsLoading = this.#isLoading();
     if (oldIsLoading && newIsLoading) {
       return false;
     }
     if (oldIsLoading !== newIsLoading) {
       return true;
     }
-    return searchResultKeys.some(
-      key =>
-        getRowCountForLoadedSearchResults(old[key]) !==
-        getRowCountForLoadedSearchResults(this[key])
-    );
+    const searchResultsByKey = [
+      { current: this.#conversationResults, prev: old.conversationResults },
+      { current: this.#contactResults, prev: old.contactResults },
+      { current: this.#messageResults, prev: old.messageResults },
+    ];
+    return searchResultsByKey.some(item => {
+      return (
+        getRowCountForLoadedSearchResults(item.prev) !==
+        getRowCountForLoadedSearchResults(item.current)
+      );
+    });
   }
 
   getConversationAndMessageAtIndex(
@@ -388,7 +385,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       return undefined;
     }
     let pointer = conversationIndex;
-    for (const list of this.allResults()) {
+    for (const list of this.#allResults()) {
       if (list.isLoading) {
         continue;
       }
@@ -426,25 +423,29 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     handleKeydownForSearch(event, options);
   }
 
-  private allResults() {
-    return [this.conversationResults, this.contactResults, this.messageResults];
+  #allResults() {
+    return [
+      this.#conversationResults,
+      this.#contactResults,
+      this.#messageResults,
+    ];
   }
 
-  private isLoading(): boolean {
-    return this.allResults().some(results => results.isLoading);
+  #isLoading(): boolean {
+    return this.#allResults().some(results => results.isLoading);
   }
 
-  private onEnterKeyDown(
+  #onEnterKeyDown = (
     clearSearchQuery: () => unknown,
     showConversation: ShowConversationType
-  ): void {
+  ): void => {
     const conversation = this.getConversationAndMessageAtIndex(0);
     if (!conversation) {
       return;
     }
     showConversation(conversation);
     clearSearchQuery();
-  }
+  };
 }
 
 function getRowCountForLoadedSearchResults(

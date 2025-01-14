@@ -53,15 +53,15 @@ async function eraseTapToViewMessages() {
 }
 
 class TapToViewMessagesDeletionService {
-  public update: typeof this.checkTapToViewMessages;
+  public update: () => Promise<void>;
 
-  private timeout?: ReturnType<typeof setTimeout>;
+  #timeout?: ReturnType<typeof setTimeout>;
 
   constructor() {
-    this.update = debounce(this.checkTapToViewMessages, 1000);
+    this.update = debounce(this.#checkTapToViewMessages, 1000);
   }
 
-  private async checkTapToViewMessages() {
+  async #checkTapToViewMessages() {
     const receivedAtMsForOldestTapToViewMessage =
       await DataReader.getNextTapToViewMessageTimestampToAgeOut();
     if (!receivedAtMsForOldestTapToViewMessage) {
@@ -87,8 +87,8 @@ class TapToViewMessagesDeletionService {
       wait = 2147483647;
     }
 
-    clearTimeoutIfNecessary(this.timeout);
-    this.timeout = setTimeout(async () => {
+    clearTimeoutIfNecessary(this.#timeout);
+    this.#timeout = setTimeout(async () => {
       await eraseTapToViewMessages();
       void this.update();
     }, wait);

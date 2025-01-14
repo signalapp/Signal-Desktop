@@ -77,14 +77,12 @@ export type ActiveJobData<CoreJobType> = {
 };
 
 export abstract class JobManager<CoreJobType> {
-  private enabled: boolean = false;
-  private activeJobs: Map<string, ActiveJobData<CoreJobType>> = new Map();
-  private jobStartPromises: Map<string, ExplodePromiseResultType<void>> =
-    new Map();
-  private jobCompletePromises: Map<string, ExplodePromiseResultType<void>> =
-    new Map();
-  private tickTimeout: NodeJS.Timeout | null = null;
-  private idleCallbacks = new Array<() => void>();
+  #enabled: boolean = false;
+  #activeJobs: Map<string, ActiveJobData<CoreJobType>> = new Map();
+  #jobStartPromises: Map<string, ExplodePromiseResultType<void>> = new Map();
+  #jobCompletePromises: Map<string, ExplodePromiseResultType<void>> = new Map();
+  #tickTimeout: NodeJS.Timeout | null = null;
+  #idleCallbacks = new Array<() => void>();
 
   protected logPrefix = 'JobManager';
   public tickInterval = DEFAULT_TICK_INTERVAL;
@@ -92,25 +90,25 @@ export abstract class JobManager<CoreJobType> {
 
   async start(): Promise<void> {
     log.info(`${this.logPrefix}: starting`);
-    if (!this.enabled) {
-      this.enabled = true;
+    if (!this.#enabled) {
+      this.#enabled = true;
       await this.params.markAllJobsInactive();
     }
     await this.maybeStartJobs();
-    this.tick();
+    this.#tick();
   }
 
   async stop(): Promise<void> {
-    const activeJobs = [...this.activeJobs.values()];
+    const activeJobs = [...this.#activeJobs.values()];
 
     log.info(
       `${this.logPrefix}: stopping. There are ` +
         `${activeJobs.length} active job(s)`
     );
 
-    this.enabled = false;
-    clearTimeoutIfNecessary(this.tickTimeout);
-    this.tickTimeout = null;
+    this.#enabled = false;
+    clearTimeoutIfNecessary(this.#tickTimeout);
+    this.#tickTimeout = null;
     await Promise.all(
       activeJobs.map(async ({ abortController, completionPromise }) => {
         abortController.abort();
@@ -120,26 +118,26 @@ export abstract class JobManager<CoreJobType> {
   }
 
   async waitForIdle(): Promise<void> {
-    if (this.activeJobs.size === 0) {
+    if (this.#activeJobs.size === 0) {
       return;
     }
 
-    await new Promise<void>(resolve => this.idleCallbacks.push(resolve));
+    await new Promise<void>(resolve => this.#idleCallbacks.push(resolve));
   }
 
-  private tick(): void {
-    clearTimeoutIfNecessary(this.tickTimeout);
-    this.tickTimeout = null;
+  #tick(): void {
+    clearTimeoutIfNecessary(this.#tickTimeout);
+    this.#tickTimeout = null;
     drop(this.maybeStartJobs());
-    this.tickTimeout = setTimeout(() => this.tick(), this.tickInterval);
+    this.#tickTimeout = setTimeout(() => this.#tick(), this.tickInterval);
   }
 
-  private pauseForDuration(durationMs: number): void {
-    this.enabled = false;
-    clearTimeoutIfNecessary(this.tickTimeout);
-    this.tickTimeout = setTimeout(() => {
-      this.enabled = true;
-      this.tick();
+  #pauseForDuration(durationMs: number): void {
+    this.#enabled = false;
+    clearTimeoutIfNecessary(this.#tickTimeout);
+    this.#tickTimeout = setTimeout(() => {
+      this.#enabled = true;
+      this.#tick();
     }, durationMs);
   }
 
@@ -147,26 +145,26 @@ export abstract class JobManager<CoreJobType> {
   waitForJobToBeStarted(
     job: CoreJobType & Pick<JobManagerJobType, 'attempts'>
   ): Promise<void> {
-    const id = this.getJobIdIncludingAttempts(job);
-    const existingPromise = this.jobStartPromises.get(id)?.promise;
+    const id = this.#getJobIdIncludingAttempts(job);
+    const existingPromise = this.#jobStartPromises.get(id)?.promise;
     if (existingPromise) {
       return existingPromise;
     }
     const { promise, resolve, reject } = explodePromise<void>();
-    this.jobStartPromises.set(id, { promise, resolve, reject });
+    this.#jobStartPromises.set(id, { promise, resolve, reject });
     return promise;
   }
 
   waitForJobToBeCompleted(
     job: CoreJobType & Pick<JobManagerJobType, 'attempts'>
   ): Promise<void> {
-    const id = this.getJobIdIncludingAttempts(job);
-    const existingPromise = this.jobCompletePromises.get(id)?.promise;
+    const id = this.#getJobIdIncludingAttempts(job);
+    const existingPromise = this.#jobCompletePromises.get(id)?.promise;
     if (existingPromise) {
       return existingPromise;
     }
     const { promise, resolve, reject } = explodePromise<void>();
-    this.jobCompletePromises.set(id, { promise, resolve, reject });
+    this.#jobCompletePromises.set(id, { promise, resolve, reject });
     return promise;
   }
 
@@ -188,7 +186,7 @@ export abstract class JobManager<CoreJobType> {
     };
     const logId = this.params.getJobIdForLogging(job);
     try {
-      const runningJob = this.getRunningJob(job);
+      const runningJob = this.#getRunningJob(job);
       if (runningJob) {
         log.info(`${logId}: already running; resetting attempts`);
         runningJob.attempts = 0;
@@ -205,7 +203,7 @@ export abstract class JobManager<CoreJobType> {
       await this.params.saveJob(job, { allowBatching: !options?.forceStart });
 
       if (options?.forceStart) {
-        if (!this.enabled) {
+        if (!this.#enabled) {
           log.warn(
             `${logId}: added but jobManager not enabled, can't start immediately`
           );
@@ -213,7 +211,7 @@ export abstract class JobManager<CoreJobType> {
           log.info(`${logId}: starting job immediately`);
           drop(this.startJob(job));
         }
-      } else if (this.enabled) {
+      } else if (this.#enabled) {
         drop(this.maybeStartJobs());
       }
 
@@ -230,20 +228,21 @@ export abstract class JobManager<CoreJobType> {
   // 3. after a job finishes (via startJob)
   // preventing re-entrancy allow us to simplify some logic and ensure we don't try to
   // start too many jobs
-  private _inMaybeStartJobs = false;
+  #_inMaybeStartJobs = false;
+
   protected async maybeStartJobs(): Promise<void> {
-    if (this._inMaybeStartJobs) {
+    if (this.#_inMaybeStartJobs) {
       return;
     }
 
     try {
-      this._inMaybeStartJobs = true;
-      if (!this.enabled) {
+      this.#_inMaybeStartJobs = true;
+      if (!this.#enabled) {
         log.info(`${this.logPrefix}/_maybeStartJobs: not enabled, returning`);
         return;
       }
 
-      const numJobsToStart = this.getMaximumNumberOfJobsToStart();
+      const numJobsToStart = this.#getMaximumNumberOfJobsToStart();
 
       if (numJobsToStart <= 0) {
         return;
@@ -254,10 +253,10 @@ export abstract class JobManager<CoreJobType> {
         timestamp: Date.now(),
       });
 
-      if (nextJobs.length === 0 && this.activeJobs.size === 0) {
-        if (this.idleCallbacks.length > 0) {
-          const callbacks = this.idleCallbacks;
-          this.idleCallbacks = [];
+      if (nextJobs.length === 0 && this.#activeJobs.size === 0) {
+        if (this.#idleCallbacks.length > 0) {
+          const callbacks = this.#idleCallbacks;
+          this.#idleCallbacks = [];
           for (const callback of callbacks) {
             callback();
           }
@@ -276,7 +275,7 @@ export abstract class JobManager<CoreJobType> {
         drop(this.startJob(job));
       }
     } finally {
-      this._inMaybeStartJobs = false;
+      this.#_inMaybeStartJobs = false;
     }
   }
 
@@ -286,7 +285,7 @@ export abstract class JobManager<CoreJobType> {
     const logId = `${this.logPrefix}/startJob(${this.params.getJobIdForLogging(
       job
     )})`;
-    if (this.isJobRunning(job)) {
+    if (this.#isJobRunning(job)) {
       log.info(`${logId}: job is already running`);
       return;
     }
@@ -298,13 +297,13 @@ export abstract class JobManager<CoreJobType> {
     let jobRunResult: JobManagerJobResultType<CoreJobType> | undefined;
     try {
       log.info(`${logId}: starting job`);
-      const { abortController } = this.addRunningJob(job);
+      const { abortController } = this.#addRunningJob(job);
       await this.params.saveJob({ ...job, active: true });
       const runJobPromise = this.params.runJob(job, {
         abortSignal: abortController.signal,
         isLastAttempt,
       });
-      this.handleJobStartPromises(job);
+      this.#handleJobStartPromises(job);
       jobRunResult = await runJobPromise;
       const { status } = jobRunResult;
       log.info(`${logId}: job completed with status: ${status}`);
@@ -317,14 +316,14 @@ export abstract class JobManager<CoreJobType> {
           if (isLastAttempt) {
             throw new Error('Cannot retry on last attempt');
           }
-          await this.retryJobLater(job);
+          await this.#retryJobLater(job);
           return;
         case 'rate-limited':
           log.info(
             `${logId}: rate-limited; retrying in ${jobRunResult.pauseDurationMs}`
           );
-          this.pauseForDuration(jobRunResult.pauseDurationMs);
-          await this.retryJobLater(job);
+          this.#pauseForDuration(jobRunResult.pauseDurationMs);
+          await this.#retryJobLater(job);
           return;
         default:
           throw missingCaseError(status);
@@ -334,10 +333,10 @@ export abstract class JobManager<CoreJobType> {
       if (isLastAttempt) {
         await this.params.removeJob(job);
       } else {
-        await this.retryJobLater(job);
+        await this.#retryJobLater(job);
       }
     } finally {
-      this.removeRunningJob(job);
+      this.#removeRunningJob(job);
       if (jobRunResult?.status === 'finished') {
         if (jobRunResult.newJob) {
           log.info(
@@ -350,7 +349,7 @@ export abstract class JobManager<CoreJobType> {
     }
   }
 
-  private async retryJobLater(job: CoreJobType & JobManagerJobType) {
+  async #retryJobLater(job: CoreJobType & JobManagerJobType) {
     const now = Date.now();
     await this.params.saveJob({
       ...job,
@@ -366,43 +365,43 @@ export abstract class JobManager<CoreJobType> {
     });
   }
 
-  private getActiveJobCount(): number {
-    return this.activeJobs.size;
+  #getActiveJobCount(): number {
+    return this.#activeJobs.size;
   }
 
-  private getMaximumNumberOfJobsToStart(): number {
+  #getMaximumNumberOfJobsToStart(): number {
     return Math.max(
       0,
-      this.params.maxConcurrentJobs - this.getActiveJobCount()
+      this.params.maxConcurrentJobs - this.#getActiveJobCount()
     );
   }
 
-  private getRunningJob(
+  #getRunningJob(
     job: CoreJobType & JobManagerJobType
   ): (CoreJobType & JobManagerJobType) | undefined {
     const id = this.params.getJobId(job);
-    return this.activeJobs.get(id)?.job;
+    return this.#activeJobs.get(id)?.job;
   }
 
-  private isJobRunning(job: CoreJobType & JobManagerJobType): boolean {
-    return Boolean(this.getRunningJob(job));
+  #isJobRunning(job: CoreJobType & JobManagerJobType): boolean {
+    return Boolean(this.#getRunningJob(job));
   }
 
-  private removeRunningJob(job: CoreJobType & JobManagerJobType) {
-    const idWithAttempts = this.getJobIdIncludingAttempts(job);
-    this.jobCompletePromises.get(idWithAttempts)?.resolve();
-    this.jobCompletePromises.delete(idWithAttempts);
+  #removeRunningJob(job: CoreJobType & JobManagerJobType) {
+    const idWithAttempts = this.#getJobIdIncludingAttempts(job);
+    this.#jobCompletePromises.get(idWithAttempts)?.resolve();
+    this.#jobCompletePromises.delete(idWithAttempts);
 
     const id = this.params.getJobId(job);
-    this.activeJobs.get(id)?.completionPromise.resolve();
-    this.activeJobs.delete(id);
+    this.#activeJobs.get(id)?.completionPromise.resolve();
+    this.#activeJobs.delete(id);
   }
 
   public async cancelJobs(
     predicate: (job: CoreJobType & JobManagerJobType) => boolean
   ): Promise<void> {
     const logId = `${this.logPrefix}/cancelJobs`;
-    const jobs = Array.from(this.activeJobs.values()).filter(data =>
+    const jobs = Array.from(this.#activeJobs.values()).filter(data =>
       predicate(data.job)
     );
 
@@ -419,15 +418,15 @@ export abstract class JobManager<CoreJobType> {
 
         // First tell those waiting for the job that it's not happening
         const rejectionError = new Error('Cancelled at JobManager.cancelJobs');
-        const idWithAttempts = this.getJobIdIncludingAttempts(job);
-        this.jobCompletePromises.get(idWithAttempts)?.reject(rejectionError);
-        this.jobCompletePromises.delete(idWithAttempts);
+        const idWithAttempts = this.#getJobIdIncludingAttempts(job);
+        this.#jobCompletePromises.get(idWithAttempts)?.reject(rejectionError);
+        this.#jobCompletePromises.delete(idWithAttempts);
 
         // Give the job 1 second to cancel itself
         await Promise.race([completionPromise.promise, sleep(SECOND)]);
 
         const jobId = this.params.getJobId(job);
-        const hasCompleted = Boolean(this.activeJobs.get(jobId));
+        const hasCompleted = Boolean(this.#activeJobs.get(jobId));
 
         if (!hasCompleted) {
           const jobIdForLogging = this.params.getJobIdForLogging(job);
@@ -435,7 +434,7 @@ export abstract class JobManager<CoreJobType> {
             `${logId}: job ${jobIdForLogging} didn't complete; rejecting promises`
           );
           completionPromise.reject(rejectionError);
-          this.activeJobs.delete(jobId);
+          this.#activeJobs.delete(jobId);
         }
 
         await this.params.removeJob(job);
@@ -445,10 +444,10 @@ export abstract class JobManager<CoreJobType> {
     log.warn(`${logId}: Successfully cancelled ${jobs.length} jobs`);
   }
 
-  private addRunningJob(
+  #addRunningJob(
     job: CoreJobType & JobManagerJobType
   ): ActiveJobData<CoreJobType> {
-    if (this.isJobRunning(job)) {
+    if (this.#isJobRunning(job)) {
       const jobIdForLogging = this.params.getJobIdForLogging(job);
       log.warn(
         `${this.logPrefix}/addRunningJob: job ${jobIdForLogging} is already running`
@@ -460,18 +459,18 @@ export abstract class JobManager<CoreJobType> {
       abortController: new AbortController(),
       job,
     };
-    this.activeJobs.set(this.params.getJobId(job), activeJob);
+    this.#activeJobs.set(this.params.getJobId(job), activeJob);
 
     return activeJob;
   }
 
-  private handleJobStartPromises(job: CoreJobType & JobManagerJobType) {
-    const id = this.getJobIdIncludingAttempts(job);
-    this.jobStartPromises.get(id)?.resolve();
-    this.jobStartPromises.delete(id);
+  #handleJobStartPromises(job: CoreJobType & JobManagerJobType) {
+    const id = this.#getJobIdIncludingAttempts(job);
+    this.#jobStartPromises.get(id)?.resolve();
+    this.#jobStartPromises.delete(id);
   }
 
-  private getJobIdIncludingAttempts(
+  #getJobIdIncludingAttempts(
     job: CoreJobType & Pick<JobManagerJobType, 'attempts'>
   ) {
     return `${this.params.getJobId(job)}.${job.attempts}`;

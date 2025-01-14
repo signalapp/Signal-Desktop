@@ -34,29 +34,24 @@ export type LeftPaneArchivePropsType =
   | (LeftPaneArchiveBasePropsType & LeftPaneSearchPropsType);
 
 export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsType> {
-  private readonly archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
-
-  private readonly isSearchingGlobally: boolean;
-
-  private readonly searchConversation: undefined | ConversationType;
-
-  private readonly searchTerm: string;
-
-  private readonly searchHelper: undefined | LeftPaneSearchHelper;
-
-  private readonly startSearchCounter: number;
+  readonly #archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
+  readonly #isSearchingGlobally: boolean;
+  readonly #searchConversation: undefined | ConversationType;
+  readonly #searchTerm: string;
+  readonly #searchHelper: undefined | LeftPaneSearchHelper;
+  readonly #startSearchCounter: number;
 
   constructor(props: Readonly<LeftPaneArchivePropsType>) {
     super();
 
-    this.archivedConversations = props.archivedConversations;
-    this.isSearchingGlobally = props.isSearchingGlobally;
-    this.searchConversation = props.searchConversation;
-    this.searchTerm = props.searchTerm;
-    this.startSearchCounter = props.startSearchCounter;
+    this.#archivedConversations = props.archivedConversations;
+    this.#isSearchingGlobally = props.isSearchingGlobally;
+    this.#searchConversation = props.searchConversation;
+    this.#searchTerm = props.searchTerm;
+    this.#startSearchCounter = props.startSearchCounter;
 
     if ('conversationResults' in props) {
-      this.searchHelper = new LeftPaneSearchHelper(props);
+      this.#searchHelper = new LeftPaneSearchHelper(props);
     }
   }
 
@@ -100,7 +95,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     updateSearchTerm: (searchTerm: string) => unknown;
     showConversation: ShowConversationType;
   }>): ReactChild | null {
-    if (!this.searchConversation) {
+    if (!this.#searchConversation) {
       return null;
     }
 
@@ -111,11 +106,11 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
         endConversationSearch={endConversationSearch}
         endSearch={endSearch}
         i18n={i18n}
-        isSearchingGlobally={this.isSearchingGlobally}
-        searchConversation={this.searchConversation}
-        searchTerm={this.searchTerm}
+        isSearchingGlobally={this.#isSearchingGlobally}
+        searchConversation={this.#searchConversation}
+        searchTerm={this.#searchTerm}
         showConversation={showConversation}
-        startSearchCounter={this.startSearchCounter}
+        startSearchCounter={this.#startSearchCounter}
         updateSearchTerm={updateSearchTerm}
       />
     );
@@ -128,8 +123,8 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   override getPreRowsNode({
     i18n,
   }: Readonly<{ i18n: LocalizerType }>): ReactChild | null {
-    if (this.searchHelper) {
-      return this.searchHelper.getPreRowsNode({ i18n });
+    if (this.#searchHelper) {
+      return this.#searchHelper.getPreRowsNode({ i18n });
     }
 
     return (
@@ -143,16 +138,16 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
 
   getRowCount(): number {
     return (
-      this.searchHelper?.getRowCount() ?? this.archivedConversations.length
+      this.#searchHelper?.getRowCount() ?? this.#archivedConversations.length
     );
   }
 
   getRow(rowIndex: number): undefined | Row {
-    if (this.searchHelper) {
-      return this.searchHelper.getRow(rowIndex);
+    if (this.#searchHelper) {
+      return this.#searchHelper.getRow(rowIndex);
     }
 
-    const conversation = this.archivedConversations[rowIndex];
+    const conversation = this.#archivedConversations[rowIndex];
     return conversation
       ? {
           type: RowType.Conversation,
@@ -164,14 +159,14 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   override getRowIndexToScrollTo(
     selectedConversationId: undefined | string
   ): undefined | number {
-    if (this.searchHelper) {
-      return this.searchHelper.getRowIndexToScrollTo(selectedConversationId);
+    if (this.#searchHelper) {
+      return this.#searchHelper.getRowIndexToScrollTo(selectedConversationId);
     }
 
     if (!selectedConversationId) {
       return undefined;
     }
-    const result = this.archivedConversations.findIndex(
+    const result = this.#archivedConversations.findIndex(
       conversation => conversation.id === selectedConversationId
     );
     return result === -1 ? undefined : result;
@@ -180,7 +175,8 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   getConversationAndMessageAtIndex(
     conversationIndex: number
   ): undefined | { conversationId: string } {
-    const { archivedConversations, searchHelper } = this;
+    const searchHelper = this.#searchHelper;
+    const archivedConversations = this.#archivedConversations;
 
     if (searchHelper) {
       return searchHelper.getConversationAndMessageAtIndex(conversationIndex);
@@ -196,8 +192,8 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     selectedConversationId: undefined | string,
     targetedMessageId: unknown
   ): undefined | { conversationId: string } {
-    if (this.searchHelper) {
-      return this.searchHelper.getConversationAndMessageInDirection(
+    if (this.#searchHelper) {
+      return this.#searchHelper.getConversationAndMessageInDirection(
         toFind,
         selectedConversationId,
         targetedMessageId
@@ -205,7 +201,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     }
 
     return getConversationInDirection(
-      this.archivedConversations,
+      this.#archivedConversations,
       toFind,
       selectedConversationId
     );
@@ -213,13 +209,13 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
 
   shouldRecomputeRowHeights(old: Readonly<LeftPaneArchivePropsType>): boolean {
     const hasSearchingChanged =
-      'conversationResults' in old !== Boolean(this.searchHelper);
+      'conversationResults' in old !== Boolean(this.#searchHelper);
     if (hasSearchingChanged) {
       return true;
     }
 
-    if ('conversationResults' in old && this.searchHelper) {
-      return this.searchHelper.shouldRecomputeRowHeights(old);
+    if ('conversationResults' in old && this.#searchHelper) {
+      return this.#searchHelper.shouldRecomputeRowHeights(old);
     }
 
     return false;
@@ -251,7 +247,9 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
       !commandAndCtrl &&
       shiftKey &&
       (key === 'f' || key === 'F') &&
-      this.archivedConversations.some(({ id }) => id === selectedConversationId)
+      this.#archivedConversations.some(
+        ({ id }) => id === selectedConversationId
+      )
     ) {
       searchInConversation(selectedConversationId);
 

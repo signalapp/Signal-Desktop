@@ -8,13 +8,13 @@ import { waitForOnline } from '../util/waitForOnline';
 
 // This is only exported for testing.
 export class AreWeASubscriberService {
-  private readonly queue = new LatestQueue();
+  readonly #queue = new LatestQueue();
 
   update(
     storage: Pick<StorageInterface, 'get' | 'put' | 'onready'>,
     server: Pick<WebAPIType, 'getHasSubscription' | 'isOnline'>
   ): void {
-    this.queue.add(async () => {
+    this.#queue.add(async () => {
       await new Promise<void>(resolve => storage.onready(resolve));
 
       const subscriberId = storage.get('subscriberId');

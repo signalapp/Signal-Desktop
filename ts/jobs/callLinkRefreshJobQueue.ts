@@ -45,18 +45,17 @@ export type CallLinkRefreshJobData = z.infer<
 >;
 
 export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
-  private parallelQueue = new PQueue({ concurrency: MAX_PARALLEL_JOBS });
-
-  private readonly pendingCallLinks = new Map<string, PendingCallLinkType>();
+  #parallelQueue = new PQueue({ concurrency: MAX_PARALLEL_JOBS });
+  readonly #pendingCallLinks = new Map<string, PendingCallLinkType>();
 
   protected override getQueues(): ReadonlySet<PQueue> {
-    return new Set([this.parallelQueue]);
+    return new Set([this.#parallelQueue]);
   }
 
   protected override getInMemoryQueue(
     _parsedJob: ParsedJob<CallLinkRefreshJobData>
   ): PQueue {
-    return this.parallelQueue;
+    return this.#parallelQueue;
   }
 
   protected parseData(data: unknown): CallLinkRefreshJobData {
@@ -81,7 +80,7 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
       adminKey,
     } = parsedData ?? {};
     if (storageID && storageVersion && rootKey) {
-      this.pendingCallLinks.set(rootKey, {
+      this.#pendingCallLinks.set(rootKey, {
         rootKey,
         adminKey: adminKey ?? null,
         storageID: storageID ?? undefined,
@@ -94,7 +93,7 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     await super.enqueueStoredJob(storedJob);
 
     if (rootKey) {
-      this.pendingCallLinks.delete(rootKey);
+      this.#pendingCallLinks.delete(rootKey);
     }
   }
 
@@ -102,13 +101,13 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
   // depending on the refresh result, we will create either CallLinks or DefunctCallLinks,
   // and we'll save storageID and version onto those records.
   public getPendingAdminCallLinks(): ReadonlyArray<PendingCallLinkType> {
-    return Array.from(this.pendingCallLinks.values()).filter(
+    return Array.from(this.#pendingCallLinks.values()).filter(
       callLink => callLink.adminKey != null
     );
   }
 
   public hasPendingCallLink(rootKey: string): boolean {
-    return this.pendingCallLinks.has(rootKey);
+    return this.#pendingCallLinks.has(rootKey);
   }
 
   // If a new version of storage is uploaded before we get a chance to refresh the
@@ -118,7 +117,7 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     rootKey: string,
     storageFields: StorageServiceFieldsType
   ): void {
-    const existingStorageFields = this.pendingCallLinks.get(rootKey);
+    const existingStorageFields = this.#pendingCallLinks.get(rootKey);
     if (!existingStorageFields) {
       globalLogger.warn(
         'callLinkRefreshJobQueue.updatePendingCallLinkStorageFields: unknown rootKey'
@@ -126,7 +125,7 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
       return;
     }
 
-    this.pendingCallLinks.set(rootKey, {
+    this.#pendingCallLinks.set(rootKey, {
       ...existingStorageFields,
       ...storageFields,
     });
@@ -136,7 +135,7 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     storageID: string,
     jobData: CallLinkRefreshJobData
   ): StorageServiceFieldsType | undefined {
-    const storageFields = this.pendingCallLinks.get(storageID);
+    const storageFields = this.#pendingCallLinks.get(storageID);
     if (storageFields) {
       return {
         storageID: storageFields.storageID,

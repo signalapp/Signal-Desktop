@@ -17,20 +17,20 @@ export class PreventDisplaySleepService {
     );
 
     if (isEnabled) {
-      this.enable();
+      this.#enable();
     } else {
-      this.disable();
+      this.#disable();
     }
   }
 
-  private enable(): void {
+  #enable(): void {
     if (this.blockerId !== undefined) {
       return;
     }
     this.blockerId = this.powerSaveBlocker.start('prevent-display-sleep');
   }
 
-  private disable(): void {
+  #disable(): void {
     if (this.blockerId === undefined) {
       return;
     }

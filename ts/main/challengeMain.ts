@@ -8,17 +8,17 @@ import * as log from '../logging/log';
 import type { IPCRequest, IPCResponse, ChallengeResponse } from '../challenge';
 
 export class ChallengeMainHandler {
-  private handlers: Array<(response: ChallengeResponse) => void> = [];
+  #handlers: Array<(response: ChallengeResponse) => void> = [];
 
   constructor() {
-    this.initialize();
+    this.#initialize();
   }
 
   public handleCaptcha(captcha: string): void {
     const response: ChallengeResponse = { captcha };
 
-    const { handlers } = this;
-    this.handlers = [];
+    const handlers = this.#handlers;
+    this.#handlers = [];
 
     log.info(
       'challengeMain.handleCaptcha: sending captcha response to ' +
@@ -29,17 +29,14 @@ export class ChallengeMainHandler {
     }
   }
 
-  private async onRequest(
-    event: IpcMainEvent,
-    request: IPCRequest
-  ): Promise<void> {
+  async #onRequest(event: IpcMainEvent, request: IPCRequest): Promise<void> {
     const logId = `challengeMain.onRequest(${request.reason})`;
     log.info(`${logId}: received challenge request, waiting for response`);
 
     const start = Date.now();
 
     const data = await new Promise<ChallengeResponse>(resolve => {
-      this.handlers.push(resolve);
+      this.#handlers.push(resolve);
     });
 
     const duration = Date.now() - start;
@@ -52,9 +49,9 @@ export class ChallengeMainHandler {
     event.sender.send('challenge:response', ipcResponse);
   }
 
-  private initialize(): void {
+  #initialize(): void {
     ipc.on('challenge:request', (event, request) => {
-      void this.onRequest(event, request);
+      void this.#onRequest(event, request);
     });
   }
 }

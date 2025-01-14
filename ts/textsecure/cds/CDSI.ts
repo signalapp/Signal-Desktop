@@ -15,12 +15,12 @@ export type CDSIOptionsType = Readonly<{
   CDSSocketManagerBaseOptionsType;
 
 export class CDSI extends CDSSocketManagerBase<CDSISocket, CDSIOptionsType> {
-  private readonly mrenclave: Buffer;
+  readonly #mrenclave: Buffer;
 
   constructor(libsignalNet: Net.Net, options: CDSIOptionsType) {
     super(libsignalNet, options);
 
-    this.mrenclave = Buffer.from(Bytes.fromHex(options.mrenclave));
+    this.#mrenclave = Buffer.from(Bytes.fromHex(options.mrenclave));
   }
 
   protected override getSocketUrl(): string {
@@ -33,7 +33,7 @@ export class CDSI extends CDSSocketManagerBase<CDSISocket, CDSIOptionsType> {
     return new CDSISocket({
       logger: this.logger,
       socket,
-      mrenclave: this.mrenclave,
+      mrenclave: this.#mrenclave,
     });
   }
 }

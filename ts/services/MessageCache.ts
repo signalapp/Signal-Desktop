@@ -26,7 +26,7 @@ export class MessageCache {
     return instance;
   }
 
-  private state = {
+  #state = {
     messages: new Map<string, MessageModel>(),
     messageIdsBySender: new Map<string, string>(),
     messageIdsBySentAt: new Map<number, Array<string>>(),
@@ -60,14 +60,14 @@ export class MessageCache {
       return existing;
     }
 
-    this.addMessageToCache(message);
+    this.#addMessageToCache(message);
 
     return message;
   }
 
   // Finds a message in the cache by sender identifier
   public findBySender(senderIdentifier: string): MessageModel | undefined {
-    const id = this.state.messageIdsBySender.get(senderIdentifier);
+    const id = this.#state.messageIdsBySender.get(senderIdentifier);
     if (!id) {
       return undefined;
     }
@@ -77,12 +77,12 @@ export class MessageCache {
 
   // Finds a message in the cache by Id
   public getById(id: string): MessageModel | undefined {
-    const message = this.state.messages.get(id);
+    const message = this.#state.messages.get(id);
     if (!message) {
       return undefined;
     }
 
-    this.state.lastAccessedAt.set(id, Date.now());
+    this.#state.lastAccessedAt.set(id, Date.now());
 
     return message;
   }
@@ -92,7 +92,7 @@ export class MessageCache {
     sentAt: number,
     predicate: (model: MessageModel) => boolean
   ): Promise<MessageModel | undefined> {
-    const items = this.state.messageIdsBySentAt.get(sentAt) ?? [];
+    const items = this.#state.messageIdsBySentAt.get(sentAt) ?? [];
     const inMemory = items
       .map(id => this.getById(id))
       .filter(isNotNil)
@@ -113,12 +113,12 @@ export class MessageCache {
 
   // Deletes the message from our cache
   public unregister(id: string): void {
-    const message = this.state.messages.get(id);
+    const message = this.#state.messages.get(id);
     if (!message) {
       return;
     }
 
-    this.removeMessage(id);
+    this.#removeMessage(id);
   }
 
   // Evicts messages from the message cache if they have not been accessed past
@@ -126,8 +126,8 @@ export class MessageCache {
   public deleteExpiredMessages(expiryTime: number): void {
     const now = Date.now();
 
-    for (const [messageId, message] of this.state.messages) {
-      const timeLastAccessed = this.state.lastAccessedAt.get(messageId) ?? 0;
+    for (const [messageId, message] of this.#state.messages) {
+      const timeLastAccessed = this.#state.lastAccessedAt.get(messageId) ?? 0;
       const conversation = getMessageConversation(message.attributes);
 
       const state = window.reduxStore.getState();
@@ -177,7 +177,7 @@ export class MessageCache {
       };
     };
 
-    for (const [, message] of this.state.messages) {
+    for (const [, message] of this.#state.messages) {
       if (message.get('conversationId') !== obsoleteId) {
         continue;
       }
@@ -213,12 +213,12 @@ export class MessageCache {
       return;
     }
 
-    this.state.messageIdsBySender.delete(
+    this.#state.messageIdsBySender.delete(
       getSenderIdentifier(message.attributes)
     );
 
     const { id, sent_at: sentAt } = message.attributes;
-    const previousIdsBySentAt = this.state.messageIdsBySentAt.get(sentAt);
+    const previousIdsBySentAt = this.#state.messageIdsBySentAt.get(sentAt);
 
     let nextIdsBySentAtSet: Set<string>;
     if (previousIdsBySentAt) {
@@ -228,29 +228,29 @@ export class MessageCache {
       nextIdsBySentAtSet = new Set([id]);
     }
 
-    this.state.lastAccessedAt.set(id, Date.now());
-    this.state.messageIdsBySender.set(
+    this.#state.lastAccessedAt.set(id, Date.now());
+    this.#state.messageIdsBySender.set(
       getSenderIdentifier(message.attributes),
       id
     );
 
-    this.throttledUpdateRedux(message.attributes);
+    this.#throttledUpdateRedux(message.attributes);
   }
 
   // Helpers
 
-  private addMessageToCache(message: MessageModel): void {
+  #addMessageToCache(message: MessageModel): void {
     if (!message.id) {
       return;
     }
 
-    if (this.state.messages.has(message.id)) {
-      this.state.lastAccessedAt.set(message.id, Date.now());
+    if (this.#state.messages.has(message.id)) {
+      this.#state.lastAccessedAt.set(message.id, Date.now());
       return;
     }
 
     const { id, sent_at: sentAt } = message.attributes;
-    const previousIdsBySentAt = this.state.messageIdsBySentAt.get(sentAt);
+    const previousIdsBySentAt = this.#state.messageIdsBySentAt.get(sentAt);
 
     let nextIdsBySentAtSet: Set<string>;
     if (previousIdsBySentAt) {
@@ -260,41 +260,44 @@ export class MessageCache {
       nextIdsBySentAtSet = new Set([id]);
     }
 
-    this.state.messages.set(message.id, message);
-    this.state.lastAccessedAt.set(message.id, Date.now());
-    this.state.messageIdsBySentAt.set(sentAt, Array.from(nextIdsBySentAtSet));
-    this.state.messageIdsBySender.set(
+    this.#state.messages.set(message.id, message);
+    this.#state.lastAccessedAt.set(message.id, Date.now());
+    this.#state.messageIdsBySentAt.set(sentAt, Array.from(nextIdsBySentAtSet));
+    this.#state.messageIdsBySender.set(
       getSenderIdentifier(message.attributes),
       id
     );
   }
 
-  private removeMessage(messageId: string): void {
-    const message = this.state.messages.get(messageId);
+  #removeMessage(messageId: string): void {
+    const message = this.#state.messages.get(messageId);
     if (!message) {
       return;
     }
 
     const { id, sent_at: sentAt } = message.attributes;
     const nextIdsBySentAtSet =
-      new Set(this.state.messageIdsBySentAt.get(sentAt)) || new Set();
+      new Set(this.#state.messageIdsBySentAt.get(sentAt)) || new Set();
 
     nextIdsBySentAtSet.delete(id);
 
     if (nextIdsBySentAtSet.size) {
-      this.state.messageIdsBySentAt.set(sentAt, Array.from(nextIdsBySentAtSet));
+      this.#state.messageIdsBySentAt.set(
+        sentAt,
+        Array.from(nextIdsBySentAtSet)
+      );
     } else {
-      this.state.messageIdsBySentAt.delete(sentAt);
+      this.#state.messageIdsBySentAt.delete(sentAt);
     }
 
-    this.state.messages.delete(messageId);
-    this.state.lastAccessedAt.delete(messageId);
-    this.state.messageIdsBySender.delete(
+    this.#state.messages.delete(messageId);
+    this.#state.lastAccessedAt.delete(messageId);
+    this.#state.messageIdsBySender.delete(
       getSenderIdentifier(message.attributes)
     );
   }
 
-  private updateRedux(attributes: MessageAttributesType) {
+  #updateRedux(attributes: MessageAttributesType) {
     if (!window.reduxActions) {
       return;
     }
@@ -320,21 +323,21 @@ export class MessageCache {
     );
   }
 
-  private throttledReduxUpdaters = new LRUCache<
+  #throttledReduxUpdaters = new LRUCache<
     string,
-    typeof this.updateRedux
+    (attributes: MessageAttributesType) => void
   >({
     max: MAX_THROTTLED_REDUX_UPDATERS,
   });
 
-  private throttledUpdateRedux(attributes: MessageAttributesType) {
-    let updater = this.throttledReduxUpdaters.get(attributes.id);
+  #throttledUpdateRedux(attributes: MessageAttributesType) {
+    let updater = this.#throttledReduxUpdaters.get(attributes.id);
     if (!updater) {
-      updater = throttle(this.updateRedux.bind(this), 200, {
+      updater = throttle(this.#updateRedux.bind(this), 200, {
         leading: true,
         trailing: true,
       });
-      this.throttledReduxUpdaters.set(attributes.id, updater);
+      this.#throttledReduxUpdaters.set(attributes.id, updater);
     }
 
     updater(attributes);

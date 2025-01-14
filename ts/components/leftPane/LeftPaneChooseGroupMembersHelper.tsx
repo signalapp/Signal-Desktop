@@ -42,31 +42,19 @@ export type LeftPaneChooseGroupMembersPropsType = {
 };
 
 export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneChooseGroupMembersPropsType> {
-  private readonly candidateContacts: ReadonlyArray<ConversationType>;
-
-  private readonly isPhoneNumberChecked: boolean;
-
-  private readonly isUsernameChecked: boolean;
-
-  private readonly isShowingMaximumGroupSizeModal: boolean;
-
-  private readonly isShowingRecommendedGroupSizeModal: boolean;
-
-  private readonly groupSizeRecommendedLimit: number;
-
-  private readonly groupSizeHardLimit: number;
-
-  private readonly searchTerm: string;
-
-  private readonly phoneNumber: ParsedE164Type | undefined;
-
-  private readonly username: string | undefined;
-
-  private readonly selectedContacts: Array<ConversationType>;
-
-  private readonly selectedConversationIdsSet: Set<string>;
-
-  private readonly uuidFetchState: UUIDFetchStateType;
+  readonly #candidateContacts: ReadonlyArray<ConversationType>;
+  readonly #isPhoneNumberChecked: boolean;
+  readonly #isUsernameChecked: boolean;
+  readonly #isShowingMaximumGroupSizeModal: boolean;
+  readonly #isShowingRecommendedGroupSizeModal: boolean;
+  readonly #groupSizeRecommendedLimit: number;
+  readonly #groupSizeHardLimit: number;
+  readonly #searchTerm: string;
+  readonly #phoneNumber: ParsedE164Type | undefined;
+  readonly #username: string | undefined;
+  readonly #selectedContacts: Array<ConversationType>;
+  readonly #selectedConversationIdsSet: Set<string>;
+  readonly #uuidFetchState: UUIDFetchStateType;
 
   constructor({
     candidateContacts,
@@ -84,27 +72,27 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
   }: Readonly<LeftPaneChooseGroupMembersPropsType>) {
     super();
 
-    this.uuidFetchState = uuidFetchState;
-    this.groupSizeRecommendedLimit = groupSizeRecommendedLimit - 1;
-    this.groupSizeHardLimit = groupSizeHardLimit - 1;
+    this.#uuidFetchState = uuidFetchState;
+    this.#groupSizeRecommendedLimit = groupSizeRecommendedLimit - 1;
+    this.#groupSizeHardLimit = groupSizeHardLimit - 1;
 
-    this.candidateContacts = candidateContacts;
-    this.isShowingMaximumGroupSizeModal = isShowingMaximumGroupSizeModal;
-    this.isShowingRecommendedGroupSizeModal =
+    this.#candidateContacts = candidateContacts;
+    this.#isShowingMaximumGroupSizeModal = isShowingMaximumGroupSizeModal;
+    this.#isShowingRecommendedGroupSizeModal =
       isShowingRecommendedGroupSizeModal;
-    this.searchTerm = searchTerm;
+    this.#searchTerm = searchTerm;
 
     const isUsernameVisible =
       username !== undefined &&
       username !== ourUsername &&
-      this.candidateContacts.every(contact => contact.username !== username);
+      this.#candidateContacts.every(contact => contact.username !== username);
 
     if (isUsernameVisible) {
-      this.username = username;
+      this.#username = username;
     }
 
-    this.isUsernameChecked = selectedContacts.some(
-      contact => contact.username === this.username
+    this.#isUsernameChecked = selectedContacts.some(
+      contact => contact.username === this.#username
     );
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
@@ -114,22 +102,22 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       phoneNumber
     ) {
       const { e164 } = phoneNumber;
-      this.isPhoneNumberChecked =
+      this.#isPhoneNumberChecked =
         phoneNumber.isValid &&
         selectedContacts.some(contact => contact.e164 === e164);
 
       const isVisible =
         e164 !== ourE164 &&
-        this.candidateContacts.every(contact => contact.e164 !== e164);
+        this.#candidateContacts.every(contact => contact.e164 !== e164);
       if (isVisible) {
-        this.phoneNumber = phoneNumber;
+        this.#phoneNumber = phoneNumber;
       }
     } else {
-      this.isPhoneNumberChecked = false;
+      this.#isPhoneNumberChecked = false;
     }
-    this.selectedContacts = selectedContacts;
+    this.#selectedContacts = selectedContacts;
 
-    this.selectedConversationIdsSet = new Set(
+    this.#selectedConversationIdsSet = new Set(
       selectedContacts.map(contact => contact.id)
     );
   }
@@ -183,7 +171,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
         onChange={onChangeComposeSearchTerm}
         placeholder={i18n('icu:contactSearchPlaceholder')}
         ref={focusRef}
-        value={this.searchTerm}
+        value={this.#searchTerm}
       />
     );
   }
@@ -200,20 +188,20 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     removeSelectedContact: (conversationId: string) => unknown;
   }>): ReactChild {
     let modalNode: undefined | ReactChild;
-    if (this.isShowingMaximumGroupSizeModal) {
+    if (this.#isShowingMaximumGroupSizeModal) {
       modalNode = (
         <AddGroupMemberErrorDialog
           i18n={i18n}
-          maximumNumberOfContacts={this.groupSizeHardLimit}
+          maximumNumberOfContacts={this.#groupSizeHardLimit}
           mode={AddGroupMemberErrorDialogMode.MaximumGroupSize}
           onClose={closeMaximumGroupSizeModal}
         />
       );
-    } else if (this.isShowingRecommendedGroupSizeModal) {
+    } else if (this.#isShowingRecommendedGroupSizeModal) {
       modalNode = (
         <AddGroupMemberErrorDialog
           i18n={i18n}
-          recommendedMaximumNumberOfContacts={this.groupSizeRecommendedLimit}
+          recommendedMaximumNumberOfContacts={this.#groupSizeRecommendedLimit}
           mode={AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize}
           onClose={closeRecommendedGroupSizeModal}
         />
@@ -222,9 +210,9 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
 
     return (
       <>
-        {Boolean(this.selectedContacts.length) && (
+        {Boolean(this.#selectedContacts.length) && (
           <ContactPills>
-            {this.selectedContacts.map(contact => (
+            {this.#selectedContacts.map(contact => (
               <ContactPill
                 key={contact.id}
                 acceptedMessageRequest={contact.acceptedMessageRequest}
@@ -264,10 +252,10 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
   }>): ReactChild {
     return (
       <Button
-        disabled={this.hasExceededMaximumNumberOfContacts()}
+        disabled={this.#hasExceededMaximumNumberOfContacts()}
         onClick={startSettingGroupMetadata}
       >
-        {this.selectedContacts.length
+        {this.#selectedContacts.length
           ? i18n('icu:chooseGroupMembers__next')
           : i18n('icu:chooseGroupMembers__skip')}
       </Button>
@@ -278,18 +266,18 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     let rowCount = 0;
 
     // Header + Phone Number
-    if (this.phoneNumber) {
+    if (this.#phoneNumber) {
       rowCount += 2;
     }
 
     // Header + Username
-    if (this.username) {
+    if (this.#username) {
       rowCount += 2;
     }
 
     // Header + Contacts
-    if (this.candidateContacts.length) {
-      rowCount += 1 + this.candidateContacts.length;
+    if (this.#candidateContacts.length) {
+      rowCount += 1 + this.#candidateContacts.length;
     }
 
     // Footer
@@ -301,7 +289,11 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
   }
 
   getRow(actualRowIndex: number): undefined | Row {
-    if (!this.candidateContacts.length && !this.phoneNumber && !this.username) {
+    if (
+      !this.#candidateContacts.length &&
+      !this.#phoneNumber &&
+      !this.#username
+    ) {
       return undefined;
     }
 
@@ -314,7 +306,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
 
     let virtualRowIndex = actualRowIndex;
 
-    if (this.candidateContacts.length) {
+    if (this.#candidateContacts.length) {
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
@@ -322,12 +314,12 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
         };
       }
 
-      if (virtualRowIndex <= this.candidateContacts.length) {
-        const contact = this.candidateContacts[virtualRowIndex - 1];
+      if (virtualRowIndex <= this.#candidateContacts.length) {
+        const contact = this.#candidateContacts[virtualRowIndex - 1];
 
-        const isChecked = this.selectedConversationIdsSet.has(contact.id);
+        const isChecked = this.#selectedConversationIdsSet.has(contact.id);
         const disabledReason =
-          !isChecked && this.hasSelectedMaximumNumberOfContacts()
+          !isChecked && this.#hasSelectedMaximumNumberOfContacts()
             ? ContactCheckboxDisabledReason.MaximumContactsSelected
             : undefined;
 
@@ -339,10 +331,10 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
         };
       }
 
-      virtualRowIndex -= 1 + this.candidateContacts.length;
+      virtualRowIndex -= 1 + this.#candidateContacts.length;
     }
 
-    if (this.phoneNumber) {
+    if (this.#phoneNumber) {
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
@@ -352,18 +344,18 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 1) {
         return {
           type: RowType.PhoneNumberCheckbox,
-          isChecked: this.isPhoneNumberChecked,
+          isChecked: this.#isPhoneNumberChecked,
           isFetching: isFetchingByE164(
-            this.uuidFetchState,
-            this.phoneNumber.e164
+            this.#uuidFetchState,
+            this.#phoneNumber.e164
           ),
-          phoneNumber: this.phoneNumber,
+          phoneNumber: this.#phoneNumber,
         };
       }
       virtualRowIndex -= 2;
     }
 
-    if (this.username) {
+    if (this.#username) {
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
@@ -373,9 +365,12 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 1) {
         return {
           type: RowType.UsernameCheckbox,
-          isChecked: this.isUsernameChecked,
-          isFetching: isFetchingByUsername(this.uuidFetchState, this.username),
-          username: this.username,
+          isChecked: this.#isUsernameChecked,
+          isFetching: isFetchingByUsername(
+            this.#uuidFetchState,
+            this.#username
+          ),
+          username: this.#username,
         };
       }
       virtualRowIndex -= 2;
@@ -402,13 +397,13 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     return false;
   }
 
-  private hasSelectedMaximumNumberOfContacts(): boolean {
-    return this.selectedContacts.length >= this.groupSizeHardLimit;
+  #hasSelectedMaximumNumberOfContacts(): boolean {
+    return this.#selectedContacts.length >= this.#groupSizeHardLimit;
   }
 
-  private hasExceededMaximumNumberOfContacts(): boolean {
+  #hasExceededMaximumNumberOfContacts(): boolean {
     // It should be impossible to reach this state. This is here as a failsafe.
-    return this.selectedContacts.length > this.groupSizeHardLimit;
+    return this.#selectedContacts.length > this.#groupSizeHardLimit;
   }
 }
 

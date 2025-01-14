@@ -123,37 +123,30 @@ export function getChallengeURL(type: 'chat' | 'registration'): string {
 // `ChallengeHandler` should be in memory at the same time because they could
 // overwrite each others storage data.
 export class ChallengeHandler {
-  private solving = 0;
+  #solving = 0;
+  #isLoaded = false;
+  #challengeToken: string | undefined;
+  #seq = 0;
+  #isOnline = false;
+  #challengeRateLimitRetryAt: undefined | number;
+  readonly #responseHandlers = new Map<number, Handler>();
 
-  private isLoaded = false;
-
-  private challengeToken: string | undefined;
-
-  private seq = 0;
-
-  private isOnline = false;
-
-  private challengeRateLimitRetryAt: undefined | number;
-
-  private readonly responseHandlers = new Map<number, Handler>();
-
-  private readonly registeredConversations = new Map<
+  readonly #registeredConversations = new Map<
     string,
     RegisteredChallengeType
   >();
 
-  private readonly startTimers = new Map<string, NodeJS.Timeout>();
-
-  private readonly pendingStarts = new Set<string>();
+  readonly #startTimers = new Map<string, NodeJS.Timeout>();
+  readonly #pendingStarts = new Set<string>();
 
   constructor(private readonly options: Options) {}
 
   public async load(): Promise<void> {
-    if (this.isLoaded) {
+    if (this.#isLoaded) {
       return;
     }
 
-    this.isLoaded = true;
+    this.#isLoaded = true;
     const challenges: ReadonlyArray<RegisteredChallengeType> =
       this.options.storage.get(STORAGE_KEY) || [];
 
@@ -182,39 +175,39 @@ export class ChallengeHandler {
   }
 
   public async onOffline(): Promise<void> {
-    this.isOnline = false;
+    this.#isOnline = false;
 
     log.info('challenge: offline');
   }
 
   public async onOnline(): Promise<void> {
-    this.isOnline = true;
+    this.#isOnline = true;
 
-    const pending = Array.from(this.pendingStarts.values());
-    this.pendingStarts.clear();
+    const pending = Array.from(this.#pendingStarts.values());
+    this.#pendingStarts.clear();
 
     log.info(`challenge: online, starting ${pending.length} queues`);
 
     // Start queues for challenges that matured while we were offline
-    await this.startAllQueues();
+    await this.#startAllQueues();
   }
 
   public maybeSolve({ conversationId, reason }: MaybeSolveOptionsType): void {
-    const challenge = this.registeredConversations.get(conversationId);
+    const challenge = this.#registeredConversations.get(conversationId);
     if (!challenge) {
       return;
     }
 
-    if (this.solving > 0) {
+    if (this.#solving > 0) {
       return;
     }
 
-    if (this.challengeRateLimitRetryAt) {
+    if (this.#challengeRateLimitRetryAt) {
       return;
     }
 
     if (challenge.token) {
-      drop(this.solve({ reason, token: challenge.token }));
+      drop(this.#solve({ reason, token: challenge.token }));
     }
   }
 
@@ -224,18 +217,18 @@ export class ChallengeHandler {
     reason: string
   ): void {
     const waitTime = Math.max(0, retryAt - Date.now());
-    const oldTimer = this.startTimers.get(conversationId);
+    const oldTimer = this.#startTimers.get(conversationId);
     if (oldTimer) {
       clearTimeoutIfNecessary(oldTimer);
     }
-    this.startTimers.set(
+    this.#startTimers.set(
       conversationId,
       setTimeout(() => {
-        this.startTimers.delete(conversationId);
+        this.#startTimers.delete(conversationId);
 
-        this.challengeRateLimitRetryAt = undefined;
+        this.#challengeRateLimitRetryAt = undefined;
 
-        drop(this.startQueue(conversationId));
+        drop(this.#startQueue(conversationId));
       }, waitTime)
     );
     log.info(
@@ -244,14 +237,14 @@ export class ChallengeHandler {
   }
 
   public forceWaitOnAll(retryAt: number): void {
-    this.challengeRateLimitRetryAt = retryAt;
+    this.#challengeRateLimitRetryAt = retryAt;
 
-    for (const conversationId of this.registeredConversations.keys()) {
-      const existing = this.registeredConversations.get(conversationId);
+    for (const conversationId of this.#registeredConversations.keys()) {
+      const existing = this.#registeredConversations.get(conversationId);
       if (!existing) {
         continue;
       }
-      this.registeredConversations.set(conversationId, {
+      this.#registeredConversations.set(conversationId, {
         ...existing,
         retryAt,
       });
@@ -271,20 +264,20 @@ export class ChallengeHandler {
       return;
     }
 
-    this.registeredConversations.set(conversationId, challenge);
-    await this.persist();
+    this.#registeredConversations.set(conversationId, challenge);
+    await this.#persist();
 
     // Challenge is already retryable - start the queue
     if (shouldStartQueue(challenge)) {
       log.info(`${logId}: starting conversation ${conversationId} immediately`);
-      await this.startQueue(conversationId);
+      await this.#startQueue(conversationId);
       return;
     }
 
-    if (this.challengeRateLimitRetryAt) {
+    if (this.#challengeRateLimitRetryAt) {
       this.scheduleRetry(
         conversationId,
-        this.challengeRateLimitRetryAt,
+        this.#challengeRateLimitRetryAt,
         'register-challengeRateLimit'
       );
     } else if (challenge.retryAt) {
@@ -310,17 +303,17 @@ export class ChallengeHandler {
     }
 
     if (!challenge.silent) {
-      drop(this.solve({ token: challenge.token, reason }));
+      drop(this.#solve({ token: challenge.token, reason }));
     }
   }
 
   public onResponse(response: IPCResponse): void {
-    const handler = this.responseHandlers.get(response.seq);
+    const handler = this.#responseHandlers.get(response.seq);
     if (!handler) {
       return;
     }
 
-    this.responseHandlers.delete(response.seq);
+    this.#responseHandlers.delete(response.seq);
     handler.resolve(response.data);
   }
 
@@ -331,72 +324,72 @@ export class ChallengeHandler {
     log.info(
       `challenge: unregistered conversation ${conversationId} via ${source}`
     );
-    this.registeredConversations.delete(conversationId);
-    this.pendingStarts.delete(conversationId);
+    this.#registeredConversations.delete(conversationId);
+    this.#pendingStarts.delete(conversationId);
 
-    const timer = this.startTimers.get(conversationId);
-    this.startTimers.delete(conversationId);
+    const timer = this.#startTimers.get(conversationId);
+    this.#startTimers.delete(conversationId);
     clearTimeoutIfNecessary(timer);
 
-    await this.persist();
+    await this.#persist();
   }
 
   public async requestCaptcha({
     reason,
     token = '',
   }: RequestCaptchaOptionsType): Promise<string> {
-    const request: IPCRequest = { seq: this.seq, reason };
-    this.seq += 1;
+    const request: IPCRequest = { seq: this.#seq, reason };
+    this.#seq += 1;
 
     this.options.requestChallenge(request);
 
     const response = await new Promise<ChallengeResponse>((resolve, reject) => {
-      this.responseHandlers.set(request.seq, { token, resolve, reject });
+      this.#responseHandlers.set(request.seq, { token, resolve, reject });
     });
 
     return response.captcha;
   }
 
-  private async persist(): Promise<void> {
+  async #persist(): Promise<void> {
     assertDev(
-      this.isLoaded,
+      this.#isLoaded,
       'ChallengeHandler has to be loaded before persisting new data'
     );
     await this.options.storage.put(
       STORAGE_KEY,
-      Array.from(this.registeredConversations.values())
+      Array.from(this.#registeredConversations.values())
     );
   }
 
   public areAnyRegistered(): boolean {
-    return this.registeredConversations.size > 0;
+    return this.#registeredConversations.size > 0;
   }
 
   public isRegistered(conversationId: string): boolean {
-    return this.registeredConversations.has(conversationId);
+    return this.#registeredConversations.has(conversationId);
   }
 
-  private startAllQueues({
+  #startAllQueues({
     force = false,
   }: {
     force?: boolean;
   } = {}): void {
     log.info(`challenge: startAllQueues force=${force}`);
 
-    Array.from(this.registeredConversations.values())
+    Array.from(this.#registeredConversations.values())
       .filter(challenge => force || shouldStartQueue(challenge))
-      .forEach(challenge => this.startQueue(challenge.conversationId));
+      .forEach(challenge => this.#startQueue(challenge.conversationId));
   }
 
-  private async startQueue(conversationId: string): Promise<void> {
-    if (!this.isOnline) {
-      this.pendingStarts.add(conversationId);
+  async #startQueue(conversationId: string): Promise<void> {
+    if (!this.#isOnline) {
+      this.#pendingStarts.add(conversationId);
       return;
     }
 
     await this.unregister(conversationId, 'startQueue');
 
-    if (this.registeredConversations.size === 0) {
+    if (this.#registeredConversations.size === 0) {
       this.options.setChallengeStatus('idle');
     }
 
@@ -404,21 +397,21 @@ export class ChallengeHandler {
     this.options.startQueue(conversationId);
   }
 
-  private async solve({ reason, token }: SolveOptionsType): Promise<void> {
-    this.solving += 1;
+  async #solve({ reason, token }: SolveOptionsType): Promise<void> {
+    this.#solving += 1;
     this.options.setChallengeStatus('required');
-    this.challengeToken = token;
+    this.#challengeToken = token;
 
     const captcha = await this.requestCaptcha({ reason, token });
 
     // Another `.solve()` has completed earlier than us
-    if (this.challengeToken === undefined) {
-      this.solving -= 1;
+    if (this.#challengeToken === undefined) {
+      this.#solving -= 1;
       return;
     }
 
-    const lastToken = this.challengeToken;
-    this.challengeToken = undefined;
+    const lastToken = this.#challengeToken;
+    this.#challengeToken = undefined;
 
     this.options.setChallengeStatus('pending');
 
@@ -465,13 +458,13 @@ export class ChallengeHandler {
       this.forceWaitOnAll(retryAt);
       return;
     } finally {
-      this.solving -= 1;
+      this.#solving -= 1;
     }
 
     log.info(`challenge(${reason}): challenge success. force sending`);
 
     this.options.setChallengeStatus('idle');
     this.options.onChallengeSolved();
-    this.startAllQueues({ force: true });
+    this.#startAllQueues({ force: true });
   }
 }

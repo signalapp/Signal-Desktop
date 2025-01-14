@@ -14,7 +14,7 @@ export class IdleDetector extends EventEmitter {
 
   public start(): void {
     log.info('Start idle detector');
-    this.scheduleNextCallback();
+    this.#scheduleNextCallback();
   }
 
   public stop(): void {
@@ -23,10 +23,10 @@ export class IdleDetector extends EventEmitter {
     }
 
     log.info('Stop idle detector');
-    this.clearScheduledCallbacks();
+    this.#clearScheduledCallbacks();
   }
 
-  private clearScheduledCallbacks() {
+  #clearScheduledCallbacks() {
     if (this.handle) {
       cancelIdleCallback(this.handle);
       delete this.handle;
@@ -36,14 +36,14 @@ export class IdleDetector extends EventEmitter {
     delete this.timeoutId;
   }
 
-  private scheduleNextCallback() {
-    this.clearScheduledCallbacks();
+  #scheduleNextCallback() {
+    this.#clearScheduledCallbacks();
     this.handle = window.requestIdleCallback(deadline => {
       const { didTimeout } = deadline;
       const timeRemaining = deadline.timeRemaining();
       const isIdle = timeRemaining >= IDLE_THRESHOLD_MS;
       this.timeoutId = setTimeout(
-        () => this.scheduleNextCallback(),
+        () => this.#scheduleNextCallback(),
         POLL_INTERVAL_MS
       );
       if (isIdle || didTimeout) {

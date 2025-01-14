@@ -13,30 +13,31 @@ type EntryType = Readonly<{
 let startupProcessingQueue: StartupQueue | undefined;
 
 export class StartupQueue {
-  private readonly map = new Map<string, EntryType>();
-  private readonly running: PQueue = new PQueue({
+  readonly #map = new Map<string, EntryType>();
+
+  readonly #running: PQueue = new PQueue({
     // mostly io-bound work that is not very parallelizable
     // small number should be sufficient
     concurrency: 5,
   });
 
   public add(id: string, value: number, f: () => Promise<void>): void {
-    const existing = this.map.get(id);
+    const existing = this.#map.get(id);
     if (existing && existing.value >= value) {
       return;
     }
 
-    this.map.set(id, { value, callback: f });
+    this.#map.set(id, { value, callback: f });
   }
 
   public flush(): void {
-    log.info('StartupQueue: Processing', this.map.size, 'actions');
+    log.info('StartupQueue: Processing', this.#map.size, 'actions');
 
-    const values = Array.from(this.map.values());
-    this.map.clear();
+    const values = Array.from(this.#map.values());
+    this.#map.clear();
 
     for (const { callback } of values) {
-      void this.running.add(async () => {
+      void this.#running.add(async () => {
         try {
           return callback();
         } catch (error) {
@@ -50,11 +51,11 @@ export class StartupQueue {
     }
   }
 
-  private shutdown(): Promise<void> {
+  #shutdown(): Promise<void> {
     log.info(
-      `StartupQueue: Waiting for ${this.running.pending} tasks to drain`
+      `StartupQueue: Waiting for ${this.#running.pending} tasks to drain`
     );
-    return this.running.onIdle();
+    return this.#running.onIdle();
   }
 
   static initialize(): void {
@@ -75,6 +76,8 @@ export class StartupQueue {
   }
 
   static async shutdown(): Promise<void> {
-    await startupProcessingQueue?.shutdown();
+    if (startupProcessingQueue != null) {
+      await startupProcessingQueue.#shutdown();
+    }
   }
 }

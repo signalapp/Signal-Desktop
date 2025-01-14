@@ -9,7 +9,7 @@ type StringKey<T> = keyof T & string;
 
 export class MessageModel {
   public get id(): string {
-    return this._attributes.id;
+    return this.#_attributes.id;
   }
 
   public get<keyName extends StringKey<MessageAttributesType>>(
@@ -21,7 +21,7 @@ export class MessageModel {
     attributes: Partial<MessageAttributesType>,
     { noTrigger }: { noTrigger?: boolean } = {}
   ): void {
-    this._attributes = {
+    this.#_attributes = {
       ...this.attributes,
       ...attributes,
     };
@@ -34,12 +34,12 @@ export class MessageModel {
   }
 
   public get attributes(): Readonly<MessageAttributesType> {
-    return this._attributes;
+    return this.#_attributes;
   }
-  private _attributes: MessageAttributesType;
+  #_attributes: MessageAttributesType;
 
   constructor(attributes: MessageAttributesType) {
-    this._attributes = attributes;
+    this.#_attributes = attributes;
 
     this.set(
       window.Signal.Types.Message.initializeSchemaVersion({

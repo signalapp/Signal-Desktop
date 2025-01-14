@@ -9,7 +9,7 @@ export interface IController {
 }
 
 export class AbortableProcess<Result> implements IController {
-  private abortReject: (error: Error) => void;
+  #abortReject: (error: Error) => void;
 
   public readonly resultPromise: Promise<Result>;
 
@@ -21,13 +21,13 @@ export class AbortableProcess<Result> implements IController {
     const { promise: abortPromise, reject: abortReject } =
       explodePromise<Result>();
 
-    this.abortReject = abortReject;
+    this.#abortReject = abortReject;
     this.resultPromise = Promise.race([abortPromise, resultPromise]);
   }
 
   public abort(): void {
     this.controller.abort();
-    this.abortReject(new Error(`Process "${this.name}" was aborted`));
+    this.#abortReject(new Error(`Process "${this.name}" was aborted`));
   }
 
   public getResult(): Promise<Result> {

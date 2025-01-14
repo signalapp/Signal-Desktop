@@ -29,22 +29,22 @@ const RESOURCES_DICT_PATH = join(
 const MAX_CACHE_SIZE = 50 * 1024 * 1024;
 
 export class OptionalResourceService {
-  private maybeDeclaration: OptionalResourcesDictType | undefined;
+  #maybeDeclaration: OptionalResourcesDictType | undefined;
 
-  private readonly cache = new LRUCache<string, Buffer>({
+  readonly #cache = new LRUCache<string, Buffer>({
     maxSize: MAX_CACHE_SIZE,
 
     sizeCalculation: buf => buf.length,
   });
 
-  private readonly fileQueues = new Map<string, PQueue>();
+  readonly #fileQueues = new Map<string, PQueue>();
 
   private constructor(private readonly resourcesDir: string) {
     ipcMain.handle('OptionalResourceService:getData', (_event, name) =>
       this.getData(name)
     );
 
-    drop(this.lazyInit());
+    drop(this.#lazyInit());
   }
 
   public static create(resourcesDir: string): OptionalResourceService {
@@ -52,20 +52,20 @@ export class OptionalResourceService {
   }
 
   public async getData(name: string): Promise<Buffer | undefined> {
-    await this.lazyInit();
+    await this.#lazyInit();
 
-    const decl = this.declaration[name];
+    const decl = this.#declaration[name];
     if (!decl) {
       return undefined;
     }
 
-    const inMemory = this.cache.get(name);
+    const inMemory = this.#cache.get(name);
     if (inMemory) {
       return inMemory;
     }
 
     const filePath = join(this.resourcesDir, name);
-    return this.queueFileWork(filePath, async () => {
+    return this.#queueFileWork(filePath, async () => {
       try {
         const onDisk = await readFile(filePath);
         const digest = createHash('sha512').update(onDisk).digest();
@@ -76,7 +76,7 @@ export class OptionalResourceService {
           onDisk.length === decl.size
         ) {
           log.warn(`OptionalResourceService: loaded ${name} from disk`);
-          this.cache.set(name, onDisk);
+          this.#cache.set(name, onDisk);
           return onDisk;
         }
 
@@ -94,7 +94,7 @@ export class OptionalResourceService {
         // Just do our best effort and move forward
       }
 
-      return this.fetch(name, decl, filePath);
+      return this.#fetch(name, decl, filePath);
     });
   }
 
@@ -102,15 +102,15 @@ export class OptionalResourceService {
   // Private
   //
 
-  private async lazyInit(): Promise<void> {
-    if (this.maybeDeclaration !== undefined) {
+  async #lazyInit(): Promise<void> {
+    if (this.#maybeDeclaration !== undefined) {
       return;
     }
 
     const json: unknown = JSON.parse(
       await readFile(RESOURCES_DICT_PATH, 'utf8')
     );
-    this.maybeDeclaration = parseUnknown(OptionalResourcesDictSchema, json);
+    this.#maybeDeclaration = parseUnknown(OptionalResourcesDictSchema, json);
 
     // Clean unknown resources
     let subPaths: Array<string>;
@@ -126,7 +126,7 @@ export class OptionalResourceService {
 
     await Promise.all(
       subPaths.map(async subPath => {
-        if (this.declaration[subPath]) {
+        if (this.#declaration[subPath]) {
           return;
         }
 
@@ -144,39 +144,39 @@ export class OptionalResourceService {
     );
   }
 
-  private get declaration(): OptionalResourcesDictType {
-    if (this.maybeDeclaration === undefined) {
+  get #declaration(): OptionalResourcesDictType {
+    if (this.#maybeDeclaration === undefined) {
       throw new Error('optional-resources.json not loaded yet');
     }
-    return this.maybeDeclaration;
+    return this.#maybeDeclaration;
   }
 
-  private async queueFileWork<R>(
+  async #queueFileWork<R>(
     filePath: string,
     body: () => Promise<R>
   ): Promise<R> {
-    let queue = this.fileQueues.get(filePath);
+    let queue = this.#fileQueues.get(filePath);
     if (!queue) {
       queue = new PQueue({ concurrency: 1 });
-      this.fileQueues.set(filePath, queue);
+      this.#fileQueues.set(filePath, queue);
     }
     try {
       return await queue.add(body);
     } finally {
       if (queue.size === 0) {
-        this.fileQueues.delete(filePath);
+        this.#fileQueues.delete(filePath);
       }
     }
   }
 
-  private async fetch(
+  async #fetch(
     name: string,
     decl: OptionalResourceType,
     destPath: string
   ): Promise<Buffer> {
     const result = await got(decl.url, await getGotOptions()).buffer();
 
-    this.cache.set(name, result);
+    this.#cache.set(name, result);
 
     try {
       await mkdir(dirname(destPath), { recursive: true });

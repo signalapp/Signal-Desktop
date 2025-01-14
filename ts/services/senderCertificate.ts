@@ -28,16 +28,15 @@ const CLOCK_SKEW_THRESHOLD = 15 * 60 * 1000;
 
 // This is exported for testing.
 export class SenderCertificateService {
-  private server?: WebAPIType;
+  #server?: WebAPIType;
 
-  private fetchPromises: Map<
+  #fetchPromises: Map<
     SenderCertificateMode,
     Promise<undefined | SerializedCertificateType>
   > = new Map();
 
-  private events?: Pick<typeof window.Whisper.events, 'on' | 'off'>;
-
-  private storage?: StorageInterface;
+  #events?: Pick<typeof window.Whisper.events, 'on' | 'off'>;
+  #storage?: StorageInterface;
 
   initialize({
     server,
@@ -50,15 +49,15 @@ export class SenderCertificateService {
   }): void {
     log.info('Sender certificate service initialized');
 
-    this.server = server;
-    this.events = events;
-    this.storage = storage;
+    this.#server = server;
+    this.#events = events;
+    this.#storage = storage;
   }
 
   async get(
     mode: SenderCertificateMode
   ): Promise<undefined | SerializedCertificateType> {
-    const storedCertificate = this.getStoredCertificate(mode);
+    const storedCertificate = this.#getStoredCertificate(mode);
     if (storedCertificate) {
       log.info(
         `Sender certificate service found a valid ${modeToLogString(
@@ -68,7 +67,7 @@ export class SenderCertificateService {
       return storedCertificate;
     }
 
-    return this.fetchCertificate(mode);
+    return this.#fetchCertificate(mode);
   }
 
   // This is intended to be called when our credentials have been deleted, so any fetches
@@ -78,9 +77,9 @@ export class SenderCertificateService {
       'Sender certificate service: Clearing in-progress fetches and ' +
         'deleting cached certificates'
     );
-    await Promise.all(this.fetchPromises.values());
+    await Promise.all(this.#fetchPromises.values());
 
-    const { storage } = this;
+    const storage = this.#storage;
     assertDev(
       storage,
       'Sender certificate service method was called before it was initialized'
@@ -89,10 +88,10 @@ export class SenderCertificateService {
     await storage.remove('senderCertificateNoE164');
   }
 
-  private getStoredCertificate(
+  #getStoredCertificate(
     mode: SenderCertificateMode
   ): undefined | SerializedCertificateType {
-    const { storage } = this;
+    const storage = this.#storage;
     assertDev(
       storage,
       'Sender certificate service method was called before it was initialized'
@@ -109,11 +108,11 @@ export class SenderCertificateService {
     return undefined;
   }
 
-  private fetchCertificate(
+  #fetchCertificate(
     mode: SenderCertificateMode
   ): Promise<undefined | SerializedCertificateType> {
     // This prevents multiple concurrent fetches.
-    const existingPromise = this.fetchPromises.get(mode);
+    const existingPromise = this.#fetchPromises.get(mode);
     if (existingPromise) {
       log.info(
         `Sender certificate service was already fetching a ${modeToLogString(
@@ -125,28 +124,30 @@ export class SenderCertificateService {
 
     let promise: Promise<undefined | SerializedCertificateType>;
     const doFetch = async () => {
-      const result = await this.fetchAndSaveCertificate(mode);
+      const result = await this.#fetchAndSaveCertificate(mode);
       assertDev(
-        this.fetchPromises.get(mode) === promise,
+        this.#fetchPromises.get(mode) === promise,
         'Sender certificate service was deleting a different promise than expected'
       );
-      this.fetchPromises.delete(mode);
+      this.#fetchPromises.delete(mode);
       return result;
     };
     promise = doFetch();
 
     assertDev(
-      !this.fetchPromises.has(mode),
+      !this.#fetchPromises.has(mode),
       'Sender certificate service somehow already had a promise for this mode'
     );
-    this.fetchPromises.set(mode, promise);
+    this.#fetchPromises.set(mode, promise);
     return promise;
   }
 
-  private async fetchAndSaveCertificate(
+  async #fetchAndSaveCertificate(
     mode: SenderCertificateMode
   ): Promise<undefined | SerializedCertificateType> {
-    const { storage, server, events } = this;
+    const storage = this.#storage;
+    const events = this.#events;
+    const server = this.#server;
     assertDev(
       storage && server && events,
       'Sender certificate service method was called before it was initialized'
@@ -162,7 +163,7 @@ export class SenderCertificateService {
 
     let certificateString: string;
     try {
-      certificateString = await this.requestSenderCertificate(mode);
+      certificateString = await this.#requestSenderCertificate(mode);
     } catch (err) {
       log.warn(
         `Sender certificate service could not fetch a ${modeToLogString(
@@ -198,10 +199,10 @@ export class SenderCertificateService {
     return serializedCertificate;
   }
 
-  private async requestSenderCertificate(
+  async #requestSenderCertificate(
     mode: SenderCertificateMode
   ): Promise<string> {
-    const { server } = this;
+    const server = this.#server;
     assertDev(
       server,
       'Sender certificate service method was called before it was initialized'

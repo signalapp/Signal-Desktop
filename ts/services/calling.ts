@@ -332,50 +332,43 @@ export type NotifyScreenShareStatusOptionsType = Readonly<
 >;
 
 export class CallingClass {
-  private readonly videoCapturer: GumVideoCapturer;
+  readonly #videoCapturer: GumVideoCapturer;
 
   readonly videoRenderer: CanvasVideoRenderer;
 
-  private localPreviewContainer: HTMLDivElement | null = null;
-
-  private localPreview: HTMLVideoElement | undefined;
-
-  private reduxInterface?: CallingReduxInterface;
+  #localPreviewContainer: HTMLDivElement | null = null;
+  #localPreview: HTMLVideoElement | undefined;
+  #reduxInterface?: CallingReduxInterface;
 
   public _sfuUrl?: string;
 
   public _iceServerOverride?: GetIceServersResultType | string;
 
-  private lastMediaDeviceSettings?: MediaDeviceSettings;
-
-  private deviceReselectionTimer?: NodeJS.Timeout;
-
-  private callsLookup: { [key: string]: Call | GroupCall };
-
-  private hadLocalVideoBeforePresenting?: boolean;
-
-  private currentRtcStatsInterval: number | null = null;
-
-  private callDebugNumber: number = 0;
+  #lastMediaDeviceSettings?: MediaDeviceSettings;
+  #deviceReselectionTimer?: NodeJS.Timeout;
+  #callsLookup: { [key: string]: Call | GroupCall };
+  #hadLocalVideoBeforePresenting?: boolean;
+  #currentRtcStatsInterval: number | null = null;
+  #callDebugNumber: number = 0;
 
   // Send our profile key to other participants in call link calls to ensure they
   // can see our profile info. Only send once per aci until the next app start.
-  private sendProfileKeysForAdhocCallCache: Set<AciString>;
+  #sendProfileKeysForAdhocCallCache: Set<AciString>;
 
   constructor() {
-    this.videoCapturer = new GumVideoCapturer({
+    this.#videoCapturer = new GumVideoCapturer({
       maxWidth: REQUESTED_VIDEO_WIDTH,
       maxHeight: REQUESTED_VIDEO_HEIGHT,
       maxFramerate: REQUESTED_VIDEO_FRAMERATE,
     });
     this.videoRenderer = new CanvasVideoRenderer();
 
-    this.callsLookup = {};
-    this.sendProfileKeysForAdhocCallCache = new Set();
+    this.#callsLookup = {};
+    this.#sendProfileKeysForAdhocCallCache = new Set();
   }
 
   initialize(reduxInterface: CallingReduxInterface, sfuUrl: string): void {
-    this.reduxInterface = reduxInterface;
+    this.#reduxInterface = reduxInterface;
     if (!reduxInterface) {
       throw new Error('CallingClass.initialize: Invalid uxActions.');
     }
@@ -387,23 +380,23 @@ export class CallingClass {
       use_ringrtc_adm: getUseRingrtcAdm(),
     });
 
-    RingRTC.handleOutgoingSignaling = this.handleOutgoingSignaling.bind(this);
-    RingRTC.handleIncomingCall = this.handleIncomingCall.bind(this);
-    RingRTC.handleStartCall = this.handleStartCall.bind(this);
+    RingRTC.handleOutgoingSignaling = this.#handleOutgoingSignaling.bind(this);
+    RingRTC.handleIncomingCall = this.#handleIncomingCall.bind(this);
+    RingRTC.handleStartCall = this.#handleStartCall.bind(this);
     RingRTC.handleAutoEndedIncomingCallRequest =
-      this.handleAutoEndedIncomingCallRequest.bind(this);
-    RingRTC.handleLogMessage = this.handleLogMessage.bind(this);
-    RingRTC.handleSendHttpRequest = this.handleSendHttpRequest.bind(this);
-    RingRTC.handleSendCallMessage = this.handleSendCallMessage.bind(this);
+      this.#handleAutoEndedIncomingCallRequest.bind(this);
+    RingRTC.handleLogMessage = this.#handleLogMessage.bind(this);
+    RingRTC.handleSendHttpRequest = this.#handleSendHttpRequest.bind(this);
+    RingRTC.handleSendCallMessage = this.#handleSendCallMessage.bind(this);
     RingRTC.handleSendCallMessageToGroup =
-      this.handleSendCallMessageToGroup.bind(this);
+      this.#handleSendCallMessageToGroup.bind(this);
     RingRTC.handleGroupCallRingUpdate =
-      this.handleGroupCallRingUpdate.bind(this);
-    RingRTC.handleRtcStatsReport = this.handleRtcStatsReport.bind(this);
+      this.#handleGroupCallRingUpdate.bind(this);
+    RingRTC.handleRtcStatsReport = this.#handleRtcStatsReport.bind(this);
 
-    this.attemptToGiveOurServiceIdToRingRtc();
+    this.#attemptToGiveOurServiceIdToRingRtc();
     window.Whisper.events.on('userChanged', () => {
-      this.attemptToGiveOurServiceIdToRingRtc();
+      this.#attemptToGiveOurServiceIdToRingRtc();
     });
 
     ipcRenderer.on('stop-screen-share', () => {
@@ -416,25 +409,25 @@ export class CallingClass {
       }
     );
 
-    drop(this.cleanExpiredGroupCallRingsAndLoop());
+    drop(this.#cleanExpiredGroupCallRingsAndLoop());
     drop(this.cleanupStaleRingingCalls());
 
     if (process.platform === 'darwin') {
-      drop(this.enumerateMediaDevices());
+      drop(this.#enumerateMediaDevices());
     }
   }
 
-  private maybeUpdateRtcLogging(groupCall: GroupCall): void {
-    if (!this.currentRtcStatsInterval) {
+  #maybeUpdateRtcLogging(groupCall: GroupCall): void {
+    if (!this.#currentRtcStatsInterval) {
       return;
     }
 
-    groupCall.setRtcStatsInterval(this.currentRtcStatsInterval);
-    this.callDebugNumber =
-      (this.callDebugNumber + 1) % MAX_CALL_DEBUG_STATS_TABS;
+    groupCall.setRtcStatsInterval(this.#currentRtcStatsInterval);
+    this.#callDebugNumber =
+      (this.#callDebugNumber + 1) % MAX_CALL_DEBUG_STATS_TABS;
   }
 
-  private attemptToGiveOurServiceIdToRingRtc(): void {
+  #attemptToGiveOurServiceIdToRingRtc(): void {
     const ourAci = window.textsecure.storage.user.getAci();
     if (!ourAci) {
       // This can happen if we're not linked. It's okay if we hit this case.
@@ -478,7 +471,7 @@ export class CallingClass {
         );
         if (
           !conversationModel ||
-          !this.getRemoteUserIdFromConversation(conversationModel)
+          !this.#getRemoteUserIdFromConversation(conversationModel)
         ) {
           log.error('Missing remote user identifier, new call not allowed.');
           return;
@@ -496,17 +489,17 @@ export class CallingClass {
         throw missingCaseError(callMode);
     }
 
-    if (!this.reduxInterface) {
+    if (!this.#reduxInterface) {
       log.error('Missing uxActions, new call not allowed.');
       return;
     }
 
-    if (!this.localDeviceId) {
+    if (!this.#localDeviceId) {
       log.error('Missing local device identifier, new call not allowed.');
       return;
     }
 
-    const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
+    const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       log.info('Permissions were denied, new call not allowed.');
       return;
@@ -530,7 +523,7 @@ export class CallingClass {
     //
     // We should be able to move this below `this.connectGroupCall` once that RingRTC bug
     //   is fixed. See DESKTOP-1032.
-    await this.startDeviceReselectionTimer();
+    await this.#startDeviceReselectionTimer();
 
     const enableLocalCameraIfNecessary = hasLocalVideo
       ? () => this.enableLocalCamera()
@@ -573,7 +566,7 @@ export class CallingClass {
 
         return {
           callMode: CallMode.Group,
-          ...this.formatGroupCallForRedux(groupCall),
+          ...this.#formatGroupCallForRedux(groupCall),
         };
       }
       default:
@@ -583,11 +576,11 @@ export class CallingClass {
 
   stopCallingLobby(conversationId?: string): void {
     this.disableLocalVideo();
-    this.stopDeviceReselectionTimer();
-    this.lastMediaDeviceSettings = undefined;
+    this.#stopDeviceReselectionTimer();
+    this.#lastMediaDeviceSettings = undefined;
 
     if (conversationId) {
-      this.getGroupCall(conversationId)?.disconnect();
+      this.#getGroupCall(conversationId)?.disconnect();
     }
   }
 
@@ -844,7 +837,7 @@ export class CallingClass {
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
     log.info('startCallLinkLobby() for roomId', roomId);
 
-    await this.startDeviceReselectionTimer();
+    await this.#startDeviceReselectionTimer();
 
     const authCredentialPresentation =
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
@@ -863,7 +856,7 @@ export class CallingClass {
 
     return {
       callMode: CallMode.Adhoc,
-      ...this.formatGroupCallForRedux(groupCall),
+      ...this.#formatGroupCallForRedux(groupCall),
     };
   }
 
@@ -885,18 +878,18 @@ export class CallingClass {
     const logId = `startOutgoingDirectCall(${idForLogging}`;
     log.info(logId);
 
-    if (!this.reduxInterface) {
+    if (!this.#reduxInterface) {
       throw new Error(`${logId}: Redux actions not available`);
     }
 
-    const remoteUserId = this.getRemoteUserIdFromConversation(conversation);
-    if (!remoteUserId || !this.localDeviceId) {
+    const remoteUserId = this.#getRemoteUserIdFromConversation(conversation);
+    if (!remoteUserId || !this.#localDeviceId) {
       log.error(`${logId}: Missing identifier, new call not allowed.`);
       this.stopCallingLobby();
       return;
     }
 
-    const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
+    const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       log.info(`${logId}: Permissions were denied, new call not allowed.`);
       this.stopCallingLobby();
@@ -915,7 +908,7 @@ export class CallingClass {
     const call = RingRTC.startOutgoingCall(
       remoteUserId,
       hasLocalVideo,
-      this.localDeviceId
+      this.#localDeviceId
     );
 
     // Send profile key to conversation recipient since call protos don't include it
@@ -931,30 +924,30 @@ export class CallingClass {
     });
 
     RingRTC.setOutgoingAudio(call.callId, hasLocalAudio);
-    RingRTC.setVideoCapturer(call.callId, this.videoCapturer);
+    RingRTC.setVideoCapturer(call.callId, this.#videoCapturer);
     RingRTC.setVideoRenderer(call.callId, this.videoRenderer);
-    this.attachToCall(conversation, call);
+    this.#attachToCall(conversation, call);
 
-    this.reduxInterface.outgoingCall({
+    this.#reduxInterface.outgoingCall({
       conversationId: conversation.id,
       hasLocalAudio,
       hasLocalVideo,
     });
 
-    await this.startDeviceReselectionTimer();
+    await this.#startDeviceReselectionTimer();
   }
 
-  private getDirectCall(conversationId: string): undefined | Call {
-    const call = getOwn(this.callsLookup, conversationId);
+  #getDirectCall(conversationId: string): undefined | Call {
+    const call = getOwn(this.#callsLookup, conversationId);
     return call instanceof Call ? call : undefined;
   }
 
-  private getGroupCall(conversationId: string): undefined | GroupCall {
-    const call = getOwn(this.callsLookup, conversationId);
+  #getGroupCall(conversationId: string): undefined | GroupCall {
+    const call = getOwn(this.#callsLookup, conversationId);
     return call instanceof GroupCall ? call : undefined;
   }
 
-  private getGroupCallMembers(conversationId: string) {
+  #getGroupCallMembers(conversationId: string) {
     return getMembershipList(conversationId).map(
       member =>
         new GroupMemberInfo(
@@ -968,15 +961,15 @@ export class CallingClass {
     // Reuse HTMLVideoElement between different containers so that the preview
     // of the last frame stays valid even if there are no new frames on the
     // underlying MediaStream.
-    if (this.localPreview == null) {
-      this.localPreview = document.createElement('video');
-      this.localPreview.autoplay = true;
-      this.videoCapturer.setLocalPreview({ current: this.localPreview });
+    if (this.#localPreview == null) {
+      this.#localPreview = document.createElement('video');
+      this.#localPreview.autoplay = true;
+      this.#videoCapturer.setLocalPreview({ current: this.#localPreview });
     }
 
-    this.localPreviewContainer?.removeChild(this.localPreview);
-    this.localPreviewContainer = container;
-    this.localPreviewContainer?.appendChild(this.localPreview);
+    this.#localPreviewContainer?.removeChild(this.#localPreview);
+    this.#localPreviewContainer = container;
+    this.#localPreviewContainer?.appendChild(this.#localPreview);
   }
 
   public async cleanupStaleRingingCalls(): Promise<void> {
@@ -1010,7 +1003,7 @@ export class CallingClass {
     //    don't want to call this function while a group call is connected—you should
     //    instead be grabbing the peek info off of the instance—but we handle it here
     //    to avoid possible race conditions.)
-    const statefulPeekInfo = this.getGroupCall(conversationId)?.getPeekInfo();
+    const statefulPeekInfo = this.#getGroupCall(conversationId)?.getPeekInfo();
     if (statefulPeekInfo) {
       return statefulPeekInfo;
     }
@@ -1040,7 +1033,7 @@ export class CallingClass {
     return RingRTC.peekGroupCall(
       this._sfuUrl,
       Buffer.from(membershipProof),
-      this.getGroupCallMembers(conversationId)
+      this.#getGroupCallMembers(conversationId)
     );
   }
 
@@ -1049,7 +1042,7 @@ export class CallingClass {
     rootKey: string | undefined
   ): Promise<PeekInfo> {
     log.info(`peekCallLinkCall: For roomId ${roomId}`);
-    const statefulPeekInfo = this.getGroupCall(roomId)?.getPeekInfo();
+    const statefulPeekInfo = this.#getGroupCall(roomId)?.getPeekInfo();
     if (statefulPeekInfo) {
       return statefulPeekInfo;
     }
@@ -1102,7 +1095,7 @@ export class CallingClass {
       secretParams: string;
     }
   ): GroupCall {
-    const existing = this.getGroupCall(conversationId);
+    const existing = this.#getGroupCall(conversationId);
     if (existing) {
       const isExistingCallNotConnected =
         existing.getLocalDeviceState().connectionState ===
@@ -1127,7 +1120,7 @@ export class CallingClass {
       Buffer.alloc(0),
       AUDIO_LEVEL_INTERVAL_MS,
       {
-        ...this.getGroupCallObserver(conversationId, CallMode.Group),
+        ...this.#getGroupCallObserver(conversationId, CallMode.Group),
         async requestMembershipProof(groupCall) {
           if (isRequestingMembershipProof) {
             return;
@@ -1160,8 +1153,8 @@ export class CallingClass {
 
     outerGroupCall.connect();
 
-    this.maybeUpdateRtcLogging(outerGroupCall);
-    this.syncGroupCallToRedux(conversationId, outerGroupCall, CallMode.Group);
+    this.#maybeUpdateRtcLogging(outerGroupCall);
+    this.#syncGroupCallToRedux(conversationId, outerGroupCall, CallMode.Group);
 
     return outerGroupCall;
   }
@@ -1183,7 +1176,7 @@ export class CallingClass {
       );
     }
 
-    const existing = this.getGroupCall(roomId);
+    const existing = this.#getGroupCall(roomId);
     if (existing) {
       const isExistingCallNotConnected =
         existing.getLocalDeviceState().connectionState ===
@@ -1205,7 +1198,7 @@ export class CallingClass {
       adminPasskey,
       Buffer.alloc(0),
       AUDIO_LEVEL_INTERVAL_MS,
-      this.getGroupCallObserver(roomId, CallMode.Adhoc)
+      this.#getGroupCallObserver(roomId, CallMode.Adhoc)
     );
 
     if (!outerGroupCall) {
@@ -1216,8 +1209,8 @@ export class CallingClass {
 
     outerGroupCall.connect();
 
-    this.maybeUpdateRtcLogging(outerGroupCall);
-    this.syncGroupCallToRedux(roomId, outerGroupCall, CallMode.Adhoc);
+    this.#maybeUpdateRtcLogging(outerGroupCall);
+    this.#syncGroupCallToRedux(roomId, outerGroupCall, CallMode.Adhoc);
 
     return outerGroupCall;
   }
@@ -1249,14 +1242,14 @@ export class CallingClass {
       return;
     }
 
-    const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
+    const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       log.info(
         `${logId}: Permissions were denied, but allow joining group call`
       );
     }
 
-    await this.startDeviceReselectionTimer();
+    await this.#startDeviceReselectionTimer();
 
     const groupCall = this.connectGroupCall(conversationId, {
       groupId: conversation.groupId,
@@ -1276,7 +1269,7 @@ export class CallingClass {
     groupCall.join();
   }
 
-  private getGroupCallObserver(
+  #getGroupCallObserver(
     conversationId: string,
     callMode: CallMode.Group | CallMode.Adhoc
   ): GroupCallObserver {
@@ -1321,7 +1314,7 @@ export class CallingClass {
           //   That's fine for now, but this will break if that assumption changes.
           this.disableLocalVideo();
 
-          delete this.callsLookup[conversationId];
+          delete this.#callsLookup[conversationId];
 
           if (
             updateMessageState === GroupCallUpdateMessageState.SentJoin &&
@@ -1329,11 +1322,11 @@ export class CallingClass {
           ) {
             updateMessageState = GroupCallUpdateMessageState.SentLeft;
             if (callMode === CallMode.Group) {
-              drop(this.sendGroupCallUpdateMessage(conversationId, eraId));
+              drop(this.#sendGroupCallUpdateMessage(conversationId, eraId));
             }
           }
         } else {
-          this.callsLookup[conversationId] = groupCall;
+          this.#callsLookup[conversationId] = groupCall;
 
           // NOTE: This assumes only one active call at a time. See comment above.
           if (localDeviceState.videoMuted) {
@@ -1351,7 +1344,7 @@ export class CallingClass {
           ) {
             updateMessageState = GroupCallUpdateMessageState.SentJoin;
             drop(
-              this.onGroupCallJoined({
+              this.#onGroupCallJoined({
                 peerId: conversationId,
                 eraId,
                 callMode,
@@ -1361,7 +1354,7 @@ export class CallingClass {
           }
         }
 
-        this.syncGroupCallToRedux(conversationId, groupCall, callMode);
+        this.#syncGroupCallToRedux(conversationId, groupCall, callMode);
       },
       onRemoteDeviceStatesChanged: groupCall => {
         const localDeviceState = groupCall.getLocalDeviceState();
@@ -1373,10 +1366,10 @@ export class CallingClass {
           peekInfo ? formatPeekInfo(peekInfo) : '(No PeekInfo)'
         );
 
-        this.syncGroupCallToRedux(conversationId, groupCall, callMode);
+        this.#syncGroupCallToRedux(conversationId, groupCall, callMode);
         if (callMode === CallMode.Adhoc) {
           drop(
-            this.sendProfileKeysForAdhocCall({
+            this.#sendProfileKeysForAdhocCall({
               roomId: conversationId,
               peekInfo,
             })
@@ -1390,7 +1383,7 @@ export class CallingClass {
         }
         const localAudioLevel = groupCall.getLocalDeviceState().audioLevel;
 
-        this.reduxInterface?.groupCallAudioLevelsChange({
+        this.#reduxInterface?.groupCallAudioLevelsChange({
           callMode,
           conversationId,
           localAudioLevel,
@@ -1406,14 +1399,14 @@ export class CallingClass {
        * from oldest to newest.
        */
       onReactions: (_groupCall, reactions) => {
-        this.reduxInterface?.receiveGroupCallReactions({
+        this.#reduxInterface?.receiveGroupCallReactions({
           callMode,
           conversationId,
           reactions,
         });
       },
       onRaisedHands: (_groupCall, raisedHands) => {
-        this.reduxInterface?.groupCallRaisedHandsChange({
+        this.#reduxInterface?.groupCallRaisedHandsChange({
           callMode,
           conversationId,
           raisedHands,
@@ -1440,7 +1433,7 @@ export class CallingClass {
         ) {
           updateMessageState = GroupCallUpdateMessageState.SentJoin;
           drop(
-            this.onGroupCallJoined({
+            this.#onGroupCallJoined({
               peerId: conversationId,
               eraId,
               callMode,
@@ -1458,13 +1451,13 @@ export class CallingClass {
           )
         );
 
-        this.syncGroupCallToRedux(conversationId, groupCall, callMode);
+        this.#syncGroupCallToRedux(conversationId, groupCall, callMode);
       },
       async requestMembershipProof(_groupCall) {
         log.error('GroupCall#requestMembershipProof not implemented.');
       },
       requestGroupMembers: groupCall => {
-        groupCall.setGroupMembers(this.getGroupCallMembers(conversationId));
+        groupCall.setGroupMembers(this.#getGroupCallMembers(conversationId));
       },
       onEnded: (groupCall, endedReason) => {
         const localDeviceState = groupCall.getLocalDeviceState();
@@ -1477,7 +1470,7 @@ export class CallingClass {
           peekInfo ? formatPeekInfo(peekInfo) : '(No PeekInfo)'
         );
 
-        this.reduxInterface?.groupCallEnded({
+        this.#reduxInterface?.groupCallEnded({
           conversationId,
           endedReason,
         });
@@ -1488,9 +1481,9 @@ export class CallingClass {
         }
         log.info('GroupCall#onSpeechEvent', event);
         if (event === SpeechEvent.LowerHandSuggestion) {
-          this.reduxInterface?.setSuggestLowerHand(true);
+          this.#reduxInterface?.setSuggestLowerHand(true);
         } else if (event === SpeechEvent.StoppedSpeaking) {
-          this.reduxInterface?.setSuggestLowerHand(false);
+          this.#reduxInterface?.setSuggestLowerHand(false);
         } else {
           log.error(
             'GroupCall#onSpeechEvent, unknown speechEvent',
@@ -1502,7 +1495,7 @@ export class CallingClass {
     };
   }
 
-  private async onGroupCallJoined({
+  async #onGroupCallJoined({
     callMode,
     peerId,
     eraId,
@@ -1514,14 +1507,14 @@ export class CallingClass {
     peekInfo: PeekInfo | null;
   }): Promise<void> {
     if (callMode === CallMode.Group) {
-      drop(this.sendGroupCallUpdateMessage(peerId, eraId));
+      drop(this.#sendGroupCallUpdateMessage(peerId, eraId));
     } else if (callMode === CallMode.Adhoc) {
-      this.reduxInterface?.joinedAdhocCall(peerId);
-      drop(this.sendProfileKeysForAdhocCall({ roomId: peerId, peekInfo }));
+      this.#reduxInterface?.joinedAdhocCall(peerId);
+      drop(this.#sendProfileKeysForAdhocCall({ roomId: peerId, peekInfo }));
     }
   }
 
-  private async sendProfileKeysForAdhocCall({
+  async #sendProfileKeysForAdhocCall({
     roomId,
     peekInfo,
   }: {
@@ -1535,11 +1528,11 @@ export class CallingClass {
     const ourAci = window.textsecure.storage.user.getCheckedAci();
     const reason = `sendProfileKeysForAdhocCall(${roomId})`;
     peekInfo.devices.forEach(async device => {
-      const aci = device.userId ? this.formatUserId(device.userId) : null;
+      const aci = device.userId ? this.#formatUserId(device.userId) : null;
       if (
         !aci ||
         aci === ourAci ||
-        this.sendProfileKeysForAdhocCallCache.has(aci)
+        this.#sendProfileKeysForAdhocCallCache.has(aci)
       ) {
         return;
       }
@@ -1567,7 +1560,7 @@ export class CallingClass {
           isOneTimeSend: true,
         })
       );
-      this.sendProfileKeysForAdhocCallCache.add(aci);
+      this.#sendProfileKeysForAdhocCallCache.add(aci);
     });
   }
 
@@ -1587,14 +1580,14 @@ export class CallingClass {
     const logId = `joinCallLinkCall(${roomId})`;
     log.info(logId);
 
-    const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
+    const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       log.info(
         `${logId}: Permissions were denied, but allow joining call link call`
       );
     }
 
-    await this.startDeviceReselectionTimer();
+    await this.#startDeviceReselectionTimer();
 
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
     const authCredentialPresentation =
@@ -1617,8 +1610,8 @@ export class CallingClass {
     groupCall.join();
   }
 
-  private getCallIdForConversation(conversationId: string): undefined | CallId {
-    return this.getDirectCall(conversationId)?.callId;
+  #getCallIdForConversation(conversationId: string): undefined | CallId {
+    return this.#getDirectCall(conversationId)?.callId;
   }
 
   public setGroupCallVideoRequest(
@@ -1626,22 +1619,25 @@ export class CallingClass {
     resolutions: Array<VideoRequest>,
     speakerHeight: number
   ): void {
-    this.getGroupCall(conversationId)?.requestVideo(resolutions, speakerHeight);
+    this.#getGroupCall(conversationId)?.requestVideo(
+      resolutions,
+      speakerHeight
+    );
   }
 
   public groupMembersChanged(conversationId: string): void {
     // This will be called for any conversation change, so it's likely that there won't
     //   be a group call available; that's fine.
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       return;
     }
 
-    groupCall.setGroupMembers(this.getGroupCallMembers(conversationId));
+    groupCall.setGroupMembers(this.#getGroupCallMembers(conversationId));
   }
 
   public approveUser(conversationId: string, aci: AciString): void {
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       throw new Error('Could not find matching call');
     }
@@ -1650,7 +1646,7 @@ export class CallingClass {
   }
 
   public denyUser(conversationId: string, aci: AciString): void {
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       throw new Error('Could not find matching call');
     }
@@ -1659,7 +1655,7 @@ export class CallingClass {
   }
 
   public removeClient(conversationId: string, demuxId: number): void {
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       throw new Error('Could not find matching call');
     }
@@ -1668,7 +1664,7 @@ export class CallingClass {
   }
 
   public blockClient(conversationId: string, demuxId: number): void {
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       throw new Error('Could not find matching call');
     }
@@ -1677,7 +1673,7 @@ export class CallingClass {
   }
 
   // See the comment in types/Calling.ts to explain why we have to do this conversion.
-  private convertRingRtcConnectionState(
+  #convertRingRtcConnectionState(
     connectionState: ConnectionState
   ): GroupCallConnectionState {
     switch (connectionState) {
@@ -1695,7 +1691,7 @@ export class CallingClass {
   }
 
   // See the comment in types/Calling.ts to explain why we have to do this conversion.
-  private convertRingRtcJoinState(joinState: JoinState): GroupCallJoinState {
+  #convertRingRtcJoinState(joinState: JoinState): GroupCallJoinState {
     switch (joinState) {
       case JoinState.NotJoined:
         return GroupCallJoinState.NotJoined;
@@ -1710,7 +1706,7 @@ export class CallingClass {
     }
   }
 
-  private formatUserId(userId: Buffer): AciString | null {
+  #formatUserId(userId: Buffer): AciString | null {
     const uuid = bytesToUuid(userId);
     if (uuid && isAciString(uuid)) {
       return uuid;
@@ -1729,7 +1725,7 @@ export class CallingClass {
     return {
       acis: peekInfo.devices.map(peekDeviceInfo => {
         if (peekDeviceInfo.userId) {
-          const uuid = this.formatUserId(peekDeviceInfo.userId);
+          const uuid = this.#formatUserId(peekDeviceInfo.userId);
           if (uuid) {
             return uuid;
           }
@@ -1744,7 +1740,7 @@ export class CallingClass {
         );
       }),
       pendingAcis: compact(
-        peekInfo.pendingUsers.map(userId => this.formatUserId(userId))
+        peekInfo.pendingUsers.map(userId => this.#formatUserId(userId))
       ),
       creatorAci:
         creatorAci !== undefined
@@ -1759,7 +1755,7 @@ export class CallingClass {
     };
   }
 
-  private formatGroupCallForRedux(groupCall: GroupCall) {
+  #formatGroupCallForRedux(groupCall: GroupCall) {
     const localDeviceState = groupCall.getLocalDeviceState();
     const peekInfo = groupCall.getPeekInfo();
 
@@ -1776,10 +1772,10 @@ export class CallingClass {
     const joinState: GroupCallJoinState =
       localDeviceState.connectionState === ConnectionState.NotConnected
         ? GroupCallJoinState.NotJoined
-        : this.convertRingRtcJoinState(localDeviceState.joinState);
+        : this.#convertRingRtcJoinState(localDeviceState.joinState);
 
     return {
-      connectionState: this.convertRingRtcConnectionState(
+      connectionState: this.#convertRingRtcConnectionState(
         localDeviceState.connectionState
       ),
       joinState,
@@ -1824,7 +1820,7 @@ export class CallingClass {
     conversationId: string,
     demuxId: number
   ): VideoFrameSource {
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       throw new Error('Could not find matching call');
     }
@@ -1832,7 +1828,7 @@ export class CallingClass {
   }
 
   public resendGroupCallMediaKeys(conversationId: string): void {
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       throw new Error('Could not find matching call');
     }
@@ -1840,7 +1836,7 @@ export class CallingClass {
   }
 
   public sendGroupCallRaiseHand(conversationId: string, raise: boolean): void {
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       throw new Error('Could not find matching call');
     }
@@ -1848,7 +1844,7 @@ export class CallingClass {
   }
 
   public sendGroupCallReaction(conversationId: string, value: string): void {
-    const groupCall = this.getGroupCall(conversationId);
+    const groupCall = this.#getGroupCall(conversationId);
     if (!groupCall) {
       throw new Error('Could not find matching call');
     }
@@ -1857,17 +1853,17 @@ export class CallingClass {
 
   // configures how often call stats are computed
   public setAllRtcStatsInterval(intervalMillis: number | null): void {
-    if (this.currentRtcStatsInterval === intervalMillis) {
+    if (this.#currentRtcStatsInterval === intervalMillis) {
       return;
     }
-    this.currentRtcStatsInterval = intervalMillis;
+    this.#currentRtcStatsInterval = intervalMillis;
 
     // GroupCall.setRtcStatsInterval resets to the default when interval == 0
     // so set it to 0 when intervalMillis is undefined
     const statsInterval = intervalMillis ?? 0;
 
-    for (const conversationId of Object.keys(this.callsLookup)) {
-      const groupCall = this.getGroupCall(conversationId);
+    for (const conversationId of Object.keys(this.#callsLookup)) {
+      const groupCall = this.#getGroupCall(conversationId);
       if (!groupCall) {
         continue;
       }
@@ -1876,20 +1872,20 @@ export class CallingClass {
     }
   }
 
-  private syncGroupCallToRedux(
+  #syncGroupCallToRedux(
     conversationId: string,
     groupCall: GroupCall,
     callMode: CallMode.Group | CallMode.Adhoc
   ): void {
-    this.reduxInterface?.groupCallStateChange({
+    this.#reduxInterface?.groupCallStateChange({
       conversationId,
       callMode,
-      ...this.formatGroupCallForRedux(groupCall),
+      ...this.#formatGroupCallForRedux(groupCall),
     });
   }
 
   // Used specifically to send updates about in-progress group calls, nothing else
-  private async sendGroupCallUpdateMessage(
+  async #sendGroupCallUpdateMessage(
     conversationId: string,
     eraId: string
   ): Promise<boolean> {
@@ -1930,16 +1926,16 @@ export class CallingClass {
   ): Promise<void> {
     log.info('CallingClass.acceptDirectCall()');
 
-    const callId = this.getCallIdForConversation(conversationId);
+    const callId = this.#getCallIdForConversation(conversationId);
     if (!callId) {
       log.warn('Trying to accept a non-existent call');
       return;
     }
 
-    const haveMediaPermissions = await this.requestPermissions(asVideoCall);
+    const haveMediaPermissions = await this.#requestPermissions(asVideoCall);
     if (haveMediaPermissions) {
-      await this.startDeviceReselectionTimer();
-      RingRTC.setVideoCapturer(callId, this.videoCapturer);
+      await this.#startDeviceReselectionTimer();
+      RingRTC.setVideoCapturer(callId, this.#videoCapturer);
       RingRTC.setVideoRenderer(callId, this.videoRenderer);
       RingRTC.accept(callId, asVideoCall);
     } else {
@@ -1951,7 +1947,7 @@ export class CallingClass {
   declineDirectCall(conversationId: string): void {
     log.info('CallingClass.declineDirectCall()');
 
-    const callId = this.getCallIdForConversation(conversationId);
+    const callId = this.#getCallIdForConversation(conversationId);
     if (!callId) {
       log.warn('declineDirectCall: Trying to decline a non-existent call');
       return;
@@ -1983,7 +1979,7 @@ export class CallingClass {
   hangup(conversationId: string, reason: string): void {
     log.info(`CallingClass.hangup(${conversationId}): ${reason}`);
 
-    const specificCall = getOwn(this.callsLookup, conversationId);
+    const specificCall = getOwn(this.#callsLookup, conversationId);
     if (!specificCall) {
       log.error(
         `hangup: Trying to hang up a non-existent call for conversation ${conversationId}`
@@ -1995,7 +1991,7 @@ export class CallingClass {
       ScreenShareStatus.Disconnected
     );
 
-    const entries = Object.entries(this.callsLookup);
+    const entries = Object.entries(this.#callsLookup);
     log.info(`hangup: ${entries.length} call(s) to hang up...`);
 
     entries.forEach(([callConversationId, call]) => {
@@ -2016,14 +2012,14 @@ export class CallingClass {
   }
 
   hangupAllCalls(reason: string): void {
-    const conversationIds = Object.keys(this.callsLookup);
+    const conversationIds = Object.keys(this.#callsLookup);
     for (const conversationId of conversationIds) {
       this.hangup(conversationId, reason);
     }
   }
 
   setOutgoingAudio(conversationId: string, enabled: boolean): void {
-    const call = getOwn(this.callsLookup, conversationId);
+    const call = getOwn(this.#callsLookup, conversationId);
     if (!call) {
       log.warn('Trying to set outgoing audio for a non-existent call');
       return;
@@ -2039,7 +2035,7 @@ export class CallingClass {
   }
 
   setOutgoingVideo(conversationId: string, enabled: boolean): void {
-    const call = getOwn(this.callsLookup, conversationId);
+    const call = getOwn(this.#callsLookup, conversationId);
     if (!call) {
       log.warn('Trying to set outgoing video for a non-existent call');
       return;
@@ -2054,7 +2050,7 @@ export class CallingClass {
     }
   }
 
-  private setOutgoingVideoIsScreenShare(
+  #setOutgoingVideoIsScreenShare(
     call: Call | GroupCall,
     enabled: boolean
   ): void {
@@ -2076,16 +2072,16 @@ export class CallingClass {
     source,
     callLinkRootKey,
   }: SetPresentingOptionsType): Promise<void> {
-    const call = getOwn(this.callsLookup, conversationId);
+    const call = getOwn(this.#callsLookup, conversationId);
     if (!call) {
       log.warn('Trying to set presenting for a non-existent call');
       return;
     }
 
-    this.videoCapturer.disable();
+    this.#videoCapturer.disable();
     const isPresenting = mediaStream != null;
     if (isPresenting) {
-      this.hadLocalVideoBeforePresenting = hasLocalVideo;
+      this.#hadLocalVideoBeforePresenting = hasLocalVideo;
       drop(
         this.enableCaptureAndSend(call, {
           maxFramerate: REQUESTED_SCREEN_SHARE_FRAMERATE,
@@ -2093,7 +2089,7 @@ export class CallingClass {
           maxWidth: REQUESTED_SCREEN_SHARE_WIDTH,
           mediaStream,
           onEnded: () => {
-            this.reduxInterface?.cancelPresenting();
+            this.#reduxInterface?.cancelPresenting();
           },
         })
       );
@@ -2101,12 +2097,12 @@ export class CallingClass {
     } else {
       this.setOutgoingVideo(
         conversationId,
-        this.hadLocalVideoBeforePresenting ?? hasLocalVideo
+        this.#hadLocalVideoBeforePresenting ?? hasLocalVideo
       );
-      this.hadLocalVideoBeforePresenting = undefined;
+      this.#hadLocalVideoBeforePresenting = undefined;
     }
 
-    this.setOutgoingVideoIsScreenShare(call, isPresenting);
+    this.#setOutgoingVideoIsScreenShare(call, isPresenting);
 
     if (isPresenting) {
       ipcRenderer.send('show-screen-share', source?.name);
@@ -2228,23 +2224,23 @@ export class CallingClass {
     ipcRenderer.send('screen-share:status-change', newStatus);
   }
 
-  private async startDeviceReselectionTimer(): Promise<void> {
+  async #startDeviceReselectionTimer(): Promise<void> {
     // Poll once
-    await this.pollForMediaDevices();
+    await this.#pollForMediaDevices();
     // Start the timer
-    if (!this.deviceReselectionTimer) {
-      this.deviceReselectionTimer = setInterval(async () => {
-        await this.pollForMediaDevices();
+    if (!this.#deviceReselectionTimer) {
+      this.#deviceReselectionTimer = setInterval(async () => {
+        await this.#pollForMediaDevices();
       }, 3000);
     }
   }
 
-  private stopDeviceReselectionTimer() {
-    clearTimeoutIfNecessary(this.deviceReselectionTimer);
-    this.deviceReselectionTimer = undefined;
+  #stopDeviceReselectionTimer() {
+    clearTimeoutIfNecessary(this.#deviceReselectionTimer);
+    this.#deviceReselectionTimer = undefined;
   }
 
-  private mediaDeviceSettingsEqual(
+  #mediaDeviceSettingsEqual(
     a?: MediaDeviceSettings,
     b?: MediaDeviceSettings
   ): boolean {
@@ -2321,25 +2317,28 @@ export class CallingClass {
     return true;
   }
 
-  private async pollForMediaDevices(): Promise<void> {
+  async #pollForMediaDevices(): Promise<void> {
     const newSettings = await this.getMediaDeviceSettings();
     if (
-      !this.mediaDeviceSettingsEqual(this.lastMediaDeviceSettings, newSettings)
+      !this.#mediaDeviceSettingsEqual(
+        this.#lastMediaDeviceSettings,
+        newSettings
+      )
     ) {
       log.info(
         'MediaDevice: available devices changed (from->to)',
-        cleanForLogging(this.lastMediaDeviceSettings),
+        cleanForLogging(this.#lastMediaDeviceSettings),
         cleanForLogging(newSettings)
       );
 
-      await this.selectPreferredDevices(newSettings);
-      this.lastMediaDeviceSettings = newSettings;
-      this.reduxInterface?.refreshIODevices(newSettings);
+      await this.#selectPreferredDevices(newSettings);
+      this.#lastMediaDeviceSettings = newSettings;
+      this.#reduxInterface?.refreshIODevices(newSettings);
     }
   }
 
   async getAvailableIODevices(): Promise<AvailableIODevicesType> {
-    const availableCameras = await this.videoCapturer.enumerateDevices();
+    const availableCameras = await this.#videoCapturer.enumerateDevices();
     const availableMicrophones = RingRTC.getAudioInputs();
     const availableSpeakers = RingRTC.getAudioOutputs();
 
@@ -2417,7 +2416,7 @@ export class CallingClass {
   }
 
   enableLocalCamera(): void {
-    drop(this.videoCapturer.enableCapture());
+    drop(this.#videoCapturer.enableCapture());
   }
 
   async enableCaptureAndSend(
@@ -2426,7 +2425,10 @@ export class CallingClass {
     logId?: string
   ): Promise<void> {
     try {
-      await this.videoCapturer.enableCaptureAndSend(call, options ?? undefined);
+      await this.#videoCapturer.enableCaptureAndSend(
+        call,
+        options ?? undefined
+      );
     } catch (err) {
       log.error(
         `${
@@ -2438,13 +2440,13 @@ export class CallingClass {
   }
 
   disableLocalVideo(): void {
-    this.videoCapturer.disable();
+    this.#videoCapturer.disable();
   }
 
   async setPreferredCamera(device: string): Promise<void> {
     log.info('MediaDevice: setPreferredCamera', device);
     void window.Events.setPreferredVideoInputDevice(device);
-    await this.videoCapturer.setPreferredDevice(device);
+    await this.#videoCapturer.setPreferredDevice(device);
   }
 
   async handleCallingMessage(
@@ -2461,8 +2463,8 @@ export class CallingClass {
     }
 
     const remoteUserId = envelope.sourceServiceId;
-    const remoteDeviceId = this.parseDeviceId(envelope.sourceDevice);
-    if (!remoteUserId || !remoteDeviceId || !this.localDeviceId) {
+    const remoteDeviceId = this.#parseDeviceId(envelope.sourceDevice);
+    if (!remoteUserId || !remoteDeviceId || !this.#localDeviceId) {
       log.error(`${logId}: Missing identifier, ignoring call message.`);
       return;
     }
@@ -2517,7 +2519,7 @@ export class CallingClass {
       const message = new CallingMessage();
       message.hangup = hangup;
 
-      await this.handleOutgoingSignaling(remoteUserId, message);
+      await this.#handleOutgoingSignaling(remoteUserId, message);
 
       const wasVideoCall =
         callingMessage.offer.type ===
@@ -2558,7 +2560,7 @@ export class CallingClass {
       remoteUserId,
       remoteUuid: sourceServiceId ? Buffer.from(sourceServiceId) : undefined,
       remoteDeviceId,
-      localDeviceId: this.localDeviceId,
+      localDeviceId: this.#localDeviceId,
       ageSec: messageAgeSec,
       receivedAtCounter: envelope.receivedAtCounter,
       receivedAtDate: envelope.receivedAtDate,
@@ -2567,17 +2569,16 @@ export class CallingClass {
     });
   }
 
-  private async selectPreferredDevices(
-    settings: MediaDeviceSettings
-  ): Promise<void> {
+  async #selectPreferredDevices(settings: MediaDeviceSettings): Promise<void> {
     if (
-      (!this.lastMediaDeviceSettings && settings.selectedCamera) ||
-      (this.lastMediaDeviceSettings &&
+      (!this.#lastMediaDeviceSettings && settings.selectedCamera) ||
+      (this.#lastMediaDeviceSettings &&
         settings.selectedCamera &&
-        this.lastMediaDeviceSettings.selectedCamera !== settings.selectedCamera)
+        this.#lastMediaDeviceSettings.selectedCamera !==
+          settings.selectedCamera)
     ) {
       log.info('MediaDevice: selecting camera', settings.selectedCamera);
-      await this.videoCapturer.setPreferredDevice(settings.selectedCamera);
+      await this.#videoCapturer.setPreferredDevice(settings.selectedCamera);
     }
 
     // Assume that the MediaDeviceSettings have been obtained very recently and
@@ -2601,7 +2602,7 @@ export class CallingClass {
     }
   }
 
-  private async requestCameraPermissions(): Promise<boolean> {
+  async #requestCameraPermissions(): Promise<boolean> {
     const cameraPermission = await window.IPC.getMediaCameraPermissions();
     if (!cameraPermission) {
       await window.IPC.showPermissionsPopup(true, true);
@@ -2613,11 +2614,11 @@ export class CallingClass {
     return true;
   }
 
-  private async requestPermissions(isVideoCall: boolean): Promise<boolean> {
+  async #requestPermissions(isVideoCall: boolean): Promise<boolean> {
     const microphonePermission = await requestMicrophonePermissions(true);
     if (microphonePermission) {
       if (isVideoCall) {
-        return this.requestCameraPermissions();
+        return this.#requestCameraPermissions();
       }
 
       return true;
@@ -2626,7 +2627,7 @@ export class CallingClass {
     return false;
   }
 
-  private async handleSendCallMessage(
+  async #handleSendCallMessage(
     recipient: Uint8Array,
     data: Uint8Array,
     urgency: CallMessageUrgency
@@ -2639,11 +2640,11 @@ export class CallingClass {
     const message = new CallingMessage();
     message.opaque = new OpaqueMessage();
     message.opaque.data = Buffer.from(data);
-    return this.handleOutgoingSignaling(userId, message, urgency);
+    return this.#handleOutgoingSignaling(userId, message, urgency);
   }
 
   // Used to send a variety of group call messages, including the initial call message
-  private async handleSendCallMessageToGroup(
+  async #handleSendCallMessageToGroup(
     groupIdBytes: Buffer,
     data: Buffer,
     urgency: CallMessageUrgency,
@@ -2714,7 +2715,7 @@ export class CallingClass {
     }
   }
 
-  private async handleGroupCallRingUpdate(
+  async #handleGroupCallRingUpdate(
     groupIdBytes: Buffer,
     ringId: bigint,
     ringerBytes: Buffer,
@@ -2738,7 +2739,7 @@ export class CallingClass {
     }
 
     if (update === RingUpdate.Requested) {
-      this.reduxInterface?.peekNotConnectedGroupCall({
+      this.#reduxInterface?.peekNotConnectedGroupCall({
         callMode: CallMode.Group,
         conversationId: conversation.id,
       });
@@ -2777,7 +2778,7 @@ export class CallingClass {
     if (update === RingUpdate.Requested) {
       if (await wasGroupCallRingPreviouslyCanceled(ringId)) {
         RingRTC.cancelGroupRing(groupIdBytes, ringId, null);
-      } else if (this.areAnyCallsActiveOrRinging()) {
+      } else if (this.#areAnyCallsActiveOrRinging()) {
         RingRTC.cancelGroupRing(groupIdBytes, ringId, RingCancelReason.Busy);
       } else if (window.Events.getIncomingCallNotification()) {
         shouldRing = true;
@@ -2792,14 +2793,14 @@ export class CallingClass {
 
     if (shouldRing) {
       log.info('handleGroupCallRingUpdate: ringing');
-      this.reduxInterface?.receiveIncomingGroupCall({
+      this.#reduxInterface?.receiveIncomingGroupCall({
         conversationId,
         ringId,
         ringerAci,
       });
     } else {
       log.info('handleGroupCallRingUpdate: canceling the existing ring');
-      this.reduxInterface?.cancelIncomingGroupCallRing({
+      this.#reduxInterface?.cancelIncomingGroupCallRing({
         conversationId,
         ringId,
       });
@@ -2830,7 +2831,7 @@ export class CallingClass {
   }
 
   // Used for all 1:1 call messages, including the initial message to start the call
-  private async handleOutgoingSignaling(
+  async #handleOutgoingSignaling(
     remoteUserId: UserId,
     message: CallingMessage,
     urgency?: CallMessageUrgency
@@ -2872,10 +2873,10 @@ export class CallingClass {
   }
 
   // If we return null here, we hang up the call.
-  private async handleIncomingCall(call: Call): Promise<boolean> {
+  async #handleIncomingCall(call: Call): Promise<boolean> {
     log.info('CallingClass.handleIncomingCall()');
 
-    if (!this.reduxInterface || !this.localDeviceId) {
+    if (!this.#reduxInterface || !this.#localDeviceId) {
       log.error('Missing required objects, ignoring incoming call.');
       return false;
     }
@@ -2918,9 +2919,9 @@ export class CallingClass {
         return false;
       }
 
-      this.attachToCall(conversation, call);
+      this.#attachToCall(conversation, call);
 
-      this.reduxInterface.receiveIncomingDirectCall({
+      this.#reduxInterface.receiveIncomingDirectCall({
         conversationId: conversation.id,
         isVideoCall: call.isVideoCall,
       });
@@ -2932,7 +2933,7 @@ export class CallingClass {
     }
   }
 
-  private async handleAutoEndedIncomingCallRequest(
+  async #handleAutoEndedIncomingCallRequest(
     callIdValue: CallId,
     remoteUserId: UserId,
     callEndedReason: CallEndedReason,
@@ -2972,12 +2973,12 @@ export class CallingClass {
       'CallingClass.handleAutoEndedIncomingCallRequest'
     );
 
-    if (!this.reduxInterface) {
+    if (!this.#reduxInterface) {
       log.error(
         'handleAutoEndedIncomingCallRequest: Unable to update redux for call'
       );
     }
-    this.reduxInterface?.callStateChange({
+    this.#reduxInterface?.callStateChange({
       acceptedTime: null,
       callEndedReason,
       callState: CallState.Ended,
@@ -2991,10 +2992,10 @@ export class CallingClass {
     );
   }
 
-  private attachToCall(conversation: ConversationModel, call: Call): void {
-    this.callsLookup[conversation.id] = call;
+  #attachToCall(conversation: ConversationModel, call: Call): void {
+    this.#callsLookup[conversation.id] = call;
 
-    const { reduxInterface } = this;
+    const reduxInterface = this.#reduxInterface;
     if (!reduxInterface) {
       return;
     }
@@ -3008,9 +3009,9 @@ export class CallingClass {
       }
 
       if (call.state === CallState.Ended) {
-        this.stopDeviceReselectionTimer();
-        this.lastMediaDeviceSettings = undefined;
-        delete this.callsLookup[conversation.id];
+        this.#stopDeviceReselectionTimer();
+        this.#lastMediaDeviceSettings = undefined;
+        delete this.#callsLookup[conversation.id];
       }
 
       const localCallEvent = getLocalCallEventFromDirectCall(call);
@@ -3060,7 +3061,7 @@ export class CallingClass {
     };
   }
 
-  private async handleLogMessage(
+  async #handleLogMessage(
     level: CallLogLevel,
     fileName: string,
     line: number,
@@ -3081,10 +3082,10 @@ export class CallingClass {
     }
   }
 
-  private async handleRtcStatsReport(reportJson: string) {
+  async #handleRtcStatsReport(reportJson: string) {
     // assumes one active call
-    const conversationId = Object.keys(this.callsLookup)[0] ?? '';
-    const callId = this.callDebugNumber;
+    const conversationId = Object.keys(this.#callsLookup)[0] ?? '';
+    const callId = this.#callDebugNumber;
 
     ipcRenderer.send('calling:rtc-stats-report', {
       conversationId,
@@ -3093,7 +3094,7 @@ export class CallingClass {
     });
   }
 
-  private async handleSendHttpRequest(
+  async #handleSendHttpRequest(
     requestId: number,
     url: string,
     method: HttpMethod,
@@ -3142,7 +3143,7 @@ export class CallingClass {
     );
   }
 
-  private getRemoteUserIdFromConversation(
+  #getRemoteUserIdFromConversation(
     conversation: ConversationModel
   ): UserId | undefined | null {
     const recipients = conversation.getRecipients();
@@ -3152,13 +3153,11 @@ export class CallingClass {
     return recipients[0];
   }
 
-  private get localDeviceId(): DeviceId | null {
-    return this.parseDeviceId(window.textsecure.storage.user.getDeviceId());
+  get #localDeviceId(): DeviceId | null {
+    return this.#parseDeviceId(window.textsecure.storage.user.getDeviceId());
   }
 
-  private parseDeviceId(
-    deviceId: number | string | undefined
-  ): DeviceId | null {
+  #parseDeviceId(deviceId: number | string | undefined): DeviceId | null {
     if (typeof deviceId === 'string') {
       return parseInt(deviceId, 10);
     }
@@ -3168,7 +3167,7 @@ export class CallingClass {
     return null;
   }
 
-  private async handleStartCall(call: Call): Promise<boolean> {
+  async #handleStartCall(call: Call): Promise<boolean> {
     type IceServer = {
       username?: string;
       password?: string;
@@ -3391,11 +3390,11 @@ export class CallingClass {
       isAnybodyElseInGroupCall &&
       !conversation.isMuted()
     ) {
-      await this.notifyForGroupCall(conversation, creatorConversation);
+      await this.#notifyForGroupCall(conversation, creatorConversation);
     }
   }
 
-  private async notifyForGroupCall(
+  async #notifyForGroupCall(
     conversation: Readonly<ConversationModel>,
     creatorConversation: undefined | Readonly<ConversationModel>
   ): Promise<void> {
@@ -3437,11 +3436,11 @@ export class CallingClass {
     });
   }
 
-  private areAnyCallsActiveOrRinging(): boolean {
-    return this.reduxInterface?.areAnyCallsActiveOrRinging() ?? false;
+  #areAnyCallsActiveOrRinging(): boolean {
+    return this.#reduxInterface?.areAnyCallsActiveOrRinging() ?? false;
   }
 
-  private async cleanExpiredGroupCallRingsAndLoop(): Promise<void> {
+  async #cleanExpiredGroupCallRingsAndLoop(): Promise<void> {
     try {
       await cleanExpiredGroupCallRingCancellations();
     } catch (err: unknown) {
@@ -3450,13 +3449,13 @@ export class CallingClass {
     }
 
     setTimeout(() => {
-      void this.cleanExpiredGroupCallRingsAndLoop();
+      void this.#cleanExpiredGroupCallRingsAndLoop();
     }, CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL);
   }
 
   // MacOS: Preload devices to work around delay when first entering call lobby
   // https://bugs.chromium.org/p/chromium/issues/detail?id=1287628
-  private async enumerateMediaDevices(): Promise<void> {
+  async #enumerateMediaDevices(): Promise<void> {
     try {
       const microphoneStatus =
         await window.IPC.getMediaAccessStatus('microphone');

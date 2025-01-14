@@ -16,11 +16,9 @@ type Database = {
 };
 
 export class JobQueueDatabaseStore implements JobQueueStore {
-  private activeQueueTypes = new Set<string>();
-
-  private queues = new Map<string, AsyncQueue<StoredJob>>();
-
-  private initialFetchPromises = new Map<string, Promise<void>>();
+  #activeQueueTypes = new Set<string>();
+  #queues = new Map<string, AsyncQueue<StoredJob>>();
+  #initialFetchPromises = new Map<string, Promise<void>>();
 
   constructor(private readonly db: Database) {}
 
@@ -34,7 +32,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
       )}`
     );
 
-    const initialFetchPromise = this.initialFetchPromises.get(job.queueType);
+    const initialFetchPromise = this.#initialFetchPromises.get(job.queueType);
     if (initialFetchPromise) {
       await initialFetchPromise;
     } else {
@@ -48,7 +46,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     }
 
     if (initialFetchPromise) {
-      this.getQueue(job.queueType).add(job);
+      this.#getQueue(job.queueType).add(job);
     }
   }
 
@@ -57,31 +55,31 @@ export class JobQueueDatabaseStore implements JobQueueStore {
   }
 
   stream(queueType: string): AsyncIterable<StoredJob> {
-    if (this.activeQueueTypes.has(queueType)) {
+    if (this.#activeQueueTypes.has(queueType)) {
       throw new Error(
         `Cannot stream queue type ${JSON.stringify(queueType)} more than once`
       );
     }
-    this.activeQueueTypes.add(queueType);
+    this.#activeQueueTypes.add(queueType);
 
     return concat([
-      wrapPromise(this.fetchJobsAtStart(queueType)),
-      this.getQueue(queueType),
+      wrapPromise(this.#fetchJobsAtStart(queueType)),
+      this.#getQueue(queueType),
     ]);
   }
 
-  private getQueue(queueType: string): AsyncQueue<StoredJob> {
-    const existingQueue = this.queues.get(queueType);
+  #getQueue(queueType: string): AsyncQueue<StoredJob> {
+    const existingQueue = this.#queues.get(queueType);
     if (existingQueue) {
       return existingQueue;
     }
 
     const result = new AsyncQueue<StoredJob>();
-    this.queues.set(queueType, result);
+    this.#queues.set(queueType, result);
     return result;
   }
 
-  private async fetchJobsAtStart(queueType: string): Promise<Array<StoredJob>> {
+  async #fetchJobsAtStart(queueType: string): Promise<Array<StoredJob>> {
     log.info(
       `JobQueueDatabaseStore fetching existing jobs for queue ${JSON.stringify(
         queueType
@@ -94,7 +92,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     const initialFetchPromise = new Promise<void>(resolve => {
       onFinished = resolve;
     });
-    this.initialFetchPromises.set(queueType, initialFetchPromise);
+    this.#initialFetchPromises.set(queueType, initialFetchPromise);
 
     const result = await this.db.getJobsInQueue(queueType);
     log.info(

@@ -82,27 +82,26 @@ export type ProvisionerOptionsType = Readonly<{
 const INACTIVE_SOCKET_TIMEOUT = 30 * MINUTE;
 
 export class Provisioner {
-  private readonly cipher = new ProvisioningCipher();
-  private readonly server: WebAPIType;
-  private readonly appVersion: string;
-
-  private state: StateType = { step: Step.Idle };
-  private wsr: IWebSocketResource | undefined;
+  readonly #cipher = new ProvisioningCipher();
+  readonly #server: WebAPIType;
+  readonly #appVersion: string;
+  #state: StateType = { step: Step.Idle };
+  #wsr: IWebSocketResource | undefined;
 
   constructor(options: ProvisionerOptionsType) {
-    this.server = options.server;
-    this.appVersion = options.appVersion;
+    this.#server = options.server;
+    this.#appVersion = options.appVersion;
   }
 
   public close(error = new Error('Provisioner closed')): void {
     try {
-      this.wsr?.close();
+      this.#wsr?.close();
     } catch {
       // Best effort
     }
 
-    const prevState = this.state;
-    this.state = { step: Step.Done };
+    const prevState = this.#state;
+    this.#state = { step: Step.Done };
 
     if (prevState.step === Step.WaitingForURL) {
       prevState.url.reject(error);
@@ -113,15 +112,15 @@ export class Provisioner {
 
   public async getURL(): Promise<string> {
     strictAssert(
-      this.state.step === Step.Idle,
-      `Invalid state for getURL: ${this.state.step}`
+      this.#state.step === Step.Idle,
+      `Invalid state for getURL: ${this.#state.step}`
     );
-    this.state = { step: Step.Connecting };
+    this.#state = { step: Step.Connecting };
 
-    const wsr = await this.server.getProvisioningResource({
+    const wsr = await this.#server.getProvisioningResource({
       handleRequest: (request: IncomingWebSocketRequest) => {
         try {
-          this.handleRequest(request);
+          this.#handleRequest(request);
         } catch (error) {
           log.error(
             'Provisioner.handleRequest: failure',
@@ -131,7 +130,7 @@ export class Provisioner {
         }
       },
     });
-    this.wsr = wsr;
+    this.#wsr = wsr;
 
     let inactiveTimer: NodeJS.Timeout | undefined;
 
@@ -159,12 +158,12 @@ export class Provisioner {
 
     document.addEventListener('visibilitychange', onVisibilityChange);
 
-    if (this.state.step !== Step.Connecting) {
+    if (this.#state.step !== Step.Connecting) {
       this.close();
       throw new Error('Provisioner closed early');
     }
 
-    this.state = {
+    this.#state = {
       step: Step.WaitingForURL,
       url: explodePromise(),
     };
@@ -177,7 +176,7 @@ export class Provisioner {
       }
       inactiveTimer = undefined;
 
-      if (this.state.step === Step.ReadyToLink) {
+      if (this.#state.step === Step.ReadyToLink) {
         // WebSocket close is not an issue since we no longer need it
         return;
       }
@@ -186,15 +185,15 @@ export class Provisioner {
       this.close(new Error('websocket closed'));
     });
 
-    return this.state.url.promise;
+    return this.#state.url.promise;
   }
 
   public async waitForEnvelope(): Promise<void> {
     strictAssert(
-      this.state.step === Step.WaitingForEnvelope,
-      `Invalid state for waitForEnvelope: ${this.state.step}`
+      this.#state.step === Step.WaitingForEnvelope,
+      `Invalid state for waitForEnvelope: ${this.#state.step}`
     );
-    await this.state.done.promise;
+    await this.#state.done.promise;
   }
 
   public prepareLinkData({
@@ -202,11 +201,11 @@ export class Provisioner {
     backupFile,
   }: PrepareLinkDataOptionsType): CreateLinkedDeviceOptionsType {
     strictAssert(
-      this.state.step === Step.ReadyToLink,
-      `Invalid state for prepareLinkData: ${this.state.step}`
+      this.#state.step === Step.ReadyToLink,
+      `Invalid state for prepareLinkData: ${this.#state.step}`
     );
-    const { envelope } = this.state;
-    this.state = { step: Step.Done };
+    const { envelope } = this.#state;
+    this.#state = { step: Step.Done };
 
     const {
       number,
@@ -273,31 +272,31 @@ export class Provisioner {
 
   public isLinkAndSync(): boolean {
     strictAssert(
-      this.state.step === Step.ReadyToLink,
-      `Invalid state for prepareLinkData: ${this.state.step}`
+      this.#state.step === Step.ReadyToLink,
+      `Invalid state for prepareLinkData: ${this.#state.step}`
     );
 
-    const { envelope } = this.state;
+    const { envelope } = this.#state;
 
     return (
-      isLinkAndSyncEnabled(this.appVersion) &&
+      isLinkAndSyncEnabled(this.#appVersion) &&
       Bytes.isNotEmpty(envelope.ephemeralBackupKey)
     );
   }
 
-  private handleRequest(request: IncomingWebSocketRequest): void {
-    const pubKey = this.cipher.getPublicKey();
+  #handleRequest(request: IncomingWebSocketRequest): void {
+    const pubKey = this.#cipher.getPublicKey();
 
     if (
       request.requestType === ServerRequestType.ProvisioningAddress &&
       request.body
     ) {
       strictAssert(
-        this.state.step === Step.WaitingForURL,
-        `Unexpected provisioning address, state: ${this.state}`
+        this.#state.step === Step.WaitingForURL,
+        `Unexpected provisioning address, state: ${this.#state}`
       );
-      const prevState = this.state;
-      this.state = { step: Step.WaitingForEnvelope, done: explodePromise() };
+      const prevState = this.#state;
+      this.#state = { step: Step.WaitingForEnvelope, done: explodePromise() };
 
       const proto = Proto.ProvisioningUuid.decode(request.body);
       const { uuid } = proto;
@@ -307,7 +306,9 @@ export class Provisioner {
         .toAppUrl({
           uuid,
           pubKey: Bytes.toBase64(pubKey),
-          capabilities: isLinkAndSyncEnabled(this.appVersion) ? ['backup'] : [],
+          capabilities: isLinkAndSyncEnabled(this.#appVersion)
+            ? ['backup']
+            : [],
         })
         .toString();
 
@@ -320,17 +321,17 @@ export class Provisioner {
       request.body
     ) {
       strictAssert(
-        this.state.step === Step.WaitingForEnvelope,
-        `Unexpected provisioning address, state: ${this.state}`
+        this.#state.step === Step.WaitingForEnvelope,
+        `Unexpected provisioning address, state: ${this.#state}`
       );
-      const prevState = this.state;
+      const prevState = this.#state;
 
       const ciphertext = Proto.ProvisionEnvelope.decode(request.body);
-      const message = this.cipher.decrypt(ciphertext);
+      const message = this.#cipher.decrypt(ciphertext);
 
-      this.state = { step: Step.ReadyToLink, envelope: message };
+      this.#state = { step: Step.ReadyToLink, envelope: message };
       request.respond(200, 'OK');
-      this.wsr?.close();
+      this.#wsr?.close();
 
       prevState.done.resolve();
     } else {

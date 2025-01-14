@@ -119,8 +119,9 @@ function getJobIdForLogging(job: CoreAttachmentDownloadJobType): string {
 }
 
 export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownloadJobType> {
-  private visibleTimelineMessages: Set<string> = new Set();
-  private saveJobsBatcher = createBatcher<AttachmentDownloadJobType>({
+  #visibleTimelineMessages: Set<string> = new Set();
+
+  #saveJobsBatcher = createBatcher<AttachmentDownloadJobType>({
     name: 'saveAttachmentDownloadJobs',
     wait: 150,
     maxSize: 1000,
@@ -129,6 +130,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       drop(this.maybeStartJobs());
     },
   });
+
   private static _instance: AttachmentDownloadManager | undefined;
   override logPrefix = 'AttachmentDownloadManager';
 
@@ -136,7 +138,9 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     markAllJobsInactive: DataWriter.resetAttachmentDownloadActive,
     saveJob: async (job, options) => {
       if (options?.allowBatching) {
-        AttachmentDownloadManager._instance?.saveJobsBatcher.add(job);
+        if (AttachmentDownloadManager._instance != null) {
+          AttachmentDownloadManager._instance.#saveJobsBatcher.add(job);
+        }
       } else {
         await DataWriter.saveAttachmentDownloadJob(job);
       }
@@ -166,7 +170,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       getNextJobs: ({ limit }) => {
         return params.getNextJobs({
           limit,
-          prioritizeMessageIds: [...this.visibleTimelineMessages],
+          prioritizeMessageIds: [...this.#visibleTimelineMessages],
           sources: window.storage.get('backupMediaDownloadPaused')
             ? [AttachmentDownloadSource.STANDARD]
             : undefined,
@@ -180,7 +184,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
           isLastAttempt,
         }: { abortSignal: AbortSignal; isLastAttempt: boolean }
       ) => {
-        const isForCurrentlyVisibleMessage = this.visibleTimelineMessages.has(
+        const isForCurrentlyVisibleMessage = this.#visibleTimelineMessages.has(
           job.messageId
         );
         return params.runDownloadAttachmentJob({
@@ -250,7 +254,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   }
 
   updateVisibleTimelineMessages(messageIds: Array<string>): void {
-    this.visibleTimelineMessages = new Set(messageIds);
+    this.#visibleTimelineMessages = new Set(messageIds);
   }
 
   static get instance(): AttachmentDownloadManager {
@@ -268,7 +272,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   }
 
   static async saveBatchedJobs(): Promise<void> {
-    await AttachmentDownloadManager.instance.saveJobsBatcher.flushAndWait();
+    await AttachmentDownloadManager.instance.#saveJobsBatcher.flushAndWait();
   }
 
   static async stop(): Promise<void> {

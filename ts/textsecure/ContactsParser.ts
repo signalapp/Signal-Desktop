@@ -79,7 +79,7 @@ export class ParseContactsTransform extends Transform {
   public contacts: Array<ContactDetailsWithAvatar> = [];
 
   public activeContact: Proto.ContactDetails | undefined;
-  private unused: Uint8Array | undefined;
+  #unused: Uint8Array | undefined;
 
   override async _transform(
     chunk: Buffer | undefined,
@@ -93,9 +93,9 @@ export class ParseContactsTransform extends Transform {
 
     try {
       let data = chunk;
-      if (this.unused) {
-        data = Buffer.concat([this.unused, data]);
-        this.unused = undefined;
+      if (this.#unused) {
+        data = Buffer.concat([this.#unused, data]);
+        this.#unused = undefined;
       }
 
       const reader = Reader.create(data);
@@ -110,7 +110,7 @@ export class ParseContactsTransform extends Transform {
             if (err instanceof RangeError) {
               // Note: A failed decodeDelimited() does in fact update reader.pos, so we
               //   must reset to startPos
-              this.unused = data.subarray(startPos);
+              this.#unused = data.subarray(startPos);
               done();
               return;
             }
@@ -174,7 +174,7 @@ export class ParseContactsTransform extends Transform {
         } else {
           // We have an attachment, but we haven't read enough data yet. We need to
           //   wait for another chunk.
-          this.unused = data.subarray(reader.pos);
+          this.#unused = data.subarray(reader.pos);
           done();
           return;
         }

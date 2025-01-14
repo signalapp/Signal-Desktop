@@ -49,8 +49,8 @@ export type ReleaseNoteType = ReleaseNoteResponseType &
 let initComplete = false;
 
 export class ReleaseNotesFetcher {
-  private timeout: NodeJS.Timeout | undefined;
-  private isRunning = false;
+  #timeout: NodeJS.Timeout | undefined;
+  #isRunning = false;
 
   protected async scheduleUpdateForNow(): Promise<void> {
     const now = Date.now();
@@ -74,11 +74,11 @@ export class ReleaseNotesFetcher {
       waitTime = 0;
     }
 
-    clearTimeoutIfNecessary(this.timeout);
-    this.timeout = setTimeout(() => this.runWhenOnline(), waitTime);
+    clearTimeoutIfNecessary(this.#timeout);
+    this.#timeout = setTimeout(() => this.#runWhenOnline(), waitTime);
   }
 
-  private getOrInitializeVersionWatermark(): string {
+  #getOrInitializeVersionWatermark(): string {
     const versionWatermark = window.textsecure.storage.get(
       VERSION_WATERMARK_STORAGE_KEY
     );
@@ -99,7 +99,7 @@ export class ReleaseNotesFetcher {
     return currentVersion;
   }
 
-  private async getReleaseNote(
+  async #getReleaseNote(
     note: ManifestReleaseNoteType
   ): Promise<ReleaseNoteType | undefined> {
     if (!window.textsecure.server) {
@@ -154,7 +154,7 @@ export class ReleaseNotesFetcher {
     );
   }
 
-  private async processReleaseNotes(
+  async #processReleaseNotes(
     notes: ReadonlyArray<ManifestReleaseNoteType>
   ): Promise<void> {
     const sortedNotes = [...notes].sort(
@@ -164,7 +164,7 @@ export class ReleaseNotesFetcher {
     const hydratedNotes = [];
     for (const note of sortedNotes) {
       // eslint-disable-next-line no-await-in-loop
-      hydratedNotes.push(await this.getReleaseNote(note));
+      hydratedNotes.push(await this.#getReleaseNote(note));
     }
     if (!hydratedNotes.length) {
       log.warn('ReleaseNotesFetcher: No hydrated notes available, stopping');
@@ -232,22 +232,22 @@ export class ReleaseNotesFetcher {
     );
   }
 
-  private async scheduleForNextRun(): Promise<void> {
+  async #scheduleForNextRun(): Promise<void> {
     const now = Date.now();
     const nextTime = now + FETCH_INTERVAL;
     await window.textsecure.storage.put(NEXT_FETCH_TIME_STORAGE_KEY, nextTime);
   }
 
-  private async run(): Promise<void> {
-    if (this.isRunning) {
+  async #run(): Promise<void> {
+    if (this.#isRunning) {
       log.warn('ReleaseNotesFetcher: Already running, preventing reentrancy');
       return;
     }
 
-    this.isRunning = true;
+    this.#isRunning = true;
     log.info('ReleaseNotesFetcher: Starting');
     try {
-      const versionWatermark = this.getOrInitializeVersionWatermark();
+      const versionWatermark = this.#getOrInitializeVersionWatermark();
       log.info(`ReleaseNotesFetcher: Version watermark is ${versionWatermark}`);
 
       if (!window.textsecure.server) {
@@ -276,7 +276,7 @@ export class ReleaseNotesFetcher {
           log.info(
             `ReleaseNotesFetcher: Processing ${validNotes.length} new release notes`
           );
-          drop(this.processReleaseNotes(validNotes));
+          drop(this.#processReleaseNotes(validNotes));
         } else {
           log.info('ReleaseNotesFetcher: No new release notes');
         }
@@ -291,7 +291,7 @@ export class ReleaseNotesFetcher {
         log.info('ReleaseNotesFetcher: Manifest hash unchanged');
       }
 
-      await this.scheduleForNextRun();
+      await this.#scheduleForNextRun();
       this.setTimeoutForNextRun();
     } catch (error) {
       const errorString =
@@ -303,13 +303,13 @@ export class ReleaseNotesFetcher {
       );
       setTimeout(() => this.setTimeoutForNextRun(), ERROR_RETRY_DELAY);
     } finally {
-      this.isRunning = false;
+      this.#isRunning = false;
     }
   }
 
-  private runWhenOnline() {
+  #runWhenOnline() {
     if (window.textsecure.server?.isOnline()) {
-      drop(this.run());
+      drop(this.#run());
     } else {
       log.info(
         'ReleaseNotesFetcher: We are offline; will fetch when we are next online'

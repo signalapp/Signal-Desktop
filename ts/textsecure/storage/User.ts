@@ -142,7 +142,8 @@ export class User {
   }
 
   public getDeviceId(): number | undefined {
-    const value = this._getDeviceIdFromUuid() || this._getDeviceIdFromNumber();
+    const value =
+      this.#_getDeviceIdFromUuid() || this.#_getDeviceIdFromNumber();
     if (value === undefined) {
       return undefined;
     }
@@ -202,7 +203,7 @@ export class User {
     };
   }
 
-  private _getDeviceIdFromUuid(): string | undefined {
+  #_getDeviceIdFromUuid(): string | undefined {
     const uuid = this.storage.get('uuid_id');
     if (uuid === undefined) {
       return undefined;
@@ -210,7 +211,7 @@ export class User {
     return Helpers.unencodeNumber(uuid)[1];
   }
 
-  private _getDeviceIdFromNumber(): string | undefined {
+  #_getDeviceIdFromNumber(): string | undefined {
     const numberId = this.storage.get('number_id');
     if (numberId === undefined) {
       return undefined;

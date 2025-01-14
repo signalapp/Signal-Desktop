@@ -36,17 +36,12 @@ type DoLookupActionsType = Readonly<{
   LookupConversationWithoutServiceIdActionsType;
 
 export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFindByPhoneNumberPropsType> {
-  private readonly searchTerm: string;
-
-  private readonly phoneNumber: ParsedE164Type | undefined;
-
-  private readonly regionCode: string | undefined;
-
-  private readonly uuidFetchState: UUIDFetchStateType;
-
-  private readonly countries: ReadonlyArray<CountryDataType>;
-
-  private readonly selectedRegion: string;
+  readonly #searchTerm: string;
+  readonly #phoneNumber: ParsedE164Type | undefined;
+  readonly #regionCode: string | undefined;
+  readonly #uuidFetchState: UUIDFetchStateType;
+  readonly #countries: ReadonlyArray<CountryDataType>;
+  readonly #selectedRegion: string;
 
   constructor({
     searchTerm,
@@ -57,14 +52,14 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
   }: Readonly<LeftPaneFindByPhoneNumberPropsType>) {
     super();
 
-    this.searchTerm = searchTerm;
-    this.uuidFetchState = uuidFetchState;
-    this.regionCode = regionCode;
-    this.countries = countries;
-    this.selectedRegion = selectedRegion;
+    this.#searchTerm = searchTerm;
+    this.#uuidFetchState = uuidFetchState;
+    this.#regionCode = regionCode;
+    this.#countries = countries;
+    this.#selectedRegion = selectedRegion;
 
-    this.phoneNumber = parseAndFormatPhoneNumber(
-      this.searchTerm,
+    this.#phoneNumber = parseAndFormatPhoneNumber(
+      this.#searchTerm,
       selectedRegion || regionCode
     );
   }
@@ -83,7 +78,7 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
         <button
           aria-label={backButtonLabel}
           className="module-left-pane__header__contents__back-button"
-          disabled={this.isFetching()}
+          disabled={this.#isFetching()}
           onClick={this.getBackAction({ startComposing })}
           title={backButtonLabel}
           type="button"
@@ -100,7 +95,7 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
   }: {
     startComposing: () => void;
   }): undefined | (() => void) {
-    return this.isFetching() ? undefined : startComposing;
+    return this.#isFetching() ? undefined : startComposing;
   }
 
   override getSearchInput({
@@ -122,25 +117,25 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
     return (
       <div className="LeftPaneFindByPhoneNumberHelper__container">
         <CountryCodeSelect
-          countries={this.countries}
+          countries={this.#countries}
           i18n={i18n}
-          defaultRegion={this.regionCode ?? ''}
-          value={this.selectedRegion}
+          defaultRegion={this.#regionCode ?? ''}
+          value={this.#selectedRegion}
           onChange={onChangeComposeSelectedRegion}
         />
 
         <SearchInput
           hasSearchIcon={false}
-          disabled={this.isFetching()}
+          disabled={this.#isFetching()}
           i18n={i18n}
           moduleClassName="LeftPaneFindByPhoneNumberHelper__search-input"
           onChange={onChangeComposeSearchTerm}
           placeholder={placeholder}
           ref={focusRef}
-          value={this.searchTerm}
+          value={this.#searchTerm}
           onKeyDown={ev => {
             if (ev.key === 'Enter') {
-              drop(this.doLookup(lookupActions));
+              drop(this.#doLookup(lookupActions));
             }
           }}
         />
@@ -157,10 +152,10 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
     DoLookupActionsType): ReactChild {
     return (
       <Button
-        disabled={this.isLookupDisabled()}
-        onClick={() => drop(this.doLookup(lookupActions))}
+        disabled={this.#isLookupDisabled()}
+        onClick={() => drop(this.#doLookup(lookupActions))}
       >
-        {this.isFetching() ? (
+        {this.#isFetching() ? (
           <span aria-label={i18n('icu:loading')} role="status">
             <Spinner size="20px" svgSize="small" direction="on-avatar" />
           </span>
@@ -198,14 +193,14 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
     return false;
   }
 
-  private async doLookup({
+  async #doLookup({
     lookupConversationWithoutServiceId,
     showUserNotFoundModal,
     setIsFetchingUUID,
     showInbox,
     showConversation,
   }: DoLookupActionsType): Promise<void> {
-    if (!this.phoneNumber || this.isLookupDisabled()) {
+    if (!this.#phoneNumber || this.#isLookupDisabled()) {
       return;
     }
 
@@ -213,8 +208,8 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
       showUserNotFoundModal,
       setIsFetchingUUID,
       type: 'e164',
-      e164: this.phoneNumber.e164,
-      phoneNumber: this.searchTerm,
+      e164: this.#phoneNumber.e164,
+      phoneNumber: this.#searchTerm,
     });
 
     if (conversationId != null) {
@@ -223,20 +218,20 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
     }
   }
 
-  private isFetching(): boolean {
-    if (this.phoneNumber != null) {
-      return isFetchingByE164(this.uuidFetchState, this.phoneNumber.e164);
+  #isFetching(): boolean {
+    if (this.#phoneNumber != null) {
+      return isFetchingByE164(this.#uuidFetchState, this.#phoneNumber.e164);
     }
 
     return false;
   }
 
-  private isLookupDisabled(): boolean {
-    if (this.isFetching()) {
+  #isLookupDisabled(): boolean {
+    if (this.#isFetching()) {
       return true;
     }
 
-    return !this.phoneNumber?.isValid;
+    return !this.#phoneNumber?.isValid;
   }
 }
 

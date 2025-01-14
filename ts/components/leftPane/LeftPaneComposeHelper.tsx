@@ -35,21 +35,14 @@ enum TopButtons {
 }
 
 export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
-  private readonly composeContacts: ReadonlyArray<ContactListItemConversationType>;
-
-  private readonly composeGroups: ReadonlyArray<GroupListItemConversationType>;
-
-  private readonly uuidFetchState: UUIDFetchStateType;
-
-  private readonly searchTerm: string;
-
-  private readonly phoneNumber: ParsedE164Type | undefined;
-
-  private readonly isPhoneNumberVisible: boolean;
-
-  private readonly username: string | undefined;
-
-  private readonly isUsernameVisible: boolean;
+  readonly #composeContacts: ReadonlyArray<ContactListItemConversationType>;
+  readonly #composeGroups: ReadonlyArray<GroupListItemConversationType>;
+  readonly #uuidFetchState: UUIDFetchStateType;
+  readonly #searchTerm: string;
+  readonly #phoneNumber: ParsedE164Type | undefined;
+  readonly #isPhoneNumberVisible: boolean;
+  readonly #username: string | undefined;
+  readonly #isUsernameVisible: boolean;
 
   constructor({
     composeContacts,
@@ -61,24 +54,24 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }: Readonly<LeftPaneComposePropsType>) {
     super();
 
-    this.composeContacts = composeContacts;
-    this.composeGroups = composeGroups;
-    this.searchTerm = searchTerm;
-    this.uuidFetchState = uuidFetchState;
+    this.#composeContacts = composeContacts;
+    this.#composeGroups = composeGroups;
+    this.#searchTerm = searchTerm;
+    this.#uuidFetchState = uuidFetchState;
 
-    this.username = username;
-    this.isUsernameVisible =
+    this.#username = username;
+    this.#isUsernameVisible =
       Boolean(username) &&
-      this.composeContacts.every(contact => contact.username !== username);
+      this.#composeContacts.every(contact => contact.username !== username);
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
     if (!username && phoneNumber) {
-      this.phoneNumber = phoneNumber;
-      this.isPhoneNumberVisible = this.composeContacts.every(
+      this.#phoneNumber = phoneNumber;
+      this.#isPhoneNumberVisible = this.#composeContacts.every(
         contact => contact.e164 !== phoneNumber.e164
       );
     } else {
-      this.isPhoneNumberVisible = false;
+      this.#isPhoneNumberVisible = false;
     }
   }
 
@@ -125,7 +118,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         onChange={onChangeComposeSearchTerm}
         placeholder={i18n('icu:contactSearchPlaceholder')}
         ref={focusRef}
-        value={this.searchTerm}
+        value={this.#searchTerm}
       />
     );
   }
@@ -143,20 +136,20 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }
 
   getRowCount(): number {
-    let result = this.composeContacts.length + this.composeGroups.length;
-    if (this.hasTopButtons()) {
+    let result = this.#composeContacts.length + this.#composeGroups.length;
+    if (this.#hasTopButtons()) {
       result += 3;
     }
-    if (this.hasContactsHeader()) {
+    if (this.#hasContactsHeader()) {
       result += 1;
     }
-    if (this.hasGroupsHeader()) {
+    if (this.#hasGroupsHeader()) {
       result += 1;
     }
-    if (this.isUsernameVisible) {
+    if (this.#isUsernameVisible) {
       result += 2;
     }
-    if (this.isPhoneNumberVisible) {
+    if (this.#isPhoneNumberVisible) {
       result += 2;
     }
 
@@ -165,7 +158,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
   getRow(actualRowIndex: number): undefined | Row {
     let virtualRowIndex = actualRowIndex;
-    if (this.hasTopButtons()) {
+    if (this.#hasTopButtons()) {
       if (virtualRowIndex === 0) {
         return { type: RowType.CreateNewGroup };
       }
@@ -179,7 +172,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       virtualRowIndex -= 3;
     }
 
-    if (this.hasContactsHeader()) {
+    if (this.#hasContactsHeader()) {
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
@@ -189,7 +182,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
       virtualRowIndex -= 1;
 
-      const contact = this.composeContacts[virtualRowIndex];
+      const contact = this.#composeContacts[virtualRowIndex];
       if (contact) {
         return {
           type: RowType.Contact,
@@ -198,10 +191,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         };
       }
 
-      virtualRowIndex -= this.composeContacts.length;
+      virtualRowIndex -= this.#composeContacts.length;
     }
 
-    if (this.hasGroupsHeader()) {
+    if (this.#hasGroupsHeader()) {
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
@@ -211,7 +204,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
       virtualRowIndex -= 1;
 
-      const group = this.composeGroups[virtualRowIndex];
+      const group = this.#composeGroups[virtualRowIndex];
       if (group) {
         return {
           type: RowType.SelectSingleGroup,
@@ -219,10 +212,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         };
       }
 
-      virtualRowIndex -= this.composeGroups.length;
+      virtualRowIndex -= this.#composeGroups.length;
     }
 
-    if (this.username && this.isUsernameVisible) {
+    if (this.#username && this.#isUsernameVisible) {
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
@@ -235,16 +228,16 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.UsernameSearchResult,
-          username: this.username,
+          username: this.#username,
           isFetchingUsername: isFetchingByUsername(
-            this.uuidFetchState,
-            this.username
+            this.#uuidFetchState,
+            this.#username
           ),
         };
       }
     }
 
-    if (this.phoneNumber && this.isPhoneNumberVisible) {
+    if (this.#phoneNumber && this.#isPhoneNumberVisible) {
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
@@ -257,10 +250,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.StartNewConversation,
-          phoneNumber: this.phoneNumber,
+          phoneNumber: this.#phoneNumber,
           isFetching: isFetchingByE164(
-            this.uuidFetchState,
-            this.phoneNumber.e164
+            this.#uuidFetchState,
+            this.#phoneNumber.e164
           ),
         };
       }
@@ -287,8 +280,8 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     exProps: Readonly<LeftPaneComposePropsType>
   ): boolean {
     const prev = new LeftPaneComposeHelper(exProps);
-    const currHeaderIndices = this.getHeaderIndices();
-    const prevHeaderIndices = prev.getHeaderIndices();
+    const currHeaderIndices = this.#getHeaderIndices();
+    const prevHeaderIndices = prev.#getHeaderIndices();
 
     return (
       currHeaderIndices.top !== prevHeaderIndices.top ||
@@ -299,26 +292,26 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     );
   }
 
-  private getTopButtons(): TopButtons {
-    if (this.searchTerm) {
+  #getTopButtons(): TopButtons {
+    if (this.#searchTerm) {
       return TopButtons.None;
     }
     return TopButtons.Visible;
   }
 
-  private hasTopButtons(): boolean {
-    return this.getTopButtons() !== TopButtons.None;
+  #hasTopButtons(): boolean {
+    return this.#getTopButtons() !== TopButtons.None;
   }
 
-  private hasContactsHeader(): boolean {
-    return Boolean(this.composeContacts.length);
+  #hasContactsHeader(): boolean {
+    return Boolean(this.#composeContacts.length);
   }
 
-  private hasGroupsHeader(): boolean {
-    return Boolean(this.composeGroups.length);
+  #hasGroupsHeader(): boolean {
+    return Boolean(this.#composeGroups.length);
   }
 
-  private getHeaderIndices(): {
+  #getHeaderIndices(): {
     top?: number;
     contact?: number;
     group?: number;
@@ -333,22 +326,22 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
     let rowCount = 0;
 
-    if (this.hasTopButtons()) {
+    if (this.#hasTopButtons()) {
       top = 0;
       rowCount += 3;
     }
-    if (this.hasContactsHeader()) {
+    if (this.#hasContactsHeader()) {
       contact = rowCount;
-      rowCount += this.composeContacts.length;
+      rowCount += this.#composeContacts.length;
     }
-    if (this.hasGroupsHeader()) {
+    if (this.#hasGroupsHeader()) {
       group = rowCount;
-      rowCount += this.composeContacts.length;
+      rowCount += this.#composeContacts.length;
     }
-    if (this.phoneNumber) {
+    if (this.#phoneNumber) {
       phoneNumber = rowCount;
     }
-    if (this.username) {
+    if (this.#username) {
       username = rowCount;
     }
 
