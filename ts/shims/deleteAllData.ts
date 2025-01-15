@@ -23,10 +23,6 @@ export async function deleteAllData(): Promise<void> {
 
     log.info('deleteAllData: deleted all logs');
 
-    await DataWriter.removeAll();
-
-    log.info('deleteAllData: emptied database');
-
     await DataWriter.close();
 
     log.info('deleteAllData: closed database');
