@@ -16,6 +16,8 @@ import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
 import type { AnyActionableMegaphone } from '../types/Megaphone';
 import { MegaphoneType } from '../types/Megaphone';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
+import { LINKED_DEVICES_URL } from '../types/support';
 
 export type PropsType = {
   hideToast: () => unknown;
@@ -405,6 +407,20 @@ export function renderToast({
 
   if (toastType === ToastType.MaxAttachments) {
     return <Toast onClose={hideToast}>{i18n('icu:maximumAttachments')}</Toast>;
+  }
+
+  if (toastType === ToastType.MediaNoLongerAvailable) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:attachmentNoLongerAvailable__learnMore'),
+          onClick: () => openLinkInWebBrowser(LINKED_DEVICES_URL),
+        }}
+      >
+        {i18n('icu:mediaNoLongerAvailable')}
+      </Toast>
+    );
   }
 
   if (toastType === ToastType.MessageBodyTooLong) {

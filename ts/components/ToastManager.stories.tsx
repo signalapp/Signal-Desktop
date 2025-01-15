@@ -129,6 +129,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.LoadingFullLogs };
     case ToastType.MaxAttachments:
       return { toastType: ToastType.MaxAttachments };
+    case ToastType.MediaNoLongerAvailable:
+      return { toastType: ToastType.MediaNoLongerAvailable };
     case ToastType.MessageBodyTooLong:
       return { toastType: ToastType.MessageBodyTooLong };
     case ToastType.MessageLoop:

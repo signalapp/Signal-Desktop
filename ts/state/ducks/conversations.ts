@@ -1209,6 +1209,7 @@ export const actions = {
   showFindByUsername,
   showFindByPhoneNumber,
   showInbox,
+  showMediaNoLongerAvailableToast,
   startComposing,
   startConversation,
   startSettingGroupMetadata,
@@ -4561,6 +4562,14 @@ function showInbox(): ShowInboxActionType {
   return {
     type: 'SHOW_INBOX',
     payload: null,
+  };
+}
+function showMediaNoLongerAvailableToast(): ShowToastActionType {
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.MediaNoLongerAvailable,
+    },
   };
 }
 

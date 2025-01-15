@@ -1526,6 +1526,14 @@
     "messageformat": "{count, plural, one {# item} other {# items}}",
     "description": "Describes a button shown on a grid of attachments to start of them downloading"
   },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available.",
+    "description": "Shown in info toast for messages with old image and video attachments which are no longer available for download. Also used for accessibility label for the download attachment button."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more",
+    "description": "Link in message placeholder and info toast for messages with old attachments which are no longer available for download."
+  },
   "icu:save": {
     "messageformat": "Save",
     "description": "Used on save buttons"
