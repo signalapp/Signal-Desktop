@@ -1,6 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { DataReader } from '../../sql/Client';
 import { useItemsActions } from '../ducks/items';
@@ -43,7 +43,6 @@ import { SmartCallLinkDetails } from './CallLinkDetails';
 import type { CallLinkType } from '../../types/CallLink';
 import { filterCallLinks } from '../../util/filterCallLinks';
 import { useGlobalModalActions } from '../ducks/globalModals';
-import { isCallLinksCreateEnabled } from '../../util/callLinks';
 
 function getCallHistoryFilter({
   allCallLinks,
@@ -161,10 +160,6 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
-  const canCreateCallLinks = useMemo(() => {
-    return isCallLinksCreateEnabled();
-  }, []);
-
   const {
     createCallLink,
     hangUpActiveCall,
@@ -242,7 +237,6 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       getCall={getCall}
       getCallLink={getCallLink}
       callHistoryEdition={callHistoryEdition}
-      canCreateCallLinks={canCreateCallLinks}
       hangUpActiveCall={hangUpActiveCall}
       hasAnyAdminCallLinks={hasAnyAdminCallLinks}
       hasFailedStorySends={hasFailedStorySends}

@@ -15,10 +15,6 @@ import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 
 export type ConfigKeyType =
-  | 'desktop.calling.adhoc'
-  | 'desktop.calling.adhoc.beta'
-  | 'desktop.calling.adhoc.create'
-  | 'desktop.calling.adhoc.create.beta'
   | 'desktop.calling.ringrtcAdm'
   | 'desktop.clientExpiration'
   | 'desktop.backup.credentialFetch'

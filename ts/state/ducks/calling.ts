@@ -57,7 +57,6 @@ import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';
 import {
   CALL_LINK_DEFAULT_STATE,
-  isCallLinksCreateEnabled,
   toAdminKeyBytes,
   toCallHistoryFromUnusedCallLink,
 } from '../../util/callLinks';
@@ -2102,8 +2101,6 @@ function createCallLink(
   CallHistoryAdd | HandleCallLinkUpdateActionType
 > {
   return async dispatch => {
-    strictAssert(isCallLinksCreateEnabled(), 'Call links creation is disabled');
-
     const callLink = await calling.createCallLink();
     const callHistory = toCallHistoryFromUnusedCallLink(callLink);
     await Promise.all([

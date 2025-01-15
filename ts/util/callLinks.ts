@@ -1,12 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { v4 as generateUuid } from 'uuid';
-import * as RemoteConfig from '../RemoteConfig';
 import * as Bytes from '../Bytes';
 import type { CallLinkConversationType, CallLinkType } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
 import type { LocalizerType } from '../types/Util';
-import { isTestOrMockEnvironment } from '../environment';
 import { getColorForCallLink } from './getColorForCallLink';
 import {
   AdhocCallStatus,
@@ -15,7 +13,6 @@ import {
   type CallHistoryDetails,
   CallMode,
 } from '../types/CallDisposition';
-import { isBeta, isProduction } from './version';
 
 export const CALL_LINK_DEFAULT_STATE: Pick<
   CallLinkType,
@@ -38,26 +35,6 @@ export function getKeyFromCallLink(callLink: string): string {
   const hashParams = new URLSearchParams(hash);
 
   return hashParams.get('key') || '';
-}
-
-export function isCallLinksCreateEnabled(): boolean {
-  if (isTestOrMockEnvironment()) {
-    return true;
-  }
-
-  const version = window.getVersion();
-
-  if (isProduction(version)) {
-    return RemoteConfig.getValue('desktop.calling.adhoc.create') === 'TRUE';
-  }
-
-  if (isBeta(version)) {
-    return (
-      RemoteConfig.getValue('desktop.calling.adhoc.create.beta') === 'TRUE'
-    );
-  }
-
-  return true;
 }
 
 export function callLinkToConversation(
