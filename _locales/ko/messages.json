@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "다운로드 취소"
   },
-  "icu:retryDownload": {
-    "messageformat": "다운로드 재시도"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "재시도"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {항목 {count,number}개}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "저장"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "재시도"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "도움 받기"
@@ -1581,7 +1584,7 @@
     "messageformat": "이 Signal 데스크톱 버전에서 모든 데이터와 메시지를 삭제하시겠습니까? 언제든지 이 데스크톱을 다시 연결할 수 있지만, 메시지는 복원되지 않습니다. 휴대폰 또는 기타 연결된 장치의 Signal 계정과 데이터는 삭제되지 않습니다."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "연결 해제 및 모든 데이터 삭제 중"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop의 이전 설치 버전에서 사용하지 않는 데이터가 있습니다. 계속하면 해당 데이터가 삭제되고 앱을 처음부터 시작합니다."
@@ -2790,10 +2793,10 @@
     "messageformat": "마이크 켜짐"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "손을 내릴까요?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "손 내리기"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "통화 켜짐"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "다음"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal에 후원"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "다운로드를 준비하는 중..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "메시지 기록 용량에 따라 몇 분이 소요될 수 있습니다"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "취소"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "동기화 프로세스를 비롯하여 메시지와 대화 정보는 엔드투엔드 암호화로 보호됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "전송을 취소하시겠어요?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "메시지와 미디어에서 복원을 완료하지 않았습니다. 취소를 선택할 경우 기기가 메시지 기록 없이 연결됩니다."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "전송 계속"
@@ -5788,10 +5794,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "이제 첨부 파일 다운로드 진행 상황을 쉽게 확인할 수 있습니다. 진행 중인 다운로드를 중지했다가 다시 시작할 수도 있습니다."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "자동 완성 목록에 사용자의 계정을 포함하는 @멘션 버그를 수정했습니다."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

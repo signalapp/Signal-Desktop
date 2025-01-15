@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Anulează descărcarea"
   },
-  "icu:retryDownload": {
-    "messageformat": "Reîncearcă descărcarea"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Încearcă din nou"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} articol} few {{count,number} itemi} other {{count,number} de itemi}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Salvează"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Încearcă din nou"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Obține ajutor"
@@ -1581,7 +1584,7 @@
     "messageformat": "Ștergi toate datele și mesajele din această versiune de Signal Desktop? Poți oricând să re-asociezi acest desktop, dar mesajele tale nu se vor restabili. Contul tău Signal și datele de pe telefon sau alte dispozitive conectate nu vor fi șterse."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Se deconectează și se șterg toate datele"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ai date învechite de la o instalare anterioara a Signal Desktop. Dacă alegi să continui, acestea vor fi șterse și vei începe de la zero."
@@ -2790,10 +2793,10 @@
     "messageformat": "Microfon activat"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Lași mâna jos?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Coboară"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sunet de apel activat"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "următorul"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donează pentru Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Se pregătește descărcarea..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Poate dura câteva minute, în funcție de dimensiunea istoricului mesajelor"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajele și informațiile legate de conversații sunt protejate prin criptare end-to-end, inclusiv prin procesul de sincronizare. <learnMoreLink>Află mai multe</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Anulezi transferul?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Nu s-a finalizat restabilirea mesajelor și a fișierelor. Dacă alegi să anulezi, dispozitivul tău va fi asociat fără istoricul mesajelor."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuă transferul"
@@ -5788,10 +5794,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Acum poți vedea cu ușurință progresul descărcărilor de atașamente. De asemenea, poți opri și reporni și descărcările în curs. Așadar, dacă un transfer e lent pentru că ești pe drum sau WiFi-ul este slab, poți aștepta să reîncarci când există mai multă lățime de bandă."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Am remediat o eroare cu mențiunile @ care, uneori, includeau incorect propriul tău cont în lista de sugestii de completare automată. Dacă ai un ego puternic, poți folosi în continuare vorbirea la persoana a treia pentru a spune ceva despre tine în conversațiile de grup, dacă îți scapă vreodată această eroare."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

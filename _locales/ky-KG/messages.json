@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Токтотуу"
   },
-  "icu:retryDownload": {
-    "messageformat": "Кайра жүктөө"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Кайра аракет кылуу"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} нерсе}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Сактоо"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Кайра аракет кылуу"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Жардам алуу"
@@ -1581,7 +1584,7 @@
     "messageformat": "Signal Desktop'тун бул версиясындагы бардык нерселерди жана билдирүүлөрдү өчүрөсүзбү? Бул иш тактага кайра каалаган убакта туташсаңыз болот, бирок билдирүүлөрүңүз калыбына келбейт. Signal аккаунтуңуз жана телефонуңуздагы жана башка байланышкан түзмөктөрдөгү нерселер өчпөйт."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Өчүрүү жана бардык берилмелерди жок кылуу"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Сизде мурунку Signal Desktop орнотуудан эски берилмелер бар. Эгер улантууну тандасаңыз, бул берилмелер өчүрүлөт жана сиз нөлдөн баштап иштей баштайсыз."
@@ -2790,10 +2793,10 @@
     "messageformat": "Микрофон күйүк"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Колуңузду түшүрөсүзбү?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Түшүрүү"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Чалып жатасыз"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "кийинки"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal'га колдоо көрсөтүү"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Жүктөлүп алынганы жатат..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Бул билдирүүлөр таржымалынын көлөмүнө жараша бир нече мүнөткө созулушу мүмкүн"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Жок"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Билдирүүлөр жана маектеги нерселер, ошондой эле шайкештирүү процесси баштан аяк шифрленип корголот. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Өткөрүүнү токтотосузбу?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Билдирүүлөрүңүз менен медиа файлдарыңыз толук калыбына келген жок. Эгер жокко чыгарууну тандасаңыз, түзмөгүңүз билдирүүлөр таржымалы жок байланыштырылат."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Жок"
@@ -5788,10 +5794,10 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Тиркемелердин жүктөлүп жатканын оңой эле көрө аласыз. Жүктөп алуу процессин токтотуп, кайра уланта аласыз. Жолдо жүргөндүктөн (же учак режиминде болгондуктан) же орточо мейманканада Wi-Fi жай иштегендиктен жай өтүп жатса, Интернет ылдамыраак иштегенде жүктөй аласыз."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Автотолтуруунун сунуштар тизмесине өз аккаунтуңузду кээде туура эмес киргизген @ эскертмелериндеги мүчүлүштүктөрдү оңдодук. Бир аз нарциссисттик чечим катары, эгер бул мүчүлүштүктү өткөрүп жиберсеңиз, топтук маектериңизде дагы эле үчүнчү жактан өзүңүз жөнүндө айта аласыз."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "ಡೌನ್ ಲೋಡ್ ರದ್ದು ಮಾಡಿ"
   },
-  "icu:retryDownload": {
-    "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮರುಪ್ರಯತ್ನಿಸಿ"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "ಮರುಪ್ರಯತ್ನಿಸಿ"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} ಐಟಂ} other {{count,number} ಐಟಂಗಳು}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "ಉಳಿಸಿ"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "ಮರುಪ್ರಯತ್ನಿಸಿ"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "ಸಹಾಯ ಪಡೆಯಿರಿ"
@@ -1581,7 +1584,7 @@
     "messageformat": "Signal Desktop ನ ಈ ಆವೃತ್ತಿಯಿಂದ ಎಲ್ಲಾ ಡೇಟಾ ಮತ್ತು ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಮರುಲಿಂಕ್ ಮಾಡಬಹುದು, ಆದರೆ ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳು ರೀಸ್ಟೋರ್ ಆಗುವುದಿಲ್ಲ. ನಿಮ್ಮ ಫೋನ್ ಅಥವಾ ಇತರ ಲಿಂಕ್ ಮಾಡಲಾದ ಸಾಧನಗಳಲ್ಲಿನ ನಿಮ್ಮ Signal ಖಾತೆ ಮತ್ತು ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "ಸಂಪರ್ಕ ಕಡಿತಗೊಳಿಸಲಾಗುತ್ತಿದೆ ಮತ್ತು ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸಲಾಗುತ್ತಿದೆ"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop ನ ಹಿಂದಿನ ಇನ್‌ಸ್ಟಾಲೇಶನ್‌ನಿಂದ ಹಳೆಯ ಡೇಟಾವನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಿ. ಮುಂದುವರಿಯಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಿಕೊಂಡರೆ, ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಶೂನ್ಯದಿಂದ ಆರಂಭವಾಗುತ್ತದೆ."
@@ -2790,10 +2793,10 @@
     "messageformat": "ಮೈಕ್ ಆನ್ ಆಗಿದೆ"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "ನಿಮ್ಮ ಕೈಯನ್ನು ಕೆಳಗಿಳಿಸಬೇಕೇ?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "ಕೆಳಗಿಳಿಸಿ"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "ರಿಂಗಿಂಗ್ ಆನ್ ಆಗಿದೆ"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "ಮುಂದೆ"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ಗೆ ದಾನ ಮಾಡಿ"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಿದ್ಧವಾಗುತ್ತಿದೆ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸದ ಗಾತ್ರವನ್ನು ಅವಲಂಬಿಸಿ ಇದು ಕೆಲವು ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಬಹುದು"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "ಮೆಸೇಜ್‌ಗಳು ಮತ್ತು ಚಾಟ್ ಮಾಹಿತಿಯನ್ನು ಸಿಂಕ್ ಪ್ರಕ್ರಿಯೆ ಸೇರಿದಂತೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಮೂಲಕ ರಕ್ಷಿಸಲಾಗಿದೆ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಬೇಕೇ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳು ಮತ್ತು ಮೀಡಿಯಾ ರೀಸ್ಟೋರ್ ಆಗುವುದನ್ನು ಪೂರ್ಣಗೊಳಿಸಿಲ್ಲ. ನೀವು ರದ್ದುಗೊಳಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವಿಲ್ಲದೆಯೇ ನಿಮ್ಮ ಸಾಧನವನ್ನು ಲಿಂಕ್ ಮಾಡಲಾಗುತ್ತದೆ."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ಮುಂದುವರಿಸಿ"
@@ -5788,10 +5794,10 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "ಈಗ ನೀವು ಲಗತ್ತು ಡೌನ್‌ಲೋಡ್‌ಗಳ ಪ್ರಗತಿಯನ್ನು ಸುಲಭವಾಗಿ ನೋಡಬಹುದು. ನೀವು ಪ್ರಗತಿಯಲ್ಲಿರುವ ಡೌನ್‌ಲೋಡ್‌ಗಳನ್ನು ಸಹ ನಿಲ್ಲಿಸಬಹುದು ಮತ್ತು ಮರುಪ್ರಾರಂಭಿಸಬಹುದು. ನೀವು ರಸ್ತೆಯಲ್ಲಿರುವ ಕಾರಣ (ಏರ್‌ಪ್ಲೇನ್ ಮೋಡ್‌ನಲ್ಲಿ?) ವರ್ಗಾವಣೆ ನಿಧಾನಗೊಂಡರೆ ಅಥವಾ ಸಾಧಾರಣ ಹೋಟೆಲ್ WiFi ಸ್ಥಗಿತವಾದರೆ, ಮರುಲೋಡ್‌ಗಾಗಿ ನೀವು ಅಧಿಕ ಬ್ಯಾಂಡ್‌ವಿಡ್ತ್ ದೊರೆಯುವ ತನಕ ಕಾಯಬಹುದು."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "ಸ್ವಯಂಪೂರ್ಣಗೊಳಿಸುವ ಸಲಹೆಯ ಪಟ್ಟಿಯಲ್ಲಿ ನಿಮ್ಮ ಸ್ವಂತ ಖಾತೆಯನ್ನು ಕೆಲವೊಮ್ಮೆ ತಪ್ಪಾಗಿ ಒಳಗೊಂಡಿರುವ @ ಉಲ್ಲೇಖಗಳೊಂದಿಗೆ ನಾವು ದೋಷವನ್ನು ಪರಿಹರಿಸಿದ್ದೇವೆ. ನೀವು ಎಂದಾದರೂ ಈ ದೋಷವನ್ನು ತಪ್ಪಿಸಿಕೊಂಡರೆ ನಾರ್ಸಿಸಿಸ್ಟಿಕ್ ಪರಿಹಾರವಾಗಿ, ನಿಮ್ಮ ಗುಂಪು ಚಾಟ್‌ಗಳಲ್ಲಿ ನಿಮ್ಮ ಬಗ್ಗೆ ಮಾತನಾಡಲು ಮೂರನೇ ವ್ಯಕ್ತಿಯ ನಿರೂಪಣೆಯನ್ನು ನೀವು ಈಗಲೂ ಬಳಸಬಹುದು."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

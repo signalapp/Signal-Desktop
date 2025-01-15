@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "ဒေါင်းလုဒ်လုပ်ခြင်း ပယ်ဖျက်မည်"
   },
-  "icu:retryDownload": {
-    "messageformat": "ဒေါင်းလုဒ် ပြန်လုပ်ကြည့်မည်"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "ထပ်ကြိုးစားပါ"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {ဒေါင်းလုဒ် {count,number} ခု}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "ထပ်ကြိုးစားပါ"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "အကူအညီရယူပါ"
@@ -1581,7 +1584,7 @@
     "messageformat": "ဤ Signal Desktop ဗားရှင်းမှ ဒေတာနှင့် မက်ဆေ့ချ်အားလုံးကို ဖျက်ပါမည်လား။ ဤ Desktop ကို သင် အချိန်မရွေး ပြန်လည်ချိတ်ဆက်နိုင်သော်လည်း သင့်မက်ဆေ့ချ်များကို ပြန်သိမ်းနိုင်မည်မဟုတ်ပါ။ သင့်ဖုန်း သို့မဟုတ် အခြား ချိတ်ထားသည့် စက်များမှ သင့် Signal အကောင့်နှင့် ဒေတာကို ဖျက်မည်မဟုတ်ပါ။"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "ဒေတာအားလုံးကို ဖျက်ပြီး ချိတ်ဆက်မှုမှ ဖြုတ်ရန်"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "သင့်တွင် ယခင် Signal Desktop ထည့်သွင်းမှုမှ ဒေတာအဟောင်းများ ရှိပါသည်။ ဆက်လုပ်ရန်ကို ရွေးချယ်ပါက ၎င်းကို ဖျက်မည်ဖြစ်ပြီး အစမှ စတင်ပါလိမ့်မည်။"
@@ -2790,10 +2793,10 @@
     "messageformat": "မိုက် ဖွင့်ထားသည်"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "လက်ပြန်ချမည်လား။"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "လက်ပြန်ချမည်"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "ဖုန်းမြည်သံ ဖွင့်ထားသည်"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "ရှေ့သို့"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ကိုလှူဒါန်းပါ"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "ဒေါင်းလုဒ်လုပ်ရန် ပြင်ဆင်နေသည်..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "သင့် မက်ဆေ့ချ်မှတ်တမ်း အရွယ်အစားပေါ်မူတည်၍ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "မလုပ်တော့ပါ"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "ချိန်ကိုက်မှု လုပ်ငန်းစဉ်အပါအဝင် မက်ဆေ့ချ်များနှင့် ချက်(တ်)အချက်အလက်ကို ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ခြင်းဖြင့် ကာကွယ်ထားသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "လွှဲပြောင်းမှုကို ပယ်ဖျက်မလား။"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "သင့် မက်ဆေ့ချ်များနှင့် မီဒီယာများကို ပြန်လည်ရယူခြင်း မပြီးပြတ်သေးပါ။ ပယ်ဖျက်ရန်ကို ရွေးချယ်ပါက သင့်စက်သည် မက်ဆေ့ချ်မှတ်တမ်းမပါဘဲ ချိတ်ဆက်သွားမည်။"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "ဆက်လက်လွှဲပြောင်းမည်"
@@ -5788,10 +5794,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "ပူးတွဲဖိုင် ဒေါင်းလုဒ်များ၏ တိုးတက်မှုကို ယခုအခါ အလွယ်တကူ ကြည့်နိုင်ပါပြီ။ လက်ရှိဒေါင်းလုဒ်များကိုလည်း ရပ်ပြီး ပြန်လည်စတင်နိုင်သည်။"
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "တစ်ခါတစ်ရံတွင် သင့်ကိုယ်ပိုင်အကောင့်ကို အလိုအလျောက်ဖြည့်စွက်မှု အကြံပြုချက်စာရင်းတွင် @ မန်းရှင်းထည့်သွင်းသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

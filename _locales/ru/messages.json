@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Отменить загрузку"
   },
-  "icu:retryDownload": {
-    "messageformat": "Повторить загрузку"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Повторить попытку"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} элемент} few {{count,number} элемента} many {{count,number} элементов} other {{count,number} элемента}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Сохранить"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Повторить попытку"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Получить помощь"
@@ -1581,7 +1584,7 @@
     "messageformat": "Удалить все данные и сообщения из этой версии Signal Desktop? Вы всегда можете переподключить ваш ПК к Signal Desktop, но ваши сообщения не восстановятся. Ваша учётная запись Signal и данные на вашем телефоне или других подключенных устройствах не будут удалены."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Отключается и удаляет все данные"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "У вас есть устаревшие данные из предыдущей установки Signal Desktop. Если вы решите продолжить, они будут удалены, и вы начнете с нуля."
@@ -2790,10 +2793,10 @@
     "messageformat": "Микрофон включён"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Опустить руку?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Опустить"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Звонки включены"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "следующее"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Поддержать Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Готовимся к загрузке..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Это может занять несколько минут в зависимости от размера вашей истории сообщений"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Сообщения и информация о чате защищены сквозным шифрованием, включая процесс синхронизации. <learnMoreLink>Узнать больше</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Отменить трансфер?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Восстановление сообщений и медиафайлов не завершено. Если вы решите отменить восстановление, ваше устройство будет привязано без истории сообщений."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Продолжить трансфер"
@@ -5788,10 +5794,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Теперь вы можете наглядно видеть прогресс загрузки вложений. Вы также можете останавливать и перезапускать текущие загрузки. Если передача данных замедлилась, так как вы в дороге (в авиарежиме?) или пользуетесь слабым WiFi в отеле, вы можете выполнить загрузку позже, когда будет более быстрое интернет-соединение."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Мы исправили ошибку с упоминаниями @, из-за которой ваша учётная запись иногда включалась в список предложений для автозаполнения. Для самовлюбленных по-прежнему есть возможность поговорить о себе от третьего лица, пропустив эту ошибку."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

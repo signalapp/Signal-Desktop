@@ -15,7 +15,7 @@
     "messageformat": "Rechercher"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "{contact} a été ajouté à {group}"
+    "messageformat": "Vous avez ajouté {contact} à \"{group}\""
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "Ajout de {contact}…"
@@ -891,7 +891,7 @@
     "messageformat": "OK"
   },
   "icu:update": {
-    "messageformat": "Mise à jour"
+    "messageformat": "Mettre à jour"
   },
   "icu:next2": {
     "messageformat": "Suivant"
@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Annuler le téléchargement"
   },
-  "icu:retryDownload": {
-    "messageformat": "Reprendre le téléchargement"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Réessayer"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} élément} other {{count,number} éléments}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Enregistrer"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Réessayer"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Obtenir de l’aide"
@@ -1560,13 +1563,13 @@
     "messageformat": "Réduire dans la zone de notification"
   },
   "icu:SystemTraySetting__minimize-to-and-start-in-system-tray": {
-    "messageformat": "Lancer l’appli réduite dans la zone de notification"
+    "messageformat": "Lancer l'appli réduite dans la zone de notification"
   },
   "icu:autoLaunchDescription": {
-    "messageformat": "Lancer à l’ouverture de l'ordinateur"
+    "messageformat": "Lancer au démarrage de l'ordinateur"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Supprimer les données de l’application"
+    "messageformat": "Supprimer les données de l'application"
   },
   "icu:clearDataExplanation": {
     "messageformat": "Pour supprimer l'ensemble des données disponibles dans l'application – y compris tous les messages et toutes les informations enregistrées dans le compte."
@@ -1581,7 +1584,7 @@
     "messageformat": "Supprimer toutes les données et tous les messages de cette version de Signal Desktop ? Vous pourrez toujours réassocier Signal Desktop, mais vous ne pourrez pas restaurer vos messages. Cette action ne supprime pas le compte et les données Signal qui sont stockés sur votre téléphone ou sur vos autres appareils associés."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Déconnexion et suppression de toutes les données"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Vous avez des données périmées qui proviennent d’une ancienne installation de Signal pour ordinateur. Si vous choisissez de poursuivre, elles seront supprimées et vous recommencerez à zéro."
@@ -1653,7 +1656,7 @@
     "messageformat": "Échec d’importation. Assurez-vous que votre ordinateur et votre téléphone sont connectés à Internet."
   },
   "icu:timestamp_s": {
-    "messageformat": "maintenant"
+    "messageformat": "à l'instant"
   },
   "icu:timestamp_m": {
     "messageformat": "1 min"
@@ -1668,7 +1671,7 @@
     "messageformat": "{minutes,number} min"
   },
   "icu:justNow": {
-    "messageformat": "À l’instant"
+    "messageformat": "À l'instant"
   },
   "icu:timestampFormat__long--today": {
     "messageformat": "Aujourd’hui {time}"
@@ -2187,7 +2190,7 @@
     "messageformat": "Voyage"
   },
   "icu:EmojiPicker__button--object": {
-    "messageformat": "Objet"
+    "messageformat": "Objets"
   },
   "icu:EmojiPicker__button--symbol": {
     "messageformat": "Symbole"
@@ -2304,7 +2307,7 @@
     "messageformat": "Ouvrir la vue Tous les médias"
   },
   "icu:Keyboard--open-emoji-chooser": {
-    "messageformat": "Ouvrir le sélecteur d’émojis"
+    "messageformat": "Ouvrir le sélecteur d'émojis"
   },
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Ouvrir le sélecteur de stickers"
@@ -2709,10 +2712,10 @@
     "messageformat": "Appel vidéo sans réponse"
   },
   "icu:minimizeToTrayNotification--title": {
-    "messageformat": "Signal fonctionne toujours"
+    "messageformat": "Signal est en cours d'exécution"
   },
   "icu:minimizeToTrayNotification--body": {
-    "messageformat": "Les notifications Signal continueront de fonctionner. Rendez-vous dans les Paramètres pour modifier les notifications."
+    "messageformat": "Signal continue de s'exécuter dans la zone de notification. Vous pouvez modifier ce comportement dans les paramètres Signal."
   },
   "icu:incomingAudioCall": {
     "messageformat": "Appel vocal entrant"
@@ -2790,10 +2793,10 @@
     "messageformat": "Micro activé"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Baisser la main ?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Baisser la main"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sonnerie activée"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "suivant"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Faire un don à Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Préparation du téléchargement…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Selon la taille des messages, cela peut prendre quelques minutes."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuler"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Avec son protocole de chiffrement de bout en bout, Signal protège systématiquement vos messages et vos conversations. Même pendant la synchronisation. <learnMoreLink>En savoir plus</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Annuler le transfert ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Signal n'a pas terminé de restaurer vos messages et médias. Si vous décidez d'annuler le transfert, votre appareil sera associé, mais vos messages ne seront pas restaurés."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Poursuivre le transfert"
@@ -4053,7 +4059,7 @@
     "messageformat": "Ajouter des membres"
   },
   "icu:AddGroupMembersModal--continue-to-confirm": {
-    "messageformat": "Mise à jour"
+    "messageformat": "Mettre à jour"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
     "messageformat": "Ajouter {person} à \"{group}\" ?"
@@ -4062,10 +4068,10 @@
     "messageformat": "Ajouter {count,number} membres à \"{group}\" ?"
   },
   "icu:AddGroupMembersModal--confirm-button--one": {
-    "messageformat": "Ajouter un membre"
+    "messageformat": "Ajouter"
   },
   "icu:AddGroupMembersModal--confirm-button--many": {
-    "messageformat": "Ajouter des membres"
+    "messageformat": "Ajouter"
   },
   "icu:createNewGroupButton": {
     "messageformat": "Nouveau groupe"
@@ -4479,7 +4485,7 @@
     "messageformat": "Supprimer"
   },
   "icu:ProfileEditor--about-placeholder": {
-    "messageformat": "Écrivez quelques mots à votre sujet…"
+    "messageformat": "Présentez-vous en quelques mots…"
   },
   "icu:ProfileEditor--first-name": {
     "messageformat": "Prénom (champ obligatoire)"
@@ -4752,7 +4758,7 @@
     "messageformat": "Mettre à jour"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
-    "messageformat": "Mise à jour requise"
+    "messageformat": "Une petite mise à jour est nécessaire"
   },
   "icu:InstallScreenUpdateDialog--auto-update__body": {
     "messageformat": "Pour continuer à utiliser Signal, veuillez installer la dernière version de l'appli."
@@ -4775,15 +4781,15 @@
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
-    "messageformat": "{appName} est en cours d'exécution.\nAppuyez sur OK pour le fermer.\nEn cas d'échec, essayez manuellement.",
+    "messageformat": "{appName} est en cours d'exécution.\nCliquez sur \"OK\" pour fermer l'application.\nSi cela ne fonctionne pas, fermez l'application manuellement.",
     "ignoreUnused": true
   },
   "icu:NSIS__decompressionFailed": {
-    "messageformat": "Échec de décompression des fichiers. Veuillez réessayer d’exécuter l'installeur.",
+    "messageformat": "Impossible de décompresser les fichiers. Veuillez exécuter l'assistant d'installation de nouveau.",
     "ignoreUnused": true
   },
   "icu:NSIS__uninstallFailed": {
-    "messageformat": "Échec de désinstallation des anciens fichiers d'application. Veuillez réessayer d’exécuter l'installeur.",
+    "messageformat": "Impossible de désinstaller les anciens fichiers d'application. Veuillez exécuter l'assistant d'installation de nouveau.",
     "ignoreUnused": true
   },
   "icu:NSIS__semver-downgrade": {
@@ -5788,10 +5794,10 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Avec cette nouvelle version, vous pouvez suivre la progression de vos téléchargements lorsque vous recevez des pièces jointes. Mieux encore : vous pouvez suspendre les téléchargements en cours et les reprendre plus tard. Dans le TGV ou à l'hôtel ? La connexion Internet ou le Wi-Fi n'arrivent pas à suivre le rythme ? Il vous suffit de reprendre le téléchargement là où vous l'aviez mis en pause."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Lorsque vous saisissiez @ pour mentionner un ami, il arrivait que votre propre nom s'affiche dans la liste des suggestions. Un bug en moins pour 2025 ! Si vous êtes un adepte du <em>self-love</em> et que ce bug vous manque, vous pouvez toujours parler de vous à la troisième personne dans vos conversations de groupe. Ça nous arrive aussi."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

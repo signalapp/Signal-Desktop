@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Batalkan muat turun"
   },
-  "icu:retryDownload": {
-    "messageformat": "Cuba muat turun semula"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Cuba Semula"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} item}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Simpan"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Cuba Semula"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Dapatkan bantuan"
@@ -1581,7 +1584,7 @@
     "messageformat": "Padamkan semua data dan mesej daripada versi Signal Desktop ini? Anda sentiasa boleh memautkan semula desktop ini, tetapi mesej anda tidak akan dipulihkan. Akaun Signal anda dan data pada telefon anda atau peranti terpaut lain tidak akan dipadamkan."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Memutuskan dan memadam semua data"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Anda mempunyai data usang daripada pemasangan Signal Desktop terdahulu. Sekiranya anda memilih untuk meneruskan, data tersebut akan dipadamkan dan anda akan bermula dari awal."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofon dihidupkan"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Turunkan tangan anda?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Turun Tangan"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Deringan dihidupkan"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "seterusnya"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Sumbang kepada Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Bersedia untuk memuat turun..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Ini mungkin mengambil masa beberapa minit bergantung pada saiz sejarah mesej anda"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesej dan maklumat sembang dilindungi oleh penyulitan hujung ke hujung termasuk proses penyegerakan. <learnMoreLink>Ketahui lebih lanjut</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Batalkan pemindahan?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Mesej dan media anda belum selesai dipulihkan. Jika anda memilih untuk membatalkan, peranti anda akan dipautkan tanpa sejarah mesej anda."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Teruskan pemindahan"
@@ -5788,10 +5794,10 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Kini anda boleh melihat kemajuan muat turun lampiran dengan mudah. Anda juga boleh menghentikan dan memulakan semula muat turun yang sedang berjalan. Jika pemindahan menjadi perlahan kerana anda sedang dalam perjalanan (dalam mod kapal terbang?) atau WiFi hotel yang lemah hampir terputus, anda boleh menunggu untuk memuat semula apabila jalur lebar yang lebih baik tersedia."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Kami membetulkan pepijat pada @ sebutan yang kadangkala memasukkan akaun anda sendiri dalam senarai cadangan autolengkap."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

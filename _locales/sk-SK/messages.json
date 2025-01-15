@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Zrušiť sťahovanie"
   },
-  "icu:retryDownload": {
-    "messageformat": "Zopakovať sťahovanie"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Skúsiť znovu"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} položka} few {{count,number} položky} many {{count,number} položiek} other {{count,number} položiek}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Uložiť"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Skúsiť znovu"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Pomoc"
@@ -1581,7 +1584,7 @@
     "messageformat": "Chcete vymazať všetky údaje a správy z tejto verzie aplikácie Signal Desktop? Aplikáciu môžete vždy znova prepojiť, vaše správy sa však neobnovia. Váš účet Signal a údaje vo vašom telefóne alebo iných prepojených zariadeniach nebudú vymazané."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Odpojovanie a mazanie dát"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Toto zariadenie obsahuje staré dáta z predošlej inštalácie Signalu. Ak budete pokračovať, zmažú sa a začnete s čistým štítom."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofón zapnutý"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Znížiť ruku?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Znížiť"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvonenie zapnuté"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "ďalší"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Prispieť na Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Pripravuje sa sťahovanie…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "V závislosti od veľkosti histórie správ to môže trvať niekoľko minút"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušiť"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Správy a informácie o četoch sú chránené end-to-end šifrovaním vrátane procesu synchronizácie. <learnMoreLink>Zistiť viac</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Zrušiť prenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Obnovenie vašich správ a médií sa nedokončilo. Ak sa rozhodnete prenos zrušiť, vaše zariadenie bude prepojené bez histórie správ."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Pokračovať v prenose"
@@ -5788,10 +5794,10 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Teraz môžete jednoducho sledovať priebeh sťahovania príloh. Prebiehajúce sťahovanie môžete tiež zastaviť a reštartovať."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Opravili sme chybu súvisiacu so @ zmienkami, ktorá niekedy spôsobovala zahrnutie vášho účtu do zoznamu návrhov automatického dopĺňania."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

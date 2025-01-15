@@ -1514,14 +1514,6 @@
     "messageformat": "Cancel download",
     "description": "Describes a button shown on an existing download to stop that in-progress or pending download"
   },
-  "icu:retryDownload": {
-    "messageformat": "Retry download",
-    "description": "(Deleted 2024/12/12) Label for button shown on an existing download to restart a download that was partially completed"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Retry",
-    "description": "(Deleted 2024/12/12) Describes a button shown on an existing download to restart a download that was partially completed"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {# item} other {# items}}",
     "description": "Describes a button shown on a grid of attachments to start of them downloading"
@@ -4761,7 +4753,7 @@
   },
   "icu:ClearingData__description": {
     "messageformat": "This may take a few minutes depending on the size of your message history",
-    "description": "Description at the bottom of clearing all data screen"
+    "description": "(Deleted 2025/01/15) Description at the bottom of clearing all data screen"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donate to Signal",
@@ -7722,7 +7714,7 @@
   },
   "icu:WhatsNew__v7.38--0": {
     "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug.",
-    "description": "Release notes for version 7.38"
+    "description": "(Deleted 2025/01/15) Release notes for version 7.38"
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips.",

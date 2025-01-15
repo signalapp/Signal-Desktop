@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "பதிவிறக்கத்தை ரத்து செய்"
   },
-  "icu:retryDownload": {
-    "messageformat": "பதிவிறக்கத்தை மீண்டும் முயலுங்கள்"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "மீண்டும் முயற்சி செய்"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} பொருள்} other {{count,number} உருப்படிகள்}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "சேமி"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "மீண்டும் முயற்சி செய்"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "உதவி பெறுக"
@@ -1581,7 +1584,7 @@
     "messageformat": "Signal டெஸ்க்டாப்பின் இந்தப் பதிப்பிலிருந்து எல்லா தரவையும் மெசேஜ்களையும் நீக்க வேண்டுமா? நீங்கள் எப்போதும் இந்த டெஸ்க்டாப்பை மீண்டும் இணைக்கலாம், ஆனால் உங்கள் மெசேஜ்கள் மீட்டெடுக்கப்படாது. உங்கள் Signal கணக்கு மற்றும் உங்கள் ஃபோன் அல்லது இணைக்கப்பட்ட பிற டிவைஸ்களில் உள்ள தரவு நீக்கப்படாது."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "எல்லா தரவையும் துண்டித்து நீக்குகிறது"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "சிக்னல் டெஸ்க்டாப்பின் முந்தைய நிறுவலிலிருந்து பயன்படுத்த முடியாத தரவு உங்கள் டெஸ்க்டாப்பில் உள்ளது. தொடர நீங்கள் தேர்வுசெய்தால் Signal desktop update, அது நீக்கப்படும், நீங்கள் புதிதாகத் தொடங்குவீர்கள்."
@@ -2790,10 +2793,10 @@
     "messageformat": "மைக் ஆன்"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "உங்கள் கையைத் தாழ்த்துகிறீர்களா?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "தாழ்த்தவும்"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "ரிங்கிங் ஆன்"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "அடுத்தது"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-க்கு நன்கொடை அளி"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "பதிவிறக்கத் தயாராகிறது..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "உங்கள் மெசேஜ் வரலாற்றின் அளவைப் பொறுத்து இதற்குச் சில நிமிடங்கள் ஆகலாம்"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "ஒத்திசைவு செயல்முறை உட்பட, மெசேஜ்கள் மற்றும் சாட் தகவல் ஆகியவை எண்டு-டு-எண்டு குறியாக்கத்தால் பாதுகாக்கப்படுகின்றன. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "பரிமாற்றத்தை ரத்து செய்ய வேண்டுமா?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "உங்கள் மெசேஜ்களும் ஊடகமும் முழுமையாக மீட்டமைக்கப்படவில்லை. ரத்துசெய்ய நீங்கள் தேர்வுசெய்தால், மெசேஜ் வரலாறு இல்லாமல் உங்கள் சாதனம் இணைக்கப்படும்."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "பரிமாற்றத்தைத் தொடர்க"
@@ -5788,10 +5794,10 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "இணைப்புப் பதிவிறக்கங்களின் செயலாக்கத்தை இப்போது நீங்கள் எளிதாகக் காணலாம். நீங்கள் செயலில் உள்ள பதிவிறக்கங்களையும் நிறுத்தி மறுதொடக்கம் செய்யலாம். நீங்கள் பயணிக்கும் போது (விமானப் பயன்முறையில் இருக்கிறீர்களா?) இடமாற்றம் மெதுவாக இருந்தால் அல்லது ஹோட்டல் வைஃபை வேலை செய்யாவிட்டால், அதிக அலைவரிசை வரும் வரை காத்திருக்கவும்."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "சில சமயங்களில் உங்கள் சொந்தக் கணக்கைத் தானியங்கு நிரப்புப் பரிந்துரைப் பட்டியலில் தவறாகச் சேர்க்கும் @ குறிப்புகள் கொண்ட பிழையை நாங்கள் சரிசெய்துள்ளோம். ஒரு நாசீசிஸ்டிக் தீர்வாக, இந்தப் பிழையை நீங்கள் எப்போதாவது தவறவிட்டால், உங்கள் குழு சாட்ஸில் உங்களைப் பற்றி பேச மூன்றாம் நபர் விவரிப்பு அம்சத்தைப் பயன்படுத்தலாம்."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

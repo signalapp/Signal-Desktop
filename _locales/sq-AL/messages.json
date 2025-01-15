@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Anulo shkarkimin"
   },
-  "icu:retryDownload": {
-    "messageformat": "Riprovo shkarkimin"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Riprovo"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Objekt} other {{count,number} Objekte}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Ruaje"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Riprovo"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Merr ndihmë"
@@ -1581,7 +1584,7 @@
     "messageformat": "Të fshihen të gjitha të dhënat dhe mesazhet nga versioni i Signal Desktop? Mund ta rilidhësh gjithmonë këtë desktop, por mesazhet e tua nuk do të rikthehen. Llogaria jote në Signal, si dhe të dhënat që gjenden në telefonin tënd apo në pajisje të tjera të lidhura nuk do të fshihen."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Po bëhet shkëputja dhe fshirja e krejt të dhënave"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ke të dhëna të vjetra prej një instalimi të mëparshëm të Signal-it për Desktop. Nëse vendos të vazhdosh, do të fshihen dhe do t’ia filloni nga e para."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofoni i ndezur"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Ul dorën?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Ul"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Po bie zilja"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "pasuesja"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dhuroni për Signal-in"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Po përgatitet për t'u shkarkuar..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Kjo mund të zgjasë disa minuta në varësi të madhësisë së historikut të mesazheve"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulo"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesazhet dhe informacionet e bisedës mbrohen nga kodimi skaji në skaj, duke përfshirë procesin e sinkronizimit. <learnMoreLink>Mëso më shumë</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Të anulohet transferimi?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Rikthimi i mesazheve dhe i medias nuk ka përfunduar. Nëse zgjedh ta anulosh, pajisja do të lidhet pa historikun e mesazheve."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Vazhdo transferimin"
@@ -5788,10 +5794,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Tani mund ta shohësh lehtësisht ecurinë e shkarkimeve të bashkëngjitjeve. Po ashtu, mund t'i ndalosh dhe t'i rinisësh shkarkimet që janë në proces e sipër. Pra, nëse një transferim ngadalësohet pasi je në rrugë (ose në modalitet avioni?) ose sepse WiFi-ja e hotelit është gati të japë shpirt, mund të presësh ta rifillosh ngarkimin kur të kesh më shumë gjerësi bande në dispozicion."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Ne rregulluam gabimin me përmendjet @ që ndonjëherë përfshinte gabimisht vetë llogarinë tënde në listën e sugjerimeve të plotësimit automatik. Nëse ndonjëherë të ndodh ta humbësh këtë problem, si zgjidhje narcisiste, mund ta përdorësh sërish rrëfimin në vetë të tretë për të folur për veten në bisedat në grup."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Download abbrechen"
   },
-  "icu:retryDownload": {
-    "messageformat": "Download wiederholen"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Erneut versuchen"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Element} other {{count,number} Elemente}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Speichern"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Erneut versuchen"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Hol dir Hilfe"
@@ -1581,7 +1584,7 @@
     "messageformat": "Alle Daten und Nachrichten von dieser Signal-Desktop-Version löschen? Du kannst diese Desktop-Version jederzeit neu verbinden, aber deine Nachrichten werden dann nicht wiederhergestellt. Dein Signal-Konto und die Daten auf deinem Telefon oder auf sonstigen verbundenen Geräten werden nicht gelöscht."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Verbindung wird getrennt und alle Daten werden gelöscht"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du hast veraltete Daten aus einer früheren Installation von Signal Desktop. Falls du fortfährst, werden sämtliche Daten gelöscht und du beginnst komplett neu."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofon an"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Deine Hand senken?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Hand senken"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Klingelton an"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "vor"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "An Signal spenden"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Herunterladen wird vorbereitet..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Das kann, abhängig von der Größe deines Nachrichtenverlaufs, ein paar Minuten dauern."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Abbrechen"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Nachrichten und Chat-Infos sowie der Synchronisierungsvorgang sind durch eine Ende-zu-Ende-Verschlüsselung geschützt. <learnMoreLink>Mehr erfahren</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Übertragung abbrechen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Die Wiederherstellung deiner Nachrichten und Medien ist noch nicht abgeschlossen. Wenn du den Vorgang abbrichst, wird dein Gerät ohne deinen Nachrichtenverlauf gekoppelt."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Übertragung fortsetzen"
@@ -5788,10 +5794,10 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Jetzt kannst du den Fortschritt des Herunterladens von Anhängen ganz einfach verfolgen. Du kannst auch laufende Downloads stoppen und neu starten. Wenn eine Übertragung verlangsamt wird, weil du unterwegs (im Flugmodus?) bist oder das mittelmäßige WLAN im Hotel kurz vor dem Zusammenbruch steht, kannst du mit dem Neuladen warten, bis du mehr Bandbreite hast."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Wir haben einen Bug behoben, durch den manchmal dein eigenes Konto in der Liste der automatischen Vorschläge auftauchte, wenn du eine @-Erwähnung einfügst. Dir fehlt dieser Bug? Dann haben wir eine narzisstische Lösung für dich: Du kannst in deinen Gruppenchats immer noch in der dritten Person von dir sprechen, wenn dir danach ist."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

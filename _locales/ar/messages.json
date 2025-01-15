@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "إلغاء التنزيل"
   },
-  "icu:retryDownload": {
-    "messageformat": "محاولة التنزيل مُجدَّدًا"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "إعادة المُحاولة"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, zero {{count,number} عناصر} one {{count,number} عنصر} two {{count,number} عنصرين} few {{count,number} عناصر} many {{count,number} عناصر} other {{count,number} عناصر}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "حفظ"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "إعادة المُحاولة"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "احصل على المساعدة"
@@ -1581,7 +1584,7 @@
     "messageformat": "حذف جميع البيانات والرسائل من هذا الإصدار من سيجنال للحاسوب؟ يُمكنك دائمًا إعادة ربط هذا الحاسوب، لكن لن تستعيد رسائلك. لن يُحذف حساب سيجنال الخاص بك وبياناتك على هاتفك أو أي أجهزة أخرى مرتبطة."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "يجري فصل وحذف جميع البيانات"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لسيجنال Desktop. إذا اخترت الاستمرار، فستُحذَف ويجب البداية بعدها من الصفر."
@@ -2790,10 +2793,10 @@
     "messageformat": "الميكروفون مفعل"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "هل تريد خفض يدك؟"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "خفض اليد"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "تم تفعيل الرنين"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "التالي"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "تبرَّع لسيجنال"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "جارٍ الإعداد للتنزيل..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "قد يستغرق الأمر بضع دقائق حسب حجم سِجل رسائلك"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "معلومات الرسائل والدردشات محمية من خلال التشفير من طرف لِطرف، بما في ذلك عملية المزامنة. <learnMoreLink>اعرف المزيد</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "أترغبُ بإلغاء التحويل؟"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "لم تكتمل استعادة رسائلك ووسائطك. إذا اخترت الإلغاء، سَيتمُّ ربط جهازك دون سِجل رسائلك."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "مواصلة التحويل"
@@ -5788,10 +5794,10 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "يُمكنك الآن رؤية تقدّم تنزيل الملفات المُرفَقة بسهولة. يُمكنك أيضًا توقيف التنزيلات الجارية وإعادة بدئها من جديد."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "أصلحنا خطأ يتعلق بالإشارات إلى الأفراد @ التي كانت في بعض الأحيان تُضيف حسابك الخاص في قائمة اقتراحات الإكمال التلقائي."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

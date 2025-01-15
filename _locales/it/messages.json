@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Annulla download"
   },
-  "icu:retryDownload": {
-    "messageformat": "Riprova download"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Riprova"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementi}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Salva"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Riprova"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Serve aiuto?"
@@ -1581,7 +1584,7 @@
     "messageformat": "Vuoi eliminare tutti i dati e i messaggi da questa versione di Signal Desktop? Puoi sempre ricollegare questo desktop a Signal, ma i tuoi messaggi andranno persi. Il tuo account Signal e i relativi dati sul tuo telefono (o altri dispositivi collegati) non verranno eliminati."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnessione ed eliminazione di tutti i dati"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Hai dati obsoleti da un'installazione precedente di Signal Desktop. Se scegli di continuare, verranno eliminati e inizierai da zero."
@@ -2790,10 +2793,10 @@
     "messageformat": "Microfono attivato"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Vuoi abbassare la mano?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Abbassa la mano"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Squillo chiamata attivato"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "successivo"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dona a Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Preparazione del download…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Questo processo potrebbe richiedere qualche minuto a seconda della dimensione della cronologia messaggi"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annulla"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "I messaggi e le informazioni delle chat sono protetti da una crittografia end-to-end (incluso il processo di sincronizzazione). <learnMoreLink>Scopri di più</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Annullare il trasferimento?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Il ripristino dei messaggi e dei media non è stato ancora completato. Se lo annulli, il dispositivo verrà collegato senza la tua cronologia messaggi."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continua con il trasferimento"
@@ -5788,10 +5794,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Da ora puoi vedere facilmente il progresso dei download degli allegati. Puoi anche bloccare e riavviare i download in corso. Così se stai per salire su un aereo o se la connessione del tuo hotel è lenta puoi sempre riprovare in un secondo momento."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Abbiamo risolto un bug legato alle menzioni con la @ che a volte mostravano il nome del tuo account come suggerimento. Auto-menzionarsi è un po' strano, anche se sappiamo quanto faccia piacere ricevere attenzioni."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }
