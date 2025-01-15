@@ -7510,6 +7510,9 @@ function disableMessageInsertTriggers(db: WritableDB): void {
     db.exec('DROP TRIGGER IF EXISTS messages_on_insert;');
     db.exec('DROP TRIGGER IF EXISTS messages_on_insert_insert_mentions;');
   })();
+
+  db.pragma('checkpoint_fullfsync = false');
+  db.pragma('synchronous = OFF');
 }
 
 const selectMentionsFromMessages = `
@@ -7549,6 +7552,12 @@ function enableMessageInsertTriggersAndBackfill(db: WritableDB): void {
       value: false,
     });
   })();
+
+  db.pragma('checkpoint_fullfsync = true');
+  db.pragma('synchronous = FULL');
+
+  // Finally fully commit WAL into the database
+  db.pragma('wal_checkpoint(FULL)');
 }
 
 function backfillMessagesFtsTable(db: WritableDB): void {
