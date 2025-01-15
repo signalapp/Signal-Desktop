@@ -10,14 +10,14 @@ export function getUseRingrtcAdm(): boolean {
     return localUseRingrtcAdm;
   }
 
-  if (
-    isProduction(window.getVersion()) ||
-    !RemoteConfig.isEnabled('desktop.internalUser')
-  ) {
-    return false;
+  if (!RemoteConfig.isEnabled('desktop.internalUser')) {
+    if (isProduction(window.getVersion())) {
+      return RemoteConfig.isEnabled('desktop.calling.ringrtcAdmFull');
+    }
+    return RemoteConfig.isEnabled('desktop.calling.ringrtcAdmPreStable');
   }
 
-  return RemoteConfig.isEnabled('desktop.calling.ringrtcAdm');
+  return RemoteConfig.isEnabled('desktop.calling.ringrtcAdmInternal');
 }
 
 export async function setUseRingrtcAdm(value: boolean): Promise<void> {

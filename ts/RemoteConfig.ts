@@ -15,7 +15,9 @@ import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 
 export type ConfigKeyType =
-  | 'desktop.calling.ringrtcAdm'
+  | 'desktop.calling.ringrtcAdmFull'
+  | 'desktop.calling.ringrtcAdmInternal'
+  | 'desktop.calling.ringrtcAdmPreStable'
   | 'desktop.clientExpiration'
   | 'desktop.backup.credentialFetch'
   | 'desktop.internalUser'
