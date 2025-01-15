@@ -351,6 +351,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
+  showMediaNoLongerAvailableToast: action('showMediaNoLongerAvailableToast'),
   toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
   toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
   showLightbox: action('showLightbox'),
@@ -2197,4 +2198,130 @@ export function MultiSelect(): JSX.Element {
 
 MultiSelect.args = {
   name: 'Multi Select',
+};
+
+export function PermanentlyUndownloadableAttachments(): JSX.Element {
+  const imageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'bird.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 296,
+        height: 394,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+      }),
+    ],
+    status: 'sent',
+  });
+  const multipleImagesProps = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'bird.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 296,
+        height: 394,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'bird.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 296,
+        height: 394,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+      }),
+    ],
+    status: 'sent',
+  });
+  const gifProps = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'bird.gif',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 296,
+        height: 394,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+      }),
+    ],
+    status: 'sent',
+    text: 'cool gif',
+  });
+  const videoProps = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'bird.mp4',
+        width: 720,
+        height: 480,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+      }),
+    ],
+    status: 'sent',
+  });
+
+  const outgoingAuthor = {
+    ...imageProps.author,
+    id: getDefaultConversation().id,
+  };
+
+  return (
+    <>
+      <TimelineMessage {...imageProps} shouldCollapseAbove />
+      <TimelineMessage {...gifProps} />
+      <TimelineMessage {...videoProps} />
+      <TimelineMessage {...multipleImagesProps} shouldCollapseBelow />
+      <TimelineMessage
+        {...imageProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+        shouldCollapseAbove
+      />
+      <TimelineMessage
+        {...gifProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+      />
+      <TimelineMessage
+        {...videoProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+      />
+      <TimelineMessage
+        {...multipleImagesProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+        shouldCollapseBelow
+      />
+    </>
+  );
+}
+
+export const AttachmentWithError = Template.bind({});
+AttachmentWithError.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'test.png',
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      width: 296,
+      height: 394,
+      path: undefined,
+      error: true,
+    }),
+  ],
+  status: 'sent',
 };

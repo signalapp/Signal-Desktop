@@ -70,6 +70,7 @@ import {
   isVideo,
   isGIF,
   isPlayed,
+  isDownloadable,
 } from '../../types/Attachment';
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 
@@ -375,6 +376,7 @@ export type PropsActions = {
   showAttachmentDownloadStillInProgressToast: (count: number) => unknown;
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
+  showMediaNoLongerAvailableToast: () => unknown;
   viewStory: ViewStoryActionCreatorType;
 
   onToggleSelect: (selected: boolean, shift: boolean) => void;
@@ -945,6 +947,7 @@ export class Message extends React.PureComponent<Props, State> {
       shouldCollapseAbove,
       shouldCollapseBelow,
       showLightbox,
+      showMediaNoLongerAvailableToast,
       status,
       text,
       textAttachment,
@@ -1008,6 +1011,7 @@ export class Message extends React.PureComponent<Props, State> {
                   messageId: id,
                 });
               }}
+              showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             />
           </div>
         );
@@ -1049,11 +1053,13 @@ export class Message extends React.PureComponent<Props, State> {
               cancelDownload={() => {
                 cancelAttachmentDownload({ messageId: id });
               }}
+              showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             />
           </div>
         );
       }
     }
+
     if (isAudio(attachments)) {
       const played = isPlayed(direction, status, readStatus);
 
@@ -1171,6 +1177,7 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       kickOffAttachmentDownload,
       cancelAttachmentDownload,
+      showMediaNoLongerAvailableToast,
       previews,
       quote,
       shouldCollapseAbove,
@@ -1243,6 +1250,7 @@ export class Message extends React.PureComponent<Props, State> {
             cancelDownload={() => {
               cancelAttachmentDownload({ messageId: id });
             }}
+            showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
           />
         ) : null}
         <div dir="auto" className="module-message__link-preview__content">
@@ -1270,6 +1278,9 @@ export class Message extends React.PureComponent<Props, State> {
                 blurHash={first.image.blurHash}
                 onError={this.handleImageError}
                 i18n={i18n}
+                showMediaNoLongerAvailableToast={
+                  showMediaNoLongerAvailableToast
+                }
                 showVisualAttachment={() => {
                   openLinkInWebBrowser(first.url);
                 }}
@@ -2605,7 +2616,8 @@ export class Message extends React.PureComponent<Props, State> {
       attachments &&
       attachments.length > 0 &&
       !isAttachmentPending &&
-      !isDownloaded(attachments[0])
+      !isDownloaded(attachments[0]) &&
+      isDownloadable(attachments[0])
     ) {
       event.preventDefault();
       event.stopPropagation();

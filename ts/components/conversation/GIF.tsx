@@ -12,12 +12,14 @@ import {
   hasNotResolved,
   getImageDimensions,
   defaultBlurHash,
+  isDownloadable,
 } from '../../types/Attachment';
 import * as Errors from '../../types/errors';
 import * as log from '../../logging/log';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { AttachmentDetailPill } from './AttachmentDetailPill';
 import { getSpinner } from './Image';
+import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler';
 
 const MAX_GIF_REPEAT = 4;
 const MAX_GIF_TIME = 8;
@@ -33,6 +35,7 @@ export type Props = {
   readonly theme?: ThemeType;
 
   onError(): void;
+  showMediaNoLongerAvailableToast?: () => void;
   showVisualAttachment(): void;
   startDownload(): void;
   cancelDownload(): void;
@@ -51,6 +54,7 @@ export function GIF(props: Props): JSX.Element {
     theme,
 
     onError,
+    showMediaNoLongerAvailableToast,
     showVisualAttachment,
     startDownload,
     cancelDownload,
@@ -123,6 +127,10 @@ export function GIF(props: Props): JSX.Element {
     setIsPlaying(isFocused && !isTapToPlayPaused);
   }, [isFocused, playTime, currentTime, repeatCount, tapToPlay]);
 
+  const undownloadableClick = useUndownloadableMediaHandler(
+    showMediaNoLongerAvailableToast
+  );
+
   const onTimeUpdate = async (event: MediaEvent): Promise<void> => {
     const { currentTime: reportedTime } = event.currentTarget;
     if (!Number.isNaN(reportedTime)) {
@@ -175,9 +183,10 @@ export function GIF(props: Props): JSX.Element {
 
   const isPending = Boolean(attachment.pending);
   const isNotResolved = hasNotResolved(attachment) && !isPending;
+  const isMediaDownloadable = isDownloadable(attachment);
 
   let gif: JSX.Element | undefined;
-  if (isNotResolved || isPending) {
+  if (isNotResolved || isPending || !isMediaDownloadable) {
     gif = (
       <Blurhash
         hash={attachment.blurHash || defaultBlurHash(theme)}
@@ -241,7 +250,7 @@ export function GIF(props: Props): JSX.Element {
   });
 
   let overlay: JSX.Element | undefined;
-  if ((tapToPlay && !isPlaying) || isNotResolved) {
+  if ((tapToPlay && !isPlaying) || (isNotResolved && isMediaDownloadable)) {
     const className = classNames([
       'module-image__border-overlay',
       'module-image__border-overlay--with-click-handler',
@@ -262,9 +271,21 @@ export function GIF(props: Props): JSX.Element {
         <span />
       </button>
     );
+  } else if (!isMediaDownloadable) {
+    overlay = (
+      <button
+        type="button"
+        className="module-image__overlay-circle module-image__overlay-circle--undownloadable"
+        aria-label={i18n('icu:mediaNoLongerAvailable')}
+        onClick={undownloadableClick}
+        tabIndex={tabIndex}
+      >
+        <div className="module-image__undownloadable-icon" />
+      </button>
+    );
   }
 
-  const detailPill = (
+  const detailPill = isDownloadable(attachment) ? (
     <AttachmentDetailPill
       attachments={[attachment]}
       cancelDownload={cancelDownload}
@@ -272,7 +293,7 @@ export function GIF(props: Props): JSX.Element {
       isGif
       startDownload={startDownload}
     />
-  );
+  ) : null;
 
   return (
     <div className="module-image module-image--gif">

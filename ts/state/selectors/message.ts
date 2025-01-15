@@ -66,11 +66,7 @@ import type {
   AttachmentForUIType,
   AttachmentType,
 } from '../../types/Attachment';
-import {
-  isVoiceMessage,
-  canBeDownloaded,
-  defaultBlurHash,
-} from '../../types/Attachment';
+import { isVoiceMessage, defaultBlurHash } from '../../types/Attachment';
 import { type DefaultConversationColorType } from '../../types/Colors';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
@@ -325,7 +321,6 @@ export const getAttachmentsForMessage = ({
   }
   return (
     attachments
-      .filter(attachment => !attachment.error || canBeDownloaded(attachment))
       // Long message attachments are removed from message.attachments quickly,
       // but in case they are still around, let's make sure not to show them
       .filter(attachment => attachment.contentType !== LONG_MESSAGE)

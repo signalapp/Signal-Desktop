@@ -55,6 +55,7 @@ export const SmartMessageDetail = memo(
       showConversation,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
+      showMediaNoLongerAvailableToast,
       showSpoiler,
       startConversation,
     } = useConversationsActions();
@@ -115,6 +116,7 @@ export const SmartMessageDetail = memo(
         showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
         showLightbox={showLightbox}
         showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
+        showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
         showSpoiler={showSpoiler}
         startConversation={startConversation}
         theme={theme}

@@ -12,8 +12,13 @@ import type {
   AttachmentForUIType,
   AttachmentType,
 } from '../../types/Attachment';
-import { defaultBlurHash, isReadyToView } from '../../types/Attachment';
+import {
+  defaultBlurHash,
+  isDownloadable,
+  isReadyToView,
+} from '../../types/Attachment';
 import { ProgressCircle } from '../ProgressCircle';
+import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler';
 
 export enum CurveType {
   None = 0,
@@ -51,6 +56,7 @@ export type Props = {
 
   i18n: LocalizerType;
   theme?: ThemeType;
+  showMediaNoLongerAvailableToast?: () => void;
   showVisualAttachment?: (attachment: AttachmentType) => void;
   cancelDownload?: () => void;
   startDownload?: () => void;
@@ -74,6 +80,7 @@ export function Image({
   i18n,
   noBackground,
   noBorder,
+  showMediaNoLongerAvailableToast,
   showVisualAttachment,
   startDownload,
   cancelDownload,
@@ -160,6 +167,9 @@ export function Image({
     },
     [startDownload]
   );
+  const undownloadableClick = useUndownloadableMediaHandler(
+    showMediaNoLongerAvailableToast
+  );
 
   const imageOrBlurHash = url ? (
     <img
@@ -203,6 +213,8 @@ export function Image({
         tabIndex,
       });
 
+  const isMediaDownloadable = isDownloadable(attachment);
+
   return (
     <div
       className={classNames(
@@ -218,7 +230,19 @@ export function Image({
       }}
     >
       {imageOrBlurHash}
-      {startDownloadButton}
+      {isMediaDownloadable ? (
+        startDownloadButton
+      ) : (
+        <button
+          type="button"
+          className="module-image__overlay-circle module-image__overlay-circle--undownloadable"
+          aria-label={i18n('icu:mediaNoLongerAvailable')}
+          onClick={undownloadableClick}
+          tabIndex={tabIndex}
+        >
+          <div className="module-image__undownloadable-icon" />
+        </button>
+      )}
       {spinner}
 
       {attachment.caption ? (
@@ -237,7 +261,7 @@ export function Image({
           }}
         />
       ) : null}
-      {attachment.path && playIconOverlay ? (
+      {attachment.path && isMediaDownloadable && playIconOverlay ? (
         <div className="module-image__overlay-circle">
           <div className="module-image__play-icon" />
         </div>
@@ -259,7 +283,9 @@ export function Image({
           style={curveStyles}
         />
       ) : null}
-      {showVisualAttachment && isReadyToView(attachment) ? (
+      {showVisualAttachment &&
+      isReadyToView(attachment) &&
+      isMediaDownloadable ? (
         <button
           type="button"
           className={classNames('module-image__border-overlay', {

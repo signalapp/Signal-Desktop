@@ -105,6 +105,7 @@ export type PropsReduxActions = Pick<
   | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
   | 'showLightboxForViewOnceMedia'
+  | 'showMediaNoLongerAvailableToast'
   | 'showSpoiler'
   | 'startConversation'
   | 'viewStory'
@@ -152,6 +153,7 @@ export function MessageDetail({
   showExpiredOutgoingTapToViewToast,
   showLightbox,
   showLightboxForViewOnceMedia,
+  showMediaNoLongerAvailableToast,
   showSpoiler,
   startConversation,
   theme,
@@ -375,6 +377,7 @@ export function MessageDetail({
               showExpiredOutgoingTapToViewToast
             }
             showLightbox={showLightbox}
+            showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             startConversation={startConversation}
             theme={theme}
             viewStory={viewStory}

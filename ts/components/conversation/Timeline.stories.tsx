@@ -316,6 +316,7 @@ const actions = () => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
+  showMediaNoLongerAvailableToast: action('showMediaNoLongerAvailableToast'),
   toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
   toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
 

@@ -144,6 +144,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
+  showMediaNoLongerAvailableToast: action('showMediaNoLongerAvailableToast'),
   toggleDeleteMessagesModal: action('default--toggleDeleteMessagesModal'),
   toggleForwardMessagesModal: action('default--toggleForwardMessagesModal'),
   showLightbox: action('default--showLightbox'),

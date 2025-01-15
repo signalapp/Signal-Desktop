@@ -133,6 +133,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     showConversation,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
+    showMediaNoLongerAvailableToast,
     showSpoiler,
     startConversation,
     targetMessage,
@@ -236,6 +237,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
       showLightbox={showLightbox}
       showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
+      showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
       showSpoiler={showSpoiler}
       startConversation={startConversation}
       toggleDeleteMessagesModal={toggleDeleteMessagesModal}

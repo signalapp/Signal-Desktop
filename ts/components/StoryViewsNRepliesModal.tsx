@@ -73,6 +73,7 @@ const MESSAGE_DEFAULT_PROPS = {
   showExpiredOutgoingTapToViewToast: shouldNeverBeCalled,
   showLightbox: shouldNeverBeCalled,
   showLightboxForViewOnceMedia: shouldNeverBeCalled,
+  showMediaNoLongerAvailableToast: shouldNeverBeCalled,
   startConversation: shouldNeverBeCalled,
   theme: ThemeType.dark,
   viewStory: shouldNeverBeCalled,

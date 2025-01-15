@@ -2864,6 +2864,7 @@ button.module-image__border-overlay:focus {
   bottom: 0;
   z-index: variables.$z-index-base;
   inset-inline: 0;
+  pointer-events: none;
 }
 
 .module-image__overlay-circle {
@@ -2875,6 +2876,10 @@ button.module-image__border-overlay:focus {
     background-color: variables.$color-black-alpha-80;
     border-radius: 25px;
   }
+}
+
+.module-image__overlay-circle--undownloadable {
+  background-color: variables.$color-black-alpha-40;
 }
 
 .module-image__play-icon {
@@ -2905,6 +2910,16 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/arrow/arrow-down.svg',
+    variables.$color-white
+  );
+}
+.module-image__undownloadable-icon {
+  @include mixins.position-absolute-center;
+
+  height: 24px;
+  width: 24px;
+  @include mixins.color-svg(
+    '../images/icons/v3/photo/photo-slash-compact.svg',
     variables.$color-white
   );
 }
