@@ -102,7 +102,7 @@ export function AttachmentDetailPill({
     let text: JSX.Element;
 
     if (!areAnyPending && totalDownloadedSize > 0) {
-      ariaLabel = i18n('icu:retryDownload');
+      ariaLabel = i18n('icu:AttachmentDetailPill__retryDownload');
       onClick = startDownloadClick;
       onKeyDown = startDownloadKeyDown;
       control = (
@@ -112,7 +112,7 @@ export function AttachmentDetailPill({
       );
       text = (
         <div className="AttachmentDetailPill__text-wrapper">
-          {i18n('icu:retryDownloadShort')}
+          {i18n('icu:AttachmentDetailPill__retryDownloadShort')}
         </div>
       );
     } else if (!areAnyPending) {

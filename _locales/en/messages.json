@@ -1516,11 +1516,11 @@
   },
   "icu:retryDownload": {
     "messageformat": "Retry download",
-    "description": "Label for button shown on an existing download to restart a download that was partially completed"
+    "description": "(Deleted 2024/12/12) Label for button shown on an existing download to restart a download that was partially completed"
   },
   "icu:retryDownloadShort": {
     "messageformat": "Retry",
-    "description": "Describes a button shown on an existing download to restart a download that was partially completed"
+    "description": "(Deleted 2024/12/12) Describes a button shown on an existing download to restart a download that was partially completed"
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {# item} other {# items}}",
@@ -6074,6 +6074,14 @@
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Choose a color",
     "description": "Label for when you need to choose your fighter, err color"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download",
+    "description": "Label for button shown on an existing download to restart a download that was partially completed"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry",
+    "description": "Describes a button shown on an existing download to restart a download that was partially completed"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Group Avatar",
