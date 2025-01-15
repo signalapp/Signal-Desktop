@@ -14,12 +14,9 @@ import { strictAssert } from '../../util/assert';
 import { linkCallRoute } from '../../util/signalRoutes';
 import { copyCallLink } from '../../util/copyLinksWithToast';
 import { drop } from '../../util/drop';
-import { isCallLinksCreateEnabled } from '../../util/callLinks';
 
 export const SmartCallLinkEditModal = memo(
   function SmartCallLinkEditModal(): JSX.Element | null {
-    strictAssert(isCallLinksCreateEnabled(), 'Call links creation is disabled');
-
     const roomId = useSelector(getCallLinkEditModalRoomId);
     strictAssert(roomId, 'Expected roomId to be set');
 

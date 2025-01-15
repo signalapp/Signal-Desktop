@@ -22,7 +22,6 @@ import type {
   NotificationClickData,
   WindowsNotificationData,
 } from '../../services/notifications';
-import { isAdhocCallingEnabled } from '../../util/isAdhocCallingEnabled';
 import { AggregatedStats } from '../../textsecure/WebsocketResources';
 import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager';
 
@@ -350,16 +349,9 @@ ipc.on('start-call-lobby', (_event, { conversationId }) => {
 });
 
 ipc.on('start-call-link', (_event, { key }) => {
-  if (isAdhocCallingEnabled()) {
-    window.reduxActions?.calling?.startCallLinkLobby({
-      rootKey: key,
-    });
-  } else {
-    const { unknownSignalLink } = window.Events;
-    if (unknownSignalLink) {
-      unknownSignalLink();
-    }
-  }
+  window.reduxActions?.calling?.startCallLinkLobby({
+    rootKey: key,
+  });
 });
 
 ipc.on('show-window', () => {

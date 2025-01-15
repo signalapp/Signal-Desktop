@@ -133,7 +133,6 @@ const defaultPendingState: SearchState = {
 
 type CallsListProps = Readonly<{
   activeCall: ActiveCallStateType | undefined;
-  canCreateCallLinks: boolean;
   getCallHistoryGroupsCount: (
     options: CallHistoryFilterOptions
   ) => Promise<number>;
@@ -183,7 +182,6 @@ type Row = CallHistoryGroup | SpecialRows;
 
 export function CallsList({
   activeCall,
-  canCreateCallLinks,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   callHistoryEdition,
@@ -232,7 +230,7 @@ export function CallsList({
         : ['EmptyState'];
     }
 
-    if (!searchFiltering && canCreateCallLinks) {
+    if (!searchFiltering) {
       return ['CreateCallLink', ...results];
     }
 
@@ -240,12 +238,7 @@ export function CallsList({
       return ['FilterHeader', ...results, 'ClearFilterButton'];
     }
     return results;
-  }, [
-    searchState.results?.items,
-    searchFiltering,
-    canCreateCallLinks,
-    hasMissedCallFilter,
-  ]);
+  }, [searchState.results?.items, searchFiltering, hasMissedCallFilter]);
 
   const rowCount = rows.length;
 

@@ -43,7 +43,6 @@ type CallsTabProps = Readonly<{
     pagination: CallHistoryPagination
   ) => Promise<Array<CallHistoryGroup>>;
   callHistoryEdition: number;
-  canCreateCallLinks: boolean;
   getAdhocCall: (roomId: string) => CallStateType | undefined;
   getCall: (id: string) => CallStateType | undefined;
   getCallLink: (id: string) => CallLinkType | undefined;
@@ -100,7 +99,6 @@ export function CallsTab({
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   callHistoryEdition,
-  canCreateCallLinks,
   getAdhocCall,
   getCall,
   getCallLink,
@@ -273,7 +271,6 @@ export function CallsTab({
             <CallsList
               key={CallsTabSidebarView.CallsListView}
               activeCall={activeCall}
-              canCreateCallLinks={canCreateCallLinks}
               getCallHistoryGroupsCount={getCallHistoryGroupsCount}
               getCallHistoryGroups={getCallHistoryGroups}
               callHistoryEdition={callHistoryEdition}

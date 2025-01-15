@@ -145,7 +145,6 @@ import {
   callLinkRestrictionsToRingRTC,
   callLinkStateFromRingRTC,
 } from '../util/callLinksRingrtc';
-import { isAdhocCallingEnabled } from '../util/isAdhocCallingEnabled';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -1170,12 +1169,6 @@ export class CallingClass {
     callLinkRootKey: CallLinkRootKey;
     adminPasskey: Buffer | undefined;
   }): GroupCall {
-    if (!isAdhocCallingEnabled()) {
-      throw new Error(
-        'Adhoc calling is not enabled; not connecting call link call'
-      );
-    }
-
     const existing = this.#getGroupCall(roomId);
     if (existing) {
       const isExistingCallNotConnected =
