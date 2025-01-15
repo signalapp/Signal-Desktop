@@ -2790,10 +2790,10 @@
     "messageformat": "Микрофонот е вклучен"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Сакате да ја спуштите раката?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Спуштете"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Ѕвонењето е овозможено"
@@ -3603,10 +3603,10 @@
     "messageformat": "Се подготвува за преземање…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Ова може да потрае неколку минути, во зависност од големината на историјата на вашите пораки"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Пораките и информациите за разговорите се заштитени со целосно шифрирање, вклучувајќи го и процесот на синхронизација. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Да се откаже преносот?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Не е завршено враќањето на вашите пораки и медиумски датотеки. Ако одлучите да откажете, вашиот уред ќе се поврзе без историјата на пораки."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Продолжи со пренос"
@@ -5792,6 +5792,6 @@
     "messageformat": "Сега лесно можете да го видите прогресот на преземање прилози. Исто така можете да стопирате и рестартирате преземања кои се во тек."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Решивме грешка при која вашата корисничка сметка се појавуваше на листата со предлози во @ спомнувања."
   }
 }

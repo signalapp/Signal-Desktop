@@ -2790,10 +2790,10 @@
     "messageformat": "মাইক চালু করুন"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "হাত নামবেন?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "নামান"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "রিং চালু করুন"
@@ -3603,10 +3603,10 @@
     "messageformat": "ডাউনলোড করার জন্য প্রস্তুতি নিচ্ছে..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "আপনার মেসেজের ইতিহাসের আকারের উপর নির্ভর করে এতে কয়েক মিনিট সময় নিতে পারে"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "বাতিল করুন"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "সিঙ্ক প্রক্রিয়া সহ মেসেজ এবং চ্যাটের তথ্য এন্ড-টু-এন্ড এনক্রিপশন দ্বারা সুরক্ষিত। <learnMoreLink>আরো জানুন</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "স্থানান্তর বাতিল করবেন?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "আপনার মেসেজ এবং মিডিয়া পুনর্বহাল সম্পন্ন হয়নি। আপনি যদি বাতিল করতে চান, তবে আপনার মেসেজের ইতিহাস ছাড়াই আপনার ডিভাইস লিংক করা হবে।"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "স্থানান্তর চালিয়ে যান"
@@ -5792,6 +5792,6 @@
     "messageformat": "এখন আপনি সহজেই সংযুক্তি ডাউনলোডের অগ্রগতি দেখতে পারবেন। এছাড়াও আপনি চলমান ডাউনলোডগুলো বন্ধ করে পুনরায় চালু করতে পারবেন।"
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "আমরা @ উল্লেখ সহ একটি বাগ সংশোধন করেছি যা কখনো কখনো ভুলভাবে স্বয়ংক্রিয় পরামর্শ তালিকায় আপনার নিজের অ্যাকাউন্ট অন্তর্ভুক্ত করে।"
   }
 }

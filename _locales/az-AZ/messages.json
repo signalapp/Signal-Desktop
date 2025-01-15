@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon açıqdır"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Əl endirilsin?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Əlini endir"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zəng aktivdir"
@@ -3603,10 +3603,10 @@
     "messageformat": "Endirməyə hazırlaşır..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Mesaj tarixçəsinin həcmindən asılı olaraq bu, bir neçə dəqiqə çəkə bilər"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ləğv et"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajlar və çat məlumatı sinxronlaşdırma prosesi daxil, tam şifrələmə ilə qorunur. <learnMoreLink>Daha ətraflı</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Köçürmə ləğv edilsin?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Mesajlarınız və media faylınızın bərpası tamamlanmayıb. Prosesi ləğv etməyi seçsəniz, cihazınız mesaj tarixçəsi olmadan qoşulacaq."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Köçürməni davam et"
@@ -5792,6 +5792,6 @@
     "messageformat": "Artıq endirilən qoşmanın gedişatını asanlıqla görə bilərsiniz. Siz həm də davam edən endirimləri dayandıra və təkrar başlada bilərsiniz. Yolda olduğunuz üçün (təyyarə rejimində?) köçürmə ləngiyirsə və ya adi bir otel WiFi-ı yükləməyə tab gətirmirsə, daha müvafiq bir internetiniz olanadək gözləyin."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Bəzən səhvən şəxsi hesabınızın avtomatik tamamlanan təklif siyahısına daxil edilməsinə səbəb olan @ işarəli etiketlərlə bağlı xətanı aradan qaldırdıq. Bu xətanı gözdən qaçırsanız, qrup çatlarında özünüzdən üçüncü şəxs kimi bəhs edə bilərsiniz."
   }
 }

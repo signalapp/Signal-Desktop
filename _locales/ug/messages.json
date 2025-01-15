@@ -2790,10 +2790,10 @@
     "messageformat": "مىكروفون ئوچۇق"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "قولىڭىزنى چۈشۈرەمسىز؟"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "چۈشۈرۈش"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "قوڭغۇراق ئوچۇق"
@@ -3603,10 +3603,10 @@
     "messageformat": "چۈشۈرۈشكە تەييارلىق قىلىۋاتىدۇ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "ئۇچۇر تارىخىڭىزنىڭ چوڭ-كىچىكلىكىگە ئاساسەن بىر قانچە مىنۇت ۋاقىت كېتىشى مۇمكىن"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "ئۇچۇر ۋە پاراڭ مەزمۇنلىرى ماس قەدەملىك جەرياننى ئۆز ئىچىگە ئالغان ئاخىرىغىچە شىفىرلىق مەخپىيلەشتۈرۈش ئارقىلىق قوغدىلىدۇ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "يۆتكەشنى ئەمەلدىن قالدۇرامسىز؟"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "ئۇچۇرلىرىڭىز ۋە مېدىيالىرىڭىز ئەسلىگە كەلتۈرۈشنى تاماملىمىدى. بىكار قىلىشنى تاللىسىڭىز ، ئۈسكۈنىڭىز ئۇچۇرلىشىش تارىخىڭىزسىز ئۇلىنىدۇ."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "يۆتكەشنى داۋاملاشتۇرۇڭ"
@@ -5792,6 +5792,6 @@
     "messageformat": "ھازىر سىز قوشۇمچە ھۆججەتلەرنىڭ چۈشۈش ئەھۋالىنى ئاسانلا كۆرەلەيسىز. سىز ھەمدە داۋاملىق چۈشۈۋاتقانلارنى توختىتالايسىز ۋە قايتا قوزغىتالايسىز. ئەگەر يولدا (ئايروپىلان ھالىتىدە؟)بولسىڭىز ياكى مېھمانخانىدىكى WiFi تازا تارتمىسا ، تېخىمۇ ياخشى كەڭ بەلۋاغ تورى بار بولغاندا قايتا يۈكلسىڭىز بولىدۇ."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "بىز بەزىدە ھېساباتىڭىزنى ئاپتوماتىك تاماملاش مەسلىھەت تىزىملىكىگە كىرگۈزۈپ قويىدىغان ، @ ئشلىتىلگەن بىر خاتالىقنى تۈزەتتۇق. بىز بەزىدە ھېساباتىڭىزنى ئاپتوماتىك تاماملاش مەسلىھەت تىزىملىكىگە كىرگۈزۈپ قويىدىغان ، @ ئشلىتىلگەن بىر خاتالىقنى تۈزەتتۇق."
   }
 }

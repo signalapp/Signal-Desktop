@@ -2790,10 +2790,10 @@
     "messageformat": "Микрофон күйүк"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Колуңузду түшүрөсүзбү?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Түшүрүү"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Чалып жатасыз"
@@ -3603,10 +3603,10 @@
     "messageformat": "Жүктөлүп алынганы жатат..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Бул билдирүүлөр таржымалынын көлөмүнө жараша бир нече мүнөткө созулушу мүмкүн"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Жок"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Билдирүүлөр жана маектеги нерселер, ошондой эле шайкештирүү процесси баштан аяк шифрленип корголот. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Өткөрүүнү токтотосузбу?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Билдирүүлөрүңүз менен медиа файлдарыңыз толук калыбына келген жок. Эгер жокко чыгарууну тандасаңыз, түзмөгүңүз билдирүүлөр таржымалы жок байланыштырылат."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Жок"
@@ -5792,6 +5792,6 @@
     "messageformat": "Тиркемелердин жүктөлүп жатканын оңой эле көрө аласыз. Жүктөп алуу процессин токтотуп, кайра уланта аласыз. Жолдо жүргөндүктөн (же учак режиминде болгондуктан) же орточо мейманканада Wi-Fi жай иштегендиктен жай өтүп жатса, Интернет ылдамыраак иштегенде жүктөй аласыз."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Автотолтуруунун сунуштар тизмесине өз аккаунтуңузду кээде туура эмес киргизген @ эскертмелериндеги мүчүлүштүктөрдү оңдодук. Бир аз нарциссисттик чечим катары, эгер бул мүчүлүштүктү өткөрүп жиберсеңиз, топтук маектериңизде дагы эле үчүнчү жактан өзүңүз жөнүндө айта аласыз."
   }
 }

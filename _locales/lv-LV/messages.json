@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofons ieslēgts"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Nolaist roku?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Nolaist"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvana signāls ieslēgts"
@@ -3603,10 +3603,10 @@
     "messageformat": "Gatavo lejupielādi…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Šis process var aizņemt dažas minūtes atkarībā no ziņu vēstures apjoma"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atcelt"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Ziņas un sarunu informāciju aizsargā pilnīga šifrēšana, tostarp sinhronizēšanas process. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Vai atcelt pārsūtīšanu?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Ziņu un multivides atjaunošana nav pabeigta. Ja izvēlēsieties atcelt, ierīce tiks piesaistīta, bet ziņu vēsture netiks atjaunota."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Turpināt pārsūtīšanu"
@@ -5792,6 +5792,6 @@
     "messageformat": "Tagad varat ērti apskatīt pielikumu lejupielādēs progresu, kā arī apturēt lejupielādes un tās atsākt. Ja failu pārsūtīšanas ātrums samazinās, jo atrodaties ceļā (piemēram, lidmašīnā) vai jums hotelī pieejams tikai lēns Wi-Fi tīkls, tagad varat atsākt failu lejupielādi, kolīdz tiekat pie ātrāka interneta savienojuma."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Mēs atrisinājām kļūdu, kas lika arī jūsu kontam parādīties @ pieminējumu automātiskās pabeigšanas ieteikumu sarakstā. Ja jums šī kļūda kādreiz pietrūkst, iesakām šādos gadījumos grupu sarunās atsaukties uz sevi trešajā personā."
   }
 }

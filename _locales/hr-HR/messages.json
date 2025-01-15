@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon uključen"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Želite spustiti ruku?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Spusti"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvono uključeno"
@@ -3603,10 +3603,10 @@
     "messageformat": "Pripremamo datoteke za preuzimanje…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Ovo može potrajati nekoliko minuta. Brzina preuzimanja ovisi o veličini vaše povijesti poruka."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Odustani"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Poruke, podaci o razgovorima i cijeli proces sinkronizacije zaštićeni su sveobuhvatnim šifriranjem. <learnMoreLink>Saznaj više</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Želite li prekinuti prijenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Vraćanje vaših poruka i medijskih zapisa nije dovršeno. Ako prekinete prijenos, uređaj će se povezati bez vaše povijesti poruka."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Nastavi prijenos"
@@ -5792,6 +5792,6 @@
     "messageformat": "Sada možete pratiti napredak preuzimanja privitaka te otkazati i ponovno pokrenuti preuzimanja dok su još u tijeku."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Ispravili smo pogrešku sa @ spominjanjima koja su ponekad greškom uključivala vaš račun na popisu prijedloga za automatsko popunjavanje."
   }
 }

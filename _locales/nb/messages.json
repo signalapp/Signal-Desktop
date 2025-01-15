@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon på"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Vil du ta ned hånden?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Ta ned"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Ringing på"
@@ -3603,10 +3603,10 @@
     "messageformat": "Gjør klart for nedlasting …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Dette kan ta et par minutter avhengig av størrelsen på meldingsloggen"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Avbryt"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Meldinger og samtaleinnhold beskyttes av ende-til-ende-kryptering. Dette inkluderer også synkroniseringen. <learnMoreLink>Les mer</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Vil du avbryte overføringen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Meldingene og mediefilene har ikke blitt gjenopprettet. Dersom du avbryter overføringen, vil enheten kobles til uten meldingsloggen din."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Fortsett overføring"
@@ -5792,6 +5792,6 @@
     "messageformat": "Nå kan du se hvor langt nedlastingen har kommet når du laster ned et vedlegg. Du kan også sette nedlastinger på pause."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Vi har fikset en feil som førte til at ditt eget navn dukket opp i listen over foreslåtte tagger når du skriver meldinger."
   }
 }

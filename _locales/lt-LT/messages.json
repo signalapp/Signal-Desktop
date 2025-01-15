@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofonas įjungtas"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Nuleisti ranką?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Nuleisti"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Skambėjimas įjungtas"
@@ -3603,10 +3603,10 @@
     "messageformat": "Ruošiamasi atsisiųsti..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Tai gali užtrukti kelias minutes, priklausomai nuo žinučių istorijos dydžio"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Žinutės ir pokalbių informacija yra visiškai užšifruoti, įskaitant ir sinchronizavimo procesą. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Atšaukti perkėlimą?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Jūsų žinučių ir įrašų atkūrimas nebaigtas. Jei nuspręsite atšaukti, jūsų įrenginys bus susietas be žinučių istorijos."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Tęsti perkėlimą"
@@ -5792,6 +5792,6 @@
     "messageformat": "Dabar galite lengvai matyti priedų atsisiuntimo eigą. Taip pat galite sustabdyti ir iš naujo paleisti vykdomus atsisiuntimus."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Ištaisėme klaidą su @ paminėjimais, kurie kartais neteisingai įtraukdavo jūsų pačių paskyrą į automatinio užbaigimo pasiūlymų sąrašą."
   }
 }

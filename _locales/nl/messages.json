@@ -1203,7 +1203,7 @@
     "messageformat": "Apparaatnaam"
   },
   "icu:chooseDeviceName": {
-    "messageformat": "Kies de naam van dit apparaat"
+    "messageformat": "Kies een naam voor dit apparaat"
   },
   "icu:finishLinkingPhone": {
     "messageformat": "Koppelen van telefoon voltooien"
@@ -2790,10 +2790,10 @@
     "messageformat": "Microfoon aan"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Hand omlaag doen?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Omlaag doen"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Bellen aan"
@@ -3603,10 +3603,10 @@
     "messageformat": "Download voorbereiden..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je chatgeschiedenis"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuleren"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Berichten en chatgegevens worden beschermd door end-to-end-versleuteling, ook tijdens het synchronisatieproces. <learnMoreLink>Meer informatie</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Overzetten annuleren?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Het herstellen van je berichten en media is nog niet voltooid. Als je ervoor kiest om te annuleren, wordt je apparaat gekoppeld zonder je chatgeschiedenis."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Doorgaan met overzetten"
@@ -5792,6 +5792,6 @@
     "messageformat": "Je kunt nu eenvoudig de voortgang van het downloaden van bijlagen zien. Je kunt lopende downloads nu ook stoppen en opnieuw starten. Dus als een transfer traag gaat omdat je onderweg bent (in vliegtuigmodus?) of door de matige wifi van het hotel… Wacht dan op een snellere verbinding en upload het bestand gewoon verder."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "We hebben een bug met @-vermeldingen opgelost waardoor soms je eigen account verscheen in de lijst met suggesties voor automatisch invullen. Je kunt natuurlijk altijd nog in derde persoon over jezelf praten, mocht je deze bug heel erg missen."
   }
 }

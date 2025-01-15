@@ -2790,10 +2790,10 @@
     "messageformat": "麦克风开启"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "要放下吗？"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "放下"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "铃声开启"
@@ -3603,10 +3603,10 @@
     "messageformat": "正在准备下载…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "这可能需要几分钟时间，视您的消息记录大小而定"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "消息和聊天信息受端对端加密保护，包括同步过程。<learnMoreLink>了解更多</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "要取消转移吗？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "您的消息和媒体未完成恢复。如果您选择取消，您的设备将会被链接，但不包含消息记录。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "继续转移"
@@ -5792,6 +5792,6 @@
     "messageformat": "现在用户可以轻松查看附件下载的进度，还可以停止和重启正在进行的下载。"
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "我们修复了 @ 提及功能的一个漏洞，该漏洞有时会将您自己的账户也包含在推荐列表中。"
   }
 }

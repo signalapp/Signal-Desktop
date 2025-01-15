@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofoni i ndezur"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Ul dorën?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Ul"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Po bie zilja"
@@ -3603,10 +3603,10 @@
     "messageformat": "Po përgatitet për t'u shkarkuar..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Kjo mund të zgjasë disa minuta në varësi të madhësisë së historikut të mesazheve"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulo"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesazhet dhe informacionet e bisedës mbrohen nga kodimi skaji në skaj, duke përfshirë procesin e sinkronizimit. <learnMoreLink>Mëso më shumë</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Të anulohet transferimi?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Rikthimi i mesazheve dhe i medias nuk ka përfunduar. Nëse zgjedh ta anulosh, pajisja do të lidhet pa historikun e mesazheve."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Vazhdo transferimin"
@@ -5792,6 +5792,6 @@
     "messageformat": "Tani mund ta shohësh lehtësisht ecurinë e shkarkimeve të bashkëngjitjeve. Po ashtu, mund t'i ndalosh dhe t'i rinisësh shkarkimet që janë në proces e sipër. Pra, nëse një transferim ngadalësohet pasi je në rrugë (ose në modalitet avioni?) ose sepse WiFi-ja e hotelit është gati të japë shpirt, mund të presësh ta rifillosh ngarkimin kur të kesh më shumë gjerësi bande në dispozicion."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Ne rregulluam gabimin me përmendjet @ që ndonjëherë përfshinte gabimisht vetë llogarinë tënde në listën e sugjerimeve të plotësimit automatik. Nëse ndonjëherë të ndodh ta humbësh këtë problem, si zgjidhje narcisiste, mund ta përdorësh sërish rrëfimin në vetë të tretë për të folur për veten në bisedat në grup."
   }
 }

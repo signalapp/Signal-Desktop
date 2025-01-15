@@ -2790,10 +2790,10 @@
     "messageformat": "Микрофон включён"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Опустить руку?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Опустить"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Звонки включены"
@@ -3603,10 +3603,10 @@
     "messageformat": "Готовимся к загрузке..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Это может занять несколько минут в зависимости от размера вашей истории сообщений"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Сообщения и информация о чате защищены сквозным шифрованием, включая процесс синхронизации. <learnMoreLink>Узнать больше</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Отменить трансфер?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Восстановление сообщений и медиафайлов не завершено. Если вы решите отменить восстановление, ваше устройство будет привязано без истории сообщений."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Продолжить трансфер"
@@ -5792,6 +5792,6 @@
     "messageformat": "Теперь вы можете наглядно видеть прогресс загрузки вложений. Вы также можете останавливать и перезапускать текущие загрузки. Если передача данных замедлилась, так как вы в дороге (в авиарежиме?) или пользуетесь слабым WiFi в отеле, вы можете выполнить загрузку позже, когда будет более быстрое интернет-соединение."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Мы исправили ошибку с упоминаниями @, из-за которой ваша учётная запись иногда включалась в список предложений для автозаполнения. Для самовлюбленных по-прежнему есть возможность поговорить о себе от третьего лица, пропустив эту ошибку."
   }
 }

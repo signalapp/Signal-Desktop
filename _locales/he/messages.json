@@ -2790,10 +2790,10 @@
     "messageformat": "מיקרופון מופעל"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "להוריד את היד?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "הורדה"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "צלצול מופעל"
@@ -3603,10 +3603,10 @@
     "messageformat": "מתכוננים להורדה…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "זה עשוי לקחת מספר דקות בהתאם לגודל היסטוריית ההודעות שלך"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ביטול"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "הודעות ופרטי צ׳אט מוגנים באמצעות הצפנה מקצה לקצה, כולל תהליך הסנכרון. <learnMoreLink>למידע נוסף</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "לבטל העברה?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "שחזור ההודעות והמדיה שלך לא הושלם. אם תבחר/י לבטל, המכשיר שלך יקושר ללא היסטוריית ההודעות שלך."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "המשך העברה"
@@ -5792,6 +5792,6 @@
     "messageformat": "עכשיו אפשר לראות בקלות את התקדמות ההורדה של קבצים מצורפים. אפשר גם לעצור ולהתחיל מחדש הורדות שכבר החלו את התהליך."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "תיקנו באג עם אזכורי @ שלפעמים כללו את החשבון שלך ברשימת הצעות ההשלמה האוטומטית."
   }
 }

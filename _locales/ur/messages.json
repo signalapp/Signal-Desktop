@@ -2790,10 +2790,10 @@
     "messageformat": "مائیک آن"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "اپنا ہاتھ نیچے کریں؟"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "نیچے کریں"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "رنگنگ آن"
@@ -3603,10 +3603,10 @@
     "messageformat": "ڈاؤن لوڈ کرنے کے لیے تیار کیا جا رہا ہے..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "یہ آپ کی میسج ہسٹری کے سائز پر منحصر ہے اور اس میں چند منٹ لگ سکتے ہیں"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "میسجز اور چیٹس کی معلومات اینڈ ٹو اینڈ انکرپشن کے ذریعے محفوظ شدہ ہیں، بشمول سنک کا عمل۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "منتقل کرنے کو منسوخ کریں؟"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "آپ کے میسجز اور میڈیا کی بحالی مکمل نہیں ہوئی۔ اگر آپ منسوخ کرنے کو منتخب کرتے ہیں، تو آپ کی ڈیوائس کو میسج ہسٹری کے بغیر منسلک کر دیا جائے گا۔"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "منتقل کرنا جاری رکھیں"
@@ -5792,6 +5792,6 @@
     "messageformat": "اب آپ اٹیچمنٹ کی ڈاؤن لوڈز کی پیشرفت آسانی سے دیکھ سکتے ہیں۔ آپ جاری ڈاؤن لوڈز کو روک سکتے ہیں اور ری اسٹارٹ بھی کر سکتے ہیں۔ تو اگر آپ روڈ پر ہیں (ایئر پلین موڈ میں؟) اور ٹرانسفر آہستہ ہو گیا ہے یا ہوٹل کے ہلکے وائی فائی کی بس ہونے والی ہے تو زیادہ بینڈ واڈتھ ملنے پر آپ ری لوڈ کرنے کا انتظار کر سکتے ہیں۔"
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "ہم نے @ کے ساتھ ایک نقص کی درستگی کی ہے جو بعض اوقات آپ کے اپنے اکاؤنٹ کو خود کار طور پر تکمیل کی تجویز کی فہرست میں شامل کرتا تھا۔"
   }
 }

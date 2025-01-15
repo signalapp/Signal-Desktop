@@ -2790,10 +2790,10 @@
     "messageformat": "開咗咪"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "係咪想放低手？"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "放低"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "鈴聲開咗"
@@ -3603,10 +3603,10 @@
     "messageformat": "準備緊下載..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "視乎你嘅訊息紀錄多寡，過程可能需要幾分鐘"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "訊息同聊天資料都受到端對端加密保護，包括同步過程。<learnMoreLink>了解詳情</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "係咪要取消轉移？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "你嘅訊息同媒體仲未還原晒喎。如果你揀取消，連結你部機之後就會冇訊息紀錄。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "繼續轉移"
@@ -5792,6 +5792,6 @@
     "messageformat": "你而家可以好方便咁睇到附件嘅下載進度，仲可以㩒停進行緊嘅下載，或者重新開始。所以，就算你坐緊車 (或者開咗飛行模式)，又或者酒店 WiFi 唔係好掂，都可以等一等，等到網路順暢時先至重新載入。"
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "我哋修正咗一個 @ 提及嘅錯誤，就係有時會錯誤咁將你自己嘅帳戶納入自動完成建議清單度。如果你真係咁自戀嘅，更新完之後你都可以繼續喺群組聊天度用第三人稱稱呼自己。"
   }
 }

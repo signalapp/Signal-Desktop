@@ -2790,10 +2790,10 @@
     "messageformat": "မိုက် ဖွင့်ထားသည်"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "လက်ပြန်ချမည်လား။"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "လက်ပြန်ချမည်"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "ဖုန်းမြည်သံ ဖွင့်ထားသည်"
@@ -3603,10 +3603,10 @@
     "messageformat": "ဒေါင်းလုဒ်လုပ်ရန် ပြင်ဆင်နေသည်..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "သင့် မက်ဆေ့ချ်မှတ်တမ်း အရွယ်အစားပေါ်မူတည်၍ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "မလုပ်တော့ပါ"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "ချိန်ကိုက်မှု လုပ်ငန်းစဉ်အပါအဝင် မက်ဆေ့ချ်များနှင့် ချက်(တ်)အချက်အလက်ကို ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ခြင်းဖြင့် ကာကွယ်ထားသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "လွှဲပြောင်းမှုကို ပယ်ဖျက်မလား။"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "သင့် မက်ဆေ့ချ်များနှင့် မီဒီယာများကို ပြန်လည်ရယူခြင်း မပြီးပြတ်သေးပါ။ ပယ်ဖျက်ရန်ကို ရွေးချယ်ပါက သင့်စက်သည် မက်ဆေ့ချ်မှတ်တမ်းမပါဘဲ ချိတ်ဆက်သွားမည်။"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "ဆက်လက်လွှဲပြောင်းမည်"
@@ -5792,6 +5792,6 @@
     "messageformat": "ပူးတွဲဖိုင် ဒေါင်းလုဒ်များ၏ တိုးတက်မှုကို ယခုအခါ အလွယ်တကူ ကြည့်နိုင်ပါပြီ။ လက်ရှိဒေါင်းလုဒ်များကိုလည်း ရပ်ပြီး ပြန်လည်စတင်နိုင်သည်။"
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "တစ်ခါတစ်ရံတွင် သင့်ကိုယ်ပိုင်အကောင့်ကို အလိုအလျောက်ဖြည့်စွက်မှု အကြံပြုချက်စာရင်းတွင် @ မန်းရှင်းထည့်သွင်းသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   }
 }

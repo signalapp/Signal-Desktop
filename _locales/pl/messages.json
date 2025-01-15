@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon wł."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Opuścić rękę?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Opuść"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Dzwonek wł."
@@ -3603,10 +3603,10 @@
     "messageformat": "Przygotowywanie do pobrania…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "W zależności od rozmiaru historii wiadomości może to zająć kilka minut"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anuluj"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Wiadomości i informacje o czacie są szyfrowane metodą end-to-end. Dotyczy to także synchronizacji. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Anulować przenoszenie?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Przywracanie wiadomości i multimediów nie zostało zakończone. Jeśli anulujesz ten proces, na połączonym urządzeniu nie będzie Twojej historii wiadomości."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Kontynuuj przenoszenie"
@@ -5792,6 +5792,6 @@
     "messageformat": "Od teraz możesz z łatwością śledzić postęp pobierania załączników. Możesz też wstrzymywać i wznawiać już rozpoczęte pobieranie. Jesteś w trasie i zrywa Ci połączenie? Hotelowe Wi-Fi odmawia współpracy? Żaden problem – pobierz załączniki później, kiedy złapiesz lepsze łącze."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Naprawiliśmy błąd związany z funkcją @wzmianek, przez który na liście proponowanych użytkowników pojawiało się czasem Twoje własne konto. Jeśli jednak błąd wcale Ci nie przeszkadzał, bo lubisz opowiadać o sobie, nic straconego – zawsze możesz pisać na swój temat w formie trzecioosobowej. My nie oceniamy!"
   }
 }

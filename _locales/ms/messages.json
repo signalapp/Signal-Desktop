@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon dihidupkan"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Turunkan tangan anda?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Turun Tangan"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Deringan dihidupkan"
@@ -3603,10 +3603,10 @@
     "messageformat": "Bersedia untuk memuat turun..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Ini mungkin mengambil masa beberapa minit bergantung pada saiz sejarah mesej anda"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesej dan maklumat sembang dilindungi oleh penyulitan hujung ke hujung termasuk proses penyegerakan. <learnMoreLink>Ketahui lebih lanjut</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Batalkan pemindahan?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Mesej dan media anda belum selesai dipulihkan. Jika anda memilih untuk membatalkan, peranti anda akan dipautkan tanpa sejarah mesej anda."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Teruskan pemindahan"
@@ -5792,6 +5792,6 @@
     "messageformat": "Kini anda boleh melihat kemajuan muat turun lampiran dengan mudah. Anda juga boleh menghentikan dan memulakan semula muat turun yang sedang berjalan. Jika pemindahan menjadi perlahan kerana anda sedang dalam perjalanan (dalam mod kapal terbang?) atau WiFi hotel yang lemah hampir terputus, anda boleh menunggu untuk memuat semula apabila jalur lebar yang lebih baik tersedia."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Kami membetulkan pepijat pada @ sebutan yang kadangkala memasukkan akaun anda sendiri dalam senarai cadangan autolengkap."
   }
 }

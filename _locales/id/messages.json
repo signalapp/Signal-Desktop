@@ -2790,10 +2790,10 @@
     "messageformat": "Mik nyala"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Turunkan tangan?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Turunkan"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Dering aktif"
@@ -3603,10 +3603,10 @@
     "messageformat": "Bersiap mengunduh …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Perlu waktu beberapa menit, tergantung ukuran riwayat pesan Anda"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Pesan dan info obrolan dilindungi enkripsi menyeluruh, termasuk proses sinkronisasi. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Batalkan transfer?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Pemulihan pesan dan media Anda belum selesai. Jika membatalkan prosesnya, perangkat Anda akan dihubungkan tanpa riwayat pesan."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Lanjutkan transfer"
@@ -5792,6 +5792,6 @@
     "messageformat": "Kini Anda dapat dengan mudah melihat progres pengunduhan lampiran. Anda juga bisa menghentikan dan memulai ulang pengunduhan yang sedang berlangsung."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Kami memperbaiki bug dengan @ penyebutan/mention yang kadang menyertakan akun Anda sendiri pada daftar saran akun yang dapat ditambahkan secara otomatis."
   }
 }

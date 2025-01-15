@@ -2790,10 +2790,10 @@
     "messageformat": "Washa mic"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Je ushushe mkono wako?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Shusha"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sauti ya kuitana imewashwa"
@@ -3603,10 +3603,10 @@
     "messageformat": "Inajiandaa kupakua..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Mchakato huu huenda ukachukua dakika chache kulingana na ukubwa wa historia yako ya ujumbe"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Maelezo ya ujumbe na gumzo yanalindwa na kusimbwa fiche, ikiwemo mchakato wa ku-sync. <learnMoreLink>Jifunze zaidi</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Je, ghairi uhamishaji?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Jumbe na picha na video zako hazijakamilika kurejeshwa. Ikiwa utachagua kusitisha, kifaa chako kitaunganishwa bila historia ya ujumbe wako."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Endelea na uhamishaji"
@@ -5792,6 +5792,6 @@
     "messageformat": "Sasa unaweza kuona kwa urahisi maendeleo ya upakuaji wa viambatisho. Unaweza pia kusimamisha na kuanzisha upya vipakuliwa vinavyoendelea. Endapo uhamishaji upo taratibu kwa sababu upo barabarani (au kwenye airplane mode?) au WiFi ya hoteli inakaribia kuzima, unaweza kusubiri ili upakie tena pale nguvu ya mtandao inapokuwa vizuri."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Tulirekebisha hitilafu katika @ mentions ambazo wakati mwingine hujumuishwa kwa akaunti yako kwa orodha ya mapendekezo ya kukamilishwa kiotomataki. Bado unaweza kutumia simulizi ya mtu wa tatu kukuhusu kwenye gumzo za kikundi ukikosa hitilafu hii."
   }
 }

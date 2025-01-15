@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon zapnutý"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Dát ruku dolů?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Dát ruku dolů"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Vyzvánění zapnuto"
@@ -3603,10 +3603,10 @@
     "messageformat": "Příprava ke stažení…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "To může trvat několik minut v závislosti na velikosti historie zpráv"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušit"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Zprávy a informace o chatech jsou chráněny koncovým šifrováním, včetně procesu synchronizace. <learnMoreLink>Zjistit více</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Zrušit přenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Obnovení vašich zpráv a médií nebylo dokončeno. Pokud jste se jej rozhodli zrušit, bude vaše zařízení propojeno bez historie zpráv."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Pokračovat v přenosu"
@@ -5792,6 +5792,6 @@
     "messageformat": "Nyní můžete snadno sledovat průběh stahování příloh. Probíhající stahování můžete také zastavit a znovu spustit."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Opravili jsme chybu s @ zmínkami, která občas přidávala váš vlastní účet do seznamu automaticky dokončovaných návrhů."
   }
 }

@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofonoa aktibatuta"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Eskua jaitsi nahi duzu?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Jaitsi"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Dei-tonua aktibatuta"
@@ -3603,10 +3603,10 @@
     "messageformat": "Deskargatzeko prestatzen…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Agian minutu batzuk beharko dira, mezu-historiaren tamainaren arabera"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Utzi"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mezuak eta txatari buruzko informazioa muturretik muturrerako enkriptatzearen bidez daude babestuta (sinkronizazio-prozesua barne). <learnMoreLink>Informazio gehiago</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Transferentzia bertan behera utzi nahi duzu?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Oraindik ez dira leheneratu mezuak eta multimedia-fitxategiak. Bertan behera uztea aukeratzen baduzu, mezu-historia gabe lotuko da gailua."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jarraitu transferitzen"
@@ -5792,6 +5792,6 @@
     "messageformat": "Orain, erraz ikus dezakezu eranskinen deskargaren aurrerapena. Halaber, abian diren deskargak geldiarazi eta berrabiaraz ditzakezu."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "@Aipamenak automatikoki osatzeko iradokizun-zerrendan batzuetan zeure kontua agerrarazten zuen akats bat konpondu dugu."
   }
 }

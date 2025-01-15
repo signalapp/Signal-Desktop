@@ -2790,10 +2790,10 @@
     "messageformat": "მიკროფონი ჩართულია"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "გსურს, ხელი ჩამოწიო?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "ჩაწევა"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "ზარის ხმა ჩართულია"
@@ -3603,10 +3603,10 @@
     "messageformat": "მზადება ჩამოსატვირთად..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "შეიძლება, ამას შენი მიმოწერის ისტორიის ზომიდან გამომდინარე რამდენიმე წუთი დასჭირდეს"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "შეტყობინებები და ჩატის ინფორმაცია, სინქრონიზაციის პროცესის ჩათვლით, ბოლომდეა დაშიფრული. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "გსურს გადატანის გაუქმება?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "შენი შეტყობინებების და მედია ფაილების აღდგენა არ დასრულებულა. თუ გაუქმებას აირჩევ, მოწყობილობა შენი მიმოწერის ისტორიის გარეშე მიებმება."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "გადატანის გაგრძელება"
@@ -5792,6 +5792,6 @@
     "messageformat": "ახლა უკვე შეგიძლია, დანართების ჩამოტვირთვის პროგრესი მარტივად ნახო. ასევე შეგიძლია, შეაჩერო და გადატვირთო მიმდინარე ჩამოტვირთვები. თუ გზაში ხარ და მონაცემების გადაცემა შენელებულია (მაგალითად თვითმფრინავის რეჟიმი თუ გაქვს ჩართული) ან სასტუმროს ინტერნეტი არ ვარგა, შეგიძლია ინტერნეტის გაუმჯობესებას და ახლიდან ჩატვირთვას დაელოდო."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "ჩვენ გამოვასწორეთ @ მონიშვნების შეცდომა, რომელიც ზოგჯერ შენს ანგარიშს ავტომატური შევსების შეთავაზებების სიაში არასწორად ათავსებდა. თუ ეს ბაგი მოგენატრება, მაინც შეძლებ, ჯგუფის ჩატებში შენს თავზე მესამე პირში ილაპარაკო."
   }
 }

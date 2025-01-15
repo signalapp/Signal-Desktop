@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofoni päällä"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Laske käsi?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Laske"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Soittoääni päällä"
@@ -3603,10 +3603,10 @@
     "messageformat": "Valmistellaan latausta..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Tämä voi kestää muutamia minuutteja viestihistoriasi koosta riippuen"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Peruuta"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Viestit ja keskustelujen tiedot on suojattu päästä päähän -salauksella, myös synkronoinnin aikana. <learnMoreLink>Lue lisää</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Perutaanko siirto?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Viestejä ja mediaa ei ole vielä kokonaan palautettu. Jos peruutat nyt, laite yhdistetään ilman viestihistoriaa."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jatka siirtoa"
@@ -5792,6 +5792,6 @@
     "messageformat": "Nyt voit helposti nähdä liitteiden latauksen edistymisen. Voit myös pysäyttää ja käynnistää uudelleen käynnissä olevat lataukset."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Korjasimme @-mainintoja koskevan virheen, joka saattoi virheellisesti liittää tilisi automaattisen täydennyksen ehdotuslistaan."
   }
 }

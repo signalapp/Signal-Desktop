@@ -2790,10 +2790,10 @@
     "messageformat": "Микрофон қосулы"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Қолыңызды түсіресіз бе?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Түсіру"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Қоңырау дауысы қосылды"
@@ -3603,10 +3603,10 @@
     "messageformat": "Жүктеп алуға дайындалып жатыр..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Хабарлар тарихының көлеміне қарай ол бірнеше минутқа созылуы мүмкін."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Бас тарту"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Хабарлар мен чат туралы ақпарат тура шифрлау әдісімен, соның ішінде синхрондау процесімен қорғалған. <learnMoreLink>Толық ақпарат</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Тасымалдаудан бас тарту керек пе?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Хабарларыңыз бен мультимедиаңызды қалпына келтіру процесі аяқталған жоқ. Бас тарту опциясын таңдасаңыз, құрылғыңыз хабарлар тарихынсыз байланыстырылады."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Тасымалдауды жалғастыру"
@@ -5792,6 +5792,6 @@
     "messageformat": "Енді тіркемені жүктеп алу процесін оңай бақылай аласыз. Сонымен қатар жүктеп алу процесін тоқтатуға және қайта бастауға болады. Жолда болғандықтан (мысалы, ұшақ режимі) немесе қонақүйде WiFi дұрыс таралмағандықтан, тасымалдау процесі баяулап жатса, қайта жүктеуді желі жұмысы жақсарғанда бастауға болады."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Біреуді @ белгісі арқылы атап өтетін кезде автоматты түрде толтырылатын ұсыныстар тізімінде өз аккаунтыңыз қате қосылып кететін ақау түзетілді. Енді топтық чаттарда өзіңіз туралы сөз қозғағанда, өз аккаунтыңызды атап өтпейтін боласыз."
   }
 }

@@ -2790,10 +2790,10 @@
     "messageformat": "Μικρόφωνο ενεργό"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Θες να κατεβάσεις το χέρι σου;"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Κατέβασέ το"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Κουδούνισμα ενεργό"
@@ -3603,10 +3603,10 @@
     "messageformat": "Προετοιμασία για λήψη..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Μπορεί να διαρκέσει μερικά λεπτά, ανάλογα με το μέγεθος του ιστορικού μηνυμάτων σου"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Τα μηνύματα και οι πληροφορίες συνομιλίας προστατεύονται με κρυπτογράφηση από άκρο σε άκρο, συμπεριλαμβανομένης της διαδικασίας συγχρονισμού. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Ακύρωση μεταφοράς;"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Η επαναφορά των μηνυμάτων και των πολυμέσων σου δεν έχει ολοκληρωθεί. Εάν επιλέξεις να την ακυρώσεις, η συσκευή σου θα συνδεθεί χωρίς το ιστορικό μηνυμάτων σου."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Συνέχεια μεταφοράς"
@@ -5792,6 +5792,6 @@
     "messageformat": "Τώρα μπορείς εύκολα να δεις την πρόοδο των λήψεων των συνημμένων. Μπορείς επίσης να σταματήσεις και να επανεκκινήσεις τις λήψεις σε εξέλιξη. Εάν μια μεταφορά αργεί επειδή το δίκτυο είναι αργό, μπορείς να περιμένεις μέχρι να υπάρχει μεγαλύτερο διαθέσιμο εύρος ζώνης."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Διορθώσαμε ένα σφάλμα με τις αναφορές @ που μερικές φορές συμπεριλάμβανε τον δικό σου λογαριασμό στη λίστα προτάσεων αυτόματης συμπλήρωσης."
   }
 }

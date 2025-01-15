@@ -2790,10 +2790,10 @@
     "messageformat": "માઇક ચાલુ"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "તમારો હાથ નીચો કરવો છે?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "નીચે કરો"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "રિંગ ચાલુ"
@@ -3603,10 +3603,10 @@
     "messageformat": "ડાઉનલોડ કરવાની તૈયારી કરી ચાલુ છે..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "તમારી મેસેજ હિસ્ટ્રીની સાઇઝના આધારે આમાં થોડો સમય લાગી શકે છે"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "રદ કરો"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "મેસેજ અને ચેટની માહિતી સિંક પ્રક્રિયા સહિત એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્શન દ્વારા સુરક્ષિત છે. <learnMoreLink>વધુ જાણો</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "ટ્રાન્સફર રદ કરીએ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "તમારા મેસેજ અને મીડિયા રિસ્ટોર કરવાનું પૂર્ણ થયું નથી. જો તમે રદ કરવાનું પસંદ કરો છો, તો તમારું ડિવાઇસ તમારી મેસેજ હિસ્ટ્રી વિના જ લિંક કરવામાં આવશે."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "ટ્રાન્સફર ચાલુ રાખો"
@@ -5792,6 +5792,6 @@
     "messageformat": "હવે તમે અટેચમેન્ટ ડાઉનલોડની પ્રગતિ સરળતાથી જોઈ શકો છો. તમે પ્રગતિ ચાલુ હોય તેવા ડાઉનલોડને રોકી અને ફરીથી શરૂ પણ કરી શકો છો."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "અમે @ ઉલ્લેખ સાથેના એક બગને ઠીક કર્યો છે જે કેટલીકવાર આપમેળે પૂર્ણ કરતી સુઝાવ સૂચિમાં તમારા પોતાના એકાઉન્ટને ખોટી રીતે સામેલ કરી દેતો હતો."
   }
 }

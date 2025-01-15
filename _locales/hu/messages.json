@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon be"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Leteszed a kezed?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Letétel"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Csengés be"
@@ -3603,10 +3603,10 @@
     "messageformat": "Felkészülés a letöltésre..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Ez az üzenet-előzmények méretétől függően eltarthat néhány percig"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Mégse"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Az üzeneteket és a csevegési információkat végpontok közötti titkosítás védi, beleértve a szinkronizálási folyamatot is. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Átvitel törlése?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Az üzenetek és a médiafájl helyreállítása nem fejeződött be. Ha a törlés mellett döntesz, az eszköz az üzenet-előzmények nélkül lesz összekapcsolva."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Átvitel folytatása"
@@ -5792,6 +5792,6 @@
     "messageformat": "Mostantól egyszerűbben láthatod a mellékletek letöltésének folyamatát. Leállíthatod és újraindíthatod a folyamatban lévő letöltéseket is."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Kijavítottunk egy hibát a @ jellel való említésekkel kapcsolatban, amelyek néha a saját fiókodat is tartalmazták az automatikus kiegészítési javaslatok listáján."
   }
 }

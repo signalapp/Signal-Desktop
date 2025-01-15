@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon sees"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Kas soovid käe langetada?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Langeta"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Helin sees"
@@ -3603,10 +3603,10 @@
     "messageformat": "Allalaadimise ettevalmistamine …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Olenevalt sinu sõnumiajaloo suurusest võib see mõne minuti aega võtta"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Loobu"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Sõnumid ja vestluste info on kaitstud kõigis seadmetes otspunktkrüpteeringuga, sh sünkroniseerimisprotsess. <learnMoreLink>Rohkem teavet</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Kas tühistada edastus?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Sinu sõnumite ja meedia taastamine ei ole lõppenud. Kui valid tühistamise, seotakse sinu seade ilma su sõnumiajaloota."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jätka edastust"
@@ -5792,6 +5792,6 @@
     "messageformat": "Nüüd on lihtne näha manuste allalaadimise edenemist. Samuti saad pooleliolevaid allalaadimisi peatada ja uuesti alustada. Nüüd on lihtne näha manuste allalaadimise edenemist. Samuti saad pooleliolevaid allalaadimisi peatada ja uuesti alustada."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Parandasime @ mainimiste vea, mis mõnikord kaasas automaatselt täidetavate soovituste loendisse ekslikult sinu enda konto."
   }
 }

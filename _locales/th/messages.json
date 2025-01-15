@@ -2790,10 +2790,10 @@
     "messageformat": "ไมค์เปิดอยู่"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "เอามือลงหรือไม่"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "เอามือลง"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "การส่งเสียงเรียกสายเปิดอยู่"
@@ -3603,10 +3603,10 @@
     "messageformat": "กำลังเตรียมการดาวน์โหลด..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่ โดยขึ้นอยู่กับขนาดประวัติการส่งข้อความของคุณ"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ยกเลิก"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "ปกป้องข้อความและข้อมูลการแชทด้วยการเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง รวมถึงในขั้นตอนการซิงค์ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "ยกเลิกการถ่ายโอนใช่หรือไม่"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "ยังกู้คืนข้อความและไฟล์สื่อของคุณไม่เสร็จสมบูรณ์ หากยกเลิก อุปกรณ์ของคุณจะได้รับการเชื่อมโยงโดยไม่มีการถ่ายโอนประวัติการส่งข้อความ"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "ถ่ายโอนต่อ"
@@ -5792,6 +5792,6 @@
     "messageformat": "พัฒนาให้คุณมองเห็นความคืบหน้าของไฟล์แนบที่กำลังดาวน์โหลดอยู่ได้ทันที ทั้งยังสามารถหยุดและรีสตาร์ทการดาวน์โหลดที่ยังไม่เสร็จสิ้นได้ทุกเมื่ออีกด้วย"
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "เราแก้ไขบั๊กในฟีเจอร์ @การกล่าวถึง ที่เคยรวมบัญชีของคุณไว้ในรายชื่อที่แนะนำด้วย"
   }
 }

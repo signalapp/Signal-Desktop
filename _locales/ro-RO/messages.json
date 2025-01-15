@@ -2790,10 +2790,10 @@
     "messageformat": "Microfon activat"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Lași mâna jos?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Coboară"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sunet de apel activat"
@@ -3603,10 +3603,10 @@
     "messageformat": "Se pregătește descărcarea..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Poate dura câteva minute, în funcție de dimensiunea istoricului mesajelor"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajele și informațiile legate de conversații sunt protejate prin criptare end-to-end, inclusiv prin procesul de sincronizare. <learnMoreLink>Află mai multe</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Anulezi transferul?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Nu s-a finalizat restabilirea mesajelor și a fișierelor. Dacă alegi să anulezi, dispozitivul tău va fi asociat fără istoricul mesajelor."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuă transferul"
@@ -5792,6 +5792,6 @@
     "messageformat": "Acum poți vedea cu ușurință progresul descărcărilor de atașamente. De asemenea, poți opri și reporni și descărcările în curs. Așadar, dacă un transfer e lent pentru că ești pe drum sau WiFi-ul este slab, poți aștepta să reîncarci când există mai multă lățime de bandă."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Am remediat o eroare cu mențiunile @ care, uneori, includeau incorect propriul tău cont în lista de sugestii de completare automată. Dacă ai un ego puternic, poți folosi în continuare vorbirea la persoana a treia pentru a spune ceva despre tine în conversațiile de grup, dacă îți scapă vreodată această eroare."
   }
 }

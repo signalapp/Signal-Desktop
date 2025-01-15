@@ -2790,10 +2790,10 @@
     "messageformat": "మైక్ ఆన్‌లో ఉంది"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "మీ చేతిని దించేదా?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "కిందకి దించండి"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "రింగ్ ఆన్‌లో ఉంది"
@@ -3603,10 +3603,10 @@
     "messageformat": "డౌన్‌లోడ్ చేయడానికి సిద్ధమవుతోంది..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "మీ సందేశ చరిత్ర పరిమాణం ఆధారంగా దీనికి కొన్ని నిమిషాలు పట్టవచ్చు"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "రద్దు చేయండి"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "సమకాలీకరణ ప్రక్రియతో సహా ఎండ్-టు-ఎండ్ గుప్తీకరణ ద్వారా సందేశాలు మరియు చాట్ సమాచారం సంరక్షించబడతాయి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "బదిలీని రద్దు చేసేదా?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీ సందేశ చరిత్ర లేకుండానే మీ పరికరం లింక్ చేయబడుతుంది."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "బదిలీని కొనసాగించండి"
@@ -5792,6 +5792,6 @@
     "messageformat": "ఇప్పుడు మీరు అటాచ్‌మెంట్ డౌన్‌లోడ్‌ల పురోగతిని సులభంగా చూడవచ్చు. మీరు పురోగతిలో ఉన్న డౌన్‌లోడ్‌లను కూడా ఆపివేయవచ్చు మరియు పునఃప్రారంభించవచ్చు. కాబట్టి మీరు రోడ్డుపై ఉన్నందున (విమాన మోడ్‌లో?) ఒకవేళ బదిలీ నెమ్మదించినట్లయితే లేదా మధ్యస్థమైన హోటల్ వైఫై విచ్ఛిన్నం కాబోతున్నట్లయితే, మరింత అందుబాటులో ఉన్న బ్యాండ్‌విడ్త్ ఇవ్వబడినప్పుడు మీరు తిరిగి లోడ్ చేయడానికి వేచి ఉండవచ్చు."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "మేము @ ప్రస్తావనలతో ఒక బగ్‌ను పరిష్కరించాము, ఇది కొన్నిసార్లు మీ స్వంత ఖాతాను స్వయంపూర్తి సలహా జాబితాలో చేర్చింది. నార్సిసిస్టిక్ పరిష్కారంగాా, మీరు ఎప్పుడైనా ఈ బగ్‌ను తప్పిపోతే మీ గ్రూప్ చాట్లలో మీ గురించి మాట్లాడుకోవడానికి మీరు ఇప్పటికీ మూడవ వ్యక్తి కథనాన్ని ఉపయోగించవచ్చు."
   }
 }

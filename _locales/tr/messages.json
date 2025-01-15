@@ -2790,10 +2790,10 @@
     "messageformat": "Mikrofon açık"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Elin insin mi?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "İndir"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zil açık"
@@ -3603,10 +3603,10 @@
     "messageformat": "İndirmeye hazırlanıyor..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Mesaj geçmişinin boyutuna bağlı olarak birkaç dakika sürebilir"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "İptal"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajlar ve sohbet bilgileri, senkronizasyon süreci de dahil olmak üzere uçtan uca şifreleme ile korunmaktadır. <learnMoreLink>Dahasını öğren</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Transfer iptal edilsin mi?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Mesajlarının ve medyanın geri yüklenmesi tamamlanmadı. İptal etmeyi seçersen cihazın mesaj geçmişin olmadan bağlanacaktır."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Transfere devam et"
@@ -5792,6 +5792,6 @@
     "messageformat": "Artık eklenti indirmelerinin ilerleyişini kolayca görebilirsin. Ayrıca devam eden indirmeleri de durdurabilir ve yeniden başlatabilirsin. Böylece yoldayken aktarım yavaşlarsa, yeterli bant genişliği sağlandığında yeniden yükleme yapabilirsin."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Otomatik tamamlama öneri listesine bazen yanlışlıkla kendi hesabını dahil eden @ bahsetmeler ile ilgili bir hatayı düzelttik. Bu sayede grup sohbetlerinde kendini gereksiz yere görmene gerek kalmayacak."
   }
 }

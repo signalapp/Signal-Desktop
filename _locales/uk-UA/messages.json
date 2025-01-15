@@ -2790,10 +2790,10 @@
     "messageformat": "Мікрофон увімкнено"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Опустити руку?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Опустити"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Дзвінок увімкнено"
@@ -3603,10 +3603,10 @@
     "messageformat": "Підготовка до завантаження…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Це може зайняти кілька хвилин — швидкість залежить від розміру історії повідомлень"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Закрити"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Повідомлення й інформацію про чати, а також сам процес синхронізації захищено наскрізним шифруванням. <learnMoreLink>Докладніше</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Скасувати передачу даних?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Відновлення повідомлень і медіафайлів не завершено. У разі скасування ваш пристрій буде зв'язано без перенесення історії повідомлень."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Продовжити передачу"
@@ -5792,6 +5792,6 @@
     "messageformat": "Тепер ви можете бачити прогрес завантаження вкладень, а також зупиняти й відновлювати завантаження. Тож якщо інтернет повільний, бо ви в дорозі (чи просто в режимі польоту) або слабенький готельний Wi-Fi не справляється, можна зупинити завантаження й спокійно дочекатися швидшого інтернету."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Ми виправили помилку зі @ згадками, через яку серед автоматичних пропозицій міг з'являтися ваш власний акаунт. Якщо вам подобалася така додаткова увага, то ніхто не забороняє вам, наприклад, говорити про себе в групових чатах у третій особі."
   }
 }

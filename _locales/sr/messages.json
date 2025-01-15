@@ -2790,10 +2790,10 @@
     "messageformat": "Микрофон је укључен"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Желите ли да спустите руку?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Спусти"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Звоно је укључено"
@@ -3603,10 +3603,10 @@
     "messageformat": "Припрема за преузимање…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "То може потрајати неколико минута у зависности од величине ваше историје порука"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Поруке и информације о ћаскањима заштићене су потпуним шифровањем, укључујући процес синхронизације. <learnMoreLink>Сазнајте више</learnMoreLink>"
@@ -3615,7 +3615,7 @@
     "messageformat": "Желите ли да откажете пренос?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Није завршено враћање ваших порука и медија. Ако одлучите да откажете, уређај ће вам бити повезан без историје порука."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Настави пренос"
@@ -5792,6 +5792,6 @@
     "messageformat": "Сада можете лако видети напредак преузимања прилога. Такође можете зауставити и поново покренути преузимања која су у току."
   },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Исправили смо грешку са @ помињањима у којима је понекад у листу предлога за аутоматско попуњавање грешком био укључен и сопствени налог."
   }
 }
