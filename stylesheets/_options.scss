@@ -4,7 +4,6 @@
 @use '../node_modules/intl-tel-input/build/css/intlTelInput.css';
 @use 'fontfaces';
 @use 'variables';
-@use 'progress';
 
 :root {
   --iti-path-flags-1x: url('../node_modules/intl-tel-input/build/img/flags.webp');
