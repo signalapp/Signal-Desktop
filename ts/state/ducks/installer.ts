@@ -3,7 +3,6 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import pTimeout, { TimeoutError } from 'p-timeout';
 
 import type { StateType as RootStateType } from '../reducer';
 import {
@@ -17,13 +16,14 @@ import * as Errors from '../../types/errors';
 import { type Loadable, LoadingState } from '../../util/loadable';
 import { isRecord } from '../../util/isRecord';
 import { strictAssert } from '../../util/assert';
-import { SECOND } from '../../util/durations';
 import * as Registration from '../../util/registration';
 import { isBackupEnabled } from '../../util/isBackupEnabled';
-import { HTTPError, InactiveTimeoutError } from '../../textsecure/Errors';
+import { missingCaseError } from '../../util/missingCaseError';
+import { HTTPError } from '../../textsecure/Errors';
 import {
   Provisioner,
-  type PrepareLinkDataOptionsType,
+  EventKind as ProvisionEventKind,
+  type EnvelopeType as ProvisionEnvelopeType,
 } from '../../textsecure/Provisioner';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
@@ -31,14 +31,10 @@ import * as log from '../../logging/log';
 import { backupsService } from '../../services/backups';
 import OS from '../../util/os/osMain';
 
-const SLEEP_ERROR = new TimeoutError();
-
-const QR_CODE_TIMEOUTS = [10 * SECOND, 20 * SECOND, 30 * SECOND, 60 * SECOND];
-
 export type BatonType = ReadonlyDeep<{ __installer_baton: never }>;
 
-const controllerByBaton = new WeakMap<BatonType, AbortController>();
-const provisionerByBaton = new WeakMap<BatonType, Provisioner>();
+const cancelByBaton = new WeakMap<BatonType, () => void>();
+let provisioner: Provisioner | undefined;
 
 export type InstallerStateType = ReadonlyDeep<
   | {
@@ -48,12 +44,12 @@ export type InstallerStateType = ReadonlyDeep<
       step: InstallScreenStep.QrCodeNotScanned;
       provisioningUrl: Loadable<string, InstallScreenQRCodeError>;
       baton: BatonType;
-      attemptCount: number;
     }
   | {
       step: InstallScreenStep.ChoosingDeviceName;
       deviceName: string;
       backupFile?: File;
+      envelope: ProvisionEnvelopeType;
       baton: BatonType;
     }
   | {
@@ -118,6 +114,7 @@ type QRCodeScannedActionType = ReadonlyDeep<{
   payload: {
     deviceName: string;
     baton: BatonType;
+    envelope: ProvisionEnvelopeType;
   };
 }>;
 
@@ -193,82 +190,49 @@ function startInstaller(): ThunkAction<
       state.step === InstallScreenStep.QrCodeNotScanned,
       'Unexpected step after START_INSTALLER'
     );
-    const { attemptCount } = state;
-
-    // Can't retry past attempt count
-    if (attemptCount >= QR_CODE_TIMEOUTS.length - 1) {
-      log.error('InstallScreen/getQRCode: too many tries');
-      dispatch({
-        type: SET_ERROR,
-        payload: InstallScreenError.QRCodeFailed,
-      });
-      return;
-    }
 
     const { server } = window.textsecure;
     strictAssert(server, 'Expected a server');
 
-    const provisioner = new Provisioner({
-      server,
-      appVersion: window.getVersion(),
-    });
-
-    const abortController = new AbortController();
-    const { signal } = abortController;
-    signal.addEventListener('abort', () => {
-      provisioner.close();
-    });
-
-    controllerByBaton.set(baton, abortController);
-
-    // Wait to get QR code
-    try {
-      const qrCodePromise = provisioner.getURL();
-      const sleepMs = QR_CODE_TIMEOUTS[attemptCount];
-      log.info(`installer/getQRCode: race to ${sleepMs}ms`);
-
-      const url = await pTimeout(qrCodePromise, sleepMs, SLEEP_ERROR);
-      if (signal.aborted) {
-        return;
-      }
-
-      dispatch({
-        type: SET_PROVISIONING_URL,
-        payload: url,
+    if (!provisioner) {
+      provisioner = new Provisioner({
+        server,
+        appVersion: window.getVersion(),
       });
-    } catch (error) {
-      provisioner.close();
+    }
 
-      if (signal.aborted) {
-        return;
-      }
-
-      log.error(
-        'installer: got an error while waiting for QR code',
-        Errors.toLogFormat(error)
-      );
-
-      // Too many attempts, there is probably some issue
-      if (attemptCount >= QR_CODE_TIMEOUTS.length - 1) {
-        log.error('InstallScreen/getQRCode: too many tries');
-        dispatch({
-          type: SET_ERROR,
-          payload: InstallScreenError.QRCodeFailed,
-        });
-        return;
-      }
-
-      // Timed out, let user retry
-      if (error === SLEEP_ERROR) {
+    const cancel = provisioner.subscribe(event => {
+      if (event.kind === ProvisionEventKind.MaxRotationsError) {
+        log.warn('InstallScreen/getQRCode: max rotations reached');
         dispatch({
           type: SET_QR_CODE_ERROR,
-          payload: InstallScreenQRCodeError.Timeout,
+          payload: InstallScreenQRCodeError.MaxRotations,
         });
-        return;
-      }
+      } else if (event.kind === ProvisionEventKind.TimeoutError) {
+        if (event.canRetry) {
+          log.warn('InstallScreen/getQRCode: timed out');
+          dispatch({
+            type: SET_QR_CODE_ERROR,
+            payload: InstallScreenQRCodeError.Timeout,
+          });
+        } else {
+          log.error('InstallScreen/getQRCode: too many tries');
+          dispatch({
+            type: SET_ERROR,
+            payload: InstallScreenError.QRCodeFailed,
+          });
+        }
+      } else if (event.kind === ProvisionEventKind.ConnectError) {
+        const { error } = event;
 
-      if (error instanceof HTTPError && error.code === -1) {
+        log.error(
+          'installer: got an error while waiting for QR code',
+          Errors.toLogFormat(error)
+        );
+
         if (
+          error instanceof HTTPError &&
+          error.code === -1 &&
           isRecord(error.cause) &&
           error.cause.code === 'SELF_SIGNED_CERT_IN_CHAIN'
         ) {
@@ -278,89 +242,89 @@ function startInstaller(): ThunkAction<
           });
           return;
         }
+
         dispatch({
           type: SET_ERROR,
           payload: InstallScreenError.ConnectionFailed,
         });
-        return;
-      }
+      } else if (event.kind === ProvisionEventKind.EnvelopeError) {
+        log.error(
+          'installer: got an error while waiting for envelope',
+          Errors.toLogFormat(event.error)
+        );
 
-      dispatch({
-        type: SET_QR_CODE_ERROR,
-        payload: InstallScreenQRCodeError.Unknown,
-      });
-      return;
-    }
-
-    if (signal.aborted) {
-      log.warn('installer/startInstaller: aborted');
-      return;
-    }
-
-    // Wait for primary device to scan QR code and get back to us
-
-    try {
-      await provisioner.waitForEnvelope();
-    } catch (error) {
-      if (signal.aborted) {
-        return;
-      }
-      log.error(
-        'installer: got an error while waiting for envelope code',
-        Errors.toLogFormat(error)
-      );
-
-      if (error instanceof InactiveTimeoutError) {
         dispatch({
-          type: SET_ERROR,
-          payload: InstallScreenError.InactiveTimeout,
+          type: SET_QR_CODE_ERROR,
+          payload: InstallScreenQRCodeError.Unknown,
         });
-        return;
-      }
+      } else if (event.kind === ProvisionEventKind.URL) {
+        window.SignalCI?.setProvisioningURL(event.url);
+        dispatch({
+          type: SET_PROVISIONING_URL,
+          payload: event.url,
+        });
+      } else if (event.kind === ProvisionEventKind.Envelope) {
+        const { envelope } = event;
 
-      dispatch({
-        type: SET_ERROR,
-        payload: InstallScreenError.ConnectionFailed,
-      });
-      return;
-    }
-
-    if (signal.aborted) {
-      return;
-    }
-    provisionerByBaton.set(baton, provisioner);
-
-    if (provisioner.isLinkAndSync()) {
-      dispatch(finishInstall({ deviceName: OS.getName() || 'Signal Desktop' }));
-    } else {
-      // Show screen to choose device name
-      dispatch({
-        type: QR_CODE_SCANNED,
-        payload: {
-          deviceName:
+        if (event.isLinkAndSync) {
+          const deviceName = OS.getName() || 'Signal Desktop';
+          dispatch(
+            finishInstall({
+              envelope,
+              deviceName,
+              isLinkAndSync: true,
+            })
+          );
+        } else {
+          const deviceName =
             window.textsecure.storage.user.getDeviceName() ||
             window.getHostName() ||
-            '',
-          baton,
-        },
-      });
+            '';
 
-      // And feed it the CI data if present
-      const { SignalCI } = window;
-      if (SignalCI != null) {
-        dispatch(
-          finishInstall({
-            deviceName: SignalCI.deviceName,
-          })
-        );
+          // Show screen to choose device name
+          dispatch({
+            type: QR_CODE_SCANNED,
+            payload: {
+              deviceName,
+              envelope,
+              baton,
+            },
+          });
+
+          // And feed it the CI data if present
+          const { SignalCI } = window;
+          if (SignalCI != null) {
+            dispatch(
+              finishInstall({
+                envelope,
+                deviceName: SignalCI.deviceName,
+                isLinkAndSync: false,
+              })
+            );
+          }
+        }
+      } else {
+        throw missingCaseError(event);
       }
-    }
+    });
+
+    cancelByBaton.set(baton, cancel);
   };
 }
 
-function finishInstall(
-  options: PrepareLinkDataOptionsType
-): ThunkAction<
+type FinishInstallOptionsType = ReadonlyDeep<{
+  isLinkAndSync: boolean;
+  deviceName: string;
+  envelope?: ProvisionEnvelopeType;
+  backupFile?: Uint8Array;
+}>;
+
+function finishInstall({
+  isLinkAndSync,
+  envelope: providedEnvelope,
+  deviceName,
+  backupFile,
+}: FinishInstallOptionsType): ThunkAction<
   void,
   RootStateType,
   unknown,
@@ -372,41 +336,45 @@ function finishInstall(
   return async (dispatch, getState) => {
     const state = getState();
     strictAssert(
-      state.installer.step === InstallScreenStep.ChoosingDeviceName ||
-        state.installer.step === InstallScreenStep.QrCodeNotScanned,
-      'Wrong step'
-    );
-
-    const { baton } = state.installer;
-    const provisioner = provisionerByBaton.get(baton);
-    strictAssert(
       provisioner != null,
       'Provisioner is not waiting for device info'
     );
 
+    let envelope: ProvisionEnvelopeType;
     if (state.installer.step === InstallScreenStep.QrCodeNotScanned) {
+      strictAssert(isLinkAndSync, 'Can only skip device naming if link & sync');
       strictAssert(
-        provisioner.isLinkAndSync(),
-        'Can only skip device naming if link & sync'
+        providedEnvelope != null,
+        'finishInstall: missing required envelope'
       );
+      envelope = providedEnvelope;
+    } else if (state.installer.step === InstallScreenStep.ChoosingDeviceName) {
+      ({ envelope } = state.installer);
+    } else {
+      throw new Error('Wrong step');
     }
 
     // Cleanup
-    controllerByBaton.delete(baton);
-    provisionerByBaton.delete(baton);
+    const { baton } = state.installer;
+    cancelByBaton.delete(baton);
 
     const accountManager = window.getAccountManager();
     strictAssert(accountManager, 'Expected an account manager');
 
-    if (isBackupEnabled() || provisioner.isLinkAndSync()) {
+    if (isBackupEnabled() || isLinkAndSync) {
       dispatch({ type: SHOW_BACKUP_IMPORT });
     } else {
       dispatch({ type: SHOW_LINK_IN_PROGRESS });
     }
 
     try {
-      const data = provisioner.prepareLinkData(options);
-      await accountManager.registerSecondDevice(data);
+      await accountManager.registerSecondDevice(
+        Provisioner.prepareLinkData({
+          envelope,
+          deviceName,
+          backupFile,
+        })
+      );
       window.IPC.removeSetupMenuItems();
     } catch (error) {
       if (error instanceof HTTPError) {
@@ -498,8 +466,11 @@ export function reducer(
   if (action.type === START_INSTALLER) {
     // Abort previous install
     if (state.step === InstallScreenStep.QrCodeNotScanned) {
-      const controller = controllerByBaton.get(state.baton);
-      controller?.abort();
+      const cancel = cancelByBaton.get(state.baton);
+      cancel?.();
+    } else {
+      // Reset qr code fetch attempt count when starting from scratch
+      provisioner?.reset();
     }
 
     return {
@@ -508,17 +479,15 @@ export function reducer(
         loadingState: LoadingState.Loading,
       },
       baton: action.payload,
-      attemptCount:
-        state.step === InstallScreenStep.QrCodeNotScanned
-          ? state.attemptCount + 1
-          : 0,
     };
   }
 
   if (action.type === SET_PROVISIONING_URL) {
     if (
       state.step !== InstallScreenStep.QrCodeNotScanned ||
-      state.provisioningUrl.loadingState !== LoadingState.Loading
+      (state.provisioningUrl.loadingState !== LoadingState.Loading &&
+        // Rotating
+        state.provisioningUrl.loadingState !== LoadingState.Loaded)
     ) {
       log.warn('ducks/installer: not setting provisioning url', state.step);
       return state;
@@ -536,7 +505,11 @@ export function reducer(
   if (action.type === SET_QR_CODE_ERROR) {
     if (
       state.step !== InstallScreenStep.QrCodeNotScanned ||
-      state.provisioningUrl.loadingState !== LoadingState.Loading
+      !(
+        state.provisioningUrl.loadingState === LoadingState.Loading ||
+        // Rotating
+        state.provisioningUrl.loadingState === LoadingState.Loaded
+      )
     ) {
       log.warn('ducks/installer: not setting qr code error', state.step);
       return state;
@@ -570,6 +543,7 @@ export function reducer(
     return {
       step: InstallScreenStep.ChoosingDeviceName,
       deviceName: action.payload.deviceName,
+      envelope: action.payload.envelope,
       baton: action.payload.baton,
     };
   }

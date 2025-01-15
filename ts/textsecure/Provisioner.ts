@@ -1,212 +1,157 @@
-// Copyright 2024 Signal Messenger, LLC
+// Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  type ExplodePromiseResultType,
-  explodePromise,
-} from '../util/explodePromise';
-import { linkDeviceRoute } from '../util/signalRoutes';
-import { strictAssert } from '../util/assert';
-import { normalizeAci } from '../util/normalizeAci';
-import { normalizeDeviceName } from '../util/normalizeDeviceName';
-import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
-import { MINUTE } from '../util/durations';
-import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen';
+import pTimeout, { TimeoutError as PTimeoutError } from 'p-timeout';
+
+import * as log from '../logging/log';
 import * as Errors from '../types/errors';
+import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen';
 import {
   isUntaggedPniString,
   normalizePni,
   toTaggedPni,
 } from '../types/ServiceId';
-import { SignalService as Proto } from '../protobuf';
+import { strictAssert } from '../util/assert';
+import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
+import { SECOND } from '../util/durations';
+import { explodePromise } from '../util/explodePromise';
+import { drop } from '../util/drop';
+import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
+import { normalizeAci } from '../util/normalizeAci';
+import { normalizeDeviceName } from '../util/normalizeDeviceName';
+import { linkDeviceRoute } from '../util/signalRoutes';
+import { sleep } from '../util/sleep';
 import * as Bytes from '../Bytes';
-import * as log from '../logging/log';
-import { type WebAPIType } from './WebAPI';
-import ProvisioningCipher, {
-  type ProvisionDecryptResult,
-} from './ProvisioningCipher';
+import { SignalService as Proto } from '../protobuf';
+
 import {
   type CreateLinkedDeviceOptionsType,
   AccountType,
 } from './AccountManager';
+import ProvisioningCipher, {
+  type ProvisionDecryptResult,
+} from './ProvisioningCipher';
 import {
   type IWebSocketResource,
   type IncomingWebSocketRequest,
   ServerRequestType,
 } from './WebsocketResources';
-import { InactiveTimeoutError } from './Errors';
+import { ConnectTimeoutError } from './Errors';
+import { type WebAPIType } from './WebAPI';
 
-enum Step {
-  Idle = 'Idle',
-  Connecting = 'Connecting',
-  WaitingForURL = 'WaitingForURL',
-  WaitingForEnvelope = 'WaitingForEnvelope',
-  ReadyToLink = 'ReadyToLink',
-  Done = 'Done',
+export enum EventKind {
+  MaxRotationsError = 'MaxRotationsError',
+  TimeoutError = 'TimeoutError',
+  ConnectError = 'ConnectError',
+  EnvelopeError = 'EnvelopeError',
+  URL = 'URL',
+  Envelope = 'Envelope',
 }
-
-type StateType = Readonly<
-  | {
-      step: Step.Idle;
-    }
-  | {
-      step: Step.Connecting;
-    }
-  | {
-      step: Step.WaitingForURL;
-      url: ExplodePromiseResultType<string>;
-    }
-  | {
-      step: Step.WaitingForEnvelope;
-      done: ExplodePromiseResultType<void>;
-    }
-  | {
-      step: Step.ReadyToLink;
-      envelope: ProvisionDecryptResult;
-    }
-  | {
-      step: Step.Done;
-    }
->;
-
-export type PrepareLinkDataOptionsType = Readonly<{
-  deviceName: string;
-  backupFile?: Uint8Array;
-}>;
 
 export type ProvisionerOptionsType = Readonly<{
   server: WebAPIType;
   appVersion: string;
 }>;
 
-const INACTIVE_SOCKET_TIMEOUT = 30 * MINUTE;
+export type EnvelopeType = ProvisionDecryptResult;
+
+export type EventType = Readonly<
+  | {
+      kind: EventKind.MaxRotationsError;
+    }
+  | {
+      kind: EventKind.TimeoutError;
+      canRetry: boolean;
+    }
+  | {
+      kind: EventKind.ConnectError;
+      error: Error;
+    }
+  | {
+      kind: EventKind.EnvelopeError;
+      error: Error;
+    }
+  | {
+      kind: EventKind.URL;
+      url: string;
+    }
+  | {
+      kind: EventKind.Envelope;
+      envelope: EnvelopeType;
+      isLinkAndSync: boolean;
+    }
+>;
+
+export type SubscribeNotifierType = (event: EventType) => void;
+
+export type UnsubscribeFunctionType = () => void;
+
+export type SubscriberType = Readonly<{
+  notify: SubscribeNotifierType;
+}>;
+
+export type PrepareLinkDataOptionsType = Readonly<{
+  envelope: EnvelopeType;
+  deviceName: string;
+  backupFile?: Uint8Array;
+}>;
+
+enum SocketState {
+  WaitingForUuid = 'WaitingForUuid',
+  WaitingForEnvelope = 'WaitingForEnvelope',
+  Done = 'Done',
+}
+
+const ROTATION_INTERVAL = 45 * SECOND;
+const MAX_OPEN_SOCKETS = 2;
+const MAX_ROTATIONS = 6;
+
+const TIMEOUT_ERROR = new PTimeoutError();
+
+const QR_CODE_TIMEOUTS = [10 * SECOND, 20 * SECOND, 30 * SECOND, 60 * SECOND];
 
 export class Provisioner {
-  readonly #cipher = new ProvisioningCipher();
+  readonly #subscribers = new Set<SubscriberType>();
   readonly #server: WebAPIType;
   readonly #appVersion: string;
-  #state: StateType = { step: Step.Idle };
-  #wsr: IWebSocketResource | undefined;
+  readonly #retryBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
-  constructor(options: ProvisionerOptionsType) {
-    this.#server = options.server;
-    this.#appVersion = options.appVersion;
+  #sockets: Array<IWebSocketResource> = [];
+  #abortController: AbortController | undefined;
+  #attemptCount = 0;
+  #isRunning = false;
+
+  constructor({ server, appVersion }: ProvisionerOptionsType) {
+    this.#server = server;
+    this.#appVersion = appVersion;
   }
 
-  public close(error = new Error('Provisioner closed')): void {
-    try {
-      this.#wsr?.close();
-    } catch {
-      // Best effort
+  public subscribe(notify: SubscribeNotifierType): UnsubscribeFunctionType {
+    const subscriber = { notify };
+
+    this.#subscribers.add(subscriber);
+    if (this.#subscribers.size === 1) {
+      this.#start();
     }
 
-    const prevState = this.#state;
-    this.#state = { step: Step.Done };
-
-    if (prevState.step === Step.WaitingForURL) {
-      prevState.url.reject(error);
-    } else if (prevState.step === Step.WaitingForEnvelope) {
-      prevState.done.reject(error);
-    }
-  }
-
-  public async getURL(): Promise<string> {
-    strictAssert(
-      this.#state.step === Step.Idle,
-      `Invalid state for getURL: ${this.#state.step}`
-    );
-    this.#state = { step: Step.Connecting };
-
-    const wsr = await this.#server.getProvisioningResource({
-      handleRequest: (request: IncomingWebSocketRequest) => {
-        try {
-          this.#handleRequest(request);
-        } catch (error) {
-          log.error(
-            'Provisioner.handleRequest: failure',
-            Errors.toLogFormat(error)
-          );
-          this.close();
-        }
-      },
-    });
-    this.#wsr = wsr;
-
-    let inactiveTimer: NodeJS.Timeout | undefined;
-
-    const onVisibilityChange = (): void => {
-      // Visible
-      if (!document.hidden) {
-        if (inactiveTimer != null) {
-          clearTimeout(inactiveTimer);
-        }
-        inactiveTimer = undefined;
-        return;
+    return () => {
+      this.#subscribers.delete(subscriber);
+      if (this.#subscribers.size === 0) {
+        this.#stop('Cancel, no subscribers');
       }
-
-      // Invisible, but already has a timer
-      if (inactiveTimer != null) {
-        return;
-      }
-
-      inactiveTimer = setTimeout(() => {
-        inactiveTimer = undefined;
-
-        this.close(new InactiveTimeoutError());
-      }, INACTIVE_SOCKET_TIMEOUT);
     };
-
-    document.addEventListener('visibilitychange', onVisibilityChange);
-
-    if (this.#state.step !== Step.Connecting) {
-      this.close();
-      throw new Error('Provisioner closed early');
-    }
-
-    this.#state = {
-      step: Step.WaitingForURL,
-      url: explodePromise(),
-    };
-
-    wsr.addEventListener('close', ({ code, reason }) => {
-      // Unsubscribe from visibility changes
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-      if (inactiveTimer != null) {
-        clearTimeout(inactiveTimer);
-      }
-      inactiveTimer = undefined;
-
-      if (this.#state.step === Step.ReadyToLink) {
-        // WebSocket close is not an issue since we no longer need it
-        return;
-      }
-
-      log.info(`provisioning socket closed. Code: ${code} Reason: ${reason}`);
-      this.close(new Error('websocket closed'));
-    });
-
-    return this.#state.url.promise;
   }
 
-  public async waitForEnvelope(): Promise<void> {
-    strictAssert(
-      this.#state.step === Step.WaitingForEnvelope,
-      `Invalid state for waitForEnvelope: ${this.#state.step}`
-    );
-    await this.#state.done.promise;
+  public reset(): void {
+    this.#attemptCount = 0;
+    this.#retryBackOff.reset();
   }
 
-  public prepareLinkData({
+  public static prepareLinkData({
+    envelope,
     deviceName,
     backupFile,
   }: PrepareLinkDataOptionsType): CreateLinkedDeviceOptionsType {
-    strictAssert(
-      this.#state.step === Step.ReadyToLink,
-      `Invalid state for prepareLinkData: ${this.#state.step}`
-    );
-    const { envelope } = this.#state;
-    this.#state = { step: Step.Done };
-
     const {
       number,
       provisioningCode,
@@ -270,72 +215,263 @@ export class Provisioner {
     };
   }
 
-  public isLinkAndSync(): boolean {
-    strictAssert(
-      this.#state.step === Step.ReadyToLink,
-      `Invalid state for prepareLinkData: ${this.#state.step}`
-    );
+  //
+  // Private
+  //
 
-    const { envelope } = this.#state;
+  #start(): void {
+    log.info('Provisioniner: starting');
 
-    return (
-      isLinkAndSyncEnabled(this.#appVersion) &&
-      Bytes.isNotEmpty(envelope.ephemeralBackupKey)
-    );
+    if (this.#abortController) {
+      strictAssert(this.#isRunning, 'Must be running to have controller');
+      this.#abortController.abort();
+    }
+    this.#abortController = new AbortController();
+
+    this.#isRunning = true;
+
+    drop(this.#loop(this.#abortController.signal));
   }
 
-  #handleRequest(request: IncomingWebSocketRequest): void {
-    const pubKey = this.#cipher.getPublicKey();
+  #stop(reason: string): void {
+    if (!this.#isRunning) {
+      return;
+    }
+    log.info(`Provisioniner: stopping, reason=${reason}`);
 
-    if (
-      request.requestType === ServerRequestType.ProvisioningAddress &&
-      request.body
-    ) {
-      strictAssert(
-        this.#state.step === Step.WaitingForURL,
-        `Unexpected provisioning address, state: ${this.#state}`
-      );
-      const prevState = this.#state;
-      this.#state = { step: Step.WaitingForEnvelope, done: explodePromise() };
+    this.#abortController?.abort();
+    this.#abortController = undefined;
+    this.#isRunning = false;
+  }
 
-      const proto = Proto.ProvisioningUuid.decode(request.body);
-      const { uuid } = proto;
-      strictAssert(uuid, 'Provisioner.getURL: expected a UUID');
+  async #loop(signal: AbortSignal): Promise<void> {
+    let rotations = 0;
+    while (this.#subscribers.size > 0) {
+      const logId = `Provisioner.loop(${rotations})`;
 
-      const url = linkDeviceRoute
-        .toAppUrl({
-          uuid,
-          pubKey: Bytes.toBase64(pubKey),
-          capabilities: isLinkAndSyncEnabled(this.#appVersion)
-            ? ['backup']
-            : [],
-        })
-        .toString();
+      if (rotations >= MAX_ROTATIONS) {
+        log.info(`${logId}: exceeded max rotation count`);
 
-      window.SignalCI?.setProvisioningURL(url);
-      prevState.url.resolve(url);
+        this.#notify({
+          kind: EventKind.MaxRotationsError,
+        });
 
-      request.respond(200, 'OK');
-    } else if (
-      request.requestType === ServerRequestType.ProvisioningMessage &&
-      request.body
-    ) {
-      strictAssert(
-        this.#state.step === Step.WaitingForEnvelope,
-        `Unexpected provisioning address, state: ${this.#state}`
-      );
-      const prevState = this.#state;
+        this.#stop('Max rotations reached');
+        break;
+      }
 
-      const ciphertext = Proto.ProvisionEnvelope.decode(request.body);
-      const message = this.#cipher.decrypt(ciphertext);
+      let delay: number;
 
-      this.#state = { step: Step.ReadyToLink, envelope: message };
-      request.respond(200, 'OK');
-      this.#wsr?.close();
+      try {
+        const sleepMs = QR_CODE_TIMEOUTS[this.#attemptCount];
 
-      prevState.done.resolve();
-    } else {
-      log.error('Unknown websocket message', request.requestType);
+        // eslint-disable-next-line no-await-in-loop
+        await this.#connect(signal, sleepMs);
+
+        // Successful connect, sleep until rotation time
+        delay = ROTATION_INTERVAL;
+        this.reset();
+        rotations += 1;
+
+        log.info(`${logId}: connected, refreshing in ${delay}ms`);
+      } catch (error) {
+        // The only active socket has failed, notify subscribers and shutdown
+        if (this.#sockets.length === 0) {
+          if (error === TIMEOUT_ERROR || error instanceof ConnectTimeoutError) {
+            const canRetry = this.#attemptCount < QR_CODE_TIMEOUTS.length - 1;
+
+            this.#attemptCount = Math.min(
+              this.#attemptCount + 1,
+              QR_CODE_TIMEOUTS.length - 1
+            );
+
+            this.#notify({
+              kind: EventKind.TimeoutError,
+              canRetry,
+            });
+          } else {
+            this.#notify({
+              kind: EventKind.ConnectError,
+              error,
+            });
+          }
+
+          this.#subscribers.clear();
+          this.#stop('Only socket failed');
+
+          break;
+        }
+
+        // At least one more socket is active, retry connecting silently after
+        // a delay.
+
+        delay = this.#retryBackOff.getAndIncrement();
+
+        log.error(
+          `${logId}: failed to connect, retrying in ${delay}ms`,
+          Errors.toLogFormat(error)
+        );
+      }
+
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await sleep(delay, signal);
+      } catch (error) {
+        // Sleep aborted
+        strictAssert(
+          this.#subscribers.size === 0,
+          'Aborted with active subscribers'
+        );
+        break;
+      }
+    }
+  }
+
+  async #connect(signal: AbortSignal, timeout: number): Promise<void> {
+    const cipher = new ProvisioningCipher();
+
+    const uuidPromise = explodePromise<string>();
+
+    let state = SocketState.WaitingForUuid;
+
+    const timeoutAt = Date.now() + timeout;
+
+    const resource = await this.#server.getProvisioningResource(
+      {
+        handleRequest: (request: IncomingWebSocketRequest) => {
+          const { requestType, body } = request;
+          if (!body) {
+            log.warn('Provisioner.connect: no request body');
+            request.respond(400, 'Missing body');
+            return;
+          }
+
+          try {
+            if (requestType === ServerRequestType.ProvisioningAddress) {
+              strictAssert(
+                state === SocketState.WaitingForUuid,
+                'Provisioner.connect: duplicate uuid'
+              );
+
+              const proto = Proto.ProvisioningUuid.decode(body);
+              strictAssert(proto.uuid, 'Provisioner.connect: expected a UUID');
+
+              state = SocketState.WaitingForEnvelope;
+              uuidPromise.resolve(proto.uuid);
+              request.respond(200, 'OK');
+            } else if (requestType === ServerRequestType.ProvisioningMessage) {
+              strictAssert(
+                state === SocketState.WaitingForEnvelope,
+                'Provisioner.connect: duplicate envelope or not ready'
+              );
+
+              const ciphertext = Proto.ProvisionEnvelope.decode(body);
+              const envelope = cipher.decrypt(ciphertext);
+
+              state = SocketState.Done;
+              this.#notify({
+                kind: EventKind.Envelope,
+                envelope,
+                isLinkAndSync:
+                  isLinkAndSyncEnabled(this.#appVersion) &&
+                  Bytes.isNotEmpty(envelope.ephemeralBackupKey),
+              });
+              request.respond(200, 'OK');
+            } else {
+              log.warn(
+                'Provisioner.connect: unsupported request type',
+                requestType
+              );
+              request.respond(404, 'Unsupported');
+            }
+          } catch (error) {
+            log.error('Provisioner.connect: error', Errors.toLogFormat(error));
+            resource.close();
+          }
+        },
+      },
+      timeout
+    );
+
+    if (signal.aborted) {
+      throw new Error('aborted');
+    }
+
+    // Setup listeners on the socket
+
+    const onAbort = () => {
+      resource.close();
+      uuidPromise.reject(new Error('aborted'));
+    };
+    signal.addEventListener('abort', onAbort);
+
+    resource.addEventListener('close', ({ code, reason }) => {
+      signal.removeEventListener('abort', onAbort);
+      this.#handleClose(resource, state, code, reason);
+    });
+
+    // But only register it once we get the uuid from server back.
+
+    const uuid = await pTimeout(
+      uuidPromise.promise,
+      Math.max(0, timeoutAt - Date.now()),
+      TIMEOUT_ERROR
+    );
+
+    const url = linkDeviceRoute
+      .toAppUrl({
+        uuid,
+        pubKey: Bytes.toBase64(cipher.getPublicKey()),
+        capabilities: isLinkAndSyncEnabled(this.#appVersion) ? ['backup'] : [],
+      })
+      .toString();
+
+    this.#notify({ kind: EventKind.URL, url });
+
+    this.#sockets.push(resource);
+
+    while (this.#sockets.length > MAX_OPEN_SOCKETS) {
+      log.info('Provisioner: closing extra socket');
+      this.#sockets.shift()?.close();
+    }
+  }
+
+  #handleClose(
+    resource: IWebSocketResource,
+    state: SocketState,
+    code: number,
+    reason: string
+  ): void {
+    log.info(`Provisioner: socket closed, code=${code}, reason=${reason}`);
+
+    const index = this.#sockets.indexOf(resource);
+    if (index === -1) {
+      return;
+    }
+
+    // Is URL from the socket displayed as a QR code?
+    const isActive = index === this.#sockets.length - 1;
+    this.#sockets.splice(index, 1);
+
+    // Graceful closure
+    if (state === SocketState.Done) {
+      return;
+    }
+
+    if (isActive) {
+      this.#notify({
+        kind:
+          state === SocketState.WaitingForUuid
+            ? EventKind.ConnectError
+            : EventKind.EnvelopeError,
+        error: new Error(`Socket closed, code=${code}, reason=${reason}`),
+      });
+    }
+  }
+
+  #notify(event: EventType): void {
+    for (const { notify } of this.#subscribers) {
+      notify(event);
     }
   }
 }

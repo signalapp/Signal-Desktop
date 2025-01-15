@@ -58,6 +58,28 @@
       color: variables.$color-gray-60;
     }
 
+    &--just-button {
+      background: variables.$color-gray-05;
+    }
+
+    &--just-button &__link {
+      background: variables.$color-white;
+      color: variables.$color-black;
+      padding-block: 8px;
+      padding-inline: 16px;
+      border-radius: 34px;
+      @include mixins.font-body-1;
+      font-weight: 500;
+      margin-block-start: 0;
+
+      &::before {
+        @include mixins.color-svg(
+          '../images/icons/v3/refresh/refresh-bold.svg',
+          variables.$color-black
+        );
+      }
+    }
+
     &__link {
       @include mixins.button-reset;
       & {

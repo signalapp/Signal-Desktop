@@ -1578,6 +1578,10 @@
     "messageformat": "Retry",
     "description": "Text of the button shown on the install screen if the QR code fails to load"
   },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code",
+    "description": "Text of the button shown on the install screen if the QR code rotated too many times and needs to be manually refreshed"
+  },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Get help",
     "description": "Text of the link to support page shown on the install screen if the QR code fails to load"

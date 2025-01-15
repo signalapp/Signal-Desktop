@@ -315,9 +315,3 @@ export class IncorrectSenderKeyAuthError extends Error {}
 export class WarnOnlyError extends Error {}
 
 export class NoSenderKeyError extends Error {}
-
-export class InactiveTimeoutError extends Error {
-  constructor() {
-    super('Closing socket due to inactivity');
-  }
-}

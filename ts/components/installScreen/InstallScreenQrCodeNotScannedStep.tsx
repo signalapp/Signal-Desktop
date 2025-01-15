@@ -132,6 +132,8 @@ function InstallScreenQrCode(
   const { i18n } = props;
 
   let contents: ReactNode;
+
+  let isJustButton = false;
   switch (props.loadingState) {
     case LoadingState.Loading:
       contents = <Spinner size="24px" svgSize="small" />;
@@ -146,7 +148,9 @@ function InstallScreenQrCode(
               >
                 {i18n('icu:Install__qr-failed-load__error--timeout')}
               </span>
-              <RetryButton i18n={i18n} onClick={props.retryGetQrCode} />
+              <RetryButton onClick={props.retryGetQrCode}>
+                {i18n('icu:Install__qr-failed-load__retry')}
+              </RetryButton>
             </>
           );
           break;
@@ -162,7 +166,9 @@ function InstallScreenQrCode(
                   components={{ paragraph: Paragraph }}
                 />
               </span>
-              <RetryButton i18n={i18n} onClick={props.retryGetQrCode} />
+              <RetryButton onClick={props.retryGetQrCode}>
+                {i18n('icu:Install__qr-failed-load__retry')}
+              </RetryButton>
             </>
           );
           break;
@@ -184,6 +190,14 @@ function InstallScreenQrCode(
                 {i18n('icu:Install__qr-failed-load__get-help')}
               </a>
             </>
+          );
+          break;
+        case InstallScreenQRCodeError.MaxRotations:
+          isJustButton = true;
+          contents = (
+            <RetryButton onClick={props.retryGetQrCode}>
+              {i18n('icu:Install__qr-max-rotations__retry')}
+            </RetryButton>
           );
           break;
         default:
@@ -210,7 +224,8 @@ function InstallScreenQrCode(
         props.loadingState === LoadingState.Loaded &&
           getQrCodeClassName('--loaded'),
         props.loadingState === LoadingState.LoadFailed &&
-          getQrCodeClassName('--load-failed')
+          getQrCodeClassName('--load-failed'),
+        isJustButton && getQrCodeClassName('--just-button')
       )}
     >
       {contents}
@@ -219,11 +234,11 @@ function InstallScreenQrCode(
 }
 
 function RetryButton({
-  i18n,
   onClick,
+  children,
 }: {
-  i18n: LocalizerType;
   onClick: () => void;
+  children: ReactNode;
 }): JSX.Element {
   const onKeyDown = useCallback(
     (ev: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -243,7 +258,7 @@ function RetryButton({
       onKeyDown={onKeyDown}
       type="button"
     >
-      {i18n('icu:Install__qr-failed-load__retry')}
+      {children}
     </button>
   );
 }
