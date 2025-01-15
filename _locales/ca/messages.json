@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Cancel·la la descàrrega"
   },
-  "icu:retryDownload": {
-    "messageformat": "Tornar a intentar la descàrrega"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Torna a provar-ho"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} element} other {{count,number} elements}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Desa"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Torna a provar-ho"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Necessito ajuda"
@@ -1581,7 +1584,7 @@
     "messageformat": "Vols eliminar totes les dades i missatges d'aquesta versió de Signal per a Escriptori? Sempre pots tornar a enllaçar aquest escriptori, però els teus missatges no es restauraran. El teu compte de Signal i les dades del teu telèfon o altres dispositius enllaçats no s'eliminaran."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Desconnexió i supressió de dades"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Tens dades obsoletes d'una instal·lació anterior del Signal Desktop. Si tries continuar, se suprimiran i començareu de zero."
@@ -2790,10 +2793,10 @@
     "messageformat": "Micròfon encès"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Baixar la mà?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Baixar"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "So activat"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "següent"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Feu una donació a Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Preparant per descarregar…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "En funció de la mida del teu historial dels missatges, això pot trigar uns quants minuts."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancel·la"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Els missatges i la informació del xat estan protegits mitjançant una codificació d'extrem a extrem, inclòs el procés de sincronització. <learnMoreLink>Més informació</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Cancel·lar la transferència?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "No s'ha completat la restauració dels teus missatges i arxius multimèdia. Si decideixes cancel·lar-la, s'enllaçarà el teu dispositiu sense el teu historial dels missatges."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuar la transferència"
@@ -5788,10 +5794,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Ara, quan descarreguis fitxers adjunts, podràs veure'n fàcilment el progrés. També podràs aturar i reiniciar les descàrregues en curs."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Hem corregit un error amb les mencions amb @ que feia que de vegades aparegués el teu propi compte a la llista de suggeriments per autocompletar."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

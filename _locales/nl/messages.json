@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Download annuleren"
   },
-  "icu:retryDownload": {
-    "messageformat": "Download opnieuw proberen"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Opnieuw proberen"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Opslaan"
@@ -1184,6 +1184,9 @@
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Opnieuw proberen"
   },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
+  },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Hulp vragen"
   },
@@ -1203,7 +1206,7 @@
     "messageformat": "Apparaatnaam"
   },
   "icu:chooseDeviceName": {
-    "messageformat": "Kies de naam van dit apparaat"
+    "messageformat": "Kies een naam voor dit apparaat"
   },
   "icu:finishLinkingPhone": {
     "messageformat": "Koppelen van telefoon voltooien"
@@ -1581,7 +1584,7 @@
     "messageformat": "Alle gegevens en berichten wissen uit deze versie van Signal Desktop? Je kunt dit apparaat altijd opnieuw koppelen, maar je berichten worden niet hersteld. Je Signal-account en gegevens op je telefoon of andere gekoppelde apparaten worden niet gewist."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Aan het ontkoppelen en alle gegevens aan het wissen"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Je hebt nog verouderde gegevens op je apparaat van een eerdere installatie van Signal Desktop. Als je ervoor kiest om verder te gaan, dan zullen alle gegevens worden gewist en zal je met een schone installatie van Signal Desktop beginnen."
@@ -2790,10 +2793,10 @@
     "messageformat": "Microfoon aan"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Hand omlaag doen?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Omlaag doen"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Bellen aan"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "Volgende"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Aan Signal doneren"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Download voorbereiden..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je chatgeschiedenis"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuleren"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Berichten en chatgegevens worden beschermd door end-to-end-versleuteling, ook tijdens het synchronisatieproces. <learnMoreLink>Meer informatie</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Overzetten annuleren?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Het herstellen van je berichten en media is nog niet voltooid. Als je ervoor kiest om te annuleren, wordt je apparaat gekoppeld zonder je chatgeschiedenis."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Doorgaan met overzetten"
@@ -5788,10 +5794,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Je kunt nu eenvoudig de voortgang van het downloaden van bijlagen zien. Je kunt lopende downloads nu ook stoppen en opnieuw starten. Dus als een transfer traag gaat omdat je onderweg bent (in vliegtuigmodus?) of door de matige wifi van het hotel… Wacht dan op een snellere verbinding en upload het bestand gewoon verder."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "We hebben een bug met @-vermeldingen opgelost waardoor soms je eigen account verscheen in de lijst met suggesties voor automatisch invullen. Je kunt natuurlijk altijd nog in derde persoon over jezelf praten, mocht je deze bug heel erg missen."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

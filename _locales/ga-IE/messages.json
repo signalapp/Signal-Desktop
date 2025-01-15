@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Cuir íoslódáil ar ceal"
   },
-  "icu:retryDownload": {
-    "messageformat": "Atriail an íoslódáil"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Bain triail eile as"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {1 cheann} two {{count,number} cheann} few {{count,number} cinn} many {{count,number} gcinn} other {{count,number} ceann}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Cuir i dtaisce é"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Bain triail eile as"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Faigh cabhair"
@@ -1581,7 +1584,7 @@
     "messageformat": "Scrios na sonraí agus na teachtaireachtaí uile ón leagan seo de Dheasc Signal? Beidh tú in ann an deasc sin a athnascadh am ar bith, ach ní aisghabhfar do theachtaireachtaí. Ní scriosfar do chuntas Signal ná sonraí ar do ghuthán nó ar aon ghléas eile atá nasctha."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Dínascadh agus scriosadh na sonraí go léir"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Tá sonraí agat ó sheansuiteáil Dheasc Signal atá imithe i léig. Má roghnaíonn tú leanúint leis, scriosfar iad agus tosóidh tú ón tús."
@@ -2790,10 +2793,10 @@
     "messageformat": "Micreafón air"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Ísligh do lámh?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Ísligh"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Glaoch air"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "Ar Aghaidh"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Bronn airgead ar Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Íoslódáil á hullmhú..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do staire teachtaireachtaí"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Déantar teachtaireachtaí agus faisnéis comhráite a chosaint le criptiú ó cheann ceann, an próiseas sioncronaithe san áireamh. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Cuir an t-aistriú ar ceal?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Ní dhearnadh aischur do chuid teachtaireachtaí agus meán a chur i gcrích go hiomlán. Má roghnaíonn tú é a chur ar ceal, nascfar do ghléas gan stair do theachtaireachtaí."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Lean leis an aistriú"
@@ -5788,10 +5794,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Anois is féidir leat dul chun cinn íoslódáil na gceangaltán a fheiceáil go héasca. Is féidir leat íoslódálacha atá ar siúl a stopadh agus a atosú freisin."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Réitíomar fabht le tráchtanna @, rud a chuir do chuntas féin sa liosta moltaí uathlíonta."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Utzi deskarga bertan behera"
   },
-  "icu:retryDownload": {
-    "messageformat": "Saiatu berriro deskargatzen"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Berriro saiatu"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {Elementu {count,number}} other {{count,number} elementu}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Gorde"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Berriro saiatu"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Lortu laguntza"
@@ -1581,7 +1584,7 @@
     "messageformat": "Signal-en ordenagailurako bertsio honetako datu eta mezu guztiak ezabatu nahi dituzu? Nahi duzunean lot dezakezu berriro ordenagailu hau, baina mezuak ez dira leheneratuko. Telefonoan nahiz lotutako beste gailu batzuetan, Signal-eko kontua eta datuak ez dira ezabatuko."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Deskonektatzen eta datu guztiak ezabatzen"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ordenagailurako Signal-en aurreko instalazio baten datu zaharkituak dauzkazu. Aurrera jarraituz gero, ezabatu egingo dira, eta zerotik hasi beharko duzu."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofonoa aktibatuta"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Eskua jaitsi nahi duzu?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Jaitsi"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Dei-tonua aktibatuta"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "hurrengoa"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Egin dohaintza Signal-i"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Deskargatzeko prestatzen…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Agian minutu batzuk beharko dira, mezu-historiaren tamainaren arabera"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Utzi"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mezuak eta txatari buruzko informazioa muturretik muturrerako enkriptatzearen bidez daude babestuta (sinkronizazio-prozesua barne). <learnMoreLink>Informazio gehiago</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Transferentzia bertan behera utzi nahi duzu?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Oraindik ez dira leheneratu mezuak eta multimedia-fitxategiak. Bertan behera uztea aukeratzen baduzu, mezu-historia gabe lotuko da gailua."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jarraitu transferitzen"
@@ -5788,10 +5794,10 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Orain, erraz ikus dezakezu eranskinen deskargaren aurrerapena. Halaber, abian diren deskargak geldiarazi eta berrabiaraz ditzakezu."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "@Aipamenak automatikoki osatzeko iradokizun-zerrendan batzuetan zeure kontua agerrarazten zuen akats bat konpondu dugu."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

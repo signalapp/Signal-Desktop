@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Скасувати завантаження"
   },
-  "icu:retryDownload": {
-    "messageformat": "Повторити завантаження"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Повторити"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} файл} few {{count,number} файли} many {{count,number} файлів} other {{count,number} файлу}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Зберегти"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Сканувати знову"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Допомога"
@@ -1581,7 +1584,7 @@
     "messageformat": "Видалити всі дані й повідомлення з цієї версії Signal Desktop? Ви завжди зможете повторно зв'язати цей ПК, але можливості відновити повідомлення не буде. Ваш акаунт Signal і дані на телефоні й інших зв'язаних пристроях не буде видалено."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Триває від'єднання й видалення всіх даних"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "З попереднього встановлення Signal Desktop лишилися застарілі дані. Якщо ви продовжите, їх буде видалено, а ви почнете з самого початку."
@@ -2499,7 +2502,7 @@
     "messageformat": "Усі"
   },
   "icu:SafetyTipsModal__Title": {
-    "messageformat": "Поради щодо безпеки"
+    "messageformat": "Заходи безпеки"
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Будьте обережні, приймаючи запити на обмін повідомленнями від незнайомих людей. На що варто звернути увагу:"
@@ -2790,10 +2793,10 @@
     "messageformat": "Мікрофон увімкнено"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Опустити руку?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Опустити"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Дзвінок увімкнено"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "вперед"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Підтримати Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Підготовка до завантаження…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Це може зайняти кілька хвилин — швидкість залежить від розміру історії повідомлень"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Закрити"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Повідомлення й інформацію про чати, а також сам процес синхронізації захищено наскрізним шифруванням. <learnMoreLink>Докладніше</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Скасувати передачу даних?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Відновлення повідомлень і медіафайлів не завершено. У разі скасування ваш пристрій буде зв'язано без перенесення історії повідомлень."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Продовжити передачу"
@@ -4134,7 +4140,7 @@
     "messageformat": "Дізнатися більше"
   },
   "icu:MessageRequestWarning__safety-tips": {
-    "messageformat": "Поради щодо безпеки"
+    "messageformat": "Заходи безпеки"
   },
   "icu:MessageRequestWarning__dialog__details": {
     "messageformat": "У вас немає спільних груп із цією людиною. Щоб уникнути небажаних повідомлень, не приймайте запитів без уважної перевірки відправника."
@@ -5788,10 +5794,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Тепер ви можете бачити прогрес завантаження вкладень, а також зупиняти й відновлювати завантаження. Тож якщо інтернет повільний, бо ви в дорозі (чи просто в режимі польоту) або слабенький готельний Wi-Fi не справляється, можна зупинити завантаження й спокійно дочекатися швидшого інтернету."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Ми виправили помилку зі @ згадками, через яку серед автоматичних пропозицій міг з'являтися ваш власний акаунт. Якщо вам подобалася така додаткова увага, то ніхто не забороняє вам, наприклад, говорити про себе в групових чатах у третій особі."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

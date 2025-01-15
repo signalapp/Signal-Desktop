@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "ダウンロードをキャンセルする"
   },
-  "icu:retryDownload": {
-    "messageformat": "もう一度ダウンロードする"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "再試行"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number}個}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "再試行"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "ヘルプを表示する"
@@ -1581,7 +1584,7 @@
     "messageformat": "Signal Desktopからすべてのデータとメッセージを消去しますか？Signal Desktopにはいつでも再リンクできますが、消去したメッセージは復元されません。Signalアカウントやスマートフォンのデータ、その他のリンク済み端末のデータは消去されません。"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "接続を切って全データを削除しています"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "以前のバージョンの Signal Desktop で利用していた、すでに利用できなくなっているデータが残っています。続行するとこのデータは消去され、フレッシュな状態で改めて利用を始めることになります。"
@@ -2790,10 +2793,10 @@
     "messageformat": "マイクオン"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "手をおろしますか？"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "手を降ろす"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "呼び出し音が鳴っています"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "次へ"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signalへの寄付"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "ダウンロード中..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "メッセージ履歴のサイズによっては、数分かかる場合があります"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "キャンセル"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "同期のプロセスも含め、メッセージ情報とチャット情報はエンドツーエンドの暗号化で保護されています。<learnMoreLink>さらに詳しく</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "転送をキャンセルしますか？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "メッセージとメディアの復元が完了していません。キャンセルを選択した場合、端末はメッセージ履歴なしの状態でリンクされます。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "転送を続行する"
@@ -5788,10 +5794,10 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "添付ファイルのダウンロードの進捗状況を簡単に確認できるようになりました。また、進行中のダウンロードを停止したり再開したりすることもできます。"
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "ご自身のアカウントがオートコンプリートの候補リストに含まれるバグが時々発生していましたので、@メンションに関するこのバグを修正しました。"
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

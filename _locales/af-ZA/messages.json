@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Kanselleer aflaai"
   },
-  "icu:retryDownload": {
-    "messageformat": "Probeer weer aflaai"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Probeer weer"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Item} other {{count,number} Items}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Stoor"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Probeer weer"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Kry hulp"
@@ -1581,7 +1584,7 @@
     "messageformat": "Skrap alle data en boodskappe in hierdie weergawe van Signal Desktop? Jy kan altyd hierdie rekenaar weer koppel, maar jou boodskappe sal nie herstel word nie. Jou Signal-rekening en data op jou foon of ander gekoppelde toestelle sal nie geskrap word nie."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Ontkoppel en verwyder alle data"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Jy het verouderde data uit 'n vorige installasie van Signal Desktop. As jy kies om voort te gaan, sal dit geskrap word en jy sal van voor af begin."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofoon aangeskakel"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Laat sak jou hand?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Laat sak"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Lui aangeskakel"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "volgende"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dra by tot Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Berei tans voor om af te laai…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Dit kan 'n paar minute neem, na gelang van die grootte van jou boodskapgeskiedenis"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Kanselleer"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Boodskappe en kletsinligting word deur end-tot-end-enkriptering beskerm, wat insluit die sinchroniseringsprosesse. <learnMoreLink>Vind meer uit</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Kanselleer oordrag?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Jou boodskappe en media is nog nie klaar herstel nie. As jy kies om te kanselleer, sal jou toestel sonder jou boodskapgeskiedenis gekoppel word."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Gaan voort met oordrag"
@@ -5788,10 +5794,10 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Nou kan jy maklik die vordering van die aflaai van aanhegsels sien. Jy kan ook aflaaie wat aan die gang is, stop en herbegin. As 'n oorplasing dus vertraag word omdat jy op reis is (in vlugmodus?) of 'n swak Wi-Fi-sein gaan wegraak, kan jy daarmee wag totdat meer bandwydte beskikbaar is."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Ons het 'n fout met @-vermeldings reggestel wat soms jou eie rekening verkeerdelik by die outovoltooi-voorstellys ingesluit het."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

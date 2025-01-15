@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Kanselahin ang pag-download"
   },
-  "icu:retryDownload": {
-    "messageformat": "Subukan ulit ang pag-download"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Subukang muli"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} na item} other {{count,number} Item}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "I-save"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Subukang muli"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Humingi ng tulong"
@@ -1581,7 +1584,7 @@
     "messageformat": "Gusto mo bang burahin ang lahat ng data at messages mula sa version na ito ng Signal Desktop? Pwede mong palaging i-relink ang desktop na ito, pero hindi na maibabalik ang messages mo. Hindi mabubura ang iyong Signal account at data nito sa phone mo o ibang linked devices."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Mayroon kang lumang data mula sa lumang installation ng Signal Desktop. Mabubura ito kapag nagpatuloy ka at magsisimula ka ulit sa simula."
@@ -2790,10 +2793,10 @@
     "messageformat": "Naka-on ang mic"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Gusto mo bang ibaba ang iyong kamay?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Ibaba"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Naka-on ang pag-ring"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "Susunod"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Mag-donate sa Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Naghahandang mag-download..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Maaaring itong tumagal nang ilang minuto depende sa laki ng message history mo"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Protektado ng end-to-end encryption ang messages at chat info, kasama ang proseso ng pag-sync. <learnMoreLink>Matuto pa</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Gusto mo bang i-cancel ang transfer?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Hindi natapos ang pag-restore ng messages at media mo. Kapag pinili mong mag-cancel, mali-link ang device mo nang hindi kasama ang iyong message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Ituloy ang pag-transfer"
@@ -5788,10 +5794,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Madali mo nang makikita ang progress ng attachment downloads. Pwede mo na ring ihinto at simulan ulit ang in-progress download."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "May inayos kaming bug sa @ mentions kung saan sinasama nito minsan ang account mo sa autocomplete suggestion list."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

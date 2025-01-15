@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Tühista allalaadimine"
   },
-  "icu:retryDownload": {
-    "messageformat": "Proovi uuesti alla laadida"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Proovi uuesti"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} üksus} other {{count,number} üksust}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Salvesta"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Proovi uuesti"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Otsi abi"
@@ -1581,7 +1584,7 @@
     "messageformat": "Kas kustutada sellest Signal Desktopi versioonist kõik andmed ja sõnumid? Saad selle töölaua alati uuesti siduda, kuid su sõnumeid ei taastata. Sinu Signali kontot ja telefonis või muudes lingitud seadmetes olevaid andmeid ei kustutata."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Ühenduse lõpetamine ja kõigi andmete kustutamine"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Sul on Signal Desktop-i varasematest paigaldustest jäänud üleliigseid andmeid. Kui valid jätkamise, siis need andmed kustutatakse ja sa alustad algusest peale."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofon sees"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Kas soovid käe langetada?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Langeta"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Helin sees"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "järgmine"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Anneta Signalile"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Allalaadimise ettevalmistamine …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Olenevalt sinu sõnumiajaloo suurusest võib see mõne minuti aega võtta"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Loobu"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Sõnumid ja vestluste info on kaitstud kõigis seadmetes otspunktkrüpteeringuga, sh sünkroniseerimisprotsess. <learnMoreLink>Rohkem teavet</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Kas tühistada edastus?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Sinu sõnumite ja meedia taastamine ei ole lõppenud. Kui valid tühistamise, seotakse sinu seade ilma su sõnumiajaloota."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jätka edastust"
@@ -5788,10 +5794,10 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Nüüd on lihtne näha manuste allalaadimise edenemist. Samuti saad pooleliolevaid allalaadimisi peatada ja uuesti alustada. Nüüd on lihtne näha manuste allalaadimise edenemist. Samuti saad pooleliolevaid allalaadimisi peatada ja uuesti alustada."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Parandasime @ mainimiste vea, mis mõnikord kaasas automaatselt täidetavate soovituste loendisse ekslikult sinu enda konto."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

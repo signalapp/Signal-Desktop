@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Откажи преузимање"
   },
-  "icu:retryDownload": {
-    "messageformat": "Поново пробај преузимање"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Пробај поново"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {Ставки: {count,number}} other {Ставки: {count,number}}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Сачувај"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Пробај поново"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Потражите помоћ"
@@ -1581,7 +1584,7 @@
     "messageformat": "Желите ли да избришете све податке и поруке из ове верзије Signal Desktop-а? Увек можете поново повезати овај рачунар, али ваше поруке се неће вратити. Ваш налог на Signal-у и подаци на вашем телефону или другим повезаним уређајима неће бити избрисани."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Прекидамо везу и бришемо све податке"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Имате застареле податке из претходне инсталације Signal Desktop-а. Ако наставите, биће избрисани и кренућете од нуле."
@@ -2790,10 +2793,10 @@
     "messageformat": "Микрофон је укључен"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Желите ли да спустите руку?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Спусти"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Звоно је укључено"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "следеће"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Донирајте за Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Припрема за преузимање…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "То може потрајати неколико минута у зависности од величине ваше историје порука"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Поруке и информације о ћаскањима заштићене су потпуним шифровањем, укључујући процес синхронизације. <learnMoreLink>Сазнајте више</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Желите ли да откажете пренос?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Није завршено враћање ваших порука и медија. Ако одлучите да откажете, уређај ће вам бити повезан без историје порука."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Настави пренос"
@@ -5788,10 +5794,10 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Сада можете лако видети напредак преузимања прилога. Такође можете зауставити и поново покренути преузимања која су у току."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Исправили смо грешку са @ помињањима у којима је понекад у листу предлога за аутоматско попуњавање грешком био укључен и сопствени налог."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

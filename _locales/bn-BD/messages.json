@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "ডাউনলোড বাতিল করুন"
   },
-  "icu:retryDownload": {
-    "messageformat": "আবার ডাউনলোড করার চেষ্টা করুন"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "পুনরায় চেষ্টা করুন"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} টি বস্তু} other {{count,number}-টি আইটেম}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "সংরক্ষণ"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "পুনরায় চেষ্টা করুন"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "সাহায্য নিন"
@@ -1581,7 +1584,7 @@
     "messageformat": "Signal ডেস্কটপের এই সংস্করণ থেকে সকল ডেটা ও মেসেজ মুছে ফেলবেন? আপনি সবসময় এই ডেস্কটপে পুনরায় লিংক করতে পারবেন, কিন্তু আপনার মেসেজ পুনরুদ্ধার করা যাবে না। আপনার Signal অ্যাকাউন্ট এবং আপনার ফোন বা অন্যান্য লিংককৃত ডিভাইসের ডেটা মুছে ফেলা হবে না।"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "সংযোগ বিচ্ছিন্ন এবং সমস্ত ডেটা মোছা হচ্ছে"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "পূর্বের Signal ডেস্কটপ ইনস্টলেশন থেকে আপনার কিছু পুরনো ডেটা রয়েছে। আপনি চালিয়ে গেলে এগুলো মুছে যাবে এবং আপনি আবার প্রথম থেকে শুরু করবেন।"
@@ -2790,10 +2793,10 @@
     "messageformat": "মাইক চালু করুন"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "হাত নামবেন?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "নামান"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "রিং চালু করুন"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "পরবর্তী"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-এ দান করুন"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "ডাউনলোড করার জন্য প্রস্তুতি নিচ্ছে..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "আপনার মেসেজের ইতিহাসের আকারের উপর নির্ভর করে এতে কয়েক মিনিট সময় নিতে পারে"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "বাতিল করুন"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "সিঙ্ক প্রক্রিয়া সহ মেসেজ এবং চ্যাটের তথ্য এন্ড-টু-এন্ড এনক্রিপশন দ্বারা সুরক্ষিত। <learnMoreLink>আরো জানুন</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "স্থানান্তর বাতিল করবেন?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "আপনার মেসেজ এবং মিডিয়া পুনর্বহাল সম্পন্ন হয়নি। আপনি যদি বাতিল করতে চান, তবে আপনার মেসেজের ইতিহাস ছাড়াই আপনার ডিভাইস লিংক করা হবে।"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "স্থানান্তর চালিয়ে যান"
@@ -5788,10 +5794,10 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "এখন আপনি সহজেই সংযুক্তি ডাউনলোডের অগ্রগতি দেখতে পারবেন। এছাড়াও আপনি চলমান ডাউনলোডগুলো বন্ধ করে পুনরায় চালু করতে পারবেন।"
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "আমরা @ উল্লেখ সহ একটি বাগ সংশোধন করেছি যা কখনো কখনো ভুলভাবে স্বয়ংক্রিয় পরামর্শ তালিকায় আপনার নিজের অ্যাকাউন্ট অন্তর্ভুক্ত করে।"
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

@@ -408,7 +408,7 @@
     "messageformat": "{count, plural, one {{count,number} ulæst besked} other {{count,number} ulæste beskeder}}"
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "For din sikkerheds skyld, overføres chathistorik ikke til nye forbundne enheder."
+    "messageformat": "For din sikkerheds skyld overføres chathistorik ikke til nye forbundne enheder."
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "Du markerede dit sikkerhedsnummer med {name} som bekræftet"
@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Annuller download"
   },
-  "icu:retryDownload": {
-    "messageformat": "Prøv download igen"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Prøv igen"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Enheder} other {{count,number} emner}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Gem"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Prøv igen"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Få hjælp"
@@ -1581,7 +1584,7 @@
     "messageformat": "Slette alle data og beskeder fra denne version af Signal Desktop? Du kan altid genoprette forbindelsen til denne desktop, men dine beskeder vil ikke blive gendannet. Din Signal-konto og data på din telefon eller andre forbundne enheder vil ikke blive slettet."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Afbryder og sletter alle data"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du har forældede data fra en forudgående installation af Signal Desktop. Hvis du vælger at fortsætte vil den blive slettet, og du vil starte fra forfra"
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofon slået til"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Tag hånden ned?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Tag ned"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Opringning slået til"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "næste"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donér til Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Forbereder download..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Det kan tage et par minutter afhængigt af størrelsen på din beskedhistorik"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annullér"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Beskeder og chatoplysninger er beskyttet af end-to-end-kryptering, herunder også under synkroniseringen. <learnMoreLink>Få mere at vide</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Vil du annullere overførslen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Dine beskeder og medier er ikke gendannet endnu. Hvis du vælger at annullere, bliver din enhed tilknyttet uden din beskedhistorik."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Fortsæt overførsel"
@@ -5788,10 +5794,10 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Nu kan du nemt se udviklingen af vedhæftede filer. Du kan også stoppe og genstarte igangværende downloads. Så hvis en overførsel bliver langsommere, fordi du er på farten (i flytilstand?), og hvis det middelmådige hotelnetværk er ved at implodere, kan du vente med at genindlæse, når mere tilgængelig båndbredde er tildelt."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Vi har rettet en fejl med @-omtaler, der nogle gange forkert inkluderede din egen konto på forslagslisten i autofyld. Som en narcissistisk løsning kan du stadig bruge tredjepersonsfortælling til at tale om dig selv i dine gruppechat, hvis du nogensinde savner denne fejl."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

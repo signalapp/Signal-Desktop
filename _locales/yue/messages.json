@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "取消下載"
   },
-  "icu:retryDownload": {
-    "messageformat": "再試多次下載"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "再試多次"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} 個項目}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "儲存"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "再試多次"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "搵幫手"
@@ -1581,7 +1584,7 @@
     "messageformat": "係咪要刪除呢個 Signal 桌面版版本嘅所有資料同訊息？你可以隨時重新連結返呢部桌面電腦，但你啲訊息就冇得還原㗎喇。你嘅 Signal 帳戶同埋手機或者其他已連結裝置上面嘅資料係唔會刪除嘅。"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "中斷緊連接，同埋刪除緊資料"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "你之前安裝嘅 Signal 桌面版入面有過時嘅資料。如果你選擇繼續，呢啲資料就會被刪除，你就會從頭開始過喇。"
@@ -2790,10 +2793,10 @@
     "messageformat": "開咗咪"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "係咪想放低手？"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "放低"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "鈴聲開咗"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "下一個"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "捐款俾 Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "準備緊下載..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "視乎你嘅訊息紀錄多寡，過程可能需要幾分鐘"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "訊息同聊天資料都受到端對端加密保護，包括同步過程。<learnMoreLink>了解詳情</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "係咪要取消轉移？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "你嘅訊息同媒體仲未還原晒喎。如果你揀取消，連結你部機之後就會冇訊息紀錄。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "繼續轉移"
@@ -5788,10 +5794,10 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "你而家可以好方便咁睇到附件嘅下載進度，仲可以㩒停進行緊嘅下載，或者重新開始。所以，就算你坐緊車 (或者開咗飛行模式)，又或者酒店 WiFi 唔係好掂，都可以等一等，等到網路順暢時先至重新載入。"
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "我哋修正咗一個 @ 提及嘅錯誤，就係有時會錯誤咁將你自己嘅帳戶納入自動完成建議清單度。如果你真係咁自戀嘅，更新完之後你都可以繼續喺群組聊天度用第三人稱稱呼自己。"
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

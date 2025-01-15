@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Жүктеп алудан бас тарту"
   },
-  "icu:retryDownload": {
-    "messageformat": "Жүктеп алуды қайталау"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Қайталап көру"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} элемент} other {{count,number} элемент}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Сақтау"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Қайтадан байқап көру"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Анықтама алу"
@@ -1581,7 +1584,7 @@
     "messageformat": "Signal Desktop-тың осы нұсқасынан барлық деректі және хатты жою керек пе? Осы жұмыс үстелін кез келген уақытта қайта байланыстыра аласыз, бірақ хаттарыңыз қалпына келмейді. Signal аккаунтыңыз және телефоныңыздағы деректер немесе басқа да байланыстырылған құрылғылар жойылмайды."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Құрылғыны ажырату және барлық деректі жою"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal-дың компьютерлік нұсқасын бұған дейін орнатқаннан ескі деректер қалып қойған. Жалғастыратын болсаңыз, ол жойылады және бәрін басынан бастайсыз."
@@ -2790,10 +2793,10 @@
     "messageformat": "Микрофон қосулы"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Қолыңызды түсіресіз бе?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Түсіру"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Қоңырау дауысы қосылды"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "келесі"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-ды демеу"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Жүктеп алуға дайындалып жатыр..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Хабарлар тарихының көлеміне қарай ол бірнеше минутқа созылуы мүмкін."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Бас тарту"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Хабарлар мен чат туралы ақпарат тура шифрлау әдісімен, соның ішінде синхрондау процесімен қорғалған. <learnMoreLink>Толық ақпарат</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Тасымалдаудан бас тарту керек пе?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Хабарларыңыз бен мультимедиаңызды қалпына келтіру процесі аяқталған жоқ. Бас тарту опциясын таңдасаңыз, құрылғыңыз хабарлар тарихынсыз байланыстырылады."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Тасымалдауды жалғастыру"
@@ -5788,10 +5794,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Енді тіркемені жүктеп алу процесін оңай бақылай аласыз. Сонымен қатар жүктеп алу процесін тоқтатуға және қайта бастауға болады. Жолда болғандықтан (мысалы, ұшақ режимі) немесе қонақүйде WiFi дұрыс таралмағандықтан, тасымалдау процесі баяулап жатса, қайта жүктеуді желі жұмысы жақсарғанда бастауға болады."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Біреуді @ белгісі арқылы атап өтетін кезде автоматты түрде толтырылатын ұсыныстар тізімінде өз аккаунтыңыз қате қосылып кететін ақау түзетілді. Енді топтық чаттарда өзіңіз туралы сөз қозғағанда, өз аккаунтыңызды атап өтпейтін боласыз."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

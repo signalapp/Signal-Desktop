@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Отмяна на изтеглянето"
   },
-  "icu:retryDownload": {
-    "messageformat": "Повторен опит за изтегляне"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Опитайте отново"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} файл} other {{count,number} файла}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Запази"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Опитайте отново"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Поискайте помощ"
@@ -1581,7 +1584,7 @@
     "messageformat": "Изтриване на всички данни и съобщения от тази версия на Signal Desktop? Винаги можете да свържете този десктоп отново, но съобщенията ви няма да бъдат възстановени. Вашият акаунт в Signal и данните на телефона ви или други свързани устройства няма да бъдат изтрити."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Прекъсване и изтриване на всички данни"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Имате стари данни от предишна инсталация на Signal Desktop. Ако продължите, тези данни ще бъдат изтрити и ще започнете на чисто."
@@ -2790,10 +2793,10 @@
     "messageformat": "Микрофонът е включен"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Свалете ръка?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Сваляне"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Звъненето е включено"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "следващ"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Дари на Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Подготвяне за изтегляне…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Това може да отнеме няколко минути в зависимост от размера на вашата история на съобщенията"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отказ"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Съобщенията и информацията за чатовете са защитени чрез криптиране от край до край, включително процеса за синхронизиране. <learnMoreLink>Научете повече</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Отмяна на трансфера?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Възстановяването на съобщенията и мултимедията ви не е приключило. Ако решите да отмените, устройството ви ще бъде свързано без вашата история на съобщенията."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Продължаване на трансфера"
@@ -5788,10 +5794,10 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Вече можете лесно да виждате напредъка по изтегляне на прикачени файлове. Можете също така да спирате и рестартирате изтегляния в процес на извършване."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Отстранихме грешка със споменаванията чрез @, при която в списъка с автоматични предложения понякога неправилно беше включен собствения ви акаунт."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

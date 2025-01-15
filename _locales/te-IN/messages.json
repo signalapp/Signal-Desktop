@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "డౌన్‌లోడ్‌ను రద్దు చేయండి"
   },
-  "icu:retryDownload": {
-    "messageformat": "డౌన్‌లోడ్‌ను మళ్ళీ ప్రయత్నించండి"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "మళ్ళీ ప్రయత్నించు"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} అంశం} other {{count,number}అంశాలు}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "భద్రపరుచు"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "మళ్ళీ ప్రయత్నించు"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "సహాయం పొందండి"
@@ -1581,7 +1584,7 @@
     "messageformat": "Signal డెస్క్‌టాప్ యొక్క ఈ వెర్షన్ నుండి మొత్తం డేటా మరియు సందేశాలను తొలగించేదా? మీరు ఎల్లప్పుడూ ఈ డెస్క్‌టాప్‌ను మళ్ళీ లింక్ చేయవచ్చు, కానీ మీ సందేశాలు రీస్టోర్ కావు. మీ ఫోన్ లేదా ఇతర లింక్ చేయబడిన పరికరాలలో మీ Signal ఖాతా మరియు డేటా తొలగించబడవు."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "మొత్తం సమాచారం డిస్కోనెక్ట మరియు తొలిగింపదుతోంది"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop యొక్క మునుపటి ఇన్‌స్టాలేషన్ నుండి మీరు వాడుకలో లేని డేటా కలిగి ఉన్నారు. ఒకవేళ మీరు కొనసాగించాలని ఎంచుకుంటే, అది తొలగించబడుతుంది మరియు మీరు మొదటి నుండి ప్రారంభిస్తారు."
@@ -2790,10 +2793,10 @@
     "messageformat": "మైక్ ఆన్‌లో ఉంది"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "మీ చేతిని దించేదా?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "కిందకి దించండి"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "రింగ్ ఆన్‌లో ఉంది"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "తరువాత"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal కు దానం చేయండి"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "డౌన్‌లోడ్ చేయడానికి సిద్ధమవుతోంది..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "మీ సందేశ చరిత్ర పరిమాణం ఆధారంగా దీనికి కొన్ని నిమిషాలు పట్టవచ్చు"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "రద్దు చేయండి"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "సమకాలీకరణ ప్రక్రియతో సహా ఎండ్-టు-ఎండ్ గుప్తీకరణ ద్వారా సందేశాలు మరియు చాట్ సమాచారం సంరక్షించబడతాయి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "బదిలీని రద్దు చేసేదా?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీ సందేశ చరిత్ర లేకుండానే మీ పరికరం లింక్ చేయబడుతుంది."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "బదిలీని కొనసాగించండి"
@@ -5788,10 +5794,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "ఇప్పుడు మీరు అటాచ్‌మెంట్ డౌన్‌లోడ్‌ల పురోగతిని సులభంగా చూడవచ్చు. మీరు పురోగతిలో ఉన్న డౌన్‌లోడ్‌లను కూడా ఆపివేయవచ్చు మరియు పునఃప్రారంభించవచ్చు. కాబట్టి మీరు రోడ్డుపై ఉన్నందున (విమాన మోడ్‌లో?) ఒకవేళ బదిలీ నెమ్మదించినట్లయితే లేదా మధ్యస్థమైన హోటల్ వైఫై విచ్ఛిన్నం కాబోతున్నట్లయితే, మరింత అందుబాటులో ఉన్న బ్యాండ్‌విడ్త్ ఇవ్వబడినప్పుడు మీరు తిరిగి లోడ్ చేయడానికి వేచి ఉండవచ్చు."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "మేము @ ప్రస్తావనలతో ఒక బగ్‌ను పరిష్కరించాము, ఇది కొన్నిసార్లు మీ స్వంత ఖాతాను స్వయంపూర్తి సలహా జాబితాలో చేర్చింది. నార్సిసిస్టిక్ పరిష్కారంగాా, మీరు ఎప్పుడైనా ఈ బగ్‌ను తప్పిపోతే మీ గ్రూప్ చాట్లలో మీ గురించి మాట్లాడుకోవడానికి మీరు ఇప్పటికీ మూడవ వ్యక్తి కథనాన్ని ఉపయోగించవచ్చు."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

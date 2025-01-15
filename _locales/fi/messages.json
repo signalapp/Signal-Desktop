@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Peruuta lataus"
   },
-  "icu:retryDownload": {
-    "messageformat": "Yritä latausta uudelleen"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Yritä uudelleen"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} kappale} other {{count,number} kohdetta}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Tallenna"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Yritä uudelleen"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Pyydä apua"
@@ -1581,7 +1584,7 @@
     "messageformat": "Poista kaikki tiedot ja viestit tästä Signal Desktop -versiosta? Voit aina yhdistää tämän tietokoneen uudelleen, mutta viestejäsi ei palauteta. Signal-tiliäsi ja puhelimesi tai muiden yhdistettyjen laitteiden tietoja ei poisteta."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Katkaistaan yhteyttä ja tuhotaan kaikki tiedot"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Sinulla on vanhentuneita tietoja aiemmasta Signal Desktopin asennuksesta. Jos päätät jatkaa, tiedot poistetaan ja aloitat alusta."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofoni päällä"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Laske käsi?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Laske"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Soittoääni päällä"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "seuraava"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Lahjoita Signalille"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Valmistellaan latausta..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Tämä voi kestää muutamia minuutteja viestihistoriasi koosta riippuen"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Peruuta"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Viestit ja keskustelujen tiedot on suojattu päästä päähän -salauksella, myös synkronoinnin aikana. <learnMoreLink>Lue lisää</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Perutaanko siirto?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Viestejä ja mediaa ei ole vielä kokonaan palautettu. Jos peruutat nyt, laite yhdistetään ilman viestihistoriaa."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jatka siirtoa"
@@ -5788,10 +5794,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Nyt voit helposti nähdä liitteiden latauksen edistymisen. Voit myös pysäyttää ja käynnistää uudelleen käynnissä olevat lataukset."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Korjasimme @-mainintoja koskevan virheen, joka saattoi virheellisesti liittää tilisi automaattisen täydennyksen ehdotuslistaan."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "ביטול הורדה"
   },
-  "icu:retryDownload": {
-    "messageformat": "ניסיון הורדה חוזר"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "נסה שוב"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {פריט {count,number}} two {{count,number} פריטים} many {{count,number} פריטים} other {{count,number} פריטים}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "שמור"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "נסה שוב"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "לעזרה"
@@ -1581,7 +1584,7 @@
     "messageformat": "למחוק את כל הנתונים וההודעות מגרסה זו של Signal לשולחן העבודה? תמיד אפשר לקשר מחדש את שולחן העבודה הזה, אבל ההודעות שלך לא ישוחזרו. חשבון Signal שלך והנתונים בטלפון שלך או במכשירים מקושרים אחרים לא יימחקו."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "מתנתק ומוחק את כל הנתונים"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "יש לך נתונים מיושנים מהתקנה קודמת של Signal Desktop. אם בא לך להמשיך, הם יימחקו ו–Signal תתחיל מאפס."
@@ -2790,10 +2793,10 @@
     "messageformat": "מיקרופון מופעל"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "להוריד את היד?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "הורדה"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "צלצול מופעל"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "הבא"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "תרום אל Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "מתכוננים להורדה…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "זה עשוי לקחת מספר דקות בהתאם לגודל היסטוריית ההודעות שלך"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ביטול"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "הודעות ופרטי צ׳אט מוגנים באמצעות הצפנה מקצה לקצה, כולל תהליך הסנכרון. <learnMoreLink>למידע נוסף</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "לבטל העברה?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "שחזור ההודעות והמדיה שלך לא הושלם. אם תבחר/י לבטל, המכשיר שלך יקושר ללא היסטוריית ההודעות שלך."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "המשך העברה"
@@ -5788,10 +5794,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "עכשיו אפשר לראות בקלות את התקדמות ההורדה של קבצים מצורפים. אפשר גם לעצור ולהתחיל מחדש הורדות שכבר החלו את התהליך."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "תיקנו באג עם אזכורי @ שלפעמים כללו את החשבון שלך ברשימת הצעות ההשלמה האוטומטית."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

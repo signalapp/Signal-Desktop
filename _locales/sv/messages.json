@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Avbryt nedladdning"
   },
-  "icu:retryDownload": {
-    "messageformat": "Försök att ladda ner igen"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Försök igen"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} objekt} other {{count,number} objekt}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Spara"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Försök igen"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Få hjälp"
@@ -1581,7 +1584,7 @@
     "messageformat": "Ta bort alla data och meddelanden från den här versionen av Signal Desktop? Du kan alltid länka om skrivbordet, men dina meddelanden återställs inte. Ditt Signal-konto och dina data på din telefon eller andra länkade enheter raderas inte."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Kopplar bort och tar bort alla data"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du har föråldrade data från en tidigare installation av Signal Desktop. Om du väljer att fortsätta kommer det att tas bort och du kommer att börja från början."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofon på"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Ta ner handen?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Ta ner"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Ringsignal på"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "nästa"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donera till Signal"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Förbereder nedladdning …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Detta kan ta några minuter beroende på storleken på din meddelandehistorik"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Avbryt"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Meddelanden och chattinformation skyddas av totalstreckskryptering, inklusive synkroniseringsprocessen. <learnMoreLink>Läs mer</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Vill du avbryta överföringen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Återställningen av dina meddelanden och media har inte slutförts. Om du väljer att avbryta kommer din enhet att länkas utan din meddelandehistorik."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Fortsätt överföringen"
@@ -5788,10 +5794,10 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Nu kan du enkelt se statusen för nedladdningen av bilagor. Du kan också stoppa och starta om pågående nedladdningar."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Vi har åtgärdat en bugg med @-omnämnanden som ibland inkluderade ditt eget konto i den förslagslista som fylldes i automatiskt."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }

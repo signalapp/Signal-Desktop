@@ -1133,14 +1133,14 @@
   "icu:cancelDownload": {
     "messageformat": "Atšaukti atsisiuntimą"
   },
-  "icu:retryDownload": {
-    "messageformat": "Bandyti atsisiųsti dar kartą"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Bandyti dar kartą"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} elementas} few {{count,number} elementai} many {{count,number} elementų} other {{count,number} elementas}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "This media is no longer available."
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:save": {
     "messageformat": "Įrašyti"
@@ -1183,6 +1183,9 @@
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Bandyti dar kartą"
+  },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Refresh code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Gauti pagalbos"
@@ -1581,7 +1584,7 @@
     "messageformat": "Ištrinti visus duomenis ir žinutes iš šios „Signal Desktop“ versijos? Šį stalinį įrenginį visada galite vėl susieti, tačiau žinutės atkurtos nebus. Jūsų „Signal“ paskyra ir duomenys telefone ar kituose susietuose įrenginiuose nebus ištrinti."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Atsijungiama ir ištrinami visi duomenys"
+    "messageformat": "Disconnecting and deleting all data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Turi nebenaudojamų duomenų, likusių iš ankstesnio „Signal Desktop“ diegimo. Jei pasirinksi tęsti, jie bus ištrinti ir pradėsi viską nuo nulio."
@@ -2790,10 +2793,10 @@
     "messageformat": "Mikrofonas įjungtas"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
-    "messageformat": "Lower your hand?"
+    "messageformat": "Nuleisti ranką?"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "Lower"
+    "messageformat": "Nuleisti"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Skambėjimas įjungtas"
@@ -3572,6 +3575,9 @@
   "icu:next": {
     "messageformat": "kitas"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "This may take a few minutes depending on the size of your message history"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Paaukokite Signal programėlei"
   },
@@ -3603,10 +3609,10 @@
     "messageformat": "Ruošiamasi atsisiųsti..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Tai gali užtrukti kelias minutes, priklausomai nuo žinučių istorijos dydžio"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Žinutės ir pokalbių informacija yra visiškai užšifruoti, įskaitant ir sinchronizavimo procesą. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
@@ -3615,7 +3621,7 @@
     "messageformat": "Atšaukti perkėlimą?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history."
+    "messageformat": "Jūsų žinučių ir įrašų atkūrimas nebaigtas. Jei nuspręsite atšaukti, jūsų įrenginys bus susietas be žinučių istorijos."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Tęsti perkėlimą"
@@ -5788,10 +5794,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Dabar galite lengvai matyti priedų atsisiuntimo eigą. Taip pat galite sustabdyti ir iš naujo paleisti vykdomus atsisiuntimus."
-  },
   "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug."
+    "messageformat": "Ištaisėme klaidą su @ paminėjimais, kurie kartais neteisingai įtraukdavo jūsų pačių paskyrą į automatinio užbaigimo pasiūlymų sąrašą."
+  },
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
   }
 }
