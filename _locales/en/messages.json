@@ -4753,7 +4753,7 @@
   },
   "icu:ClearingData__description": {
     "messageformat": "This may take a few minutes depending on the size of your message history",
-    "description": "(Deleted 2025/01/15) Description at the bottom of clearing all data screen"
+    "description": "Description at the bottom of clearing all data screen"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donate to Signal",
