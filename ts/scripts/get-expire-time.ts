@@ -7,7 +7,7 @@ import { writeFileSync } from 'fs';
 
 import { DAY } from '../util/durations';
 import { version } from '../../package.json';
-import { isAdhoc } from '../util/version';
+import { isNotUpdatable } from '../util/version';
 
 const unixTimestamp = parseInt(
   process.env.SOURCE_DATE_EPOCH ||
@@ -16,7 +16,8 @@ const unixTimestamp = parseInt(
 );
 const buildCreation = unixTimestamp * 1000;
 
-const buildExpiration = buildCreation + DAY * 90;
+const validDuration = isNotUpdatable(version) ? DAY * 30 : DAY * 90;
+const buildExpiration = buildCreation + validDuration;
 
 const localProductionPath = join(
   __dirname,
@@ -26,7 +27,7 @@ const localProductionPath = join(
 const localProductionConfig = {
   buildCreation,
   buildExpiration,
-  ...(isAdhoc(version) ? { updatesEnabled: false } : {}),
+  ...(isNotUpdatable(version) ? { updatesEnabled: false } : {}),
 };
 
 writeFileSync(

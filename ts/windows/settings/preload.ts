@@ -330,7 +330,10 @@ async function renderPreferences() {
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
 
     // Limited support features
-    isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(OS),
+    isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(
+      OS,
+      MinimalSignalContext.getVersion()
+    ),
     isAutoLaunchSupported: Settings.isAutoLaunchSupported(OS),
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(OS),
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(OS),

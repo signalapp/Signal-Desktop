@@ -28,10 +28,10 @@ import { strictAssert } from '../util/assert';
 import { drop } from '../util/drop';
 import * as durations from '../util/durations';
 import {
-  isAdhoc,
   isAlpha,
   isAxolotl,
   isBeta,
+  isNotUpdatable,
   isStaging,
 } from '../util/version';
 
@@ -527,9 +527,9 @@ export abstract class Updater {
   async #checkForUpdates(
     checkType: CheckType
   ): Promise<UpdateInformationType | undefined> {
-    if (isAdhoc(packageJson.version)) {
+    if (isNotUpdatable(packageJson.version)) {
       this.logger.info(
-        'checkForUpdates: not checking for updates, this is an adhoc build'
+        'checkForUpdates: not checking for updates, this is not an updatable build'
       );
       return;
     }
@@ -950,7 +950,7 @@ export function getUpdatesFileName(): string {
 
 function getChannel(): string {
   const { version } = packageJson;
-  if (isAdhoc(version)) {
+  if (isNotUpdatable(version)) {
     // we don't want ad hoc versions to update
     return version;
   }

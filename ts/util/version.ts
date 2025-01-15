@@ -28,6 +28,8 @@ export const isAxolotl = (version: string): boolean =>
 export const isAdhoc = (version: string): boolean =>
   semver.parse(version)?.prerelease[0] === 'adhoc';
 
+export const isNotUpdatable = (version: string): boolean => isAdhoc(version);
+
 export const isStaging = (version: string): boolean =>
   semver.parse(version)?.prerelease[0] === 'staging';
 
