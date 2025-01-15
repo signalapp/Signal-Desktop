@@ -32,7 +32,7 @@ export function ClearingData({ deleteAllData, i18n }: PropsType): JSX.Element {
           isRTL={i18n.getLocaleDirection() === 'rtl'}
         />
         <div className="InstallScreenBackupImportStep__description">
-          {i18n('icu:BackupImportScreen__description')}
+          {i18n('icu:ClearingData__description')}
         </div>
       </div>
     </div>
