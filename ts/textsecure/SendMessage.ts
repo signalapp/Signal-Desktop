@@ -1967,7 +1967,7 @@ export default class MessageSender {
       options?: Readonly<SendOptionsType>;
     }>
   ): Promise<CallbackResultType> {
-    return this.sendReceiptMessage({
+    return this.#sendReceiptMessage({
       ...options,
       type: Proto.ReceiptMessage.Type.DELIVERY,
     });
@@ -1981,7 +1981,7 @@ export default class MessageSender {
       options?: Readonly<SendOptionsType>;
     }>
   ): Promise<CallbackResultType> {
-    return this.sendReceiptMessage({
+    return this.#sendReceiptMessage({
       ...options,
       type: Proto.ReceiptMessage.Type.READ,
     });
@@ -1995,13 +1995,13 @@ export default class MessageSender {
       options?: Readonly<SendOptionsType>;
     }>
   ): Promise<CallbackResultType> {
-    return this.sendReceiptMessage({
+    return this.#sendReceiptMessage({
       ...options,
       type: Proto.ReceiptMessage.Type.VIEWED,
     });
   }
 
-  private async sendReceiptMessage({
+  async #sendReceiptMessage({
     senderAci,
     timestamps,
     type,

@@ -25,20 +25,20 @@ const CHECK_INTERVAL = DAY;
 const STORAGE_SERVICE_TIMEOUT = 30 * MINUTE;
 
 class UsernameIntegrityService {
-  private isStarted = false;
-  private readonly backOff = new BackOff(FIBONACCI_TIMEOUTS);
+  #isStarted = false;
+  readonly #backOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   async start(): Promise<void> {
-    if (this.isStarted) {
+    if (this.#isStarted) {
       return;
     }
 
-    this.isStarted = true;
+    this.#isStarted = true;
 
-    this.scheduleCheck();
+    this.#scheduleCheck();
   }
 
-  private scheduleCheck(): void {
+  #scheduleCheck(): void {
     const lastCheckTimestamp = window.storage.get(
       'usernameLastIntegrityCheck',
       0
@@ -46,40 +46,40 @@ class UsernameIntegrityService {
     const delay = Math.max(0, lastCheckTimestamp + CHECK_INTERVAL - Date.now());
     if (delay === 0) {
       log.info('usernameIntegrity: running the check immediately');
-      drop(this.safeCheck());
+      drop(this.#safeCheck());
     } else {
       log.info(`usernameIntegrity: running the check in ${delay}ms`);
-      setTimeout(() => drop(this.safeCheck()), delay);
+      setTimeout(() => drop(this.#safeCheck()), delay);
     }
   }
 
-  private async safeCheck(): Promise<void> {
+  async #safeCheck(): Promise<void> {
     try {
-      await storageJobQueue(() => this.check());
-      this.backOff.reset();
+      await storageJobQueue(() => this.#check());
+      this.#backOff.reset();
       await window.storage.put('usernameLastIntegrityCheck', Date.now());
 
-      this.scheduleCheck();
+      this.#scheduleCheck();
     } catch (error) {
-      const delay = this.backOff.getAndIncrement();
+      const delay = this.#backOff.getAndIncrement();
       log.error(
         'usernameIntegrity: check failed with ' +
           `error: ${Errors.toLogFormat(error)} retrying in ${delay}ms`
       );
-      setTimeout(() => drop(this.safeCheck()), delay);
+      setTimeout(() => drop(this.#safeCheck()), delay);
     }
   }
 
-  private async check(): Promise<void> {
+  async #check(): Promise<void> {
     if (!isRegistrationDone()) {
       return;
     }
 
-    await this.checkUsername();
-    await this.checkPhoneNumberSharing();
+    await this.#checkUsername();
+    await this.#checkPhoneNumberSharing();
   }
 
-  private async checkUsername(): Promise<void> {
+  async #checkUsername(): Promise<void> {
     const me = window.ConversationController.getOurConversationOrThrow();
     const username = me.get('username');
     if (!username) {
@@ -124,7 +124,7 @@ class UsernameIntegrityService {
     }
   }
 
-  private async checkPhoneNumberSharing(): Promise<void> {
+  async #checkPhoneNumberSharing(): Promise<void> {
     const me = window.ConversationController.getOurConversationOrThrow();
 
     await getProfile({
@@ -150,10 +150,10 @@ class UsernameIntegrityService {
 
     // Since we already run on storage service job queue - don't await the
     // promise below (otherwise deadlock will happen).
-    drop(this.fixProfile());
+    drop(this.#fixProfile());
   }
 
-  private async fixProfile(): Promise<void> {
+  async #fixProfile(): Promise<void> {
     const { promise: once, resolve } = explodePromise<void>();
 
     window.Whisper.events.once('storageService:syncComplete', () => resolve());

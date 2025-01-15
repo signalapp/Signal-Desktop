@@ -410,11 +410,11 @@ export class Message extends React.PureComponent<Props, State> {
   public reactionsContainerRef: React.RefObject<HTMLDivElement> =
     React.createRef();
 
-  private hasSelectedTextRef: React.MutableRefObject<boolean> = {
+  #hasSelectedTextRef: React.MutableRefObject<boolean> = {
     current: false,
   };
 
-  private metadataRef: React.RefObject<HTMLDivElement> = React.createRef();
+  #metadataRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   public reactionsContainerRefMerger = createRefMerger();
 
@@ -432,7 +432,7 @@ export class Message extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      metadataWidth: this.guessMetadataWidth(),
+      metadataWidth: this.#guessMetadataWidth(),
 
       expiring: false,
       expired: false,
@@ -447,7 +447,7 @@ export class Message extends React.PureComponent<Props, State> {
       showOutgoingGiftBadgeModal: false,
 
       hasDeleteForEveryoneTimerExpired:
-        this.getTimeRemainingForDeleteForEveryone() <= 0,
+        this.#getTimeRemainingForDeleteForEveryone() <= 0,
     };
   }
 
@@ -474,7 +474,7 @@ export class Message extends React.PureComponent<Props, State> {
     return state;
   }
 
-  private hasReactions(): boolean {
+  #hasReactions(): boolean {
     const { reactions } = this.props;
     return Boolean(reactions && reactions.length);
   }
@@ -518,7 +518,7 @@ export class Message extends React.PureComponent<Props, State> {
     window.ConversationController?.onConvoMessageMount(conversationId);
 
     this.startTargetedTimer();
-    this.startDeleteForEveryoneTimerIfApplicable();
+    this.#startDeleteForEveryoneTimerIfApplicable();
     this.startGiftBadgeInterval();
 
     const { isTargeted } = this.props;
@@ -543,7 +543,7 @@ export class Message extends React.PureComponent<Props, State> {
       checkForAccount(contact.firstNumber);
     }
 
-    document.addEventListener('selectionchange', this.handleSelectionChange);
+    document.addEventListener('selectionchange', this.#handleSelectionChange);
   }
 
   public override componentWillUnmount(): void {
@@ -553,14 +553,17 @@ export class Message extends React.PureComponent<Props, State> {
     clearTimeoutIfNecessary(this.deleteForEveryoneTimeout);
     clearTimeoutIfNecessary(this.giftBadgeInterval);
     this.toggleReactionViewer(true);
-    document.removeEventListener('selectionchange', this.handleSelectionChange);
+    document.removeEventListener(
+      'selectionchange',
+      this.#handleSelectionChange
+    );
   }
 
   public override componentDidUpdate(prevProps: Readonly<Props>): void {
     const { isTargeted, status, timestamp } = this.props;
 
     this.startTargetedTimer();
-    this.startDeleteForEveryoneTimerIfApplicable();
+    this.#startDeleteForEveryoneTimerIfApplicable();
 
     if (!prevProps.isTargeted && isTargeted) {
       this.setFocus();
@@ -586,7 +589,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  private getMetadataPlacement(
+  #getMetadataPlacement(
     {
       attachments,
       attachmentDroppedDueToSize,
@@ -634,11 +637,11 @@ export class Message extends React.PureComponent<Props, State> {
       return MetadataPlacement.InlineWithText;
     }
 
-    if (this.canRenderStickerLikeEmoji()) {
+    if (this.#canRenderStickerLikeEmoji()) {
       return MetadataPlacement.Bottom;
     }
 
-    if (this.shouldShowJoinButton()) {
+    if (this.#shouldShowJoinButton()) {
       return MetadataPlacement.Bottom;
     }
 
@@ -653,7 +656,7 @@ export class Message extends React.PureComponent<Props, State> {
    * This will probably guess wrong, but it's valuable to get close to the real value
    * because it can reduce layout jumpiness.
    */
-  private guessMetadataWidth(): number {
+  #guessMetadataWidth(): number {
     const { direction, expirationLength, isSMS, status, isEditedMessage } =
       this.props;
 
@@ -714,12 +717,12 @@ export class Message extends React.PureComponent<Props, State> {
     }));
   }
 
-  private getTimeRemainingForDeleteForEveryone(): number {
+  #getTimeRemainingForDeleteForEveryone(): number {
     const { timestamp } = this.props;
     return Math.max(timestamp - Date.now() + DAY, 0);
   }
 
-  private startDeleteForEveryoneTimerIfApplicable(): void {
+  #startDeleteForEveryoneTimerIfApplicable(): void {
     const { canDeleteForEveryone } = this.props;
     const { hasDeleteForEveryoneTimerExpired } = this.state;
     if (
@@ -733,7 +736,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.deleteForEveryoneTimeout = setTimeout(() => {
       this.setState({ hasDeleteForEveryoneTimerExpired: true });
       delete this.deleteForEveryoneTimeout;
-    }, this.getTimeRemainingForDeleteForEveryone());
+    }, this.#getTimeRemainingForDeleteForEveryone());
   }
 
   public checkExpired(): void {
@@ -761,12 +764,12 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  private areLinksEnabled(): boolean {
+  #areLinksEnabled(): boolean {
     const { isMessageRequestAccepted, isBlocked } = this.props;
     return isMessageRequestAccepted && !isBlocked;
   }
 
-  private shouldRenderAuthor(): boolean {
+  #shouldRenderAuthor(): boolean {
     const { author, conversationType, direction, shouldCollapseAbove } =
       this.props;
     return Boolean(
@@ -777,7 +780,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private canRenderStickerLikeEmoji(): boolean {
+  #canRenderStickerLikeEmoji(): boolean {
     const {
       attachments,
       bodyRanges,
@@ -799,7 +802,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private updateMetadataWidth = (newMetadataWidth: number): void => {
+  #updateMetadataWidth = (newMetadataWidth: number): void => {
     this.setState(({ metadataWidth }) => ({
       // We don't want text to jump around if the metadata shrinks, but we want to make
       //   sure we have enough room.
@@ -807,16 +810,16 @@ export class Message extends React.PureComponent<Props, State> {
     }));
   };
 
-  private handleSelectionChange = () => {
+  #handleSelectionChange = () => {
     const selection = document.getSelection();
     if (selection != null && !selection.isCollapsed) {
-      this.hasSelectedTextRef.current = true;
+      this.#hasSelectedTextRef.current = true;
     }
   };
 
-  private renderMetadata(): ReactNode {
+  #renderMetadata(): ReactNode {
     let isInline: boolean;
-    const metadataPlacement = this.getMetadataPlacement();
+    const metadataPlacement = this.#getMetadataPlacement();
     switch (metadataPlacement) {
       case MetadataPlacement.NotRendered:
       case MetadataPlacement.RenderedByMessageAudioComponent:
@@ -854,7 +857,7 @@ export class Message extends React.PureComponent<Props, State> {
       timestamp,
     } = this.props;
 
-    const isStickerLike = isSticker || this.canRenderStickerLikeEmoji();
+    const isStickerLike = isSticker || this.#canRenderStickerLikeEmoji();
 
     return (
       <MessageMetadata
@@ -874,9 +877,9 @@ export class Message extends React.PureComponent<Props, State> {
         isShowingImage={this.isShowingImage()}
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
-        onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
+        onWidthMeasured={isInline ? this.#updateMetadataWidth : undefined}
         pushPanelForConversation={pushPanelForConversation}
-        ref={this.metadataRef}
+        ref={this.#metadataRef}
         retryMessageSend={retryMessageSend}
         showEditHistoryModal={showEditHistoryModal}
         status={status}
@@ -886,7 +889,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderAuthor(): ReactNode {
+  #renderAuthor(): ReactNode {
     const {
       author,
       contactNameColor,
@@ -896,7 +899,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewExpired,
     } = this.props;
 
-    if (!this.shouldRenderAuthor()) {
+    if (!this.#shouldRenderAuthor()) {
       return null;
     }
 
@@ -951,7 +954,7 @@ export class Message extends React.PureComponent<Props, State> {
     const { imageBroken } = this.state;
 
     const collapseMetadata =
-      this.getMetadataPlacement() === MetadataPlacement.NotRendered;
+      this.#getMetadataPlacement() === MetadataPlacement.NotRendered;
 
     if (!attachments || !attachments[0]) {
       return null;
@@ -960,7 +963,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     // For attachments which aren't full-frame
     const withContentBelow = Boolean(text || attachmentDroppedDueToSize);
-    const withContentAbove = Boolean(quote) || this.shouldRenderAuthor();
+    const withContentAbove = Boolean(quote) || this.#shouldRenderAuthor();
     const displayImage = canDisplayImage(attachments);
 
     if (displayImage && !imageBroken) {
@@ -1209,7 +1212,7 @@ export class Message extends React.PureComponent<Props, State> {
         ? i18n('icu:message--call-link-description')
         : undefined);
 
-    const isClickable = this.areLinksEnabled();
+    const isClickable = this.#areLinksEnabled();
 
     const className = classNames(
       'module-message__link-preview',
@@ -1377,7 +1380,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const maybeSpacer = text
       ? undefined
-      : this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
+      : this.#getMetadataPlacement() === MetadataPlacement.InlineWithText && (
           <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
         );
 
@@ -1462,12 +1465,12 @@ export class Message extends React.PureComponent<Props, State> {
               )}
             >
               {description}
-              {this.getMetadataPlacement() ===
+              {this.#getMetadataPlacement() ===
                 MetadataPlacement.InlineWithText && (
                 <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
               )}
             </div>
-            {this.renderMetadata()}
+            {this.#renderMetadata()}
           </div>
         </div>
       );
@@ -1575,7 +1578,7 @@ export class Message extends React.PureComponent<Props, State> {
               {buttonContents}
             </div>
           </button>
-          {this.renderMetadata()}
+          {this.#renderMetadata()}
           {showOutgoingGiftBadgeModal ? (
             <OutgoingGiftBadgeModal
               i18n={i18n}
@@ -1769,7 +1772,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType === 'group' && direction === 'incoming';
     const withContentBelow =
       withCaption ||
-      this.getMetadataPlacement() !== MetadataPlacement.NotRendered;
+      this.#getMetadataPlacement() !== MetadataPlacement.NotRendered;
 
     const otherContent =
       (contact && contact.firstNumber && contact.serviceId) || withCaption;
@@ -1839,7 +1842,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderAvatar(): ReactNode {
+  #renderAvatar(): ReactNode {
     const {
       author,
       conversationId,
@@ -1860,7 +1863,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div
         className={classNames('module-message__author-avatar-container', {
           'module-message__author-avatar-container--with-reactions':
-            this.hasReactions(),
+            this.#hasReactions(),
         })}
       >
         {shouldCollapseBelow ? (
@@ -1893,7 +1896,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private getContents(): string | undefined {
+  #getContents(): string | undefined {
     const { deletedForEveryone, direction, i18n, status, text } = this.props;
 
     if (deletedForEveryone) {
@@ -1926,7 +1929,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { metadataWidth } = this.state;
 
-    const contents = this.getContents();
+    const contents = this.#getContents();
 
     if (!contents) {
       return null;
@@ -1956,10 +1959,10 @@ export class Message extends React.PureComponent<Props, State> {
           const range = window.getSelection()?.getRangeAt(0);
           if (
             clickCount === 3 &&
-            this.metadataRef.current &&
-            range?.intersectsNode(this.metadataRef.current)
+            this.#metadataRef.current &&
+            range?.intersectsNode(this.#metadataRef.current)
           ) {
-            range.setEndBefore(this.metadataRef.current);
+            range.setEndBefore(this.#metadataRef.current);
           }
         }}
         onDoubleClick={(event: React.MouseEvent) => {
@@ -1971,7 +1974,7 @@ export class Message extends React.PureComponent<Props, State> {
         <MessageBodyReadMore
           bodyRanges={bodyRanges}
           direction={direction}
-          disableLinks={!this.areLinksEnabled()}
+          disableLinks={!this.#areLinksEnabled()}
           displayLimit={displayLimit}
           i18n={i18n}
           id={id}
@@ -1994,14 +1997,14 @@ export class Message extends React.PureComponent<Props, State> {
           text={contents || ''}
           textAttachment={textAttachment}
         />
-        {this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
+        {this.#getMetadataPlacement() === MetadataPlacement.InlineWithText && (
           <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
         )}
       </div>
     );
   }
 
-  private shouldShowJoinButton(): boolean {
+  #shouldShowJoinButton(): boolean {
     const { previews } = this.props;
 
     if (previews?.length !== 1) {
@@ -2012,10 +2015,10 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(onlyPreview.isCallLink);
   }
 
-  private renderAction(): JSX.Element | null {
+  #renderAction(): JSX.Element | null {
     const { direction, activeCallConversationId, i18n, previews } = this.props;
 
-    if (this.shouldShowJoinButton()) {
+    if (this.#shouldShowJoinButton()) {
       const firstPreview = previews[0];
       const inAnotherCall = Boolean(
         activeCallConversationId &&
@@ -2050,7 +2053,7 @@ export class Message extends React.PureComponent<Props, State> {
     return null;
   }
 
-  private renderError(): ReactNode {
+  #renderError(): ReactNode {
     const { status, direction } = this.props;
 
     if (
@@ -2211,7 +2214,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
 
     const collapseMetadata =
-      this.getMetadataPlacement() === MetadataPlacement.NotRendered;
+      this.#getMetadataPlacement() === MetadataPlacement.NotRendered;
     const withContentBelow = !collapseMetadata;
     const withContentAbove =
       !collapseMetadata &&
@@ -2249,7 +2252,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private popperPreventOverflowModifier(): Partial<PreventOverflowModifier> {
+  #popperPreventOverflowModifier(): Partial<PreventOverflowModifier> {
     const { containerElementRef } = this.props;
     return {
       name: 'preventOverflow',
@@ -2308,7 +2311,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderReactions(outgoing: boolean): JSX.Element | null {
     const { getPreferredBadge, reactions = [], i18n, theme } = this.props;
 
-    if (!this.hasReactions()) {
+    if (!this.#hasReactions()) {
       return null;
     }
 
@@ -2471,7 +2474,7 @@ export class Message extends React.PureComponent<Props, State> {
             <Popper
               placement={popperPlacement}
               strategy="fixed"
-              modifiers={[this.popperPreventOverflowModifier()]}
+              modifiers={[this.#popperPreventOverflowModifier()]}
             >
               {({ ref, style }) => (
                 <ReactionViewer
@@ -2501,7 +2504,7 @@ export class Message extends React.PureComponent<Props, State> {
       return (
         <>
           {this.renderText()}
-          {this.renderMetadata()}
+          {this.#renderMetadata()}
         </>
       );
     }
@@ -2514,7 +2517,7 @@ export class Message extends React.PureComponent<Props, State> {
       return (
         <>
           {this.renderTapToView()}
-          {this.renderMetadata()}
+          {this.#renderMetadata()}
         </>
       );
     }
@@ -2529,8 +2532,8 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderPayment()}
         {this.renderEmbeddedContact()}
         {this.renderText()}
-        {this.renderAction()}
-        {this.renderMetadata()}
+        {this.#renderAction()}
+        {this.#renderMetadata()}
         {this.renderSendMessageButton()}
       </>
     );
@@ -2746,7 +2749,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isAttachmentPending = this.isAttachmentPending();
     const width = this.getWidth();
-    const isEmojiOnly = this.canRenderStickerLikeEmoji();
+    const isEmojiOnly = this.#canRenderStickerLikeEmoji();
     const isStickerLike = isSticker || isEmojiOnly;
 
     // If it's a mostly-normal gray incoming text box, we don't want to darken it as much
@@ -2779,7 +2782,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewError
         ? 'module-message__container--with-tap-to-view-error'
         : null,
-      this.hasReactions() ? 'module-message__container--with-reactions' : null,
+      this.#hasReactions() ? 'module-message__container--with-reactions' : null,
       deletedForEveryone
         ? 'module-message__container--deleted-for-everyone'
         : null
@@ -2812,7 +2815,7 @@ export class Message extends React.PureComponent<Props, State> {
           }}
           tabIndex={-1}
         >
-          {this.renderAuthor()}
+          {this.#renderAuthor()}
           <div dir={TextDirectionToDirAttribute[textDirection]}>
             {this.renderContents()}
           </div>
@@ -2896,13 +2899,13 @@ export class Message extends React.PureComponent<Props, State> {
     } else {
       wrapperProps = {
         onMouseDown: () => {
-          this.hasSelectedTextRef.current = false;
+          this.#hasSelectedTextRef.current = false;
         },
         // We use `onClickCapture` here and preven default/stop propagation to
         // prevent other click handlers from firing.
         onClickCapture: event => {
           if (isMacOS ? event.metaKey : event.ctrlKey) {
-            if (this.hasSelectedTextRef.current) {
+            if (this.#hasSelectedTextRef.current) {
               return;
             }
 
@@ -2970,8 +2973,8 @@ export class Message extends React.PureComponent<Props, State> {
           // eslint-disable-next-line react/no-unknown-property
           inert={isSelectMode ? '' : undefined}
         >
-          {this.renderError()}
-          {this.renderAvatar()}
+          {this.#renderError()}
+          {this.#renderAvatar()}
           {this.renderContainer()}
           {renderMenu?.()}
         </div>

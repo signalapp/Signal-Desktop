@@ -19,95 +19,91 @@ const ACTIVE_EVENTS = [
 class ActiveWindowService {
   // This starting value might be wrong but we should get an update from the main process
   //  soon. We'd rather report that the window is inactive so we can show notifications.
-  private isInitialized = false;
+  #isInitialized = false;
 
-  private isFocused = false;
-
-  private activeCallbacks: Array<() => void> = [];
-
-  private changeCallbacks: Array<(isActive: boolean) => void> = [];
-
-  private lastActiveEventAt = -Infinity;
-
-  private callActiveCallbacks: () => void;
+  #isFocused = false;
+  #activeCallbacks: Array<() => void> = [];
+  #changeCallbacks: Array<(isActive: boolean) => void> = [];
+  #lastActiveEventAt = -Infinity;
+  #callActiveCallbacks: () => void;
 
   constructor() {
-    this.callActiveCallbacks = throttle(() => {
-      this.activeCallbacks.forEach(callback => callback());
+    this.#callActiveCallbacks = throttle(() => {
+      this.#activeCallbacks.forEach(callback => callback());
     }, LISTENER_THROTTLE_TIME);
   }
 
   // These types aren't perfectly accurate, but they make this class easier to test.
   initialize(document: EventTarget, ipc: NodeJS.EventEmitter): void {
-    if (this.isInitialized) {
+    if (this.#isInitialized) {
       throw new Error(
         'Active window service should not be initialized multiple times'
       );
     }
-    this.isInitialized = true;
+    this.#isInitialized = true;
 
-    this.lastActiveEventAt = Date.now();
+    this.#lastActiveEventAt = Date.now();
 
-    const onActiveEvent = this.onActiveEvent.bind(this);
+    const onActiveEvent = this.#onActiveEvent.bind(this);
     ACTIVE_EVENTS.forEach((eventName: string) => {
       document.addEventListener(eventName, onActiveEvent, true);
     });
 
     // We don't know for sure that we'll get the right data over IPC so we use `unknown`.
     ipc.on('set-window-focus', (_event: unknown, isFocused: unknown) => {
-      this.setWindowFocus(Boolean(isFocused));
+      this.#setWindowFocus(Boolean(isFocused));
     });
   }
 
   isActive(): boolean {
     return (
-      this.isFocused && Date.now() < this.lastActiveEventAt + ACTIVE_TIMEOUT
+      this.#isFocused && Date.now() < this.#lastActiveEventAt + ACTIVE_TIMEOUT
     );
   }
 
   registerForActive(callback: () => void): void {
-    this.activeCallbacks.push(callback);
+    this.#activeCallbacks.push(callback);
   }
 
   unregisterForActive(callback: () => void): void {
-    this.activeCallbacks = this.activeCallbacks.filter(
+    this.#activeCallbacks = this.#activeCallbacks.filter(
       item => item !== callback
     );
   }
 
   registerForChange(callback: (isActive: boolean) => void): void {
-    this.changeCallbacks.push(callback);
+    this.#changeCallbacks.push(callback);
   }
 
   unregisterForChange(callback: (isActive: boolean) => void): void {
-    this.changeCallbacks = this.changeCallbacks.filter(
+    this.#changeCallbacks = this.#changeCallbacks.filter(
       item => item !== callback
     );
   }
 
-  private onActiveEvent(): void {
-    this.updateState(() => {
-      this.lastActiveEventAt = Date.now();
+  #onActiveEvent(): void {
+    this.#updateState(() => {
+      this.#lastActiveEventAt = Date.now();
     });
   }
 
-  private setWindowFocus(isFocused: boolean): void {
-    this.updateState(() => {
-      this.isFocused = isFocused;
+  #setWindowFocus(isFocused: boolean): void {
+    this.#updateState(() => {
+      this.#isFocused = isFocused;
     });
   }
 
-  private updateState(fn: () => void): void {
+  #updateState(fn: () => void): void {
     const wasActiveBefore = this.isActive();
     fn();
     const isActiveNow = this.isActive();
 
     if (!wasActiveBefore && isActiveNow) {
-      this.callActiveCallbacks();
+      this.#callActiveCallbacks();
     }
 
     if (wasActiveBefore !== isActiveNow) {
-      for (const callback of this.changeCallbacks) {
+      for (const callback of this.#changeCallbacks) {
         callback(isActiveNow);
       }
     }

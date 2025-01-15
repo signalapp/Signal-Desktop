@@ -26,26 +26,24 @@ export class Sound {
 
   private static context: AudioContext | undefined;
 
-  private readonly loop: boolean;
-
-  private node?: AudioBufferSourceNode;
-
-  private readonly soundType: SoundType;
+  readonly #loop: boolean;
+  #node?: AudioBufferSourceNode;
+  readonly #soundType: SoundType;
 
   constructor(options: SoundOpts) {
-    this.loop = Boolean(options.loop);
-    this.soundType = options.soundType;
+    this.#loop = Boolean(options.loop);
+    this.#soundType = options.soundType;
   }
 
   async play(): Promise<void> {
-    let soundBuffer = Sound.sounds.get(this.soundType);
+    let soundBuffer = Sound.sounds.get(this.#soundType);
 
     if (!soundBuffer) {
       try {
-        const src = Sound.getSrc(this.soundType);
+        const src = Sound.getSrc(this.#soundType);
         const buffer = await Sound.loadSoundFile(src);
-        const decodedBuffer = await this.context.decodeAudioData(buffer);
-        Sound.sounds.set(this.soundType, decodedBuffer);
+        const decodedBuffer = await this.#context.decodeAudioData(buffer);
+        Sound.sounds.set(this.#soundType, decodedBuffer);
         soundBuffer = decodedBuffer;
       } catch (err) {
         log.error(`Sound error: ${err}`);
@@ -53,28 +51,28 @@ export class Sound {
       }
     }
 
-    const soundNode = this.context.createBufferSource();
+    const soundNode = this.#context.createBufferSource();
     soundNode.buffer = soundBuffer;
 
-    const volumeNode = this.context.createGain();
+    const volumeNode = this.#context.createGain();
     soundNode.connect(volumeNode);
-    volumeNode.connect(this.context.destination);
+    volumeNode.connect(this.#context.destination);
 
-    soundNode.loop = this.loop;
+    soundNode.loop = this.#loop;
 
     soundNode.start(0, 0);
 
-    this.node = soundNode;
+    this.#node = soundNode;
   }
 
   stop(): void {
-    if (this.node) {
-      this.node.stop(0);
-      this.node = undefined;
+    if (this.#node) {
+      this.#node.stop(0);
+      this.#node = undefined;
     }
   }
 
-  private get context(): AudioContext {
+  get #context(): AudioContext {
     if (!Sound.context) {
       Sound.context = new AudioContext();
     }

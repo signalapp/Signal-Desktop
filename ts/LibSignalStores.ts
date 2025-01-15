@@ -51,15 +51,14 @@ export type SessionsOptions = Readonly<{
 }>;
 
 export class Sessions extends SessionStore {
-  private readonly ourServiceId: ServiceIdString;
-
-  private readonly zone: Zone | undefined;
+  readonly #ourServiceId: ServiceIdString;
+  readonly #zone: Zone | undefined;
 
   constructor({ ourServiceId, zone }: SessionsOptions) {
     super();
 
-    this.ourServiceId = ourServiceId;
-    this.zone = zone;
+    this.#ourServiceId = ourServiceId;
+    this.#zone = zone;
   }
 
   async saveSession(
@@ -67,17 +66,17 @@ export class Sessions extends SessionStore {
     record: SessionRecord
   ): Promise<void> {
     await window.textsecure.storage.protocol.storeSession(
-      toQualifiedAddress(this.ourServiceId, address),
+      toQualifiedAddress(this.#ourServiceId, address),
       record,
-      { zone: this.zone }
+      { zone: this.#zone }
     );
   }
 
   async getSession(name: ProtocolAddress): Promise<SessionRecord | null> {
-    const encodedAddress = toQualifiedAddress(this.ourServiceId, name);
+    const encodedAddress = toQualifiedAddress(this.#ourServiceId, name);
     const record = await window.textsecure.storage.protocol.loadSession(
       encodedAddress,
-      { zone: this.zone }
+      { zone: this.#zone }
     );
 
     return record || null;
@@ -87,10 +86,10 @@ export class Sessions extends SessionStore {
     addresses: Array<ProtocolAddress>
   ): Promise<Array<SessionRecord>> {
     const encodedAddresses = addresses.map(addr =>
-      toQualifiedAddress(this.ourServiceId, addr)
+      toQualifiedAddress(this.#ourServiceId, addr)
     );
     return window.textsecure.storage.protocol.loadSessions(encodedAddresses, {
-      zone: this.zone,
+      zone: this.#zone,
     });
   }
 }
@@ -101,20 +100,19 @@ export type IdentityKeysOptions = Readonly<{
 }>;
 
 export class IdentityKeys extends IdentityKeyStore {
-  private readonly ourServiceId: ServiceIdString;
-
-  private readonly zone: Zone | undefined;
+  readonly #ourServiceId: ServiceIdString;
+  readonly #zone: Zone | undefined;
 
   constructor({ ourServiceId, zone }: IdentityKeysOptions) {
     super();
 
-    this.ourServiceId = ourServiceId;
-    this.zone = zone;
+    this.#ourServiceId = ourServiceId;
+    this.#zone = zone;
   }
 
   async getIdentityKey(): Promise<PrivateKey> {
     const keyPair = window.textsecure.storage.protocol.getIdentityKeyPair(
-      this.ourServiceId
+      this.#ourServiceId
     );
     if (!keyPair) {
       throw new Error('IdentityKeyStore/getIdentityKey: No identity key!');
@@ -124,7 +122,7 @@ export class IdentityKeys extends IdentityKeyStore {
 
   async getLocalRegistrationId(): Promise<number> {
     const id = await window.textsecure.storage.protocol.getLocalRegistrationId(
-      this.ourServiceId
+      this.#ourServiceId
     );
     if (!isNumber(id)) {
       throw new Error(
@@ -157,7 +155,7 @@ export class IdentityKeys extends IdentityKeyStore {
       encodedAddress,
       publicKey,
       false,
-      { zone: this.zone }
+      { zone: this.#zone }
     );
   }
 
@@ -182,11 +180,11 @@ export type PreKeysOptions = Readonly<{
 }>;
 
 export class PreKeys extends PreKeyStore {
-  private readonly ourServiceId: ServiceIdString;
+  readonly #ourServiceId: ServiceIdString;
 
   constructor({ ourServiceId }: PreKeysOptions) {
     super();
-    this.ourServiceId = ourServiceId;
+    this.#ourServiceId = ourServiceId;
   }
 
   async savePreKey(): Promise<void> {
@@ -195,7 +193,7 @@ export class PreKeys extends PreKeyStore {
 
   async getPreKey(id: number): Promise<PreKeyRecord> {
     const preKey = await window.textsecure.storage.protocol.loadPreKey(
-      this.ourServiceId,
+      this.#ourServiceId,
       id
     );
 
@@ -207,18 +205,18 @@ export class PreKeys extends PreKeyStore {
   }
 
   async removePreKey(id: number): Promise<void> {
-    await window.textsecure.storage.protocol.removePreKeys(this.ourServiceId, [
+    await window.textsecure.storage.protocol.removePreKeys(this.#ourServiceId, [
       id,
     ]);
   }
 }
 
 export class KyberPreKeys extends KyberPreKeyStore {
-  private readonly ourServiceId: ServiceIdString;
+  readonly #ourServiceId: ServiceIdString;
 
   constructor({ ourServiceId }: PreKeysOptions) {
     super();
-    this.ourServiceId = ourServiceId;
+    this.#ourServiceId = ourServiceId;
   }
 
   async saveKyberPreKey(): Promise<void> {
@@ -228,7 +226,7 @@ export class KyberPreKeys extends KyberPreKeyStore {
   async getKyberPreKey(id: number): Promise<KyberPreKeyRecord> {
     const kyberPreKey =
       await window.textsecure.storage.protocol.loadKyberPreKey(
-        this.ourServiceId,
+        this.#ourServiceId,
         id
       );
 
@@ -241,7 +239,7 @@ export class KyberPreKeys extends KyberPreKeyStore {
 
   async markKyberPreKeyUsed(id: number): Promise<void> {
     await window.textsecure.storage.protocol.maybeRemoveKyberPreKey(
-      this.ourServiceId,
+      this.#ourServiceId,
       id
     );
   }
@@ -253,13 +251,13 @@ export type SenderKeysOptions = Readonly<{
 }>;
 
 export class SenderKeys extends SenderKeyStore {
-  private readonly ourServiceId: ServiceIdString;
+  readonly #ourServiceId: ServiceIdString;
 
   readonly zone: Zone | undefined;
 
   constructor({ ourServiceId, zone }: SenderKeysOptions) {
     super();
-    this.ourServiceId = ourServiceId;
+    this.#ourServiceId = ourServiceId;
     this.zone = zone;
   }
 
@@ -268,7 +266,7 @@ export class SenderKeys extends SenderKeyStore {
     distributionId: Uuid,
     record: SenderKeyRecord
   ): Promise<void> {
-    const encodedAddress = toQualifiedAddress(this.ourServiceId, sender);
+    const encodedAddress = toQualifiedAddress(this.#ourServiceId, sender);
 
     await window.textsecure.storage.protocol.saveSenderKey(
       encodedAddress,
@@ -282,7 +280,7 @@ export class SenderKeys extends SenderKeyStore {
     sender: ProtocolAddress,
     distributionId: Uuid
   ): Promise<SenderKeyRecord | null> {
-    const encodedAddress = toQualifiedAddress(this.ourServiceId, sender);
+    const encodedAddress = toQualifiedAddress(this.#ourServiceId, sender);
 
     const senderKey = await window.textsecure.storage.protocol.getSenderKey(
       encodedAddress,
@@ -299,11 +297,11 @@ export type SignedPreKeysOptions = Readonly<{
 }>;
 
 export class SignedPreKeys extends SignedPreKeyStore {
-  private readonly ourServiceId: ServiceIdString;
+  readonly #ourServiceId: ServiceIdString;
 
   constructor({ ourServiceId }: SignedPreKeysOptions) {
     super();
-    this.ourServiceId = ourServiceId;
+    this.#ourServiceId = ourServiceId;
   }
 
   async saveSignedPreKey(): Promise<void> {
@@ -313,7 +311,7 @@ export class SignedPreKeys extends SignedPreKeyStore {
   async getSignedPreKey(id: number): Promise<SignedPreKeyRecord> {
     const signedPreKey =
       await window.textsecure.storage.protocol.loadSignedPreKey(
-        this.ourServiceId,
+        this.#ourServiceId,
         id
       );
 

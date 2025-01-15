@@ -56,7 +56,7 @@ export abstract class CDSSocketBase<
     this.logger = options.logger;
     this.socket = options.socket;
 
-    this.socketIterator = this.iterateSocket();
+    this.socketIterator = this.#iterateSocket();
   }
 
   public async close(code: number, reason: string): Promise<void> {
@@ -161,7 +161,7 @@ export abstract class CDSSocketBase<
   // Private
   //
 
-  private iterateSocket(): AsyncIterator<Buffer> {
+  #iterateSocket(): AsyncIterator<Buffer> {
     const stream = new Readable({ read: noop, objectMode: true });
 
     this.socket.on('message', ({ type, binaryData }) => {

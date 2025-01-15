@@ -11,10 +11,10 @@ enum State {
 }
 
 export class DelimitedStream extends Transform {
-  private state = State.Prefix;
-  private prefixValue = 0;
-  private prefixSize = 0;
-  private parts = new Array<Buffer>();
+  #state = State.Prefix;
+  #prefixValue = 0;
+  #prefixSize = 0;
+  #parts = new Array<Buffer>();
 
   constructor() {
     super({ readableObjectMode: true });
@@ -27,7 +27,7 @@ export class DelimitedStream extends Transform {
   ): void {
     let offset = 0;
     while (offset < chunk.length) {
-      if (this.state === State.Prefix) {
+      if (this.#state === State.Prefix) {
         const b = chunk[offset];
         offset += 1;
 
@@ -38,50 +38,50 @@ export class DelimitedStream extends Transform {
         const value = b & 0x7f;
 
         // eslint-disable-next-line no-bitwise
-        this.prefixValue |= value << (7 * this.prefixSize);
-        this.prefixSize += 1;
+        this.#prefixValue |= value << (7 * this.#prefixSize);
+        this.#prefixSize += 1;
 
         // Check that we didn't go over 32bits. Node.js buffers can never
         // be larger than 2gb anyway!
-        if (this.prefixSize > 4) {
+        if (this.#prefixSize > 4) {
           done(new Error('Delimiter encoding overflow'));
           return;
         }
 
         if (isLast) {
-          this.state = State.Data;
+          this.#state = State.Data;
         }
-      } else if (this.state === State.Data) {
-        const toTake = Math.min(this.prefixValue, chunk.length - offset);
+      } else if (this.#state === State.Data) {
+        const toTake = Math.min(this.#prefixValue, chunk.length - offset);
         const part = chunk.slice(offset, offset + toTake);
         offset += toTake;
-        this.prefixValue -= toTake;
+        this.#prefixValue -= toTake;
 
-        this.parts.push(part);
+        this.#parts.push(part);
 
-        if (this.prefixValue <= 0) {
-          this.state = State.Prefix;
-          this.prefixSize = 0;
-          this.prefixValue = 0;
+        if (this.#prefixValue <= 0) {
+          this.#state = State.Prefix;
+          this.#prefixSize = 0;
+          this.#prefixValue = 0;
 
-          const whole = Buffer.concat(this.parts);
-          this.parts = [];
+          const whole = Buffer.concat(this.#parts);
+          this.#parts = [];
           this.push(whole);
         }
       } else {
-        throw missingCaseError(this.state);
+        throw missingCaseError(this.#state);
       }
     }
     done();
   }
 
   override _flush(done: (error?: Error) => void): void {
-    if (this.state !== State.Prefix) {
+    if (this.#state !== State.Prefix) {
       done(new Error('Unfinished data'));
       return;
     }
 
-    if (this.prefixSize !== 0) {
+    if (this.#prefixSize !== 0) {
       done(new Error('Unfinished prefix'));
       return;
     }

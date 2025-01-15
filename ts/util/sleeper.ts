@@ -9,8 +9,8 @@ import * as Errors from '../types/errors';
  * but also a way to force sleeping tasks to immediately resolve/reject on shutdown
  */
 export class Sleeper {
-  private shuttingDown = false;
-  private shutdownCallbacks: Set<() => void> = new Set();
+  #shuttingDown = false;
+  #shutdownCallbacks: Set<() => void> = new Set();
 
   /**
    * delay by ms, careful when using on a loop if resolving on shutdown (default)
@@ -46,7 +46,7 @@ export class Sleeper {
         }
       };
 
-      if (this.shuttingDown) {
+      if (this.#shuttingDown) {
         log.info(
           `Sleeper: sleep called when shutdown is in progress, scheduling immediate ${
             resolveOnShutdown ? 'resolution' : 'rejection'
@@ -58,30 +58,30 @@ export class Sleeper {
 
       timeout = setTimeout(() => {
         resolve();
-        this.removeShutdownCallback(shutdownCallback);
+        this.#removeShutdownCallback(shutdownCallback);
       }, ms);
 
-      this.addShutdownCallback(shutdownCallback);
+      this.#addShutdownCallback(shutdownCallback);
     });
   }
 
-  private addShutdownCallback(callback: () => void) {
-    this.shutdownCallbacks.add(callback);
+  #addShutdownCallback(callback: () => void) {
+    this.#shutdownCallbacks.add(callback);
   }
 
-  private removeShutdownCallback(callback: () => void) {
-    this.shutdownCallbacks.delete(callback);
+  #removeShutdownCallback(callback: () => void) {
+    this.#shutdownCallbacks.delete(callback);
   }
 
   shutdown(): void {
-    if (this.shuttingDown) {
+    if (this.#shuttingDown) {
       return;
     }
     log.info(
-      `Sleeper: shutting down, settling ${this.shutdownCallbacks.size} in-progress sleep calls`
+      `Sleeper: shutting down, settling ${this.#shutdownCallbacks.size} in-progress sleep calls`
     );
-    this.shuttingDown = true;
-    this.shutdownCallbacks.forEach(cb => {
+    this.#shuttingDown = true;
+    this.#shutdownCallbacks.forEach(cb => {
       try {
         cb();
       } catch (error) {

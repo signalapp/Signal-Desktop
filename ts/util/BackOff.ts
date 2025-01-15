@@ -38,7 +38,7 @@ export type BackOffOptionsType = Readonly<{
 const DEFAULT_RANDOM = () => Math.random();
 
 export class BackOff {
-  private count = 0;
+  #count = 0;
 
   constructor(
     private timeouts: ReadonlyArray<number>,
@@ -46,7 +46,7 @@ export class BackOff {
   ) {}
 
   public get(): number {
-    let result = this.timeouts[this.count];
+    let result = this.timeouts[this.#count];
     const { jitter = 0, random = DEFAULT_RANDOM } = this.options;
 
     // Do not apply jitter larger than the timeout value. It is supposed to be
@@ -60,7 +60,7 @@ export class BackOff {
   public getAndIncrement(): number {
     const result = this.get();
     if (!this.isFull()) {
-      this.count += 1;
+      this.#count += 1;
     }
 
     return result;
@@ -70,14 +70,14 @@ export class BackOff {
     if (newTimeouts !== undefined) {
       this.timeouts = newTimeouts;
     }
-    this.count = 0;
+    this.#count = 0;
   }
 
   public isFull(): boolean {
-    return this.count === this.timeouts.length - 1;
+    return this.#count === this.timeouts.length - 1;
   }
 
   public getIndex(): number {
-    return this.count;
+    return this.#count;
   }
 }

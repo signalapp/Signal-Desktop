@@ -14,22 +14,21 @@ const COLORS: Array<[number, number, number]> = [
 ];
 
 class FakeGroupCallVideoFrameSource implements VideoFrameSource {
-  private readonly sourceArray: Uint8Array;
-
-  private readonly dimensions: [number, number];
+  readonly #sourceArray: Uint8Array;
+  readonly #dimensions: [number, number];
 
   constructor(width: number, height: number, r: number, g: number, b: number) {
     const length = width * height * 4;
 
-    this.sourceArray = new Uint8Array(length);
+    this.#sourceArray = new Uint8Array(length);
     for (let i = 0; i < length; i += 4) {
-      this.sourceArray[i] = r;
-      this.sourceArray[i + 1] = g;
-      this.sourceArray[i + 2] = b;
-      this.sourceArray[i + 3] = 255;
+      this.#sourceArray[i] = r;
+      this.#sourceArray[i + 1] = g;
+      this.#sourceArray[i + 2] = b;
+      this.#sourceArray[i + 3] = 255;
     }
 
-    this.dimensions = [width, height];
+    this.#dimensions = [width, height];
   }
 
   receiveVideoFrame(
@@ -42,8 +41,8 @@ class FakeGroupCallVideoFrameSource implements VideoFrameSource {
       return undefined;
     }
 
-    destinationBuffer.set(this.sourceArray);
-    return this.dimensions;
+    destinationBuffer.set(this.#sourceArray);
+    return this.#dimensions;
   }
 }
 

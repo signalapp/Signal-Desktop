@@ -181,7 +181,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isSelected?: boolean;
 
-  private pendingMarkRead?: number;
+  #pendingMarkRead?: number;
 
   syncPromise?: Promise<CallbackResultType | void>;
 
@@ -2568,11 +2568,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   getPendingMarkRead(): number | undefined {
-    return this.pendingMarkRead;
+    return this.#pendingMarkRead;
   }
 
   setPendingMarkRead(value: number | undefined): void {
-    this.pendingMarkRead = value;
+    this.#pendingMarkRead = value;
   }
 }
 

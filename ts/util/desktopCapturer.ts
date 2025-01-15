@@ -87,7 +87,7 @@ export type DesktopCapturerBaton = Readonly<{
 }>;
 
 export class DesktopCapturer {
-  private state: State;
+  #state: State;
 
   private static getDisplayMediaPromise: Promise<MediaStream> | undefined;
 
@@ -102,47 +102,47 @@ export class DesktopCapturer {
     }
 
     if (macScreenShare.isSupported) {
-      this.state = {
+      this.#state = {
         step: Step.NativeMacOS,
-        stream: this.getNativeMacOSStream(),
+        stream: this.#getNativeMacOSStream(),
       };
     } else {
-      this.state = { step: Step.RequestingMedia, promise: this.getStream() };
+      this.#state = { step: Step.RequestingMedia, promise: this.#getStream() };
     }
   }
 
   public abort(): void {
-    if (this.state.step === Step.NativeMacOS) {
-      this.state.stream.stop();
+    if (this.#state.step === Step.NativeMacOS) {
+      this.#state.stream.stop();
     }
 
-    if (this.state.step === Step.SelectingSource) {
-      this.state.onSource(undefined);
+    if (this.#state.step === Step.SelectingSource) {
+      this.#state.onSource(undefined);
     }
 
-    this.state = { step: Step.Error };
+    this.#state = { step: Step.Error };
   }
 
   public selectSource(id: string): void {
     strictAssert(
-      this.state.step === Step.SelectingSource,
-      `Invalid state in "selectSource" ${this.state.step}`
+      this.#state.step === Step.SelectingSource,
+      `Invalid state in "selectSource" ${this.#state.step}`
     );
 
-    const { promise, sources, onSource } = this.state;
+    const { promise, sources, onSource } = this.#state;
     const source = id == null ? undefined : sources.find(s => s.id === id);
-    this.state = { step: Step.SelectedSource, promise };
+    this.#state = { step: Step.SelectedSource, promise };
 
     onSource(source);
   }
 
   /** @internal */
-  private onSources(
+  #onSources(
     sources: ReadonlyArray<DesktopCapturerSource>
   ): Promise<DesktopCapturerSource | undefined> {
     strictAssert(
-      this.state.step === Step.RequestingMedia,
-      `Invalid state in "onSources" ${this.state.step}`
+      this.#state.step === Step.RequestingMedia,
+      `Invalid state in "onSources" ${this.#state.step}`
     );
 
     const presentableSources = sources
@@ -158,25 +158,25 @@ export class DesktopCapturer {
               ? source.appIcon.toDataURL()
               : undefined,
           id: source.id,
-          name: this.translateSourceName(source),
+          name: this.#translateSourceName(source),
           isScreen: isScreenSource(source),
           thumbnail: source.thumbnail.toDataURL(),
         };
       })
       .filter(isNotNil);
 
-    const { promise } = this.state;
+    const { promise } = this.#state;
 
     const { promise: source, resolve: onSource } = explodePromise<
       DesktopCapturerSource | undefined
     >();
-    this.state = { step: Step.SelectingSource, promise, sources, onSource };
+    this.#state = { step: Step.SelectingSource, promise, sources, onSource };
 
     this.options.onPresentableSources(presentableSources);
     return source;
   }
 
-  private async getStream(): Promise<void> {
+  async #getStream(): Promise<void> {
     liveCapturers.add(this);
     try {
       // Only allow one global getDisplayMedia() request at a time
@@ -210,28 +210,28 @@ export class DesktopCapturer {
       });
 
       strictAssert(
-        this.state.step === Step.RequestingMedia ||
-          this.state.step === Step.SelectedSource,
-        `Invalid state in "getStream.success" ${this.state.step}`
+        this.#state.step === Step.RequestingMedia ||
+          this.#state.step === Step.SelectedSource,
+        `Invalid state in "getStream.success" ${this.#state.step}`
       );
 
       this.options.onMediaStream(stream);
-      this.state = { step: Step.Done };
+      this.#state = { step: Step.Done };
     } catch (error) {
       strictAssert(
-        this.state.step === Step.RequestingMedia ||
-          this.state.step === Step.SelectedSource,
-        `Invalid state in "getStream.error" ${this.state.step}`
+        this.#state.step === Step.RequestingMedia ||
+          this.#state.step === Step.SelectedSource,
+        `Invalid state in "getStream.error" ${this.#state.step}`
       );
       this.options.onError(error);
-      this.state = { step: Step.Error };
+      this.#state = { step: Step.Error };
     } finally {
       liveCapturers.delete(this);
       DesktopCapturer.getDisplayMediaPromise = undefined;
     }
   }
 
-  private getNativeMacOSStream(): macScreenShare.Stream {
+  #getNativeMacOSStream(): macScreenShare.Stream {
     const track = new MediaStreamTrackGenerator({ kind: 'video' });
     const writer = track.writable.getWriter();
 
@@ -311,7 +311,7 @@ export class DesktopCapturer {
     return stream;
   }
 
-  private translateSourceName(source: DesktopCapturerSource): string {
+  #translateSourceName(source: DesktopCapturerSource): string {
     const { i18n } = this.options;
 
     const { name } = source;
@@ -345,7 +345,7 @@ export class DesktopCapturer {
           strictAssert(!done, 'No capturer available for incoming sources');
           liveCapturers.delete(capturer);
 
-          selected = await capturer.onSources(sources);
+          selected = await capturer.#onSources(sources);
         } catch (error) {
           log.error(
             'desktopCapturer: failed to get the source',

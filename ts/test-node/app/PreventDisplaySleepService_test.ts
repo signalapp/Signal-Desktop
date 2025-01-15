@@ -9,31 +9,31 @@ import { PreventDisplaySleepService } from '../../../app/PreventDisplaySleepServ
 
 describe('PreventDisplaySleepService', () => {
   class FakePowerSaveBlocker implements PowerSaveBlocker {
-    private nextId = 0;
-    private idsStarted = new Set<number>();
+    #nextId = 0;
+    #idsStarted = new Set<number>();
 
     isStarted(id: number): boolean {
-      return this.idsStarted.has(id);
+      return this.#idsStarted.has(id);
     }
 
     start(type: 'prevent-app-suspension' | 'prevent-display-sleep'): number {
       assert.strictEqual(type, 'prevent-display-sleep');
 
-      const result = this.nextId;
-      this.nextId += 1;
-      this.idsStarted.add(result);
+      const result = this.#nextId;
+      this.#nextId += 1;
+      this.#idsStarted.add(result);
       return result;
     }
 
     stop(id: number): boolean {
-      assert(this.idsStarted.has(id), `${id} was never started`);
-      this.idsStarted.delete(id);
+      assert(this.#idsStarted.has(id), `${id} was never started`);
+      this.#idsStarted.delete(id);
       return false;
     }
 
     // This is only for testing.
     _idCount(): number {
-      return this.idsStarted.size;
+      return this.#idsStarted.size;
     }
   }
 

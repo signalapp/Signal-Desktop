@@ -41,7 +41,7 @@ export abstract class CDSSocketManagerBase<
   Socket extends CDSSocketBase,
   Options extends CDSSocketManagerBaseOptionsType,
 > extends CDSBase<Options> {
-  private retryAfter?: number;
+  #retryAfter?: number;
 
   constructor(
     private readonly libsignalNet: Net.Net,
@@ -55,27 +55,27 @@ export abstract class CDSSocketManagerBase<
   ): Promise<CDSResponseType> {
     const log = this.logger;
 
-    if (this.retryAfter !== undefined) {
-      const delay = Math.max(0, this.retryAfter - Date.now());
+    if (this.#retryAfter !== undefined) {
+      const delay = Math.max(0, this.#retryAfter - Date.now());
 
       log.info(`CDSSocketManager: waiting ${delay}ms before retrying`);
       await sleep(delay);
     }
 
     if (options.useLibsignal) {
-      return this.requestViaLibsignal(options);
+      return this.#requestViaLibsignal(options);
     }
-    return this.requestViaNativeSocket(options);
+    return this.#requestViaNativeSocket(options);
   }
 
-  private async requestViaNativeSocket(
+  async #requestViaNativeSocket(
     options: CDSRequestOptionsType
   ): Promise<CDSResponseType> {
     const log = this.logger;
     const auth = await this.getAuth();
 
     log.info('CDSSocketManager: connecting socket');
-    const socket = await this.connect(auth).getResult();
+    const socket = await this.#connect(auth).getResult();
     log.info('CDSSocketManager: connected socket');
 
     try {
@@ -97,8 +97,8 @@ export abstract class CDSSocketManagerBase<
     } catch (error) {
       if (error instanceof RateLimitedError) {
         if (error.retryAfterSecs > 0) {
-          this.retryAfter = Math.max(
-            this.retryAfter ?? Date.now(),
+          this.#retryAfter = Math.max(
+            this.#retryAfter ?? Date.now(),
             Date.now() + error.retryAfterSecs * durations.SECOND
           );
         }
@@ -110,7 +110,7 @@ export abstract class CDSSocketManagerBase<
     }
   }
 
-  private async requestViaLibsignal(
+  async #requestViaLibsignal(
     options: CDSRequestOptionsType
   ): Promise<CDSResponseType> {
     const log = this.logger;
@@ -139,8 +139,8 @@ export abstract class CDSSocketManagerBase<
         error.code === LibSignalErrorCode.RateLimitedError
       ) {
         const retryError = error as NetRateLimitedError;
-        this.retryAfter = Math.max(
-          this.retryAfter ?? Date.now(),
+        this.#retryAfter = Math.max(
+          this.#retryAfter ?? Date.now(),
           Date.now() + retryError.retryAfterSecs * durations.SECOND
         );
       }
@@ -148,7 +148,7 @@ export abstract class CDSSocketManagerBase<
     }
   }
 
-  private connect(auth: CDSAuthType): AbortableProcess<Socket> {
+  #connect(auth: CDSAuthType): AbortableProcess<Socket> {
     return connectWebSocket<Socket>({
       name: 'CDSSocket',
       url: this.getSocketUrl(),

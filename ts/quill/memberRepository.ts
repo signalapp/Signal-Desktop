@@ -68,47 +68,46 @@ const FUSE_OPTIONS = {
 };
 
 export class MemberRepository {
-  private members: ReadonlyArray<MemberType>;
-  private isFuseReady = false;
-
-  private fuse = new Fuse<MemberType>([], FUSE_OPTIONS);
+  #members: ReadonlyArray<MemberType>;
+  #isFuseReady = false;
+  #fuse = new Fuse<MemberType>([], FUSE_OPTIONS);
 
   constructor(conversations: ReadonlyArray<ConversationType> = []) {
-    this.members = _toMembers(conversations);
+    this.#members = _toMembers(conversations);
   }
 
   updateMembers(conversations: ReadonlyArray<ConversationType>): void {
-    this.members = _toMembers(conversations);
-    this.isFuseReady = false;
+    this.#members = _toMembers(conversations);
+    this.#isFuseReady = false;
   }
 
   getMembers(omitId?: string): ReadonlyArray<MemberType> {
     if (omitId) {
-      return this.members.filter(({ id }) => id !== omitId);
+      return this.#members.filter(({ id }) => id !== omitId);
     }
 
-    return this.members;
+    return this.#members;
   }
 
   getMemberById(id?: string): MemberType | undefined {
     return id
-      ? this.members.find(({ id: memberId }) => memberId === id)
+      ? this.#members.find(({ id: memberId }) => memberId === id)
       : undefined;
   }
 
   getMemberByAci(aci?: AciString): MemberType | undefined {
     return aci
-      ? this.members.find(({ aci: memberAci }) => memberAci === aci)
+      ? this.#members.find(({ aci: memberAci }) => memberAci === aci)
       : undefined;
   }
 
   search(pattern: string, omitId?: string): ReadonlyArray<MemberType> {
-    if (!this.isFuseReady) {
-      this.fuse.setCollection(this.members);
-      this.isFuseReady = true;
+    if (!this.#isFuseReady) {
+      this.#fuse.setCollection(this.#members);
+      this.#isFuseReady = true;
     }
 
-    const results = this.fuse
+    const results = this.#fuse
       .search(removeDiacritics(pattern))
       .map(result => result.item);
 

@@ -23,20 +23,20 @@ import { DataWriter } from '../../sql/Client';
 const { BACKUP_INTEGRATION_DIR } = process.env;
 
 class MemoryStream extends InputStream {
-  private offset = 0;
+  #offset = 0;
 
   constructor(private readonly buffer: Buffer) {
     super();
   }
 
   public override async read(amount: number): Promise<Buffer> {
-    const result = this.buffer.slice(this.offset, this.offset + amount);
-    this.offset += amount;
+    const result = this.buffer.slice(this.#offset, this.#offset + amount);
+    this.#offset += amount;
     return result;
   }
 
   public override async skip(amount: number): Promise<void> {
-    this.offset += amount;
+    this.#offset += amount;
   }
 }
 

@@ -242,7 +242,7 @@ export default class AccountManager extends EventTarget {
     this.pending = Promise.resolve();
   }
 
-  private async queueTask<T>(task: () => Promise<T>): Promise<T> {
+  async #queueTask<T>(task: () => Promise<T>): Promise<T> {
     this.pendingQueue = this.pendingQueue || new PQueue({ concurrency: 1 });
     const taskWithTimeout = createTaskWithTimeout(task, 'AccountManager task');
 
@@ -328,7 +328,7 @@ export default class AccountManager extends EventTarget {
     verificationCode: string,
     sessionId: string
   ): Promise<void> {
-    await this.queueTask(async () => {
+    await this.#queueTask(async () => {
       const aciKeyPair = generateKeyPair();
       const pniKeyPair = generateKeyPair();
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
@@ -337,7 +337,7 @@ export default class AccountManager extends EventTarget {
       const accountEntropyPool = AccountEntropyPool.generate();
       const mediaRootBackupKey = BackupKey.generateRandom().serialize();
 
-      await this.createAccount({
+      await this.#createAccount({
         type: AccountType.Primary,
         number,
         verificationCode,
@@ -358,12 +358,12 @@ export default class AccountManager extends EventTarget {
   async registerSecondDevice(
     options: CreateLinkedDeviceOptionsType
   ): Promise<void> {
-    await this.queueTask(async () => {
-      await this.createAccount(options);
+    await this.#queueTask(async () => {
+      await this.#createAccount(options);
     });
   }
 
-  private getIdentityKeyOrThrow(ourServiceId: ServiceIdString): KeyPairType {
+  #getIdentityKeyOrThrow(ourServiceId: ServiceIdString): KeyPairType {
     const { storage } = window.textsecure;
     const store = storage.protocol;
     let identityKey: KeyPairType | undefined;
@@ -383,7 +383,7 @@ export default class AccountManager extends EventTarget {
     return identityKey;
   }
 
-  private async generateNewPreKeys(
+  async #generateNewPreKeys(
     serviceIdKind: ServiceIdKind,
     count = PRE_KEY_GEN_BATCH_SIZE
   ): Promise<Array<UploadPreKeyType>> {
@@ -418,7 +418,7 @@ export default class AccountManager extends EventTarget {
     }));
   }
 
-  private async generateNewKyberPreKeys(
+  async #generateNewKyberPreKeys(
     serviceIdKind: ServiceIdKind,
     count = PRE_KEY_GEN_BATCH_SIZE
   ): Promise<Array<UploadKyberPreKeyType>> {
@@ -436,7 +436,7 @@ export default class AccountManager extends EventTarget {
     }
 
     const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
-    const identityKey = this.getIdentityKeyOrThrow(ourServiceId);
+    const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
 
     const toSave: Array<Omit<KyberPreKeyType, 'id'>> = [];
     const toUpload: Array<UploadKyberPreKeyType> = [];
@@ -471,13 +471,13 @@ export default class AccountManager extends EventTarget {
     forceUpdate = false
   ): Promise<void> {
     const logId = `maybeUpdateKeys(${serviceIdKind})`;
-    await this.queueTask(async () => {
+    await this.#queueTask(async () => {
       const { storage } = window.textsecure;
       let identityKey: KeyPairType;
 
       try {
         const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
-        identityKey = this.getIdentityKeyOrThrow(ourServiceId);
+        identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
       } catch (error) {
         if (serviceIdKind === ServiceIdKind.PNI) {
           log.info(
@@ -506,7 +506,7 @@ export default class AccountManager extends EventTarget {
         log.info(
           `${logId}: Server prekey count is ${preKeyCount}, generating a new set`
         );
-        preKeys = await this.generateNewPreKeys(serviceIdKind);
+        preKeys = await this.#generateNewPreKeys(serviceIdKind);
       }
 
       let pqPreKeys: Array<UploadKyberPreKeyType> | undefined;
@@ -518,14 +518,14 @@ export default class AccountManager extends EventTarget {
         log.info(
           `${logId}: Server kyber prekey count is ${kyberPreKeyCount}, generating a new set`
         );
-        pqPreKeys = await this.generateNewKyberPreKeys(serviceIdKind);
+        pqPreKeys = await this.#generateNewKyberPreKeys(serviceIdKind);
       }
 
-      const pqLastResortPreKey = await this.maybeUpdateLastResortKyberKey(
+      const pqLastResortPreKey = await this.#maybeUpdateLastResortKyberKey(
         serviceIdKind,
         forceUpdate
       );
-      const signedPreKey = await this.maybeUpdateSignedPreKey(
+      const signedPreKey = await this.#maybeUpdateSignedPreKey(
         serviceIdKind,
         forceUpdate
       );
@@ -601,7 +601,7 @@ export default class AccountManager extends EventTarget {
     return false;
   }
 
-  private async generateSignedPreKey(
+  async #generateSignedPreKey(
     serviceIdKind: ServiceIdKind,
     identityKey: KeyPairType
   ): Promise<CompatSignedPreKeyType> {
@@ -625,13 +625,13 @@ export default class AccountManager extends EventTarget {
     return key;
   }
 
-  private async maybeUpdateSignedPreKey(
+  async #maybeUpdateSignedPreKey(
     serviceIdKind: ServiceIdKind,
     forceUpdate = false
   ): Promise<UploadSignedPreKeyType | undefined> {
     const ourServiceId =
       window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
-    const identityKey = this.getIdentityKeyOrThrow(ourServiceId);
+    const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
     const logId = `AccountManager.maybeUpdateSignedPreKey(${serviceIdKind}, ${ourServiceId})`;
     const store = window.textsecure.storage.protocol;
 
@@ -662,7 +662,7 @@ export default class AccountManager extends EventTarget {
       return;
     }
 
-    const key = await this.generateSignedPreKey(serviceIdKind, identityKey);
+    const key = await this.#generateSignedPreKey(serviceIdKind, identityKey);
     log.info(`${logId}: Saving new signed prekey`, key.keyId);
 
     await store.storeSignedPreKey(ourServiceId, key.keyId, key.keyPair);
@@ -670,7 +670,7 @@ export default class AccountManager extends EventTarget {
     return signedPreKeyToUploadSignedPreKey(key);
   }
 
-  private async generateLastResortKyberKey(
+  async #generateLastResortKyberKey(
     serviceIdKind: ServiceIdKind,
     identityKey: KeyPairType
   ): Promise<KyberPreKeyRecord> {
@@ -695,13 +695,13 @@ export default class AccountManager extends EventTarget {
     return record;
   }
 
-  private async maybeUpdateLastResortKyberKey(
+  async #maybeUpdateLastResortKyberKey(
     serviceIdKind: ServiceIdKind,
     forceUpdate = false
   ): Promise<UploadSignedPreKeyType | undefined> {
     const ourServiceId =
       window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
-    const identityKey = this.getIdentityKeyOrThrow(ourServiceId);
+    const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
     const logId = `maybeUpdateLastResortKyberKey(${serviceIdKind}, ${ourServiceId})`;
     const store = window.textsecure.storage.protocol;
 
@@ -732,7 +732,7 @@ export default class AccountManager extends EventTarget {
       return;
     }
 
-    const record = await this.generateLastResortKyberKey(
+    const record = await this.#generateLastResortKyberKey(
       serviceIdKind,
       identityKey
     );
@@ -912,22 +912,18 @@ export default class AccountManager extends EventTarget {
     }
   }
 
-  private async createAccount(
-    options: CreateAccountOptionsType
-  ): Promise<void> {
+  async #createAccount(options: CreateAccountOptionsType): Promise<void> {
     this.dispatchEvent(new Event('startRegistration'));
     const registrationBaton = this.server.startRegistration();
     try {
-      await this.doCreateAccount(options);
+      await this.#doCreateAccount(options);
     } finally {
       this.server.finishRegistration(registrationBaton);
     }
-    await this.registrationDone();
+    await this.#registrationDone();
   }
 
-  private async doCreateAccount(
-    options: CreateAccountOptionsType
-  ): Promise<void> {
+  async #doCreateAccount(options: CreateAccountOptionsType): Promise<void> {
     const {
       number,
       verificationCode,
@@ -1032,19 +1028,19 @@ export default class AccountManager extends EventTarget {
     let ourPni: PniString;
     let deviceId: number;
 
-    const aciPqLastResortPreKey = await this.generateLastResortKyberKey(
+    const aciPqLastResortPreKey = await this.#generateLastResortKyberKey(
       ServiceIdKind.ACI,
       aciKeyPair
     );
-    const pniPqLastResortPreKey = await this.generateLastResortKyberKey(
+    const pniPqLastResortPreKey = await this.#generateLastResortKyberKey(
       ServiceIdKind.PNI,
       pniKeyPair
     );
-    const aciSignedPreKey = await this.generateSignedPreKey(
+    const aciSignedPreKey = await this.#generateSignedPreKey(
       ServiceIdKind.ACI,
       aciKeyPair
     );
-    const pniSignedPreKey = await this.generateSignedPreKey(
+    const pniSignedPreKey = await this.#generateSignedPreKey(
       ServiceIdKind.PNI,
       pniKeyPair
     );
@@ -1333,8 +1329,8 @@ export default class AccountManager extends EventTarget {
       window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
     const logId = `AccountManager.generateKeys(${serviceIdKind}, ${ourServiceId})`;
 
-    const preKeys = await this.generateNewPreKeys(serviceIdKind, count);
-    const pqPreKeys = await this.generateNewKyberPreKeys(serviceIdKind, count);
+    const preKeys = await this.#generateNewPreKeys(serviceIdKind, count);
+    const pqPreKeys = await this.#generateNewKyberPreKeys(serviceIdKind, count);
 
     log.info(
       `${logId}: Generated ` +
@@ -1347,13 +1343,13 @@ export default class AccountManager extends EventTarget {
     await this._cleanKyberPreKeys(serviceIdKind);
 
     return {
-      identityKey: this.getIdentityKeyOrThrow(ourServiceId).pubKey,
+      identityKey: this.#getIdentityKeyOrThrow(ourServiceId).pubKey,
       preKeys,
       pqPreKeys,
     };
   }
 
-  private async registrationDone(): Promise<void> {
+  async #registrationDone(): Promise<void> {
     log.info('registration done');
     this.dispatchEvent(new Event('registration'));
   }

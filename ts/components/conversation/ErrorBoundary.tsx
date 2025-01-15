@@ -47,8 +47,8 @@ export class ErrorBoundary extends React.PureComponent<Props, State> {
     return (
       <div
         className={CSS_MODULE}
-        onClick={this.onClick.bind(this)}
-        onKeyDown={this.onKeyDown.bind(this)}
+        onClick={this.#onClick.bind(this)}
+        onKeyDown={this.#onKeyDown.bind(this)}
         role="button"
         tabIndex={0}
       >
@@ -62,24 +62,24 @@ export class ErrorBoundary extends React.PureComponent<Props, State> {
     );
   }
 
-  private onClick(event: React.MouseEvent): void {
+  #onClick(event: React.MouseEvent): void {
     event.stopPropagation();
     event.preventDefault();
 
-    this.onAction();
+    this.#onAction();
   }
 
-  private onKeyDown(event: React.KeyboardEvent): void {
+  #onKeyDown(event: React.KeyboardEvent): void {
     if (event.key !== 'Enter' && event.key !== ' ') {
       return;
     }
     event.stopPropagation();
     event.preventDefault();
 
-    this.onAction();
+    this.#onAction();
   }
 
-  private onAction(): void {
+  #onAction(): void {
     const { showDebugLog } = this.props;
     showDebugLog();
   }

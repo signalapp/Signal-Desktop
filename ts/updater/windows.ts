@@ -17,7 +17,7 @@ const unlink = pify(unlinkCallback);
 const IS_EXE = /\.exe$/i;
 
 export class WindowsUpdater extends Updater {
-  private installing = false;
+  #installing = false;
 
   // This is fixed by our new install mechanisms...
   //   https://github.com/signalapp/Signal-Desktop/issues/2369
@@ -52,8 +52,8 @@ export class WindowsUpdater extends Updater {
     return async () => {
       logger.info('downloadAndInstall: installing...');
       try {
-        await this.install(updateFilePath, isSilent);
-        this.installing = true;
+        await this.#install(updateFilePath, isSilent);
+        this.#installing = true;
       } catch (error) {
         this.markCannotUpdate(error);
 
@@ -72,8 +72,8 @@ export class WindowsUpdater extends Updater {
     app.quit();
   }
 
-  private async install(filePath: string, isSilent: boolean): Promise<void> {
-    if (this.installing) {
+  async #install(filePath: string, isSilent: boolean): Promise<void> {
+    if (this.#installing) {
       return;
     }
 

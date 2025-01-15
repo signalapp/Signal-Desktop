@@ -51,19 +51,14 @@ export enum JOB_STATUS {
 }
 
 export abstract class JobQueue<T> {
-  private readonly maxAttempts: number;
+  readonly #maxAttempts: number;
+  readonly #queueType: string;
+  readonly #store: JobQueueStore;
+  readonly #logger: LoggerType;
+  readonly #logPrefix: string;
+  #shuttingDown = false;
 
-  private readonly queueType: string;
-
-  private readonly store: JobQueueStore;
-
-  private readonly logger: LoggerType;
-
-  private readonly logPrefix: string;
-
-  private shuttingDown = false;
-
-  private readonly onCompleteCallbacks = new Map<
+  readonly #onCompleteCallbacks = new Map<
     string,
     {
       resolve: () => void;
@@ -71,12 +66,11 @@ export abstract class JobQueue<T> {
     }
   >();
 
-  private readonly defaultInMemoryQueue = new PQueue({ concurrency: 1 });
-
-  private started = false;
+  readonly #defaultInMemoryQueue = new PQueue({ concurrency: 1 });
+  #started = false;
 
   get isShuttingDown(): boolean {
-    return this.shuttingDown;
+    return this.#shuttingDown;
   }
 
   constructor(options: Readonly<JobQueueOptions>) {
@@ -93,12 +87,12 @@ export abstract class JobQueue<T> {
       'queueType should be a non-blank string'
     );
 
-    this.maxAttempts = options.maxAttempts;
-    this.queueType = options.queueType;
-    this.store = options.store;
-    this.logger = options.logger ?? log;
+    this.#maxAttempts = options.maxAttempts;
+    this.#queueType = options.queueType;
+    this.#store = options.store;
+    this.#logger = options.logger ?? log;
 
-    this.logPrefix = `${this.queueType} job queue:`;
+    this.#logPrefix = `${this.#queueType} job queue:`;
   }
 
   /**
@@ -129,28 +123,31 @@ export abstract class JobQueue<T> {
   ): Promise<JOB_STATUS.NEEDS_RETRY | undefined>;
 
   protected getQueues(): ReadonlySet<PQueue> {
-    return new Set([this.defaultInMemoryQueue]);
+    return new Set([this.#defaultInMemoryQueue]);
   }
 
   /**
    * Start streaming jobs from the store.
    */
   async streamJobs(): Promise<void> {
-    if (this.started) {
+    if (this.#started) {
       throw new Error(
-        `${this.logPrefix} should not start streaming more than once`
+        `${this.#logPrefix} should not start streaming more than once`
       );
     }
-    this.started = true;
+    this.#started = true;
 
-    log.info(`${this.logPrefix} starting to stream jobs`);
+    log.info(`${this.#logPrefix} starting to stream jobs`);
 
-    const stream = this.store.stream(this.queueType);
+    const stream = this.#store.stream(this.#queueType);
     for await (const storedJob of stream) {
-      if (this.shuttingDown) {
-        log.info(`${this.logPrefix} is shutting down. Can't accept more work.`);
+      if (this.#shuttingDown) {
+        log.info(
+          `${this.#logPrefix} is shutting down. Can't accept more work.`
+        );
         break;
       }
+
       drop(this.enqueueStoredJob(storedJob));
     }
   }
@@ -169,18 +166,18 @@ export abstract class JobQueue<T> {
   ): Promise<Job<T>> {
     const job = this.createJob(data);
 
-    if (!this.started) {
+    if (!this.#started) {
       log.warn(
-        `${this.logPrefix} This queue has not started streaming, adding job ${job.id} to database only.`
+        `${this.#logPrefix} This queue has not started streaming, adding job ${job.id} to database only.`
       );
     }
 
     if (insert) {
       await insert(job);
     }
-    await this.store.insert(job, { shouldPersist: !insert });
+    await this.#store.insert(job, { shouldPersist: !insert });
 
-    log.info(`${this.logPrefix} added new job ${job.id}`);
+    log.info(`${this.#logPrefix} added new job ${job.id}`);
     return job;
   }
 
@@ -189,7 +186,7 @@ export abstract class JobQueue<T> {
     const timestamp = Date.now();
 
     const completionPromise = new Promise<void>((resolve, reject) => {
-      this.onCompleteCallbacks.set(id, { resolve, reject });
+      this.#onCompleteCallbacks.set(id, { resolve, reject });
     });
     const completion = (async () => {
       try {
@@ -197,41 +194,41 @@ export abstract class JobQueue<T> {
       } catch (err: unknown) {
         throw new JobError(err);
       } finally {
-        this.onCompleteCallbacks.delete(id);
+        this.#onCompleteCallbacks.delete(id);
       }
     })();
 
-    return new Job(id, timestamp, this.queueType, data, completion);
+    return new Job(id, timestamp, this.#queueType, data, completion);
   }
 
   protected getInMemoryQueue(_parsedJob: ParsedJob<T>): PQueue {
-    return this.defaultInMemoryQueue;
+    return this.#defaultInMemoryQueue;
   }
 
   protected async enqueueStoredJob(
     storedJob: Readonly<StoredJob>
   ): Promise<void> {
     assertDev(
-      storedJob.queueType === this.queueType,
+      storedJob.queueType === this.#queueType,
       'Received a mis-matched queue type'
     );
 
-    log.info(`${this.logPrefix} enqueuing job ${storedJob.id}`);
+    log.info(`${this.#logPrefix} enqueuing job ${storedJob.id}`);
 
     // It's okay if we don't have a callback; that likely means the job was created before
     //   the process was started (e.g., from a previous run).
     const { resolve, reject } =
-      this.onCompleteCallbacks.get(storedJob.id) || noopOnCompleteCallbacks;
+      this.#onCompleteCallbacks.get(storedJob.id) || noopOnCompleteCallbacks;
 
     let parsedData: T;
     try {
       parsedData = this.parseData(storedJob.data);
     } catch (err) {
       log.error(
-        `${this.logPrefix} failed to parse data for job ${storedJob.id}, created ${storedJob.timestamp}. Deleting job. Parse error:`,
+        `${this.#logPrefix} failed to parse data for job ${storedJob.id}, created ${storedJob.timestamp}. Deleting job. Parse error:`,
         Errors.toLogFormat(err)
       );
-      await this.store.delete(storedJob.id);
+      await this.#store.delete(storedJob.id);
       reject(
         new Error(
           'Failed to parse job data. Was unexpected data loaded from the database?'
@@ -247,7 +244,7 @@ export abstract class JobQueue<T> {
 
     const queue: PQueue = this.getInMemoryQueue(parsedJob);
 
-    const logger = new JobLogger(parsedJob, this.logger);
+    const logger = new JobLogger(parsedJob, this.#logger);
 
     const result:
       | undefined
@@ -255,18 +252,18 @@ export abstract class JobQueue<T> {
       | { status: JOB_STATUS.NEEDS_RETRY }
       | { status: JOB_STATUS.ERROR; err: unknown } = await queue.add(
       async () => {
-        for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
-          const isFinalAttempt = attempt === this.maxAttempts;
+        for (let attempt = 1; attempt <= this.#maxAttempts; attempt += 1) {
+          const isFinalAttempt = attempt === this.#maxAttempts;
 
           logger.attempt = attempt;
 
           log.info(
-            `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
+            `${this.#logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.#maxAttempts}`
           );
 
           if (this.isShuttingDown) {
             log.warn(
-              `${this.logPrefix} returning early for job ${storedJob.id}; shutting down`
+              `${this.#logPrefix} returning early for job ${storedJob.id}; shutting down`
             );
             return {
               status: JOB_STATUS.ERROR,
@@ -284,17 +281,17 @@ export abstract class JobQueue<T> {
             });
             if (!jobStatus) {
               log.info(
-                `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
+                `${this.#logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
               );
               return { status: JOB_STATUS.SUCCESS };
             }
             log.info(
-              `${this.logPrefix} job ${storedJob.id} returned status ${jobStatus} on attempt ${attempt}`
+              `${this.#logPrefix} job ${storedJob.id} returned status ${jobStatus} on attempt ${attempt}`
             );
             return { status: jobStatus };
           } catch (err: unknown) {
             log.error(
-              `${this.logPrefix} job ${
+              `${this.#logPrefix} job ${
                 storedJob.id
               } failed on attempt ${attempt}. ${Errors.toLogFormat(err)}`
             );
@@ -316,14 +313,14 @@ export abstract class JobQueue<T> {
         logger,
       });
       if (!addJobSuccess) {
-        await this.store.delete(storedJob.id);
+        await this.#store.delete(storedJob.id);
       }
     }
     if (
       result?.status === JOB_STATUS.SUCCESS ||
       (result?.status === JOB_STATUS.ERROR && !this.isShuttingDown)
     ) {
-      await this.store.delete(storedJob.id);
+      await this.#store.delete(storedJob.id);
     }
 
     assertDev(
@@ -345,7 +342,7 @@ export abstract class JobQueue<T> {
     logger: LoggerType;
   }): Promise<boolean> {
     logger.error(
-      `retryJobOnQueueIdle: not implemented for queue ${this.queueType}; dropping job`
+      `retryJobOnQueueIdle: not implemented for queue ${this.#queueType}; dropping job`
     );
     return false;
   }
@@ -353,10 +350,10 @@ export abstract class JobQueue<T> {
   async shutdown(): Promise<void> {
     const queues = this.getQueues();
     log.info(
-      `${this.logPrefix} shutdown: stop accepting new work and drain ${queues.size} promise queues`
+      `${this.#logPrefix} shutdown: stop accepting new work and drain ${queues.size} promise queues`
     );
-    this.shuttingDown = true;
+    this.#shuttingDown = true;
     await Promise.all([...queues].map(q => q.onIdle()));
-    log.info(`${this.logPrefix} shutdown: complete`);
+    log.info(`${this.#logPrefix} shutdown: complete`);
   }
 }

@@ -15,15 +15,15 @@ import type { MessageModel } from '../models/messages';
 import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 class ExpiringMessagesDeletionService {
-  public update: typeof this.checkExpiringMessages;
+  public update: () => void;
 
-  private timeout?: ReturnType<typeof setTimeout>;
+  #timeout?: ReturnType<typeof setTimeout>;
 
   constructor(private readonly singleProtoJobQueue: SingleProtoJobQueue) {
-    this.update = debounce(this.checkExpiringMessages, 1000);
+    this.update = debounce(this.#checkExpiringMessages, 1000);
   }
 
-  private async destroyExpiredMessages() {
+  async #destroyExpiredMessages() {
     try {
       window.SignalContext.log.info(
         'destroyExpiredMessages: Loading messages...'
@@ -78,7 +78,7 @@ class ExpiringMessagesDeletionService {
     void this.update();
   }
 
-  private async checkExpiringMessages() {
+  async #checkExpiringMessages() {
     window.SignalContext.log.info(
       'checkExpiringMessages: checking for expiring messages'
     );
@@ -109,8 +109,8 @@ class ExpiringMessagesDeletionService {
       ).toISOString()}; waiting ${wait} ms before clearing`
     );
 
-    clearTimeoutIfNecessary(this.timeout);
-    this.timeout = setTimeout(this.destroyExpiredMessages.bind(this), wait);
+    clearTimeoutIfNecessary(this.#timeout);
+    this.#timeout = setTimeout(this.#destroyExpiredMessages.bind(this), wait);
   }
 }
 

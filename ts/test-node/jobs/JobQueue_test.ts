@@ -733,18 +733,18 @@ describe('JobQueue', () => {
     });
 
     class FakeStream implements AsyncIterable<StoredJob> {
-      private eventEmitter = new EventEmitter();
+      #eventEmitter = new EventEmitter();
 
       async *[Symbol.asyncIterator]() {
         while (true) {
           // eslint-disable-next-line no-await-in-loop
-          const [job] = await once(this.eventEmitter, 'drip');
+          const [job] = await once(this.#eventEmitter, 'drip');
           yield parseUnknown(storedJobSchema, job as unknown);
         }
       }
 
       drip(job: Readonly<StoredJob>): void {
-        this.eventEmitter.emit('drip', job);
+        this.#eventEmitter.emit('drip', job);
       }
     }
 

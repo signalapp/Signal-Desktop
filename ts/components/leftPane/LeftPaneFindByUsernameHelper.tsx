@@ -30,11 +30,9 @@ type DoLookupActionsType = Readonly<{
   LookupConversationWithoutServiceIdActionsType;
 
 export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByUsernamePropsType> {
-  private readonly searchTerm: string;
-
-  private readonly username: string | undefined;
-
-  private readonly uuidFetchState: UUIDFetchStateType;
+  readonly #searchTerm: string;
+  readonly #username: string | undefined;
+  readonly #uuidFetchState: UUIDFetchStateType;
 
   constructor({
     searchTerm,
@@ -43,10 +41,10 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
   }: Readonly<LeftPaneFindByUsernamePropsType>) {
     super();
 
-    this.searchTerm = searchTerm;
-    this.uuidFetchState = uuidFetchState;
+    this.#searchTerm = searchTerm;
+    this.#uuidFetchState = uuidFetchState;
 
-    this.username = username;
+    this.#username = username;
   }
 
   override getHeaderContents({
@@ -63,7 +61,7 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
         <button
           aria-label={backButtonLabel}
           className="module-left-pane__header__contents__back-button"
-          disabled={this.isFetching()}
+          disabled={this.#isFetching()}
           onClick={this.getBackAction({ startComposing })}
           title={backButtonLabel}
           type="button"
@@ -80,7 +78,7 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
   }: {
     startComposing: () => void;
   }): undefined | (() => void) {
-    return this.isFetching() ? undefined : startComposing;
+    return this.#isFetching() ? undefined : startComposing;
   }
 
   override getSearchInput({
@@ -103,17 +101,17 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
     return (
       <SearchInput
         hasSearchIcon={false}
-        disabled={this.isFetching()}
+        disabled={this.#isFetching()}
         i18n={i18n}
         moduleClassName="LeftPaneFindByUsernameHelper__search-input"
         onChange={onChangeComposeSearchTerm}
         placeholder={placeholder}
         ref={focusRef}
-        value={this.searchTerm}
+        value={this.#searchTerm}
         description={description}
         onKeyDown={ev => {
           if (ev.key === 'Enter') {
-            drop(this.doLookup(lookupActions));
+            drop(this.#doLookup(lookupActions));
           }
         }}
       />
@@ -129,10 +127,10 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
     DoLookupActionsType): ReactChild {
     return (
       <Button
-        disabled={this.isLookupDisabled()}
-        onClick={() => drop(this.doLookup(lookupActions))}
+        disabled={this.#isLookupDisabled()}
+        onClick={() => drop(this.#doLookup(lookupActions))}
       >
-        {this.isFetching() ? (
+        {this.#isFetching() ? (
           <span aria-label={i18n('icu:loading')} role="status">
             <Spinner size="20px" svgSize="small" direction="on-avatar" />
           </span>
@@ -170,14 +168,14 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
     return false;
   }
 
-  private async doLookup({
+  async #doLookup({
     lookupConversationWithoutServiceId,
     showUserNotFoundModal,
     setIsFetchingUUID,
     showInbox,
     showConversation,
   }: DoLookupActionsType): Promise<void> {
-    if (!this.username || this.isLookupDisabled()) {
+    if (!this.#username || this.#isLookupDisabled()) {
       return;
     }
 
@@ -185,7 +183,7 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
       showUserNotFoundModal,
       setIsFetchingUUID,
       type: 'username',
-      username: this.username,
+      username: this.#username,
     });
 
     if (conversationId != null) {
@@ -194,20 +192,20 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
     }
   }
 
-  private isFetching(): boolean {
-    if (this.username != null) {
-      return isFetchingByUsername(this.uuidFetchState, this.username);
+  #isFetching(): boolean {
+    if (this.#username != null) {
+      return isFetchingByUsername(this.#uuidFetchState, this.#username);
     }
 
     return false;
   }
 
-  private isLookupDisabled(): boolean {
-    if (this.isFetching()) {
+  #isLookupDisabled(): boolean {
+    if (this.#isFetching()) {
       return true;
     }
 
-    return this.username == null;
+    return this.#username == null;
   }
 }
 

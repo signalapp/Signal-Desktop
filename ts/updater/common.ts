@@ -124,28 +124,23 @@ export abstract class Updater {
 
   protected readonly logger: LoggerType;
 
-  private readonly settingsChannel: SettingsChannel;
+  readonly #settingsChannel: SettingsChannel;
 
   protected readonly getMainWindow: () => BrowserWindow | undefined;
 
-  private throttledSendDownloadingUpdate: ((
+  #throttledSendDownloadingUpdate: ((
     downloadedSize: number,
     downloadSize: number
   ) => void) & {
     cancel: () => void;
   };
 
-  private activeDownload: Promise<boolean> | undefined;
-
-  private markedCannotUpdate = false;
-
-  private restarting = false;
-
-  private readonly canRunSilently: () => boolean;
-
-  private autoRetryAttempts = 0;
-
-  private autoRetryAfter: number | undefined;
+  #activeDownload: Promise<boolean> | undefined;
+  #markedCannotUpdate = false;
+  #restarting = false;
+  readonly #canRunSilently: () => boolean;
+  #autoRetryAttempts = 0;
+  #autoRetryAfter: number | undefined;
 
   constructor({
     settingsChannel,
@@ -153,12 +148,12 @@ export abstract class Updater {
     getMainWindow,
     canRunSilently,
   }: UpdaterOptionsType) {
-    this.settingsChannel = settingsChannel;
+    this.#settingsChannel = settingsChannel;
     this.logger = logger;
     this.getMainWindow = getMainWindow;
-    this.canRunSilently = canRunSilently;
+    this.#canRunSilently = canRunSilently;
 
-    this.throttledSendDownloadingUpdate = throttle(
+    this.#throttledSendDownloadingUpdate = throttle(
       (downloadedSize: number, downloadSize: number) => {
         const mainWindow = this.getMainWindow();
         mainWindow?.webContents.send(
@@ -178,32 +173,32 @@ export abstract class Updater {
   //
 
   public async force(): Promise<void> {
-    this.markedCannotUpdate = false;
-    return this.checkForUpdatesMaybeInstall(CheckType.ForceDownload);
+    this.#markedCannotUpdate = false;
+    return this.#checkForUpdatesMaybeInstall(CheckType.ForceDownload);
   }
 
   // If the updater was about to restart the app but the user cancelled it, show dialog
   // to let them retry the restart
   public onRestartCancelled(): void {
-    if (!this.restarting) {
+    if (!this.#restarting) {
       return;
     }
 
     this.logger.info(
       'updater/onRestartCancelled: restart was cancelled. forcing update to reset updater state'
     );
-    this.restarting = false;
+    this.#restarting = false;
     markShouldNotQuit();
-    drop(this.checkForUpdatesMaybeInstall(CheckType.AllowSameVersion));
+    drop(this.#checkForUpdatesMaybeInstall(CheckType.AllowSameVersion));
   }
 
   public async start(): Promise<void> {
     this.logger.info('updater/start: starting checks...');
 
-    this.schedulePoll();
+    this.#schedulePoll();
 
     await this.deletePreviousInstallers();
-    await this.checkForUpdatesMaybeInstall(CheckType.Normal);
+    await this.#checkForUpdatesMaybeInstall(CheckType.Normal);
   }
 
   //
@@ -232,14 +227,14 @@ export abstract class Updater {
     error: Error,
     dialogType = DialogType.Cannot_Update
   ): void {
-    if (this.markedCannotUpdate) {
+    if (this.#markedCannotUpdate) {
       this.logger.warn(
         'updater/markCannotUpdate: already marked',
         Errors.toLogFormat(error)
       );
       return;
     }
-    this.markedCannotUpdate = true;
+    this.#markedCannotUpdate = true;
 
     this.logger.error(
       'updater/markCannotUpdate: marking due to error: ' +
@@ -253,13 +248,13 @@ export abstract class Updater {
     this.setUpdateListener(async () => {
       this.logger.info('updater/markCannotUpdate: retrying after user action');
 
-      this.markedCannotUpdate = false;
-      await this.checkForUpdatesMaybeInstall(CheckType.Normal);
+      this.#markedCannotUpdate = false;
+      await this.#checkForUpdatesMaybeInstall(CheckType.Normal);
     });
   }
 
   protected markRestarting(): void {
-    this.restarting = true;
+    this.#restarting = true;
     markShouldQuit();
   }
 
@@ -267,7 +262,7 @@ export abstract class Updater {
   // Private methods
   //
 
-  private schedulePoll(): void {
+  #schedulePoll(): void {
     const now = Date.now();
 
     const earliestPollTime = now - (now % POLL_INTERVAL) + POLL_INTERVAL;
@@ -279,46 +274,46 @@ export abstract class Updater {
     this.logger.info(`updater/schedulePoll: polling in ${timeoutMs}ms`);
 
     setTimeout(() => {
-      drop(this.safePoll());
+      drop(this.#safePoll());
     }, timeoutMs);
   }
 
-  private async safePoll(): Promise<void> {
+  async #safePoll(): Promise<void> {
     try {
-      if (this.autoRetryAfter != null && Date.now() < this.autoRetryAfter) {
+      if (this.#autoRetryAfter != null && Date.now() < this.#autoRetryAfter) {
         this.logger.info(
-          `updater/safePoll: not polling until ${this.autoRetryAfter}`
+          `updater/safePoll: not polling until ${this.#autoRetryAfter}`
         );
         return;
       }
 
       this.logger.info('updater/safePoll: polling now');
-      await this.checkForUpdatesMaybeInstall(CheckType.Normal);
+      await this.#checkForUpdatesMaybeInstall(CheckType.Normal);
     } catch (error) {
       this.logger.error(`updater/safePoll: ${Errors.toLogFormat(error)}`);
     } finally {
-      this.schedulePoll();
+      this.#schedulePoll();
     }
   }
 
-  private async downloadAndInstall(
+  async #downloadAndInstall(
     updateInfo: UpdateInformationType,
     mode: DownloadMode
   ): Promise<boolean> {
-    if (this.activeDownload) {
-      return this.activeDownload;
+    if (this.#activeDownload) {
+      return this.#activeDownload;
     }
 
     try {
-      this.activeDownload = this.doDownloadAndInstall(updateInfo, mode);
+      this.#activeDownload = this.#doDownloadAndInstall(updateInfo, mode);
 
-      return await this.activeDownload;
+      return await this.#activeDownload;
     } finally {
-      this.activeDownload = undefined;
+      this.#activeDownload = undefined;
     }
   }
 
-  private async doDownloadAndInstall(
+  async #doDownloadAndInstall(
     updateInfo: UpdateInformationType,
     mode: DownloadMode
   ): Promise<boolean> {
@@ -333,22 +328,22 @@ export abstract class Updater {
       let downloadResult: DownloadUpdateResultType | undefined;
 
       try {
-        downloadResult = await this.downloadUpdate(updateInfo, mode);
+        downloadResult = await this.#downloadUpdate(updateInfo, mode);
       } catch (error) {
         // Restore state in case of download error
         this.version = oldVersion;
 
         if (
           mode === DownloadMode.Automatic &&
-          this.autoRetryAttempts < MAX_AUTO_RETRY_ATTEMPTS
+          this.#autoRetryAttempts < MAX_AUTO_RETRY_ATTEMPTS
         ) {
-          this.autoRetryAttempts += 1;
-          this.autoRetryAfter = Date.now() + AUTO_RETRY_DELAY;
+          this.#autoRetryAttempts += 1;
+          this.#autoRetryAfter = Date.now() + AUTO_RETRY_DELAY;
           logger.warn(
             'downloadAndInstall: transient error ' +
               `${Errors.toLogFormat(error)}, ` +
-              `attempts=${this.autoRetryAttempts}, ` +
-              `retryAfter=${this.autoRetryAfter}`
+              `attempts=${this.#autoRetryAttempts}, ` +
+              `retryAfter=${this.#autoRetryAfter}`
           );
           return false;
         }
@@ -356,8 +351,8 @@ export abstract class Updater {
         throw error;
       }
 
-      this.autoRetryAttempts = 0;
-      this.autoRetryAfter = undefined;
+      this.#autoRetryAttempts = 0;
+      this.#autoRetryAfter = undefined;
 
       if (!downloadResult) {
         logger.warn('downloadAndInstall: no update was downloaded');
@@ -391,7 +386,7 @@ export abstract class Updater {
 
       const isSilent =
         updateInfo.vendor?.requireUserConfirmation !== 'true' &&
-        this.canRunSilently();
+        this.#canRunSilently();
 
       const handler = await this.installUpdate(updateFilePath, isSilent);
       if (isSilent || mode === DownloadMode.ForceUpdate) {
@@ -430,13 +425,11 @@ export abstract class Updater {
     }
   }
 
-  private async checkForUpdatesMaybeInstall(
-    checkType: CheckType
-  ): Promise<void> {
+  async #checkForUpdatesMaybeInstall(checkType: CheckType): Promise<void> {
     const { logger } = this;
 
     logger.info('checkForUpdatesMaybeInstall: checking for update...');
-    const updateInfo = await this.checkForUpdates(checkType);
+    const updateInfo = await this.#checkForUpdates(checkType);
     if (!updateInfo) {
       return;
     }
@@ -444,7 +437,7 @@ export abstract class Updater {
     const { version: newVersion } = updateInfo;
 
     if (checkType === CheckType.ForceDownload) {
-      await this.downloadAndInstall(updateInfo, DownloadMode.ForceUpdate);
+      await this.#downloadAndInstall(updateInfo, DownloadMode.ForceUpdate);
       return;
     }
 
@@ -462,9 +455,9 @@ export abstract class Updater {
       throw missingCaseError(checkType);
     }
 
-    const autoDownloadUpdates = await this.getAutoDownloadUpdateSetting();
+    const autoDownloadUpdates = await this.#getAutoDownloadUpdateSetting();
     if (autoDownloadUpdates) {
-      await this.downloadAndInstall(updateInfo, DownloadMode.Automatic);
+      await this.#downloadAndInstall(updateInfo, DownloadMode.Automatic);
       return;
     }
 
@@ -473,10 +466,10 @@ export abstract class Updater {
       mode = DownloadMode.DifferentialOnly;
     }
 
-    await this.offerUpdate(updateInfo, mode, 0);
+    await this.#offerUpdate(updateInfo, mode, 0);
   }
 
-  private async offerUpdate(
+  async #offerUpdate(
     updateInfo: UpdateInformationType,
     mode: DownloadMode,
     attempt: number
@@ -486,13 +479,17 @@ export abstract class Updater {
     this.setUpdateListener(async () => {
       logger.info('offerUpdate: have not downloaded update, going to download');
 
-      const didDownload = await this.downloadAndInstall(updateInfo, mode);
+      const didDownload = await this.#downloadAndInstall(updateInfo, mode);
       if (!didDownload && mode === DownloadMode.DifferentialOnly) {
         this.logger.warn(
           'offerUpdate: Failed to download differential update, offering full'
         );
-        this.throttledSendDownloadingUpdate.cancel();
-        return this.offerUpdate(updateInfo, DownloadMode.FullOnly, attempt + 1);
+        this.#throttledSendDownloadingUpdate.cancel();
+        return this.#offerUpdate(
+          updateInfo,
+          DownloadMode.FullOnly,
+          attempt + 1
+        );
       }
 
       strictAssert(didDownload, 'FullOnly must always download update');
@@ -527,7 +524,7 @@ export abstract class Updater {
     );
   }
 
-  private async checkForUpdates(
+  async #checkForUpdates(
     checkType: CheckType
   ): Promise<UpdateInformationType | undefined> {
     if (isAdhoc(packageJson.version)) {
@@ -591,13 +588,13 @@ export abstract class Updater {
     const fileName = getUpdateFileName(
       parsedYaml,
       process.platform,
-      await this.getArch()
+      await this.#getArch()
     );
 
     const sha512 = getSHA512(parsedYaml, fileName);
     strictAssert(sha512 !== undefined, 'Missing required hash');
 
-    const latestInstaller = await this.getLatestCachedInstaller(
+    const latestInstaller = await this.#getLatestCachedInstaller(
       extname(fileName)
     );
 
@@ -650,7 +647,7 @@ export abstract class Updater {
     };
   }
 
-  private async getLatestCachedInstaller(
+  async #getLatestCachedInstaller(
     extension: string
   ): Promise<string | undefined> {
     const cacheDir = await createUpdateCacheDirIfNeeded();
@@ -661,7 +658,7 @@ export abstract class Updater {
     return oldFiles.find(fileName => extname(fileName) === extension);
   }
 
-  private async downloadUpdate(
+  async #downloadUpdate(
     { fileName, sha512, differentialData, size }: UpdateInformationType,
     mode: DownloadMode
   ): Promise<DownloadUpdateResultType | undefined> {
@@ -757,7 +754,7 @@ export abstract class Updater {
         try {
           await downloadDifferentialData(tempUpdatePath, differentialData, {
             statusCallback: updateOnProgress
-              ? this.throttledSendDownloadingUpdate
+              ? this.#throttledSendDownloadingUpdate
               : undefined,
             logger: this.logger,
           });
@@ -783,7 +780,7 @@ export abstract class Updater {
         await gracefulRmRecursive(this.logger, cacheDir);
         cacheDir = await createUpdateCacheDirIfNeeded();
 
-        await this.downloadAndReport(
+        await this.#downloadAndReport(
           updateFileUrl,
           size,
           tempUpdatePath,
@@ -854,7 +851,7 @@ export abstract class Updater {
     }
   }
 
-  private async downloadAndReport(
+  async #downloadAndReport(
     updateFileUrl: string,
     downloadSize: number,
     targetUpdatePath: string,
@@ -869,7 +866,7 @@ export abstract class Updater {
 
         downloadStream.on('data', data => {
           downloadedSize += data.length;
-          this.throttledSendDownloadingUpdate(downloadedSize, downloadSize);
+          this.#throttledSendDownloadingUpdate(downloadedSize, downloadSize);
         });
       }
 
@@ -888,9 +885,9 @@ export abstract class Updater {
     });
   }
 
-  private async getAutoDownloadUpdateSetting(): Promise<boolean> {
+  async #getAutoDownloadUpdateSetting(): Promise<boolean> {
     try {
-      return await this.settingsChannel.getSettingFromMainWindow(
+      return await this.#settingsChannel.getSettingFromMainWindow(
         'autoDownloadUpdate'
       );
     } catch (error) {
@@ -902,7 +899,7 @@ export abstract class Updater {
     }
   }
 
-  private async getArch(): Promise<typeof process.arch> {
+  async #getArch(): Promise<typeof process.arch> {
     if (process.arch === 'arm64') {
       return process.arch;
     }

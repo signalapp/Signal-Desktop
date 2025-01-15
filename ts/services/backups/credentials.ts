@@ -44,15 +44,14 @@ const FETCH_INTERVAL = 3 * DAY;
 const BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION = 12 * HOUR;
 
 export class BackupCredentials {
-  private activeFetch: ReturnType<typeof this.fetch> | undefined;
-  private cachedCdnReadCredentials: Record<
-    number,
-    BackupCdnReadCredentialType
-  > = {};
-  private readonly fetchBackoff = new BackOff(FIBONACCI_TIMEOUTS);
+  #activeFetch: Promise<ReadonlyArray<BackupCredentialWrapperType>> | undefined;
+
+  #cachedCdnReadCredentials: Record<number, BackupCdnReadCredentialType> = {};
+
+  readonly #fetchBackoff = new BackOff(FIBONACCI_TIMEOUTS);
 
   public start(): void {
-    this.scheduleFetch();
+    this.#scheduleFetch();
   }
 
   public async getForToday(
@@ -73,7 +72,7 @@ export class BackupCredentials {
     }
 
     // Start with cache
-    let credentials = this.getFromCache();
+    let credentials = this.#getFromCache();
 
     let result = credentials.find(({ type, redemptionTimeMs }) => {
       return type === credentialType && redemptionTimeMs === now;
@@ -81,7 +80,7 @@ export class BackupCredentials {
 
     if (result === undefined) {
       log.info(`BackupCredentials: cache miss for ${now}`);
-      credentials = await this.fetch();
+      credentials = await this.#fetch();
       result = credentials.find(({ type, redemptionTimeMs }) => {
         return type === credentialType && redemptionTimeMs === now;
       });
@@ -143,7 +142,7 @@ export class BackupCredentials {
 
     // Backup CDN read credentials are short-lived; we'll just cache them in memory so
     // that they get invalidated for any reason, we'll fetch new ones on app restart
-    const cachedCredentialsForThisCdn = this.cachedCdnReadCredentials[cdn];
+    const cachedCredentialsForThisCdn = this.#cachedCdnReadCredentials[cdn];
 
     if (
       cachedCredentialsForThisCdn &&
@@ -163,7 +162,7 @@ export class BackupCredentials {
       cdn,
     });
 
-    this.cachedCdnReadCredentials[cdn] = {
+    this.#cachedCdnReadCredentials[cdn] = {
       credentials: newCredentials,
       cdnNumber: cdn,
       retrievedAtMs,
@@ -172,7 +171,7 @@ export class BackupCredentials {
     return newCredentials;
   }
 
-  private scheduleFetch(): void {
+  #scheduleFetch(): void {
     const lastFetchAt = window.storage.get(
       'backupCombinedCredentialsLastRequestTime',
       0
@@ -181,45 +180,45 @@ export class BackupCredentials {
     const delay = Math.max(0, nextFetchAt - Date.now());
 
     log.info(`BackupCredentials: scheduling fetch in ${delay}ms`);
-    setTimeout(() => drop(this.runPeriodicFetch()), delay);
+    setTimeout(() => drop(this.#runPeriodicFetch()), delay);
   }
 
-  private async runPeriodicFetch(): Promise<void> {
+  async #runPeriodicFetch(): Promise<void> {
     try {
       log.info('BackupCredentials: run periodic fetch');
-      await this.fetch();
+      await this.#fetch();
 
       const now = Date.now();
       await window.storage.put('backupCombinedCredentialsLastRequestTime', now);
 
-      this.fetchBackoff.reset();
-      this.scheduleFetch();
+      this.#fetchBackoff.reset();
+      this.#scheduleFetch();
     } catch (error) {
-      const delay = this.fetchBackoff.getAndIncrement();
+      const delay = this.#fetchBackoff.getAndIncrement();
       log.error(
         'BackupCredentials: periodic fetch failed with ' +
           `error: ${toLogFormat(error)}, retrying in ${delay}ms`
       );
-      setTimeout(() => this.scheduleFetch(), delay);
+      setTimeout(() => this.#scheduleFetch(), delay);
     }
   }
 
-  private async fetch(): Promise<ReadonlyArray<BackupCredentialWrapperType>> {
-    if (this.activeFetch) {
-      return this.activeFetch;
+  async #fetch(): Promise<ReadonlyArray<BackupCredentialWrapperType>> {
+    if (this.#activeFetch) {
+      return this.#activeFetch;
     }
 
-    const promise = this.doFetch();
-    this.activeFetch = promise;
+    const promise = this.#doFetch();
+    this.#activeFetch = promise;
 
     try {
       return await promise;
     } finally {
-      this.activeFetch = undefined;
+      this.#activeFetch = undefined;
     }
   }
 
-  private async doFetch(): Promise<ReadonlyArray<BackupCredentialWrapperType>> {
+  async #doFetch(): Promise<ReadonlyArray<BackupCredentialWrapperType>> {
     log.info('BackupCredentials: fetching');
 
     const now = Date.now();
@@ -227,8 +226,8 @@ export class BackupCredentials {
     const endDayInMs = toDayMillis(now + 6 * DAY);
 
     // And fetch missing credentials
-    const messagesCtx = this.getAuthContext(BackupCredentialType.Messages);
-    const mediaCtx = this.getAuthContext(BackupCredentialType.Media);
+    const messagesCtx = this.#getAuthContext(BackupCredentialType.Messages);
+    const mediaCtx = this.#getAuthContext(BackupCredentialType.Media);
     const { server } = window.textsecure;
     strictAssert(server, 'server not available');
 
@@ -333,7 +332,7 @@ export class BackupCredentials {
 
     // Add cached credentials that are still in the date range, and not in
     // the response.
-    for (const cached of this.getFromCache()) {
+    for (const cached of this.#getFromCache()) {
       const { type, redemptionTimeMs } = cached;
       if (
         !(startDayInMs <= redemptionTimeMs && redemptionTimeMs <= endDayInMs)
@@ -348,7 +347,7 @@ export class BackupCredentials {
     }
 
     result.sort((a, b) => a.redemptionTimeMs - b.redemptionTimeMs);
-    await this.updateCache(result);
+    await this.#updateCache(result);
 
     const startMs = result[0].redemptionTimeMs;
     const endMs = result[result.length - 1].redemptionTimeMs;
@@ -359,7 +358,7 @@ export class BackupCredentials {
     return result;
   }
 
-  private getAuthContext(
+  #getAuthContext(
     credentialType: BackupCredentialType
   ): BackupAuthCredentialRequestContext {
     let key: BackupKey;
@@ -376,11 +375,11 @@ export class BackupCredentials {
     );
   }
 
-  private getFromCache(): ReadonlyArray<BackupCredentialWrapperType> {
+  #getFromCache(): ReadonlyArray<BackupCredentialWrapperType> {
     return window.storage.get('backupCombinedCredentials', []);
   }
 
-  private async updateCache(
+  async #updateCache(
     values: ReadonlyArray<BackupCredentialWrapperType>
   ): Promise<void> {
     await window.storage.put('backupCombinedCredentials', values);
@@ -394,7 +393,7 @@ export class BackupCredentials {
 
   // Called when backup tier changes or when userChanged event
   public async clearCache(): Promise<void> {
-    this.cachedCdnReadCredentials = {};
-    await this.updateCache([]);
+    this.#cachedCdnReadCredentials = {};
+    await this.#updateCache([]);
   }
 }

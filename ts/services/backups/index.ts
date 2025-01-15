@@ -91,10 +91,11 @@ export type ImportOptionsType = Readonly<{
 }>;
 
 export class BackupsService {
-  private isStarted = false;
-  private isRunning: 'import' | 'export' | false = false;
-  private downloadController: AbortController | undefined;
-  private downloadRetryPromise:
+  #isStarted = false;
+  #isRunning: 'import' | 'export' | false = false;
+  #downloadController: AbortController | undefined;
+
+  #downloadRetryPromise:
     | ExplodePromiseResultType<RetryBackupImportValue>
     | undefined;
 
@@ -102,19 +103,19 @@ export class BackupsService {
   public readonly api = new BackupAPI(this.credentials);
 
   public start(): void {
-    if (this.isStarted) {
+    if (this.#isStarted) {
       log.warn('BackupsService: already started');
       return;
     }
 
-    this.isStarted = true;
+    this.#isStarted = true;
     log.info('BackupsService: starting...');
 
     setInterval(() => {
-      drop(this.runPeriodicRefresh());
+      drop(this.#runPeriodicRefresh());
     }, BACKUP_REFRESH_INTERVAL);
 
-    drop(this.runPeriodicRefresh());
+    drop(this.#runPeriodicRefresh());
     this.credentials.start();
 
     window.Whisper.events.on('userChanged', () => {
@@ -142,13 +143,13 @@ export class BackupsService {
     while (true) {
       try {
         // eslint-disable-next-line no-await-in-loop
-        hasBackup = await this.doDownloadAndImport({
+        hasBackup = await this.#doDownloadAndImport({
           downloadPath: absoluteDownloadPath,
           onProgress: options.onProgress,
           ephemeralKey,
         });
       } catch (error) {
-        this.downloadRetryPromise = explodePromise<RetryBackupImportValue>();
+        this.#downloadRetryPromise = explodePromise<RetryBackupImportValue>();
 
         let installerError: InstallScreenBackupError;
         if (error instanceof RelinkRequestedError) {
@@ -158,7 +159,7 @@ export class BackupsService {
             Errors.toLogFormat(error)
           );
           // eslint-disable-next-line no-await-in-loop
-          await this.unlinkAndDeleteAllData();
+          await this.#unlinkAndDeleteAllData();
         } else if (error instanceof UnsupportedBackupVersion) {
           installerError = InstallScreenBackupError.UnsupportedVersion;
           log.error(
@@ -178,7 +179,7 @@ export class BackupsService {
             Errors.toLogFormat(error)
           );
           // eslint-disable-next-line no-await-in-loop
-          await this.unlinkAndDeleteAllData();
+          await this.#unlinkAndDeleteAllData();
         } else {
           log.error(
             'backups.downloadAndImport: unknown error, prompting user to retry'
@@ -191,7 +192,7 @@ export class BackupsService {
         });
 
         // eslint-disable-next-line no-await-in-loop
-        const nextStep = await this.downloadRetryPromise.promise;
+        const nextStep = await this.#downloadRetryPromise.promise;
         if (nextStep === 'retry') {
           continue;
         }
@@ -218,11 +219,11 @@ export class BackupsService {
   }
 
   public retryDownload(): void {
-    if (!this.downloadRetryPromise) {
+    if (!this.#downloadRetryPromise) {
       return;
     }
 
-    this.downloadRetryPromise.resolve('retry');
+    this.#downloadRetryPromise.resolve('retry');
   }
 
   public async upload(): Promise<void> {
@@ -274,7 +275,7 @@ export class BackupsService {
 
     const chunks = new Array<Uint8Array>();
     sink.on('data', chunk => chunks.push(chunk));
-    await this.exportBackup(sink, backupLevel, backupType);
+    await this.#exportBackup(sink, backupLevel, backupType);
 
     return Bytes.concatenate(chunks);
   }
@@ -285,7 +286,7 @@ export class BackupsService {
     backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
   ): Promise<number> {
-    const size = await this.exportBackup(
+    const size = await this.#exportBackup(
       createWriteStream(path),
       backupLevel,
       backupType
@@ -318,12 +319,12 @@ export class BackupsService {
   }
 
   public cancelDownload(): void {
-    if (this.downloadController) {
+    if (this.#downloadController) {
       log.warn('importBackup: canceling download');
-      this.downloadController.abort();
-      this.downloadController = undefined;
-      if (this.downloadRetryPromise) {
-        this.downloadRetryPromise.resolve('cancel');
+      this.#downloadController.abort();
+      this.#downloadController = undefined;
+      if (this.#downloadRetryPromise) {
+        this.#downloadRetryPromise.resolve('cancel');
       }
     } else {
       log.error('importBackup: not canceling download, not running');
@@ -338,12 +339,12 @@ export class BackupsService {
       onProgress,
     }: ImportOptionsType = {}
   ): Promise<void> {
-    strictAssert(!this.isRunning, 'BackupService is already running');
+    strictAssert(!this.#isRunning, 'BackupService is already running');
 
     window.IPC.startTrackingQueryStats();
 
     log.info(`importBackup: starting ${backupType}...`);
-    this.isRunning = 'import';
+    this.#isRunning = 'import';
     const importStart = Date.now();
 
     await DataWriter.disableMessageInsertTriggers();
@@ -439,7 +440,7 @@ export class BackupsService {
 
       throw error;
     } finally {
-      this.isRunning = false;
+      this.#isRunning = false;
       await DataWriter.enableMessageInsertTriggersAndBackfill();
 
       window.IPC.stopTrackingQueryStats({ epochName: 'Backup Import' });
@@ -494,7 +495,7 @@ export class BackupsService {
     return { isInBackupTier: true, cdnNumber: storedInfo.cdnNumber };
   }
 
-  private async doDownloadAndImport({
+  async #doDownloadAndImport({
     downloadPath,
     ephemeralKey,
     onProgress,
@@ -502,8 +503,8 @@ export class BackupsService {
     const controller = new AbortController();
 
     // Abort previous download
-    this.downloadController?.abort();
-    this.downloadController = controller;
+    this.#downloadController?.abort();
+    this.#downloadController = controller;
 
     let downloadOffset = 0;
     try {
@@ -591,7 +592,7 @@ export class BackupsService {
         return false;
       }
 
-      this.downloadController = undefined;
+      this.#downloadController = undefined;
 
       try {
         // Too late to cancel now, make sure we are unlinked if the process
@@ -633,15 +634,15 @@ export class BackupsService {
     return true;
   }
 
-  private async exportBackup(
+  async #exportBackup(
     sink: Writable,
     backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
   ): Promise<number> {
-    strictAssert(!this.isRunning, 'BackupService is already running');
+    strictAssert(!this.#isRunning, 'BackupService is already running');
 
     log.info('exportBackup: starting...');
-    this.isRunning = 'export';
+    this.#isRunning = 'export';
 
     try {
       // TODO (DESKTOP-7168): Update mock-server to support this endpoint
@@ -694,11 +695,11 @@ export class BackupsService {
       return totalBytes;
     } finally {
       log.info('exportBackup: finished...');
-      this.isRunning = false;
+      this.#isRunning = false;
     }
   }
 
-  private async runPeriodicRefresh(): Promise<void> {
+  async #runPeriodicRefresh(): Promise<void> {
     try {
       await this.api.refresh();
       log.info('Backup: refreshed');
@@ -707,7 +708,7 @@ export class BackupsService {
     }
   }
 
-  private async unlinkAndDeleteAllData() {
+  async #unlinkAndDeleteAllData() {
     try {
       await window.textsecure.server?.unlink();
     } catch (e) {
@@ -730,10 +731,10 @@ export class BackupsService {
   }
 
   public isImportRunning(): boolean {
-    return this.isRunning === 'import';
+    return this.#isRunning === 'import';
   }
   public isExportRunning(): boolean {
-    return this.isRunning === 'export';
+    return this.#isRunning === 'export';
   }
 }
 
