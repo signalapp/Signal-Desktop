@@ -21,6 +21,7 @@ import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import type { AciString, ServiceIdString } from '../../types/ServiceId';
+import * as LinkPreview from '../../types/LinkPreview';
 import {
   fromAciObject,
   fromPniObject,
@@ -129,6 +130,7 @@ import { ToastType } from '../../types/Toast';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import { postSaveUpdates } from '../../util/cleanup';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 
 const MAX_CONCURRENCY = 10;
 
@@ -1429,7 +1431,10 @@ export class BackupImportStream extends Writable {
     if (item.standardMessage) {
       attributes = {
         ...attributes,
-        ...(await this.#fromStandardMessage(item.standardMessage)),
+        ...(await this.#fromStandardMessage({
+          logId,
+          data: item.standardMessage,
+        })),
       };
     } else if (item.viewOnceMessage) {
       attributes = {
@@ -1471,7 +1476,11 @@ export class BackupImportStream extends Writable {
         `${logId}: Only standard message can have revisions`
       );
 
-      const history = await this.#fromRevisions(attributes, item.revisions);
+      const history = await this.#fromRevisions({
+        mainMessage: attributes,
+        revisions: item.revisions,
+        logId,
+      });
       attributes.editHistory = history;
 
       // Update timestamps on the parent message
@@ -1737,9 +1746,13 @@ export class BackupImportStream extends Writable {
     return true;
   }
 
-  async #fromStandardMessage(
-    data: Backups.IStandardMessage
-  ): Promise<Partial<MessageAttributesType>> {
+  async #fromStandardMessage({
+    logId,
+    data,
+  }: {
+    logId: string;
+    data: Backups.IStandardMessage;
+  }): Promise<Partial<MessageAttributesType>> {
     return {
       body: data.text?.body || undefined,
       bodyRanges: this.#fromBodyRanges(data.text),
@@ -1752,23 +1765,54 @@ export class BackupImportStream extends Writable {
             .filter(isNotNil)
         : undefined,
       preview: data.linkPreview?.length
-        ? data.linkPreview.map(preview => {
-            const { url } = preview;
-            strictAssert(url, 'preview must have a URL');
-            return {
-              url,
-              title: dropNull(preview.title),
-              description: dropNull(preview.description),
-              date: getCheckedTimestampOrUndefinedFromLong(preview.date),
-              image: preview.image
-                ? convertFilePointerToAttachment(preview.image)
-                : undefined,
-            };
+        ? this.#fromLinkPreview({
+            logId,
+            body: data.text?.body,
+            previews: data.linkPreview,
           })
         : undefined,
       reactions: this.#fromReactions(data.reactions),
       quote: data.quote ? await this.#fromQuote(data.quote) : undefined,
     };
+  }
+
+  #fromLinkPreview({
+    logId,
+    body,
+    previews,
+  }: {
+    logId: string;
+    body: string | null | undefined;
+    previews: Array<Backups.ILinkPreview>;
+  }): Array<LinkPreviewType> {
+    const urlsInBody = LinkPreview.findLinks(body ?? '');
+    return previews
+      .map(preview => {
+        if (
+          !LinkPreview.isValidLinkPreview(urlsInBody, preview, {
+            isStory: false,
+          })
+        ) {
+          if (isNightly(window.getVersion())) {
+            throw new Error(`${logId}: dropping invalid link preview`);
+          }
+          log.warn(`${logId}: dropping invalid link preview`);
+          return;
+        }
+
+        strictAssert(preview.url, 'url must exist in valid link preview');
+
+        return {
+          url: preview.url,
+          title: dropNull(preview.title),
+          description: dropNull(preview.description),
+          date: getCheckedTimestampOrUndefinedFromLong(preview.date),
+          image: preview.image
+            ? convertFilePointerToAttachment(preview.image)
+            : undefined,
+        };
+      })
+      .filter(isNotNil);
   }
 
   async #fromViewOnceMessage({
@@ -1792,10 +1836,15 @@ export class BackupImportStream extends Writable {
     };
   }
 
-  async #fromRevisions(
-    mainMessage: MessageAttributesType,
-    revisions: ReadonlyArray<Backups.IChatItem>
-  ): Promise<Array<EditHistoryType>> {
+  async #fromRevisions({
+    mainMessage,
+    revisions,
+    logId,
+  }: {
+    mainMessage: MessageAttributesType;
+    revisions: ReadonlyArray<Backups.IChatItem>;
+    logId: string;
+  }): Promise<Array<EditHistoryType>> {
     const result = await Promise.all(
       revisions
         .map(async rev => {
@@ -1818,7 +1867,10 @@ export class BackupImportStream extends Writable {
           } = this.#fromDirectionDetails(rev, timestamp);
 
           return {
-            ...(await this.#fromStandardMessage(rev.standardMessage)),
+            ...(await this.#fromStandardMessage({
+              logId,
+              data: rev.standardMessage,
+            })),
             timestamp,
             received_at: incrementMessageCounter(),
             sendStateByConversationId,

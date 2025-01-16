@@ -14,6 +14,8 @@ import {
   groupInvitesRoute,
   linkCallRoute,
 } from '../util/signalRoutes';
+import type { Backups } from '../protobuf';
+import type { LinkPreviewType } from './message/LinkPreviews';
 
 export type LinkPreviewImage = AttachmentWithHydratedData;
 
@@ -69,6 +71,29 @@ export function shouldPreviewHref(href: string): boolean {
       !isDomainExcluded(url) &&
       !isLinkSneaky(href)
   );
+}
+
+export function isValidLinkPreview(
+  urlsInBody: Array<string>,
+  preview: LinkPreviewType | Backups.ILinkPreview,
+  { isStory }: { isStory: boolean }
+): boolean {
+  const { url } = preview;
+  if (!url) {
+    return false;
+  }
+
+  if (!shouldPreviewHref(url)) {
+    return false;
+  }
+
+  // Story link previews don't have to correspond to links in the
+  // message body.
+  if (!urlsInBody.includes(url) && !isStory) {
+    return false;
+  }
+
+  return true;
 }
 
 const EXCLUDED_DOMAINS = [

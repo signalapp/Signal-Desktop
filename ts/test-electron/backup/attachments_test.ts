@@ -364,17 +364,19 @@ describe('backup/attachments', () => {
       await asymmetricRoundtripHarness(
         [
           composeMessage(1, {
-            body: 'url',
-            preview: [{ url: 'url', date: 1, image: attachment }],
+            body: 'https://signal.org',
+            preview: [
+              { url: 'https://signal.org', date: 1, image: attachment },
+            ],
           }),
         ],
         // path & iv will not be roundtripped
         [
           composeMessage(1, {
-            body: 'url',
+            body: 'https://signal.org',
             preview: [
               {
-                url: 'url',
+                url: 'https://signal.org',
                 date: 1,
                 image: omit(attachment, NON_ROUNDTRIPPED_FIELDS),
               },
@@ -391,10 +393,10 @@ describe('backup/attachments', () => {
       await asymmetricRoundtripHarness(
         [
           composeMessage(1, {
-            body: 'url',
+            body: 'https://signal.org',
             preview: [
               {
-                url: 'url',
+                url: 'https://signal.org',
                 date: 1,
                 title: 'title',
                 description: 'description',
@@ -405,10 +407,10 @@ describe('backup/attachments', () => {
         ],
         [
           composeMessage(1, {
-            body: 'url',
+            body: 'https://signal.org',
             preview: [
               {
-                url: 'url',
+                url: 'https://signal.org',
                 date: 1,
                 title: 'title',
                 description: 'description',

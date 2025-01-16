@@ -516,19 +516,12 @@ export async function handleDataMessage(
             };
           }
 
-          if (!item.image && !item.title) {
-            return null;
-          }
-          // Story link previews don't have to correspond to links in the
-          // message body.
-          if (isStory(message.attributes)) {
-            return item;
-          }
           if (
-            !urls.includes(item.url) ||
-            !LinkPreview.shouldPreviewHref(item.url)
+            !LinkPreview.isValidLinkPreview(urls, item, {
+              isStory: isStory(message.attributes),
+            })
           ) {
-            return undefined;
+            return null;
           }
 
           return item;
