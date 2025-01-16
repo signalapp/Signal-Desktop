@@ -473,7 +473,11 @@ export class LibsignalWebSocketResource
   extends EventTarget
   implements IWebSocketResource
 {
-  closed = false;
+  // The reason that the connection was closed, if it was closed.
+  //
+  // When setting this to anything other than `undefined`, the "close" event
+  // must be dispatched.
+  #closedReasonCode?: number;
 
   // Unlike WebSocketResource, libsignal will automatically attempt to keep the
   // socket alive using websocket pings, so we don't need a timer-based
@@ -511,19 +515,16 @@ export class LibsignalWebSocketResource
   }
 
   public close(code = NORMAL_DISCONNECT_CODE, reason?: string): void {
-    if (this.closed) {
+    if (this.#closedReasonCode !== undefined) {
       log.info(`${this.logId}.close: Already closed! ${code}/${reason}`);
       return;
     }
+
+    this.#closedReasonCode = code;
     drop(this.chatService.disconnect());
 
-    // On linux the socket can wait a long time to emit its close event if we've
-    //   lost the internet connection. On the order of minutes. This speeds that
-    //   process up.
-    Timers.setTimeout(
-      () => this.onConnectionInterrupted(null),
-      5 * durations.SECOND
-    );
+    // Since we set `closedReasonCode`, we must dispatch the close event.
+    this.dispatchEvent(new CloseEvent(code, reason || 'no reason provided'));
   }
 
   public shutdown(): void {
@@ -531,22 +532,24 @@ export class LibsignalWebSocketResource
   }
 
   onConnectionInterrupted(cause: LibSignalError | null): void {
-    if (this.closed) {
-      log.warn(
-        `${this.logId}.onConnectionInterrupted called after resource is closed`
-      );
+    if (this.#closedReasonCode !== undefined) {
+      if (cause != null) {
+        // This can happen normally if there's a race between a disconnect
+        // request and an error on the connection. It's likely benign but in
+        // case it's not, make sure we know about it.
+        log.info(
+          `${this.logId}: onConnectionInterrupted called after resource is closed: ${cause.message}`
+        );
+      }
       return;
     }
-    this.closed = true;
     log.warn(`${this.logId}: connection closed`);
 
-    let event;
-    if (cause) {
-      event = new CloseEvent(UNEXPECTED_DISCONNECT_CODE, cause.message);
-    } else {
-      // The cause was an intentional disconnect. Report normal closure.
-      event = new CloseEvent(NORMAL_DISCONNECT_CODE, 'normal');
-    }
+    const event = cause
+      ? new CloseEvent(UNEXPECTED_DISCONNECT_CODE, cause.message)
+      : // The cause was an intentional disconnect. Report normal closure.
+        new CloseEvent(NORMAL_DISCONNECT_CODE, 'normal');
+    this.#closedReasonCode = event.code;
     this.dispatchEvent(event);
   }
 
@@ -1141,7 +1144,7 @@ class KeepAliveSender {
     } catch (error) {
       this.wsr.close(
         UNEXPECTED_DISCONNECT_CODE,
-        'No response to keepalive request'
+        `No response to keepalive request after ${timeout}ms`
       );
       return false;
     }
