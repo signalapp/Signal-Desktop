@@ -10,6 +10,7 @@ import * as log from '../../logging/log';
 import type { StateType } from '../reducer';
 import type { ExpirationStateType } from '../ducks/expiration';
 import { getRemoteBuildExpiration, getAutoDownloadUpdate } from './items';
+import { isNotUpdatable } from '../../util/version';
 
 const NINETY_ONE_DAYS = 91 * DAY;
 const THIRTY_ONE_DAYS = 31 * DAY;
@@ -32,9 +33,10 @@ export const getExpirationTimestamp = createSelector(
     remoteBuildExpiration: number | undefined,
     autoDownloadUpdate: boolean
   ): number => {
-    const localBuildExpiration = autoDownloadUpdate
-      ? buildExpiration
-      : buildExpiration - SIXTY_DAYS;
+    const localBuildExpiration =
+      isNotUpdatable(window.getVersion()) || autoDownloadUpdate
+        ? buildExpiration
+        : buildExpiration - SIXTY_DAYS;
 
     // Log the expiration date in this selector because it invalidates only
     // if one of the arguments changes.
