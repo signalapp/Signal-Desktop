@@ -76,7 +76,6 @@ describe('backup/non-bubble messages', () => {
         flags: Proto.DataMessage.Flags.END_SESSION,
         attachments: [],
         contact: [],
-        hasAttachments: 0,
       },
     ]);
   });

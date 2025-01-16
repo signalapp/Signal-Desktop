@@ -110,10 +110,20 @@ function sortAndNormalize(
     // Get rid of unserializable `undefined` values.
     return JSON.parse(
       JSON.stringify({
-        // Migration defaults
-        hasAttachments: 0,
+        // Defaults
+        hasAttachments: false,
+        hasFileAttachments: false,
+        hasVisualMediaAttachments: false,
+        isErased: false,
+        isViewOnce: false,
+        mentionsMe: false,
+        seenStatus: 0,
+        readStatus: 0,
+        unidentifiedDeliveryReceived: false,
 
-        ...rest,
+        // Drop more `undefined` values
+        ...JSON.parse(JSON.stringify(rest)),
+
         conversationId: mapConvoId(conversationId),
         reactions: reactions?.map(({ fromId, ...restOfReaction }) => {
           return {

@@ -115,8 +115,76 @@ export type StoredItemType<K extends ItemKeyType> = {
   value: BytesToStrings<StorageAccessType[K]>;
 };
 export type MessageType = MessageAttributesType;
+
+// See: ts/sql/Interface.ts
+//
+// When adding a new column:
+//
+// - Make sure the name matches the one in `MessageAttributeTypes`
+// - Update `hydrateMessage`
+//
+export const MESSAGE_COLUMNS = [
+  'json',
+
+  'id',
+  'body',
+  'conversationId',
+  'expirationStartTimestamp',
+  'expireTimer',
+  'hasAttachments',
+  'hasFileAttachments',
+  'hasVisualMediaAttachments',
+  'isChangeCreatedByUs',
+  'isErased',
+  'isViewOnce',
+  'mentionsMe',
+  'received_at',
+  'received_at_ms',
+  'schemaVersion',
+  'serverGuid',
+  'sent_at',
+  'source',
+  'sourceServiceId',
+  'sourceDevice',
+  'storyId',
+  'type',
+  'readStatus',
+  'seenStatus',
+  'serverTimestamp',
+  'timestamp',
+  'unidentifiedDeliveryReceived',
+] as const;
+
 export type MessageTypeUnhydrated = {
   json: string;
+
+  id: string;
+  body: string | null;
+  conversationId: string | null;
+  expirationStartTimestamp: number | null;
+  expireTimer: number | null;
+  hasAttachments: 0 | 1 | null;
+  hasFileAttachments: 0 | 1 | null;
+  hasVisualMediaAttachments: 0 | 1 | null;
+  isChangeCreatedByUs: 0 | 1 | null;
+  isErased: 0 | 1 | null;
+  isViewOnce: 0 | 1 | null;
+  mentionsMe: 0 | 1 | null;
+  received_at: number | null;
+  received_at_ms: number | null;
+  schemaVersion: number | null;
+  serverGuid: string | null;
+  sent_at: number | null;
+  source: string | null;
+  sourceServiceId: string | null;
+  sourceDevice: number | null;
+  serverTimestamp: number | null;
+  storyId: string | null;
+  type: string;
+  timestamp: number | null;
+  readStatus: number | null;
+  seenStatus: number | null;
+  unidentifiedDeliveryReceived: 0 | 1 | null;
 };
 
 export type PreKeyIdType = `${ServiceIdString}:${number}`;
@@ -147,9 +215,7 @@ export type StoredPreKeyType = PreKeyType & {
   privateKey: string;
   publicKey: string;
 };
-export type ServerSearchResultMessageType = {
-  json: string;
-
+export type ServerSearchResultMessageType = MessageTypeUnhydrated & {
   // If the FTS matches text in message.body, snippet will be populated
   ftsSnippet: string | null;
 
@@ -159,7 +225,6 @@ export type ServerSearchResultMessageType = {
   mentionLength: number | null;
 };
 export type ClientSearchResultMessageType = MessageType & {
-  json: string;
   bodyRanges: ReadonlyArray<RawBodyRange>;
   snippet: string;
 };

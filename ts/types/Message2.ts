@@ -285,6 +285,10 @@ export const _mapAttachments =
     message: MessageAttributesType,
     context: ContextType
   ): Promise<MessageAttributesType> => {
+    if (!message.attachments?.length) {
+      return message;
+    }
+
     const upgradeWithContext = esbuildAnonymize((attachment: AttachmentType) =>
       upgradeAttachment(attachment, context, message)
     );
@@ -356,6 +360,10 @@ export const _mapContact =
     message: MessageAttributesType,
     context: ContextType
   ): Promise<MessageAttributesType> => {
+    if (!message.contact?.length) {
+      return message;
+    }
+
     const upgradeWithContext = esbuildAnonymize(
       (contact: EmbeddedContactType) =>
         upgradeContact(contact, context, message)
@@ -501,23 +509,25 @@ const toVersion10 = _withSchemaVersion({
   schemaVersion: 10,
   upgrade: async (message, context) => {
     const processPreviews = _mapPreviewAttachments(migrateDataToFileSystem);
-    const processSticker = async (
-      stickerMessage: MessageAttributesType,
-      stickerContext: ContextType
-    ): Promise<MessageAttributesType> => {
-      const { sticker } = stickerMessage;
-      if (!sticker || !sticker.data || !sticker.data.data) {
-        return stickerMessage;
-      }
+    const processSticker = esbuildAnonymize(
+      async (
+        stickerMessage: MessageAttributesType,
+        stickerContext: ContextType
+      ): Promise<MessageAttributesType> => {
+        const { sticker } = stickerMessage;
+        if (!sticker || !sticker.data || !sticker.data.data) {
+          return stickerMessage;
+        }
 
-      return {
-        ...stickerMessage,
-        sticker: {
-          ...sticker,
-          data: await migrateDataToFileSystem(sticker.data, stickerContext),
-        },
-      };
-    };
+        return {
+          ...stickerMessage,
+          sticker: {
+            ...sticker,
+            data: await migrateDataToFileSystem(sticker.data, stickerContext),
+          },
+        };
+      }
+    );
 
     const previewProcessed = await processPreviews(message, context);
     const stickerProcessed = await processSticker(previewProcessed, context);

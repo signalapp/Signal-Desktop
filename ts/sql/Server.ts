@@ -55,13 +55,7 @@ import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { updateSchema } from './migrations';
-import type {
-  ArrayQuery,
-  EmptyQuery,
-  JSONRows,
-  Query,
-  QueryFragment,
-} from './util';
+import type { ArrayQuery, EmptyQuery, JSONRows, Query } from './util';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -80,7 +74,9 @@ import {
   sqlConstant,
   sqlFragment,
   sqlJoin,
+  QueryFragment,
 } from './util';
+import { hydrateMessage } from './hydration';
 
 import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
 import { SeenStatus } from '../MessageSeenStatus';
@@ -181,7 +177,7 @@ import type {
   UnprocessedUpdateType,
   WritableDB,
 } from './Interface';
-import { AttachmentDownloadSource } from './Interface';
+import { AttachmentDownloadSource, MESSAGE_COLUMNS } from './Interface';
 import {
   _removeAllCallLinks,
   beginDeleteAllCallLinks,
@@ -582,6 +578,10 @@ export function prepare<T extends Array<unknown> | Record<string, unknown>>(
   return result;
 }
 
+const MESSAGE_COLUMNS_FRAGMENTS = MESSAGE_COLUMNS.map(
+  column => new QueryFragment(column, [])
+);
+
 function rowToConversation(row: ConversationRow): ConversationType {
   const { expireTimerVersion } = row;
   const parsedJson = JSON.parse(row.json);
@@ -603,6 +603,7 @@ function rowToConversation(row: ConversationRow): ConversationType {
     profileLastFetchedAt,
   };
 }
+
 function rowToSticker(row: StickerRow): StickerType {
   return {
     ...row,
@@ -1938,6 +1939,10 @@ function searchMessages(
         .run({ conversationId, limit });
     }
 
+    const prefixedColumns = sqlJoin(
+      MESSAGE_COLUMNS_FRAGMENTS.map(name => sqlFragment`messages.${name}`)
+    );
+
     // The `MATCH` is necessary in order to for `snippet()` helper function to
     // give us the right results. We can't call `snippet()` in the query above
     // because it would bloat the temporary table with text data and we want
@@ -1945,9 +1950,7 @@ function searchMessages(
     const ftsFragment = sqlFragment`
       SELECT
         messages.rowid,
-        messages.json,
-        messages.sent_at,
-        messages.received_at,
+        ${prefixedColumns},
         snippet(messages_fts, -1, ${SNIPPET_LEFT_PLACEHOLDER}, ${SNIPPET_RIGHT_PLACEHOLDER}, ${SNIPPET_TRUNCATION_PLACEHOLDER}, 10) AS ftsSnippet
       FROM tmp_filtered_results
       INNER JOIN messages_fts
@@ -1966,6 +1969,12 @@ function searchMessages(
       const [sqlQuery, params] = sql`${ftsFragment};`;
       result = writable.prepare(sqlQuery).all(params);
     } else {
+      const coalescedColumns = MESSAGE_COLUMNS_FRAGMENTS.map(
+        name => sqlFragment`
+          COALESCE(messages.${name}, ftsResults.${name}) AS ${name}
+        `
+      );
+
       // If contactServiceIdsMatchingQuery is not empty, we due an OUTER JOIN
       // between:
       // 1) the messages that mention at least one of
@@ -1978,9 +1987,7 @@ function searchMessages(
       const [sqlQuery, params] = sql`
         SELECT
           messages.rowid as rowid,
-          COALESCE(messages.json, ftsResults.json) as json,
-          COALESCE(messages.sent_at, ftsResults.sent_at) as sent_at,
-          COALESCE(messages.received_at, ftsResults.received_at) as received_at,
+          ${sqlJoin(coalescedColumns)},
           ftsResults.ftsSnippet,
           mentionAci,
           start as mentionStart,
@@ -2082,7 +2089,9 @@ export function getMostRecentAddressableMessages(
   limit = 5
 ): Array<MessageType> {
   const [query, parameters] = sql`
-    SELECT json FROM messages
+    SELECT
+      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    FROM messages
     INDEXED BY messages_by_date_addressable
     WHERE
       conversationId IS ${conversationId} AND
@@ -2093,7 +2102,7 @@ export function getMostRecentAddressableMessages(
 
   const rows = db.prepare(query).all(parameters);
 
-  return rows.map(row => jsonToObject(row.json));
+  return rows.map(row => hydrateMessage(row));
 }
 
 export function getMostRecentAddressableNondisappearingMessages(
@@ -2102,7 +2111,9 @@ export function getMostRecentAddressableNondisappearingMessages(
   limit = 5
 ): Array<MessageType> {
   const [query, parameters] = sql`
-    SELECT json FROM messages
+    SELECT
+      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    FROM messages
     INDEXED BY messages_by_date_addressable_nondisappearing
     WHERE
       expireTimer IS NULL AND
@@ -2114,7 +2125,7 @@ export function getMostRecentAddressableNondisappearingMessages(
 
   const rows = db.prepare(query).all(parameters);
 
-  return rows.map(row => jsonToObject(row.json));
+  return rows.map(row => hydrateMessage(row));
 }
 
 export function removeSyncTaskById(db: WritableDB, id: string): void {
@@ -2248,7 +2259,6 @@ export function saveMessage(
   const {
     body,
     conversationId,
-    groupV2Change,
     hasAttachments,
     hasFileAttachments,
     hasVisualMediaAttachments,
@@ -2257,6 +2267,7 @@ export function saveMessage(
     isViewOnce,
     mentionsMe,
     received_at,
+    received_at_ms,
     schemaVersion,
     sent_at,
     serverGuid,
@@ -2264,13 +2275,22 @@ export function saveMessage(
     sourceServiceId,
     sourceDevice,
     storyId,
+    timestamp,
     type,
     readStatus,
     expireTimer,
     expirationStartTimestamp,
-    attachments,
+    seenStatus: originalSeenStatus,
+    serverTimestamp,
+    unidentifiedDeliveryReceived,
+
+    ...json
   } = data;
-  let { seenStatus } = data;
+
+  // Extracted separately since we store this field in JSON
+  const { attachments, groupV2Change } = data;
+
+  let seenStatus = originalSeenStatus;
 
   if (attachments) {
     strictAssert(
@@ -2313,6 +2333,7 @@ export function saveMessage(
     isViewOnce: isViewOnce ? 1 : 0,
     mentionsMe: mentionsMe ? 1 : 0,
     received_at: received_at || null,
+    received_at_ms: received_at_ms || null,
     schemaVersion: schemaVersion || 0,
     serverGuid: serverGuid || null,
     sent_at: sent_at || null,
@@ -2321,43 +2342,22 @@ export function saveMessage(
     sourceDevice: sourceDevice || null,
     storyId: storyId || null,
     type: type || null,
+    timestamp: timestamp ?? 0,
     readStatus: readStatus ?? null,
     seenStatus: seenStatus ?? SeenStatus.NotApplicable,
-  };
+    serverTimestamp: serverTimestamp ?? null,
+    unidentifiedDeliveryReceived: unidentifiedDeliveryReceived ? 1 : 0,
+  } satisfies Omit<MessageTypeUnhydrated, 'json'>;
 
   if (id && !forceSave) {
     prepare(
       db,
       `
       UPDATE messages SET
-        id = $id,
-        json = $json,
-
-        body = $body,
-        conversationId = $conversationId,
-        expirationStartTimestamp = $expirationStartTimestamp,
-        expireTimer = $expireTimer,
-        hasAttachments = $hasAttachments,
-        hasFileAttachments = $hasFileAttachments,
-        hasVisualMediaAttachments = $hasVisualMediaAttachments,
-        isChangeCreatedByUs = $isChangeCreatedByUs,
-        isErased = $isErased,
-        isViewOnce = $isViewOnce,
-        mentionsMe = $mentionsMe,
-        received_at = $received_at,
-        schemaVersion = $schemaVersion,
-        serverGuid = $serverGuid,
-        sent_at = $sent_at,
-        source = $source,
-        sourceServiceId = $sourceServiceId,
-        sourceDevice = $sourceDevice,
-        storyId = $storyId,
-        type = $type,
-        readStatus = $readStatus,
-        seenStatus = $seenStatus
+        ${MESSAGE_COLUMNS.map(name => `${name} = $${name}`).join(', ')}
       WHERE id = $id;
       `
-    ).run({ ...payloadWithoutJson, json: objectToJSON(data) });
+    ).run({ ...payloadWithoutJson, json: objectToJSON(json) });
 
     if (jobToInsert) {
       insertJob(db, jobToInsert);
@@ -2366,79 +2366,28 @@ export function saveMessage(
     return id;
   }
 
-  const toCreate = {
-    ...data,
-    id: id || generateMessageId(data.received_at).id,
-  };
+  const createdId = id || generateMessageId(data.received_at).id;
 
   prepare(
     db,
     `
     INSERT INTO messages (
-      id,
-      json,
-
-      body,
-      conversationId,
-      expirationStartTimestamp,
-      expireTimer,
-      hasAttachments,
-      hasFileAttachments,
-      hasVisualMediaAttachments,
-      isChangeCreatedByUs,
-      isErased,
-      isViewOnce,
-      mentionsMe,
-      received_at,
-      schemaVersion,
-      serverGuid,
-      sent_at,
-      source,
-      sourceServiceId,
-      sourceDevice,
-      storyId,
-      type,
-      readStatus,
-      seenStatus
-    ) values (
-      $id,
-      $json,
-
-      $body,
-      $conversationId,
-      $expirationStartTimestamp,
-      $expireTimer,
-      $hasAttachments,
-      $hasFileAttachments,
-      $hasVisualMediaAttachments,
-      $isChangeCreatedByUs,
-      $isErased,
-      $isViewOnce,
-      $mentionsMe,
-      $received_at,
-      $schemaVersion,
-      $serverGuid,
-      $sent_at,
-      $source,
-      $sourceServiceId,
-      $sourceDevice,
-      $storyId,
-      $type,
-      $readStatus,
-      $seenStatus
+      ${MESSAGE_COLUMNS.join(', ')}
+    ) VALUES (
+      ${MESSAGE_COLUMNS.map(name => `$${name}`).join(', ')}
     );
     `
   ).run({
     ...payloadWithoutJson,
-    id: toCreate.id,
-    json: objectToJSON(toCreate),
+    id: createdId,
+    json: objectToJSON(json),
   });
 
   if (jobToInsert) {
     insertJob(db, jobToInsert);
   }
 
-  return toCreate.id;
+  return createdId;
 }
 
 function saveMessages(
@@ -2507,7 +2456,13 @@ export function getMessageById(
   id: string
 ): MessageType | undefined {
   const row = db
-    .prepare<Query>('SELECT json FROM messages WHERE id = $id;')
+    .prepare<Query>(
+      `
+      SELECT ${MESSAGE_COLUMNS.join(', ')}
+      FROM messages
+      WHERE id = $id;
+    `
+    )
     .get({
       id,
     });
@@ -2516,7 +2471,7 @@ export function getMessageById(
     return undefined;
   }
 
-  return jsonToObject(row.json);
+  return hydrateMessage(row);
 }
 
 function getMessagesById(
@@ -2528,22 +2483,30 @@ function getMessagesById(
     messageIds,
     (batch: ReadonlyArray<string>): Array<MessageType> => {
       const query = db.prepare<ArrayQuery>(
-        `SELECT json FROM messages WHERE id IN (${Array(batch.length)
-          .fill('?')
-          .join(',')});`
+        `
+          SELECT ${MESSAGE_COLUMNS.join(', ')}
+          FROM messages
+          WHERE id IN (
+            ${Array(batch.length).fill('?').join(',')}
+          );`
       );
-      const rows: JSONRows = query.all(batch);
-      return rows.map(row => jsonToObject(row.json));
+      const rows: Array<MessageTypeUnhydrated> = query.all(batch);
+      return rows.map(row => hydrateMessage(row));
     }
   );
 }
 
 function _getAllMessages(db: ReadableDB): Array<MessageType> {
-  const rows: JSONRows = db
-    .prepare<EmptyQuery>('SELECT json FROM messages ORDER BY id ASC;')
+  const rows: Array<MessageTypeUnhydrated> = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT ${MESSAGE_COLUMNS.join(', ')}
+      FROM messages ORDER BY id ASC
+    `
+    )
     .all();
 
-  return rows.map(row => jsonToObject(row.json));
+  return rows.map(row => hydrateMessage(row));
 }
 function _removeAllMessages(db: WritableDB): void {
   db.exec(`
@@ -2574,10 +2537,10 @@ function getMessageBySender(
     sent_at: number;
   }
 ): MessageType | undefined {
-  const rows: JSONRows = prepare(
+  const rows: Array<MessageTypeUnhydrated> = prepare(
     db,
     `
-    SELECT json FROM messages WHERE
+    SELECT ${MESSAGE_COLUMNS.join(', ')} FROM messages WHERE
       (source = $source OR sourceServiceId = $sourceServiceId) AND
       sourceDevice = $sourceDevice AND
       sent_at = $sent_at
@@ -2603,7 +2566,7 @@ function getMessageBySender(
     return undefined;
   }
 
-  return jsonToObject(rows[0].json);
+  return hydrateMessage(rows[0]);
 }
 
 export function _storyIdPredicate(
@@ -2667,7 +2630,9 @@ function getUnreadByConversationAndMarkRead(
     db.prepare(updateExpirationQuery).run(updateExpirationParams);
 
     const [selectQuery, selectParams] = sql`
-      SELECT id, json FROM messages
+      SELECT
+        ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+        FROM messages
         WHERE
           conversationId = ${conversationId} AND
           seenStatus = ${SeenStatus.Unseen} AND
@@ -2701,7 +2666,7 @@ function getUnreadByConversationAndMarkRead(
     db.prepare(updateStatusQuery).run(updateStatusParams);
 
     return rows.map(row => {
-      const json = jsonToObject<MessageType>(row.json);
+      const json = hydrateMessage(row);
       return {
         originalReadStatus: json.readStatus,
         readStatus: ReadStatus.Read,
@@ -2929,7 +2894,10 @@ function getRecentStoryReplies(
   };
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
-    SELECT json FROM messages WHERE
+    SELECT
+      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    FROM messages
+    WHERE
       (${messageId} IS NULL OR id IS NOT ${messageId}) AND
       isStory IS 0 AND
       storyId IS ${storyId} AND
@@ -2940,9 +2908,9 @@ function getRecentStoryReplies(
   `;
 
   const template = sqlFragment`
-    SELECT first.json FROM (${createQuery(timeFilters.first)}) as first
+    SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
     UNION ALL
-    SELECT second.json FROM (${createQuery(timeFilters.second)}) as second
+    SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
   `;
 
   const [query, params] = sql`${template} LIMIT ${limit}`;
@@ -2988,7 +2956,9 @@ function getAdjacentMessagesByConversation(
     requireFileAttachments;
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
-    SELECT json FROM messages WHERE
+    SELECT
+      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    FROM messages WHERE
       conversationId = ${conversationId} AND
       ${
         requireDifferentMessage
@@ -3014,15 +2984,15 @@ function getAdjacentMessagesByConversation(
   `;
 
   let template = sqlFragment`
-    SELECT first.json FROM (${createQuery(timeFilters.first)}) as first
+    SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
     UNION ALL
-    SELECT second.json FROM (${createQuery(timeFilters.second)}) as second
+    SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
   `;
 
   // See `filterValidAttachments` in ts/state/ducks/lightbox.ts
   if (requireVisualMediaAttachments) {
     template = sqlFragment`
-      SELECT json
+      SELECT messages.*
       FROM (${template}) as messages
       WHERE
         (
@@ -3037,7 +3007,7 @@ function getAdjacentMessagesByConversation(
     `;
   } else if (requireFileAttachments) {
     template = sqlFragment`
-      SELECT json
+      SELECT messages.*
       FROM (${template}) as messages
       WHERE
         (
@@ -3086,7 +3056,7 @@ function getAllStories(
   }
 ): GetAllStoriesResultType {
   const [storiesQuery, storiesParams] = sql`
-    SELECT json, id
+    SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
     FROM messages
     WHERE
       isStory = 1 AND
@@ -3094,10 +3064,7 @@ function getAllStories(
       (${sourceServiceId} IS NULL OR sourceServiceId IS ${sourceServiceId})
     ORDER BY received_at ASC, sent_at ASC;
   `;
-  const rows: ReadonlyArray<{
-    id: string;
-    json: string;
-  }> = db.prepare(storiesQuery).all(storiesParams);
+  const rows = db.prepare(storiesQuery).all(storiesParams);
 
   const [repliesQuery, repliesParams] = sql`
     SELECT DISTINCT storyId
@@ -3126,7 +3093,7 @@ function getAllStories(
   );
 
   return rows.map(row => ({
-    ...jsonToObject(row.json),
+    ...hydrateMessage(row),
     hasReplies: Boolean(repliesLookup.has(row.id)),
     hasRepliesFromSelf: Boolean(repliesFromSelfLookup.has(row.id)),
   }));
@@ -3301,7 +3268,7 @@ function getLastConversationActivity(
   const row = prepare(
     db,
     `
-      SELECT json FROM messages
+      SELECT ${MESSAGE_COLUMNS.join(', ')} FROM messages
       INDEXED BY messages_activity
       WHERE
         conversationId IS $conversationId AND
@@ -3320,7 +3287,7 @@ function getLastConversationActivity(
     return undefined;
   }
 
-  return jsonToObject(row.json);
+  return hydrateMessage(row);
 }
 function getLastConversationPreview(
   db: ReadableDB,
@@ -3332,19 +3299,15 @@ function getLastConversationPreview(
     includeStoryReplies: boolean;
   }
 ): MessageType | undefined {
-  type Row = Readonly<{
-    json: string;
-  }>;
-
   const index = includeStoryReplies
     ? 'messages_preview'
     : 'messages_preview_without_story';
 
-  const row: Row | undefined = prepare(
+  const row: MessageTypeUnhydrated | undefined = prepare(
     db,
     `
-      SELECT json FROM (
-        SELECT json, expiresAt FROM messages
+      SELECT ${MESSAGE_COLUMNS.join(', ')}, expiresAt FROM (
+        SELECT ${MESSAGE_COLUMNS.join(', ')}, expiresAt FROM messages
         INDEXED BY ${index}
         WHERE
           conversationId IS $conversationId AND
@@ -3361,7 +3324,7 @@ function getLastConversationPreview(
     now: Date.now(),
   });
 
-  return row ? jsonToObject(row.json) : undefined;
+  return row ? hydrateMessage(row) : undefined;
 }
 
 function getConversationMessageStats(
@@ -3400,7 +3363,7 @@ function getLastConversationMessage(
   const row = db
     .prepare<Query>(
       `
-      SELECT json FROM messages WHERE
+      SELECT ${MESSAGE_COLUMNS.join(', ')} FROM messages WHERE
         conversationId = $conversationId
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
@@ -3414,7 +3377,7 @@ function getLastConversationMessage(
     return undefined;
   }
 
-  return jsonToObject(row.json);
+  return hydrateMessage(row);
 }
 
 function getOldestUnseenMessageForConversation(
@@ -3730,7 +3693,7 @@ function getCallHistoryMessageByCallId(
   }
 ): MessageType | undefined {
   const [query, params] = sql`
-    SELECT json
+    SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
     FROM messages
     WHERE conversationId = ${options.conversationId}
       AND type = 'call-history'
@@ -3740,7 +3703,7 @@ function getCallHistoryMessageByCallId(
   if (row == null) {
     return;
   }
-  return jsonToObject(row.json);
+  return hydrateMessage(row);
 }
 
 function getCallHistory(
@@ -4524,45 +4487,57 @@ function getMessagesBySentAt(
   db: ReadableDB,
   sentAt: number
 ): Array<MessageType> {
+  // Make sure to preserve order of columns
+  const editedColumns = MESSAGE_COLUMNS_FRAGMENTS.map(name => {
+    if (name.fragment === 'received_at' || name.fragment === 'sent_at') {
+      return name;
+    }
+    return sqlFragment`messages.${name}`;
+  });
+
   const [query, params] = sql`
-      SELECT messages.json, received_at, sent_at FROM edited_messages
+      SELECT ${sqlJoin(editedColumns)}
+      FROM edited_messages
       INNER JOIN messages ON
         messages.id = edited_messages.messageId
       WHERE edited_messages.sentAt = ${sentAt}
       UNION
-      SELECT json, received_at, sent_at FROM messages
+      SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+      FROM messages
       WHERE sent_at = ${sentAt}
       ORDER BY messages.received_at DESC, messages.sent_at DESC;
     `;
 
   const rows = db.prepare(query).all(params);
 
-  return rows.map(row => jsonToObject(row.json));
+  return rows.map(row => hydrateMessage(row));
 }
 
 function getExpiredMessages(db: ReadableDB): Array<MessageType> {
   const now = Date.now();
 
-  const rows: JSONRows = db
+  const rows: Array<MessageTypeUnhydrated> = db
     .prepare<Query>(
       `
-      SELECT json FROM messages WHERE
+      SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}, expiresAt
+      FROM messages
+      WHERE
         expiresAt <= $now
       ORDER BY expiresAt ASC;
       `
     )
     .all({ now });
 
-  return rows.map(row => jsonToObject(row.json));
+  return rows.map(row => hydrateMessage(row));
 }
 
 function getMessagesUnexpectedlyMissingExpirationStartTimestamp(
   db: ReadableDB
 ): Array<MessageType> {
-  const rows: JSONRows = db
+  const rows: Array<MessageTypeUnhydrated> = db
     .prepare<EmptyQuery>(
       `
-      SELECT json FROM messages
+      SELECT ${MESSAGE_COLUMNS.join(', ')} FROM messages
       INDEXED BY messages_unexpectedly_missing_expiration_start_timestamp
       WHERE
         expireTimer > 0 AND
@@ -4579,7 +4554,7 @@ function getMessagesUnexpectedlyMissingExpirationStartTimestamp(
     )
     .all();
 
-  return rows.map(row => jsonToObject(row.json));
+  return rows.map(row => hydrateMessage(row));
 }
 
 function getSoonestMessageExpiry(db: ReadableDB): undefined | number {
@@ -4607,7 +4582,7 @@ function getNextTapToViewMessageTimestampToAgeOut(
   const row = db
     .prepare<EmptyQuery>(
       `
-      SELECT json FROM messages
+      SELECT ${MESSAGE_COLUMNS.join(', ')} FROM messages
       WHERE
         -- we want this query to use the messages_view_once index rather than received_at
         likelihood(isViewOnce = 1, 0.01)
@@ -4621,7 +4596,7 @@ function getNextTapToViewMessageTimestampToAgeOut(
   if (!row) {
     return undefined;
   }
-  const data = jsonToObject<MessageType>(row.json);
+  const data = hydrateMessage(row);
   const result = data.received_at_ms;
   return isNormalNumber(result) ? result : undefined;
 }
@@ -4630,16 +4605,16 @@ function getTapToViewMessagesNeedingErase(
   db: ReadableDB,
   maxTimestamp: number
 ): Array<MessageType> {
-  const rows: JSONRows = db
+  const rows: Array<MessageTypeUnhydrated> = db
     .prepare<Query>(
       `
-      SELECT json
+      SELECT ${MESSAGE_COLUMNS.join(', ')}
       FROM messages
       WHERE
         isViewOnce = 1
         AND (isErased IS NULL OR isErased != 1)
         AND (
-          IFNULL(json ->> '$.received_at_ms', 0) <= $maxTimestamp
+          IFNULL(received_at_ms, 0) <= $maxTimestamp
         )
       `
     )
@@ -4647,7 +4622,7 @@ function getTapToViewMessagesNeedingErase(
       maxTimestamp,
     });
 
-  return rows.map(row => jsonToObject(row.json));
+  return rows.map(row => hydrateMessage(row));
 }
 
 const MAX_UNPROCESSED_ATTEMPTS = 10;
@@ -6716,10 +6691,10 @@ function getMessagesNeedingUpgrade(
   limit: number,
   { maxVersion }: { maxVersion: number }
 ): Array<MessageType> {
-  const rows: JSONRows = db
+  const rows: Array<MessageTypeUnhydrated> = db
     .prepare<Query>(
       `
-      SELECT json
+      SELECT ${MESSAGE_COLUMNS.join(', ')}
       FROM messages
       WHERE
         (schemaVersion IS NULL OR schemaVersion < $maxVersion) AND
@@ -6736,7 +6711,7 @@ function getMessagesNeedingUpgrade(
       limit,
     });
 
-  return rows.map(row => jsonToObject(row.json));
+  return rows.map(row => hydrateMessage(row));
 }
 
 // Exported for tests
@@ -7023,12 +6998,14 @@ function pageMessages(
       rowids,
       (batch: ReadonlyArray<number>): Array<MessageType> => {
         const query = writable.prepare<ArrayQuery>(
-          `SELECT json FROM messages WHERE rowid IN (${Array(batch.length)
-            .fill('?')
-            .join(',')});`
+          `
+          SELECT ${MESSAGE_COLUMNS.join(', ')}
+          FROM messages
+          WHERE rowid IN (${Array(batch.length).fill('?').join(',')});
+          `
         );
-        const rows: JSONRows = query.all(batch);
-        return rows.map(row => jsonToObject(row.json));
+        const rows: Array<MessageTypeUnhydrated> = query.all(batch);
+        return rows.map(row => hydrateMessage(row));
       }
     );
 
@@ -7446,11 +7423,14 @@ function getUnreadEditedMessagesAndMarkRead(
   }
 ): GetUnreadByConversationAndMarkReadResultType {
   return db.transaction(() => {
+    const editedColumns = MESSAGE_COLUMNS_FRAGMENTS.filter(
+      name => name.fragment !== 'sent_at' && name.fragment !== 'readStatus'
+    ).map(name => sqlFragment`messages.${name}`);
+
     const [selectQuery, selectParams] = sql`
       SELECT
-        messages.id,
-        messages.json,
-        edited_messages.sentAt,
+        ${sqlJoin(editedColumns)},
+        edited_messages.sentAt as sent_at,
         edited_messages.readStatus
       FROM edited_messages
       JOIN messages
@@ -7481,7 +7461,7 @@ function getUnreadEditedMessagesAndMarkRead(
     }
 
     return rows.map(row => {
-      const json = jsonToObject<MessageType>(row.json);
+      const json = hydrateMessage(row);
       return {
         originalReadStatus: row.readStatus,
         readStatus: ReadStatus.Read,
@@ -7494,8 +7474,6 @@ function getUnreadEditedMessagesAndMarkRead(
           'sourceServiceId',
           'type',
         ]),
-        // Use the edited message timestamp
-        sent_at: row.sentAt,
       };
     });
   })();

@@ -4,7 +4,7 @@
 import type { LoggerType } from '../../types/Logging';
 import { isRecord } from '../../util/isRecord';
 import type { WritableDB } from '../Interface';
-import { getJobsInQueue, getMessageById, insertJob } from '../Server';
+import { getJobsInQueue, insertJob } from '../Server';
 
 export default function updateToSchemaVersion78(
   currentVersion: number,
@@ -41,6 +41,10 @@ export default function updateToSchemaVersion78(
       },
     ];
 
+    const getMessageById = db.prepare(
+      'SELECT conversationId FROM messages WHERE id IS ?'
+    );
+
     for (const queue of queues) {
       const prevJobs = getJobsInQueue(db, queue.queueType);
       deleteJobsInQueue.run({ queueType: queue.queueType });
@@ -62,7 +66,7 @@ export default function updateToSchemaVersion78(
           return;
         }
 
-        const message = getMessageById(db, messageId);
+        const message = getMessageById.get(messageId);
         if (!message) {
           logger.warn(
             `updateToSchemaVersion78: Unable to find message for ${queue.queueType} job ${id}`

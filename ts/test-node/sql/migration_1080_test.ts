@@ -4,8 +4,8 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import type { WritableDB } from '../../sql/Interface';
-import { getMostRecentAddressableNondisappearingMessages } from '../../sql/Server';
+import type { WritableDB, ReadableDB, MessageType } from '../../sql/Interface';
+import { sql, jsonToObject } from '../../sql/util';
 import { createDB, insertData, updateToVersion } from './helpers';
 
 import type { MessageAttributesType } from '../../model-types';
@@ -24,6 +24,28 @@ function generateMessage(json: MessageAttributesType) {
     expireTimer: Number(expireTimer),
     type,
   };
+}
+
+// Snapshot before: 1270
+export function getMostRecentAddressableNondisappearingMessages(
+  db: ReadableDB,
+  conversationId: string,
+  limit = 5
+): Array<MessageType> {
+  const [query, parameters] = sql`
+    SELECT json FROM messages
+    INDEXED BY messages_by_date_addressable_nondisappearing
+    WHERE
+      expireTimer IS NULL AND
+      conversationId IS ${conversationId} AND
+      isAddressableMessage = 1
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT ${limit};
+  `;
+
+  const rows = db.prepare(query).all(parameters);
+
+  return rows.map(row => jsonToObject(row.json));
 }
 
 describe('SQL/updateToSchemaVersion1080', () => {

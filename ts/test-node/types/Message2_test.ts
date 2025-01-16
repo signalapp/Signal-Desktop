@@ -126,11 +126,9 @@ describe('Message', () => {
       it('should initialize schema version to zero', () => {
         const input = getDefaultMessage({
           body: 'Imagine there is no heaven…',
-          attachments: [],
         });
         const expected = getDefaultMessage({
           body: 'Imagine there is no heaven…',
-          attachments: [],
           schemaVersion: 0,
         });
 
@@ -203,7 +201,6 @@ describe('Message', () => {
         hasVisualMediaAttachments: undefined,
         hasFileAttachments: undefined,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
-        contact: [],
       });
 
       const expectedAttachmentData = 'It’s easy if you try';
@@ -655,7 +652,6 @@ describe('Message', () => {
       });
       const expected = getDefaultMessage({
         body: 'hey there!',
-        contact: [],
       });
       const result = await upgradeVersion(message, getDefaultContext());
       assert.deepEqual(result, expected);
@@ -848,7 +844,6 @@ describe('Message', () => {
             key: 'key',
           },
         ],
-        contact: [],
       });
       const result = await Message.upgradeSchema(message, {
         ...getDefaultContext(),

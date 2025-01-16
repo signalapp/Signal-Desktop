@@ -62,6 +62,7 @@ import type {
   ClientOnlyReadableInterface,
   ClientOnlyWritableInterface,
 } from './Interface';
+import { hydrateMessage } from './hydration';
 import type { MessageAttributesType } from '../model-types';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 
@@ -545,7 +546,7 @@ function handleSearchMessageJSON(
   messages: Array<ServerSearchResultMessageType>
 ): Array<ClientSearchResultMessageType> {
   return messages.map<ClientSearchResultMessageType>(message => {
-    const parsedMessage = JSON.parse(message.json);
+    const parsedMessage = hydrateMessage(message);
     assertDev(
       message.ftsSnippet ?? typeof message.mentionStart === 'number',
       'Neither ftsSnippet nor matching mention returned from message search'
@@ -553,14 +554,12 @@ function handleSearchMessageJSON(
     const snippet =
       message.ftsSnippet ??
       generateSnippetAroundMention({
-        body: parsedMessage.body,
+        body: parsedMessage.body || '',
         mentionStart: message.mentionStart ?? 0,
         mentionLength: message.mentionLength ?? 1,
       });
 
     return {
-      json: message.json,
-
       // Empty array is a default value. `message.json` has the real field
       bodyRanges: [],
       ...parsedMessage,
@@ -734,7 +733,7 @@ async function removeMessages(
 function handleMessageJSON(
   messages: Array<MessageTypeUnhydrated>
 ): Array<MessageType> {
-  return messages.map(message => JSON.parse(message.json));
+  return messages.map(message => hydrateMessage(message));
 }
 
 async function getNewerMessagesByConversation(

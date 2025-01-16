@@ -168,6 +168,9 @@ type MessageType =
   | 'verified-change'
   | 'message-request-response-event';
 
+// Note: when adding a property that is likely to be set across many messages,
+//   consider adding a database column as well and updating `MESSAGE_COLUMNS`
+//   in `ts/sql/Server.ts`
 export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
   bodyRanges?: ReadonlyArray<RawBodyRange>;

@@ -4,7 +4,7 @@
 import type { LoggerType } from '../../types/Logging';
 import { isRecord } from '../../util/isRecord';
 import type { WritableDB } from '../Interface';
-import { getJobsInQueue, getMessageById, insertJob } from '../Server';
+import { getJobsInQueue, insertJob } from '../Server';
 
 export default function updateToSchemaVersion51(
   currentVersion: number,
@@ -24,6 +24,10 @@ export default function updateToSchemaVersion51(
     const reactionsJobs = getJobsInQueue(db, 'reactions');
     deleteJobsInQueue.run({ queueType: 'reactions' });
 
+    const getMessageById = db.prepare(
+      'SELECT conversationId FROM messages WHERE id IS ?'
+    );
+
     reactionsJobs.forEach(job => {
       const { data, id } = job;
 
@@ -42,7 +46,7 @@ export default function updateToSchemaVersion51(
         return;
       }
 
-      const message = getMessageById(db, messageId);
+      const message = getMessageById.get(messageId);
       if (!message) {
         logger.warn(
           `updateToSchemaVersion51: Unable to find message for reaction job ${id}`

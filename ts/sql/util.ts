@@ -11,7 +11,8 @@ export type ArrayQuery = Array<ReadonlyArray<null | number | bigint | string>>;
 export type Query = {
   [key: string]: null | number | bigint | string | Uint8Array;
 };
-export type JSONRows = Array<{ readonly json: string }>;
+export type JSONRow = Readonly<{ json: string }>;
+export type JSONRows = Array<JSONRow>;
 
 export type TableType =
   | 'attachment_downloads'

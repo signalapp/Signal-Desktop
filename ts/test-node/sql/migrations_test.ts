@@ -1351,10 +1351,8 @@ describe('SQL migrations test', () => {
       db.exec(
         `
         INSERT INTO messages
-        (id, json)
-        VALUES ('${MESSAGE_ID_1}', '${JSON.stringify({
-          conversationId: CONVERSATION_ID_1,
-        })}')
+        (id, conversationId)
+        VALUES ('${MESSAGE_ID_1}', '${CONVERSATION_ID_1}');
         `
       );
 
@@ -2482,10 +2480,8 @@ describe('SQL migrations test', () => {
       db.exec(
         `
         INSERT INTO messages
-        (id, json)
-        VALUES ('${MESSAGE_ID_1}', '${JSON.stringify({
-          conversationId: CONVERSATION_ID_1,
-        })}')
+        (id, conversationId)
+        VALUES ('${MESSAGE_ID_1}', '${CONVERSATION_ID_1}');
         `
       );
 
