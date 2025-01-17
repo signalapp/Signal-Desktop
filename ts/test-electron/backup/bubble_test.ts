@@ -605,6 +605,67 @@ describe('backup/bubble messages', () => {
       },
     ]);
   });
+  describe('link previews', async () => {
+    it('roundtrips link preview', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'https://signal.org is a cool place',
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          preview: [
+            {
+              url: 'https://signal.org',
+              title: 'Signal',
+            },
+          ],
+        },
+      ]);
+    });
+    it('drops preview if URL does not exist in body', async () => {
+      const message: MessageAttributesType = {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: CONTACT_A,
+        body: 'no urls here',
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+      };
+      await asymmetricRoundtripHarness(
+        [
+          {
+            ...message,
+            preview: [
+              {
+                url: 'https://signal.org',
+                title: 'Signal',
+              },
+            ],
+          },
+        ],
+        [
+          {
+            ...message,
+            preview: [],
+          },
+        ]
+      );
+    });
+  });
   describe('lonely-in-group messages', async () => {
     const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
     let group: ConversationModel | undefined;
