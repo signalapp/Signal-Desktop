@@ -15,6 +15,7 @@ import {
   getThumbnailUrl,
   getUrl,
   isDownloadable,
+  isPermanentlyUndownloadable,
   isVideoAttachment,
 } from '../../types/Attachment';
 
@@ -156,6 +157,14 @@ export function ImageGrid({
     [startDownload]
   );
 
+  const showAttachmentOrNoLongerAvailableToast = React.useCallback(
+    attachmentIndex =>
+      isPermanentlyUndownloadable(attachments[attachmentIndex])
+        ? showMediaNoLongerAvailableToast
+        : showVisualAttachment,
+    [attachments, showVisualAttachment, showMediaNoLongerAvailableToast]
+  );
+
   if (!attachments || !attachments.length) {
     return null;
   }
@@ -214,7 +223,7 @@ export function ImageGrid({
           }
           tabIndex={tabIndex}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-          showVisualAttachment={showVisualAttachment}
+          showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}
           startDownload={startDownload}
           onError={onError}
@@ -243,7 +252,7 @@ export function ImageGrid({
           cropWidth={GAP}
           url={getThumbnailUrl(attachments[0])}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-          showVisualAttachment={showVisualAttachment}
+          showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
           onError={onError}
@@ -263,7 +272,7 @@ export function ImageGrid({
           attachment={attachments[1]}
           url={getThumbnailUrl(attachments[1])}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-          showVisualAttachment={showVisualAttachment}
+          showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
           onError={onError}
@@ -293,7 +302,7 @@ export function ImageGrid({
           cropWidth={GAP}
           url={getUrl(attachments[0])}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-          showVisualAttachment={showVisualAttachment}
+          showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
           onError={onError}
@@ -312,7 +321,7 @@ export function ImageGrid({
             playIconOverlay={isVideoAttachment(attachments[1])}
             url={getThumbnailUrl(attachments[1])}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-            showVisualAttachment={showVisualAttachment}
+            showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
             onError={onError}
@@ -331,7 +340,7 @@ export function ImageGrid({
             playIconOverlay={isVideoAttachment(attachments[2])}
             url={getThumbnailUrl(attachments[2])}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-            showVisualAttachment={showVisualAttachment}
+            showVisualAttachment={showAttachmentOrNoLongerAvailableToast(2)}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
             onError={onError}
@@ -363,7 +372,7 @@ export function ImageGrid({
               cropWidth={GAP}
               url={getThumbnailUrl(attachments[0])}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-              showVisualAttachment={showVisualAttachment}
+              showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
               onError={onError}
@@ -382,7 +391,7 @@ export function ImageGrid({
               attachment={attachments[1]}
               url={getThumbnailUrl(attachments[1])}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-              showVisualAttachment={showVisualAttachment}
+              showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
               onError={onError}
@@ -404,7 +413,7 @@ export function ImageGrid({
               attachment={attachments[2]}
               url={getThumbnailUrl(attachments[2])}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-              showVisualAttachment={showVisualAttachment}
+              showVisualAttachment={showAttachmentOrNoLongerAvailableToast(2)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
               onError={onError}
@@ -423,7 +432,7 @@ export function ImageGrid({
               attachment={attachments[3]}
               url={getThumbnailUrl(attachments[3])}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-              showVisualAttachment={showVisualAttachment}
+              showVisualAttachment={showAttachmentOrNoLongerAvailableToast(3)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
               onError={onError}

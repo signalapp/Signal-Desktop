@@ -70,7 +70,7 @@ import {
   isVideo,
   isGIF,
   isPlayed,
-  isDownloadable,
+  isPermanentlyUndownloadable,
 } from '../../types/Attachment';
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 
@@ -2569,6 +2569,7 @@ export class Message extends React.PureComponent<Props, State> {
       showLightbox,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
+      showMediaNoLongerAvailableToast,
     } = this.props;
     const { imageBroken } = this.state;
 
@@ -2576,6 +2577,18 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (giftBadge && giftBadge.state === GiftBadgeStates.Unopened) {
       openGiftBadge(id);
+      return;
+    }
+
+    if (
+      attachments &&
+      attachments.length > 0 &&
+      isPermanentlyUndownloadable(attachments[0])
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      showMediaNoLongerAvailableToast();
       return;
     }
 
@@ -2616,8 +2629,7 @@ export class Message extends React.PureComponent<Props, State> {
       attachments &&
       attachments.length > 0 &&
       !isAttachmentPending &&
-      !isDownloaded(attachments[0]) &&
-      isDownloadable(attachments[0])
+      !isDownloaded(attachments[0])
     ) {
       event.preventDefault();
       event.stopPropagation();

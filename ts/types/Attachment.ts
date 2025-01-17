@@ -1259,6 +1259,12 @@ export function isDownloadable(attachment: AttachmentType): boolean {
   );
 }
 
+export function isPermanentlyUndownloadable(
+  attachment: AttachmentType
+): boolean {
+  return Boolean(!isDownloadable(attachment) && attachment.error);
+}
+
 export function isAttachmentLocallySaved(
   attachment: AttachmentType
 ): attachment is LocallySavedAttachment {
