@@ -6,14 +6,13 @@ import type {
   WebAPIType,
   RemoteConfigResponseType,
 } from '../../textsecure/WebAPI';
-import { SECOND } from '../../util/durations';
 
 export async function updateRemoteConfig(
   newConfig: RemoteConfigResponseType['config']
 ): Promise<void> {
   const fakeServer = {
     async getConfig() {
-      return { config: newConfig, serverEpochTime: Date.now() / SECOND };
+      return { config: newConfig, serverTimestamp: Date.now() };
     },
   } as Partial<WebAPIType> as unknown as WebAPIType;
 
