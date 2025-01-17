@@ -112,6 +112,11 @@
       width: $size;
       animation: 1s module-InstallScreenQrCodeNotScannedStep__slide-in;
       position: relative;
+      transition: opacity 125ms;
+    }
+
+    &__code--copying {
+      opacity: 0.5;
     }
 
     &__error-message {

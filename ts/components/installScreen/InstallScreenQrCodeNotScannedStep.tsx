@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement, ReactNode } from 'react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 
 import type { LocalizerType } from '../../types/Util';
 import {
@@ -13,10 +14,12 @@ import {
 import { missingCaseError } from '../../util/missingCaseError';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
+import { drop } from '../../util/drop';
+import { getEnvironment, Environment } from '../../environment';
 
 import { I18n } from '../I18n';
 import { Spinner } from '../Spinner';
-import { QrCode } from '../QrCode';
+import { BrandedQRCode } from '../BrandedQRCode';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog';
@@ -205,13 +208,7 @@ function InstallScreenQrCode(
       }
       break;
     case LoadingState.Loaded:
-      contents = (
-        <QrCode
-          alt={i18n('icu:Install__scan-this-code')}
-          className={getQrCodeClassName('__code')}
-          data={props.value}
-        />
-      );
+      contents = <QRCodeImage i18n={i18n} link={props.value} />;
       break;
     default:
       throw missingCaseError(props);
@@ -230,6 +227,58 @@ function InstallScreenQrCode(
     >
       {contents}
     </div>
+  );
+}
+
+function QRCodeImage({
+  i18n,
+  link,
+}: {
+  i18n: LocalizerType;
+  link: string;
+}): JSX.Element {
+  const [isCopying, setIsCopying] = useState(false);
+
+  // Add a development-only feature to copy a QR code to the clipboard by double-clicking.
+  // This can be used to quickly inspect the code, or to link this Desktop with an iOS
+  // simulator primary, which has a debug-only option to paste the linking URL instead of
+  // scanning it. (By the time you read this comment Android may have a similar feature.)
+  const onDoubleClick = useCallback(() => {
+    if (getEnvironment() === Environment.PackagedApp) {
+      return;
+    }
+
+    drop(navigator.clipboard.writeText(link));
+    setIsCopying(true);
+  }, [link]);
+
+  useEffect(() => {
+    if (!isCopying) {
+      return noop;
+    }
+
+    const timer = setTimeout(() => {
+      setIsCopying(false);
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, [isCopying]);
+
+  return (
+    <svg
+      role="img"
+      aria-label={i18n('icu:Install__scan-this-code')}
+      className={classNames(
+        getQrCodeClassName('__code'),
+        isCopying && getQrCodeClassName('__code--copying')
+      )}
+      onDoubleClick={onDoubleClick}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <BrandedQRCode size={16} link={link} color="black" />
+    </svg>
   );
 }
 
