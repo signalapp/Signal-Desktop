@@ -41,6 +41,7 @@ export type CIType = {
   uploadBackup(): Promise<void>;
   unlink: () => void;
   print: (...args: ReadonlyArray<unknown>) => void;
+  resetReleaseNotesFetcher(): void;
 };
 
 export type GetCIOptionsType = Readonly<{
@@ -181,6 +182,17 @@ export function getCI({ deviceName }: GetCIOptionsType): CIType {
     handleEvent('print', format(...args));
   }
 
+  async function resetReleaseNotesFetcher() {
+    await Promise.all([
+      window.textsecure.storage.put(
+        'releaseNotesVersionWatermark',
+        '7.0.0-alpha.1'
+      ),
+      window.textsecure.storage.put('releaseNotesPreviousManifestHash', ''),
+      window.textsecure.storage.put('releaseNotesNextFetchTime', Date.now()),
+    ]);
+  }
+
   return {
     deviceName,
     getConversationId,
@@ -195,5 +207,6 @@ export function getCI({ deviceName }: GetCIOptionsType): CIType {
     unlink,
     getPendingEventCount,
     print,
+    resetReleaseNotesFetcher,
   };
 }

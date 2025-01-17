@@ -725,6 +725,7 @@ export class Bootstrap {
       storageProfile: 'mock',
       serverUrl: url,
       storageUrl: url,
+      resourcesUrl: `${url}/updates2`,
       sfuUrl: url,
       cdn: {
         '0': url,
