@@ -7,7 +7,7 @@ import type { WebAPIType } from './textsecure/WebAPI';
 import * as log from './logging/log';
 import type { AciString } from './types/ServiceId';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
-import { SECOND, HOUR } from './util/durations';
+import { HOUR } from './util/durations';
 import * as Bytes from './Bytes';
 import { uuidToBytes } from './util/uuidToBytes';
 import { dropNull } from './util/dropNull';
@@ -87,14 +87,14 @@ export const refreshRemoteConfig = async (
   server: WebAPIType
 ): Promise<void> => {
   const now = Date.now();
-  const { config: newConfig, serverEpochTime } = await server.getConfig();
+  const { config: newConfig, serverTimestamp } = await server.getConfig();
 
-  const serverTimeSkew = serverEpochTime * SECOND - now;
+  const serverTimeSkew = serverTimestamp - now;
 
   if (Math.abs(serverTimeSkew) > HOUR) {
     log.warn(
       'Remote Config: sever clock skew detected. ' +
-        `Server time ${serverEpochTime * SECOND}, local time ${now}`
+        `Server time ${serverTimestamp}, local time ${now}`
     );
   }
 

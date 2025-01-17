@@ -829,9 +829,11 @@ const remoteConfigResponseZod = z.object({
       value: z.string().or(z.null()).optional(),
     })
     .array(),
-  serverEpochTime: z.number(),
 });
-export type RemoteConfigResponseType = z.infer<typeof remoteConfigResponseZod>;
+export type RemoteConfigResponseType = z.infer<typeof remoteConfigResponseZod> &
+  Readonly<{
+    serverTimestamp: number;
+  }>;
 
 export type ProfileType = Readonly<{
   identityKey?: string;
@@ -2130,16 +2132,24 @@ export function initialize({
     }
 
     async function getConfig() {
-      const rawRes = await _ajax({
+      const { data, response } = await _ajax({
         call: 'config',
         httpType: 'GET',
-        responseType: 'json',
+        responseType: 'jsonwithdetails',
       });
-      const res = parseUnknown(remoteConfigResponseZod, rawRes);
+      const json = parseUnknown(remoteConfigResponseZod, data);
+
+      const serverTimestamp = safeParseNumber(
+        response.headers.get('x-signal-timestamp') || ''
+      );
+      if (serverTimestamp == null) {
+        throw new Error('Missing required x-signal-timestamp header');
+      }
 
       return {
-        ...res,
-        config: res.config.filter(
+        ...json,
+        serverTimestamp,
+        config: json.config.filter(
           ({ name }: { name: string }) =>
             name.startsWith('desktop.') ||
             name.startsWith('global.') ||
