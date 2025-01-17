@@ -14,8 +14,8 @@ import type {
 } from '../../types/Attachment';
 import {
   defaultBlurHash,
-  isDownloadable,
   isIncremental,
+  isPermanentlyUndownloadable,
   isReadyToView,
 } from '../../types/Attachment';
 import { ProgressCircle } from '../ProgressCircle';
@@ -191,10 +191,7 @@ export function Image({
   );
 
   const startDownloadButton =
-    startDownload &&
-    !attachment.path &&
-    !attachment.pending &&
-    !isIncremental(attachment) ? (
+    !attachment.path && !attachment.pending && !isIncremental(attachment) ? (
       <button
         type="button"
         className="module-image__overlay-circle"
@@ -207,6 +204,25 @@ export function Image({
       </button>
     ) : undefined;
 
+  const isUndownloadable = isPermanentlyUndownloadable(attachment);
+
+  // eslint-disable-next-line no-nested-ternary
+  const startDownloadOrUnavailableButton = startDownload ? (
+    isUndownloadable ? (
+      <button
+        type="button"
+        className="module-image__overlay-circle module-image__overlay-circle--undownloadable"
+        aria-label={i18n('icu:mediaNoLongerAvailable')}
+        onClick={undownloadableClick}
+        tabIndex={tabIndex}
+      >
+        <div className="module-image__undownloadable-icon" />
+      </button>
+    ) : (
+      startDownloadButton
+    )
+  ) : null;
+
   const spinner =
     isIncremental(attachment) || !cancelDownload
       ? undefined
@@ -217,8 +233,6 @@ export function Image({
           cancelDownloadKeyDown,
           tabIndex,
         });
-
-  const isMediaDownloadable = isDownloadable(attachment);
 
   return (
     <div
@@ -235,19 +249,7 @@ export function Image({
       }}
     >
       {imageOrBlurHash}
-      {isMediaDownloadable ? (
-        startDownloadButton
-      ) : (
-        <button
-          type="button"
-          className="module-image__overlay-circle module-image__overlay-circle--undownloadable"
-          aria-label={i18n('icu:mediaNoLongerAvailable')}
-          onClick={undownloadableClick}
-          tabIndex={tabIndex}
-        >
-          <div className="module-image__undownloadable-icon" />
-        </button>
-      )}
+      {startDownloadOrUnavailableButton}
       {spinner}
 
       {attachment.caption ? (
@@ -267,7 +269,7 @@ export function Image({
         />
       ) : null}
       {(attachment.path || isIncremental(attachment)) &&
-      isMediaDownloadable &&
+      !isUndownloadable &&
       playIconOverlay ? (
         <div className="module-image__overlay-circle">
           <div className="module-image__play-icon" />
@@ -290,9 +292,7 @@ export function Image({
           style={curveStyles}
         />
       ) : null}
-      {showVisualAttachment &&
-      isReadyToView(attachment) &&
-      isMediaDownloadable ? (
+      {showVisualAttachment && isReadyToView(attachment) ? (
         <button
           type="button"
           className={classNames('module-image__border-overlay', {
