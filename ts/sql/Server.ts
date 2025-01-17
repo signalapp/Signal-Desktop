@@ -4519,7 +4519,7 @@ function getExpiredMessages(db: ReadableDB): Array<MessageType> {
   const rows: Array<MessageTypeUnhydrated> = db
     .prepare<Query>(
       `
-      SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}, expiresAt
+      SELECT ${MESSAGE_COLUMNS.join(', ')}, expiresAt
       FROM messages
       WHERE
         expiresAt <= $now
