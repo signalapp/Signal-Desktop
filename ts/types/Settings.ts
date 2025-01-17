@@ -5,7 +5,7 @@ import semver from 'semver';
 
 import type { OSType } from '../util/os/shared';
 import { SystemTraySetting } from './SystemTraySetting';
-import { isProduction } from '../util/version';
+import { isNotUpdatable, isProduction } from '../util/version';
 
 const MIN_WINDOWS_VERSION = '8.0.0';
 
@@ -56,8 +56,15 @@ export const isMinimizeToAndStartInSystemTraySupported = (
   OS: OSType
 ): boolean => !OS.isWindows() && isSystemTraySupported(OS);
 
-export const isAutoDownloadUpdatesSupported = (OS: OSType): boolean =>
-  OS.isWindows() || OS.isMacOS();
+export const isAutoDownloadUpdatesSupported = (
+  OS: OSType,
+  appVersion: string
+): boolean => {
+  if (isNotUpdatable(appVersion)) {
+    return false;
+  }
+  return OS.isWindows() || OS.isMacOS();
+};
 
 export const shouldHideExpiringMessageBody = (
   OS: OSType,
