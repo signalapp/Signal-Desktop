@@ -4752,7 +4752,7 @@
     "description": "Generic next label"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history",
+    "messageformat": "This may take a few minutes",
     "description": "Description at the bottom of clearing all data screen"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
@@ -4796,7 +4796,7 @@
     "description": "Hint under the progressbar in the backup import screen when download size is not yet known"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history",
+    "messageformat": "This may take a few minutes",
     "description": "Description at the bottom of backup import screen"
   },
   "icu:BackupImportScreen__cancel": {
