@@ -418,7 +418,7 @@ export function renderToast({
           onClick: () => openLinkInWebBrowser(LINKED_DEVICES_URL),
         }}
       >
-        {i18n('icu:mediaNoLongerAvailable')}
+        {i18n('icu:mediaNotAvailable')}
       </Toast>
     );
   }

@@ -655,6 +655,20 @@ export function isPlayed(
   return readStatus === ReadStatus.Viewed;
 }
 
+export function canRenderAudio(
+  attachments?: ReadonlyArray<AttachmentType>
+): boolean {
+  const firstAttachment = attachments && attachments[0];
+  if (!firstAttachment) {
+    return false;
+  }
+
+  return (
+    isAudio(attachments) &&
+    (isDownloaded(firstAttachment) || isDownloadable(firstAttachment))
+  );
+}
+
 export function canDisplayImage(
   attachments?: ReadonlyArray<AttachmentType>
 ): boolean {

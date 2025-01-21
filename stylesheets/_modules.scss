@@ -744,6 +744,46 @@ $message-padding-horizontal: 12px;
   }
 }
 
+.module-message__undownloadable-attachment {
+  @include mixins.font-body-1;
+
+  display: flex;
+
+  padding-block: 9px 8px;
+  padding-inline: 12px;
+
+  margin-inline: -$message-padding-horizontal;
+  margin-block-start: -$message-padding-vertical;
+  margin-block-end: -$message-padding-vertical;
+
+  &--with-content-below {
+    margin-block-end: 7px;
+    border-bottom: 0.5px solid variables.$color-white-alpha-10;
+
+    @include mixins.light-theme {
+      border-color: variables.$color-black-alpha-10;
+    }
+
+    @include mixins.dark-theme {
+      border-color: variables.$color-white-alpha-10;
+    }
+  }
+
+  &--with-content-above {
+    margin-block-start: 4px;
+  }
+}
+
+.module-message__container--outgoing
+  .module-message__undownloadable-attachment--with-content-below {
+  border-color: variables.$color-white-alpha-30;
+}
+
+.module-message__undownloadable-attachment--no-text
+  + .module-message__metadata {
+  margin-block-start: -25px;
+}
+
 .module-message__sticker-container {
   // To ensure that images are centered if they aren't full width of bubble
   text-align: center;
@@ -915,6 +955,47 @@ $message-padding-horizontal: 12px;
   }
   @include mixins.dark-theme {
     color: variables.$color-gray-25;
+  }
+}
+
+.module-message__undownloadable-attachment__icon-container {
+  margin-inline-end: 8px;
+}
+
+.module-message__undownloadable-attachment__icon {
+  height: 20px;
+  width: 20px;
+
+  &--audio {
+    @include mixins.color-svg(
+      '../images/icons/v3/play/play-slash.svg',
+      currentColor
+    );
+  }
+
+  &--generic {
+    @include mixins.color-svg(
+      '../images/icons/v3/file/file-slash.svg',
+      currentColor
+    );
+  }
+}
+
+.module-message__undownloadable-attachment-info {
+  margin-inline-end: 15px;
+}
+
+.module-message__undownloadable-attachment-learn-more-container {
+  font-weight: 500;
+}
+
+.module-message__undownloadable-attachment-learn-more {
+  @include mixins.button-reset;
+  @include mixins.font-body-1-bold;
+  @include mixins.keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
+    }
   }
 }
 

@@ -212,7 +212,7 @@ export function Image({
       <button
         type="button"
         className="module-image__overlay-circle module-image__overlay-circle--undownloadable"
-        aria-label={i18n('icu:mediaNoLongerAvailable')}
+        aria-label={i18n('icu:mediaNotAvailable')}
         onClick={undownloadableClick}
         tabIndex={tabIndex}
       >
