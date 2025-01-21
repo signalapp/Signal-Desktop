@@ -583,7 +583,7 @@ describe('backup/non-bubble messages', () => {
         id: generateGuid(),
         type: 'message-request-response-event',
         received_at: 1,
-        sourceServiceId: CONTACT_A,
+        sourceServiceId: OUR_ACI,
         sourceDevice: 1,
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,

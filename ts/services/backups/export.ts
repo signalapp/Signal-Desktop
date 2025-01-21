@@ -842,7 +842,7 @@ export class BackupExportStream extends Readable {
         identityKey = identityKeysById.get(convo.serviceId);
       }
 
-      const { nicknameGivenName, nicknameFamilyName } = convo;
+      const { nicknameGivenName, nicknameFamilyName, note } = convo;
 
       res.contact = {
         aci:
@@ -887,6 +887,7 @@ export class BackupExportStream extends Readable {
                 family: nicknameFamilyName,
               }
             : null,
+        note,
       };
     } else if (isGroupV2(convo) && convo.masterKey) {
       let storySendMode: Backups.Group.StorySendMode;
@@ -991,6 +992,19 @@ export class BackupExportStream extends Readable {
     const chatId = this.#getRecipientId({ id: message.conversationId });
     if (chatId === undefined) {
       log.warn('backups: message chat not found');
+      return undefined;
+    }
+
+    if (message.type === 'story') {
+      return undefined;
+    }
+
+    if (
+      conversation &&
+      isGroupV2(conversation.attributes) &&
+      message.storyReplyContext
+    ) {
+      // We drop group story replies
       return undefined;
     }
 
@@ -1220,6 +1234,17 @@ export class BackupExportStream extends Readable {
           state,
         };
       }
+    } else if (message.storyReplyContext) {
+      result.directStoryReplyMessage = await this.#toDirectStoryReplyMessage({
+        message,
+        backupLevel,
+      });
+
+      result.revisions = await this.#toChatItemRevisions(
+        result,
+        message,
+        backupLevel
+      );
     } else {
       result.standardMessage = await this.#toStandardMessage({
         message,
@@ -2527,6 +2552,51 @@ export class BackupExportStream extends Readable {
     };
   }
 
+  async #toDirectStoryReplyMessage({
+    message,
+    backupLevel,
+  }: {
+    message: Pick<
+      MessageAttributesType,
+      | 'body'
+      | 'bodyAttachment'
+      | 'bodyRanges'
+      | 'storyReaction'
+      | 'storyReplyContext'
+      | 'received_at'
+      | 'reactions'
+    >;
+    backupLevel: BackupLevel;
+  }): Promise<Backups.IDirectStoryReplyMessage> {
+    const result = new Backups.DirectStoryReplyMessage({
+      reactions: this.#getMessageReactions(message),
+    });
+
+    if (message.storyReaction) {
+      result.emoji = message.storyReaction.emoji;
+    } else {
+      result.textReply = {
+        longText: message.bodyAttachment
+          ? await this.#processAttachment({
+              attachment: message.bodyAttachment,
+              backupLevel,
+              messageReceivedAt: message.received_at,
+            })
+          : undefined,
+        text:
+          message.body != null
+            ? {
+                body: message.body ? trimBody(message.body) : undefined,
+                bodyRanges: message.bodyRanges?.map(range =>
+                  this.#toBodyRange(range)
+                ),
+              }
+            : undefined,
+      };
+    }
+    return result;
+  }
+
   async #toViewOnceMessage({
     message,
     backupLevel,
@@ -2568,7 +2638,7 @@ export class BackupExportStream extends Readable {
         // The first history is the copy of the current message
         .slice(1)
         .map(async history => {
-          return {
+          const result: Backups.IChatItem = {
             // Required fields
             chatId: parent.chatId,
             authorId: parent.authorId,
@@ -2586,16 +2656,23 @@ export class BackupExportStream extends Readable {
             incoming: isOutgoing
               ? undefined
               : this.#getIncomingMessageDetails(history),
-
-            // Message itself
-            standardMessage: await this.#toStandardMessage({
-              message: history,
-              backupLevel,
-            }),
           };
 
-          // Backups use oldest to newest order
+          if (parent.directStoryReplyMessage) {
+            result.directStoryReplyMessage =
+              await this.#toDirectStoryReplyMessage({
+                message: history,
+                backupLevel,
+              });
+          } else {
+            result.standardMessage = await this.#toStandardMessage({
+              message: history,
+              backupLevel,
+            });
+          }
+          return result;
         })
+        // Backups use oldest to newest order
         .reverse()
     );
   }
