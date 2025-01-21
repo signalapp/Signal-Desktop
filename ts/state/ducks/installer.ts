@@ -356,6 +356,7 @@ function finishInstall({
 
     // Cleanup
     const { baton } = state.installer;
+    cancelByBaton.get(baton)?.();
     cancelByBaton.delete(baton);
 
     const accountManager = window.getAccountManager();

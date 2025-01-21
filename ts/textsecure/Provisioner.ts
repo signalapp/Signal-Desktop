@@ -220,7 +220,7 @@ export class Provisioner {
   //
 
   #start(): void {
-    log.info('Provisioniner: starting');
+    log.info('Provisioner: starting');
 
     if (this.#abortController) {
       strictAssert(this.#isRunning, 'Must be running to have controller');
@@ -237,7 +237,7 @@ export class Provisioner {
     if (!this.#isRunning) {
       return;
     }
-    log.info(`Provisioniner: stopping, reason=${reason}`);
+    log.info(`Provisioner: stopping, reason=${reason}`);
 
     this.#abortController?.abort();
     this.#abortController = undefined;
