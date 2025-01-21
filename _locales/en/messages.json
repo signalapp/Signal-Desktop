@@ -1522,9 +1522,21 @@
     "messageformat": "This media is no longer available.",
     "description": "Shown in info toast for messages with old image and video attachments which are no longer available for download. Also used for accessibility label for the download attachment button."
   },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available",
+    "description": "Shown in info toast for messages with old image and video attachments which are no longer available for download. Also used for accessibility label for the download attachment button."
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Learn more",
     "description": "Link in message placeholder and info toast for messages with old attachments which are no longer available for download."
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available",
+    "description": "Shown in chat timeline for messages with old generic file attachments which are no longer available for download."
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available",
+    "description": "Shown in chat timeline for messages with old audio attachments which are no longer available for download."
   },
   "icu:save": {
     "messageformat": "Save",

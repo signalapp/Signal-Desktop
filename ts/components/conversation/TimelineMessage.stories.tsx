@@ -2212,6 +2212,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         path: undefined,
         key: undefined,
         id: undefined,
+        error: true,
       }),
     ],
     status: 'sent',
@@ -2227,6 +2228,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         path: undefined,
         key: undefined,
         id: undefined,
+        error: true,
       }),
       fakeAttachment({
         contentType: IMAGE_JPEG,
@@ -2237,6 +2239,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         path: undefined,
         key: undefined,
         id: undefined,
+        error: true,
       }),
     ],
     status: 'sent',
@@ -2253,6 +2256,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         path: undefined,
         key: undefined,
         id: undefined,
+        error: true,
       }),
     ],
     status: 'sent',
@@ -2268,10 +2272,49 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         path: undefined,
         key: undefined,
         id: undefined,
+        error: true,
       }),
     ],
     status: 'sent',
   });
+  const audioProps = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: AUDIO_MP3,
+        fileName: 'bird.mp3',
+        width: undefined,
+        height: undefined,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+        error: true,
+      }),
+    ],
+    status: 'sent',
+  });
+  const audioWithCaptionProps = {
+    ...audioProps,
+    text: "Here's that file",
+  };
+  const textFileProps = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: stringToMIMEType('text/plain'),
+        fileName: 'why-i-love-birds.txt',
+        width: undefined,
+        height: undefined,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+        error: true,
+      }),
+    ],
+    status: 'sent',
+  });
+  const textFileWithCaptionProps = {
+    ...textFileProps,
+    text: "Here's that file",
+  };
 
   const outgoingAuthor = {
     ...imageProps.author,
@@ -2283,7 +2326,11 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
       <TimelineMessage {...imageProps} shouldCollapseAbove />
       <TimelineMessage {...gifProps} />
       <TimelineMessage {...videoProps} />
-      <TimelineMessage {...multipleImagesProps} shouldCollapseBelow />
+      <TimelineMessage {...multipleImagesProps} />
+      <TimelineMessage {...textFileProps} />
+      <TimelineMessage {...textFileWithCaptionProps} />
+      <TimelineMessage {...audioProps} />
+      <TimelineMessage {...audioWithCaptionProps} shouldCollapseBelow />
       <TimelineMessage
         {...imageProps}
         author={outgoingAuthor}
@@ -2302,6 +2349,26 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
       />
       <TimelineMessage
         {...multipleImagesProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+      />
+      <TimelineMessage
+        {...textFileProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+      />
+      <TimelineMessage
+        {...textFileWithCaptionProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+      />
+      <TimelineMessage
+        {...audioProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+      />
+      <TimelineMessage
+        {...audioWithCaptionProps}
         author={outgoingAuthor}
         direction="outgoing"
         shouldCollapseBelow

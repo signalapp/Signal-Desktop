@@ -71,6 +71,7 @@ import {
   isGIF,
   isPlayed,
   isPermanentlyUndownloadable,
+  canRenderAudio,
 } from '../../types/Attachment';
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 
@@ -106,6 +107,7 @@ import { getColorForCallLink } from '../../util/getColorForCallLink';
 import { getKeyFromCallLink } from '../../util/callLinks';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip';
 import { formatFileSize } from '../../util/formatFileSize';
+import { LINKED_DEVICES_URL } from '../../types/support';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -630,7 +632,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (!text && !deletedForEveryone && !attachmentDroppedDueToSize) {
-      return isAudio(attachments)
+      return canRenderAudio(attachments)
         ? MetadataPlacement.RenderedByMessageAudioComponent
         : MetadataPlacement.Bottom;
     }
@@ -1053,8 +1055,55 @@ export class Message extends React.PureComponent<Props, State> {
         );
       }
     }
+    const isAttachmentAudio = isAudio(attachments);
 
-    if (isAudio(attachments)) {
+    // Undownloadable audio and generic files
+    if (isPermanentlyUndownloadable(firstAttachment)) {
+      const containerClassName = classNames(
+        'module-message__undownloadable-attachment',
+        withContentAbove
+          ? 'module-message__undownloadable-attachment--with-content-above'
+          : null,
+        withContentBelow
+          ? 'module-message__undownloadable-attachment--with-content-below'
+          : null,
+        text ? null : 'module-message__undownloadable-attachment--no-text'
+      );
+      const attachmentType = isAttachmentAudio ? 'audio' : 'generic';
+      const iconClassName = classNames(
+        'module-message__undownloadable-attachment__icon',
+        `module-message__undownloadable-attachment__icon--${attachmentType}`
+      );
+      return (
+        <div className={containerClassName}>
+          <div className="module-message__undownloadable-attachment__icon-container">
+            <div className={iconClassName} />
+          </div>
+          <div>
+            <div className="module-message__undownloadable-attachment-info">
+              {isAttachmentAudio
+                ? i18n('icu:voiceMessageNotAvailable')
+                : i18n('icu:fileNotAvailable')}
+            </div>
+            <div className="module-message__undownloadable-attachment-learn-more-container">
+              <button
+                className="module-message__undownloadable-attachment-learn-more"
+                onClick={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  openLinkInWebBrowser(LINKED_DEVICES_URL);
+                }}
+                type="button"
+              >
+                {i18n('icu:attachmentNoLongerAvailable__learnMore')}
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (isAttachmentAudio) {
       const played = isPlayed(direction, status, readStatus);
 
       return renderAudioAttachment({
