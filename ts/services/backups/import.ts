@@ -914,6 +914,7 @@ export class BackupImportStream extends Writable {
       expireTimerVersion: 1,
       nicknameGivenName: dropNull(contact.nickname?.given),
       nicknameFamilyName: dropNull(contact.nickname?.family),
+      note: dropNull(contact.note),
     };
 
     if (serviceId != null && Bytes.isNotEmpty(contact.identityKey)) {
@@ -1441,6 +1442,26 @@ export class BackupImportStream extends Writable {
         ...attributes,
         ...(await this.#fromViewOnceMessage(item.viewOnceMessage)),
       };
+    } else if (item.directStoryReplyMessage) {
+      strictAssert(item.directionless == null, 'reply cannot be directionless');
+      let storyAuthorAci: AciString | undefined;
+      if (item.incoming) {
+        strictAssert(this.#aboutMe?.aci, 'about me must exist');
+        storyAuthorAci = this.#aboutMe.aci;
+      } else {
+        strictAssert(
+          isAciString(chatConvo.serviceId),
+          'must have ACI for story author'
+        );
+        storyAuthorAci = chatConvo.serviceId;
+      }
+      attributes = {
+        ...attributes,
+        ...this.#fromDirectStoryReplyMessage(
+          item.directStoryReplyMessage,
+          storyAuthorAci
+        ),
+      };
     } else {
       const result = await this.#fromNonBubbleChatItem(item, {
         aboutMe,
@@ -1472,8 +1493,8 @@ export class BackupImportStream extends Writable {
 
     if (item.revisions?.length) {
       strictAssert(
-        item.standardMessage,
-        `${logId}: Only standard message can have revisions`
+        item.standardMessage || item.directStoryReplyMessage,
+        `${logId}: Only standard or story reply message can have revisions`
       );
 
       const history = await this.#fromRevisions({
@@ -1793,9 +1814,6 @@ export class BackupImportStream extends Writable {
             isStory: false,
           })
         ) {
-          if (isNightly(window.getVersion())) {
-            throw new Error(`${logId}: dropping invalid link preview`);
-          }
           log.warn(`${logId}: dropping invalid link preview`);
           return;
         }
@@ -1836,6 +1854,55 @@ export class BackupImportStream extends Writable {
     };
   }
 
+  #fromDirectStoryReplyMessage(
+    directStoryReplyMessage: Backups.IDirectStoryReplyMessage,
+    storyAuthorAci: AciString
+  ): Partial<MessageAttributesType> {
+    const { reactions, textReply, emoji } = directStoryReplyMessage;
+
+    const result: Partial<MessageAttributesType> = {
+      reactions: this.#fromReactions(reactions),
+      storyReplyContext: {
+        authorAci: storyAuthorAci,
+        messageId: '', // stories are never imported
+      },
+    };
+
+    if (textReply) {
+      result.body = textReply.text?.body ?? undefined;
+      result.bodyRanges = this.#fromBodyRanges(textReply.text);
+      result.bodyAttachment = textReply.longText
+        ? convertFilePointerToAttachment(textReply.longText)
+        : undefined;
+    } else if (emoji) {
+      result.storyReaction = {
+        emoji,
+        targetAuthorAci: storyAuthorAci,
+        targetTimestamp: 0, // stories are never imported
+      };
+    }
+
+    return result;
+  }
+
+  async #fromDirectStoryReplyRevision(
+    revision: Backups.IDirectStoryReplyMessage
+  ): Promise<Partial<EditHistoryType>> {
+    const { textReply } = revision;
+
+    if (!textReply) {
+      return {};
+    }
+
+    return {
+      body: textReply.text?.body ?? undefined,
+      bodyRanges: this.#fromBodyRanges(textReply.text),
+      bodyAttachment: textReply.longText
+        ? convertFilePointerToAttachment(textReply.longText)
+        : undefined,
+    };
+  }
+
   async #fromRevisions({
     mainMessage,
     revisions,
@@ -1849,8 +1916,8 @@ export class BackupImportStream extends Writable {
       revisions
         .map(async rev => {
           strictAssert(
-            rev.standardMessage,
-            'Edit history has non-standard messages'
+            rev.standardMessage || rev.directStoryReplyMessage,
+            'Edit history on a message that does not support revisions'
           );
 
           const timestamp = getCheckedTimestampFromLong(rev.dateSent);
@@ -1866,11 +1933,7 @@ export class BackupImportStream extends Writable {
             },
           } = this.#fromDirectionDetails(rev, timestamp);
 
-          return {
-            ...(await this.#fromStandardMessage({
-              logId,
-              data: rev.standardMessage,
-            })),
+          const commonFields = {
             timestamp,
             received_at: incrementMessageCounter(),
             sendStateByConversationId,
@@ -1880,6 +1943,28 @@ export class BackupImportStream extends Writable {
             readStatus,
             unidentifiedDeliveryReceived,
           };
+
+          if (rev.standardMessage) {
+            return {
+              ...(await this.#fromStandardMessage({
+                logId,
+                data: rev.standardMessage,
+              })),
+              ...commonFields,
+            };
+          }
+
+          if (rev.directStoryReplyMessage) {
+            return {
+              ...(await this.#fromDirectStoryReplyRevision(
+                rev.directStoryReplyMessage
+              )),
+              ...commonFields,
+            };
+          }
+          throw new Error(
+            'Edit history on a message that does not support revisions'
+          );
         })
         // Fix order: from newest to oldest
         .reverse()
