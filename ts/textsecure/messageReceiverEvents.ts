@@ -156,10 +156,10 @@ export class SuccessfulDecryptEvent extends ConfirmableEvent {
 }
 
 export type DecryptionErrorEventData = Readonly<{
-  cipherTextBytes?: Uint8Array;
-  cipherTextType?: number;
-  contentHint?: number;
-  groupId?: string;
+  cipherTextBytes: Uint8Array | undefined;
+  cipherTextType: number | undefined;
+  contentHint: number | undefined;
+  groupId: string | undefined;
   receivedAtCounter: number;
   receivedAtDate: number;
   senderDevice: number;
@@ -211,7 +211,7 @@ export type SentEventData = Readonly<{
   destination?: string;
   destinationServiceId?: ServiceIdString;
   timestamp?: number;
-  serverTimestamp?: number;
+  serverTimestamp: number;
   device: number | undefined;
   unidentifiedStatus: ProcessedSent['unidentifiedStatus'];
   message: ProcessedDataMessage;
@@ -254,8 +254,8 @@ export type MessageEventData = Readonly<{
   sourceDevice?: number;
   destinationServiceId: ServiceIdString;
   timestamp: number;
-  serverGuid?: string;
-  serverTimestamp?: number;
+  serverGuid: string;
+  serverTimestamp: number;
   unidentifiedDeliveryReceived: boolean;
   message: ProcessedDataMessage;
   receivedAtCounter: number;

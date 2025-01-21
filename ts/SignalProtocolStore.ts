@@ -46,7 +46,6 @@ import type {
   SignedPreKeyIdType,
   SignedPreKeyType,
   UnprocessedType,
-  UnprocessedUpdateType,
   CompatPreKeyType,
 } from './textsecure/Types.d';
 import type { ServiceIdString, PniString, AciString } from './types/ServiceId';
@@ -2452,27 +2451,6 @@ export class SignalProtocolStore extends EventEmitter {
         await this.#commitZoneChanges('addMultipleUnprocessed');
       }
     });
-  }
-
-  updateUnprocessedWithData(
-    id: string,
-    data: UnprocessedUpdateType
-  ): Promise<void> {
-    return this.withZone(GLOBAL_ZONE, 'updateUnprocessedWithData', async () => {
-      await DataWriter.updateUnprocessedWithData(id, data);
-    });
-  }
-
-  updateUnprocessedsWithData(
-    items: Array<{ id: string; data: UnprocessedUpdateType }>
-  ): Promise<void> {
-    return this.withZone(
-      GLOBAL_ZONE,
-      'updateUnprocessedsWithData',
-      async () => {
-        await DataWriter.updateUnprocessedsWithData(items);
-      }
-    );
   }
 
   removeUnprocessed(idOrArray: string | Array<string>): Promise<void> {

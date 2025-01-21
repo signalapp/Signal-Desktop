@@ -368,32 +368,24 @@ export type StickerPackType = InstalledStickerPackType &
 export type UnprocessedType = {
   id: string;
   timestamp: number;
-  receivedAtCounter: number | null;
-  version: number;
+  receivedAtCounter: number;
   attempts: number;
-  envelope?: string;
+  type: number;
+  isEncrypted: boolean;
+  content: Uint8Array;
 
-  messageAgeSec?: number;
-  source?: string;
-  sourceServiceId?: ServiceIdString;
-  sourceDevice?: number;
-  destinationServiceId?: ServiceIdString;
-  updatedPni?: PniString;
-  serverGuid?: string;
-  serverTimestamp?: number;
-  decrypted?: string;
-  urgent?: boolean;
-  story?: boolean;
-  reportingToken?: string;
-};
-
-export type UnprocessedUpdateType = {
-  source?: string;
-  sourceServiceId?: ServiceIdString;
-  sourceDevice?: number;
-  serverGuid?: string;
-  serverTimestamp?: number;
-  decrypted?: string;
+  messageAgeSec: number;
+  source: string | undefined;
+  sourceServiceId: ServiceIdString | undefined;
+  sourceDevice: number | undefined;
+  destinationServiceId: ServiceIdString;
+  updatedPni: PniString | undefined;
+  serverGuid: string;
+  serverTimestamp: number;
+  urgent: boolean;
+  story: boolean;
+  reportingToken: Uint8Array | undefined;
+  groupId: string | undefined;
 };
 
 export type ConversationMessageStatsType = {
@@ -901,10 +893,6 @@ type WritableInterface = {
   getUnprocessedByIdsAndIncrementAttempts: (
     ids: ReadonlyArray<string>
   ) => Array<UnprocessedType>;
-  updateUnprocessedWithData: (id: string, data: UnprocessedUpdateType) => void;
-  updateUnprocessedsWithData: (
-    array: Array<{ id: string; data: UnprocessedUpdateType }>
-  ) => void;
   removeUnprocessed: (id: string | Array<string>) => void;
 
   /** only for testing */

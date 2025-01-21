@@ -44,6 +44,8 @@ const {
   SenderKeyStateStructure,
 } = signal.proto.storage;
 
+const ZERO = new Uint8Array(0);
+
 describe('SignalProtocolStore', () => {
   const ourAci = generateAci();
   const ourPni = generatePni();
@@ -51,6 +53,27 @@ describe('SignalProtocolStore', () => {
   let store: SignalProtocolStore;
   let identityKey: KeyPairType;
   let testKey: KeyPairType;
+
+  const unprocessedDefaults = {
+    type: 1,
+    messageAgeSec: 1,
+    source: undefined,
+    sourceDevice: undefined,
+    sourceServiceId: undefined,
+    destinationServiceId: ourAci,
+    reportingToken: undefined,
+    groupId: undefined,
+    updatedPni: undefined,
+    story: false,
+    urgent: false,
+    receivedAtCounter: 0,
+    serverGuid: generateUuid(),
+    serverTimestamp: 1,
+    attempts: 0,
+
+    isEncrypted: true,
+    content: Buffer.from('content'),
+  };
 
   function getSessionRecord(isOpen?: boolean): SessionRecord {
     const proto = new RecordStructure();
@@ -1227,14 +1250,11 @@ describe('SignalProtocolStore', () => {
 
         await store.addUnprocessed(
           {
+            ...unprocessedDefaults,
             id: '2-two',
-            version: 2,
 
-            attempts: 0,
-            envelope: 'second',
-            receivedAtCounter: 0,
+            content: Buffer.from('second'),
             timestamp: Date.now() + 2,
-            urgent: true,
           },
           { zone }
         );
@@ -1255,7 +1275,7 @@ describe('SignalProtocolStore', () => {
         );
 
       assert.deepEqual(
-        allUnprocessed.map(({ envelope }) => envelope),
+        allUnprocessed.map(({ content }) => Bytes.toString(content || ZERO)),
         ['second']
       );
     });
@@ -1288,14 +1308,11 @@ describe('SignalProtocolStore', () => {
 
           await store.addUnprocessed(
             {
+              ...unprocessedDefaults,
               id: '2-two',
-              version: 2,
 
-              attempts: 0,
-              envelope: 'second',
-              receivedAtCounter: 0,
+              content: Buffer.from('second'),
               timestamp: 2,
-              urgent: true,
             },
             { zone }
           );
@@ -1432,44 +1449,36 @@ describe('SignalProtocolStore', () => {
     it('adds three and gets them back', async () => {
       await Promise.all([
         store.addUnprocessed({
+          ...unprocessedDefaults,
           id: '0-dropped',
-          version: 2,
 
-          attempts: 0,
-          envelope: 'old envelope',
+          content: Buffer.from('old envelope'),
           receivedAtCounter: -1,
           timestamp: NOW - 2 * durations.MONTH,
-          urgent: true,
         }),
         store.addUnprocessed({
+          ...unprocessedDefaults,
           id: '2-two',
-          version: 2,
 
-          attempts: 0,
-          envelope: 'second',
+          content: Buffer.from('second'),
           receivedAtCounter: 1,
           timestamp: NOW + 2,
-          urgent: true,
         }),
         store.addUnprocessed({
+          ...unprocessedDefaults,
           id: '3-three',
-          version: 2,
 
-          attempts: 0,
-          envelope: 'third',
+          content: Buffer.from('third'),
           receivedAtCounter: 2,
           timestamp: NOW + 3,
-          urgent: true,
         }),
         store.addUnprocessed({
+          ...unprocessedDefaults,
           id: '1-one',
-          version: 2,
 
-          attempts: 0,
-          envelope: 'first',
+          content: Buffer.from('first'),
           receivedAtCounter: 0,
           timestamp: NOW + 1,
-          urgent: true,
         }),
       ]);
 
@@ -1480,46 +1489,19 @@ describe('SignalProtocolStore', () => {
 
       // they are in the proper order because the collection comparator is
       // 'receivedAtCounter'
-      assert.strictEqual(items[0].envelope, 'first');
-      assert.strictEqual(items[1].envelope, 'second');
-      assert.strictEqual(items[2].envelope, 'third');
-    });
-
-    it('can updates items', async () => {
-      const id = '1-one';
-      await store.addUnprocessed({
-        id,
-        version: 2,
-
-        attempts: 0,
-        envelope: 'first',
-        receivedAtCounter: 0,
-        timestamp: NOW + 1,
-        urgent: false,
-      });
-      await store.updateUnprocessedWithData(id, { decrypted: 'updated' });
-
-      const items = await store.getUnprocessedByIdsAndIncrementAttempts(
-        await store.getAllUnprocessedIds()
-      );
-      assert.strictEqual(items.length, 1);
-      assert.strictEqual(items[0].decrypted, 'updated');
-      assert.strictEqual(items[0].timestamp, NOW + 1);
-      assert.strictEqual(items[0].attempts, 1);
-      assert.strictEqual(items[0].urgent, false);
+      assert.strictEqual(Bytes.toString(items[0].content || ZERO), 'first');
+      assert.strictEqual(Bytes.toString(items[1].content || ZERO), 'second');
+      assert.strictEqual(Bytes.toString(items[2].content || ZERO), 'third');
     });
 
     it('removeUnprocessed successfully deletes item', async () => {
       const id = '1-one';
       await store.addUnprocessed({
-        id,
-        version: 2,
+        ...unprocessedDefaults,
 
-        attempts: 0,
-        envelope: 'first',
-        receivedAtCounter: 0,
+        id,
+
         timestamp: NOW + 1,
-        urgent: true,
       });
       await store.removeUnprocessed(id);
 
@@ -1531,14 +1513,12 @@ describe('SignalProtocolStore', () => {
 
     it('getAllUnprocessedAndIncrementAttempts deletes items', async () => {
       await store.addUnprocessed({
+        ...unprocessedDefaults,
+
         id: '1-one',
-        version: 2,
 
         attempts: 10,
-        envelope: 'first',
-        receivedAtCounter: 0,
         timestamp: NOW + 1,
-        urgent: true,
       });
 
       const items = await store.getUnprocessedByIdsAndIncrementAttempts(

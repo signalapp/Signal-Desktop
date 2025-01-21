@@ -174,7 +174,6 @@ import type {
   StoryReadType,
   UninstalledStickerPackType,
   UnprocessedType,
-  UnprocessedUpdateType,
   WritableDB,
 } from './Interface';
 import { AttachmentDownloadSource, MESSAGE_COLUMNS } from './Interface';
@@ -474,8 +473,6 @@ export const DataWriter: ServerWritableInterface = {
 
   getUnprocessedByIdsAndIncrementAttempts,
   getAllUnprocessedIds,
-  updateUnprocessedWithData,
-  updateUnprocessedsWithData,
   removeUnprocessed,
   removeAllUnprocessed,
 
@@ -4632,17 +4629,23 @@ function saveUnprocessed(db: WritableDB, data: UnprocessedType): string {
     id,
     timestamp,
     receivedAtCounter,
-    version,
     attempts,
-    envelope,
+    type,
+    isEncrypted,
+    content,
+
+    messageAgeSec,
     source,
     sourceServiceId,
     sourceDevice,
+    destinationServiceId,
+    updatedPni,
     serverGuid,
     serverTimestamp,
-    decrypted,
     urgent,
     story,
+    reportingToken,
+    groupId,
   } = data;
   if (!id) {
     throw new Error('saveUnprocessed: id was falsey');
@@ -4655,100 +4658,70 @@ function saveUnprocessed(db: WritableDB, data: UnprocessedType): string {
       id,
       timestamp,
       receivedAtCounter,
-      version,
       attempts,
-      envelope,
+      type,
+      isEncrypted,
+      content,
+
+      messageAgeSec,
       source,
       sourceServiceId,
       sourceDevice,
+      destinationServiceId,
+      updatedPni,
       serverGuid,
       serverTimestamp,
-      decrypted,
       urgent,
-      story
+      story,
+      reportingToken,
+      groupId
     ) values (
       $id,
       $timestamp,
       $receivedAtCounter,
-      $version,
       $attempts,
-      $envelope,
+      $type,
+      $isEncrypted,
+      $content,
+
+      $messageAgeSec,
       $source,
       $sourceServiceId,
       $sourceDevice,
+      $destinationServiceId,
+      $updatedPni,
       $serverGuid,
       $serverTimestamp,
-      $decrypted,
       $urgent,
-      $story
+      $story,
+      $reportingToken,
+      $groupId
     );
     `
   ).run({
     id,
     timestamp,
     receivedAtCounter: receivedAtCounter ?? null,
-    version,
     attempts,
-    envelope: envelope || null,
+    type,
+    isEncrypted: isEncrypted ? 1 : 0,
+    content,
+
+    messageAgeSec,
     source: source || null,
     sourceServiceId: sourceServiceId || null,
     sourceDevice: sourceDevice || null,
-    serverGuid: serverGuid || null,
-    serverTimestamp: serverTimestamp || null,
-    decrypted: decrypted || null,
+    destinationServiceId,
+    updatedPni: updatedPni || null,
+    serverGuid,
+    serverTimestamp,
     urgent: urgent || !isBoolean(urgent) ? 1 : 0,
     story: story ? 1 : 0,
+    reportingToken: reportingToken || null,
+    groupId: groupId || null,
   });
 
   return id;
-}
-
-function updateUnprocessedWithData(
-  db: WritableDB,
-  id: string,
-  data: UnprocessedUpdateType
-): void {
-  const {
-    source,
-    sourceServiceId,
-    sourceDevice,
-    serverGuid,
-    serverTimestamp,
-    decrypted,
-  } = data;
-
-  prepare(
-    db,
-    `
-    UPDATE unprocessed SET
-      source = $source,
-      sourceServiceId = $sourceServiceId,
-      sourceDevice = $sourceDevice,
-      serverGuid = $serverGuid,
-      serverTimestamp = $serverTimestamp,
-      decrypted = $decrypted
-    WHERE id = $id;
-    `
-  ).run({
-    id,
-    source: source || null,
-    sourceServiceId: sourceServiceId || null,
-    sourceDevice: sourceDevice || null,
-    serverGuid: serverGuid || null,
-    serverTimestamp: serverTimestamp || null,
-    decrypted: decrypted || null,
-  });
-}
-
-function updateUnprocessedsWithData(
-  db: WritableDB,
-  arrayOfUnprocessed: Array<{ id: string; data: UnprocessedUpdateType }>
-): void {
-  db.transaction(() => {
-    for (const { id, data } of arrayOfUnprocessed) {
-      updateUnprocessedWithData(db, id, data);
-    }
-  })();
 }
 
 function getUnprocessedById(
@@ -4778,7 +4751,7 @@ function getAllUnprocessedIds(db: WritableDB): Array<string> {
     const { changes: deletedStaleCount } = db
       .prepare<Query>('DELETE FROM unprocessed WHERE timestamp < $monthAgo')
       .run({
-        monthAgo: Date.now() - durations.MONTH,
+        monthAgo: Date.now() - 45 * durations.DAY,
       });
 
     if (deletedStaleCount !== 0) {
