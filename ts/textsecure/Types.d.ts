@@ -92,7 +92,7 @@ export type ProcessedEnvelope = Readonly<{
   destinationServiceId: ServiceIdString;
   updatedPni: PniString | undefined;
   timestamp: number;
-  content: Uint8Array | undefined;
+  content: Uint8Array;
   serverGuid: string;
   serverTimestamp: number;
   groupId: string | undefined;

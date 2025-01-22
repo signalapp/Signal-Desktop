@@ -4825,6 +4825,7 @@ function getUnprocessedByIdsAndIncrementAttempts(
         ...row,
         urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
         story: Boolean(row.story),
+        isEncrypted: Boolean(row.isEncrypted),
       }));
   });
 }

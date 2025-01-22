@@ -403,6 +403,9 @@ export default class MessageReceiver
 
         const ourAci = this.#storage.user.getCheckedAci();
 
+        const { content } = decoded;
+        strictAssert(content != null, 'Content is required for envelopes');
+
         const envelope: ProcessedEnvelope = {
           // Make non-private envelope IDs dashless so they don't get redacted
           //   from logs
@@ -439,7 +442,7 @@ export default class MessageReceiver
                 )
               : undefined,
           timestamp: decoded.timestamp?.toNumber() ?? 0,
-          content: dropNull(decoded.content),
+          content,
           serverGuid: decoded.serverGuid ?? getGuid(),
           serverTimestamp,
           urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
@@ -895,7 +898,7 @@ export default class MessageReceiver
             )
           : undefined,
         timestamp: item.timestamp,
-        content: item.isEncrypted ? item.content : undefined,
+        content: item.content,
         serverGuid: item.serverGuid,
         serverTimestamp: item.serverTimestamp,
         urgent: isBoolean(item.urgent) ? item.urgent : true,
@@ -1104,7 +1107,9 @@ export default class MessageReceiver
               updatedPni: envelope.updatedPni,
               serverGuid: envelope.serverGuid,
               serverTimestamp: envelope.serverTimestamp,
-              decrypted: plaintext,
+              timestamp: envelope.timestamp,
+              isEncrypted: false,
+              content: plaintext,
             };
           }
         );
@@ -1171,8 +1176,6 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     request: IncomingWebSocketRequest
   ): void {
-    strictAssert(envelope.content, 'Content is required for envelopes');
-
     const { id } = envelope;
     const data: UnprocessedType = {
       id,
