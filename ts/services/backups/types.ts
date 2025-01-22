@@ -7,6 +7,7 @@ import type { ConversationColorType } from '../../types/Colors';
 export type AboutMe = {
   aci: AciString;
   pni?: PniString;
+  e164?: string;
 };
 
 export enum BackupType {
