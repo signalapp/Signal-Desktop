@@ -16,7 +16,7 @@ export function getSenderIdentifier({
   const conversation = window.ConversationController.lookupOrCreate({
     e164: source,
     serviceId: sourceServiceId,
-    reason: 'MessageModel.getSenderIdentifier',
+    reason: `MessageModel.getSenderIdentifier(${sentAt})`,
   })!;
 
   return `${conversation?.id}.${sourceDevice}-${sentAt}`;

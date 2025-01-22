@@ -297,7 +297,7 @@ export class BackupImportStream extends Writable {
         await this.#processFrame(frame, { aboutMe: this.#aboutMe });
 
         if (!this.#aboutMe && this.#ourConversation) {
-          const { serviceId, pni } = this.#ourConversation;
+          const { serviceId, pni, e164 } = this.#ourConversation;
           strictAssert(
             isAciString(serviceId),
             'ourConversation serviceId must be ACI'
@@ -305,6 +305,7 @@ export class BackupImportStream extends Writable {
           this.#aboutMe = {
             aci: serviceId,
             pni,
+            e164,
           };
         }
       }
@@ -2336,7 +2337,12 @@ export class BackupImportStream extends Writable {
     if (updateMessage.expirationTimerChange) {
       const { expiresInMs } = updateMessage.expirationTimerChange;
 
-      const sourceServiceId = author?.serviceId ?? aboutMe.aci;
+      let sourceServiceId = author?.serviceId;
+      let source = author?.e164;
+      if (!sourceServiceId) {
+        sourceServiceId = aboutMe.aci;
+        source = aboutMe.e164;
+      }
       const expireTimer = DurationInSeconds.fromMillis(
         expiresInMs?.toNumber() ?? 0
       );
@@ -2345,6 +2351,7 @@ export class BackupImportStream extends Writable {
         message: {
           type: 'timer-notification',
           sourceServiceId,
+          source,
           flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
           expirationTimerUpdate: {
             expireTimer,
@@ -2506,6 +2513,7 @@ export class BackupImportStream extends Writable {
           type: 'call-history',
           callId,
           sourceServiceId: undefined,
+          source: undefined,
           readStatus: ReadStatus.Read,
           seenStatus: read ? SeenStatus.Seen : SeenStatus.Unseen,
         },
@@ -2565,6 +2573,7 @@ export class BackupImportStream extends Writable {
           type: 'call-history',
           callId,
           sourceServiceId: undefined,
+          source: undefined,
           readStatus: ReadStatus.Read,
           seenStatus: read ? SeenStatus.Seen : SeenStatus.Unseen,
         },
@@ -2579,11 +2588,12 @@ export class BackupImportStream extends Writable {
     groupChange: Backups.IGroupChangeChatUpdate,
     options: {
       aboutMe: AboutMe;
+      author?: ConversationAttributesType;
       timestamp: number;
     }
   ): Promise<ChatItemParseResult | undefined> {
     const { updates } = groupChange;
-    const { aboutMe, timestamp } = options;
+    const { aboutMe, timestamp, author } = options;
     const logId = `fromGroupUpdateMessage${timestamp}`;
 
     const details: Array<GroupV2ChangeDetailType> = [];
@@ -3090,9 +3100,13 @@ export class BackupImportStream extends Writable {
       if (update.groupExpirationTimerUpdate) {
         const { updaterAci, expiresInMs } = update.groupExpirationTimerUpdate;
         let sourceServiceId: AciString | undefined;
+        let source = author?.e164;
 
         if (Bytes.isNotEmpty(updaterAci)) {
           sourceServiceId = fromAciObject(Aci.fromUuidBytes(updaterAci));
+          if (sourceServiceId !== author?.serviceId) {
+            source = undefined;
+          }
         }
 
         const expireTimer = expiresInMs
@@ -3101,6 +3115,7 @@ export class BackupImportStream extends Writable {
         additionalMessages.push({
           type: 'timer-notification',
           sourceServiceId,
+          source,
           flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
           expirationTimerUpdate: {
             expireTimer,
