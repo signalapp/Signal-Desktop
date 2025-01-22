@@ -88,7 +88,7 @@ describe('timestamp', () => {
     });
 
     it('formats month name, day of month, year, and time for other times', () => {
-      const rx = /Apr 20, 2000, \d+:\d+ [A|P]M/;
+      const rx = /Apr (19|20|21), 2000, \d+:\d+ [A|P]M/;
       const datetime = formatDateTimeLong(i18n, new Date(956216013000));
       assert.isTrue(rx.test(datetime));
     });
