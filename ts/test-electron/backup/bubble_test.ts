@@ -29,6 +29,7 @@ import { MY_STORY_ID } from '../../types/Stories';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
+const CONTACT_B_E164 = '+12135550123';
 const GV1_ID = Bytes.toBinary(getRandomBytes(ID_V1_LENGTH));
 
 const BADGE_RECEIPT =
@@ -60,7 +61,7 @@ describe('backup/bubble messages', () => {
     contactB = await window.ConversationController.getOrCreateAndWait(
       CONTACT_B,
       'private',
-      { systemGivenName: 'CONTACT_B', active_at: 1 }
+      { systemGivenName: 'CONTACT_B', e164: CONTACT_B_E164, active_at: 1 }
     );
 
     gv1 = await window.ConversationController.getOrCreateAndWait(
@@ -231,6 +232,44 @@ describe('backup/bubble messages', () => {
         },
       },
     ]);
+  });
+
+  it('fixes e164-only incoming 1:1 messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          // Note: contact B e164 vs contact A conversationId
+          source: CONTACT_B_E164,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ],
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ]
+    );
   });
 
   describe('quotes', () => {
