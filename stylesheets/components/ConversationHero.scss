@@ -194,34 +194,4 @@
       }
     }
   }
-
-  &__linkNotification {
-    @include mixins.font-body-2;
-
-    margin-top: 12px;
-    text-align: center;
-    user-select: none;
-
-    &::before {
-      content: '';
-      display: inline-block;
-      height: 16px;
-      margin-inline-end: 8px;
-      vertical-align: middle;
-      width: 16px;
-
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/info/info.svg',
-          variables.$color-gray-60
-        );
-      }
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/info/info.svg',
-          variables.$color-gray-25
-        );
-      }
-    }
-  }
 }
