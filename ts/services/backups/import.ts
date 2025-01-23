@@ -1717,10 +1717,31 @@ export class BackupImportStream extends Writable {
    * Some update messages should not affect the chat's position in the left pane chat
    * list. For example, conversations with only an identity update (SN change) message
    * should not show in the left pane.
+   *
+   * iOS list: /main/SignalServiceKit/Messages/Interactions/TSInteraction.swift
    */
   #shouldChatItemAffectChatListPresence(item: Backups.IChatItem): boolean {
     if (!item.updateMessage) {
       return true;
+    }
+
+    if (
+      item.updateMessage.profileChange ||
+      item.updateMessage.learnedProfileChange ||
+      item.updateMessage.sessionSwitchover ||
+      item.updateMessage.threadMerge
+    ) {
+      return false;
+    }
+
+    if (
+      item.updateMessage.groupChange?.updates?.every(
+        update =>
+          Boolean(update.groupMemberLeftUpdate) ||
+          Boolean(update.groupV2MigrationUpdate)
+      )
+    ) {
+      return false;
     }
 
     if (item.updateMessage.simpleUpdate) {
@@ -1729,6 +1750,9 @@ export class BackupImportStream extends Writable {
         case Backups.SimpleChatUpdate.Type.CHANGE_NUMBER:
         case Backups.SimpleChatUpdate.Type.MESSAGE_REQUEST_ACCEPTED:
         case Backups.SimpleChatUpdate.Type.REPORTED_SPAM:
+        case Backups.SimpleChatUpdate.Type.IDENTITY_DEFAULT:
+        case Backups.SimpleChatUpdate.Type.IDENTITY_VERIFIED:
+        case Backups.SimpleChatUpdate.Type.UNKNOWN:
         case undefined:
         case null:
           return false;
@@ -1738,31 +1762,16 @@ export class BackupImportStream extends Writable {
         case Backups.SimpleChatUpdate.Type.BLOCKED:
         case Backups.SimpleChatUpdate.Type.CHAT_SESSION_REFRESH:
         case Backups.SimpleChatUpdate.Type.END_SESSION:
-        case Backups.SimpleChatUpdate.Type.IDENTITY_DEFAULT:
-        case Backups.SimpleChatUpdate.Type.IDENTITY_VERIFIED:
         case Backups.SimpleChatUpdate.Type.JOINED_SIGNAL:
         case Backups.SimpleChatUpdate.Type.PAYMENTS_ACTIVATED:
         case Backups.SimpleChatUpdate.Type.PAYMENT_ACTIVATION_REQUEST:
         case Backups.SimpleChatUpdate.Type.RELEASE_CHANNEL_DONATION_REQUEST:
         case Backups.SimpleChatUpdate.Type.UNBLOCKED:
-        case Backups.SimpleChatUpdate.Type.UNKNOWN:
         case Backups.SimpleChatUpdate.Type.UNSUPPORTED_PROTOCOL_MESSAGE:
           return true;
         default:
           throw missingCaseError(item.updateMessage.simpleUpdate.type);
       }
-    }
-
-    if (
-      item.updateMessage.groupChange?.updates?.every(update =>
-        Boolean(update.groupMemberLeftUpdate)
-      )
-    ) {
-      return false;
-    }
-
-    if (item.updateMessage.profileChange) {
-      return false;
     }
 
     return true;
