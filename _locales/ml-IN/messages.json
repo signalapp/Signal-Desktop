@@ -4575,10 +4575,10 @@
     "messageformat": "ഒരു നിറം തിരഞ്ഞെടുക്കുക"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ഡൗൺലോഡ് ചെയ്യാൻ വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "ഗ്രൂപ്പ് അവതാർ"

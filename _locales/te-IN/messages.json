@@ -4575,10 +4575,10 @@
     "messageformat": "రంగును ఎంచుకోండి"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "డౌన్‌లోడ్‌ను మళ్ళీ ప్రయత్నించండి"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "మళ్ళీ ప్రయత్నించు"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "గ్రూపు అవతార్"

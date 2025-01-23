@@ -4575,10 +4575,10 @@
     "messageformat": "選擇一種顏色"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "重試下載"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "重試"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "群組頭像"

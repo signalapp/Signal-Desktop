@@ -4575,10 +4575,10 @@
     "messageformat": "একটি রঙ নির্বাচন করুন"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "আবার ডাউনলোড করার চেষ্টা করুন"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "পুনরায় চেষ্টা করুন"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "গ্রুপ এভাটার"

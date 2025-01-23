@@ -4575,10 +4575,10 @@
     "messageformat": "Izvēlēties krāsu"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Mēģināt lejupielādēt vēlreiz"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Mēģināt vēlreiz"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Grupas avatārs"

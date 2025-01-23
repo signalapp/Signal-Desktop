@@ -561,7 +561,7 @@
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "For your security, chat history isn't transferred to new linked devices.",
-    "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
+    "description": "(Deleted 2025/01/23) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "You marked your Safety Number with {name} as verified",

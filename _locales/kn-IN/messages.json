@@ -4575,10 +4575,10 @@
     "messageformat": "ಬಣ್ಣ ಆಯ್ಕೆಮಾಡಿ"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "ಗ್ರೂಪ್ ಅವತಾರ್"

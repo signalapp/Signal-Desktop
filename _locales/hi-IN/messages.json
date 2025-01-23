@@ -4575,10 +4575,10 @@
     "messageformat": "कोई रंग चुनें"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "फिर से डाउनलोड करने की कोशिश करें"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "दोबारा कोशिश करें"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "ग्रुप अवतार"

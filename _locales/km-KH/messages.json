@@ -4575,10 +4575,10 @@
     "messageformat": "ជ្រើសរើសពណ៌"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ព្យាយាមទាញយកម្តងទៀត"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ព្យាយាមម្តងទៀត"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "រូបតំណាងក្រុម"

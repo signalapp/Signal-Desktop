@@ -4575,10 +4575,10 @@
     "messageformat": "အရောင် ရွေးရန်"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ဒေါင်းလုဒ် ပြန်လုပ်ကြည့်မည်"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ထပ်ကြိုးစားပါ"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "အဖွဲ့ ရုပ်ပုံ"

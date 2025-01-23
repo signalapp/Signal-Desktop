@@ -4575,10 +4575,10 @@
     "messageformat": "ਰੰਗ ਚੁਣੋ"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ਦੁਬਾਰਾ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "ਗਰੁੱਪ ਅਵਤਾਰ"

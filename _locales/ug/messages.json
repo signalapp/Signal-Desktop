@@ -4575,10 +4575,10 @@
     "messageformat": "رەڭ تاللاڭ"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "چۈشۈرۈشنى قايتا سىناڭ"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "قايتا سىنا"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "گۇرۇپپا باش سۈرىتى"

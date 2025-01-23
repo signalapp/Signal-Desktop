@@ -4575,10 +4575,10 @@
     "messageformat": "აირჩიე ფერი"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "გადმოწერის თავიდან ცდა"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "თავიდან ცდა"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "ჯგუფის ავატარი"

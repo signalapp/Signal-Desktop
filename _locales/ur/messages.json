@@ -4575,10 +4575,10 @@
     "messageformat": "رنگ منتخب کریں"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "دوبارہ ڈاؤن لوڈ کرنے کی کوشش کریں"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "گروپ اوتار"

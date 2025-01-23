@@ -4068,10 +4068,10 @@
     "messageformat": "Докладніше"
   },
   "icu:AddGroupMembersModal--title": {
-    "messageformat": "Додати учасників"
+    "messageformat": "Додавання учасників"
   },
   "icu:AddGroupMembersModal--continue-to-confirm": {
-    "messageformat": "Оновити"
+    "messageformat": "Додати"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
     "messageformat": "Додати користувача {person} до «{group}»?"
@@ -4080,10 +4080,10 @@
     "messageformat": "Додати {count,number} учасників до «{group}»?"
   },
   "icu:AddGroupMembersModal--confirm-button--one": {
-    "messageformat": "Додати учасника"
+    "messageformat": "Додати"
   },
   "icu:AddGroupMembersModal--confirm-button--many": {
-    "messageformat": "Додати учасників"
+    "messageformat": "Додати"
   },
   "icu:createNewGroupButton": {
     "messageformat": "Нова група"
@@ -4575,10 +4575,10 @@
     "messageformat": "Обрати колір"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Повторити завантаження"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Повторити"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Зображення групи"

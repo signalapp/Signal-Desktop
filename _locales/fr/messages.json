@@ -84,7 +84,7 @@
     "messageformat": "Tout l’historique de vos messages et tous les médias stockés sur Signal seront définitivement supprimés de cet appareil. Vous pourrez de nouveau utiliser Signal sur cet appareil après l’avoir réassocié. Cette action ne supprimera aucune donnée de votre téléphone."
   },
   "icu:databaseError__startOldVersion": {
-    "messageformat": "La version de votre base de données ne peut pas supporter cette version de Signal. Assurez-vous d’ouvrir la dernière version de Signal sur votre ordinateur."
+    "messageformat": "La version de votre base de données est incompatible avec cette version de Signal. Veuillez ouvrir la dernière version de Signal sur votre ordinateur."
   },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Impossible d’accéder à la clé de chiffrement de la base de données, car le backend du keyring de chiffrement associé au système d’exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d’environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l’ancien environnement de bureau."
@@ -1170,7 +1170,7 @@
     "messageformat": "En savoir plus"
   },
   "icu:Install__scan-this-code": {
-    "messageformat": "Lire ce code avec l’appli Signal sur votre téléphone"
+    "messageformat": "Utilisez l'appli Signal installée sur votre téléphone pour scanner ce code"
   },
   "icu:Install__instructions__1": {
     "messageformat": "Ouvrez Signal sur votre téléphone"
@@ -1761,7 +1761,7 @@
     "messageformat": "Le numéro de sécurité a changé"
   },
   "icu:safetyNumberChanges": {
-    "messageformat": "Changements de numéros de sécurité"
+    "messageformat": "Changements de numéro de sécurité"
   },
   "icu:safetyNumberChangedGroup": {
     "messageformat": "Le numéro de sécurité de {name} a changé"
@@ -4212,13 +4212,13 @@
     "messageformat": "Vérifier pour continuer à communiquer"
   },
   "icu:CaptchaDialog__first-paragraph": {
-    "messageformat": "Pour lutter contre le spam sur Signal, merci de terminer la vérification."
+    "messageformat": "Pour nous aider à lutter contre le spam sur Signal, merci de confirmer le reCAPTCHA."
   },
   "icu:CaptchaDialog__second-paragraph": {
-    "messageformat": "Après la vérification, vous pourrez continuer à communiquer. Tous les messages en attente seront automatiquement envoyés."
+    "messageformat": "Vous pourrez continuer d'échanger des messages une fois cette vérification effectuée. Les éventuels messages mis en pause seront envoyés automatiquement."
   },
   "icu:CaptchaDialog--can-close__title": {
-    "messageformat": "Poursuivre sans confirmer ?"
+    "messageformat": "Continuer sans confirmer ?"
   },
   "icu:CaptchaDialog--can-close__body": {
     "messageformat": "Si vous choisissez d’ignorer la confirmation, vous pourriez manquer les messages des autres et vos messages pourraient ne pas être envoyés."
@@ -4362,7 +4362,7 @@
     "messageformat": "La présentation du groupe sera accessible aux membres de ce groupe et aux invités."
   },
   "icu:ConversationDetailsHeader--add-group-description": {
-    "messageformat": "Présenter le groupe en quelques mots…"
+    "messageformat": "Présentez le groupe en quelques mots…"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Sélectionner la qualité des médias"
@@ -4575,10 +4575,10 @@
     "messageformat": "Choisir une couleur"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Reprendre le téléchargement"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Réessayer"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Photo du groupe"
@@ -5569,7 +5569,7 @@
     "messageformat": "Cette modification n’a pas pu être envoyée. Vérifiez votre connexion et réessayez."
   },
   "icu:ResendMessageEdit__button": {
-    "messageformat": "Envoyer de nouveau"
+    "messageformat": "Renvoyer"
   },
   "icu:StoriesTab__MoreActionsLabel": {
     "messageformat": "Davantage d’actions"
@@ -5793,7 +5793,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Nous avons corrigé différents bugs pour assurer le bon fonctionnement de votre application. D’autres changements passionnants se profilent à l’horizon.",
+    "messageformat": "Nous avons corrigé différents bugs pour assurer le bon fonctionnement de votre application. D'autres changements passionnants se profilent à l'horizon.",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {

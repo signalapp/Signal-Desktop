@@ -4575,10 +4575,10 @@
     "messageformat": "ஒரு வண்ணத்தைத் தேர்வு செய்யவும்"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "பதிவிறக்கத்தை மீண்டும் முயலுங்கள்"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "மீண்டும் முயற்சி செய்"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "குழு அவதார்"

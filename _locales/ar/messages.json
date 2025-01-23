@@ -4575,10 +4575,10 @@
     "messageformat": "اختيار لون ما"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "محاولة التنزيل مُجدَّدًا"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "إعادة المُحاولة"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "صورة المجموعة"

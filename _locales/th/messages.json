@@ -4575,10 +4575,10 @@
     "messageformat": "เลือกสี"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ลองดาวน์โหลดอีกครั้ง"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ลองอีกครั้ง"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "อวตารกลุ่ม"

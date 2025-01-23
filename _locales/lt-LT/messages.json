@@ -4575,10 +4575,10 @@
     "messageformat": "Pasirinkite spalvą"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Bandyti atsisiųsti dar kartą"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Bandyti dar kartą"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Grupės avataras"
