@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "படம் சாட்டில் அனுப்பப்பட்டது"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "இந்த படத்திற்கு ஒரு தலைப்பு இருப்பதைக் காட்டும் ஐகான்"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, one {{count,number} பொருள்} other {{count,number} உருப்படிகள்}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "இந்த ஊடகம் இனி கிடைக்கப்பெறாது."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "மேலும் அறிக"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "சேமி"
@@ -1185,7 +1197,7 @@
     "messageformat": "மீண்டும் முயற்சி செய்"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "புதுப்பிப்புக் குறியீடு"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "உதவி பெறுக"
@@ -1584,7 +1596,7 @@
     "messageformat": "Signal டெஸ்க்டாப்பின் இந்தப் பதிப்பிலிருந்து எல்லா தரவையும் மெசேஜ்களையும் நீக்க வேண்டுமா? நீங்கள் எப்போதும் இந்த டெஸ்க்டாப்பை மீண்டும் இணைக்கலாம், ஆனால் உங்கள் மெசேஜ்கள் மீட்டெடுக்கப்படாது. உங்கள் Signal கணக்கு மற்றும் உங்கள் ஃபோன் அல்லது இணைக்கப்பட்ட பிற டிவைஸ்களில் உள்ள தரவு நீக்கப்படாது."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "எல்லாத தரவையும் துண்டித்து நீக்குகிறது…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "சிக்னல் டெஸ்க்டாப்பின் முந்தைய நிறுவலிலிருந்து பயன்படுத்த முடியாத தரவு உங்கள் டெஸ்க்டாப்பில் உள்ளது. தொடர நீங்கள் தேர்வுசெய்தால் Signal desktop update, அது நீக்கப்படும், நீங்கள் புதிதாகத் தொடங்குவீர்கள்."
@@ -3576,7 +3588,7 @@
     "messageformat": "அடுத்தது"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-க்கு நன்கொடை அளி"
@@ -3609,7 +3621,7 @@
     "messageformat": "பதிவிறக்கத் தயாராகிறது..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "உங்கள் மெசேஜ் வரலாற்றின் அளவைப் பொறுத்து இதற்குச் சில நிமிடங்கள் ஆகலாம்"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "ரத்துசெய்"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "ஒரு வண்ணத்தைத் தேர்வு செய்யவும்"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "குழு அவதார்"
@@ -5798,6 +5816,12 @@
     "messageformat": "சில சமயங்களில் உங்கள் சொந்தக் கணக்கைத் தானியங்கு நிரப்புப் பரிந்துரைப் பட்டியலில் தவறாகச் சேர்க்கும் @ குறிப்புகள் கொண்ட பிழையை நாங்கள் சரிசெய்துள்ளோம். ஒரு நாசீசிஸ்டிக் தீர்வாக, இந்தப் பிழையை நீங்கள் எப்போதாவது தவறவிட்டால், உங்கள் குழு சாட்ஸில் உங்களைப் பற்றி பேச மூன்றாம் நபர் விவரிப்பு அம்சத்தைப் பயன்படுத்தலாம்."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "இப்போது நீங்கள் தொடுதிரை சாதனங்களில் சாட் பட்டியல் பக்கப்பட்டியின் அளவை மாற்றியமைக்கலாம்."
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }

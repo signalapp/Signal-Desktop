@@ -1520,7 +1520,7 @@
   },
   "icu:mediaNoLongerAvailable": {
     "messageformat": "This media is no longer available.",
-    "description": "Shown in info toast for messages with old image and video attachments which are no longer available for download. Also used for accessibility label for the download attachment button."
+    "description": "(Deleted 2025/01/22) Shown in info toast for messages with old image and video attachments which are no longer available for download. Also used for accessibility label for the download attachment button."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "This media is not available",
@@ -7730,7 +7730,7 @@
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips.",
-    "description": "Release notes for version 7.39"
+    "description": "(Deleted 2025/01/22) Release notes for version 7.39"
   },
   "icu:WhatsNew__v7.40--0": {
     "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said.",

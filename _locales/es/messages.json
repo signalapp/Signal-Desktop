@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Foto enviada en el chat"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icono que indica que esta imagen tiene una descripción"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementos}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Este archivo ya no está disponible."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Más información"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "Guardar"
@@ -1185,7 +1197,7 @@
     "messageformat": "Reintentar"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Actualizar código"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Obtener ayuda"
@@ -1584,7 +1596,7 @@
     "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? Siempre puedes volver a vincular esta aplicación de escritorio, pero tus mensajes no se restaurarán. No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Desconectando Signal y eliminando datos…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Hemos encontrado datos obsoletos de una versión anterior de Signal Desktop. Si decides continuar, se eliminarán esos datos y se instalará Signal desde cero."
@@ -3201,7 +3213,7 @@
     "messageformat": "Has aceptado una invitación de {inviterName} para unirte al grupo."
   },
   "icu:GroupV2--member-add--from-invite--you-no-from": {
-    "messageformat": "Has aceptado una invitación al grupo."
+    "messageformat": "Has aceptado una invitación para unirte al grupo."
   },
   "icu:GroupV2--member-add--from-invite--from-you": {
     "messageformat": "{inviteeName} ha aceptado tu invitación al grupo."
@@ -3282,13 +3294,13 @@
     "messageformat": "Alguien que es admin te ha designado como admin."
   },
   "icu:GroupV2--member-privilege--demote--other--other": {
-    "messageformat": "{adminName} ha retirado los permisos de admin a {memberName}."
+    "messageformat": "{adminName} le ha retirado los permisos de admin a {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--other--you": {
-    "messageformat": "Has retirado los permisos de admin a {memberName}."
+    "messageformat": "Le has retirado los permisos de admin a {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--other--unknown": {
-    "messageformat": "Alguien que es admin ha retirado los permisos de admin a {memberName}."
+    "messageformat": "Alguien que es admin le ha retirado los permisos de admin a {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--you--other": {
     "messageformat": "{adminName} te ha retirado los permisos de admin."
@@ -3321,7 +3333,7 @@
     "messageformat": "{count, plural, one {Se ha invitado a una persona al grupo.} other {Se ha invitado a {count,number} personas al grupo.}}"
   },
   "icu:GroupV2--pending-remove--decline--other": {
-    "messageformat": "Una persona invitada por {memberName} ha rechazado la invitación al grupo."
+    "messageformat": "Una persona que {memberName} invitó ha rechazado la invitación al grupo."
   },
   "icu:GroupV2--pending-remove--decline--you": {
     "messageformat": "{inviteeName} ha rechazado tu invitación al grupo."
@@ -3333,19 +3345,19 @@
     "messageformat": "Una persona ha rechazado la invitación al grupo."
   },
   "icu:GroupV2--pending-remove--revoke--one--other": {
-    "messageformat": "{memberName} ha retirado la invitación al grupo a una persona."
+    "messageformat": "{memberName} ha retirado la invitación enviada a una persona."
   },
   "icu:GroupV2--pending-remove--revoke--one--you": {
-    "messageformat": "Has retirado la invitación al grupo a una persona."
+    "messageformat": "Has retirado la invitación enviada a una persona."
   },
   "icu:GroupV2--pending-remove--revoke-own--to-you": {
     "messageformat": "{inviterName} ha retirado tu invitación al grupo."
   },
   "icu:GroupV2--pending-remove--revoke-own--unknown": {
-    "messageformat": "{inviterName} ha retirado la invitación a una persona."
+    "messageformat": "{inviterName} ha retirado la invitación enviada a una persona."
   },
   "icu:GroupV2--pending-remove--revoke--one--unknown": {
-    "messageformat": "Alguien que es admin ha retirado la invitación al grupo a una persona."
+    "messageformat": "Alguien que es admin ha retirado la invitación enviada a una persona."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
     "messageformat": "{count, plural, one {{memberName} ha retirado la invitación al grupo enviada a {count,number} persona.} other {{memberName} ha retirado las invitaciones al grupo enviadas a {count,number} personas.}}"
@@ -3357,22 +3369,22 @@
     "messageformat": "{count, plural, one {Alguien con permisos de admin ha retirado la invitación al grupo enviada a {count,number} persona.} other {Alguien con permisos de admin ha retirado las invitaciones al grupo enviadas a {count,number} personas.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
-    "messageformat": "{adminName} ha retirado la invitación al grupo que {memberName} envió a una persona."
+    "messageformat": "{adminName} ha retirado la invitación que {memberName} envió a una persona."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--you": {
-    "messageformat": "Has retirado la invitación al grupo que {memberName} envió a una persona."
+    "messageformat": "Has retirado la invitación que {memberName} envió a una persona."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "Un@ admin ha retirado la invitación a una persona para el grupo enviada por {memberName}."
+    "messageformat": "Alguien que es admin ha retirado la invitación que {memberName} envió a una persona."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-    "messageformat": "{adminName} ha retirado la invitación al grupo que enviaste a {inviteeName}."
+    "messageformat": "{adminName} ha retirado la invitación que enviaste a {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--you": {
     "messageformat": "Has retirado la invitación que enviaste a {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-    "messageformat": "Alguien que es admin ha retirado la invitación al grupo que enviaste a {inviteeName}."
+    "messageformat": "Alguien que es admin ha retirado la invitación que enviaste a {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
     "messageformat": "{count, plural, one {{adminName} ha retirado la invitación al grupo que {memberName} envió a {count,number} persona.} other {{adminName} ha retirado las invitaciones al grupo que {memberName} envió a {count,number} personas.}}"
@@ -3495,7 +3507,7 @@
     "messageformat": "Los miembros o la configuración de este grupo han cambiado."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Actualiza este grupo para activar funciones como @menciones y admins. Las personas que aún no compartan su nombre y foto de perfil con este grupo recibirán una invitación. <learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Actualiza este grupo para activar funciones como @menciones y admins. Las personas que aún no compartan su nombre y foto de perfil con este grupo recibirán una invitación para unirse. <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:GroupV1--Migration--was-upgraded": {
     "messageformat": "Este grupo se ha actualizado al nuevo sistema de grupos."
@@ -3522,34 +3534,34 @@
     "messageformat": "Se conservará todo el historial de mensajes y todos los archivos multimedia que tenías antes de la actualización."
   },
   "icu:GroupV1--Migration--info--invited--you": {
-    "messageformat": "Deberás aceptar una invitación para volver a unirte a este grupo y no recibirás ningún mensaje del grupo hasta que lo hagas."
+    "messageformat": "Deberás aceptar la invitación para volver a unirte a este grupo y no recibirás ningún mensaje del grupo hasta que la aceptes."
   },
   "icu:GroupV1--Migration--info--invited--many": {
-    "messageformat": "Estas personas deben aceptar la invitación para unirse al grupo y no recibirán ningún mensaje en el grupo hasta que la acepten:"
+    "messageformat": "Estas personas deben aceptar la invitación para volver a unirse al grupo y no recibirán ningún mensaje en el grupo hasta que la acepten:"
   },
   "icu:GroupV1--Migration--info--invited--one": {
-    "messageformat": "Esta persona debe aceptar la invitación para unirse al grupo y no recibirá ningún mensaje en el grupo hasta que la acepte:"
+    "messageformat": "Esta persona debe aceptar la invitación para volver a unirse al grupo y no recibirá ningún mensaje del grupo hasta que la acepte:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
     "messageformat": "{count, plural, one {{count,number} persona tiene que aceptar la invitación para unirse al grupo de nuevo y no recibirá ningún mensaje del grupo hasta que la acepte.} other {{count,number} personas tienen que aceptar la invitación para unirse al grupo de nuevo y no recibirán ningún mensaje del grupo hasta que la acepten.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
-    "messageformat": "Estas personas no pueden unirse a los grupos nuevos y se las eliminará del grupo:"
+    "messageformat": "Se eliminará a estas personas del grupo, ya que no pueden unirse a los nuevos grupos:"
   },
   "icu:GroupV1--Migration--info--removed--before--one": {
-    "messageformat": "Esta persona no puede unirse a los grupos nuevos y se la eliminará del grupo:"
+    "messageformat": "Se eliminará a esta persona del grupo, ya que no puede unirse a los nuevos grupos:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} persona no puede unirse a los grupos nuevos y se la eliminará del grupo.} other {{count,number} personas no pueden unirse a los grupos nuevos y se las eliminará del grupo.}}"
+    "messageformat": "{count, plural, one {Se eliminará a {count,number} persona del grupo, ya que no puede unirse a los nuevos grupos:} other {Se eliminará a {count,number} personas del grupo, ya que no pueden unirse a los nuevos grupos:}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
-    "messageformat": "Estas personas no se han podido unir a los grupos nuevos y se las ha eliminado del grupo."
+    "messageformat": "Se ha eliminado a estas personas del grupo, ya que no han podido unirse a los nuevos grupos:"
   },
   "icu:GroupV1--Migration--info--removed--after--one": {
-    "messageformat": "Esta persona no se ha podido unir a los grupos nuevos y se la ha eliminado del grupo."
+    "messageformat": "Se ha eliminado a esta persona del grupo, ya que no ha podido unirse a los nuevos grupos:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} persona no ha podido unirse a los grupos nuevos y se la eliminará del grupo.} other {{count,number} personas no han podido unirse a los grupos nuevos y se las eliminará del grupo.}}"
+    "messageformat": "{count, plural, one {Se ha eliminado a {count,number} persona del grupo, ya que no ha podido unirse a los nuevos grupos.} other {Se ha eliminado a {count,number} personas del grupo, ya que no han podido unirse a los nuevos grupos.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "No te han podido añadir al nuevo grupo, pero te han invitado a unirte."
@@ -3564,7 +3576,7 @@
     "messageformat": "Se ha eliminado a {contact} del grupo."
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, one {Se ha eliminado del grupo a {count,number} participante.} other {Se ha eliminado del grupo a {count,number} participantes.}}"
+    "messageformat": "{count, plural, one {Se ha eliminado a {count,number} persona del grupo.} other {Se ha eliminado a {count,number} personas del grupo.}}"
   },
   "icu:close": {
     "messageformat": "Cerrar"
@@ -3576,13 +3588,13 @@
     "messageformat": "siguiente"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
-    "messageformat": "Dona a Signal"
+    "messageformat": "Donar a Signal"
   },
   "icu:BadgeSustainerInstructions__header": {
-    "messageformat": "Dona a Signal"
+    "messageformat": "Haz una donación a Signal"
   },
   "icu:BadgeSustainerInstructions__subheader": {
     "messageformat": "Signal es posible gracias a personas como tú. Contribuye y recibe una insignia para lucir en tu perfil."
@@ -3609,7 +3621,7 @@
     "messageformat": "Preparando la descarga…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Dependiendo del tamaño de tu historial de mensajes, esto puede llevar algunos minutos"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cancelar"
@@ -3636,7 +3648,7 @@
     "messageformat": "No se han podido transferir tus mensajes. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Se ha producido un error y no se han podido transferir tus mensajes. Vuelve a vincular este escritorio para internarlo de nuevo."
+    "messageformat": "Se ha producido un error y no se han podido transferir tus mensajes. Vuelve a vincular este dispositivo de escritorio para internarlo de nuevo."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Reintentar"
@@ -3705,7 +3717,7 @@
     "messageformat": "Esta persona no usa Signal"
   },
   "icu:CompositionArea--sms-only__body": {
-    "messageformat": "No se puede enviar mensajes desde Signal Desktop a personas que no usan Signal. Invita a esta persona a instalar Signal para disfrutar de una experiencia de mensajería más segura y privada."
+    "messageformat": "Signal Desktop no permite enviar mensajes a personas que no usan Signal. Invita a esta persona a instalar Signal para disfrutar de una experiencia de mensajería más segura y privada."
   },
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Comprobando si la persona está registrada"
@@ -3732,10 +3744,10 @@
     "messageformat": "Designar como admin"
   },
   "icu:ContactModal--make-admin-info": {
-    "messageformat": "{contact} podrá editar los ajustes de este grupo y modificar la lista de participantes."
+    "messageformat": "{contact} podrá editar los ajustes de este grupo y la lista de participantes."
   },
   "icu:ContactModal--rm-admin-info": {
-    "messageformat": "¿Retirar los permisos de admin a {contact}?"
+    "messageformat": "¿Retirarle los permisos de admin a {contact}?"
   },
   "icu:ContactModal--add-to-group": {
     "messageformat": "Añadir a otro grupo"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Selecciona un color"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Imagen del grupo"
@@ -5596,7 +5614,7 @@
     "messageformat": "Haz clic en <newCallButtonIcon></newCallButtonIcon> para iniciar una nueva llamada o videollamada."
   },
   "icu:CallsList__SearchInputPlaceholder--missed-calls": {
-    "messageformat": "Buscar llamadas perdidas"
+    "messageformat": "Buscar en llamadas perdidas"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Buscar"
@@ -5683,16 +5701,16 @@
     "messageformat": "Unirse"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Añadir nombre de llamada"
+    "messageformat": "Añadir el nombre de la llamada"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Editar nombre de llamada"
+    "messageformat": "Editar el nombre de la llamada"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
     "messageformat": "Solicitar aprobación de admin"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
-    "messageformat": "Este ajuste no se puede cambiar mientras la llamada está activa"
+    "messageformat": "Este ajuste no se puede cambiar si la llamada está activa"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiar enlace"
@@ -5716,7 +5734,7 @@
     "messageformat": "Eliminar"
   },
   "icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call": {
-    "messageformat": "Este enlace no se puede eliminar mientras la llamada está activa"
+    "messageformat": "Este enlace no se puede eliminar si la llamada está activa"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalles del enlace de llamada"
@@ -5725,10 +5743,10 @@
     "messageformat": "Unirse"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Añadir nombre de llamada"
+    "messageformat": "Añadir el nombre de la llamada"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Editar nombre de llamada"
+    "messageformat": "Editar el nombre de la llamada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Solicitar aprobación de admin"
@@ -5746,13 +5764,13 @@
     "messageformat": "Activado"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Añadir nombre de llamada"
+    "messageformat": "Añadir el nombre de la llamada"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Editar nombre de llamada"
+    "messageformat": "Editar el nombre de la llamada"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Nombre de llamada"
+    "messageformat": "Nombre de la llamada"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona más está escribiendo.} other {{count,number} personas más están escribiendo.}}"
@@ -5798,6 +5816,12 @@
     "messageformat": "Cuando querías mencionar a alguien con @, a veces aparecía tu propia cuenta en la lista de sugerencias. ¡Eso ya es cosa del pasado! Pero no te preocupes: podrás seguir dando rienda suelta a tu <em>main character energy</em> hablando de ti en tercera persona en tus chats de grupo."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Ahora puedes ajustar el tamaño de la barra lateral de la lista de chats en dispositivos con pantalla táctil. Así, ocupará el espacio justo sin monopolizar la pantalla ni obligarte a forzar la vista."
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }

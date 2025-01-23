@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "ਚੈਟ ਵਿੱਚ ਭੇਜਿਆ ਗਿਆ ਚਿੱਤਰ"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ਆਈਕਾਨ ਦਿਖਾ ਰਿਹਾ ਹੈ ਕਿ ਇਸ ਚਿੱਤਰ ਦੀ ਕੋਈ ਕੈਪਸ਼ਨ ਹੈ"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, one {{count,number} ਚੀਜਾਂ } other {{count,number} ਆਈਟਮਾਂ}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "ਇਹ ਮੀਡੀਆ ਹੁਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ਹੋਰ ਜਾਣੋ"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "ਸੰਭਾਲੋ"
@@ -1185,7 +1197,7 @@
     "messageformat": "ਮੁੜ-ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "ਕੋਡ ਨੂੰ ਤਾਜ਼ਾ ਕਰੋ"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "ਸਹਾਇਤਾ ਲਓ"
@@ -1584,7 +1596,7 @@
     "messageformat": "ਕੀ Signal Desktop ਦੇ ਇਸ ਵਰਜ਼ਨ ਤੋਂ ਸਾਰਾ ਡਾਟਾ ਅਤੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ? ਤੁਸੀਂ ਕਦੇ ਵੀ ਇਸ ਡੈਸਕਟਾਪ ਨੂੰ ਦੁਬਾਰਾ ਲਿੰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਰੀਸਟੋਰ ਨਹੀਂ ਹੋਣਗੇ। ਤੁਹਾਡਾ Signal ਖਾਤਾ ਅਤੇ ਤੁਹਾਡੇ ਫ਼ੋਨ ਜਾਂ ਹੋਰ ਲਿੰਕ ਕੀਤੇ ਡਿਵਾਈਸਾਂ 'ਤੇ ਮੌਜੂਦ ਡਾਟਾ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾਵੇਗਾ।"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "ਡਿਸਕਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ ਅਤੇ ਸਾਰਾ ਡਾਟਾ ਮਿਟਾਇਆ ਜਾ ਰਿਹਾ ਹੈ…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "ਤੁਹਾਡੇ ਕੋਲ Signal Desktop ਦੀ ਪਿਛਲੀ ਇੰਸਟਾਲੇਸ਼ਨ ਦਾ ਪੁਰਾਣਾ ਡਾਟਾ ਮੌਜੂਦ ਹੈ। ਜੇ ਤੁਸੀਂ ਅੱਗੇ ਜਾਰੀ ਰੱਖਦੇ ਹੋ, ਤਾਂ ਇਸਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਤੁਹਾਨੂੰ ਮੁੱਢ ਤੋਂ ਸ਼ੁਰੂ ਕਰਨਾ ਪਵੇਗਾ।"
@@ -3576,7 +3588,7 @@
     "messageformat": "ਅੱਗੇ"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ਨੂੰ ਦਾਨ ਕਰੋ"
@@ -3609,7 +3621,7 @@
     "messageformat": "ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਤਿਆਰੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "ਤੁਹਾਡੇ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਦੇ ਆਕਾਰ 'ਤੇ ਨਿਰਭਰ ਕਰਦੇ ਹੋਏ ਇਸ ਵਿੱਚ ਕੁਝ ਮਿੰਟ ਲੱਗ ਸਕਦੇ ਹਨ"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "ਰੱਦ ਕਰੋ"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "ਰੰਗ ਚੁਣੋ"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "ਗਰੁੱਪ ਅਵਤਾਰ"
@@ -5798,6 +5816,12 @@
     "messageformat": "ਅਸੀਂ @ ਜ਼ਿਕਰ ਦੇ ਨਾਲ ਸਬੰਧਿਤ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ ਜੋ ਕਈ ਵਾਰ ਗਲਤ ਢੰਗ ਨਾਲ ਤੁਹਾਡੇ ਆਪਣੇ ਖਾਤੇ ਨੂੰ ਸਵੈ-ਸੰਪੂਰਨ ਸੁਝਾਅ ਸੂਚੀ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰ ਦਿੰਦਾ ਸੀ।"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਟੱਚਸਕ੍ਰੀਨ ਡਿਵਾਈਸਾਂ 'ਤੇ ਚੈਟ ਸੂਚੀ ਸਾਈਡਬਾਰ ਦੇ ਆਕਾਰ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰ ਸਕਦੇ ਹੋ।"
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }
