@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number}चीज़ें} other {{count,number} आइटम}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "अब यह मीडिया उपलब्ध नहीं है।"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "अधिक जानें"
   },
   "icu:save": {
     "messageformat": "संरक्षित करें"
@@ -1185,7 +1185,7 @@
     "messageformat": "दोबारा कोशिश करें"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "कोड रीफ़्रेश करें"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "मदद पाएँ"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal डेस्कटॉप के इस संस्करण से सभी डेटा और संदेश हटाएं? आप इस डेस्कटॉप को कभी भी दोबारा लिंक कर सकते हैं, लेकिन आपके संदेश वापस नहीं आएंगे। आपका Signal खाता और आपके फोन या अन्य लिंक की गईं डिवाइस पर मौजूदा डेटा हटाया नहीं जाएगा।"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "सारा डेटा डिसकनेक्ट और डिलीट किया जा रहा है…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "आपके पास Signal Desktop के पिछले इंस्टॉलेशन से बेकार डेटा है। अगर आप जारी रखने का चयन करते हैं, तो इसे डिलीट कर दिया जाएगा और आप दोबारा से शुरुआत करेंगे।"
@@ -3576,7 +3576,7 @@
     "messageformat": "अगला"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "आपके संदेश इतिहास के आकार के आधार पर, इसमें कुछ मिनट लग सकते हैं"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal  को दान करें"
@@ -5798,6 +5798,6 @@
     "messageformat": "हमने @ मेंशन वाली गड़बड़ी को ठीक कर दिया है, जिसकी वजह से कभी-कभी आपका अपना अकाउंट अपने-आप पूरा करने के लिए सुझावों की सूची में शामिल हो जाता था। अगर आप खुद को शामिल करना चाहें, तो इस गड़बड़ी की याद आने पर, आप अब भी अपने बारे में बात करने के लिए ग्रुप चैट में तीसरे-पक्ष के कथन का इस्तेमाल कर सकते हैं।"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "अब आप टचस्क्रीन डिवाइस पर चैट लिस्ट साइडबार का आकार कम-ज़्यादा कर सकते हैं। तो जब आप इसे ड्रैग करने की कोशिश करते हैं, तो ज़्यादा मुश्किल न हो और आपकी उंगलियों से निकलने वाली ऊर्जा से आपकी स्क्रीन पर धब्बे न दिखाई दें।"
   }
 }

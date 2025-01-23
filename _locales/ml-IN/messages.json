@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} ഇനം} other {{count,number} ഇനങ്ങൾ}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "ഈ മീഡിയ ഇനി ലഭ്യമല്ല."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "കൂടുതൽ അറിയുക"
   },
   "icu:save": {
     "messageformat": "സംരക്ഷിക്കൂ"
@@ -1185,7 +1185,7 @@
     "messageformat": "വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "കോഡ് പുതുക്കുക"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "സഹായം തേടുക"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal Desktop-ന്റെ ഈ പതിപ്പിൽ നിന്ന് എല്ലാ ഡാറ്റയും സന്ദേശങ്ങളും ഇല്ലാതാക്കണോ? നിങ്ങൾക്ക് എല്ലായ്‌പ്പോഴും ഈ ഡെസ്‌ക്‌ടോപ്പ് വീണ്ടും ലിങ്ക് ചെയ്യാം, എന്നാൽ നിങ്ങളുടെ സന്ദേശങ്ങൾ പുനഃസ്ഥാപിക്കില്ല. നിങ്ങളുടെ ഫോണിലെയോ മറ്റ് ലിങ്ക് ചെയ്‌തിരിക്കുന്ന ഉപകരണങ്ങളിലെയോ നിങ്ങളുടെ Signal അക്കൗണ്ടും ഡാറ്റയും ഇല്ലാതാക്കില്ല."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "എല്ലാ ഡാറ്റയും വിച്ഛേദിക്കുകയും ഇല്ലാതാക്കുകയും ചെയ്യുന്നു…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop-ന്റെ ഒരു മുൻ ഇൻസ്റ്റലേഷനിൽ നിന്ന് കാലഹരണപ്പെട്ട ഡാറ്റ നിങ്ങളുടെ പക്കലുണ്ട്. നിങ്ങൾ തുടരാൻ തീരുമാനിക്കുകയാണെങ്കിൽ, അത് ഇല്ലാതാക്കപ്പെടും കൂടാതെ നിങ്ങൾ ആദ്യം മുതൽ ആരംഭിക്കും."
@@ -3576,7 +3576,7 @@
     "messageformat": "അടുത്തത്"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "നിങ്ങളുടെ സന്ദേശ ചരിത്രത്തിൻ്റെ വലുപ്പം അനുസരിച്ച് ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-ന് സംഭാവന ചെയ്യുക"
@@ -5798,6 +5798,6 @@
     "messageformat": "ചിലപ്പോൾ നിങ്ങളുടെ സ്വന്തം അക്കൗണ്ട്, സ്വയമേവ പൂർത്തിയാക്കൽ നിർദ്ദേശ പട്ടികയിൽ തെറ്റായി ഉൾപ്പെടുത്തിയിരുന്ന @ പരാമർശങ്ങളുള്ള ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. ഒരു നാർസിസിസ്റ്റിക് പരിഹാരമെന്ന നിലയിൽ, ഈ ബഗ് എപ്പോഴെങ്കിലും നിങ്ങൾക്ക് മിസ്സാകുകയാണെങ്കിൽ, നിങ്ങളുടെ ഗ്രൂപ്പ് ചാറ്റുകളിൽ നിങ്ങളെക്കുറിച്ച് സംസാരിക്കാൻ നിങ്ങൾക്ക് തുടർന്നും മൂന്നാം-വ്യക്തി വിവരണം ഉപയോഗിക്കാം."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "ഇപ്പോൾ നിങ്ങൾക്ക് ടച്ച്‌സ്‌ക്രീൻ ഉപകരണങ്ങളിൽ ചാറ്റ് ലിസ്റ്റ് സൈഡ്‌ബാറിൻ്റെ വലുപ്പം ക്രമീകരിക്കാം. അതിനാൽ നിങ്ങൾ ഡ്രാഗ് ചെയ്യാൻ ശ്രമിക്കുമ്പോൾ അത് അത്തരത്തിലുള്ള ഒരു ഡ്രാഗ് ആയിരിക്കില്ല, നിങ്ങളുടെ സ്‌ക്രീനിലെ പാടുകൾ നിങ്ങളുടെ വിരൽത്തുമ്പിൽ നിന്ന് പുറപ്പെടുന്ന ശക്തിയുടെ തെളിവാണ്."
   }
 }

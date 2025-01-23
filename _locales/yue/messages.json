@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, other {{count,number} 個項目}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "呢個媒體已經冇咗。"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "了解多啲"
   },
   "icu:save": {
     "messageformat": "儲存"
@@ -1185,7 +1185,7 @@
     "messageformat": "再試多次"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "重新整理二維碼"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "搵幫手"
@@ -1584,7 +1584,7 @@
     "messageformat": "係咪要刪除呢個 Signal 桌面版版本嘅所有資料同訊息？你可以隨時重新連結返呢部桌面電腦，但你啲訊息就冇得還原㗎喇。你嘅 Signal 帳戶同埋手機或者其他已連結裝置上面嘅資料係唔會刪除嘅。"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "中斷緊連接，同刪除緊資料…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "你之前安裝嘅 Signal 桌面版入面有過時嘅資料。如果你選擇繼續，呢啲資料就會被刪除，你就會從頭開始過喇。"
@@ -3576,7 +3576,7 @@
     "messageformat": "下一個"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "視乎你訊息紀錄嘅數量，過程可能需要幾分鐘"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "捐款俾 Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "我哋修正咗一個 @ 提及嘅錯誤，就係有時會錯誤咁將你自己嘅帳戶納入自動完成建議清單度。如果你真係咁自戀嘅，更新完之後你都可以繼續喺群組聊天度用第三人稱稱呼自己。"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "而家，你可以喺觸控式裝置度調整聊天清單側欄嘅大細喇。"
   }
 }

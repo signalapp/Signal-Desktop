@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {Elementu {count,number}} other {{count,number} elementu}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Multimedia-eduki hau jada ez dago erabilgarri."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Informazio gehiago"
   },
   "icu:save": {
     "messageformat": "Gorde"
@@ -1185,7 +1185,7 @@
     "messageformat": "Berriro saiatu"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Freskatu kodea"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Lortu laguntza"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal-en ordenagailurako bertsio honetako datu eta mezu guztiak ezabatu nahi dituzu? Nahi duzunean lot dezakezu berriro ordenagailu hau, baina mezuak ez dira leheneratuko. Telefonoan nahiz lotutako beste gailu batzuetan, Signal-eko kontua eta datuak ez dira ezabatuko."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Deskonektatzen eta datu guztiak ezabatzen…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ordenagailurako Signal-en aurreko instalazio baten datu zaharkituak dauzkazu. Aurrera jarraituz gero, ezabatu egingo dira, eta zerotik hasi beharko duzu."
@@ -3576,7 +3576,7 @@
     "messageformat": "hurrengoa"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Agian minutu batzuk beharko dira, mezu-historiaren tamainaren arabera"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Egin dohaintza Signal-i"
@@ -5798,6 +5798,6 @@
     "messageformat": "@Aipamenak automatikoki osatzeko iradokizun-zerrendan batzuetan zeure kontua agerrarazten zuen akats bat konpondu dugu."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Orain, txat-zerrendaren alboko barraren tamaina doitu egin dezakezu ukipen-pantaila duten gailuetan."
   }
 }

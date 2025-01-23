@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {Kitu {count,number}} other {Vitu {count,number}}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Video hii haipatikani tena."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Jifunze zaidi"
   },
   "icu:save": {
     "messageformat": "Hifadhi"
@@ -1185,7 +1185,7 @@
     "messageformat": "Jaribu Upya"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Onyesha code upya"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Pata msaada"
@@ -1584,7 +1584,7 @@
     "messageformat": "Futa data na jumbe zote kutoka kwenye toleo hili la Signal Desktop? Unaweza kuiunganisha tena kompyuta hii wakati wowote, lakini jumbe zako hazitarejeshwa. Akaunti yako ya Signal na data kwenye simu yako au vifaa vingine vilivyounganishwa havitofutwa."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Inatenganisha na kufuta data yote…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Una data nzee kutokana na usanikishaji wa awali wa Signal Desktop. Ukichagua kuendelea, itafutwa na utaanza kutoka mwanzoni."
@@ -3576,7 +3576,7 @@
     "messageformat": "ijayo"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Mchakato huu huenda ukachukua dakika chache kulingana na ukubwa wa historia yako ya ujumbe"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Changia Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Tulirekebisha hitilafu katika @ mentions ambazo wakati mwingine hujumuishwa kwa akaunti yako kwa orodha ya mapendekezo ya kukamilishwa kiotomataki. Bado unaweza kutumia simulizi ya mtu wa tatu kukuhusu kwenye gumzo za kikundi ukikosa hitilafu hii."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Sasa unaweza kurekebisha ukubwa wa utepe wa orodha ya gumzo kwenye vifaa vya skrini ya kugusa. Kwa hiyo unapojaribu kuvuruta haitachukua muda, na uchafu kwenye skrini yako ni ushahidi tu wa nguvu inayotoka kwenye vidole vyako."
   }
 }

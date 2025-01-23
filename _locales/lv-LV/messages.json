@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, zero {{count,number} priekšmeti} one {{count,number} priekšmets} other {{count,number} vienumi}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Šī multivide vairs nav pieejama."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Uzzināt vairāk"
   },
   "icu:save": {
     "messageformat": "Saglabāt"
@@ -1185,7 +1185,7 @@
     "messageformat": "Mēģināt vēlreiz"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Atsvaidzināt kodu"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Saņemt palīdzību"
@@ -1584,7 +1584,7 @@
     "messageformat": "Vai dzēst visus datus un ziņas no šīs Signal Desktop versijas? Jebkurā brīdī varat atkārtoti piesaistīt Signal šim datoram, taču ziņas netiks atjaunotas. Jūsu Signal konts un dati tālrunī vai citās piesaistītās ierīcēs netiks dzēsti."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Notiek atvienošana un visu datu dzēšana…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Jums ir novecojuši dati no iepriekšējas Signal Desktop versijas instalācijas. Izvēloties turpināt, šie dati tiks dzēsti un jūs sāksiet no nulles."
@@ -3576,7 +3576,7 @@
     "messageformat": "tālāk"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Šis process var aizņemt dažas minūtes atkarībā no ziņu vēstures apjoma"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Ziedot Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Mēs atrisinājām kļūdu, kas lika arī jūsu kontam parādīties @ pieminējumu automātiskās pabeigšanas ieteikumu sarakstā. Ja jums šī kļūda kādreiz pietrūkst, iesakām šādos gadījumos grupu sarunās atsaukties uz sevi trešajā personā."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Tagad ierīcēs ar skārienekrānu varat pielāgot sarunu saraksta sānu joslas izmēru."
   }
 }

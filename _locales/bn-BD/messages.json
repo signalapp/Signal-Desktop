@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} টি বস্তু} other {{count,number}-টি আইটেম}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "এই মিডিয়াটি আর নেই।"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "আরো জানুন"
   },
   "icu:save": {
     "messageformat": "সংরক্ষণ"
@@ -1185,7 +1185,7 @@
     "messageformat": "পুনরায় চেষ্টা করুন"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "কোড রিফ্রেশ করুন"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "সাহায্য নিন"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal ডেস্কটপের এই সংস্করণ থেকে সকল ডেটা ও মেসেজ মুছে ফেলবেন? আপনি সবসময় এই ডেস্কটপে পুনরায় লিংক করতে পারবেন, কিন্তু আপনার মেসেজ পুনরুদ্ধার করা যাবে না। আপনার Signal অ্যাকাউন্ট এবং আপনার ফোন বা অন্যান্য লিংককৃত ডিভাইসের ডেটা মুছে ফেলা হবে না।"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "সংযোগ বিচ্ছিন্ন হচ্ছে এবং সকল ডেটা মুছে ফেলা হচ্ছে…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "পূর্বের Signal ডেস্কটপ ইনস্টলেশন থেকে আপনার কিছু পুরনো ডেটা রয়েছে। আপনি চালিয়ে গেলে এগুলো মুছে যাবে এবং আপনি আবার প্রথম থেকে শুরু করবেন।"
@@ -3576,7 +3576,7 @@
     "messageformat": "পরবর্তী"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "আপনার মেসেজের ইতিহাসের আকারের উপর নির্ভর করে এতে কয়েক মিনিট সময় নিতে পারে"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-এ দান করুন"
@@ -5798,6 +5798,6 @@
     "messageformat": "আমরা @ উল্লেখ সহ একটি বাগ সংশোধন করেছি যা কখনো কখনো ভুলভাবে স্বয়ংক্রিয় পরামর্শ তালিকায় আপনার নিজের অ্যাকাউন্ট অন্তর্ভুক্ত করে।"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "এখন আপনি টাচস্ক্রিন ডিভাইসে চ্যাট লিস্টের সাইডবারের আকার সমন্বয় করতে পারবেন।"
   }
 }

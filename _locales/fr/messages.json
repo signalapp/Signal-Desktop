@@ -393,7 +393,7 @@
     "messageformat": "Vous n’êtes plus membre du groupe."
   },
   "icu:invalidConversation": {
-    "messageformat": "Ce groupe est invalide. Veuillez créer un nouveau groupe."
+    "messageformat": "Ce groupe n'est pas valide. Veuillez créer un nouveau groupe."
   },
   "icu:scrollDown": {
     "messageformat": "Faire défiler la conversation vers le bas"
@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} élément} other {{count,number} éléments}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Ce média n'est plus disponible."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "En savoir plus"
   },
   "icu:save": {
     "messageformat": "Enregistrer"
@@ -1185,7 +1185,7 @@
     "messageformat": "Réessayer"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Actualiser le code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Obtenir de l’aide"
@@ -1584,7 +1584,7 @@
     "messageformat": "Supprimer toutes les données et tous les messages de cette version de Signal Desktop ? Vous pourrez toujours réassocier Signal Desktop, mais vous ne pourrez pas restaurer vos messages. Cette action ne supprime pas le compte et les données Signal qui sont stockés sur votre téléphone ou sur vos autres appareils associés."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Déconnexion et suppression de toutes les données…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Vous avez des données périmées qui proviennent d’une ancienne installation de Signal pour ordinateur. Si vous choisissez de poursuivre, elles seront supprimées et vous recommencerez à zéro."
@@ -2262,7 +2262,7 @@
     "messageformat": "(brouillon)"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus sur le plus ancien message non lu ou le dernier message"
+    "messageformat": "Mettre en avant le plus ancien message non lu ou le dernier message reçu"
   },
   "icu:Keyboard--navigate-by-section": {
     "messageformat": "Naviguer par section"
@@ -3006,7 +3006,7 @@
     "messageformat": "Seuls les administrateurs du groupe peuvent démarrer un appel."
   },
   "icu:GroupV2--join--invalid-link--title": {
-    "messageformat": "Le lien est invalide"
+    "messageformat": "Lien non valide"
   },
   "icu:GroupV2--join--invalid-link": {
     "messageformat": "Ce lien de groupe n’est pas valide. Vérifiez qu’il n’est pas tronqué et qu’il s’agit du bon lien."
@@ -3576,7 +3576,7 @@
     "messageformat": "suivant"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Selon la taille des messages, cela peut prendre quelques minutes."
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Faire un don à Signal"
@@ -3837,7 +3837,7 @@
     "messageformat": "Bloquer et quitter le groupe \"{groupName}\" ?"
   },
   "icu:ConversationDetailsActions--block-group-modal-content": {
-    "messageformat": "Vous ne recevrez plus ni messages ni mises à jour de ce groupe."
+    "messageformat": "Ce groupe ne pourra plus vous envoyer de messages, ni vous tenir informé des dernières actualités."
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Bloquer"
@@ -5798,6 +5798,6 @@
     "messageformat": "Lorsque vous saisissiez @ pour mentionner un ami, il arrivait que votre propre nom s'affiche dans la liste des suggestions. Un bug en moins pour 2025 ! Si vous êtes un adepte du <em>self-love</em> et que ce bug vous manque, vous pouvez toujours parler de vous à la troisième personne dans vos conversations de groupe. Ça nous arrive aussi."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Sur les appareils dotés d'un écran tactile, vous pouvez maintenant redimensionner la barre latérale qui affiche la liste des conversations. On peut dire qu'elle vous obéit au doigt et à l'œil. ;-)"
   }
 }

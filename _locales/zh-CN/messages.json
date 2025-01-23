@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, other {{count,number} 个项目}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "此媒体已不可用。"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "了解更多"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1185,7 +1185,7 @@
     "messageformat": "重试"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "刷新二维码"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "获取帮助"
@@ -1584,7 +1584,7 @@
     "messageformat": "要删除此版 Signal Desktop 中的所有数据和消息吗？您可以随时重新链接此电脑，但您的消息将无法恢复。您的 Signal 账户和您手机或其他已链接设备上的数据不会被删除。"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "正在断开连接并删除所有数据…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "您先前安装的 Signal Desktop 中有旧的数据。如果选择继续，它将被删除，并且您将从头开始。"
@@ -3576,7 +3576,7 @@
     "messageformat": "下一"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "这可能需要几分钟时间，视您的消息记录大小而定"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "捐赠 Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "我们修复了 @ 提及功能的一个漏洞，该漏洞有时会将您自己的账户也包含在推荐列表中。"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "现在您可以在触屏设备上调整聊天列表侧边栏的大小。"
   }
 }

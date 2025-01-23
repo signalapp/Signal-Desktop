@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, other {{count,number} تۈر}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "بۇ مېدىيا ئەمدى مەۋجۇت ئەمەس."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "تەپسىلاتى"
   },
   "icu:save": {
     "messageformat": "ساقلا"
@@ -1185,7 +1185,7 @@
     "messageformat": "قايتا سىنا"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "كودنى يېڭىلاش"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "ياردەمگە ئېرىشىڭ"
@@ -1584,7 +1584,7 @@
     "messageformat": "بۇ نۇسخىدىكى Signal ئۈستەليۈزى نەشرىدىكى بارلىق سانلىق مەلۇمات ۋە ئۇچۇرلارنى ئۆچۈرەمسىز؟ بۇ ئۈستەليۈزى نەشرىگە خالىغان ۋاقىتتا قايتا ئۇلىنالايسىز، لېكىن ئۇچۇرلىرىڭىزنى ئەسلىگە كەلتۈرگىلى بولمايدۇ. يانفون ۋە باشقا ئۇلانغان ئۈسكۈنىلەردىكى Signal ھېساباتىڭىز ۋە سانلىق مەلۇماتلىرىڭىز ئۆچۈرۈلمەيدۇ."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "بارلىق سانلىق مەلۇماتلارنى ئۇلىنىشتىن ئاجرىتىۋاتىدۇ ۋە ئۆچۈرىۋاتىدۇ…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "بۇرۇن قاچىلىغان Signal ئۈستەليۈزى نەشرىدىكى ۋاقتى ئۆتكەن سانلىق مەلۇماتلار بار بولۇپ، ئەگەر داۋاملاشتۇرسىڭىز، ئۇلار ئۆچۈرۈلىدۇ ۋە ھەممىنى باشتىن باشلايسىز."
@@ -3576,7 +3576,7 @@
     "messageformat": "كېيىنكى"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "ئۇچۇر تارىخىڭىزنىڭ چوڭ-كىچىكلىكىگە ئاساسەن بىر قانچە مىنۇت ۋاقىت كېتىشى مۇمكىن"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "‫Signal غا ئىئانە قىلىڭ"
@@ -5798,6 +5798,6 @@
     "messageformat": "بىز بەزىدە ھېساباتىڭىزنى ئاپتوماتىك تاماملاش مەسلىھەت تىزىملىكىگە كىرگۈزۈپ قويىدىغان ، @ ئشلىتىلگەن بىر خاتالىقنى تۈزەتتۇق. بىز بەزىدە ھېساباتىڭىزنى ئاپتوماتىك تاماملاش مەسلىھەت تىزىملىكىگە كىرگۈزۈپ قويىدىغان ، @ ئشلىتىلگەن بىر خاتالىقنى تۈزەتتۇق."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "سىز ھازىر سېزىمچان ئېكران ئۈسكۈنىلىرىدىكى پاراڭ تىزىملىكى يان بالداقنىڭ چوڭ-كىچىكلىكىنى تەڭشىيەلەيسىز. سىز ھازىر سېزىمچان ئېكران ئۈسكۈنىلىرىدىكى پاراڭ تىزىملىكى يان بالداقنىڭ چوڭ-كىچىكلىكىنى تەڭشىيەلەيسىز."
   }
 }

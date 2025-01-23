@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} kappale} other {{count,number} kohdetta}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Media ei ole enää saatavilla."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Lue lisää"
   },
   "icu:save": {
     "messageformat": "Tallenna"
@@ -1185,7 +1185,7 @@
     "messageformat": "Yritä uudelleen"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Päivitä koodi"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Pyydä apua"
@@ -1584,7 +1584,7 @@
     "messageformat": "Poista kaikki tiedot ja viestit tästä Signal Desktop -versiosta? Voit aina yhdistää tämän tietokoneen uudelleen, mutta viestejäsi ei palauteta. Signal-tiliäsi ja puhelimesi tai muiden yhdistettyjen laitteiden tietoja ei poisteta."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Katkaistaan yhteyttä ja poistetaan kaikki tiedot…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Sinulla on vanhentuneita tietoja aiemmasta Signal Desktopin asennuksesta. Jos päätät jatkaa, tiedot poistetaan ja aloitat alusta."
@@ -3576,7 +3576,7 @@
     "messageformat": "seuraava"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Tämä voi kestää muutamia minuutteja viestihistoriasi koosta riippuen"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Lahjoita Signalille"
@@ -5798,6 +5798,6 @@
     "messageformat": "Korjasimme @-mainintoja koskevan virheen, joka saattoi virheellisesti liittää tilisi automaattisen täydennyksen ehdotuslistaan."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nyt voit säätää keskusteluluettelon sivupalkin kokoa kosketusnäytöllisissä laitteissa."
   }
 }

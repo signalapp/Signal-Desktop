@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} predmet} two {{count,number} predmeta} few {{count,number} predmeti} other {{count,number} predmetov}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Ta medij ni več na voljo."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Preberite več"
   },
   "icu:save": {
     "messageformat": "Shrani"
@@ -1185,7 +1185,7 @@
     "messageformat": "Ponovno"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Osveži kodo"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Pomoč"
@@ -1584,7 +1584,7 @@
     "messageformat": "Želite izbrisati vse podatke in sporočila iz te različice Signal Desktop? To namizje lahko vedno znova povežete, vendar vaša sporočila ne bodo obnovljena. Vaš račun Signal in podatki v vašem telefonu ali drugih povezanih napravah ne bodo izbrisani."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Odjava in brisanje vseh podatkov …"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Na napravi imate zastarele podatke iz starejše različice aplikacije Signal Desktop. Če boste nadaljevali, bodo ti izbrisani in boste začeli znova iz nič."
@@ -3576,7 +3576,7 @@
     "messageformat": "naslednje"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "To lahko traja nekaj minut, odvisno od velikosti vaše zgodovine sporočil"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Podprite Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Odpravili smo napako pri @ omembah, ki je včasih napačno vključevala vaš račun na seznamu predlogov za samodejno dokončanje. Če kdaj spregledate to napako, lahko v skupinskih klepetalnicah še vedno uporabljate tretjeosebno pripovedovanje, da govorite o sebi."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Zdaj lahko prilagodite velikost seznama klepetov v stranski vrstici v napravah z zaslonom na dotik. Ko boste poskušali povleči, ne bo tako težko, madeži na zaslonu pa bodo le dokaz moči, ki jo izžarevajo vaši prsti."
   }
 }

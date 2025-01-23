@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} Bənd} other {{count,number} element}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Bu media faylı artıq mövcud deyil."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Daha ətraflı"
   },
   "icu:save": {
     "messageformat": "Saxla"
@@ -1185,7 +1185,7 @@
     "messageformat": "Yenidən sına"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Kodu yenilə"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Kömək istəyin"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal Desktop-un bu versiyasından bütün verilənlər və mesajlar silinsin? Masaüstünə hər zaman yenidən bağlana bilərsiniz, amma mesajlarınızı bərpa etmək mümkün olmayacaq. Signal hesabınız və telefonunuzdakı verilənlər, yaxud da əlaqələndirilmiş digər cihazlar silinməyəcək."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Bağlantı kəsilir və bütün verilənlər silinir…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "\"Signal Masaüstü\"nün əvvəlki quraşdırmasından qalma köhnə verilənləriniz var. \"Davam et\"i seçsəniz, bu verilənlər silinəcək və sıfırdan başlayacaqsınız."
@@ -3576,7 +3576,7 @@
     "messageformat": "növbəti"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Mesaj tarixçəsinin həcmindən asılı olaraq bu, bir neçə dəqiqə çəkə bilər"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-a ianə verin"
@@ -5798,6 +5798,6 @@
     "messageformat": "Bəzən səhvən şəxsi hesabınızın avtomatik tamamlanan təklif siyahısına daxil edilməsinə səbəb olan @ işarəli etiketlərlə bağlı xətanı aradan qaldırdıq. Bu xətanı gözdən qaçırsanız, qrup çatlarında özünüzdən üçüncü şəxs kimi bəhs edə bilərsiniz."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Artıq sensorlu ekranı olan cihazlarda çat siyahısının yan panelinin ölçüsünü tənzimləyə bilərsiniz. Bundan sonra onu sürüşdürməyə çalışdığınız zaman cihazınızın ekranındakı barmaq izləri geridə qalan yeganə dəlil olacaq."
   }
 }

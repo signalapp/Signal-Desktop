@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} Enheder} other {{count,number} emner}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Denne mediefil er ikke længere tilgængelig."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Læs mere"
   },
   "icu:save": {
     "messageformat": "Gem"
@@ -1185,7 +1185,7 @@
     "messageformat": "Prøv igen"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Opdater kode"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Få hjælp"
@@ -1584,7 +1584,7 @@
     "messageformat": "Slette alle data og beskeder fra denne version af Signal Desktop? Du kan altid genoprette forbindelsen til denne desktop, men dine beskeder vil ikke blive gendannet. Din Signal-konto og data på din telefon eller andre forbundne enheder vil ikke blive slettet."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Afbryder og sletter alle data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du har forældede data fra en forudgående installation af Signal Desktop. Hvis du vælger at fortsætte vil den blive slettet, og du vil starte fra forfra"
@@ -3576,7 +3576,7 @@
     "messageformat": "næste"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Det kan tage et par minutter afhængigt af størrelsen på din beskedhistorik"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donér til Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Vi har rettet en fejl med @-omtaler, der nogle gange forkert inkluderede din egen konto på forslagslisten i autofyld. Som en narcissistisk løsning kan du stadig bruge tredjepersonsfortælling til at tale om dig selv i dine gruppechat, hvis du nogensinde savner denne fejl."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nu kan du justere størrelsen på chatlistens sidebjælke på enheder med touchskærm. Når du forsøger at trække nu, vil det ikke være lige så langtrukkent, og pletterne på din skærm er et bevis på den kraft, der kommer fra dine fingerspidser."
   }
 }

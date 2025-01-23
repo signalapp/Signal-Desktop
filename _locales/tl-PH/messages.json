@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} na item} other {{count,number} Item}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Hindi na available ang media na ito."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Matuto pa"
   },
   "icu:save": {
     "messageformat": "I-save"
@@ -1185,7 +1185,7 @@
     "messageformat": "Subukang muli"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "I-refresh ang code"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Humingi ng tulong"
@@ -1584,7 +1584,7 @@
     "messageformat": "Gusto mo bang burahin ang lahat ng data at messages mula sa version na ito ng Signal Desktop? Pwede mong palaging i-relink ang desktop na ito, pero hindi na maibabalik ang messages mo. Hindi mabubura ang iyong Signal account at data nito sa phone mo o ibang linked devices."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Dini-disconnect at binubura ang lahat ng data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Mayroon kang lumang data mula sa lumang installation ng Signal Desktop. Mabubura ito kapag nagpatuloy ka at magsisimula ka ulit sa simula."
@@ -3576,7 +3576,7 @@
     "messageformat": "Susunod"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Maaaring itong tumagal nang ilang minuto depende sa laki ng message history mo"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Mag-donate sa Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "May inayos kaming bug sa @ mentions kung saan sinasama nito minsan ang account mo sa autocomplete suggestion list."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Pwede mo nang i-adjust ang size ng chat list sidebar sa touchscreen devices."
   }
 }

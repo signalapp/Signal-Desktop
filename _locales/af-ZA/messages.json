@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} Item} other {{count,number} Items}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Hierdie media is nie meer beskikbaar nie."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Vind meer uit"
   },
   "icu:save": {
     "messageformat": "Stoor"
@@ -1185,7 +1185,7 @@
     "messageformat": "Probeer weer"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Verfris kode"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Kry hulp"
@@ -1584,7 +1584,7 @@
     "messageformat": "Skrap alle data en boodskappe in hierdie weergawe van Signal Desktop? Jy kan altyd hierdie rekenaar weer koppel, maar jou boodskappe sal nie herstel word nie. Jou Signal-rekening en data op jou foon of ander gekoppelde toestelle sal nie geskrap word nie."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Ontkoppel en skrap tans alle data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Jy het verouderde data uit 'n vorige installasie van Signal Desktop. As jy kies om voort te gaan, sal dit geskrap word en jy sal van voor af begin."
@@ -3576,7 +3576,7 @@
     "messageformat": "volgende"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Dit kan 'n paar minute neem, na gelang van die grootte van jou boodskapgeskiedenis"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dra by tot Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Ons het 'n fout met @-vermeldings reggestel wat soms jou eie rekening verkeerdelik by die outovoltooi-voorstellys ingesluit het."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nou kan jy die grootte van die kletslys-kantbalk op raakskermtoestelle aanpas."
   }
 }

@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} položka} few {{count,number} položky} many {{count,number} položek} other {{count,number} položek}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Tato média již nejsou k dispozici."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Zjistit více"
   },
   "icu:save": {
     "messageformat": "Uložit"
@@ -1185,7 +1185,7 @@
     "messageformat": "Zkusit znovu"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Obnovit kód"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Nápověda"
@@ -1584,7 +1584,7 @@
     "messageformat": "Odstranit všechna data a zprávy z této verze aplikace Signal Desktop? Tuto verzi aplikace Signal Desktop můžete kdykoli znovu propojit, ale zprávy se již neobnoví. Váš účet Signal a data v telefonu nebo jiných propojených zařízení se nesmažou."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Odpojuji a mažu všechna data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Máte zastaralá data z předchozí instalace aplikace Signal Desktop. Pokud se rozhodnete pokračovat, budou odstraněna a budete muset začít od začátku."
@@ -3576,7 +3576,7 @@
     "messageformat": "další"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "To může trvat několik minut v závislosti na velikosti historie zpráv"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Podpořte Signal finančně"
@@ -5798,6 +5798,6 @@
     "messageformat": "Opravili jsme chybu s @ zmínkami, která občas přidávala váš vlastní účet do seznamu automaticky dokončovaných návrhů."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nyní si můžete upravit velikost postranního panelu se seznamem chatů na zařízeních s dotykovou obrazovkou."
   }
 }

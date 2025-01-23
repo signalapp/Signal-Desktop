@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, other {항목 {count,number}개}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "이 미디어를 더 이상 사용할 수 없습니다."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "더 알아보기"
   },
   "icu:save": {
     "messageformat": "저장"
@@ -1185,7 +1185,7 @@
     "messageformat": "재시도"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "코드 새로 고침"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "도움 받기"
@@ -1584,7 +1584,7 @@
     "messageformat": "이 Signal 데스크톱 버전에서 모든 데이터와 메시지를 삭제하시겠습니까? 언제든지 이 데스크톱을 다시 연결할 수 있지만, 메시지는 복원되지 않습니다. 휴대폰 또는 기타 연결된 장치의 Signal 계정과 데이터는 삭제되지 않습니다."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "연결 해제 및 모든 데이터 삭제 중…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop의 이전 설치 버전에서 사용하지 않는 데이터가 있습니다. 계속하면 해당 데이터가 삭제되고 앱을 처음부터 시작합니다."
@@ -3576,7 +3576,7 @@
     "messageformat": "다음"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "메시지 기록 용량에 따라 몇 분이 소요될 수 있습니다"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal에 후원"
@@ -5798,6 +5798,6 @@
     "messageformat": "자동 완성 목록에 사용자의 계정을 포함하는 @멘션 버그를 수정했습니다."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "이제 터치스크린 기기에서 대화 목록 슬라이드바 크기를 조정할 수 있습니다."
   }
 }

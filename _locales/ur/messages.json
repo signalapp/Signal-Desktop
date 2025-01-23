@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number}} other {{count,number} آئٹمز}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "یہ میڈیا مزید دستیاب نہیں ہے۔"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "مزید جانیں"
   },
   "icu:save": {
     "messageformat": "محفوظ کریں"
@@ -1185,7 +1185,7 @@
     "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "کوڈ ریفریش کریں"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "مدد حاصل کریں"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal ڈیسک ٹاپ کے اس ورژن سے تمام ڈیٹا اور میسجز کو حذف کریں؟ آپ کسی بھی وقت اس ڈیسک سے دوبارہ مربوط ہو سکتے ہیں، لیکن آپ کے میسجز بحال نہیں ہوں گے۔ آپ کا Signal اکاؤنٹ اور آپ کے فون یا دیگر مربوشط کردہ ڈیوائسز پر موجود ڈیٹا حذف نہیں کیا جائے گا۔"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "منقطع کیا جا رہا ہے اور تمام ڈیٹا خذف کیا جا رہا ہے…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "آپ کے پاس Signal Desktop کی پہلے والی تنصیب سے متروک ڈیٹا ہے۔ اگر آپ جاری رکھنے کا انتخاب کرتے ہیں تو ، اسے حذف کردیا جائے گا اور آپ شروع سے ہی شروع ہوجائیں گے۔"
@@ -3576,7 +3576,7 @@
     "messageformat": "اگلے"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "یہ آپ کی میسج ہسٹری کے سائز پر منحصر ہے اور اس میں چند منٹ لگ سکتے ہیں"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal کے لئے عطیہ کریں"
@@ -5798,6 +5798,6 @@
     "messageformat": "ہم نے @ کے ساتھ ایک نقص کی درستگی کی ہے جو بعض اوقات آپ کے اپنے اکاؤنٹ کو خود کار طور پر تکمیل کی تجویز کی فہرست میں شامل کرتا تھا۔"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "اب آپ ٹچ اسکرین ڈیوائسز پر چیٹ لسٹ کی سائیڈ بار کے سائز کو ایڈجسٹ کر سکتے ہیں۔"
   }
 }

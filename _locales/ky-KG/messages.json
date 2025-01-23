@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, other {{count,number} нерсе}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Мындай медиа файл жок."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Кененирээк маалымат"
   },
   "icu:save": {
     "messageformat": "Сактоо"
@@ -1185,7 +1185,7 @@
     "messageformat": "Кайра аракет кылуу"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Кодду жаңылоо"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Жардам алуу"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal Desktop'тун бул версиясындагы бардык нерселерди жана билдирүүлөрдү өчүрөсүзбү? Бул иш тактага кайра каалаган убакта туташсаңыз болот, бирок билдирүүлөрүңүз калыбына келбейт. Signal аккаунтуңуз жана телефонуңуздагы жана башка байланышкан түзмөктөрдөгү нерселер өчпөйт."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Ажыратылып, бардык нерселер өчүрүлүүдө…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Сизде мурунку Signal Desktop орнотуудан эски берилмелер бар. Эгер улантууну тандасаңыз, бул берилмелер өчүрүлөт жана сиз нөлдөн баштап иштей баштайсыз."
@@ -3576,7 +3576,7 @@
     "messageformat": "кийинки"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Бул билдирүүлөр таржымалынын көлөмүнө жараша бир нече мүнөткө созулушу мүмкүн"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal'га колдоо көрсөтүү"
@@ -5798,6 +5798,6 @@
     "messageformat": "Автотолтуруунун сунуштар тизмесине өз аккаунтуңузду кээде туура эмес киргизген @ эскертмелериндеги мүчүлүштүктөрдү оңдодук. Бир аз нарциссисттик чечим катары, эгер бул мүчүлүштүктү өткөрүп жиберсеңиз, топтук маектериңизде дагы эле үчүнчү жактан өзүңүз жөнүндө айта аласыз."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Эми сенсордук түзмөктөрдө капталдагы маектер тизмесинин өлчөмүн өзгөртө аласыз. Эми чычкан менен сүйрөп отурбай, манжаңыздын учу менен эле чактап коесуз."
   }
 }

@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Dit mediabestand is niet langer beschikbaar."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Meer informatie"
   },
   "icu:save": {
     "messageformat": "Opslaan"
@@ -1185,7 +1185,7 @@
     "messageformat": "Opnieuw proberen"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "QR-code vernieuwen"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Hulp vragen"
@@ -1584,7 +1584,7 @@
     "messageformat": "Alle gegevens en berichten wissen uit deze versie van Signal Desktop? Je kunt dit apparaat altijd opnieuw koppelen, maar je berichten worden niet hersteld. Je Signal-account en gegevens op je telefoon of andere gekoppelde apparaten worden niet gewist."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Aan het ontkoppelen en alle gegevens aan het wissen…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Je hebt nog verouderde gegevens op je apparaat van een eerdere installatie van Signal Desktop. Als je ervoor kiest om verder te gaan, dan zullen alle gegevens worden gewist en zal je met een schone installatie van Signal Desktop beginnen."
@@ -3576,7 +3576,7 @@
     "messageformat": "Volgende"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je chatgeschiedenis"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Aan Signal doneren"
@@ -5798,6 +5798,6 @@
     "messageformat": "We hebben een bug met @-vermeldingen opgelost waardoor soms je eigen account verscheen in de lijst met suggesties voor automatisch invullen. Je kunt natuurlijk altijd nog in derde persoon over jezelf praten, mocht je deze bug heel erg missen."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Op touchscreen-apparaten kun je nu de breedte van de chatlijst in de zijbalk aanpassen – de finishing touch voor wie van personalisatie houdt."
   }
 }

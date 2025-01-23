@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} elementas} few {{count,number} elementai} many {{count,number} elementų} other {{count,number} elementas}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Šis įrašas nebeprieinamas."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Sužinoti daugiau"
   },
   "icu:save": {
     "messageformat": "Įrašyti"
@@ -1185,7 +1185,7 @@
     "messageformat": "Bandyti dar kartą"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Atnaujinti kodą"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Gauti pagalbos"
@@ -1584,7 +1584,7 @@
     "messageformat": "Ištrinti visus duomenis ir žinutes iš šios „Signal Desktop“ versijos? Šį stalinį įrenginį visada galite vėl susieti, tačiau žinutės atkurtos nebus. Jūsų „Signal“ paskyra ir duomenys telefone ar kituose susietuose įrenginiuose nebus ištrinti."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Atsijungiama ir ištrinami visi duomenys…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Turi nebenaudojamų duomenų, likusių iš ankstesnio „Signal Desktop“ diegimo. Jei pasirinksi tęsti, jie bus ištrinti ir pradėsi viską nuo nulio."
@@ -3576,7 +3576,7 @@
     "messageformat": "kitas"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Tai gali užtrukti kelias minutes, priklausomai nuo žinučių istorijos dydžio"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Paaukokite Signal programėlei"
@@ -5798,6 +5798,6 @@
     "messageformat": "Ištaisėme klaidą su @ paminėjimais, kurie kartais neteisingai įtraukdavo jūsų pačių paskyrą į automatinio užbaigimo pasiūlymų sąrašą."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nuo šiol galite koreguoti pokalbių sąrašo šoninės juostos dydį įrenginiuose su jutikliniu ekranu."
   }
 }

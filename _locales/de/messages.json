@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} Element} other {{count,number} Elemente}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Dieser Medieninhalt ist nicht mehr verfügbar."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Mehr erfahren"
   },
   "icu:save": {
     "messageformat": "Speichern"
@@ -1185,7 +1185,7 @@
     "messageformat": "Erneut versuchen"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Code aktualisieren"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Hol dir Hilfe"
@@ -1584,7 +1584,7 @@
     "messageformat": "Alle Daten und Nachrichten von dieser Signal-Desktop-Version löschen? Du kannst diese Desktop-Version jederzeit neu verbinden, aber deine Nachrichten werden dann nicht wiederhergestellt. Dein Signal-Konto und die Daten auf deinem Telefon oder auf sonstigen verbundenen Geräten werden nicht gelöscht."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Verbindung wird getrennt und alle Daten werden gelöscht …"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du hast veraltete Daten aus einer früheren Installation von Signal Desktop. Falls du fortfährst, werden sämtliche Daten gelöscht und du beginnst komplett neu."
@@ -3576,7 +3576,7 @@
     "messageformat": "vor"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Das kann, abhängig von der Größe deines Nachrichtenverlaufs, ein paar Minuten dauern."
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "An Signal spenden"
@@ -5798,6 +5798,6 @@
     "messageformat": "Wir haben einen Bug behoben, durch den manchmal dein eigenes Konto in der Liste der automatischen Vorschläge auftauchte, wenn du eine @-Erwähnung einfügst. Dir fehlt dieser Bug? Dann haben wir eine narzisstische Lösung für dich: Du kannst in deinen Gruppenchats immer noch in der dritten Person von dir sprechen, wenn dir danach ist."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Jetzt kannst du die Seitenleisten-Größe der Chat-Liste auf Touchscreen-Geräten anpassen. Du kannst sie also mühelos größer ziehen, ohne dich anstrengen zu müssen – und die Abdrücke auf deinem Bildschirm zeigen einfach nur, wie flink deine Finger sind."
   }
 }

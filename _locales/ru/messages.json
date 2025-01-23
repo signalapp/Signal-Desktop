@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} элемент} few {{count,number} элемента} many {{count,number} элементов} other {{count,number} элемента}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Эти медиафайлы больше не доступны."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Узнать больше"
   },
   "icu:save": {
     "messageformat": "Сохранить"
@@ -1185,7 +1185,7 @@
     "messageformat": "Повторить попытку"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Обновить код"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Получить помощь"
@@ -1584,7 +1584,7 @@
     "messageformat": "Удалить все данные и сообщения из этой версии Signal Desktop? Вы всегда можете переподключить ваш ПК к Signal Desktop, но ваши сообщения не восстановятся. Ваша учётная запись Signal и данные на вашем телефоне или других подключенных устройствах не будут удалены."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Отключается и удаляет все данные…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "У вас есть устаревшие данные из предыдущей установки Signal Desktop. Если вы решите продолжить, они будут удалены, и вы начнете с нуля."
@@ -3576,7 +3576,7 @@
     "messageformat": "следующее"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Это может занять несколько минут в зависимости от размера вашей истории сообщений"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Поддержать Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Мы исправили ошибку с упоминаниями @, из-за которой ваша учётная запись иногда включалась в список предложений для автозаполнения. Для самовлюбленных по-прежнему есть возможность поговорить о себе от третьего лица, пропустив эту ошибку."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Теперь вы можете настраивать размер боковой панели списка чатов на устройствах с сенсорным экраном. Теперь перетаскивать будет на так надрывно, а следы на экране — просто свидетельство силы ваших пальцев."
   }
 }

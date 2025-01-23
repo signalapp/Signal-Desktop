@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} Objekt} other {{count,number} Objekte}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Media nuk disponohet më."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Mëso më shumë"
   },
   "icu:save": {
     "messageformat": "Ruaje"
@@ -1185,7 +1185,7 @@
     "messageformat": "Riprovo"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Rifresko kodin"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Merr ndihmë"
@@ -1584,7 +1584,7 @@
     "messageformat": "Të fshihen të gjitha të dhënat dhe mesazhet nga versioni i Signal Desktop? Mund ta rilidhësh gjithmonë këtë desktop, por mesazhet e tua nuk do të rikthehen. Llogaria jote në Signal, si dhe të dhënat që gjenden në telefonin tënd apo në pajisje të tjera të lidhura nuk do të fshihen."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Të gjitha të dhënat po shkëputen dhe po fshihen…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ke të dhëna të vjetra prej një instalimi të mëparshëm të Signal-it për Desktop. Nëse vendos të vazhdosh, do të fshihen dhe do t’ia filloni nga e para."
@@ -3576,7 +3576,7 @@
     "messageformat": "pasuesja"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Kjo mund të zgjasë disa minuta në varësi të madhësisë së historikut të mesazheve"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dhuroni për Signal-in"
@@ -5798,6 +5798,6 @@
     "messageformat": "Ne rregulluam gabimin me përmendjet @ që ndonjëherë përfshinte gabimisht vetë llogarinë tënde në listën e sugjerimeve të plotësimit automatik. Nëse ndonjëherë të ndodh ta humbësh këtë problem, si zgjidhje narcisiste, mund ta përdorësh sërish rrëfimin në vetë të tretë për të folur për veten në bisedat në grup."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Tani mund të rregullosh madhësinë e shiritit anësor të listës së bisedave në pajisjet me ekran me prekje. Pra, kur provon ta tërheqësh, nuk do të jetë aq e vështirë, dhe njollat në ekran janë thjesht dëshmi e fuqisë që vjen nga gishtat."
   }
 }

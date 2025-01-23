@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementos}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "O contido multimedia xa non está dispoñible."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Saber máis"
   },
   "icu:save": {
     "messageformat": "Gardar"
@@ -1185,7 +1185,7 @@
     "messageformat": "Tentar de novo"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Actualizar código"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Axuda"
@@ -1584,7 +1584,7 @@
     "messageformat": "Borrar toda a información e todas as mensaxes desta versión de Signal Desktop? Sempre podes volver vincular este dispositivo, mais as mensaxes non se restaurarán. Non se borrará a túa conta de Signal nin os datos do teu teléfono ou doutros dispositivos vinculados."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Desconectando e eliminando todos os datos…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Atopamos datos obsoletos dunha instalación antiga de Signal Desktop. Se elixes continuar, eliminaranse e comezarás de cero."
@@ -3576,7 +3576,7 @@
     "messageformat": "seguinte"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Dependendo do tamaño do teu historial de mensaxes, pode tardar uns minutos"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Doar a Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Corriximos un erro coas mencións @ que ás veces incluía a túa conta na listaxe de suxestións."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Agora podes axustar o tamaño da barra lateral da lista de conversas nos dispositivos con pantallas táctiles."
   }
 }

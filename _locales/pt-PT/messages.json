@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {1 item} other {{count,number} itens}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Este ficheiro multimédia já não está disponível."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Saber mais"
   },
   "icu:save": {
     "messageformat": "Guardar"
@@ -1185,7 +1185,7 @@
     "messageformat": "Tentar novamente"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Atualizar código"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Obter ajuda"
@@ -1584,7 +1584,7 @@
     "messageformat": "Eliminar todos os dados e mensagens desta versão do Signal Desktop? Pode sempre voltar a conectar este desktop, mas as suas mensagens não serão restauradas. A sua conta Signal e os dados no seu telemóvel ou outros dispositivos conectados não serão eliminados."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "A desligar e a eliminar todos os dados…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Você tem dados obsoletos resultantes de uma instalação anterior do Signal Desktop. Se escolher continuar, serão eliminados e irá começar a partir do início."
@@ -3576,7 +3576,7 @@
     "messageformat": "seguinte"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Isto pode demorar alguns minutos, dependendo do tamanho do seu histórico de mensagens"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Doar ao Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Corrigimos um erro em que as menções @ às vezes incluíam a sua própria conta na lista de sugestões do preenchimento automático."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Agora pode ajustar o tamanho da barra lateral da lista de chats em dispositivos com ecrã tátil."
   }
 }

@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} файл} other {{count,number} файла}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Тази мултимедия вече не е налична."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Научете повече"
   },
   "icu:save": {
     "messageformat": "Запази"
@@ -1185,7 +1185,7 @@
     "messageformat": "Опитайте отново"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Опресняване на кода"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Поискайте помощ"
@@ -1584,7 +1584,7 @@
     "messageformat": "Изтриване на всички данни и съобщения от тази версия на Signal Desktop? Винаги можете да свържете този десктоп отново, но съобщенията ви няма да бъдат възстановени. Вашият акаунт в Signal и данните на телефона ви или други свързани устройства няма да бъдат изтрити."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Прекъсване и изтриване на всички данни…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Имате стари данни от предишна инсталация на Signal Desktop. Ако продължите, тези данни ще бъдат изтрити и ще започнете на чисто."
@@ -3576,7 +3576,7 @@
     "messageformat": "следващ"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Това може да отнеме няколко минути в зависимост от размера на вашата история на съобщенията"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Дари на Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Отстранихме грешка със споменаванията чрез @, при която в списъка с автоматични предложения понякога неправилно беше включен собствения ви акаунт."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Вече можете да регулирате размера на страничната лента със списъка с чатове на устройствата със сензорен екран."
   }
 }

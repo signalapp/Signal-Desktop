@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} üksus} other {{count,number} üksust}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "See meedia ei ole enam saadaval."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Rohkem infot"
   },
   "icu:save": {
     "messageformat": "Salvesta"
@@ -1185,7 +1185,7 @@
     "messageformat": "Proovi uuesti"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Värskenda koodi"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Otsi abi"
@@ -1584,7 +1584,7 @@
     "messageformat": "Kas kustutada sellest Signal Desktopi versioonist kõik andmed ja sõnumid? Saad selle töölaua alati uuesti siduda, kuid su sõnumeid ei taastata. Sinu Signali kontot ja telefonis või muudes lingitud seadmetes olevaid andmeid ei kustutata."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Ühenduse lõpetamine ja kõigi andmete kustutamine …"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Sul on Signal Desktop-i varasematest paigaldustest jäänud üleliigseid andmeid. Kui valid jätkamise, siis need andmed kustutatakse ja sa alustad algusest peale."
@@ -3576,7 +3576,7 @@
     "messageformat": "järgmine"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Olenevalt sinu sõnumiajaloo suurusest võib see mõne minuti aega võtta"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Anneta Signalile"
@@ -5798,6 +5798,6 @@
     "messageformat": "Parandasime @ mainimiste vea, mis mõnikord kaasas automaatselt täidetavate soovituste loendisse ekslikult sinu enda konto."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nüüd on puuteekraaniga seadmetel võimalik reguleerida vestluste loendi külgriba suurust."
   }
 }

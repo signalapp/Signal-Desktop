@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, other {{count,number} รายการ}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "ไม่พบไฟล์สื่อนี้"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "เรียนรู้เพิ่มเติม"
   },
   "icu:save": {
     "messageformat": "บันทึก"
@@ -1185,7 +1185,7 @@
     "messageformat": "ลองอีกครั้ง"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "รีเฟรชคิวอาร์โค้ด"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "ขอความช่วยเหลือ"
@@ -1584,7 +1584,7 @@
     "messageformat": "คุณต้องการลบข้อมูลและข้อความทั้งหมดออกจาก Signal เดสก์ท็อปเวอร์ชันนี้ใช่หรือไม่ คุณสามารถเชื่อมโยงอุปกรณ์เดสก์ท็อปนี้ใหม่อีกครั้งได้ทุกเมื่อ แต่ข้อความของคุณจะไม่ได้รับการกู้คืนกลับมา อย่างไรก็ดี ระบบจะไม่ลบบัญชี Signal และข้อมูลของคุณที่อยู่บนมือถือหรืออุปกรณ์ที่เชื่อมโยงอยู่เครื่องอื่นๆ"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "กำลังยกเลิกการเชื่อมต่อและลบข้อมูลทั้งหมด…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "คุณมีข้อมูลที่ล้าสมัยจากการติดตั้ง Signal เดสก์ท็อปครั้งก่อนหน้า หากเลือกที่จะดำเนินการต่อ ข้อมูลดังกล่าวจะถูกลบและทุกอย่างจะเริ่มต้นใหม่ทั้งหมด"
@@ -3576,7 +3576,7 @@
     "messageformat": "ถ้ดไป"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่ โดยขึ้นอยู่กับขนาดประวัติการส่งข้อความของคุณ"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "บริจาคให้ Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "เราแก้ไขบั๊กในฟีเจอร์ @การกล่าวถึง ที่เคยรวมบัญชีของคุณไว้ในรายชื่อที่แนะนำด้วย"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "พัฒนาให้อุปกรณ์ทัชสกรีนรองรับการปรับขนาดแถบรายการแชทได้แล้ว"
   }
 }

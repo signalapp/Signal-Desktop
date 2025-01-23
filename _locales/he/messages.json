@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {פריט {count,number}} two {{count,number} פריטים} many {{count,number} פריטים} other {{count,number} פריטים}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "המדיה הזו לא זמינה יותר."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "למידע נוסף"
   },
   "icu:save": {
     "messageformat": "שמור"
@@ -1185,7 +1185,7 @@
     "messageformat": "נסה שוב"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "רענון קוד"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "לעזרה"
@@ -1584,7 +1584,7 @@
     "messageformat": "למחוק את כל הנתונים וההודעות מגרסה זו של Signal לשולחן העבודה? תמיד אפשר לקשר מחדש את שולחן העבודה הזה, אבל ההודעות שלך לא ישוחזרו. חשבון Signal שלך והנתונים בטלפון שלך או במכשירים מקושרים אחרים לא יימחקו."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "התנתקות ומחיקת כל הנתונים בתהליך…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "יש לך נתונים מיושנים מהתקנה קודמת של Signal Desktop. אם בא לך להמשיך, הם יימחקו ו–Signal תתחיל מאפס."
@@ -3576,7 +3576,7 @@
     "messageformat": "הבא"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "זה עשוי לקחת מספר דקות בהתאם לגודל היסטוריית ההודעות שלך"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "תרום אל Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "תיקנו באג עם אזכורי @ שלפעמים כללו את החשבון שלך ברשימת הצעות ההשלמה האוטומטית."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "עכשיו אפשר להתאים את גודל הסרגל הצדי של רשימת הצ׳אטים במכשירים עם מסך מגע."
   }
 }

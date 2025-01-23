@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {1 cheann} two {{count,number} cheann} few {{count,number} cinn} many {{count,number} gcinn} other {{count,number} ceann}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Níl na meáin seo ar fáil a thuilleadh."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tuilleadh faisnéise"
   },
   "icu:save": {
     "messageformat": "Cuir i dtaisce é"
@@ -1185,7 +1185,7 @@
     "messageformat": "Bain triail eile as"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Athnuaigh an cód"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Faigh cabhair"
@@ -1584,7 +1584,7 @@
     "messageformat": "Scrios na sonraí agus na teachtaireachtaí uile ón leagan seo de Dheasc Signal? Beidh tú in ann an deasc sin a athnascadh am ar bith, ach ní aisghabhfar do theachtaireachtaí. Ní scriosfar do chuntas Signal ná sonraí ar do ghuthán nó ar aon ghléas eile atá nasctha."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Dínascadh agus na sonraí go léir á scriosadh…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Tá sonraí agat ó sheansuiteáil Dheasc Signal atá imithe i léig. Má roghnaíonn tú leanúint leis, scriosfar iad agus tosóidh tú ón tús."
@@ -3576,7 +3576,7 @@
     "messageformat": "Ar Aghaidh"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do staire teachtaireachtaí"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Bronn airgead ar Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Réitíomar fabht le tráchtanna @, rud a chuir do chuntas féin sa liosta moltaí uathlíonta."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Anois is féidir leat méid thaobh-bharra an liosta comhráite ar ghléasanna scáileáin tadhaill a choigeartú."
   }
 }

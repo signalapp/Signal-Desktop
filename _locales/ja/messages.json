@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, other {{count,number}個}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "このメディアはご利用になれなくなりました。"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "さらに詳しく"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1185,7 +1185,7 @@
     "messageformat": "再試行"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "コードを更新する"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "ヘルプを表示する"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal Desktopからすべてのデータとメッセージを消去しますか？Signal Desktopにはいつでも再リンクできますが、消去したメッセージは復元されません。Signalアカウントやスマートフォンのデータ、その他のリンク済み端末のデータは消去されません。"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "接続を切って全データを消去しています…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "以前のバージョンの Signal Desktop で利用していた、すでに利用できなくなっているデータが残っています。続行するとこのデータは消去され、フレッシュな状態で改めて利用を始めることになります。"
@@ -3576,7 +3576,7 @@
     "messageformat": "次へ"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "メッセージ履歴のサイズによっては、数分かかる場合があります"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signalへの寄付"
@@ -5798,6 +5798,6 @@
     "messageformat": "ご自身のアカウントがオートコンプリートの候補リストに含まれるバグが時々発生していましたので、@メンションに関するこのバグを修正しました。"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "タッチスクリーン用端末で、チャットリストのサイドバーの長さを調整できるようになりました。"
   }
 }

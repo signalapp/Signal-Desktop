@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, other {{count,number} item}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Media ini tidak lagi tersedia."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Ketahui lebih lanjut"
   },
   "icu:save": {
     "messageformat": "Simpan"
@@ -1185,7 +1185,7 @@
     "messageformat": "Cuba Semula"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Perbaharui kod"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Dapatkan bantuan"
@@ -1584,7 +1584,7 @@
     "messageformat": "Padamkan semua data dan mesej daripada versi Signal Desktop ini? Anda sentiasa boleh memautkan semula desktop ini, tetapi mesej anda tidak akan dipulihkan. Akaun Signal anda dan data pada telefon anda atau peranti terpaut lain tidak akan dipadamkan."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Memutuskan dan memadam semua data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Anda mempunyai data usang daripada pemasangan Signal Desktop terdahulu. Sekiranya anda memilih untuk meneruskan, data tersebut akan dipadamkan dan anda akan bermula dari awal."
@@ -3576,7 +3576,7 @@
     "messageformat": "seterusnya"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Ini mungkin mengambil masa beberapa minit bergantung pada saiz sejarah mesej anda"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Sumbang kepada Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Kami membetulkan pepijat pada @ sebutan yang kadangkala memasukkan akaun anda sendiri dalam senarai cadangan autolengkap."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Kini anda boleh melaraskan saiz bar sisi senarai sembang pada peranti skrin sentuh."
   }
 }

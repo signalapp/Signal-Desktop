@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} ಐಟಂ} other {{count,number} ಐಟಂಗಳು}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "ಈ ಮೀಡಿಯಾ ಇನ್ನು ಮುಂದೆ ಲಭ್ಯವಿರುವುದಿಲ್ಲ."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
   },
   "icu:save": {
     "messageformat": "ಉಳಿಸಿ"
@@ -1185,7 +1185,7 @@
     "messageformat": "ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "ಕೋಡ್ ರಿಫ್ರೆಶ್ ಮಾಡಿ"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "ಸಹಾಯ ಪಡೆಯಿರಿ"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal Desktop ನ ಈ ಆವೃತ್ತಿಯಿಂದ ಎಲ್ಲಾ ಡೇಟಾ ಮತ್ತು ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಮರುಲಿಂಕ್ ಮಾಡಬಹುದು, ಆದರೆ ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳು ರೀಸ್ಟೋರ್ ಆಗುವುದಿಲ್ಲ. ನಿಮ್ಮ ಫೋನ್ ಅಥವಾ ಇತರ ಲಿಂಕ್ ಮಾಡಲಾದ ಸಾಧನಗಳಲ್ಲಿನ ನಿಮ್ಮ Signal ಖಾತೆ ಮತ್ತು ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "ಡಿಸ್‌ಕನೆಕ್ಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ ಮತ್ತು ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸಲಾಗುತ್ತಿದೆ…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop ನ ಹಿಂದಿನ ಇನ್‌ಸ್ಟಾಲೇಶನ್‌ನಿಂದ ಹಳೆಯ ಡೇಟಾವನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಿ. ಮುಂದುವರಿಯಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಿಕೊಂಡರೆ, ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಶೂನ್ಯದಿಂದ ಆರಂಭವಾಗುತ್ತದೆ."
@@ -3576,7 +3576,7 @@
     "messageformat": "ಮುಂದೆ"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸದ ಗಾತ್ರವನ್ನು ಅವಲಂಬಿಸಿ ಇದು ಕೆಲವು ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಬಹುದು"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ಗೆ ದಾನ ಮಾಡಿ"
@@ -5798,6 +5798,6 @@
     "messageformat": "ಸ್ವಯಂಪೂರ್ಣಗೊಳಿಸುವ ಸಲಹೆಯ ಪಟ್ಟಿಯಲ್ಲಿ ನಿಮ್ಮ ಸ್ವಂತ ಖಾತೆಯನ್ನು ಕೆಲವೊಮ್ಮೆ ತಪ್ಪಾಗಿ ಒಳಗೊಂಡಿರುವ @ ಉಲ್ಲೇಖಗಳೊಂದಿಗೆ ನಾವು ದೋಷವನ್ನು ಪರಿಹರಿಸಿದ್ದೇವೆ. ನೀವು ಎಂದಾದರೂ ಈ ದೋಷವನ್ನು ತಪ್ಪಿಸಿಕೊಂಡರೆ ನಾರ್ಸಿಸಿಸ್ಟಿಕ್ ಪರಿಹಾರವಾಗಿ, ನಿಮ್ಮ ಗುಂಪು ಚಾಟ್‌ಗಳಲ್ಲಿ ನಿಮ್ಮ ಬಗ್ಗೆ ಮಾತನಾಡಲು ಮೂರನೇ ವ್ಯಕ್ತಿಯ ನಿರೂಪಣೆಯನ್ನು ನೀವು ಈಗಲೂ ಬಳಸಬಹುದು."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "ಈಗ ನೀವು ಟಚ್‌ಸ್ಕ್ರೀನ್ ಸಾಧನಗಳಲ್ಲಿ ಚಾಟ್ ಲಿಸ್ಟ್ ಸೈಡ್‌ಬಾರ್‌ನ ಗಾತ್ರವನ್ನು ಸರಿಹೊಂದಿಸಬಹುದು. ಹಾಗಾಗಿ ನೀವು ಡ್ರ್ಯಾಗ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ಅದು ಅಂತಹ ಡ್ರ್ಯಾಗ್ ಆಗುವುದಿಲ್ಲ ಮತ್ತು ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಮೇಲಿನ ಕಲೆಗಳು ನಿಮ್ಮ ಬೆರಳ ತುದಿಯಿಂದ ಹೊರಹೊಮ್ಮುವ ಶಕ್ತಿಗೆ ಸಾಕ್ಷಿಯಾಗಿವೆ."
   }
 }

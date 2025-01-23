@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} элемент} other {{count,number} элемент}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Бұл мультимедиа енді жоқ."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Толық ақпарат"
   },
   "icu:save": {
     "messageformat": "Сақтау"
@@ -1185,7 +1185,7 @@
     "messageformat": "Қайтадан байқап көру"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Кодты жаңарту"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Анықтама алу"
@@ -1584,7 +1584,7 @@
     "messageformat": "Signal Desktop-тың осы нұсқасынан барлық деректі және хатты жою керек пе? Осы жұмыс үстелін кез келген уақытта қайта байланыстыра аласыз, бірақ хаттарыңыз қалпына келмейді. Signal аккаунтыңыз және телефоныңыздағы деректер немесе басқа да байланыстырылған құрылғылар жойылмайды."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Қолданба ажыратылып жатыр және деректер толығымен жойылып жатыр…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal-дың компьютерлік нұсқасын бұған дейін орнатқаннан ескі деректер қалып қойған. Жалғастыратын болсаңыз, ол жойылады және бәрін басынан бастайсыз."
@@ -3576,7 +3576,7 @@
     "messageformat": "келесі"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Хабарлар тарихының көлеміне қарай ол бірнеше минутқа созылуы мүмкін."
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-ды демеу"
@@ -5798,6 +5798,6 @@
     "messageformat": "Біреуді @ белгісі арқылы атап өтетін кезде автоматты түрде толтырылатын ұсыныстар тізімінде өз аккаунтыңыз қате қосылып кететін ақау түзетілді. Енді топтық чаттарда өзіңіз туралы сөз қозғағанда, өз аккаунтыңызды атап өтпейтін боласыз."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Енді сенсорлық экраны бар құрылғыларда чаттар тізімін жылжыту жолағының өлшемін өзгерте аласыз. Жолақты жүргізу енді оп-оңай. Ол үшін экранды жұмыр саусағыңызбен жұмсақ басыңыз."
   }
 }

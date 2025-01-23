@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementi}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Questo media non è più disponibile."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Scopri di più"
   },
   "icu:save": {
     "messageformat": "Salva"
@@ -1185,7 +1185,7 @@
     "messageformat": "Riprova"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Aggiorna il codice"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Serve aiuto?"
@@ -1584,7 +1584,7 @@
     "messageformat": "Vuoi eliminare tutti i dati e i messaggi da questa versione di Signal Desktop? Puoi sempre ricollegare questo desktop a Signal, ma i tuoi messaggi andranno persi. Il tuo account Signal e i relativi dati sul tuo telefono (o altri dispositivi collegati) non verranno eliminati."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Disconnessione e cancellazione di tutti i dati…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Hai dati obsoleti da un'installazione precedente di Signal Desktop. Se scegli di continuare, verranno eliminati e inizierai da zero."
@@ -3576,7 +3576,7 @@
     "messageformat": "successivo"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Questo processo potrebbe richiedere qualche minuto a seconda della dimensione della cronologia messaggi"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dona a Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Abbiamo risolto un bug legato alle menzioni con la @ che a volte mostravano il nome del tuo account come suggerimento. Auto-menzionarsi è un po' strano, anche se sappiamo quanto faccia piacere ricevere attenzioni."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Da ora sui dispositivi touch puoi modificare le dimensioni della sidebar dell'elenco chat. Non potrai più dare la colpa a Signal in caso di miopia, visto che puoi ingrandire quanto vuoi per leggere meglio!"
   }
 }

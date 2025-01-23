@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} مورد} other {{count,number} مورد}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "این رسانه دیگر در دسترس نیست."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "بیشتر بدانید"
   },
   "icu:save": {
     "messageformat": "ذخیره"
@@ -1185,7 +1185,7 @@
     "messageformat": "تلاش مجدد"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "تازه‌سازی کد"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "دریافت کمک"
@@ -1584,7 +1584,7 @@
     "messageformat": "همۀ داده‌ها و پیام‌ها از این نسخه سیگنال دسکتاپ پاک شود؟ همیشه می‌توانید این دسکتاپ را دوباره پیوند دهید، اما پیام‌هایتان بازیابی نخواهد شد. داده‌ها و حساب سیگنال شما در تلفن‌تان و سایر دستگاههای متصل‌شده پاک نخواهد شد."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "در حال قطع اتصال و حذف تمام داده‌ها…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "از نصب گذشته سیگنال دسکتاپ اطلاعات منسوخی برجا مانده است. اگر ادامه دهید این اطلاعات پاک خواهد شد و از نو آغاز خواهید کرد."
@@ -3576,7 +3576,7 @@
     "messageformat": "بعدی"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "بسته به اندازه تاریخچه پیامتان، این عملیات ممکن است چند دقیقه طول بکشد"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "حمایت از سیگنال"
@@ -5798,6 +5798,6 @@
     "messageformat": "اشکال مربوط به @ اشاره‌ها را برطرف کردیم که گاهی به‌اشتباه حساب خودتان را هم در فهرست پیشنهادی تکمیل خودکار قرار می‌داد."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "اکنون می‌توانید اندازه نوار لغزان فهرست گفتگو را در دستگاه‌های دارای صفحه‌نمایش لمسی تنظیم کنید."
   }
 }

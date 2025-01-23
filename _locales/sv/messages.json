@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} objekt} other {{count,number} objekt}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Den här mediafilen är inte längre tillgänglig."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Läs mer"
   },
   "icu:save": {
     "messageformat": "Spara"
@@ -1185,7 +1185,7 @@
     "messageformat": "Försök igen"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Uppdatera kod"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Få hjälp"
@@ -1584,7 +1584,7 @@
     "messageformat": "Ta bort alla data och meddelanden från den här versionen av Signal Desktop? Du kan alltid länka om skrivbordet, men dina meddelanden återställs inte. Ditt Signal-konto och dina data på din telefon eller andra länkade enheter raderas inte."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Kopplar bort och tar bort alla data …"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du har föråldrade data från en tidigare installation av Signal Desktop. Om du väljer att fortsätta kommer det att tas bort och du kommer att börja från början."
@@ -3576,7 +3576,7 @@
     "messageformat": "nästa"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "Detta kan ta några minuter beroende på storleken på din meddelandehistorik"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donera till Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Vi har åtgärdat en bugg med @-omnämnanden som ibland inkluderade ditt eget konto i den förslagslista som fylldes i automatiskt."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nu kan du justera storleken på sidofältet i chattlistan på enheter med pekskärm."
   }
 }

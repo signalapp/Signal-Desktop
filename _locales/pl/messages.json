@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {{count,number} element} few {{count,number} elementy} many {{count,number} elementów} other {{count,number} elementu}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Te multimedia nie są już dostępne."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Dowiedz się więcej"
   },
   "icu:save": {
     "messageformat": "Zapisz"
@@ -1185,7 +1185,7 @@
     "messageformat": "Ponów"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Odśwież kod"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Uzyskaj pomoc"
@@ -1584,7 +1584,7 @@
     "messageformat": "Usunąć wszystkie dane i wiadomości z tej wersji Signal Desktop? Zawsze możesz ponownie sparować konto z tym urządzeniem, ale wiadomości nie zostaną przywrócone. Twoje konto Signal i dane na telefonie lub innych połączonych urządzeniach nie zostaną usunięte."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Odłączanie i usuwanie wszystkich danych…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Masz przestarzałe dane ze starej instalacji Signal Desktop. Kontynuacja spowoduje ich usunięcie i zaczniesz od początku."
@@ -3576,7 +3576,7 @@
     "messageformat": "dalej"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "W zależności od rozmiaru historii wiadomości może to zająć kilka minut"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Darowizna na rzecz Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Naprawiliśmy błąd związany z funkcją @wzmianek, przez który na liście proponowanych użytkowników pojawiało się czasem Twoje własne konto. Jeśli jednak błąd wcale Ci nie przeszkadzał, bo lubisz opowiadać o sobie, nic straconego – zawsze możesz pisać na swój temat w formie trzecioosobowej. My nie oceniamy!"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Od teraz na urządzeniach z ekranem dotykowym możesz dostosować rozmiar paska bocznego z listą czatów. A wszystko po to, aby ani za duży, ani za mały pasek boczny nie zaburzał Twojego feng shui."
   }
 }

@@ -1137,10 +1137,10 @@
     "messageformat": "{count, plural, one {Ставки: {count,number}} other {Ставки: {count,number}}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Овај медиј више није доступан."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Сазнајте више"
   },
   "icu:save": {
     "messageformat": "Сачувај"
@@ -1185,7 +1185,7 @@
     "messageformat": "Пробај поново"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Освежи код"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Потражите помоћ"
@@ -1584,7 +1584,7 @@
     "messageformat": "Желите ли да избришете све податке и поруке из ове верзије Signal Desktop-а? Увек можете поново повезати овај рачунар, али ваше поруке се неће вратити. Ваш налог на Signal-у и подаци на вашем телефону или другим повезаним уређајима неће бити избрисани."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Прекидамо везу и бришемо све податке…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Имате застареле податке из претходне инсталације Signal Desktop-а. Ако наставите, биће избрисани и кренућете од нуле."
@@ -3576,7 +3576,7 @@
     "messageformat": "следеће"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "То може потрајати неколико минута у зависности од величине ваше историје порука"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Донирајте за Signal"
@@ -5798,6 +5798,6 @@
     "messageformat": "Исправили смо грешку са @ помињањима у којима је понекад у листу предлога за аутоматско попуњавање грешком био укључен и сопствени налог."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Сада можете да подесите величину бочне траке листе за ћаскање на уређајима са екраном осетљивим на додир."
   }
 }
