@@ -10,9 +10,11 @@ import type { MessageAttributesType } from '../../model-types.d';
 import type { Avatar, Email, Phone } from '../../types/EmbeddedContact';
 import {
   _validate,
+  ContactFormType,
   embeddedContactSelector,
   getName,
   parseAndWriteAvatar,
+  parsePhoneItem,
 } from '../../types/EmbeddedContact';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { generateAci } from '../../types/ServiceId';
@@ -629,6 +631,48 @@ describe('Contact', () => {
         message
       );
       assert.deepEqual(result, message.contact[0]);
+    });
+  });
+
+  describe('parsePhoneItem', () => {
+    it('adds default phone type', () => {
+      const phone: Phone = {
+        value: '+18005550000',
+        // @ts-expect-error Forcing an invalid value here
+        type: null,
+      };
+      const expected = {
+        value: '+18005550000',
+        type: ContactFormType.HOME,
+      };
+      const actual = parsePhoneItem(phone, { regionCode: '805' });
+      assert.deepEqual(actual, expected);
+    });
+
+    it('passes invalid phone numbers through', () => {
+      const phone: Phone = {
+        value: '+1800555u000',
+        type: ContactFormType.WORK,
+      };
+      const expected = {
+        value: '+1800555u000',
+        type: ContactFormType.WORK,
+      };
+      const actual = parsePhoneItem(phone, { regionCode: '805' });
+      assert.deepEqual(actual, expected);
+    });
+
+    it('returns original data if regionCode not provided', () => {
+      const phone: Phone = {
+        value: '+18005550000',
+        type: ContactFormType.MOBILE,
+      };
+      const expected = {
+        value: '+18005550000',
+        type: ContactFormType.MOBILE,
+      };
+      const actual = parsePhoneItem(phone, { regionCode: undefined });
+      assert.deepEqual(actual, expected);
     });
   });
 

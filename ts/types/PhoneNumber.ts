@@ -71,22 +71,6 @@ export const format = memoizee(_format, {
   max: 5000,
 });
 
-export function parse(
-  phoneNumber: string,
-  options: {
-    regionCode: string | undefined;
-  }
-): string {
-  const { regionCode } = options;
-  const parsedNumber = instance.parse(phoneNumber, regionCode);
-
-  if (instance.isValidNumber(parsedNumber)) {
-    return instance.format(parsedNumber, PhoneNumberFormat.E164);
-  }
-
-  return phoneNumber;
-}
-
 export function normalize(
   phoneNumber: string,
   options: { regionCode: string }
