@@ -213,6 +213,17 @@ export class BackupExportStream extends Readable {
   readonly #serviceIdToRecipientId = new Map<string, number>();
   readonly #e164ToRecipientId = new Map<string, number>();
   readonly #roomIdToRecipientId = new Map<string, number>();
+  readonly #stats = {
+    adHocCalls: 0,
+    callLinks: 0,
+    conversations: 0,
+    chats: 0,
+    distributionLists: 0,
+    messages: 0,
+    skippedMessages: 0,
+    stickerPacks: 0,
+    fixedDirectMessages: 0,
+  };
   #ourConversation?: ConversationAttributesType;
   #attachmentBackupJobs: Array<CoreAttachmentBackupJobType> = [];
   #buffers = new Array<Uint8Array>();
@@ -277,17 +288,6 @@ export class BackupExportStream extends Readable {
     });
     await this.#flush();
 
-    const stats = {
-      adHocCalls: 0,
-      callLinks: 0,
-      conversations: 0,
-      chats: 0,
-      distributionLists: 0,
-      messages: 0,
-      skippedMessages: 0,
-      stickerPacks: 0,
-    };
-
     const identityKeys = await DataReader.getAllIdentityKeys();
     const identityKeysById = new Map(
       identityKeys.map(key => {
@@ -318,7 +318,7 @@ export class BackupExportStream extends Readable {
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
-      stats.conversations += 1;
+      this.#stats.conversations += 1;
     }
 
     this.#pushFrame({
@@ -375,7 +375,7 @@ export class BackupExportStream extends Readable {
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
-      stats.distributionLists += 1;
+      this.#stats.distributionLists += 1;
     }
 
     const callLinks = await DataReader.getAllCallLinks();
@@ -417,7 +417,7 @@ export class BackupExportStream extends Readable {
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
-      stats.callLinks += 1;
+      this.#stats.callLinks += 1;
     }
 
     const stickerPacks = await getStickerPacksForBackup();
@@ -432,7 +432,7 @@ export class BackupExportStream extends Readable {
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
-      stats.stickerPacks += 1;
+      this.#stats.stickerPacks += 1;
     }
 
     const pinnedConversationIds =
@@ -507,7 +507,7 @@ export class BackupExportStream extends Readable {
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
-      stats.chats += 1;
+      this.#stats.chats += 1;
     }
 
     const allCallHistoryItems = await DataReader.getAllCallHistory();
@@ -538,7 +538,7 @@ export class BackupExportStream extends Readable {
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
-      stats.adHocCalls += 1;
+      this.#stats.adHocCalls += 1;
     }
 
     let cursor: PageMessagesCursorType | undefined;
@@ -575,7 +575,7 @@ export class BackupExportStream extends Readable {
 
         for (const chatItem of items) {
           if (chatItem === undefined) {
-            stats.skippedMessages += 1;
+            this.#stats.skippedMessages += 1;
             // Can't be backed up.
             continue;
           }
@@ -586,7 +586,7 @@ export class BackupExportStream extends Readable {
 
           // eslint-disable-next-line no-await-in-loop
           await this.#flush();
-          stats.messages += 1;
+          this.#stats.messages += 1;
         }
 
         cursor = newCursor;
@@ -600,7 +600,7 @@ export class BackupExportStream extends Readable {
     await this.#flush();
 
     log.warn('backups: final stats', {
-      ...stats,
+      ...this.#stats,
       attachmentBackupJobs: this.#attachmentBackupJobs.length,
     });
 
@@ -1030,6 +1030,23 @@ export class BackupExportStream extends Readable {
         serviceId: message.sourceServiceId,
         e164: message.source,
       });
+
+      if (
+        isIncoming &&
+        conversation &&
+        isDirectConversation(conversation.attributes)
+      ) {
+        const convoAuthor = this.#getOrPushPrivateRecipient({
+          id: conversation.attributes.id,
+        });
+
+        // Fix conversation id for misattributed e164-only incoming 1:1
+        // messages.
+        if (authorId.neq(convoAuthor)) {
+          authorId = convoAuthor;
+          this.#stats.fixedDirectMessages += 1;
+        }
+      }
     } else {
       strictAssert(!isIncoming, 'Incoming message must have source');
 
