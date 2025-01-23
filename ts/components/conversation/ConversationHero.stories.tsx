@@ -27,7 +27,6 @@ export default {
     updateSharedGroups: action('updateSharedGroups'),
     viewUserStories: action('viewUserStories'),
     toggleAboutContactModal: action('toggleAboutContactModal'),
-    isRestoredFromBackup: false,
   },
 } satisfies Meta<Props>;
 
@@ -152,11 +151,6 @@ GroupNoName.args = {
 export const NoteToSelf = Template.bind({});
 NoteToSelf.args = {
   isMe: true,
-};
-
-export const ImportedFromBackup = Template.bind({});
-ImportedFromBackup.args = {
-  isRestoredFromBackup: true,
 };
 
 export const UnreadStories = Template.bind({});

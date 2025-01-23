@@ -27,7 +27,6 @@ export type Props = {
   i18n: LocalizerType;
   isMe: boolean;
   isSignalConversation?: boolean;
-  isRestoredFromBackup: boolean;
   membersCount?: number;
   phoneNumber?: string;
   sharedGroupNames?: ReadonlyArray<string>;
@@ -145,7 +144,6 @@ export function ConversationHero({
   hasStories,
   id,
   isMe,
-  isRestoredFromBackup,
   isSignalConversation,
   membersCount,
   sharedGroupNames = [],
@@ -278,11 +276,6 @@ export function ConversationHero({
             phoneNumber,
             sharedGroupNames,
           })}
-        {!isSignalConversation && !isRestoredFromBackup && (
-          <div className="module-conversation-hero__linkNotification">
-            {i18n('icu:messageHistoryUnsynced')}
-          </div>
-        )}
       </div>
       {isShowingMessageRequestWarning && (
         <ConfirmationDialog
