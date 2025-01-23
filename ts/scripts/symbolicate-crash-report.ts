@@ -6,7 +6,7 @@ import { readFile, writeFile, mkdtemp } from 'fs/promises';
 import { gunzip as gunzipCb } from 'zlib';
 import { join, basename } from 'path';
 import { promisify } from 'util';
-import { symbolicate } from '@indutny/symbolicate-mac';
+import { symbolicate } from '@electron/symbolicate-mac';
 import pMap from 'p-map';
 
 const gunzip = promisify(gunzipCb);
