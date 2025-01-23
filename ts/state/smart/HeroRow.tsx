@@ -8,7 +8,6 @@ import { getIntl, getTheme } from '../selectors/user';
 import { getHasStoriesSelector } from '../selectors/stories2';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { getConversationSelector } from '../selectors/conversations';
-import { getIsRestoredFromBackup } from '../selectors/items';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
@@ -25,7 +24,6 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
   const conversationSelector = useSelector(getConversationSelector);
-  const isRestoredFromBackup = useSelector(getIsRestoredFromBackup);
   const conversation = conversationSelector(id);
   if (conversation == null) {
     throw new Error(`Did not find conversation ${id} in state!`);
@@ -62,7 +60,6 @@ export const SmartHeroRow = memo(function SmartHeroRow({
       i18n={i18n}
       id={id}
       isMe={isMe}
-      isRestoredFromBackup={isRestoredFromBackup}
       isSignalConversation={isSignalConversationValue}
       membersCount={membersCount}
       phoneNumber={phoneNumber}

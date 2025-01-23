@@ -46,8 +46,8 @@ async function getReactionsForMessage(page: Page, timestamp: number) {
         reactor,
       ]);
     }
-    // click away
-    await page.getByText("chat history isn't transferred").click();
+    // dismiss reaction popup
+    await page.keyboard.press('Escape');
   } catch {
     // pass
   }
