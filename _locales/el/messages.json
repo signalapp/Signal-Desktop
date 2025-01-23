@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Η εικόνα στάλθηκε στη συνομιλία"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Εικονίδιο που δείχνει ότι αυτή η εικόνα έχει λεζάντα"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, one {{count,number} αντικείμενο} other {{count,number} αντικείμενα}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Το πολυμέσο δεν είναι πια διαθέσιμο."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Μάθε περισσότερα"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "Αποθήκευση"
@@ -1185,7 +1197,7 @@
     "messageformat": "Επανάληψη"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Ανανέωση κωδικού"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Βοήθεια"
@@ -1584,7 +1596,7 @@
     "messageformat": "Να διαγραφούν όλα τα δεδομένα και τα μηνύματα από αυτή την έκδοση Signal για υπολογιστή; Μπορείς πάντα να επανασυνδέσεις τον υπολογιστή, αλλά δεν θα μπορείς να επαναφέρεις τα μηνύματά σου. Ο λογαριασμός σου στο Signal, τα δεδομένα στο τηλέφωνό σου ή σε άλλες συνδεδεμένες συσκευές δεν θα διαγραφούν."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Αποσύνδεση και διαγραφή όλων των δεδομένων..."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Υπάρχουν παρωχημένα δεδομένα από μια προηγούμενη εγκατάσταση του Signal Desktop. Αν επιλέξεις να συνεχίσεις, αυτά θα διαγραφούν και θα ξεκινήσεις από την αρχή."
@@ -3576,7 +3588,7 @@
     "messageformat": "επόμενο"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Κάνε μια δωρεά στο Signal"
@@ -3609,7 +3621,7 @@
     "messageformat": "Προετοιμασία για λήψη..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Μπορεί να διαρκέσει μερικά λεπτά, ανάλογα με το μέγεθος του ιστορικού μηνυμάτων σου"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Ακύρωση"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Επιλογή χρώματος"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Εικονίδιο ομάδας"
@@ -5798,6 +5816,12 @@
     "messageformat": "Διορθώσαμε ένα σφάλμα με τις αναφορές @ που μερικές φορές συμπεριλάμβανε τον δικό σου λογαριασμό στη λίστα προτάσεων αυτόματης συμπλήρωσης."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Τώρα μπορείς να προσαρμόσεις το μέγεθος της πλαϊνής γραμμής της λίστας συνομιλιών σε συσκευές με οθόνη αφής."
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }

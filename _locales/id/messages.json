@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Gambar terkirim di obrolan"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon menunjukkan bahwa gambar ini memiliki keterangan"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, other {{count,number} item}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Media ini sudah tidak tersedia."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Selengkapnya"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "Simpan"
@@ -1185,7 +1197,7 @@
     "messageformat": "Coba lagi"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Refresh kode"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Dapatkan bantuan"
@@ -1584,7 +1596,7 @@
     "messageformat": "Hapus semua data dan pesan dari versi Signal Desktop ini? Anda bisa tautkan lagi desktop ini kapan saja, tetapi pesan Anda tidak akan dipulihkan. Akun Signal dan data di ponsel Anda atau perangkat terhubung lainnya tidak akan dihapus."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Memutus koneksi dan menghapus semua data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Anda menyimpan data lama dari instalasi Signal Desktop sebelumnya. Jika Anda memilih untuk lanjut, data tersebut akan dihapus dan Anda harus memulai dari awal."
@@ -3576,7 +3588,7 @@
     "messageformat": "berikutnya"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Berdonasi ke Signal"
@@ -3609,7 +3621,7 @@
     "messageformat": "Bersiap mengunduh …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Perlu waktu beberapa menit, tergantung ukuran riwayat pesan Anda"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Batal"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Pilih warna"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar Grup"
@@ -5798,6 +5816,12 @@
     "messageformat": "Kami memperbaiki bug dengan @ penyebutan/mention yang kadang menyertakan akun Anda sendiri pada daftar saran akun yang dapat ditambahkan secara otomatis."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Kini Anda bisa menyesuaikanz ukuran panel samping untuk daftar chat di perangkat layar sentuh. Jadi, jika ingin melakukan penyesuaian, tinggal sat-set, selesai!"
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }

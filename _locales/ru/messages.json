@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Изображение, отправленное в чате"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Значок, показывающий, что у этого изображения есть подпись"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, one {{count,number} элемент} few {{count,number} элемента} many {{count,number} элементов} other {{count,number} элемента}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Эти медиафайлы больше не доступны."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Узнать больше"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "Сохранить"
@@ -1185,7 +1197,7 @@
     "messageformat": "Повторить попытку"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Обновить код"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Получить помощь"
@@ -1584,7 +1596,7 @@
     "messageformat": "Удалить все данные и сообщения из этой версии Signal Desktop? Вы всегда можете переподключить ваш ПК к Signal Desktop, но ваши сообщения не восстановятся. Ваша учётная запись Signal и данные на вашем телефоне или других подключенных устройствах не будут удалены."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Отключается и удаляет все данные…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "У вас есть устаревшие данные из предыдущей установки Signal Desktop. Если вы решите продолжить, они будут удалены, и вы начнете с нуля."
@@ -3576,7 +3588,7 @@
     "messageformat": "следующее"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Поддержать Signal"
@@ -3609,7 +3621,7 @@
     "messageformat": "Готовимся к загрузке..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Это может занять несколько минут в зависимости от размера вашей истории сообщений"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Отменить"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Выберите цвет"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Аватар группы"
@@ -5798,6 +5816,12 @@
     "messageformat": "Мы исправили ошибку с упоминаниями @, из-за которой ваша учётная запись иногда включалась в список предложений для автозаполнения. Для самовлюбленных по-прежнему есть возможность поговорить о себе от третьего лица, пропустив эту ошибку."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Теперь вы можете настраивать размер боковой панели списка чатов на устройствах с сенсорным экраном. Теперь перетаскивать будет на так надрывно, а следы на экране — просто свидетельство силы ваших пальцев."
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }

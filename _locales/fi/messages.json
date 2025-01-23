@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Keskustelussa lähetetty kuva"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Kuvake, joka näyttää, että tällä kuvalla on kuvateksti"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, one {{count,number} kappale} other {{count,number} kohdetta}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Media ei ole enää saatavilla."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Lue lisää"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "Tallenna"
@@ -1185,7 +1197,7 @@
     "messageformat": "Yritä uudelleen"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Päivitä koodi"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Pyydä apua"
@@ -1584,7 +1596,7 @@
     "messageformat": "Poista kaikki tiedot ja viestit tästä Signal Desktop -versiosta? Voit aina yhdistää tämän tietokoneen uudelleen, mutta viestejäsi ei palauteta. Signal-tiliäsi ja puhelimesi tai muiden yhdistettyjen laitteiden tietoja ei poisteta."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Katkaistaan yhteyttä ja poistetaan kaikki tiedot…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Sinulla on vanhentuneita tietoja aiemmasta Signal Desktopin asennuksesta. Jos päätät jatkaa, tiedot poistetaan ja aloitat alusta."
@@ -3576,7 +3588,7 @@
     "messageformat": "seuraava"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Lahjoita Signalille"
@@ -3609,7 +3621,7 @@
     "messageformat": "Valmistellaan latausta..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Tämä voi kestää muutamia minuutteja viestihistoriasi koosta riippuen"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Peruuta"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Valitse väri"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Ryhmäavatar"
@@ -5798,6 +5816,12 @@
     "messageformat": "Korjasimme @-mainintoja koskevan virheen, joka saattoi virheellisesti liittää tilisi automaattisen täydennyksen ehdotuslistaan."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nyt voit säätää keskusteluluettelon sivupalkin kokoa kosketusnäytöllisissä laitteissa."
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }

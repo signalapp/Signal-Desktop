@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "ချက်(တ်)ထဲတွင် ပေးပို့ထားသော ပုံ"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ဤပုံတွင် စာတန်းပါကြောင်း ပြသသည့် အိုင်ကွန်"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, other {ဒေါင်းလုဒ် {count,number} ခု}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "ဤမီဒီယာ မရှိတော့ပါ။"
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ပိုမိုသိရှိရန်"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -1185,7 +1197,7 @@
     "messageformat": "ထပ်ကြိုးစားပါ"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "ကုဒ်ကို ပြန်လည်စတင်ပါ"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "အကူအညီရယူပါ"
@@ -1584,7 +1596,7 @@
     "messageformat": "ဤ Signal Desktop ဗားရှင်းမှ ဒေတာနှင့် မက်ဆေ့ချ်အားလုံးကို ဖျက်ပါမည်လား။ ဤ Desktop ကို သင် အချိန်မရွေး ပြန်လည်ချိတ်ဆက်နိုင်သော်လည်း သင့်မက်ဆေ့ချ်များကို ပြန်သိမ်းနိုင်မည်မဟုတ်ပါ။ သင့်ဖုန်း သို့မဟုတ် အခြား ချိတ်ထားသည့် စက်များမှ သင့် Signal အကောင့်နှင့် ဒေတာကို ဖျက်မည်မဟုတ်ပါ။"
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "ချိတ်ဆက်မှုကိုဖြုတ်၍ ဒေတာအားလုံးကို ဖျက်နေသည်..."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "သင့်တွင် ယခင် Signal Desktop ထည့်သွင်းမှုမှ ဒေတာအဟောင်းများ ရှိပါသည်။ ဆက်လုပ်ရန်ကို ရွေးချယ်ပါက ၎င်းကို ဖျက်မည်ဖြစ်ပြီး အစမှ စတင်ပါလိမ့်မည်။"
@@ -3576,7 +3588,7 @@
     "messageformat": "ရှေ့သို့"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ကိုလှူဒါန်းပါ"
@@ -3609,7 +3621,7 @@
     "messageformat": "ဒေါင်းလုဒ်လုပ်ရန် ပြင်ဆင်နေသည်..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "သင့် မက်ဆေ့ချ်မှတ်တမ်း အရွယ်အစားပေါ်မူတည်၍ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "မလုပ်တော့ပါ"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "အရောင် ရွေးရန်"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "အဖွဲ့ ရုပ်ပုံ"
@@ -5798,6 +5816,12 @@
     "messageformat": "တစ်ခါတစ်ရံတွင် သင့်ကိုယ်ပိုင်အကောင့်ကို အလိုအလျောက်ဖြည့်စွက်မှု အကြံပြုချက်စာရင်းတွင် @ မန်းရှင်းထည့်သွင်းသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "ယခု သင်သည် Touchscreen စက်များတွင် ချက်(တ်)စာရင်းဘေးမှ ဘား၏ အရွယ်အစားကို ချိန်ညှိနိုင်ပါပြီ။"
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }

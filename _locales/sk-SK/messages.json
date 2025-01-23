@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Obrázok z četu"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona indukujúca, že tento obrázok má popis"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, one {{count,number} položka} few {{count,number} položky} many {{count,number} položiek} other {{count,number} položiek}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Toto médium už nie je dostupné."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Zistiť viac"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "Uložiť"
@@ -1185,7 +1197,7 @@
     "messageformat": "Skúsiť znovu"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Obnoviť kód"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Pomoc"
@@ -1584,7 +1596,7 @@
     "messageformat": "Chcete vymazať všetky údaje a správy z tejto verzie aplikácie Signal Desktop? Aplikáciu môžete vždy znova prepojiť, vaše správy sa však neobnovia. Váš účet Signal a údaje vo vašom telefóne alebo iných prepojených zariadeniach nebudú vymazané."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Prebieha odpojenie a odstraňovanie všetkých údajov…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Toto zariadenie obsahuje staré dáta z predošlej inštalácie Signalu. Ak budete pokračovať, zmažú sa a začnete s čistým štítom."
@@ -3576,7 +3588,7 @@
     "messageformat": "ďalší"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Prispieť na Signal"
@@ -3609,7 +3621,7 @@
     "messageformat": "Pripravuje sa sťahovanie…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "V závislosti od veľkosti histórie správ to môže trvať niekoľko minút"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Zrušiť"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Vyberte farbu"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Obrázok skupiny"
@@ -5798,6 +5816,12 @@
     "messageformat": "Opravili sme chybu súvisiacu so @ zmienkami, ktorá niekedy spôsobovala zahrnutie vášho účtu do zoznamu návrhov automatického dopĺňania."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Teraz môžete upraviť veľkosť bočného panela zoznamu četov na zariadeniach s dotykovou obrazovkou."
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }

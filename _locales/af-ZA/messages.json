@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Beeld in klets gestuur"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Downloading {downloaded} of {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikoon wat wys dat hierdie beeld 'n onderskrif het"
   },
@@ -1137,10 +1140,19 @@
     "messageformat": "{count, plural, one {{count,number} Item} other {{count,number} Items}}"
   },
   "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available."
+    "messageformat": "Hierdie media is nie meer beskikbaar nie."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "This media is not available"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Vind meer uit"
+  },
+  "icu:fileNotAvailable": {
+    "messageformat": "This file is not available"
+  },
+  "icu:voiceMessageNotAvailable": {
+    "messageformat": "This voice message is not available"
   },
   "icu:save": {
     "messageformat": "Stoor"
@@ -1185,7 +1197,7 @@
     "messageformat": "Probeer weer"
   },
   "icu:Install__qr-max-rotations__retry": {
-    "messageformat": "Refresh code"
+    "messageformat": "Verfris kode"
   },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Kry hulp"
@@ -1584,7 +1596,7 @@
     "messageformat": "Skrap alle data en boodskappe in hierdie weergawe van Signal Desktop? Jy kan altyd hierdie rekenaar weer koppel, maar jou boodskappe sal nie herstel word nie. Jou Signal-rekening en data op jou foon of ander gekoppelde toestelle sal nie geskrap word nie."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Disconnecting and deleting all data…"
+    "messageformat": "Ontkoppel en skrap tans alle data…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Jy het verouderde data uit 'n vorige installasie van Signal Desktop. As jy kies om voort te gaan, sal dit geskrap word en jy sal van voor af begin."
@@ -3576,7 +3588,7 @@
     "messageformat": "volgende"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes depending on the size of your message history"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dra by tot Signal"
@@ -3609,7 +3621,7 @@
     "messageformat": "Berei tans voor om af te laai…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Dit kan 'n paar minute neem, na gelang van die grootte van jou boodskapgeskiedenis"
+    "messageformat": "This may take a few minutes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Kanselleer"
@@ -4561,6 +4573,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Kies ’n kleur"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Retry download"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Retry"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Groep-avatar"
@@ -5798,6 +5816,12 @@
     "messageformat": "Ons het 'n fout met @-vermeldings reggestel wat soms jou eie rekening verkeerdelik by die outovoltooi-voorstellys ingesluit het."
   },
   "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Now you can adjust the size of the chat list sidebar on touchscreen devices. So when you try to drag it won't be such a drag, and the smudges on your screen are simply evidence of the power emanating from your fingertips."
+    "messageformat": "Nou kan jy die grootte van die kletslys-kantbalk op raakskermtoestelle aanpas."
+  },
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
   }
 }
