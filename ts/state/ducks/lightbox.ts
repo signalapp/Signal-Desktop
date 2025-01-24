@@ -284,13 +284,12 @@ function showLightbox(opts: {
 
     if (isIncremental(attachment)) {
       // Queue all attachments, but this target attachment should be IMMEDIATE
-      const updatedFields = await queueAttachmentDownloads(message.attributes, {
+      const wasUpdated = await queueAttachmentDownloads(message, {
         urgency: AttachmentDownloadUrgency.STANDARD,
         attachmentDigestForImmediate: attachment.digest,
       });
-      if (updatedFields) {
-        message.set(updatedFields);
-        await window.MessageCache.saveMessage(message.attributes);
+      if (wasUpdated) {
+        await window.MessageCache.saveMessage(message);
       }
     }
 

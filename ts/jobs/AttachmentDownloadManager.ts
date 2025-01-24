@@ -53,7 +53,6 @@ import {
 import { safeParsePartial } from '../util/schemas';
 import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
 import { createBatcher } from '../util/batcher';
-import { postSaveUpdates } from '../util/cleanup';
 
 export enum AttachmentDownloadUrgency {
   IMMEDIATE = 'immediate',
@@ -431,10 +430,7 @@ async function runDownloadAttachmentJob({
   } finally {
     // This will fail if the message has been deleted before the download finished, which
     // is good
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
   }
 }
 

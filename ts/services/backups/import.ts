@@ -131,6 +131,7 @@ import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import { postSaveUpdates } from '../../util/cleanup';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import { MessageModel } from '../../models/messages';
 
 const MAX_CONCURRENCY = 10;
 
@@ -641,8 +642,9 @@ export class BackupImportStream extends Writable {
       if (hasAttachmentDownloads(attributes)) {
         const conversation = this.#conversations.get(attributes.conversationId);
         if (conversation && isConversationAccepted(conversation)) {
+          const model = new MessageModel(attributes);
           attachmentDownloadJobPromises.push(
-            queueAttachmentDownloads(attributes, {
+            queueAttachmentDownloads(model, {
               source: AttachmentDownloadSource.BACKUP_IMPORT,
             })
           );

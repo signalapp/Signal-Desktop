@@ -34,7 +34,6 @@ import { strictAssert } from './assert';
 import { timeAndLogIfTooLong } from './timeAndLogIfTooLong';
 import { makeQuote } from './makeQuote';
 import { getMessageSentTimestamp } from './getMessageSentTimestamp';
-import { postSaveUpdates } from './cleanup';
 
 const SEND_REPORT_THRESHOLD_MS = 25;
 
@@ -224,10 +223,8 @@ export async function sendEditedMessage(
           log.info(
             `${idLog}: saving message ${targetMessageId} and job ${jobToInsert.id}`
           );
-          await DataWriter.saveMessage(targetMessage.attributes, {
+          await window.MessageCache.saveMessage(targetMessage.attributes, {
             jobToInsert,
-            ourAci: window.textsecure.storage.user.getCheckedAci(),
-            postSaveUpdates,
           });
         }
       ),

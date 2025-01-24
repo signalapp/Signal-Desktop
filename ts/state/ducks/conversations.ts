@@ -218,7 +218,7 @@ import {
   sendStateReducer,
 } from '../../messages/MessageSendState';
 import { markFailed } from '../../test-node/util/messageFailures';
-import { cleanupMessages, postSaveUpdates } from '../../util/cleanup';
+import { cleanupMessages } from '../../util/cleanup';
 import { MessageModel } from '../../models/messages';
 // State
 
@@ -2312,12 +2312,7 @@ function kickOffAttachmentDownload(
     );
 
     if (didUpdateValues) {
-      drop(
-        DataWriter.saveMessage(message.attributes, {
-          ourAci: window.textsecure.storage.user.getCheckedAci(),
-          postSaveUpdates,
-        })
-      );
+      drop(window.MessageCache.saveMessage(message.attributes));
     }
 
     dispatch({
@@ -2347,11 +2342,7 @@ function cancelAttachmentDownload({
         })),
       });
 
-      const ourAci = window.textsecure.storage.user.getCheckedAci();
-      await DataWriter.saveMessage(message.attributes, {
-        ourAci,
-        postSaveUpdates,
-      });
+      await window.MessageCache.saveMessage(message.attributes);
     }
 
     // A click kicks off downloads for every attachment in a message, so cancel does too
@@ -2486,10 +2477,8 @@ function retryMessageSend(
           timestamp: message.attributes.timestamp,
         },
         async jobToInsert => {
-          await DataWriter.saveMessage(message.attributes, {
+          await window.MessageCache.saveMessage(message.attributes, {
             jobToInsert,
-            ourAci: window.textsecure.storage.user.getCheckedAci(),
-            postSaveUpdates,
           });
         }
       );
@@ -2502,10 +2491,8 @@ function retryMessageSend(
           revision: conversation.get('revision'),
         },
         async jobToInsert => {
-          await DataWriter.saveMessage(message.attributes, {
+          await window.MessageCache.saveMessage(message.attributes, {
             jobToInsert,
-            ourAci: window.textsecure.storage.user.getCheckedAci(),
-            postSaveUpdates,
           });
         }
       );

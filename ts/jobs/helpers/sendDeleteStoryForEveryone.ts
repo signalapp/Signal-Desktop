@@ -10,7 +10,6 @@ import {
   maybeExpandErrors,
 } from './handleMultipleSendErrors';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
-import { DataWriter } from '../../sql/Client';
 
 import type { ConversationModel } from '../../models/conversations';
 import type {
@@ -29,7 +28,6 @@ import { SendMessageProtoError } from '../../textsecure/Errors';
 import { strictAssert } from '../../util/assert';
 import type { LoggerType } from '../../types/Logging';
 import { isStory } from '../../messages/helpers';
-import { postSaveUpdates } from '../../util/cleanup';
 
 export async function sendDeleteStoryForEveryone(
   ourConversation: ConversationModel,
@@ -280,10 +278,7 @@ async function updateMessageWithSuccessfulSends(
       deletedForEveryoneSendStatus: {},
       deletedForEveryoneFailed: undefined,
     });
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
 
     return;
   }
@@ -304,10 +299,7 @@ async function updateMessageWithSuccessfulSends(
     deletedForEveryoneSendStatus,
     deletedForEveryoneFailed: undefined,
   });
-  await DataWriter.saveMessage(message.attributes, {
-    ourAci: window.textsecure.storage.user.getCheckedAci(),
-    postSaveUpdates,
-  });
+  await window.MessageCache.saveMessage(message.attributes);
 }
 
 async function updateMessageWithFailure(
@@ -321,8 +313,5 @@ async function updateMessageWithFailure(
   );
 
   message.set({ deletedForEveryoneFailed: true });
-  await DataWriter.saveMessage(message.attributes, {
-    ourAci: window.textsecure.storage.user.getCheckedAci(),
-    postSaveUpdates,
-  });
+  await window.MessageCache.saveMessage(message.attributes);
 }

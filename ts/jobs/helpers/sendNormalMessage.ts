@@ -4,7 +4,6 @@
 import { isNumber } from 'lodash';
 import PQueue from 'p-queue';
 
-import { DataWriter } from '../../sql/Client';
 import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
 import type { MessageModel } from '../../models/messages';
@@ -61,7 +60,6 @@ import {
   saveErrorsOnMessage,
 } from '../../test-node/util/messageFailures';
 import { getMessageIdForLogging } from '../../util/idForLogging';
-import { postSaveUpdates } from '../../util/cleanup';
 import { send, sendSyncMessageOnly } from '../../messages/send';
 
 const MAX_CONCURRENT_ATTACHMENT_UPLOADS = 5;
@@ -667,10 +665,7 @@ async function getMessageSendData({
   ]);
 
   // Save message after uploading attachments
-  await DataWriter.saveMessage(message.attributes, {
-    ourAci: window.textsecure.storage.user.getCheckedAci(),
-    postSaveUpdates,
-  });
+  await window.MessageCache.saveMessage(message.attributes);
 
   const storyReaction = message.get('storyReaction');
   const storySourceServiceId = storyMessage?.get('sourceServiceId');

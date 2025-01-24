@@ -3,7 +3,6 @@
 
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
-import { DataWriter } from '../sql/Client';
 import * as Errors from '../types/errors';
 import { DAY } from './durations';
 import * as log from '../logging/log';
@@ -21,7 +20,6 @@ import { getRecipientConversationIds } from './getRecipientConversationIds';
 import { getRecipients } from './getRecipients';
 import { repeat, zipObject } from './iterables';
 import { isMe } from './whatTypeOfConversation';
-import { postSaveUpdates } from './cleanup';
 
 export async function sendDeleteForEveryoneMessage(
   conversationAttributes: ConversationAttributesType,
@@ -83,10 +81,8 @@ export async function sendDeleteForEveryoneMessage(
         `sendDeleteForEveryoneMessage: Deleting message ${idForLogging} ` +
           `in conversation ${conversationIdForLogging} with job ${jobToInsert.id}`
       );
-      await DataWriter.saveMessage(message.attributes, {
+      await window.MessageCache.saveMessage(message.attributes, {
         jobToInsert,
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
-        postSaveUpdates,
       });
     });
   } catch (error) {

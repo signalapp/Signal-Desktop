@@ -33,7 +33,6 @@ import {
 } from '../types/Receipt';
 import { drop } from '../util/drop';
 import { getMessageById } from '../messages/getMessageById';
-import { postSaveUpdates } from '../util/cleanup';
 import { MessageModel } from '../models/messages';
 
 const { deleteSentProtoRecipient, removeSyncTaskById } = DataWriter;
@@ -200,8 +199,7 @@ async function processReceiptsForMessage(
 
   const { validReceipts } = await updateMessageWithReceipts(message, receipts);
 
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
-  await DataWriter.saveMessage(message.attributes, { ourAci, postSaveUpdates });
+  await window.MessageCache.saveMessage(message.attributes);
 
   // Confirm/remove receipts, and delete sent protos
   for (const receipt of validReceipts) {

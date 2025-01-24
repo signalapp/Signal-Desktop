@@ -289,30 +289,25 @@ export async function handleEditMessage(
   });
 
   // Queue up any downloads in case they're different, update the fields if so.
-  const updatedFields = await queueAttachmentDownloads(
-    mainMessageModel.attributes
-  );
+  const wasUpdated = await queueAttachmentDownloads(mainMessageModel);
 
   // If we've scheduled a bodyAttachment download, we need that edit to know about it
-  if (updatedFields?.bodyAttachment) {
-    const existing =
-      updatedFields.editHistory || mainMessageModel.get('editHistory') || [];
+  if (wasUpdated && mainMessageModel.get('bodyAttachment')) {
+    const existing = mainMessageModel.get('editHistory') || [];
 
-    updatedFields.editHistory = existing.map(item => {
-      if (item.timestamp !== editedMessage.timestamp) {
-        return item;
-      }
+    mainMessageModel.set({
+      editHistory: existing.map(item => {
+        if (item.timestamp !== editedMessage.timestamp) {
+          return item;
+        }
 
-      return {
-        ...item,
-        attachments: updatedFields.attachments,
-        bodyAttachment: updatedFields.bodyAttachment,
-      };
+        return {
+          ...item,
+          attachments: mainMessageModel.get('attachments'),
+          bodyAttachment: mainMessageModel.get('bodyAttachment'),
+        };
+      }),
     });
-  }
-
-  if (updatedFields) {
-    mainMessageModel.set(updatedFields);
   }
 
   const conversation = window.ConversationController.get(

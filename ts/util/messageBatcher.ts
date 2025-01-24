@@ -8,6 +8,7 @@ import { DataWriter } from '../sql/Client';
 import * as log from '../logging/log';
 import { postSaveUpdates } from './cleanup';
 import { MessageModel } from '../models/messages';
+import { drop } from './drop';
 
 const updateMessageBatcher = createBatcher<ReadonlyMessageAttributesType>({
   name: 'messageBatcher.updateMessageBatcher',
@@ -36,10 +37,7 @@ export function queueUpdateMessage(
   if (shouldBatch) {
     updateMessageBatcher.add(messageAttr);
   } else {
-    void DataWriter.saveMessage(messageAttr, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-      postSaveUpdates,
-    });
+    drop(window.MessageCache.saveMessage(messageAttr));
   }
 }
 

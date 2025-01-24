@@ -69,7 +69,7 @@ import {
   conversationQueueJobEnum,
 } from '../../jobs/conversationJobQueue';
 import { ReceiptType } from '../../types/Receipt';
-import { cleanupMessages, postSaveUpdates } from '../../util/cleanup';
+import { cleanupMessages } from '../../util/cleanup';
 
 export type StoryDataType = ReadonlyDeep<
   {
@@ -421,12 +421,7 @@ function markStoryRead(
     const storyReadDate = Date.now();
 
     message.set(markViewed(message.attributes, storyReadDate));
-    drop(
-      DataWriter.saveMessage(message.attributes, {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
-        postSaveUpdates,
-      })
-    );
+    drop(window.MessageCache.saveMessage(message.attributes));
 
     const conversationId = message.get('conversationId');
 
@@ -534,10 +529,11 @@ function queueStoryDownload(
         payload: storyId,
       });
 
-      const updatedFields = await queueAttachmentDownloads(message.attributes);
-      if (updatedFields) {
-        message.set(updatedFields);
+      const wasUpdated = await queueAttachmentDownloads(message);
+      if (wasUpdated) {
+        await window.MessageCache.saveMessage(message);
       }
+
       return;
     }
 

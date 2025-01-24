@@ -190,7 +190,7 @@ import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 import { getIsInitialSync } from '../services/contactSync';
 import { queueAttachmentDownloadsForMessage } from '../util/queueAttachmentDownloads';
-import { cleanupMessages, postSaveUpdates } from '../util/cleanup';
+import { cleanupMessages } from '../util/cleanup';
 import { MessageModel } from './messages';
 
 /* eslint-disable more/no-then */
@@ -2015,11 +2015,7 @@ export class ConversationModel extends window.Backbone
 
         if (updated) {
           upgraded += 1;
-          const ourAci = window.textsecure.storage.user.getCheckedAci();
-          await DataWriter.saveMessage(model.attributes, {
-            ourAci,
-            postSaveUpdates,
-          });
+          await window.MessageCache.saveMessage(model.attributes);
         }
 
         return model.attributes;
@@ -2270,7 +2266,6 @@ export class ConversationModel extends window.Backbone
     options: { isLocalAction?: boolean } = {}
   ): Promise<void> {
     const { isLocalAction } = options;
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
 
     let messages: Array<MessageAttributesType> | undefined;
     do {
@@ -2324,10 +2319,7 @@ export class ConversationModel extends window.Backbone
           const shouldSave =
             await queueAttachmentDownloadsForMessage(registered);
           if (shouldSave) {
-            await DataWriter.saveMessage(registered.attributes, {
-              ourAci,
-              postSaveUpdates,
-            });
+            await window.MessageCache.saveMessage(registered.attributes);
           }
         })
       );

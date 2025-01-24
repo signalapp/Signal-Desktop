@@ -5,7 +5,6 @@ import * as sinon from 'sinon';
 import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataWriter } from '../../../sql/Client';
 import type {
   DispatchableViewStoryType,
   StoryDataType,
@@ -27,7 +26,6 @@ import { actions, getEmptyState } from '../../../state/ducks/stories';
 import { noopAction } from '../../../state/ducks/noop';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { dropNull } from '../../../util/dropNull';
-import { postSaveUpdates } from '../../../util/cleanup';
 import { MessageModel } from '../../../models/messages';
 
 describe('both/state/ducks/stories', () => {
@@ -928,10 +926,8 @@ describe('both/state/ducks/stories', () => {
           },
         ],
       };
-      await DataWriter.saveMessage(messageAttributes, {
+      await window.MessageCache.saveMessage(messageAttributes, {
         forceSave: true,
-        ourAci: generateAci(),
-        postSaveUpdates,
       });
       const rootState = getEmptyRootState();
 
@@ -991,10 +987,8 @@ describe('both/state/ducks/stories', () => {
         preview: [preview],
       };
 
-      await DataWriter.saveMessage(messageAttributes, {
+      await window.MessageCache.saveMessage(messageAttributes, {
         forceSave: true,
-        ourAci: generateAci(),
-        postSaveUpdates,
       });
       const rootState = getEmptyRootState();
 

@@ -39,7 +39,6 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import { postSaveUpdates } from '../util/cleanup';
 
 export type ReactionAttributesType = {
   emoji: string;
@@ -389,10 +388,8 @@ export async function handleReaction(
         shouldSave: false,
       });
       // Note: generatedMessage comes with an id, so we have to force this save
-      await DataWriter.saveMessage(generatedMessage.attributes, {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
+      await window.MessageCache.saveMessage(generatedMessage.attributes, {
         forceSave: true,
-        postSaveUpdates,
       });
 
       log.info('Reactions.onReaction adding reaction to story', {
@@ -555,10 +552,8 @@ export async function handleReaction(
       await hydrateStoryContext(generatedMessage.id, message.attributes, {
         shouldSave: false,
       });
-      await DataWriter.saveMessage(generatedMessage.attributes, {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
+      await window.MessageCache.saveMessage(generatedMessage.attributes, {
         forceSave: true,
-        postSaveUpdates,
       });
 
       window.MessageCache.register(generatedMessage);
@@ -586,20 +581,15 @@ export async function handleReaction(
             jobToInsert.id
           }`
         );
-        await DataWriter.saveMessage(message.attributes, {
+        await window.MessageCache.saveMessage(message.attributes, {
           jobToInsert,
-          ourAci: window.textsecure.storage.user.getCheckedAci(),
-          postSaveUpdates,
         });
       });
     } else {
       await conversationJobQueue.add(jobData);
     }
   } else if (shouldPersist && !isStory(message.attributes)) {
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
     window.reduxActions.conversations.markOpenConversationRead(conversation.id);
   }
 }

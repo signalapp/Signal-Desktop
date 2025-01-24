@@ -19,7 +19,7 @@ import {
   SendStatus,
 } from './MessageSendState';
 import { DataReader, DataWriter } from '../sql/Client';
-import { eraseMessageContents, postSaveUpdates } from '../util/cleanup';
+import { eraseMessageContents } from '../util/cleanup';
 import {
   isDirectConversation,
   isGroup,
@@ -200,10 +200,7 @@ export async function handleDataMessage(
           sendStateByConversationId,
           unidentifiedDeliveries: [...unidentifiedDeliveriesSet],
         });
-        await DataWriter.saveMessage(toUpdate.attributes, {
-          ourAci: window.textsecure.storage.user.getCheckedAci(),
-          postSaveUpdates,
-        });
+        await window.MessageCache.saveMessage(toUpdate.attributes);
 
         confirm();
         return;

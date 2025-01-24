@@ -11,7 +11,6 @@ import { isGroup } from '../util/whatTypeOfConversation';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
 import * as log from '../logging/log';
-import { DataWriter } from '../sql/Client';
 import {
   getPropForTimestamp,
   getChangesForPropAtTimestamp,
@@ -21,7 +20,6 @@ import {
   notifyStorySendFailed,
   saveErrorsOnMessage,
 } from '../test-node/util/messageFailures';
-import { postSaveUpdates } from '../util/cleanup';
 import { isCustomError } from './helpers';
 import { SendActionType, isSent, sendStateReducer } from './MessageSendState';
 
@@ -77,10 +75,7 @@ export async function send(
   }
 
   if (!message.doNotSave) {
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
   }
 
   const sendStateByConversationId = {
@@ -317,10 +312,7 @@ export async function sendSyncMessageOnly(
     }
     throw error;
   } finally {
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
 
     if (updateLeftPane) {
       updateLeftPane();
@@ -476,10 +468,7 @@ export async function sendSyncMessage(
         return result;
       }
 
-      await DataWriter.saveMessage(message.attributes, {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
-        postSaveUpdates,
-      });
+      await window.MessageCache.saveMessage(message.attributes);
       return result;
     });
   };

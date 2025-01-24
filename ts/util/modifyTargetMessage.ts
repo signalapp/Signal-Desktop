@@ -9,7 +9,6 @@ import type { SendStateByConversationId } from '../messages/MessageSendState';
 
 import * as Edits from '../messageModifiers/Edits';
 import * as log from '../logging/log';
-import { DataWriter } from '../sql/Client';
 import * as Deletes from '../messageModifiers/Deletes';
 import * as DeletesForMe from '../messageModifiers/DeletesForMe';
 import * as MessageReceipts from '../messageModifiers/MessageReceipts';
@@ -38,7 +37,6 @@ import {
 import { getMessageIdForLogging } from './idForLogging';
 import { markViewOnceMessageViewed } from '../services/MessageUpdater';
 import { handleReaction } from '../messageModifiers/Reactions';
-import { postSaveUpdates } from './cleanup';
 
 export enum ModifyTargetMessageResult {
   Modified = 'Modified',
@@ -326,10 +324,7 @@ export async function modifyTargetMessage(
   // We save here before handling any edits because handleEditMessage does its own saves
   if (changed && !isFirstRun) {
     log.info(`${logId}: Changes in second run; saving.`);
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci,
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
   }
 
   // We want to make sure the message is saved first before applying any edits

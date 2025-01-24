@@ -14,8 +14,6 @@ import { isOlderThan } from './timestamp';
 import { DAY } from './durations';
 import { getMessageById } from '../messages/getMessageById';
 import { MessageModel } from '../models/messages';
-import { DataWriter } from '../sql/Client';
-import { postSaveUpdates } from './cleanup';
 
 export async function hydrateStoryContext(
   messageId: string,
@@ -82,11 +80,7 @@ export async function hydrateStoryContext(
     };
     message.set(newMessageAttributes);
     if (shouldSave) {
-      const ourAci = window.textsecure.storage.user.getCheckedAci();
-      await DataWriter.saveMessage(message.attributes, {
-        ourAci,
-        postSaveUpdates,
-      });
+      await window.MessageCache.saveMessage(message.attributes);
     }
 
     return newMessageAttributes;
@@ -109,11 +103,7 @@ export async function hydrateStoryContext(
   };
   message.set(newMessageAttributes);
   if (shouldSave) {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci,
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
   }
 
   return newMessageAttributes;

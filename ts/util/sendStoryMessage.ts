@@ -31,7 +31,6 @@ import { collect } from './iterables';
 import { DurationInSeconds } from './durations';
 import { sanitizeLinkPreview } from '../services/LinkPreview';
 import type { DraftBodyRanges } from '../types/BodyRange';
-import { postSaveUpdates } from './cleanup';
 import { MessageModel } from '../models/messages';
 
 export async function sendStoryMessage(
@@ -315,10 +314,8 @@ export async function sendStoryMessage(
       void ourConversation.addSingleMessage(message, { isJustSent: true });
 
       log.info(`stories.sendStoryMessage: saving message ${message.timestamp}`);
-      return DataWriter.saveMessage(message, {
+      return window.MessageCache.saveMessage(message, {
         forceSave: true,
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
-        postSaveUpdates,
       });
     })
   );
@@ -368,11 +365,9 @@ export async function sendStoryMessage(
           log.info(
             `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`
           );
-          await DataWriter.saveMessage(messageAttributes, {
+          await window.MessageCache.saveMessage(messageAttributes, {
             forceSave: true,
             jobToInsert,
-            ourAci: window.textsecure.storage.user.getCheckedAci(),
-            postSaveUpdates,
           });
         }
       );

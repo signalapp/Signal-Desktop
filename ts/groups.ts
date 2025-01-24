@@ -3437,10 +3437,7 @@ async function appendChangeMessages(
     strictAssert(first !== undefined, 'First message must be there');
 
     log.info(`appendChangeMessages/${logId}: updating ${first.id}`);
-    await DataWriter.saveMessage(first, {
-      ourAci,
-      postSaveUpdates,
-
+    await window.MessageCache.saveMessage(first, {
       // We don't use forceSave here because this is an update of existing
       // message.
     });

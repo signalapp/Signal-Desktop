@@ -124,12 +124,11 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
 
       const attachments = message.get('attachments');
       if (!attachments?.every(isDownloaded)) {
-        const updatedFields = await queueAttachmentDownloads(
-          message.attributes,
-          { urgency: AttachmentDownloadUrgency.STANDARD }
-        );
-        if (updatedFields) {
-          message.set(updatedFields);
+        const didQueueDownload = await queueAttachmentDownloads(message, {
+          urgency: AttachmentDownloadUrgency.STANDARD,
+        });
+        if (didQueueDownload) {
+          didChangeMessage = true;
         }
       }
     }

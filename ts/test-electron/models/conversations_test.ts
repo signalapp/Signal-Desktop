@@ -8,7 +8,6 @@ import { DataWriter } from '../../sql/Client';
 import { SendStatus } from '../../messages/MessageSendState';
 import { IMAGE_PNG } from '../../types/MIME';
 import { generateAci, generatePni } from '../../types/ServiceId';
-import { postSaveUpdates } from '../../util/cleanup';
 import { MessageModel } from '../../models/messages';
 
 describe('Conversations', () => {
@@ -84,10 +83,8 @@ describe('Conversations', () => {
     });
 
     // Saving to db and updating the convo's last message
-    await DataWriter.saveMessage(message.attributes, {
+    await window.MessageCache.saveMessage(message.attributes, {
       forceSave: true,
-      ourAci,
-      postSaveUpdates,
     });
     message = window.MessageCache.register(message);
     await DataWriter.updateConversation(conversation.attributes);

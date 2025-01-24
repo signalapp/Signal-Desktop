@@ -71,10 +71,7 @@ export async function eraseMessageContents(
   )?.debouncedUpdateLastMessage();
 
   if (shouldPersist) {
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
   }
 
   await DataWriter.deleteSentProtoByMessageId(message.id);

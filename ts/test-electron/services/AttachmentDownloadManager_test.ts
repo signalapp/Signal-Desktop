@@ -17,12 +17,10 @@ import {
 import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { MINUTE } from '../../util/durations';
-import { type AciString } from '../../types/ServiceId';
 import { type AttachmentType, AttachmentVariant } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import { AttachmentDownloadSource } from '../../sql/Interface';
 import { getAttachmentCiphertextLength } from '../../AttachmentCrypto';
-import { postSaveUpdates } from '../../util/cleanup';
 
 function composeJob({
   messageId,
@@ -108,7 +106,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     urgency: AttachmentDownloadUrgency
   ) {
     // Save message first to satisfy foreign key constraint
-    await DataWriter.saveMessage(
+    await window.MessageCache.saveMessage(
       {
         id: job.messageId,
         type: 'incoming',
@@ -118,9 +116,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
         conversationId: 'convoId',
       },
       {
-        ourAci: 'ourAci' as AciString,
         forceSave: true,
-        postSaveUpdates,
       }
     );
     await downloadManager?.addJob({

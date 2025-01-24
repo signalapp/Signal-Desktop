@@ -10,7 +10,6 @@ import type { CallbackResultType } from '../../textsecure/Types.d';
 import { MessageModel } from '../../models/messages';
 import type { MessageReactionType } from '../../model-types.d';
 import type { ConversationModel } from '../../models/conversations';
-import { DataWriter } from '../../sql/Client';
 
 import * as reactionUtil from '../../reactions/util';
 import { isSent, SendStatus } from '../../messages/MessageSendState';
@@ -42,7 +41,6 @@ import { isConversationUnregistered } from '../../util/isConversationUnregistere
 import type { LoggerType } from '../../types/Logging';
 import { sendToGroup } from '../../util/sendToGroup';
 import { hydrateStoryContext } from '../../util/hydrateStoryContext';
-import { postSaveUpdates } from '../../util/cleanup';
 import { send, sendSyncMessageOnly } from '../../messages/send';
 
 export async function sendReaction(
@@ -90,10 +88,7 @@ export async function sendReaction(
   if (!canReact(message.attributes, ourConversationId, findAndFormatContact)) {
     log.info(`could not react to ${messageId}. Removing this pending reaction`);
     markReactionFailed(message, pendingReaction);
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci,
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
     return;
   }
 
@@ -102,10 +97,7 @@ export async function sendReaction(
       `reacting to message ${messageId} ran out of time. Giving up on sending it`
     );
     markReactionFailed(message, pendingReaction);
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci,
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
     return;
   }
 
@@ -347,10 +339,8 @@ export async function sendReaction(
         await hydrateStoryContext(reactionMessage.id, message.attributes, {
           shouldSave: false,
         });
-        await DataWriter.saveMessage(reactionMessage.attributes, {
-          ourAci,
+        await window.MessageCache.saveMessage(reactionMessage.attributes, {
           forceSave: true,
-          postSaveUpdates,
         });
 
         window.MessageCache.register(reactionMessage);
@@ -382,10 +372,7 @@ export async function sendReaction(
       toThrow: originalError || thrownError,
     });
   } finally {
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci,
-      postSaveUpdates,
-    });
+    await window.MessageCache.saveMessage(message.attributes);
   }
 }
 

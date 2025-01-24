@@ -23,7 +23,7 @@ import type { ServiceIdString } from '../../types/ServiceId';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import * as Errors from '../../types/errors';
 import type { StoryMessageRecipientsType } from '../../types/Stories';
-import { DataReader, DataWriter } from '../../sql/Client';
+import { DataReader } from '../../sql/Client';
 import { SignalService as Proto } from '../../protobuf';
 import { getMessagesById } from '../../messages/getMessagesById';
 import {
@@ -44,7 +44,6 @@ import {
   notifyStorySendFailed,
   saveErrorsOnMessage,
 } from '../../test-node/util/messageFailures';
-import { postSaveUpdates } from '../../util/cleanup';
 import { send } from '../../messages/send';
 
 export async function sendStory(
@@ -550,10 +549,7 @@ export async function sendStory(
       }
 
       message.set({ sendStateByConversationId: newSendStateByConversationId });
-      return DataWriter.saveMessage(message.attributes, {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
-        postSaveUpdates,
-      });
+      return window.MessageCache.saveMessage(message.attributes);
     })
   );
 
