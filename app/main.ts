@@ -1970,6 +1970,7 @@ electronProtocol.registerSchemesAsPrivileged([
   {
     scheme: 'attachment',
     privileges: {
+      standard: true,
       supportFetchAPI: true,
       stream: true,
     },
