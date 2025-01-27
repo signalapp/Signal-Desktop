@@ -2789,7 +2789,7 @@ export class ConversationModel extends window.Backbone
     } else if (this.isMember(serviceId)) {
       await this.modifyGroupV2({
         name: 'removeFromGroup',
-        usingCredentialsFrom: [pendingMember],
+        usingCredentialsFrom: [],
         createGroupChange: () => this.#removeMember(serviceId),
         extraConversationsForSend: [conversationId],
       });
