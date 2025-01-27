@@ -1116,6 +1116,9 @@ export class BackupImportStream extends Writable {
     if (avatarUrl) {
       this.#pendingGroupAvatars.set(attrs.id, avatarUrl);
     }
+    if (group.blocked) {
+      await window.storage.blocked.addBlockedGroup(groupId);
+    }
 
     return attrs;
   }

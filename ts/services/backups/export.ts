@@ -910,6 +910,9 @@ export class BackupExportStream extends Readable {
         whitelisted: convo.profileSharing,
         hideStory: convo.hideStory === true,
         storySendMode,
+        blocked: convo.groupId
+          ? window.storage.blocked.isGroupBlocked(convo.groupId)
+          : false,
         snapshot: {
           title: {
             title: convo.name?.trim() ?? '',
