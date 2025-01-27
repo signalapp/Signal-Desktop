@@ -350,6 +350,8 @@ export class BackupsService {
     await DataWriter.disableMessageInsertTriggers();
 
     try {
+      window.ConversationController.setReadOnly(true);
+
       const importStream = await BackupImportStream.create(backupType);
       if (backupType === BackupType.Ciphertext) {
         const { aesKey, macKey } = getKeyMaterial(
@@ -440,6 +442,7 @@ export class BackupsService {
 
       throw error;
     } finally {
+      window.ConversationController.setReadOnly(false);
       this.#isRunning = false;
       await DataWriter.enableMessageInsertTriggersAndBackfill();
 
