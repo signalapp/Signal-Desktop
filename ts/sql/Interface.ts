@@ -365,6 +365,13 @@ export type StickerPackType = InstalledStickerPackType &
     title: string;
   }>;
 
+export type StickerPackRefType = Readonly<{
+  packId: string;
+  messageId: string;
+  stickerId: number;
+  isUnresolved: boolean;
+}>;
+
 export type UnprocessedType = {
   id: string;
   timestamp: number;
@@ -940,12 +947,14 @@ type WritableInterface = {
     stickerId: number,
     lastUsed: number
   ) => void;
-  addStickerPackReference: (messageId: string, packId: string) => void;
+  addStickerPackReference: (ref: StickerPackRefType) => void;
   deleteStickerPackReference: (
-    messageId: string,
-    packId: string
+    ref: Pick<StickerPackRefType, 'messageId' | 'packId'>
   ) => ReadonlyArray<string> | undefined;
   deleteStickerPack: (packId: string) => Array<string>;
+  getUnresolvedStickerPackReferences: (
+    packId: string
+  ) => Array<StickerPackRefType>;
   addUninstalledStickerPack: (pack: UninstalledStickerPackType) => void;
   addUninstalledStickerPacks: (
     pack: ReadonlyArray<UninstalledStickerPackType>

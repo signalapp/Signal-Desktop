@@ -4155,7 +4155,12 @@ export class ConversationModel extends window.Backbone
     await this.#beforeAddSingleMessage(model.attributes);
 
     if (sticker) {
-      await addStickerPackReference(model.id, sticker.packId);
+      await addStickerPackReference({
+        messageId: model.id,
+        packId: sticker.packId,
+        stickerId: sticker.stickerId,
+        isUnresolved: false,
+      });
     }
 
     this.beforeMessageSend({

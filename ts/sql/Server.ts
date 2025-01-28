@@ -160,6 +160,7 @@ import type {
   SignedPreKeyIdType,
   StickerPackInfoType,
   StickerPackStatusType,
+  StickerPackRefType,
   StickerPackType,
   StickerType,
   StoredAllItemsType,
@@ -503,6 +504,7 @@ export const DataWriter: ServerWritableInterface = {
   addStickerPackReference,
   deleteStickerPackReference,
   deleteStickerPack,
+  getUnresolvedStickerPackReferences,
   addUninstalledStickerPack,
   addUninstalledStickerPacks,
   removeUninstalledStickerPack,
@@ -5570,8 +5572,7 @@ function updateStickerLastUsed(
 }
 function addStickerPackReference(
   db: WritableDB,
-  messageId: string,
-  packId: string
+  { messageId, packId, stickerId, isUnresolved }: StickerPackRefType
 ): void {
   if (!messageId) {
     throw new Error(
@@ -5584,37 +5585,32 @@ function addStickerPackReference(
     );
   }
 
-  db.prepare<Query>(
+  prepare(
+    db,
     `
     INSERT OR REPLACE INTO sticker_references (
       messageId,
-      packId
+      packId,
+      stickerId,
+      isUnresolved
     ) values (
       $messageId,
-      $packId
+      $packId,
+      $stickerId,
+      $isUnresolved
     )
     `
   ).run({
     messageId,
     packId,
+    stickerId,
+    isUnresolved: isUnresolved ? 1 : 0,
   });
 }
 function deleteStickerPackReference(
   db: WritableDB,
-  messageId: string,
-  packId: string
+  { messageId, packId }: Pick<StickerPackRefType, 'messageId' | 'packId'>
 ): ReadonlyArray<string> | undefined {
-  if (!messageId) {
-    throw new Error(
-      'addStickerPackReference: Provided data did not have a truthy messageId'
-    );
-  }
-  if (!packId) {
-    throw new Error(
-      'addStickerPackReference: Provided data did not have a truthy packId'
-    );
-  }
-
   return db.transaction(() => {
     // We use an immediate transaction here to immediately acquire an exclusive lock,
     //   which would normally only happen when we did our first write.
@@ -5688,6 +5684,27 @@ function deleteStickerPackReference(
     });
 
     return (stickerPathRows || []).map(row => row.path);
+  })();
+}
+function getUnresolvedStickerPackReferences(
+  db: WritableDB,
+  packId: string
+): Array<StickerPackRefType> {
+  return db.transaction(() => {
+    const [query, params] = sql`
+      UPDATE sticker_references
+      SET isUnresolved = 0
+      WHERE packId IS ${packId} AND isUnresolved IS 1
+      RETURNING messageId, stickerId;
+    `;
+    const rows = db.prepare(query).all(params);
+
+    return rows.map(({ messageId, stickerId }) => ({
+      messageId,
+      packId,
+      stickerId,
+      isUnresolved: true,
+    }));
   })();
 }
 

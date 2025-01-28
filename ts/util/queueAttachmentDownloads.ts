@@ -314,11 +314,17 @@ export async function queueAttachmentDownloads(
         log.error(`${idLog}: Sticker data was missing`);
       }
     }
+    const stickerRef = {
+      messageId,
+      packId,
+      stickerId,
+      isUnresolved: sticker.data?.error === true,
+    };
     if (!status) {
       // Save the packId/packKey for future download/install
-      void savePackMetadata(packId, packKey, { messageId });
+      void savePackMetadata(packId, packKey, stickerRef);
     } else {
-      await DataWriter.addStickerPackReference(messageId, packId);
+      await DataWriter.addStickerPackReference(stickerRef);
     }
 
     if (!data) {
