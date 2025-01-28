@@ -150,6 +150,7 @@ export function start(): void {
 
 export class ConversationController {
   #_initialFetchComplete = false;
+  #isReadOnly = false;
 
   private _initialPromise: undefined | Promise<void>;
 
@@ -289,6 +290,10 @@ export class ConversationController {
     let conversation = this._conversations.get(identifier);
     if (conversation) {
       return conversation;
+    }
+
+    if (this.#isReadOnly) {
+      throw new Error('ConversationController is read-only');
     }
 
     const id = generateUuid();
@@ -1297,6 +1302,16 @@ export class ConversationController {
     return this._conversations.find(
       item => item.get('derivedGroupV2Id') === groupId
     );
+  }
+
+  setReadOnly(value: boolean): void {
+    if (this.#isReadOnly === value) {
+      log.warn(`ConversationController: already at readOnly=${value}`);
+      return;
+    }
+
+    log.info(`ConversationController: readOnly=${value}`);
+    this.#isReadOnly = value;
   }
 
   reset(): void {

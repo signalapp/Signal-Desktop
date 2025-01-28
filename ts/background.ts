@@ -1513,10 +1513,10 @@ export async function startApp(): Promise<void> {
     });
 
     void updateExpiringMessagesService();
-    void tapToViewMessagesDeletionService.update();
+    tapToViewMessagesDeletionService.update();
     window.Whisper.events.on('timetravel', () => {
       void updateExpiringMessagesService();
-      void tapToViewMessagesDeletionService.update();
+      tapToViewMessagesDeletionService.update();
     });
 
     const isCoreDataValid = Boolean(
@@ -1652,6 +1652,8 @@ export async function startApp(): Promise<void> {
 
     const backupDownloadPath = window.storage.get('backupDownloadPath');
     if (backupDownloadPath) {
+      tapToViewMessagesDeletionService.pause();
+
       // Download backup before enabling request handler and storage service
       try {
         await backupsService.downloadAndImport({
@@ -1670,6 +1672,8 @@ export async function startApp(): Promise<void> {
         log.error('afterStart: backup download failed, rejecting');
         backupReady.reject(error);
         throw error;
+      } finally {
+        tapToViewMessagesDeletionService.resume();
       }
     } else {
       backupReady.resolve();

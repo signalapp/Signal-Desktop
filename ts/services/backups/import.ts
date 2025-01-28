@@ -342,6 +342,7 @@ export class BackupImportStream extends Writable {
       }
 
       // Reset and reload conversations and storage again
+      window.ConversationController.setReadOnly(false);
       window.ConversationController.reset();
 
       await window.ConversationController.load();
