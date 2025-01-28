@@ -687,6 +687,8 @@ export function LeftPane({
   const showBackupMediaDownloadProgress =
     !hideHeader && !backupMediaDownloadProgress.downloadBannerDismissed;
 
+  const hasDialogs = dialogs.length ? !hideHeader : false;
+
   return (
     <NavSidebar
       title={i18n('icu:LeftPane--chats')}
@@ -779,7 +781,7 @@ export function LeftPane({
           </NavSidebarSearchHeader>
         )}
 
-        {dialogs.length && !hideHeader ? (
+        {hasDialogs ? (
           <div className="module-left-pane__dialogs">
             {dialogs.map(({ key, dialog }) => (
               <React.Fragment key={key}>{dialog}</React.Fragment>
@@ -812,6 +814,7 @@ export function LeftPane({
                 getPreferredBadge={getPreferredBadge}
                 getRow={getRow}
                 i18n={i18n}
+                hasDialogPadding={hasDialogs}
                 onClickArchiveButton={showArchivedConversations}
                 onClickContactCheckbox={(
                   conversationId: string,
