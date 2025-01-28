@@ -4916,6 +4916,10 @@ button.module-calling-participants-list__contact {
     scrollbar-gutter: stable;
   }
 
+  &--has-dialog-padding {
+    padding-block-start: 8px;
+  }
+
   &__item {
     &--archive-button {
       @include mixins.button-reset;
@@ -5612,10 +5616,6 @@ button.module-calling-participants-list__contact {
   @include mixins.dark-theme {
     $background-color: variables.$color-gray-80;
   }
-}
-
-.module-left-pane__dialogs {
-  margin-bottom: 8px;
 }
 
 .module-left-pane__header {
