@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import Delta from 'quill-delta';
+import { Delta } from '@signalapp/quill-cjs';
 import type { SinonStub } from 'sinon';
 import sinon from 'sinon';
-import type { Quill, KeyboardStatic } from 'quill';
+import type Quill from '@signalapp/quill-cjs';
+import type Keyboard from '@signalapp/quill-cjs/modules/keyboard';
 
 import type { MutableRefObject } from 'react';
 import type { MentionCompletionOptions } from '../../../quill/mentions/completion';
@@ -16,6 +17,10 @@ import type { MemberType } from '../../../quill/memberRepository';
 import { ThemeType } from '../../../types/Util';
 import { getDefaultConversationWithServiceId } from '../../../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../../../util/setupI18n';
+
+type MiniLeafBlot = {
+  value: () => string;
+};
 
 const me: ConversationType = getDefaultConversationWithServiceId({
   id: '666777',
@@ -70,7 +75,7 @@ describe('MentionCompletion', () => {
     Partial<{ [K in keyof Quill]: SinonStub }>,
     'keyboard'
   > & {
-    keyboard: Partial<{ [K in keyof KeyboardStatic]: SinonStub }>;
+    keyboard: Partial<{ [K in keyof Keyboard]: SinonStub }>;
   };
   let mentionCompletion: MentionCompletion;
 
@@ -169,7 +174,10 @@ describe('MentionCompletion', () => {
       beforeEach(() => {
         mentionCompletion.results = members;
         mockQuill.getSelection?.returns({ index: 5 });
-        mockQuill.getLeaf?.returns([{ text: '@shia' }, 5]);
+        const blot: MiniLeafBlot = {
+          value: () => '@shia',
+        };
+        mockQuill.getLeaf?.returns([blot, 5]);
 
         insertMentionStub = sinon.stub(mentionCompletion, 'insertMention');
       });
@@ -210,7 +218,10 @@ describe('MentionCompletion', () => {
       describe('from the middle of a string', () => {
         beforeEach(() => {
           mockQuill.getSelection?.returns({ index: 9 });
-          mockQuill.getLeaf?.returns([{ text: 'foo @shia bar' }, 9]);
+          const blot: MiniLeafBlot = {
+            value: () => 'foo @shia bar',
+          };
+          mockQuill.getLeaf?.returns([blot, 9]);
         });
 
         it('inserts correctly', () => {
@@ -237,8 +248,8 @@ describe('MentionCompletion', () => {
         beforeEach(() => {
           mockQuill.getSelection?.returns({ index });
 
-          const blot = {
-            text,
+          const blot: MiniLeafBlot = {
+            value: () => text,
           };
           mockQuill.getLeaf?.returns([blot, index]);
 
@@ -265,8 +276,8 @@ describe('MentionCompletion', () => {
           const text = '@zoe';
           const index = text.length;
           mockQuill.getSelection?.returns({ index });
-          const blot = {
-            text,
+          const blot: MiniLeafBlot = {
+            value: () => text,
           };
           mockQuill.getLeaf?.returns([blot, index]);
           mentionCompletion.completeMention(2);

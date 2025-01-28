@@ -95,6 +95,178 @@
   },
   {
     "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/core/editor.js",
+    "line": "      innerHTML",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-01-10T05:52:01.516Z",
+    "reasonDetail": "Reading contents of DOM"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/core/editor.js",
+    "line": "    const [start, end] = outerHTML.split(`>${innerHTML}<`);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-01-10T05:52:01.516Z",
+    "reasonDetail": "Reading contents of DOM"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/core/editor.js",
+    "line": "      outerHTML,",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-01-10T05:52:01.516Z",
+    "reasonDetail": "Reading contents of DOM"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/core/editor.js",
+    "line": "    const [start, end] = outerHTML.split(`>${innerHTML}<`);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-01-10T05:52:01.516Z",
+    "reasonDetail": "Reading contents of DOM"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/core/editor.js",
+    "line": "  return blot.domNode instanceof Element ? blot.domNode.outerHTML : '';",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-01-10T05:52:01.516Z",
+    "reasonDetail": "Reading contents of DOM"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/core/quill.js",
+    "line": "    this.container.innerHTML = '';",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/core/quill.js",
+    "line": "    const html = this.container.innerHTML.trim();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-01-10T05:52:01.516Z",
+    "reasonDetail": "Reading contents of DOM"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/dist/quill.core.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2025-01-22T02:55:11.616Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/dist/quill.core.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2025-01-22T02:55:11.616Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/dist/quill.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2025-01-22T02:55:11.616Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/dist/quill.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2025-01-22T02:55:11.616Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/modules/normalizeExternalHTML/normalizers/msWord.js",
+    "line": "      li.innerHTML = listItem.element.innerHTML;",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2025-01-10T05:52:01.516Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/modules/normalizeExternalHTML/normalizers/msWord.js",
+    "line": "  const html = doc.documentElement.innerHTML;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-01-10T05:52:01.516Z",
+    "reasonDetail": "Reading contents of DOM"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/modules/syntax.js",
+    "line": "    container.innerHTML = highlight(this.options.hljs, language, text);",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2025-01-10T05:52:01.516Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/themes/base.js",
+    "line": "          button.innerHTML = icons[name][''] + icons[name].rtl;",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2025-01-10T05:52:01.516Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/themes/base.js",
+    "line": "          button.innerHTML = icons[name];",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/themes/base.js",
+    "line": "            button.innerHTML = icons[name][value];",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/ui/color-picker.js",
+    "line": "    this.label.innerHTML = label;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/ui/icon-picker.js",
+    "line": "      if (this.label.innerHTML === item.innerHTML) return;",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2025-01-10T05:52:01.516Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/ui/icon-picker.js",
+    "line": "      item.innerHTML = icons[item.getAttribute('data-value') || ''];",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/ui/icon-picker.js",
+    "line": "    this.label.innerHTML = item.innerHTML;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/ui/picker.js",
+    "line": "    label.innerHTML = DropdownIcon;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@signalapp/quill-cjs/ui/tooltip.js",
+    "line": "    this.root.innerHTML = this.constructor.TEMPLATE;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
     "path": "node_modules/@sindresorhus/is/dist/index.js",
     "line": "    'innerHTML',",
     "reasonCategory": "usageTrusted",
@@ -762,6 +934,49 @@
     "updated": "2024-06-24T19:19:28.335Z"
   },
   {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\t\tmultiArgs: false,",
+    "reasonCategory": "falseMatch",
+    "updated": "2024-12-20T19:43:51.589Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tmultiArgs: false,",
+    "reasonCategory": "falseMatch",
+    "updated": "2024-12-20T19:43:51.589Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2024-12-20T19:43:51.589Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2024-12-20T19:43:51.589Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\terror = options.multiArgs ? args : args[0];",
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2024-12-20T19:46:49.191Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2024-12-20T19:46:49.191Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/parse-entities/decode-entity.browser.js",
     "line": "  el.innerHTML = entity",
@@ -864,295 +1079,6 @@
     "reasonDetail": "Sample code never required by us."
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/core/quill.js",
-    "line": "    let html = this.container.innerHTML.trim();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/core/quill.js",
-    "line": "    this.container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.core.js",
-    "line": "        this.container.innerHTML = html.replace(/\\>\\r?\\n +\\</g, '><'); // Remove spaces between tags",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-05-17T16:29:59.196Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.core.js",
-    "line": "      this.container.innerHTML = '';",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-05-17T16:29:59.196Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.core.js",
-    "line": "    var html = this.container.innerHTML.trim();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.core.js",
-    "line": "    this.container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.core.js",
-    "line": "      debug.log('convert', this.container.innerHTML, delta);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.core.js",
-    "line": "      this.container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "    var html = this.container.innerHTML.trim();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "      label.innerHTML = _dropdown2.default;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "            button.innerHTML = icons[name][''] + icons[name]['rtl'];",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "            button.innerHTML = icons[name];",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "              button.innerHTML = icons[name][value];",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "        this.container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "      debug.log('convert', this.container.innerHTML, delta);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "    _this.label.innerHTML = label;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "      item.innerHTML = icons[item.getAttribute('data-value') || ''];",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "      this.label.innerHTML = item.innerHTML;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "    this.root.innerHTML = this.constructor.TEMPLATE;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "          this.domNode.innerHTML = _highlight(text);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "        // this.container.innerHTML = html.replace(/\\>\\r?\\n +\\</g, '><'); // Remove spaces between tags",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-09-28T00:50:24.377Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "      //  this.container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-09-28T00:50:24.377Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "      // this.container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-09-28T00:50:24.377Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/modules/clipboard.js",
-    "line": "      this.container.innerHTML = html.replace(/\\>\\r?\\n +\\</g, '><'); // Remove spaces between tags",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/modules/clipboard.js",
-    "line": "      this.container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/modules/clipboard.js",
-    "line": "    this.container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/modules/clipboard.js",
-    "line": "    debug.log('convert', this.container.innerHTML, delta);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-12-01T01:31:12.757Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/modules/syntax.js",
-    "line": "        this.domNode.innerHTML = highlight(text);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/themes/base.js",
-    "line": "          button.innerHTML = icons[name][''] + icons[name]['rtl'];",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/themes/base.js",
-    "line": "          button.innerHTML = icons[name];",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/themes/base.js",
-    "line": "            button.innerHTML = icons[name][value];",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/ui/color-picker.js",
-    "line": "    this.label.innerHTML = label;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/ui/icon-picker.js",
-    "line": "      item.innerHTML = icons[item.getAttribute('data-value') || ''];",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/ui/icon-picker.js",
-    "line": "    this.label.innerHTML = item.innerHTML;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/ui/picker.js",
-    "line": "    label.innerHTML = DropdownIcon;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/ui/tooltip.js",
-    "line": "    this.root.innerHTML = this.constructor.TEMPLATE;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for quill"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/raw-body/node_modules/depd/index.js",
     "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
@@ -1200,51 +1126,6 @@
     "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
     "reasonCategory": "usageTrusted",
     "updated": "2024-11-14T18:53:33.345Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-quill/dist/react-quill.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for react-quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-quill/dist/react-quill.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for react-quill"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/react-quill/dist/react-quill.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for react-quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-quill/lib/index.js",
-    "line": "                (_b = (_a = _this).onEditorChangeText) === null || _b === void 0 ? void 0 : _b.call(_a, _this.editor.root.innerHTML, rangeOrDelta, source, _this.unprivilegedEditor);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for react-quill"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-quill/lib/index.js",
-    "line": "            getHTML: function () { return e.root.innerHTML; },",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for react-quill"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/react-quill/lib/index.js",
-    "line": "        var element = react_dom_1.default.findDOMNode(this.editingArea);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-13T18:36:57.012Z",
-    "reasonDetail": "necessary for react-quill"
   },
   {
     "rule": "React-useRef",
@@ -2007,13 +1888,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-25T00:06:19.860Z",
     "reasonDetail": "Not used for DOM manipulation"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
-    "line": "  const scrollerRefInner = React.useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-10-03T16:06:12.837Z"
   },
   {
     "rule": "React-useRef",
@@ -2811,48 +2685,5 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/p-event/index.js",
-    "line": "\t\t\tmultiArgs: false,",
-    "reasonCategory": "falseMatch",
-    "updated": "2024-12-20T19:43:51.589Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/p-event/index.js",
-    "line": "\t\t\tconst value = options.multiArgs ? args : args[0];",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-12-20T19:43:51.589Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/p-event/index.js",
-    "line": "\t\tmultiArgs: false,",
-    "reasonCategory": "falseMatch",
-    "updated": "2024-12-20T19:43:51.589Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/p-event/index.js",
-    "line": "\t\tconst value = options.multiArgs ? args : args[0];",
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2024-12-20T19:43:51.589Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/p-event/index.js",
-    "line": "\t\terror = options.multiArgs ? args : args[0];",
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2024-12-20T19:46:49.191Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/p-event/index.js",
-    "line": "\t\tconst value = options.multiArgs ? args : args[0];",
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2024-12-20T19:46:49.191Z"
   }
 ]

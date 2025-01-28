@@ -1,23 +1,15 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import React from 'react';
-import Parchment from 'parchment';
-import Quill from 'quill';
+import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
 import { render } from 'react-dom';
+
 import { Emojify } from '../../components/conversation/Emojify';
 import { normalizeAci } from '../../util/normalizeAci';
 import type { MentionBlotValue } from '../util';
 
-declare class QuillEmbed extends Parchment.Embed {
-  contentNode: HTMLElement;
-}
-
-const Embed: typeof QuillEmbed = Quill.import('blots/embed');
-
-export class MentionBlot extends Embed {
+export class MentionBlot extends EmbedBlot {
   static override blotName = 'mention';
 
   static override className = 'mention-blot';

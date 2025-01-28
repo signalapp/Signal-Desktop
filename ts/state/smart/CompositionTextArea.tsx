@@ -23,7 +23,6 @@ export type SmartCompositionTextAreaProps = Pick<
   | 'theme'
   | 'maxLength'
   | 'whenToShowRemainingCount'
-  | 'scrollerRef'
 >;
 
 export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(

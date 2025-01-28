@@ -1,10 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Delta from 'quill-delta';
-import type { Matcher, AttributeMap } from 'quill';
+import { Delta } from '@signalapp/quill-cjs';
+import type { AttributeMap } from '@signalapp/quill-cjs';
 
 import { insertEmojiOps } from '../util';
+import type { Matcher } from '../util';
 
 export const matchEmojiImage: Matcher = (
   node: Element,
@@ -22,9 +23,10 @@ export const matchEmojiImage: Matcher = (
 };
 
 export const matchEmojiBlot: Matcher = (
-  node: HTMLElement,
-  delta: Delta,
-  attributes: AttributeMap
+  node,
+  delta,
+  _scroll,
+  attributes
 ): Delta => {
   if (node.classList.contains('emoji-blot')) {
     const { emoji: value, source } = node.dataset;
@@ -34,9 +36,10 @@ export const matchEmojiBlot: Matcher = (
 };
 
 export const matchEmojiText: Matcher = (
-  node: HTMLElement,
-  _delta: Delta,
-  attributes: AttributeMap
+  node,
+  _delta,
+  _scroll,
+  attributes
 ): Delta => {
   if (!('data' in node)) {
     return new Delta();

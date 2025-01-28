@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import type { RefObject } from 'react';
-import Delta from 'quill-delta';
+import { Delta } from '@signalapp/quill-cjs';
 
 import type { AciString } from '../../../types/ServiceId';
 import { generateAci } from '../../../types/ServiceId';
@@ -101,6 +101,7 @@ describe('matchMention', () => {
         title: memberMahershala.title,
       }),
       EMPTY_DELTA,
+      {},
       existingAttributes
     );
     const { ops } = result;
@@ -129,6 +130,7 @@ describe('matchMention', () => {
         title: memberMahershala.title,
       }),
       EMPTY_DELTA,
+      {},
       {}
     );
     const { ops } = result;
@@ -155,6 +157,7 @@ describe('matchMention', () => {
         title: 'Nonexistent',
       }),
       EMPTY_DELTA,
+      {},
       {}
     );
     const { ops } = result;
@@ -178,6 +181,7 @@ describe('matchMention', () => {
         title: 'Nonexistent',
       }),
       EMPTY_DELTA,
+      {},
       {}
     );
     const { ops } = result;
@@ -195,7 +199,12 @@ describe('matchMention', () => {
   });
 
   it('passes other clipboard elements through', () => {
-    const result = matcher(createMockElement('ignore', {}), EMPTY_DELTA, {});
+    const result = matcher(
+      createMockElement('ignore', {}),
+      EMPTY_DELTA,
+      {},
+      {}
+    );
     assert.equal(result, EMPTY_DELTA);
   });
 });

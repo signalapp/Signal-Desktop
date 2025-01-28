@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Quill from 'quill';
-import Delta from 'quill-delta';
+import type Quill from '@signalapp/quill-cjs';
+import { Delta } from '@signalapp/quill-cjs';
 import React from 'react';
 import _, { isNumber } from 'lodash';
 
@@ -17,8 +17,6 @@ import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as log from '../../logging/log';
-
-const Keyboard = Quill.import('modules/keyboard');
 
 type EmojiPickerOptions = {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
@@ -72,10 +70,10 @@ export class EmojiCompletion {
       return true;
     };
 
-    this.quill.keyboard.addBinding({ key: Keyboard.keys.UP }, changeIndex(-1));
-    this.quill.keyboard.addBinding({ key: Keyboard.keys.RIGHT }, clearResults);
-    this.quill.keyboard.addBinding({ key: Keyboard.keys.DOWN }, changeIndex(1));
-    this.quill.keyboard.addBinding({ key: Keyboard.keys.LEFT }, clearResults);
+    this.quill.keyboard.addBinding({ key: 'ArrowUp' }, changeIndex(-1));
+    this.quill.keyboard.addBinding({ key: 'ArrowRight' }, clearResults);
+    this.quill.keyboard.addBinding({ key: 'ArrowDown' }, changeIndex(1));
+    this.quill.keyboard.addBinding({ key: 'ArrowLeft' }, clearResults);
     this.quill.keyboard.addBinding(
       {
         // 186 + Shift = Colon
@@ -116,8 +114,14 @@ export class EmojiCompletion {
   getCurrentLeafTextPartitions(): [string, string] {
     const range = this.quill.getSelection();
     const [blot, index] = this.quill.getLeaf(range ? range.index : -1);
+    const text = blot?.value();
+    if (text && typeof text !== 'string') {
+      throw new Error(
+        'EmojiCompletion/getCurrentLeafTextPartitions: Blot value was not a string'
+      );
+    }
 
-    return getBlotTextPartitions(blot.text, index);
+    return getBlotTextPartitions(text, index);
   }
 
   onSelectionChange(): void {

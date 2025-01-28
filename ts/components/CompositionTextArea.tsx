@@ -24,7 +24,6 @@ export type CompositionTextAreaProps = {
   maxLength?: number;
   placeholder?: string;
   whenToShowRemainingCount?: number;
-  scrollerRef?: React.RefObject<HTMLDivElement>;
   onScroll?: (ev: React.UIEvent<HTMLElement, UIEvent>) => void;
   onPickEmoji: (e: EmojiPickDataType) => void;
   onChange: (
@@ -71,7 +70,6 @@ export function CompositionTextArea({
   placeholder,
   platform,
   recentEmojis,
-  scrollerRef,
   skinTone,
   theme,
   whenToShowRemainingCount = Infinity,
@@ -153,7 +151,6 @@ export function CompositionTextArea({
         placeholder={placeholder}
         platform={platform}
         quotedMessageId={null}
-        scrollerRef={scrollerRef}
         sendCounter={0}
         theme={theme}
         skinTone={skinTone ?? null}

@@ -1,12 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Parchment from 'parchment';
-import Quill from 'quill';
+import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
 
 import { emojiToImage } from '../../components/emoji/lib';
-
-const Embed: typeof Parchment.Embed = Quill.import('blots/embed');
 
 // the DOM structure of this EmojiBlot should match the other emoji implementations:
 // ts/components/conversation/Emojify.tsx
@@ -17,7 +14,7 @@ export type EmojiBlotValue = Readonly<{
   source?: string;
 }>;
 
-export class EmojiBlot extends Embed {
+export class EmojiBlot extends EmbedBlot {
   static override blotName = 'emoji';
 
   static override tagName = 'img';

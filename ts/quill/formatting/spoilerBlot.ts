@@ -1,17 +1,19 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Parchment from 'parchment';
-import Quill from 'quill';
-
-const Inline: typeof Parchment.Inline = Quill.import('blots/inline');
+import InlineBlot from '@signalapp/quill-cjs/blots/inline';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyRecord = Record<string, any>;
 
-export class SpoilerBlot extends Inline {
-  static override formats(): boolean {
-    return true;
+export class SpoilerBlot extends InlineBlot {
+  static override blotName = 'spoiler';
+  static override className = 'quill--spoiler';
+
+  static override formats(): AnyRecord {
+    return {
+      spoiler: true,
+    };
   }
 
   override optimize(context: AnyRecord): void {
@@ -21,10 +23,3 @@ export class SpoilerBlot extends Inline {
     }
   }
 }
-
-SpoilerBlot.blotName = 'spoiler';
-SpoilerBlot.className = 'quill--spoiler';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore See this workaround: https://github.com/quilljs/quill/issues/2312#issuecomment-1097922620
-Inline.order.splice(Inline.order.indexOf('bold'), 0, SpoilerBlot.blotName);

@@ -1,9 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Quill from 'quill';
-import type { KeyboardContext } from 'quill';
-import type Op from 'quill-delta/dist/Op';
+import type Quill from '@signalapp/quill-cjs';
+import type { Op } from '@signalapp/quill-cjs';
+import type { Context as KeyboardContext } from '@signalapp/quill-cjs/modules/keyboard';
 import React from 'react';
 import classNames from 'classnames';
 import { Popper } from 'react-popper';
@@ -23,11 +23,11 @@ const MENU_TEXT_BUFFER = 12; // pixels
 
 // Note: Keyboard shortcuts are defined in the constructor below, and when using
 //   <FormattingButton /> below. They're also referenced in ShortcutGuide.tsx.
-const BOLD_CHAR = 'B';
-const ITALIC_CHAR = 'I';
-const MONOSPACE_CHAR = 'E';
-const SPOILER_CHAR = 'B';
-const STRIKETHROUGH_CHAR = 'X';
+const BOLD_CHAR = 'b';
+const ITALIC_CHAR = 'i';
+const MONOSPACE_CHAR = 'e';
+const SPOILER_CHAR = 'b';
+const STRIKETHROUGH_CHAR = 'x';
 
 type FormattingPickerOptions = {
   i18n: LocalizerType;
@@ -95,42 +95,49 @@ export class FormattingMenu {
     //   above the built-in shortcuts, which don't exactly do what we want.
 
     const boldCharCode = BOLD_CHAR.charCodeAt(0);
-    this.quill.keyboard.addBinding(
-      { key: BOLD_CHAR, shortKey: true },
-      (_range, context) =>
-        this.toggleForStyle(QuillFormattingStyle.bold, context)
-    );
-    quill.keyboard.bindings[boldCharCode].unshift(
-      quill.keyboard.bindings[boldCharCode].pop()
-    );
+    // We want to be sure that we're the only handler for this charCode.
+    this.quill.keyboard.bindings[boldCharCode] = [];
+    this.quill.keyboard.addBinding({
+      key: BOLD_CHAR,
+      shortKey: true,
+      handler: (_range, context) =>
+        this.toggleForStyle(QuillFormattingStyle.bold, context),
+    });
 
     const italicCharCode = ITALIC_CHAR.charCodeAt(0);
-    this.quill.keyboard.addBinding(
-      { key: ITALIC_CHAR, shortKey: true },
-      (_range, context) =>
-        this.toggleForStyle(QuillFormattingStyle.italic, context)
-    );
-    quill.keyboard.bindings[italicCharCode].unshift(
-      quill.keyboard.bindings[italicCharCode].pop()
-    );
+    // No other handlers for this charCode!
+    this.quill.keyboard.bindings[italicCharCode] = [];
+    this.quill.keyboard.addBinding({
+      key: ITALIC_CHAR,
+      shortKey: true,
+      handler: (_range, context) =>
+        this.toggleForStyle(QuillFormattingStyle.italic, context),
+    });
 
-    // No need for changing priority for these new keybindings
+    // No need for changing priority for these totally new keybindings
 
-    this.quill.keyboard.addBinding(
-      { key: MONOSPACE_CHAR, shortKey: true },
-      (_range, context) =>
-        this.toggleForStyle(QuillFormattingStyle.monospace, context)
-    );
-    this.quill.keyboard.addBinding(
-      { key: STRIKETHROUGH_CHAR, shortKey: true, shiftKey: true },
-      (_range, context) =>
-        this.toggleForStyle(QuillFormattingStyle.strike, context)
-    );
-    this.quill.keyboard.addBinding(
-      { key: SPOILER_CHAR, shortKey: true, shiftKey: true },
-      (_range, context) =>
-        this.toggleForStyle(QuillFormattingStyle.spoiler, context)
-    );
+    this.quill.keyboard.addBinding({
+      key: MONOSPACE_CHAR,
+      shortKey: true,
+      handler: (_range, context) =>
+        this.toggleForStyle(QuillFormattingStyle.monospace, context),
+    });
+    this.quill.keyboard.addBinding({
+      // We need to hook both because of windows/linux and the shift keu
+      key: [STRIKETHROUGH_CHAR, STRIKETHROUGH_CHAR.toUpperCase()],
+      shortKey: true,
+      shiftKey: true,
+      handler: (_range, context) =>
+        this.toggleForStyle(QuillFormattingStyle.strike, context),
+    });
+    this.quill.keyboard.addBinding({
+      // We need to hook both because of windows/linux and the shift keu
+      key: [SPOILER_CHAR, SPOILER_CHAR.toUpperCase()],
+      shortKey: true,
+      shiftKey: true,
+      handler: (_range, context) =>
+        this.toggleForStyle(QuillFormattingStyle.spoiler, context),
+    });
   }
 
   destroy(): void {
@@ -261,21 +268,26 @@ export class FormattingMenu {
     this.render();
   }
 
-  isStyleEnabledInSelection(style: QuillFormattingStyle): boolean | undefined {
-    const selection = this.quill.getSelection();
-    if (!selection || !selection.length) {
-      return;
-    }
-    const contents = this.quill.getContents(selection.index, selection.length);
-
+  static isStyleEnabledForOps(
+    ops: Array<Op>,
+    style: QuillFormattingStyle
+  ): boolean {
     // Note: we special-case single \n ops because Quill doesn't apply formatting to them
-    if (isAllNewlines(contents.ops)) {
+    if (isAllNewlines(ops)) {
       return false;
     }
 
-    return contents.ops.every(
-      op => op.attributes?.[style] || isNewlineOnlyOp(op)
-    );
+    return ops.every(op => op.attributes?.[style] || isNewlineOnlyOp(op));
+  }
+
+  isStyleEnabledInSelection(style: QuillFormattingStyle): boolean {
+    const selection = this.quill.getSelection();
+    if (!selection || !selection.length) {
+      return false;
+    }
+    const contents = this.quill.getContents(selection.index, selection.length);
+
+    return FormattingMenu.isStyleEnabledForOps(contents.ops, style);
   }
 
   toggleForStyle(style: QuillFormattingStyle, context?: KeyboardContext): void {
@@ -342,7 +354,7 @@ export class FormattingMenu {
                 isActive={isStyleEnabledInSelection(QuillFormattingStyle.bold)}
                 label={i18n('icu:Keyboard--composer--bold')}
                 onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + ${BOLD_CHAR}`}
+                popupGuideShortcut={`${metaKey} + ${BOLD_CHAR.toUpperCase()}`}
                 popupGuideText={i18n('icu:FormatMenu--guide--bold')}
                 style={QuillFormattingStyle.bold}
                 toggleForStyle={toggleForStyle}
@@ -354,7 +366,7 @@ export class FormattingMenu {
                 )}
                 label={i18n('icu:Keyboard--composer--italic')}
                 onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + ${ITALIC_CHAR}`}
+                popupGuideShortcut={`${metaKey} + ${ITALIC_CHAR.toUpperCase()}`}
                 popupGuideText={i18n('icu:FormatMenu--guide--italic')}
                 style={QuillFormattingStyle.italic}
                 toggleForStyle={toggleForStyle}
@@ -366,7 +378,7 @@ export class FormattingMenu {
                 )}
                 label={i18n('icu:Keyboard--composer--strikethrough')}
                 onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + ${shiftKey} + ${STRIKETHROUGH_CHAR}`}
+                popupGuideShortcut={`${metaKey} + ${shiftKey} + ${STRIKETHROUGH_CHAR.toUpperCase()}`}
                 popupGuideText={i18n('icu:FormatMenu--guide--strikethrough')}
                 style={QuillFormattingStyle.strike}
                 toggleForStyle={toggleForStyle}
@@ -378,7 +390,7 @@ export class FormattingMenu {
                 )}
                 label={i18n('icu:Keyboard--composer--monospace')}
                 onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + ${MONOSPACE_CHAR}`}
+                popupGuideShortcut={`${metaKey} + ${MONOSPACE_CHAR.toUpperCase()}`}
                 popupGuideText={i18n('icu:FormatMenu--guide--monospace')}
                 style={QuillFormattingStyle.monospace}
                 toggleForStyle={toggleForStyle}
@@ -389,7 +401,7 @@ export class FormattingMenu {
                   QuillFormattingStyle.spoiler
                 )}
                 onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + ${shiftKey} + ${SPOILER_CHAR}`}
+                popupGuideShortcut={`${metaKey} + ${shiftKey} + ${SPOILER_CHAR.toUpperCase()}`}
                 popupGuideText={i18n('icu:FormatMenu--guide--spoiler')}
                 label={i18n('icu:Keyboard--composer--spoiler')}
                 style={QuillFormattingStyle.spoiler}

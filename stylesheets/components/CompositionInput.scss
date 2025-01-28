@@ -136,6 +136,7 @@
     padding-block: 6px;
     padding-inline: 12px;
     border-radius: 8px;
+    // This needs to be quite high to enable usage in popups like ForwardMessageModal
     z-index: variables.$z-index-above-popup;
 
     display: flex;

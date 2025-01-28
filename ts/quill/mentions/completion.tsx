@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import _ from 'lodash';
-import type Quill from 'quill';
-import Delta from 'quill-delta';
+import type Quill from '@signalapp/quill-cjs';
+import { Delta } from '@signalapp/quill-cjs';
 import type { RefObject } from 'react';
 import React from 'react';
 

@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 // @ts-expect-error -- no types
-import 'react-quill/dist/quill.core.css';
+import '@signalapp/quill-cjs/dist/quill.core.css';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
