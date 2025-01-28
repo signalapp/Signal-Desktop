@@ -310,9 +310,9 @@ message DataMessage {
       STRIKETHROUGH = 4;
       MONOSPACE = 5;
     }
-
-    optional uint32 start = 1;
-    optional uint32 length = 2;
+    
+    optional uint32 start = 1;   // Starting index in UTF-16 code units/raw string representation
+    optional uint32 length = 2;  // Length of range in UTF-16 code units/raw string representation
 
     oneof associatedValue {
       string mentionAci = 3;
