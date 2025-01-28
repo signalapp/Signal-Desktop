@@ -479,11 +479,10 @@ export class LibsignalWebSocketResource
   // must be dispatched.
   #closedReasonCode?: number;
 
-  // Unlike WebSocketResource, libsignal will automatically attempt to keep the
-  // socket alive using websocket pings, so we don't need a timer-based
-  // keepalive mechanism. But we still send one-off keepalive requests when
-  // things change (see forceKeepAlive()).
-  #keepalive: KeepAliveSender;
+  // For now, we will be sending manual keepalives on libsignal-mediated connections,
+  // as we've found a couple scenarios where libsignal doesn't keep the connection
+  // in good shape by itself.
+  #keepalive: KeepAlive;
 
   constructor(
     private readonly chatService: Net.ChatConnection,
@@ -494,7 +493,7 @@ export class LibsignalWebSocketResource
   ) {
     super();
 
-    this.#keepalive = new KeepAliveSender(this, this.logId, keepalive);
+    this.#keepalive = new KeepAlive(this, this.logId, keepalive);
   }
 
   public localPort(): number {
@@ -1162,11 +1161,10 @@ class KeepAliveSender {
 }
 
 /**
- * Manages a timer that checks if a particular {@link WebSocketResource} is
+ * Manages a timer that checks if a particular {@link IWebSocketResource} is
  * still alive.
  *
- * The resource must specifically be a {@link WebSocketResource}. Other kinds of
- * resource are expected to manage their own liveness checks. If you want to
+ * Some kinds of resource are expected to manage their own liveness checks. If you want to
  * manually send keepalive requests to such resources, use the base class
  * {@link KeepAliveSender}.
  */
@@ -1175,7 +1173,7 @@ class KeepAlive extends KeepAliveSender {
   #lastAliveAt: number = Date.now();
 
   constructor(
-    websocketResource: WebSocketResource,
+    websocketResource: IWebSocketResource,
     name: string,
     opts: KeepAliveOptionsType = {}
   ) {
