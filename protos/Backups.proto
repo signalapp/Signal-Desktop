@@ -188,6 +188,7 @@ message Group {
   bool hideStory = 3;
   StorySendMode storySendMode = 4;
   GroupSnapshot snapshot = 5;
+  bool blocked = 6;
 
   // These are simply plaintext copies of the groups proto from Groups.proto.
   // They should be kept completely in-sync with Groups.proto.
