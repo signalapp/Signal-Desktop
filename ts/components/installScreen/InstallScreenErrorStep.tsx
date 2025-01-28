@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactElement, useEffect, useCallback } from 'react';
-import { noop } from 'lodash';
+import React, { type ReactElement, useCallback } from 'react';
 
 import type { LocalizerType } from '../../types/Util';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -31,28 +30,6 @@ export function InstallScreenErrorStep({
   let onClickButton = useCallback(() => tryAgain(), [tryAgain]);
   let shouldShowQuitButton = false;
 
-  useEffect(() => {
-    if (error !== InstallScreenError.InactiveTimeout) {
-      return noop;
-    }
-
-    const cleanup = () => {
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-    };
-
-    const onVisibilityChange = () => {
-      if (document.hidden) {
-        return;
-      }
-
-      cleanup();
-      tryAgain();
-    };
-
-    document.addEventListener('visibilitychange', onVisibilityChange);
-    return cleanup;
-  }, [error, tryAgain]);
-
   switch (error) {
     case InstallScreenError.TooManyDevices:
       errorMessage = i18n('icu:installTooManyDevices');
@@ -66,7 +43,6 @@ export function InstallScreenErrorStep({
       shouldShowQuitButton = true;
       break;
     case InstallScreenError.ConnectionFailed:
-    case InstallScreenError.InactiveTimeout:
       errorMessage = i18n('icu:installConnectionFailed');
       break;
     case InstallScreenError.QRCodeFailed:
