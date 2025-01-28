@@ -171,11 +171,9 @@ export function filterAndClean(
 
   return ranges
     .map(range => {
-      const { start, length, ...restOfRange } = range;
-      if (!isNumber(start)) {
-        log.warn('filterAndClean: Dropping bodyRange with non-number start');
-        return undefined;
-      }
+      const { start: startFromRange, length, ...restOfRange } = range;
+
+      const start = startFromRange ?? 0;
       if (!isNumber(length)) {
         log.warn('filterAndClean: Dropping bodyRange with non-number length');
         return undefined;
