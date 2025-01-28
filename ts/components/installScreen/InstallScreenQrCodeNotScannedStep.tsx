@@ -132,9 +132,34 @@ function InstallScreenQrCode(
     retryGetQrCode: () => void;
   }
 ): ReactElement {
-  const { i18n } = props;
+  const { i18n, retryGetQrCode } = props;
 
   let contents: ReactNode;
+
+  const loadError =
+    props.loadingState === LoadingState.LoadFailed ? props.error : undefined;
+
+  useEffect(() => {
+    if (loadError !== InstallScreenQRCodeError.MaxRotations) {
+      return noop;
+    }
+
+    const cleanup = () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        return;
+      }
+
+      cleanup();
+      retryGetQrCode();
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return cleanup;
+  }, [retryGetQrCode, loadError]);
 
   let isJustButton = false;
   switch (props.loadingState) {
@@ -151,7 +176,7 @@ function InstallScreenQrCode(
               >
                 {i18n('icu:Install__qr-failed-load__error--timeout')}
               </span>
-              <RetryButton onClick={props.retryGetQrCode}>
+              <RetryButton onClick={retryGetQrCode}>
                 {i18n('icu:Install__qr-failed-load__retry')}
               </RetryButton>
             </>
@@ -169,7 +194,7 @@ function InstallScreenQrCode(
                   components={{ paragraph: Paragraph }}
                 />
               </span>
-              <RetryButton onClick={props.retryGetQrCode}>
+              <RetryButton onClick={retryGetQrCode}>
                 {i18n('icu:Install__qr-failed-load__retry')}
               </RetryButton>
             </>
@@ -198,7 +223,7 @@ function InstallScreenQrCode(
         case InstallScreenQRCodeError.MaxRotations:
           isJustButton = true;
           contents = (
-            <RetryButton onClick={props.retryGetQrCode}>
+            <RetryButton onClick={retryGetQrCode}>
               {i18n('icu:Install__qr-max-rotations__retry')}
             </RetryButton>
           );
