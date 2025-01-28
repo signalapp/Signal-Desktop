@@ -105,10 +105,11 @@ import { updateToSchemaVersion1250 } from './1250-defunct-call-links-storage';
 import { updateToSchemaVersion1260 } from './1260-sync-tasks-rowid';
 import { updateToSchemaVersion1270 } from './1270-normalize-messages';
 import { updateToSchemaVersion1280 } from './1280-blob-unprocessed';
+import { updateToSchemaVersion1290 } from './1290-int-unprocessed-source-device';
 import {
-  updateToSchemaVersion1290,
+  updateToSchemaVersion1300,
   version as MAX_VERSION,
-} from './1290-int-unprocessed-source-device';
+} from './1300-sticker-pack-refs';
 import { DataWriter } from '../Server';
 
 function updateToSchemaVersion1(
@@ -2084,6 +2085,8 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1270,
   updateToSchemaVersion1280,
   updateToSchemaVersion1290,
+
+  updateToSchemaVersion1300,
 ];
 
 export class DBVersionFromFutureError extends Error {
