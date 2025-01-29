@@ -916,6 +916,31 @@ LinkPreviewInGroup.args = {
   conversationType: 'group',
 };
 
+export const LinkPreviewWithLongWord = Template.bind({});
+LinkPreviewWithLongWord.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+      isStickerPack: false,
+      isCallLink: false,
+      title: 'Signal',
+      description: `Say "hello" to a ${'Different'.repeat(10)} messaging experience.`,
+      url: 'https://www.signal.org',
+      date: new Date(2020, 2, 10).valueOf(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
+  conversationType: 'group',
+};
+
 export const LinkPreviewWithQuote = Template.bind({});
 LinkPreviewWithQuote.args = {
   quote: {
