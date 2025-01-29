@@ -1122,7 +1122,7 @@
     "messageformat": "تصویر ارسال‌شده در گفتگو"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "در حال دانلود ‎{downloaded} ‏از ‎{total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "آیکون نشان می‌دهد که این تصویر دارای یک متن است"
@@ -1143,16 +1143,16 @@
     "messageformat": "این رسانه دیگر در دسترس نیست."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "این رسانه در دسترس نیست"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "بیشتر بدانید"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "این فایل در دسترس نیست"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "این پیام صوتی در دسترس نیست"
   },
   "icu:save": {
     "messageformat": "ذخیره"
@@ -2709,7 +2709,7 @@
     "messageformat": "تماس صوتی ازدست‌رفته"
   },
   "icu:missedIncomingVideoCall": {
-    "messageformat": "تماس تصویری از دست رفته"
+    "messageformat": "تماس تصویری از‌دست‌رفته"
   },
   "icu:acceptedOutgoingAudioCall": {
     "messageformat": "تماس صوتی خروجی"
@@ -3588,7 +3588,7 @@
     "messageformat": "بعدی"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ممکن است چند دقیقه زمان ببرد"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "حمایت از سیگنال"
@@ -3621,7 +3621,7 @@
     "messageformat": "در حال آماده‌سازی برای دانلود..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ممکن است چند دقیقه زمان ببرد"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "لغو"
@@ -3690,7 +3690,7 @@
     "messageformat": "گزینه‌های بیشتر"
   },
   "icu:BackupMediaDownloadProgress__title-complete": {
-    "messageformat": "بازگردانی کامل شد"
+    "messageformat": "بازیابی کامل شد"
   },
   "icu:BackupMediaDownloadProgress__progressbar-hint": {
     "messageformat": "{currentSize} از {totalSize}"
@@ -5623,7 +5623,7 @@
     "messageformat": "فیلترشده بر اساس ازدست‌رفته"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
-    "messageformat": "فیلتر کردن بر اساس «از دست رفته»"
+    "messageformat": "فیلتر کردن بر اساس «از‌دست‌رفته»"
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
     "messageformat": "تعویض"
@@ -5689,7 +5689,7 @@
     "messageformat": "{direction, select, Outgoing {تماس تصویری خروجی} other {تماس صوتی دریافتی}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "تماس تصویری از دست رفته"
+    "messageformat": "تماس تصویری از‌دست‌رفته"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
     "messageformat": "تماس تصویری بی‌پاسخ"
@@ -5819,9 +5819,9 @@
     "messageformat": "اکنون می‌توانید اندازه نوار لغزان فهرست گفتگو را در دستگاه‌های دارای صفحه‌نمایش لمسی تنظیم کنید."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "یک اشکال نادر را برطرف کردیم که مانع از باز شدن صحیح برخی از گفتگوها می‌شد."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "اکنون می‌توانید انتخاب کنید که تاریخچه گفتگو و رسانه ۴۵ روز گذشته خود را به یک دستگاه متصل‌شده جدید منتقل کنید. فرآیند انتقال سرتاسر رمزگذاری‌شده و کاملاً اختیاری است."
   }
 }

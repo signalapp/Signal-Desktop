@@ -1122,7 +1122,7 @@
     "messageformat": "Imazhi u dërgua në bisedë"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Po shkarkohet {downloaded} nga {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikonë që tregon  se për këtë figurë ka një titull"
@@ -1143,16 +1143,16 @@
     "messageformat": "Media nuk disponohet më."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Kjo media nuk është e disponueshme"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Mëso më shumë"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Ky skedar nuk është i disponueshëm"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Ky mesazh zanor nuk është i disponueshëm"
   },
   "icu:save": {
     "messageformat": "Ruaje"
@@ -3588,7 +3588,7 @@
     "messageformat": "pasuesja"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Kjo mund të zgjasë disa minuta"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dhuroni për Signal-in"
@@ -3621,7 +3621,7 @@
     "messageformat": "Po përgatitet për t'u shkarkuar..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Kjo mund të zgjasë disa minuta"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Anulo"
@@ -5819,9 +5819,9 @@
     "messageformat": "Tani mund të rregullosh madhësinë e shiritit anësor të listës së bisedave në pajisjet me ekran me prekje. Pra, kur provon ta tërheqësh, nuk do të jetë aq e vështirë, dhe njollat në ekran janë thjesht dëshmi e fuqisë që vjen nga gishtat."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Kemi rregulluar një defekt të rrallë që pengoi disa biseda të hapeshin siç duhet pasi ato u zgjodhën, kështu që tani Signal Desktop nuk do të tregojë më një ekran bosh ndërkohë që përpiqesh të kujtosh çfarë thanë."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Kur e lidh pajisjen kryesore të Signal me një Desktop ose iPad të ri, tanimë mund ta marrësh me vete historikun e bisedave dhe mediat e 45 ditëve të fundit. Procesi i transferimit është i koduar nga skaji në skaj dhe plotësisht opsional. Kur vjen puna për të bërë zgjedhjen nëse do të lësh apo jo të kaluarën pas, je në duart e pajisjeve të tua."
   }
 }

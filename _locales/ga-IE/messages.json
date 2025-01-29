@@ -1122,7 +1122,7 @@
     "messageformat": "Íomhá seolta sa chomhrá"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Íoslódáil ar bun: {downloaded} as {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Íocón a léiríonn go bhfuil fotheideal leis an íomhá seo"
@@ -1143,16 +1143,16 @@
     "messageformat": "Níl na meáin seo ar fáil a thuilleadh."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Níl an meán sin ar fáil"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Tuilleadh faisnéise"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Níl an comhad sin ar fáil"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Ní an glórphost sin ar fáil"
   },
   "icu:save": {
     "messageformat": "Cuir i dtaisce é"
@@ -3588,7 +3588,7 @@
     "messageformat": "Ar Aghaidh"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Seans go dtógfaidh sé sin cúpla nóiméad"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Bronn airgead ar Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Íoslódáil á hullmhú..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Seans go dtógfaidh sé sin cúpla nóiméad"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cuir ar ceal"
@@ -4578,7 +4578,7 @@
     "messageformat": "Atriail an íoslódáil"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Bain triail eile as"
+    "messageformat": "Atriail í"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Abhatár an ghrúpa"
@@ -5819,9 +5819,9 @@
     "messageformat": "Anois is féidir leat méid thaobh-bharra an liosta comhráite ar ghléasanna scáileáin tadhaill a choigeartú."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Réitíomar fabht annamh a chuir cosc ar roinnt comhráite a oscailt i gceart."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Anois is féidir leat roghnú do stair comhráite agus na 45 lá deiridh de do mheáin a aistriú chuig gléas nua nasctha. Tá an próiseas aistrithe criptithe ó cheann go ceann, agus go hiomlán roghnach."
   }
 }

@@ -1122,7 +1122,7 @@
     "messageformat": "Маекте жөнөтүлгөн сүрөт"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} ичинен {downloaded} жүктөлүүдө"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Бул сүрөттүн колтамгасы бар экенин көрсөткөн сүрөтчөсү"
@@ -1143,16 +1143,16 @@
     "messageformat": "Мындай медиа файл жок."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Бул медиа файлды көрө албайсыз"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Кененирээк маалымат"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Бул файлды көрө албайсыз"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Бул үн билдирүүсүн уга албайсыз"
   },
   "icu:save": {
     "messageformat": "Сактоо"
@@ -3588,7 +3588,7 @@
     "messageformat": "кийинки"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Бир аз убакыт кетиши мүмкүн"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal'га колдоо көрсөтүү"
@@ -3621,7 +3621,7 @@
     "messageformat": "Жүктөлүп алынганы жатат..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Бир аз убакыт кетиши мүмкүн"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Жок"
@@ -5819,9 +5819,9 @@
     "messageformat": "Эми сенсордук түзмөктөрдө капталдагы маектер тизмесинин өлчөмүн өзгөртө аласыз. Эми чычкан менен сүйрөп отурбай, манжаңыздын учу менен эле чактап коесуз."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Кээ бир маектердин туура эмес ачылышын оңдоп койдук."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "★ Негизги Signal түзмөгүңүздү жаңы компьютерге же iPad'га туташтырып, ал жерге билдирүүлөрүңүздү жана соңку 45 күндөгү медиа файлдарды өткөрө аласыз. Өткөрүү процесси баштан аяк шифрленип жана милдеттүү эмес. Өткөн күндөрдү өзүңүз менен ала жүрүштү же артка калтырышты өзүңүз гана чечесиз."
   }
 }

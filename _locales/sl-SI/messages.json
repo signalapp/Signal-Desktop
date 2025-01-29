@@ -1122,7 +1122,7 @@
     "messageformat": "Slika, poslana v klepetu"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Prenos {downloaded} od {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona, ki označuje, da ima ta slika besedilo"
@@ -1143,16 +1143,16 @@
     "messageformat": "Ta medij ni več na voljo."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Ta medij ni na voljo"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Preberite več"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Ta datoteka ni na voljo"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "To glasovno sporočilo ni na voljo"
   },
   "icu:save": {
     "messageformat": "Shrani"
@@ -3588,7 +3588,7 @@
     "messageformat": "naslednje"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "To lahko traja nekaj minut"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Podprite Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Priprava na prenos ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "To lahko traja nekaj minut"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Prekliči"
@@ -5819,9 +5819,9 @@
     "messageformat": "Zdaj lahko prilagodite velikost seznama klepetov v stranski vrstici v napravah z zaslonom na dotik. Ko boste poskušali povleči, ne bo tako težko, madeži na zaslonu pa bodo le dokaz moči, ki jo izžarevajo vaši prsti."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Odpravili smo redko napako, ki je preprečevala, da bi se nekateri pogovori pravilno odprli."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Zdaj se lahko odločite za prenos zgodovine klepetov in zadnjih 45 dni medijev v novo povezano napravo. Postopek prenosa je šifriran od konca do konca in je popolnoma neobvezen. Ko se morate odločiti, ali boste preteklost pustili za seboj ali ne, ste prepuščeni sami sebi."
   }
 }

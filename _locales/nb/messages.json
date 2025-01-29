@@ -1122,7 +1122,7 @@
     "messageformat": "Bilde sendt i samtale"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Laster ned {downloaded} av {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon som viser at bildet har bildetekst"
@@ -1143,16 +1143,16 @@
     "messageformat": "Mediefilen er ikke lenger tilgjengelig."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Mediefilen er ikke tilgjengelig"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Les mer"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Filen er ikke tilgjengelig"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Talemeldingen er ikke tilgjengelig"
   },
   "icu:save": {
     "messageformat": "Lagre"
@@ -3588,7 +3588,7 @@
     "messageformat": "Neste"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Dette kan ta noen minutter"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donér til Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Gjør klart for nedlasting …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Dette kan ta noen minutter"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Avbryt"
@@ -5819,9 +5819,9 @@
     "messageformat": "Nå kan du justere størrelsen på sidestolpen i samtalelisten på enheter med berøringsskjerm."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Vi har rettet opp i en sjelden feil som førte til at enkelte samtalevindu ikke kunne åpnes."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Nå kan du overføre samtaleloggen din og mediefilene dine fra de siste 45 dagene til en annen tilkoblet enhet. Overføringen er ende-til-ende-kryptert og helt valgfri."
   }
 }

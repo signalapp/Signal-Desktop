@@ -1122,7 +1122,7 @@
     "messageformat": "Obrazek wysłany na czacie"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Pobieranie: {downloaded} z {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona informująca, że to zdjęcie ma podpis"
@@ -1143,16 +1143,16 @@
     "messageformat": "Te multimedia nie są już dostępne."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Te multimedia nie są dostępne"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Dowiedz się więcej"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Ten plik nie jest dostępny"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Ta wiadomość głosowa nie jest dostępna"
   },
   "icu:save": {
     "messageformat": "Zapisz"
@@ -3588,7 +3588,7 @@
     "messageformat": "dalej"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Może to potrwać kilka minut"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Darowizna na rzecz Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Przygotowywanie do pobrania…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Może to potrwać kilka minut"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Anuluj"
@@ -4575,10 +4575,10 @@
     "messageformat": "Wybierz kolor"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Ponów próbę pobrania"
+    "messageformat": "Spróbuj pobrać ponownie"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Ponów"
+    "messageformat": "Spróbuj ponownie"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Awatar grupy"
@@ -5819,9 +5819,9 @@
     "messageformat": "Od teraz na urządzeniach z ekranem dotykowym możesz dostosować rozmiar paska bocznego z listą czatów. A wszystko po to, aby ani za duży, ani za mały pasek boczny nie zaburzał Twojego feng shui."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Naprawiliśmy rzadko występujący błąd, przez który niektóre czaty nie otwierały się poprawnie po ich kliknięciu. Teraz znowu masz czarno na białym, co i kiedy zostało powiedziane."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Od teraz, gdy połączysz w aplikacji Signal swoje główne urządzenie z nowym komputerem lub iPadem, możesz przenieść również historię czatów oraz multimedia z ostatnich 45 dni. Proces transferu danych jest szyfrowany metodą end-to-end i całkowicie opcjonalny. Wymazać przeszłość czy zachować ciągłość historii? Tę decyzję zostawiamy Tobie."
   }
 }

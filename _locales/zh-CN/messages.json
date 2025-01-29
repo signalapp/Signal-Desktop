@@ -1122,7 +1122,7 @@
     "messageformat": "聊天中发送的图片"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "正在下载 {downloaded}/{total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "表示该图片带有描述的图标"
@@ -1143,16 +1143,16 @@
     "messageformat": "此媒体已不可用。"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "该媒体不可用"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "了解更多"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "该文件不可用"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "该语音消息不可用"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -3588,7 +3588,7 @@
     "messageformat": "下一"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "这可能需要几分钟"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "捐赠 Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "正在准备下载…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "这可能需要几分钟"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "取消"
@@ -5819,9 +5819,9 @@
     "messageformat": "现在您可以在触屏设备上调整聊天列表侧边栏的大小。"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "我们修复了一个会导致一些聊天无法正确打开的罕见漏洞。"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "现在您可以选择将聊天记录和最近 45 天的媒体转移到新的已链接设备。转移过程受端到端加密保护，并且是完全可选的选项。"
   }
 }

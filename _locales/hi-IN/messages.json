@@ -1122,7 +1122,7 @@
     "messageformat": "तस्वीर चैट में भेजी गई"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} में से {downloaded} को डाउनलोड किया जा रहा है"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "आइकॅन यह दिखा रहा है कि तस्वीर में कैप्शन है"
@@ -1143,16 +1143,16 @@
     "messageformat": "अब यह मीडिया उपलब्ध नहीं है।"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "यह मीडिया उपलब्ध नहीं है"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "अधिक जानें"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "यह फ़ाइल उपलब्ध नहीं है"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "यह वॉइस संदेश उपलब्ध नहीं है"
   },
   "icu:save": {
     "messageformat": "संरक्षित करें"
@@ -3588,7 +3588,7 @@
     "messageformat": "अगला"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "इसमें कुछ मिनट लग सकते हैं"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal  को दान करें"
@@ -3621,7 +3621,7 @@
     "messageformat": "डाउनलोड करने के लिए तैयार किया जा रहा है..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "इसमें कुछ मिनट लग सकते हैं"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "रद्द करें"
@@ -5819,9 +5819,9 @@
     "messageformat": "अब आप टचस्क्रीन डिवाइस पर चैट लिस्ट साइडबार का आकार कम-ज़्यादा कर सकते हैं। तो जब आप इसे ड्रैग करने की कोशिश करते हैं, तो ज़्यादा मुश्किल न हो और आपकी उंगलियों से निकलने वाली ऊर्जा से आपकी स्क्रीन पर धब्बे न दिखाई दें।"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "हमने एक ऐसी बड़ी गड़बड़ी को ठीक किया है जिसकी वजह से कुछ चैट चुने जाने के बाद ठीक से खुल नहीं पा रही थीं, इसलिए अब जब आप यह याद करने की कोशिश कर रहे होते हैं कि उन्होंने क्या कहा था, तो Signal डेस्कटॉप आपको खाली स्क्रीन नहीं दिखाता।"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "अब, जब आप अपने मुख्य Signal डिवाइस को किसी नए डेस्कटॉप या iPad से लिंक करते हैं, तो आप उसमें अपनी चैट का इतिहास और पिछले 45 दिनों का अपना मीडिया ले सकते हैं। ट्रांसफ़र की प्रोसेस एंड-टू-एंड एनक्रिप्टेड और पूरी तरह वैकल्पिक होती है। जब बात आती है कि अपने अतीत को पीछे छोड़ा जाए या नहीं, तो सारी ज़िम्मेदारी आपके डिवाइस पर आ जाती है।"
   }
 }

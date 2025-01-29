@@ -1122,7 +1122,7 @@
     "messageformat": "Obrázok z četu"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Sťahuje sa {downloaded} z {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona indukujúca, že tento obrázok má popis"
@@ -1143,16 +1143,16 @@
     "messageformat": "Toto médium už nie je dostupné."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Toto médium nie je k dispozícii"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Zistiť viac"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Tento súbor nie je k dispozícii"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Táto hlasová správa nie je k dispozícii"
   },
   "icu:save": {
     "messageformat": "Uložiť"
@@ -3588,7 +3588,7 @@
     "messageformat": "ďalší"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Môže to trvať pár minút"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Prispieť na Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Pripravuje sa sťahovanie…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Môže to trvať pár minút"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Zrušiť"
@@ -5819,9 +5819,9 @@
     "messageformat": "Teraz môžete upraviť veľkosť bočného panela zoznamu četov na zariadeniach s dotykovou obrazovkou."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Opravili sme zriedkavú chybu, ktorá bránila správnemu otvoreniu niektorých četov po ich výbere."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Teraz si môžete preniesť históriu četov a médiá z posledných 45 dní do nového prepojeného zariadenia. Prenos je voliteľný a jeho proces chránený end-to-end šifrovaním."
   }
 }

@@ -1122,7 +1122,7 @@
     "messageformat": "S'ha enviat una imatge al xat"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Descarregant: {downloaded} de {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icona que mostra que aquesta imatge té un títol"
@@ -1143,16 +1143,16 @@
     "messageformat": "Aquest arxiu ja no està disponible."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Aquest arxiu multimèdia no està disponible"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Més informació"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Aquest arxiu no està disponible"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Aquest missatge de veu no està disponible"
   },
   "icu:save": {
     "messageformat": "Desa"
@@ -3588,7 +3588,7 @@
     "messageformat": "següent"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Això pot trigar uns minuts"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Feu una donació a Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Preparant per descarregar…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Això pot trigar uns minuts"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cancel·la"
@@ -5819,9 +5819,9 @@
     "messageformat": "Ara pots ajustar la mida de la barra lateral de la llista de xats en dispositius amb pantalla tàctil."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Hem corregit un error poc freqüent que impedia que alguns xats s'obrissin correctament."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "A partir d'ara, quan enllacis un nou dispositiu, tindràs l'opció de transferir-hi l'historial del xat i els teus darrers 45 dies d'arxius multimèdia. El procés de transferència és xifrat d'extrem a extrem (i totalment opcional)."
   }
 }

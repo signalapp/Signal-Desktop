@@ -1122,7 +1122,7 @@
     "messageformat": "Im Chat gesendetes Bild"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{downloaded} von {total} werden heruntergeladen"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Symbol, das auf eine Beschriftung des Bildes hinweist"
@@ -1143,16 +1143,16 @@
     "messageformat": "Dieser Medieninhalt ist nicht mehr verfügbar."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Dieser Medieninhalt ist nicht verfügbar"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Mehr erfahren"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Diese Datei ist nicht verfügbar"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Diese Sprachnachricht ist nicht verfügbar"
   },
   "icu:save": {
     "messageformat": "Speichern"
@@ -3588,7 +3588,7 @@
     "messageformat": "vor"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Dies kann einige Minuten dauern"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "An Signal spenden"
@@ -3621,7 +3621,7 @@
     "messageformat": "Herunterladen wird vorbereitet..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Dies kann einige Minuten dauern"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Abbrechen"
@@ -5819,9 +5819,9 @@
     "messageformat": "Jetzt kannst du die Seitenleisten-Größe der Chat-Liste auf Touchscreen-Geräten anpassen. Du kannst sie also mühelos größer ziehen, ohne dich anstrengen zu müssen – und die Abdrücke auf deinem Bildschirm zeigen einfach nur, wie flink deine Finger sind."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Wir haben einen seltenen Fehler behoben, der dazu führte, dass einige Chats, sobald sie ausgewählt waren, nicht korrekt geöffnet wurden."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Wenn du jetzt das Gerät, auf dem du Signal am häufigsten nutzt, mit einem neuen Desktop oder iPad koppelst, kannst du deinen Chat-Verlauf und deine Medien der letzten 45 Tage mitnehmen. Der Übertragungsprozess ist Ende-zu Ende-verschlüsselt und natürlich optional. Jetzt kannst du also selbst entscheiden, ob du die Vergangenheit komplett hinter dir lassen willst."
   }
 }

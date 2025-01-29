@@ -1122,7 +1122,7 @@
     "messageformat": "Bild skickad i chatt"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Laddar ned {downloaded} av {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon visandes att den här bilden har en bildtext"
@@ -1143,16 +1143,16 @@
     "messageformat": "Den här mediafilen är inte längre tillgänglig."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Den här mediafilen är inte tillgänglig"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Läs mer"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Den här filen är inte tillgänglig"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Det här röstmeddelandet är inte tillgängligt"
   },
   "icu:save": {
     "messageformat": "Spara"
@@ -3588,7 +3588,7 @@
     "messageformat": "nästa"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Detta kan ta några minuter"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donera till Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Förbereder nedladdning …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Detta kan ta några minuter"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Avbryt"
@@ -5819,9 +5819,9 @@
     "messageformat": "Nu kan du justera storleken på sidofältet i chattlistan på enheter med pekskärm."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Vi har åtgärdat en sällsynt bugg som gjorde att vissa chattar inte öppnades korrekt."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Nu kan du välja att överföra din chatthistorik och dina senaste 45 dagars media till en ny länkad enhet. Överföringsprocessen är krypterad från början till slut och är helt frivillig."
   }
 }

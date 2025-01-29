@@ -1122,7 +1122,7 @@
     "messageformat": "চ্যাট-এ ছবি পাঠানো হয়েছে"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total}-এর মধ্যে {downloaded} ডাউনলোড হচ্ছে"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "আইকনটি দেখায় যে, এই চিত্রটির একটি ক্যাপশন রয়েছে"
@@ -1143,16 +1143,16 @@
     "messageformat": "এই মিডিয়াটি আর নেই।"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "এই মিডিয়াটি আর নেই"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "আরো জানুন"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "এই ফাইলটি আর নেই"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "এই ভয়েস মেসেজটি আর নেই"
   },
   "icu:save": {
     "messageformat": "সংরক্ষণ"
@@ -3588,7 +3588,7 @@
     "messageformat": "পরবর্তী"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "এতে কয়েক মিনিট সময় লাগতে পারে"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-এ দান করুন"
@@ -3621,7 +3621,7 @@
     "messageformat": "ডাউনলোড করার জন্য প্রস্তুতি নিচ্ছে..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "এতে কয়েক মিনিট সময় লাগতে পারে"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "বাতিল করুন"
@@ -5819,9 +5819,9 @@
     "messageformat": "এখন আপনি টাচস্ক্রিন ডিভাইসে চ্যাট লিস্টের সাইডবারের আকার সমন্বয় করতে পারবেন।"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "আমরা এমন একটি বিরল বাগ সংশোধন করেছি যার কারণে কিছু চ্যাট সঠিকভাবে খুলতে পারতো না।"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "এখন আপনি আপনার চ্যাটের ইতিহাস এবং আপনার শেষ 45 দিনের মিডিয়া একটি নতুন লিংক করা ডিভাইসে ট্রান্সফার করার জন্য নির্বাচন করতে পারবেন। ট্রান্সফার করার প্রক্রিয়া এন্ড-টু-এন্ড এনক্রিপ্টেড এবং সম্পূর্ণ ঐচ্ছিক।"
   }
 }

@@ -1122,7 +1122,7 @@
     "messageformat": "ချက်(တ်)ထဲတွင် ပေးပို့ထားသော ပုံ"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} မှ {downloaded} ကို ဒေါင်းလုဒ်လုပ်နေသည်"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ဤပုံတွင် စာတန်းပါကြောင်း ပြသသည့် အိုင်ကွန်"
@@ -1143,16 +1143,16 @@
     "messageformat": "ဤမီဒီယာ မရှိတော့ပါ။"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "ဤမီဒီယာကို မရရှိနိုင်ပါ"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "ပိုမိုသိရှိရန်"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "ဤဖိုင်ကို မရရှိနိုင်ပါ"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "ဤအသံမက်ဆေ့(ချ်)ကို မရရှိနိုင်ပါ"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -3588,7 +3588,7 @@
     "messageformat": "ရှေ့သို့"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ကိုလှူဒါန်းပါ"
@@ -3621,7 +3621,7 @@
     "messageformat": "ဒေါင်းလုဒ်လုပ်ရန် ပြင်ဆင်နေသည်..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "မလုပ်တော့ပါ"
@@ -5819,9 +5819,9 @@
     "messageformat": "ယခု သင်သည် Touchscreen စက်များတွင် ချက်(တ်)စာရင်းဘေးမှ ဘား၏ အရွယ်အစားကို ချိန်ညှိနိုင်ပါပြီ။"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "အချို့သော ချက်(တ်)များကို မှန်ကန်စွာ ဖွင့်မရရန် တားဆီးထားသည့် ရှားပါးသော ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "ယခု သင်သည် ချက်(တ်)မှတ်တမ်းနှင့် နောက်ဆုံး 45 ရက်အတွင်း မီဒီယာကို ချိတ်ဆက်ထားသော စက်အသစ်သို့ လွှဲပြောင်းနိုင်ပါပြီ။ လွှဲပြောင်းခြင်းလုပ်ငန်းစဉ်ကို ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားပြီး ဆန္ဒရှိမှ လုပ်ဆောင်နိုင်သည်။"
   }
 }

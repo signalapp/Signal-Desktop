@@ -1122,7 +1122,7 @@
     "messageformat": "รูปภาพที่ส่งในแชท"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "กำลังดาวน์โหลด {downloaded} จาก {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ไอคอนแสดงว่ารูปภาพนี้มีคำอธิบายภาพ"
@@ -1143,16 +1143,16 @@
     "messageformat": "ไม่พบไฟล์สื่อนี้"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "ไม่พบไฟล์สื่อนี้"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "เรียนรู้เพิ่มเติม"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "ไม่พบไฟล์นี้"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "ไม่พบข้อความเสียงนี้"
   },
   "icu:save": {
     "messageformat": "บันทึก"
@@ -3588,7 +3588,7 @@
     "messageformat": "ถ้ดไป"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "บริจาคให้ Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "กำลังเตรียมการดาวน์โหลด..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "ยกเลิก"
@@ -5819,9 +5819,9 @@
     "messageformat": "พัฒนาให้อุปกรณ์ทัชสกรีนรองรับการปรับขนาดแถบรายการแชทได้แล้ว"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "เราแก้ไขบั๊กที่เคยเป็นอุปสรรคทำให้การเปิดแชทขัดข้อง"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "เพิ่มตัวเลือกในขั้นตอนการเชื่อมโยงอุปกรณ์ ให้คุณสามารถถ่ายโอนประวัติการแชทและไฟล์สื่อจาก 45 วันที่ผ่านมา เลือกถ่ายโอนหรือข้ามขั้นตอนนี้ได้ตามใจคุณ ทั้งยังมั่นใจได้เสมอด้วยการเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง"
   }
 }

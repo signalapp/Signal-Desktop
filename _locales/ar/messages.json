@@ -1122,7 +1122,7 @@
     "messageformat": "تم إرسال الصورة في الدردشة"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "جارٍ تنزيل {downloaded} من أصل {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "أيقونة تظهر أنّ هذه الصورة تحوي تسمية توضيحية"
@@ -1143,16 +1143,16 @@
     "messageformat": "لم يعد ملف الوسائط هذا متوفِّرًا."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "ملف الوسائط هذا غير متوفِّر."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "اعرف المزيد"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "هذا الملف غير متوفِّر."
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "هذه الرسائل الصوتية غير متوفرة."
   },
   "icu:save": {
     "messageformat": "حفظ"
@@ -3588,7 +3588,7 @@
     "messageformat": "التالي"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "قد يَستغرق هذا بعض دقائق."
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "تبرَّع لسيجنال"
@@ -3621,7 +3621,7 @@
     "messageformat": "جارٍ الإعداد للتنزيل..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "قد يَستغرق هذا بعض دقائق."
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "إلغاء"
@@ -5819,9 +5819,9 @@
     "messageformat": "يُمكنك الآن ضبط حجم الشريط الجانبي لقائمة الدردشة على الأجهزة التي تعمل باللمس. لذلك، عندما تحاول سَحبه، لن يكون الأمر صعبًا جدًا. والعلامات التي تظهر على شاشتك ما هي إلّا دليلٌ على الوهج المنبعث من أطراف أصابعك."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "أصلحنا خطأ نادر كان يَمنع بعض الدردشات من أن تُفتح بشكلٍ صحيح بعد اختيارها، بحيث أن سيجنال Desktop الآن لا يُظهر أي رد عندما تحاول أن تتذكر ما قاله الأشخاص الآخرون في الدردشة."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "الآن، عندما تربط جهازك الأساسي الذي يحمل تطبيق سيجنال بحاسوب أو جهاز آيباد جديد، يُمكنك أن تنقل سِجل الدردشة الخاص بك وآخر 45 يومًا من الوسائط. عملية النقل مُشفّرة من طرف لطرف واختيارية كليًا. إذا كُنتَ تُفكِّر في نقل بياناتك السابقة أو تجاهلها، دع أجهزتك تساعدك في ذلك."
   }
 }

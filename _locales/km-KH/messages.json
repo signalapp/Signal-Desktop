@@ -1122,7 +1122,7 @@
     "messageformat": "បានផ្ញើរូបភាពនៅក្នុងការជជែក"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "កំពុងទាញយក {downloaded} លើ {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "រូបតំណាងបង្ហាញថារូបភាពនេះមានចំណងជើង"
@@ -1143,16 +1143,16 @@
     "messageformat": "មេឌៀនេះលែងមានទៀតហើយ។"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "មេឌៀនេះមិនមានទេ"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "ឯកសារនេះមិនមានទេ"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "សារជាសំឡេងនេះមិនមានទេ"
   },
   "icu:save": {
     "messageformat": "រក្សាទុក"
@@ -3588,7 +3588,7 @@
     "messageformat": "បន្ទាប់"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "វាអាចនឹងចំណាយពេលពីរបីនាទី"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "ឧបត្ថម្ភទៅ Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "កំពុងរៀបចំទាញយក…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "វាអាចនឹងចំណាយពេលពីរបីនាទី"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "បោះបង់"
@@ -5819,9 +5819,9 @@
     "messageformat": "ឥឡូវនេះ អ្នកអាចកែទំហំរបារចំហៀងនៃបញ្ជីជជែកនៅលើឧបករណ៍ប៉ះអេក្រង់បាន។ ដូច្នេះអ្នកអាចទាញពង្រីក ឬបង្រួមវាបានយ៉ាងងាយស្រួល និងរលូននៅលើអេក្រង់របស់អ្នក ដោយគ្រាន់តែប្រើចុងម្រាមដៃរបស់អ្នក។"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាដ៏កម្រមួយដែលបានធ្វើឱ្យការជជែកមួយចំនួនមិនអាចបើកបានត្រឹមត្រូវ បន្ទាប់ពីពួកវាត្រូវបានជ្រើសរើស ដូច្នេះឥឡូវនេះ Signal Desktop ក៏មិនរអាក់រអួលទៀតដែរ ពេលអ្នកកំពុងព្យាយាមរកនឹកអ្វីដែលពួកគេបាននិយាយ។"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "ឥឡូវនេះ នៅពេលដែលអ្នកភ្ជាប់ឧបករណ៍ Signal ចម្បងរបស់អ្នកជាមួយ Desktop ឬ iPad ថ្មី អ្នកអាចយកប្រវត្តិជជែក និងមេឌៀរយៈពេល 45 ថ្ងៃចុងក្រោយរបស់អ្នកទៅជាមួយអ្នកបាន។ ដំណើរការផ្ទេរគឺត្រូវបានអ៊ីនគ្រីបពីដើមដល់ចប់ ហើយជាជម្រើសរបស់អ្នកទាំងស្រុង។ នៅពេលដែលគិតថាតើគួរតែបំភ្លេចរឿងអតីតចោលឬទេ ការសម្រេចគឺស្ថិតនៅលើអ្នកទាំងស្រុង។"
   }
 }

@@ -1122,7 +1122,7 @@
     "messageformat": "대화에 첨부된 이미지"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{downloaded}/{total} 다운로드 중"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "이 이미지가 자막이 있다는 아이콘"
@@ -1143,16 +1143,16 @@
     "messageformat": "이 미디어를 더 이상 사용할 수 없습니다."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "이 미디어는 사용할 수 없습니다"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "더 알아보기"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "이 파일은 사용할 수 없습니다"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "이 음성 메시지는 사용할 수 없습니다"
   },
   "icu:save": {
     "messageformat": "저장"
@@ -3588,7 +3588,7 @@
     "messageformat": "다음"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "몇 분 정도 소요됩니다"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal에 후원"
@@ -3621,7 +3621,7 @@
     "messageformat": "다운로드를 준비하는 중..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "몇 분 정도 소요됩니다"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "취소"
@@ -5819,9 +5819,9 @@
     "messageformat": "이제 터치스크린 기기에서 대화 목록 슬라이드바 크기를 조정할 수 있습니다."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "아주 가끔씩 일부 대화가 제대로 열리지 않는 버그를 해결했습니다."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "이제 대화 기록과 지난 45일간의 미디어를 새로운 연결 기기로 전송하도록 선택할 수 있습니다. 전송 프로세스는 종단 간 암호화로 보호되지만, 전적으로 선택 가능합니다."
   }
 }

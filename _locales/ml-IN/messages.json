@@ -1122,7 +1122,7 @@
     "messageformat": "ചിത്രം ചാറ്റിൽ അയച്ചു"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total}-ൽ {downloaded} ഡൗൺലോഡ് ചെയ്യുന്നു"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ഈ ചിത്രത്തിന് ഒരു അടിക്കുറിപ്പ് ഉണ്ടെന്ന് കാണിക്കുന്ന ഐക്കൺ"
@@ -1143,16 +1143,16 @@
     "messageformat": "ഈ മീഡിയ ഇനി ലഭ്യമല്ല."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "ഈ മീഡിയ ലഭ്യമല്ല"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "കൂടുതൽ അറിയുക"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "ഈ ഫയൽ ലഭ്യമല്ല"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "ഈ ശബ്ദ സന്ദേശം ലഭ്യമല്ല"
   },
   "icu:save": {
     "messageformat": "സംരക്ഷിക്കൂ"
@@ -3588,7 +3588,7 @@
     "messageformat": "അടുത്തത്"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-ന് സംഭാവന ചെയ്യുക"
@@ -3621,7 +3621,7 @@
     "messageformat": "ഡൗൺലോഡ് ചെയ്യാൻ തയ്യാറെടുക്കുന്നു..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "റദ്ദാക്കുക"
@@ -5819,9 +5819,9 @@
     "messageformat": "ഇപ്പോൾ നിങ്ങൾക്ക് ടച്ച്‌സ്‌ക്രീൻ ഉപകരണങ്ങളിൽ ചാറ്റ് ലിസ്റ്റ് സൈഡ്‌ബാറിൻ്റെ വലുപ്പം ക്രമീകരിക്കാം. അതിനാൽ നിങ്ങൾ ഡ്രാഗ് ചെയ്യാൻ ശ്രമിക്കുമ്പോൾ അത് അത്തരത്തിലുള്ള ഒരു ഡ്രാഗ് ആയിരിക്കില്ല, നിങ്ങളുടെ സ്‌ക്രീനിലെ പാടുകൾ നിങ്ങളുടെ വിരൽത്തുമ്പിൽ നിന്ന് പുറപ്പെടുന്ന ശക്തിയുടെ തെളിവാണ്."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "തിരഞ്ഞെടുത്തതിന് ശേഷം ചില ചാറ്റുകൾ ശരിയായി തുറക്കുന്നതിൽ നിന്ന് തടയുന്ന ഒരു അപൂർവ ബഗ് ഞങ്ങൾ പരിഹരിച്ചു, അതിനാൽ, നിങ്ങൾ അവർ പറഞ്ഞത് ഓർക്കാൻ ശ്രമിക്കുമ്പോൾ ഇപ്പോൾ Signal ഡെസ്‌ക്‌ടോപ്പും ശൂന്യമായിപ്പോകില്ല."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "ഇപ്പോൾ നിങ്ങളുടെ പ്രാഥമിക Signal ഉപകരണം ഒരു പുതിയ ഡെസ്‌ക്‌ടോപ്പിലേക്കോ iPad-ലേക്കോ ലിങ്ക് ചെയ്യുമ്പോൾ, നിങ്ങളുടെ ചാറ്റ് ചരിത്രവും കഴിഞ്ഞ 45 ദിവസത്തെ മീഡിയയും കൊണ്ടുവരാനാകും. കൈമാറ്റ പ്രക്രിയ എൻഡ്-ടു-എൻഡ് എന്‍ക്രിപ്റ്റ് ചെയ്തതാണ്, പൂർണ്ണമായും ഓപ്ഷണലും ആണ്. ഭൂതകാലത്തെ ഉപേക്ഷിക്കണമോ വേണ്ടയോ എന്നതിനെക്കുറിച്ചുള്ള തിരഞ്ഞെടുപ്പ് നടത്തേണ്ടി വരുമ്പോൾ, നിങ്ങൾക്ക് നിങ്ങളുടെ സ്വന്തം ഉപകരണങ്ങളേക്കുറിച്ച് സ്വയം തീരുമാനമെടുക്കാം."
   }
 }

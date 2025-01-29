@@ -1122,7 +1122,7 @@
     "messageformat": "చాట్‌లో పంపబడ్డ చిత్రం"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} యొక్క {downloaded} డౌన్‌లోడ్ చేస్తోంది"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ఈ చిత్రానికి శీర్షిక ఉందని చూపించే ఐకాన్"
@@ -1143,16 +1143,16 @@
     "messageformat": "ఈ మీడియా ఇకపై అందుబాటులో లేదు."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "ఈ మీడియా అందుబాటులో లేదు"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "మరింత నేర్చుకోండి"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "ఈ ఫైల్ అందుబాటులో లేదు"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "ఈ స్వర సందేశం అందుబాటులో లేదు"
   },
   "icu:save": {
     "messageformat": "భద్రపరుచు"
@@ -3588,7 +3588,7 @@
     "messageformat": "తరువాత"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "దీనికి కొంత సమయం పట్టవచ్చు"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal కు దానం చేయండి"
@@ -3621,7 +3621,7 @@
     "messageformat": "డౌన్‌లోడ్ చేయడానికి సిద్ధమవుతోంది..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "దీనికి కొంత సమయం పట్టవచ్చు"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "రద్దు చేయండి"
@@ -5819,9 +5819,9 @@
     "messageformat": "ఇప్పుడు మీరు టచ్ స్క్రీన్ పరికరాలలో చాట్ జాబితా సైడ్ బార్ పరిమాణాన్ని సర్దుబాటు చేయవచ్చు. కాబట్టి మీరు లాగడానికి ప్రయత్నించినప్పుడు అది అంత లాగడం కాదు మరియు మీ స్క్రీన్ పై ఉన్న మరకలు మీ వేలికొనల నుండి వెలువడే శక్తికి సాక్ష్యం."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "కొన్ని చాట్‌లను సరిగ్గా తెరవకుండా నిరోధించే అరుదైన బగ్‌ను మేము పరిష్కరించాము."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "ఇప్పుడు మీరు మీ చాట్ చరిత్ర మరియు మీ చివరి 45 రోజుల మీడియాను కొత్త లింక్ చేయబడిన పరికరానికి బదిలీ చేయడానికి ఎంచుకోవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు పూర్తిగా ఐచ్ఛికం. గతాన్ని విడిచిపెట్టాలా వద్దా అనే ఎంపిక చేసే విషయానికి వస్తే, మీరు మీ స్వంత పరికరాలకు వదిలివేయబడతారు."
   }
 }

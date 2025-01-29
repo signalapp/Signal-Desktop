@@ -1122,7 +1122,7 @@
     "messageformat": "Image na sinend sa chat"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Dina-download ang {downloaded} ng {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icon showing na may caption ang image na ito"
@@ -1143,16 +1143,16 @@
     "messageformat": "Hindi na available ang media na ito."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Hindi available ang media na ito"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Matuto pa"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Hindi available ang file na ito"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Hindi available ang voice message na ito"
   },
   "icu:save": {
     "messageformat": "I-save"
@@ -3588,7 +3588,7 @@
     "messageformat": "Susunod"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Maaari itong tumagal nang ilang minuto"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Mag-donate sa Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Naghahandang mag-download..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Maaari itong tumagal nang ilang minuto"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "I-cancel"
@@ -5819,9 +5819,9 @@
     "messageformat": "Pwede mo nang i-adjust ang size ng chat list sidebar sa touchscreen devices."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "May inayos kaming bug na pumipigil sa pagbukas nang tama ng ibang chats."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Pwede mo nang piliing ilipat ang iyong chat history at ang last 45 days ng media mo sa bagong linked device. Ang transfer process ay end-to-end encrypted at optional."
   }
 }

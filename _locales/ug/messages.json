@@ -1122,7 +1122,7 @@
     "messageformat": "پاراڭدا يوللانغان رەسىم"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} نىڭ {downloaded} تى چۈشۈۋاتىدۇ"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "بۇ رەسىمنىڭ ئىزاھلانغانلىقىنى كۆرسىتىدىغان سىنبەلگە"
@@ -1143,16 +1143,16 @@
     "messageformat": "بۇ مېدىيا ئەمدى مەۋجۇت ئەمەس."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "بۇ مېدىيانى ئىشلەتكىلى بولمايدۇ"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "تەپسىلاتى"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "بۇ ھۆججەتنى ئىشلەتكىلى بولمايدۇ"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "بۇ ئاۋازلىق ئۇچۇرنى ئىشلەتكىلى بولمايدۇ"
   },
   "icu:save": {
     "messageformat": "ساقلا"
@@ -3588,7 +3588,7 @@
     "messageformat": "كېيىنكى"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "بۇنىڭغا بىر قانچە مىنۇت كېتىشى مۇمكىن"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "‫Signal غا ئىئانە قىلىڭ"
@@ -3621,7 +3621,7 @@
     "messageformat": "چۈشۈرۈشكە تەييارلىق قىلىۋاتىدۇ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "بۇنىڭغا بىر قانچە مىنۇت كېتىشى مۇمكىن"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "بىكار قىلىش"
@@ -5819,9 +5819,9 @@
     "messageformat": "سىز ھازىر سېزىمچان ئېكران ئۈسكۈنىلىرىدىكى پاراڭ تىزىملىكى يان بالداقنىڭ چوڭ-كىچىكلىكىنى تەڭشىيەلەيسىز. سىز ھازىر سېزىمچان ئېكران ئۈسكۈنىلىرىدىكى پاراڭ تىزىملىكى يان بالداقنىڭ چوڭ-كىچىكلىكىنى تەڭشىيەلەيسىز."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "بىز بەزى پاراڭلارنىڭ توغرا ئېچىلىشىنىڭ ئالدىنى ئالدىغان كەم ئۇچرايدىغان بىر كەمتۈكنى ئوڭشىدۇق."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "ھازىر پاراڭلىشىش تارىخى ۋە ئاخىرقى 45 كۈنلۈك مېدىيانى يېڭى ئۇلىنىش ئۈسكۈنىلىرىگە يۆتكەشنى تاللىسىڭىز بولىدۇ. يۆتكەش جەريانى ئاخىرىغىچە مەخپىيلەشتۈرۈلگەن ، ۋە پۈتۈنلەي ئىختىيارىي. يۆتكەش جەريانى ئاخىرىغىچە مەخپىيلەشتۈرۈلگەن بولۇپ ، پۈتۈنلەي ئىختىيارى بولىدۇ. ھازىر پاراڭلىشىش تارىخى ۋە ئاخىرقى 45 كۈنلۈك مېدىيانى يېڭى ئۇلىنىش ئۈسكۈنىلىرىگە يۆتكەشنى تاللىسىڭىز بولىدۇ. يۆتكەش جەريانى ئاخىرىغىچە مەخپىيلەشتۈرۈلگەن ، ۋە پۈتۈنلەي ئىختىيارىي."
   }
 }

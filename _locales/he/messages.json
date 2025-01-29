@@ -1122,7 +1122,7 @@
     "messageformat": "תמונה נשלחה בצ'אט"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "בהורדה: {downloaded} מתוך {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ראות איקון שיש לתמונה זו כיתוב"
@@ -1143,16 +1143,16 @@
     "messageformat": "המדיה הזו לא זמינה יותר."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "מדיה זו אינה זמינה"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "למידע נוסף"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "קובץ זה אינו זמין"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "הודעה קולית זו אינה זמינה"
   },
   "icu:save": {
     "messageformat": "שמור"
@@ -3588,7 +3588,7 @@
     "messageformat": "הבא"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "זה עשוי לקחת כמה דקות"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "תרום אל Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "מתכוננים להורדה…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "זה עשוי לקחת כמה דקות"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "ביטול"
@@ -5819,9 +5819,9 @@
     "messageformat": "עכשיו אפשר להתאים את גודל הסרגל הצדי של רשימת הצ׳אטים במכשירים עם מסך מגע."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "תיקנו באג נדיר שמנע מחלק מהצ׳אטים להיפתח כהלכה."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "עכשיו אפשר לבחור להעביר את היסטוריית הצ׳אט ואת 45 ימי המדיה האחרונים שלך למכשיר מקושר חדש. תהליך ההעברה מוצפן מקצה לקצה, והוא לגמרי לא חובה."
   }
 }

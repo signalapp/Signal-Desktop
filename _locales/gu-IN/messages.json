@@ -1122,7 +1122,7 @@
     "messageformat": "ચેટમાં મોકલેલી ઇમેજ"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} માંથી {downloaded} ડાઉનલોડ થઈ રહ્યું છે"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "આ ઈમેજનું કૅપ્શન છે તે દર્શાવતું આઈકોન"
@@ -1143,16 +1143,16 @@
     "messageformat": "આ મીડિયા હવે ઉપલબ્ધ નથી."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "આ મીડિયા ઉપલબ્ધ નથી"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "વધુ શીખો"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "આ ફાઈલ ઉપલબ્ધ નથી"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "આ વોઇસ મેસેજ ઉપલબ્ધ નથી"
   },
   "icu:save": {
     "messageformat": "સેવ કરો"
@@ -3588,7 +3588,7 @@
     "messageformat": "આગલી"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "આમાં થોડી મિનિટનો સમય લાગી શકે છે"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ને ફાળો આપો"
@@ -3621,7 +3621,7 @@
     "messageformat": "ડાઉનલોડ કરવાની તૈયારી કરી ચાલુ છે..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "આમાં થોડી મિનિટનો સમય લાગી શકે છે"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "રદ કરો"
@@ -5819,9 +5819,9 @@
     "messageformat": "હવે તમે ટચસ્ક્રીન ડિવાઇસ પર ચેટ લિસ્ટ સાઇડબારની સાઇઝ એડજસ્ટ કરી શકો છો."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "અમે એક દુર્લભ બગને ઠીક કર્યો છે જે કેટલીક ચેટને યોગ્ય રીતે ખુલવાથી અટકાવતો હતો."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "હવે તમે તમારી ચેટ હિસ્ટ્રી અને તમારા છેલ્લા 45 દિવસના મીડિયાને એક નવા લિંક કરેલા ડિવાઇસ પર ટ્રાન્સફર કરવાનું પસંદ કરી શકો છો. ટ્રાન્સફર પ્રક્રિયા એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ છે અને સંપૂર્ણ રીતે વૈકલ્પિક છે."
   }
 }

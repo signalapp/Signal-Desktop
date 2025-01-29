@@ -1122,7 +1122,7 @@
     "messageformat": "Keskustelussa lähetetty kuva"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Ladataan {downloaded}/{total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Kuvake, joka näyttää, että tällä kuvalla on kuvateksti"
@@ -1143,16 +1143,16 @@
     "messageformat": "Media ei ole enää saatavilla."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Media ei ole saatavilla"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Lue lisää"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Tiedosto ei ole saatavilla"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Puheviesti ei ole saatavilla"
   },
   "icu:save": {
     "messageformat": "Tallenna"
@@ -3588,7 +3588,7 @@
     "messageformat": "seuraava"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Tämä saattaa kestää muutaman minuutin"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Lahjoita Signalille"
@@ -3621,7 +3621,7 @@
     "messageformat": "Valmistellaan latausta..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Tämä saattaa kestää muutaman minuutin"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Peruuta"
@@ -5819,9 +5819,9 @@
     "messageformat": "Nyt voit säätää keskusteluluettelon sivupalkin kokoa kosketusnäytöllisissä laitteissa."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Korjasimme harvinaisen virheen, joka esti joitakin keskusteluja avautumasta oikein."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Nyt voit halutessasi tuoda keskusteluhistoriasi ja viimeisten 45 päivän mediasisällön mukanasi uuteen yhdistettyyn laitteeseen. Siirtoprosessi on salattu päästä päähän ja täysin valinnainen."
   }
 }

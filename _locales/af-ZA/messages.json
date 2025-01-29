@@ -1122,7 +1122,7 @@
     "messageformat": "Beeld in klets gestuur"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Besig om {downloaded} van {total} af te laai"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikoon wat wys dat hierdie beeld 'n onderskrif het"
@@ -1143,16 +1143,16 @@
     "messageformat": "Hierdie media is nie meer beskikbaar nie."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Hierdie media is nie beskikbaar nie"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Vind meer uit"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Hierdie lêer is nie beskikbaar nie"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Hierdie stemboodskap is nie beskikbaar nie"
   },
   "icu:save": {
     "messageformat": "Stoor"
@@ -3588,7 +3588,7 @@
     "messageformat": "volgende"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Dit kan 'n paar minute neem"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dra by tot Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Berei tans voor om af te laai…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Dit kan 'n paar minute neem"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Kanselleer"
@@ -5819,9 +5819,9 @@
     "messageformat": "Nou kan jy die grootte van die kletslys-kantbalk op raakskermtoestelle aanpas."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Ons het 'n seldsame fout reggestel wat verhoed het dat sommige kletse korrek oopmaak."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Jy het nou die keuse om jou kletsgeskiedenis en jou laaste 45 dae se media na 'n nuwe gekoppelde toestel oor te dra. Die oordragproses is end-tot-end geënkripteer, en heeltemal opsioneel."
   }
 }

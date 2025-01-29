@@ -1122,7 +1122,7 @@
     "messageformat": "სურათი გაგზავნილია ჩატში"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "მიმდინარეობს {total}-დან {downloaded}-ის ჩამოტვირთვა"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ხატულა, რომელიც აჩვენებს, რომ ამ სურათს აქვს წარწერა"
@@ -1143,16 +1143,16 @@
     "messageformat": "ეს მედია ფაილი ხელმისაწვდომი აღარაა."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "ეს მედია ფაილი ხელმისაწვდომი არაა"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "გაიგე მეტი"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "ეს ფაილი ხელმისაწვდომი არაა"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "ეს ხმოვანი შეტყობინება ხელმისაწვდომი არაა"
   },
   "icu:save": {
     "messageformat": "შენახვა"
@@ -3588,7 +3588,7 @@
     "messageformat": "მომდევნო"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "შეიძლება, ამას რამდენიმე წუთი დასჭირდეს"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-ისთვის დონაციის გაკეთება"
@@ -3621,7 +3621,7 @@
     "messageformat": "მზადება ჩამოსატვირთად..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "შეიძლება, ამას რამდენიმე წუთი დასჭირდეს"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "გაუქმება"
@@ -5819,9 +5819,9 @@
     "messageformat": "ახლა უკვე შეგიძლია, სენსორულ მოწყობილობებზე ჩატების სიის გვერდითი ზოლის ზომა დაარეგულირო. მათი გადაადგილება რომ მოგინდება, წვალება აღარ მოგიწევს და შეძლებ, ჩატების სია მარტივად ასქროლო."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "ჩვენ გამოვასწორეთ ჩატებთან დაკავშირებული იშვიათი ხარვეზი, რომელიც მათი შერჩევის შემდეგ, ზოგიერთი ჩატის სწორად გახსნას ხელს უშლიდა."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "უკვე შეგიძლია, Signal-ის ძირითადი მოწყობილობის ახალ დესკტოპთან ან iPad-თან დაკავშირებისას, შენი ჩატის ისტორია და ბოლო 45 დღის მედია ფაილებიც თან გამოიყოლო. გადატანის პროცესი ბოლომდე დაშიფრული და სრულიად არჩევითია. ასე რომ, შენზეა დამოკიდებული, წარსულს უკან მოიტოვებ თუ არა."
   }
 }

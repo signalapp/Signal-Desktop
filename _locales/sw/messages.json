@@ -1122,7 +1122,7 @@
     "messageformat": "Picha zimetumwa katika gumzo"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Inapakua {downloaded} ya {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikoni inaonyesha kuwa taswira hii ina maelezo mafupi"
@@ -1143,16 +1143,16 @@
     "messageformat": "Video hii haipatikani tena."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Video hii haipatikani"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Jifunze zaidi"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Faili hii haipatikani"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Ujumbe huu wa sauti haupatikani"
   },
   "icu:save": {
     "messageformat": "Hifadhi"
@@ -3588,7 +3588,7 @@
     "messageformat": "ijayo"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Huenda hatua hii ikachukua dakika kadhaa"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Changia Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Inajiandaa kupakua..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Huenda hatua hii ikachukua dakika kadhaa"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Ghairi"
@@ -5819,9 +5819,9 @@
     "messageformat": "Sasa unaweza kurekebisha ukubwa wa utepe wa orodha ya gumzo kwenye vifaa vya skrini ya kugusa. Kwa hiyo unapojaribu kuvuruta haitachukua muda, na uchafu kwenye skrini yako ni ushahidi tu wa nguvu inayotoka kwenye vidole vyako."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Tulirekebisha hitilafu nadra ambayo ilizuia baadhi ya gumzo kufunguka vizuri baada ya kuchaguliwa, kwa hivyo sasa Signal Desktop itakusaidia pale unapojaribu kukumbuka walichosema."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Sasa unapounganisha kifaa chako msingi cha Signal kwenye Kompyuta ya Mezani au iPad mpya, unaweza kutembea na historia yako ya gumzo na picha na video zako za siku 45 zilizopita. Mchakato wa uhamishaji umesimbwa kwa njia fiche, na ni kwa hiari kabisa. Linapokuja suala la kufanya uchaguzi kuhusu kuacha au kutoyaacha yaliyopita, unaachwa kwa vifaa vyako."
   }
 }

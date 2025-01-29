@@ -1122,7 +1122,7 @@
     "messageformat": "Зображення, надіслане в чат"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Завантаження: {downloaded} з {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Значок на позначення того, що це зображення має підпис"
@@ -1143,16 +1143,16 @@
     "messageformat": "Цей медіафайл уже недоступний."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Цей медіафайл недоступний"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Докладніше"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Цей файл недоступний"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Це голосове повідомлення недоступне"
   },
   "icu:save": {
     "messageformat": "Зберегти"
@@ -3588,7 +3588,7 @@
     "messageformat": "вперед"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Синхронізація може тривати кілька хвилин"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Підтримати Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Підготовка до завантаження…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Синхронізація може тривати кілька хвилин"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Закрити"
@@ -5819,9 +5819,9 @@
     "messageformat": "Тепер на пристроях із сенсорним екраном можна змінювати розмір бічної панелі зі списком чатів. Встановлюйте зручний для себе розмір, просто перетягуючи панель без зайвої тягомотини!"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Ми виправили рідкісну помилку, через яку чати іноді не відкривалися, коли ви їх вибирали. Хай відкритими будуть чати, а не питання на кшталт «Та чому ж воно не працює?»."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Тепер, зв'язуючи основний пристрій Signal з новим комп'ютером чи iPad, ви також можете переносити історію чатів і медіафайли за минулі 45 днів. Процес перенесення захищено наскрізним шифруванням. А ще воно необов'язкове, тож тільки вам вирішувати, чи зберегти минуле в пам'яті пристрою, чи тільки у своїй власній."
   }
 }
