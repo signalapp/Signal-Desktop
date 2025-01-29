@@ -89,6 +89,11 @@ class TapToViewMessagesDeletionService {
   }
 
   async #checkTapToViewMessages() {
+    if (!this.#shouldRun()) {
+      window.SignalContext.log.info('checkTapToViewMessages: not running');
+      return;
+    }
+
     const receivedAtMsForOldestTapToViewMessage =
       await DataReader.getNextTapToViewMessageTimestampToAgeOut();
     if (!receivedAtMsForOldestTapToViewMessage) {
@@ -116,11 +121,18 @@ class TapToViewMessagesDeletionService {
 
     clearTimeoutIfNecessary(this.#timeout);
     this.#timeout = setTimeout(async () => {
-      if (!this.#isPaused && !window.SignalContext.isTestOrMockEnvironment()) {
-        await eraseTapToViewMessages();
+      if (!this.#shouldRun()) {
+        window.SignalContext.log.info('checkTapToViewMessages: not running');
+        return;
       }
+
+      await eraseTapToViewMessages();
       this.update();
     }, wait);
+  }
+
+  #shouldRun(): boolean {
+    return !this.#isPaused && !window.SignalContext.isTestOrMockEnvironment();
   }
 }
 
