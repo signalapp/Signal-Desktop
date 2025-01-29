@@ -191,6 +191,7 @@ export class Bootstrap {
       // Limit number of storage read keys for easier testing
       maxStorageReadKeys: MAX_STORAGE_READ_KEYS,
       cdn3Path: this.cdn3Path,
+      updates2Path: path.join(__dirname, 'updates-data'),
     });
 
     this.#options = {

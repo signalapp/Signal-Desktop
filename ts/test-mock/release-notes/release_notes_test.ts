@@ -2,13 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
-import { assert } from 'chai';
 
+import { expect } from 'playwright/test';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import { MINUTE } from '../../util/durations';
 
 import { SIGNAL_ACI } from '../../types/SignalConversation';
+import {
+  clickOnConversationWithAci,
+  getTimelineMessageWithText,
+} from '../helpers';
 
 export const debug = createDebug('mock:test:releaseNotes');
 
@@ -37,7 +41,7 @@ describe('release notes', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  it('shows release notes', async () => {
+  it('shows release notes with an image', async () => {
     const firstWindow = await app.getWindow();
 
     await firstWindow.evaluate('window.SignalCI.resetReleaseNotesFetcher()');
@@ -52,6 +56,17 @@ describe('release notes', function (this: Mocha.Suite) {
     const releaseNoteConversation = leftPane.getByTestId(SIGNAL_ACI);
     await releaseNoteConversation.waitFor();
 
-    assert.isTrue(await releaseNoteConversation.isVisible());
+    await expect(releaseNoteConversation).toBeVisible();
+
+    await clickOnConversationWithAci(secondWindow, SIGNAL_ACI);
+
+    const timelineMessage = await getTimelineMessageWithText(
+      secondWindow,
+      'Call links'
+    );
+
+    await expect(
+      timelineMessage.locator('img.module-image__image')
+    ).toBeVisible();
   });
 });

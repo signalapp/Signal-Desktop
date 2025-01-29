@@ -253,13 +253,21 @@ export async function createGroup(
   return group;
 }
 
+export async function clickOnConversationWithAci(
+  page: Page,
+  aci: string
+): Promise<void> {
+  const leftPane = page.locator('#LeftPane');
+  await leftPane.getByTestId(aci).click();
+}
+
 export async function clickOnConversation(
   page: Page,
   contact: PrimaryDevice
 ): Promise<void> {
-  const leftPane = page.locator('#LeftPane');
-  await leftPane.getByTestId(contact.device.aci).click();
+  await clickOnConversationWithAci(page, contact.device.aci);
 }
+
 export async function pinContact(
   phone: PrimaryDevice,
   contact: PrimaryDevice

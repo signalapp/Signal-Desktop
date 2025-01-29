@@ -1267,6 +1267,11 @@ export type ReleaseNotesManifestResponseType = z.infer<
   typeof releaseNotesManifestSchema
 >;
 
+export type GetReleaseNoteImageAttachmentResultType = Readonly<{
+  imageData: Uint8Array;
+  contentType: string | null;
+}>;
+
 export type CallLinkCreateAuthResponseType = Readonly<{
   credential: string;
 }>;
@@ -1417,6 +1422,9 @@ export type WebAPIType = {
   ) => Promise<string | undefined>;
   getReleaseNotesManifest: () => Promise<ReleaseNotesManifestResponseType>;
   getReleaseNotesManifestHash: () => Promise<string | undefined>;
+  getReleaseNoteImageAttachment: (
+    path: string
+  ) => Promise<GetReleaseNoteImageAttachmentResultType>;
   getSticker: (packId: string, stickerId: number) => Promise<Uint8Array>;
   getStickerPackManifest: (packId: string) => Promise<StickerPackManifestType>;
   getStorageCredentials: MessageSender['getStorageCredentials'];
@@ -1890,6 +1898,7 @@ export function initialize({
       getReleaseNoteHash,
       getReleaseNotesManifest,
       getReleaseNotesManifestHash,
+      getReleaseNoteImageAttachment,
       getTransferArchive,
       getSenderCertificate,
       getSocketStatus,
@@ -2255,6 +2264,29 @@ export function initialize({
       }
 
       return etag;
+    }
+
+    async function getReleaseNoteImageAttachment(
+      path: string
+    ): Promise<GetReleaseNoteImageAttachmentResultType> {
+      const { origin: expectedOrigin } = new URL(resourcesUrl);
+      const url = `${resourcesUrl}${path}`;
+      const { origin } = new URL(url);
+      strictAssert(origin === expectedOrigin, `Unexpected origin: ${origin}`);
+
+      const { data: imageData, contentType } = await _outerAjax(url, {
+        certificateAuthority,
+        proxyUrl,
+        responseType: 'byteswithdetails',
+        timeout: 0,
+        type: 'GET',
+        version,
+      });
+
+      return {
+        imageData,
+        contentType,
+      };
     }
 
     async function getStorageManifest(
@@ -3917,7 +3949,12 @@ export function initialize({
         if (options?.downloadOffset) {
           targetHeaders.range = `bytes=${options.downloadOffset}-`;
         }
-        streamWithDetails = await _outerAjax(`${cdnUrl}${cdnPath}`, {
+        const { origin: expectedOrigin } = new URL(cdnUrl);
+        const fullCdnUrl = `${cdnUrl}${cdnPath}`;
+        const { origin } = new URL(fullCdnUrl);
+        strictAssert(origin === expectedOrigin, `Unexpected origin: ${origin}`);
+
+        streamWithDetails = await _outerAjax(fullCdnUrl, {
           headers: targetHeaders,
           certificateAuthority,
           disableRetries: options?.disableRetries,
