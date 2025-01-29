@@ -1122,7 +1122,7 @@
     "messageformat": "Imagem enviada no chat"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Baixando {downloaded} de {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ícone mostrando que esta imagem possui uma legenda"
@@ -1143,16 +1143,16 @@
     "messageformat": "Este arquivo de mídia não está mais disponível."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Este arquivo de mídia não está mais disponível"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Saiba mais"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Este arquivo não está disponível"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Esta mensagem de voz não está disponível"
   },
   "icu:save": {
     "messageformat": "Salvar"
@@ -1593,7 +1593,7 @@
     "messageformat": "Excluir todos os dados?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Excluir todos os dados e mensagens desta versão do Signal Desktop? Você pode vincular novamente este desktop, mas suas mensagens não serão restauradas. Sua conta do Signal e dados do seu telefone ou outros dispositivos vinculados não serão excluídos."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Desconectando e apagando todos os dados…"
@@ -3588,7 +3588,7 @@
     "messageformat": "próximo"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Isso pode levar alguns minutos"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Doar para o Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Preparando para download…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Isso pode levar alguns minutos"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cancelar"
@@ -4575,10 +4575,10 @@
     "messageformat": "Escolher uma cor"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Reiniciar download"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Tente novamente"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Foto do grupo"
@@ -5812,16 +5812,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Corrigimos um erro nas @menções que, em alguns casos, incluíam indevidamente sua própria conta na lista de sugestões de preenchimento automático."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Agora você pode ajustar o tamanho da barra lateral da lista de conversas em dispositivos com tela sensível ao toque."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Corrigimos um erro raro que estava impedindo que algumas conversas fossem abertas corretamente após serem selecionadas."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Agora, ao vincular seu dispositivo principal do Signal a um novo desktop ou iPad, você pode levar seu histórico de conversas e os últimos 45 dias de mídia com você. O processo de transferência é criptografado de ponta a ponta e totalmente opcional."
   }
 }

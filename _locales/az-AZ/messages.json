@@ -1122,7 +1122,7 @@
     "messageformat": "Çata şəkil göndərildi"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{downloaded}/{total} endirilir"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Nişan, bu təsvirin başlığının olduğunu göstərir"
@@ -1143,16 +1143,16 @@
     "messageformat": "Bu media faylı artıq mövcud deyil."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Bu media faylı aktiv deyil"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Daha ətraflı"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Bu fayl aktiv deyil"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Bu səsli mesaj aktiv deyil"
   },
   "icu:save": {
     "messageformat": "Saxla"
@@ -1593,7 +1593,7 @@
     "messageformat": "Bütün verilənlər silinsin?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktop-un bu versiyasından bütün verilənlər və mesajlar silinsin? Masaüstünə hər zaman yenidən bağlana bilərsiniz, amma mesajlarınızı bərpa etmək mümkün olmayacaq. Signal hesabınız və telefonunuzdakı verilənlər, yaxud da əlaqələndirilmiş digər cihazlar silinməyəcək."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Bağlantı kəsilir və bütün verilənlər silinir…"
@@ -3588,7 +3588,7 @@
     "messageformat": "növbəti"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Bu bir neçə dəqiqə çəkə bilər"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-a ianə verin"
@@ -3621,7 +3621,7 @@
     "messageformat": "Endirməyə hazırlaşır..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Bu bir neçə dəqiqə çəkə bilər"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Ləğv et"
@@ -4575,10 +4575,10 @@
     "messageformat": "Bir rəng seçin"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Yenidən endirməyə cəhd et"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Yenidən sına"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Qrup avatarı"
@@ -5812,16 +5812,13 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Bəzən səhvən şəxsi hesabınızın avtomatik tamamlanan təklif siyahısına daxil edilməsinə səbəb olan @ işarəli etiketlərlə bağlı xətanı aradan qaldırdıq. Bu xətanı gözdən qaçırsanız, qrup çatlarında özünüzdən üçüncü şəxs kimi bəhs edə bilərsiniz."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Artıq sensorlu ekranı olan cihazlarda çat siyahısının yan panelinin ölçüsünü tənzimləyə bilərsiniz. Bundan sonra onu sürüşdürməyə çalışdığınız zaman cihazınızın ekranındakı barmaq izləri geridə qalan yeganə dəlil olacaq."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Seçildikdən sonra bəzi çatların düzgün açılmasına mane olan nadir görünən bir nasazlığı aradan qaldırdıq ki, siz həmin çatları xatırlayarkən Signal Desktop-da boşluq görünməsin."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "İndi əsas Signal cihazınızı yeni Masaüstü və ya iPad cihazınızla əlaqələndirdiyiniz zaman çat tarixçənizi və son 45 günlük media fayllarınızı da köçürə bilərsiniz. Köçürmə prosesi ucdan-uca şifrələnib və tamamilə öz seçiminizdən asılıdır. \"Keçmiş keçmişdə qaldı\" demək və ya onu özünüzlə daşımaq artıq yalnız sizdən asılıdır."
   }
 }

@@ -1122,7 +1122,7 @@
     "messageformat": "Attēls nosūtīts sarunā"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Lejupielādē: {downloaded} no {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona, kas parāda, ka šim attēlam ir paraksts"
@@ -1143,16 +1143,16 @@
     "messageformat": "Šī multivide vairs nav pieejama."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Šī multivide nav pieejama"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Uzzināt vairāk"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Šis fails nav pieejams"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Šī balss ziņa nav pieejama"
   },
   "icu:save": {
     "messageformat": "Saglabāt"
@@ -1593,7 +1593,7 @@
     "messageformat": "Vai dzēst visus datus?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Vai dzēst visus datus un ziņas no šīs Signal Desktop versijas? Jebkurā brīdī varat atkārtoti piesaistīt Signal šim datoram, taču ziņas netiks atjaunotas. Jūsu Signal konts un dati tālrunī vai citās piesaistītās ierīcēs netiks dzēsti."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Notiek atvienošana un visu datu dzēšana…"
@@ -3588,7 +3588,7 @@
     "messageformat": "tālāk"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Process var ilgt dažas minūtes"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Ziedot Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Gatavo lejupielādi…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Process var ilgt dažas minūtes"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Atcelt"
@@ -4575,10 +4575,10 @@
     "messageformat": "Izvēlēties krāsu"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Mēģināt lejupielādēt vēlreiz"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Mēģināt vēlreiz"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Grupas avatārs"
@@ -5812,16 +5812,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Mēs atrisinājām kļūdu, kas lika arī jūsu kontam parādīties @ pieminējumu automātiskās pabeigšanas ieteikumu sarakstā. Ja jums šī kļūda kādreiz pietrūkst, iesakām šādos gadījumos grupu sarunās atsaukties uz sevi trešajā personā."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Tagad ierīcēs ar skārienekrānu varat pielāgot sarunu saraksta sānu joslas izmēru."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Mēs izlabojām kļūdu reti sastopamu kļūdu, kuras dēļ nebija iespējams pareizi atvērt dažas sarunas pēc to atlasīšanas. Signal Desktop turpmāk vairs nebūs atmiņas problēmu, cenšoties atcerēties jūsu sarunas."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "★ Tagad, piesaistot savu galveno Signal ierīci jaunam datoram vai iPad, varat pārsūtīt uz jauno ierīci savu sarunu vēsturi un pēdējo 45 dienu multividi. Pārsūtīšanas process ir pilnībā šifrēts un nav obligāts."
   }
 }

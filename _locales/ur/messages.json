@@ -1122,7 +1122,7 @@
     "messageformat": "چیٹ میں تصویر بھیج دی گئی"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} کا {downloaded} ڈاؤن لوڈ ہو رہا ہے"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "آئیکن ظاہر کررہی ہے کہ اس تصویر میں ایک عنوان ہے"
@@ -1143,16 +1143,16 @@
     "messageformat": "یہ میڈیا مزید دستیاب نہیں ہے۔"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "یہ میڈیا دستیاب نہیں"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "مزید جانیں"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "یہ فائل دستیاب نہیں"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "یہ صوتی میسج دستیاب نہیں"
   },
   "icu:save": {
     "messageformat": "محفوظ کریں"
@@ -1593,7 +1593,7 @@
     "messageformat": "تمام ڈیٹا کو حذف کریں؟"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal ڈیسک ٹاپ کے اس ورژن سے تمام ڈیٹا اور میسجز کو حذف کریں؟ آپ کسی بھی وقت اس ڈیسک سے دوبارہ مربوط ہو سکتے ہیں، لیکن آپ کے میسجز بحال نہیں ہوں گے۔ آپ کا Signal اکاؤنٹ اور آپ کے فون یا دیگر مربوشط کردہ ڈیوائسز پر موجود ڈیٹا حذف نہیں کیا جائے گا۔"
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "منقطع کیا جا رہا ہے اور تمام ڈیٹا خذف کیا جا رہا ہے…"
@@ -3588,7 +3588,7 @@
     "messageformat": "اگلے"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "اس میں کچھ منٹ لگ سکتے ہیں"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal کے لئے عطیہ کریں"
@@ -3621,7 +3621,7 @@
     "messageformat": "ڈاؤن لوڈ کرنے کے لیے تیار کیا جا رہا ہے..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "اس میں کچھ منٹ لگ سکتے ہیں"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "منسوخ کریں"
@@ -4575,10 +4575,10 @@
     "messageformat": "رنگ منتخب کریں"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "دوبارہ ڈاؤن لوڈ کرنے کی کوشش کریں"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "گروپ اوتار"
@@ -5812,16 +5812,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "ہم نے @ کے ساتھ ایک نقص کی درستگی کی ہے جو بعض اوقات آپ کے اپنے اکاؤنٹ کو خود کار طور پر تکمیل کی تجویز کی فہرست میں شامل کرتا تھا۔"
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "اب آپ ٹچ اسکرین ڈیوائسز پر چیٹ لسٹ کی سائیڈ بار کے سائز کو ایڈجسٹ کر سکتے ہیں۔"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "ہم نے ایک ایسے شاذو نادر پیش آنے والے نقص کو ٹھیک کیا ہے جس کی وجہ سے کچھ چیٹس ٹھیک طرح سے کھل نہیں رہی تھیں۔"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "اب آپ اپنی چیٹ ہسٹری اور گزشتہ 45 دن کے میڈیا کو ایک نئی لنک کردہ ڈیوائس پر ٹرانسفر کرنے کا انتخاب کر سکتے ہیں۔ ٹرانسفر کرنے کا عمل شروع سے آخر تک انکرپٹ کردہ، اور مکمل طور پر اختیاری ہے۔"
   }
 }

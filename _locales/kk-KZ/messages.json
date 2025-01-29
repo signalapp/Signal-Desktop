@@ -1122,7 +1122,7 @@
     "messageformat": "Чатта жіберілген сурет"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{downloaded}/{total} жүктеп алынды"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Бұл суреттің атауы бар екенін білдіретін белгіше"
@@ -1143,16 +1143,16 @@
     "messageformat": "Бұл мультимедиа енді жоқ."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Бұл мультимедиа файлы қолжетімді емес"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Толық ақпарат"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Бұл файл қолжетімді емес"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Бұл дауыстық хабар қолжетімді емес"
   },
   "icu:save": {
     "messageformat": "Сақтау"
@@ -1593,7 +1593,7 @@
     "messageformat": "Барлық деректі жою керек пе?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktop-тың осы нұсқасынан барлық деректі және хатты жою керек пе? Осы жұмыс үстелін кез келген уақытта қайта байланыстыра аласыз, бірақ хаттарыңыз қалпына келмейді. Signal аккаунтыңыз және телефоныңыздағы деректер немесе басқа да байланыстырылған құрылғылар жойылмайды."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Қолданба ажыратылып жатыр және деректер толығымен жойылып жатыр…"
@@ -3588,7 +3588,7 @@
     "messageformat": "келесі"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Оған бірнеше минут кетуі мүмкін"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-ды демеу"
@@ -3621,7 +3621,7 @@
     "messageformat": "Жүктеп алуға дайындалып жатыр..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Оған бірнеше минут кетуі мүмкін"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Бас тарту"
@@ -4575,10 +4575,10 @@
     "messageformat": "Түсті таңдау"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Жүктеп алуды қайталау"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Қайталап көру"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Топтың аватары"
@@ -5812,16 +5812,13 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Біреуді @ белгісі арқылы атап өтетін кезде автоматты түрде толтырылатын ұсыныстар тізімінде өз аккаунтыңыз қате қосылып кететін ақау түзетілді. Енді топтық чаттарда өзіңіз туралы сөз қозғағанда, өз аккаунтыңызды атап өтпейтін боласыз."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Енді сенсорлық экраны бар құрылғыларда чаттар тізімін жылжыту жолағының өлшемін өзгерте аласыз. Жолақты жүргізу енді оп-оңай. Ол үшін экранды жұмыр саусағыңызбен жұмсақ басыңыз."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Кейбір чаттардың дұрыс ашылуына сирек кедергі келтіретін ақауды түзеттік. Енді чаттар Signal Desktop-та дұрыс ашылып, онда болып жатқан қызу талқыға тез орала аласыз."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Енді Signal қолданылатын негізгі құрылғыңызды жаңа компьютермен немесе iPad-пен байланыстырғанда, чат тарихы мен соңғы 45 күндегі мультимедиа файлдарыңызды да тасымалдай аласыз. Тасымалдау процесі тура шифрланады және қосымша опция болып саналады. Сондықтан өткенді артта қалдырмаймын десеңіз де, жаңа құрылғыда бәрін жаңадан бастаймын десеңіз де, кез келген шешім өз еркіңізде."
   }
 }

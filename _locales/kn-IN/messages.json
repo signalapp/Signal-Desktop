@@ -1122,7 +1122,7 @@
     "messageformat": "ಚಾಟ್‌ನಲ್ಲಿ ಚಿತ್ರವನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total}ರಲ್ಲಿ {downloaded} ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ಈ ಚಿತ್ರಕ್ಕೆ ಶೀರ್ಷಿಕೆ ಇದೆ ಎಂದು ತೋರಿಸುವ ಐಕಾನ್"
@@ -1143,16 +1143,16 @@
     "messageformat": "ಈ ಮೀಡಿಯಾ ಇನ್ನು ಮುಂದೆ ಲಭ್ಯವಿರುವುದಿಲ್ಲ."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "ಈ ಮೀಡಿಯಾ ಲಭ್ಯವಿಲ್ಲ"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "ಈ ಫೈಲ್ ಲಭ್ಯವಿಲ್ಲ"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "ಈ ಧ್ವನಿ ಸಂದೇಶ ಲಭ್ಯವಿಲ್ಲ"
   },
   "icu:save": {
     "messageformat": "ಉಳಿಸಿ"
@@ -1593,7 +1593,7 @@
     "messageformat": "ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸುವುದೇ?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktop ನ ಈ ಆವೃತ್ತಿಯಿಂದ ಎಲ್ಲಾ ಡೇಟಾ ಮತ್ತು ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಮರುಲಿಂಕ್ ಮಾಡಬಹುದು, ಆದರೆ ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳು ರೀಸ್ಟೋರ್ ಆಗುವುದಿಲ್ಲ. ನಿಮ್ಮ ಫೋನ್ ಅಥವಾ ಇತರ ಲಿಂಕ್ ಮಾಡಲಾದ ಸಾಧನಗಳಲ್ಲಿನ ನಿಮ್ಮ Signal ಖಾತೆ ಮತ್ತು ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "ಡಿಸ್‌ಕನೆಕ್ಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ ಮತ್ತು ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸಲಾಗುತ್ತಿದೆ…"
@@ -3588,7 +3588,7 @@
     "messageformat": "ಮುಂದೆ"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ಇದು ಕೆಲವು ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಬಹುದು"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ಗೆ ದಾನ ಮಾಡಿ"
@@ -3621,7 +3621,7 @@
     "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಿದ್ಧವಾಗುತ್ತಿದೆ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ಇದು ಕೆಲವು ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಬಹುದು"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "ರದ್ದುಮಾಡಿ"
@@ -4575,10 +4575,10 @@
     "messageformat": "ಬಣ್ಣ ಆಯ್ಕೆಮಾಡಿ"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "ಗ್ರೂಪ್ ಅವತಾರ್"
@@ -5812,16 +5812,13 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "ಸ್ವಯಂಪೂರ್ಣಗೊಳಿಸುವ ಸಲಹೆಯ ಪಟ್ಟಿಯಲ್ಲಿ ನಿಮ್ಮ ಸ್ವಂತ ಖಾತೆಯನ್ನು ಕೆಲವೊಮ್ಮೆ ತಪ್ಪಾಗಿ ಒಳಗೊಂಡಿರುವ @ ಉಲ್ಲೇಖಗಳೊಂದಿಗೆ ನಾವು ದೋಷವನ್ನು ಪರಿಹರಿಸಿದ್ದೇವೆ. ನೀವು ಎಂದಾದರೂ ಈ ದೋಷವನ್ನು ತಪ್ಪಿಸಿಕೊಂಡರೆ ನಾರ್ಸಿಸಿಸ್ಟಿಕ್ ಪರಿಹಾರವಾಗಿ, ನಿಮ್ಮ ಗುಂಪು ಚಾಟ್‌ಗಳಲ್ಲಿ ನಿಮ್ಮ ಬಗ್ಗೆ ಮಾತನಾಡಲು ಮೂರನೇ ವ್ಯಕ್ತಿಯ ನಿರೂಪಣೆಯನ್ನು ನೀವು ಈಗಲೂ ಬಳಸಬಹುದು."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "ಈಗ ನೀವು ಟಚ್‌ಸ್ಕ್ರೀನ್ ಸಾಧನಗಳಲ್ಲಿ ಚಾಟ್ ಲಿಸ್ಟ್ ಸೈಡ್‌ಬಾರ್‌ನ ಗಾತ್ರವನ್ನು ಸರಿಹೊಂದಿಸಬಹುದು. ಹಾಗಾಗಿ ನೀವು ಡ್ರ್ಯಾಗ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ಅದು ಅಂತಹ ಡ್ರ್ಯಾಗ್ ಆಗುವುದಿಲ್ಲ ಮತ್ತು ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಮೇಲಿನ ಕಲೆಗಳು ನಿಮ್ಮ ಬೆರಳ ತುದಿಯಿಂದ ಹೊರಹೊಮ್ಮುವ ಶಕ್ತಿಗೆ ಸಾಕ್ಷಿಯಾಗಿವೆ."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "ಕೆಲವು ಚಾಟ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿದ ನಂತರ ಅವುಗಳನ್ನು ಸರಿಯಾಗಿ ತೆರೆಯುವುದನ್ನು ತಡೆಯುವ ಅಪರೂಪದ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ, ಆದ್ದರಿಂದ ಈಗ ನೀವು ಅವರು ಹೇಳಿದ್ದನ್ನು ನೆನಪಿಟ್ಟುಕೊಳ್ಳಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವಾಗ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಕೂಡ ನೆನಪಿಸಿಕೊಳ್ಳಲು ತಡಕಾಡುವುದಿಲ್ಲ."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "ಈಗ ನೀವು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ Signal ಸಾಧನವನ್ನು ಹೊಸ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅಥವಾ iPad ಗೆ ಲಿಂಕ್ ಮಾಡಿದಾಗ, ನಿಮ್ಮ ಚಾಟ್ ಇತಿಹಾಸ ಮತ್ತು ನಿಮ್ಮ ಕಳೆದ 45 ದಿನಗಳ ಮೀಡಿಯಾವನ್ನು ನಿಮ್ಮೊಂದಿಗೆ ತರಬಹುದು. ವರ್ಗಾವಣೆ ಪ್ರಕ್ರಿಯೆಯು ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿದೆ ಮತ್ತು ಸಂಪೂರ್ಣವಾಗಿ ಐಚ್ಛಿಕವಾಗಿರುತ್ತದೆ. ಹಿಂದಿನದನ್ನು ಬಿಡಬೇಕೆ ಅಥವಾ ಬೇಡವೇ ಎಂಬುದರ ಕುರಿತು ಆಯ್ಕೆ ಮಾಡುವ ಸಂದರ್ಭ ಬಂದಾಗ, ನಿಮ್ಮ ಸ್ವಂತ ವಿವೇಚನೆಯ ಮೇಲೆ ನಿರ್ಣಯ ತೆಗೆದುಕೊಳ್ಳಬೇಕಾಗುತ್ತದೆ."
   }
 }

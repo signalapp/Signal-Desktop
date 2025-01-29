@@ -1122,7 +1122,7 @@
     "messageformat": "Imej dihantar dalam sembang"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Memuat turun {downloaded} daripada {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon menunjukkan bahawa imej ini mempunyai kapsyen"
@@ -1143,16 +1143,16 @@
     "messageformat": "Media ini tidak lagi tersedia."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Media ini tidak tersedia"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Ketahui lebih lanjut"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Fail ini tidak tersedia"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Mesej suara ini tidak tersedia"
   },
   "icu:save": {
     "messageformat": "Simpan"
@@ -1593,7 +1593,7 @@
     "messageformat": "Padamkan semua data?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Padamkan semua data dan mesej daripada versi Signal Desktop ini? Anda sentiasa boleh memautkan semula desktop ini, tetapi mesej anda tidak akan dipulihkan. Akaun Signal anda dan data pada telefon anda atau peranti terpaut lain tidak akan dipadamkan."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Memutuskan dan memadam semua data…"
@@ -3588,7 +3588,7 @@
     "messageformat": "seterusnya"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Proses ini mungkin mengambil masa beberapa minit"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Sumbang kepada Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Bersedia untuk memuat turun..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Proses ini mungkin mengambil masa beberapa minit"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Batal"
@@ -4575,10 +4575,10 @@
     "messageformat": "Pilih warna"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Cuba muat turun semula"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Cuba Semula"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar Kumpulan"
@@ -5812,16 +5812,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Kami membetulkan pepijat pada @ sebutan yang kadangkala memasukkan akaun anda sendiri dalam senarai cadangan autolengkap."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Kini anda boleh melaraskan saiz bar sisi senarai sembang pada peranti skrin sentuh."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Kami membaiki pepijat yang jarang berlaku, yang menghalang beberapa sembang daripada dibuka dengan betul."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Kini anda boleh memilih untuk memindahkan sejarah sembang anda dan media 45 hari lalu ke peranti baru yang dipautkan. Proses pemindahan ini disulitkan hujung ke hujung dan sepenuhnya terpulang kepada anda."
   }
 }

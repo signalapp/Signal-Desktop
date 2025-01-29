@@ -1122,7 +1122,7 @@
     "messageformat": "Gambar terkirim di obrolan"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Mengunduh {downloaded} dari {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon menunjukkan bahwa gambar ini memiliki keterangan"
@@ -1143,16 +1143,16 @@
     "messageformat": "Media ini sudah tidak tersedia."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Media ini tidak tersedia"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Selengkapnya"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "File ini tidak tersedia"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Pesan suara ini tidak tersedia"
   },
   "icu:save": {
     "messageformat": "Simpan"
@@ -1593,7 +1593,7 @@
     "messageformat": "Hapus semua data?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Hapus semua data dan pesan dari versi Signal Desktop ini? Anda bisa tautkan lagi desktop ini kapan saja, tetapi pesan Anda tidak akan dipulihkan. Akun Signal dan data di ponsel Anda atau perangkat terhubung lainnya tidak akan dihapus."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Memutus koneksi dan menghapus semua data…"
@@ -3588,7 +3588,7 @@
     "messageformat": "berikutnya"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Mungkin perlu waktu beberapa menit"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Berdonasi ke Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Bersiap mengunduh …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Mungkin perlu waktu beberapa menit"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Batal"
@@ -4575,10 +4575,10 @@
     "messageformat": "Pilih warna"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Coba unduh lagi"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Coba lagi"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar Grup"
@@ -5812,16 +5812,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Kami memperbaiki bug dengan @ penyebutan/mention yang kadang menyertakan akun Anda sendiri pada daftar saran akun yang dapat ditambahkan secara otomatis."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Kini Anda bisa menyesuaikanz ukuran panel samping untuk daftar chat di perangkat layar sentuh. Jadi, jika ingin melakukan penyesuaian, tinggal sat-set, selesai!"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Kami telah mengatasi bug langka yang mencegah Anda membuka chat di Signal Desktop. Anda kini tidak akan melihat layar kosong lagi dan tidak perlu mengingat-ingat chat sebelumnya."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Kini Anda bisa menghubungkan Signal yang terinstal di perangkat utama Anda ke Desktop atau iPad baru. Anda juga bisa memindahkan riwayat chat dan media dari 45 hari terakhir ke perangkat yang baru. Proses transfernya dienkripsi secara menyeluruh dan bersifat opsional. Anda bisa bebas untuk tetap menyimpan riwayat aktivitas atau menghapusnya."
   }
 }
