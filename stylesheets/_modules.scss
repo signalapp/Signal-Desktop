@@ -1082,6 +1082,9 @@ $message-padding-horizontal: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 
   @include mixins.light-theme {
     color: variables.$color-gray-90;
