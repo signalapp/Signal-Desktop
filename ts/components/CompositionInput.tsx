@@ -785,10 +785,6 @@ export function CompositionInput(props: Props): React.ReactElement {
                   key: 'Backspace',
                   handler: () => callbacksRef.current.onBackspace(),
                 },
-                Tab: {
-                  key: 'Tab',
-                  handler: () => callbacksRef.current.onTab(),
-                },
               },
             },
             emojiCompletion: {
@@ -820,51 +816,62 @@ export function CompositionInput(props: Props): React.ReactElement {
           placeholder={placeholder || i18n('icu:sendMessage')}
           readOnly={disabled}
           ref={element => {
-            if (element) {
-              const quill = element.getQuill();
-              if (!quill) {
-                throw new Error(
-                  'CompositionInput: wrapper did not return quill!'
-                );
-              }
-
-              quillRef.current = quill;
-
-              // When loading a multi-line message out of a draft, the cursor
-              // position needs to be pushed to the end of the input manually.
-              quill.once('editor-change', () => {
-                setTimeout(() => {
-                  quill.setSelection(quill.getLength(), 0);
-                  quill.root.classList.add('ql-editor--loaded');
-                }, 0);
-              });
-
-              quill.on(
-                'selection-change',
-                (newRange: RangeStatic, oldRange: RangeStatic) => {
-                  // If we lose focus, store the last edit point for emoji insertion
-                  if (newRange == null) {
-                    setLastSelectionRange(oldRange);
-                  }
-                }
-              );
-
-              const emojiCompletion = quill.getModule('emojiCompletion');
-              if (!(emojiCompletion instanceof EmojiCompletion)) {
-                throw new Error(
-                  'CompositionInput: emojiCompletion module not properly initialized'
-                );
-              }
-              emojiCompletionRef.current = emojiCompletion;
-
-              const mentionCompletion = quill.getModule('mentionCompletion');
-              if (!(mentionCompletion instanceof MentionCompletion)) {
-                throw new Error(
-                  'CompositionInput: mentionCompletion module not properly initialized'
-                );
-              }
-              mentionCompletionRef.current = mentionCompletion;
+            if (!element) {
+              return;
             }
+            const quill = element.getQuill();
+            if (!quill) {
+              throw new Error(
+                'CompositionInput: wrapper did not return quill!'
+              );
+            }
+
+            quillRef.current = quill;
+
+            // When loading a multi-line message out of a draft, the cursor
+            // position needs to be pushed to the end of the input manually.
+            quill.once('editor-change', () => {
+              setTimeout(() => {
+                quill.setSelection(quill.getLength(), 0);
+                quill.root.classList.add('ql-editor--loaded');
+              }, 0);
+            });
+
+            quill.on(
+              'selection-change',
+              (newRange: RangeStatic, oldRange: RangeStatic) => {
+                // If we lose focus, store the last edit point for emoji insertion
+                if (newRange == null) {
+                  setLastSelectionRange(oldRange);
+                }
+              }
+            );
+
+            const tabKey = 'Tab';
+            quill.keyboard.addBinding({
+              key: tabKey,
+              handler: () => callbacksRef.current.onTab(),
+            });
+            const ourHandler = quill.keyboard.bindings[tabKey].pop();
+            if (ourHandler) {
+              quill.keyboard.bindings[tabKey].unshift(ourHandler);
+            }
+
+            const emojiCompletion = quill.getModule('emojiCompletion');
+            if (!(emojiCompletion instanceof EmojiCompletion)) {
+              throw new Error(
+                'CompositionInput: emojiCompletion module not properly initialized'
+              );
+            }
+            emojiCompletionRef.current = emojiCompletion;
+
+            const mentionCompletion = quill.getModule('mentionCompletion');
+            if (!(mentionCompletion instanceof MentionCompletion)) {
+              throw new Error(
+                'CompositionInput: mentionCompletion module not properly initialized'
+              );
+            }
+            mentionCompletionRef.current = mentionCompletion;
           }}
         />
       );
