@@ -1122,7 +1122,7 @@
     "messageformat": "Imazhi u dërgua në bisedë"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Po shkarkohet {downloaded} nga {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikonë që tregon  se për këtë figurë ka një titull"
@@ -1143,16 +1143,16 @@
     "messageformat": "Media nuk disponohet më."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Kjo media nuk është e disponueshme"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Mëso më shumë"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Ky skedar nuk është i disponueshëm"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Ky mesazh zanor nuk është i disponueshëm"
   },
   "icu:save": {
     "messageformat": "Ruaje"
@@ -1593,7 +1593,7 @@
     "messageformat": "Të fshihen krejt të dhënat?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Të fshihen të gjitha të dhënat dhe mesazhet nga versioni i Signal Desktop? Mund ta rilidhësh gjithmonë këtë desktop, por mesazhet e tua nuk do të rikthehen. Llogaria jote në Signal, si dhe të dhënat që gjenden në telefonin tënd apo në pajisje të tjera të lidhura nuk do të fshihen."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Të gjitha të dhënat po shkëputen dhe po fshihen…"
@@ -3588,7 +3588,7 @@
     "messageformat": "pasuesja"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Kjo mund të zgjasë disa minuta"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dhuroni për Signal-in"
@@ -3621,7 +3621,7 @@
     "messageformat": "Po përgatitet për t'u shkarkuar..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Kjo mund të zgjasë disa minuta"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Anulo"
@@ -4575,10 +4575,10 @@
     "messageformat": "Zgjidhni një ngjyrë"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Riprovo shkarkimin"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Riprovo"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar Grupi"
@@ -5812,16 +5812,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Ne rregulluam gabimin me përmendjet @ që ndonjëherë përfshinte gabimisht vetë llogarinë tënde në listën e sugjerimeve të plotësimit automatik. Nëse ndonjëherë të ndodh ta humbësh këtë problem, si zgjidhje narcisiste, mund ta përdorësh sërish rrëfimin në vetë të tretë për të folur për veten në bisedat në grup."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Tani mund të rregullosh madhësinë e shiritit anësor të listës së bisedave në pajisjet me ekran me prekje. Pra, kur provon ta tërheqësh, nuk do të jetë aq e vështirë, dhe njollat në ekran janë thjesht dëshmi e fuqisë që vjen nga gishtat."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Kemi rregulluar një defekt të rrallë që pengoi disa biseda të hapeshin siç duhet pasi ato u zgjodhën, kështu që tani Signal Desktop nuk do të tregojë më një ekran bosh ndërkohë që përpiqesh të kujtosh çfarë thanë."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Kur e lidh pajisjen kryesore të Signal me një Desktop ose iPad të ri, tanimë mund ta marrësh me vete historikun e bisedave dhe mediat e 45 ditëve të fundit. Procesi i transferimit është i koduar nga skaji në skaj dhe plotësisht opsional. Kur vjen puna për të bërë zgjedhjen nëse do të lësh apo jo të kaluarën pas, je në duart e pajisjeve të tua."
   }
 }

@@ -513,13 +513,13 @@
     "messageformat": "Para confirmar que tu comunicación con {name} está cifrada, compara los números que aparecen arriba con los de su dispositivo. También puedes escanear el código que se muestra en su dispositivo."
   },
   "icu:SafetyNumberViewer__learn_more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Se creará un número de seguridad con esta persona una vez que se intercambien mensajes."
   },
   "icu:SafetyNumberNotReady__learn-more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:verified": {
     "messageformat": "Identidad verificada"
@@ -1053,10 +1053,10 @@
     "messageformat": "Sesión de chat reiniciada"
   },
   "icu:ChatRefresh--learnMore": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal usa cifrado de extremo a extremo y es posible que en determinados casos deba reiniciarse la sesión de un chat. Este reinicio no afecta a la seguridad, pero puede ocurrir que no hayas recibido el último mensaje que esta persona te envió antes del reinicio. Si es así, pídele que vuelva a enviarte el mensaje."
+    "messageformat": "Signal usa cifrado de extremo a extremo y es posible que en determinados casos deba reiniciarse la sesión de un chat. Este reinicio no afecta a la seguridad, pero puede ocurrir que no hayas recibido el último mensaje que este contacto te envió antes del reinicio. Si es así, pídele que vuelva a enviarte el mensaje."
   },
   "icu:ChatRefresh--contactSupport": {
     "messageformat": "Contactar con asistencia"
@@ -1068,7 +1068,7 @@
     "messageformat": "No se ha podido entregar un mensaje de {sender}"
   },
   "icu:DeliveryIssue--learnMore": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:DeliveryIssue--title": {
     "messageformat": "Fallo en la entrega"
@@ -1095,7 +1095,7 @@
     "messageformat": "Tu historial de mensajes con {conversationTitle} se ha fusionado con otro chat que tenías con esa misma persona."
   },
   "icu:ConversationMerge--learn-more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Después de enviar un mensaje a {obsoleteConversationTitle}, supiste que este número pertenece a {conversationTitle}. Su número de teléfono es privado."
@@ -1122,7 +1122,7 @@
     "messageformat": "Foto enviada en el chat"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Descargando: {downloaded} de {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icono que indica que esta imagen tiene una descripción"
@@ -1143,16 +1143,16 @@
     "messageformat": "Este archivo ya no está disponible."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Este archivo multimedia no está disponible"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Este archivo no está disponible"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Este mensaje de voz no está disponible"
   },
   "icu:save": {
     "messageformat": "Guardar"
@@ -1167,7 +1167,7 @@
     "messageformat": "Vincular un nuevo dispositivo"
   },
   "icu:Install__learn-more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:Install__scan-this-code": {
     "messageformat": "Escanea este código con la aplicación Signal en tu teléfono"
@@ -1437,28 +1437,28 @@
     "messageformat": "{count, plural, one {{count,number} persona está en esta llamada} other {{count,number} personas están en esta llamada}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
-    "messageformat": "Signal llamará a {person}"
+    "messageformat": "Signal sonará en la app de {person}"
   },
   "icu:calling__pre-call-info--will-ring-2": {
-    "messageformat": "Signal llamará a {first} y {second}"
+    "messageformat": "Signal sonará en la app de {first} y {second}"
   },
   "icu:calling__pre-call-info--will-ring-3": {
-    "messageformat": "Signal llamará a {first}, {second} y {third}"
+    "messageformat": "Signal sonará en la app de {first}, {second} y {third}"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "{others, plural, one {Signal llamará a {first}, {second} y {others,number} más} other {Signal llamará a {first}, {second} y {others,number} más}}"
+    "messageformat": "{others, plural, one {Signal sonará en la app de {first}, {second} y {others,number} más} other {Signal sonará en la app de {first}, {second} y {others,number} más}}"
   },
   "icu:calling__pre-call-info--will-notify-1": {
-    "messageformat": "Se notificará a {person}"
+    "messageformat": "Se enviará una notificación a {person}"
   },
   "icu:calling__pre-call-info--will-notify-2": {
-    "messageformat": "Se notificará a {first} y {second}"
+    "messageformat": "Se enviará una notificación a {first} y {second}"
   },
   "icu:calling__pre-call-info--will-notify-3": {
-    "messageformat": "Se notificará a {first}, {second} y {third}"
+    "messageformat": "Se enviará una notificación a {first}, {second} y {third}"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{others, plural, one {Se notificará a {first}, {second} y {others,number} más} other {Se notificará a {first}, {second} y {others,number} más}}"
+    "messageformat": "{others, plural, one {Se enviará una notificación a {first}, {second} y {others,number} más} other {Se enviará una notificación a {first}, {second} y {others,number} más}}"
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "No hay nadie más"
@@ -1593,7 +1593,7 @@
     "messageformat": "¿Eliminar todos los datos?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? Siempre puedes volver a vincular esta aplicación de escritorio, pero tus mensajes no se restaurarán. No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Desconectando Signal y eliminando datos…"
@@ -1698,7 +1698,7 @@
     "messageformat": "Mensaje demasiado largo."
   },
   "icu:unblockToSend": {
-    "messageformat": "Desbloquea a esta persona para enviarle un mensaje."
+    "messageformat": "Desbloquea a este contacto para enviarle un mensaje."
   },
   "icu:unblockGroupToSend": {
     "messageformat": "Desbloquea este grupo para enviar un mensaje."
@@ -2655,10 +2655,10 @@
     "messageformat": "Continuar"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "¿Seguir chateando con este grupo y compartir tu nombre y foto de perfil con sus participantes? <learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "¿Seguir chateando con este grupo y compartir tu nombre y foto de perfil con sus participantes? <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "¿Seguir chateando con {firstName} y compartir tu nombre y foto de perfil con esta persona? <learnMoreLink>Más información</learnMoreLink>"
+    "messageformat": "¿Seguir chateando con {firstName} y compartir tu nombre y foto de perfil con esta persona? <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 participante} other {{count,number} participantes}}"
@@ -2910,7 +2910,7 @@
     "messageformat": "Ventana"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "Más información sobre este contacto"
+    "messageformat": "Más información sobre este contacto"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copiar enlace de llamada"
@@ -2937,7 +2937,7 @@
     "messageformat": "{count, plural, one {+{count,number} más} other {+{count,number} más}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "Más información sobre nuevos contactos"
+    "messageformat": "Más información sobre nuevos contactos"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "Antes de unirte a una llamada, solo podrás ver los nombres de las personas que tengas como contactos en tu teléfono, con las que estás en un grupo o con las que hayas chateado en privado. Verás todos los nombres y las fotos una vez que te hayas unido a la llamada."
@@ -3507,13 +3507,13 @@
     "messageformat": "Los miembros o la configuración de este grupo han cambiado."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Actualiza este grupo para activar funciones como @menciones y admins. Las personas que aún no compartan su nombre y foto de perfil con este grupo recibirán una invitación para unirse. <learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Actualiza este grupo para activar funciones como @menciones y admins. Las personas que aún no compartan su nombre y foto de perfil con este grupo recibirán una invitación para unirse. <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:GroupV1--Migration--was-upgraded": {
     "messageformat": "Este grupo se ha actualizado al nuevo sistema de grupos."
   },
   "icu:GroupV1--Migration--learn-more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:GroupV1--Migration--migrate": {
     "messageformat": "Actualizar"
@@ -3588,7 +3588,7 @@
     "messageformat": "siguiente"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Este proceso puede llevar unos minutos"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donar a Signal"
@@ -3621,13 +3621,13 @@
     "messageformat": "Preparando la descarga…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Este proceso puede llevar unos minutos"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cancelar"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Los mensajes y los chats, al igual que el proceso de sincronización, están protegidos con cifrado de extremo a extremo. <learnMoreLink>Más información</learnMoreLink>"
+    "messageformat": "Los mensajes y los chats, al igual que el proceso de sincronización, están protegidos con cifrado de extremo a extremo. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "¿Cancelar transferencia?"
@@ -3720,7 +3720,7 @@
     "messageformat": "Signal Desktop no permite enviar mensajes a personas que no usan Signal. Invita a esta persona a instalar Signal para disfrutar de una experiencia de mensajería más segura y privada."
   },
   "icu:CompositionArea--sms-only__spinner-label": {
-    "messageformat": "Comprobando si la persona está registrada"
+    "messageformat": "Comprobando si el contacto está registrado"
   },
   "icu:CompositionArea__edit-action--discard": {
     "messageformat": "Descartar mensaje"
@@ -3876,7 +3876,7 @@
     "messageformat": "Añadir participantes"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
-    "messageformat": "Ver todos"
+    "messageformat": "Ver más"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} grupo en común} other {{count,number} grupos en común}}"
@@ -3942,7 +3942,7 @@
     "messageformat": "Solicitar aprobación de admin"
   },
   "icu:GroupLinkManagement--approve-info": {
-    "messageformat": "Alguien que sea admin debe aprobar nuevas solicitudes para unirse al grupo mediante enlace"
+    "messageformat": "Alguien que sea admin debe aprobar a nuevos participantes que se unan mediante enlace"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Solicitudes ({count,number})"
@@ -3990,7 +3990,7 @@
     "messageformat": "Las personas de esta lista han solicitado unirse al grupo \"{name}\" mediante enlace."
   },
   "icu:PendingInvites--info": {
-    "messageformat": "No se mostrarán los detalles de las personas invitadas a este grupo hasta que se unan. Esas personas solo podrán ver los mensajes del grupo una vez que se hayan unido."
+    "messageformat": "La información de las personas invitadas a este grupo no se mostrará hasta que se unan. También verán los mensajes del grupo a partir de ese momento."
   },
   "icu:PendingRequests--block--button": {
     "messageformat": "Bloquear solicitud"
@@ -4044,7 +4044,7 @@
     "messageformat": "Eliminar"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
-    "messageformat": "{count, plural, one {Solo puedes seleccionar {count,number} mensaje para eliminar para todos} other {Solo puedes seleccionar hasta {count,number} mensajes para eliminar para todos}}"
+    "messageformat": "{count, plural, one {Solo puedes seleccionar {count,number} mensaje para eliminar para todos} other {Solo puedes seleccionar un máximo de {count,number} mensajes para eliminar para todos}}"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Solo puedes reenviar un máximo de 30 mensajes"
@@ -4056,16 +4056,16 @@
     "messageformat": "{count, plural, one {Invitación enviada} other {{count,number} invitaciones enviadas}}"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-    "messageformat": "No puedes añadir a {name} a este grupo automáticamente."
+    "messageformat": "No puedes añadir automáticamente a {name} a este grupo."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-    "messageformat": "No puedes añadir a estas personas a este grupo automáticamente."
+    "messageformat": "No puedes añadir automáticamente a estas personas a este grupo."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
     "messageformat": "Se les ha enviado una invitación para unirse y no verán ningún mensaje del grupo hasta que la acepten."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:AddGroupMembersModal--title": {
     "messageformat": "Añadir participantes"
@@ -4092,7 +4092,7 @@
     "messageformat": "Seleccionar contacto {name}"
   },
   "icu:deselectContact": {
-    "messageformat": "Descartar contacto {name}"
+    "messageformat": "Deseleccionar contacto {name}"
   },
   "icu:cannotSelectContact": {
     "messageformat": "No se puede seleccionar contacto {name}"
@@ -4149,7 +4149,7 @@
     "messageformat": "Usa este enlace para unirte a una llamada de Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Consejos de seguridad"
@@ -4161,7 +4161,7 @@
     "messageformat": "Acerca de las solicitudes de mensaje"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Revisa cuidadosamente las solicitudes. Signal ha encontrado otra persona con el mismo nombre. <reviewRequestLink>Revisar solicitud</reviewRequestLink>"
+    "messageformat": "Revisa cuidadosamente las solicitudes. Signal ha encontrado otro contacto con el mismo nombre. <reviewRequestLink>Revisar solicitud</reviewRequestLink>"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
     "messageformat": "{count, plural, one {{count,number} participante usa el mismo nombre. <reviewRequestLink>Revisar participantes</reviewRequestLink>} other {{count,number} participantes usan el mismo nombre. <reviewRequestLink>Revisar participantes</reviewRequestLink>}}"
@@ -4173,7 +4173,7 @@
     "messageformat": "Revisar solicitud"
   },
   "icu:ContactSpoofingReviewDialog__description": {
-    "messageformat": "Si no sabes quién te ha enviado esta solicitud, revisa la siguiente lista de personas y selecciona la opción que desees."
+    "messageformat": "Si no sabes quién te ha enviado esta solicitud, revisa la siguiente lista de contactos y selecciona la opción que desees."
   },
   "icu:ContactSpoofingReviewDialog__possibly-unsafe-title": {
     "messageformat": "Solicitud"
@@ -4344,7 +4344,7 @@
     "messageformat": "Elige una duración predeterminada de los mensajes temporales para todos los chats nuevos que inicies."
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Duración predeterminada en chats nuevos"
+    "messageformat": "Duración predeterminada de chats"
   },
   "icu:UniversalTimerNotification__text": {
     "messageformat": "La duración de los mensajes temporales será de {timeValue} cuando inicies un chat con alguien."
@@ -4488,7 +4488,7 @@
     "messageformat": "Eliminar"
   },
   "icu:ProfileEditor--username--context-menu": {
-    "messageformat": "Copiar o borrar alias"
+    "messageformat": "Copiar o eliminar alias"
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Copiar alias"
@@ -4575,10 +4575,10 @@
     "messageformat": "Selecciona un color"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Reintentar descarga"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Reintentar"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Imagen del grupo"
@@ -4695,7 +4695,7 @@
     "messageformat": "Si cambias el ajuste \"{settingTitle}\" a \"{nobodyLabel}\", será más difícil que las personas te encuentren en Signal."
   },
   "icu:Preferences--messaging": {
-    "messageformat": "Mensajería"
+    "messageformat": "Mensajes"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Confirmaciones de lectura"
@@ -4795,7 +4795,7 @@
     "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
-    "messageformat": "Cierra la aplicación manualmente y haz clic en Reintentar para continuar.",
+    "messageformat": "Cierra la app manualmente y haz clic en Reintentar para continuar.",
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
@@ -4807,7 +4807,7 @@
     "ignoreUnused": true
   },
   "icu:NSIS__uninstallFailed": {
-    "messageformat": "No se han podido desinstalar los archivos antiguos de la aplicación. Intenta volver a ejecutar el instalador.",
+    "messageformat": "No se han podido desinstalar los archivos antiguos de la app. Intenta volver a ejecutar el instalador.",
     "ignoreUnused": true
   },
   "icu:NSIS__semver-downgrade": {
@@ -4833,7 +4833,7 @@
     "messageformat": "Haz clic para reemplazar un emoji"
   },
   "icu:CustomizingPreferredReactions__had-save-error": {
-    "messageformat": "No se han podido guardar tus ajustes. Inténtalo de nuevo."
+    "messageformat": "No se han podido guardar tus preferencias. Inténtalo de nuevo."
   },
   "icu:MediaEditor__input-placeholder": {
     "messageformat": "Mensaje"
@@ -4857,7 +4857,7 @@
     "messageformat": "Rehacer"
   },
   "icu:MediaEditor__text--regular": {
-    "messageformat": "Normal"
+    "messageformat": "Estándar"
   },
   "icu:MediaEditor__text--highlight": {
     "messageformat": "Resaltar"
@@ -4872,16 +4872,16 @@
     "messageformat": "Rotulador"
   },
   "icu:MediaEditor__draw--thin": {
-    "messageformat": "Fina"
+    "messageformat": "Fino"
   },
   "icu:MediaEditor__draw--regular": {
-    "messageformat": "Normal"
+    "messageformat": "Estándar"
   },
   "icu:MediaEditor__draw--medium": {
-    "messageformat": "Media"
+    "messageformat": "Medio"
   },
   "icu:MediaEditor__draw--heavy": {
-    "messageformat": "Ancha"
+    "messageformat": "Ancho"
   },
   "icu:MediaEditor__crop--reset": {
     "messageformat": "Restablecer"
@@ -4986,13 +4986,13 @@
     "messageformat": "Opciones"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:SignalConnectionsModal__title": {
     "messageformat": "Contactos de Signal"
   },
   "icu:SignalConnectionsModal__header": {
-    "messageformat": "{connections} son personas en las que has decidido confiar por alguno de los siguientes motivos:"
+    "messageformat": "Tus <strong>contactos de Signal</strong> son personas en las que has decidido confiar por alguno de los siguientes motivos:"
   },
   "icu:SignalConnectionsModal__bullet--1": {
     "messageformat": "Has iniciado un chat con ellas."
@@ -5046,13 +5046,13 @@
     "messageformat": "Enviando…"
   },
   "icu:Stories__list--send_failed": {
-    "messageformat": "No enviado"
+    "messageformat": "No enviada"
   },
   "icu:Stories__list--partially-sent": {
-    "messageformat": "Enviado parcialmente"
+    "messageformat": "Enviada parcialmente"
   },
   "icu:Stories__list--retry-send": {
-    "messageformat": "Haz clic para reintentar."
+    "messageformat": "Haz clic para reintentar"
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Haz clic para ver una historia"
@@ -5148,7 +5148,7 @@
     "messageformat": "Compartir solo con…"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas compartido.<learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas compartido.<learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:StoriesSettings__context-menu": {
     "messageformat": "Privacidad de las historias"
@@ -5217,7 +5217,7 @@
     "messageformat": "Privacidad de mis historias"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Elige quiénes de tus contactos de Signal pueden ver tus historias.'{'0'}' Siempre podrás cambiarlo en los Ajustes de privacidad. <learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Elige quiénes de tus contactos de Signal pueden ver tus historias.'{'0'}' Siempre podrás cambiarlo en los Ajustes de privacidad. <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:SendStoryModal__delete-story": {
     "messageformat": "Eliminar historia"
@@ -5265,10 +5265,10 @@
     "messageformat": "Enviando…"
   },
   "icu:StoryViewer__failed": {
-    "messageformat": "No enviado. Haz clic para reintentar."
+    "messageformat": "No enviada. Haz clic para reintentar."
   },
   "icu:StoryViewer__partial-fail": {
-    "messageformat": "Enviado parcialmente. Haz clic para reintentar."
+    "messageformat": "Enviada parcialmente. Haz clic para reintentar."
   },
   "icu:StoryDetailsModal__sent-time": {
     "messageformat": "Enviada {time}"
@@ -5451,7 +5451,7 @@
     "messageformat": "Los alias siempre incluyen un conjunto de números."
   },
   "icu:EditUsernameModalBody__learn-more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:EditUsernameModalBody__learn-more__title": {
     "messageformat": "¿Qué es este número?"
@@ -5545,16 +5545,16 @@
     "messageformat": "Protege la privacidad de tu número de teléfono, elige un alias opcional y descubre los enlaces de Signal."
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Más información"
+    "messageformat": "Más información"
   },
   "icu:UsernameMegaphone__dismiss": {
     "messageformat": "Ignorar"
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal Desktop pronto dejará de ser compatible con la versión del {OS} de tu equipo de escritorio. Para seguir usando Signal, actualiza el sistema operativo de tu equipo antes del {expirationDate}. <learnMoreLink>Más información</learnMoreLink>"
+    "messageformat": "Signal Desktop pronto dejará de ser compatible con la versión del {OS} de tu equipo de escritorio. Para seguir usando Signal, actualiza el sistema operativo de tu equipo antes del {expirationDate}. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal Desktop ya no funciona en este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del {OS} de tu equipo de escritorio. <learnMoreLink>Más información</learnMoreLink>"
+    "messageformat": "Signal Desktop ya no funciona en este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del {OS} de tu equipo de escritorio. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
     "messageformat": "Signal Desktop ya no funciona en este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del {OS} de tu equipo de escritorio."
@@ -5812,16 +5812,13 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Cuando querías mencionar a alguien con @, a veces aparecía tu propia cuenta en la lista de sugerencias. ¡Eso ya es cosa del pasado! Pero no te preocupes: podrás seguir dando rienda suelta a tu <em>main character energy</em> hablando de ti en tercera persona en tus chats de grupo."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Ahora puedes ajustar el tamaño de la barra lateral de la lista de chats en dispositivos con pantalla táctil. Así, ocupará el espacio justo sin monopolizar la pantalla ni obligarte a forzar la vista."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Hemos corregido un error poco frecuente que impedía que algunos chats se abrieran correctamente después de seleccionarlos. Así que ahora, cuando te cueste recordar qué te habían dicho, al menos tendrás la certeza de que Signal Desktop puede ayudarte con la respuesta."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Ahora, al vincular tu dispositivo Signal principal a un nuevo ordenador o iPad, podrás llevarte contigo tu historial de chats y tus últimos 45 días de archivos multimedia. El proceso de transferencia está cifrado de extremo a extremo y es completamente opcional. Así, la decisión de dejar tu pasado atrás solo dependerá de ti (¡y de tus dispositivos!)."
   }
 }

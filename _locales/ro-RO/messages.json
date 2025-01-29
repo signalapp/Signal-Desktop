@@ -1122,7 +1122,7 @@
     "messageformat": "Imagine trimisă în conversație"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Se descarcă {downloaded} din {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Pictogramă ce arată că această imagine are titlu"
@@ -1143,16 +1143,16 @@
     "messageformat": "Acest fișier nu mai este disponibil."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Acest fișier media nu este disponibil"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Află mai multe"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Acest fișier nu este disponibil"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Acest mesaj vocal nu este disponibil"
   },
   "icu:save": {
     "messageformat": "Salvează"
@@ -1593,7 +1593,7 @@
     "messageformat": "Ștergi toate datele?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Ștergi toate datele și mesajele din această versiune de Signal Desktop? Poți oricând să re-asociezi acest desktop, dar mesajele tale nu se vor restabili. Contul tău Signal și datele de pe telefon sau alte dispozitive conectate nu vor fi șterse."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Se deconectează și se șterg toate datele…"
@@ -3588,7 +3588,7 @@
     "messageformat": "următorul"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Această operațiune poate dura câteva minute"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donează pentru Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Se pregătește descărcarea..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Această operațiune poate dura câteva minute"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Anulează"
@@ -4575,10 +4575,10 @@
     "messageformat": "Alege o culoare"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Reîncearcă descărcarea"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Încearcă din nou"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar de grup"
@@ -5812,16 +5812,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Am remediat o eroare cu mențiunile @ care, uneori, includeau incorect propriul tău cont în lista de sugestii de completare automată. Dacă ai un ego puternic, poți folosi în continuare vorbirea la persoana a treia pentru a spune ceva despre tine în conversațiile de grup, dacă îți scapă vreodată această eroare."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Pe dispozitivele cu ecran tactil, acum poți ajusta bara laterală în lista conversațiilor. Astfel, atunci când tragi de ea să o dimensionezi, nu vei simți că ai tras din greu, iar urmele de pe ecran vor fi doar o dovadă că ți-ai folosit degetele."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Am remediat o eroare rară care a împiedicat unele chat-uri să se deschidă corect după ce au fost selectate, așa că acum Signal Desktop nu ratează în timp ce încerci să-ți amintești ce s-a spus."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Acum, când conectezi dispozitivul Signal principal la un nou desktop sau iPad, poți avea acces la istoricul conversațiilor și la fișierele media din ultimele 45 de zile. Procesul de transfer este criptat end-to-end și complet opțional. Când vine vorba de a alege dacă să lași sau nu trecutul în urmă, rămâi la mâna propriilor tale dispozitive."
   }
 }

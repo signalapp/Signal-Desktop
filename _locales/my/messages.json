@@ -1122,7 +1122,7 @@
     "messageformat": "ချက်(တ်)ထဲတွင် ပေးပို့ထားသော ပုံ"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} မှ {downloaded} ကို ဒေါင်းလုဒ်လုပ်နေသည်"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "ဤပုံတွင် စာတန်းပါကြောင်း ပြသသည့် အိုင်ကွန်"
@@ -1143,16 +1143,16 @@
     "messageformat": "ဤမီဒီယာ မရှိတော့ပါ။"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "ဤမီဒီယာကို မရရှိနိုင်ပါ"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "ပိုမိုသိရှိရန်"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "ဤဖိုင်ကို မရရှိနိုင်ပါ"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "ဤအသံမက်ဆေ့(ချ်)ကို မရရှိနိုင်ပါ"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -1593,7 +1593,7 @@
     "messageformat": "ဒေတာအားလုံးကို ဖျက်မည်လား။"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "ဤ Signal Desktop ဗားရှင်းမှ ဒေတာနှင့် မက်ဆေ့ချ်အားလုံးကို ဖျက်ပါမည်လား။ ဤ Desktop ကို သင် အချိန်မရွေး ပြန်လည်ချိတ်ဆက်နိုင်သော်လည်း သင့်မက်ဆေ့ချ်များကို ပြန်သိမ်းနိုင်မည်မဟုတ်ပါ။ သင့်ဖုန်း သို့မဟုတ် အခြား ချိတ်ထားသည့် စက်များမှ သင့် Signal အကောင့်နှင့် ဒေတာကို ဖျက်မည်မဟုတ်ပါ။"
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "ချိတ်ဆက်မှုကိုဖြုတ်၍ ဒေတာအားလုံးကို ဖျက်နေသည်..."
@@ -3588,7 +3588,7 @@
     "messageformat": "ရှေ့သို့"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ကိုလှူဒါန်းပါ"
@@ -3621,7 +3621,7 @@
     "messageformat": "ဒေါင်းလုဒ်လုပ်ရန် ပြင်ဆင်နေသည်..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "မလုပ်တော့ပါ"
@@ -4575,10 +4575,10 @@
     "messageformat": "အရောင် ရွေးရန်"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "ဒေါင်းလုဒ် ပြန်လုပ်ကြည့်မည်"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "ထပ်ကြိုးစားပါ"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "အဖွဲ့ ရုပ်ပုံ"
@@ -5812,16 +5812,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "တစ်ခါတစ်ရံတွင် သင့်ကိုယ်ပိုင်အကောင့်ကို အလိုအလျောက်ဖြည့်စွက်မှု အကြံပြုချက်စာရင်းတွင် @ မန်းရှင်းထည့်သွင်းသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "ယခု သင်သည် Touchscreen စက်များတွင် ချက်(တ်)စာရင်းဘေးမှ ဘား၏ အရွယ်အစားကို ချိန်ညှိနိုင်ပါပြီ။"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "အချို့သော ချက်(တ်)များကို မှန်ကန်စွာ ဖွင့်မရရန် တားဆီးထားသည့် ရှားပါးသော ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "ယခု သင်သည် ချက်(တ်)မှတ်တမ်းနှင့် နောက်ဆုံး 45 ရက်အတွင်း မီဒီယာကို ချိတ်ဆက်ထားသော စက်အသစ်သို့ လွှဲပြောင်းနိုင်ပါပြီ။ လွှဲပြောင်းခြင်းလုပ်ငန်းစဉ်ကို ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားပြီး ဆန္ဒရှိမှ လုပ်ဆောင်နိုင်သည်။"
   }
 }

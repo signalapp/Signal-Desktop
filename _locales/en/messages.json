@@ -561,7 +561,7 @@
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "For your security, chat history isn't transferred to new linked devices.",
-    "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
+    "description": "(Deleted 2025/01/29) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "You marked your Safety Number with {name} as verified",
@@ -7730,7 +7730,7 @@
   },
   "icu:WhatsNew__v7.40--0": {
     "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said.",
-    "description": "Release notes for version 7.40"
+    "description": "(Deleted 2025/01/29) Release notes for version 7.40"
   },
   "icu:WhatsNew__v7.40--1": {
     "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices.",

@@ -1122,7 +1122,7 @@
     "messageformat": "Slika je poslana u chatu"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Preuzimanje {downloaded} od {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona koja prikazuje da ova slika sadrži opis"
@@ -1143,16 +1143,16 @@
     "messageformat": "Ovaj medijski sadržaj više nije dostupan."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Ovaj medijski sadržaj nije dostupan"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Saznajte više"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Ova datoteka nije dostupna"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Ova glasovna poruka nije dostupna"
   },
   "icu:save": {
     "messageformat": "Pohrani"
@@ -1593,7 +1593,7 @@
     "messageformat": "Izbrisati sve podatke?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Izbrisati sve podatke i poruke iz ove verzije Signal Desktopa? Uvijek možete ponovo povezati ovu radnu površinu, ali vaše poruke se neće vratiti. Vaš Signal račun i podaci na vašem telefonu ili drugim povezanim uređajima neće biti izbrisani."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Prekidanje veze i brisanje svih podataka…"
@@ -3588,7 +3588,7 @@
     "messageformat": "sljedeće"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Ovo može potrajati nekoliko minuta"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donirajte za Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Priprema za preuzimanje..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Ovo može potrajati nekoliko minuta"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Otkaži"
@@ -4575,10 +4575,10 @@
     "messageformat": "Odaberite boju"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Ponovno pokušaj preuzimanje"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Pokušaj"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar grupe"
@@ -5812,16 +5812,13 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Ispravili smo pogrešku sa @ spominjanjima koja su ponekad uključivala vaš vlastiti račun na popis prijedloga za automatsko dovršavanje."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Sada možete prilagoditi veličinu bočne trake popisa za razgovor na uređajima sa zaslonom osjetljivim na dodir."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Ispravili smo rijetku pogrešku koja je sprječavala ispravno otvaranje nekih chatova."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Sada možete odlučiti prenijeti svoju povijest razgovora i posljednjih 45 dana medijskih sadržaja na novi povezani uređaj. Proces prijenosa je end-to-end kriptiran i potpuno neobavezan."
   }
 }

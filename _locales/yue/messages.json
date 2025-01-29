@@ -1122,7 +1122,7 @@
     "messageformat": "發送至聊天嘅圖片"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "下載緊 {downloaded} / {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "用嚟表示呢張圖片有描述嘅圖示"
@@ -1143,16 +1143,16 @@
     "messageformat": "呢個媒體已經冇咗。"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "呢個媒體已經冇咗"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "了解多啲"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "呢個檔案已經冇咗"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "呢個語音訊息已經冇咗"
   },
   "icu:save": {
     "messageformat": "儲存"
@@ -1593,7 +1593,7 @@
     "messageformat": "係咪要清除所有資料呀？"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "係咪要刪除呢個 Signal 桌面版版本嘅所有資料同訊息？你可以隨時重新連結返呢部桌面電腦，但你啲訊息就冇得還原㗎喇。你嘅 Signal 帳戶同埋手機或者其他已連結裝置上面嘅資料係唔會刪除嘅。"
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "中斷緊連接，同刪除緊資料…"
@@ -3588,7 +3588,7 @@
     "messageformat": "下一個"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "可能要幾分鐘時間"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "捐款俾 Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "準備緊下載..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "可能要幾分鐘時間"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "取消"
@@ -4575,10 +4575,10 @@
     "messageformat": "揀一隻色"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "再試多次下載"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "再試多次"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "群組頭像"
@@ -5812,16 +5812,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "我哋修正咗一個 @ 提及嘅錯誤，就係有時會錯誤咁將你自己嘅帳戶納入自動完成建議清單度。如果你真係咁自戀嘅，更新完之後你都可以繼續喺群組聊天度用第三人稱稱呼自己。"
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "而家，你可以喺觸控式裝置度調整聊天清單側欄嘅大細喇。"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "我哋修正咗一個罕見錯誤，佢導致某啲聊天冇辦法正常打開。"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "而家，如果你想將主要 Signal 裝置連去新嘅桌面電腦或者 iPad，可以帶走埋聊天紀錄同最近 45 日嘅媒體。轉移過程係端對端加密，完全由你選擇。至於係咪要拋開過去，就你自己決定喇。"
   }
 }

@@ -1122,7 +1122,7 @@
     "messageformat": "Pokalbyje nusiųstas vaizdas"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Atsisiunčiama {downloaded} iš {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Piktograma, rodanti, kad šis paveikslas turi paaiškinimą"
@@ -1143,16 +1143,16 @@
     "messageformat": "Šis įrašas nebeprieinamas."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Šis įrašas neprieinamas"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Sužinoti daugiau"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Šis failas neprieinamas"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Ši balso žinutė nepasiekiama"
   },
   "icu:save": {
     "messageformat": "Įrašyti"
@@ -1593,7 +1593,7 @@
     "messageformat": "Ištrinti visus duomenis?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Ištrinti visus duomenis ir žinutes iš šios „Signal Desktop“ versijos? Šį stalinį įrenginį visada galite vėl susieti, tačiau žinutės atkurtos nebus. Jūsų „Signal“ paskyra ir duomenys telefone ar kituose susietuose įrenginiuose nebus ištrinti."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Atsijungiama ir ištrinami visi duomenys…"
@@ -3588,7 +3588,7 @@
     "messageformat": "kitas"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Tai gali šiek tiek užtrukti"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Paaukokite Signal programėlei"
@@ -3621,7 +3621,7 @@
     "messageformat": "Ruošiamasi atsisiųsti..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Tai gali šiek tiek užtrukti"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Atšaukti"
@@ -4575,10 +4575,10 @@
     "messageformat": "Pasirinkite spalvą"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Bandyti atsisiųsti dar kartą"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Bandyti dar kartą"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Grupės avataras"
@@ -5812,16 +5812,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Ištaisėme klaidą su @ paminėjimais, kurie kartais neteisingai įtraukdavo jūsų pačių paskyrą į automatinio užbaigimo pasiūlymų sąrašą."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Nuo šiol galite koreguoti pokalbių sąrašo šoninės juostos dydį įrenginiuose su jutikliniu ekranu."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Ištaisėme retą klaidą, dėl kurios tam tikrų pokalbių nebuvo galima tinkamai atidaryti."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Dabar galite perkelti savo pokalbių istoriją ir paskutinių 45 dienų įrašus į naują susietąjį įrenginį. Perkėlimo procesas yra visiškai užšifruotas ir neprivalomas."
   }
 }

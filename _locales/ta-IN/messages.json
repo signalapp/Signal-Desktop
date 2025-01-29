@@ -1122,7 +1122,7 @@
     "messageformat": "படம் சாட்டில் அனுப்பப்பட்டது"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} இல் {downloaded} ஐப் பதிவிறக்குகிறது"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "இந்த படத்திற்கு ஒரு தலைப்பு இருப்பதைக் காட்டும் ஐகான்"
@@ -1143,16 +1143,16 @@
     "messageformat": "இந்த ஊடகம் இனி கிடைக்கப்பெறாது."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "இந்த ஊடகம் கிடைக்கவில்லை"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "மேலும் அறிக"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "இந்தக் கோப்பு கிடைக்கவில்லை"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "இந்த வாய்ஸ் மெசேஜ் கிடைக்கவில்லை"
   },
   "icu:save": {
     "messageformat": "சேமி"
@@ -1593,7 +1593,7 @@
     "messageformat": "எல்லா தரவையும் நீக்கவா?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal டெஸ்க்டாப்பின் இந்தப் பதிப்பிலிருந்து எல்லா தரவையும் மெசேஜ்களையும் நீக்க வேண்டுமா? நீங்கள் எப்போதும் இந்த டெஸ்க்டாப்பை மீண்டும் இணைக்கலாம், ஆனால் உங்கள் மெசேஜ்கள் மீட்டெடுக்கப்படாது. உங்கள் Signal கணக்கு மற்றும் உங்கள் ஃபோன் அல்லது இணைக்கப்பட்ட பிற டிவைஸ்களில் உள்ள தரவு நீக்கப்படாது."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "எல்லாத தரவையும் துண்டித்து நீக்குகிறது…"
@@ -3588,7 +3588,7 @@
     "messageformat": "அடுத்தது"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "இதற்குச் சில நிமிடங்கள் எடுக்கலாம்"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-க்கு நன்கொடை அளி"
@@ -3621,7 +3621,7 @@
     "messageformat": "பதிவிறக்கத் தயாராகிறது..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "இதற்குச் சில நிமிடங்கள் எடுக்கலாம்"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "ரத்துசெய்"
@@ -4575,10 +4575,10 @@
     "messageformat": "ஒரு வண்ணத்தைத் தேர்வு செய்யவும்"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "பதிவிறக்கத்தை மீண்டும் முயலுங்கள்"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "மீண்டும் முயற்சி செய்"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "குழு அவதார்"
@@ -5812,16 +5812,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "சில சமயங்களில் உங்கள் சொந்தக் கணக்கைத் தானியங்கு நிரப்புப் பரிந்துரைப் பட்டியலில் தவறாகச் சேர்க்கும் @ குறிப்புகள் கொண்ட பிழையை நாங்கள் சரிசெய்துள்ளோம். ஒரு நாசீசிஸ்டிக் தீர்வாக, இந்தப் பிழையை நீங்கள் எப்போதாவது தவறவிட்டால், உங்கள் குழு சாட்ஸில் உங்களைப் பற்றி பேச மூன்றாம் நபர் விவரிப்பு அம்சத்தைப் பயன்படுத்தலாம்."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "இப்போது நீங்கள் தொடுதிரை சாதனங்களில் சாட் பட்டியல் பக்கப்பட்டியின் அளவை மாற்றியமைக்கலாம்."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "தேர்ந்தெடுக்கப்பட்ட பிறகு சில சாட்ஸ் சரியாகத் திறப்பதைத் தடுக்கும் ஒரு அரிய பிழையை நாங்கள் சரிசெய்துள்ளோம், எனவே இப்போது சிக்னல் டெஸ்க்டாப் அவர்கள் சொன்னதை நினைவில் வைத்துக் கொள்ள முயலும்போது அது காலியாக இருக்காது."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "இப்போது உங்கள் முதன்மை சிக்னல் சாதனத்தை புதிய டெஸ்க்டாப் அல்லது ஐபேட் உடன் இணைக்கும்போது, உங்களின் சாட் வரலாற்றையும் கடந்த 45 நாட்கள் மீடியாவையும் உங்களுடன் கொண்டு வரலாம். இடமாற்றச் செயல்முறை இருமுனை மறைகுறியாக்கப்பட்டுள்ளது, மேலும் விருப்பத்திற்குரியது. கடந்த கால சாதனங்களிலிருந்து வெளியேறலாமா வேண்டாமா என்பதைத் தேர்வுசெய்தவுடன், நீங்கள் உங்கள் சொந்த சாதனங்களிலிருந்து வெளியேறிவிடுவீர்கள்."
   }
 }

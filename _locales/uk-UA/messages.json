@@ -1122,7 +1122,7 @@
     "messageformat": "Зображення, надіслане в чат"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Завантаження: {downloaded} з {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Значок на позначення того, що це зображення має підпис"
@@ -1143,16 +1143,16 @@
     "messageformat": "Цей медіафайл уже недоступний."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Цей медіафайл недоступний"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Докладніше"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Цей файл недоступний"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Це голосове повідомлення недоступне"
   },
   "icu:save": {
     "messageformat": "Зберегти"
@@ -1593,7 +1593,7 @@
     "messageformat": "Видалити всі дані?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Видалити всі дані й повідомлення з цієї версії Signal Desktop? Ви завжди зможете повторно зв'язати цей ПК, але можливості відновити повідомлення не буде. Ваш акаунт Signal і дані на телефоні й інших зв'язаних пристроях не буде видалено."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Триває від'єднання й видалення всіх даних…"
@@ -3588,7 +3588,7 @@
     "messageformat": "вперед"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Синхронізація може тривати кілька хвилин"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Підтримати Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Підготовка до завантаження…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Синхронізація може тривати кілька хвилин"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Закрити"
@@ -4068,10 +4068,10 @@
     "messageformat": "Докладніше"
   },
   "icu:AddGroupMembersModal--title": {
-    "messageformat": "Додати учасників"
+    "messageformat": "Додавання учасників"
   },
   "icu:AddGroupMembersModal--continue-to-confirm": {
-    "messageformat": "Оновити"
+    "messageformat": "Додати"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
     "messageformat": "Додати користувача {person} до «{group}»?"
@@ -4080,10 +4080,10 @@
     "messageformat": "Додати {count,number} учасників до «{group}»?"
   },
   "icu:AddGroupMembersModal--confirm-button--one": {
-    "messageformat": "Додати учасника"
+    "messageformat": "Додати"
   },
   "icu:AddGroupMembersModal--confirm-button--many": {
-    "messageformat": "Додати учасників"
+    "messageformat": "Додати"
   },
   "icu:createNewGroupButton": {
     "messageformat": "Нова група"
@@ -4575,10 +4575,10 @@
     "messageformat": "Обрати колір"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Повторити завантаження"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Повторити"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Зображення групи"
@@ -5812,16 +5812,13 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Ми виправили помилку зі @ згадками, через яку серед автоматичних пропозицій міг з'являтися ваш власний акаунт. Якщо вам подобалася така додаткова увага, то ніхто не забороняє вам, наприклад, говорити про себе в групових чатах у третій особі."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Тепер на пристроях із сенсорним екраном можна змінювати розмір бічної панелі зі списком чатів. Встановлюйте зручний для себе розмір, просто перетягуючи панель без зайвої тягомотини!"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Ми виправили рідкісну помилку, через яку чати іноді не відкривалися, коли ви їх вибирали. Хай відкритими будуть чати, а не питання на кшталт «Та чому ж воно не працює?»."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Тепер, зв'язуючи основний пристрій Signal з новим комп'ютером чи iPad, ви також можете переносити історію чатів і медіафайли за минулі 45 днів. Процес перенесення захищено наскрізним шифруванням. А ще воно необов'язкове, тож тільки вам вирішувати, чи зберегти минуле в пам'яті пристрою, чи тільки у своїй власній."
   }
 }

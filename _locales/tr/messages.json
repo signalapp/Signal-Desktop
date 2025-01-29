@@ -1122,7 +1122,7 @@
     "messageformat": "Sohbette gönderilen resim"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{downloaded} / {total} indiriliyor"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Bu görüntünün başlığı olduğunu gösteren ikon"
@@ -1143,16 +1143,16 @@
     "messageformat": "Bu medya artık kullanılamıyor."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Bu medya kullanılamıyor"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Daha fazla bilgi"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Bu dosya kullanılamıyor"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Bu sesli mesaj kullanılamıyor"
   },
   "icu:save": {
     "messageformat": "Kaydet"
@@ -1593,7 +1593,7 @@
     "messageformat": "Tüm veri silinsin mi?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktop'ın bu sürümündeki tüm veriler ve mesajlar silinsin mi? Bu masaüstünü istediğin zaman yeniden bağlayabilirsin ancak mesajların geri yüklenmez. Signal hesabın ve telefonundaki veya diğer bağlı cihazlarındaki veriler silinmez."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Bağlantı kesiliyor ve tüm veriler siliniyor…"
@@ -3588,7 +3588,7 @@
     "messageformat": "sonraki"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Bu işlem birkaç dakika sürebilir"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal'e Bağış Yap"
@@ -3621,7 +3621,7 @@
     "messageformat": "İndirmeye hazırlanıyor..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Bu işlem birkaç dakika sürebilir"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "İptal"
@@ -4575,10 +4575,10 @@
     "messageformat": "Bir renk seçin"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "İndirmeyi yeniden dene"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Tekrar dene"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Grup resmi"
@@ -5812,16 +5812,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Otomatik tamamlama öneri listesine bazen yanlışlıkla kendi hesabını dahil eden @ bahsetmeler ile ilgili bir hatayı düzelttik. Bu sayede grup sohbetlerinde kendini gereksiz yere görmene gerek kalmayacak."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Bundan böyle dokunmatik ekranlı cihazlarda sohbet listesi kenar çubuğunun boyutunu ayarlayabilirsin. Böylece kenar çubuğunu eskisi gibi zorlanarak sürüklemeyecek, istediğin boyuta getirebileceksin."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Bazı sohbetlerin doğru şekilde açılmasını engelleyen nadir bir hatayı düzelttik."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Bundan böyle sohbet geçmişini ve son 45 günlük medyanı yeni bağlanmış bir cihaza aktarmayı tercih edebilirsin. Aktarım süreci uçtan uca şifrelidir ve tamamen isteğe bağlıdır. İster geçmişi arkanda bırak ister bugüne taşı; kararı kendin ver!"
   }
 }

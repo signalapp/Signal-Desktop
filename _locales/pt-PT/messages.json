@@ -1122,7 +1122,7 @@
     "messageformat": "Imagem enviada no chat"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "A transferir {downloaded} de {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ícone que mostra que esta imagem tem uma legenda"
@@ -1143,16 +1143,16 @@
     "messageformat": "Este ficheiro multimédia já não está disponível."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Este ficheiro multimédia não está disponível"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Saber mais"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Este ficheiro não está disponível"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Esta mensagem de voz não está disponível"
   },
   "icu:save": {
     "messageformat": "Guardar"
@@ -1593,7 +1593,7 @@
     "messageformat": "Eliminar todos os dados?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Eliminar todos os dados e mensagens desta versão do Signal Desktop? Pode sempre voltar a conectar este desktop, mas as suas mensagens não serão restauradas. A sua conta Signal e os dados no seu telemóvel ou outros dispositivos conectados não serão eliminados."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "A desligar e a eliminar todos os dados…"
@@ -3588,7 +3588,7 @@
     "messageformat": "seguinte"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Isto pode demorar alguns minutos"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Doar ao Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "A preparar para descarregar…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Isto pode demorar alguns minutos"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cancelar"
@@ -4575,10 +4575,10 @@
     "messageformat": "Escolha uma cor"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Voltar a tentar descarregamento"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Tentar novamente"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar do grupo"
@@ -5812,16 +5812,13 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Corrigimos um erro em que as menções @ às vezes incluíam a sua própria conta na lista de sugestões do preenchimento automático."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Agora pode ajustar o tamanho da barra lateral da lista de chats em dispositivos com ecrã tátil."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Corrigimos um erro raro que impedia alguns chats de abrirem corretamente."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Agora pode escolher transferir o seu histórico de mensagens e os seus últimos 45 dias de ficheiros multimédia para um novo dispositivo vinculado. Este processo de transferência está encriptado de ponta a ponta e é totalmente opcional."
   }
 }

@@ -1122,7 +1122,7 @@
     "messageformat": "Η εικόνα στάλθηκε στη συνομιλία"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Λήψη {downloaded} από {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Εικονίδιο που δείχνει ότι αυτή η εικόνα έχει λεζάντα"
@@ -1143,16 +1143,16 @@
     "messageformat": "Το πολυμέσο δεν είναι πια διαθέσιμο."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Αυτό το πολυμέσο δεν είναι διαθέσιμο"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Μάθε περισσότερα"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Αυτό το αρχείο δεν είναι διαθέσιμο"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Αυτό το ηχητικό μήνυμα δεν είναι διαθέσιμο"
   },
   "icu:save": {
     "messageformat": "Αποθήκευση"
@@ -1593,7 +1593,7 @@
     "messageformat": "Διαγραφή όλων των δεδομένων;"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Να διαγραφούν όλα τα δεδομένα και τα μηνύματα από αυτή την έκδοση Signal για υπολογιστή; Μπορείς πάντα να επανασυνδέσεις τον υπολογιστή, αλλά δεν θα μπορείς να επαναφέρεις τα μηνύματά σου. Ο λογαριασμός σου στο Signal, τα δεδομένα στο τηλέφωνό σου ή σε άλλες συνδεδεμένες συσκευές δεν θα διαγραφούν."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Αποσύνδεση και διαγραφή όλων των δεδομένων..."
@@ -3588,7 +3588,7 @@
     "messageformat": "επόμενο"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Αυτό μπορεί να πάρει μερικά λεπτά"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Κάνε μια δωρεά στο Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Προετοιμασία για λήψη..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Αυτό μπορεί να πάρει μερικά λεπτά"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Ακύρωση"
@@ -4575,10 +4575,10 @@
     "messageformat": "Επιλογή χρώματος"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Επανάληψη λήψης"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Επανάληψη"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Εικονίδιο ομάδας"
@@ -5812,16 +5812,13 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Διορθώσαμε ένα σφάλμα με τις αναφορές @ που μερικές φορές συμπεριλάμβανε τον δικό σου λογαριασμό στη λίστα προτάσεων αυτόματης συμπλήρωσης."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Τώρα μπορείς να προσαρμόσεις το μέγεθος της πλαϊνής γραμμής της λίστας συνομιλιών σε συσκευές με οθόνη αφής."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Διορθώσαμε ένα σπάνιο σφάλμα που εμπόδιζε ορισμένες συνομιλίες να ανοίξουν σωστά."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Τώρα μπορείς να επιλέξεις να μεταφέρεις το ιστορικό συνομιλιών σου και τα πολυμέσα των τελευταίων 45 ημερών σε μια νέα συνδεδεμένη συσκευή. Η διαδικασία μεταφοράς είναι κρυπτογραφημένη από άκρο σε άκρο και εντελώς προαιρετική."
   }
 }

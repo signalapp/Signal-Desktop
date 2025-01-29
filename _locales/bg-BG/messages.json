@@ -1122,7 +1122,7 @@
     "messageformat": "Изображение, изпратено в чат"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "Изтегляне на {downloaded} от {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Иконка, показваща, че изображението има заглавие"
@@ -1143,16 +1143,16 @@
     "messageformat": "Тази мултимедия вече не е налична."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "Тази мултимедия не е налична"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Научете повече"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "Този файл не е наличен"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "Това гласово съобщение не е налично"
   },
   "icu:save": {
     "messageformat": "Запази"
@@ -1593,7 +1593,7 @@
     "messageformat": "Изтриване на всички данни?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Изтриване на всички данни и съобщения от тази версия на Signal Desktop? Винаги можете да свържете този десктоп отново, но съобщенията ви няма да бъдат възстановени. Вашият акаунт в Signal и данните на телефона ви или други свързани устройства няма да бъдат изтрити."
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Прекъсване и изтриване на всички данни…"
@@ -3588,7 +3588,7 @@
     "messageformat": "следващ"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Това може да отнеме няколко минути"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Дари на Signal"
@@ -3621,7 +3621,7 @@
     "messageformat": "Подготвяне за изтегляне…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Това може да отнеме няколко минути"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Отказ"
@@ -4575,10 +4575,10 @@
     "messageformat": "Изберете цвят"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "Повторен опит за изтегляне"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "Опитайте отново"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Аватар на групата"
@@ -5812,16 +5812,13 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Отстранихме грешка със споменаванията чрез @, при която в списъка с автоматични предложения понякога неправилно беше включен собствения ви акаунт."
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Вече можете да регулирате размера на страничната лента със списъка с чатове на устройствата със сензорен екран."
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "Отстранихме рядък бъг, който пречеше на някои чатове да се отварят правилно."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "Сега можете да изберете да пренесете историята на чата и мултимедийните файлове от последните 45 дни към ново свързано устройство. Процесът на прехвърляне е криптиран от край до край и е напълно незадължителен."
   }
 }

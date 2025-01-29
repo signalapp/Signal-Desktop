@@ -1122,7 +1122,7 @@
     "messageformat": "チャットに送られた画像"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Downloading {downloaded} of {total}"
+    "messageformat": "{total} のうち {downloaded} をダウンロード中"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "この画像にキャプションがついていることを示すアイコン"
@@ -1143,16 +1143,16 @@
     "messageformat": "このメディアはご利用になれなくなりました。"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "This media is not available"
+    "messageformat": "このメディアはダウンロードできません"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "さらに詳しく"
   },
   "icu:fileNotAvailable": {
-    "messageformat": "This file is not available"
+    "messageformat": "このファイルはダウンロードできません"
   },
   "icu:voiceMessageNotAvailable": {
-    "messageformat": "This voice message is not available"
+    "messageformat": "このボイスメッセージはダウンロードできません"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1593,7 +1593,7 @@
     "messageformat": "すべてのデータを消去しますか？"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktopからすべてのデータとメッセージを消去しますか？Signal Desktopにはいつでも再リンクできますが、消去したメッセージは復元されません。Signalアカウントやスマートフォンのデータ、その他のリンク済み端末のデータは消去されません。"
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "接続を切って全データを消去しています…"
@@ -3588,7 +3588,7 @@
     "messageformat": "次へ"
   },
   "icu:ClearingData__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "これには数分かかる場合があります"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signalへの寄付"
@@ -3621,7 +3621,7 @@
     "messageformat": "ダウンロード中..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "これには数分かかる場合があります"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "キャンセル"
@@ -4575,10 +4575,10 @@
     "messageformat": "色を選択してください"
   },
   "icu:AttachmentDetailPill__retryDownload": {
-    "messageformat": "Retry download"
+    "messageformat": "もう一度ダウンロードする"
   },
   "icu:AttachmentDetailPill__retryDownloadShort": {
-    "messageformat": "Retry"
+    "messageformat": "再試行"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "グループアバター"
@@ -5812,16 +5812,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "ご自身のアカウントがオートコンプリートの候補リストに含まれるバグが時々発生していましたので、@メンションに関するこのバグを修正しました。"
-  },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "タッチスクリーン用端末で、チャットリストのサイドバーの長さを調整できるようになりました。"
   },
   "icu:WhatsNew__v7.40--0": {
-    "messageformat": "We fixed a rare bug that prevented some chats from opening correctly after they were selected, so now Signal Desktop doesn't also draw a blank while you're trying to remember what they said."
+    "messageformat": "ごくまれに一部のチャットが正しく開かないバグが発生していましたが、これを修正しました。"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Now when you link your primary Signal device to a new Desktop or iPad, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices."
+    "messageformat": "チャット履歴と過去45日間のメディアを、新しいリンク済み端末に移行するかどうかを選択できるようになりました。移行プロセスはエンドツーエンドで暗号化されており、完全にオプションです。"
   }
 }
