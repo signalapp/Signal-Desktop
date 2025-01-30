@@ -19,7 +19,10 @@ export function getSafeLongFromTimestamp(
   return Long.fromNumber(timestamp);
 }
 
-export function getTimestampFromLong(value?: Long | null): number {
+export function getTimestampFromLong(
+  value?: Long | null,
+  maxValue = MAX_SAFE_DATE
+): number {
   if (!value || value.isNegative()) {
     return 0;
   }
@@ -27,7 +30,7 @@ export function getTimestampFromLong(value?: Long | null): number {
   const num = value.toNumber();
 
   if (num > MAX_SAFE_DATE) {
-    return MAX_SAFE_DATE;
+    return maxValue;
   }
 
   return num;

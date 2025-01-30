@@ -888,7 +888,10 @@ export async function mergeGroupV1Record(
   });
 
   conversation.setMuteExpiration(
-    getTimestampFromLong(groupV1Record.mutedUntilTimestamp),
+    getTimestampFromLong(
+      groupV1Record.mutedUntilTimestamp,
+      Number.MAX_SAFE_INTEGER
+    ),
     {
       viaStorageServiceSync: true,
     }
@@ -1025,7 +1028,10 @@ export async function mergeGroupV2Record(
   });
 
   conversation.setMuteExpiration(
-    getTimestampFromLong(groupV2Record.mutedUntilTimestamp),
+    getTimestampFromLong(
+      groupV2Record.mutedUntilTimestamp,
+      Number.MAX_SAFE_INTEGER
+    ),
     {
       viaStorageServiceSync: true,
     }
@@ -1265,7 +1271,10 @@ export async function mergeContactRecord(
   }
 
   conversation.setMuteExpiration(
-    getTimestampFromLong(contactRecord.mutedUntilTimestamp),
+    getTimestampFromLong(
+      contactRecord.mutedUntilTimestamp,
+      Number.MAX_SAFE_INTEGER
+    ),
     {
       viaStorageServiceSync: true,
     }
