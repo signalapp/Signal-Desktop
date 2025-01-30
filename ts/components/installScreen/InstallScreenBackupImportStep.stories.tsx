@@ -147,6 +147,14 @@ FatalError.args = {
   error: InstallScreenBackupError.Fatal,
 };
 
+export const Canceled = Template.bind({});
+Canceled.args = {
+  backupStep: InstallScreenBackupStep.Process,
+  currentBytes: 500 * 1024,
+  totalBytes: 1024 * 1024,
+  error: InstallScreenBackupError.Canceled,
+};
+
 export const UnsupportedVersion = Template.bind({});
 UnsupportedVersion.args = {
   backupStep: InstallScreenBackupStep.Process,

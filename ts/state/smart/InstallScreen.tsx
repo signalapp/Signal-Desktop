@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { getIntl } from '../selectors/user';
 import { getUpdatesState } from '../selectors/updates';
 import { getInstallerState } from '../selectors/installer';
-import { useAppActions } from '../ducks/app';
 import { useInstallerActions } from '../ducks/installer';
 import { useUpdatesActions } from '../ducks/updates';
 import { hasExpired as hasExpiredSelector } from '../selectors/expiration';
@@ -29,7 +28,6 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
   const i18n = useSelector(getIntl);
   const installerState = useSelector(getInstallerState);
   const updates = useSelector(getUpdatesState);
-  const { openInbox } = useAppActions();
   const { startInstaller, finishInstall, retryBackupImport } =
     useInstallerActions();
   const { startUpdate, forceUpdate } = useUpdatesActions();
@@ -56,11 +54,8 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
   }, [backupFile, deviceName, finishInstall]);
 
   const onCancelBackupImport = useCallback((): void => {
-    backupsService.cancelDownload();
-    if (installerState.step === InstallScreenStep.BackupImport) {
-      openInbox();
-    }
-  }, [installerState.step, openInbox]);
+    backupsService.cancelDownloadAndImport();
+  }, []);
 
   const suggestedDeviceName =
     installerState.step === InstallScreenStep.ChoosingDeviceName

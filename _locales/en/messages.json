@@ -4803,6 +4803,10 @@
     "messageformat": "Finalizing message transfer...",
     "description": "Hint under the progressbar in the backup import screen shown after the backup file is downloaded and while backup data is being processed"
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling...",
+    "description": "Hint under the progressbar in the backup import screen after user cancels"
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparing to download...",
     "description": "Hint under the progressbar in the backup import screen when download size is not yet known"
@@ -4820,19 +4824,19 @@
     "description": "Text shown while importing messages & chats from the user's primary device."
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel transfer?",
+    "messageformat": "Cancel device linking?",
     "description": "Title of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history.",
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred.",
     "description": "Body of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue transfer",
+    "messageformat": "Continue linking",
     "description": "Text of the continue button of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel transfer",
+    "messageformat": "Cancel linking",
     "description": "Text of the confirmation button of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__error__title": {

@@ -22,6 +22,7 @@ export enum InstallScreenBackupError {
   UnsupportedVersion = 'UnsupportedVersion',
   Retriable = 'Retriable',
   Fatal = 'Fatal',
+  Canceled = 'Canceled',
 }
 
 export enum InstallScreenError {
