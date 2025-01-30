@@ -3473,7 +3473,7 @@ function approvePendingMembershipFromGroupV2(
       );
       await modifyGroupV2({
         conversation,
-        usingCredentialsFrom: [pendingMember],
+        usingCredentialsFrom: [],
         createGroupChange: async () => {
           // This user's pending state may have changed in the time between the user's
           //   button press and when we get here. It's especially important to check here
