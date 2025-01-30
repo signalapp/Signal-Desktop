@@ -620,16 +620,7 @@ export class ConversationModel extends window.Backbone
     const idLog = this.idForLogging();
 
     // Hard-coded to our own ID, because you don't add other users for admin approval
-    const conversationId =
-      window.ConversationController.getOurConversationIdOrThrow();
-
-    const toRequest = window.ConversationController.get(conversationId);
-    if (!toRequest) {
-      throw new Error(
-        `addPendingApprovalRequest/${idLog}: No conversation found for conversation ${conversationId}`
-      );
-    }
-
+    const toRequest = window.ConversationController.getOurConversationOrThrow();
     const serviceId = toRequest.getCheckedServiceId(
       `addPendingApprovalRequest/${idLog}`
     );
@@ -2658,8 +2649,6 @@ export class ConversationModel extends window.Backbone
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
     const ourPni = window.textsecure.storage.user.getPni();
-    const ourConversation =
-      window.ConversationController.getOurConversationOrThrow();
 
     if (this.isMemberPending(ourAci)) {
       await this.modifyGroupV2({
@@ -2670,7 +2659,7 @@ export class ConversationModel extends window.Backbone
     } else if (this.isMember(ourAci)) {
       await this.modifyGroupV2({
         name: 'delete',
-        usingCredentialsFrom: [ourConversation],
+        usingCredentialsFrom: [],
         createGroupChange: () => this.#removeMember(ourAci),
       });
       // Keep PNI in pending if ACI was a member.
@@ -2749,7 +2738,7 @@ export class ConversationModel extends window.Backbone
 
     await this.modifyGroupV2({
       name: 'toggleAdmin',
-      usingCredentialsFrom: [member],
+      usingCredentialsFrom: [],
       createGroupChange: () => this.#toggleAdminChange(serviceId),
     });
   }
