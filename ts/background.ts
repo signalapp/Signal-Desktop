@@ -400,7 +400,9 @@ export async function startApp(): Promise<void> {
     }
     return server.getSocketStatus();
   };
+
   let accountManager: AccountManager;
+  let isInRegistration = false;
   window.getAccountManager = () => {
     if (accountManager) {
       return accountManager;
@@ -411,12 +413,14 @@ export async function startApp(): Promise<void> {
 
     accountManager = new window.textsecure.AccountManager(server);
     accountManager.addEventListener('startRegistration', () => {
+      isInRegistration = true;
       pauseProcessing();
 
       backupReady.reject(new Error('startRegistration'));
       backupReady = explodePromise();
     });
     accountManager.addEventListener('registration', () => {
+      isInRegistration = false;
       window.Whisper.events.trigger('userChanged', false);
 
       drop(Registration.markDone());
@@ -1038,8 +1042,6 @@ export async function startApp(): Promise<void> {
       }
     });
 
-    void window.Signal.RemoteConfig.initRemoteConfig(server);
-
     const retryPlaceholders = new RetryPlaceholders({
       retryReceiptLifespan: HOUR,
     });
@@ -1489,10 +1491,6 @@ export async function startApp(): Promise<void> {
 
       strictAssert(server !== undefined, 'WebAPI not ready');
 
-      // Cancel throttled calls to refreshRemoteConfig since our auth changed.
-      window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
-      drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));
-
       drop(connect(true));
 
       // Connect messageReceiver back to websocket
@@ -1594,7 +1592,9 @@ export async function startApp(): Promise<void> {
     const onOnline = () => {
       log.info('background: online');
 
-      if (!remotelyExpired) {
+      // Do not attempt to connect while expired or in-the-middle of
+      // registration
+      if (!remotelyExpired && !isInRegistration) {
         drop(connect());
       }
     };
@@ -1848,11 +1848,14 @@ export async function startApp(): Promise<void> {
         drop(AttachmentBackupManager.start());
       }
 
-      if (connectCount === 0) {
+      if (connectCount === 0 || firstRun) {
         try {
           // Force a re-fetch before we process our queue. We may want to turn on
           //   something which changes how we process incoming messages!
-          await window.Signal.RemoteConfig.refreshRemoteConfig(server);
+          await window.Signal.RemoteConfig.forceRefreshRemoteConfig(
+            server,
+            `connectCount=${connectCount} firstRun=${firstRun}`
+          );
 
           const expiration = window.Signal.RemoteConfig.getValue(
             'desktop.clientExpiration'
