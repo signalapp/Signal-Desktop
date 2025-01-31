@@ -1,15 +1,16 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Quill from '@signalapp/quill-cjs';
-import type { Op } from '@signalapp/quill-cjs';
-import type { Context as KeyboardContext } from '@signalapp/quill-cjs/modules/keyboard';
 import React from 'react';
 import classNames from 'classnames';
 import { Popper } from 'react-popper';
 import { createPortal } from 'react-dom';
-import type { VirtualElement } from '@popperjs/core';
 import { isString } from 'lodash';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
+import type Quill from '@signalapp/quill-cjs';
+import type { Op } from '@signalapp/quill-cjs';
+import type { Context as KeyboardContext } from '@signalapp/quill-cjs/modules/keyboard';
+import type { VirtualElement } from '@popperjs/core';
 
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
@@ -89,7 +90,7 @@ export class FormattingMenu {
     this.options = options;
     this.root = document.body.appendChild(document.createElement('div'));
 
-    this.quill.on('editor-change', this.onEditorChange.bind(this));
+    this.quill.on(Emitter.events.EDITOR_CHANGE, this.onEditorChange.bind(this));
 
     // We override these keybindings, which means that we need to move their priority
     //   above the built-in shortcuts, which don't exactly do what we want.

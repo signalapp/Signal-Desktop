@@ -9,6 +9,7 @@ import {
   matchNewline,
   matchBreak,
 } from '@signalapp/quill-cjs/modules/clipboard';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
 import classNames from 'classnames';
 import { Manager, Reference } from 'react-popper';
 import type { Range as RangeStatic } from '@signalapp/quill-cjs';
@@ -828,9 +829,16 @@ export function CompositionInput(props: Props): React.ReactElement {
 
             quillRef.current = quill;
 
+            quill.on(Emitter.events.COMPOSITION_START, () => {
+              quill.root.classList.toggle('ql-blank', false);
+            });
+            quill.on(Emitter.events.COMPOSITION_END, () => {
+              quill.root.classList.toggle('ql-blank', quill.editor.isBlank());
+            });
+
             // When loading a multi-line message out of a draft, the cursor
             // position needs to be pushed to the end of the input manually.
-            quill.once('editor-change', () => {
+            quill.once(Emitter.events.EDITOR_CHANGE, () => {
               setTimeout(() => {
                 quill.setSelection(quill.getLength(), 0);
                 quill.root.classList.add('ql-editor--loaded');
@@ -838,7 +846,7 @@ export function CompositionInput(props: Props): React.ReactElement {
             });
 
             quill.on(
-              'selection-change',
+              Emitter.events.SELECTION_CHANGE,
               (newRange: RangeStatic, oldRange: RangeStatic) => {
                 // If we lose focus, store the last edit point for emoji insertion
                 if (newRange == null) {
