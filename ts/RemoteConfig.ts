@@ -65,11 +65,6 @@ export function restoreRemoteConfigFromStorage(): void {
   config = window.storage.get('remoteConfig') || {};
 }
 
-export async function initRemoteConfig(server: WebAPIType): Promise<void> {
-  restoreRemoteConfigFromStorage();
-  await maybeRefreshRemoteConfig(server);
-}
-
 export function onChange(
   key: ConfigKeyType,
   fn: ConfigListenerType
@@ -83,7 +78,7 @@ export function onChange(
   };
 }
 
-export const refreshRemoteConfig = async (
+export const _refreshRemoteConfig = async (
   server: WebAPIType
 ): Promise<void> => {
   const now = Date.now();
@@ -93,7 +88,7 @@ export const refreshRemoteConfig = async (
 
   if (Math.abs(serverTimeSkew) > HOUR) {
     log.warn(
-      'Remote Config: sever clock skew detected. ' +
+      'Remote Config: severe clock skew detected. ' +
         `Server time ${serverTimestamp}, local time ${now}`
     );
   }
@@ -154,11 +149,20 @@ export const refreshRemoteConfig = async (
 };
 
 export const maybeRefreshRemoteConfig = throttle(
-  refreshRemoteConfig,
+  _refreshRemoteConfig,
   // Only fetch remote configuration if the last fetch was more than two hours ago
   2 * 60 * 60 * 1000,
   { trailing: false }
 );
+
+export async function forceRefreshRemoteConfig(
+  server: WebAPIType,
+  reason: string
+): Promise<void> {
+  log.info(`forceRefreshRemoteConfig: ${reason}`);
+  maybeRefreshRemoteConfig.cancel();
+  await _refreshRemoteConfig(server);
+}
 
 export function isEnabled(name: ConfigKeyType): boolean {
   return get(config, [name, 'enabled'], false);
