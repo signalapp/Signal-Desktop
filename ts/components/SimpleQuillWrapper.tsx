@@ -3,6 +3,7 @@
 
 import React, { createRef } from 'react';
 import Quill from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
 import type { Delta } from '@signalapp/quill-cjs';
 
 export type Props = {
@@ -32,7 +33,7 @@ export class SimpleQuillWrapper extends React.Component<Props> {
       );
     }
 
-    this.quill.on('editor-change', this.props.onChange);
+    this.quill.on(Emitter.events.EDITOR_CHANGE, this.props.onChange);
 
     const { defaultValue } = this.props;
     if (defaultValue) {

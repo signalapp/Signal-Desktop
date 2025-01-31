@@ -1,8 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Quill from '@signalapp/quill-cjs';
 import { Delta } from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
+import type Quill from '@signalapp/quill-cjs';
 
 import * as log from '../../logging/log';
 import type { EmojiData } from '../../components/emoji/lib';
@@ -53,7 +54,7 @@ export class AutoSubstituteAsciiEmojis {
     this.options = options;
     this.quill = quill;
 
-    this.quill.on('text-change', (_now, _before, source) => {
+    this.quill.on(Emitter.events.TEXT_CHANGE, (_now, _before, source) => {
       if (source !== 'user') {
         return;
       }

@@ -1,15 +1,16 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import _ from 'lodash';
-import type Quill from '@signalapp/quill-cjs';
-import { Delta } from '@signalapp/quill-cjs';
-import type { RefObject } from 'react';
 import React from 'react';
-
+import _ from 'lodash';
+import { Delta } from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
+import type Quill from '@signalapp/quill-cjs';
+import type { RefObject } from 'react';
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
+
 import { Avatar, AvatarSize } from '../../components/Avatar';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { MemberType, MemberRepository } from '../memberRepository';
@@ -76,8 +77,14 @@ export class MentionCompletion {
     this.quill.keyboard.addBinding({ key: 39 }, clearResults); // Right Arrow
     this.quill.keyboard.addBinding({ key: 40 }, changeIndex(1)); // Down Arrow
 
-    this.quill.on('text-change', _.debounce(this.onTextChange.bind(this), 0));
-    this.quill.on('selection-change', this.onSelectionChange.bind(this));
+    this.quill.on(
+      Emitter.events.TEXT_CHANGE,
+      _.debounce(this.onTextChange.bind(this), 0)
+    );
+    this.quill.on(
+      Emitter.events.SELECTION_CHANGE,
+      this.onSelectionChange.bind(this)
+    );
   }
 
   destroy(): void {

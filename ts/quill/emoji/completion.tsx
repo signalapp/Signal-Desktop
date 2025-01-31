@@ -1,10 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Quill from '@signalapp/quill-cjs';
 import { Delta } from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
 import React from 'react';
 import _, { isNumber } from 'lodash';
+import type Quill from '@signalapp/quill-cjs';
 
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
@@ -92,12 +93,15 @@ export class EmojiCompletion {
 
     const debouncedOnTextChange = _.debounce(() => this.onTextChange(), 100);
 
-    this.quill.on('text-change', (_now, _before, source) => {
+    this.quill.on(Emitter.events.TEXT_CHANGE, (_now, _before, source) => {
       if (source === 'user') {
         debouncedOnTextChange();
       }
     });
-    this.quill.on('selection-change', this.onSelectionChange.bind(this));
+    this.quill.on(
+      Emitter.events.SELECTION_CHANGE,
+      this.onSelectionChange.bind(this)
+    );
   }
 
   destroy(): void {
