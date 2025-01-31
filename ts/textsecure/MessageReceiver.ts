@@ -1144,6 +1144,11 @@ export default class MessageReceiver
       return;
     }
 
+    // Force save of unprocessed envelopes for testing
+    if (window.SignalCI?.forceUnprocessed) {
+      return;
+    }
+
     // Now, queue and process decrypted envelopes. We drop the promise so that the next
     // decryptAndCacheBatch batch does not have to wait for the decrypted envelopes to be
     // processed, which can be an asynchronous blocking operation

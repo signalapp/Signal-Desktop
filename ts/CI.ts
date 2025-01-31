@@ -42,13 +42,18 @@ export type CIType = {
   unlink: () => void;
   print: (...args: ReadonlyArray<unknown>) => void;
   resetReleaseNotesFetcher(): void;
+  forceUnprocessed: boolean;
 };
 
 export type GetCIOptionsType = Readonly<{
   deviceName: string;
+  forceUnprocessed: boolean;
 }>;
 
-export function getCI({ deviceName }: GetCIOptionsType): CIType {
+export function getCI({
+  deviceName,
+  forceUnprocessed,
+}: GetCIOptionsType): CIType {
   const eventListeners = new Map<string, Array<ResolveType>>();
   const completedEvents = new Map<string, Array<unknown>>();
 
@@ -208,5 +213,6 @@ export function getCI({ deviceName }: GetCIOptionsType): CIType {
     getPendingEventCount,
     print,
     resetReleaseNotesFetcher,
+    forceUnprocessed,
   };
 }
