@@ -18,6 +18,7 @@ import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { SeenStatus } from '../MessageSeenStatus';
 import { saveNewMessageBatcher } from '../util/messageBatcher';
 import { generateMessageId } from '../util/generateMessageId';
+import type { RawBodyRange } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import * as RemoteConfig from '../RemoteConfig';
 import { isBeta, isProduction } from '../util/version';
@@ -50,6 +51,13 @@ export type ReleaseNoteType = ReleaseNoteResponseType &
 
 let initComplete = false;
 
+const STYLE_MAPPING: Record<string, BodyRange.Style> = {
+  bold: BodyRange.Style.BOLD,
+  italic: BodyRange.Style.ITALIC,
+  strikethrough: BodyRange.Style.STRIKETHROUGH,
+  spoiler: BodyRange.Style.SPOILER,
+  mono: BodyRange.Style.MONOSPACE,
+};
 export class ReleaseNotesFetcher {
   #timeout: NodeJS.Timeout | undefined;
   #isRunning = false;
@@ -245,10 +253,37 @@ export class ReleaseNotesFetcher {
           return;
         }
 
-        const { title, body } = note;
-        const messageBody = `${title}\n\n${body}`;
-        const bodyRanges = [
+        const { title, body, bodyRanges: noteBodyRanges } = note;
+        const titleBodySeparator = '\n\n';
+        const filteredNoteBodyRanges: Array<RawBodyRange> = (
+          noteBodyRanges ?? []
+        )
+          .map(range => {
+            if (
+              range.length == null ||
+              range.start == null ||
+              range.style == null ||
+              !STYLE_MAPPING[range.style] ||
+              range.start + range.length - 1 >= body.length
+            ) {
+              return null;
+            }
+
+            const relativeStart =
+              range.start + title.length + titleBodySeparator.length;
+
+            return {
+              start: relativeStart,
+              length: range.length,
+              style: STYLE_MAPPING[range.style],
+            };
+          })
+          .filter(isNotNil);
+
+        const messageBody = `${title}${titleBodySeparator}${body}`;
+        const bodyRanges: Array<RawBodyRange> = [
           { start: 0, length: title.length, style: BodyRange.Style.BOLD },
+          ...filteredNoteBodyRanges,
         ];
         const timestamp = Date.now() + index;
 
