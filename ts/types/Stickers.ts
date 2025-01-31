@@ -175,7 +175,7 @@ export async function createPacksFromBackup(
       id,
       key,
       attemptedStatus: 'installed' as const,
-      status: 'installed' as const,
+      status: 'pending' as const,
     })
   );
 
