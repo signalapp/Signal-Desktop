@@ -72,7 +72,14 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
   }
 
   getRowCount(): number {
-    const headerCount = this.#hasPinnedAndNonpinned() ? 2 : 0;
+    let headerCount = 0;
+    if (this.#hasPinned()) {
+      headerCount += 1;
+
+      if (this.#hasNotPinned()) {
+        headerCount += 1;
+      }
+    }
     const buttonCount = this.#archivedConversations.length ? 1 : 0;
     return (
       headerCount +
@@ -146,66 +153,51 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
 
     const archivedConversationsCount = archivedConversations.length;
 
-    if (this.#hasPinnedAndNonpinned()) {
-      switch (rowIndex) {
-        case 0:
-          return {
-            type: RowType.Header,
-            getHeaderText: i18n => i18n('icu:LeftPane--pinned'),
-          };
-        case pinnedConversations.length + 1:
+    let index = rowIndex;
+
+    if (this.#hasPinned()) {
+      if (index === 0) {
+        return {
+          type: RowType.Header,
+          getHeaderText: i18n => i18n('icu:LeftPane--pinned'),
+        };
+      }
+      index -= 1;
+
+      if (index < pinnedConversations.length) {
+        return {
+          type: RowType.Conversation,
+          conversation: pinnedConversations[index],
+        };
+      }
+      index -= pinnedConversations.length;
+
+      if (this.#hasNotPinned()) {
+        if (index === 0) {
           return {
             type: RowType.Header,
             getHeaderText: i18n => i18n('icu:LeftPane--chats'),
           };
-        case pinnedConversations.length + conversations.length + 2:
-          if (archivedConversationsCount) {
-            return {
-              type: RowType.ArchiveButton,
-              archivedConversationsCount,
-            };
-          }
-          return undefined;
-        default: {
-          const pinnedConversation = pinnedConversations[rowIndex - 1];
-          if (pinnedConversation) {
-            return {
-              type: RowType.Conversation,
-              conversation: pinnedConversation,
-            };
-          }
-          const conversation =
-            conversations[rowIndex - pinnedConversations.length - 2];
-          return conversation
-            ? {
-                type: RowType.Conversation,
-                conversation,
-              }
-            : undefined;
         }
+
+        index -= 1;
       }
     }
 
-    const onlyConversations = pinnedConversations.length
-      ? pinnedConversations
-      : conversations;
-    if (rowIndex < onlyConversations.length) {
-      const conversation = onlyConversations[rowIndex];
-      return conversation
-        ? {
-            type: RowType.Conversation,
-            conversation,
-          }
-        : undefined;
+    if (index < conversations.length) {
+      return {
+        type: RowType.Conversation,
+        conversation: conversations[index],
+      };
     }
+    index -= conversations.length;
 
-    if (rowIndex === onlyConversations.length && archivedConversationsCount) {
+    if (index === 0 && archivedConversationsCount) {
       return {
         type: RowType.ArchiveButton,
         archivedConversationsCount,
       };
     }
-
     return undefined;
   }
 
@@ -219,14 +211,12 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     const isConversationSelected = (
       conversation: Readonly<ConversationListItemPropsType>
     ) => conversation.id === selectedConversationId;
-    const hasHeaders = this.#hasPinnedAndNonpinned();
 
     const pinnedConversationIndex = this.#pinnedConversations.findIndex(
       isConversationSelected
     );
     if (pinnedConversationIndex !== -1) {
-      const headerOffset = hasHeaders ? 1 : 0;
-      return pinnedConversationIndex + headerOffset;
+      return pinnedConversationIndex + 1;
     }
 
     const conversationIndex = this.#conversations.findIndex(
@@ -234,7 +224,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     );
     if (conversationIndex !== -1) {
       const pinnedOffset = this.#pinnedConversations.length;
-      const headerOffset = hasHeaders ? 2 : 0;
+      const headerOffset = this.#hasPinned() ? 2 : 0;
       return conversationIndex + pinnedOffset + headerOffset;
     }
 
@@ -289,9 +279,11 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     handleKeydownForSearch(event, options);
   }
 
-  #hasPinnedAndNonpinned(): boolean {
-    return Boolean(
-      this.#pinnedConversations.length && this.#conversations.length
-    );
+  #hasPinned(): boolean {
+    return this.#pinnedConversations.length !== 0;
+  }
+
+  #hasNotPinned(): boolean {
+    return this.#conversations.length !== 0;
   }
 }
