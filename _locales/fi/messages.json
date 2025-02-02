@@ -1593,7 +1593,7 @@
     "messageformat": "Poistetaanko kaikki tiedot?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Poista kaikki tiedot ja viestit tästä Signal Desktop -versiosta? Voit aina yhdistää tämän tietokoneen uudelleen, mutta viestejäsi ei palauteta. Signal-tiliäsi ja puhelimesi tai muiden yhdistettyjen laitteiden tietoja ei poisteta."
+    "messageformat": "Poista kaikki tiedot ja viestit tästä Signal Desktop -versiosta? Signal-tiliäsi ja puhelimesi tai muiden yhdistettyjen laitteiden tietoja ei poisteta."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Katkaistaan yhteyttä ja poistetaan kaikki tiedot…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Korjasimme @-mainintoja koskevan virheen, joka saattoi virheellisesti liittää tilisi automaattisen täydennyksen ehdotuslistaan."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Nyt voit säätää keskusteluluettelon sivupalkin kokoa kosketusnäytöllisissä laitteissa."

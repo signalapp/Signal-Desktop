@@ -1593,7 +1593,7 @@
     "messageformat": "Alle gegevens wissen?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Alle gegevens en berichten wissen uit deze versie van Signal Desktop? Je kunt dit apparaat altijd opnieuw koppelen, maar je berichten worden niet hersteld. Je Signal-account en gegevens op je telefoon of andere gekoppelde apparaten worden niet gewist."
+    "messageformat": "Alle gegevens en berichten wissen uit deze versie van Signal Desktop? Je Signal-account en gegevens op je telefoon of andere gekoppelde apparaten worden niet gewist."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Aan het ontkoppelen en alle gegevens aan het wissen…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We hebben een bug met @-vermeldingen opgelost waardoor soms je eigen account verscheen in de lijst met suggesties voor automatisch invullen. Je kunt natuurlijk altijd nog in derde persoon over jezelf praten, mocht je deze bug heel erg missen."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Op touchscreen-apparaten kun je nu de breedte van de chatlijst in de zijbalk aanpassen – de finishing touch voor wie van personalisatie houdt."

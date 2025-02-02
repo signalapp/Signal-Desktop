@@ -1593,7 +1593,7 @@
     "messageformat": "Izbriši sve podatke?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Želite izbrisati sve podatke i poruke s ove verzije Signala za desktop? Uvijek možete ponovno povezati ovu verziju Signala za desktop, ali vaše se poruke neće vratiti. Vaš Signal račun i podaci na vašem telefonu ili drugim povezanim uređajima neće biti izbrisani."
+    "messageformat": "Želite izbrisati sve podatke i poruke s ove verzije Signala za desktop? Vaš Signal račun i podaci na vašem telefonu ili drugim povezanim uređajima neće biti izbrisani."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Prekidanje veze i brisanje svih podataka…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Ispravili smo pogrešku sa @ spominjanjima koja su ponekad greškom uključivala vaš račun na popisu prijedloga za automatsko popunjavanje."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Sada možete prilagoditi širinu bočne trake s popisom razgovora na uređajima sa zaslonom osjetljivim na dodir."

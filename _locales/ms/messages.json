@@ -1593,7 +1593,7 @@
     "messageformat": "Padamkan semua data?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Padamkan semua data dan mesej daripada versi Signal Desktop ini? Anda sentiasa boleh memautkan semula desktop ini, tetapi mesej anda tidak akan dipulihkan. Akaun Signal anda dan data pada telefon anda atau peranti terpaut lain tidak akan dipadamkan."
+    "messageformat": "Padamkan semua data dan mesej daripada versi Signal Desktop ini? Akaun Signal anda dan data pada telefon anda atau peranti terpaut lain tidak akan dipadamkan."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Memutuskan dan memadam semua data…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Kami membetulkan pepijat pada @ sebutan yang kadangkala memasukkan akaun anda sendiri dalam senarai cadangan autolengkap."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Kini anda boleh melaraskan saiz bar sisi senarai sembang pada peranti skrin sentuh."

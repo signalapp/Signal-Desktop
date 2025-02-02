@@ -1593,7 +1593,7 @@
     "messageformat": "Skrap alle data?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Skrap alle data en boodskappe in hierdie weergawe van Signal Desktop? Jy kan altyd hierdie rekenaar weer koppel, maar jou boodskappe sal nie herstel word nie. Jou Signal-rekening en data op jou foon of ander gekoppelde toestelle sal nie geskrap word nie."
+    "messageformat": "Skrap alle data en boodskappe in hierdie weergawe van Signal Desktop? Jou Signal-rekening en data op jou foon of ander gekoppelde toestelle sal nie geskrap word nie."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Ontkoppel en skrap tans alle data…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Ons het 'n fout met @-vermeldings reggestel wat soms jou eie rekening verkeerdelik by die outovoltooi-voorstellys ingesluit het."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Nou kan jy die grootte van die kletslys-kantbalk op raakskermtoestelle aanpas."

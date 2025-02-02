@@ -1593,7 +1593,7 @@
     "messageformat": "Eliminar todos os dados?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Eliminar todos os dados e mensagens desta versão do Signal Desktop? Pode sempre voltar a conectar este desktop, mas as suas mensagens não serão restauradas. A sua conta Signal e os dados no seu telemóvel ou outros dispositivos conectados não serão eliminados."
+    "messageformat": "Eliminar todos os dados e mensagens desta versão do Signal Desktop? A sua conta Signal e os dados no seu telemóvel ou outros dispositivos conectados não serão eliminados."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "A desligar e a eliminar todos os dados…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Corrigimos um erro em que as menções @ às vezes incluíam a sua própria conta na lista de sugestões do preenchimento automático."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Agora pode ajustar o tamanho da barra lateral da lista de chats em dispositivos com ecrã tátil."

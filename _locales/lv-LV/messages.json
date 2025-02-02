@@ -1593,7 +1593,7 @@
     "messageformat": "Vai dzēst visus datus?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Vai dzēst visus datus un ziņas no šīs Signal Desktop versijas? Jebkurā brīdī varat atkārtoti piesaistīt Signal šim datoram, taču ziņas netiks atjaunotas. Jūsu Signal konts un dati tālrunī vai citās piesaistītās ierīcēs netiks dzēsti."
+    "messageformat": "Vai dzēst visus datus un ziņas no šīs Signal Desktop versijas? Jūsu Signal konts un dati tālrunī vai citās piesaistītās ierīcēs netiks dzēsti."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Notiek atvienošana un visu datu dzēšana…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Mēs atrisinājām kļūdu, kas lika arī jūsu kontam parādīties @ pieminējumu automātiskās pabeigšanas ieteikumu sarakstā. Ja jums šī kļūda kādreiz pietrūkst, iesakām šādos gadījumos grupu sarunās atsaukties uz sevi trešajā personā."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Tagad ierīcēs ar skārienekrānu varat pielāgot sarunu saraksta sānu joslas izmēru."

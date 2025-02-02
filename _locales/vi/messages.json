@@ -1593,7 +1593,7 @@
     "messageformat": "Xóa tất cả dữ liệu ?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Xóa tất cả ứng dụng và tin nhắn khỏi phiên bản Signal Desktop này? Bạn luôn có thể liên kết lại với máy tính này, nhưng tin nhắn của bạn sẽ không được khôi phục. Tài khoản Signal và dữ liệu của bạn trên điện thoại hoặc các thiết bị đã liên kết sẽ không bị xóa."
+    "messageformat": "Xóa tất cả ứng dụng và tin nhắn khỏi phiên bản Signal Desktop này? Tài khoản Signal và dữ liệu của bạn trên điện thoại hoặc các thiết bị đã liên kết sẽ không bị xóa."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Đang ngắt kết nối và xóa toàn bộ dữ liệu…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Chúng tôi đã sửa lỗi tính năng đề cập @ thỉnh thoảng bao gồm cả tài khoản của bạn trong danh sách đề xuất tự động hoàn thành."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Giờ đây bạn có thể điều chỉnh kích thước thanh bên danh sách cuộc trò chuyện trên các thiết bị màn hình cảm ứng."

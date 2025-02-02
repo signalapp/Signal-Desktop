@@ -1593,7 +1593,7 @@
     "messageformat": "Datu guztiak garbitu nahi dituzu?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal-en ordenagailurako bertsio honetako datu eta mezu guztiak ezabatu nahi dituzu? Nahi duzunean lot dezakezu berriro ordenagailu hau, baina mezuak ez dira leheneratuko. Telefonoan nahiz lotutako beste gailu batzuetan, Signal-eko kontua eta datuak ez dira ezabatuko."
+    "messageformat": "Signal-en ordenagailurako bertsio honetako datu eta mezu guztiak ezabatu nahi dituzu? Telefonoan nahiz lotutako beste gailu batzuetan, Signal-eko kontua eta datuak ez dira ezabatuko."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Deskonektatzen eta datu guztiak ezabatzen…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "@Aipamenak automatikoki osatzeko iradokizun-zerrendan batzuetan zeure kontua agerrarazten zuen akats bat konpondu dugu."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Orain, txat-zerrendaren alboko barraren tamaina doitu egin dezakezu ukipen-pantaila duten gailuetan."

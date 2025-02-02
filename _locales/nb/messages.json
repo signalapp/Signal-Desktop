@@ -1593,7 +1593,7 @@
     "messageformat": "Vil du slette alle dataene?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Vil du slette alle dataene og meldingene fra denne Signal Desktop-versjonen? Du kan koble til skrivebordet på nytt, men meldingene kan ikke gjenopprettes. Signal-kontoen og dataene du har på mobilen og andre tilkoblede enheter, slettes ikke."
+    "messageformat": "Vil du slette alle dataene og meldingene fra denne Signal Desktop-versjonen? Signal-kontoen og dataene du har på mobilen og andre tilkoblede enheter, slettes ikke."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Kobler fra og sletter alle data …"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Vi har fikset en feil som førte til at ditt eget navn dukket opp i listen over foreslåtte tagger når du skriver meldinger."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Nå kan du justere størrelsen på sidestolpen i samtalelisten på enheter med berøringsskjerm."

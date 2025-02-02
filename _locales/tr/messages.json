@@ -1593,7 +1593,7 @@
     "messageformat": "Tüm veri silinsin mi?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktop'ın bu sürümündeki tüm veriler ve mesajlar silinsin mi? Bu masaüstünü istediğin zaman yeniden bağlayabilirsin ancak mesajların geri yüklenmez. Signal hesabın ve telefonundaki veya diğer bağlı cihazlarındaki veriler silinmez."
+    "messageformat": "Signal Desktop'ın bu sürümündeki tüm veriler ve mesajlar silinsin mi? Signal hesabın ve telefonundaki veya diğer bağlı cihazlarındaki veriler silinmez."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Bağlantı kesiliyor ve tüm veriler siliniyor…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Otomatik tamamlama öneri listesine bazen yanlışlıkla kendi hesabını dahil eden @ bahsetmeler ile ilgili bir hatayı düzelttik. Bu sayede grup sohbetlerinde kendini gereksiz yere görmene gerek kalmayacak."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Bundan böyle dokunmatik ekranlı cihazlarda sohbet listesi kenar çubuğunun boyutunu ayarlayabilirsin. Böylece kenar çubuğunu eskisi gibi zorlanarak sürüklemeyecek, istediğin boyuta getirebileceksin."

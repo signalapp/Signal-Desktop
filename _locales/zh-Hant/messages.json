@@ -1593,7 +1593,7 @@
     "messageformat": "刪除所有資料？"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "要刪除 Signal 桌面版此版本的所有資料和訊息嗎？你可以隨時重新連結此桌面電腦，但你的訊息將無法還原。你的 Signal 帳戶和手機或其他已連結裝置上的資料將不會被刪除。"
+    "messageformat": "要刪除 Signal 桌面版此版本的所有資料和訊息嗎？你的 Signal 帳戶和手機或其他已連結裝置上的資料將不會被刪除。"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "正在中斷連線並刪除所有資料…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "我們修正了一個 @ 提及的錯誤，就是有時會誤將你自己的帳戶納入自動完成建議清單中。"
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "現在，你可以在觸控螢幕裝置上調整聊天清單側邊欄的大小。因此，當你嘗試拖曳時就不會那麼費力，而畫面上的污痕也只是你指尖發揮力量的證據。"

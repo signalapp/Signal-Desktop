@@ -1593,7 +1593,7 @@
     "messageformat": "Slet alle data?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Slette alle data og beskeder fra denne version af Signal Desktop? Du kan altid genoprette forbindelsen til denne desktop, men dine beskeder vil ikke blive gendannet. Din Signal-konto og data på din telefon eller andre forbundne enheder vil ikke blive slettet."
+    "messageformat": "Slette alle data og beskeder fra denne version af Signal Desktop? Din Signal-konto og data på din telefon eller andre forbundne enheder vil ikke blive slettet."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Afbryder og sletter alle data…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Vi har rettet en fejl med @-omtaler, der nogle gange forkert inkluderede din egen konto på forslagslisten i autofyld. Som en narcissistisk løsning kan du stadig bruge tredjepersonsfortælling til at tale om dig selv i dine gruppechat, hvis du nogensinde savner denne fejl."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Nu kan du justere størrelsen på chatlistens sidebjælke på enheder med touchskærm. Når du forsøger at trække nu, vil det ikke være lige så langtrukkent, og pletterne på din skærm er et bevis på den kraft, der kommer fra dine fingerspidser."

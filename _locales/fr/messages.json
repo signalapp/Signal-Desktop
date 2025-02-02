@@ -363,7 +363,7 @@
     "messageformat": "Impossible de supprimer {title}"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "Cette personne est sauvegardée dans les contacts de votre appareil. Supprimez-la de vos contacts sur votre appareil et essayez de nouveau."
+    "messageformat": "Vous avez enregistré cette personne dans les contacts de votre appareil. Supprimez-la des contacts de votre appareil et réessayez."
   },
   "icu:moveConversationToInbox": {
     "messageformat": "Désarchiver"
@@ -1593,7 +1593,7 @@
     "messageformat": "Supprimer toutes les données ?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Supprimer toutes les données et tous les messages de cette version de Signal Desktop ? Vous pourrez toujours réassocier Signal Desktop, mais vous ne pourrez pas restaurer vos messages. Cette action ne supprime pas le compte et les données Signal qui sont stockés sur votre téléphone ou sur vos autres appareils associés."
+    "messageformat": "Supprimer toutes les données et tous les messages de cette version de Signal Desktop ? Cette action ne supprime pas le compte et les données Signal qui sont stockés sur votre téléphone ou sur vos autres appareils associés."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Déconnexion et suppression de toutes les données…"
@@ -4209,7 +4209,7 @@
     "messageformat": "Retirer {name} du groupe ? Cette personne ne pourra plus rejoindre le groupe via le lien."
   },
   "icu:CaptchaDialog__title": {
-    "messageformat": "Vérifier pour continuer à communiquer"
+    "messageformat": "Confirmer le reCAPTCHA pour continuer d'échanger des messages"
   },
   "icu:CaptchaDialog__first-paragraph": {
     "messageformat": "Pour nous aider à lutter contre le spam sur Signal, merci de confirmer le reCAPTCHA."
@@ -4947,10 +4947,10 @@
     "messageformat": "{sender} souhaite que vous activiez les paiements. N’envoyez de paiements qu’aux personnes en qui vous avez confiance. Vous pouvez activer les paiements depuis votre téléphone mobile via Paramètres > Paiements."
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "Vous avez envoyé une demande d’activation des paiements à {receiver}"
+    "messageformat": "Vous avez envoyé une demande d'activation des paiements à {receiver}."
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "Vous avez envoyé une demande d’activation des paiements."
+    "messageformat": "Vous avez envoyé une demande d'activation des paiements."
   },
   "icu:payment-event-activated-label": {
     "messageformat": "{sender} accepte désormais les paiements."
@@ -5289,7 +5289,7 @@
     "messageformat": "Activer les confirmations de vue pour savoir qui a consulté vos Stories. Ouvrez l’application Signal depuis votre appareil mobile puis rendez-vous dans Paramètres > Confidentialité."
   },
   "icu:StoryViewsNRepliesModal__no-replies": {
-    "messageformat": "Aucune réponse pour le moment"
+    "messageformat": "Aucune réaction pour le moment"
   },
   "icu:StoryViewsNRepliesModal__no-views": {
     "messageformat": "Aucune vue pour le moment"
@@ -5482,7 +5482,7 @@
     "messageformat": "Couleur"
   },
   "icu:UsernameLinkModalBody__copy": {
-    "messageformat": "Copier dans le presse-papier"
+    "messageformat": "Copier dans le presse-papiers"
   },
   "icu:UsernameLinkModalBody__help": {
     "messageformat": "Partagez votre code QR et votre lien unique avec les personnes en qui vous avez confiance. Lorsque vous les partagez, les autres utilisateurs pourront voir votre nom d’utilisateur et démarrer une conversation avec vous."
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Lorsque vous saisissiez @ pour mentionner un ami, il arrivait que votre propre nom s'affiche dans la liste des suggestions. Un bug en moins pour 2025 ! Si vous êtes un adepte du <em>self-love</em> et que ce bug vous manque, vous pouvez toujours parler de vous à la troisième personne dans vos conversations de groupe. Ça nous arrive aussi."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Sur les appareils dotés d'un écran tactile, vous pouvez maintenant redimensionner la barre latérale qui affiche la liste des conversations. On peut dire qu'elle vous obéit au doigt et à l'œil. ;-)"

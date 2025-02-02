@@ -1593,7 +1593,7 @@
     "messageformat": "Kas kustutada kõik andmed?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Kas kustutada sellest Signal Desktopi versioonist kõik andmed ja sõnumid? Saad selle töölaua alati uuesti siduda, kuid su sõnumeid ei taastata. Sinu Signali kontot ja telefonis või muudes lingitud seadmetes olevaid andmeid ei kustutata."
+    "messageformat": "Kas kustutada sellest Signal Desktopi versioonist kõik andmed ja sõnumid? Sinu Signali kontot ja telefonis või muudes lingitud seadmetes olevaid andmeid ei kustutata."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Ühenduse lõpetamine ja kõigi andmete kustutamine …"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Parandasime @ mainimiste vea, mis mõnikord kaasas automaatselt täidetavate soovituste loendisse ekslikult sinu enda konto."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Nüüd on puuteekraaniga seadmetel võimalik reguleerida vestluste loendi külgriba suurust."

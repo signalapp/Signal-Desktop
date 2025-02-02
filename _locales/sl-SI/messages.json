@@ -1593,7 +1593,7 @@
     "messageformat": "Želite izbrisati vse podatke?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Želite izbrisati vse podatke in sporočila iz te različice Signal Desktop? To namizje lahko vedno znova povežete, vendar vaša sporočila ne bodo obnovljena. Vaš račun Signal in podatki v vašem telefonu ali drugih povezanih napravah ne bodo izbrisani."
+    "messageformat": "Želite izbrisati vse podatke in sporočila iz te različice Signal Desktop? Vaš račun Signal in podatki v vašem telefonu ali drugih povezanih napravah ne bodo izbrisani."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Odjava in brisanje vseh podatkov …"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Odpravili smo napako pri @ omembah, ki je včasih napačno vključevala vaš račun na seznamu predlogov za samodejno dokončanje. Če kdaj spregledate to napako, lahko v skupinskih klepetalnicah še vedno uporabljate tretjeosebno pripovedovanje, da govorite o sebi."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Zdaj lahko prilagodite velikost seznama klepetov v stranski vrstici v napravah z zaslonom na dotik. Ko boste poskušali povleči, ne bo tako težko, madeži na zaslonu pa bodo le dokaz moči, ki jo izžarevajo vaši prsti."

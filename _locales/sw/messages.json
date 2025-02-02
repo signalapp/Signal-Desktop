@@ -1593,7 +1593,7 @@
     "messageformat": "Futa data yote?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Futa data na jumbe zote kutoka kwenye toleo hili la Signal Desktop? Unaweza kuiunganisha tena kompyuta hii wakati wowote, lakini jumbe zako hazitarejeshwa. Akaunti yako ya Signal na data kwenye simu yako au vifaa vingine vilivyounganishwa havitofutwa."
+    "messageformat": "Futa data na jumbe zote kutoka kwenye toleo hili la Signal Desktop? Akaunti yako ya Signal na data kwenye simu yako au vifaa vingine vilivyounganishwa havitofutwa."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Inatenganisha na kufuta data yote…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Tulirekebisha hitilafu katika @ mentions ambazo wakati mwingine hujumuishwa kwa akaunti yako kwa orodha ya mapendekezo ya kukamilishwa kiotomataki. Bado unaweza kutumia simulizi ya mtu wa tatu kukuhusu kwenye gumzo za kikundi ukikosa hitilafu hii."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Sasa unaweza kurekebisha ukubwa wa utepe wa orodha ya gumzo kwenye vifaa vya skrini ya kugusa. Kwa hiyo unapojaribu kuvuruta haitachukua muda, na uchafu kwenye skrini yako ni ushahidi tu wa nguvu inayotoka kwenye vidole vyako."

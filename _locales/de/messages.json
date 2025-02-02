@@ -1593,7 +1593,7 @@
     "messageformat": "Alle Daten löschen?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Alle Daten und Nachrichten von dieser Signal-Desktop-Version löschen? Du kannst diese Desktop-Version jederzeit neu verbinden, aber deine Nachrichten werden dann nicht wiederhergestellt. Dein Signal-Konto und die Daten auf deinem Telefon oder auf sonstigen verbundenen Geräten werden nicht gelöscht."
+    "messageformat": "Alle Daten und Nachrichten von dieser Signal-Desktop-Version löschen? Dein Signal-Konto und die Daten auf deinem Telefon oder auf sonstigen verbundenen Geräten werden nicht gelöscht."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Verbindung wird getrennt und alle Daten werden gelöscht …"
@@ -4620,7 +4620,7 @@
     "messageformat": "Link-Vorschauen erzeugen"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu »Einstellungen« → »Chats«"
+    "messageformat": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu »Einstellungen« > »Chats«"
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Eingegebene Emoticons in Emojis umwandeln"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Wir haben einen Bug behoben, durch den manchmal dein eigenes Konto in der Liste der automatischen Vorschläge auftauchte, wenn du eine @-Erwähnung einfügst. Dir fehlt dieser Bug? Dann haben wir eine narzisstische Lösung für dich: Du kannst in deinen Gruppenchats immer noch in der dritten Person von dir sprechen, wenn dir danach ist."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Jetzt kannst du die Seitenleisten-Größe der Chat-Liste auf Touchscreen-Geräten anpassen. Du kannst sie also mühelos größer ziehen, ohne dich anstrengen zu müssen – und die Abdrücke auf deinem Bildschirm zeigen einfach nur, wie flink deine Finger sind."

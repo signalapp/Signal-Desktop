@@ -1593,7 +1593,7 @@
     "messageformat": "すべてのデータを消去しますか？"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktopからすべてのデータとメッセージを消去しますか？Signal Desktopにはいつでも再リンクできますが、消去したメッセージは復元されません。Signalアカウントやスマートフォンのデータ、その他のリンク済み端末のデータは消去されません。"
+    "messageformat": "Signal Desktopからすべてのデータとメッセージを消去しますか？Signalアカウントやスマートフォンのデータ、その他のリンク済み端末のデータは消去されません。"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "接続を切って全データを消去しています…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "ご自身のアカウントがオートコンプリートの候補リストに含まれるバグが時々発生していましたので、@メンションに関するこのバグを修正しました。"
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "タッチスクリーン用端末で、チャットリストのサイドバーの長さを調整できるようになりました。"

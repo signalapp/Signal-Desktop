@@ -1593,7 +1593,7 @@
     "messageformat": "Vymazať všetky dáta?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Chcete vymazať všetky údaje a správy z tejto verzie aplikácie Signal Desktop? Aplikáciu môžete vždy znova prepojiť, vaše správy sa však neobnovia. Váš účet Signal a údaje vo vašom telefóne alebo iných prepojených zariadeniach nebudú vymazané."
+    "messageformat": "Chcete vymazať všetky údaje a správy z tejto verzie aplikácie Signal Desktop? Váš účet Signal a údaje vo vašom telefóne alebo iných prepojených zariadeniach nebudú vymazané."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Prebieha odpojenie a odstraňovanie všetkých údajov…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Opravili sme chybu súvisiacu so @ zmienkami, ktorá niekedy spôsobovala zahrnutie vášho účtu do zoznamu návrhov automatického dopĺňania."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Teraz môžete upraviť veľkosť bočného panela zoznamu četov na zariadeniach s dotykovou obrazovkou."

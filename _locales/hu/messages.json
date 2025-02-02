@@ -1593,7 +1593,7 @@
     "messageformat": "Törlöd az összes adatot?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Törlöd az összes adatot és üzenetet a Signal Desktop ezen verziójából? Ezt az asztali számítógépet bármikor újra összekapcsolhatod, de az üzenetek nem állnak helyre. A Signal-fiókod és a telefonodon vagy más társított eszközökön lévő adatok nem törlődnek."
+    "messageformat": "Törlöd az összes adatot és üzenetet a Signal Desktop ezen verziójából? A Signal-fiókod és a telefonodon vagy más társított eszközökön lévő adatok nem törlődnek."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Lecsatlakozás és az összes adat törlése…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Kijavítottunk egy hibát a @ jellel való említésekkel kapcsolatban, amelyek néha a saját fiókodat is tartalmazták az automatikus kiegészítési javaslatok listáján."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Mostantól beállíthatod a csevegési lista oldalsávjának méretét az érintőképernyős eszközökön."

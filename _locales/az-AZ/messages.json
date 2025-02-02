@@ -1593,7 +1593,7 @@
     "messageformat": "Bütün verilənlər silinsin?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktop-un bu versiyasından bütün verilənlər və mesajlar silinsin? Masaüstünə hər zaman yenidən bağlana bilərsiniz, amma mesajlarınızı bərpa etmək mümkün olmayacaq. Signal hesabınız və telefonunuzdakı verilənlər, yaxud da əlaqələndirilmiş digər cihazlar silinməyəcək."
+    "messageformat": "Signal Desktop-un bu versiyasından bütün verilənlər və mesajlar silinsin? Signal hesabınız və telefonunuzdakı verilənlər, yaxud da əlaqələndirilmiş digər cihazlar silinməyəcək."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Bağlantı kəsilir və bütün verilənlər silinir…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Bəzən səhvən şəxsi hesabınızın avtomatik tamamlanan təklif siyahısına daxil edilməsinə səbəb olan @ işarəli etiketlərlə bağlı xətanı aradan qaldırdıq. Bu xətanı gözdən qaçırsanız, qrup çatlarında özünüzdən üçüncü şəxs kimi bəhs edə bilərsiniz."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Artıq sensorlu ekranı olan cihazlarda çat siyahısının yan panelinin ölçüsünü tənzimləyə bilərsiniz. Bundan sonra onu sürüşdürməyə çalışdığınız zaman cihazınızın ekranındakı barmaq izləri geridə qalan yeganə dəlil olacaq."

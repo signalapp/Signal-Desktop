@@ -1593,7 +1593,7 @@
     "messageformat": "¿Eliminar todos los datos?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? Siempre puedes volver a vincular esta aplicación de escritorio, pero tus mensajes no se restaurarán. No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
+    "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Desconectando Signal y eliminando datos…"
@@ -4350,7 +4350,7 @@
     "messageformat": "La duración de los mensajes temporales será de {timeValue} cuando inicies un chat con alguien."
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "Has eliminado a esta persona, envíale un mensaje de nuevo y se la volverá a agregar a tu lista."
+    "messageformat": "Has eliminado a esta persona, envíale un mensaje de nuevo y se la volverá a añadir a tu lista."
   },
   "icu:ErrorBoundaryNotification__text": {
     "messageformat": "No se puede mostrar el mensaje. Haz clic para enviar un registro de depuración."
@@ -5076,7 +5076,7 @@
     "messageformat": "No se ha podido enviar esta historia a algunas personas. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:StoriesSettings__title": {
-    "messageformat": "Privacidad de las historias"
+    "messageformat": "Privacidad de mis historias"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "Las historias desaparecerán automáticamente después de 24 horas. Elige quién puede ver tus historias o crea historias nuevas para compartir con personas o grupos específicos."
@@ -5148,10 +5148,10 @@
     "messageformat": "Compartir solo con…"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas compartido.<learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas compartido. <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:StoriesSettings__context-menu": {
-    "messageformat": "Privacidad de las historias"
+    "messageformat": "Privacidad de mis historias"
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Confirmaciones de visualización"
@@ -5217,7 +5217,7 @@
     "messageformat": "Privacidad de mis historias"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Elige quiénes de tus contactos de Signal pueden ver tus historias.'{'0'}' Siempre podrás cambiarlo en los Ajustes de privacidad. <learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Elige quiénes de tus contactos de Signal pueden ver tus historias. Siempre podrás cambiarlo en los Ajustes de privacidad. <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:SendStoryModal__delete-story": {
     "messageformat": "Eliminar historia"
@@ -5316,7 +5316,7 @@
     "messageformat": "Eliminar para todos"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copiar timestamp"
+    "messageformat": "Copiar marca de tiempo"
   },
   "icu:StoryListItem__label": {
     "messageformat": "Historia"
@@ -5793,7 +5793,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Hemos corregido varios errores para que tu aplicación funcione sin problemas. ¡Se vienen más cambios emocionantes!",
+    "messageformat": "Hemos corregido varios errores para que tu app funcione sin problemas. ¡Se vienen más cambios emocionantes!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5801,7 +5801,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
-    "messageformat": "Estamos trabajando para corregir errores y hacer otras mejoras en el rendimiento para que la aplicación te funcione sin problemas. ",
+    "messageformat": "Estamos trabajando para corregir errores y hacer otras mejoras en el rendimiento para que la app te funcione sin problemas. ",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--5": {
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Cuando querías mencionar a alguien con @, a veces aparecía tu propia cuenta en la lista de sugerencias. ¡Eso ya es cosa del pasado! Pero no te preocupes: podrás seguir dando rienda suelta a tu <em>main character energy</em> hablando de ti en tercera persona en tus chats de grupo."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Ahora puedes ajustar el tamaño de la barra lateral de la lista de chats en dispositivos con pantalla táctil. Así, ocupará el espacio justo sin monopolizar la pantalla ni obligarte a forzar la vista."

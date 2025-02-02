@@ -1593,7 +1593,7 @@
     "messageformat": "Scrios na sonraí go léir?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Scrios na sonraí agus na teachtaireachtaí uile ón leagan seo de Dheasc Signal? Beidh tú in ann an deasc sin a athnascadh am ar bith, ach ní aisghabhfar do theachtaireachtaí. Ní scriosfar do chuntas Signal ná sonraí ar do ghuthán nó ar aon ghléas eile atá nasctha."
+    "messageformat": "Scrios na sonraí agus na teachtaireachtaí uile ón leagan seo de Dheasc Signal? Ní scriosfar do chuntas Signal ná sonraí ar do ghuthán nó ar aon ghléas eile atá nasctha."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Dínascadh agus na sonraí go léir á scriosadh…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Réitíomar fabht le tráchtanna @, rud a chuir do chuntas féin sa liosta moltaí uathlíonta."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Anois is féidir leat méid thaobh-bharra an liosta comhráite ar ghléasanna scáileáin tadhaill a choigeartú."

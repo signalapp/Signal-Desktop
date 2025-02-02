@@ -1593,7 +1593,7 @@
     "messageformat": "Smazat všechna data?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Odstranit všechna data a zprávy z této verze aplikace Signal Desktop? Tuto verzi aplikace Signal Desktop můžete kdykoli znovu propojit, ale zprávy se již neobnoví. Váš účet Signal a data v telefonu nebo jiných propojených zařízení se nesmažou."
+    "messageformat": "Odstranit všechna data a zprávy z této verze aplikace Signal Desktop? Váš účet Signal a data v telefonu nebo jiných propojených zařízení se nesmažou."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Odpojuji a mažu všechna data…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Opravili jsme chybu s @ zmínkami, která občas přidávala váš vlastní účet do seznamu automaticky dokončovaných návrhů."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Nyní si můžete upravit velikost postranního panelu se seznamem chatů na zařízeních s dotykovou obrazovkou."

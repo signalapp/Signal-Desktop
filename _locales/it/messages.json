@@ -1593,7 +1593,7 @@
     "messageformat": "Vuoi eliminare tutti i dati?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Vuoi eliminare tutti i dati e i messaggi da questa versione di Signal Desktop? Puoi sempre ricollegare questo desktop a Signal, ma i tuoi messaggi andranno persi. Il tuo account Signal e i relativi dati sul tuo telefono (o altri dispositivi collegati) non verranno eliminati."
+    "messageformat": "Vuoi eliminare tutti i dati e i messaggi da questa versione di Signal Desktop? Il tuo account Signal e i relativi dati sul tuo telefono (o altri dispositivi collegati) non verranno eliminati."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Disconnessione e cancellazione di tutti i dati…"
@@ -5811,9 +5811,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Abbiamo risolto un bug legato alle menzioni con la @ che a volte mostravano il nome del tuo account come suggerimento. Auto-menzionarsi è un po' strano, anche se sappiamo quanto faccia piacere ricevere attenzioni."
   },
   "icu:WhatsNew__v7.39--0": {
     "messageformat": "Da ora sui dispositivi touch puoi modificare le dimensioni della sidebar dell'elenco chat. Non potrai più dare la colpa a Signal in caso di miopia, visto che puoi ingrandire quanto vuoi per leggere meglio!"
