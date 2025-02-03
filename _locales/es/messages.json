@@ -1593,7 +1593,7 @@
     "messageformat": "¿Eliminar todos los datos?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
+    "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Desconectando Signal y eliminando datos…"
@@ -4161,10 +4161,10 @@
     "messageformat": "Acerca de las solicitudes de mensaje"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Revisa cuidadosamente las solicitudes. Signal ha encontrado otro contacto con el mismo nombre. <reviewRequestLink>Revisar solicitud</reviewRequestLink>"
+    "messageformat": "Revisa detenidamente las solicitudes. Signal ha encontrado otro contacto con el mismo nombre. <reviewRequestLink>Revisar solicitud</reviewRequestLink>"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} participante usa el mismo nombre. <reviewRequestLink>Revisar participantes</reviewRequestLink>} other {{count,number} participantes usan el mismo nombre. <reviewRequestLink>Revisar participantes</reviewRequestLink>}}"
+    "messageformat": "{count, plural, one {{count,number} participante tiene el mismo nombre. <reviewRequestLink>Revisar participantes</reviewRequestLink>} other {{count,number} participantes tienen el mismo nombre. <reviewRequestLink>Revisar participantes</reviewRequestLink>}}"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
     "messageformat": "{count, plural, one {Se encontró {count,number} conflicto de nombre en este grupo. <reviewRequestLink>Revisar participantes</reviewRequestLink>} other {Se encontraron {count,number} conflictos de nombre en este grupo. <reviewRequestLink>Revisar participantes</reviewRequestLink>}}"
@@ -4185,7 +4185,7 @@
     "messageformat": "Revisar participantes"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} participante del grupo usa el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que desees.} other {{count,number} participantes del grupo usan el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que desees.}}"
+    "messageformat": "{count, plural, one {{count,number} participante del grupo tiene el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que desees.} other {{count,number} participantes del grupo tienen el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que desees.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
     "messageformat": "{count, plural, one {Hemos encontrado {count,number} conflicto de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que desees.} other {Hemos encontrado {count,number} conflictos de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que desees.}}"
@@ -4350,7 +4350,7 @@
     "messageformat": "La duración de los mensajes temporales será de {timeValue} cuando inicies un chat con alguien."
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "Has eliminado a esta persona, envíale un mensaje de nuevo y se la volverá a agregar a tu lista."
+    "messageformat": "Has eliminado a esta persona, envíale un mensaje de nuevo y se la volverá a añadir a tu lista."
   },
   "icu:ErrorBoundaryNotification__text": {
     "messageformat": "No se puede mostrar el mensaje. Haz clic para enviar un registro de depuración."
@@ -4662,7 +4662,7 @@
     "messageformat": "Tu número de teléfono no será visible para nadie a menos que lo tenga guardado en los contactos de su teléfono."
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
-    "messageformat": "Tu número de teléfono ya no es visible para nadie."
+    "messageformat": "Tu número de teléfono no será visible para nadie."
   },
   "icu:Preferences__pnp--page-title": {
     "messageformat": "Número de teléfono"
@@ -5076,7 +5076,7 @@
     "messageformat": "No se ha podido enviar esta historia a algunas personas. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:StoriesSettings__title": {
-    "messageformat": "Privacidad de las historias"
+    "messageformat": "Privacidad de mis historias"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "Las historias desaparecerán automáticamente después de 24 horas. Elige quién puede ver tus historias o crea historias nuevas para compartir con personas o grupos específicos."
@@ -5148,10 +5148,10 @@
     "messageformat": "Compartir solo con…"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas compartido.<learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas compartido. <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:StoriesSettings__context-menu": {
-    "messageformat": "Privacidad de las historias"
+    "messageformat": "Privacidad de mis historias"
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Confirmaciones de visualización"
@@ -5208,7 +5208,7 @@
     "messageformat": "Nueva historia de grupo"
   },
   "icu:SendStoryModal__new-group--description": {
-    "messageformat": "Compartir en un grupo"
+    "messageformat": "Compartir con un grupo"
   },
   "icu:SendStoryModal__choose-groups": {
     "messageformat": "Elegir grupos"
@@ -5217,7 +5217,7 @@
     "messageformat": "Privacidad de mis historias"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Elige quiénes de tus contactos de Signal pueden ver tus historias.'{'0'}' Siempre podrás cambiarlo en los Ajustes de privacidad. <learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Elige quiénes de tus contactos de Signal pueden ver tus historias. Siempre podrás cambiarlo en los Ajustes de privacidad. <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:SendStoryModal__delete-story": {
     "messageformat": "Eliminar historia"
@@ -5316,7 +5316,7 @@
     "messageformat": "Eliminar para todos"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copiar timestamp"
+    "messageformat": "Copiar marca de tiempo"
   },
   "icu:StoryListItem__label": {
     "messageformat": "Historia"
@@ -5400,7 +5400,7 @@
     "messageformat": "Añadir enlace"
   },
   "icu:StoryCreator__link-preview-placeholder": {
-    "messageformat": "Escribe o añade una URL"
+    "messageformat": "Escribe o pega una URL"
   },
   "icu:StoryCreator__link-preview-empty": {
     "messageformat": "Añade un enlace para compartir en tu historia"
@@ -5605,7 +5605,7 @@
     "messageformat": "Se borró el historial de llamadas"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
-    "messageformat": "No se han podido eliminar todos los enlaces de llamada. Comprueba tu conexión e inténtalo de nuevo."
+    "messageformat": "No se han podido eliminar todos los enlaces. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:CallsTab__ClearCallHistoryError": {
     "messageformat": "No se ha podido eliminar todo el historial de llamadas. Comprueba tu conexión e inténtalo de nuevo."
@@ -5793,7 +5793,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Hemos corregido varios errores para que tu aplicación funcione sin problemas. ¡Se vienen más cambios emocionantes!",
+    "messageformat": "Hemos corregido varios errores para que tu app funcione sin problemas. ¡Se vienen más cambios emocionantes!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5801,7 +5801,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
-    "messageformat": "Estamos trabajando para corregir errores y hacer otras mejoras en el rendimiento para que la aplicación te funcione sin problemas. ",
+    "messageformat": "Estamos trabajando para corregir errores y hacer otras mejoras en el rendimiento para que la app te funcione sin problemas. ",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--5": {
