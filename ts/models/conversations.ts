@@ -26,7 +26,7 @@ import { getNotificationTextForMessage } from '../util/getNotificationTextForMes
 import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage';
 import type { ProfileNameChangeType } from '../util/getStringForProfileChange';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
-import { toDayMillis } from '../util/timestamp';
+import { MAX_SAFE_TIMEOUT_DELAY, toDayMillis } from '../util/timestamp';
 import { areWeAdmin } from '../util/areWeAdmin';
 import { isBlocked } from '../util/isBlocked';
 import { getAboutText } from '../util/getAboutText';
@@ -5369,6 +5369,13 @@ export class ConversationModel extends window.Backbone
       const delay = muteExpiresAt - Date.now();
       if (delay <= 0) {
         this.setMuteExpiration(0, { viaStorageServiceSync });
+        return;
+      }
+
+      if (delay > MAX_SAFE_TIMEOUT_DELAY) {
+        log.warn(
+          'startMuteTimer: timeout is larger than maximum setTimeout delay'
+        );
         return;
       }
 
