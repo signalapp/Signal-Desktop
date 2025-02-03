@@ -66,9 +66,14 @@ if (
       )?.attributes;
     },
     getConversation: (id: string) => window.ConversationController.get(id),
-    getMessageById: (id: string) => window.MessageCache.getById(id),
-    getMessageBySentAt: (timestamp: number) =>
-      window.MessageCache.findBySentAt(timestamp, () => true),
+    getMessageById: (id: string) => window.MessageCache.getById(id)?.attributes,
+    getMessageBySentAt: async (timestamp: number) => {
+      const message = await window.MessageCache.findBySentAt(
+        timestamp,
+        () => true
+      );
+      return message?.attributes;
+    },
     getReduxState: () => window.reduxStore.getState(),
     getSfuUrl: () => window.Signal.Services.calling._sfuUrl,
     getIceServerOverride: () =>
