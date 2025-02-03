@@ -37,10 +37,8 @@ const Image = (props: { id: string; src: string; 'hint-crop': string }) =>
 export function renderWindowsToast({
   avatarPath,
   body,
-  conversationId,
   heading,
-  messageId,
-  storyId,
+  token,
   type,
 }: WindowsNotificationData): string {
   // Note: with these templates, the first <text> is one line, bolded
@@ -58,13 +56,11 @@ export function renderWindowsToast({
   //   2) this also maps to the url-handling in main.ts
   if (type === NotificationType.Message || type === NotificationType.Reaction) {
     launch = showConversationRoute.toAppUrl({
-      conversationId,
-      messageId: messageId ?? null,
-      storyId: storyId ?? null,
+      token,
     });
   } else if (type === NotificationType.IncomingGroupCall) {
     launch = startCallLobbyRoute.toAppUrl({
-      conversationId,
+      token,
     });
   } else if (type === NotificationType.IncomingCall) {
     launch = showWindowRoute.toAppUrl({});

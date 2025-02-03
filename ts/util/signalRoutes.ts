@@ -201,7 +201,6 @@ function _route<Key extends string, Args extends object>(
 }
 
 const paramSchema = z.string().min(1);
-const optionalParamSchema = paramSchema.nullish().default(null);
 
 /**
  * signal.me by phone number
@@ -452,11 +451,9 @@ export const artAddStickersRoute = _route('artAddStickers', {
  * @example
  * ```ts
  * showConversationRoute.toAppUrl({
- *   conversationId: "123",
- *   messageId: "abc",
- *   storyId: "def",
+ *   token: 'abc',
  * })
- * // URL { "sgnl://show-conversation?conversationId=123&messageId=abc&storyId=def" }
+ * // URL { "sgnl://show-conversation?token=abc" }
  * ```
  */
 export const showConversationRoute = _route('showConversation', {
@@ -464,28 +461,16 @@ export const showConversationRoute = _route('showConversation', {
     _pattern('sgnl:', 'show-conversation', '{/}?', { search: ':params' }),
   ],
   schema: z.object({
-    conversationId: paramSchema,
-    messageId: optionalParamSchema,
-    storyId: optionalParamSchema,
+    token: paramSchema,
   }),
   parse(result) {
     const params = new URLSearchParams(result.search.groups.params);
     return {
-      conversationId: params.get('conversationId'),
-      messageId: params.get('messageId'),
-      storyId: params.get('storyId'),
+      token: params.get('token'),
     };
   },
   toAppUrl(args) {
-    const params = new URLSearchParams({
-      conversationId: args.conversationId,
-    });
-    if (args.messageId != null) {
-      params.set('messageId', args.messageId);
-    }
-    if (args.storyId != null) {
-      params.set('storyId', args.storyId);
-    }
+    const params = new URLSearchParams({ token: args.token });
     return new URL(`sgnl://show-conversation?${params.toString()}`);
   },
 });
@@ -495,9 +480,9 @@ export const showConversationRoute = _route('showConversation', {
  * @example
  * ```ts
  * startCallLobbyRoute.toAppUrl({
- *   conversationId: "123",
+ *   token: "123",
  * })
- * // URL { "sgnl://start-call-lobby?conversationId=123" }
+ * // URL { "sgnl://start-call-lobby?token=123" }
  * ```
  */
 export const startCallLobbyRoute = _route('startCallLobby', {
@@ -505,18 +490,16 @@ export const startCallLobbyRoute = _route('startCallLobby', {
     _pattern('sgnl:', 'start-call-lobby', '{/}?', { search: ':params' }),
   ],
   schema: z.object({
-    conversationId: paramSchema,
+    token: paramSchema,
   }),
   parse(result) {
     const params = new URLSearchParams(result.search.groups.params);
     return {
-      conversationId: params.get('conversationId'),
+      token: params.get('token'),
     };
   },
   toAppUrl(args) {
-    const params = new URLSearchParams({
-      conversationId: args.conversationId,
-    });
+    const params = new URLSearchParams({ token: args.token });
     return new URL(`sgnl://start-call-lobby?${params.toString()}`);
   },
 });
