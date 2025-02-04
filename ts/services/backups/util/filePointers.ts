@@ -120,15 +120,15 @@ export function convertFilePointerToAttachment(
     };
   }
 
-  if (invalidAttachmentLocator) {
-    return {
-      ...omit(commonProps, 'downloadPath'),
-      error: true,
-      size: 0,
-    };
+  if (!invalidAttachmentLocator) {
+    log.error('convertFilePointerToAttachment: filePointer had no locator');
   }
 
-  throw new Error('convertFilePointerToAttachment: mising locator');
+  return {
+    ...omit(commonProps, 'downloadPath'),
+    error: true,
+    size: 0,
+  };
 }
 
 export function convertBackupMessageAttachmentToAttachment(

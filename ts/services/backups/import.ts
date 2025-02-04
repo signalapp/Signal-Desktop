@@ -480,8 +480,8 @@ export class BackupImportStream extends Writable {
           // Not a conversation
           return;
         } else {
-          log.warn(`${this.#logId}: unsupported recipient item`);
-          return;
+          log.warn(`${this.#logId}: unsupported recipient destination`);
+          throw new Error('Unsupported recipient destination');
         }
 
         if (convo !== this.#ourConversation) {
@@ -505,6 +505,7 @@ export class BackupImportStream extends Writable {
         await this.#fromAdHocCall(frame.adHocCall);
       } else {
         log.warn(`${this.#logId}: unsupported frame item ${frame.item}`);
+        throw new Error('Unsupported frame type');
       }
     } catch (error) {
       this.#frameErrorCount += 1;
@@ -940,11 +941,12 @@ export class BackupImportStream extends Writable {
       );
       attrs.discoveredUnregisteredAt = timestamp || this.#now;
       attrs.firstUnregisteredAt = timestamp || undefined;
-    } else {
-      strictAssert(
+    } else if (!contact.registered) {
+      log.error(
         contact.registered,
-        'contact is either registered or unregistered'
+        'contact is neither registered nor unregistered; treating as registered'
       );
+      this.#frameErrorCount += 1;
     }
 
     if (contact.blocked) {
@@ -1649,7 +1651,12 @@ export class BackupImportStream extends Writable {
         } else if (status.skipped) {
           sendStatus = SendStatus.Skipped;
         } else {
-          throw new Error(`Unknown sendStatus received: ${status}`);
+          log.error(
+            `${timestamp}: Unknown sendStatus received: ${status}, falling back to Pending`
+          );
+          // We fallback to pending for unknown send statuses
+          sendStatus = SendStatus.Pending;
+          this.#frameErrorCount += 1;
         }
 
         sendStateByConversationId[target.id] = {
@@ -1896,6 +1903,10 @@ export class BackupImportStream extends Writable {
         targetAuthorAci: storyAuthorAci,
         targetTimestamp: 0, // stories are never imported
       };
+    } else {
+      throw new Error(
+        'Direct story reply message missing both textReply and emoji'
+      );
     }
 
     return result;
@@ -2413,10 +2424,12 @@ export class BackupImportStream extends Writable {
 
     if (updateMessage.learnedProfileChange) {
       const { e164, username } = updateMessage.learnedProfileChange;
-      strictAssert(
-        e164 != null || username != null,
-        'learnedProfileChange must have an old name'
-      );
+      if (e164 == null && username == null) {
+        log.error(
+          `${options.timestamp}: learnedProfileChange had no previous e164 or username`
+        );
+        this.#frameErrorCount += 1;
+      }
       return {
         message: {
           type: 'title-transition-notification',
@@ -3392,7 +3405,7 @@ export class BackupImportStream extends Writable {
         value = {
           start: rgbIntToDesktopHSL(color.solid),
         };
-      } else {
+      } else if (color.gradient) {
         strictAssert(color.gradient != null, 'Either solid or gradient');
         strictAssert(color.gradient.colors != null, 'Missing gradient colors');
 
@@ -3409,6 +3422,12 @@ export class BackupImportStream extends Writable {
           end: rgbIntToDesktopHSL(end),
           deg,
         };
+      } else {
+        log.error(
+          'CustomChatColor missing both solid and gradient fields, dropping'
+        );
+        this.#frameErrorCount += 1;
+        continue;
       }
 
       customColors.colors[uuid] = value;
@@ -3532,16 +3551,23 @@ export class BackupImportStream extends Writable {
           color = 'ultramarine';
           break;
       }
-    } else {
-      strictAssert(chatStyle.customColorId != null, 'Missing custom color id');
-
+    } else if (chatStyle.customColorId != null) {
       const entry = this.#customColorById.get(
         chatStyle.customColorId.toNumber()
       );
-      strictAssert(entry != null, 'Missing custom color');
 
-      color = 'custom';
-      customColorData = entry;
+      if (entry) {
+        color = 'custom';
+        customColorData = entry;
+      } else {
+        log.error('Chat style referenced missing custom color');
+        this.#frameErrorCount += 1;
+        autoBubbleColor = true;
+      }
+    } else {
+      log.error('ChatStyle has no recognized field');
+      this.#frameErrorCount += 1;
+      autoBubbleColor = true;
     }
 
     return {
