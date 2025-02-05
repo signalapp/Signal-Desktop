@@ -479,9 +479,10 @@ export class LibsignalWebSocketResource
   // must be dispatched.
   #closedReasonCode?: number;
 
-  // For now, we will be sending manual keepalives on libsignal-mediated connections,
-  // as we've found a couple scenarios where libsignal doesn't keep the connection
-  // in good shape by itself.
+  // libsignal will use websocket pings to keep the connection open, but
+  // - Server uses /v1/keepalive requests to do some consistency checks
+  // - external events (like waking from sleep) can prompt us to do a shorter keepalive
+  // So at least for now, we want to keep this mechanism around too.
   #keepalive: KeepAlive;
 
   constructor(
@@ -494,6 +495,8 @@ export class LibsignalWebSocketResource
     super();
 
     this.#keepalive = new KeepAlive(this, this.logId, keepalive);
+    this.#keepalive.reset();
+    this.addEventListener('close', () => this.#keepalive?.stop());
   }
 
   public localPort(): number {
