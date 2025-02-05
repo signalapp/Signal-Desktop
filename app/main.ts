@@ -1005,9 +1005,7 @@ async function createWindow() {
     mainWindow.webContents.send('ci:event', 'db-initialized', {});
 
     const shouldShowWindow =
-      !app.getLoginItemSettings().wasOpenedAsHidden &&
-      !startInTray &&
-      !config.get<boolean>('ciIsBackupIntegration');
+      !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
 
     if (shouldShowWindow) {
       getLogger().info('showing main window');
@@ -2748,12 +2746,11 @@ ipc.on('get-config', async event => {
         : getEnvironment(),
     isMockTestEnvironment: Boolean(process.env.MOCK_TEST),
     ciMode,
+    ciForceUnprocessed: config.get<boolean>('ciForceUnprocessed'),
     devTools: defaultWebPrefs.devTools,
     // Should be already computed and cached at this point
     dnsFallback: await getDNSFallback(),
     disableIPv6: DISABLE_IPV6,
-    ciBackupPath: config.get<string | null>('ciBackupPath') || undefined,
-    ciIsBackupIntegration: config.get<boolean>('ciIsBackupIntegration'),
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
     osRelease: os.release(),
