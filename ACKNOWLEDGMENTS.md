@@ -3957,7 +3957,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys, attest, libsignal-ffi, libsignal-jni, libsignal-jni-testing, libsignal-node, signal-neon-futures, signal-neon-futures-tests, libsignal-bridge, libsignal-bridge-macros, libsignal-bridge-testing, libsignal-bridge-types, libsignal-core, signal-crypto, device-transfer, libsignal-keytrans, signal-media, libsignal-message-backup, libsignal-message-backup-macros, libsignal-net, libsignal-net-infra, poksho, libsignal-protocol, libsignal-svr3, usernames, zkcredential, zkgroup
+## libsignal-account-keys, attest, libsignal-ffi, libsignal-jni, libsignal-jni-impl, libsignal-jni-testing, libsignal-node, signal-neon-futures, signal-neon-futures-tests, libsignal-bridge, libsignal-bridge-macros, libsignal-bridge-testing, libsignal-bridge-types, libsignal-core, signal-crypto, device-transfer, libsignal-keytrans, signal-media, libsignal-message-backup, libsignal-message-backup-macros, libsignal-net, libsignal-net-infra, poksho, libsignal-protocol, libsignal-svr3, usernames, zkcredential, zkgroup
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
