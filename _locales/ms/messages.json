@@ -1593,7 +1593,7 @@
     "messageformat": "Padamkan semua data?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Padamkan semua data dan mesej daripada versi Signal Desktop ini? Akaun Signal anda dan data pada telefon anda atau peranti terpaut lain tidak akan dipadamkan."
+    "messageformat": "Padamkan semua data dan mesej daripada versi Signal Desktop ini? Akaun Signal dan data pada telefon anda atau peranti terpaut lain tidak akan dipadamkan."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Memutuskan dan memadam semua data…"

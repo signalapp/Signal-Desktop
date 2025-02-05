@@ -1593,7 +1593,7 @@
     "messageformat": "Usunąć wszystkie dane?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Usunąć wszystkie dane i wiadomości z tej wersji Signal Desktop? Twoje konto Signal i dane na telefonie lub innych połączonych urządzeniach nie zostaną usunięte."
+    "messageformat": "Usunąć wszystkie dane i wiadomości z tej wersji Signal Desktop? Twoje konto Signal ani dane na telefonie lub innych połączonych urządzeniach nie zostaną usunięte."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Odłączanie i usuwanie wszystkich danych…"
@@ -1788,7 +1788,7 @@
     "messageformat": "System"
   },
   "icu:noteToSelf": {
-    "messageformat": "Moje notatki"
+    "messageformat": "Do siebie"
   },
   "icu:noteToSelfHero": {
     "messageformat": "W tym czacie możesz dodawać swoje notatki. Jeśli z Twoim kontem są połączone jakieś urządzenia, nowe notatki zostaną zsynchronizowane."

@@ -1047,7 +1047,7 @@
     "messageformat": "Antes de abandonar, selecciona un@ nuev@ admin para este grupo."
   },
   "icu:sessionEnded": {
-    "messageformat": "Sesión segura reiniciada"
+    "messageformat": "Sesión segura restablecida"
   },
   "icu:ChatRefresh--notification": {
     "messageformat": "Sesión de chat reiniciada"
@@ -4422,7 +4422,7 @@
     "messageformat": "Código QR o enlace"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "El alias necesita restablecerse"
+    "messageformat": "Es necesario restablecer el alias"
   },
   "icu:ProfileEditor__username-link__error-icon": {
     "messageformat": "Es necesario restablecer el enlace del alias"
@@ -5488,7 +5488,7 @@
     "messageformat": "Comparte tu código QR y enlace solo con personas en las que confíes. Cuando lo compartas, otras personas podrán ver tu alias e iniciar un chat contigo."
   },
   "icu:UsernameLinkModalBody__reset": {
-    "messageformat": "Reiniciar"
+    "messageformat": "Restablecer"
   },
   "icu:UsernameLinkModalBody__done": {
     "messageformat": "Listo"

@@ -243,13 +243,13 @@
     "messageformat": "Cerca tramite nome utente"
   },
   "icu:LeftPane__compose__findByPhoneNumber": {
-    "messageformat": "Trovarmi tramite numero di telefono"
+    "messageformat": "Cerca tramite numero di telefono"
   },
   "icu:LeftPaneFindByHelper__title--findByUsername": {
     "messageformat": "Cerca tramite nome utente"
   },
   "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
-    "messageformat": "Trovarmi tramite numero di telefono"
+    "messageformat": "Cerca tramite numero di telefono"
   },
   "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
     "messageformat": "Nome utente"
@@ -447,7 +447,7 @@
     "messageformat": "Rimuovi tutto"
   },
   "icu:safetyNumberChangeDialog__verify-number": {
-    "messageformat": "Verifica numero sicuro"
+    "messageformat": "Verifica codice di sicurezza"
   },
   "icu:safetyNumberChangeDialog__remove": {
     "messageformat": "Rimuovi dalla Storia"
@@ -735,7 +735,7 @@
     "messageformat": "Cerca tramite nome utente"
   },
   "icu:findByPhoneNumberHeader": {
-    "messageformat": "Trovarmi tramite numero di telefono"
+    "messageformat": "Cerca tramite numero di telefono"
   },
   "icu:welcomeToSignal": {
     "messageformat": "Benvenuto in Signal"

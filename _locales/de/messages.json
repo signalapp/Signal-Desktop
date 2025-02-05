@@ -1593,7 +1593,7 @@
     "messageformat": "Alle Daten löschen?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Alle Daten und Nachrichten von dieser Signal-Desktop-Version löschen? Dein Signal-Konto und die Daten auf deinem Telefon oder auf sonstigen verbundenen Geräten werden nicht gelöscht."
+    "messageformat": "Alle Daten und Nachrichten von dieser Version von Signal Desktop löschen? Dein Signal-Konto und die Daten auf deinem Telefon oder auf anderen gekoppelten Geräten werden nicht gelöscht."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Verbindung wird getrennt und alle Daten werden gelöscht …"

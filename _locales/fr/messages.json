@@ -18,7 +18,7 @@
     "messageformat": "Vous avez ajouté {contact} à \"{group}\""
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "messageformat": "Ajout de {contact}…"
+    "messageformat": "Nous ajoutons {contact}…"
   },
   "icu:RecordingComposer__cancel": {
     "messageformat": "Annuler"
@@ -27,7 +27,7 @@
     "messageformat": "Envoyer"
   },
   "icu:GroupListItem__message-default": {
-    "messageformat": "{count, plural, one {{count,number} membre} other {{count,number} membres}}"
+    "messageformat": "{count, plural, one {{count,number} membre} other {{count,number} membres}}"
   },
   "icu:GroupListItem__message-already-member": {
     "messageformat": "Déjà membre"
@@ -45,7 +45,7 @@
     "messageformat": "Haute qualité"
   },
   "icu:softwareAcknowledgments": {
-    "messageformat": "Reconnaissance de logiciels"
+    "messageformat": "Informations relatives aux logiciels tiers utilisés"
   },
   "icu:privacyPolicy": {
     "messageformat": "Conditions générales d’utilisation et règles de confidentialité"
@@ -60,7 +60,7 @@
     "messageformat": "{appEnv} (Intel)"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "Copier l’erreur et fermer l’appli"
+    "messageformat": "Copier le message d'erreur et fermer l'appli"
   },
   "icu:unknownContact": {
     "messageformat": "Contact inconnu"
@@ -126,7 +126,7 @@
     "messageformat": "Tout afficher"
   },
   "icu:appMenuQuit": {
-    "messageformat": "Fermer Signal"
+    "messageformat": "Quitter Signal"
   },
   "icu:editMenuUndo": {
     "messageformat": "Annuler"
@@ -144,7 +144,7 @@
     "messageformat": "Coller"
   },
   "icu:editMenuPasteAndMatchStyle": {
-    "messageformat": "Coller et faire correspondre le style"
+    "messageformat": "Coller sans la mise en forme"
   },
   "icu:editMenuDelete": {
     "messageformat": "Supprimer"
@@ -1593,7 +1593,7 @@
     "messageformat": "Supprimer toutes les données ?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Supprimer toutes les données et tous les messages de cette version de Signal Desktop ? Cette action ne supprime pas le compte et les données Signal qui sont stockés sur votre téléphone ou sur vos autres appareils associés."
+    "messageformat": "Supprimer toutes les données et tous les messages de cette version de Signal Desktop ? Cela ne supprime pas les données et le compte Signal stockés sur votre téléphone ou sur vos autres appareils associés."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Déconnexion et suppression de toutes les données…"
@@ -4161,7 +4161,7 @@
     "messageformat": "À propos des invitations par message"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Examinez les demandes avec attention. Signal a trouvé un autre contact avec le même nom. <reviewRequestLink>Examiner la demande</reviewRequestLink>"
+    "messageformat": "Examinez attentivement les demandes. Signal a trouvé un autre contact portant le même nom. <reviewRequestLink>Examiner la demande</reviewRequestLink>"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
     "messageformat": "{count, plural, one {{count,number} membre du groupe porte le même nom. <reviewRequestLink>Examiner les membres</reviewRequestLink>} other {{count,number} membres du groupe portent le même nom. <reviewRequestLink>Examiner les membres</reviewRequestLink>}}"
@@ -5064,7 +5064,7 @@
     "messageformat": "{name} à {group}"
   },
   "icu:Stories__toast--sending-reply": {
-    "messageformat": "Envoyer une réponse"
+    "messageformat": "Envoi de la réponse..."
   },
   "icu:Stories__toast--sending-reaction": {
     "messageformat": "Réaction en cours…"
@@ -5244,7 +5244,7 @@
     "messageformat": "Lire"
   },
   "icu:StoryViewer__reply": {
-    "messageformat": "Répondre"
+    "messageformat": "Réagir"
   },
   "icu:StoryViewer__reply-placeholder": {
     "messageformat": "Répondre à {firstName}"
