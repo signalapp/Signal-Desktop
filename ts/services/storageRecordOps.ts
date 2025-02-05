@@ -1182,20 +1182,24 @@ export async function mergeContactRecord(
     remoteName &&
     (localName !== remoteName || localFamilyName !== remoteFamilyName)
   ) {
-    // Local name doesn't match remote name, fetch profile
+    log.info(
+      `mergeContactRecord: ${conversation.idForLogging()} name doesn't match remote name; overwriting`
+    );
+    details.push('updated profile name');
+    conversation.set({
+      profileName: remoteName,
+      profileFamilyName: remoteFamilyName,
+    });
     if (localName) {
+      log.info(
+        `mergeContactRecord: ${conversation.idForLogging()} name doesn't match remote name; also fetching profile`
+      );
       drop(
         conversation.getProfiles().catch(() => {
           /* nothing to do here; logging already happened */
         })
       );
       details.push('refreshing profile');
-    } else {
-      conversation.set({
-        profileName: remoteName,
-        profileFamilyName: remoteFamilyName,
-      });
-      details.push('updated profile name');
     }
   }
   conversation.set({

@@ -771,10 +771,6 @@ async function doGetProfile(
           Errors.toLogFormat(error)
         );
         isSuccessfullyDecrypted = false;
-        c.set({
-          profileName: undefined,
-          profileFamilyName: undefined,
-        });
       }
     }
   } else {
