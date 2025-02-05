@@ -965,10 +965,6 @@ function onEditorStateChange({
       return;
     }
 
-    if (messageText.length && conversation.throttledBumpTyping) {
-      conversation.throttledBumpTyping();
-    }
-
     debouncedSaveDraft(conversationId, messageText, bodyRanges);
 
     // If we have attachments, don't add link preview
@@ -1328,6 +1324,10 @@ function saveDraft(
     if (!activeAt) {
       activeAt = now;
       timestamp = now;
+    }
+
+    if (messageText.length && conversation.throttledBumpTyping) {
+      conversation.throttledBumpTyping();
     }
 
     conversation.set({
