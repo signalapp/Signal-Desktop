@@ -2899,14 +2899,13 @@ function handleSignalRoute(route: ParsedSignalRoute) {
       value: route.args.encryptedUsername,
     });
   } else if (route.key === 'showConversation') {
-    mainWindow.webContents.send('show-conversation-via-notification', {
-      conversationId: route.args.conversationId,
-      messageId: route.args.messageId,
-      storyId: route.args.storyId,
-    });
+    mainWindow.webContents.send(
+      'show-conversation-via-token',
+      route.args.token
+    );
   } else if (route.key === 'startCallLobby') {
     mainWindow.webContents.send('start-call-lobby', {
-      conversationId: route.args.conversationId,
+      token: route.args.token,
     });
   } else if (route.key === 'linkCall') {
     mainWindow.webContents.send('start-call-link', {

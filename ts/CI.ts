@@ -10,6 +10,7 @@ import * as log from './logging/log';
 import { explodePromise } from './util/explodePromise';
 import { AccessType, ipcInvoke } from './sql/channels';
 import { backupsService } from './services/backups';
+import { notificationService } from './services/notifications';
 import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
 import { migrateAllMessages } from './messages/migrateMessageData';
 import { SECOND } from './util/durations';
@@ -22,6 +23,7 @@ type ResolveType = (data: unknown) => void;
 export type CIType = {
   deviceName: string;
   getConversationId: (address: string | null) => string | null;
+  createNotificationToken: (address: string) => string | undefined;
   getMessagesBySentAt(
     sentAt: number
   ): Promise<ReadonlyArray<MessageAttributesType>>;
@@ -157,6 +159,19 @@ export function getCI({
     return window.ConversationController.getConversationId(address);
   }
 
+  function createNotificationToken(address: string): string | undefined {
+    const id = window.ConversationController.getConversationId(address);
+    if (!id) {
+      return undefined;
+    }
+
+    return notificationService._createToken({
+      conversationId: id,
+      messageId: undefined,
+      storyId: undefined,
+    });
+  }
+
   async function openSignalRoute(url: string) {
     strictAssert(
       isSignalRoute(url),
@@ -201,6 +216,7 @@ export function getCI({
   return {
     deviceName,
     getConversationId,
+    createNotificationToken,
     getMessagesBySentAt,
     handleEvent,
     setProvisioningURL,

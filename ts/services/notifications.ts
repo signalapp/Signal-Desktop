@@ -4,6 +4,8 @@
 import os from 'os';
 import { debounce } from 'lodash';
 import EventEmitter from 'events';
+import { v4 as getGuid } from 'uuid';
+
 import { Sound, SoundType } from '../util/Sound';
 import { shouldHideExpiringMessageBody } from '../types/Settings';
 import OS from '../util/os/osMain';
@@ -36,16 +38,14 @@ type NotificationDataType = Readonly<{
 
 export type NotificationClickData = Readonly<{
   conversationId: string;
-  messageId: string | null;
-  storyId: string | null;
+  messageId: string | undefined;
+  storyId: string | undefined;
 }>;
 export type WindowsNotificationData = {
   avatarPath?: string;
   body: string;
-  conversationId: string;
   heading: string;
-  messageId?: string;
-  storyId?: string;
+  token: string;
   type: NotificationType;
 };
 export enum NotificationType {
@@ -86,6 +86,7 @@ class NotificationService extends EventEmitter {
 
   #lastNotification: null | Notification = null;
   #notificationData: null | NotificationDataType = null;
+  #tokenData: { token: string; data: NotificationClickData } | undefined;
 
   // Testing indicated that trying to create/destroy notifications too quickly
   //   resulted in notifications that stuck around forever, requiring the user
@@ -175,16 +176,20 @@ class NotificationService extends EventEmitter {
     log.info('NotificationService: showing a notification', sentAt);
 
     if (OS.isWindows()) {
+      const token = this._createToken({
+        conversationId,
+        messageId,
+        storyId,
+      });
+
       // Note: showing a windows notification clears all previous notifications first
       drop(
         window.IPC.showWindowsNotification({
           avatarPath: iconPath,
           body: message,
-          conversationId,
           heading: title,
-          messageId,
-          storyId,
           type,
+          token,
         })
       );
     } else {
@@ -206,8 +211,8 @@ class NotificationService extends EventEmitter {
           window.IPC.showWindow();
           window.Events.showConversationViaNotification({
             conversationId,
-            messageId: messageId ?? null,
-            storyId: storyId ?? null,
+            messageId,
+            storyId,
           });
         } else if (type === NotificationType.IncomingGroupCall) {
           window.IPC.showWindow();
@@ -304,6 +309,7 @@ class NotificationService extends EventEmitter {
       //   adding anythhing new; just one notification at a time. Electron forces it, so
       //   we replicate it with our Windows notifications.
       if (!notificationData) {
+        this.#tokenData = undefined;
         drop(window.IPC.clearAllWindowsNotifications());
       }
     } else if (this.#lastNotification) {
@@ -444,6 +450,32 @@ class NotificationService extends EventEmitter {
     return parseNotificationSetting(
       this.#getStorage().get('notification-setting')
     );
+  }
+
+  /** @internal */
+  public _createToken(data: NotificationClickData): string {
+    const token = getGuid();
+
+    this.#tokenData = {
+      token,
+      data,
+    };
+
+    return token;
+  }
+
+  public resolveToken(token: string): NotificationClickData | undefined {
+    if (!this.#tokenData) {
+      log.warn(`NotificationService: no data when looking up ${token}`);
+      return undefined;
+    }
+
+    if (this.#tokenData.token !== token) {
+      log.warn(`NotificationService: token mismatch ${token}`);
+      return undefined;
+    }
+
+    return this.#tokenData.data;
   }
 
   public clear(): void {

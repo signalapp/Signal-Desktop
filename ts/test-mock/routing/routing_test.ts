@@ -55,18 +55,13 @@ describe('routing', function (this: Mocha.Suite) {
     const [friend] = contacts;
     const page = await app.getWindow();
     await page.locator('#LeftPane').waitFor();
-    const conversationId = await page.evaluate(
-      serviceId => window.SignalCI?.getConversationId(serviceId),
+    const token = await page.evaluate(
+      serviceId => window.SignalCI?.createNotificationToken(serviceId),
       friend.toContact().aci
     );
-    strictAssert(
-      typeof conversationId === 'string',
-      'conversationId must exist'
-    );
+    strictAssert(typeof token === 'string', 'token must be returned');
     const conversationUrl = showConversationRoute.toAppUrl({
-      conversationId,
-      messageId: null,
-      storyId: null,
+      token,
     });
     await app.openSignalRoute(conversationUrl);
     const title = page.locator(

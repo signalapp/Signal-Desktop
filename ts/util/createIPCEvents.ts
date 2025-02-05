@@ -35,7 +35,10 @@ import * as Registration from './registration';
 import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId';
 import * as log from '../logging/log';
 import { deleteAllMyStories } from './deleteAllMyStories';
-import type { NotificationClickData } from '../services/notifications';
+import {
+  type NotificationClickData,
+  notificationService,
+} from '../services/notifications';
 import { StoryViewModeType, StoryViewTargetType } from '../types/Stories';
 import { isValidE164 } from './isValidE164';
 import { fromWebSafeBase64 } from './webSafeBase64';
@@ -121,6 +124,7 @@ export type IPCEventsCallbacksType = {
   resetDefaultChatColor: () => void;
   setMediaPlaybackDisabled: (playbackDisabled: boolean) => void;
   showConversationViaNotification: (data: NotificationClickData) => void;
+  showConversationViaToken: (token: string) => void;
   showConversationViaSignalDotMe: (
     kind: string,
     value: string
@@ -129,6 +133,7 @@ export type IPCEventsCallbacksType = {
   showGroupViaLink: (value: string) => Promise<void>;
   showReleaseNotes: () => void;
   showStickerPack: (packId: string, key: string) => void;
+  startCallingLobbyViaToken: (token: string) => void;
   requestCloseConfirmation: () => Promise<boolean>;
   getIsInCall: () => boolean;
   shutdown: () => Promise<void>;
@@ -575,23 +580,31 @@ export function createIPCEvents(
       messageId,
       storyId,
     }: NotificationClickData) {
-      if (conversationId) {
-        if (storyId) {
-          window.reduxActions.stories.viewStory({
-            storyId,
-            storyViewMode: StoryViewModeType.Single,
-            viewTarget: StoryViewTargetType.Replies,
-          });
-        } else {
-          window.reduxActions.conversations.showConversation({
-            conversationId,
-            messageId: messageId ?? undefined,
-          });
-        }
-      } else {
+      if (!conversationId) {
         window.reduxActions.app.openInbox();
+      } else if (storyId) {
+        window.reduxActions.stories.viewStory({
+          storyId,
+          storyViewMode: StoryViewModeType.Single,
+          viewTarget: StoryViewTargetType.Replies,
+        });
+      } else {
+        window.reduxActions.conversations.showConversation({
+          conversationId,
+          messageId: messageId ?? undefined,
+        });
       }
     },
+
+    showConversationViaToken(token: string) {
+      const data = notificationService.resolveToken(token);
+      if (!data) {
+        window.reduxActions.app.openInbox();
+      } else {
+        window.Events.showConversationViaNotification(data);
+      }
+    },
+
     async showConversationViaSignalDotMe(kind: string, value: string) {
       if (!Registration.everDone()) {
         log.info(
@@ -636,6 +649,17 @@ export function createIPCEvents(
 
       log.info('showConversationViaSignalDotMe: invalid E164');
       showUnknownSgnlLinkModal();
+    },
+
+    startCallingLobbyViaToken(token: string) {
+      const data = notificationService.resolveToken(token);
+      if (!data) {
+        return;
+      }
+      window.reduxActions?.calling?.startCallingLobby({
+        conversationId: data.conversationId,
+        isVideoCall: true,
+      });
     },
 
     requestCloseConfirmation: async (): Promise<boolean> => {

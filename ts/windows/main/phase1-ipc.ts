@@ -18,10 +18,7 @@ import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
 import { DataReader } from '../../sql/Client';
-import type {
-  NotificationClickData,
-  WindowsNotificationData,
-} from '../../services/notifications';
+import type { WindowsNotificationData } from '../../services/notifications';
 import { AggregatedStats } from '../../textsecure/WebsocketResources';
 import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager';
 
@@ -340,12 +337,9 @@ ipc.on('show-group-via-link', (_event, info) => {
   drop(window.Events.showGroupViaLink?.(info.value));
 });
 
-ipc.on('start-call-lobby', (_event, { conversationId }) => {
+ipc.on('start-call-lobby', (_event, info) => {
   window.IPC.showWindow();
-  window.reduxActions?.calling?.startCallingLobby({
-    conversationId,
-    isVideoCall: true,
-  });
+  window.Events.startCallingLobbyViaToken(info.token);
 });
 
 ipc.on('start-call-link', (_event, { key }) => {
@@ -362,15 +356,12 @@ ipc.on('cancel-presenting', () => {
   window.reduxActions?.calling?.cancelPresenting();
 });
 
-ipc.on(
-  'show-conversation-via-notification',
-  (_event, data: NotificationClickData) => {
-    const { showConversationViaNotification } = window.Events;
-    if (showConversationViaNotification) {
-      void showConversationViaNotification(data);
-    }
+ipc.on('show-conversation-via-token', (_event, token: string) => {
+  const { showConversationViaToken } = window.Events;
+  if (showConversationViaToken) {
+    void showConversationViaToken(token);
   }
-);
+});
 ipc.on('show-conversation-via-signal.me', (_event, info) => {
   const { kind, value } = info;
   strictAssert(typeof kind === 'string', 'Got an invalid kind over IPC');
