@@ -524,6 +524,7 @@ export class SocketManager extends EventListener {
     log.info('SocketManager.onNavigatorOnline');
     this.#isNavigatorOffline = false;
     this.#backOff.reset(FIBONACCI_TIMEOUTS);
+    this.libsignalNet.onNetworkChange();
 
     // Reconnect earlier if waiting
     if (this.#credentials !== undefined) {
