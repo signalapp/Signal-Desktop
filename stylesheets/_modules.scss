@@ -5946,6 +5946,10 @@ button.module-calling-participants-list__contact {
       overflow-anchor: auto;
     }
   }
+  &--scroll-locked {
+    // Component also applies flex-basis to prevent shrinkage
+    flex-shrink: 0;
+  }
 
   &--have-oldest {
     justify-content: flex-start;
