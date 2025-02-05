@@ -113,7 +113,7 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
     "@signalapp/better-sqlite3": "9.0.10",
-    "@signalapp/libsignal-client": "0.65.4",
+    "@signalapp/libsignal-client": "0.65.5",
     "@signalapp/quill-cjs": "2.1.2",
     "@signalapp/ringrtc": "2.49.3",
     "@types/fabric": "4.5.3",
