@@ -167,6 +167,7 @@ export type PropsType = PropsDataType &
 
 type StateType = {
   scrollLocked: boolean;
+  scrollLockHeight: number | undefined;
   hasDismissedDirectContactSpoofingWarning: boolean;
   hasRecentlyScrolled: boolean;
   lastMeasuredWarningHeight: number;
@@ -205,6 +206,7 @@ export class Timeline extends React.Component<
   // eslint-disable-next-line react/state-in-constructor
   override state: StateType = {
     scrollLocked: false,
+    scrollLockHeight: undefined,
     hasRecentlyScrolled: true,
     hasDismissedDirectContactSpoofingWarning: false,
 
@@ -214,8 +216,16 @@ export class Timeline extends React.Component<
   };
 
   #onScrollLockChange = (): void => {
-    this.setState({
-      scrollLocked: this.#scrollerLock.isLocked(),
+    const scrollLocked = this.#scrollerLock.isLocked();
+    this.setState(() => {
+      // Prevent scroll due to elements shrinking or disappearing (e.g. typing indicators)
+      const scrollLockHeight = scrollLocked
+        ? this.#messagesRef.current?.offsetHeight
+        : undefined;
+      return {
+        scrollLocked,
+        scrollLockHeight,
+      };
     });
   };
 
@@ -841,6 +851,7 @@ export class Timeline extends React.Component<
     } = this.props;
     const {
       scrollLocked,
+      scrollLockHeight,
       hasRecentlyScrolled,
       lastMeasuredWarningHeight,
       newestBottomVisibleMessageId,
@@ -1142,6 +1153,11 @@ export class Timeline extends React.Component<
                   )}
                   ref={this.#messagesRef}
                   role="list"
+                  style={
+                    scrollLockHeight
+                      ? { flexBasis: scrollLockHeight }
+                      : undefined
+                  }
                 >
                   {haveOldest && (
                     <>
