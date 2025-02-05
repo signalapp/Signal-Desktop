@@ -10,6 +10,12 @@
       "desktopMinVersion": "7.30.0",
       "androidMinVersion": "1482",
       "uuid": "1813845b-cc98-4210-a07c-164f9b328ca8"
+    },
+    {
+      "ctaId": "sample_note",
+      "desktopMinVersion": "7.30.0",
+      "androidMinVersion": "1482",
+      "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   ],
   "megaphones": [

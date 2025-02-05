@@ -1231,9 +1231,9 @@ export const releaseNoteSchema = z.object({
   bodyRanges: z
     .array(
       z.object({
-        style: z.string(),
-        start: z.number(),
-        length: z.number(),
+        style: z.string().optional(),
+        start: z.number().optional(),
+        length: z.number().optional(),
       })
     )
     .optional(),

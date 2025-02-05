@@ -1,4 +1,11 @@
 {
+  "bodyRanges": [
+    { "style": "bold", "start": 0, "length": 4 },
+    { "style": "italic", "start": 5, "length": 5 },
+    { "style": "strikethrough", "start": 11, "length": 3 },
+    { "style": "spoiler", "start": 15, "length": 3 },
+    { "style": "mono", "start": 19, "length": 7 }
+  ],
   "mediaHeight": "864",
   "mediaWidth": "1536",
   "media": "/static/release-notes/call_links.png",
