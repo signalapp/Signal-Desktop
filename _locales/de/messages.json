@@ -585,10 +585,10 @@
     "messageformat": "Diagnoseprotokoll übermitteln"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
+    "messageformat": "Die Nachricht mit Vermerken konnte nicht gesendet werden."
   },
   "icu:Toast--FailedToImportBackup": {
-    "messageformat": "Failed to process some frames during backup import. Please share your logs."
+    "messageformat": "Während des Imports der Sicherung kam es zu Verarbeitungsfehlern. Bitte übersende uns das Diagnoseprotokoll."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Du kannst keine Fotos und Videos zusammen mit Dateien auswählen."
@@ -600,10 +600,10 @@
     "messageformat": "Du kannst dieser Nachricht keine weiteren Anhänge hinzufügen."
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Die ausgewählte Datei überschreitet leider die maximal erlaubte Nachrichtengröße. "
+    "messageformat": "Die ausgewählte Datei überschreitet leider die maximal erlaubte Nachrichtengröße."
   },
   "icu:unableToLoadAttachment": {
-    "messageformat": "Ausgewählter Anhang kann nicht geladen werden."
+    "messageformat": "Der ausgewählte Anhang kann nicht geladen werden."
   },
   "icu:disconnected": {
     "messageformat": "Verbindung getrennt"
@@ -783,7 +783,7 @@
     "messageformat": "Wird heruntergeladen"
   },
   "icu:downloadFullMessage": {
-    "messageformat": "Ganze Nachricht herunterladen"
+    "messageformat": "Gesamte Nachricht herunterladen"
   },
   "icu:downloadAttachment": {
     "messageformat": "Anhang herunterladen"
@@ -861,7 +861,7 @@
     "messageformat": "Signal konnte nicht aktualisiert werden. Besuche {url}, um Signal manuell zu installieren. Kontaktiere danach den <contactSupportLink>Support</contactSupportLink> hinsichtlich dieses Problems."
   },
   "icu:readOnlyVolume": {
-    "messageformat": "macOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und Signal kann daher nicht automatisch aktualisiert werden. Bitte versuche mit Finder, {app} in den Ordner {folder} zu verschieben."
+    "messageformat": "MacOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und Signal kann daher nicht automatisch aktualisiert werden. Bitte versuche mit Finder, {app} in den Ordner {folder} zu verschieben."
   },
   "icu:ok": {
     "messageformat": "OK"
@@ -1836,7 +1836,7 @@
     "messageformat": "Bearbeitungen können nur innerhalb von 24 Stunden ab dem Senden dieser Nachricht vorgenommen werden."
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} ist kein*e Signal-Nutzer*in. Vergewissere dich, dass du den vollständigen Nutzernamen eingegeben hast."
+    "messageformat": "{atUsername} ist kein Signal-Nutzer. Vergewissere dich, dass du den vollständigen Nutzernamen eingegeben hast."
   },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Nutzer nicht gefunden. »{phoneNumber}« ist kein Signal-Nutzer."
@@ -2499,7 +2499,7 @@
     "messageformat": "Chat als ungelesen markiert"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Bitte richte Signal auf deinem Mobiltelefon und deinem Computer ein, um den Sticker-Set-Creator zu verwenden"
+    "messageformat": "Bitte richte Signal auf deinem Mobiltelefon und deinem Computer ein, um den Sticker-Set-Gestalter zu verwenden"
   },
   "icu:Reactions--remove": {
     "messageformat": "Reaktion entfernen"
@@ -2760,7 +2760,7 @@
     "messageformat": "Verbindung wird hergestellt …"
   },
   "icu:outgoingCallRinging": {
-    "messageformat": "Klingelt …"
+    "messageformat": "Es klingelt …"
   },
   "icu:makeOutgoingCall": {
     "messageformat": "Anruf starten"
@@ -3507,7 +3507,7 @@
     "messageformat": "Die Mitglieder oder Einstellungen dieser Gruppe haben sich geändert."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Aktualisiere diese Gruppe für neue Funktionen wie @Erwähnungen und Admins. Mitglieder, die ihre Namen und Fotos nicht mit dieser Gruppe geteilt haben, werden eingeladen, beizutreten. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
+    "messageformat": "Aktualisiere diese Gruppe für neue Funktionen wie @-Erwähnungen und Admins. Mitglieder, die ihre Namen und Fotos nicht mit dieser Gruppe geteilt haben, werden eingeladen, beizutreten. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
   },
   "icu:GroupV1--Migration--was-upgraded": {
     "messageformat": "Diese Gruppe wurde auf eine Gruppe neuen Typs aktualisiert."
@@ -3519,13 +3519,13 @@
     "messageformat": "Aktualisieren"
   },
   "icu:GroupV1--Migration--info--title": {
-    "messageformat": "Was sind Gruppen neuen Typs?"
+    "messageformat": "Was sind Gruppen des neuen Typs?"
   },
   "icu:GroupV1--Migration--migrate--title": {
     "messageformat": "Zu Gruppe neuen Typs aktualisieren"
   },
   "icu:GroupV1--Migration--info--summary": {
-    "messageformat": "Gruppen neuen Typs besitzen Funktionen wie @Erwähnungen und Gruppen-Admins und werden zukünftig weitere Funktionen unterstützen."
+    "messageformat": "Gruppen neuen Typs besitzen Funktionen wie @-Erwähnungen und Gruppen-Admins und werden zukünftig weitere Funktionen unterstützen."
   },
   "icu:GroupV1--Migration--info--keep-history": {
     "messageformat": "Der vor der Aktualisierung bestehende Nachrichtenverlauf und die Medieninhalte wurden erhalten."
@@ -3597,7 +3597,7 @@
     "messageformat": "An Signal spenden"
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal existiert dank Menschen wie dir. Trage dazu bei und erhalte ein Abzeichen."
+    "messageformat": "Signal existiert dank Menschen wie Dir. Trage dazu bei und erhalte ein Abzeichen."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "Öffne Signal auf deinem Telefon"
@@ -3618,7 +3618,7 @@
     "messageformat": "Nachrichtenübertragung wird abgeschlossen …"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Herunterladen wird vorbereitet..."
+    "messageformat": "Herunterladen wird vorbereitet …"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dies kann einige Minuten dauern"
@@ -3957,7 +3957,7 @@
     "messageformat": "Anfrage von {name} ablehnen?"
   },
   "icu:PendingRequests--deny-for--with-link": {
-    "messageformat": "Beitrittsanfrage von {name} ablehnen?  Eine erneute Beitrittsanfrage über den Gruppen-Link ist dann nicht mehr möglich."
+    "messageformat": "Beitrittsanfrage von {name} ablehnen? Eine erneute Beitrittsanfrage über den Gruppen-Link ist dann nicht mehr möglich."
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Von dir eingeladen"
@@ -4458,7 +4458,7 @@
     "messageformat": "Nummern mit mehr als 2 Ziffern können nicht mit 0 beginnen."
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "Zu viele Versuche. Bitte versuche es später erneut"
+    "messageformat": "Zu viele Versuche. Bitte versuche es später erneut."
   },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Dein Nutzername ist nicht verfügbar"
@@ -5789,7 +5789,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--1": {
-    "messageformat": "Zusätzliche kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal verwendest!",
+    "messageformat": "Zusätzliche kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass Du Signal verwendest!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
@@ -5809,7 +5809,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--6": {
-    "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
+    "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass Du Signal nutzt!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.39--0": {
