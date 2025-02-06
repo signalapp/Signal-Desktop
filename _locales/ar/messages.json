@@ -1593,7 +1593,7 @@
     "messageformat": "حذف جميع البيانات ؟"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
+    "messageformat": "هل ترغبُ بحذف جميع البيانات والرسائل من هذا الإصدار من سيجنال Desktop؟ لن يُحذَف حساب سيجنال الخاص بك وبياناتك على هاتفك أو أي أجهزة أخرى مُرتبِطة."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "جارٍ فصل وحذف جميع البيانات…"

@@ -1593,7 +1593,7 @@
     "messageformat": "是否删除所有数据？"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
+    "messageformat": "要删除此版 Signal Desktop 中的所有数据和消息吗？您的 Signal 账户和您手机或其他已链接设备上的数据不会被删除。"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "正在断开连接并删除所有数据…"

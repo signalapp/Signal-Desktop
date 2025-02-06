@@ -1593,7 +1593,7 @@
     "messageformat": "Usunąć wszystkie dane?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted."
+    "messageformat": "Usunąć wszystkie dane i wiadomości z tej wersji Signal Desktop? Twoje konto Signal ani dane na telefonie lub innych połączonych urządzeniach nie zostaną usunięte."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Odłączanie i usuwanie wszystkich danych…"
@@ -1788,7 +1788,7 @@
     "messageformat": "System"
   },
   "icu:noteToSelf": {
-    "messageformat": "Moje notatki"
+    "messageformat": "Do siebie"
   },
   "icu:noteToSelfHero": {
     "messageformat": "W tym czacie możesz dodawać swoje notatki. Jeśli z Twoim kontem są połączone jakieś urządzenia, nowe notatki zostaną zsynchronizowane."
@@ -3648,7 +3648,7 @@
     "messageformat": "Nie udało się przenieść Twoich wiadomości. Sprawdź połączenie z internetem i spróbuj ponownie."
   },
   "icu:BackupImportScreen__error-fatal__body": {
-    "messageformat": "Nie udało się przenieść Twoich wiadomości z powodu błędu. Połącz ten komputer jeszcze raz i spróbuj ponownie."
+    "messageformat": "Wystąpił błąd i nie udało się przenieść Twoich wiadomości. Aby spróbować ponownie, połącz ten komputer jeszcze raz."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Ponów"
