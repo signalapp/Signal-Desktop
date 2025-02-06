@@ -2343,17 +2343,17 @@ export async function startApp(): Promise<void> {
 
       if (status === 'installed' && isRemove) {
         window.reduxActions.stickers.uninstallStickerPack(id, key, {
-          fromSync: true,
+          actionSource: 'syncMessage',
         });
       } else if (isInstall) {
         if (status === 'downloaded') {
           window.reduxActions.stickers.installStickerPack(id, key, {
-            fromSync: true,
+            actionSource: 'syncMessage',
           });
         } else {
           void Stickers.downloadStickerPack(id, key, {
             finalStatus: 'installed',
-            fromSync: true,
+            actionSource: 'syncMessage',
           });
         }
       }

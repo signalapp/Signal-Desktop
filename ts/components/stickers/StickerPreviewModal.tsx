@@ -19,10 +19,18 @@ export type OwnProps = {
   readonly downloadStickerPack: (
     packId: string,
     packKey: string,
-    options?: { finalStatus?: 'installed' | 'downloaded' }
+    options: { finalStatus?: 'installed' | 'downloaded'; actionSource: 'ui' }
   ) => unknown;
-  readonly installStickerPack: (packId: string, packKey: string) => unknown;
-  readonly uninstallStickerPack: (packId: string, packKey: string) => unknown;
+  readonly installStickerPack: (
+    packId: string,
+    packKey: string,
+    options: { actionSource: 'ui' }
+  ) => unknown;
+  readonly uninstallStickerPack: (
+    packId: string,
+    packKey: string,
+    options: { actionSource: 'ui' }
+  ) => unknown;
   readonly pack?: StickerPackType;
   readonly i18n: LocalizerType;
 };
@@ -90,7 +98,7 @@ export const StickerPreviewModal = React.memo(
 
     React.useEffect(() => {
       if (pack && pack.status === 'known') {
-        downloadStickerPack(pack.id, pack.key);
+        downloadStickerPack(pack.id, pack.key, { actionSource: 'ui' });
       }
       if (
         pack &&
@@ -99,6 +107,7 @@ export const StickerPreviewModal = React.memo(
           pack.attemptedStatus === 'installed')
       ) {
         downloadStickerPack(pack.id, pack.key, {
+          actionSource: 'ui',
           finalStatus: pack.attemptedStatus,
         });
       }
@@ -130,10 +139,13 @@ export const StickerPreviewModal = React.memo(
       if (isInstalled) {
         setConfirmingUninstall(true);
       } else if (pack.status === 'ephemeral') {
-        downloadStickerPack(pack.id, pack.key, { finalStatus: 'installed' });
+        downloadStickerPack(pack.id, pack.key, {
+          finalStatus: 'installed',
+          actionSource: 'ui',
+        });
         handleClose();
       } else {
-        installStickerPack(pack.id, pack.key);
+        installStickerPack(pack.id, pack.key, { actionSource: 'ui' });
         handleClose();
       }
     }, [
@@ -149,7 +161,7 @@ export const StickerPreviewModal = React.memo(
       if (!pack) {
         return;
       }
-      uninstallStickerPack(pack.id, pack.key);
+      uninstallStickerPack(pack.id, pack.key, { actionSource: 'ui' });
       setConfirmingUninstall(false);
       // closeStickerPackPreview is called by <ConfirmationDialog />'s onClose
     }, [uninstallStickerPack, setConfirmingUninstall, pack]);

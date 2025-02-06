@@ -32,6 +32,12 @@ import { isNotNil } from '../util/isNotNil';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { AttachmentDisposition } from '../util/getLocalAttachmentUrl';
 
+export type ActionSourceType =
+  | 'startup'
+  | 'syncMessage'
+  | 'storageService'
+  | 'ui';
+
 export type StickerType = {
   packId: string;
   stickerId: number;
@@ -265,6 +271,7 @@ export function downloadQueuedPacks(): void {
       downloadStickerPack(id, key, {
         finalStatus: status,
         suppressError: true,
+        actionSource: 'startup',
       })
     );
   }
@@ -634,9 +641,7 @@ export async function downloadEphemeralPack(
 }
 
 export type DownloadStickerPackOptions = Readonly<{
-  fromSync?: boolean;
-  fromStorageService?: boolean;
-  fromBackup?: boolean;
+  actionSource: ActionSourceType;
   finalStatus?: StickerPackStatusType;
   suppressError?: boolean;
 }>;
@@ -644,7 +649,7 @@ export type DownloadStickerPackOptions = Readonly<{
 export async function downloadStickerPack(
   packId: string,
   packKey: string,
-  options: DownloadStickerPackOptions = {}
+  options: DownloadStickerPackOptions
 ): Promise<void> {
   // This will ensure that only one download process is in progress at any given time
   return downloadQueue.add(async () => {
@@ -664,9 +669,7 @@ async function doDownloadStickerPack(
   packKey: string,
   {
     finalStatus = 'downloaded',
-    fromSync = false,
-    fromStorageService = false,
-    fromBackup = false,
+    actionSource,
     suppressError = false,
   }: DownloadStickerPackOptions
 ): Promise<void> {
@@ -788,9 +791,11 @@ async function doDownloadStickerPack(
       status: 'pending',
       createdAt: Date.now(),
       stickers: {},
-      storageNeedsSync: !fromStorageService && !fromBackup,
       title: proto.title ?? '',
       author: proto.author ?? '',
+
+      // Redux handles these
+      storageNeedsSync: false,
     };
     await DataWriter.createOrUpdateStickerPack(pack);
     stickerPackAdded(pack);
@@ -865,9 +870,7 @@ async function doDownloadStickerPack(
       // No-op
     } else if (finalStatus === 'installed') {
       await installStickerPack(packId, packKey, {
-        fromSync,
-        fromStorageService,
-        fromBackup,
+        actionSource,
       });
     } else {
       // Mark the pack as complete

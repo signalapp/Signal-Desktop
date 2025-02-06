@@ -507,7 +507,6 @@ export const DataWriter: ServerWritableInterface = {
   getUnresolvedStickerPackReferences,
   addUninstalledStickerPack,
   addUninstalledStickerPacks,
-  removeUninstalledStickerPack,
   installStickerPack,
   uninstallStickerPack,
   clearAllErrorStickerPackAttempts,
@@ -5251,30 +5250,11 @@ function createOrUpdateStickerPack(
     status,
     stickerCount,
     title,
-    storageID,
-    storageVersion,
-    storageUnknownFields,
-    storageNeedsSync,
   } = pack;
   if (!id) {
     throw new Error(
       'createOrUpdateStickerPack: Provided data did not have a truthy id'
     );
-  }
-
-  let { position } = pack;
-
-  // Assign default position
-  if (!isNumber(position)) {
-    position = db
-      .prepare<EmptyQuery>(
-        `
-        SELECT IFNULL(MAX(position) + 1, 0)
-        FROM sticker_packs
-        `
-      )
-      .pluck()
-      .get();
   }
 
   const row = db
@@ -5299,11 +5279,6 @@ function createOrUpdateStickerPack(
     status,
     stickerCount,
     title,
-    position: position ?? 0,
-    storageID: storageID ?? null,
-    storageVersion: storageVersion ?? null,
-    storageUnknownFields: storageUnknownFields ?? null,
-    storageNeedsSync: storageNeedsSync ? 1 : 0,
   };
 
   if (row) {
@@ -5320,17 +5295,27 @@ function createOrUpdateStickerPack(
         lastUsed = $lastUsed,
         status = $status,
         stickerCount = $stickerCount,
-        title = $title,
-        position = $position,
-        storageID = $storageID,
-        storageVersion = $storageVersion,
-        storageUnknownFields = $storageUnknownFields,
-        storageNeedsSync = $storageNeedsSync
+        title = $title
       WHERE id = $id;
       `
     ).run(payload);
 
     return;
+  }
+
+  let { position } = pack;
+
+  // Assign default position when inserting a row
+  if (!isNumber(position)) {
+    position = db
+      .prepare<EmptyQuery>(
+        `
+        SELECT IFNULL(MAX(position) + 1, 0)
+        FROM sticker_packs
+        `
+      )
+      .pluck()
+      .get();
   }
 
   db.prepare<Query>(
@@ -5348,11 +5333,7 @@ function createOrUpdateStickerPack(
       status,
       stickerCount,
       title,
-      position,
-      storageID,
-      storageVersion,
-      storageUnknownFields,
-      storageNeedsSync
+      position
     ) values (
       $attemptedStatus,
       $author,
@@ -5366,14 +5347,10 @@ function createOrUpdateStickerPack(
       $status,
       $stickerCount,
       $title,
-      $position,
-      $storageID,
-      $storageVersion,
-      $storageUnknownFields,
-      $storageNeedsSync
+      $position
     )
     `
-  ).run(payload);
+  ).run({ ...payload, position: position ?? 0 });
 }
 function createOrUpdateStickerPacks(
   db: WritableDB,
@@ -5390,21 +5367,27 @@ function updateStickerPackStatus(
   id: string,
   status: StickerPackStatusType,
   options?: { timestamp: number }
-): void {
+): StickerPackStatusType | null {
   const timestamp = options ? options.timestamp || Date.now() : Date.now();
   const installedAt = status === 'installed' ? timestamp : null;
 
-  db.prepare<Query>(
-    `
-    UPDATE sticker_packs
-    SET status = $status, installedAt = $installedAt
-    WHERE id = $id;
-    `
-  ).run({
-    id,
-    status,
-    installedAt,
-  });
+  return db.transaction(() => {
+    const [select, selectParams] = sql`
+      SELECT status FROM sticker_packs WHERE id IS ${id};
+    `;
+
+    const oldStatus = db.prepare(select).pluck().get(selectParams);
+
+    const [update, updateParams] = sql`
+      UPDATE sticker_packs
+      SET status = ${status}, installedAt = ${installedAt}
+      WHERE id IS ${id}
+    `;
+
+    db.prepare(update).run(updateParams);
+
+    return oldStatus;
+  })();
 }
 function updateStickerPackInfo(
   db: WritableDB,
@@ -5415,6 +5398,7 @@ function updateStickerPackInfo(
     storageUnknownFields,
     storageNeedsSync,
     uninstalledAt,
+    position,
   }: StickerPackInfoType
 ): void {
   if (uninstalledAt) {
@@ -5443,7 +5427,8 @@ function updateStickerPackInfo(
         storageID = $storageID,
         storageVersion = $storageVersion,
         storageUnknownFields = $storageUnknownFields,
-        storageNeedsSync = $storageNeedsSync
+        storageNeedsSync = $storageNeedsSync,
+        position = $position
       WHERE id = $id;
       `
     ).run({
@@ -5452,6 +5437,7 @@ function updateStickerPackInfo(
       storageVersion: storageVersion ?? null,
       storageUnknownFields: storageUnknownFields ?? null,
       storageNeedsSync: storageNeedsSync ? 1 : 0,
+      position: position || 0,
     });
   }
 }
@@ -5774,17 +5760,17 @@ function addUninstalledStickerPack(
 ): void {
   db.prepare<Query>(
     `
-        INSERT OR REPLACE INTO uninstalled_sticker_packs
-        (
-          id, uninstalledAt, storageID, storageVersion, storageUnknownFields,
-          storageNeedsSync
-        )
-        VALUES
-        (
-          $id, $uninstalledAt, $storageID, $storageVersion, $unknownFields,
-          $storageNeedsSync
-        )
-      `
+      INSERT OR REPLACE INTO uninstalled_sticker_packs
+      (
+        id, uninstalledAt, storageID, storageVersion, storageUnknownFields,
+        storageNeedsSync
+      )
+      VALUES
+      (
+        $id, $uninstalledAt, $storageID, $storageVersion, $unknownFields,
+        $storageNeedsSync
+      )
+    `
   ).run({
     id: pack.id,
     uninstalledAt: pack.uninstalledAt,
@@ -5805,9 +5791,10 @@ function addUninstalledStickerPacks(
   })();
 }
 function removeUninstalledStickerPack(db: WritableDB, packId: string): void {
-  db.prepare<Query>(
-    'DELETE FROM uninstalled_sticker_packs WHERE id IS $id'
-  ).run({ id: packId });
+  const [query, params] = sql`
+    DELETE FROM uninstalled_sticker_packs WHERE id IS ${packId}
+  `;
+  db.prepare(query).run(params);
 }
 function getUninstalledStickerPacks(
   db: ReadableDB
@@ -5876,39 +5863,57 @@ function installStickerPack(
   db: WritableDB,
   packId: string,
   timestamp: number
-): void {
+): boolean {
   return db.transaction(() => {
     const status = 'installed';
-    updateStickerPackStatus(db, packId, status, { timestamp });
-
     removeUninstalledStickerPack(db, packId);
+    const oldStatus = updateStickerPackStatus(db, packId, status, {
+      timestamp,
+    });
+
+    const wasPreviouslyUninstalled = oldStatus !== 'installed';
+
+    if (wasPreviouslyUninstalled) {
+      const [query, params] = sql`
+        UPDATE sticker_packs SET
+          storageNeedsSync = 1
+        WHERE id IS ${packId};
+      `;
+      db.prepare(query).run(params);
+    }
+
+    return wasPreviouslyUninstalled;
   })();
 }
 function uninstallStickerPack(
   db: WritableDB,
   packId: string,
   timestamp: number
-): void {
+): boolean {
   return db.transaction(() => {
     const status = 'downloaded';
-    updateStickerPackStatus(db, packId, status);
+    const oldStatus = updateStickerPackStatus(db, packId, status);
 
-    db.prepare<Query>(
-      `
+    const wasPreviouslyInstalled = oldStatus === 'installed';
+
+    const [query, params] = sql`
       UPDATE sticker_packs SET
         storageID = NULL,
         storageVersion = NULL,
         storageUnknownFields = NULL,
         storageNeedsSync = 0
-      WHERE id = $packId;
-      `
-    ).run({ packId });
+      WHERE id = ${packId}
+    `;
+
+    db.prepare(query).run(params);
 
     addUninstalledStickerPack(db, {
       id: packId,
       uninstalledAt: timestamp,
-      storageNeedsSync: true,
+      storageNeedsSync: wasPreviouslyInstalled,
     });
+
+    return wasPreviouslyInstalled;
   })();
 }
 function getAllStickers(db: ReadableDB): Array<StickerType> {

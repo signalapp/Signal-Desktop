@@ -704,6 +704,7 @@ export function createIPCEvents(
     installStickerPack: async (packId, key) => {
       void Stickers.downloadStickerPack(packId, key, {
         finalStatus: 'installed',
+        actionSource: 'ui',
       });
     },
 
