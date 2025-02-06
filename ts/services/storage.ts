@@ -409,13 +409,9 @@ async function generateManifest(
     }
   }
 
-  log.info(
-    `storageService.upload(${version}): ` +
-      `adding uninstalled stickerPacks=${uninstalledStickerPacks.length}`
-  );
-
   const uninstalledStickerPackIds = new Set<string>();
 
+  let newlyUninstalledPacks = 0;
   uninstalledStickerPacks.forEach(stickerPack => {
     const storageRecord = new Proto.StorageRecord();
     storageRecord.stickerPack = toStickerPackRecord(stickerPack);
@@ -431,22 +427,19 @@ async function generateManifest(
     });
 
     if (isNewItem) {
-      postUploadUpdateFunctions.push(() => {
-        void DataWriter.addUninstalledStickerPack({
+      newlyUninstalledPacks += 1;
+      postUploadUpdateFunctions.push(() =>
+        DataWriter.addUninstalledStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
           storageNeedsSync: false,
-        });
-      });
+        })
+      );
     }
   });
 
-  log.info(
-    `storageService.upload(${version}): ` +
-      `adding installed stickerPacks=${installedStickerPacks.length}`
-  );
-
+  let newlyInstalledPacks = 0;
   installedStickerPacks.forEach(stickerPack => {
     if (uninstalledStickerPackIds.has(stickerPack.id)) {
       log.error(
@@ -456,7 +449,7 @@ async function generateManifest(
       window.reduxActions.stickers.uninstallStickerPack(
         stickerPack.id,
         stickerPack.key,
-        { fromSync: true }
+        { actionSource: 'storageService' }
       );
       return;
     }
@@ -473,16 +466,26 @@ async function generateManifest(
     });
 
     if (isNewItem) {
-      postUploadUpdateFunctions.push(() => {
-        void DataWriter.createOrUpdateStickerPack({
-          ...stickerPack,
+      newlyInstalledPacks += 1;
+      postUploadUpdateFunctions.push(() =>
+        DataWriter.updateStickerPackInfo({
+          id: stickerPack.id,
+          key: stickerPack.key,
+
           storageID,
           storageVersion: version,
           storageNeedsSync: false,
-        });
-      });
+          position: stickerPack.position,
+        })
+      );
     }
   });
+
+  log.info(
+    `storageService.upload(${version}): stickerPacks ` +
+      `installed=${newlyInstalledPacks}/${installedStickerPacks.length} ` +
+      `uninstalled=${newlyUninstalledPacks}/${uninstalledStickerPacks.length}`
+  );
 
   log.info(
     `storageService.upload(${version}): ` +
@@ -1498,10 +1501,15 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      void DataWriter.createOrUpdateStickerPack({
-        ...stickerPack,
+      void DataWriter.updateStickerPackInfo({
+        id: stickerPack.id,
+        key: stickerPack.key,
+
         storageID: undefined,
         storageVersion: undefined,
+        storageUnknownFields: undefined,
+        storageNeedsSync: false,
+        uninstalledAt: stickerPack.uninstalledAt,
       });
     });
 

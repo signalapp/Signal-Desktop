@@ -934,11 +934,12 @@ type WritableInterface = {
 
   createOrUpdateStickerPack: (pack: StickerPackType) => void;
   createOrUpdateStickerPacks: (packs: ReadonlyArray<StickerPackType>) => void;
+  // Returns previous sticker pack status
   updateStickerPackStatus: (
     id: string,
     status: StickerPackStatusType,
     options?: { timestamp: number }
-  ) => void;
+  ) => StickerPackStatusType | null;
   updateStickerPackInfo: (info: StickerPackInfoType) => void;
   createOrUpdateSticker: (sticker: StickerType) => void;
   createOrUpdateStickers: (sticker: ReadonlyArray<StickerType>) => void;
@@ -959,9 +960,10 @@ type WritableInterface = {
   addUninstalledStickerPacks: (
     pack: ReadonlyArray<UninstalledStickerPackType>
   ) => void;
-  removeUninstalledStickerPack: (packId: string) => void;
-  installStickerPack: (packId: string, timestamp: number) => void;
-  uninstallStickerPack: (packId: string, timestamp: number) => void;
+  // Returns `true` if sticker pack was previously uninstalled
+  installStickerPack: (packId: string, timestamp: number) => boolean;
+  // Returns `true` if sticker pack was not previously uninstalled
+  uninstallStickerPack: (packId: string, timestamp: number) => boolean;
   clearAllErrorStickerPackAttempts: () => void;
 
   updateEmojiUsage: (shortName: string, timeUsed?: number) => void;

@@ -1937,13 +1937,24 @@ export async function mergeStickerPackRecord(
     `newPosition=${stickerPack.position ?? '?'}`
   );
 
-  if (localStickerPack && !wasUninstalled && isUninstalled) {
-    assertDev(localStickerPack.key, 'Installed sticker pack has no key');
-    window.reduxActions.stickers.uninstallStickerPack(
-      localStickerPack.id,
-      localStickerPack.key,
-      { fromStorageService: true }
-    );
+  if (!wasUninstalled && isUninstalled) {
+    if (localStickerPack != null) {
+      assertDev(localStickerPack.key, 'Installed sticker pack has no key');
+      window.reduxActions.stickers.uninstallStickerPack(
+        localStickerPack.id,
+        localStickerPack.key,
+        {
+          actionSource: 'storageService',
+          uninstalledAt: stickerPack.uninstalledAt,
+        }
+      );
+    } else {
+      strictAssert(
+        stickerPack.key == null && stickerPack.uninstalledAt != null,
+        'Created sticker pack must be already uninstalled'
+      );
+      await DataWriter.addUninstalledStickerPack(stickerPack);
+    }
   } else if ((!localStickerPack || wasUninstalled) && !isUninstalled) {
     assertDev(stickerPack.key, 'Sticker pack does not have key');
 
@@ -1953,13 +1964,13 @@ export async function mergeStickerPackRecord(
         stickerPack.id,
         stickerPack.key,
         {
-          fromStorageService: true,
+          actionSource: 'storageService',
         }
       );
     } else {
       void Stickers.downloadStickerPack(stickerPack.id, stickerPack.key, {
         finalStatus: 'installed',
-        fromStorageService: true,
+        actionSource: 'storageService',
       });
     }
   }
