@@ -49,13 +49,13 @@ export const sendTypesEnum = z.enum([
   'pniIdentitySyncRequest', // urgent because we need our PNI to be fully functional
 
   // The actual sync messages, which we never send, just receive - non-urgent
-  'blockSync',
   'configurationSync',
   'contactSync',
   'keySync',
   'pniIdentitySync',
 
   // Syncs, default non-urgent
+  'blockSync',
   'deleteForMeSync',
   'fetchLatestManifestSync',
   'fetchLocalProfileSync',

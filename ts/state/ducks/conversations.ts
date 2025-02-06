@@ -220,6 +220,8 @@ import {
 import { markFailed } from '../../test-node/util/messageFailures';
 import { cleanupMessages } from '../../util/cleanup';
 import { MessageModel } from '../../models/messages';
+import type { ConversationModel } from '../../models/conversations';
+
 // State
 
 export type DBConversationType = ReadonlyDeep<{
@@ -3579,17 +3581,10 @@ function revokePendingMembershipsFromGroupV2(
 }
 
 async function syncMessageRequestResponse(
-  conversationData: ConversationType,
+  conversation: ConversationModel,
   response: Proto.SyncMessage.MessageRequestResponse.Type,
   { shouldSave = true } = {}
 ): Promise<void> {
-  const conversation = window.ConversationController.get(conversationData.id);
-  if (!conversation) {
-    throw new Error(
-      `syncMessageRequestResponse: No conversation found for conversation ${conversationData.id}`
-    );
-  }
-
   // In GroupsV2, this may modify the server. We only want to continue if those
   //   server updates were successful.
   await conversation.applyMessageRequestResponse(response, { shouldSave });
@@ -3603,11 +3598,18 @@ async function syncMessageRequestResponse(
     return;
   }
 
+  const threadAci = conversation.getAci();
+  if (!threadAci) {
+    log.warn(
+      'syncMessageRequestResponse: No ACI for target conversation, not sending'
+    );
+    return;
+  }
+
   try {
     await singleProtoJobQueue.add(
       MessageSender.getMessageRequestResponseSync({
-        threadE164: conversation.get('e164'),
-        threadAci: conversation.getAci(),
+        threadAci,
         groupId,
         type: response,
       })
@@ -3651,7 +3653,13 @@ function reportSpam(
     }
 
     const conversation = getConversationForReportSpam(conversationOrGroup);
-    if (conversation == null) {
+    const conversationModel = window.ConversationController.get(
+      conversation?.id
+    );
+    if (!conversation || !conversationModel) {
+      log.error(
+        `reportSpam: Conversation for report spam not found ${conversation?.id}. Doing nothing.`
+      );
       return;
     }
 
@@ -3664,7 +3672,10 @@ function reportSpam(
         idForLogging,
         task: async () => {
           await Promise.all([
-            syncMessageRequestResponse(conversation, messageRequestEnum.SPAM),
+            syncMessageRequestResponse(
+              conversationModel,
+              messageRequestEnum.SPAM
+            ),
             addReportSpamJob({
               conversation,
               getMessageServerGuidsForSpam:
@@ -3700,68 +3711,112 @@ function blockAndReportSpam(
 
     const conversationForSpam =
       getConversationForReportSpam(conversationOrGroup);
-
+    const conversationModel = window.ConversationController.get(
+      conversationForSpam?.id
+    );
+    if (!conversationForSpam || !conversationModel) {
+      log.error(
+        `reportSpam: Conversation for report spam not found ${conversationForSpam?.id}. Doing nothing.`
+      );
+      return;
+    }
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
     const idForLogging = getConversationIdForLogging(conversationOrGroup);
 
-    drop(
-      longRunningTaskWrapper({
-        name: 'blockAndReportSpam',
-        idForLogging,
-        task: async () => {
-          await Promise.all([
-            syncMessageRequestResponse(
-              conversationOrGroup,
-              messageRequestEnum.BLOCK_AND_SPAM
-            ),
-            conversationForSpam != null &&
-              addReportSpamJob({
-                conversation: conversationForSpam,
-                getMessageServerGuidsForSpam:
-                  DataReader.getMessageServerGuidsForSpam,
-                jobQueue: reportSpamJobQueue,
-              }),
-          ]);
+    if (conversationModel.getAci()) {
+      drop(
+        longRunningTaskWrapper({
+          name: 'blockAndReportSpam',
+          idForLogging,
+          task: async () => {
+            await Promise.all([
+              syncMessageRequestResponse(
+                conversationModel,
+                messageRequestEnum.BLOCK_AND_SPAM
+              ),
+              conversationForSpam != null &&
+                addReportSpamJob({
+                  conversation: conversationForSpam,
+                  getMessageServerGuidsForSpam:
+                    DataReader.getMessageServerGuidsForSpam,
+                  jobQueue: reportSpamJobQueue,
+                }),
+            ]);
 
-          dispatch({
-            type: SHOW_TOAST,
-            payload: {
-              toastType: ToastType.ReportedSpamAndBlocked,
-            },
-          });
-        },
-      })
-    );
+            dispatch({
+              type: SHOW_TOAST,
+              payload: {
+                toastType: ToastType.ReportedSpamAndBlocked,
+              },
+            });
+          },
+        })
+      );
+    } else {
+      try {
+        await singleProtoJobQueue.add(
+          MessageSender.getBlockSync(
+            window.textsecure.storage.blocked.getBlockedData()
+          )
+        );
+      } catch (error) {
+        log.error(
+          `blockConversation/${idForLogging}: Failed to queue block sync message`,
+          Errors.toLogFormat(error)
+        );
+      }
+    }
   };
 }
 
 function acceptConversation(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return async (dispatch, getState) => {
-    const conversationSelector = getConversationSelector(getState());
-    const conversationOrGroup = conversationSelector(conversationId);
-    if (!conversationOrGroup) {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
       throw new Error(
         'acceptConversation: Expected a conversation to be found. Doing nothing'
       );
     }
 
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-    const idForLogging = getConversationIdForLogging(conversationOrGroup);
+    const idForLogging = getConversationIdForLogging(conversation.attributes);
 
-    drop(
-      longRunningTaskWrapper({
-        name: 'acceptConversation',
-        idForLogging,
-        task: async () => {
-          await syncMessageRequestResponse(
-            conversationOrGroup,
-            messageRequestEnum.ACCEPT
-          );
-        },
-      })
-    );
+    if (conversation.getAci()) {
+      drop(
+        longRunningTaskWrapper({
+          name: 'acceptConversation',
+          idForLogging,
+          task: async () => {
+            await syncMessageRequestResponse(
+              conversation,
+              messageRequestEnum.ACCEPT
+            );
+          },
+        })
+      );
+    } else {
+      await conversation.applyMessageRequestResponse(
+        messageRequestEnum.ACCEPT,
+        {
+          shouldSave: true,
+        }
+      );
+
+      try {
+        await singleProtoJobQueue.add(
+          MessageSender.getBlockSync(
+            window.textsecure.storage.blocked.getBlockedData()
+          )
+        );
+      } catch (error) {
+        log.error(
+          `acceptConversation/${idForLogging}: Failed to queue sync message`,
+          Errors.toLogFormat(error)
+        );
+      }
+    }
 
     dispatch({
       type: 'NOOP',
@@ -3794,10 +3849,8 @@ function removeConversation(conversationId: string): ShowToastActionType {
 function blockConversation(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return (dispatch, getState) => {
-    const conversationSelector = getConversationSelector(getState());
-    const conversation = conversationSelector(conversationId);
-
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error(
         'blockConversation: Expected a conversation to be found. Doing nothing'
@@ -3805,20 +3858,41 @@ function blockConversation(
     }
 
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-    const idForLogging = getConversationIdForLogging(conversation);
+    const idForLogging = getConversationIdForLogging(conversation.attributes);
 
-    drop(
-      longRunningTaskWrapper({
-        name: 'blockConversation',
-        idForLogging,
-        task: async () => {
-          await syncMessageRequestResponse(
-            conversation,
-            messageRequestEnum.BLOCK
-          );
-        },
-      })
-    );
+    if (conversation.getAci()) {
+      drop(
+        longRunningTaskWrapper({
+          name: 'blockConversation',
+          idForLogging,
+          task: async () => {
+            await syncMessageRequestResponse(
+              conversation,
+              messageRequestEnum.BLOCK
+            );
+          },
+        })
+      );
+    } else {
+      // In GroupsV2, this may modify the server. We only want to continue if those
+      //   server updates were successful.
+      await conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
+        shouldSave: true,
+      });
+
+      try {
+        await singleProtoJobQueue.add(
+          MessageSender.getBlockSync(
+            window.textsecure.storage.blocked.getBlockedData()
+          )
+        );
+      } catch (error) {
+        log.error(
+          `blockConversation/${idForLogging}: Failed to queue block sync message`,
+          Errors.toLogFormat(error)
+        );
+      }
+    }
 
     dispatch({
       type: 'NOOP',
@@ -3830,9 +3904,8 @@ function blockConversation(
 function deleteConversation(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return (dispatch, getState) => {
-    const conversationSelector = getConversationSelector(getState());
-    const conversation = conversationSelector(conversationId);
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error(
         'deleteConversation: Expected a conversation to be found. Doing nothing'
@@ -3840,20 +3913,24 @@ function deleteConversation(
     }
 
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-    const idForLogging = getConversationIdForLogging(conversation);
+    const idForLogging = getConversationIdForLogging(conversation.attributes);
 
-    drop(
-      longRunningTaskWrapper({
-        name: 'deleteConversation',
-        idForLogging,
-        task: async () => {
-          await syncMessageRequestResponse(
-            conversation,
-            messageRequestEnum.DELETE
-          );
-        },
-      })
-    );
+    if (conversation.getAci()) {
+      drop(
+        longRunningTaskWrapper({
+          name: 'deleteConversation',
+          idForLogging,
+          task: async () => {
+            await syncMessageRequestResponse(
+              conversation,
+              messageRequestEnum.DELETE
+            );
+          },
+        })
+      );
+    } else {
+      await conversation.destroyMessages({ source: 'local-delete' });
+    }
 
     dispatch({
       type: 'NOOP',
