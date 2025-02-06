@@ -3,9 +3,11 @@
 
 import { without } from 'lodash';
 
-import type { StorageInterface } from '../../types/Storage.d';
-import type { ServiceIdString } from '../../types/ServiceId';
 import * as log from '../../logging/log';
+import * as Bytes from '../../Bytes';
+import { isAciString } from '../../util/isAciString';
+import type { StorageInterface } from '../../types/Storage.d';
+import type { AciString, ServiceIdString } from '../../types/ServiceId';
 
 export const BLOCKED_NUMBERS_ID = 'blocked';
 export const BLOCKED_UUIDS_ID = 'blocked-uuids';
@@ -98,5 +100,23 @@ export class Blocked {
 
     log.info(`removing group(${groupId} from blocked list`);
     await this.storage.put(BLOCKED_GROUPS_ID, without(groupIds, groupId));
+  }
+
+  public getBlockedData(): {
+    e164s: Array<string>;
+    acis: Array<AciString>;
+    groupIds: Array<Uint8Array>;
+  } {
+    const e164s = this.getBlockedNumbers();
+    const acis = this.getBlockedServiceIds().filter(item => isAciString(item));
+    const groupIds = this.getBlockedGroups().map(item =>
+      Bytes.fromBase64(item)
+    );
+
+    return {
+      e164s,
+      acis,
+      groupIds,
+    };
   }
 }

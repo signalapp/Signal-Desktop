@@ -1796,6 +1796,40 @@ export default class MessageSender {
     });
   }
 
+  static getBlockSync(
+    options: Readonly<{
+      e164s: Array<string>;
+      acis: Array<string>;
+      groupIds: Array<Uint8Array>;
+    }>
+  ): SingleProtoJobData {
+    const myAci = window.textsecure.storage.user.getCheckedAci();
+
+    const syncMessage = MessageSender.createSyncMessage();
+
+    const blocked = new Proto.SyncMessage.Blocked();
+    blocked.numbers = options.e164s;
+    blocked.acis = options.acis;
+    blocked.groupIds = options.groupIds;
+    syncMessage.blocked = blocked;
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: myAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'blockSync',
+      urgent: false,
+    };
+  }
+
   static getMessageRequestResponseSync(
     options: Readonly<{
       threadE164?: string;
