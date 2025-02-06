@@ -174,6 +174,9 @@ export async function downloadAttachment(
         downloadOffset,
       },
     });
+    log.info(
+      `${logId}: calling downloadToDisk with ${downloadPath ? '' : 'no '}downloadPath`
+    );
     downloadResult = await downloadToDisk({
       downloadOffset,
       downloadPath,
