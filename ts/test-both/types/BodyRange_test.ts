@@ -14,6 +14,7 @@ import {
   collapseRangeTree,
   insertRange,
   processBodyRangesForSearchResult,
+  trimMessageWhitespace,
 } from '../../types/BodyRange';
 import { generateAci } from '../../types/ServiceId';
 
@@ -27,6 +28,18 @@ const mentionInfo = {
 };
 
 describe('BodyRanges', () => {
+  function style(
+    start: number,
+    length: number,
+    styleValue: BodyRange.Style
+  ): BodyRange<BodyRange.Formatting> {
+    return {
+      start,
+      length,
+      style: styleValue,
+    };
+  }
+
   describe('insertRange', () => {
     it('inserts a single mention', () => {
       const result = insertRange({ start: 5, length: 1, ...mentionInfo }, []);
@@ -954,18 +967,6 @@ describe('BodyRanges', () => {
       };
     }
 
-    function style(
-      start: number,
-      length: number,
-      styleValue: BodyRange.Style
-    ): BodyRange<BodyRange.Formatting> {
-      return {
-        start,
-        length,
-        style: styleValue,
-      };
-    }
-
     describe('applyRangesToText', () => {
       it('handles mentions', () => {
         const replacement = mention(3, 'jamie');
@@ -1449,6 +1450,139 @@ describe('BodyRanges', () => {
             ],
           }
         );
+      });
+    });
+    describe('trimMessageWhitespace', () => {
+      it('returns exact inputs if no trimming needed', () => {
+        const input = {
+          body: '0123456789',
+          bodyRanges: [
+            style(0, 3, BodyRange.Style.BOLD),
+            style(3, 3, BodyRange.Style.ITALIC),
+            style(6, 4, BodyRange.Style.STRIKETHROUGH),
+          ],
+        };
+        const result = trimMessageWhitespace(input);
+
+        assert.strictEqual(result, input);
+        assert.deepStrictEqual(result, input);
+      });
+
+      it('handles leading whitespace', () => {
+        const input = {
+          body: '          ten spaces',
+          bodyRanges: [
+            style(0, 5, BodyRange.Style.BOLD),
+            style(0, 10, BodyRange.Style.SPOILER),
+            style(6, 11, BodyRange.Style.ITALIC),
+            style(10, 10, BodyRange.Style.STRIKETHROUGH),
+            style(15, 5, BodyRange.Style.SPOILER),
+          ],
+        };
+        const expected = {
+          body: 'ten spaces',
+          bodyRanges: [
+            style(0, 7, BodyRange.Style.ITALIC),
+            style(0, 10, BodyRange.Style.STRIKETHROUGH),
+            style(5, 5, BodyRange.Style.SPOILER),
+          ],
+        };
+        const result = trimMessageWhitespace(input);
+
+        assert.notStrictEqual(result, input);
+        assert.deepStrictEqual(result, expected);
+      });
+      it('handles leading whitespace partially covered by monospace', () => {
+        const input = {
+          body: '          ten spaces',
+          bodyRanges: [
+            style(0, 5, BodyRange.Style.BOLD),
+            style(0, 6, BodyRange.Style.SPOILER),
+            style(2, 10, BodyRange.Style.ITALIC),
+            style(6, 11, BodyRange.Style.MONOSPACE),
+            style(10, 10, BodyRange.Style.STRIKETHROUGH),
+            style(15, 5, BodyRange.Style.SPOILER),
+          ],
+        };
+        const expected = {
+          body: '    ten spaces',
+          bodyRanges: [
+            style(0, 6, BodyRange.Style.ITALIC),
+            style(0, 11, BodyRange.Style.MONOSPACE),
+            style(4, 10, BodyRange.Style.STRIKETHROUGH),
+            style(9, 5, BodyRange.Style.SPOILER),
+          ],
+        };
+        const result = trimMessageWhitespace(input);
+
+        assert.notStrictEqual(result, input);
+        assert.deepStrictEqual(result, expected);
+      });
+      it('returns exact inputs when leading whitespace is entirely covered by monospace', () => {
+        const input = {
+          body: '          ten spaces',
+          bodyRanges: [
+            style(0, 5, BodyRange.Style.BOLD),
+            style(0, 11, BodyRange.Style.MONOSPACE),
+            style(10, 10, BodyRange.Style.STRIKETHROUGH),
+            style(15, 5, BodyRange.Style.SPOILER),
+          ],
+        };
+        const result = trimMessageWhitespace(input);
+
+        assert.strictEqual(result, input);
+        assert.deepStrictEqual(result, input);
+      });
+
+      it('handles trailing whitespace', () => {
+        const input = {
+          body: 'ten spaces after          ',
+          bodyRanges: [
+            style(0, 3, BodyRange.Style.BOLD),
+            style(4, 6, BodyRange.Style.ITALIC),
+            style(11, 15, BodyRange.Style.STRIKETHROUGH),
+            style(15, 2, BodyRange.Style.BOLD),
+            style(16, 10, BodyRange.Style.SPOILER),
+            style(18, 4, BodyRange.Style.MONOSPACE),
+          ],
+        };
+        const expected = {
+          body: 'ten spaces after',
+          bodyRanges: [
+            style(0, 3, BodyRange.Style.BOLD),
+            style(4, 6, BodyRange.Style.ITALIC),
+            style(11, 5, BodyRange.Style.STRIKETHROUGH),
+            style(15, 1, BodyRange.Style.BOLD),
+          ],
+        };
+        const result = trimMessageWhitespace(input);
+
+        assert.notStrictEqual(result, input);
+        assert.deepStrictEqual(result, expected);
+      });
+
+      it('handles both trailing and leading whitespace', () => {
+        const input = {
+          body: '          0123456789          ',
+          bodyRanges: [
+            style(0, 10, BodyRange.Style.BOLD),
+            style(8, 2, BodyRange.Style.MONOSPACE),
+            style(10, 10, BodyRange.Style.STRIKETHROUGH),
+            style(20, 10, BodyRange.Style.SPOILER),
+          ],
+        };
+        const expected = {
+          body: '  0123456789',
+          bodyRanges: [
+            style(0, 2, BodyRange.Style.BOLD),
+            style(0, 2, BodyRange.Style.MONOSPACE),
+            style(2, 10, BodyRange.Style.STRIKETHROUGH),
+          ],
+        };
+        const result = trimMessageWhitespace(input);
+
+        assert.notStrictEqual(result, input);
+        assert.deepStrictEqual(result, expected);
       });
     });
   });

@@ -7,6 +7,7 @@ import type { AttachmentDownloadJobTypeType } from '../types/AttachmentDownload'
 import type { AttachmentType } from '../types/Attachment';
 import { getAttachmentSignatureSafe, isDownloaded } from '../types/Attachment';
 import { getMessageById } from '../messages/getMessageById';
+import { trimMessageWhitespace } from '../types/BodyRange';
 
 export async function markAttachmentAsCorrupted(
   messageId: string,
@@ -115,7 +116,10 @@ export async function addAttachmentToMessage(
 
           return {
             ...edit,
-            body: Bytes.toString(attachmentData),
+            ...trimMessageWhitespace({
+              body: Bytes.toString(attachmentData),
+              bodyRanges: edit.bodyRanges,
+            }),
             bodyAttachment: attachment,
           };
         });
@@ -148,8 +152,11 @@ export async function addAttachmentToMessage(
       }
 
       message.set({
-        body: Bytes.toString(attachmentData),
         bodyAttachment: attachment,
+        ...trimMessageWhitespace({
+          body: Bytes.toString(attachmentData),
+          bodyRanges: message.get('bodyRanges'),
+        }),
       });
     } finally {
       if (attachment.path) {
