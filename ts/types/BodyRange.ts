@@ -848,6 +848,98 @@ export function applyRangesToText(
   return state;
 }
 
+export function trimMessageWhitespace(input: {
+  body?: string;
+  bodyRanges?: ReadonlyArray<RawBodyRange>;
+}): { body?: string; bodyRanges?: ReadonlyArray<RawBodyRange> } {
+  if (input.body == null) {
+    return input;
+  }
+
+  let trimmedAtStart = input.body.trimStart();
+  let minimumIndex = input.body.length - trimmedAtStart.length;
+
+  let allTrimmed = trimmedAtStart.trimEnd();
+  let maximumIndex = allTrimmed.length;
+
+  if (minimumIndex === 0 && trimmedAtStart.length === maximumIndex) {
+    return input;
+  }
+
+  let earliestMonospaceIndex = Number.MAX_SAFE_INTEGER;
+  input.bodyRanges?.forEach(range => {
+    if (earliestMonospaceIndex === 0) {
+      return;
+    }
+    if (
+      !BodyRange.isFormatting(range) ||
+      range.style !== BodyRange.Style.MONOSPACE
+    ) {
+      return;
+    }
+
+    if (range.start < earliestMonospaceIndex) {
+      earliestMonospaceIndex = range.start;
+    }
+  });
+  if (earliestMonospaceIndex < minimumIndex) {
+    trimmedAtStart = input.body.slice(earliestMonospaceIndex);
+    minimumIndex = input.body.length - trimmedAtStart.length;
+    allTrimmed = trimmedAtStart.trimEnd();
+    maximumIndex = allTrimmed.length;
+  }
+
+  if (earliestMonospaceIndex === 0 && trimmedAtStart.length === maximumIndex) {
+    return input;
+  }
+
+  const bodyRanges = input.bodyRanges
+    ?.map(range => {
+      let workingRange = range;
+
+      const rangeEnd = workingRange.start + workingRange.length;
+      if (rangeEnd <= minimumIndex) {
+        return undefined;
+      }
+
+      if (workingRange.start < minimumIndex) {
+        const underMinimum = workingRange.start - minimumIndex;
+        workingRange = {
+          ...workingRange,
+          start: Math.max(underMinimum, 0),
+          length: workingRange.length + underMinimum,
+        };
+      } else {
+        workingRange = {
+          ...workingRange,
+          start: workingRange.start - minimumIndex,
+        };
+      }
+
+      const newRangeEnd = workingRange.start + workingRange.length;
+
+      if (workingRange.start >= maximumIndex) {
+        return undefined;
+      }
+
+      const overMaximum = newRangeEnd - maximumIndex;
+      if (overMaximum > 0) {
+        workingRange = {
+          ...workingRange,
+          length: workingRange.length - overMaximum,
+        };
+      }
+
+      return workingRange;
+    })
+    .filter(isNotNil);
+
+  return {
+    body: allTrimmed,
+    bodyRanges,
+  };
+}
+
 // For ease of working with draft mentions in Quill, a conversationID field is present.
 function normalizeBodyRanges(bodyRanges: DraftBodyRanges) {
   return orderBy(bodyRanges, ['start', 'length']).map(item => {
