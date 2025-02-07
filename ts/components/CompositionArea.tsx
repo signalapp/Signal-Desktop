@@ -76,6 +76,7 @@ import type { ShowToastAction } from '../state/ducks/toast';
 import type { DraftEditMessageType } from '../model-types.d';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
 import { ForwardMessagesModalType } from './ForwardMessagesModal';
+import { SignalConversationMuteToggle } from './conversation/SignalConversationMuteToggle';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -118,6 +119,7 @@ export type OwnProps = Readonly<{
   recordingState: RecordingState;
   messageCompositionId: string;
   shouldHidePopovers: boolean | null;
+  isMuted: boolean;
   isSmsOnlyOrUnregistered: boolean | null;
   left: boolean | null;
   linkPreviewLoading: boolean;
@@ -130,6 +132,7 @@ export type OwnProps = Readonly<{
     conversationId: string;
     files: ReadonlyArray<File>;
   }) => unknown;
+  setMuteExpiration(conversationId: string, muteExpiresAt: number): unknown;
   setMediaQualitySetting(conversationId: string, isHQ: boolean): unknown;
   sendStickerMessage(
     id: string,
@@ -239,6 +242,7 @@ export const CompositionArea = memo(function CompositionArea({
   imageToBlurHash,
   isDisabled,
   isSignalConversation,
+  isMuted,
   isActive,
   lastEditableMessageId,
   messageCompositionId,
@@ -254,6 +258,7 @@ export const CompositionArea = memo(function CompositionArea({
   shouldHidePopovers,
   showToast,
   theme,
+  setMuteExpiration,
 
   // AttachmentList
   draftAttachments,
@@ -737,8 +742,14 @@ export const CompositionArea = memo(function CompositionArea({
   useEscapeHandling(handleEscape);
 
   if (isSignalConversation) {
-    // TODO DESKTOP-4547
-    return <div />;
+    return (
+      <SignalConversationMuteToggle
+        conversationId={conversationId}
+        isMuted={isMuted}
+        i18n={i18n}
+        setMuteExpiration={setMuteExpiration}
+      />
+    );
   }
 
   if (selectedMessageIds != null) {

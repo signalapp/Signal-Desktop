@@ -44,6 +44,7 @@ function Wrapper(overrideProps: Partial<Props>) {
       membersCount={0}
       isGroup
       isMe={false}
+      isSignalConversation={false}
       theme={theme}
       toggleAboutContactModal={action('toggleAboutContactModal')}
       {...overrideProps}

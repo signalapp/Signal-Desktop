@@ -129,6 +129,10 @@ export class App extends EventEmitter {
     return this.#waitForEvent('receipts');
   }
 
+  public async waitForReleaseNotesFetcher(): Promise<void> {
+    return this.#waitForEvent('release_notes_fetcher_complete');
+  }
+
   public async waitForStorageService(): Promise<StorageServiceInfoType> {
     return this.#waitForEvent('storageServiceComplete');
   }
