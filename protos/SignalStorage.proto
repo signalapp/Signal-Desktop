@@ -203,7 +203,7 @@ message AccountRecord {
   repeated PinnedConversation pinnedConversations = 14;
   optional bool preferContactAvatars = 15;
   optional uint32 universalExpireTimer = 17;
-  optional bool primarySendsSms = 18;
+  reserved 18; // primarySendsSms
   reserved 19; // deprecatedE164
   repeated string preferredReactionEmoji = 20;
   optional bytes subscriberId = 21;

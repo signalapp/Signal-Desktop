@@ -41,7 +41,6 @@ export type LeftPaneSearchPropsType = {
     type: string;
   }>;
   searchConversationName?: string;
-  primarySendsSms: boolean;
   searchTerm: string;
   filterByUnread: boolean;
   startSearchCounter: number;
@@ -62,7 +61,6 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }>;
 
   readonly #searchConversationName?: string;
-  readonly #primarySendsSms: boolean;
   readonly #searchTerm: string;
   readonly #startSearchCounter: number;
   readonly #searchDisabled: boolean;
@@ -74,7 +72,6 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     conversationResults,
     isSearchingGlobally,
     messageResults,
-    primarySendsSms,
     searchConversation,
     searchConversationName,
     searchDisabled,
@@ -88,7 +85,6 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     this.#conversationResults = conversationResults;
     this.#isSearchingGlobally = isSearchingGlobally;
     this.#messageResults = messageResults;
-    this.#primarySendsSms = primarySendsSms;
     this.#searchConversation = searchConversation;
     this.#searchConversationName = searchConversationName;
     this.#searchDisabled = searchDisabled;
@@ -152,7 +148,6 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     }
 
     const searchTerm = this.#searchTerm;
-    const primarySendsSms = this.#primarySendsSms;
     const searchConversationName = this.#searchConversationName;
 
     let noResults: ReactChild;
@@ -193,11 +188,6 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
             </div>
           )}
           <div>{noResultsMessage}</div>
-          {primarySendsSms && (
-            <div className="module-left-pane__no-search-results__sms-only">
-              {i18n('icu:noSearchResults--sms-only')}
-            </div>
-          )}
         </>
       );
     }

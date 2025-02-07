@@ -953,7 +953,7 @@
   },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS contacts are not available on Desktop.",
-    "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
+    "description": "(Deleted 2025/02/06) Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "No results for \"{searchTerm}\" in {conversationName}",

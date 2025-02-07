@@ -970,6 +970,10 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v7.33.0-beta.1')) {
         await window.storage.remove('masterKeyLastRequestTime');
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.43.0-beta.1')) {
+        await window.storage.remove('primarySendsSms');
+      }
     }
 
     setAppLoadingScreenMessage(
