@@ -29,7 +29,6 @@ describe('LeftPaneArchiveHelper', () => {
     contactResults: { isLoading: false, results: [] },
     messageResults: { isLoading: false, results: [] },
     searchTerm: 'foo',
-    primarySendsSms: false,
   };
 
   beforeEach(() => {

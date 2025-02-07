@@ -1,7 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { get } from 'lodash';
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild';
@@ -175,14 +174,9 @@ const getModeSpecificProps = (
         };
       }
       if (getIsActivelySearching(state)) {
-        const primarySendsSms = Boolean(
-          get(state.items, ['primarySendsSms'], false)
-        );
-
         return {
           mode: LeftPaneMode.Search,
           isSearchingGlobally: getIsSearchingGlobally(state),
-          primarySendsSms,
           searchConversation: getSearchConversation(state),
           searchDisabled: state.network.challengeStatus !== 'idle',
           startSearchCounter: getStartSearchCounter(state),

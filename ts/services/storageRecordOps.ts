@@ -308,11 +308,6 @@ export function toAccountRecord(
     accountRecord.preferContactAvatars = Boolean(preferContactAvatars);
   }
 
-  const primarySendsSms = window.storage.get('primarySendsSms');
-  if (primarySendsSms !== undefined) {
-    accountRecord.primarySendsSms = Boolean(primarySendsSms);
-  }
-
   const rawPreferredReactionEmoji = window.storage.get(
     'preferredReactionEmoji'
   );
@@ -1333,7 +1328,6 @@ export async function mergeAccountRecord(
     sealedSenderIndicators,
     typingIndicators,
     preferContactAvatars,
-    primarySendsSms,
     universalExpireTimer,
     preferredReactionEmoji: rawPreferredReactionEmoji,
     subscriberId,
@@ -1375,10 +1369,6 @@ export async function mergeAccountRecord(
     if (Boolean(previous) !== Boolean(preferContactAvatars)) {
       await window.ConversationController.forceRerender();
     }
-  }
-
-  if (typeof primarySendsSms === 'boolean') {
-    await window.storage.put('primarySendsSms', primarySendsSms);
   }
 
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
