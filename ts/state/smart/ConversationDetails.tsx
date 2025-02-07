@@ -40,6 +40,7 @@ import { useCallingActions } from '../ducks/calling';
 import { useSearchActions } from '../ducks/search';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLightboxActions } from '../ducks/lightbox';
+import { isSignalConversation } from '../../util/isSignalConversation';
 
 export type SmartConversationDetailsProps = {
   conversationId: string;
@@ -193,6 +194,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       i18n={i18n}
       isAdmin={isAdmin}
       isGroup={isGroup}
+      isSignalConversation={isSignalConversation(conversation)}
       leaveGroup={leaveGroup}
       loadRecentMediaItems={loadRecentMediaItems}
       maxGroupSize={maxGroupSize}

@@ -25,6 +25,7 @@ export type Props = {
   i18n: LocalizerType;
   isGroup: boolean;
   isMe: boolean;
+  isSignalConversation: boolean;
   membersCount: number | null;
   startEditing: (isGroupTitle: boolean) => void;
   toggleAboutContactModal: (contactId: string) => void;
@@ -44,6 +45,7 @@ export function ConversationDetailsHeader({
   i18n,
   isGroup,
   isMe,
+  isSignalConversation,
   membersCount,
   startEditing,
   toggleAboutContactModal,
@@ -191,6 +193,13 @@ export function ConversationDetailsHeader({
     title = (
       <div className="ConversationDetailsHeader__title">
         {i18n('icu:noteToSelf')}
+        <span className="ContactModal__official-badge__large" />
+      </div>
+    );
+  } else if (isSignalConversation) {
+    title = (
+      <div className="ConversationDetailsHeader__title">
+        <UserText text={conversation.title} />
         <span className="ContactModal__official-badge__large" />
       </div>
     );

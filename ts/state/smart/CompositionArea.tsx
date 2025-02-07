@@ -67,6 +67,7 @@ import { useToastActions } from '../ducks/toast';
 import { isShowingAnyModal } from '../selectors/globalModals';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
+import { isConversationMuted } from '../../util/isConversationMuted';
 
 function renderSmartCompositionRecording(
   recProps: SmartCompositionRecordingProps
@@ -232,6 +233,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     toggleSelectMode,
     scrollToMessage,
     setMessageToEdit,
+    setMuteExpiration,
     showConversation,
   } = useConversationsActions();
   const { cancelRecording, completeRecording, startRecording, errorRecording } =
@@ -325,7 +327,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
         (isConversationSMSOnly(conversation) ||
           isConversationEverUnregistered(conversation))
       }
-      isSignalConversation={isSignalConversation(conversation)}
       isFetchingUUID={conversation.isFetchingUUID ?? null}
       isMissingMandatoryProfileSharing={isMissingRequiredProfileSharing(
         conversation
@@ -335,6 +336,10 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       blockConversation={blockConversation}
       reportSpam={reportSpam}
       deleteConversation={deleteConversation}
+      // Signal Conversation
+      isSignalConversation={isSignalConversation(conversation)}
+      isMuted={isConversationMuted(conversation)}
+      setMuteExpiration={setMuteExpiration}
       // Groups
       groupVersion={conversation.groupVersion ?? null}
       isGroupV1AndDisabled={conversation.isGroupV1AndDisabled ?? null}

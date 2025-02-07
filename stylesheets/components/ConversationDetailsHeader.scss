@@ -29,6 +29,8 @@
     padding-bottom: 8px;
     padding-top: 12px;
     user-select: text;
+    display: flex;
+    align-items: center;
   }
 
   &__title-contact-icon {

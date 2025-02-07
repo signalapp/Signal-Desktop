@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { IMAGE_JPEG } from '../types/MIME';
@@ -125,6 +125,10 @@ export default {
     selectedMessageIds: undefined,
     toggleSelectMode: action('toggleSelectMode'),
     toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
+    // Signal Conversation
+    isSignalConversation: false,
+    isMuted: false,
+    setMuteExpiration: action('setMuteExpiration'),
   },
 } satisfies Meta<Props>;
 
@@ -261,5 +265,23 @@ export function NoFormattingMenu(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea {...args} theme={theme} isFormattingEnabled={false} />
+  );
+}
+
+export function SignalConversationMuteToggle(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  const [isMuted, setIsMuted] = useState(true);
+
+  function setIsMutedByTime(_: string, muteExpiresAt: number) {
+    setIsMuted(muteExpiresAt > Date.now());
+  }
+  return (
+    <CompositionArea
+      {...args}
+      theme={theme}
+      isSignalConversation
+      isMuted={isMuted}
+      setMuteExpiration={setIsMutedByTime}
+    />
   );
 }

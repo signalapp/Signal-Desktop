@@ -45,6 +45,7 @@ describe('release notes', function (this: Mocha.Suite) {
   it('shows release notes with an image and body ranges', async () => {
     const firstWindow = await app.getWindow();
 
+    await app.waitForReleaseNotesFetcher();
     await firstWindow.evaluate('window.SignalCI.resetReleaseNotesFetcher()');
 
     await app.close();

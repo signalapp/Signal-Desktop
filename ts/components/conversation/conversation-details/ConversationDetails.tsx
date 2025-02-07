@@ -84,6 +84,7 @@ export type StateProps = {
   i18n: LocalizerType;
   isAdmin: boolean;
   isGroup: boolean;
+  isSignalConversation: boolean;
   groupsInCommon: ReadonlyArray<ConversationType>;
   maxGroupSize: number;
   maxRecommendedGroupSize: number;
@@ -181,6 +182,7 @@ export function ConversationDetails({
   i18n,
   isAdmin,
   isGroup,
+  isSignalConversation,
   leaveGroup,
   loadRecentMediaItems,
   memberships,
@@ -397,6 +399,7 @@ export function ConversationDetails({
         i18n={i18n}
         isMe={conversation.isMe}
         isGroup={isGroup}
+        isSignalConversation={isSignalConversation}
         membersCount={conversation.membersCount ?? null}
         startEditing={(isGroupTitle: boolean) => {
           setModalState(
@@ -424,7 +427,7 @@ export function ConversationDetails({
             {i18n('icu:ConversationDetails__HeaderButton--Message')}
           </Button>
         )}
-        {!conversation.isMe && (
+        {!conversation.isMe && !isSignalConversation && (
           <>
             <ConversationDetailsCallButton
               hasActiveCall={hasActiveCall}
@@ -477,152 +480,157 @@ export function ConversationDetails({
         />
       )}
 
-      <PanelSection>
-        {!isGroup || canEditGroupInfo ? (
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n(
-                  'icu:ConversationDetails--disappearing-messages-label'
-                )}
-                icon={IconType.timer}
-              />
-            }
-            info={
-              isGroup
-                ? i18n(
-                    'icu:ConversationDetails--disappearing-messages-info--group'
-                  )
-                : i18n(
-                    'icu:ConversationDetails--disappearing-messages-info--direct'
-                  )
-            }
-            label={i18n('icu:ConversationDetails--disappearing-messages-label')}
-            right={
-              <DisappearingTimerSelect
-                i18n={i18n}
-                value={conversation.expireTimer || DurationInSeconds.ZERO}
-                onChange={value =>
-                  setDisappearingMessages(conversation.id, value)
-                }
-              />
-            }
-          />
-        ) : null}
-        {canHaveNicknameAndNote(conversation) && (
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('icu:ConversationDetails--nickname-label')}
-                icon={IconType.edit}
-              />
-            }
-            label={i18n('icu:ConversationDetails--nickname-label')}
-            onClick={onOpenEditNicknameAndNoteModal}
-            actions={
-              (conversation.nicknameGivenName ||
-                conversation.nicknameFamilyName ||
-                conversation.note) && (
-                <ContextMenu
+      {!isSignalConversation && (
+        <PanelSection>
+          {!isGroup || canEditGroupInfo ? (
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n(
+                    'icu:ConversationDetails--disappearing-messages-label'
+                  )}
+                  icon={IconType.timer}
+                />
+              }
+              info={
+                isGroup
+                  ? i18n(
+                      'icu:ConversationDetails--disappearing-messages-info--group'
+                    )
+                  : i18n(
+                      'icu:ConversationDetails--disappearing-messages-info--direct'
+                    )
+              }
+              label={i18n(
+                'icu:ConversationDetails--disappearing-messages-label'
+              )}
+              right={
+                <DisappearingTimerSelect
                   i18n={i18n}
-                  portalToRoot
-                  popperOptions={{
-                    placement: 'bottom',
-                    strategy: 'absolute',
-                  }}
-                  menuOptions={[
-                    {
-                      icon: 'ConversationDetails--nickname-actions--delete',
-                      label: i18n(
-                        'icu:ConversationDetails--nickname-actions--delete'
-                      ),
-                      onClick: () => {
-                        setModalState(ModalState.ConfirmDeleteNicknameAndNote);
+                  value={conversation.expireTimer || DurationInSeconds.ZERO}
+                  onChange={value =>
+                    setDisappearingMessages(conversation.id, value)
+                  }
+                />
+              }
+            />
+          ) : null}
+          {canHaveNicknameAndNote(conversation) && (
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationDetails--nickname-label')}
+                  icon={IconType.edit}
+                />
+              }
+              label={i18n('icu:ConversationDetails--nickname-label')}
+              onClick={onOpenEditNicknameAndNoteModal}
+              actions={
+                (conversation.nicknameGivenName ||
+                  conversation.nicknameFamilyName ||
+                  conversation.note) && (
+                  <ContextMenu
+                    i18n={i18n}
+                    portalToRoot
+                    popperOptions={{
+                      placement: 'bottom',
+                      strategy: 'absolute',
+                    }}
+                    menuOptions={[
+                      {
+                        icon: 'ConversationDetails--nickname-actions--delete',
+                        label: i18n(
+                          'icu:ConversationDetails--nickname-actions--delete'
+                        ),
+                        onClick: () => {
+                          setModalState(
+                            ModalState.ConfirmDeleteNicknameAndNote
+                          );
+                        },
                       },
-                    },
-                  ]}
-                >
-                  {({ onClick }) => {
-                    return (
-                      <button
-                        type="button"
-                        className="ConversationDetails--nickname-actions"
-                        onClick={onClick}
-                      >
-                        <span className="ConversationDetails--nickname-actions-label">
-                          {i18n('icu:ConversationDetails--nickname-actions')}
-                        </span>
-                      </button>
-                    );
+                    ]}
+                  >
+                    {({ onClick }) => {
+                      return (
+                        <button
+                          type="button"
+                          className="ConversationDetails--nickname-actions"
+                          onClick={onClick}
+                        >
+                          <span className="ConversationDetails--nickname-actions-label">
+                            {i18n('icu:ConversationDetails--nickname-actions')}
+                          </span>
+                        </button>
+                      );
+                    }}
+                  </ContextMenu>
+                )
+              }
+            />
+          )}
+          {selectedNavTab === NavTab.Chats && (
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:showChatColorEditor')}
+                  icon={IconType.color}
+                />
+              }
+              label={i18n('icu:showChatColorEditor')}
+              onClick={() => {
+                pushPanelForConversation({
+                  type: PanelType.ChatColorEditor,
+                });
+              }}
+              right={
+                <div
+                  className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
+                  style={{
+                    ...getCustomColorStyle(conversation.customColor),
                   }}
-                </ContextMenu>
-              )
-            }
-          />
-        )}
-        {selectedNavTab === NavTab.Chats && (
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('icu:showChatColorEditor')}
-                icon={IconType.color}
-              />
-            }
-            label={i18n('icu:showChatColorEditor')}
-            onClick={() => {
-              pushPanelForConversation({
-                type: PanelType.ChatColorEditor,
-              });
-            }}
-            right={
-              <div
-                className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
-                style={{
-                  ...getCustomColorStyle(conversation.customColor),
-                }}
-              />
-            }
-          />
-        )}
-        {isGroup && (
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('icu:ConversationDetails--notifications')}
-                icon={IconType.notifications}
-              />
-            }
-            label={i18n('icu:ConversationDetails--notifications')}
-            onClick={() =>
-              pushPanelForConversation({
-                type: PanelType.NotificationSettings,
-              })
-            }
-            right={
-              conversation.muteExpiresAt
-                ? getMutedUntilText(conversation.muteExpiresAt, i18n)
-                : undefined
-            }
-          />
-        )}
-        {!isGroup && !conversation.isMe && (
-          <PanelRow
-            onClick={() => toggleSafetyNumberModal(conversation.id)}
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('icu:ConversationDetails__viewSafetyNumber')}
-                icon={IconType.verify}
-              />
-            }
-            label={
-              <div className="ConversationDetails__safety-number">
-                {i18n('icu:ConversationDetails__viewSafetyNumber')}
-              </div>
-            }
-          />
-        )}
-      </PanelSection>
-
+                />
+              }
+            />
+          )}
+          {isGroup && (
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationDetails--notifications')}
+                  icon={IconType.notifications}
+                />
+              }
+              label={i18n('icu:ConversationDetails--notifications')}
+              onClick={() =>
+                pushPanelForConversation({
+                  type: PanelType.NotificationSettings,
+                })
+              }
+              right={
+                conversation.muteExpiresAt
+                  ? getMutedUntilText(conversation.muteExpiresAt, i18n)
+                  : undefined
+              }
+            />
+          )}
+          {!isGroup && !conversation.isMe && (
+            <PanelRow
+              onClick={() => toggleSafetyNumberModal(conversation.id)}
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationDetails__viewSafetyNumber')}
+                  icon={IconType.verify}
+                />
+              }
+              label={
+                <div className="ConversationDetails__safety-number">
+                  {i18n('icu:ConversationDetails__viewSafetyNumber')}
+                </div>
+              }
+            />
+          )}
+        </PanelSection>
+      )}
       {isGroup && (
         <ConversationDetailsMembershipList
           canAddNewMembers={canAddNewMembers}
@@ -705,7 +713,7 @@ export function ConversationDetails({
         showLightbox={showLightbox}
       />
 
-      {!isGroup && !conversation.isMe && (
+      {!isGroup && !conversation.isMe && !isSignalConversation && (
         <ConversationDetailsGroups
           contactId={conversation.id}
           i18n={i18n}

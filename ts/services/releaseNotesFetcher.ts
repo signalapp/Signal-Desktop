@@ -396,6 +396,7 @@ export class ReleaseNotesFetcher {
 
       await this.#scheduleForNextRun();
       this.setTimeoutForNextRun();
+      window.SignalCI?.handleEvent('release_notes_fetcher_complete', {});
     } catch (error) {
       const errorString =
         error instanceof HTTPError

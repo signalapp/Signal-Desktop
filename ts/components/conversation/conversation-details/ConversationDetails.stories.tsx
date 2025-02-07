@@ -65,6 +65,7 @@ const createProps = (
   i18n,
   isAdmin: false,
   isGroup: true,
+  isSignalConversation: false,
   leaveGroup: action('leaveGroup'),
   loadRecentMediaItems: action('loadRecentMediaItems'),
   memberships: times(32, i => ({
@@ -243,4 +244,12 @@ export function InAnotherCallIndividual(): JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} hasActiveCall isGroup={false} />;
+}
+
+export function SignalConversation(): JSX.Element {
+  const props = createProps();
+
+  return (
+    <ConversationDetails {...props} isSignalConversation isGroup={false} />
+  );
 }

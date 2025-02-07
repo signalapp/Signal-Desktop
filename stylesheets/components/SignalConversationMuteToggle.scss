@@ -1,0 +1,30 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.SignalConversationMuteToggle {
+  @include mixins.light-theme() {
+    background-color: variables.$color-white;
+    border-top: 0.5px solid variables.$color-black-alpha-16;
+  }
+
+  @include mixins.dark-theme() {
+    background-color: variables.$color-gray-95;
+    border-top: 0.5px solid variables.$color-gray-65;
+  }
+
+  height: variables.$header-height;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+  color: variables.$color-ultramarine-light;
+
+  &__text {
+    @include mixins.button-reset;
+  }
+}
