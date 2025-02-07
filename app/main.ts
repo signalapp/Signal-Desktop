@@ -844,6 +844,8 @@ async function createWindow() {
 
   mainWindow.on('resize', captureWindowStats);
   mainWindow.on('move', captureWindowStats);
+  mainWindow.on('maximize', captureWindowStats);
+  mainWindow.on('unmaximize', captureWindowStats);
 
   if (!ciMode && config.get<boolean>('openDevTools')) {
     // Open the DevTools.
@@ -949,6 +951,9 @@ async function createWindow() {
       }
       return;
     }
+
+    // Persist pending window settings to ephemeralConfig
+    debouncedSaveStats.flush();
 
     windowState.markRequestedShutdown();
     await requestShutdown();
