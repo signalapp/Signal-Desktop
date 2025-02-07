@@ -305,7 +305,7 @@
   },
   "icu:migratingToSQLCipher": {
     "messageformat": "Optimizing messages... {status} complete.",
-    "description": "Message shown on the loading screen while we are doing application optimizations"
+    "description": "(Deleted 2025/02/06) Message shown on the loading screen while we are doing application optimizations"
   },
   "icu:archivedConversations": {
     "messageformat": "Archived Chats",
