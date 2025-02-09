@@ -28,18 +28,22 @@ export function findBestMatchingAudioDeviceIndex(
     return preferred.index;
   }
 
+  // Number of default devices at start of list to ignore.
+  const offset = isWindows ? 2 : 1;
+  const searchArr = available.slice(offset);
+
   if (preferred.uniqueId) {
-    const idMatchIndex = available.findIndex(
+    const idMatchIndex = searchArr.findIndex(
       d => d.uniqueId === preferred.uniqueId
     );
     if (idMatchIndex !== -1) {
-      return idMatchIndex;
+      return idMatchIndex + offset;
     }
   }
 
-  const nameMatchIndex = available.findIndex(d => d.name === preferred.name);
+  const nameMatchIndex = searchArr.findIndex(d => d.name === preferred.name);
   if (nameMatchIndex !== -1) {
-    return nameMatchIndex;
+    return nameMatchIndex + offset;
   }
 
   return available.length > 0 ? 0 : undefined;
