@@ -75,13 +75,13 @@
     "messageformat": "Se ha producido un error en la base de datos. Puedes copiar el error y ponerte en contacto con el equipo de asistencia de Signal para que te ayude a solucionar el problema. Si necesitas usar Signal de inmediato, puedes eliminar tus datos y reiniciar la aplicación.\n\nContacta con el equipo de asistencia en {link}"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Borrar los datos y reiniciar"
+    "messageformat": "Borrar datos y reiniciar"
   },
   "icu:databaseError__deleteDataConfirmation": {
     "messageformat": "¿Eliminar permanentemente todos los datos?"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "Todo tu historial de mensajes y archivos multimedia se eliminarán permanentemente de este dispositivo. Podrás utilizar Signal en este dispositivo después de volver a vincularlo. Esto no eliminará ningún dato de tu teléfono."
+    "messageformat": "Todo tu historial de mensajes y archivos multimedia se eliminarán de forma permanente de este dispositivo. Podrás usar Signal en este dispositivo después de volver a vincularlo. Esta acción no eliminará ningún dato de tu teléfono."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "La versión de tu base de datos no coincide con esta versión de Signal. Asegúrate de abrir la versión más reciente de Signal en tu equipo de escritorio."
@@ -93,7 +93,7 @@
     "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del almacén de claves de cifrado del SO ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior o intenta ejecutar Signal con la marca de línea de comandos --password-store=\"{previousBackendFlag}\"."
   },
   "icu:mainMenuFile": {
-    "messageformat": "&Archivo"
+    "messageformat": "A&rchivo"
   },
   "icu:mainMenuCreateStickers": {
     "messageformat": "Crear/subir paquete de stickers"
@@ -105,7 +105,7 @@
     "messageformat": "&Ver"
   },
   "icu:mainMenuWindow": {
-    "messageformat": "&Ventana"
+    "messageformat": "Ve&ntana"
   },
   "icu:mainMenuHelp": {
     "messageformat": "&Ayuda"
@@ -216,7 +216,7 @@
     "messageformat": "Optimizando aplicación…"
   },
   "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizando mensajes… {status} completados."
+    "messageformat": "Optimizando mensajes… {status} completado."
   },
   "icu:archivedConversations": {
     "messageformat": "Chats archivados"
@@ -234,7 +234,7 @@
     "messageformat": "Corregir ahora"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Hubo un problema con el código QR y el enlace de tu alias; ya no es válido. Crea un nuevo enlace para compartir."
+    "messageformat": "Ha habido un problema con el código QR y el enlace de tu alias, por lo que ya no son válidos. Crea un nuevo enlace para compartir."
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Corregir ahora"
@@ -273,7 +273,7 @@
     "messageformat": "Ocultar pestañas"
   },
   "icu:NavTabs__ItemIconLabel--HasError": {
-    "messageformat": "Ha habido un error"
+    "messageformat": "Se ha producido un error"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} sin leer"
@@ -303,7 +303,7 @@
     "messageformat": "Atrás"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Los chats archivados regresan a la lista principal si recibes mensajes nuevos."
+    "messageformat": "Los chats archivados se mostrarán en la lista principal si recibes mensajes nuevos."
   },
   "icu:noArchivedConversations": {
     "messageformat": "No hay chats archivados."
@@ -333,7 +333,7 @@
     "messageformat": "Eliminar chat"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Administrar Contactos"
+    "messageformat": "Gestionar contacto"
   },
   "icu:ContactListItem__menu__message": {
     "messageformat": "Mensaje"
@@ -363,7 +363,7 @@
     "messageformat": "No se ha podido eliminar a {title}"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "Esta persona está entre los contactos guardados de tu dispositivo. Elimina a esta persona de los Contactos de tu dispositivo móvil y vuelve a intentarlo."
+    "messageformat": "Esta persona en la lista de contactos guardados en tu dispositivo. Elimínala de los contactos de tu dispositivo móvil y vuelve a intentarlo."
   },
   "icu:moveConversationToInbox": {
     "messageformat": "Desarchivar"
@@ -396,7 +396,7 @@
     "messageformat": "Este grupo no es válido. Crea un nuevo grupo."
   },
   "icu:scrollDown": {
-    "messageformat": "Desplazarse al final del chat"
+    "messageformat": "Ir al final del chat"
   },
   "icu:messagesBelow": {
     "messageformat": "Nuevos mensajes abajo"
@@ -600,7 +600,7 @@
     "messageformat": "No se pueden adjuntar más archivos a este mensaje."
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Lo sentimos, el archivo seleccionado excede las restricciones de tamaño. {limit,number} {units}"
+    "messageformat": "El archivo seleccionado excede las restricciones de tamaño del mensaje. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "No se ha podido cargar el archivo seleccionado."
@@ -696,10 +696,10 @@
     "messageformat": "Buscar en chat"
   },
   "icu:noSearchResults": {
-    "messageformat": "No se han encontrado resultados para \"{searchTerm}\""
+    "messageformat": "No hay ningún resultado para \"{searchTerm}\""
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "No se han encontrado resultados para \"{searchTerm}\" en chats no leídos"
+    "messageformat": "No hay ningún resultado para \"{searchTerm}\" en chats no leídos"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "No hay chats sin leer"
@@ -708,7 +708,7 @@
     "messageformat": "Tus contactos con solo SMS/MMS no están disponibles en la aplicación de escritorio."
   },
   "icu:noSearchResultsInConversation": {
-    "messageformat": "No se encontró «{searchTerm}» en «{conversationName}»."
+    "messageformat": "No hay ningún resultado para \"{searchTerm}\" en {conversationName}"
   },
   "icu:conversationsUnreadHeader": {
     "messageformat": "Filtrado por no leídos"
@@ -747,7 +747,7 @@
     "messageformat": "las novedades"
   },
   "icu:typingAlt": {
-    "messageformat": "Animación de tecleo para este chat"
+    "messageformat": "Indicador de escritura para este chat"
   },
   "icu:contactInAddressBook": {
     "messageformat": "Esta persona está en tus contactos."
@@ -912,13 +912,13 @@
     "messageformat": "De"
   },
   "icu:searchResultHeader--sender-to-group": {
-    "messageformat": "{sender} a «{receiverGroup}»"
+    "messageformat": "{sender} para \"{receiverGroup}\""
   },
   "icu:searchResultHeader--sender-to-you": {
     "messageformat": "De {sender} para ti"
   },
   "icu:searchResultHeader--you-to-group": {
-    "messageformat": "De ti para {receiverGroup}"
+    "messageformat": "De ti para \"{receiverGroup}\""
   },
   "icu:searchResultHeader--you-to-receiver": {
     "messageformat": "De ti para {receiverContact}"
@@ -1035,7 +1035,7 @@
     "messageformat": "Abandonar grupo"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__title": {
-    "messageformat": "¿De verdad quieres abandonar el grupo?"
+    "messageformat": "¿Seguro que quieres abandonar el grupo?"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__description": {
     "messageformat": "Ya no podrás enviar ni recibir mensajes en este grupo."
@@ -1044,7 +1044,7 @@
     "messageformat": "Abandonar"
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
-    "messageformat": "Antes de abandonar, selecciona un@ nuev@ admin para este grupo."
+    "messageformat": "Antes de abandonar el grupo, designa a otra persona como admin."
   },
   "icu:sessionEnded": {
     "messageformat": "Sesión segura restablecida"
@@ -1086,10 +1086,10 @@
     "messageformat": "Alguien de tus contactos ha comenzado a usar Signal"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} y {conversationTitle} son la misma cuenta. Tu historial de mensajes para ambos chats está aquí."
+    "messageformat": "{obsoleteConversationTitle} y {conversationTitle} corresponden a la misma cuenta. Tu historial de mensajes de ambos chats está aquí."
   },
   "icu:ConversationMerge--notification--with-e164": {
-    "messageformat": "Tu historial de mensajes con {conversationTitle} y su número {obsoleteConversationNumber} se han fusionado."
+    "messageformat": "Tu historial de mensajes con {conversationTitle} y su número {obsoleteConversationNumber} se ha fusionado."
   },
   "icu:ConversationMerge--notification--no-title": {
     "messageformat": "Tu historial de mensajes con {conversationTitle} se ha fusionado con otro chat que tenías con esa misma persona."
@@ -1098,7 +1098,7 @@
     "messageformat": "Más información"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
-    "messageformat": "Después de enviar un mensaje a {obsoleteConversationTitle}, supiste que este número pertenece a {conversationTitle}. Su número de teléfono es privado."
+    "messageformat": "Has enviado un mensaje a {obsoleteConversationTitle} y ahora sabes que este número pertenece a {conversationTitle}. Su número de teléfono es privado."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "Tu historial de mensajes para ambos chats se ha combinado aquí."
@@ -1581,10 +1581,10 @@
     "messageformat": "Abrir al iniciar sesión en este dispositivo"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Eliminar datos en la aplicación"
+    "messageformat": "Eliminar datos de la app"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "Esto eliminará todos los datos de la aplicación, incluidos los mensajes y la información de la cuenta."
+    "messageformat": "Se eliminarán todos los datos de la aplicación, incluidos los mensajes y la información de la cuenta."
   },
   "icu:clearDataButton": {
     "messageformat": "Eliminar datos"
@@ -2019,7 +2019,7 @@
     "messageformat": "Usa este enlace para unirte a una llamada de Signal"
   },
   "icu:donation--missing": {
-    "messageformat": "Fallo al recuperar los detalles de la donación"
+    "messageformat": "No se han podido recuperar los detalles de la donación"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "Abre este mensaje en tu dispositivo móvil"
@@ -2028,7 +2028,7 @@
     "messageformat": "Abre este mensaje en tu dispositivo móvil para ver tu donación"
   },
   "icu:message--donation--unopened--label": {
-    "messageformat": "{sender} ha donado a Signal en tu nombre"
+    "messageformat": "{sender} ha hecho una donación a Signal en tu nombre"
   },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "Comprueba tu teléfono para abrir la donación"
@@ -2043,7 +2043,7 @@
     "messageformat": "Has canjeado una donación"
   },
   "icu:message--donation--preview--sent": {
-    "messageformat": "Has hecho una donación por {recipient}"
+    "messageformat": "Has hecho una donación en nombre de {recipient}"
   },
   "icu:message--donation": {
     "messageformat": "Donación"
@@ -3726,7 +3726,7 @@
     "messageformat": "Descartar mensaje"
   },
   "icu:CompositionArea__edit-action--send": {
-    "messageformat": "Envía el mensaje editado"
+    "messageformat": "Enviar mensaje editado"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Editar mensaje"
@@ -3780,7 +3780,7 @@
     "messageformat": "Si se activa esta función, los mensajes enviados y recibidos en este grupo desaparecerán tras ser vistos."
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Si se activa esta función, los mensajes enviados y recibidos en este chat individual desaparecerán tras ser vistos."
+    "messageformat": "Si activas esta función, los mensajes enviados y recibidos en este chat individual desaparecerán tras ser vistos."
   },
   "icu:ConversationDetails--nickname-label": {
     "messageformat": "Apodo"
@@ -4167,7 +4167,7 @@
     "messageformat": "{count, plural, one {{count,number} participante tiene el mismo nombre. <reviewRequestLink>Revisar participantes</reviewRequestLink>} other {{count,number} participantes tienen el mismo nombre. <reviewRequestLink>Revisar participantes</reviewRequestLink>}}"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {Se encontró {count,number} conflicto de nombre en este grupo. <reviewRequestLink>Revisar participantes</reviewRequestLink>} other {Se encontraron {count,number} conflictos de nombre en este grupo. <reviewRequestLink>Revisar participantes</reviewRequestLink>}}"
+    "messageformat": "{count, plural, one {Se ha encontrado {count,number} conflicto de nombre en este grupo. <reviewRequestLink>Revisar participantes</reviewRequestLink>} other {Se han encontrado {count,number} conflictos de nombre en este grupo. <reviewRequestLink>Revisar participantes</reviewRequestLink>}}"
   },
   "icu:ContactSpoofingReviewDialog__title": {
     "messageformat": "Revisar solicitud"
@@ -4188,7 +4188,7 @@
     "messageformat": "{count, plural, one {{count,number} participante del grupo tiene el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que desees.} other {{count,number} participantes del grupo tienen el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que desees.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {Hemos encontrado {count,number} conflicto de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que desees.} other {Hemos encontrado {count,number} conflictos de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que desees.}}"
+    "messageformat": "{count, plural, one {Se ha encontrado {count,number} conflicto de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que desees.} other {Se han encontrado {count,number} conflictos de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que desees.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "No tienes otros grupos en común"
@@ -4740,7 +4740,7 @@
     "messageformat": "Buscar idiomas"
   },
   "icu:Preferences__Language__NoResults": {
-    "messageformat": "No se encontraron resultados para «{searchTerm}»"
+    "messageformat": "No hay ningún resultado para \"{searchTerm}\""
   },
   "icu:Preferences__LanguageModal__Set": {
     "messageformat": "Definir"
@@ -5635,10 +5635,10 @@
     "messageformat": "Aquí se mostrarán las llamadas recientes."
   },
   "icu:CallsList__EmptyState--hasQuery": {
-    "messageformat": "No se encontraron resultados para «{query}»"
+    "messageformat": "No hay ningún resultado para \"{query}\""
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "No se han encontrado resultados para \"{query}\" en llamadas perdidas"
+    "messageformat": "No hay ningún resultado para \"{query}\" en llamadas perdidas"
   },
   "icu:CallsList__EmptyState--missedCalls": {
     "messageformat": "No hay llamadas perdidas"
@@ -5677,7 +5677,7 @@
     "messageformat": "No hay conversaciones recientes."
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
-    "messageformat": "No se encontraron resultados para «{query}»"
+    "messageformat": "No hay ningún resultado para \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "Atrás"

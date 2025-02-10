@@ -1935,7 +1935,7 @@
     "messageformat": "நீங்கள் குழுவைப் புதுப்பித்தீர்கள்."
   },
   "icu:updatedGroupAvatar": {
-    "messageformat": "குழு அவதாரம் புதுப்பிக்கப்பட்டது."
+    "messageformat": "குழு அவதார் புதுப்பிக்கப்பட்டது."
   },
   "icu:titleIsNow": {
     "messageformat": "இப்போது குழுவின் பெயர் ''{name}'."
@@ -3123,22 +3123,22 @@
     "messageformat": "அ உறுப்பினர் அகற்றப்பட்டது குழு பெயர்."
   },
   "icu:GroupV2--avatar--change--other": {
-    "messageformat": "{memberName} மாற்றப்பட்டது குழு அவதாரம்."
+    "messageformat": "{memberName} குழு அவதாரை மாற்றினார்."
   },
   "icu:GroupV2--avatar--change--you": {
-    "messageformat": "குழு அவதாரத்தை மாற்றியுள்ளீர்கள்."
+    "messageformat": "நீங்கள் குழு அவதாரை மாற்றினீர்கள்."
   },
   "icu:GroupV2--avatar--change--unknown": {
-    "messageformat": "ஒரு உறுப்பினர் குழு அவதாரத்தை மாற்றினார்."
+    "messageformat": "ஓர் உறுப்பினர் குழு அவதாரை மாற்றினார்."
   },
   "icu:GroupV2--avatar--remove--other": {
-    "messageformat": "{memberName} அகற்றப்பட்டது குழு அவதாரம்."
+    "messageformat": "{memberName} என்பவர் குழு அவதாரை அகற்றியுள்ளார்."
   },
   "icu:GroupV2--avatar--remove--you": {
-    "messageformat": "நீங்கள் அகற்றிவிட்டீர்கள்குழு அவதாரம்."
+    "messageformat": "நீங்கள் குழு அவதாரை அகற்றிவிட்டீர்கள்."
   },
   "icu:GroupV2--avatar--remove--unknown": {
-    "messageformat": "அ உறுப்பினர் அகற்றப்பட்டது குழு அவதாரம்."
+    "messageformat": "ஓர் உறுப்பினர் குழு அவதாரை அகற்றியுள்ளார்."
   },
   "icu:GroupV2--access-attributes--admins--other": {
     "messageformat": "{adminName} யாரால் முடியும் என்பதை மாற்றியது தொகு குழு தகவல் to \"மட்டும் நிர்வாகிகள். \""

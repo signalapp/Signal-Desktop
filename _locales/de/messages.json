@@ -1677,7 +1677,7 @@
     "messageformat": "1 Std."
   },
   "icu:hoursAgo": {
-    "messageformat": "{hours,number}Std."
+    "messageformat": "{hours,number} Std."
   },
   "icu:minutesAgo": {
     "messageformat": "{minutes,number} Min."
@@ -2325,7 +2325,7 @@
     "messageformat": "Sticker-Auswahl öffnen"
   },
   "icu:Keyboard--begin-recording-voice-note": {
-    "messageformat": "Sprachnachrichtsaufnahme beginnen"
+    "messageformat": "Aufnahme der Sprachnachricht beginnen"
   },
   "icu:Keyboard--default-message-action": {
     "messageformat": "Standardaktion für ausgewählte Nachricht"
@@ -4795,7 +4795,7 @@
     "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
-    "messageformat": "Schließ es bitte manuell und klicke auf »Wiederholen«, um fortzufahren.",
+    "messageformat": "Schließe Signal bitte manuell und klicke auf »Wiederholen«, um fortzufahren.",
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
