@@ -54,6 +54,8 @@ describe('SignalProtocolStore', () => {
   let identityKey: KeyPairType;
   let testKey: KeyPairType;
 
+  const NOW = Date.now();
+
   const unprocessedDefaults = {
     type: 1,
     messageAgeSec: 1,
@@ -73,6 +75,7 @@ describe('SignalProtocolStore', () => {
 
     isEncrypted: true,
     content: Buffer.from('content'),
+    timestamp: NOW,
   };
 
   function getSessionRecord(isOpen?: boolean): SessionRecord {
@@ -1254,7 +1257,7 @@ describe('SignalProtocolStore', () => {
             id: '2-two',
 
             content: Buffer.from('second'),
-            timestamp: Date.now() + 2,
+            receivedAtDate: Date.now() + 2,
           },
           { zone }
         );
@@ -1312,7 +1315,7 @@ describe('SignalProtocolStore', () => {
               id: '2-two',
 
               content: Buffer.from('second'),
-              timestamp: 2,
+              receivedAtDate: 2,
             },
             { zone }
           );
@@ -1436,8 +1439,6 @@ describe('SignalProtocolStore', () => {
   });
 
   describe('Not yet processed messages', () => {
-    const NOW = Date.now();
-
     beforeEach(async () => {
       await store.removeAllUnprocessed();
       const items = await store.getUnprocessedByIdsAndIncrementAttempts(
@@ -1454,7 +1455,7 @@ describe('SignalProtocolStore', () => {
 
           content: Buffer.from('old envelope'),
           receivedAtCounter: -1,
-          timestamp: NOW - 2 * durations.MONTH,
+          receivedAtDate: NOW - 2 * durations.MONTH,
         }),
         store.addUnprocessed({
           ...unprocessedDefaults,
@@ -1462,7 +1463,7 @@ describe('SignalProtocolStore', () => {
 
           content: Buffer.from('second'),
           receivedAtCounter: 1,
-          timestamp: NOW + 2,
+          receivedAtDate: NOW + 2,
         }),
         store.addUnprocessed({
           ...unprocessedDefaults,
@@ -1470,7 +1471,7 @@ describe('SignalProtocolStore', () => {
 
           content: Buffer.from('third'),
           receivedAtCounter: 2,
-          timestamp: NOW + 3,
+          receivedAtDate: NOW + 3,
         }),
         store.addUnprocessed({
           ...unprocessedDefaults,
@@ -1478,7 +1479,7 @@ describe('SignalProtocolStore', () => {
 
           content: Buffer.from('first'),
           receivedAtCounter: 0,
-          timestamp: NOW + 1,
+          receivedAtDate: NOW + 1,
         }),
       ]);
 
@@ -1501,7 +1502,7 @@ describe('SignalProtocolStore', () => {
 
         id,
 
-        timestamp: NOW + 1,
+        receivedAtDate: NOW + 1,
       });
       await store.removeUnprocessed(id);
 
@@ -1518,7 +1519,7 @@ describe('SignalProtocolStore', () => {
         id: '1-one',
 
         attempts: 10,
-        timestamp: NOW + 1,
+        receivedAtDate: NOW + 1,
       });
 
       const items = await store.getUnprocessedByIdsAndIncrementAttempts(

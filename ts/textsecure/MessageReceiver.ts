@@ -874,9 +874,8 @@ export default class MessageReceiver
 
       const envelope: ProcessedEnvelope = {
         id: item.id,
-        receivedAtCounter: item.receivedAtCounter ?? item.timestamp,
-        receivedAtDate:
-          item.receivedAtCounter == null ? Date.now() : item.timestamp,
+        receivedAtCounter: item.receivedAtCounter,
+        receivedAtDate: item.receivedAtDate,
         messageAgeSec: item.messageAgeSec,
 
         // Proto.Envelope fields
@@ -1189,11 +1188,8 @@ export default class MessageReceiver
       sourceServiceId: envelope.sourceServiceId,
       sourceDevice: envelope.sourceDevice,
       destinationServiceId: envelope.destinationServiceId,
-
-      // This field is only used for aging items out of the cache. The original
-      //   envelope's timestamp will be used when retrying this item.
-      timestamp: envelope.receivedAtDate,
-
+      timestamp: envelope.timestamp,
+      receivedAtDate: envelope.receivedAtDate,
       attempts: 0,
       isEncrypted: true,
       content: envelope.content,
