@@ -65,6 +65,7 @@ describe('unprocessed', function (this: Mocha.Suite) {
       sends.push(
         alice.sendText(desktop, `hello: ${i}`, {
           timestamp: bootstrap.getTimestamp(),
+          sealed: i % 2 === 0,
         })
       );
     }
@@ -91,6 +92,7 @@ describe('unprocessed', function (this: Mocha.Suite) {
       .locator(`[data-testid="${alice.device.aci}"] >> "${alice.profileName}"`)
       .click();
 
+    await page.locator('.module-message__text >> "hello: 4"').waitFor();
     await page.locator('.module-message__text >> "hello: 5"').waitFor();
   });
 });

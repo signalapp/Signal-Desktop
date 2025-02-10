@@ -4629,6 +4629,7 @@ function saveUnprocessed(db: WritableDB, data: UnprocessedType): string {
   const {
     id,
     timestamp,
+    receivedAtDate,
     receivedAtCounter,
     attempts,
     type,
@@ -4659,6 +4660,7 @@ function saveUnprocessed(db: WritableDB, data: UnprocessedType): string {
       id,
       timestamp,
       receivedAtCounter,
+      receivedAtDate,
       attempts,
       type,
       isEncrypted,
@@ -4680,6 +4682,7 @@ function saveUnprocessed(db: WritableDB, data: UnprocessedType): string {
       $id,
       $timestamp,
       $receivedAtCounter,
+      $receivedAtDate,
       $attempts,
       $type,
       $isEncrypted,
@@ -4702,7 +4705,8 @@ function saveUnprocessed(db: WritableDB, data: UnprocessedType): string {
   ).run({
     id,
     timestamp,
-    receivedAtCounter: receivedAtCounter ?? null,
+    receivedAtCounter,
+    receivedAtDate,
     attempts,
     type,
     isEncrypted: isEncrypted ? 1 : 0,
@@ -4750,9 +4754,11 @@ function getAllUnprocessedIds(db: WritableDB): Array<string> {
   return db.transaction(() => {
     // cleanup first
     const { changes: deletedStaleCount } = db
-      .prepare<Query>('DELETE FROM unprocessed WHERE timestamp < $monthAgo')
+      .prepare<Query>(
+        'DELETE FROM unprocessed WHERE receivedAtDate < $messageQueueCutoff'
+      )
       .run({
-        monthAgo: Date.now() - 45 * durations.DAY,
+        messageQueueCutoff: Date.now() - 45 * durations.DAY,
       });
 
     if (deletedStaleCount !== 0) {
