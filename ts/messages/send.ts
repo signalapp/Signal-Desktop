@@ -408,7 +408,7 @@ export async function sendSyncMessage(
       messaging.sendSyncMessage({
         ...encodedContent,
         timestamp: targetTimestamp,
-        destination: conv.get('e164'),
+        destinationE164: conv.get('e164'),
         destinationServiceId: conv.getServiceId(),
         expirationStartTimestamp:
           message.get('expirationStartTimestamp') || null,

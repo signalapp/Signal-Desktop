@@ -222,7 +222,7 @@ describe('processDataMessage', () => {
         reaction: {
           emoji: '😎',
           targetAuthorAci: ACI_1,
-          targetTimestamp: Long.fromNumber(TIMESTAMP),
+          targetSentTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
       {
@@ -239,7 +239,7 @@ describe('processDataMessage', () => {
           emoji: '😎',
           remove: true,
           targetAuthorAci: ACI_1,
-          targetTimestamp: Long.fromNumber(TIMESTAMP),
+          targetSentTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
       {

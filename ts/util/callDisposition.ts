@@ -307,7 +307,8 @@ export function getCallLogEventForProto(
 const directionToProto = {
   [CallDirection.Incoming]: Proto.SyncMessage.CallEvent.Direction.INCOMING,
   [CallDirection.Outgoing]: Proto.SyncMessage.CallEvent.Direction.OUTGOING,
-  [CallDirection.Unknown]: Proto.SyncMessage.CallEvent.Direction.UNKNOWN,
+  [CallDirection.Unknown]:
+    Proto.SyncMessage.CallEvent.Direction.UNKNOWN_DIRECTION,
 };
 
 const typeToProto = {
@@ -315,7 +316,7 @@ const typeToProto = {
   [CallType.Video]: Proto.SyncMessage.CallEvent.Type.VIDEO_CALL,
   [CallType.Group]: Proto.SyncMessage.CallEvent.Type.GROUP_CALL,
   [CallType.Adhoc]: Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL,
-  [CallType.Unknown]: Proto.SyncMessage.CallEvent.Type.UNKNOWN,
+  [CallType.Unknown]: Proto.SyncMessage.CallEvent.Type.UNKNOWN_TYPE,
 };
 
 const statusToProto: Record<
@@ -335,7 +336,7 @@ const statusToProto: Record<
   [CallStatusValue.Ringing]: null,
   [CallStatusValue.Joined]: null,
   [CallStatusValue.JoinedAdhoc]: Proto.SyncMessage.CallEvent.Event.ACCEPTED,
-  [CallStatusValue.Unknown]: Proto.SyncMessage.CallEvent.Event.UNKNOWN,
+  [CallStatusValue.Unknown]: Proto.SyncMessage.CallEvent.Event.UNKNOWN_EVENT,
 };
 
 function shouldSyncStatus(callStatus: CallStatus) {

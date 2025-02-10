@@ -59,7 +59,7 @@ describe('SQL/updateToSchemaVersion1280', () => {
           Proto.Envelope.encode({
             destinationServiceId: THEIR_ACI,
             content: Buffer.from('encrypted1'),
-            reportingToken: Buffer.from('token'),
+            reportSpamToken: Buffer.from('token'),
           }).finish()
         ).toString('base64'),
         serverTimestamp: 6,

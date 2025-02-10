@@ -76,7 +76,7 @@ export async function wrapWithSyncMessageSend({
       });
       await handleMessageSend(
         sender.sendSyncMessage({
-          destination: conversation.get('e164'),
+          destinationE164: conversation.get('e164'),
           destinationServiceId: conversation.getServiceId(),
           encodedDataMessage: dataMessage,
           expirationStartTimestamp: null,

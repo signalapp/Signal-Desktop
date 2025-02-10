@@ -262,21 +262,18 @@ function cleanForLogging(settings?: MediaDeviceSettings): unknown {
 function protoToCallingMessage({
   offer,
   answer,
-  iceCandidates,
+  iceUpdate,
   busy,
   hangup,
   destinationDeviceId,
   opaque,
-}: Proto.ICallingMessage): CallingMessage {
+}: Proto.ICallMessage): CallingMessage {
   const newIceCandidates: Array<IceCandidateMessage> = [];
-  if (iceCandidates) {
-    iceCandidates.forEach(candidate => {
-      if (candidate.callId && candidate.opaque) {
+  if (iceUpdate) {
+    iceUpdate.forEach(candidate => {
+      if (candidate.id && candidate.opaque) {
         newIceCandidates.push(
-          new IceCandidateMessage(
-            candidate.callId,
-            Buffer.from(candidate.opaque)
-          )
+          new IceCandidateMessage(candidate.id, Buffer.from(candidate.opaque))
         );
       }
     });
@@ -284,23 +281,23 @@ function protoToCallingMessage({
 
   return {
     offer:
-      offer && offer.callId && offer.opaque
+      offer && offer.id && offer.opaque
         ? new OfferMessage(
-            offer.callId,
+            offer.id,
             dropNull(offer.type) as number,
             Buffer.from(offer.opaque)
           )
         : undefined,
     answer:
-      answer && answer.callId && answer.opaque
-        ? new AnswerMessage(answer.callId, Buffer.from(answer.opaque))
+      answer && answer.id && answer.opaque
+        ? new AnswerMessage(answer.id, Buffer.from(answer.opaque))
         : undefined,
     iceCandidates: newIceCandidates.length > 0 ? newIceCandidates : undefined,
-    busy: busy && busy.callId ? new BusyMessage(busy.callId) : undefined,
+    busy: busy && busy.id ? new BusyMessage(busy.id) : undefined,
     hangup:
-      hangup && hangup.callId
+      hangup && hangup.id
         ? new HangupMessage(
-            hangup.callId,
+            hangup.id,
             dropNull(hangup.type) as number,
             hangup.deviceId || 0
           )
@@ -2444,7 +2441,7 @@ export class CallingClass {
 
   async handleCallingMessage(
     envelope: ProcessedEnvelope,
-    callingMessage: Proto.ICallingMessage
+    callingMessage: Proto.ICallMessage
   ): Promise<void> {
     const logId = `CallingClass.handleCallingMessage(${envelope.timestamp})`;
 
@@ -2500,7 +2497,7 @@ export class CallingClass {
           'rejecting call message.'
       );
 
-      const { callId } = callingMessage.offer;
+      const { id: callId } = callingMessage.offer;
       assertDev(callId != null, 'Call ID missing from offer');
 
       const hangup = new HangupMessage(
@@ -2516,7 +2513,7 @@ export class CallingClass {
 
       const wasVideoCall =
         callingMessage.offer.type ===
-        Proto.CallingMessage.Offer.Type.OFFER_VIDEO_CALL;
+        Proto.CallMessage.Offer.Type.OFFER_VIDEO_CALL;
 
       const peerId = getPeerIdFromConversation(conversation.attributes);
       const callDetails = getCallDetailsFromEndedDirectCall(
@@ -2684,7 +2681,7 @@ export class CallingClass {
       callingMessage.opaque.data = data;
 
       const proto = callingMessageToProto(callingMessage, urgency);
-      const protoBytes = Proto.CallingMessage.encode(proto).finish();
+      const protoBytes = Proto.CallMessage.encode(proto).finish();
       const protoBase64 = Bytes.toBase64(protoBytes);
 
       await conversationJobQueue.add({
@@ -2845,7 +2842,7 @@ export class CallingClass {
 
     try {
       const proto = callingMessageToProto(message, urgency);
-      const protoBytes = Proto.CallingMessage.encode(proto).finish();
+      const protoBytes = Proto.CallMessage.encode(proto).finish();
       const protoBase64 = Bytes.toBase64(protoBytes);
 
       await conversationJobQueue.add({

@@ -241,7 +241,7 @@ export async function sendDeleteStoryForEveryone(
     // Sync message for other devices
     await handleMessageSend(
       messaging.sendSyncMessage({
-        destination: undefined,
+        destinationE164: undefined,
         destinationServiceId,
         storyMessageRecipients: updatedStoryRecipients?.map(
           ({ destinationServiceId: legacyDestinationUuid, ...rest }) => {

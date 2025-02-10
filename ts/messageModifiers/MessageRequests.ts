@@ -13,7 +13,6 @@ export type MessageRequestAttributesType = {
   groupV2Id?: string;
   removeFromMessageReceiverCache: () => unknown;
   threadAci?: AciString;
-  threadE164?: string;
   type: number;
 };
 
@@ -32,17 +31,6 @@ export function forConversation(
   )})`;
 
   const messageRequestValues = Array.from(messageRequests.values());
-
-  if (conversation.get('e164')) {
-    const syncByE164 = messageRequestValues.find(
-      item => item.threadE164 === conversation.get('e164')
-    );
-    if (syncByE164) {
-      log.info(`${logId}: Found early message request response for E164`);
-      remove(syncByE164);
-      return syncByE164;
-    }
-  }
 
   if (conversation.getServiceId()) {
     const syncByServiceId = messageRequestValues.find(
@@ -74,9 +62,9 @@ export async function onResponse(
   sync: MessageRequestAttributesType
 ): Promise<void> {
   messageRequests.set(sync.envelopeId, sync);
-  const { threadE164, threadAci, groupV2Id } = sync;
+  const { threadAci, groupV2Id } = sync;
 
-  const logId = `MessageRequests.onResponse(groupv2(${groupV2Id}) ${threadAci} ${threadE164})`;
+  const logId = `MessageRequests.onResponse(groupv2(${groupV2Id}) ${threadAci}`;
 
   try {
     let conversation;
@@ -85,9 +73,8 @@ export async function onResponse(
     if (groupV2Id) {
       conversation = window.ConversationController.get(groupV2Id);
     }
-    if (!conversation && (threadE164 || threadAci)) {
+    if (!conversation && threadAci) {
       conversation = window.ConversationController.lookupOrCreate({
-        e164: threadE164,
         serviceId: threadAci,
         reason: logId,
       });

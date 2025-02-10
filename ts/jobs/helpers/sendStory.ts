@@ -583,7 +583,7 @@ export async function sendStory(
 
     await messaging.sendSyncMessage({
       // Note: these two fields will be undefined if we're sending to a group
-      destination: conversation.get('e164'),
+      destinationE164: conversation.get('e164'),
       destinationServiceId: conversation.getServiceId(),
       storyMessage: originalStoryMessage,
       storyMessageRecipients,
