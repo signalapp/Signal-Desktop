@@ -105,7 +105,7 @@ export async function sendDirectExpirationTimerUpdate(
           encodedDataMessage: Proto.DataMessage.encode(
             proto.dataMessage
           ).finish(),
-          destination: conversation.get('e164'),
+          destinationE164: conversation.get('e164'),
           destinationServiceId: conversation.getServiceId(),
           expirationStartTimestamp: null,
           options: sendOptions,

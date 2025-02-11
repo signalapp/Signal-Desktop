@@ -280,7 +280,6 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
           unidentifiedStatus: [
             {
               destinationServiceId,
-              destination,
               destinationPniIdentityKey: destinationPniIdentityKey.serialize(),
             },
           ],

@@ -198,7 +198,7 @@ function cleanLinkPreviewDate(value?: Long | null): number | undefined {
 }
 
 export function processPreview(
-  preview?: ReadonlyArray<Proto.DataMessage.IPreview> | null
+  preview?: ReadonlyArray<Proto.IPreview> | null
 ): ReadonlyArray<ProcessedPreview> | undefined {
   if (!preview) {
     return undefined;
@@ -247,7 +247,7 @@ export function processReaction(
     emoji: dropNull(reaction.emoji),
     remove: Boolean(reaction.remove),
     targetAuthorAci: normalizeAci(targetAuthorAci, 'Reaction.targetAuthorAci'),
-    targetTimestamp: reaction.targetTimestamp?.toNumber(),
+    targetTimestamp: reaction.targetSentTimestamp?.toNumber(),
   };
 }
 

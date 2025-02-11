@@ -36,8 +36,8 @@ export enum DisplayStyle {
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export namespace BodyRange {
   // re-export for convenience
-  export type Style = Proto.DataMessage.BodyRange.Style;
-  export const { Style } = Proto.DataMessage.BodyRange;
+  export type Style = Proto.BodyRange.Style;
+  export const { Style } = Proto.BodyRange;
 
   export type Mention = {
     mentionAci: AciString;
@@ -147,10 +147,7 @@ const MENTION_NAME = 'mention';
 
 // We drop unknown bodyRanges and remove extra stuff so they serialize properly
 export function filterAndClean(
-  ranges:
-    | ReadonlyArray<Proto.DataMessage.IBodyRange | RawBodyRange>
-    | undefined
-    | null
+  ranges: ReadonlyArray<Proto.IBodyRange | RawBodyRange> | undefined | null
 ): ReadonlyArray<RawBodyRange> | undefined {
   if (!ranges) {
     return undefined;

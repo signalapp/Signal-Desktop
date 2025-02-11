@@ -153,48 +153,44 @@ export async function handleDataMessage(
             ? data.unidentifiedStatus
             : [];
 
-        unidentifiedStatus.forEach(
-          ({ destinationServiceId, destination, unidentified }) => {
-            const identifier = destinationServiceId || destination;
-            if (!identifier) {
-              return;
-            }
-
-            const destinationConversation =
-              window.ConversationController.lookupOrCreate({
-                serviceId: destinationServiceId,
-                e164: destination || undefined,
-                reason: `handleDataMessage(${initialMessage.timestamp})`,
-              });
-            if (!destinationConversation) {
-              return;
-            }
-
-            const updatedAt: number =
-              data && isNormalNumber(data.timestamp)
-                ? data.timestamp
-                : Date.now();
-
-            const previousSendState = getOwn(
-              sendStateByConversationId,
-              destinationConversation.id
-            );
-            sendStateByConversationId[destinationConversation.id] =
-              previousSendState
-                ? sendStateReducer(previousSendState, {
-                    type: SendActionType.Sent,
-                    updatedAt,
-                  })
-                : {
-                    status: SendStatus.Sent,
-                    updatedAt,
-                  };
-
-            if (unidentified) {
-              unidentifiedDeliveriesSet.add(identifier);
-            }
+        unidentifiedStatus.forEach(({ destinationServiceId, unidentified }) => {
+          if (!destinationServiceId) {
+            return;
           }
-        );
+
+          const destinationConversation =
+            window.ConversationController.lookupOrCreate({
+              serviceId: destinationServiceId,
+              reason: `handleDataMessage(${initialMessage.timestamp})`,
+            });
+          if (!destinationConversation) {
+            return;
+          }
+
+          const updatedAt: number =
+            data && isNormalNumber(data.timestamp)
+              ? data.timestamp
+              : Date.now();
+
+          const previousSendState = getOwn(
+            sendStateByConversationId,
+            destinationConversation.id
+          );
+          sendStateByConversationId[destinationConversation.id] =
+            previousSendState
+              ? sendStateReducer(previousSendState, {
+                  type: SendActionType.Sent,
+                  updatedAt,
+                })
+              : {
+                  status: SendStatus.Sent,
+                  updatedAt,
+                };
+
+          if (unidentified) {
+            unidentifiedDeliveriesSet.add(destinationServiceId);
+          }
+        });
 
         toUpdate.set({
           sendStateByConversationId,

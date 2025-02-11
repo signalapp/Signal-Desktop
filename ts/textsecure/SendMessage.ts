@@ -414,7 +414,7 @@ class Message {
       proto.reaction.emoji = this.reaction.emoji || null;
       proto.reaction.remove = this.reaction.remove || false;
       proto.reaction.targetAuthorAci = this.reaction.targetAuthorAci || null;
-      proto.reaction.targetTimestamp =
+      proto.reaction.targetSentTimestamp =
         this.reaction.targetTimestamp === undefined
           ? null
           : Long.fromNumber(this.reaction.targetTimestamp);
@@ -422,7 +422,7 @@ class Message {
 
     if (Array.isArray(this.preview)) {
       proto.preview = this.preview.map(preview => {
-        const item = new Proto.DataMessage.Preview();
+        const item = new Proto.Preview();
         item.title = preview.title;
         item.url = preview.url;
         item.description = preview.description || null;
@@ -504,7 +504,8 @@ class Message {
     }
 
     if (this.quote) {
-      const { BodyRange: ProtoBodyRange, Quote } = Proto.DataMessage;
+      const ProtoBodyRange = Proto.BodyRange;
+      const { Quote } = Proto.DataMessage;
 
       proto.quote = new Quote();
       const { quote } = proto;
@@ -1256,7 +1257,7 @@ export default class MessageSender {
     encodedDataMessage,
     encodedEditMessage,
     timestamp,
-    destination,
+    destinationE164,
     destinationServiceId,
     expirationStartTimestamp,
     conversationIdsSentTo = [],
@@ -1270,7 +1271,7 @@ export default class MessageSender {
     encodedDataMessage?: Uint8Array;
     encodedEditMessage?: Uint8Array;
     timestamp: number;
-    destination: string | undefined;
+    destinationE164: string | undefined;
     destinationServiceId: ServiceIdString | undefined;
     expirationStartTimestamp: number | null;
     conversationIdsSentTo?: Iterable<string>;
@@ -1293,8 +1294,8 @@ export default class MessageSender {
       const dataMessage = Proto.DataMessage.decode(encodedDataMessage);
       sentMessage.message = dataMessage;
     }
-    if (destination) {
-      sentMessage.destination = destination;
+    if (destinationE164) {
+      sentMessage.destinationE164 = destinationE164;
     }
     if (destinationServiceId) {
       sentMessage.destinationServiceId = destinationServiceId;
@@ -1325,10 +1326,6 @@ export default class MessageSender {
             new Proto.SyncMessage.Sent.UnidentifiedDeliveryStatus();
           const conv = window.ConversationController.get(conversationId);
           if (conv) {
-            const e164 = conv.get('e164');
-            if (e164) {
-              status.destination = e164;
-            }
             const serviceId = conv.getServiceId();
             if (serviceId) {
               status.destinationServiceId = serviceId;
@@ -1763,7 +1760,7 @@ export default class MessageSender {
         `syncViewOnceOpen: ${viewOnceOpens.length} opens provided. Can only handle one.`
       );
     }
-    const { senderE164, senderAci, timestamp } = viewOnceOpens[0];
+    const { senderAci, timestamp } = viewOnceOpens[0];
 
     if (!senderAci) {
       throw new Error('syncViewOnceOpen: Missing senderAci');
@@ -1774,9 +1771,6 @@ export default class MessageSender {
     const syncMessage = MessageSender.createSyncMessage();
 
     const viewOnceOpen = new Proto.SyncMessage.ViewOnceOpen();
-    if (senderE164 !== undefined) {
-      viewOnceOpen.sender = senderE164;
-    }
     viewOnceOpen.senderAci = senderAci;
     viewOnceOpen.timestamp = Long.fromNumber(timestamp);
     syncMessage.viewOnceOpen = viewOnceOpen;
@@ -1832,7 +1826,6 @@ export default class MessageSender {
 
   static getMessageRequestResponseSync(
     options: Readonly<{
-      threadE164?: string;
       threadAci?: AciString;
       groupId?: Uint8Array;
       type: number;
@@ -1843,9 +1836,6 @@ export default class MessageSender {
     const syncMessage = MessageSender.createSyncMessage();
 
     const response = new Proto.SyncMessage.MessageRequestResponse();
-    if (options.threadE164 !== undefined) {
-      response.threadE164 = options.threadE164;
-    }
     if (options.threadAci !== undefined) {
       response.threadAci = options.threadAci;
     }
@@ -1929,9 +1919,6 @@ export default class MessageSender {
 
     const verified = new Proto.Verified();
     verified.state = state;
-    if (destinationE164) {
-      verified.destination = destinationE164;
-    }
     if (destinationAci) {
       verified.destinationAci = destinationAci;
     }
@@ -1962,7 +1949,7 @@ export default class MessageSender {
 
   async sendCallingMessage(
     serviceId: ServiceIdString,
-    callingMessage: Readonly<Proto.ICallingMessage>,
+    callingMessage: Readonly<Proto.ICallMessage>,
     timestamp: number,
     urgent: boolean,
     options?: Readonly<SendOptionsType>
@@ -1970,7 +1957,7 @@ export default class MessageSender {
     const recipients = [serviceId];
 
     const contentMessage = new Proto.Content();
-    contentMessage.callingMessage = callingMessage;
+    contentMessage.callMessage = callingMessage;
 
     const conversation = window.ConversationController.get(serviceId);
 

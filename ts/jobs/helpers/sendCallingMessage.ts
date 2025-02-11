@@ -90,9 +90,7 @@ export async function sendCallingMessage(
     groupId,
   });
 
-  const callingMessage = Proto.CallingMessage.decode(
-    Bytes.fromBase64(protoBase64)
-  );
+  const callMessage = Proto.CallMessage.decode(Bytes.fromBase64(protoBase64));
 
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
@@ -101,7 +99,7 @@ export async function sendCallingMessage(
       await handleMessageSend(
         sendContentMessageToGroup({
           contentHint: ContentHint.DEFAULT,
-          contentMessage: new Proto.Content({ callingMessage }),
+          contentMessage: new Proto.Content({ callMessage }),
           isPartialSend,
           messageId: undefined,
           recipients,
@@ -122,7 +120,7 @@ export async function sendCallingMessage(
       await handleMessageSend(
         messaging.sendCallingMessage(
           sendTarget,
-          callingMessage,
+          callMessage,
           timestamp,
           urgent,
           sendOptions

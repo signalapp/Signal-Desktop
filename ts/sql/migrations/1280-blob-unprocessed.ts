@@ -150,8 +150,8 @@ export function updateToSchemaVersion1280(
             : undefined,
           // Sadly not captured previously
           messageAgeSec: 0,
-          reportingToken: decoded.reportingToken?.length
-            ? decoded.reportingToken
+          reportingToken: decoded.reportSpamToken?.length
+            ? decoded.reportSpamToken
             : null,
         });
       } catch (error) {

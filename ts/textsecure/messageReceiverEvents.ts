@@ -208,7 +208,7 @@ export class RetryRequestEvent extends ConfirmableEvent {
 
 export type SentEventData = Readonly<{
   envelopeId: string;
-  destination?: string;
+  destinationE164?: string;
   destinationServiceId?: ServiceIdString;
   timestamp?: number;
   serverTimestamp: number;
@@ -311,25 +311,21 @@ export class ConfigurationEvent extends ConfirmableEvent {
 }
 
 export type ViewOnceOpenSyncOptions = {
-  source?: string;
   sourceAci?: AciString;
   timestamp?: number;
 };
 
 export class ViewOnceOpenSyncEvent extends ConfirmableEvent {
-  public readonly source?: string;
-
   public readonly sourceAci?: AciString;
 
   public readonly timestamp?: number;
 
   constructor(
-    { source, sourceAci, timestamp }: ViewOnceOpenSyncOptions,
+    { sourceAci, timestamp }: ViewOnceOpenSyncOptions,
     confirm: ConfirmCallback
   ) {
     super('viewOnceOpenSync', confirm);
 
-    this.source = source;
     this.sourceAci = sourceAci;
     this.timestamp = timestamp;
   }
@@ -345,8 +341,6 @@ export type MessageRequestResponseOptions = {
 };
 
 export class MessageRequestResponseEvent extends ConfirmableEvent {
-  public readonly threadE164?: string;
-
   public readonly threadAci?: AciString;
 
   public readonly messageRequestResponseType?: MessageRequestResponseOptions['messageRequestResponseType'];
@@ -360,7 +354,6 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
   constructor(
     {
       envelopeId,
-      threadE164,
       threadAci,
       messageRequestResponseType,
       groupId,
@@ -371,7 +364,6 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
     super('messageRequestResponse', confirm);
 
     this.envelopeId = envelopeId;
-    this.threadE164 = threadE164;
     this.threadAci = threadAci;
     this.messageRequestResponseType = messageRequestResponseType;
     this.groupId = groupId;
