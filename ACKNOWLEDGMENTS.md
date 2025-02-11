@@ -5973,7 +5973,7 @@ third-party/chromium/LICENSE.
 
 ```
 
-## windows-core 0.52.0, windows-sys 0.45.0, windows-sys 0.52.0, windows-sys 0.59.0, windows-targets 0.42.2, windows-targets 0.52.6, windows_aarch64_msvc 0.42.2, windows_aarch64_msvc 0.52.6, windows_x86_64_gnu 0.52.6, windows_x86_64_msvc 0.42.2, windows_x86_64_msvc 0.52.6
+## windows-core 0.52.0, windows-sys 0.45.0, windows-sys 0.52.0, windows-sys 0.59.0, windows-targets 0.42.2, windows-targets 0.48.5, windows-targets 0.52.6, windows_aarch64_msvc 0.42.2, windows_aarch64_msvc 0.48.5, windows_aarch64_msvc 0.52.6, windows_x86_64_gnu 0.48.5, windows_x86_64_gnu 0.52.6, windows_x86_64_msvc 0.42.2, windows_x86_64_msvc 0.48.5, windows_x86_64_msvc 0.52.6
 
 ```
     MIT License
@@ -9262,7 +9262,7 @@ SOFTWARE.
 
 ```
 
-## mediasan-common 0.5.1, mp4san-derive 0.5.1, mp4san 0.5.1, webpsan 0.5.1
+## mediasan-common 0.5.3, mp4san-derive 0.5.3, mp4san 0.5.3, webpsan 0.5.3
 
 ```
 Copyright (c) 2022 jessa0
@@ -9800,7 +9800,7 @@ SOFTWARE.
 
 ```
 
-## darling 0.14.4, darling_core 0.14.4, darling_macro 0.14.4
+## darling 0.20.10, darling_core 0.20.10, darling_macro 0.20.10
 
 ```
 MIT License
@@ -10565,7 +10565,7 @@ THE SOFTWARE.
 
 ```
 
-## strsim 0.10.0, strsim 0.11.1
+## strsim 0.11.1
 
 ```
 The MIT License (MIT)
@@ -10784,7 +10784,7 @@ SOFTWARE.
 
 ```
 
-## derive_builder 0.12.0, derive_builder_core 0.12.0, derive_builder_macro 0.12.0
+## derive_builder 0.20.2, derive_builder_core 0.20.2, derive_builder_macro 0.20.2
 
 ```
 The MIT License (MIT)
