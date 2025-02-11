@@ -51,10 +51,10 @@ export function callingMessageToProto(
         }
       : undefined,
     iceUpdate: iceCandidates
-      ? iceCandidates.map(candidate => {
+      ? iceCandidates.map((candidate): Proto.CallMessage.IIceUpdate => {
           return {
             ...candidate,
-            callId: Long.fromValue(candidate.callId),
+            id: Long.fromValue(candidate.callId),
             opaque: bufferToProto(candidate.opaque),
           };
         })
