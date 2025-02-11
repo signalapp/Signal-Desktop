@@ -775,10 +775,9 @@ export function Lightbox({
                       {attachment.totalDownloaded && attachment.size
                         ? i18n('icu:lightBoxDownloading', {
                             downloaded: formatFileSize(
-                              attachment.totalDownloaded,
-                              2
+                              attachment.totalDownloaded
                             ),
-                            total: formatFileSize(attachment.size, 2),
+                            total: formatFileSize(attachment.size),
                           })
                         : undefined}
                     </Toast>
