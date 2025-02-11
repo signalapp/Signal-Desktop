@@ -287,6 +287,9 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         onShowDebugLog={action('onShowDebugLog')}
         onUndoArchive={action('onUndoArchive')}
         openFileInFolder={action('openFileInFolder')}
+        showAttachmentNotAvailableModal={action(
+          'showAttachmentNotAvailableModal'
+        )}
         toast={undefined}
         megaphone={undefined}
         containerWidthBreakpoint={containerWidthBreakpoint}

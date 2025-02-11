@@ -594,6 +594,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__attachment-too-big--content-above {
+  margin-block-start: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -784,6 +785,11 @@ $message-padding-horizontal: 12px;
   margin-block-start: -25px;
 }
 
+.module-message__generic-attachment--undownloadable-no-text
+  + .module-message__metadata {
+  margin-block-start: -$message-padding-vertical - 2px;
+}
+
 .module-message__sticker-container {
   // To ensure that images are centered if they aren't full width of bubble
   text-align: center;
@@ -823,6 +829,10 @@ $message-padding-horizontal: 12px;
       box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
+}
+
+.module-message__generic-attachment--undownloadable {
+  min-width: 260px;
 }
 
 .module-message__generic-attachment--with-content-below {
@@ -896,18 +906,21 @@ $message-padding-horizontal: 12px;
   color: variables.$color-gray-90;
 }
 
+$message-attachment-padding-horizontal: 8px;
+
 .module-message__generic-attachment__text {
   flex-grow: 1;
-  margin-inline-start: 8px;
+  margin-inline-start: $message-attachment-padding-horizontal + 2px;
   // The width of the icon plus our 8px margin plus 1px leeway
   max-width: calc(100% - 36px);
 }
 
 .module-message__generic-attachment__file-name {
-  @include mixins.font-body-2-bold;
+  @include mixins.font-body-1;
 
   margin-top: 2px;
   user-select: none;
+  font-weight: 500;
 
   // Handling really long filenames - cut them off
   overflow-x: hidden;
@@ -931,6 +944,11 @@ $message-padding-horizontal: 12px;
   @include mixins.dark-theme {
     color: variables.$color-gray-25;
   }
+}
+
+.module-message__container--incoming
+  .module-message__generic-attachment__file-name--undownloadable {
+  color: variables.$color-black-alpha-50;
 }
 
 .module-message__generic-attachment__file-size {
@@ -959,7 +977,12 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__undownloadable-attachment__icon-container {
-  margin-inline-end: 8px;
+  margin-inline-end: $message-attachment-padding-horizontal;
+}
+
+.module-message__undownloadable-attachment__icon-container--file {
+  margin-block-start: 1px;
+  margin-inline-end: 3px;
 }
 
 .module-message__undownloadable-attachment__icon {
@@ -968,34 +991,102 @@ $message-padding-horizontal: 12px;
 
   &--audio {
     @include mixins.color-svg(
-      '../images/icons/v3/play/play-slash.svg',
+      '../images/icons/v3/waveform/waveform-slash.svg',
       currentColor
     );
   }
 
-  &--generic {
+  &--file {
     @include mixins.color-svg(
-      '../images/icons/v3/file/file-slash.svg',
+      '../images/icons/v3/error/error-circle.svg',
       currentColor
     );
   }
+
+  &--sticker {
+    @include mixins.color-svg(
+      '../images/icons/v3/sticker/sticker-slash.svg',
+      currentColor
+    );
+  }
+
+  &--small {
+    width: 16px;
+    height: 16px;
+  }
 }
 
-.module-message__undownloadable-attachment-info {
-  margin-inline-end: 15px;
+.module-message__undownloadable-attachment-info--file {
+  @include mixins.font-body-2;
 }
 
-.module-message__undownloadable-attachment-learn-more-container {
-  font-weight: 500;
+.module-message__container--incoming
+  .module-message__undownloadable-attachment-info--file {
+  color: variables.$color-black-alpha-90;
+}
+
+.module-message__undownloadable-attachment {
+  min-width: 200px;
+}
+
+.module-message__undownloadable-attachment-file {
+  @include mixins.font-body-2;
+  display: flex;
+}
+
+.module-message__undownloadable-attachment-text {
+  @include mixins.button-reset;
+  & {
+    @include mixins.font-body-1;
+    @include mixins.light-theme {
+      border-block-start-color: variables.$color-black-alpha-10;
+    }
+    @include mixins.dark-theme {
+      border-block-start-color: variables.$color-white-alpha-10;
+    }
+
+    width: calc(100% + 24px);
+    margin-block-start: 9px;
+    margin-inline: -12px;
+    padding-block-start: 9px;
+    padding-inline: 12px;
+    border-block-start: 0.5px solid;
+  }
+}
+
+.module-message__container--outgoing
+  .module-message__undownloadable-attachment-text {
+  border-block-start-color: variables.$color-white-alpha-30;
+}
+
+.module-message__undownloadable-attachment-text__icon-container {
+  margin-inline-end: 8px;
+  align-self: flex-start;
+}
+
+.module-message--outgoing {
+  .module-message__undownloadable-attachment + .module-message__metadata {
+    .module-message__metadata__date--with-sticker {
+      color: inherit;
+    }
+
+    .module-message__metadata__status-icon--with-sticker {
+      background-color: variables.$color-white-alpha-80;
+    }
+  }
 }
 
 .module-message__undownloadable-attachment-learn-more {
   @include mixins.button-reset;
-  @include mixins.font-body-1-bold;
   @include mixins.keyboard-mode {
     &:focus {
       box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
+  }
+
+  & {
+    @include mixins.font-body-1-bold;
+    font-weight: 500;
   }
 }
 

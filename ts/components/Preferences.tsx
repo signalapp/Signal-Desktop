@@ -1654,6 +1654,7 @@ export function Preferences({
         onShowDebugLog={shouldNeverBeCalled}
         onUndoArchive={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
+        showAttachmentNotAvailableModal={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={WidthBreakpoint.Narrow}
         isInFullScreenCall={false}

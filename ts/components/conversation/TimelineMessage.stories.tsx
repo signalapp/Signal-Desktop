@@ -345,6 +345,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showAttachmentDownloadStillInProgressToast: action(
     'showAttachmentDownloadStillInProgressToast'
   ),
+  showAttachmentNotAvailableModal: action('showAttachmentNotAvailableModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
@@ -845,10 +846,24 @@ CanDeleteForEveryone.args = {
   direction: 'outgoing',
 };
 
+const bigAttachment = {
+  contentType: stringToMIMEType('text/plain'),
+  fileName: 'why-i-love-birds.txt',
+  size: 100000000000,
+  width: undefined,
+  height: undefined,
+  path: undefined,
+  key: undefined,
+  id: undefined,
+  error: true,
+  wasTooBig: true,
+};
+
 export function AttachmentTooBig(): JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
+    attachments: [bigAttachment],
   });
 
   return <>{renderBothDirections(propsSent)}</>;
@@ -858,6 +873,37 @@ export function AttachmentTooBigWithText(): JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
+    attachments: [bigAttachment],
+    text: 'Check out this file!',
+  });
+
+  return <>{renderBothDirections(propsSent)}</>;
+}
+
+const bigImageAttachment = {
+  ...bigAttachment,
+  contentType: IMAGE_JPEG,
+  fileName: 'bird.jpg',
+  blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+  width: 1000,
+  height: 1000,
+};
+
+export function AttachmentTooBigImage(): JSX.Element {
+  const propsSent = createProps({
+    conversationType: 'direct',
+    attachmentDroppedDueToSize: true,
+    attachments: [bigImageAttachment],
+  });
+
+  return <>{renderBothDirections(propsSent)}</>;
+}
+
+export function AttachmentTooBigImageWithText(): JSX.Element {
+  const propsSent = createProps({
+    conversationType: 'direct',
+    attachmentDroppedDueToSize: true,
+    attachments: [bigImageAttachment],
     text: 'Check out this file!',
   });
 
@@ -2340,6 +2386,29 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
     ...textFileProps,
     text: "Here's that file",
   };
+  const stickerProps = createProps({
+    attachments: [
+      fakeAttachment({
+        fileName: '512x515-thumbs-up-lincoln.webp',
+        contentType: IMAGE_WEBP,
+        width: 128,
+        height: 128,
+        error: true,
+      }),
+    ],
+    isSticker: true,
+    status: 'sent',
+  });
+  const longMessageProps = createProps({
+    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+    textAttachment: {
+      contentType: LONG_MESSAGE,
+      size: 123,
+      pending: false,
+      key: undefined,
+      error: true,
+    },
+  });
 
   const outgoingAuthor = {
     ...imageProps.author,
@@ -2352,8 +2421,10 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
       <TimelineMessage {...gifProps} />
       <TimelineMessage {...videoProps} />
       <TimelineMessage {...multipleImagesProps} />
+      <TimelineMessage {...stickerProps} />
       <TimelineMessage {...textFileProps} />
       <TimelineMessage {...textFileWithCaptionProps} />
+      <TimelineMessage {...longMessageProps} />
       <TimelineMessage {...audioProps} />
       <TimelineMessage {...audioWithCaptionProps} shouldCollapseBelow />
       <TimelineMessage
@@ -2383,7 +2454,17 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         direction="outgoing"
       />
       <TimelineMessage
+        {...stickerProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+      />
+      <TimelineMessage
         {...textFileWithCaptionProps}
+        author={outgoingAuthor}
+        direction="outgoing"
+      />
+      <TimelineMessage
+        {...longMessageProps}
         author={outgoingAuthor}
         direction="outgoing"
       />

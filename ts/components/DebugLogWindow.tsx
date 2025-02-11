@@ -155,6 +155,7 @@ export function DebugLogWindow({
           onShowDebugLog={shouldNeverBeCalled}
           onUndoArchive={shouldNeverBeCalled}
           openFileInFolder={shouldNeverBeCalled}
+          showAttachmentNotAvailableModal={shouldNeverBeCalled}
           toast={toast}
           containerWidthBreakpoint={null}
           isInFullScreenCall={false}
@@ -212,6 +213,7 @@ export function DebugLogWindow({
         onShowDebugLog={shouldNeverBeCalled}
         onUndoArchive={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
+        showAttachmentNotAvailableModal={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={null}
         isInFullScreenCall={false}

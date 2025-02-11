@@ -50,6 +50,7 @@ import type { LocalizerType } from '../../types/I18N';
 import { linkCallRoute } from '../../util/signalRoutes';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
 import { getMessageById } from '../../messages/getMessageById';
+import type { AttachmentNotAvailableModalType } from '../../components/AttachmentNotAvailableModal';
 
 // State
 
@@ -93,6 +94,7 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   aboutContactModalContactId?: string;
+  attachmentNotAvailableModalType: AttachmentNotAvailableModalType | undefined;
   callLinkAddNameModalRoomId: string | null;
   callLinkEditModalRoomId: string | null;
   callLinkPendingParticipantContactId: string | undefined;
@@ -127,6 +129,10 @@ export type GlobalModalsStateType = ReadonlyDeep<{
 
 // Actions
 
+const SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL =
+  'globalModals/SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL';
+const HIDE_ATTACHMENT_NOT_AVAILABLE_MODAL =
+  'globalModals/HIDE_ATTACHMENT_NOT_AVAILABLE_MODAL';
 const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
@@ -192,6 +198,15 @@ export type UserNotFoundModalStateType = ReadonlyDeep<
       username: string;
     }
 >;
+
+type HideAttachmentNotAvailableModalActionType = ReadonlyDeep<{
+  type: typeof HIDE_ATTACHMENT_NOT_AVAILABLE_MODAL;
+}>;
+
+type ShowAttachmentNotAvailableModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL;
+  payload: AttachmentNotAvailableModalType;
+}>;
 
 type HideContactModalActionType = ReadonlyDeep<{
   type: typeof HIDE_CONTACT_MODAL;
@@ -378,6 +393,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | CloseGV2MigrationDialogActionType
   | CloseShortcutGuideModalActionType
   | CloseStickerPackPreviewActionType
+  | HideAttachmentNotAvailableModalActionType
   | HideContactModalActionType
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
@@ -386,6 +402,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessageExpiredActionType
+  | ShowAttachmentNotAvailableModalActionType
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
@@ -423,11 +440,13 @@ export const actions = {
   closeGV2MigrationDialog,
   closeShortcutGuideModal,
   closeStickerPackPreview,
+  hideAttachmentNotAvailableModal,
   hideBlockingSafetyNumberChangeDialog,
   hideContactModal,
   hideStoriesSettings,
   hideUserNotFoundModal,
   hideWhatsNewModal,
+  showAttachmentNotAvailableModal,
   showBlockingSafetyNumberChangeDialog,
   showContactModal,
   showEditHistoryModal,
@@ -461,6 +480,21 @@ export const actions = {
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
+
+function hideAttachmentNotAvailableModal(): HideAttachmentNotAvailableModalActionType {
+  return {
+    type: HIDE_ATTACHMENT_NOT_AVAILABLE_MODAL,
+  };
+}
+
+function showAttachmentNotAvailableModal(
+  payload: AttachmentNotAvailableModalType
+): ShowAttachmentNotAvailableModalActionType {
+  return {
+    type: SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL,
+    payload,
+  };
+}
 
 function hideContactModal(): HideContactModalActionType {
   return {
@@ -994,6 +1028,7 @@ function copyOverMessageAttributesIntoForwardMessages(
 
 export function getEmptyState(): GlobalModalsStateType {
   return {
+    attachmentNotAvailableModalType: undefined,
     hasConfirmationModal: false,
     callLinkAddNameModalRoomId: null,
     callLinkEditModalRoomId: null,
@@ -1080,6 +1115,20 @@ export function reducer(
       userNotFoundModalState: {
         ...action.payload,
       },
+    };
+  }
+
+  if (action.type === HIDE_ATTACHMENT_NOT_AVAILABLE_MODAL) {
+    return {
+      ...state,
+      attachmentNotAvailableModalType: undefined,
+    };
+  }
+
+  if (action.type === SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL) {
+    return {
+      ...state,
+      attachmentNotAvailableModalType: action.payload,
     };
   }
 

@@ -144,6 +144,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     useComposerActions();
 
   const {
+    showAttachmentNotAvailableModal,
     showContactModal,
     showEditHistoryModal,
     toggleMessageRequestActionsConfirmation,
@@ -233,6 +234,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       showAttachmentDownloadStillInProgressToast={
         showAttachmentDownloadStillInProgressToast
       }
+      showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
       showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
       showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
       showLightbox={showLightbox}

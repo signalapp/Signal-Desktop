@@ -101,6 +101,7 @@ export type PropsReduxActions = Pick<
   | 'showConversation'
   | 'showEditHistoryModal'
   | 'showAttachmentDownloadStillInProgressToast'
+  | 'showAttachmentNotAvailableModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
@@ -149,6 +150,7 @@ export function MessageDetail({
   showConversation,
   showEditHistoryModal,
   showAttachmentDownloadStillInProgressToast,
+  showAttachmentNotAvailableModal,
   showExpiredIncomingTapToViewToast,
   showExpiredOutgoingTapToViewToast,
   showLightbox,
@@ -370,6 +372,7 @@ export function MessageDetail({
             showAttachmentDownloadStillInProgressToast={
               showAttachmentDownloadStillInProgressToast
             }
+            showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
             showExpiredIncomingTapToViewToast={
               showExpiredIncomingTapToViewToast
             }

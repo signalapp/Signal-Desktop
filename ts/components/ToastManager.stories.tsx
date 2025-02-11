@@ -238,6 +238,7 @@ export default {
     openFileInFolder: action('openFileInFolder'),
     onShowDebugLog: action('onShowDebugLog'),
     onUndoArchive: action('onUndoArchive'),
+    showAttachmentNotAvailableModal: action('showAttachmentNotAvailableModal'),
     i18n,
     toastType: ToastType.AddingUserToGroup,
     megaphoneType: MegaphoneType.UsernameOnboarding,
