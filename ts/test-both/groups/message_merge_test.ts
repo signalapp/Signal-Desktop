@@ -100,6 +100,19 @@ describe('group message merging', () => {
         ],
       },
     };
+    const removeByAdmin = {
+      ...defaultMessage,
+      type: 'group-v2-change' as const,
+      groupV2Change: {
+        from: generateAci(),
+        details: [
+          {
+            type: 'admin-approval-remove-one' as const,
+            aci,
+          },
+        ],
+      },
+    };
     const addOther = {
       ...defaultMessage,
       type: 'group-v2-change' as const,
@@ -169,6 +182,10 @@ describe('group message merging', () => {
 
     it('should not merge add with remove if aci does not match', () => {
       assert.isUndefined(_mergeGroupChangeMessages(add, removeOther));
+    });
+
+    it('should not merge add with remove by admin', () => {
+      assert.isUndefined(_mergeGroupChangeMessages(add, removeByAdmin));
     });
 
     it('should merge bounce with add if aci matches', () => {

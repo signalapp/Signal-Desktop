@@ -3313,7 +3313,10 @@ export function _mergeGroupChangeMessages(
   let isApprovalPending: boolean;
   if (secondDetail.type === 'admin-approval-add-one') {
     isApprovalPending = true;
-  } else if (secondDetail.type === 'admin-approval-remove-one') {
+  } else if (
+    secondDetail.type === 'admin-approval-remove-one' &&
+    (secondChange.from == null || secondChange.from === secondDetail.aci)
+  ) {
     isApprovalPending = false;
   } else {
     return undefined;
