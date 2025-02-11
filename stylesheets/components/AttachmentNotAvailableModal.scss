@@ -1,0 +1,22 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.AttachmentNotAvailableModal__width-container {
+  max-width: 440px;
+}
+
+.AttachmentNotAvailableModal .AttachmentNotAvailableModal__headerTitle {
+  padding-block-end: 5px;
+}
+
+.AttachmentNotAvailableModal__body {
+  padding-block: 16px 0;
+  padding-inline: 16px;
+}
+
+.AttachmentNotAvailableModal .module-Button {
+  padding-inline: 24px;
+}

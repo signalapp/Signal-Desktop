@@ -21,6 +21,7 @@ import { ConfirmationDialog } from './ConfirmationDialog';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 import type { StartCallData } from './ConfirmLeaveCallModal';
+import type { AttachmentNotAvailableModalType } from './AttachmentNotAvailableModal';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -30,6 +31,9 @@ export type PropsType = {
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId: string | undefined;
   renderAddUserToAnotherGroup: () => JSX.Element;
+  // AttachmentNotAvailableModal
+  attachmentNotAvailableModalType: AttachmentNotAvailableModalType | undefined;
+  renderAttachmentNotAvailableModal: () => JSX.Element;
   // CallLinkAddNameModal
   callLinkAddNameModalRoomId: string | null;
   renderCallLinkAddNameModal: () => JSX.Element;
@@ -116,6 +120,9 @@ export type PropsType = {
 
 export function GlobalModalContainer({
   i18n,
+  // AttachmentNotAvailableModal
+  attachmentNotAvailableModalType,
+  renderAttachmentNotAvailableModal,
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId,
   renderAddUserToAnotherGroup,
@@ -325,6 +332,10 @@ export function GlobalModalContainer({
         {content}
       </ConfirmationDialog>
     );
+  }
+
+  if (attachmentNotAvailableModalType) {
+    return renderAttachmentNotAvailableModal();
   }
 
   return null;

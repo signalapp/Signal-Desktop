@@ -107,7 +107,8 @@ import { getColorForCallLink } from '../../util/getColorForCallLink';
 import { getKeyFromCallLink } from '../../util/callLinks';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip';
 import { formatFileSize } from '../../util/formatFileSize';
-import { LINKED_DEVICES_URL } from '../../types/support';
+import { AttachmentNotAvailableModalType } from '../AttachmentNotAvailableModal';
+import { assertDev } from '../../util/assert';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -376,6 +377,9 @@ export type PropsActions = {
 
   showEditHistoryModal?: (id: string) => unknown;
   showAttachmentDownloadStillInProgressToast: (count: number) => unknown;
+  showAttachmentNotAvailableModal: (
+    modalType: AttachmentNotAvailableModalType
+  ) => void;
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
   showMediaNoLongerAvailableToast: () => unknown;
@@ -948,6 +952,7 @@ export class Message extends React.PureComponent<Props, State> {
       renderingContext,
       shouldCollapseAbove,
       shouldCollapseBelow,
+      showAttachmentNotAvailableModal,
       showLightbox,
       showMediaNoLongerAvailableToast,
       status,
@@ -969,9 +974,19 @@ export class Message extends React.PureComponent<Props, State> {
     // For attachments which aren't full-frame
     const withContentBelow = Boolean(text || attachmentDroppedDueToSize);
     const withContentAbove = Boolean(quote) || this.#shouldRenderAuthor();
-    const displayImage = canDisplayImage(attachments);
+    const displayImage =
+      canDisplayImage(attachments) && !attachmentDroppedDueToSize;
 
-    if (displayImage && !imageBroken) {
+    // attachmentDroppedDueToSize is handled in renderAttachmentTooBig
+    const isAttachmentNotAvailable =
+      isPermanentlyUndownloadable(firstAttachment) &&
+      !attachmentDroppedDueToSize;
+
+    if (
+      displayImage &&
+      !imageBroken &&
+      !(isSticker && isAttachmentNotAvailable)
+    ) {
       const prefix = isSticker ? 'sticker' : 'attachment';
       const containerClassName = classNames(
         `module-message__${prefix}-container`,
@@ -1057,8 +1072,26 @@ export class Message extends React.PureComponent<Props, State> {
     }
     const isAttachmentAudio = isAudio(attachments);
 
-    // Undownloadable audio and generic files
-    if (isPermanentlyUndownloadable(firstAttachment)) {
+    if (isAttachmentNotAvailable && (isAttachmentAudio || isSticker)) {
+      let attachmentType: string;
+      let info: string;
+      let modalType: AttachmentNotAvailableModalType;
+      if (isAttachmentAudio) {
+        attachmentType = 'audio';
+        info = i18n('icu:attachmentNotAvailable__voice');
+        modalType = AttachmentNotAvailableModalType.VoiceMessage;
+      } else if (isSticker) {
+        attachmentType = 'sticker';
+        info = i18n('icu:attachmentNotAvailable__sticker');
+        modalType = AttachmentNotAvailableModalType.Sticker;
+      } else {
+        assertDev(
+          false,
+          'renderAttachment(): Invalid case for permanently undownloadable attachment'
+        );
+        return null;
+      }
+
       const containerClassName = classNames(
         'module-message__undownloadable-attachment',
         withContentAbove
@@ -1069,11 +1102,11 @@ export class Message extends React.PureComponent<Props, State> {
           : null,
         text ? null : 'module-message__undownloadable-attachment--no-text'
       );
-      const attachmentType = isAttachmentAudio ? 'audio' : 'generic';
       const iconClassName = classNames(
         'module-message__undownloadable-attachment__icon',
         `module-message__undownloadable-attachment__icon--${attachmentType}`
       );
+
       return (
         <div className={containerClassName}>
           <div className="module-message__undownloadable-attachment__icon-container">
@@ -1081,9 +1114,7 @@ export class Message extends React.PureComponent<Props, State> {
           </div>
           <div>
             <div className="module-message__undownloadable-attachment-info">
-              {isAttachmentAudio
-                ? i18n('icu:voiceMessageNotAvailable')
-                : i18n('icu:fileNotAvailable')}
+              {info}
             </div>
             <div className="module-message__undownloadable-attachment-learn-more-container">
               <button
@@ -1091,7 +1122,7 @@ export class Message extends React.PureComponent<Props, State> {
                 onClick={e => {
                   e.stopPropagation();
                   e.preventDefault();
-                  openLinkInWebBrowser(LINKED_DEVICES_URL);
+                  showAttachmentNotAvailableModal(modalType);
                 }}
                 type="button"
               >
@@ -1138,6 +1169,7 @@ export class Message extends React.PureComponent<Props, State> {
         },
       });
     }
+
     const { pending, fileName, size, contentType } = firstAttachment;
     const extension = getExtensionForDisplay({ contentType, fileName });
     const isDangerous = isFileDangerous(fileName || '');
@@ -1152,6 +1184,12 @@ export class Message extends React.PureComponent<Props, State> {
             : null,
           withContentAbove
             ? 'module-message__generic-attachment--with-content-above'
+            : null,
+          isAttachmentNotAvailable
+            ? 'module-message__generic-attachment--undownloadable'
+            : null,
+          isAttachmentNotAvailable && !text
+            ? 'module-message__generic-attachment--undownloadable-no-text'
             : null
         )}
         // There's only ever one of these, so we don't want users to tab into it
@@ -1161,9 +1199,15 @@ export class Message extends React.PureComponent<Props, State> {
           event.preventDefault();
 
           if (!isDownloaded(firstAttachment)) {
-            kickOffAttachmentDownload({
-              messageId: id,
-            });
+            if (isAttachmentNotAvailable) {
+              showAttachmentNotAvailableModal(
+                AttachmentNotAvailableModalType.File
+              );
+            } else {
+              kickOffAttachmentDownload({
+                messageId: id,
+              });
+            }
           } else {
             this.openGenericAttachment();
           }
@@ -1193,18 +1237,69 @@ export class Message extends React.PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message__generic-attachment__file-name',
-              `module-message__generic-attachment__file-name--${direction}`
+              `module-message__generic-attachment__file-name--${direction}`,
+              isAttachmentNotAvailable
+                ? 'module-message__generic-attachment__file-name--undownloadable'
+                : null
             )}
           >
             {fileName}
           </div>
-          <div
-            className={classNames(
-              'module-message__generic-attachment__file-size',
-              `module-message__generic-attachment__file-size--${direction}`
-            )}
-          >
-            {formatFileSize(size)}
+          {isAttachmentNotAvailable ? (
+            <div className="module-message__undownloadable-attachment-file">
+              <div className="module-message__undownloadable-attachment__icon-container--file">
+                <div className="module-message__undownloadable-attachment__icon module-message__undownloadable-attachment__icon--file module-message__undownloadable-attachment__icon--small" />
+              </div>
+              <div className="module-message__undownloadable-attachment-info--file">
+                {i18n('icu:attachmentNotAvailable__file')}
+              </div>
+            </div>
+          ) : (
+            <div
+              className={classNames(
+                'module-message__generic-attachment__file-size',
+                `module-message__generic-attachment__file-size--${direction}`
+              )}
+            >
+              {formatFileSize(size)}
+            </div>
+          )}
+        </div>
+      </button>
+    );
+  }
+
+  public renderUndownloadableTextAttachment(): JSX.Element | null {
+    const { i18n, textAttachment, showAttachmentNotAvailableModal } =
+      this.props;
+    if (!textAttachment || !isPermanentlyUndownloadable(textAttachment)) {
+      return null;
+    }
+
+    return (
+      <button
+        type="button"
+        className="module-message__generic-attachment module-message__undownloadable-attachment-text"
+        tabIndex={-1}
+        onClick={event => {
+          event.stopPropagation();
+          event.preventDefault();
+          showAttachmentNotAvailableModal(
+            AttachmentNotAvailableModalType.LongText
+          );
+        }}
+      >
+        <div className="module-message__undownloadable-attachment-text__icon-container">
+          <div className="module-message__undownloadable-attachment__icon module-message__undownloadable-attachment__icon--file" />
+        </div>
+        <div>
+          <div className="module-message__undownloadable-attachment-info">
+            {i18n('icu:attachmentNotAvailable__longMessage')}
+          </div>
+          <div className="module-message__undownloadable-attachment-learn-more-container">
+            <div className="module-message__undownloadable-attachment-learn-more">
+              {i18n('icu:attachmentNoLongerAvailable__learnMore')}
+            </div>
           </div>
         </div>
       </button>
@@ -2586,6 +2681,7 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderPayment()}
         {this.renderEmbeddedContact()}
         {this.renderText()}
+        {this.renderUndownloadableTextAttachment()}
         {this.#renderAction()}
         {this.#renderMetadata()}
         {this.renderSendMessageButton()}
@@ -2603,12 +2699,14 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       giftBadge,
       id,
+      isSticker,
       isTapToView,
       isTapToViewExpired,
       kickOffAttachmentDownload,
       startConversation,
       openGiftBadge,
       pushPanelForConversation,
+      showAttachmentNotAvailableModal,
       showLightbox,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
@@ -2631,7 +2729,21 @@ export class Message extends React.PureComponent<Props, State> {
       event.preventDefault();
       event.stopPropagation();
 
-      showMediaNoLongerAvailableToast();
+      // This needs to be the first check because canDisplayImage is true for stickers
+      if (isSticker) {
+        showAttachmentNotAvailableModal(
+          AttachmentNotAvailableModalType.Sticker
+        );
+      } else if (canDisplayImage(attachments)) {
+        showMediaNoLongerAvailableToast();
+      } else if (isAudio(attachments)) {
+        showAttachmentNotAvailableModal(
+          AttachmentNotAvailableModalType.VoiceMessage
+        );
+      } else {
+        showAttachmentNotAvailableModal(AttachmentNotAvailableModalType.File);
+      }
+
       return;
     }
 
@@ -2817,7 +2929,12 @@ export class Message extends React.PureComponent<Props, State> {
     const isAttachmentPending = this.isAttachmentPending();
     const width = this.getWidth();
     const isEmojiOnly = this.#canRenderStickerLikeEmoji();
-    const isStickerLike = isSticker || isEmojiOnly;
+    const isStickerLike =
+      isEmojiOnly ||
+      (isSticker &&
+        attachments &&
+        attachments[0] &&
+        !isPermanentlyUndownloadable(attachments[0]));
 
     // If it's a mostly-normal gray incoming text box, we don't want to darken it as much
     const lighterSelect =
