@@ -503,9 +503,19 @@ export class BackupImportStream extends Writable {
         await this.#fromStickerPack(frame.stickerPack);
       } else if (frame.adHocCall) {
         await this.#fromAdHocCall(frame.adHocCall);
+      } else if (frame.notificationProfile) {
+        log.warn(
+          `${this.#logId}: Received currently unsupported feature: notification profile. Dropping.`
+        );
+      } else if (frame.chatFolder) {
+        log.warn(
+          `${this.#logId}: Received currently unsupported feature: chat folder. Dropping.`
+        );
       } else {
-        log.warn(`${this.#logId}: unsupported frame item ${frame.item}`);
-        throw new Error('Unsupported frame type');
+        log.warn(
+          `${this.#logId}: unknown unsupported frame item ${frame.item}`
+        );
+        throw new Error('Unknown unsupported frame type');
       }
     } catch (error) {
       this.#frameErrorCount += 1;
