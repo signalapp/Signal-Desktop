@@ -5708,7 +5708,7 @@
     "description": "Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default",
+    "messageformat": "Reset default colors",
     "description": "Button label for resetting only global chat color"
   },
   "icu:ChatColorPicker__confirm-reset": {
