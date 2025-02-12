@@ -538,7 +538,14 @@ export function Preferences({
             right={phoneNumber}
           />
           <Control
-            left={i18n('icu:Preferences--device-name')}
+            left={
+              <>
+                <div>{i18n('icu:Preferences--device-name')}</div>
+                <div className="Preferences__description">
+                  {i18n('icu:Preferences--device-name__description')}
+                </div>
+              </>
+            }
             right={deviceName}
           />
         </SettingsRow>
