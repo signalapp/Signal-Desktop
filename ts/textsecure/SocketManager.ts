@@ -554,7 +554,7 @@ export class SocketManager extends EventListener {
       authenticated.abort();
       this.#dropAuthenticated(authenticated);
     }
-
+    this.#markOffline();
     this.#credentials = undefined;
   }
 

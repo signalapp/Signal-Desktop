@@ -30,11 +30,11 @@ import { AttachmentVariant } from '../types/Attachment';
 // linking.
 let isInitialSync = false;
 
-export function setIsInitialSync(newValue: boolean): void {
-  log.info(`setIsInitialSync(${newValue})`);
+export function setIsInitialContactSync(newValue: boolean): void {
+  log.info(`setIsInitialContactSync(${newValue})`);
   isInitialSync = newValue;
 }
-export function getIsInitialSync(): boolean {
+export function getIsInitialContactSync(): boolean {
   return isInitialSync;
 }
 
@@ -233,6 +233,9 @@ async function doContactSync({
 
   await window.storage.put('synced_at', Date.now());
   window.Whisper.events.trigger('contactSync:complete');
+  if (isInitialSync) {
+    isInitialSync = false;
+  }
   window.SignalCI?.handleEvent('contactSync', isFullSync);
 
   log.info(`${logId}: done`);

@@ -38,7 +38,6 @@ import type { ConfirmationDialog } from './components/ConfirmationDialog';
 import type { SignalProtocolStore } from './SignalProtocolStore';
 import type { SocketStatus } from './types/SocketStatus';
 import type { ScreenShareStatus } from './types/Calling';
-import type SyncRequest from './textsecure/SyncRequest';
 import type { MessageCache } from './services/MessageCache';
 import type { StateType } from './state/reducer';
 import type { Address } from './types/Address';
@@ -203,7 +202,6 @@ declare global {
     getSfuUrl: () => string;
     getIceServerOverride: () => string;
     getSocketStatus: () => SocketStatus;
-    getSyncRequest: (timeoutMillis?: number) => SyncRequest;
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;
     getVersion: () => string;

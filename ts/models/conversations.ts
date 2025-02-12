@@ -188,7 +188,7 @@ import { explodePromise } from '../util/explodePromise';
 import { getCallHistorySelector } from '../state/selectors/callHistory';
 import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
-import { getIsInitialSync } from '../services/contactSync';
+import { getIsInitialContactSync } from '../services/contactSync';
 import { queueAttachmentDownloadsForMessage } from '../util/queueAttachmentDownloads';
 import { cleanupMessages } from '../util/cleanup';
 import { MessageModel } from './messages';
@@ -2348,7 +2348,7 @@ export class ConversationModel extends window.Backbone
     await window.MessageCache.saveMessage(message, {
       forceSave: true,
     });
-    if (!getIsInitialSync() && !this.get('active_at')) {
+    if (!getIsInitialContactSync() && !this.get('active_at')) {
       this.set({ active_at: Date.now() });
       await DataWriter.updateConversation(this.attributes);
     }

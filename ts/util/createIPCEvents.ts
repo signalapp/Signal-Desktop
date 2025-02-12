@@ -52,6 +52,7 @@ import type {
 } from './preload';
 import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { drop } from './drop';
+import { sendSyncRequests } from '../textsecure/syncRequests';
 
 type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -487,15 +488,12 @@ export function createIPCEvents(
     },
 
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
-    syncRequest: () =>
-      new Promise<void>((resolve, reject) => {
-        const FIVE_MINUTES = 5 * durations.MINUTE;
-        const syncRequest = window.getSyncRequest(FIVE_MINUTES);
-        syncRequest.addEventListener('success', () => resolve());
-        syncRequest.addEventListener('timeout', () =>
-          reject(new Error('timeout'))
-        );
-      }),
+    syncRequest: async () => {
+      const { contactSyncComplete } = await sendSyncRequests(
+        5 * durations.MINUTE
+      );
+      return contactSyncComplete;
+    },
     getLastSyncTime: () => window.storage.get('synced_at'),
     setLastSyncTime: value => window.storage.put('synced_at', value),
     getUniversalExpireTimer: () => universalExpireTimer.get(),

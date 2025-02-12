@@ -300,7 +300,6 @@ export default class MessageReceiver
   #serverTrustRoot: Uint8Array;
   #stoppingProcessing?: boolean;
   #pniIdentityKeyCheckRequired?: boolean;
-  #isAppReadyForProcessing: boolean = false;
 
   constructor({ storage, serverTrustRoot }: MessageReceiverOptions) {
     super();
@@ -347,15 +346,6 @@ export default class MessageReceiver
       wait: 75,
       maxSize: 30,
       processBatch: this.#cacheRemoveBatch.bind(this),
-    });
-
-    window.Whisper.events.on('app-ready-for-processing', () => {
-      this.#isAppReadyForProcessing = true;
-      this.reset();
-    });
-
-    window.Whisper.events.on('online', () => {
-      this.reset();
     });
   }
 
@@ -477,16 +467,11 @@ export default class MessageReceiver
     );
   }
 
-  public reset(): void {
-    log.info('MessageReceiver.reset');
+  public startProcessingQueue(): void {
+    log.info('MessageReceiver.startProcessingQueue');
     this.#count = 0;
     this.#isEmptied = false;
     this.#stoppingProcessing = false;
-
-    if (!this.#isAppReadyForProcessing) {
-      log.info('MessageReceiver.reset: not ready yet, returning early');
-      return;
-    }
 
     drop(this.#addCachedMessagesToQueue());
   }
@@ -507,7 +492,6 @@ export default class MessageReceiver
   public stopProcessing(): void {
     log.info('MessageReceiver.stopProcessing');
     this.#stoppingProcessing = true;
-    this.#isAppReadyForProcessing = false;
   }
 
   public hasEmptied(): boolean {

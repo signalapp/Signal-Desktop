@@ -77,6 +77,8 @@ describe('retries', function (this: Mocha.Suite) {
     const { desktop, contacts } = bootstrap;
     const [first] = contacts;
 
+    await app.close();
+
     debug('send a sender key message without sending skdm first');
     const firstDistributionId = await first.sendSenderKey(desktop, {
       timestamp: bootstrap.getTimestamp(),
@@ -87,7 +89,7 @@ describe('retries', function (this: Mocha.Suite) {
 
     debug('send a failing message');
     const timestamp = bootstrap.getTimestamp();
-    await first.sendText(desktop, content, {
+    const firstMessageSend = first.sendText(desktop, content, {
       distributionId: firstDistributionId,
       sealed: true,
       timestamp,
@@ -99,11 +101,17 @@ describe('retries', function (this: Mocha.Suite) {
     });
 
     debug('send same hello message, this time it should work');
-    await first.sendText(desktop, content, {
+    const secondMessageSend = first.sendText(desktop, content, {
       distributionId: secondDistributionId,
       sealed: true,
       timestamp,
     });
+
+    debug('starting');
+
+    app = await bootstrap.startApp();
+
+    await Promise.all([firstMessageSend, secondMessageSend]);
 
     debug('open conversation');
     const window = await app.getWindow();

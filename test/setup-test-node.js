@@ -37,6 +37,7 @@ global.window = {
   storage: {
     get: key => storageMap.get(key),
     put: async (key, value) => storageMap.set(key, value),
+    remove: async key => storageMap.clear(key),
   },
 };
 

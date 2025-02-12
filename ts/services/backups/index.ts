@@ -125,12 +125,13 @@ export class BackupsService {
       this.api.clearCache();
     });
   }
-
-  public async downloadAndImport(options: DownloadOptionsType): Promise<void> {
+  public async downloadAndImport(
+    options: DownloadOptionsType
+  ): Promise<{ wasBackupImported: boolean }> {
     const backupDownloadPath = window.storage.get('backupDownloadPath');
     if (!backupDownloadPath) {
       log.warn('backups.downloadAndImport: no backup download path, skipping');
-      return;
+      return { wasBackupImported: false };
     }
 
     log.info('backups.downloadAndImport: downloading...');
@@ -234,6 +235,7 @@ export class BackupsService {
     }
 
     log.info(`backups.downloadAndImport: done, had backup=${hasBackup}`);
+    return { wasBackupImported: hasBackup };
   }
 
   public retryDownload(): void {
