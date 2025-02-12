@@ -1116,7 +1116,7 @@ export default class AccountManager extends EventTarget {
 
     const shouldDownloadBackup =
       isBackupEnabled() ||
-      (isLinkAndSyncEnabled(window.getVersion()) && options.ephemeralBackupKey);
+      (isLinkAndSyncEnabled() && options.ephemeralBackupKey);
 
     // Set backup download path before storing credentials to ensure that
     // storage service and message receiver are not operating
