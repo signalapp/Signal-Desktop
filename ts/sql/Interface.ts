@@ -1011,6 +1011,9 @@ type WritableInterface = {
   enableMessageInsertTriggersAndBackfill(): void;
   ensureMessageInsertTriggersAreEnabled(): void;
 
+  disableFSync(): void;
+  enableFSyncAndCheckpoint(): void;
+
   processGroupCallRingCancellation(ringId: bigint): void;
   cleanExpiredGroupCallRingCancellations(): void;
 };
