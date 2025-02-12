@@ -348,6 +348,7 @@ export class BackupsService {
     const importStart = Date.now();
 
     await DataWriter.disableMessageInsertTriggers();
+    await DataWriter.disableFSync();
 
     try {
       window.ConversationController.setReadOnly(true);
@@ -445,6 +446,7 @@ export class BackupsService {
       window.ConversationController.setReadOnly(false);
       this.#isRunning = false;
       await DataWriter.enableMessageInsertTriggersAndBackfill();
+      await DataWriter.enableFSyncAndCheckpoint();
 
       window.IPC.stopTrackingQueryStats({ epochName: 'Backup Import' });
       if (window.SignalCI) {
