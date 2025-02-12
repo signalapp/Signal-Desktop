@@ -115,7 +115,7 @@
     "@signalapp/better-sqlite3": "9.0.11",
     "@signalapp/libsignal-client": "0.66.1",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.49.4",
+    "@signalapp/ringrtc": "2.49.5",
     "@types/fabric": "4.5.3",
     "backbone": "1.6.0",
     "blob-util": "2.0.2",
