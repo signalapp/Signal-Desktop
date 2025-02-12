@@ -195,10 +195,7 @@ function startInstaller(): ThunkAction<
     strictAssert(server, 'Expected a server');
 
     if (!provisioner) {
-      provisioner = new Provisioner({
-        server,
-        appVersion: window.getVersion(),
-      });
+      provisioner = new Provisioner({ server });
     }
 
     const cancel = provisioner.subscribe(event => {

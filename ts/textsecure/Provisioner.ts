@@ -50,7 +50,6 @@ export enum EventKind {
 
 export type ProvisionerOptionsType = Readonly<{
   server: WebAPIType;
-  appVersion: string;
 }>;
 
 export type EnvelopeType = ProvisionDecryptResult;
@@ -113,7 +112,6 @@ const QR_CODE_TIMEOUTS = [10 * SECOND, 20 * SECOND, 30 * SECOND, 60 * SECOND];
 export class Provisioner {
   readonly #subscribers = new Set<SubscriberType>();
   readonly #server: WebAPIType;
-  readonly #appVersion: string;
   readonly #retryBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   #sockets: Array<IWebSocketResource> = [];
@@ -121,9 +119,8 @@ export class Provisioner {
   #attemptCount = 0;
   #isRunning = false;
 
-  constructor({ server, appVersion }: ProvisionerOptionsType) {
+  constructor({ server }: ProvisionerOptionsType) {
     this.#server = server;
-    this.#appVersion = appVersion;
   }
 
   public subscribe(notify: SubscribeNotifierType): UnsubscribeFunctionType {
@@ -373,7 +370,7 @@ export class Provisioner {
                 kind: EventKind.Envelope,
                 envelope,
                 isLinkAndSync:
-                  isLinkAndSyncEnabled(this.#appVersion) &&
+                  isLinkAndSyncEnabled() &&
                   Bytes.isNotEmpty(envelope.ephemeralBackupKey),
               });
               request.respond(200, 'OK');
@@ -422,7 +419,7 @@ export class Provisioner {
       .toAppUrl({
         uuid,
         pubKey: Bytes.toBase64(cipher.getPublicKey()),
-        capabilities: isLinkAndSyncEnabled(this.#appVersion) ? ['backup3'] : [],
+        capabilities: isLinkAndSyncEnabled() ? ['backup3'] : [],
       })
       .toString();
 
