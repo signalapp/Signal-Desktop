@@ -34,7 +34,10 @@ import {
   MESSAGE_EXPIRED,
   actions as conversationsActions,
 } from './conversations';
-import { isDownloaded } from '../../types/Attachment';
+import {
+  isDownloaded,
+  isPermanentlyUndownloadable,
+} from '../../types/Attachment';
 import type { ButtonVariant } from '../../components/Button';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
 import type { MessageForwardDraft } from '../../types/ForwardDraft';
@@ -667,7 +670,13 @@ function toggleForwardMessagesModal(
           }
           const { attachments = [] } = message.attributes;
 
-          if (!attachments.every(isDownloaded)) {
+          if (
+            !attachments.every(
+              attachment =>
+                isDownloaded(attachment) ||
+                isPermanentlyUndownloadable(attachment)
+            )
+          ) {
             dispatch(
               conversationsActions.kickOffAttachmentDownload({ messageId })
             );
@@ -679,7 +688,12 @@ function toggleForwardMessagesModal(
 
           const messageProps = messagePropsSelector(message.attributes);
           const messageDraft = toMessageForwardDraft(
-            messageProps,
+            {
+              ...messageProps,
+              attachments: attachments.filter(
+                attachment => !isPermanentlyUndownloadable(attachment)
+              ),
+            },
             conversationSelector
           );
 
