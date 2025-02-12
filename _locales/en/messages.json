@@ -1674,6 +1674,10 @@
     "messageformat": "Device Name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices",
+    "description": "Shown in the Settings window below the read-only device name"
+  },
   "icu:chooseDeviceName": {
     "messageformat": "Choose this device's name",
     "description": "The header shown on the 'choose device name' screen in the device linking process"
