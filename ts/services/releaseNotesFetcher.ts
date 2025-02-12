@@ -172,10 +172,33 @@ export class ReleaseNotesFetcher {
       log.info('ReleaseNotesFetcher: WebAPI unavailable');
       throw new Error('WebAPI unavailable');
     }
+
+    log.info('ReleaseNotesFetcher: Ensuring Signal conversation');
+    const signalConversation =
+      await window.ConversationController.getOrCreateSignalConversation();
+
     const sortedNotes = [...notes].sort(
       (a: ManifestReleaseNoteType, b: ManifestReleaseNoteType) =>
         semver.compare(a.desktopMinVersion, b.desktopMinVersion)
     );
+
+    const newestNote = last(sortedNotes);
+    strictAssert(newestNote, 'processReleaseNotes requires at least 1 note');
+
+    const versionWatermark = newestNote.desktopMinVersion;
+
+    if (signalConversation.isBlocked()) {
+      log.info(
+        `ReleaseNotesFetcher: Signal conversation is blocked, updating watermark to ${versionWatermark}`
+      );
+      drop(
+        window.textsecure.storage.put(
+          VERSION_WATERMARK_STORAGE_KEY,
+          versionWatermark
+        )
+      );
+      return;
+    }
 
     const hydratedNotesWithRawAttachments = (
       await Promise.all(
@@ -241,10 +264,6 @@ export class ReleaseNotesFetcher {
       log.warn('ReleaseNotesFetcher: No hydrated notes available, stopping');
       return;
     }
-
-    log.info('ReleaseNotesFetcher: Ensuring Signal conversation');
-    const signalConversation =
-      await window.ConversationController.getOrCreateSignalConversation();
 
     const messages: Array<MessageAttributesType> = [];
     hydratedNotes.forEach(
@@ -320,10 +339,6 @@ export class ReleaseNotesFetcher {
     signalConversation.set({ active_at: Date.now(), isArchived: false });
     drop(signalConversation.updateUnread());
 
-    const newestNote = last(sortedNotes);
-    strictAssert(newestNote, 'processReleaseNotes requires at least 1 note');
-
-    const versionWatermark = newestNote.desktopMinVersion;
     log.info(
       `ReleaseNotesFetcher: Updating version watermark to ${versionWatermark}`
     );
