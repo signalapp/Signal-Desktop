@@ -88,54 +88,47 @@ export const createDeleter = (
   };
 };
 
-export const getAllAttachments = async (
-  userDataPath: string
-): Promise<ReadonlyArray<string>> => {
-  const dir = getPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
+export function prepareGlobPattern(dir: string): string {
+  const prefix = normalizePath(dir).replace(/([$^*+?()[\]])/g, '\\$1');
+  // fast-glob uses `/` for all platforms
+  return `${prefix}/**/*`;
+}
+
+async function getAllFiles(dir: string): Promise<ReadonlyArray<string>> {
+  const pattern = prepareGlobPattern(dir);
 
   const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => relative(dir, file));
+}
+
+export const getAllAttachments = (
+  userDataPath: string
+): Promise<ReadonlyArray<string>> => {
+  return getAllFiles(getPath(userDataPath));
 };
 
-export const getAllDownloads = async (
+export const getAllDownloads = (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
-  const dir = getDownloadsPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
-
-  const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
+  return getAllFiles(getDownloadsPath(userDataPath));
 };
 
-const getAllBadgeImageFiles = async (
+const getAllBadgeImageFiles = (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
-  const dir = getBadgesPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
-
-  const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
+  return getAllFiles(getBadgesPath(userDataPath));
 };
 
-export const getAllStickers = async (
+export const getAllStickers = (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
-  const dir = getStickersPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
-
-  const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
+  return getAllFiles(getStickersPath(userDataPath));
 };
 
 export const getAllDraftAttachments = async (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
-  const dir = getDraftPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
-
-  const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
+  return getAllFiles(getDraftPath(userDataPath));
 };
 
 export const clearTempPath = (userDataPath: string): Promise<void> => {
