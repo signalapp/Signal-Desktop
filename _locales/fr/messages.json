@@ -60,7 +60,7 @@
     "messageformat": "{appEnv} (Intel)"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "Copier le message d'erreur et fermer l'appli"
+    "messageformat": "Copier le message d'erreur et quitter l'appli"
   },
   "icu:unknownContact": {
     "messageformat": "Contact inconnu"
@@ -168,7 +168,7 @@
     "messageformat": "Agrandir"
   },
   "icu:windowMenuBringAllToFront": {
-    "messageformat": "Tout amener à l’avant-plan"
+    "messageformat": "Tout ramener au premier plan"
   },
   "icu:viewMenuResetZoom": {
     "messageformat": "Taille réelle"
@@ -180,7 +180,7 @@
     "messageformat": "Zoom arrière"
   },
   "icu:viewMenuToggleFullScreen": {
-    "messageformat": "Activer ou désactiver le plein écran"
+    "messageformat": "Activer ou désactiver le mode plein écran"
   },
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Afficher ou masquer les outils pour développeurs"
@@ -195,13 +195,13 @@
     "messageformat": "Configurer comme appareil autonome"
   },
   "icu:messageContextMenuButton": {
-    "messageformat": "Davantage d’actions"
+    "messageformat": "Autres actions"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Copier le lien"
   },
   "icu:contextMenuCopyImage": {
-    "messageformat": "Copier l’image"
+    "messageformat": "Copier l'image"
   },
   "icu:contextMenuNoSuggestions": {
     "messageformat": "Aucune suggestion"
@@ -213,7 +213,7 @@
     "messageformat": "Chargement…"
   },
   "icu:optimizingApplication": {
-    "messageformat": "Optimisation de l’application…"
+    "messageformat": "Optimisation de l'application…"
   },
   "icu:migratingToSQLCipher": {
     "messageformat": "Optimisation des messages… {status} terminés."
@@ -372,7 +372,7 @@
     "messageformat": "Épingler la conversation"
   },
   "icu:unpinConversation": {
-    "messageformat": "Désépingler la conversation"
+    "messageformat": "Détacher la conversation"
   },
   "icu:pinnedConversationsFull": {
     "messageformat": "Vous pouvez épingler jusqu'à 4 conversations."
@@ -390,7 +390,7 @@
     "messageformat": "Afficher"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "Vous n’êtes plus membre du groupe."
+    "messageformat": "Vous n'êtes plus membre de ce groupe."
   },
   "icu:invalidConversation": {
     "messageformat": "Ce groupe n'est pas valide. Veuillez créer un nouveau groupe."
@@ -423,7 +423,7 @@
     "messageformat": "Vous avez confirmé le numéro de sécurité associé à {name} depuis un autre appareil"
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "Le numéro de sécurité que vous essayez de confirmer a changé. Veuillez vérifier votre nouveau numéro de sécurité avec {name1}. N’oubliez pas que ce changement peut signifier que quelqu’un essaie d’intercepter vos communications ou que {name2} a simplement réinstallé Signal."
+    "messageformat": "Le numéro de sécurité que vous tentez de confirmer a changé. Veuillez vérifier le numéro de sécurité associé à {name1}. Rappel : ce changement peut signifier que quelqu'un tente d'intercepter vos communications. Mais il est aussi possible que {name2} ait tout simplement réinstallé Signal."
   },
   "icu:safetyNumberChangeDialog__message": {
     "messageformat": "Les contacts suivants ont peut-être réinstallé Signal ou changé d'appareil. Sélectionnez un contact pour confirmer son nouveau numéro de sécurité. Cette étape est facultative."
@@ -432,19 +432,19 @@
     "messageformat": "Envoyer les messages en attente"
   },
   "icu:safetyNumberChangeDialog__review": {
-    "messageformat": "Vérifier"
+    "messageformat": "Examiner"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
     "messageformat": "{count, plural, one {{count,number} contact a peut-être réinstallé Signal ou changé d'appareil. Si vous le souhaitez, vous pouvez vérifier son numéro de sécurité avant d'envoyer votre message.} other {{count,number} contacts ont peut-être réinstallé Signal ou changé d'appareil. Si vous le souhaitez, vous pouvez vérifier leur numéro de sécurité avant d'envoyer votre message.}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
-    "messageformat": "Toutes les connexions ont été vérifiées, appuyez sur envoyer pour continuer."
+    "messageformat": "Vous avez examiné tous les contacts. Appuyez sur \"Envoyer\" pour continuer."
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
     "messageformat": "{count, plural, one {Êtes-vous sûr de vouloir retirer {count,number} contact de la story {story} ?} other {Êtes-vous sûr de vouloir retirer {count,number} contacts de la story {story} ?}}"
   },
   "icu:safetyNumberChangeDialog__remove-all": {
-    "messageformat": "Retirer tous"
+    "messageformat": "Retirer tous les contacts"
   },
   "icu:safetyNumberChangeDialog__verify-number": {
     "messageformat": "Confirmer le numéro de sécurité"
@@ -453,13 +453,13 @@
     "messageformat": "Retirer de la story"
   },
   "icu:safetyNumberChangeDialog__actions-contact": {
-    "messageformat": "Menu pour les contacts {contact}"
+    "messageformat": "Actions sur le contact {contact}"
   },
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Menu pour la Story {story}"
   },
   "icu:sendAnyway": {
-    "messageformat": "Envoyer quand même"
+    "messageformat": "Envoyer quand même"
   },
   "icu:safetyNumberChangeDialog_send": {
     "messageformat": "Envoyer"
@@ -468,13 +468,13 @@
     "messageformat": "OK"
   },
   "icu:callAnyway": {
-    "messageformat": "Appeler quand même"
+    "messageformat": "Appeler quand même"
   },
   "icu:joinAnyway": {
     "messageformat": "Rejoindre quand même"
   },
   "icu:debugLogExplanation": {
-    "messageformat": "Après avoir cliqué sur Envoyer, votre journal sera publié en ligne pendant 30 jours sur une URL unique et non publiée. Vous pouvez d’abord l’enregistrer localement."
+    "messageformat": "Après avoir cliqué sur \"Envoyer\", votre journal sera publié en ligne pendant 30 jours sur une URL non publique unique. Vous pouvez d'abord  l'enregistrer localement."
   },
   "icu:debugLogError": {
     "messageformat": "Un problème s’est produit lors de l’importation. Merci de nous envoyer le journal au format texte à l’adresse suivante : support@signal.org."
@@ -495,10 +495,10 @@
     "messageformat": "Enregistrer"
   },
   "icu:debugLogLinkCopied": {
-    "messageformat": "Le lien a été copié dans votre presse-papiers"
+    "messageformat": "Lien copié dans le presse-papiers"
   },
   "icu:reportIssue": {
-    "messageformat": "Contacter l’assistance"
+    "messageformat": "Contacter l'assistance"
   },
   "icu:submit": {
     "messageformat": "Envoyer"
@@ -546,7 +546,7 @@
     "messageformat": "Vous n’avez aucun document dans cette conversation."
   },
   "icu:today": {
-    "messageformat": "Aujourd’hui"
+    "messageformat": "Aujourd'hui"
   },
   "icu:yesterday": {
     "messageformat": "Hier"
@@ -555,7 +555,7 @@
     "messageformat": "Cette semaine"
   },
   "icu:thisMonth": {
-    "messageformat": "Ce mois"
+    "messageformat": "Ce mois-ci"
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Type de pièce jointe non pris en charge. Cliquez pour l'enregistrer."
@@ -567,7 +567,7 @@
     "messageformat": "Ce type de pièce jointe n'est pas autorisé pour des raisons de sécurité."
   },
   "icu:loadingPreview": {
-    "messageformat": "Chargement de l’aperçu…"
+    "messageformat": "Chargement de l'aperçu…"
   },
   "icu:stagedPreviewThumbnail": {
     "messageformat": "Brouillon de l’aperçu miniature du lien {domain}"
@@ -576,10 +576,10 @@
     "messageformat": "Aperçu miniature du lien {domain}"
   },
   "icu:stagedImageAttachment": {
-    "messageformat": "Brouillon d’image jointe : {path}"
+    "messageformat": "Brouillon (image jointe) : {path}"
   },
   "icu:decryptionErrorToast": {
-    "messageformat": "Signal Desktop a rencontré une erreur de déchiffrement de {name}, appareil {deviceId}."
+    "messageformat": "Une erreur s'est produite lors du déchiffrement du message de {name}, sur l'appareil {deviceId}."
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Envoyer le journal"
@@ -591,7 +591,7 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
-    "messageformat": "Vous ne pouvez pas sélectionner de photos ni de vidéos avec les fichiers."
+    "messageformat": "Impossible de joindre des photos et vidéos en même temps que des documents."
   },
   "icu:cannotSelectMultipleFileAttachments": {
     "messageformat": "Vous ne pouvez sélectionner qu'un seul fichier à la fois."
@@ -612,10 +612,10 @@
     "messageformat": "Connexion…"
   },
   "icu:connect": {
-    "messageformat": "Cliquer pour vous reconnecter."
+    "messageformat": "Cliquez pour vous reconnecter."
   },
   "icu:connectingHangOn": {
-    "messageformat": "Ça ne devrait pas être long"
+    "messageformat": "Vous y êtes presque !"
   },
   "icu:offline": {
     "messageformat": "Hors ligne"
@@ -633,7 +633,7 @@
     "messageformat": "Forcer la mise à jour"
   },
   "icu:helpMenuShowKeyboardShortcuts": {
-    "messageformat": "Afficher les raccourcis-clavier"
+    "messageformat": "Afficher les raccourcis clavier"
   },
   "icu:contactUs": {
     "messageformat": "Nous contacter"
@@ -645,7 +645,7 @@
     "messageformat": "Accéder aux forums"
   },
   "icu:goToSupportPage": {
-    "messageformat": "Accéder à la page d’assistance"
+    "messageformat": "Accéder à l'assistance Signal"
   },
   "icu:joinTheBeta": {
     "messageformat": "Tester la version bêta"
@@ -660,7 +660,7 @@
     "messageformat": "À propos de Signal Desktop"
   },
   "icu:screenShareWindow": {
-    "messageformat": "Partage d’écran"
+    "messageformat": "Écran partagé"
   },
   "icu:callingDeveloperTools": {
     "messageformat": "Outils d’appel pour développeurs"
@@ -678,7 +678,7 @@
     "messageformat": "Masquer"
   },
   "icu:quit": {
-    "messageformat": "Fermer"
+    "messageformat": "Quitter"
   },
   "icu:signalDesktop": {
     "messageformat": "Signal Desktop"
@@ -750,7 +750,7 @@
     "messageformat": "Animation de saisie pour cette conversation"
   },
   "icu:contactInAddressBook": {
-    "messageformat": "Cette personne est dans vos contacts."
+    "messageformat": "Cette personne se trouve dans vos contacts."
   },
   "icu:contactAvatarAlt": {
     "messageformat": "Photo de profil du contact {name}"
@@ -762,7 +762,7 @@
     "messageformat": "domicile"
   },
   "icu:work": {
-    "messageformat": "travail"
+    "messageformat": "pro"
   },
   "icu:mobile": {
     "messageformat": "mobile"
@@ -783,7 +783,7 @@
     "messageformat": "Téléchargement"
   },
   "icu:downloadFullMessage": {
-    "messageformat": "Télécharger le message complet"
+    "messageformat": "Télécharger l'intégralité du message"
   },
   "icu:downloadAttachment": {
     "messageformat": "Télécharger la pièce jointe"
@@ -795,16 +795,16 @@
     "messageformat": "Répondre au message"
   },
   "icu:originalMessageNotFound": {
-    "messageformat": "Le message original est introuvable"
+    "messageformat": "Message d'origine introuvable"
   },
   "icu:voiceRecording--start": {
-    "messageformat": "Commencer l’enregistrement d’un message vocal"
+    "messageformat": "Cliquer pour enregistrer un message vocal"
   },
   "icu:voiceRecordingInterruptedMax": {
-    "messageformat": "L’enregistrement du message vocal s’est arrêté, car vous avez atteint la limite de temps maximale."
+    "messageformat": "Arrêt de l'enregistrement : le message vocal a atteint la durée maximale."
   },
   "icu:voiceNoteLimit": {
-    "messageformat": "Les messages vocaux sont limités à une heure. L’enregistrement s’arrêtera si vous changez d’appli."
+    "messageformat": "La durée maximale des messages vocaux est de 60 minutes. L'enregistrement s'arrête si vous changez d'application."
   },
   "icu:voiceNoteMustBeOnlyAttachment": {
     "messageformat": "Un message vocal ne peut comporter qu'une seule pièce jointe."
@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Média indisponible"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "En savoir plus"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "Fichier indisponible"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "Message vocal indisponible"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "Enregistrer"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Nom de l'appareil"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Choisissez le nom de cet appareil"
@@ -1794,7 +1836,7 @@
     "messageformat": "Cette conversation est dédiée à vos notes personnelles. Si des appareils sont associés à votre compte, les nouvelles notes que vous ajoutez ici sont synchronisées sur tous vos appareils."
   },
   "icu:notificationDrawAttention": {
-    "messageformat": "Attirer l’attention sur cette fenêtre quand une notification arrive"
+    "messageformat": "Attirer l'attention sur la fenêtre Signal à l'arrivée d'une notification"
   },
   "icu:hideMenuBar": {
     "messageformat": "Masquer la barre de menu"
@@ -2394,7 +2436,7 @@
     "messageformat": "1 à 9"
   },
   "icu:Keyboard--header": {
-    "messageformat": "Raccourcis-clavier"
+    "messageformat": "Raccourcis clavier"
   },
   "icu:Keyboard--navigation-header": {
     "messageformat": "Navigation"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Finalisation du transfert des messages…"
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Préparation du téléchargement…"
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "Avec son protocole de chiffrement de bout en bout, Signal protège systématiquement vos messages et vos conversations. Même pendant la synchronisation. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Annuler le transfert ?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Signal n'a pas terminé de restaurer vos messages et médias. Si vous décidez d'annuler le transfert, votre appareil sera associé, mais vos messages ne seront pas restaurés."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Poursuivre le transfert"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Annuler le transfert"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Erreur lors du transfert des messages"
@@ -4254,7 +4299,7 @@
     "messageformat": "Toutes les couleurs de toutes les conversations"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Seulement la couleur que j'ai choisie par défaut"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Réinitialiser"
@@ -5819,6 +5864,9 @@
     "messageformat": "Il arrivait que certaines conversations ne s'affichent pas correctement lorsqu'on les sélectionnait. Voilà au moins un bug qui ne vous fera plus bugger au moment de répondre à vos amis."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Lorsque vous associez votre principal appareil Signal à un nouvel ordinateur ou à un nouvel iPad, vous pouvez maintenant transférer toutes vos conversations, ainsi que vos médias des 45 derniers jours. Chiffré de bout en bout, ce processus de transfert est complètement facultatif : à vous de voir si vous préférez faire table rase du passé ou emmener vos souvenirs avec vous."
+    "messageformat": "Lorsque vous associez votre principal appareil Signal à un nouvel ordinateur, vous pouvez maintenant transférer toutes vos conversations, ainsi que vos médias des 45 derniers jours."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }

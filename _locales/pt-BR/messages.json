@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Este arquivo de mídia não está mais disponível"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Saiba mais"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "Este arquivo não está disponível"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "Esta mensagem de voz não está disponível"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "Salvar"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Nome do aparelho"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Escolher o nome deste aparelho"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Finalizando a transferência de mensagens…"
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparando para download…"
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "As mensagens e informações das conversas são protegidas por criptografia de ponta a ponta, incluindo o processo de sincronização. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancelar transferência?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Suas mensagens e arquivos de mídia não foram totalmente restaurados. Se você cancelar, seu dispositivo será vinculado sem o histórico de mensagens."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continuar transferência"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancelar transferência"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Erro ao transferir suas mensagens"
@@ -4254,7 +4299,7 @@
     "messageformat": "Redefinir as cores de todos os chats"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Redefinir padrão"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Redefinir"
@@ -5819,6 +5864,9 @@
     "messageformat": "Corrigimos um erro raro que estava impedindo que algumas conversas fossem abertas corretamente após serem selecionadas."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Agora, ao vincular seu dispositivo principal do Signal a um novo desktop ou iPad, você pode levar seu histórico de conversas e os últimos 45 dias de mídia com você. O processo de transferência é criptografado de ponta a ponta e totalmente opcional."
+    "messageformat": "Agora, ao vincular seu dispositivo principal do Signal a um novo desktop, você pode levar seu histórico de conversa e os últimos 45 dias de mídia com você. O processo de transferência é criptografado de ponta a ponta e totalmente opcional."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }

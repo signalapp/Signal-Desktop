@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Den här mediafilen är inte tillgänglig"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Läs mer"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "Den här filen är inte tillgänglig"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "Det här röstmeddelandet är inte tillgängligt"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "Spara"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Enhetsnamn"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Välj enhetsnamn"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Slutför meddelandeöverföring …"
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Förbereder nedladdning …"
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "Meddelanden och chattinformation skyddas av totalstreckskryptering, inklusive synkroniseringsprocessen. <learnMoreLink>Läs mer</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Vill du avbryta överföringen?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Återställningen av dina meddelanden och media har inte slutförts. Om du väljer att avbryta kommer din enhet att länkas utan din meddelandehistorik."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Fortsätt överföringen"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Avbryt överföringen"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Det gick inte att överföra dina meddelanden"
@@ -4254,7 +4299,7 @@
     "messageformat": "Återställ alla chattfärger"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Återställ till standard"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Återställ"
@@ -5819,6 +5864,9 @@
     "messageformat": "Vi har åtgärdat en sällsynt bugg som gjorde att vissa chattar inte öppnades korrekt."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Nu kan du välja att överföra din chatthistorik och dina senaste 45 dagars media till en ny länkad enhet. Överföringsprocessen är krypterad från början till slut och är helt frivillig."
+    "messageformat": "Nu kan du välja att överföra din chatthistorik och dina senaste 45 dagars media till ett nytt länkat skrivbord. Överföringsprocessen är krypterad från början till slut och är helt frivillig."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }

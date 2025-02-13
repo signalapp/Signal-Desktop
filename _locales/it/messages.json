@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Questo media non è disponibile"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Scopri di più"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "Questo file non è disponibile"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "Questo messaggio vocale non è disponibile"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "Salva"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Nome del dispositivo"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Scegli il nome di questo dispositivo"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Trasferimento dei messaggi quasi completato…"
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparazione del download…"
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "I messaggi e le informazioni delle chat sono protetti da una crittografia end-to-end (incluso il processo di sincronizzazione). <learnMoreLink>Scopri di più</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Annullare il trasferimento?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Il ripristino dei messaggi e dei media non è stato ancora completato. Se lo annulli, il dispositivo verrà collegato senza la tua cronologia messaggi."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continua con il trasferimento"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Annulla trasferimento"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Errore durante il trasferimento dei tuoi messaggi"
@@ -4254,7 +4299,7 @@
     "messageformat": "Resetta tutti i colori chat"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Resetta predefinito"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Resetta"
@@ -5819,6 +5864,9 @@
     "messageformat": "Abbiamo risolto un raro bug che impediva ad alcune chat di aprirsi correttamente quando selezionate: insomma, da ora Signal Desktop non dovrebbe più avere problemi di memoria e si ricorderà subito quale chat aprire."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Da ora quando colleghi il tuo dispositivo principale di Signal a un nuovo Desktop o iPad, puoi importare la cronologia delle tue chat e gli ultimi 45 giorni di media inviati/ricevuti. Il trasferimento è crittografato e del tutto opzionale. Insomma, scegli tu se lasciarti il passato alle spalle o meno!"
+    "messageformat": "Da ora quando colleghi il tuo dispositivo principale di Signal a un nuovo desktop, puoi importare la cronologia delle tue chat e gli ultimi 45 giorni di media inviati/ricevuti. Il trasferimento è crittografato e del tutto opzionale. Insomma, scegli tu se lasciarti il passato alle spalle o meno!"
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }

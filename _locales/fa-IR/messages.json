@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "این رسانه در دسترس نیست"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "بیشتر بدانید"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "این فایل در دسترس نیست"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "این پیام صوتی در دسترس نیست"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "ذخیره"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "نام دستگاه"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "نام این دستگاه را انتخاب کنید"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "در حال تکمیل انتقال پیام..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "در حال آماده‌سازی برای دانلود..."
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "پیام‌ها و اطلاعات گفتگو با رمزگذاری سرتاسری، از‌جمله فرایند همگام‌سازی، محافظت می‌شوند. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "انتقال لغو شود؟"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "پیام‌ها و رسانه شما کامل بازیابی نشده است. اگر لغو را انتخاب کنید، دستگاه شما بدون تاریخچه پیامتان متصل خواهد شد."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "ادامه انتقال"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "لغو انتقال"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "خطا در انتقال پیام‌های شما"
@@ -4254,7 +4299,7 @@
     "messageformat": "بازنشانی همهٔ رنگ‌های گفتگو"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "بازنشانی پیش‌فرض"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "بازنشانی"
@@ -5819,6 +5864,9 @@
     "messageformat": "یک اشکال نادر را برطرف کردیم که مانع از باز شدن صحیح برخی از گفتگوها می‌شد."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "اکنون می‌توانید انتخاب کنید که تاریخچه گفتگو و رسانه ۴۵ روز گذشته خود را به یک دستگاه متصل‌شده جدید منتقل کنید. فرآیند انتقال سرتاسر رمزگذاری‌شده و کاملاً اختیاری است."
+    "messageformat": "اکنون می‌توانید انتخاب کنید که کل تاریخچه گفتگوها و رسانه ۴۵ روز گذشته خود را به یک دستگاه متصل‌شده جدید منتقل کنید. فرآیند انتقال سرتاسر رمزگذاری‌شده و کاملاً اختیاری است."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }

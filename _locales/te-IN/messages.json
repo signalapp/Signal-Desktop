@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "ఈ మీడియా అందుబాటులో లేదు"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "మరింత నేర్చుకోండి"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "ఈ ఫైల్ అందుబాటులో లేదు"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "ఈ స్వర సందేశం అందుబాటులో లేదు"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "భద్రపరుచు"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "పరికరం యొక్క పేరు"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "ఈ పరికరం పేరును ఎంచుకోండి"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "సందేశ బదిలీని ఖరారు చేస్తోంది..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "డౌన్‌లోడ్ చేయడానికి సిద్ధమవుతోంది..."
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "సమకాలీకరణ ప్రక్రియతో సహా ఎండ్-టు-ఎండ్ గుప్తీకరణ ద్వారా సందేశాలు మరియు చాట్ సమాచారం సంరక్షించబడతాయి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "బదిలీని రద్దు చేసేదా?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీ సందేశ చరిత్ర లేకుండానే మీ పరికరం లింక్ చేయబడుతుంది."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "బదిలీని కొనసాగించండి"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "బదిలీని రద్దు చేయండి"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "మీ సందేశాలను బదిలీ చేయడంలో లోపం"
@@ -4254,7 +4299,7 @@
     "messageformat": "అన్ని చాట్ రంగులను రీసెట్ చేయండి"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "అప్రమేయం రీసెట్ చేయండి"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "పునరుద్ధరించు"
@@ -5820,5 +5865,8 @@
   },
   "icu:WhatsNew__v7.40--1": {
     "messageformat": "ఇప్పుడు మీరు మీ చాట్ చరిత్ర మరియు మీ చివరి 45 రోజుల మీడియాను కొత్త లింక్ చేయబడిన పరికరానికి బదిలీ చేయడానికి ఎంచుకోవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు పూర్తిగా ఐచ్ఛికం. గతాన్ని విడిచిపెట్టాలా వద్దా అనే ఎంపిక చేసే విషయానికి వస్తే, మీరు మీ స్వంత పరికరాలకు వదిలివేయబడతారు."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }

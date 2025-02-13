@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Ez a médiatartalom nem érhető el"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Tudj meg többet!"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "Ez a fájl nem érhető el"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "Ez a hangüzenet nem érhető el"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "Mentés"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Eszköz neve"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Jelenlegi eszköz nevének megadása"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Üzenetátvitel befejezése..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Felkészülés a letöltésre..."
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "Az üzeneteket és a csevegési információkat végpontok közötti titkosítás védi, beleértve a szinkronizálási folyamatot is. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Átvitel törlése?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Az üzenetek és a médiafájl helyreállítása nem fejeződött be. Ha a törlés mellett döntesz, az eszköz az üzenet-előzmények nélkül lesz összekapcsolva."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Átvitel folytatása"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Átvitel törlése"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Hiba történt az üzenetek átvitele során"
@@ -4254,7 +4299,7 @@
     "messageformat": "Összes csevegés színének visszaállítása"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Alapértelmezett csevegésszín visszaállítása"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Visszaállítás"
@@ -5819,6 +5864,9 @@
     "messageformat": "Kijavítottunk egy ritka hibát, amely megakadályozta, hogy néhány csevegés megfelelően nyíljon meg."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Mostantól dönthetsz úgy, hogy a csevegési előzményeidet és az elmúlt 45 nap médiatartalmát áthelyezed egy új kapcsolt eszközre. Az átviteli folyamat végponttól végpontig titkosított, és teljesen opcionális."
+    "messageformat": "Amikor összekapcsolod elsődleges Signal-eszközödet egy új asztali számítógéppel, magaddal viheted csevegési előzményeidet és az elmúlt 45 nap médiatartalmát. Az átviteli folyamat végponttól végpontig titkosított, és teljesen opcionális. Amikor arról kell döntened, hogy magad mögött hagyod-e a múltat vagy sem, a saját eszközeidre kell hagyatkoznod."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }
