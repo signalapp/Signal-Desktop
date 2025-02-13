@@ -5819,6 +5819,6 @@
     "messageformat": "Wir haben einen seltenen Fehler behoben, der dazu führte, dass einige Chats, sobald sie ausgewählt waren, nicht korrekt geöffnet wurden."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Wenn du jetzt das Gerät, auf dem du Signal am häufigsten nutzt, mit einem neuen Desktop oder iPad koppelst, kannst du deinen Chat-Verlauf und deine Medien der letzten 45 Tage mitnehmen. Der Übertragungsprozess ist Ende-zu Ende-verschlüsselt und natürlich optional. Jetzt kannst du also selbst entscheiden, ob du die Vergangenheit komplett hinter dir lassen willst."
+    "messageformat": "Wenn du jetzt dein primäres Signal-Gerät mit einem neuen Rechner koppelst, kannst du deinen gesamten Chat-Verlauf und die Medien der letzten 45 Tage mitnehmen. Der Übertragungsprozess ist Ende-zu Ende-verschlüsselt und natürlich optional. Jetzt kannst du also selbst entscheiden, ob du die Vergangenheit komplett hinter dir lassen willst."
   }
 }

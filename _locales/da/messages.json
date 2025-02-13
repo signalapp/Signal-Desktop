@@ -5819,6 +5819,6 @@
     "messageformat": "Vi har rettet en sjælden fejl, der forhindrede nogle chats i at blive åbnet korrekt, efter de blev valgt, så nu er Signal Desktop ikke helt blank, når du forsøger at huske, hvad dine venner sagde sagde."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Når du forbinder din primære Signal-enhed til en ny computer eller iPad, kan du tage din chathistorik og medierne for de sidste 45 dage med dig. Overførselsprocessen er end-til-end-krypteret og helt valgfri. Når det kommer til at træffe valget om, hvorvidt du vil lade fortiden være fortid eller ej, er valget dit."
+    "messageformat": "Når du forbinder din primære Signal-enhed til en ny computer, kan du overføre din chathistorik og medierne for de sidste 45 dage. Overførselsprocessen er end-til-end-krypteret og helt valgfri. Når det kommer til at træffe valget om, hvorvidt du vil lade fortiden være fortid eller ej, er det helt op til dig."
   }
 }

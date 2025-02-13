@@ -2043,7 +2043,7 @@
     "messageformat": "Odznaka została odebrana"
   },
   "icu:message--donation--preview--sent": {
-    "messageformat": "Wpłaciłeś(-aś) darowiznę w imieniu {recipient}"
+    "messageformat": "Darowizna wpłacona w imieniu tej osoby: {recipient}"
   },
   "icu:message--donation": {
     "messageformat": "Darowizna"
@@ -2079,7 +2079,7 @@
     "messageformat": "Dziękujemy za Twoje wsparcie!"
   },
   "icu:modal--donation--description": {
-    "messageformat": "Wpłaciłeś(-aś) darowiznę na rzecz Signal w imieniu {name}. Otrzyma on(a) możliwość pochwalenia się wsparciem na swoim profilu."
+    "messageformat": "Twoja darowizna na rzecz aplikacji Signal została wpłacona w imieniu wybranej osoby. {name} może się teraz pochwalić wsparciem w swoim profilu."
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Nie można zainstalować pakietu naklejek"
@@ -3606,7 +3606,7 @@
     "messageformat": "Stuknij swoje zdjęcie profilowe, u góry, po lewej, aby otworzyć Ustawienia"
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "Stuknij w opcję „Przekaż darowiznę na rzecz Signal” i zasubskrybuj"
+    "messageformat": "Dotknij opcji „Wesprzyj Signal darowizną” i ustaw darowiznę cykliczną"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synchronizowanie wiadomości"
@@ -5819,6 +5819,6 @@
     "messageformat": "Naprawiliśmy rzadko występujący błąd, przez który niektóre czaty nie otwierały się poprawnie po ich kliknięciu. Teraz znowu masz czarno na białym, co i kiedy zostało powiedziane."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Od teraz, gdy połączysz w aplikacji Signal swoje główne urządzenie z nowym komputerem lub iPadem, możesz przenieść również historię czatów oraz multimedia z ostatnich 45 dni. Proces transferu danych jest szyfrowany metodą end-to-end i całkowicie opcjonalny. Wymazać przeszłość czy zachować ciągłość historii? Tę decyzję zostawiamy Tobie."
+    "messageformat": "Od teraz, gdy połączysz w aplikacji Signal swoje główne urządzenie z nowym komputerem, oprócz historii czatów możesz też przenieść multimedia z ostatnich 45 dni. Proces transferu danych jest szyfrowany metodą end-to-end i całkowicie opcjonalny. Wymazać przeszłość czy zachować ciągłość historii? Tę decyzję zostawiamy Tobie."
   }
 }

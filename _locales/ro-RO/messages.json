@@ -5819,6 +5819,6 @@
     "messageformat": "Am remediat o eroare rară care a împiedicat unele chat-uri să se deschidă corect după ce au fost selectate, așa că acum Signal Desktop nu ratează în timp ce încerci să-ți amintești ce s-a spus."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Acum, când conectezi dispozitivul Signal principal la un nou desktop sau iPad, poți avea acces la istoricul conversațiilor și la fișierele media din ultimele 45 de zile. Procesul de transfer este criptat end-to-end și complet opțional. Când vine vorba de a alege dacă să lași sau nu trecutul în urmă, rămâi la mâna propriilor tale dispozitive."
+    "messageformat": "Acum, când conectezi dispozitivul Signal principal la un nou desktop, poți avea acces la istoricul conversațiilor și la fișierele media din ultimele 45 de zile. Procesul de transfer este criptat end-to-end și complet opțional. Când vine vorba de a alege dacă să lași sau nu trecutul în urmă, ești la mâna propriilor tale dispozitive."
   }
 }

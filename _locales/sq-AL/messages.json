@@ -5819,6 +5819,6 @@
     "messageformat": "Kemi rregulluar një defekt të rrallë që pengoi disa biseda të hapeshin siç duhet pasi ato u zgjodhën, kështu që tani Signal Desktop nuk do të tregojë më një ekran bosh ndërkohë që përpiqesh të kujtosh çfarë thanë."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Kur e lidh pajisjen kryesore të Signal me një Desktop ose iPad të ri, tanimë mund ta marrësh me vete historikun e bisedave dhe mediat e 45 ditëve të fundit. Procesi i transferimit është i koduar nga skaji në skaj dhe plotësisht opsional. Kur vjen puna për të bërë zgjedhjen nëse do të lësh apo jo të kaluarën pas, je në duart e pajisjeve të tua."
+    "messageformat": "Kur e lidh pajisjen kryesore të Signal me një Desktop të ri, tanimë mund ta marrësh me vete historikun e bisedave dhe mediat e 45 ditëve të fundit."
   }
 }

@@ -5819,6 +5819,6 @@
     "messageformat": "Vi har åtgärdat en sällsynt bugg som gjorde att vissa chattar inte öppnades korrekt."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Nu kan du välja att överföra din chatthistorik och dina senaste 45 dagars media till en ny länkad enhet. Överföringsprocessen är krypterad från början till slut och är helt frivillig."
+    "messageformat": "Nu kan du välja att överföra din chatthistorik och dina senaste 45 dagars media till ett nytt länkat skrivbord. Överföringsprocessen är krypterad från början till slut och är helt frivillig."
   }
 }

@@ -5819,6 +5819,6 @@
     "messageformat": "Corrigimos um erro raro que estava impedindo que algumas conversas fossem abertas corretamente após serem selecionadas."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Agora, ao vincular seu dispositivo principal do Signal a um novo desktop ou iPad, você pode levar seu histórico de conversas e os últimos 45 dias de mídia com você. O processo de transferência é criptografado de ponta a ponta e totalmente opcional."
+    "messageformat": "Agora, ao vincular seu dispositivo principal do Signal a um novo desktop, você pode levar seu histórico de conversa e os últimos 45 dias de mídia com você. O processo de transferência é criptografado de ponta a ponta e totalmente opcional."
   }
 }

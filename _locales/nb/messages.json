@@ -5819,6 +5819,6 @@
     "messageformat": "Vi har rettet opp i en sjelden feil som førte til at enkelte samtalevindu ikke kunne åpnes."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Nå kan du overføre samtaleloggen din og mediefilene dine fra de siste 45 dagene til en annen tilkoblet enhet. Overføringen er ende-til-ende-kryptert og helt valgfri."
+    "messageformat": "Nå kan du overføre samtaleloggen din og mediefilene dine fra de siste 45 dagene til en ny Desktop. Overføringen er ende-til-ende-kryptert og helt valgfri."
   }
 }

@@ -5819,6 +5819,6 @@
     "messageformat": "Bazı sohbetlerin doğru şekilde açılmasını engelleyen nadir bir hatayı düzelttik."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Bundan böyle sohbet geçmişini ve son 45 günlük medyanı yeni bağlanmış bir cihaza aktarmayı tercih edebilirsin. Aktarım süreci uçtan uca şifrelidir ve tamamen isteğe bağlıdır. İster geçmişi arkanda bırak ister bugüne taşı; kararı kendin ver!"
+    "messageformat": "Bundan böyle birincil Signal cihazını yeni bir Desktop'a bağlarsan sohbet geçmişini ve son 45 günlük medyanı yanında getirebilirsin. Aktarım süreci uçtan uca şifrelidir ve tamamen isteğe bağlıdır. İster geçmişi arkanda bırak ister bugüne taşı; kararı kendin ver!"
   }
 }

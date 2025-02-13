@@ -5819,6 +5819,6 @@
     "messageformat": "Korjasimme harvinaisen virheen, joka esti joitakin keskusteluja avautumasta oikein."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Nyt voit halutessasi tuoda keskusteluhistoriasi ja viimeisten 45 päivän mediasisällön mukanasi uuteen yhdistettyyn laitteeseen. Siirtoprosessi on salattu päästä päähän ja täysin valinnainen."
+    "messageformat": "Nyt voit halutessasi tuoda keskusteluhistoriasi ja viimeisten 45 päivän mediasisällön mukanasi uuteen yhdistettyyn laitteeseen. Siirtoprosessi on salattu päästä päähän ja täysin valinnainen. Voit valita, tuotko historian mukanasi uuteen laitteeseen siirtyessä."
   }
 }

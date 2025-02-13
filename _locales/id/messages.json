@@ -5819,6 +5819,6 @@
     "messageformat": "Kami telah mengatasi bug langka yang mencegah Anda membuka chat di Signal Desktop. Anda kini tidak akan melihat layar kosong lagi dan tidak perlu mengingat-ingat chat sebelumnya."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Kini Anda bisa menghubungkan Signal yang terinstal di perangkat utama Anda ke Desktop atau iPad baru. Anda juga bisa memindahkan riwayat chat dan media dari 45 hari terakhir ke perangkat yang baru. Proses transfernya dienkripsi secara menyeluruh dan bersifat opsional. Anda bisa bebas untuk tetap menyimpan riwayat aktivitas atau menghapusnya."
+    "messageformat": "Anda kini dapat mentransfer riwayat chat dan media dari 45 hari terakhir ke Desktop yang baru saat Anda menghubungkan Signal dari perangkat utama. Proses transfernya dienkripsi secara menyeluruh dan bersifat opsional. Anda bisa bebas untuk tetap menyimpan atau menghapus riwayat chat dan media."
   }
 }

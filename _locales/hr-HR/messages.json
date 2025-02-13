@@ -5819,6 +5819,6 @@
     "messageformat": "Ispravili smo rijetku pogrešku koja je sprječavala ispravno otvaranje određenih razgovora."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Sada možete prenijeti svoju povijest razgovora i medijske zapise iz posljednjih 45 dana na novi povezani uređaj. Proces prijenosa je sveobuhvatno šifriran i potpuno neobavezan."
+    "messageformat": "Sada, kad povežete novo računalo sa svojim Signal računom, možete prenijeti svoju povijest razgovora i medijske zapise iz posljednjih 45 dana na novi povezani uređaj. Proces prijenosa je sveobuhvatno šifriran i potpuno neobavezan."
   }
 }

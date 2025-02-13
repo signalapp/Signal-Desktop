@@ -5819,6 +5819,6 @@
     "messageformat": "Opravili sme zriedkavú chybu, ktorá bránila správnemu otvoreniu niektorých četov po ich výbere."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Teraz si môžete preniesť históriu četov a médiá z posledných 45 dní do nového prepojeného zariadenia. Prenos je voliteľný a jeho proces chránený end-to-end šifrovaním."
+    "messageformat": "Teraz si po prepojení svojho primárneho zariadenia Signal s novým počítačom môžete preniesť históriu četov a médiá z posledných 45 dní. Prenos je voliteľný a jeho proces chránený end-to-end šifrovaním."
   }
 }

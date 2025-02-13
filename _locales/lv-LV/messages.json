@@ -5819,6 +5819,6 @@
     "messageformat": "Mēs izlabojām kļūdu reti sastopamu kļūdu, kuras dēļ nebija iespējams pareizi atvērt dažas sarunas pēc to atlasīšanas. Signal Desktop turpmāk vairs nebūs atmiņas problēmu, cenšoties atcerēties jūsu sarunas."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "★ Tagad, piesaistot savu galveno Signal ierīci jaunam datoram vai iPad, varat pārsūtīt uz jauno ierīci savu sarunu vēsturi un pēdējo 45 dienu multividi. Pārsūtīšanas process ir pilnībā šifrēts un nav obligāts."
+    "messageformat": "Tagad, piesaistot savu galveno Signal ierīci jaunam datoram, varat pārsūtīt uz jauno ierīci savu sarunu vēsturi un pēdējo 45 dienu multividi."
   }
 }

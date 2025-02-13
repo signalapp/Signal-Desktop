@@ -5819,6 +5819,6 @@
     "messageformat": "Kijavítottunk egy ritka hibát, amely megakadályozta, hogy néhány csevegés megfelelően nyíljon meg."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Mostantól dönthetsz úgy, hogy a csevegési előzményeidet és az elmúlt 45 nap médiatartalmát áthelyezed egy új kapcsolt eszközre. Az átviteli folyamat végponttól végpontig titkosított, és teljesen opcionális."
+    "messageformat": "Amikor összekapcsolod elsődleges Signal-eszközödet egy új asztali számítógéppel, magaddal viheted csevegési előzményeidet és az elmúlt 45 nap médiatartalmát. Az átviteli folyamat végponttól végpontig titkosított, és teljesen opcionális. Amikor arról kell döntened, hogy magad mögött hagyod-e a múltat vagy sem, a saját eszközeidre kell hagyatkoznod."
   }
 }

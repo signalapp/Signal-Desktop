@@ -5819,6 +5819,6 @@
     "messageformat": "Corrigimos um erro raro que impedia alguns chats de abrirem corretamente."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Agora pode escolher transferir o seu histórico de mensagens e os seus últimos 45 dias de ficheiros multimédia para um novo dispositivo vinculado. Este processo de transferência está encriptado de ponta a ponta e é totalmente opcional."
+    "messageformat": "Agora ao vincular o seu dispositivo Signal principal a um novo desktop pode transferir o seu histórico do chat e os seus últimos 45 dias de ficheiros multimédia para um novo dispositivo vinculado."
   }
 }
