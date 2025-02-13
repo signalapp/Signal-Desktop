@@ -11,18 +11,25 @@ import type {
   BackupMediaItemType,
   BackupMediaBatchResponseType,
   BackupListMediaResponseType,
+  TransferArchiveType,
 } from '../../textsecure/WebAPI';
 import type { BackupCredentials } from './credentials';
 import { BackupCredentialType } from '../../types/backups';
 import { uploadFile } from '../../util/uploadAttachment';
-import { ContinueWithoutSyncingError, RelinkRequestedError } from './errors';
-import { missingCaseError } from '../../util/missingCaseError';
 
 export type DownloadOptionsType = Readonly<{
   downloadOffset: number;
   onProgress: (currentBytes: number, totalBytes: number) => void;
   abortSignal?: AbortSignal;
 }>;
+
+export type EphemeralDownloadOptionsType = Readonly<{
+  archive: Readonly<{
+    cdn: number;
+    key: string;
+  }>;
+}> &
+  DownloadOptionsType;
 
 export class BackupAPI {
   #cachedBackupInfo = new Map<
@@ -106,31 +113,23 @@ export class BackupAPI {
     });
   }
 
+  public async getTransferArchive(
+    abortSignal: AbortSignal
+  ): Promise<TransferArchiveType> {
+    return this.#server.getTransferArchive({
+      abortSignal,
+    });
+  }
+
   public async downloadEphemeral({
+    archive,
     downloadOffset,
     onProgress,
     abortSignal,
-  }: DownloadOptionsType): Promise<Readable> {
-    const response = await this.#server.getTransferArchive({
-      abortSignal,
-    });
-
-    if ('error' in response) {
-      switch (response.error) {
-        case 'RELINK_REQUESTED':
-          throw new RelinkRequestedError();
-        case 'CONTINUE_WITHOUT_UPLOAD':
-          throw new ContinueWithoutSyncingError();
-        default:
-          throw missingCaseError(response.error);
-      }
-    }
-
-    const { cdn, key } = response;
-
+  }: EphemeralDownloadOptionsType): Promise<Readable> {
     return this.#server.getEphemeralBackupStream({
-      cdn,
-      key,
+      cdn: archive.cdn,
+      key: archive.key,
       downloadOffset,
       onProgress,
       abortSignal,
