@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "இந்த ஊடகம் கிடைக்கவில்லை"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "மேலும் அறிக"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "இந்தக் கோப்பு கிடைக்கவில்லை"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "இந்த வாய்ஸ் மெசேஜ் கிடைக்கவில்லை"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "சேமி"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "சாதனத்தின் பெயர்"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "இந்த சாதனத்தின் பெயரைத் தேர்வுசெய்க"
@@ -1935,7 +1977,7 @@
     "messageformat": "நீங்கள் குழுவைப் புதுப்பித்தீர்கள்."
   },
   "icu:updatedGroupAvatar": {
-    "messageformat": "குழு அவதாரம் புதுப்பிக்கப்பட்டது."
+    "messageformat": "குழு அவதார் புதுப்பிக்கப்பட்டது."
   },
   "icu:titleIsNow": {
     "messageformat": "இப்போது குழுவின் பெயர் ''{name}'."
@@ -3123,22 +3165,22 @@
     "messageformat": "அ உறுப்பினர் அகற்றப்பட்டது குழு பெயர்."
   },
   "icu:GroupV2--avatar--change--other": {
-    "messageformat": "{memberName} மாற்றப்பட்டது குழு அவதாரம்."
+    "messageformat": "{memberName} குழு அவதாரை மாற்றினார்."
   },
   "icu:GroupV2--avatar--change--you": {
-    "messageformat": "குழு அவதாரத்தை மாற்றியுள்ளீர்கள்."
+    "messageformat": "நீங்கள் குழு அவதாரை மாற்றினீர்கள்."
   },
   "icu:GroupV2--avatar--change--unknown": {
-    "messageformat": "ஒரு உறுப்பினர் குழு அவதாரத்தை மாற்றினார்."
+    "messageformat": "ஓர் உறுப்பினர் குழு அவதாரை மாற்றினார்."
   },
   "icu:GroupV2--avatar--remove--other": {
-    "messageformat": "{memberName} அகற்றப்பட்டது குழு அவதாரம்."
+    "messageformat": "{memberName} என்பவர் குழு அவதாரை அகற்றியுள்ளார்."
   },
   "icu:GroupV2--avatar--remove--you": {
-    "messageformat": "நீங்கள் அகற்றிவிட்டீர்கள்குழு அவதாரம்."
+    "messageformat": "நீங்கள் குழு அவதாரை அகற்றிவிட்டீர்கள்."
   },
   "icu:GroupV2--avatar--remove--unknown": {
-    "messageformat": "அ உறுப்பினர் அகற்றப்பட்டது குழு அவதாரம்."
+    "messageformat": "ஓர் உறுப்பினர் குழு அவதாரை அகற்றியுள்ளார்."
   },
   "icu:GroupV2--access-attributes--admins--other": {
     "messageformat": "{adminName} யாரால் முடியும் என்பதை மாற்றியது தொகு குழு தகவல் to \"மட்டும் நிர்வாகிகள். \""
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "மெசேஜ் இடமாற்றத்தை உறுதிசெய்கிறது..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "பதிவிறக்கத் தயாராகிறது..."
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "ஒத்திசைவு செயல்முறை உட்பட, மெசேஜ்கள் மற்றும் சாட் தகவல் ஆகியவை எண்டு-டு-எண்டு குறியாக்கத்தால் பாதுகாக்கப்படுகின்றன. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "பரிமாற்றத்தை ரத்து செய்ய வேண்டுமா?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "உங்கள் மெசேஜ்களும் ஊடகமும் முழுமையாக மீட்டமைக்கப்படவில்லை. ரத்துசெய்ய நீங்கள் தேர்வுசெய்தால், மெசேஜ் வரலாறு இல்லாமல் உங்கள் சாதனம் இணைக்கப்படும்."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "பரிமாற்றத்தைத் தொடர்க"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "பரிமாற்றத்தை ரத்துசெய்க"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "உங்கள் மெசேஜ்களை இடமாற்றுவதில் பிழை"
@@ -4254,7 +4299,7 @@
     "messageformat": "அனைத்து சாட் கலர்களையும் மீட்டமைக்கவும்"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "இயல்புநிலையை மீட்டமை"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "மீட்டமைக்க"
@@ -5819,6 +5864,9 @@
     "messageformat": "தேர்ந்தெடுக்கப்பட்ட பிறகு சில சாட்ஸ் சரியாகத் திறப்பதைத் தடுக்கும் ஒரு அரிய பிழையை நாங்கள் சரிசெய்துள்ளோம், எனவே இப்போது சிக்னல் டெஸ்க்டாப் அவர்கள் சொன்னதை நினைவில் வைத்துக் கொள்ள முயலும்போது அது காலியாக இருக்காது."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "இப்போது உங்கள் முதன்மை சிக்னல் சாதனத்தை புதிய டெஸ்க்டாப் அல்லது ஐபேட் உடன் இணைக்கும்போது, உங்களின் சாட் வரலாற்றையும் கடந்த 45 நாட்கள் மீடியாவையும் உங்களுடன் கொண்டு வரலாம். இடமாற்றச் செயல்முறை இருமுனை மறைகுறியாக்கப்பட்டுள்ளது, மேலும் விருப்பத்திற்குரியது. கடந்த கால சாதனங்களிலிருந்து வெளியேறலாமா வேண்டாமா என்பதைத் தேர்வுசெய்தவுடன், நீங்கள் உங்கள் சொந்த சாதனங்களிலிருந்து வெளியேறிவிடுவீர்கள்."
+    "messageformat": "இப்போது உங்கள் சாட் வரலாற்றையும் உங்கள் கடைசி 45 நாட்கள் ஊடகத்தையும் புதிதாக இணைக்கப்பட்ட சாதனத்திற்கு இடமாற்ற நீங்கள் தேர்வு செய்யலாம். இடமாற்றச் செயல்முறை இருமுனை மறைகுறியாக்கப்பட்டுள்ளது, மேலும் விருப்பத்திற்குரியது. கடந்த கால சாதனங்களிலிருந்து வெளியேறலாமா வேண்டாமா என்பதைத் தேர்வுசெய்தவுடன், நீங்கள் உங்கள் சொந்த சாதனங்களிலிருந்து வெளியேறிவிடுவீர்கள்."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }

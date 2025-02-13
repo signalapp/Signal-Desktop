@@ -1528,7 +1528,7 @@
   },
   "icu:mediaNotAvailable--short": {
     "messageformat": "Media not available",
-    "description": "Title of info dialog shown for messages with missing old image and video attachments which are no longer available for download."
+    "description": "(Deleted 2025/02/13) Title of info dialog shown for messages with missing old image and video attachments which are no longer available for download."
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Learn more",
@@ -4913,19 +4913,19 @@
   },
   "icu:BackupImportScreen__skip": {
     "messageformat": "Skip",
-    "description": "Text of the Skip button in the error and skip confirmation modals in the backup import screen"
+    "description": "(Deleted 2025/02/13) Text of the Skip button in the error and skip confirmation modals in the backup import screen"
   },
   "icu:BackupImportScreen__skip-confirmation__title": {
     "messageformat": "Skip message transfer?",
-    "description": "Title of the cancel confirmation modal in the backup import screen"
+    "description": "(Deleted 2025/02/13) Title of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__skip-confirmation__body": {
     "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer.",
-    "description": "Body of the cancel confirmation modal in the backup import screen"
+    "description": "(Deleted 2025/02/13) Body of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__skip-confirmation__cancel": {
     "messageformat": "Cancel",
-    "description": "Text of the cancel button of the skip confirmation modal in the backup import screen"
+    "description": "(Deleted 2025/02/13) Text of the cancel button of the skip confirmation modal in the backup import screen"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restoring media",
@@ -7794,7 +7794,7 @@
   },
   "icu:WhatsNew__v7.40--1": {
     "messageformat": "Now when you link your primary Signal device to a new Desktop, you can bring your chat history and your last 45 days of media with you. The transfer process is end-to-end encrypted, and completely optional. When it comes to making the choice about whether or not to leave the past behind, you're left to your own devices.",
-    "description": "Release notes for version 7.40"
+    "description": "(Deleted 2025/02/13) Release notes for version 7.40"
   },
   "icu:WhatsNew__v7.43--0": {
     "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care.",

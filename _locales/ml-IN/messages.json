@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "ഈ മീഡിയ ലഭ്യമല്ല"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "കൂടുതൽ അറിയുക"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "ഈ ഫയൽ ലഭ്യമല്ല"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "ഈ ശബ്ദ സന്ദേശം ലഭ്യമല്ല"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "സംരക്ഷിക്കൂ"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "ഉപകരണത്തിന്റെ പേര്"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "ഈ ഉപകരണത്തിന്റെ പേര് തിരഞ്ഞെടുക്കുക"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "സന്ദേശ കൈമാറ്റം പൂർത്തിയാക്കുന്നു..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ഡൗൺലോഡ് ചെയ്യാൻ തയ്യാറെടുക്കുന്നു..."
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "സമന്വയ പ്രക്രിയ ഉൾപ്പെടെ, സന്ദേശങ്ങളും ചാറ്റ് വിവരങ്ങളും എൻഡ്-ടു-എൻഡ് എൻക്രിപ്ഷൻ മുഖേന പരിരക്ഷിച്ചിരിക്കുന്നു. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "കൈമാറ്റം റദ്ദാക്കണോ?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "നിങ്ങളുടെ സന്ദേശങ്ങളും മീഡിയയും പുനഃസ്ഥാപിക്കൽ പൂർത്തിയാക്കിയിട്ടില്ല. നിങ്ങൾ റദ്ദാക്കാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, നിങ്ങളുടെ സന്ദേശ ചരിത്രമില്ലാതെ ഉപകരണം ലിങ്ക് ചെയ്യപ്പെടും."
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "കൈമാറ്റം തുടരുക"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "കൈമാറ്റം റദ്ദാക്കുക"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "നിങ്ങളുടെ സന്ദേശങ്ങൾ കൈമാറുന്നതിൽ പിശക്"
@@ -4254,7 +4299,7 @@
     "messageformat": "എല്ലാ ചാറ്റ് നിറങ്ങളും റീസെറ്റ് ചെയ്യുക"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "സ്ഥിരസ്ഥിതിയായി പുന:സജ്ജമാക്കുക"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "പുനഃക്രമീകരിക്കുക"
@@ -5819,6 +5864,9 @@
     "messageformat": "തിരഞ്ഞെടുത്തതിന് ശേഷം ചില ചാറ്റുകൾ ശരിയായി തുറക്കുന്നതിൽ നിന്ന് തടയുന്ന ഒരു അപൂർവ ബഗ് ഞങ്ങൾ പരിഹരിച്ചു, അതിനാൽ, നിങ്ങൾ അവർ പറഞ്ഞത് ഓർക്കാൻ ശ്രമിക്കുമ്പോൾ ഇപ്പോൾ Signal ഡെസ്‌ക്‌ടോപ്പും ശൂന്യമായിപ്പോകില്ല."
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "ഇപ്പോൾ നിങ്ങളുടെ പ്രാഥമിക Signal ഉപകരണം ഒരു പുതിയ ഡെസ്‌ക്‌ടോപ്പിലേക്കോ iPad-ലേക്കോ ലിങ്ക് ചെയ്യുമ്പോൾ, നിങ്ങളുടെ ചാറ്റ് ചരിത്രവും കഴിഞ്ഞ 45 ദിവസത്തെ മീഡിയയും കൊണ്ടുവരാനാകും. കൈമാറ്റ പ്രക്രിയ എൻഡ്-ടു-എൻഡ് എന്‍ക്രിപ്റ്റ് ചെയ്തതാണ്, പൂർണ്ണമായും ഓപ്ഷണലും ആണ്. ഭൂതകാലത്തെ ഉപേക്ഷിക്കണമോ വേണ്ടയോ എന്നതിനെക്കുറിച്ചുള്ള തിരഞ്ഞെടുപ്പ് നടത്തേണ്ടി വരുമ്പോൾ, നിങ്ങൾക്ക് നിങ്ങളുടെ സ്വന്തം ഉപകരണങ്ങളേക്കുറിച്ച് സ്വയം തീരുമാനമെടുക്കാം."
+    "messageformat": "ഇപ്പോൾ നിങ്ങളുടെ പ്രാഥമിക Signal ഉപകരണം ഒരു പുതിയ ഡെസ്‌ക്‌ടോപ്പിലേക്കോ ലിങ്ക് ചെയ്യുമ്പോൾ, നിങ്ങളുടെ ചാറ്റ് ചരിത്രവും കഴിഞ്ഞ 45 ദിവസത്തെ മീഡിയയും കൊണ്ടുവരാനാകും. കൈമാറ്റ പ്രക്രിയ എൻഡ്-ടു-എൻഡ് എന്‍ക്രിപ്റ്റ് ചെയ്തതാണ്, പൂർണ്ണമായും ഓപ്ഷണലും ആണ്. ഭൂതകാലത്തെ ഉപേക്ഷിക്കണമോ വേണ്ടയോ എന്നതിനെക്കുറിച്ചുള്ള തിരഞ്ഞെടുപ്പ് നടത്തേണ്ടി വരുമ്പോൾ, നിങ്ങൾക്ക് നിങ്ങളുടെ സ്വന്തം ഉപകരണങ്ങളേക്കുറിച്ച് സ്വയം തീരുമാനമെടുക്കാം."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }

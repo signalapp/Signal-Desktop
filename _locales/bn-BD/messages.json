@@ -1145,14 +1145,53 @@
   "icu:mediaNotAvailable": {
     "messageformat": "এই মিডিয়াটি আর নেই"
   },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media not available"
+  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "আরো জানুন"
   },
-  "icu:fileNotAvailable": {
-    "messageformat": "এই ফাইলটি আর নেই"
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "File not available"
   },
-  "icu:voiceMessageNotAvailable": {
-    "messageformat": "এই ভয়েস মেসেজটি আর নেই"
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "This message is incomplete"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "File not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Complete message not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker not available"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Voice message not available"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
   },
   "icu:save": {
     "messageformat": "সংরক্ষণ"
@@ -1216,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "ডিভাইস এর নাম"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
   },
   "icu:chooseDeviceName": {
     "messageformat": "এই ডিভাইস'র নাম চয়ন করুন"
@@ -3617,6 +3659,9 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "মেসেজ ট্রান্সফার চূড়ান্ত করা হচ্ছে..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Canceling..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ডাউনলোড করার জন্য প্রস্তুতি নিচ্ছে..."
   },
@@ -3630,16 +3675,16 @@
     "messageformat": "সিঙ্ক প্রক্রিয়া সহ মেসেজ এবং চ্যাটের তথ্য এন্ড-টু-এন্ড এনক্রিপশন দ্বারা সুরক্ষিত। <learnMoreLink>আরো জানুন</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "স্থানান্তর বাতিল করবেন?"
+    "messageformat": "Cancel device linking?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "আপনার মেসেজ এবং মিডিয়া পুনর্বহাল সম্পন্ন হয়নি। আপনি যদি বাতিল করতে চান, তবে আপনার মেসেজের ইতিহাস ছাড়াই আপনার ডিভাইস লিংক করা হবে।"
+    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "স্থানান্তর চালিয়ে যান"
+    "messageformat": "Continue linking"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "স্থানান্তর বাতিল করুন"
+    "messageformat": "Cancel linking"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "আপনার মেসেজ ট্রান্সফারে ত্রুটি দেখা দিয়েছে"
@@ -4254,7 +4299,7 @@
     "messageformat": "সবগুলো চ্যাট-এর রং রিসেট করুন"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "ডিফল্ট রিসেট করুন"
+    "messageformat": "Reset default colors"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "রিসেট করুন"
@@ -5819,6 +5864,9 @@
     "messageformat": "আমরা এমন একটি বিরল বাগ সংশোধন করেছি যার কারণে কিছু চ্যাট সঠিকভাবে খুলতে পারতো না।"
   },
   "icu:WhatsNew__v7.40--1": {
-    "messageformat": "এখন আপনি আপনার চ্যাটের ইতিহাস এবং আপনার শেষ 45 দিনের মিডিয়া একটি নতুন লিংক করা ডিভাইসে ট্রান্সফার করার জন্য নির্বাচন করতে পারবেন। ট্রান্সফার করার প্রক্রিয়া এন্ড-টু-এন্ড এনক্রিপ্টেড এবং সম্পূর্ণ ঐচ্ছিক।"
+    "messageformat": "এখন আপনি আপনার চ্যাট-এর ইতিহাস ও আপনার গত 45 দিনের মিডিয়া একটি নতুন লিংক করা ডিভাইসে ট্রান্সফার করার জন্য বেছে নিতে পারবেন।"
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
   }
 }
