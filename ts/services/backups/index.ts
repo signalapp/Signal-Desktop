@@ -53,7 +53,6 @@ import {
   BackupDownloadFailedError,
   BackupImportCanceledError,
   BackupProcessingError,
-  ContinueWithoutSyncingError,
   RelinkRequestedError,
   UnsupportedBackupVersion,
 } from './errors';
@@ -226,6 +225,7 @@ export class BackupsService {
 
     await window.storage.remove('backupDownloadPath');
     await window.storage.remove('backupEphemeralKey');
+    await window.storage.remove('backupTransitArchive');
     await window.storage.put('isRestoredFromBackup', hasBackup);
 
     // If the primary cancels sync on their end, then we can link without sync
@@ -575,62 +575,77 @@ export class BackupsService {
       onProgress?.(InstallScreenBackupStep.Download, currentBytes, totalBytes);
     };
 
+    await ensureFile(downloadPath);
+    if (controller.signal.aborted) {
+      throw new BackupImportCanceledError();
+    }
+
+    let stream: Readable;
+
     try {
-      await ensureFile(downloadPath);
+      if (ephemeralKey == null) {
+        stream = await this.api.download({
+          downloadOffset,
+          onProgress: onDownloadProgress,
+          abortSignal: controller.signal,
+        });
+      } else {
+        let archive = window.storage.get('backupTransitArchive');
+        if (archive == null) {
+          const response = await this.api.getTransferArchive(controller.signal);
 
+          if ('error' in response) {
+            switch (response.error) {
+              case 'RELINK_REQUESTED':
+                throw new RelinkRequestedError();
+
+              // Primary decided to abort syncing process; continue on with no backup
+              case 'CONTINUE_WITHOUT_UPLOAD':
+                log.error(
+                  'backups.doDownloadAndImport: primary requested to continue without syncing'
+                );
+                return false;
+              default:
+                throw missingCaseError(response.error);
+            }
+          }
+
+          archive = {
+            cdn: response.cdn,
+            key: response.key,
+          };
+          await window.storage.put('backupTransitArchive', archive);
+        }
+
+        stream = await this.api.downloadEphemeral({
+          archive,
+          downloadOffset,
+          onProgress: onDownloadProgress,
+          abortSignal: controller.signal,
+        });
+      }
+    } catch (error) {
       if (controller.signal.aborted) {
         throw new BackupImportCanceledError();
       }
 
-      let stream: Readable;
-      try {
-        if (ephemeralKey == null) {
-          stream = await this.api.download({
-            downloadOffset,
-            onProgress: onDownloadProgress,
-            abortSignal: controller.signal,
-          });
-        } else {
-          stream = await this.api.downloadEphemeral({
-            downloadOffset,
-            onProgress: onDownloadProgress,
-            abortSignal: controller.signal,
-          });
-        }
-      } catch (error) {
-        if (controller.signal.aborted) {
-          throw new BackupImportCanceledError();
-        }
-
-        // No backup on the server
-        if (error instanceof HTTPError && error.code === 404) {
-          return false;
-        }
-
-        // Primary decided to abort syncing process; continue on with no backup
-        if (error instanceof ContinueWithoutSyncingError) {
-          log.error(
-            'backups.doDownloadAndImport: primary requested to continue without syncing'
-          );
-          return false;
-        }
-
-        // Primary wants to try link & sync again
-        if (error instanceof RelinkRequestedError) {
-          throw error;
-        }
-
-        log.error(
-          'backups.doDownloadAndImport: error downloading backup file',
-          Errors.toLogFormat(error)
-        );
-        throw new BackupDownloadFailedError();
+      // No backup on the server
+      if (error instanceof HTTPError && error.code === 404) {
+        return false;
       }
 
-      if (controller.signal.aborted) {
-        throw new BackupImportCanceledError();
-      }
+      log.error(
+        'backups.doDownloadAndImport: error downloading backup file',
+        Errors.toLogFormat(error)
+      );
+      throw new BackupDownloadFailedError();
+    }
 
+    if (controller.signal.aborted) {
+      throw new BackupImportCanceledError();
+    }
+
+    try {
       await pipeline(
         stream,
         createWriteStream(downloadPath, {
