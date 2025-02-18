@@ -875,6 +875,9 @@ export class BackupExportStream extends Readable {
         profileSharing: convo.profileSharing,
         profileGivenName: convo.profileName,
         profileFamilyName: convo.profileFamilyName,
+        systemFamilyName: convo.systemFamilyName,
+        systemGivenName: convo.systemGivenName,
+        systemNickname: convo.systemNickname,
         hideStory: convo.hideStory === true,
         identityKey: identityKey?.publicKey || null,
 
