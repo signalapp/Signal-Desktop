@@ -1728,7 +1728,12 @@ export function initialize({
   libsignalNet.setIpv6Enabled(!disableIPv6);
   if (proxyUrl) {
     log.info('Setting libsignal proxy');
-    libsignalNet.setProxyFromUrl(proxyUrl);
+    try {
+      libsignalNet.setProxyFromUrl(proxyUrl);
+    } catch (error) {
+      log.error(`Failed to set proxy: ${error}`);
+      libsignalNet.clearProxy();
+    }
   }
 
   // Thanks to function-hoisting, we can put this return statement before all of the
