@@ -1726,6 +1726,10 @@ export function initialize({
     certificateAuthority
   );
   libsignalNet.setIpv6Enabled(!disableIPv6);
+  if (proxyUrl) {
+    log.info('Setting libsignal proxy');
+    libsignalNet.setProxyFromUrl(proxyUrl);
+  }
 
   // Thanks to function-hoisting, we can put this return statement before all of the
   //   below function definitions.

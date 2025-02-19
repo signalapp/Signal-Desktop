@@ -169,7 +169,7 @@ export class SocketManager extends EventListener {
     const useLibsignalTransport =
       window.Signal.RemoteConfig.isEnabled(
         'desktop.experimentalTransport.enableAuth'
-      ) && this.#transportOption(proxyAgent) === TransportOption.Libsignal;
+      ) && this.#transportOption() === TransportOption.Libsignal;
 
     const process = useLibsignalTransport
       ? connectAuthenticatedLibsignal({
@@ -580,14 +580,7 @@ export class SocketManager extends EventListener {
     }
   }
 
-  #transportOption(proxyAgent: ProxyAgent | undefined): TransportOption {
-    const { hostname } = URL.parse(this.options.url);
-
-    // transport experiment doesn't support proxy
-    if (proxyAgent || hostname == null || !hostname.endsWith('signal.org')) {
-      return TransportOption.Original;
-    }
-
+  #transportOption(): TransportOption {
     // in staging, switch to using libsignal transport
     if (isStaging(this.options.version)) {
       return TransportOption.Libsignal;
@@ -643,7 +636,7 @@ export class SocketManager extends EventListener {
 
     log.info('SocketManager: connecting unauthenticated socket');
 
-    const transportOption = this.#transportOption(proxyAgent);
+    const transportOption = this.#transportOption();
     log.info(
       `SocketManager: connecting unauthenticated socket, transport option [${transportOption}]`
     );
