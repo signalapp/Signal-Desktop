@@ -220,7 +220,7 @@ export class Timeline extends React.Component<
     this.setState(() => {
       // Prevent scroll due to elements shrinking or disappearing (e.g. typing indicators)
       const scrollLockHeight = scrollLocked
-        ? this.#messagesRef.current?.offsetHeight
+        ? this.#messagesRef.current?.getBoundingClientRect().height
         : undefined;
       return {
         scrollLocked,
