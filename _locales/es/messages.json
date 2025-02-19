@@ -669,7 +669,7 @@
     "messageformat": "Esta ventana se utiliza durante el desarrollo para mostrar los diagnósticos de las llamadas en curso."
   },
   "icu:speech": {
-    "messageformat": "Dictar"
+    "messageformat": "Leer en voz alta"
   },
   "icu:show": {
     "messageformat": "Mostrar"
@@ -1143,55 +1143,55 @@
     "messageformat": "Este archivo ya no está disponible."
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "Este archivo multimedia no está disponible"
+    "messageformat": "Este archivo no está disponible"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "Archivo multimedia no disponible"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Más información"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "Archivo no disponible"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "Este mensaje está incompleto"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Sticker no disponible"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Mensaje de voz no disponible"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "Archivo no disponible"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "Mensaje completo no disponible"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "Archivo multimedia no disponible"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Sticker no disponible"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Mensaje de voz no disponible"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Este archivo no se transfirió desde tu teléfono cuando se vinculó este dispositivo. No se pueden sincronizar los archivos que en el momento de vinculación del dispositivo tengan más de 45 días de antigüedad."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "El texto completo de este mensaje no se transfirió desde tu teléfono cuando se vinculó este dispositivo. No se pueden sincronizar los mensajes de texto largos que en el momento de vinculación del dispositivo tengan más de 45 días de antigüedad."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Este archivo no se transfirió desde tu teléfono cuando se vinculó este dispositivo. No se pueden sincronizar los archivos que en el momento de vinculación del dispositivo tengan más de 45 días de antigüedad."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Este sticker no se transfirió desde tu teléfono cuando se vinculó este dispositivo. No se pueden sincronizar los archivos que en el momento de vinculación del dispositivo tengan más de 45 días de antigüedad."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Este mensaje de voz no se transfirió desde tu teléfono cuando se vinculó este dispositivo. No se pueden sincronizar los archivos que en el momento de vinculación del dispositivo tengan más de 45 días de antigüedad."
   },
   "icu:save": {
     "messageformat": "Guardar"
@@ -1257,7 +1257,7 @@
     "messageformat": "Nombre del dispositivo"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "Para cambiar el nombre de este dispositivo, abre Signal en tu teléfono y ve a Ajustes > Dispositivos vinculados"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Asigna un nombre a este dispositivo"
@@ -1401,10 +1401,10 @@
     "messageformat": "No se puede realizar la llamada porque el grupo es demasiado grande."
   },
   "icu:CallingButton__ring-off": {
-    "messageformat": "Desactivar el sonido"
+    "messageformat": "Desactivar sonido"
   },
   "icu:CallingButton--ring-on": {
-    "messageformat": "Activar el sonido"
+    "messageformat": "Activar sonido"
   },
   "icu:CallingButton--more-options": {
     "messageformat": "Más opciones"
@@ -1779,7 +1779,7 @@
     "messageformat": "Duración de los mensajes: {time}"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Sonido de las notificaciones push"
+    "messageformat": "Sonido de notificaciones push"
   },
   "icu:callRingtoneNotificationDescription": {
     "messageformat": "Emitir sonido de llamada"
@@ -2121,7 +2121,7 @@
     "messageformat": "¡Gracias por tu apoyo!"
   },
   "icu:modal--donation--description": {
-    "messageformat": "Has hecho una donación a Signal en nombre de {name}. Podrá añadir la insignia a su perfil para mostrar que apoya a Signal."
+    "messageformat": "Has hecho una donación a Signal en nombre de {name}. Ahora podrá mostrar su insignia de apoyo a Signal en su perfil."
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "No se ha podido instalar el paquete de stickers"
@@ -3660,7 +3660,7 @@
     "messageformat": "Finalizando la transferencia de mensajes…"
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "Cancelando…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparando la descarga…"
@@ -3675,16 +3675,16 @@
     "messageformat": "Los mensajes y los chats, al igual que el proceso de sincronización, están protegidos con cifrado de extremo a extremo. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "¿Cancelar la vinculación del dispositivo?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "Si decides cancelar, este dispositivo no se vinculará y no se transferirá ningún mensaje ni archivo."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "Continuar vinculación"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "Cancelar vinculación"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Error al transferir tus mensajes"
@@ -3813,7 +3813,7 @@
     "messageformat": "Ajustes del chat"
   },
   "icu:ConversationDetails__unmute--title": {
-    "messageformat": "¿Reactivar las notificaciones de este chat?"
+    "messageformat": "¿Reactivar notificaciones de este chat?"
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Enlace al grupo"
@@ -4299,7 +4299,7 @@
     "messageformat": "Restablecer todos"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "Restablecer predeterminados"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Restablecer"
@@ -4395,7 +4395,7 @@
     "messageformat": "La duración de los mensajes temporales será de {timeValue} cuando inicies un chat con alguien."
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "Has eliminado a esta persona, envíale un mensaje de nuevo y se la volverá a añadir a tu lista."
+    "messageformat": "Has eliminado a esta persona. Envíale un mensaje de nuevo para volver a añadirla a tu lista de contactos."
   },
   "icu:ErrorBoundaryNotification__text": {
     "messageformat": "No se ha podido mostrar el mensaje. Haz clic para enviar un registro de depuración."
@@ -4629,10 +4629,10 @@
     "messageformat": "Imagen del grupo"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "Sonidos de los mensajes en el chat"
+    "messageformat": "Sonido de mensajes en el chat"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Activar un sonido de notificación para mensajes enviados y recibidos mientras estoy en el chat."
+    "messageformat": "Reproducir un sonido de notificación al enviar y recibir mensajes dentro del chat."
   },
   "icu:Preferences__button--general": {
     "messageformat": "General"
@@ -5094,7 +5094,7 @@
     "messageformat": "No enviada"
   },
   "icu:Stories__list--partially-sent": {
-    "messageformat": "Enviada parcialmente"
+    "messageformat": "Enviado parcialmente"
   },
   "icu:Stories__list--retry-send": {
     "messageformat": "Haz clic para reintentar"
@@ -5313,10 +5313,10 @@
     "messageformat": "No enviada. Haz clic para reintentar."
   },
   "icu:StoryViewer__partial-fail": {
-    "messageformat": "Enviada parcialmente. Haz clic para reintentar."
+    "messageformat": "Enviado parcialmente. Haz clic para reintentar."
   },
   "icu:StoryDetailsModal__sent-time": {
-    "messageformat": "Enviada {time}"
+    "messageformat": "Enviado {time}"
   },
   "icu:StoryDetailsModal__file-size": {
     "messageformat": "Tamaño del archivo {size}"
@@ -5867,6 +5867,6 @@
     "messageformat": "Ahora, al vincular tu dispositivo Signal principal a un nuevo ordenador, podrás llevarte contigo tu historial de chats y tus últimos 45 días de archivos multimedia. El proceso de transferencia está cifrado de extremo a extremo y es completamente opcional. Así, la decisión de dejar tu pasado atrás solo dependerá de ti (¡y de tus dispositivos!)."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "A todos nos gusta ir conjuntados, así que hemos actualizado la etiqueta de texto en un botón en la app de escritorio para que haga juego con la de tu teléfono. Así contado, parece un cambio muy pequeño, y lo es; pero a veces son precisamente estos pequeños detalles los que marcan la diferencia."
   }
 }

@@ -1146,52 +1146,52 @@
     "messageformat": "ეს მედია ფაილი ხელმისაწვდომი არაა"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "მედია ფაილი მიუწვდომელია"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "გაიგე მეტი"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "ფაილი მიუწვდომელია"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "ეს შეტყობინება არასრულია"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "სტიკერი მიუწვდომელია"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "ხმოვანი შეტყობინება მიუწვდომელია"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "ფაილი მიუწვდომელია"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "სრული შეტყობინება მიუწვდომელია"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "მედია ფაილი მიუწვდომელია"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "სტიკერი მიუწვდომელია"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "ხმოვანი შეტყობინება მიუწვდომელია"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ეს ფაილი შენი მობილურიდან არ გადატანილა, როცა ეს მოწყობილობა მიბმული იყო. 45 დღეზე ძველი ფაილებისა და მედია ფაილების სინქრონიზაცია მოწყობილობის მიბმისას შეუძლებელია."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ამ შეტყობინების სრული ტექსტი შენი მობილურიდან არ გადმოვიდა, როცა ეს მოწყობილობა მიბმული იყო. 45 დღეზე ძველი ტექსტური შეტყობინების სინქრონიზაცია მოწყობილობის მიბმისას შეუძლებელია."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ეს მედია ფაილი შენი მობილურიდან არ გადატანილა, როცა ეს მოწყობილობა მიბმული იყო. 45 დღეზე ძველი მედია ფაილების სინქრონიზაცია მოწყობილობის მიბმისას შეუძლებელია."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ეს სტიკერი შენი მობილურიდან არ გადატანილა, როცა ეს მოწყობილობა მიბმული იყო. 45 დღეზე ძველი ფაილებისა და მედია ფაილების სინქრონიზაცია მოწყობილობის მიბმისას შეუძლებელია."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ეს ხმოვანი შეტყობინება შენი მობილურიდან არ გადატანილა, როცა ეს მოწყობილობა მიბმული იყო. 45 დღეზე ძველი ფაილებისა და მედია ფაილების სინქრონიზაცია მოწყობილობის მიბმისას შეუძლებელია."
   },
   "icu:save": {
     "messageformat": "შენახვა"
@@ -1257,7 +1257,7 @@
     "messageformat": "მოწყობილობის სახელი"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "ამ მოწყობილობის სახელის შესაცვლელად გახსენი Signal შენს მობილურში და აირჩიე პარამეტრები > დაკავშირებული მოწყობილობები"
   },
   "icu:chooseDeviceName": {
     "messageformat": "აირჩიე ამ მოწყობილობის სახელი"
@@ -3660,7 +3660,7 @@
     "messageformat": "სრულდება წერილების გადატანა..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "მიმდინარეობს გაუქმება..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "მზადება ჩამოსატვირთად..."
@@ -3675,16 +3675,16 @@
     "messageformat": "შეტყობინებები და ჩატის ინფორმაცია, სინქრონიზაციის პროცესის ჩათვლით, ბოლომდეა დაშიფრული. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "გსურს მოწყობილობის მიბმა გააუქმო?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "თუ გაუქმებას აირჩევ, ეს მოწყობილობა არ მიებმება და შეტყობინებები და მედია ფაილები არ გადავა."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "მიბმის გაგრძელება"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "მიბმის გაუქმება"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "შენი შეტყობინებების გადატანისას ხარვეზი დაფიქსირდა"
@@ -4299,7 +4299,7 @@
     "messageformat": "ყველა ჩატის ფერის განახლება"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "ნაგულისხმევი ფერების გადაყენება"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "ახლიდან დაყენება"
@@ -5867,6 +5867,6 @@
     "messageformat": "უკვე შეგიძლია, Signal-ის ძირითადი მოწყობილობის ახალ დესკტოპთან დაკავშირებისას, შენი ჩატის ისტორია და ბოლო 45 დღის მედია ფაილებიც თან გამოიყოლო. გადატანის პროცესი ბოლომდე დაშიფრული და სრულიად არჩევითია. ასე რომ, შენზეა დამოკიდებული, წარსულს უკან მოიტოვებ თუ არა."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "ვალენტინობის დღეს წყვილებს აღვნიშნავთ, ამიტომ ჩვენ განვაახლეთ ტექსტური იარლიყი ერთ ღილაკზე დესკტოპ აპში, რათა შევქმნათ საყვარელი წყვილი იმავე ღილაკთან თქვენს ტელეფონზე. ეს ძალიან პატარა ცვლილებას ჰგავს, და ასეც არის, მაგრამ ზოგჯერ სწორედ ეს პატარა დეტალებია, რომლებიც აჩვენებენ, რამდენად ზრუნავ."
   }
 }

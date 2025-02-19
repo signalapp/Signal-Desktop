@@ -18,7 +18,7 @@
     "messageformat": "{contact}ને {group} માં ઉમેર્યા"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "messageformat": "{contact} ને ઉમેરી રહ્યાં છીએ..."
+    "messageformat": "{contact}ને ઉમેરી રહ્યાં છીએ..."
   },
   "icu:RecordingComposer__cancel": {
     "messageformat": "રદ કરો"
@@ -27,10 +27,10 @@
     "messageformat": "મોકલો"
   },
   "icu:GroupListItem__message-default": {
-    "messageformat": "{count, plural, one {{count,number} સભ્યો} other {{count,number} સભ્યો}}"
+    "messageformat": "{count, plural, one {{count,number} સભ્ય} other {{count,number} સભ્યો}}"
   },
   "icu:GroupListItem__message-already-member": {
-    "messageformat": "પહેલેથી જ મેમ્બર"
+    "messageformat": "પહેલેથી જ સભ્ય છે"
   },
   "icu:GroupListItem__message-pending": {
     "messageformat": "સભ્યપદ બાકી છે"
@@ -60,7 +60,7 @@
     "messageformat": "{appEnv} (Intel)"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "ભૂલ કૉપી કરો અને બહાર નીકળો"
+    "messageformat": "ભૂલ કૉપિ કરો અને બહાર નીકળો"
   },
   "icu:unknownContact": {
     "messageformat": "અજાણ્યો સંપર્ક"
@@ -132,16 +132,16 @@
     "messageformat": "પૂર્વવત્ કરો"
   },
   "icu:editMenuRedo": {
-    "messageformat": "ફરી કરો"
+    "messageformat": "પહેલાં હતું તેમ કરો"
   },
   "icu:editMenuCut": {
-    "messageformat": "કટ"
+    "messageformat": "કાપો"
   },
   "icu:editMenuCopy": {
-    "messageformat": "કૉપિ"
+    "messageformat": "કૉપિ કરો"
   },
   "icu:editMenuPaste": {
-    "messageformat": "પેસ્ટ"
+    "messageformat": "પેસ્ટ કરો"
   },
   "icu:editMenuPasteAndMatchStyle": {
     "messageformat": "પેસ્ટ કરો અને સ્ટાઇલ મેચ કરો"
@@ -162,10 +162,10 @@
     "messageformat": "વિન્ડો બંધ કરો"
   },
   "icu:windowMenuMinimize": {
-    "messageformat": "નાનુ કરો"
+    "messageformat": "નાનું કરો"
   },
   "icu:windowMenuZoom": {
-    "messageformat": "ઝુમ"
+    "messageformat": "ઝુમ કરો"
   },
   "icu:windowMenuBringAllToFront": {
     "messageformat": "બધાને આગળ લાવો"
@@ -192,10 +192,10 @@
     "messageformat": "નવા ડિવાઇસ તરીકે સેટ અપ કરો"
   },
   "icu:menuSetupAsStandalone": {
-    "messageformat": "એકલ ડિવાઇસ તરીકે સેટ કરો"
+    "messageformat": "સિંગલ ડિવાઇસ તરીકે સેટ કરો"
   },
   "icu:messageContextMenuButton": {
-    "messageformat": "વધુ ક્રિયાઓ"
+    "messageformat": "વધુ પગલાં"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "લિંક કૉપિ કરો"
@@ -276,7 +276,7 @@
     "messageformat": "એક ભૂલ આવી"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
-    "messageformat": "{count,number} ન વંચાયેલ"
+    "messageformat": "{count,number} ન વાંચેલ"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
     "messageformat": "ન વાંચેલ તરીકે માર્ક કરો"
@@ -285,7 +285,7 @@
     "messageformat": "ચેટ"
   },
   "icu:NavTabs__ItemLabel--Calls": {
-    "messageformat": "કૉલ્સ"
+    "messageformat": "કૉલ"
   },
   "icu:NavTabs__ItemLabel--Stories": {
     "messageformat": "સ્ટોરી"
@@ -294,10 +294,10 @@
     "messageformat": "સેટિંગ્સ"
   },
   "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Signal ને અપડેટ કરો"
+    "messageformat": "Signalને અપડેટ કરો"
   },
   "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "પ્રોફાઈલ"
+    "messageformat": "પ્રોફાઇલ"
   },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "પાછળ"
@@ -435,7 +435,7 @@
     "messageformat": "સમીક્ષા કરો"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
-    "messageformat": "{count, plural, one {તમારી પાસે 1 કનેક્શન છે જેણે Signal ફરીથી ઇન્સ્ટોલ કર્યું હોઈ શકે અથવા ડિવાઇસ બદલ્યું હોઈ શકે છે. મોકલતા પહેલા તમે વૈકલ્પિક રીતે તેમના સુરક્ષા નંબરની સમીક્ષા કરી શકો છો.} other {તમારી પાસે {count,number} કનેક્શન છે જેમણે Signal ફરીથી ઇન્સ્ટોલ કર્યું હોઈ શકે અથવા ડિવાઇસ બદલ્યું હોઈ શકે છે. મોકલતા પહેલા તમે વૈકલ્પિક રીતે તેમના સુરક્ષા નંબરોની સમીક્ષા કરી શકો છો.}}"
+    "messageformat": "{count, plural, one {તમારી પાસે 1 કનેક્શન છે જેણે Signal ફરીથી ઇન્સ્ટોલ કર્યું હોઈ શકે અથવા ડિવાઇસ બદલ્યું હોઈ શકે છે. મોકલતા પહેલાં તમે વૈકલ્પિક રીતે તેમના સુરક્ષા નંબરની સમીક્ષા કરી શકો છો.} other {તમારી પાસે {count,number} કનેક્શન છે જેમણે Signal ફરીથી ઇન્સ્ટોલ કર્યું હોઈ શકે અથવા ડિવાઇસ બદલ્યું હોઈ શકે છે. મોકલતા પહેલાં તમે વૈકલ્પિક રીતે તેમના સુરક્ષા નંબરોની સમીક્ષા કરી શકો છો.}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
     "messageformat": "બધા જ કનેક્શનની સમીક્ષા થઈ ચૂકી છે, ચાલુ રાખવા માટે મોકલો પર ક્લિક કરો."
@@ -1146,52 +1146,52 @@
     "messageformat": "આ મીડિયા ઉપલબ્ધ નથી"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "મીડિયા ઉપલબ્ધ નથી"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "વધુ શીખો"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "ફાઈલ ઉપલબ્ધ નથી"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "આ મેસેજ અધૂરો છે"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "સ્ટીકર ઉપલબ્ધ નથી"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "વોઇસ મેસેજ ઉપલબ્ધ નથી"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "ફાઈલ ઉપલબ્ધ નથી"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "પૂર્ણ મેસેજ ઉપલબ્ધ નથી"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "મીડિયા ઉપલબ્ધ નથી"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "સ્ટીકર ઉપલબ્ધ નથી"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "વોઇસ મેસેજ ઉપલબ્ધ નથી"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "જ્યારે આ ડિવાઇસ લિંક કરવામાં આવ્યું હતું ત્યારે આ ફાઈલ તમારા ફોનમાંથી ટ્રાન્સફર થઈ ન હતી. ડિવાઇસ લિંક કરતી વખતે 45 દિવસથી જૂના મીડિયા અને ફાઈલો સિંક કરી શકાતા નથી."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "જ્યારે આ ડિવાઇસ લિંક કરવામાં આવ્યું હતું ત્યારે આ મેસેજનું સંપૂર્ણ લખાણ તમારા ફોનમાંથી ટ્રાન્સફર કરવામાં આવ્યું ન હતું. ડિવાઇસ લિંક કરતી વખતે 45 દિવસથી વધુ જૂના લાંબા ટેક્સ્ટ મેસેજ સિંક કરી શકાતા નથી."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "જ્યારે આ ડિવાઇસ લિંક કરવામાં આવ્યું હતું ત્યારે આ મીડિયા તમારા ફોનમાંથી ટ્રાન્સફર થયું ન હતું. ડિવાઇસ લિંક કરતી વખતે 45 દિવસથી જૂના મીડિયા સિંક કરી શકાતા નથી."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "જ્યારે આ ડિવાઇસ લિંક કરવામાં આવ્યું હતું ત્યારે આ સ્ટીકર તમારા ફોનમાંથી ટ્રાન્સફર થયું ન હતું. ડિવાઇસ લિંક કરતી વખતે 45 દિવસથી જૂના મીડિયા અને ફાઈલો સિંક કરી શકાતા નથી."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "જ્યારે આ ડિવાઇસ લિંક કરવામાં આવ્યું હતું ત્યારે આ વોઇસ મેસેજ તમારા ફોનમાંથી ટ્રાન્સફર થયો ન હતો. ડિવાઇસ લિંક કરતી વખતે 45 દિવસથી જૂના મીડિયા અને ફાઈલો સિંક કરી શકાતા નથી."
   },
   "icu:save": {
     "messageformat": "સેવ કરો"
@@ -1257,7 +1257,7 @@
     "messageformat": "ડિવાઇસનું નામ"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "આ ડિવાઇસનું નામ બદલવા માટે, તમારા ફોન પર Signal ખોલો અને સેટિંગ્સ > લિંક કરેલા ડિવાઇસ પર જાઓ"
   },
   "icu:chooseDeviceName": {
     "messageformat": "આ ડિવાઈસનું નામ પસંદ કરો"
@@ -3660,7 +3660,7 @@
     "messageformat": "મેસેજ ટ્રાન્સફર બસ પૂરું થવામાં જ છે..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "રદ થઈ રહ્યું છે..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ડાઉનલોડ કરવાની તૈયારી કરી ચાલુ છે..."
@@ -3675,16 +3675,16 @@
     "messageformat": "મેસેજ અને ચેટની માહિતી સિંક પ્રક્રિયા સહિત એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્શન દ્વારા સુરક્ષિત છે. <learnMoreLink>વધુ જાણો</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "ડિવાઇસ લિંક કરવાનું રદ કરવું છે?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "જો તમે રદ કરવાનું પસંદ કરો છો, તો આ ડિવાઇસ લિંક થશે નહીં અને કોઈ મેસેજ કે મીડિયા ટ્રાન્સફર કરવામાં આવશે નહીં."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "લિંક કરવાનું ચાલુ રાખો"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "લિંક કરવાનું રદ કરો"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "તમારા મેસેજ ટ્રાન્સફર કરવામાં ભૂલ આવી"
@@ -4299,7 +4299,7 @@
     "messageformat": "બધા ચેટ કલર રીસેટ કરો"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "ડિફોલ્ટ કલર્સ રિસેટ કરો"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "ફરીથી સેટ કરો"
@@ -5867,6 +5867,6 @@
     "messageformat": "હવે જ્યારે તમે તમારા પ્રાથમિક Signal ડિવાઇસને નવા ડેસ્કટોપ પર લિંક કરો છો ત્યારે તમે તમારી ચેટ હિસ્ટ્રી અને તમારા છેલ્લા 45 દિવસના મીડિયાને તમારી સાથે લઈ જઈ શકો છો. ટ્રાન્સફર પ્રક્રિયા એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ છે અને સંપૂર્ણ રીતે વૈકલ્પિક છે. જ્યારે ભૂતકાળને પાછળ છોડી દેવો કે નહીં તે અંગે પસંદગી કરવાની વાત આવે છે, ત્યારે તમને તમારા પોતાના ડિવાઇસ પર છોડી દેવામાં આવે છે."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "અમે ડેસ્કટોપ બટન પરનું લખાણ Android અને iOS સાથે મેચ થાય તે માટે તેને અપડેટ કર્યું છે."
   }
 }

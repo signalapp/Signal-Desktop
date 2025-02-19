@@ -1146,52 +1146,52 @@
     "messageformat": "Бұл мультимедиа файлы қолжетімді емес"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "Мультимедиа қолжетімді емес"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Толық ақпарат"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "Файл қолжетімді емес"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "Бұл хабар толық емес"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Стикер қолжетімді емес"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Дауыстық хабар қолжетімді емес"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "Файл қолжетімді емес"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "Толық хабар қолжетімді емес"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "Мультимедиа қолжетімді емес"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Стикер қолжетімді емес"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Дауыстық хабар қолжетімді емес"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Осы құрылғы байланыстырылған кезде, бұл файл телефоныңыздан тасымалданбады. Құрылғыны байланыстыру кезінде мерзімі 45 күннен асатын мультимедиа мен файлдар синхрондалмайды."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Бұл құрылғы байланыстырылған кезде, хабардың толық мәтіні телефоныңыздан тасымалданған жоқ. Құрылғыны байланыстыру кезінде мерзімі 45 күннен асатын ұзақ мәтіндік хабарлар синхрондалмайды."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Осы құрылғы байланыстырылған кезде, бұл мультимедиа телефоныңыздан тасымалданбады. Құрылғыны байланыстыру кезінде мерзімі 45 күннен асатын мультимедиа синхрондалмайды."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Осы құрылғы байланыстырылған кезде, бұл стикер телефоныңыздан тасымалданбады. Құрылғыны байланыстыру кезінде мерзімі 45 күннен асатын мультимедиа мен файлдар синхрондалмайды."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Осы құрылғы байланыстырылған кезде, бұл дауыстық хабар телефоныңыздан тасымалданбады. Құрылғыны байланыстыру кезінде мерзімі 45 күннен асатын мультимедиа мен файлдар синхрондалмайды."
   },
   "icu:save": {
     "messageformat": "Сақтау"
@@ -1257,7 +1257,7 @@
     "messageformat": "Құрылғы аты"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "Бұл құрылғының атауын өзгерту үшін телефоныңызда Signal қолданбасын ашып, \"Параметрлер > Байланыстырылған құрылғылар\" тармағына өтіңіз"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Осы құрылғының атын таңдау"
@@ -3660,7 +3660,7 @@
     "messageformat": "Хабарларды тасымалдау аяқталып жатыр..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "Тоқтатылып жатыр..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Жүктеп алуға дайындалып жатыр..."
@@ -3675,16 +3675,16 @@
     "messageformat": "Хабарлар мен чат туралы ақпарат тура шифрлау әдісімен, соның ішінде синхрондау процесімен қорғалған. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "Құрылғыны байланыстырудан бас тарту керек пе?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "Бас тартсаңыз, бұл құрылғы байланыстырылмайды, сондай-ақ ешқандай хабар немесе мультимедиа тасымалданбайды."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "Байланыстыруды жалғастыру"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "Байланыстырудан бас тарту"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Хабарларды тасымалдау кезінде қате пайда болды"
@@ -4299,7 +4299,7 @@
     "messageformat": "Чаттың барлық түсін қалпына келтіру"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "Әдепкі түстерді қалпына келтіру"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Бастапқы күйге қайтару"
@@ -5867,6 +5867,6 @@
     "messageformat": "Енді Signal қолданылатын негізгі құрылғыңызды жаңа компьютермен байланыстырғанда, чат тарихы мен соңғы 45 күндегі мультимедиа файлдарыңызды да тасымалдай аласыз. Тасымалдау процесі тура шифрланады және қосымша опция болып саналады. Сондықтан өткенді артта қалдырмаймын десеңіз де, жаңа құрылғыда бәрін жаңадан бастаймын десеңіз де, кез келген шешім өз еркіңізде."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "Үйлесімді жұптар атап өтетін Ғашықтар күніне орай қолданбаның компьютерлік нұсқасындағы бір түйменің мәтіндік белгісін жаңарттық. Енді қолданбаның мобильдік нұсқасындағы дәл сондай түйменің де жұбы бар. Бұл болмашы өзгеріс болып көрінгенмен, көңілге жылу сыйлайтыны сөзсіз."
   }
 }

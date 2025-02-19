@@ -1146,52 +1146,52 @@
     "messageformat": "Video hii haipatikani"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "Video na picha haipatikani"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Jifunze zaidi"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "Faili haipatikani"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "Ujumbe huu haujakamilika"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Kibandiko hakipatikani"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Ujumbe huu wa sauti haujakamilika"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "Faili haipatikani"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "Ujumbe kamili haupatikani"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "Video na picha haipatikani"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Kibandiko hakipatikani"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Ujumbe huu wa sauti haujakamilika"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Faili hii haikuhamishwa kutoka kwenye simu yako wakati kifaa hiki kilipounganishwa. Video, picha na faili zenye zaidi ya siku 45 wakati wa kuunganisha kifaa haziwezi kusawazishwa."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Nakala kamili katika ujumbe huu haikuhamishwa kutoka kwenye simu yako wakati kifaa hiki kiliunganishwa. Ujumbe mrefu wa maandishi zaidi ya siku 45 wakati wa kuunganisha kifaa hauwezi kusawazishwa."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Faili hii haikuhamishwa kutoka kwenye simu yako wakati kifaa hiki kilipounganishwa. Video na picha zenye zaidi ya siku 45 wakati wa kuunganisha kifaa haziwezi kusawazishwa."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Kibandiko hiki hakikuhamishwa kutoka kwenye simu yako wakati kifaa hiki kilipounganishwa. Video, picha na faili zenye zaidi ya siku 45 wakati wa kuunganisha kifaa haziwezi kusawazishwa."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Ujumbe huu wa sauti haukuhamishwa kutoka kwenye simu yako wakati kifaa hiki kilipounganishwa. Video, picha na faili zenye zaidi ya siku 45 wakati wa kuunganisha kifaa haziwezi kusawazishwa."
   },
   "icu:save": {
     "messageformat": "Hifadhi"
@@ -1257,7 +1257,7 @@
     "messageformat": "Jina la kifaa"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "Ili kubadilisha jina la kifaa hiki, fungua ishara kwenye simu yako na nenda kwa mipangilio> Kifaa Kilichounganishwa"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Chagua jina la kifaa hiki"
@@ -3660,7 +3660,7 @@
     "messageformat": "Inakamilisha uhamishaji wa ujumbe..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "Inaghairi..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Inajiandaa kupakua..."
@@ -3675,16 +3675,16 @@
     "messageformat": "Maelezo ya ujumbe na gumzo yanalindwa na kusimbwa fiche, ikiwemo mchakato wa ku-sync. <learnMoreLink>Jifunze zaidi</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "Ungependa kughairi kuunganisha kifaa?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "Ukichagua kughairi, kifaa hiki hakitaunganishwa na hakuna ujumbe au video na picha haitahamishwa."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "Endelea kuunganisha"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "Ghairi kuunganisha"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Hitilafu katika uhamishaji wa jumbe zako"
@@ -4299,7 +4299,7 @@
     "messageformat": "Weka upya rangi zote za gumzo"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "Weka upya rangi chaguo-msingi"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Weka upya"
@@ -5867,6 +5867,6 @@
     "messageformat": "Sasa unapounganisha kifaa chako msingi cha Signal kwenye Kompyuta ya Mezani mpya, unaweza kutembea na historia yako ya gumzo na picha na video zako za siku 45 zilizopita. Mchakato wa uhamishaji umesimbwa kwa njia fiche, na ni kwa hiari kabisa. Linapokuja suala la kufanya uchaguzi kuhusu kuacha au kutoyaacha yaliyopita, unaachwa kwa vifaa vyako."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "Siku ya Valentine inahusu kusherehekea mapenzi, hivyo tumesasisha lebo ya maandishi kwenye kitufe kimoja kwenye programu ya Desktop kuunda couple nzuri na kitufe kimoja kwenye simu yako. Hii inaonekana kama mabadiliko madogo sana, na kweli ni hivyo, lakini wakati mwingine ni vitu vidogo ambavyo vinaonyesha ni kiasi gani unajali."
   }
 }
