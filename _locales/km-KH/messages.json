@@ -1146,52 +1146,52 @@
     "messageformat": "មេឌៀនេះមិនមានទេ"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "មេឌៀមិនមានទេ"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "ឯកសារមិនមានទេ"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "សារនេះមិនពេញលេញទេ"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "ស្ទីកគ័រមិនមានទេ"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "សារជាសំឡេងមិនមានទេ"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "ឯកសារមិនមានទេ"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "សារពេញលេញមិនមានទេ"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "មេឌៀមិនមានទេ"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "ស្ទីកគ័រមិនមានទេ"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "សារជាសំឡេងមិនមានទេ"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ឯកសារនេះមិនត្រូវបានផ្ទេរពីទូរសព្ទរបស់អ្នកទេ នៅពេលដែលឧបករណ៍នេះត្រូវបានភ្ជាប់។ មេឌៀ និងឯកសារដែលយូរជាង 45 ថ្ងៃនៅពេលភ្ជាប់ឧបករណ៍ មិនអាចធ្វើសមកាលកម្មបានទេ។"
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "អត្ថបទពេញលេញនៅក្នុងសារនេះមិនត្រូវបានផ្ទេរពីទូរសព្ទរបស់អ្នកទេ នៅពេលដែលឧបករណ៍នេះត្រូវបានភ្ជាប់។ សារជាអក្សរវែងៗដែលយូរជាង 45 ថ្ងៃនៅពេលភ្ជាប់ឧបករណ៍ មិនអាចធ្វើសមកាលកម្មបានទេ។"
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "មេឌៀនេះមិនត្រូវបានផ្ទេរពីទូរសព្ទរបស់អ្នកទេ នៅពេលដែលឧបករណ៍នេះត្រូវបានភ្ជាប់។ មេឌៀដែលយូរជាង 45 ថ្ងៃនៅពេលភ្ជាប់ឧបករណ៍ មិនអាចធ្វើសមកាលកម្មបានទេ។"
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ស្ទីកគ័រនេះមិនត្រូវបានផ្ទេរពីទូរសព្ទរបស់អ្នកទេ នៅពេលដែលឧបករណ៍នេះត្រូវបានភ្ជាប់។ មេឌៀ និងឯកសារដែលយូរជាង 45 ថ្ងៃនៅពេលភ្ជាប់ឧបករណ៍ មិនអាចធ្វើសមកាលកម្មបានទេ។"
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "សារជាសំឡេងនេះមិនត្រូវបានផ្ទេរពីទូរសព្ទរបស់អ្នកទេ នៅពេលដែលឧបករណ៍នេះត្រូវបានភ្ជាប់។ មេឌៀ និងឯកសារដែលយូរជាង 45 ថ្ងៃនៅពេលភ្ជាប់ឧបករណ៍ មិនអាចធ្វើសមកាលកម្មបានទេ។"
   },
   "icu:save": {
     "messageformat": "រក្សាទុក"
@@ -1257,7 +1257,7 @@
     "messageformat": "ឈ្មោះឧបករណ៍"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "ដើម្បីប្តូរឈ្មោះឧបករណ៍នេះ សូមបើក Signal នៅលើទូរសព្ទរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ឧបករណ៍ដែលបានភ្ជាប់"
   },
   "icu:chooseDeviceName": {
     "messageformat": "ជ្រើសរើសឈ្មោះឧបករណ៍នេះ"
@@ -3660,7 +3660,7 @@
     "messageformat": "កំពុងបញ្ចប់ការផ្ទេរសារ..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "កំពុងបោះបង់…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "កំពុងរៀបចំទាញយក…"
@@ -3675,16 +3675,16 @@
     "messageformat": "សារ និងព័ត៌មានជជែកត្រូវបានការពារដោយការអ៊ីនគ្រីបទាំងសងខាង រាប់បញ្ចូលទាំងដំណើរការធ្វើសមកាលកម្មផងដែរ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "បោះបង់ការភ្ជាប់ឧបករណ៍ឬ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "ប្រសិនបើអ្នកជ្រើសរើសបោះបង់ ឧបករណ៍នេះនឹងមិនត្រូវបានភ្ជាប់ទេ ហើយគ្មានសារ ឬមេឌៀណាមួយនឹងត្រូវបានផ្ទេរទេ។"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "បន្តការភ្ជាប់"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "បោះបង់ការភ្ជាប់"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "បញ្ហាក្នុងការផ្ទេរសាររបស់អ្នក"
@@ -4299,7 +4299,7 @@
     "messageformat": "កំណត់ឡើងវិញនូវពណ៌ការជជែកទាំងអស់"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "កំណត់ពណ៌លំនាំដើមឡើងវិញ"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "កំណត់ឡើងវិញ"
@@ -5867,6 +5867,9 @@
     "messageformat": "ឥឡូវនេះ នៅពេលដែលអ្នកភ្ជាប់ឧបករណ៍ Signal ចម្បងរបស់អ្នកជាមួយ Desktop ថ្មី អ្នកអាចយកប្រវត្តិជជែករបស់អ្នក និងមេឌៀរយៈពេល 45 ថ្ងៃចុងក្រោយរបស់អ្នកទៅជាមួយអ្នកបាន។ ដំណើរការផ្ទេរគឺត្រូវបានអ៊ីនគ្រីបពីដើមដល់ចប់ ហើយជាជម្រើសរបស់អ្នកទាំងស្រុង។ នៅពេលដែលគិតថាតើគួរតែបំភ្លេចរឿងអតីតចោលឬទេ ការសម្រេចគឺស្ថិតនៅលើអ្នកទាំងស្រុង។"
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "ទិវានៃក្តីស្រឡាញ់គឺជាពេលដ៏ពិសេសក្នុងការអបអរគូផ្គូផ្គងដ៏ឥតខ្ចោះ ដូច្នេះយើងបានធ្វើបច្ចុប្បន្នភាពស្លាកអក្សរនៅលើប៊ូតុងតែមួយនៅក្នុងកម្មវិធីសម្រាប់ Desktop ដើម្បីបង្កើតគូស្នេហ៍ដ៏គួរឱ្យស្រឡាញ់ជាមួយប៊ូតុងតែមួយនៅលើទូរសព្ទរបស់អ្នក។ ស្តាប់ទៅដូចជាការផ្លាស់ប្តូរបន្តិចបន្តួចប៉ុណ្ណោះ ប៉ុន្តែពេលខ្លះរឿងតូចតាចនោះហើយដែលបង្ហាញថាអ្នកយកចិត្តទុកដាក់ខ្លាំងប៉ុនណា។"
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

@@ -1146,52 +1146,52 @@
     "messageformat": "Ovaj medijski sadržaj nije dostupan"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "Medijski sadržaj nije dostupan"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Saznajte više"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "Datoteka nije dostupna"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "Ova poruka je nepotpuna"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Naljepnica nije dostupna"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Glasovna poruka nije dostupna"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "Datoteka nije dostupna"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "Potpuna poruka nije dostupna"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "Medijski sadržaj nije dostupan"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Naljepnica nije dostupna"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Glasovna poruka nije dostupna"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Ova datoteka nije prenesena s vašeg telefona kada je ovaj uređaj povezan. Medijski sadržaji i fajlovi stariji od 45 dana u trenutku povezivanja uređaja ne mogu se sinhronizirati."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Kompletan tekst u ovoj poruci nije prenesen s vašeg telefona kada je ovaj uređaj povezan. Duge tekstualne poruke starije od 45 dana u vrijeme povezivanja uređaja ne mogu se sinhronizirati."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Ovaj medijski sadržaj nije prenesen s vašeg telefona kada je ovaj uređaj povezan. Medijski sadržaji stariji od 45 dana u vrijeme povezivanja uređaja ne mogu se sinhronizirati."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Ova datoteka nije prenesena s vašeg telefona kada je ovaj uređaj povezan. Medijski sadržaji i datoteke stariji od 45 dana u trenutku povezivanja uređaja ne mogu se sinhronizirati."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Ova glasovna poruka nije prenesena s vašeg telefona kada je ovaj uređaj povezan. Medijski sadržaji i datoteke stariji od 45 dana u trenutku povezivanja uređaja ne mogu se sinhronizirati."
   },
   "icu:save": {
     "messageformat": "Pohrani"
@@ -1257,7 +1257,7 @@
     "messageformat": "Naziv uređaja"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "Da promijenite naziv ovog uređaja, otvorite Signal na svom telefonu i idite u Postavke > Povezani uređaji"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Odaberite naziv ovog uređaja"
@@ -3660,7 +3660,7 @@
     "messageformat": "Završetak prijenosa poruke..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "Otkazivanje..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Priprema za preuzimanje..."
@@ -3675,16 +3675,16 @@
     "messageformat": "Poruke i informacije o chatu zaštićene su sveobuhvatnim šifriranjem, uključujući postupak sinhronizacije. <learnMoreLink>Saznajte više</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "Otkazati povezivanje uređaja?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "Ako odaberete otkazivanje, ovaj uređaj neće biti povezan i neće se prenositi poruke ili mediji."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "Nastavite sa povezivanjem"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "Otkaži povezivanje"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Greška pri prijenosu vaših poruka"
@@ -4299,7 +4299,7 @@
     "messageformat": "Poništi sve boje chatova"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "Vrati standardne boje"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Poništi"
@@ -5867,6 +5867,9 @@
     "messageformat": "Sada možete odlučiti prenijeti svoju povijest razgovora i posljednjih 45 dana medija na novi povezani uređaj. Proces prijenosa je end-to-end kriptiran i potpuno neobavezan."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "Dan zaljubljenih se odnosi na proslavu savršenog spoja, pa smo ažurirali tekstualnu oznaku na jednom dugmetu u aplikaciji za desktop kako bismo stvorili slatki par s istim dugmetom na vašem telefonu. Ovo zvuči kao vrlo mala promjena, i jeste, ali ponekad male stvari pokazuju koliko vam je stalo."
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

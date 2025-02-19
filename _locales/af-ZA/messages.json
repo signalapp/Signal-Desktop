@@ -1146,52 +1146,52 @@
     "messageformat": "Hierdie media is nie beskikbaar nie"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "Media nie beskikbaar nie"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Vind meer uit"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "Lêer nie beskikbaar nie"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "Hierdie boodskap is onvolledig"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Plakker nie beskikbaar nie"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Stemboodskap nie beskikbaar nie"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "Lêer nie beskikbaar nie"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "Volledige boodskap nie beskikbaar nie"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "Media nie beskikbaar nie"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Plakker nie beskikbaar nie"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Stemboodskap nie beskikbaar nie"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Hierdie lêer is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Media en lêers ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Die volledige teks in hierdie boodskap is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Lang teksboodskappe ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Hierdie media is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Media ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Hierdie plakker is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Media en lêers ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Hierdie stemboodskap is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Media en lêers ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
   },
   "icu:save": {
     "messageformat": "Stoor"
@@ -1257,7 +1257,7 @@
     "messageformat": "Toestelnaam"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "Om die naam van hierdie toestel te verander, maak Signal op jou foon oop en gaan na Instellings > Gekoppelde toestelle"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Kies hierdie toestelnaam"
@@ -3660,7 +3660,7 @@
     "messageformat": "Finaliseer tans boodskapoordrag…"
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "Besig om te kanselleer…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Berei tans voor om af te laai…"
@@ -3675,16 +3675,16 @@
     "messageformat": "Boodskappe en kletsinligting word deur end-tot-end-enkriptering beskerm, wat insluit die sinchroniseringsprosesse. <learnMoreLink>Vind meer uit</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "Kanselleer toestelkoppeling?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "As jy die keuse maak om te kanselleer, sal hierdie toestel nie gekoppel word nie en sal geen boodskappe of media oorgedra word nie."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "Gaan voort met koppeling"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "Kanselleer koppeling"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Kon nie jou boodskappe oordra nie"
@@ -4299,7 +4299,7 @@
     "messageformat": "Stel alle kletskleure terug"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "Stel verstekkleure terug"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Herstel"
@@ -5867,6 +5867,9 @@
     "messageformat": "Wanneer jy nou jou primêre Signal-toestel aan 'n nuwe rekenaar koppel, kan jy jou kletsgeskiedenis en jou laaste 45 dae se media saam oordra. Die oordragproses is end-tot-end geënkripteer, en heeltemal opsioneel."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "Ons het die teks by 'n knoppie in Signal vir rekenaars opgedateer om Android en iOS te laat ooreenstem."
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

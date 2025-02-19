@@ -1146,52 +1146,52 @@
     "messageformat": "이 미디어는 사용할 수 없습니다"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "미디어를 사용할 수 없음"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "더 알아보기"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "파일을 사용할 수 없음"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "메시지가 불완전함"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "스티커를 사용할 수 없음"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "음성 메시지를 사용할 수 없음"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "파일을 사용할 수 없음"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "전체 메시지를 사용할 수 없음"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "미디어를 사용할 수 없음"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "스티커를 사용할 수 없음"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "음성 메시지를 사용할 수 없음"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "이 기기 연결 시 이 파일을 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 미디어와 파일은 동기화할 수 없습니다."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "이 기기를 연결한 상태로 이 메시지의 전체 텍스트를 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 긴 텍스트 메시지는 동기화할 수 없습니다."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "이 기기 연결 시 이 미디어를 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 미디어는 동기화할 수 없습니다."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "이 기기 연결 시 이 스티커를 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 미디어와 파일은 동기화할 수 없습니다."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "이 기기 연결 시 이 음성 메시지를 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 미디어와 파일은 동기화할 수 없습니다."
   },
   "icu:save": {
     "messageformat": "저장"
@@ -1257,7 +1257,7 @@
     "messageformat": "기기 이름"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "이 기기 이름을 변경하려면 휴대폰에서 Signal을 연 다음 설정 > 연결된 기기로 이동하세요"
   },
   "icu:chooseDeviceName": {
     "messageformat": "기기 이름을 선택하세요"
@@ -3660,7 +3660,7 @@
     "messageformat": "메시지 전송을 마무리하는 중..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "취소하는 중..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "다운로드를 준비하는 중..."
@@ -3675,16 +3675,16 @@
     "messageformat": "동기화 프로세스를 비롯하여 메시지와 대화 정보는 엔드투엔드 암호화로 보호됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "기기 연결을 취소하시겠어요?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "취소를 선택할 경우 이 기기가 연결되지 않으며, 메시지 또는 미디어가 전송되지 않습니다."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "연결 계속"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "연결 취소"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "메시지 전송 오류"
@@ -4299,7 +4299,7 @@
     "messageformat": "모든 대화창 색상 재설정"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "기본 색상 재설정"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "초기화"
@@ -5867,6 +5867,9 @@
     "messageformat": "이제 Signal 기기를 새 데스크톱으로 연결할 때 대화 기록과 지난 45일간의 미디어를 가져올 수 있습니다. 전송 프로세스는 종단 간 암호화로 보호되지만, 전적으로 선택 가능합니다."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "데스크톱 앱 버튼의 텍스트를 Android 및 iOS와 일치하도록 업데이트했습니다."
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

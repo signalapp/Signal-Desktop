@@ -1146,52 +1146,52 @@
     "messageformat": "このメディアはダウンロードできません"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "メディアはご利用になれません"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "さらに詳しく"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "ファイルがダウンロードできません"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "このメッセージは不完全です"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "ステッカーはご利用になれません"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "ボイスメッセージはご利用になれません"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "ファイルがダウンロードできません"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "完全なメッセージがダウンロードできません"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "メディアはご利用になれません"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "ステッカーはご利用になれません"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "ボイスメッセージはご利用になれません"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "この端末をリンクしたとき、このファイルはスマートフォンから移行されませんでした。端末をリンクした時点で45日以上経過したメディアやファイルは同期できません。"
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "この端末をリンクしたとき、このメッセージの完全なテキストはスマートフォンから移行されませんでした。端末をリンクした時点で45日以上経過した長いテキストメッセージは同期できません。"
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "この端末をリンクしたとき、このメディアはスマートフォンから移行されませんでした。端末をリンクした時点で45日以上経過したメディアは同期できません。"
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "この端末をリンクしたとき、このステッカーはスマートフォンから移行されませんでした。端末をリンクした時点で45日以上経過したメディアやファイルは同期できません。"
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "この端末をリンクしたときにこのボイスメッセージはスマートフォンから移行されませんでした。端末をリンクした時点で45日以上経過したメディアやファイルは同期できません。"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1257,7 +1257,7 @@
     "messageformat": "端末名"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "この端末の名前を変更するには、スマートフォンでSignalを開き、「設定」 > 「リンク済み端末」に移動します。"
   },
   "icu:chooseDeviceName": {
     "messageformat": "この端末の名前を設定してください"
@@ -3660,7 +3660,7 @@
     "messageformat": "メッセージの移行が間もなく完了します…"
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "キャンセルしています…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ダウンロード中..."
@@ -3675,16 +3675,16 @@
     "messageformat": "同期のプロセスも含め、メッセージ情報とチャット情報はエンドツーエンドの暗号化で保護されています。<learnMoreLink>さらに詳しく</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "端末へのリンク付けをキャンセルしますか？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "キャンセルを選択するとこの端末はリンクされず、メッセージやメディアは移行されません。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "リンク付けを続行する"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "リンク付けをキャンセルする"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "メッセージの移行中にエラーが発生しました"
@@ -4299,7 +4299,7 @@
     "messageformat": "すべてのチャットの色をリセットする"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "既定の色をリセットする"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "リセットする"
@@ -5867,6 +5867,9 @@
     "messageformat": "チャット履歴と過去45日間のメディアを、新しいリンク済み端末に移行するかどうかを選択できるようになりました。移行プロセスはエンドツーエンドで暗号化されており、完全にオプションです。"
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "Desktopアプリのボタンのテキストを、AndroidとiOSと同じになるようにアップデートしました。"
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

@@ -1146,52 +1146,52 @@
     "messageformat": "ဤမီဒီယာကို မရရှိနိုင်ပါ"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "မီဒီယာကို မရရှိနိုင်ပါ"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "ပိုမိုသိရှိရန်"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "ဖိုင်ကို မရရှိနိုင်ပါ"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "ဤမက်ဆေ့ချ်သည် မပြည့်စုံပါ"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "စတစ်ကာ မရနိုင်ပါ"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "အသံမက်ဆေ့ချ်ကို မရရှိနိုင်ပါ"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "ဖိုင်ကို မရရှိနိုင်ပါ"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "မက်ဆေ့ချ် အပြည့်အစုံ မရရှိနိုင်ပါ"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "မီဒီယာကို မရရှိနိုင်ပါ"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "စတစ်ကာ မရနိုင်ပါ"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "အသံမက်ဆေ့ချ်ကို မရရှိနိုင်ပါ"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ဤစက်ကို လင့်ခ်ချိတ်ထားချိန်တွင် ယခုဖိုင်ကို သင့်ဖုန်းမှ မလွှဲပြောင်းထားပါ။ လင့်ခ်ချိတ်ချိန်တွင် 45 ရက်ထက်ကြာသော မီဒီယာနှင့် ဖိုင်များကို တူအောင်ညှိ၍မရပါ။"
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ဤစက်ကို လင့်ခ်ချိတ်ထားချိန်တွင် မက်ဆေ့ချ်ပါ စာသားအပြည့်အစုံကို သင့်ဖုန်းမှ မလွှဲပြောင်းထားပါ။ လင့်ခ်ချိတ်ထားချိန်တွင် 45 ရက်ထက်ကြာသော စာသားမက်ဆေ့ချ် အရှည်များကို တူအောင်ညှိ၍မရပါ။"
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ဤစက်ကို လင့်ခ်ချိတ်ထားချိန်တွင် ယခုမီဒီယာကို သင့်ဖုန်းမှ လွှဲပြောင်းမထားပါ။ လင့်ခ်ချိတ်ချိန်တွင် 45 ရက်ထက်ကြာသော မီဒီယာကို တူအောင်ညှိ၍မရပါ။"
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ဤစက်ကို လင့်ခ်ချိတ်ထားချိန်တွင် ယခုစတစ်ကာကို သင့်ဖုန်းမှ လွှဲပြောင်းမထားပါ။ လင့်ခ်ချိတ်ချိန်တွင် 45 ရက်ထက်ကြာသော မီဒီယာနှင့် ဖိုင်များကို တူအောင်ညှိ၍မရပါ။"
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ဤစက်ကို လင့်ခ်ချိတ်ထားချိန်တွင် ယခုအသံမက်ဆေ့(ချ်)ကို သင့်ဖုန်းမှ မလွှဲပြောင်းထားပါ။ လင့်ခ်ချိတ်ချိန်တွင် 45 ရက်ထက်ကြာသော မီဒီယာနှင့် ဖိုင်များကို တူအောင်ညှိ၍မရပါ။"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -1257,7 +1257,7 @@
     "messageformat": "စက်အမည်"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "ဤစက်အမည်ကို ပြောင်းရန် သင့်ဖုန်းတွင် Signal ကိုဖွင့်ပြီး ဆက်တင် > ချိတ်ထားသည့် စက်များသို့ သွားပါ။"
   },
   "icu:chooseDeviceName": {
     "messageformat": "ဤစက်အမည်ကို ရွေးပါ"
@@ -3660,7 +3660,7 @@
     "messageformat": "မက်ဆေ့ချ်လွှဲပြောင်းခြင်းကို အပြီးသတ်နေသည်..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "ပယ်ဖျက်နေသည်..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "ဒေါင်းလုဒ်လုပ်ရန် ပြင်ဆင်နေသည်..."
@@ -3675,16 +3675,16 @@
     "messageformat": "ချိန်ကိုက်မှု လုပ်ငန်းစဉ်အပါအဝင် မက်ဆေ့ချ်များနှင့် ချက်(တ်)အချက်အလက်ကို ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ခြင်းဖြင့် ကာကွယ်ထားသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "ချိတ်ဆက်ခြင်းကို ပယ်ဖျက်မလား။"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "ပယ်ဖျက်ရန်ကို ရွေးချယ်ပါက ဤစက်သည် မချိတ်ဆက်တော့ဘဲ မက်ဆေ့ချ် သို့မဟုတ် မီဒီယာကို လွှဲပြောင်းမည်မဟုတ်ပါ။"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "ဆက်လက်ချိတ်ဆက်ရန်"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "လင့်ခ်ချိတ်ခြင်းကို ပယ်ဖျက်ရန်"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "သင့်မက်ဆေ့ချ် လွှဲပြောင်းရာတွင် ချွတ်ယွင်းချက်ရှိနေသည်"
@@ -4299,7 +4299,7 @@
     "messageformat": "ချက်(တ်)အရောင်များ အားလုံးကို ပြန်သတ်မှတ်ရန်"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "ပုံသေ အရောင်များအတိုင်း ပြန်သတ်မှတ်ရန်"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "ရီဆက်ချမည်"
@@ -5867,6 +5867,9 @@
     "messageformat": "ယခု သင်သည် ချက်(တ်)မှတ်တမ်းနှင့် နောက်ဆုံး 45 ရက်အတွင်း မီဒီယာကို ချိတ်ဆက်ထားသော စက်အသစ်သို့ လွှဲပြောင်းနိုင်ပါပြီ။ လွှဲပြောင်းခြင်းလုပ်ငန်းစဉ်ကို ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားပြီး ဆန္ဒရှိမှ လုပ်ဆောင်နိုင်သည်။"
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "Android နှင့် iOS ကိုက်ညီမှုရှိစေရန် Desktop အက်ပ်မှ ခလုတ်တစ်ခုပေါ်ရှိ စာသားကို ကျွန်ုပ်တို့ အပ်ဒိတ်လုပ်ထားသည်။"
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

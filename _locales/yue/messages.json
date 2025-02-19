@@ -1146,52 +1146,52 @@
     "messageformat": "呢個媒體已經冇咗"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "媒體已經冇咗"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "了解多啲"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "檔案已經冇咗"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "呢個訊息唔完整"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "貼圖已經冇咗"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "語音訊息已經冇咗"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "檔案已經冇咗"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "完整嘅訊息已經冇咗"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "媒體已經冇咗"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "貼圖已經冇咗"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "語音訊息已經冇咗"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "連結呢部機嗰陣，呢個檔案冇喺你手機度轉移過嚟。連結裝置嗰陣，超過 45 日嘅媒體同檔案冇得同步。"
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "連結呢部機嗰陣，呢個訊息嘅完整文字冇喺你手機度轉移過嚟。連結裝置嗰陣，超過 45 日嘅長文字訊息冇得同步。"
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "連結呢部機嗰陣，呢個媒體冇喺你手機度轉移過嚟。連結裝置嗰陣，超過 45 日嘅媒體冇得同步。"
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "連結呢部機嗰陣，呢個貼圖冇喺你手機度轉移過嚟。連結裝置嗰陣，超過 45 日嘅媒體同檔案冇得同步。"
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "連結呢部機嗰陣，呢個語音訊息冇喺你手機度轉移過嚟。連結裝置嗰陣，超過 45 日嘅媒體同檔案冇得同步。"
   },
   "icu:save": {
     "messageformat": "儲存"
@@ -1257,7 +1257,7 @@
     "messageformat": "裝置名稱"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "如果想改咗呢部機個名，請喺手機打開 Signal，然後去「設定」>「連結咗嘅裝置」"
   },
   "icu:chooseDeviceName": {
     "messageformat": "選擇呢部裝置個名"
@@ -3660,7 +3660,7 @@
     "messageformat": "完成緊訊息轉移..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "取消緊..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "準備緊下載..."
@@ -3675,16 +3675,16 @@
     "messageformat": "訊息同聊天資料都受到端對端加密保護，包括同步過程。<learnMoreLink>了解詳情</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "係咪取消裝置連結？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "如果你揀取消，你部機就唔會連結，而訊息同媒體都唔會轉移。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "繼續連結"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "取消連結"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "轉移訊息嗰陣發生錯誤"
@@ -4299,7 +4299,7 @@
     "messageformat": "重設所有聊天色彩"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "重設預設嘅顏色"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "重設"
@@ -5867,6 +5867,9 @@
     "messageformat": "而家，如果你想將主要 Signal 裝置連去新嘅桌面電腦，可以帶走埋聊天紀錄同最近 45 日嘅媒體。轉移過程係端對端加密，完全由你選擇。至於係咪要拋開過去，就你自己決定喇。"
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "情人節最緊要成雙成對，所以我哋更新咗桌面版 APP 個掣嘅文字標籤，嚟襯返手機入面同一個掣。小小嘅改變，表示我哋在乎你。"
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }
