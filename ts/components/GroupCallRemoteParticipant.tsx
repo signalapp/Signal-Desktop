@@ -10,7 +10,7 @@ import React, {
   useEffect,
 } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import { debounce, noop } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
@@ -35,6 +35,9 @@ import { usePrevious } from '../hooks/usePrevious';
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 10000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;
 const DELAY_TO_SHOW_MISSING_MEDIA_KEYS = 5000;
+
+// Should match transition time in .module-ongoing-call__group-call-remote-participant
+const CONTAINER_TRANSITION_TIME = 200;
 
 type BasePropsType = {
   getFrameBuffer: () => Buffer;
@@ -111,6 +114,10 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       SPEAKING_LINGER_MS
     );
     const previousSharingScreen = usePrevious(sharingScreen, sharingScreen);
+    const prevIsActiveSpeakerInSpeakerView = usePrevious(
+      isActiveSpeakerInSpeakerView,
+      isActiveSpeakerInSpeakerView
+    );
 
     const isImageDataCached =
       sharingScreen && imageDataCache.current?.has(demuxId);
@@ -120,6 +127,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       videoAspectRatio ? videoAspectRatio >= 1 : true
     );
     const [showErrorDialog, setShowErrorDialog] = useState(false);
+    const [isOnTop, setIsOnTop] = useState(false);
 
     // We have some state (`hasReceivedVideoRecently`) and this ref. We can't have a
     //   single state value like `lastReceivedVideoAt` because (1) it won't automatically
@@ -289,6 +297,27 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         cancelAnimationFrame(rafId);
       };
     }, [hasRemoteVideo, isVisible, renderVideoFrame, videoFrameSource]);
+
+    const setIsOnTopDebounced = useMemo(
+      () => debounce(setIsOnTop, CONTAINER_TRANSITION_TIME),
+      [setIsOnTop]
+    );
+
+    // When in speaker view or while transitioning out of it, keep the main speaker
+    // z-indexed above all other participants
+    useEffect(() => {
+      if (isActiveSpeakerInSpeakerView !== prevIsActiveSpeakerInSpeakerView) {
+        if (isActiveSpeakerInSpeakerView) {
+          setIsOnTop(true);
+        } else {
+          setIsOnTopDebounced(false);
+        }
+      }
+    }, [
+      prevIsActiveSpeakerInSpeakerView,
+      isActiveSpeakerInSpeakerView,
+      setIsOnTopDebounced,
+    ]);
 
     let canvasStyles: CSSProperties;
     let containerStyles: CSSProperties;
@@ -521,7 +550,9 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               remoteParticipantsCount > 1 &&
               'module-ongoing-call__group-call-remote-participant--speaking',
             isHandRaised &&
-              'module-ongoing-call__group-call-remote-participant--hand-raised'
+              'module-ongoing-call__group-call-remote-participant--hand-raised',
+            isOnTop &&
+              'module-ongoing-call__group-call-remote-participant--is-on-top'
           )}
           ref={intersectionRef}
           style={containerStyles}

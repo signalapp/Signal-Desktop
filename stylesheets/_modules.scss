@@ -4352,6 +4352,8 @@ button.module-image__border-overlay:focus {
     line-height: 0;
     overflow: hidden;
     border-radius: 10px;
+
+    // Should match GroupCallRemoteParticipant CONTAINER_TRANSITION_TIME
     transition:
       top 200ms linear,
       inset-inline-start 200ms linear,
@@ -4529,6 +4531,10 @@ button.module-image__border-overlay:focus {
         color: variables.$color-black;
         margin-inline-end: 12px;
       }
+    }
+
+    &--is-on-top {
+      z-index: variables.$z-index-above-above-base;
     }
 
     &:hover {
