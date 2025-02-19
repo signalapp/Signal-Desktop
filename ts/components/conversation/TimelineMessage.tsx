@@ -365,6 +365,7 @@ export function TimelineMessage(props: Props): JSX.Element {
         i18n={i18n}
         triggerId={triggerId}
         shouldShowAdditional={shouldShowAdditional}
+        interactionMode={props.interactionMode}
         onDownload={handleDownload}
         onEdit={
           canEditMessage

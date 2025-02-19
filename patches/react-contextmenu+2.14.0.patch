@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-contextmenu/modules/ContextMenu.js b/node_modules/react-contextmenu/modules/ContextMenu.js
-index 2f88213..4cf584a 100644
+index 2f88213..41e47ea 100644
 --- a/node_modules/react-contextmenu/modules/ContextMenu.js
 +++ b/node_modules/react-contextmenu/modules/ContextMenu.js
 @@ -81,6 +81,11 @@ var ContextMenu = function (_AbstractMenu) {
@@ -35,13 +35,15 @@ index 2f88213..4cf584a 100644
                      });
                  });
              } else {
-@@ -248,6 +259,14 @@ var ContextMenu = function (_AbstractMenu) {
+@@ -248,6 +259,16 @@ var ContextMenu = function (_AbstractMenu) {
                      if (!_this2.menu) return;
                      _this2.menu.style.opacity = 0;
                      _this2.menu.style.pointerEvents = 'none';
 +
 +                    // Return to the previous focus state when dismissing the menu, unless the
 +                    // menu option focused another element. This is important for keyboard mode.
++                    if (_this2.props.avoidFocusRestoreOnBlur) return;
++
 +                    var isFocusWithinMenu = _this2.menu.contains(document.activeElement);
 +                    if (isFocusWithinMenu && _this2.previousFocus && _this2.previousFocus.focus) {
 +                        _this2.previousFocus.focus();
@@ -139,3 +141,15 @@ index ad1dc70..c919be8 100644
                  this.subMenu.classList.remove(_helpers.cssClasses.menuVisible);
              }
          }
+diff --git a/node_modules/react-contextmenu/src/index.d.ts b/node_modules/react-contextmenu/src/index.d.ts
+index 753ce90..c5971a4 100644
+--- a/node_modules/react-contextmenu/src/index.d.ts
++++ b/node_modules/react-contextmenu/src/index.d.ts
+@@ -14,6 +14,7 @@ declare module "react-contextmenu" {
+         preventHideOnResize?: boolean,
+         preventHideOnScroll?: boolean,        
+         style?: React.CSSProperties,
++        avoidFocusRestoreOnBlur?: boolean;
+     }
+ 
+     export interface ContextMenuTriggerProps {
