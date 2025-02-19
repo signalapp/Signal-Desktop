@@ -4,6 +4,9 @@
 
 trap '[[ $pid ]] && kill $pid; exit' EXIT
 
+set -x
+set -e
+
 # This is the default entrypoint for the when running the build container.
 # Usage: docker-entrypoint.sh [BUILD_TYPE]
 
@@ -31,31 +34,31 @@ echo "BUILD_TYPE: ${BUILD_TYPE}"
 # UNIX timestamp will be generated at the time of the build, and is non-deterministic.
 echo "SOURCE_DATE_EPOCH: ${SOURCE_DATE_EPOCH}"
 
-npm install
-npm run clean-transpile
+pnpm install
+pnpm run clean-transpile
 cd sticker-creator
-npm install
-npm run build
+pnpm install
+pnpm run build
 cd ..
-npm run generate
+pnpm run generate
 
 if [ "${BUILD_TYPE}" = "public" ]; then
-  npm run prepare-beta-build
+  pnpm run prepare-beta-build
 elif [ "${BUILD_TYPE}" = "alpha" ]; then
-  npm run prepare-alpha-version
-  npm run prepare-alpha-build
+  pnpm run prepare-alpha-version
+  pnpm run prepare-alpha-build
 elif [ "${BUILD_TYPE}" = "axolotl" ]; then
-  npm run prepare-axolotl-version
-  npm run prepare-axolotl-build
+  pnpm run prepare-axolotl-version
+  pnpm run prepare-axolotl-build
 elif [ "${BUILD_TYPE}" = "adhoc" ]; then
-  npm run prepare-adhoc-version
-  npm run prepare-adhoc-build
+  pnpm run prepare-adhoc-version
+  pnpm run prepare-adhoc-build
 elif [ "${BUILD_TYPE}" = "staging" ]; then
-  npm run prepare-alpha-version
-  npm run prepare-staging-build
+  pnpm run prepare-alpha-version
+  pnpm run prepare-staging-build
 elif [ "${BUILD_TYPE}" = "test" ]; then
-  npm run prepare-alpha-version
-  npm run prepare-alpha-build
+  pnpm run prepare-alpha-version
+  pnpm run prepare-alpha-build
 elif [ "${BUILD_TYPE}" = "dev" ]; then
   echo "dev build, using package.json as is"
 else
@@ -63,4 +66,4 @@ else
   exit 1
 fi
 
-npm run build-linux
+pnpm run build-linux
