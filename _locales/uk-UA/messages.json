@@ -1146,52 +1146,52 @@
     "messageformat": "Цей медіафайл недоступний"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "Медіафайл недоступний"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Докладніше"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "Файл недоступний"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "Це повідомлення неповне"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Стікер недоступний"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Голосове повідомлення недоступне"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "Файл недоступний"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "Повне повідомлення недоступне"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "Медіафайл недоступний"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Стікер недоступний"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Голосове повідомлення недоступне"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Коли ви зв'язали цей пристрій, файл не було перенесено з вашого телефону. Файли й медіафайли, надіслані чи отримані понад 45 днів тому, не буде синхронізовано після зв'язування нового пристрою."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Коли ви зв'язали цей пристрій, повний текст повідомлення не було перенесено з вашого телефону. Довгі текстові повідомлення, надіслані чи отримані понад 45 днів тому, не буде синхронізовано після зв'язування нового пристрою."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Коли ви зв'язали цей пристрій, медіафайл не було перенесено з вашого телефону. Медіафайли, надіслані чи отримані понад 45 днів тому, не буде синхронізовано після зв'язування нового пристрою."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Коли ви зв'язали цей пристрій, стікер не було перенесено з вашого телефону. Файли й медіафайли, надіслані чи отримані понад 45 днів тому, не буде синхронізовано після зв'язування нового пристрою."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Коли ви зв'язали цей пристрій, голосове повідомлення не було перенесено з вашого телефону. Файли й медіафайли, надіслані чи отримані понад 45 днів тому, не буде синхронізовано після зв'язування нового пристрою."
   },
   "icu:save": {
     "messageformat": "Зберегти"
@@ -1257,7 +1257,7 @@
     "messageformat": "Назва пристрою"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "Щоб змінити назву цього пристрою, відкрийте Signal на телефоні й перейдіть у налаштування > Зв’язані пристрої"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Оберіть назву пристрою"
@@ -3660,7 +3660,7 @@
     "messageformat": "Перенесення повідомлень майже завершено…"
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "Скасування…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Підготовка до завантаження…"
@@ -3675,16 +3675,16 @@
     "messageformat": "Повідомлення й інформацію про чати, а також сам процес синхронізації захищено наскрізним шифруванням. <learnMoreLink>Докладніше</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "Скасувати зв'язування пристрою?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "У разі скасування пристрій не буде зв'язано, а повідомлення й медіафайли не буде перенесено."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "Продовжити зв'язування"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "Не зв'язувати"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Помилка під час перенесення повідомлень"
@@ -4299,7 +4299,7 @@
     "messageformat": "Скинути кольори всіх чатів"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "Скинути стандартний колір"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Скинути"
@@ -5867,6 +5867,9 @@
     "messageformat": "Тепер, зв'язуючи основний пристрій Signal з новим комп'ютером, ви також можете переносити історію чатів і медіафайли за минулі 45 днів. Процес перенесення захищено наскрізним шифруванням. А ще воно необов'язкове, тож тільки вам вирішувати, чи зберегти минуле в пам'яті пристрою, чи тільки у своїй власній."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "День святого Валентина — свято єднання споріднених душ, тому ми оновили текст на самотній кнопці в програмі для комп'ютера, і тепер вона створює ідеальну пару з такою ж кнопкою на телефоні. Це дрібничка, але саме такі деталі показують справжню турботу."
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

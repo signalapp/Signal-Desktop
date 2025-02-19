@@ -1146,52 +1146,52 @@
     "messageformat": "हा मिडीया उपलब्ध नाही"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "मिडीया उपलब्ध नाही"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "अधिक जाणून घ्या"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "फाईल उपलब्ध नाही"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "हा संदेश अपूर्ण आहे"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "स्टिकर उपलब्ध नाही"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "व्हॉईस संदेश उपलब्ध नाही"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "फाईल उपलब्ध नाही"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "पूर्ण संदेश उपलब्ध नाही"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "मिडीया उपलब्ध नाही"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "स्टिकर उपलब्ध नाही"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "व्हॉईस संदेश उपलब्ध नाही"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "हा डिव्हाईस लिंक केला तेव्हा ही फाईल तुमच्या फोनवर हस्तांतरित झाली नव्हती. डिव्हाईस सिंक करतेवेळी ४५ दिवसांपेक्षा जुना मीडिया आणि जुन्या फाइल्स स्थलांतरित झाल्या नव्हत्या."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "हा डिव्हाईस लिंक झाला तेव्हा या संदेशातील पूर्ण मजकूर तुमच्या फोनवरून हस्तांंतरित होऊ शकला नाही. डिव्हाईस लिंक करतेवेळी 45 दिवसांपेक्षा जुने टेक्स्ट संदेश सिंक करता येत नाहीत."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "हा डिव्हाईस लिंक केला तेव्हा हा मिडीया तुमच्या फोनवर हस्तांतरित झाला नाही. डिव्हाईस लिंक करतेवेळी ४५ दिवसांपेक्षा जुना मिडीया सिंक करता येत नाही."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "हा डिव्हाईस लिंक केला तेव्हा हा स्टिकर तुमच्या फोनवरून हस्तांतरण झाला नव्हता. डिव्हाईस सिंक करतेवेळी ४५ दिवसांपेक्षा जुना मिडीया आणि जुन्या फाईल्स सिंक करता येत नाहीत."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "हा डिव्हाईस लिंक केला तेव्हा हा व्हॉईस संदेश तुमच्या फोनवरून हस्तांतरण झाला नव्हता. डिव्हाईस सिंक करतेवेळी ४५ दिवसांपेक्षा जुना मिडीया आणि जुन्या फाईल्स सिंक करता येत नाहीत."
   },
   "icu:save": {
     "messageformat": "जतन करा"
@@ -1257,7 +1257,7 @@
     "messageformat": "डिव्हाईस नाव"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "या डिव्हाईसचे नाव बदलण्यासाठी, तुमच्या फोनवर Signal उघडा आणि सेटिंग्ज > लिंक केलेले डिव्हाइसेस वर जा"
   },
   "icu:chooseDeviceName": {
     "messageformat": "या डिव्हाईसचे नाव निवडा"
@@ -3660,7 +3660,7 @@
     "messageformat": "संदेश हस्तांतरण पूर्ण करत आहे..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "रद्द करत आहोत..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "डाउनलोड करण्याची तयारी करत आहे..."
@@ -3675,16 +3675,16 @@
     "messageformat": "संदेश आणि चॅट्ची माहिती एन्ड-टू-एन्ड एन्क्रिप्शनने संरक्षित आहेत, अगदी सिंकची प्रक्रियासुद्धा. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "डिव्हाइस लिंक करणे रद्द करायचे का?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "तुम्ही रद्द करायचे ठरवलेत, तर हा डिव्हाइस लिंक होणार नाही आणि कोणतेही संदेश किंवा मिडीया हस्तांतरण होणार नाही."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "लिंक करणे सुरु ठेवा"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "लिंक करणे रद्द करा"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "आपले संदेश स्थलांतरित करण्यामध्ये त्रुटी"
@@ -4299,7 +4299,7 @@
     "messageformat": "सर्व चॅट रंग रीसेट करा"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "पूर्वनिर्धारित रंग रीसेट करा"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "रीसेट करा"
@@ -5867,6 +5867,9 @@
     "messageformat": "आता तुम्ही तुमचा प्राथमिक Signal डिव्हाईस एका नव्या डेस्कटॉपला जोडता, तेव्हा त्यासोबत तुम्ही तुमचा चॅट इतिहास आणि गेल्या ४५ दिवसांचा मिडीया आणू शकता."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "व्हॅलेंटाईन्स डे तुमची परफेक्ट जोडी साजरी करण्याचा दिवस असतो, म्हणूनच आम्ही डेस्कटॉप ॲपवरील एका बटणाचे टेक्स्ट लेबल अद्यतन केले आहे आणि तेच बटण तुमच्या फोनवर वापरून तुम्ही एक क्युट जोडा तयार करू शकता. हा बदल छोटासा वाटेल, आणि तो आहेच छोटा, पण कधीकधी अशा छोट्या गोष्टींमधूनच तुम्हाला किती काळजी वाटते हे दिसून येते."
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

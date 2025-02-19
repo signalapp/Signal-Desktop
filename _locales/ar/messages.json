@@ -669,7 +669,7 @@
     "messageformat": "تُستخدم هذه النافذة خلال تطوير لِعرض تشخيصات المكالمات الجارية."
   },
   "icu:speech": {
-    "messageformat": "الحديث"
+    "messageformat": "استمع لقراءة النص"
   },
   "icu:show": {
     "messageformat": "إظهار"
@@ -1146,52 +1146,52 @@
     "messageformat": "ملف الوسائط هذا غير متوفِّر."
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "الوسائط غير متوفرة"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "اعرف المزيد"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "الملف غير مُتوفِّر"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "هذه الرسالة غير مُكتمِلة"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "المُلصَق غير مُتوفِّر"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "الرسالة الصوتية غير مُتوفِّرة"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "الملف غير مُتوفِّر"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "الرسالة الكاملة غير مُتوفِّرة"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "الوسائط غير متوفرة"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "المُلصَق غير مُتوفِّر"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "الرسالة الصوتية غير مُتوفِّرة"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "لم يتم نقل هذا الملف من هاتفك عندما تمَّ ربط هذا الجهاز. لا يمكن مُزامنة الملفات والوسائط التي تعود إلى أكثر من 45 يوم منذ الوقت الذي تمَّ فيه ربط الجهاز."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "لم يتم نقل النص الكامل في هذه الرسالة من هاتفك عند ربط هذا الجهاز. لا يُمكن مزامنة الرسائل النصية الطويلة التي مضى عليها أكثر من 45 يومًا من الوقت الذي تمَّ فيه ربط الجهاز."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "لم يتم نقل ملف الوسائط هذا من هاتفك عندما تمَّ ربط هذا الجهاز. لا يمكن مُزامنة الوسائط التي تعود إلى أكثر من 45 يومًا منذ الوقت الذي تمَّ فيه ربط الجهاز."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "هذا المُلصَق لم يتم تحويله من هاتفك عندما كان هذا الجهاز مُرتبِطًا. لا يمكن مُزامنة الملفات والوسائط التي تعود إلى أكثر من 45 يوم منذ الوقت الذي تمَّ فيه ربط الجهاز."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "لم يتم تحويل هذه الرسالة الصوتية من هاتفك عندما تمَّ ربط هذا الجهاز. لا يمكن مُزامنة الملفات والوسائط التي تعود إلى أكثر من 45 يوم منذ الوقت الذي تمَّ فيه ربط الجهاز."
   },
   "icu:save": {
     "messageformat": "حفظ"
@@ -1257,7 +1257,7 @@
     "messageformat": "‫اسم الجهاز"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "لتغيير اسم هذا الجهاز، افتح سيجنال على هاتفك وانتقل إلى \"الإعدادات\" > \"الأجهزة المرتبطة\""
   },
   "icu:chooseDeviceName": {
     "messageformat": "اختر اسم هذا الجهاز"
@@ -2853,10 +2853,10 @@
     "messageformat": "خفض اليد"
   },
   "icu:CallControls__RingingToast--ringing-on": {
-    "messageformat": "تم تفعيل الرنين"
+    "messageformat": "تمَّ تفعيل الرنين"
   },
   "icu:CallControls__RingingToast--ringing-off": {
-    "messageformat": "تم إيقاف الرنين"
+    "messageformat": "تمَّ إيقاف الرنين"
   },
   "icu:CallControls__RaiseHandsToast--you": {
     "messageformat": "رفعتَ يدكَ."
@@ -3660,7 +3660,7 @@
     "messageformat": "جارٍ وضع اللمسات الأخيرة على نقل الرسائل…"
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "جارٍ الإلغاء…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "جارٍ الإعداد للتنزيل..."
@@ -3675,16 +3675,16 @@
     "messageformat": "معلومات الرسائل والدردشات محمية من خلال التشفير من طرف لِطرف، بما في ذلك عملية المزامنة. <learnMoreLink>اعرف المزيد</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "هل ترغبُ بإلغاء ربط الجهاز؟"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "إذا اخترت الإلغاء، فلن يتم ربط هذا الجهاز، ولن يتم نقل أي رسائل أو وسائط."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "متابعة الربط"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "إلغاء الربط"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "حدث خطأ أثناء نقل رسائلك."
@@ -4299,7 +4299,7 @@
     "messageformat": "إعادة تعيين جميع ألوان الدردشات"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "إعادة تعيين الألوان الافتراضية"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "إعادة التعيين"
@@ -5867,6 +5867,9 @@
     "messageformat": "الآن، عندما تربط جهازك الأساسي الذي يحمل تطبيق سيجنال بحاسوب جديد، يُمكنك أن تنقل سِجل الدردشة الخاص بك وآخر 45 يومًا من الوسائط. عملية النقل مُشفّرة من طرف لطرف واختيارية كليًا. إذا كُنتَ تُفكِّر في نقل بياناتك السابقة أو تجاهلها، دع أجهزتك تساعدك في ذلك."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "قمنا بتحديث النصّ على زرّ في تطبيق سيجنال Desktop لمطابقة إصدار التطبيق على Android وiOS."
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

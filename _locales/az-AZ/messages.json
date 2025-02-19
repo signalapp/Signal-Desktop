@@ -1146,52 +1146,52 @@
     "messageformat": "Bu media faylı aktiv deyil"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "Media faylı mövcud deyil"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Daha ətraflı"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "Fayl mövcud deyil"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "Bu mesaj natamamdır"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Stiker mövcud deyil"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Səsli mesaj mövcud deyil"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "Fayl mövcud deyil"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "Tam mesaj mövcud deyil"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "Media faylı mövcud deyil"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "Stiker mövcud deyil"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "Səsli mesaj mövcud deyil"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Bu cihaz qoşulduqda həmin fayl telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan media və fayllar sinxronlaşdırıla bilmir."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Bu cihaz qoşulduqda həmin mesajdakı tam mətn telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan uzun mətn mesajları sinxronizasiya edilə bilmir."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Bu cihaz qoşulduqda həmin media fayl telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan media faylları sinxronlaşdırıla bilmir."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Bu cihaz qoşulduqda həmin stiker telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan media və fayllar sinxronlaşdırıla bilmir."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "Bu cihaz qoşulduqda həmin səsli mesaj telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan media və fayllar sinxronlaşdırıla bilmir."
   },
   "icu:save": {
     "messageformat": "Saxla"
@@ -1257,7 +1257,7 @@
     "messageformat": "Cihaz adı"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "Bu cihazın adını dəyişmək üçün telefonunuzda Signal tətbiqini açıb, Parametrlər > Əlaqələndirilmiş cihazlar bölməsinə keçin"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Bu cihazın adını seçin"
@@ -3660,7 +3660,7 @@
     "messageformat": "Mesaj köçürmə yekunlaşdırılır..."
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "Ləğv olunur..."
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Endirməyə hazırlaşır..."
@@ -3675,16 +3675,16 @@
     "messageformat": "Mesajlar və çat məlumatı sinxronlaşdırma prosesi daxil, tam şifrələmə ilə qorunur. <learnMoreLink>Daha ətraflı</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "Cihazın əlaqələndirilməsi ləğv edilsin?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "Ləğv etməyi seçsəniz, bu cihaz qoşulmayacaq və heç bir mesaj və ya media faylı köçürülməyəcək."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "Qoşulmağa davam et"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "Qoşulmanı ləğv et"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Mesajlarınız köçürülərkən xəta baş verdi"
@@ -4299,7 +4299,7 @@
     "messageformat": "Bütün çat rənglərini sıfırla"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "İlkin rəngləri sıfırla"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Sıfırla"
@@ -5867,6 +5867,9 @@
     "messageformat": "İndi əsas Signal cihazınızı yeni Masaüstü cihazınızla əlaqələndirdiyiniz zaman çat tarixçənizi və son 45 günlük media fayllarınızı da köçürə bilərsiniz. Köçürmə prosesi ucdan-uca şifrələnib və tamamilə öz seçiminizdən asılıdır. \"Keçmiş keçmişdə qaldı\" demək və ya onu özünüzlə daşımaq artıq yalnız sizdən asılıdır."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "\"Sevgililər günü\" mükəmməl uyğunlaşmaların günüdür. Biz də Android və iOS ilə uyğunlaşdırma üçün Desktop tətbiqində düymə üzərindəki mətni yenilədik. Bu sizə çox kiçik bir dəyişiklik kimi gələ bilər, amma sevginizi göstərməyin yolu da kiçik incəliklərdən keçir."
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }

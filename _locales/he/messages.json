@@ -1146,52 +1146,52 @@
     "messageformat": "מדיה זו אינה זמינה"
   },
   "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available"
+    "messageformat": "מדיה לא זמינה"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "למידע נוסף"
   },
   "icu:attachmentNotAvailable__file": {
-    "messageformat": "File not available"
+    "messageformat": "קובץ לא זמין"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "This message is incomplete"
+    "messageformat": "הודעה זו אינה שלמה"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "סטיקר לא זמין"
   },
   "icu:attachmentNotAvailable__voice": {
-    "messageformat": "Voice message not available"
+    "messageformat": "הודעה קולית לא זמינה"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "File not available"
+    "messageformat": "קובץ לא זמין"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Complete message not available"
+    "messageformat": "הודעה מלאה לא זמינה"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media not available"
+    "messageformat": "מדיה לא זמינה"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker not available"
+    "messageformat": "סטיקר לא זמין"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Voice message not available"
+    "messageformat": "הודעה קולית לא זמינה"
   },
   "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "הקובץ הזה לא הועבר מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן קבצים ומדיה שיותר ישנים מ–45 ימים בזמן קישור המכשיר."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced."
+    "messageformat": "הטקסט המלא בהודעה זו לא הועבר מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן הודעות טקסט ארוכות שיותר ישנות מ–45 ימים בזמן קישור המכשיר."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced."
+    "messageformat": "המדיה הזו לא הועברה מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן מדיה ישנה יותר מ–45 ימים בזמן קישור המכשיר."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "הסטיקר הזה לא הועבר מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן קבצים ומדיה שיותר ישנים מ–45 ימים בזמן קישור המכשיר."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced."
+    "messageformat": "ההודעה הקולית הזו לא הועברה מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן קבצים ומדיה שיותר ישנים מ–45 ימים בזמן קישור המכשיר."
   },
   "icu:save": {
     "messageformat": "שמור"
@@ -1257,7 +1257,7 @@
     "messageformat": "שם מכשיר"
   },
   "icu:Preferences--device-name__description": {
-    "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices"
+    "messageformat": "כדי לשנות את שם המכשיר הזה, יש לפתוח את Signal בטלפון ולנווט אל הגדרות > מכשירים מקושרים"
   },
   "icu:chooseDeviceName": {
     "messageformat": "בחר שם של מכשיר זה"
@@ -3660,7 +3660,7 @@
     "messageformat": "משלימים את העברת ההודעות…"
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Canceling..."
+    "messageformat": "מתבצע ביטול…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "מתכוננים להורדה…"
@@ -3675,16 +3675,16 @@
     "messageformat": "הודעות ופרטי צ׳אט מוגנים באמצעות הצפנה מקצה לקצה, כולל תהליך הסנכרון. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Cancel device linking?"
+    "messageformat": "לבטל את הקישור למכשיר?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "If you choose to cancel, this device will not be linked and no messages or media will be transferred."
+    "messageformat": "אם תבחר/י לבטל, המכשיר הזה לא יקושר ולא יועברו הודעות או מדיה."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continue linking"
+    "messageformat": "המשך קישור"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Cancel linking"
+    "messageformat": "ביטול קישור"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "שגיאה בהעברת ההודעות שלך"
@@ -4299,7 +4299,7 @@
     "messageformat": "איפוס כל צבעי הצ'אט"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Reset default colors"
+    "messageformat": "איפוס צבעי ברירת מחדל"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "אפס"
@@ -5867,6 +5867,9 @@
     "messageformat": "עכשיו אפשר לקשר את מכשיר Signal העיקרי שלך לשולחן עבודה חדש ולהעביר איתך גם את היסטוריית הצ׳אט ואת 45 ימי המדיה האחרונים שלך."
   },
   "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentine's Day is all about celebrating a perfect match, so we updated the text label on a single button in the Desktop app to create a cute couple with the same button on your phone. This sounds like a very small change, and it is, but sometimes it's the little things that show how much you care."
+    "messageformat": "עדכנו את הטקסט בכפתור של אפליקציית שולחן העבודה כדי שהוא יהיה תואם ל–Android ו–iOS."
+  },
+  "icu:WhatsNew__v7.44--0": {
+    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
   }
 }
