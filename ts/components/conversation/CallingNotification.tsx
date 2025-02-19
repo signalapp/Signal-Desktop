@@ -38,6 +38,7 @@ import {
 import { MINUTE } from '../../util/durations';
 import { isMoreRecentThan } from '../../util/timestamp';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip';
+import type { InteractionModeType } from '../../state/ducks/conversations';
 
 export type PropsActionsType = {
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
@@ -50,6 +51,7 @@ type PropsHousekeeping = {
   i18n: LocalizerType;
   id: string;
   conversationId: string;
+  interactionMode: InteractionModeType;
   isNextItemCallingNotification: boolean;
 };
 
@@ -120,6 +122,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
         <MessageContextMenu
           i18n={i18n}
           triggerId={props.id}
+          interactionMode={props.interactionMode}
           onDeleteMessage={() => {
             props.toggleDeleteMessagesModal({
               conversationId: props.conversationId,
