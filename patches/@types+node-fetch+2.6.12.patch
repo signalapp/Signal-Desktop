@@ -1,7 +1,7 @@
-diff --git a/node_modules/@types/node-fetch/index.d.ts b/node_modules/@types/node-fetch/index.d.ts
+diff --git a/index.d.ts b/index.d.ts
 index f95f9c1..72b3814 100644
---- a/node_modules/@types/node-fetch/index.d.ts
-+++ b/node_modules/@types/node-fetch/index.d.ts
+--- a/index.d.ts
++++ b/index.d.ts
 @@ -3,7 +3,8 @@
  import FormData = require("form-data");
  import { RequestOptions } from "http";

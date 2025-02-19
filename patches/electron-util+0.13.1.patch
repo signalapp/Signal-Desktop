@@ -1,7 +1,7 @@
-diff --git a/node_modules/electron-util/index.d.ts b/node_modules/electron-util/index.d.ts
+diff --git a/index.d.ts b/index.d.ts
 index 8d493d5..fc522af 100644
---- a/node_modules/electron-util/index.d.ts
-+++ b/node_modules/electron-util/index.d.ts
+--- a/index.d.ts
++++ b/index.d.ts
 @@ -1,7 +1,7 @@
  /// <reference lib="dom"/>
  /// <reference types="electron"/>
@@ -20,10 +20,10 @@ index 8d493d5..fc522af 100644
  
  /**
  Check for various things.
-diff --git a/node_modules/electron-util/source/is.js b/node_modules/electron-util/source/is.js
+diff --git a/source/is.js b/source/is.js
 index 9a7622f..9530a9c 100644
---- a/node_modules/electron-util/source/is.js
-+++ b/node_modules/electron-util/source/is.js
+--- a/source/is.js
++++ b/source/is.js
 @@ -1,5 +1,4 @@
  'use strict';
 -const isDev = require('electron-is-dev');

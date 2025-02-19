@@ -1,7 +1,7 @@
-diff --git a/node_modules/protobufjs-cli/lib/tsd-jsdoc/publish.js b/node_modules/protobufjs-cli/lib/tsd-jsdoc/publish.js
+diff --git a/lib/tsd-jsdoc/publish.js b/lib/tsd-jsdoc/publish.js
 index 3846a99..20c61b6 100644
---- a/node_modules/protobufjs-cli/lib/tsd-jsdoc/publish.js
-+++ b/node_modules/protobufjs-cli/lib/tsd-jsdoc/publish.js
+--- a/lib/tsd-jsdoc/publish.js
++++ b/lib/tsd-jsdoc/publish.js
 @@ -558,6 +558,13 @@ function handleClass(element, parent) {
          handleElement(child, element);
      });

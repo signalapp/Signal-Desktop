@@ -1,7 +1,7 @@
-diff --git a/node_modules/@vitest/expect/dist/chai.d.cts b/node_modules/@vitest/expect/dist/chai.d.cts
+diff --git a/dist/chai.d.cts b/dist/chai.d.cts
 index 7e23131..fc4c3ed 100644
---- a/node_modules/@vitest/expect/dist/chai.d.cts
-+++ b/node_modules/@vitest/expect/dist/chai.d.cts
+--- a/dist/chai.d.cts
++++ b/dist/chai.d.cts
 @@ -13,1956 +13,4 @@
  // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
  // TypeScript Version: 3.0

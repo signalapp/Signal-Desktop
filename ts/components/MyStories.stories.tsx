@@ -30,10 +30,10 @@ export default {
   },
   args: {
     i18n,
-    onBack: fn(action('onBack')),
+    onBack: fn(action('onBack')) as ReturnType<typeof action>,
     onDelete: action('onDelete'),
-    onForward: fn(action('onForward')),
-    onSave: fn(action('onSave')),
+    onForward: fn(action('onForward')) as ReturnType<typeof action>,
+    onSave: fn(action('onSave')) as ReturnType<typeof action>,
     hasViewReceiptSetting: false,
     renderToastManager: () => <i />,
     queueStoryDownload: action('queueStoryDownload'),

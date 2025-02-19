@@ -1,7 +1,7 @@
-diff --git a/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js b/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js
+diff --git a/dist/react-textarea-autosize.browser.cjs.js b/dist/react-textarea-autosize.browser.cjs.js
 index 37d2acb..7f76a65 100644
---- a/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js
-+++ b/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js
+--- a/dist/react-textarea-autosize.browser.cjs.js
++++ b/dist/react-textarea-autosize.browser.cjs.js
 @@ -122,7 +122,7 @@ var SIZING_STYLE = ['borderBottomWidth', 'borderLeftWidth', 'borderRightWidth',
  'tabSize', 'textIndent',
  // non-standard
@@ -11,10 +11,10 @@ index 37d2acb..7f76a65 100644
  var getSizingData = function getSizingData(node) {
    var style = window.getComputedStyle(node);
    if (style === null) {
-diff --git a/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.cjs.js b/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.cjs.js
+diff --git a/dist/react-textarea-autosize.browser.development.cjs.js b/dist/react-textarea-autosize.browser.development.cjs.js
 index 51e50d5..29a11e3 100644
---- a/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.cjs.js
-+++ b/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.cjs.js
+--- a/dist/react-textarea-autosize.browser.development.cjs.js
++++ b/dist/react-textarea-autosize.browser.development.cjs.js
 @@ -122,7 +122,7 @@ var SIZING_STYLE = ['borderBottomWidth', 'borderLeftWidth', 'borderRightWidth',
  'tabSize', 'textIndent',
  // non-standard
@@ -24,10 +24,10 @@ index 51e50d5..29a11e3 100644
  var getSizingData = function getSizingData(node) {
    var style = window.getComputedStyle(node);
    if (style === null) {
-diff --git a/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.esm.js b/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.esm.js
+diff --git a/dist/react-textarea-autosize.browser.development.esm.js b/dist/react-textarea-autosize.browser.development.esm.js
 index bbaa14c..4eac3f8 100644
---- a/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.esm.js
-+++ b/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.esm.js
+--- a/dist/react-textarea-autosize.browser.development.esm.js
++++ b/dist/react-textarea-autosize.browser.development.esm.js
 @@ -94,7 +94,7 @@ var SIZING_STYLE = ['borderBottomWidth', 'borderLeftWidth', 'borderRightWidth',
  'tabSize', 'textIndent',
  // non-standard
@@ -37,10 +37,10 @@ index bbaa14c..4eac3f8 100644
  var getSizingData = function getSizingData(node) {
    var style = window.getComputedStyle(node);
    if (style === null) {
-diff --git a/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js b/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js
+diff --git a/dist/react-textarea-autosize.browser.esm.js b/dist/react-textarea-autosize.browser.esm.js
 index 7376e08..196b550 100644
---- a/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js
-+++ b/node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js
+--- a/dist/react-textarea-autosize.browser.esm.js
++++ b/dist/react-textarea-autosize.browser.esm.js
 @@ -94,7 +94,7 @@ var SIZING_STYLE = ['borderBottomWidth', 'borderLeftWidth', 'borderRightWidth',
  'tabSize', 'textIndent',
  // non-standard

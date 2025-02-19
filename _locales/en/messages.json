@@ -5779,6 +5779,10 @@
     "messageformat": "Gradient end",
     "description": "aria-label for the custom color gradient creator knob"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment",
+    "description": "Aria label for GIF attachment's Download button"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Custom time...",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"

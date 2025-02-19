@@ -264,6 +264,7 @@ export function GIF(props: Props): JSX.Element {
       <button
         type="button"
         className={className}
+        aria-label={i18n('icu:GIF--download')}
         onClick={onOverlayClick}
         onKeyDown={onOverlayKeyDown}
         tabIndex={tabIndex}

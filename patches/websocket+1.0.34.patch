@@ -1,7 +1,7 @@
-diff --git a/node_modules/websocket/lib/WebSocketConnection.js b/node_modules/websocket/lib/WebSocketConnection.js
+diff --git a/lib/WebSocketConnection.js b/lib/WebSocketConnection.js
 index 219de63..93d3800 100644
---- a/node_modules/websocket/lib/WebSocketConnection.js
-+++ b/node_modules/websocket/lib/WebSocketConnection.js
+--- a/lib/WebSocketConnection.js
++++ b/lib/WebSocketConnection.js
 @@ -271,7 +271,7 @@ WebSocketConnection.prototype.handleSocketData = function(data) {
      this.processReceivedData();
  };

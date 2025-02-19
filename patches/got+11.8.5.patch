@@ -1,7 +1,7 @@
-diff --git a/node_modules/got/dist/source/as-promise/index.js b/node_modules/got/dist/source/as-promise/index.js
+diff --git a/dist/source/as-promise/index.js b/dist/source/as-promise/index.js
 index b4026d3..a473860 100644
---- a/node_modules/got/dist/source/as-promise/index.js
-+++ b/node_modules/got/dist/source/as-promise/index.js
+--- a/dist/source/as-promise/index.js
++++ b/dist/source/as-promise/index.js
 @@ -33,6 +33,7 @@ function asPromise(normalizedOptions) {
      const promise = new PCancelable((resolve, reject, onCancel) => {
          const makeRequest = (retryCount) => {

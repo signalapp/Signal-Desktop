@@ -1,7 +1,7 @@
-diff --git a/node_modules/node-fetch/lib/index.es.js b/node_modules/node-fetch/lib/index.es.js
+diff --git a/lib/index.es.js b/lib/index.es.js
 index 4852f7c..8a6bee9 100644
---- a/node_modules/node-fetch/lib/index.es.js
-+++ b/node_modules/node-fetch/lib/index.es.js
+--- a/lib/index.es.js
++++ b/lib/index.es.js
 @@ -1253,6 +1253,9 @@ class Request {
  		this.compress = init.compress !== undefined ? init.compress : input.compress !== undefined ? input.compress : true;
  		this.counter = init.counter || input.counter || 0;
@@ -53,10 +53,10 @@ index 4852f7c..8a6bee9 100644
  						};
  
  						if (!isDomainOrSubdomain(request.url, locationURL)) {
-diff --git a/node_modules/node-fetch/lib/index.js b/node_modules/node-fetch/lib/index.js
+diff --git a/lib/index.js b/lib/index.js
 index e5b04f1..5153530 100644
---- a/node_modules/node-fetch/lib/index.js
-+++ b/node_modules/node-fetch/lib/index.js
+--- a/lib/index.js
++++ b/lib/index.js
 @@ -1257,6 +1257,9 @@ class Request {
  		this.compress = init.compress !== undefined ? init.compress : input.compress !== undefined ? input.compress : true;
  		this.counter = init.counter || input.counter || 0;
@@ -108,10 +108,10 @@ index e5b04f1..5153530 100644
  						};
  
  						if (!isDomainOrSubdomain(request.url, locationURL)) {
-diff --git a/node_modules/node-fetch/lib/index.mjs b/node_modules/node-fetch/lib/index.mjs
+diff --git a/lib/index.mjs b/lib/index.mjs
 index 49ee05e..ec12540 100644
---- a/node_modules/node-fetch/lib/index.mjs
-+++ b/node_modules/node-fetch/lib/index.mjs
+--- a/lib/index.mjs
++++ b/lib/index.mjs
 @@ -1251,6 +1251,9 @@ class Request {
  		this.compress = init.compress !== undefined ? init.compress : input.compress !== undefined ? input.compress : true;
  		this.counter = init.counter || input.counter || 0;

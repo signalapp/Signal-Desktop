@@ -23,6 +23,7 @@ build/locale-display-names.json
 build/country-display-names.json
 build/compact-locales/**/*.json
 release/**
+pnpm-lock.yaml
 
 # Third-party files
 node_modules/**

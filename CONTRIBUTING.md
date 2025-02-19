@@ -52,10 +52,11 @@ Now, run these commands in your preferred terminal in a good directory for devel
 ```
 git clone https://github.com/signalapp/Signal-Desktop.git
 cd Signal-Desktop
-npm install       # Install and build dependencies (this will take a while)
-npm run generate  # Generate final JS and CSS assets
-npm test          # A good idea to make sure tests run first
-npm start         # Start Signal!
+npm install -g pnpm
+pnpm install       # Install and build dependencies (this will take a while)
+pnpm run generate  # Generate final JS and CSS assets
+pnpm test          # A good idea to make sure tests run first
+pnpm start         # Start Signal!
 ```
 
 You'll need to restart the application regularly to see your changes, as there
@@ -65,14 +66,14 @@ is no automatic restart mechanism. Alternatively, keep the developer tools open
 (Windows & Linux).
 
 Also, note that the assets loaded by the application are not necessarily the same files
-you’re touching. You may not see your changes until you run `npm run generate` on the
+you’re touching. You may not see your changes until you run `pnpm run generate` on the
 command-line like you did during setup. You can make it easier on yourself by generating
 the latest built assets when you change a file. Run each of these in their own terminal
 instance while you make changes - they'll run until you stop them:
 
 ```
-npm run dev:transpile # recompiles when you change .ts files
-npm run dev:sass      # recompiles when you change .scss files
+pnpm run dev:transpile # recompiles when you change .ts files
+pnpm run dev:sass      # recompiles when you change .scss files
 ```
 
 #### Known issues
@@ -121,7 +122,7 @@ You can run a development server for these parts of the app with the
 following command:
 
 ```
-npm run dev
+pnpm run dev
 ```
 
 In order for the app to make requests to the development server you must set
@@ -129,7 +130,7 @@ the `SIGNAL_ENABLE_HTTP` environment variable to a truthy value. On Linux and
 macOS, that simply looks like this:
 
 ```
-SIGNAL_ENABLE_HTTP=1 npm start
+SIGNAL_ENABLE_HTTP=1 pnpm start
 ```
 
 ## Setting up standalone
@@ -194,7 +195,7 @@ For example, to create an 'alice' profile, put a file called `local-alice.json` 
 Then you can start up the application a little differently to load the profile:
 
 ```
-NODE_APP_INSTANCE=alice npm start
+NODE_APP_INSTANCE=alice pnpm start
 ```
 
 This changes the `userData` directory from `%appData%/Signal` to `%appData%/Signal-aliceProfile`.
@@ -210,15 +211,15 @@ Please write tests! Our testing framework is
 [mocha](http://mochajs.org/) and our assertion library is
 [chai](http://chaijs.com/api/assert/).
 
-The easiest way to run all tests at once is `npm test`, which will run them on the
+The easiest way to run all tests at once is `pnpm test`, which will run them on the
 command line. You can run the client-side tests in an interactive session with
-`NODE_ENV=test npm start`.
+`NODE_ENV=test pnpm start`.
 
 ## Pull requests
 
 So you wanna make a pull request? Please observe the following guidelines.
 
-- First, make sure that your `npm run ready` run passes - it's very similar to what our
+- First, make sure that your `pnpm run ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
 - Please do not submit pull requests for translation fixes.
 - Never use plain strings right in the source code - pull them from `messages.json`!
@@ -297,11 +298,11 @@ will go to your new development desktop app instead of your phone.
 To test changes to the build system, build a release using
 
 ```
-npm run generate
-npm run build
+pnpm run generate
+pnpm run build
 ```
 
-Then, run the tests using `npm run test-release`.
+Then, run the tests using `pnpm run test-release`.
 
 ### Testing MacOS builds
 
@@ -312,8 +313,8 @@ you can ad-hoc sign the packaged app which will let you run it locally.
 2. Build the app and ad-hoc sign the app bundle:
 
 ```
-npm run generate
-npm run build
+pnpm run generate
+pnpm run build
 cd release
 # Pick the desired app bundle: mac, mac-arm64, or mac-universal
 cd mac-arm64

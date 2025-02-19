@@ -61,9 +61,9 @@ export const ShareButtons: React.ComponentType<Props> = React.memo(
           <button
             type="button"
             key={path}
+            aria-label={title}
             className={styles.button}
             onClick={() => window.open(url)}
-            title={title}
           >
             <svg width={32} height={32}>
               <circle cx="16" cy="16" r="16" fill={fill} />

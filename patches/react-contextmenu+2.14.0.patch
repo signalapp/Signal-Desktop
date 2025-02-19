@@ -1,7 +1,7 @@
-diff --git a/node_modules/react-contextmenu/modules/ContextMenu.js b/node_modules/react-contextmenu/modules/ContextMenu.js
+diff --git a/modules/ContextMenu.js b/modules/ContextMenu.js
 index 2f88213..41e47ea 100644
---- a/node_modules/react-contextmenu/modules/ContextMenu.js
-+++ b/node_modules/react-contextmenu/modules/ContextMenu.js
+--- a/modules/ContextMenu.js
++++ b/modules/ContextMenu.js
 @@ -81,6 +81,11 @@ var ContextMenu = function (_AbstractMenu) {
                  x = _e$detail$position.x,
                  y = _e$detail$position.y;
@@ -52,10 +52,10 @@ index 2f88213..41e47ea 100644
                  });
              }
          }
-diff --git a/node_modules/react-contextmenu/modules/SubMenu.js b/node_modules/react-contextmenu/modules/SubMenu.js
+diff --git a/modules/SubMenu.js b/modules/SubMenu.js
 index ad1dc70..c919be8 100644
---- a/node_modules/react-contextmenu/modules/SubMenu.js
-+++ b/node_modules/react-contextmenu/modules/SubMenu.js
+--- a/modules/SubMenu.js
++++ b/modules/SubMenu.js
 @@ -129,6 +129,7 @@ var SubMenu = function (_AbstractMenu) {
  
              if (_this.props.disabled || _this.state.visible) return;
@@ -141,10 +141,10 @@ index ad1dc70..c919be8 100644
                  this.subMenu.classList.remove(_helpers.cssClasses.menuVisible);
              }
          }
-diff --git a/node_modules/react-contextmenu/src/index.d.ts b/node_modules/react-contextmenu/src/index.d.ts
+diff --git a/src/index.d.ts b/src/index.d.ts
 index 753ce90..c5971a4 100644
---- a/node_modules/react-contextmenu/src/index.d.ts
-+++ b/node_modules/react-contextmenu/src/index.d.ts
+--- a/src/index.d.ts
++++ b/src/index.d.ts
 @@ -14,6 +14,7 @@ declare module "react-contextmenu" {
          preventHideOnResize?: boolean,
          preventHideOnScroll?: boolean,        

@@ -1,7 +1,7 @@
-diff --git a/node_modules/growing-file/lib/growing_file.js b/node_modules/growing-file/lib/growing_file.js
+diff --git a/lib/growing_file.js b/lib/growing_file.js
 index a25d618..0ff7634 100644
---- a/node_modules/growing-file/lib/growing_file.js
-+++ b/node_modules/growing-file/lib/growing_file.js
+--- a/lib/growing_file.js
++++ b/lib/growing_file.js
 @@ -69,11 +69,15 @@ GrowingFile.prototype._readUntilEof = function() {
  
    this._reading = true;

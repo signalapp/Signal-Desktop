@@ -1,7 +1,7 @@
-diff --git a/node_modules/@types/backbone/index.d.ts b/node_modules/@types/backbone/index.d.ts
+diff --git a/index.d.ts b/index.d.ts
 index 15d9d4b..a431841 100644
---- a/node_modules/@types/backbone/index.d.ts
-+++ b/node_modules/@types/backbone/index.d.ts
+--- a/index.d.ts
++++ b/index.d.ts
 @@ -66,7 +66,7 @@ declare namespace Backbone {
          collection?: Collection<TModel> | undefined;
      }

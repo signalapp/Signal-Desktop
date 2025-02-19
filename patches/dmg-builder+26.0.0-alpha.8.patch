@@ -1,7 +1,7 @@
-diff --git a/node_modules/dmg-builder/out/dmgLicense.js b/node_modules/dmg-builder/out/dmgLicense.js
+diff --git a/out/dmgLicense.js b/out/dmgLicense.js
 index 9263c2b..40706e5 100644
---- a/node_modules/dmg-builder/out/dmgLicense.js
-+++ b/node_modules/dmg-builder/out/dmgLicense.js
+--- a/out/dmgLicense.js
++++ b/out/dmgLicense.js
 @@ -6,7 +6,7 @@ const js_yaml_1 = require("js-yaml");
  const license_1 = require("app-builder-lib/out/util/license");
  const fs_extra_1 = require("fs-extra");

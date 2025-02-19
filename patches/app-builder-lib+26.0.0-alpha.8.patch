@@ -1,7 +1,7 @@
-diff --git a/node_modules/app-builder-lib/templates/nsis/include/installer.nsh b/node_modules/app-builder-lib/templates/nsis/include/installer.nsh
+diff --git a/templates/nsis/include/installer.nsh b/templates/nsis/include/installer.nsh
 index 34e91df..73bfffc 100644
---- a/node_modules/app-builder-lib/templates/nsis/include/installer.nsh
-+++ b/node_modules/app-builder-lib/templates/nsis/include/installer.nsh
+--- a/templates/nsis/include/installer.nsh
++++ b/templates/nsis/include/installer.nsh
 @@ -90,7 +90,13 @@
        ${if} $installMode == "all"
          SetShellVarContext current
@@ -17,10 +17,10 @@ index 34e91df..73bfffc 100644
        ${if} $installMode == "all"
          SetShellVarContext all
        ${endif}
-diff --git a/node_modules/app-builder-lib/templates/nsis/installSection.nsh b/node_modules/app-builder-lib/templates/nsis/installSection.nsh
+diff --git a/templates/nsis/installSection.nsh b/templates/nsis/installSection.nsh
 index 053772f..a58ea8c 100644
---- a/node_modules/app-builder-lib/templates/nsis/installSection.nsh
-+++ b/node_modules/app-builder-lib/templates/nsis/installSection.nsh
+--- a/templates/nsis/installSection.nsh
++++ b/templates/nsis/installSection.nsh
 @@ -22,11 +22,37 @@ StrCpy $appExe "$INSTDIR\${APP_EXECUTABLE_FILENAME}"
        SpiderBanner::Show /MODERN
      !endif

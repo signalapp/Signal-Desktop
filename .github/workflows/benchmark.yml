@@ -27,35 +27,43 @@ jobs:
     - name: Clone Desktop repo
       uses: actions/checkout@v4
 
+    - name: Setup sccache
+      uses: mozilla-actions/sccache-action@v0.0.7
+    - name: Restore sccache
+      uses: actions/cache@v4
+      id: cache-sccache
+      with:
+        path: ${{ env.SCCACHE_PATH }}
+        key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.3.0
     - name: Setup node.js
       uses: actions/setup-node@v4
       with:
         node-version-file: '.nvmrc'
-    - name: Install global dependencies
-      run: npm install -g npm@10.2.5
+        cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.yaml'
 
     - name: Install xvfb
       run: sudo apt-get install xvfb libpulse0
 
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v4
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
-
     - name: Install Desktop node_modules
-      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: pnpm install
       env:
+        CC: sccache gcc
+        CXX: sccache g++
+        SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
-      run: npm run generate
+      run: pnpm run generate
     - name: Bundle
-      run: npm run build:esbuild:prod
+      run: pnpm run build:esbuild:prod
     - name: Create preload cache
-      run: xvfb-run --auto-servernum npm run build:preload-cache
+      run: xvfb-run --auto-servernum pnpm run build:preload-cache
 
     - name: Run startup benchmarks
       run: |
@@ -201,8 +209,8 @@ jobs:
     - name: Build benchmark repo
       working-directory: benchmark-results
       run: |
-        npm ci
-        npm run build
+        pnpm install
+        pnpm run build
 
     - name: Publish to DataDog
       working-directory: benchmark-results

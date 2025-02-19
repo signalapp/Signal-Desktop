@@ -14,11 +14,11 @@
   "browserslist": "last 1 chrome versions",
   "main": "app/main.js",
   "scripts": {
-    "postinstall": "npm run build:acknowledgments && patch-package --error-on-fail --error-on-warn && npm run electron:install-app-deps",
-    "postuninstall": "npm run build:acknowledgments",
+    "postinstall": "pnpm run build:acknowledgments && pnpm run electron:install-app-deps",
+    "postuninstall": "pnpm run build:acknowledgments",
     "start": "electron .",
     "generate": "npm-run-all build-protobuf build:esbuild build:icu-types build:compact-locales sass get-expire-time copy-components",
-    "build-release": "npm run build",
+    "build-release": "pnpm run build",
     "sign-release": "node ts/updater/generateSignature.js",
     "notarize": "echo 'No longer necessary'",
     "get-strings": "ts-node ts/scripts/get-strings.ts && ts-node ts/scripts/gen-nsis-script.ts && ts-node ts/scripts/gen-locales-config.ts && run-p get-strings:locales get-strings:countries get-strings:emoji mark-unusued-strings-deleted && run-p build:compact-locales",
@@ -32,8 +32,8 @@
     "sass": "sass stylesheets/manifest.scss:stylesheets/manifest.css stylesheets/manifest_bridge.scss:stylesheets/manifest_bridge.css",
     "build-module-protobuf": "pbjs --root='signal-desktop' --target static-module --force-long --no-typeurl --no-verify --no-create --no-convert --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --no-comments --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "clean-module-protobuf": "rm -f ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
-    "build-protobuf": "npm run build-module-protobuf",
-    "clean-protobuf": "npm run clean-module-protobuf",
+    "build-protobuf": "pnpm run build-module-protobuf",
+    "clean-protobuf": "pnpm run clean-module-protobuf",
     "prepare-beta-build": "node scripts/prepare_beta_build.js",
     "prepare-alpha-build": "node scripts/prepare_alpha_build.js",
     "prepare-alpha-version": "node scripts/prepare_tagged_version.js alpha",
@@ -65,19 +65,19 @@
     "check:types": "tsc --noEmit",
     "clean-transpile": "node ./scripts/clean-transpile.js",
     "ready": "npm-run-all --print-label clean-transpile generate --parallel lint lint-deps lint-intl test-node test-electron",
-    "dev": "npm run build-protobuf && cross-env SIGNAL_ENV=storybook storybook dev --port 6006",
-    "dev:transpile": "run-p \"check:types -- --watch\" dev:esbuild dev:icu-types dev:protobuf",
+    "dev": "pnpm run build-protobuf && cross-env SIGNAL_ENV=storybook storybook dev --port 6006",
+    "dev:transpile": "run-p \"check:types --watch\" dev:esbuild dev:icu-types dev:protobuf",
     "dev:esbuild": "node scripts/esbuild.js --watch",
-    "dev:sass": "npm run sass -- --watch",
-    "dev:icu-types": "chokidar ./_locales/en/messages.json --initial --command \"npm run build:icu-types\"",
-    "dev:protobuf": "chokidar ./protos/**/*.proto --command \"npm run build-protobuf\"",
-    "build:storybook": "npm run build-protobuf && cross-env SIGNAL_ENV=storybook storybook build",
-    "test:storybook": "npm run build:storybook && run-p --race test:storybook:*",
+    "dev:sass": "pnpm run sass --watch",
+    "dev:icu-types": "chokidar ./_locales/en/messages.json --initial --command \"pnpm run build:icu-types\"",
+    "dev:protobuf": "chokidar ./protos/**/*.proto --command \"pnpm run build-protobuf\"",
+    "build:storybook": "pnpm run build-protobuf && cross-env SIGNAL_ENV=storybook storybook build",
+    "test:storybook": "pnpm run build:storybook && run-p --race test:storybook:*",
     "test:storybook:serve": "http-server storybook-static --port 6006 --silent",
     "test:storybook:test": "wait-on http://127.0.0.1:6006/ --timeout 5000 && test-storybook",
     "build": "run-s --print-label generate build:esbuild:prod build:release",
     "build-win32-all": "run-s --print-label generate build:esbuild:prod build:release-win32-all",
-    "build-linux": "run-s generate build:esbuild:prod && npm run build:release -- --publish=never",
+    "build-linux": "run-s generate build:esbuild:prod && pnpm run build:release --publish=never",
     "build:acknowledgments": "node scripts/generate-acknowledgments.js",
     "build:dns-fallback": "node ts/scripts/generate-dns-fallback.js",
     "build:icu-types": "node ts/scripts/generate-icu-types.js",
@@ -87,8 +87,8 @@
     "build:esbuild": "node scripts/esbuild.js",
     "build:esbuild:prod": "node scripts/esbuild.js --prod",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
-    "build:release": "cross-env SIGNAL_ENV=production npm run build:electron -- --config.directories.output=release",
-    "build:release-win32-all": "npm run build:release -- --arm64 --x64",
+    "build:release": "cross-env SIGNAL_ENV=production pnpm run build:electron --config.directories.output=release",
+    "build:release-win32-all": "pnpm run build:release --arm64 --x64",
     "build:preload-cache": "node ts/scripts/generate-preload-cache.js",
     "verify": "run-p --print-label verify:*",
     "verify:ts": "tsc --noEmit",
@@ -112,7 +112,7 @@
     "@popperjs/core": "2.11.8",
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
-    "@signalapp/better-sqlite3": "9.0.11",
+    "@signalapp/better-sqlite3": "9.0.13",
     "@signalapp/libsignal-client": "0.66.2",
     "@signalapp/quill-cjs": "2.1.2",
     "@signalapp/ringrtc": "2.49.5",
@@ -191,6 +191,7 @@
     "semver": "7.6.3",
     "split2": "4.2.0",
     "type-fest": "4.26.1",
+    "url": "0.11.4",
     "urlpattern-polyfill": "10.0.0",
     "uuid": "11.0.2",
     "websocket": "1.0.34",
@@ -224,11 +225,13 @@
     "@storybook/addon-toolbars": "8.4.4",
     "@storybook/addon-viewport": "8.4.4",
     "@storybook/addon-webpack5-compiler-swc": "1.0.5",
+    "@storybook/csf": "0.1.11",
     "@storybook/preview-api": "8.4.4",
     "@storybook/react": "8.4.4",
     "@storybook/react-webpack5": "8.4.4",
     "@storybook/test": "8.4.4",
     "@storybook/test-runner": "0.19.1",
+    "@storybook/types": "8.1.11",
     "@types/backbone": "1.4.22",
     "@types/blueimp-load-image": "5.16.6",
     "@types/chai": "4.3.16",
@@ -308,7 +311,6 @@
     "node-gyp-build": "4.8.4",
     "npm-run-all": "4.1.5",
     "p-limit": "3.1.0",
-    "patch-package": "8.0.0",
     "pixelmatch": "5.3.0",
     "playwright": "1.45.0",
     "pngjs": "7.0.0",
@@ -336,28 +338,59 @@
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.1.0"
   },
-  "overrides": {
-    "@storybook/react": {
-      "@storybook/core": {
-        "node-fetch": "2.6.1"
-      }
+  "pnpm": {
+    "overrides": {
+      "@storybook/core>node-fetch": "$node-fetch",
+      "@types/react": "17.0.45",
+      "@types/react-dom": "17.0.17",
+      "eslint-config-airbnb-typescript-prettier>eslint-plugin-prettier": "5.2.1",
+      "canvas": "-",
+      "jsdom": "-",
+      "thenify-all>thenify": "3.3.1"
     },
-    "@types/react": "17.0.45",
-    "@types/react-dom": "17.0.17",
-    "eslint-config-airbnb-typescript-prettier": {
-      "eslint-plugin-prettier": "5.2.1"
+    "patchedDependencies": {
+      "@types/backbone@1.4.22": "patches/@types+backbone+1.4.22.patch",
+      "casual@1.6.2": "patches/casual+1.6.2.patch",
+      "protobufjs@7.3.2": "patches/protobufjs+7.3.2.patch",
+      "@types/express@4.17.21": "patches/@types+express+4.17.21.patch",
+      "dmg-builder@26.0.0-alpha.8": "patches/dmg-builder+26.0.0-alpha.8.patch",
+      "protobufjs-cli@1.1.1": "patches/protobufjs-cli+1.1.1.patch",
+      "@types/fabric@4.5.3": "patches/@types+fabric+4.5.3.patch",
+      "electron-util@0.13.1": "patches/electron-util+0.13.1.patch",
+      "qrcode-generator@1.4.4": "patches/qrcode-generator+1.4.4.patch",
+      "@types/node-fetch@2.6.12": "patches/@types+node-fetch+2.6.12.patch",
+      "fabric@4.6.0": "patches/fabric+4.6.0.patch",
+      "react-contextmenu@2.14.0": "patches/react-contextmenu+2.14.0.patch",
+      "@vitest/expect@2.0.5": "patches/@vitest+expect+2.0.5.patch",
+      "got@11.8.5": "patches/got+11.8.5.patch",
+      "react-textarea-autosize@8.5.5": "patches/react-textarea-autosize+8.5.5.patch",
+      "app-builder-lib@26.0.0-alpha.8": "patches/app-builder-lib+26.0.0-alpha.8.patch",
+      "growing-file@0.1.3": "patches/growing-file+0.1.3.patch",
+      "websocket@1.0.34": "patches/websocket+1.0.34.patch",
+      "backbone@1.6.0": "patches/backbone+1.6.0.patch",
+      "node-fetch@2.6.7": "patches/node-fetch+2.6.7.patch",
+      "zod@3.23.8": "patches/zod+3.23.8.patch"
     },
-    "fabric": {
-      "canvas": "$nop",
-      "jsdom": "$nop"
-    },
-    "read-last-lines": {
-      "mz": {
-        "thenify-all": {
-          "thenify": "3.3.1"
-        }
-      }
-    }
+    "onlyBuiltDependencies": [
+      "@indutny/mac-screen-share",
+      "@indutny/simple-windows-notifications",
+      "@parcel/watcher",
+      "@signalapp/libsignal-client",
+      "@signalapp/better-sqlite3",
+      "@signalapp/ringrtc",
+      "@swc/core",
+      "bufferutil",
+      "electron",
+      "esbuild",
+      "fs-xattr",
+      "mac-screen-capture-permissions",
+      "utf-8-validate"
+    ],
+    "ignoredBuiltDependencies": [
+      "core-js",
+      "es5-ext",
+      "protobufjs"
+    ]
   },
   "engines": {
     "node": "20.18.2"

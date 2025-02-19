@@ -1,7 +1,7 @@
-diff --git a/node_modules/casual/src/casual.js b/node_modules/casual/src/casual.js
+diff --git a/src/casual.js b/src/casual.js
 index 9179af1..ed70b78 100644
---- a/node_modules/casual/src/casual.js
-+++ b/node_modules/casual/src/casual.js
+--- a/src/casual.js
++++ b/src/casual.js
 @@ -1,11 +1,11 @@
  var helpers = require('./helpers');
 -var exists = require('fs').existsSync;
