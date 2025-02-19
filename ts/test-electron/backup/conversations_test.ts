@@ -2,12 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { randomBytes } from 'crypto';
 import { getRandomBytes } from '../../Crypto';
 import * as Bytes from '../../Bytes';
 import { setupBasics, symmetricRoundtripHarness } from './helpers';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
 import { deriveGroupID, deriveGroupSecretParams } from '../../util/zkgroup';
 import { DataWriter } from '../../sql/Client';
+import { generateAci, generatePni } from '../../types/ServiceId';
+import type { ConversationAttributesType } from '../../model-types';
+import { strictAssert } from '../../util/assert';
 
 function getGroupTestInfo() {
   const masterKey = getRandomBytes(32);
@@ -26,6 +30,48 @@ describe('backup/conversations', () => {
     await setupBasics();
 
     await loadAllAndReinitializeRedux();
+  });
+
+  it('roundtrips 1:1 conversations', async () => {
+    const fields: Partial<ConversationAttributesType> = {
+      systemGivenName: 'systemGivenName',
+      systemFamilyName: 'systemFamilyName',
+      systemNickname: 'systemNickname',
+      profileName: 'profileName',
+      profileFamilyName: 'profileFamilyName',
+      nicknameGivenName: 'nicknameGivenName',
+      nicknameFamilyName: 'nicknameFamilyName',
+      hideStory: true,
+      username: 'username.12',
+      muteExpiresAt: Number.MAX_SAFE_INTEGER,
+      note: 'note',
+      e164: '+16175550000',
+      pni: generatePni(),
+      removalStage: 'justNotification',
+      firstUnregisteredAt: Date.now(),
+      discoveredUnregisteredAt: Date.now(),
+      profileKey: Bytes.toBase64(randomBytes(32)),
+      profileSharing: true,
+    };
+
+    const aci = generateAci();
+    await window.ConversationController.getOrCreateAndWait(aci, 'private', {
+      ...fields,
+      active_at: 1,
+    });
+
+    await symmetricRoundtripHarness([]);
+
+    const convoAfter = window.ConversationController.get(aci);
+    strictAssert(convoAfter, 'convo is roundtripped');
+
+    for (const [key, value] of Object.entries(fields)) {
+      assert.strictEqual(
+        (convoAfter.attributes as Record<string, unknown>)[key],
+        value,
+        `conversation.${key} does not match`
+      );
+    }
   });
 
   it('roundtrips block state on group conversations', async () => {
