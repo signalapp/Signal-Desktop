@@ -34,10 +34,10 @@ echo "BUILD_TYPE: ${BUILD_TYPE}"
 # UNIX timestamp will be generated at the time of the build, and is non-deterministic.
 echo "SOURCE_DATE_EPOCH: ${SOURCE_DATE_EPOCH}"
 
-pnpm install
+pnpm install --frozen-lockfile
 pnpm run clean-transpile
 cd sticker-creator
-pnpm install
+pnpm install --frozen-lockfile
 pnpm run build
 cd ..
 pnpm run generate
