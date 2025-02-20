@@ -168,7 +168,9 @@ jobs:
         node-version-file: '.nvmrc'
         cache: 'pnpm'
         cache-dependency-path: 'pnpm-lock.yaml'
-    - run: sudo apt-get install xvfb libpulse0
+    
+    - name: Install xvfb and libpulse0
+      run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
 
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@v0.0.7
@@ -401,8 +403,8 @@ jobs:
         cache: 'pnpm'
         cache-dependency-path: 'pnpm-lock.yaml'
 
-    - name: Install xvfb
-      run: sudo apt-get install xvfb libpulse0
+    - name: Install xvfb and libpulse0
+      run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
 
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@v0.0.7
