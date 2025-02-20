@@ -2987,6 +2987,210 @@
     "messageformat": "Flag",
     "description": "Label for flag emoji picker button"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Emoji",
+    "description": "FunPicker > Tabs > Emojis Tab > Label (emoji plural)"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Stickers",
+    "description": "FunPicker > Tabs > Stickers Tab > Label"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIFs",
+    "description": "FunPicker > Tabs > GIFs Tab > Label"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Search emoji",
+    "description": "FunPicker > Emojis Panel > Search Input > Label (emoji plural)"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Search emoji",
+    "description": "FunPicker > Emojis Panel > Search Input > Placeholder (emoji plural)"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Emoji Categories",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Label (Plural form: Categories of Emojis [plural])"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Recents (emoji plural)"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Smileys & People",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Smileys & People"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Animals & Nature",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Animals & Nature"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Food & Drink",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Food & Drink"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Activities",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Activities"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Travel & Places",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Travel & Places"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Objects",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Objects"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Symbols",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Symbols"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Flags",
+    "description": "FunPicker > Emojis Panel > Sub Nav > Category Label > Flags"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "No emoji found",
+    "description": "FunPicker > Emojis Panel > Search Results > No Results Found (emoji plural)"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Change Skin Tone Preference",
+    "description": "FunPicker > Emojis Panel > Change Skin Tone Button Label"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Choose your default skintone",
+    "description": "FunPicker > Emojis Panel > Skin Tone Picker > Choose Default"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Search Results",
+    "description": "FunPicker > Emojis Panel > Section Title > Search Results"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Recently Used",
+    "description": "FunPicker > Emojis Panel > Section Title > Recents"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Smileys & People",
+    "description": "FunPicker > Emojis Panel > Section Title > Smileys & People"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Animals & Nature",
+    "description": "FunPicker > Emojis Panel > Section Title > Animals & Nature"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Food & Drink",
+    "description": "FunPicker > Emojis Panel > Section Title > Food & Drink"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Travel & Places",
+    "description": "FunPicker > Emojis Panel > Section Title > Travel & Places"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Activities",
+    "description": "FunPicker > Emojis Panel > Section Title > Activities"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Objects",
+    "description": "FunPicker > Emojis Panel > Section Title > Objects"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Symbols",
+    "description": "FunPicker > Emojis Panel > Section Title > Symbols"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Flags",
+    "description": "FunPicker > Emojis Panel > Section Title > Flags"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Search stickers",
+    "description": "FunPicker > Stickers Panel > Search Input > Label"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Search stickers",
+    "description": "FunPicker > Stickers Panel > Search Input > Placeholder"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Sticker Packs",
+    "description": "FunPicker > Stickers Panel > Sub Nav > Label"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used",
+    "description": "FunPicker > Stickers Panel > Sub Nav > Category Label > Recents"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Search Results",
+    "description": "FunPicker > Stickers Panel > Section Title > Search Results"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Recently Used",
+    "description": "FunPicker > Stickers Panel > Section Title > Recents"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "No stickers found",
+    "description": "FunPicker > Stickers Panel > Search Results > Empty State > Heading"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Search GIFs via Tenor",
+    "description": "FunPicker > GIFs Panel > Search Input > Label (Must use brand name 'Tenor')"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Search Tenor",
+    "description": "FunPicker > GIFs Panel > Search Input > Placeholder (Must use brand name 'Tenor')"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF Categories",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Label (Plural form: Categories of GIFs)"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Recents"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Trending",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Trending"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Celebrate",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Celebrate"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Love",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Love"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Thumbs Up",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Thumbs Up"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Surprised",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Surprised"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Excited",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Excited"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Sad",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Sad"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Angry",
+    "description": "FunPicker > Gifs Panel > Sub Nav > Category Label > Angry"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Loading GIFs",
+    "description": "FunPicker > Gifs Panel > Search Results > Loading State > Accessibility Label"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Couldn’t load GIFs. Check your connection and try again",
+    "description": "FunPicker > Gifs Panel > Search Results > Error State > Heading"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Retry",
+    "description": "FunPicker > Gifs Panel > Search Results > Error State > Retry Button"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "No GIFs found",
+    "description": "FunPicker > Gifs Panel > Search Results > Empty State > Heading"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancel",
     "description": "Appears on the cancel button in confirmation dialogs."
@@ -5010,6 +5214,10 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Send edited message",
     "description": "aria-label for send edit button"
+  },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Add an Emoji, Sticker, or GIF",
+    "description": "Composition Area > Fun Button > Accessibility label"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Edit message",

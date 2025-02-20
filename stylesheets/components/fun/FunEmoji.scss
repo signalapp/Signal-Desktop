@@ -1,0 +1,27 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.FunEmoji {
+  display: inline-block;
+  flex: none;
+  contain: strict;
+  vertical-align: top;
+}
+
+.FunEmoji--Size16 {
+  width: 16px;
+  height: 16px;
+  background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets/32.png');
+  background-size: 1054px;
+  background-position-x: calc(var(--fun-emoji-sheet-x) * -17px - 0.5px);
+  background-position-y: calc(var(--fun-emoji-sheet-y) * -17px - 0.5px);
+}
+
+.FunEmoji--Size32 {
+  width: 32px;
+  height: 32px;
+  background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets/64.png');
+  background-size: 2046px;
+  background-position-x: calc(var(--fun-emoji-sheet-x) * -33px - 0.5px);
+  background-position-y: calc(var(--fun-emoji-sheet-y) * -33px - 0.5px);
+}

@@ -1,15 +1,15 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
 import classNames from 'classnames';
 import FocusTrap from 'focus-trap-react';
+import * as React from 'react';
 
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import type { LocalizerType } from '../../types/Util';
-import { getAnalogTime } from '../../util/getAnalogTime';
 import { getDateTimeFormatter } from '../../util/formatTimestamp';
+import { getAnalogTime } from '../../util/getAnalogTime';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;

@@ -17,9 +17,9 @@ import { useAnimated } from '../hooks/useAnimated';
 import { useHasWrapped } from '../hooks/useHasWrapped';
 import * as log from '../logging/log';
 import {
-  isOverflowing,
-  isScrolled,
-  isScrolledToBottom,
+  isScrollOverflowVertical,
+  isScrollAtTop,
+  isScrollAtBottom,
   useScrollObserver,
 } from '../hooks/useSizeObserver';
 
@@ -188,9 +188,9 @@ export function ModalPage({
   const bodyRef = useRef<HTMLDivElement>(null);
   const bodyInnerRef = useRef<HTMLDivElement>(null);
 
-  const [scrolled, setScrolled] = useState(false);
-  const [scrolledToBottom, setScrolledToBottom] = useState(false);
-  const [hasOverflow, setHasOverflow] = useState(false);
+  const [scrollAtTop, setScrollAtTop] = useState(false);
+  const [scrollAtBottom, setScrollAtBottom] = useState(false);
+  const [scrollVerticalOverflow, setScrollOverflowVertical] = useState(false);
 
   const hasHeader = Boolean(
     hasXButton || title || modalHeaderChildren || onBackButtonClick
@@ -200,9 +200,9 @@ export function ModalPage({
   const [id] = useState(() => uuid());
 
   useScrollObserver(bodyRef, bodyInnerRef, scroll => {
-    setScrolled(isScrolled(scroll));
-    setScrolledToBottom(isScrolledToBottom(scroll));
-    setHasOverflow(isOverflowing(scroll));
+    setScrollAtTop(isScrollAtTop(scroll));
+    setScrollAtBottom(isScrollAtBottom(scroll));
+    setScrollOverflowVertical(isScrollOverflowVertical(scroll));
   });
 
   return (
@@ -278,9 +278,11 @@ export function ModalPage({
         <div
           className={classNames(
             getClassName('__body'),
-            scrolled ? getClassName('__body--scrolled') : null,
-            scrolledToBottom ? getClassName('__body--scrolledToBottom') : null,
-            hasOverflow || scrolled ? getClassName('__body--overflow') : null
+            scrollAtTop ? getClassName('__body--scrollAtTop') : null,
+            scrollAtBottom ? getClassName('__body--scrollAtBottom') : null,
+            scrollVerticalOverflow || scrollAtTop
+              ? getClassName('__body--scrollVerticalOverflow')
+              : null
           )}
           ref={bodyRef}
         >

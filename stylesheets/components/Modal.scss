@@ -156,7 +156,7 @@
       border-top: 1px solid transparent;
       border-bottom: 1px solid transparent;
 
-      &--scrolled {
+      &--scrollVerticalOverflow:not(&--scrollAtTop) {
         @include mixins.light-theme {
           border-top-color: variables.$color-gray-05;
         }
@@ -183,7 +183,7 @@
     .module-Modal__body {
       border-bottom: 1px solid transparent;
 
-      &--overflow:not(&--scrolledToBottom) {
+      &--scrollVerticalOverflow:not(&--scrollAtBottom) {
         @include mixins.light-theme {
           border-bottom-color: variables.$color-gray-05;
         }

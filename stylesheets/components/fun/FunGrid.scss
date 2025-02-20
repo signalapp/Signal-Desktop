@@ -1,0 +1,150 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+@use './FunConstants.scss';
+
+@mixin virtual-position($size, $offset) {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: $size;
+  transform: translateY($offset);
+}
+
+.FunGrid__Container {
+  contain: strict;
+  position: relative;
+  width: 100%;
+  height: var(--fun-grid-container-total-size);
+}
+
+.FunGrid__ScrollerSection {
+  contain: strict;
+  @include virtual-position(
+    var(--fun-grid-scroller-section-size),
+    var(--fun-grid-scroller-section-offset)
+  );
+}
+
+.FunGrid__Header {
+  contain: strict;
+  @include virtual-position(
+    var(--fun-grid-header-size),
+    var(--fun-grid-header-offset)
+  );
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.FunGrid__HeaderText {
+  padding-block: 4px;
+  flex: 1;
+  @include mixins.font-body-1;
+  font-weight: 600;
+  color: light-dark(
+    variables.$color-black-alpha-50,
+    variables.$color-white-alpha-50
+  );
+}
+
+.FunGrid__HeaderButton {
+  @include mixins.button-reset();
+  & {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+  }
+
+  &:hover,
+  &:focus {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-78);
+  }
+
+  &:focus {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+      outline-offset: -2px;
+    }
+  }
+}
+
+.FunGrid__HeaderIcon {
+  width: 16px;
+  height: 16px;
+}
+
+@mixin icon($svg) {
+  @include mixins.color-svg(
+    $svg,
+    light-dark(variables.$color-black-alpha-50, variables.$color-white-alpha-50)
+  );
+}
+
+.FunGrid__HeaderIcon--Settings {
+  @include icon('../images/icons/v3/settings/settings.svg');
+}
+
+$popover-margin: 12px;
+
+.FunGrid__HeaderPopoverDialog {
+  width: FunConstants.$Fun__PanelWidth - ($popover-margin * 2);
+  border-radius: 8px;
+  box-shadow: 0 7px 18px variables.$color-black-alpha-30;
+  background: FunConstants.$Fun__BgColor;
+  user-select: none;
+  overflow: clip;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  &:focus {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+      outline-offset: -2px;
+    }
+  }
+}
+
+.FunGrid__HeaderPopoverHeader {
+  @include mixins.font-body-2;
+  color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+}
+
+.FunGrid__RowGroup {
+  contain: strict;
+  @include virtual-position(
+    var(--fun-grid-row-group-size),
+    var(--fun-grid-row-group-offset)
+  );
+  display: grid;
+  grid-template-columns: repeat(
+    var(--fun-grid-container-column-count),
+    var(--fun-grid-container-cell-width)
+  );
+  grid-auto-rows: var(--fun-grid-container-cell-height);
+  justify-items: center;
+}
+
+.FunGrid__Row {
+  // Note: `contain: strict` breaks CSS subgrid.
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: var(--fun-grid-row-index);
+  grid-template-columns: subgrid;
+}
+
+.FunGrid__Cell {
+  contain: strict;
+  content-visibility: auto;
+}

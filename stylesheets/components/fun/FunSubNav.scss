@@ -1,0 +1,278 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+@use './FunConstants.scss';
+
+$scroller-mask: FunConstants.$Fun__BgColor;
+$button-size: 32px;
+$button-radius: 10px;
+$icon-size: 20px;
+$image-size: 26px;
+$image-margin: calc(($button-size - $image-size) / 2);
+$image-radius: $button-radius - $image-margin;
+
+.FunSubNav__Container {
+  grid-area: FunSubNav__Container;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.FunSubNav__Scroller {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+
+  &::before,
+  &::after {
+    content: '';
+    z-index: 1;
+    display: block;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 6px;
+    height: 100%;
+  }
+
+  &::before {
+    /* stylelint-disable-next-line liberty/use-logical-spec */
+    left: 0;
+    background: linear-gradient(to right, $scroller-mask 20%, transparent);
+  }
+
+  &::after {
+    /* stylelint-disable-next-line liberty/use-logical-spec */
+    right: 0;
+    background: linear-gradient(to left, $scroller-mask 20%, transparent);
+  }
+}
+
+.FunSubNav__ScrollerMask {
+  content: '';
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 100%;
+}
+
+.FunSubNav__ScrollerMask--Left {
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  left: 0;
+  background: linear-gradient(to right, $scroller-mask 20%, transparent);
+}
+
+.FunSubNav__ScrollerMask--Right {
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  right: 0;
+  background: linear-gradient(to left, $scroller-mask 20%, transparent);
+}
+
+.FunSubNav__ScrollerViewport {
+  position: relative;
+  z-index: 0;
+  overflow-x: auto;
+  overflow-y: clip;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  scroll-padding: 100px;
+  // Handled by .FunPicker__SubNavScroller
+  outline: none;
+}
+
+.FunSubNav__ScrollerViewportInner {
+  position: relative;
+  display: inline flow-root;
+}
+
+.FunSubNav__Buttons {
+  display: flex;
+  padding-block: 6px;
+  z-index: 1;
+
+  &:first-of-type {
+    padding-inline-start: 6px;
+  }
+
+  &:last-of-type {
+    padding-inline-end: 6px;
+  }
+}
+
+.FunSubNav__Button {
+  @include mixins.button-reset();
+  & {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    width: $button-size;
+    height: $button-size;
+    background: transparent;
+    border-radius: $button-radius;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-78);
+  }
+
+  &:focus {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.FunSubNav__ListBox {
+  display: flex;
+  padding-block: 6px;
+  flex: 1;
+}
+
+.FunSubNav__ListBoxItem {
+  flex: 1;
+  padding: 1px;
+  cursor: pointer;
+
+  &:focus {
+    // Handled by .FunSubNav__ListBoxItem__ButtonIndicator
+    outline: none;
+  }
+
+  &:first-of-type {
+    padding-inline-start: 6px;
+  }
+
+  &:last-of-type {
+    padding-inline-end: 6px;
+  }
+}
+
+.FunSubNav__ListBoxItem__Button {
+  position: relative;
+  display: flex;
+  width: $button-size;
+  height: $button-size;
+  background: transparent;
+  border-radius: $button-radius;
+  align-items: center;
+  justify-content: center;
+
+  .FunSubNav__ListBoxItem:hover & {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-78);
+  }
+}
+
+.FunSubNav__ListBoxItem__ButtonIndicator {
+  z-index: 0;
+  position: absolute;
+  border-radius: $button-radius;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: 100%;
+  background: light-dark(variables.$color-gray-05, variables.$color-gray-60);
+
+  .FunSubNav__ListBoxItem[data-focused='true'] & {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.FunSubNav__ListBoxItem__ButtonIcon {
+  position: relative;
+  z-index: 1;
+}
+
+.FunSubNav__Icon {
+  width: $icon-size;
+  height: $icon-size;
+}
+
+@mixin icon($svg) {
+  @include mixins.color-svg(
+    $svg,
+    light-dark(variables.$color-black-alpha-50, variables.$color-white-alpha-50)
+  );
+}
+
+/* Shared */
+.FunSubNav__Icon--Recents {
+  @include icon('../images/icons/v3/recent/recent.svg');
+}
+
+/* Emoji */
+.FunSubNav__Icon--SmileysAndPeople {
+  @include icon('../images/icons/v3/emoji/emoji.svg');
+}
+.FunSubNav__Icon--AnimalsAndNature {
+  @include icon('../images/icons/v3/emoji/emoji-animal.svg');
+}
+.FunSubNav__Icon--FoodAndDrink {
+  @include icon('../images/icons/v3/emoji/emoji-food.svg');
+}
+.FunSubNav__Icon--Activities {
+  @include icon('../images/icons/v3/emoji/emoji-activity.svg');
+}
+.FunSubNav__Icon--TravelAndPlaces {
+  @include icon('../images/icons/v3/emoji/emoji-travel.svg');
+}
+.FunSubNav__Icon--Objects {
+  @include icon('../images/icons/v3/emoji/emoji-object.svg');
+}
+.FunSubNav__Icon--Symbols {
+  @include icon('../images/icons/v3/emoji/emoji-symbol.svg');
+}
+.FunSubNav__Icon--Flags {
+  @include icon('../images/icons/v3/emoji/emoji-flag.svg');
+}
+/* Stickers */
+.FunSubNav__Icon--Plus {
+  @include icon('../images/icons/v3/plus/plus-circle.svg');
+}
+/* GIFs */
+.FunSubNav__Icon--Trending {
+  @include icon('../images/icons/v3/trending/trending.svg');
+}
+.FunSubNav__Icon--Celebrate {
+  @include icon('../images/icons/v3/emoji/emoji-celebrate.svg');
+}
+.FunSubNav__Icon--Love {
+  @include icon('../images/icons/v3/heart/heart.svg');
+}
+.FunSubNav__Icon--ThumbsUp {
+  @include icon('../images/icons/v3/emoji/emoji-thumbs_up.svg');
+}
+.FunSubNav__Icon--Surprised {
+  @include icon('../images/icons/v3/emoji/emoji-surprised.svg');
+}
+.FunSubNav__Icon--Excited {
+  @include icon('../images/icons/v3/emoji/emoji-excited.svg');
+}
+.FunSubNav__Icon--Sad {
+  @include icon('../images/icons/v3/emoji/emoji-sad.svg');
+}
+.FunSubNav__Icon--Angry {
+  @include icon('../images/icons/v3/emoji/emoji-angry.svg');
+}
+
+.FunSubNav__Image {
+  width: $image-size;
+  height: $image-size;
+  border-radius: $image-radius;
+  transform: scale(100%);
+  transition: transform 200ms ease;
+
+  .FunSubNav__ListBoxItem[data-selected='true'] & {
+    transform: scale(90%);
+  }
+}

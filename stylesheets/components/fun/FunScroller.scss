@@ -1,0 +1,86 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+
+.FunScroller__Container {
+  grid-area: FunScroller__Container;
+  position: relative;
+  z-index: 0;
+  min-height: 0;
+
+  &:has(.FunScroller__Viewport:focus)::before {
+    @include mixins.keyboard-mode {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      border-radius: 4px;
+      outline: 2px solid variables.$color-ultramarine;
+      outline-offset: -2px;
+    }
+  }
+}
+
+.FunScroller__Hint {
+  display: block;
+  position: absolute;
+  inset-inline: 0;
+  z-index: 1;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 100ms ease;
+  pointer-events: none;
+
+  $hint-shadow: light-dark(
+    variables.$color-black-alpha-08,
+    variables.$color-black-alpha-12
+  );
+
+  &.FunScroller__Hint--Top {
+    top: 0;
+    background-image: linear-gradient(to bottom, $hint-shadow, transparent);
+  }
+
+  &.FunScroller__Hint--Bottom {
+    bottom: 0;
+    background-image: linear-gradient(to top, $hint-shadow, transparent);
+  }
+
+  &.FunScroller__Hint--Visible {
+    opacity: 1;
+  }
+}
+
+.FunScroller__Viewport {
+  container-type: size;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+  overflow-y: auto;
+  overflow-x: clip;
+  padding-inline: 12px 1px;
+
+  overscroll-behavior: contain;
+
+  $thumb: light-dark(variables.$color-gray-25, variables.$color-gray-45);
+  $track: transparent;
+  scrollbar-color: $thumb $track;
+
+  &:focus {
+    /* Handled by .FunScroller__Container */
+    outline: none;
+  }
+}
+
+.FunScroller__ViewportInner {
+  position: relative;
+  z-index: 0;
+  display: block flow-root;
+}

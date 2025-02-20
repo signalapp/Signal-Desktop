@@ -5,6 +5,8 @@ import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
+import { Button } from 'react-aria-components';
+import { VisuallyHidden } from 'react-aria';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
@@ -77,6 +79,15 @@ import type { DraftEditMessageType } from '../model-types.d';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
 import { ForwardMessagesModalType } from './ForwardMessagesModal';
 import { SignalConversationMuteToggle } from './conversation/SignalConversationMuteToggle';
+import { FunPicker } from './fun/FunPicker';
+import * as RemoteConfig from '../RemoteConfig';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
+import type { FunStickerSelection } from './fun/panels/FunPanelStickers';
+import type { FunGifSelection } from './fun/panels/FunPanelGifs';
+import { tenorDownload } from './fun/data/tenor';
+import { SignalService as Proto } from '../protobuf';
+import { SKIN_TONE_TO_NUMBER } from './fun/data/emojis';
+import { strictAssert } from '../util/assert';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -131,6 +142,7 @@ export type OwnProps = Readonly<{
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
+    flags: number | null;
   }) => unknown;
   setMuteExpiration(conversationId: string, muteExpiresAt: number): unknown;
   setMediaQualitySetting(conversationId: string, isHQ: boolean): unknown;
@@ -576,19 +588,98 @@ export const CompositionArea = memo(function CompositionArea({
 
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
+  const isFunPickerEnabled = RemoteConfig.isEnabled('desktop.funPicker');
+
+  const handleFunPickerOpenChange = useCallback(
+    (isOpen: boolean) => {
+      if (!isOpen) {
+        setComposerFocus(conversationId);
+      }
+    },
+    [conversationId, setComposerFocus]
+  );
+
+  const handleFunPickerSelectEmoji = useCallback(
+    (emojiSelection: FunEmojiSelection) => {
+      const skinToneNumber = SKIN_TONE_TO_NUMBER.get(emojiSelection.skinTone);
+      strictAssert(
+        skinToneNumber,
+        `Unexpected skin tone: ${emojiSelection.skinTone}`
+      );
+      insertEmoji({
+        shortName: emojiSelection.englishShortName,
+        skinTone: skinToneNumber,
+      });
+    },
+    [insertEmoji]
+  );
+  const handleFunPickerSelectSticker = useCallback(
+    (stickerSelection: FunStickerSelection) => {
+      sendStickerMessage(conversationId, {
+        packId: stickerSelection.stickerPackId,
+        stickerId: stickerSelection.stickerId,
+      });
+    },
+    [sendStickerMessage, conversationId]
+  );
+
+  const handleFunPickerSelectGif = useCallback(
+    async (gifSelection: FunGifSelection) => {
+      const { url } = gifSelection.attachmentMedia;
+
+      const bytes = await tenorDownload(url);
+      const file = new File([bytes], 'gif.mp4', {
+        type: 'video/mp4',
+      });
+
+      processAttachments({
+        conversationId,
+        files: [file],
+        flags: Proto.AttachmentPointer.Flags.GIF,
+      });
+    },
+    [processAttachments, conversationId]
+  );
+
+  const handleFunPickerAddStickerPack = useCallback(() => {
+    pushPanelForConversation({
+      type: PanelType.StickerManager,
+    });
+  }, [pushPanelForConversation]);
+
   const leftHandSideButtonsFragment = (
     <>
-      <div className="CompositionArea__button-cell">
-        <EmojiButton
-          emojiButtonApi={emojiButtonRef}
-          i18n={i18n}
-          onPickEmoji={insertEmoji}
-          onClose={() => setComposerFocus(conversationId)}
-          recentEmojis={recentEmojis}
-          skinTone={skinTone}
-          onSetSkinTone={onSetSkinTone}
-        />
-      </div>
+      {isFunPickerEnabled && (
+        <div className="CompositionArea__button-cell">
+          <FunPicker
+            placement="top start"
+            onOpenChange={handleFunPickerOpenChange}
+            onSelectEmoji={handleFunPickerSelectEmoji}
+            onSelectSticker={handleFunPickerSelectSticker}
+            onSelectGif={handleFunPickerSelectGif}
+            onAddStickerPack={handleFunPickerAddStickerPack}
+          >
+            <Button className="CompositionArea__FunButton">
+              <VisuallyHidden>
+                {i18n('icu:CompositionArea__FunButtonLabel')}
+              </VisuallyHidden>
+            </Button>
+          </FunPicker>
+        </div>
+      )}
+      {!isFunPickerEnabled && (
+        <div className="CompositionArea__button-cell">
+          <EmojiButton
+            emojiButtonApi={emojiButtonRef}
+            i18n={i18n}
+            onPickEmoji={insertEmoji}
+            onClose={() => setComposerFocus(conversationId)}
+            recentEmojis={recentEmojis}
+            skinTone={skinTone}
+            onSetSkinTone={onSetSkinTone}
+          />
+        </div>
+      )}
       {showMediaQualitySelector ? (
         <div className="CompositionArea__button-cell">
           <MediaQualitySelector
@@ -664,7 +755,7 @@ export const CompositionArea = memo(function CompositionArea({
 
   const stickerButtonPlacement = large ? 'top-start' : 'top-end';
   const stickerButtonFragment =
-    !draftEditMessage && withStickers ? (
+    !isFunPickerEnabled && !draftEditMessage && withStickers ? (
       <div className="CompositionArea__button-cell">
         <StickerButton
           i18n={i18n}

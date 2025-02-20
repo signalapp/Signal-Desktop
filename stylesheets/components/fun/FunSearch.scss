@@ -1,0 +1,67 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+
+$icon-image-size: 20px;
+$icon-actual-size: 18px;
+$icon-margin-inline-start: 12px;
+$input-padding-inline: 12px;
+
+.FunSearch__Container {
+  grid-area: FunSearch__Container;
+  position: relative;
+  margin-block: 12px;
+  margin-inline: 12px;
+
+  .FunTabs__TabPanelInner & {
+    margin-top: 0;
+  }
+}
+
+.FunSearch__Icon {
+  position: absolute;
+  width: $icon-image-size;
+  height: $icon-image-size;
+  top: 50%;
+  transform: translateY(-50%);
+  inset-inline-start: $icon-margin-inline-start;
+  pointer-events: none;
+
+  @include mixins.color-svg(
+    '../images/icons/v3/search/search.svg',
+    light-dark(variables.$color-black-alpha-50, variables.$color-white-alpha-50)
+  );
+}
+
+.FunSearch__Input {
+  appearance: none;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  padding-block: 6px;
+  padding-inline-end: $input-padding-inline;
+  padding-inline-start: calc(
+    $input-padding-inline + $icon-actual-size + $icon-margin-inline-start
+  );
+  @include mixins.font-body-1;
+  background: light-dark(variables.$color-gray-05, variables.$color-gray-80);
+
+  &:focus {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.FunSearch__NoResults {
+  display: flex;
+  width: 100cqw;
+  height: 100cqh;
+  align-items: center;
+  justify-content: center;
+  @include mixins.font-body-1;
+  color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+}

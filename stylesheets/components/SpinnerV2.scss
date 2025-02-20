@@ -8,7 +8,7 @@
 }
 
 .SpinnerV2__Path {
-  stroke: variables.$color-gray-15;
+  stroke: currentColor;
   stroke-linecap: round;
   animation: SpinnerV2-dash 1.5s ease-in-out infinite;
 }

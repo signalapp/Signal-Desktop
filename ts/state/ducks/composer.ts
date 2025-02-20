@@ -992,9 +992,11 @@ function onEditorStateChange({
 function processAttachments({
   conversationId,
   files,
+  flags,
 }: {
   conversationId: string;
   files: ReadonlyArray<File>;
+  flags: number | null;
 }): ThunkAction<
   void,
   RootStateType,
@@ -1060,6 +1062,7 @@ function processAttachments({
         try {
           const attachment = await processAttachment(file, {
             generateScreenshot: true,
+            flags,
           });
           if (!attachment) {
             removeAttachment(conversationId, webUtils.getPathForFile(file))(

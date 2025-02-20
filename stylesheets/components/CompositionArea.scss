@@ -290,3 +290,39 @@
     }
   }
 }
+
+.CompositionArea__FunButton {
+  @include mixins.button-reset();
+  & {
+    border-radius: 4px;
+    background: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:focus {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+
+  &::after {
+    display: block;
+    content: '';
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    @include mixins.color-svg(
+      '../images/icons/v3/emoji/emoji.svg',
+      light-dark(variables.$color-gray-75, variables.$color-gray-15)
+    );
+  }
+
+  &[aria-expanded='true'] {
+    background: light-dark(variables.$color-gray-05, variables.$color-gray-75);
+  }
+}

@@ -4,9 +4,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export const SpinnerSvgSizes = ['small', 'normal'] as const;
-export type SpinnerSvgSize = (typeof SpinnerSvgSizes)[number];
-
 export type Props = {
   className?: string;
   size: number;

@@ -11,7 +11,7 @@ import { fileToBytes } from './fileToBytes';
 
 export async function handleVideoAttachment(
   file: File,
-  options?: { generateScreenshot: boolean }
+  options?: { generateScreenshot: boolean; flags: number | null }
 ): Promise<InMemoryAttachmentDraftType> {
   const objectUrl = URL.createObjectURL(file);
   if (!objectUrl) {
@@ -40,6 +40,10 @@ export async function handleVideoAttachment(
         await blobToArrayBuffer(screenshotBlob)
       );
       attachment.screenshotContentType = screenshotContentType;
+    }
+
+    if (options?.flags != null) {
+      attachment.flags = options.flags;
     }
 
     return attachment;

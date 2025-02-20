@@ -45,5 +45,6 @@ ts/protobuf/*.d.ts
 # Editors
 /.idea
 /.vscode
+/.zed
 *.sublime*
 *.map

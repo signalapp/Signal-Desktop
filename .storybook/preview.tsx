@@ -121,6 +121,15 @@ window.SignalContext = {
   getPreferredSystemLocales: () => ['en'],
   getLocaleOverride: () => null,
   getLocaleDisplayNames: () => ({ en: { en: 'English' } }),
+
+  getLocalizedEmojiList: async locale => {
+    const data = await fetch(
+      `https://updates2.signal.org/static/android/emoji/search/13/${locale}.json`
+    );
+    const json: unknown = await data.json();
+    const result = parseUnknown(LocaleEmojiListSchema, json);
+    return result;
+  },
 };
 
 window.i18n = i18n;

@@ -1,28 +1,28 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ipcRenderer } from 'electron';
 import type { MenuItemConstructorOptions } from 'electron';
+import { ipcRenderer } from 'electron';
 
-import type { MenuOptionsType } from '../types/menu';
-import type { LocalizerType } from '../types/Util';
-import type { LoggerType } from '../types/Logging';
 import type { NativeThemeType } from '../context/createNativeThemeListener';
-import type { SettingType, SettingsValuesType } from '../util/preload';
+import type { LoggerType } from '../types/Logging';
+import type { MenuOptionsType } from '../types/menu';
 import type { RendererConfigType } from '../types/RendererConfig';
+import type { LocalizerType } from '../types/Util';
+import type { SettingType, SettingsValuesType } from '../util/preload';
 
 import { Bytes } from '../context/Bytes';
 import { Crypto } from '../context/Crypto';
 import { Timers } from '../context/Timers';
 
-import type { ActiveWindowServiceType } from '../services/ActiveWindowService';
-import { i18n } from '../context/i18n';
-import { strictAssert } from '../util/assert';
-import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
-import { MinimalSignalContext } from './minimalContext';
 import type { LocaleDirection } from '../../app/locale';
-import type { HourCyclePreference } from '../types/I18N';
+import { i18n } from '../context/i18n';
+import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
+import type { ActiveWindowServiceType } from '../services/ActiveWindowService';
 import type { LocaleEmojiListType } from '../types/emoji';
+import type { HourCyclePreference } from '../types/I18N';
+import { strictAssert } from '../util/assert';
+import { MinimalSignalContext } from './minimalContext';
 
 strictAssert(Boolean(window.SignalContext), 'context must be defined');
 
@@ -49,9 +49,7 @@ export type MinimalSignalContextType = {
   getResolvedMessagesLocale: () => string;
   getPreferredSystemLocales: () => Array<string>;
   getLocaleOverride: () => string | null;
-  getLocalizedEmojiList: (
-    locale: string
-  ) => Promise<LocaleEmojiListType | undefined>;
+  getLocalizedEmojiList: (locale: string) => Promise<LocaleEmojiListType>;
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;

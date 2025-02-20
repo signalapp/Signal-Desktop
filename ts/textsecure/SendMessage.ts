@@ -38,7 +38,6 @@ import type {
   GetGroupLogOptionsType,
   GroupCredentialsType,
   GroupLogResponseType,
-  ProxiedRequestOptionsType,
   WebAPIType,
 } from './WebAPI';
 import createTaskWithTimeout from './TaskWithTimeout';
@@ -2425,13 +2424,6 @@ export default class MessageSender {
     abortSignal: AbortSignal
   ): Promise<null | LinkPreviewImage> {
     return this.server.fetchLinkPreviewImage(href, abortSignal);
-  }
-
-  async makeProxiedRequest(
-    url: string,
-    options?: Readonly<ProxiedRequestOptionsType>
-  ): Promise<ReturnType<WebAPIType['makeProxiedRequest']>> {
-    return this.server.makeProxiedRequest(url, options);
   }
 
   async getStorageCredentials(): Promise<StorageServiceCredentials> {

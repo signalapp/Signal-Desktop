@@ -4,6 +4,7 @@
 // Camelcase disabled due to emoji-datasource using snake_case
 /* eslint-disable camelcase */
 import emojiRegex from 'emoji-regex';
+import Fuse from 'fuse.js';
 import {
   compact,
   flatMap,
@@ -16,13 +17,8 @@ import {
   sortBy,
   take,
 } from 'lodash';
-import Fuse from 'fuse.js';
-import PQueue from 'p-queue';
-import { getOwn } from '../../util/getOwn';
-import * as log from '../../logging/log';
-import { MINUTE } from '../../util/durations';
-import { drop } from '../../util/drop';
 import type { LocaleEmojiType } from '../../types/emoji';
+import { getOwn } from '../../util/getOwn';
 
 // Import emoji-datasource dynamically to avoid costly typechecking.
 // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
@@ -39,7 +35,7 @@ export type SizeClassType =
   | 'extra-large'
   | 'max';
 
-export type EmojiSkinVariation = {
+type EmojiSkinVariation = {
   unified: string;
   non_qualified: null;
   image: string;
@@ -103,44 +99,6 @@ const ROOT_PATH = get(
 
 const makeImagePath = (src: string) => {
   return `${ROOT_PATH}node_modules/emoji-datasource-apple/img/apple/64/${src}`;
-};
-
-const imageQueue = new PQueue({
-  concurrency: 10,
-  timeout: MINUTE * 30,
-  throwOnTimeout: true,
-});
-const images = new Set();
-
-export const preloadImages = async (): Promise<void> => {
-  // Preload images
-  const preload = async (src: string) =>
-    new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = src;
-      images.add(img);
-      setTimeout(reject, 5000);
-    });
-
-  log.info('Preloading emoji images');
-  const start = Date.now();
-
-  data.forEach(emoji => {
-    drop(imageQueue.add(() => preload(makeImagePath(emoji.image))));
-
-    if (emoji.skin_variations) {
-      Object.values(emoji.skin_variations).forEach(variation => {
-        drop(imageQueue.add(() => preload(makeImagePath(variation.image))));
-      });
-    }
-  });
-
-  await imageQueue.onEmpty();
-
-  const end = Date.now();
-  log.info(`Done preloading emoji images in ${end - start}ms`);
 };
 
 const dataByShortName = keyBy(data, 'short_name');

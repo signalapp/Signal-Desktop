@@ -1,0 +1,17 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../variables';
+@use './FunConstants.scss';
+
+.FunPanel {
+  display: grid;
+  width: FunConstants.$Fun__PanelWidth;
+  height: FunConstants.$Fun__PanelHeight;
+  max-height: 100%;
+  contain: size layout;
+  grid-template:
+    'FunSearch__Container' auto
+    'FunScroller__Container' 1fr
+    'FunSubNav__Container' auto;
+}

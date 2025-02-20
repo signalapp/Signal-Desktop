@@ -1,0 +1,95 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+@use './FunConstants.scss';
+
+.FunTabs__Tabs {
+  position: relative;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.FunTabs__TabList {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 10px;
+  height: FunConstants.$Fun__TabsListHeight;
+}
+
+.FunTabs__Tab {
+  position: relative;
+  flex: 1;
+  padding-block: 12px;
+  padding-inline: 2px;
+  cursor: pointer !important;
+
+  &[data-selected='true'] {
+    // Note: This is needed to keep the hover state from later items from
+    // covering the indicator during the animation.
+    z-index: 1;
+  }
+
+  &:focus {
+    // Handled by .FunTabs__TabButton
+    outline: none;
+  }
+}
+
+.FunTabs__TabButton {
+  // Note: This must not have z-index for the animation
+  position: relative;
+  padding-block: 2px;
+  padding-inline: 12px;
+  border-radius: 9999px;
+  text-align: center;
+  @include mixins.font-body-1;
+  color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+
+  .FunTabs__Tab:hover &,
+  .FunTabs__Tab:focus & {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-78);
+  }
+}
+
+.FunTabs__TabButtonIndicator {
+  position: absolute;
+  z-index: 1;
+  border-radius: 9999px;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  pointer-events: none;
+  background: light-dark(variables.$color-gray-05, variables.$color-gray-60);
+
+  .FunTabs__Tab[data-focused='true'] & {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.FunTabs__TabButtonText {
+  position: relative;
+  z-index: 2; // Just above the TabButtonIndicator
+}
+
+.FunTabs__TabPanel {
+  position: relative;
+  display: flex;
+  grid-column: 1;
+  grid-row: 2;
+  min-height: 0;
+}
+
+.FunTabs__TabPanelInner {
+  background: FunConstants.$Fun__BgColor; // Needed for smooth fade-between animation
+}

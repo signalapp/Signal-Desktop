@@ -7,10 +7,14 @@
 html {
   height: 100%;
   cursor: inherit;
+}
 
-  body.dark-theme {
-    color-scheme: dark;
-  }
+.light-theme {
+  color-scheme: light;
+}
+
+.dark-theme {
+  color-scheme: dark;
 }
 
 body {

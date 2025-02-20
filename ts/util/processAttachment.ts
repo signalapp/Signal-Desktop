@@ -25,7 +25,7 @@ import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
 
 export async function processAttachment(
   file: File,
-  options?: { generateScreenshot: boolean }
+  options?: { generateScreenshot: boolean; flags: number | null }
 ): Promise<InMemoryAttachmentDraftType | void> {
   const fileType = stringToMIMEType(file.type);
 

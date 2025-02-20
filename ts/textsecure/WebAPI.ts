@@ -891,13 +891,6 @@ export type IceServerGroupType = Readonly<{
 
 export type GetSenderCertificateResultType = Readonly<{ certificate: string }>;
 
-export type MakeProxiedRequestResultType =
-  | Uint8Array
-  | {
-      result: BytesWithDetailsType;
-      totalSize: number;
-    };
-
 const whoamiResultZod = z.object({
   uuid: z.string(),
   pni: z.string(),
@@ -1440,10 +1433,14 @@ export type WebAPIType = {
   ) => Promise<null | linkPreviewFetch.LinkPreviewImage>;
   linkDevice: (options: LinkDeviceOptionsType) => Promise<LinkDeviceResultType>;
   unlink: () => Promise<void>;
-  makeProxiedRequest: (
+  fetchJsonViaProxy: (
     targetUrl: string,
-    options?: ProxiedRequestOptionsType
-  ) => Promise<MakeProxiedRequestResultType>;
+    signal?: AbortSignal
+  ) => Promise<JSONWithDetailsType>;
+  fetchBytesViaProxy: (
+    targetUrl: string,
+    signal?: AbortSignal
+  ) => Promise<BytesWithDetailsType>;
   makeSfuRequest: (
     targetUrl: string,
     type: HTTPCodeType,
@@ -1919,7 +1916,8 @@ export function initialize({
       getSubscriptionConfiguration,
       linkDevice,
       logout,
-      makeProxiedRequest,
+      fetchJsonViaProxy,
+      fetchBytesViaProxy,
       makeSfuRequest,
       modifyGroup,
       modifyStorageRecords,
@@ -4203,53 +4201,40 @@ export function initialize({
       );
     }
 
-    async function makeProxiedRequest(
+    async function fetchJsonViaProxy(
       targetUrl: string,
-      options: ProxiedRequestOptionsType = {}
-    ): Promise<MakeProxiedRequestResultType> {
-      const { returnUint8Array, start, end } = options;
-      const headers: HeaderListType = {
-        'X-SignalPadding': getHeaderPadding(),
-      };
-
-      if (isNumber(start) && isNumber(end)) {
-        headers.Range = `bytes=${start}-${end}`;
-      }
-
-      const result = await _outerAjax(targetUrl, {
-        responseType: returnUint8Array ? 'byteswithdetails' : undefined,
+      signal?: AbortSignal
+    ): Promise<JSONWithDetailsType> {
+      return _outerAjax(targetUrl, {
+        responseType: 'jsonwithdetails',
         proxyUrl: contentProxyUrl,
         type: 'GET',
         redirect: 'follow',
         redactUrl: () => '[REDACTED_URL]',
-        headers,
+        headers: {
+          'X-SignalPadding': getHeaderPadding(),
+        },
         version,
+        abortSignal: signal,
       });
+    }
 
-      if (!returnUint8Array) {
-        return result as Uint8Array;
-      }
-
-      const { response } = result as BytesWithDetailsType;
-      if (!response.headers || !response.headers.get) {
-        throw new Error('makeProxiedRequest: Problem retrieving header value');
-      }
-
-      const range = response.headers.get('content-range');
-      const match = PARSE_RANGE_HEADER.exec(range || '');
-
-      if (!match || !match[1]) {
-        throw new Error(
-          `makeProxiedRequest: Unable to parse total size from ${range}`
-        );
-      }
-
-      const totalSize = parseInt(match[1], 10);
-
-      return {
-        totalSize,
-        result: result as BytesWithDetailsType,
-      };
+    async function fetchBytesViaProxy(
+      targetUrl: string,
+      signal?: AbortSignal
+    ): Promise<BytesWithDetailsType> {
+      return _outerAjax(targetUrl, {
+        responseType: 'byteswithdetails',
+        proxyUrl: contentProxyUrl,
+        type: 'GET',
+        redirect: 'follow',
+        redactUrl: () => '[REDACTED_URL]',
+        headers: {
+          'X-SignalPadding': getHeaderPadding(),
+        },
+        version,
+        abortSignal: signal,
+      });
     }
 
     async function makeSfuRequest(

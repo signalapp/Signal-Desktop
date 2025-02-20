@@ -14,6 +14,7 @@ export type PropsType = {
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
+    flags: number | null;
   }) => void;
   renderCompositionArea: (conversationId: string) => JSX.Element;
   renderConversationHeader: (conversationId: string) => JSX.Element;
@@ -52,6 +53,7 @@ export function ConversationView({
       processAttachments({
         conversationId,
         files: Array.from(files),
+        flags: null,
       });
     },
     [conversationId, processAttachments]
@@ -89,6 +91,7 @@ export function ConversationView({
         processAttachments({
           conversationId,
           files,
+          flags: null,
         });
 
         event.stopPropagation();
@@ -102,6 +105,7 @@ export function ConversationView({
         processAttachments({
           conversationId,
           files: [firstAttachment],
+          flags: null,
         });
 
         event.stopPropagation();

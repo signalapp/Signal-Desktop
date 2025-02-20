@@ -1,0 +1,30 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+@use './FunConstants.scss';
+
+.FunSkinTones__ListBox {
+  display: flex;
+  flex-direction: row;
+}
+
+.FunSkinTones__ListBoxItem {
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid FunConstants.$Fun__BgColor;
+
+  &:hover,
+  &:focus {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-78);
+  }
+
+  &:focus {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+      outline-offset: -2px;
+    }
+  }
+}

@@ -27,6 +27,7 @@ import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { ModalContainer } from '../../components/ModalContainer';
 import { SmartInbox } from './Inbox';
 import { getApp } from '../selectors/app';
+import { SmartFunProvider } from './FunProvider';
 
 function renderInbox(): JSX.Element {
   return <SmartInbox />;
@@ -123,26 +124,28 @@ export const SmartApp = memo(function SmartApp() {
   const osClassName = OS.getClassName();
 
   return (
-    <App
-      state={state}
-      isMaximized={isMaximized}
-      isFullScreen={isFullScreen}
-      getCaptchaToken={getCaptchaToken}
-      osClassName={osClassName}
-      renderCallManager={renderCallManager}
-      renderGlobalModalContainer={renderGlobalModalContainer}
-      renderLightbox={renderLightbox}
-      hasSelectedStoryData={hasSelectedStoryData}
-      readyForUpdates={readyForUpdates}
-      renderStoryViewer={renderStoryViewer}
-      renderInbox={renderInbox}
-      requestVerification={requestVerification}
-      registerSingleDevice={registerSingleDevice}
-      uploadProfile={uploadProfile}
-      theme={theme}
-      openInbox={openInbox}
-      scrollToMessage={scrollToMessage}
-      viewStory={viewStory}
-    />
+    <SmartFunProvider>
+      <App
+        state={state}
+        isMaximized={isMaximized}
+        isFullScreen={isFullScreen}
+        getCaptchaToken={getCaptchaToken}
+        osClassName={osClassName}
+        renderCallManager={renderCallManager}
+        renderGlobalModalContainer={renderGlobalModalContainer}
+        renderLightbox={renderLightbox}
+        hasSelectedStoryData={hasSelectedStoryData}
+        readyForUpdates={readyForUpdates}
+        renderStoryViewer={renderStoryViewer}
+        renderInbox={renderInbox}
+        requestVerification={requestVerification}
+        registerSingleDevice={registerSingleDevice}
+        uploadProfile={uploadProfile}
+        theme={theme}
+        openInbox={openInbox}
+        scrollToMessage={scrollToMessage}
+        viewStory={viewStory}
+      />
+    </SmartFunProvider>
   );
 });
