@@ -7,7 +7,7 @@
 import { Module } from 'node:module';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { Script } from 'node:vm';
+import { Script, constants } from 'node:vm';
 import { ipcRenderer } from 'electron';
 
 const srcPath = join(__dirname, 'preload.bundle.js');
@@ -38,6 +38,7 @@ function compile(
     filename,
     lineOffset: 0,
     cachedData,
+    importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
   });
 
   const compiledWrapper = script.runInThisContext({
@@ -45,6 +46,7 @@ function compile(
     lineOffset: 0,
     columnOffset: 0,
     displayErrors: true,
+    importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
   });
 
   return compiledWrapper;
