@@ -2108,14 +2108,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/installScreen/InstallScreenChoosingDeviceNameStep.tsx",
-    "line": "  const hasFocusedRef = useRef<boolean>(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-12-06T23:07:28.947Z",
-    "reasonDetail": "Doesn't touch the DOM."
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/stickers/StickerButton.tsx",
     "line": "    const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",

@@ -4,7 +4,6 @@
 export enum InstallScreenStep {
   NotStarted = 'NotStarted',
   QrCodeNotScanned = 'QrCodeNotScanned',
-  ChoosingDeviceName = 'ChoosingDeviceName',
   Error = 'Error',
 
   // Either of these two is the final state
