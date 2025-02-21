@@ -128,8 +128,8 @@ importers:
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.49.5
-        version: 2.49.5
+        specifier: 2.50.0
+        version: 2.50.0
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
@@ -2540,8 +2540,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.49.5':
-    resolution: {integrity: sha512-5LyEG+akdzqvPCvChF2uPkxOKpvR6I2+k6hY2M54fRz0Ypsd3pklvVdqZs2ITt9j1Q3c28ft6BOUzXXmp+s0bw==}
+  '@signalapp/ringrtc@2.50.0':
+    resolution: {integrity: sha512-zeUkBhXNo0qoM7ObY2jMM5VrUcR3f9DQ5JK+q2Pj7+ettKCGOYejyH+Z49HKnW9AK/cPZ0aijqGCsuqd+XZjpA==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -5874,10 +5874,6 @@ packages:
   https-proxy-agent@5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
-
-  https-proxy-agent@7.0.1:
-    resolution: {integrity: sha512-Eun8zV0kcYS1g19r78osiQLEFIRspRUDd9tIfBCTBPBeMieF/EsJNL8VI3xOIdYRDEkjQnqOYPsZ2DsWsVsFwQ==}
-    engines: {node: '>= 14'}
 
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
@@ -12291,9 +12287,9 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.49.5':
+  '@signalapp/ringrtc@2.50.0':
     dependencies:
-      https-proxy-agent: 7.0.1
+      https-proxy-agent: 7.0.6
       tar: 6.2.1
     transitivePeerDependencies:
       - supports-color
@@ -16447,13 +16443,6 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.7(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - supports-color
-
-  https-proxy-agent@7.0.1:
-    dependencies:
-      agent-base: 7.1.3
       debug: 4.3.7(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
