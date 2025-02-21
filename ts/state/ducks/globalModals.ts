@@ -690,7 +690,7 @@ function toggleForwardMessagesModal(
           const messageDraft = toMessageForwardDraft(
             {
               ...messageProps,
-              attachments: attachments.filter(
+              attachments: (messageProps.attachments ?? []).filter(
                 attachment => !isPermanentlyUndownloadable(attachment)
               ),
             },
