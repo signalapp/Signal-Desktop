@@ -398,7 +398,10 @@ export async function startApp(): Promise<void> {
 
   window.getSocketStatus = () => {
     if (server === undefined) {
-      return SocketStatus.CLOSED;
+      return {
+        authenticated: { status: SocketStatus.CLOSED },
+        unauthenticated: { status: SocketStatus.CLOSED },
+      };
     }
     return server.getSocketStatus();
   };
@@ -1141,7 +1144,8 @@ export async function startApp(): Promise<void> {
       setupAppState();
       drop(start());
       window.Signal.Services.initializeNetworkObserver(
-        window.reduxActions.network
+        window.reduxActions.network,
+        () => window.getSocketStatus().authenticated.status
       );
       window.Signal.Services.initializeUpdateListener(
         window.reduxActions.updates
@@ -1947,7 +1951,7 @@ export async function startApp(): Promise<void> {
   window.addEventListener('offline', onNavigatorOffline);
 
   window.Whisper.events.on('socketStatusChange', () => {
-    if (window.getSocketStatus() === SocketStatus.OPEN) {
+    if (window.getSocketStatus().authenticated.status === SocketStatus.OPEN) {
       pauseQueuesAndNotificationsOnSocketConnect();
     }
   });
@@ -1976,7 +1980,7 @@ export async function startApp(): Promise<void> {
   }
 
   function isSocketOnline() {
-    const socketStatus = window.getSocketStatus();
+    const socketStatus = window.getSocketStatus().authenticated.status;
     return (
       socketStatus === SocketStatus.CONNECTING ||
       socketStatus === SocketStatus.OPEN

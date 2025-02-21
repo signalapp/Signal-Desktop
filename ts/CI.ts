@@ -17,6 +17,7 @@ import { SECOND } from './util/durations';
 import { isSignalRoute } from './util/signalRoutes';
 import { strictAssert } from './util/assert';
 import { MessageModel } from './models/messages';
+import type { SocketStatuses } from './textsecure/SocketManager';
 
 type ResolveType = (data: unknown) => void;
 
@@ -28,6 +29,7 @@ export type CIType = {
     sentAt: number
   ): Promise<ReadonlyArray<MessageAttributesType>>;
   getPendingEventCount: (event: string) => number;
+  getSocketStatus: () => SocketStatuses;
   handleEvent: (event: string, data: unknown) => unknown;
   setProvisioningURL: (url: string) => unknown;
   solveChallenge: (response: ChallengeResponseType) => unknown;
@@ -202,6 +204,10 @@ export function getCI({
     handleEvent('print', format(...args));
   }
 
+  function getSocketStatus() {
+    return window.getSocketStatus();
+  }
+
   async function resetReleaseNotesFetcher() {
     await Promise.all([
       window.textsecure.storage.put(
@@ -218,6 +224,7 @@ export function getCI({
     getConversationId,
     createNotificationToken,
     getMessagesBySentAt,
+    getSocketStatus,
     handleEvent,
     setProvisioningURL,
     solveChallenge,

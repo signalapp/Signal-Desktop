@@ -61,7 +61,7 @@ export function Inbox({
     }
 
     const interval = setInterval(() => {
-      const status = window.getSocketStatus();
+      const { status } = window.getSocketStatus().authenticated;
       switch (status) {
         case 'CONNECTING':
           break;

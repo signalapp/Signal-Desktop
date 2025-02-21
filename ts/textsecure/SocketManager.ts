@@ -26,7 +26,7 @@ import { sleep } from '../util/sleep';
 import { drop } from '../util/drop';
 import type { ProxyAgent } from '../util/createProxyAgent';
 import { createProxyAgent } from '../util/createProxyAgent';
-import { SocketStatus } from '../types/SocketStatus';
+import { type SocketInfo, SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
 import * as log from '../logging/log';
@@ -39,6 +39,7 @@ import type {
 import WebSocketResource, {
   connectAuthenticatedLibsignal,
   connectUnauthenticatedLibsignal,
+  LibsignalWebSocketResource,
   ServerRequestType,
   TransportOption,
   WebSocketResourceWithShadowing,
@@ -48,6 +49,7 @@ import type { IRequestHandler, WebAPICredentials } from './Types.d';
 import { connect as connectWebSocket } from './WebSocket';
 import { isNightly, isBeta, isStaging } from '../util/version';
 import { getBasicAuth } from '../util/getBasicAuth';
+import { isTestOrMockEnvironment } from '../environment';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -67,6 +69,20 @@ export type SocketManagerOptions = Readonly<{
   proxyUrl?: string;
   hasStoriesDisabled: boolean;
 }>;
+
+type SocketStatusUpdate =
+  | {
+      status: SocketStatus.OPEN;
+      transportOption: TransportOption.Libsignal | TransportOption.Original;
+    }
+  | {
+      status: Exclude<SocketStatus, SocketStatus.OPEN>;
+    };
+
+export type SocketStatuses = Record<
+  'authenticated' | 'unauthenticated',
+  SocketInfo
+>;
 
 // This class manages two websocket resources:
 //
@@ -92,7 +108,12 @@ export class SocketManager extends EventListener {
   #unauthenticatedExpirationTimer?: NodeJS.Timeout;
   #credentials?: WebAPICredentials;
   #lazyProxyAgent?: Promise<ProxyAgent>;
-  #status = SocketStatus.CLOSED;
+  #authenticatedStatus: SocketInfo = {
+    status: SocketStatus.CLOSED,
+  };
+  #unathenticatedStatus: SocketInfo = {
+    status: SocketStatus.CLOSED,
+  };
   #requestHandlers = new Set<IRequestHandler>();
   #incomingRequestQueue = new Array<IncomingWebSocketRequest>();
   #isNavigatorOffline = false;
@@ -111,8 +132,11 @@ export class SocketManager extends EventListener {
     this.#hasStoriesDisabled = options.hasStoriesDisabled;
   }
 
-  public getStatus(): SocketStatus {
-    return this.#status;
+  public getStatus(): SocketStatuses {
+    return {
+      authenticated: this.#authenticatedStatus,
+      unauthenticated: this.#unathenticatedStatus,
+    };
   }
 
   #markOffline() {
@@ -163,7 +187,7 @@ export class SocketManager extends EventListener {
         `(hasStoriesDisabled=${this.#hasStoriesDisabled})`
     );
 
-    this.#setStatus(SocketStatus.CONNECTING);
+    this.#setAuthenticatedStatus({ status: SocketStatus.CONNECTING });
 
     const proxyAgent = await this.#getProxyAgent();
     const useLibsignalTransport =
@@ -252,7 +276,14 @@ export class SocketManager extends EventListener {
     let authenticated: IWebSocketResource;
     try {
       authenticated = await process.getResult();
-      this.#setStatus(SocketStatus.OPEN);
+
+      this.#setAuthenticatedStatus({
+        status: SocketStatus.OPEN,
+        transportOption:
+          authenticated instanceof LibsignalWebSocketResource
+            ? TransportOption.Libsignal
+            : TransportOption.Original,
+      });
     } catch (error) {
       log.warn(
         'SocketManager: authenticated socket connection failed with ' +
@@ -290,6 +321,11 @@ export class SocketManager extends EventListener {
       ) {
         this.emit('authError');
         return;
+      } else if (
+        error instanceof LibSignalErrorBase &&
+        error.code === ErrorCode.IoError
+      ) {
+        this.#markOffline();
       } else if (
         error instanceof LibSignalErrorBase &&
         error.code === ErrorCode.AppExpired
@@ -566,21 +602,44 @@ export class SocketManager extends EventListener {
   // Private
   //
 
-  #setStatus(status: SocketStatus): void {
-    if (this.#status === status) {
+  #setAuthenticatedStatus(newStatus: SocketStatusUpdate): void {
+    if (this.#authenticatedStatus.status === newStatus.status) {
       return;
     }
 
-    this.#status = status;
+    this.#authenticatedStatus.status = newStatus.status;
     this.emit('statusChange');
 
-    if (this.#status === SocketStatus.OPEN && !this.#privIsOnline) {
-      this.#privIsOnline = true;
-      this.emit('online');
+    if (newStatus.status === SocketStatus.OPEN) {
+      this.#authenticatedStatus.lastConnectionTimestamp = Date.now();
+      this.#authenticatedStatus.lastConnectionTransport =
+        newStatus.transportOption;
+
+      if (!this.#privIsOnline) {
+        this.#privIsOnline = true;
+        this.emit('online');
+      }
+    }
+  }
+
+  #setUnauthenticatedStatus(newStatus: SocketStatusUpdate): void {
+    this.#unathenticatedStatus.status = newStatus.status;
+
+    if (newStatus.status === SocketStatus.OPEN) {
+      this.#unathenticatedStatus.lastConnectionTimestamp = Date.now();
+      this.#unathenticatedStatus.lastConnectionTransport =
+        newStatus.transportOption;
     }
   }
 
   #transportOption(): TransportOption {
+    if (isTestOrMockEnvironment()) {
+      const configValue = window.Signal.RemoteConfig.isEnabled(
+        'desktop.experimentalTransportEnabled.alpha'
+      );
+      return configValue ? TransportOption.Libsignal : TransportOption.Original;
+    }
+
     // in staging, switch to using libsignal transport
     if (isStaging(this.options.version)) {
       return TransportOption.Libsignal;
@@ -641,6 +700,10 @@ export class SocketManager extends EventListener {
       `SocketManager: connecting unauthenticated socket, transport option [${transportOption}]`
     );
 
+    this.#setUnauthenticatedStatus({
+      status: SocketStatus.CONNECTING,
+    });
+
     let process: AbortableProcess<IWebSocketResource>;
 
     if (transportOption === TransportOption.Libsignal) {
@@ -667,6 +730,13 @@ export class SocketManager extends EventListener {
     let unauthenticated: IWebSocketResource;
     try {
       unauthenticated = await this.#unauthenticated.getResult();
+      this.#setUnauthenticatedStatus({
+        status: SocketStatus.OPEN,
+        transportOption:
+          unauthenticated instanceof LibsignalWebSocketResource
+            ? TransportOption.Libsignal
+            : TransportOption.Original,
+      });
     } catch (error) {
       log.info(
         'SocketManager: failed to connect unauthenticated socket ' +
@@ -824,7 +894,7 @@ export class SocketManager extends EventListener {
 
     this.#incomingRequestQueue = [];
     this.#authenticated = undefined;
-    this.#setStatus(SocketStatus.CLOSED);
+    this.#setAuthenticatedStatus({ status: SocketStatus.CLOSED });
   }
 
   #dropUnauthenticated(process: AbortableProcess<IWebSocketResource>): void {
@@ -833,6 +903,7 @@ export class SocketManager extends EventListener {
     }
 
     this.#unauthenticated = undefined;
+    this.#setUnauthenticatedStatus({ status: SocketStatus.CLOSED });
     if (!this.#unauthenticatedExpirationTimer) {
       return;
     }

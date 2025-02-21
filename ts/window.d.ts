@@ -51,6 +51,7 @@ import type { RetryPlaceholders } from './util/retryPlaceholders';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences';
 import type { WindowsNotificationData } from './services/notifications';
 import type { QueryStatsOptions } from './sql/main';
+import type { SocketStatuses } from './textsecure/SocketManager';
 
 export { Long } from 'long';
 
@@ -146,7 +147,10 @@ export type SignalCoreType = {
     calling: CallingClass;
     backups: BackupsService;
     initializeGroupCredentialFetcher: () => Promise<void>;
-    initializeNetworkObserver: (network: ReduxActions['network']) => void;
+    initializeNetworkObserver: (
+      network: ReduxActions['network'],
+      getAuthSocketStatus: () => SocketStatus
+    ) => void;
     initializeUpdateListener: (updates: ReduxActions['updates']) => void;
     retryPlaceholders?: RetryPlaceholders;
     lightSessionResetQueue?: PQueue;
@@ -201,7 +205,7 @@ declare global {
     getBackupServerPublicParams: () => string;
     getSfuUrl: () => string;
     getIceServerOverride: () => string;
-    getSocketStatus: () => SocketStatus;
+    getSocketStatus: () => SocketStatuses;
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;
     getVersion: () => string;

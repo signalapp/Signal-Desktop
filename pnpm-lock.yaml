@@ -432,8 +432,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 10.5.0
-        version: 10.5.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 11.0.0
+        version: 11.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -2530,8 +2530,8 @@ packages:
   '@signalapp/libsignal-client@0.66.2':
     resolution: {integrity: sha512-zwgU0LXIJjJNVBxJWnjbJN1+gIUJ+eY+BnqIP1d0751Sq1zy5VMHs+/5nmEyVGNn6ptD0qseYXkxtr/XLs07Lw==}
 
-  '@signalapp/mock-server@10.5.0':
-    resolution: {integrity: sha512-w7KXcWYRPXhAxYWzeBNesu+A9DO6FYJUhg52md3M9yQkPR2Yr/YBvc9zBhFo5fafZmkaRoxDoz9y29Ivd5ZykQ==}
+  '@signalapp/mock-server@11.0.0':
+    resolution: {integrity: sha512-JHEqdjXvWcXyLJ90OtaTIQVtizH/w+rmnPplNmHuUiDZIQIEvE3lRyZFyIvgVTNg29lQWs/Gw/o+hICerdOChQ==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -6801,9 +6801,6 @@ packages:
   loglevel@1.9.2:
     resolution: {integrity: sha512-HgMmCqIJSAKqo68l0rS2AanEWfkxaZ5wNiEFb5ggm08lDs9Xl2KxBlX3PTcaD2chBM1gXAYf491/M2Rv8Jwayg==}
     engines: {node: '>= 0.6.0'}
-
-  long@4.0.0:
-    resolution: {integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==}
 
   long@5.2.3:
     resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
@@ -12262,7 +12259,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/mock-server@10.5.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@11.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.60.2
@@ -12270,7 +12267,7 @@ snapshots:
       '@tus/server': 1.10.2
       debug: 4.3.7(supports-color@8.1.1)
       is-plain-obj: 3.0.0
-      long: 4.0.0
+      long: 5.2.3
       micro: 9.4.1
       microrouter: 3.1.3
       prettier: 3.3.3
@@ -17565,8 +17562,6 @@ snapshots:
       is-unicode-supported: 0.1.0
 
   loglevel@1.9.2: {}
-
-  long@4.0.0: {}
 
   long@5.2.3: {}
 

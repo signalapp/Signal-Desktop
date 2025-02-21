@@ -30,7 +30,6 @@ import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import { createProxyAgent } from '../util/createProxyAgent';
 import type { ProxyAgent } from '../util/createProxyAgent';
 import type { FetchFunctionType } from '../util/uploads/tusProtocol';
-import type { SocketStatus } from '../types/SocketStatus';
 import { VerificationTransport } from '../types/VerificationTransport';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
@@ -52,7 +51,7 @@ import { randomInt } from '../Crypto';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
-import { SocketManager } from './SocketManager';
+import { SocketManager, type SocketStatuses } from './SocketManager';
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d';
 import { CDSI } from './cds/CDSI';
 import { SignalService as Proto } from '../protobuf';
@@ -1578,7 +1577,7 @@ export type WebAPIType = {
   getConfig: () => Promise<RemoteConfigResponseType>;
   authenticate: (credentials: WebAPICredentials) => Promise<void>;
   logout: () => Promise<void>;
-  getSocketStatus: () => SocketStatus;
+  getSocketStatus: () => SocketStatuses;
   registerRequestHandler: (handler: IRequestHandler) => void;
   unregisterRequestHandler: (handler: IRequestHandler) => void;
   onHasStoriesDisabledChange: (newValue: boolean) => void;
@@ -2106,7 +2105,7 @@ export function initialize({
       }
     }
 
-    function getSocketStatus(): SocketStatus {
+    function getSocketStatus(): SocketStatuses {
       return socketManager.getStatus();
     }
 

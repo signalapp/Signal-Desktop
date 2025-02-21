@@ -142,6 +142,15 @@ function sanitizePathComponent(component: string): string {
   return normalizePath(component.replace(/[^a-z]+/gi, '-'));
 }
 
+const DEFAULT_REMOTE_CONFIG = [
+  ['desktop.backup.credentialFetch', { enabled: true }],
+  ['desktop.internalUser', { enabled: true }],
+  ['desktop.releaseNotes', { enabled: true }],
+  ['desktop.senderKey.retry', { enabled: true }],
+  ['global.groupsv2.groupSizeHardLimit', { enabled: true, value: '64' }],
+  ['global.groupsv2.maxGroupSize', { enabled: true, value: '32' }],
+] as const;
+
 //
 // Bootstrap is a class that prepares mock server and desktop for running
 // tests/benchmarks.
@@ -264,6 +273,10 @@ export class Bootstrap {
 
     this.#storagePath = await fs.mkdtemp(
       path.join(os.tmpdir(), 'mock-signal-')
+    );
+
+    DEFAULT_REMOTE_CONFIG.forEach(([key, value]) =>
+      this.server.setRemoteConfig(key, value)
     );
 
     debug('setting storage path=%j', this.#storagePath);
@@ -725,7 +738,7 @@ export class Bootstrap {
       storagePath: this.#storagePath,
       storageProfile: 'mock',
       serverUrl: url,
-      storageUrl: url,
+      storageUrl: `${url}/storageService`,
       resourcesUrl: `${url}/updates2`,
       sfuUrl: url,
       cdn: {

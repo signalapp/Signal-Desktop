@@ -5,7 +5,6 @@ import type {
   SetNetworkStatusPayloadType,
   NetworkActionType,
 } from '../state/ducks/network';
-import { getSocketStatus } from '../shims/socketStatus';
 import * as log from '../logging/log';
 import { SECOND } from '../util/durations';
 import { electronLookup } from '../util/dns';
@@ -31,14 +30,15 @@ type NetworkActions = {
 };
 
 export function initializeNetworkObserver(
-  networkActions: NetworkActions
+  networkActions: NetworkActions,
+  getAuthSocketStatus: () => SocketStatus
 ): void {
   log.info('Initializing network observer');
 
   let onlineStatus = OnlineStatus.Online;
 
   const refresh = () => {
-    const socketStatus = getSocketStatus();
+    const socketStatus = getAuthSocketStatus();
 
     networkActions.setNetworkStatus({
       isOnline: onlineStatus !== OnlineStatus.Offline,

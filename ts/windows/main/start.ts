@@ -78,6 +78,7 @@ if (
     getSfuUrl: () => window.Signal.Services.calling._sfuUrl,
     getIceServerOverride: () =>
       window.Signal.Services.calling._iceServerOverride,
+    getSocketStatus: () => window.textsecure.server?.getSocketStatus(),
     getStorageItem: (name: keyof StorageAccessType) => window.storage.get(name),
     putStorageItem: <K extends keyof StorageAccessType>(
       name: K,
