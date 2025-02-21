@@ -6142,41 +6142,54 @@ function getAllBadgeImageFileLocalPaths(db: ReadableDB): Set<string> {
   return new Set(localPaths);
 }
 
-function runCorruptionChecks(db: ReadableDB): void {
-  let writable: WritableDB;
+function runCorruptionChecks(db: WritableDB, isRetrying = false): boolean {
+  let ok = true;
+
   try {
-    writable = toUnsafeWritableDB(db, 'integrity check');
-  } catch (error) {
-    logger.error(
-      'runCorruptionChecks: not running the check, no writable instance',
-      Errors.toLogFormat(error)
-    );
-    return;
-  }
-  try {
-    const result = writable.pragma('integrity_check');
+    const result = db.pragma('integrity_check');
     if (result.length === 1 && result.at(0)?.integrity_check === 'ok') {
       logger.info('runCorruptionChecks: general integrity is ok');
     } else {
       logger.error('runCorruptionChecks: general integrity is not ok', result);
+      ok = false;
     }
   } catch (error) {
     logger.error(
       'runCorruptionChecks: general integrity check error',
       Errors.toLogFormat(error)
     );
+    ok = false;
   }
   try {
-    writable.exec(
-      "INSERT INTO messages_fts(messages_fts) VALUES('integrity-check')"
-    );
+    db.exec("INSERT INTO messages_fts(messages_fts) VALUES('integrity-check')");
     logger.info('runCorruptionChecks: FTS5 integrity ok');
   } catch (error) {
     logger.error(
       'runCorruptionChecks: FTS5 integrity check error.',
       Errors.toLogFormat(error)
     );
+    ok = false;
+
+    if (!isRetrying) {
+      try {
+        db.exec("INSERT INTO messages_fts(messages_fts) VALUES('rebuild');");
+
+        logger.info('runCorruptionChecks: FTS5 index rebuilt');
+      } catch (rebuildError) {
+        logger.error(
+          'runCorruptionChecks: FTS5 recovery failed',
+          Errors.toLogFormat(rebuildError)
+        );
+        return false;
+      }
+
+      // Successfully recovered, try again.
+      logger.info('runCorruptionChecks: retrying');
+      return runCorruptionChecks(db, true);
+    }
   }
+
+  return ok;
 }
 
 type StoryDistributionForDatabase = Readonly<
