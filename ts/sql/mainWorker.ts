@@ -20,28 +20,12 @@ if (!parentPort) {
 const port = parentPort;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function respond(seq: number, error: Error | undefined, response?: any) {
-  let errorKind: SqliteErrorKind | undefined;
-  if (error !== undefined) {
-    errorKind = parseSqliteError(error);
-
-    if (errorKind === SqliteErrorKind.Corrupted && db != null) {
-      DataWriter.runCorruptionChecks(db);
-    }
-  }
-
+function respond(seq: number, response?: any) {
   const wrappedResponse: WrappedWorkerResponse = {
     type: 'response',
     seq,
-    error:
-      error == null
-        ? undefined
-        : {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
-          },
-    errorKind,
+    error: undefined,
+    errorKind: undefined,
     response,
   };
   port.postMessage(wrappedResponse);
@@ -84,7 +68,10 @@ let db: WritableDB | undefined;
 let isPrimary = false;
 let isRemoved = false;
 
-port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
+const onMessage = (
+  { seq, request }: WrappedWorkerRequest,
+  isRetrying = false
+): void => {
   try {
     if (request.type === 'init') {
       isPrimary = request.isPrimary;
@@ -95,13 +82,13 @@ port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
         logger,
       });
 
-      respond(seq, undefined, undefined);
+      respond(seq, undefined);
       return;
     }
 
     // 'close' is sent on shutdown, but we already removed the database.
     if (isRemoved && request.type === 'close') {
-      respond(seq, undefined, undefined);
+      respond(seq, undefined);
       process.exit(0);
       return;
     }
@@ -127,7 +114,7 @@ port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
 
       isRemoved = true;
 
-      respond(seq, undefined, undefined);
+      respond(seq, undefined);
       return;
     }
 
@@ -143,7 +130,7 @@ port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
       }
       db = undefined;
 
-      respond(seq, undefined, undefined);
+      respond(seq, undefined);
       process.exit(0);
       return;
     }
@@ -161,11 +148,39 @@ port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
       const result = method(db, ...request.args);
       const end = performance.now();
 
-      respond(seq, undefined, { result, duration: end - start });
+      respond(seq, { result, duration: end - start });
     } else {
       throw new Error('Unexpected request type');
     }
   } catch (error) {
-    respond(seq, error, undefined);
+    const errorKind = parseSqliteError(error);
+
+    if (errorKind === SqliteErrorKind.Corrupted && db != null) {
+      const wasRecovered = DataWriter.runCorruptionChecks(db);
+      if (
+        wasRecovered &&
+        !isRetrying &&
+        // Don't retry 'init'/'close'/'removeDB' automatically and notify user
+        // about the database error (even on successful recovery).
+        (request.type === 'sqlCall:read' || request.type === 'sqlCall:write')
+      ) {
+        logger.error(`Retrying request: ${request.type}`);
+        return onMessage({ seq, request }, true);
+      }
+    }
+
+    const wrappedResponse: WrappedWorkerResponse = {
+      type: 'response',
+      seq,
+      error: {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      },
+      errorKind,
+      response: undefined,
+    };
+    port.postMessage(wrappedResponse);
   }
-});
+};
+port.on('message', (message: WrappedWorkerRequest) => onMessage(message));

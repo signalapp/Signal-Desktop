@@ -1141,7 +1141,7 @@ export type ServerWritableDirectInterface = WritableInterface & {
     allStickers: ReadonlyArray<string>
   ) => Array<string>;
 
-  runCorruptionChecks: () => void;
+  runCorruptionChecks: () => boolean;
 };
 
 export type ServerWritableInterface =
