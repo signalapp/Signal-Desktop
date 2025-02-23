@@ -796,6 +796,10 @@
     "messageformat": "Failed to send message with endorsements",
     "description": "An error popup when we attempted and failed to send a message using endorsements, only for internal users."
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs.",
+    "description": "[Only shown to internal/beta users] An error popup when we noticed an invalid response (i.e. a web request response) from one of our servers"
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs.",
     "description": "[Only shown to internal users] An error popup when we failed to process some parts of a backup import."

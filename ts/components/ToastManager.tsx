@@ -328,6 +328,20 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.InvalidStorageServiceHeaders) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:Toast__ActionLabel--SubmitLog'),
+          onClick: onShowDebugLog,
+        }}
+      >
+        {i18n('icu:Toast--InvalidStorageServiceHeaders')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.FileSaved) {
     return (
       <Toast
