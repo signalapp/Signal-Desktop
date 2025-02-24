@@ -125,8 +125,8 @@ importers:
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.50.0
-        version: 2.50.0
+        specifier: 2.50.1
+        version: 2.50.1
       '@types/fabric':
         specifier: 4.5.3
         version: 4.5.3(patch_hash=e5f339ecf72fbab1c91505e7713e127a7184bfe8164aa3a9afe9bf45a0ad6b89)
@@ -2504,8 +2504,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.50.0':
-    resolution: {integrity: sha512-zeUkBhXNo0qoM7ObY2jMM5VrUcR3f9DQ5JK+q2Pj7+ettKCGOYejyH+Z49HKnW9AK/cPZ0aijqGCsuqd+XZjpA==}
+  '@signalapp/ringrtc@2.50.1':
+    resolution: {integrity: sha512-kR43qdCLjasttxqUGe1wKRszAXTe/KYlrDnqOA30qUHMkXFZEWnvc1vsYLDLU9eTtXcV2uNMDk+MUOv9hAl1qg==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -12181,7 +12181,7 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.50.0':
+  '@signalapp/ringrtc@2.50.1':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 6.2.1
