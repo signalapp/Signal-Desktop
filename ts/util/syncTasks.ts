@@ -234,7 +234,7 @@ async function processSyncTasksBatch(
   previousRowId: number | null
 ): Promise<number | null> {
   log.info('syncTasks: Fetching tasks');
-  const result = await DataWriter.dequeueOldestSyncTasks(previousRowId);
+  const result = await DataWriter.dequeueOldestSyncTasks({ previousRowId });
   const syncTasks = result.tasks;
 
   if (syncTasks.length === 0) {

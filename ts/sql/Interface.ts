@@ -896,7 +896,13 @@ type WritableInterface = {
 
   removeSyncTaskById: (id: string) => void;
   saveSyncTasks: (tasks: Array<SyncTaskType>) => void;
-  dequeueOldestSyncTasks: (previousRowId: number | null) => {
+
+  incrementAllSyncTaskAttempts: () => void;
+  dequeueOldestSyncTasks: (options: {
+    previousRowId: number | null;
+    incrementAttempts?: boolean;
+    syncTaskTypes?: Array<SyncTaskType['type']>;
+  }) => {
     tasks: Array<SyncTaskType>;
     lastRowId: number | null;
   };
