@@ -108,10 +108,12 @@ import { updateToSchemaVersion1280 } from './1280-blob-unprocessed';
 import { updateToSchemaVersion1290 } from './1290-int-unprocessed-source-device';
 import { updateToSchemaVersion1300 } from './1300-sticker-pack-refs';
 import { updateToSchemaVersion1310 } from './1310-muted-fixup';
+import { updateToSchemaVersion1320 } from './1320-unprocessed-received-at-date';
 import {
-  updateToSchemaVersion1320,
+  updateToSchemaVersion1330,
   version as MAX_VERSION,
-} from './1320-unprocessed-received-at-date';
+} from './1330-sync-tasks-type-index';
+
 import { DataWriter } from '../Server';
 
 function updateToSchemaVersion1(
@@ -2091,6 +2093,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1300,
   updateToSchemaVersion1310,
   updateToSchemaVersion1320,
+  updateToSchemaVersion1330,
 ];
 
 export class DBVersionFromFutureError extends Error {

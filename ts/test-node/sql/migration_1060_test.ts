@@ -238,12 +238,19 @@ describe('SQL/updateToSchemaVersion1060', () => {
 
       saveSyncTasks(db, expected);
 
-      const actual = dequeueOldestSyncTasks(db, null);
-      assert.deepEqual(expected, actual.tasks, 'before delete');
+      const actual = dequeueOldestSyncTasks(db, { previousRowId: null });
+      assert.deepEqual(
+        expected.map(t => ({ ...t, attempts: t.attempts + 1 })),
+        actual.tasks,
+        'before delete'
+      );
 
       removeSyncTaskById(db, expected[1].id);
 
-      const actualAfterDelete = dequeueOldestSyncTasks(db, null);
+      const actualAfterDelete = dequeueOldestSyncTasks(db, {
+        previousRowId: null,
+        incrementAttempts: false,
+      });
       assert.deepEqual(
         [
           { ...expected[0], attempts: 2 },
@@ -310,10 +317,17 @@ describe('SQL/updateToSchemaVersion1060', () => {
 
       saveSyncTasks(db, expected);
 
-      const actual = dequeueOldestSyncTasks(db, null);
+      const actual = dequeueOldestSyncTasks(db, { previousRowId: null });
 
       assert.lengthOf(actual.tasks, 3);
-      assert.deepEqual([expected[1], expected[2], expected[3]], actual.tasks);
+      assert.deepEqual(
+        [
+          { ...expected[1], attempts: 3 },
+          { ...expected[2], attempts: 11 },
+          { ...expected[3], attempts: 5 },
+        ],
+        actual.tasks
+      );
     });
   });
 });
