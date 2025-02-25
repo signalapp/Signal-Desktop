@@ -22,8 +22,9 @@ import {
   loadCertificates,
 } from '@signalapp/mock-server';
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
-import * as durations from '../util/durations';
+import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations';
 import { drop } from '../util/drop';
+import { regress } from '../util/benchmark/stats';
 import type { RendererConfigType } from '../types/RendererConfig';
 import type { MIMEType } from '../types/MIME';
 import { App } from './playwright';
@@ -138,6 +139,28 @@ type BootstrapInternalOptions = BootstrapOptions &
     contactNames: ReadonlyArray<string>;
   }>;
 
+export type RegressionBenchmarkOptions = Readonly<{
+  fromValue: number;
+  toValue: number;
+  iterationCount?: number;
+  maxCycles?: number;
+  maxError?: number;
+  timeout?: number;
+}>;
+
+export type RegressionBenchmarkFnOptions = Readonly<{
+  bootstrap: Bootstrap;
+  iteration: number;
+  value: number;
+}>;
+
+export type RegressionSample = Readonly<{
+  [key: `${string}Duration`]: number;
+
+  // Metrics independent of the regressed value
+  metrics?: Record<string, number>;
+}>;
+
 function sanitizePathComponent(component: string): string {
   return normalizePath(component.replace(/[^a-z]+/gi, '-'));
 }
@@ -187,7 +210,7 @@ export class Bootstrap {
   #privPhone?: PrimaryDevice;
   #privDesktop?: Device;
   #storagePath?: string;
-  #timestamp: number = Date.now() - durations.WEEK;
+  #timestamp: number = Date.now() - WEEK;
   #lastApp?: App;
   readonly #randomId = crypto.randomBytes(8).toString('hex');
 
@@ -284,9 +307,16 @@ export class Bootstrap {
 
   public static benchmark(
     fn: (bootstrap: Bootstrap) => Promise<void>,
-    timeout = 5 * durations.MINUTE
+    timeout = 5 * MINUTE
   ): void {
     drop(Bootstrap.runBenchmark(fn, timeout));
+  }
+
+  public static regressionBenchmark(
+    fn: (fnOptions: RegressionBenchmarkFnOptions) => Promise<RegressionSample>,
+    options: RegressionBenchmarkOptions
+  ): void {
+    drop(Bootstrap.runRegressionBenchmark(fn, options));
   }
 
   public get logsDir(): string {
@@ -697,18 +727,19 @@ export class Bootstrap {
     return outDir;
   }
 
-  private static async runBenchmark(
-    fn: (bootstrap: Bootstrap) => Promise<void>,
+  private static async runBenchmark<Result>(
+    fn: (bootstrap: Bootstrap) => Promise<Result>,
     timeout: number
-  ): Promise<void> {
+  ): Promise<Result> {
     const bootstrap = new Bootstrap({
       benchmark: true,
     });
 
     await bootstrap.init();
 
+    let result: Result;
     try {
-      await pTimeout(fn(bootstrap), timeout);
+      result = await pTimeout(fn(bootstrap), timeout);
       if (process.env.FORCE_ARTIFACT_SAVE) {
         await bootstrap.saveLogs();
       }
@@ -717,6 +748,105 @@ export class Bootstrap {
       throw error;
     } finally {
       await bootstrap.teardown();
+    }
+
+    return result;
+  }
+
+  private static async runRegressionBenchmark(
+    fn: (fnOptions: RegressionBenchmarkFnOptions) => Promise<RegressionSample>,
+    {
+      iterationCount = 10,
+      maxCycles = 1,
+      maxError = 0.025 /* 2.5% */,
+      fromValue,
+      toValue,
+      timeout = 5 * MINUTE,
+    }: RegressionBenchmarkOptions
+  ): Promise<void> {
+    if (iterationCount <= 1) {
+      throw new Error('Not enough iterations');
+    }
+
+    const samples = new Array<{ value: number; data: RegressionSample }>();
+    let lineNum = 0;
+    for (let cycle = 0; cycle < maxCycles; cycle += 1) {
+      for (let iteration = 0; iteration < iterationCount; iteration += 1) {
+        const progress = (iteration % iterationCount) / (iterationCount - 1);
+        const value = Math.round(
+          fromValue * (1 - progress) + toValue * progress
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        const data = await Bootstrap.runBenchmark(bootstrap => {
+          return fn({ bootstrap, iteration, value });
+        }, timeout);
+
+        if (data.metrics) {
+          // eslint-disable-next-line no-console
+          console.log(`run=${lineNum} info=%j`, data.metrics);
+          lineNum += 1;
+        }
+
+        samples.push({
+          value,
+          data,
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(
+          'cycle=%d iteration=%d value=%d data=%j',
+          cycle,
+          iteration,
+          value,
+          data
+        );
+      }
+
+      const result: Record<string, number> = Object.create(null);
+      const keys = Object.keys(samples[0].data).filter(
+        (key: string): key is `${string}Duration` => key.endsWith('Duration')
+      );
+      const human = new Array<string>();
+
+      let worstError = 0;
+      for (const key of keys) {
+        const { yIntercept, slope, confidence, outliers, severeOutliers } =
+          regress(samples.map(s => ({ y: s.value, x: s.data[key] })));
+
+        const delay = -yIntercept / slope;
+        const perSecond = slope * SECOND;
+        const error = confidence * SECOND;
+
+        const valueType = key.replace(/Duration$/, '');
+
+        human.push(
+          `cycle=${cycle} ${valueType}PerSecond=` +
+            `${perSecond.toFixed(2)}±${error.toFixed(2)} ` +
+            `outliers=${outliers + severeOutliers} delay=${delay.toFixed(2)}ms`
+        );
+
+        result[`${valueType}PerSec`] = perSecond;
+        result[`${valueType}Delay`] = delay;
+        result[`${valueType}Error`] = error;
+
+        worstError = Math.max(worstError, error / perSecond);
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(human.join('\n'));
+
+      if (cycle !== maxCycles - 1 && worstError > maxError) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `cycle=${cycle} error=${worstError} max=${maxError} continuing`
+        );
+        continue;
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(`run=${lineNum} info=%j`, result);
+      break;
     }
   }
 
@@ -734,7 +864,7 @@ export class Bootstrap {
       forcePreloadBundle: this.#options.benchmark,
       ciMode: 'full',
 
-      buildExpiration: Date.now() + durations.MONTH,
+      buildExpiration: Date.now() + MONTH,
       storagePath: this.#storagePath,
       storageProfile: 'mock',
       serverUrl: url,
