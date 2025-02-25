@@ -29,12 +29,16 @@ jobs:
         node-version-file: '.nvmrc'
         cache: 'pnpm'
         cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@v4
+      with:
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@v0.0.7
     - name: Restore sccache
       uses: actions/cache@v4
-      id: cache-sccache
       with:
         path: ${{ env.SCCACHE_PATH }}
         key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
@@ -96,12 +100,16 @@ jobs:
         node-version-file: '.nvmrc'
         cache: 'pnpm'
         cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@v4
+      with:
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@v0.0.7
     - name: Restore sccache
       uses: actions/cache@v4
-      id: cache-sccache
       with:
         path: ${{ env.SCCACHE_PATH }}
         key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
@@ -168,6 +176,11 @@ jobs:
         node-version-file: '.nvmrc'
         cache: 'pnpm'
         cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@v4
+      with:
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
     
     - name: Install xvfb and libpulse0
       run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
@@ -176,7 +189,6 @@ jobs:
       uses: mozilla-actions/sccache-action@v0.0.7
     - name: Restore sccache
       uses: actions/cache@v4
-      id: cache-sccache
       with:
         path: ${{ env.SCCACHE_PATH }}
         key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
@@ -271,6 +283,11 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version-file: '.nvmrc'
+    - name: Cache .electron-gyp
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.SCCACHE_PATH }}\.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
     - run: pnpm install -g node-gyp@10.0.1
 
@@ -402,6 +419,11 @@ jobs:
         node-version-file: '.nvmrc'
         cache: 'pnpm'
         cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@v4
+      with:
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Install xvfb and libpulse0
       run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
@@ -410,7 +432,6 @@ jobs:
       uses: mozilla-actions/sccache-action@v0.0.7
     - name: Restore sccache
       uses: actions/cache@v4
-      id: cache-sccache
       with:
         path: ${{ env.SCCACHE_PATH }}
         key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
