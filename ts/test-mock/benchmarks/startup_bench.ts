@@ -116,7 +116,10 @@ Bootstrap.regressionBenchmark(
       const { loadTime, preloadTime, connectTime } = info;
       const messagesDuration = loadTime - preloadTime - connectTime;
 
-      return { messagesDuration, metrics: omit(info, 'messagesPerSec') };
+      return {
+        messagesDuration,
+        metrics: omit(info, 'messagesPerSec', 'loadTime'),
+      };
     }
   },
   {
