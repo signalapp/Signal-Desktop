@@ -9,7 +9,7 @@
 import type { RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'https';
-import { escapeRegExp, isNumber, isString, isObject } from 'lodash';
+import { escapeRegExp, isNumber, isString, isObject, throttle } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
@@ -81,6 +81,8 @@ import type {
 import { isMockServer } from '../util/isMockServer';
 import { getMockServerPort } from '../util/getMockServerPort';
 import { pemToDer } from '../util/pemToDer';
+import { ToastType } from '../types/Toast';
+import { isProduction } from '../util/version';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -194,6 +196,7 @@ type PromiseAjaxOptionsType = {
   socketManager?: SocketManager;
   basicAuth?: string;
   certificateAuthority?: string;
+  chatServiceUrl?: string;
   contentType?: string;
   data?: Uint8Array | (() => Readable) | string;
   disableRetries?: boolean;
@@ -212,8 +215,8 @@ type PromiseAjaxOptionsType = {
     | 'byteswithdetails'
     | 'stream'
     | 'streamwithdetails';
-  serverUrl?: string;
   stack?: string;
+  storageUrl?: string;
   timeout?: number;
   type: HTTPCodeType;
   user?: string;
@@ -401,9 +404,35 @@ async function _promiseAjax(
     throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
   }
 
+  const urlHostname = getHostname(url);
+
+  if (options.storageUrl && url.startsWith(options.storageUrl)) {
+    // The cloud infrastructure that sits in front of the Storage Service / Groups server
+    // has in the past terminated requests with a 403 before they make it to a Signal
+    // server. That's a problem, since we might take destructive action locally in
+    // response to a 403. Responses from a Signal server should always contain the
+    // `x-signal-timestamp` headers.
+    if (response.headers.get('x-signal-timestamp') == null) {
+      log.error(
+        logId,
+        response.status,
+        'Invalid header: missing required x-signal-timestamp header'
+      );
+
+      onIncorrectHeadersFromStorageService();
+
+      // TODO: DESKTOP-8300
+      if (response.status === 403) {
+        throw new Error(
+          `${logId} ${response.status}: Dropping response, missing required x-signal-timestamp header`
+        );
+      }
+    }
+  }
+
   if (
-    options.serverUrl &&
-    getHostname(options.serverUrl) === getHostname(url)
+    options.chatServiceUrl &&
+    getHostname(options.chatServiceUrl) === urlHostname
   ) {
     await handleStatusCode(response.status);
 
@@ -2004,6 +2033,7 @@ export function initialize({
         socketManager: useWebSocketForEndpoint ? socketManager : undefined,
         basicAuth: param.basicAuth,
         certificateAuthority,
+        chatServiceUrl,
         contentType: param.contentType || 'application/json; charset=utf-8',
         data:
           param.data ||
@@ -2018,7 +2048,7 @@ export function initialize({
         type: param.httpType,
         user: param.username ?? username,
         redactUrl: param.redactUrl,
-        serverUrl: chatServiceUrl,
+        storageUrl,
         validateResponse: param.validateResponse,
         version,
         unauthenticated: param.unauthenticated,
@@ -4666,3 +4696,16 @@ export function initialize({
     }
   }
 }
+
+// TODO: DESKTOP-8300
+const onIncorrectHeadersFromStorageService = throttle(
+  () => {
+    if (!isProduction(window.getVersion())) {
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.InvalidStorageServiceHeaders,
+      });
+    }
+  },
+  5 * MINUTE,
+  { trailing: false }
+);
