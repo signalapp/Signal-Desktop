@@ -1,11 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, partition } from 'lodash';
+import { isNumber } from 'lodash';
 
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
-import * as MIME from '../types/MIME';
 import * as LinkPreview from '../types/LinkPreview';
 
 import { getAuthor, isStory, messageHasPaymentEvent } from './helpers';
@@ -531,22 +530,16 @@ export async function handleDataMessage(
       const ourPni = window.textsecure.storage.user.getCheckedPni();
       const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
 
-      const [longMessageAttachments, normalAttachments] = partition(
-        dataMessage.attachments ?? [],
-        attachment => MIME.isLongMessage(attachment.contentType)
-      );
-      const bodyAttachment = longMessageAttachments[0];
-
       // eslint-disable-next-line no-param-reassign
       message = window.MessageCache.register(message);
 
       message.set({
         id: messageId,
-        attachments: normalAttachments,
-        bodyAttachment,
+        attachments: dataMessage.attachments,
+        bodyAttachment: dataMessage.bodyAttachment,
         // We don't want to trim if we'll be downloading a body attachment; we might
         // drop bodyRanges which apply to the longer text we'll get in that download.
-        ...(bodyAttachment
+        ...(dataMessage.bodyAttachment
           ? {
               body: dataMessage.body,
               bodyRanges: dataMessage.bodyRanges,

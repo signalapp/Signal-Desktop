@@ -33,6 +33,8 @@ import { isAciString } from '../util/isAciString';
 import { normalizeAci } from '../util/normalizeAci';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { createName } from '../util/attachmentPath';
+import { partitionBodyAndNormalAttachments } from '../types/Attachment';
+import { isNotNil } from '../util/isNotNil';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -316,14 +318,22 @@ export function processDataMessage(
     );
   }
 
+  const processedAttachments = message.attachments
+    ?.map((attachment: Proto.IAttachmentPointer) => ({
+      ...processAttachment(attachment),
+      downloadPath: doCreateName(),
+    }))
+    .filter(isNotNil);
+
+  const { bodyAttachment, attachments } = partitionBodyAndNormalAttachments(
+    { attachments: processedAttachments ?? [] },
+    { logId: `processDataMessage(${timestamp})` }
+  );
+
   const result: ProcessedDataMessage = {
     body: dropNull(message.body),
-    attachments: (message.attachments ?? []).map(
-      (attachment: Proto.IAttachmentPointer) => ({
-        ...processAttachment(attachment),
-        downloadPath: doCreateName(),
-      })
-    ),
+    bodyAttachment,
+    attachments,
     groupV2: processGroupV2Context(message.groupV2),
     flags: message.flags ?? 0,
     expireTimer: DurationInSeconds.fromSeconds(message.expireTimer ?? 0),

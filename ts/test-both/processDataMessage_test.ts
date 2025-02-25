@@ -11,7 +11,7 @@ import {
 } from '../textsecure/processDataMessage';
 import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
-import { IMAGE_GIF, IMAGE_JPEG } from '../types/MIME';
+import { IMAGE_GIF, IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME';
 import { generateAci } from '../types/ServiceId';
 import { uuidToBytes } from '../util/uuidToBytes';
 
@@ -84,6 +84,30 @@ describe('processDataMessage', () => {
         downloadPath: 'random-path',
       },
     ]);
+  });
+
+  it('should move long text attachments to bodyAttachment', () => {
+    const out = check({
+      attachments: [
+        UNPROCESSED_ATTACHMENT,
+        {
+          ...UNPROCESSED_ATTACHMENT,
+          contentType: LONG_MESSAGE,
+        },
+      ],
+    });
+
+    assert.deepStrictEqual(out.attachments, [
+      {
+        ...PROCESSED_ATTACHMENT,
+        downloadPath: 'random-path',
+      },
+    ]);
+    assert.deepStrictEqual(out.bodyAttachment, {
+      ...PROCESSED_ATTACHMENT,
+      downloadPath: 'random-path',
+      contentType: LONG_MESSAGE,
+    });
   });
 
   it('should process attachments with incrementalMac/chunkSize', () => {
