@@ -127,9 +127,16 @@ const STICKER_PACK_DEFAULTS: StickerPackType = {
 
 const VALID_PACK_ID_REGEXP = /^[0-9a-f]{32}$/i;
 
+const DOWNLOAD_PRIORITY_NORMAL = 0;
+const DOWNLOAD_PRIORITY_HIGH = 1;
+
 let initialState: StickersStateType | undefined;
 let packsToDownload: DownloadMap | undefined;
 const downloadQueue = new Queue({ concurrency: 1, timeout: MINUTE * 30 });
+const downloadQueueData = new Map<
+  string,
+  { depth: number; finalStatus: StickerPackStatusType | undefined }
+>();
 
 export async function load(): Promise<void> {
   const [packs, recentStickers] = await Promise.all([
@@ -509,11 +516,20 @@ export async function downloadEphemeralPack(
       existingPack.status === 'installed' ||
       existingPack.status === 'pending')
   ) {
-    log.warn(
-      `Ephemeral download for pack ${redactPackId(
-        packId
-      )} requested, we already know about it. Skipping.`
-    );
+    if (existingPack.status === 'pending') {
+      log.info(
+        `Ephemeral download for pending sticker pack ${redactPackId(
+          packId
+        )} requested, redownloading with priority.`
+      );
+      drop(downloadStickerPack(packId, packKey, { actionSource: 'ui' }));
+    } else {
+      log.warn(
+        `Ephemeral download for sticker pack ${redactPackId(
+          packId
+        )} requested, we already know about it. Skipping.`
+      );
+    }
     return;
   }
 
@@ -651,17 +667,43 @@ export async function downloadStickerPack(
   packKey: string,
   options: DownloadStickerPackOptions
 ): Promise<void> {
+  // Store finalStatus. When we click on a sticker we want to redownload with priority
+  // while retaining the finalStatus, so we need a way to look up the last finalStatus.
+  const data = downloadQueueData.get(packId);
+  const finalStatus = options.finalStatus ?? data?.finalStatus;
+  const depth = data ? data.depth + 1 : 1;
+  downloadQueueData.set(packId, { depth, finalStatus });
+
+  const queueOptions = {
+    priority:
+      options.actionSource === 'ui'
+        ? DOWNLOAD_PRIORITY_HIGH
+        : DOWNLOAD_PRIORITY_NORMAL,
+  };
+
   // This will ensure that only one download process is in progress at any given time
   return downloadQueue.add(async () => {
     try {
-      await doDownloadStickerPack(packId, packKey, options);
+      await doDownloadStickerPack(packId, packKey, { ...options, finalStatus });
     } catch (error) {
       log.error(
         'doDownloadStickerPack threw an error:',
         Errors.toLogFormat(error)
       );
+    } finally {
+      const dataAfter = downloadQueueData.get(packId);
+      if (dataAfter) {
+        if (dataAfter.depth <= 1) {
+          downloadQueueData.delete(packId);
+        } else {
+          downloadQueueData.set(packId, {
+            ...dataAfter,
+            depth: dataAfter.depth - 1,
+          });
+        }
+      }
     }
-  });
+  }, queueOptions);
 }
 
 async function doDownloadStickerPack(
