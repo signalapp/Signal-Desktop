@@ -33,6 +33,8 @@ describe('backup/conversations', () => {
   });
 
   it('roundtrips 1:1 conversations', async () => {
+    const firstUnregisteredAt = Date.now();
+
     const fields: Partial<ConversationAttributesType> = {
       systemGivenName: 'systemGivenName',
       systemFamilyName: 'systemFamilyName',
@@ -48,8 +50,8 @@ describe('backup/conversations', () => {
       e164: '+16175550000',
       pni: generatePni(),
       removalStage: 'justNotification',
-      firstUnregisteredAt: Date.now(),
-      discoveredUnregisteredAt: Date.now(),
+      firstUnregisteredAt,
+      discoveredUnregisteredAt: firstUnregisteredAt,
       profileKey: Bytes.toBase64(randomBytes(32)),
       profileSharing: true,
     };
