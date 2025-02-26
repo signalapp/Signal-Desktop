@@ -69,6 +69,11 @@ jobs:
     - name: Create preload cache
       run: xvfb-run --auto-servernum pnpm run build:preload-cache
 
+    - name: Set MAX_CYCLES=2 on main
+      if: ${{ github.ref == 'refs/heads/main' }}
+      run: |
+        echo "MAX_CYCLES=2" >> "$GITHUB_ENV"
+
     - name: Run startup benchmarks
       run: |
         set -o pipefail
