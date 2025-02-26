@@ -121,12 +121,16 @@ export abstract class CDSSocketManagerBase<
     try {
       log.info('CDSSocketManager: starting lookup request');
 
+      const useNewConnectLogic = window.Signal.RemoteConfig.isEnabled(
+        'desktop.cdsiViaLibsignal.libsignalRouteBasedCDSILookup'
+      );
       const { timeout = REQUEST_TIMEOUT } = options;
       const response = await pTimeout(
         this.libsignalNet.cdsiLookup(auth, {
           acisAndAccessKeys,
           e164s,
           returnAcisWithoutUaks,
+          useNewConnectLogic,
         }),
         timeout
       );
