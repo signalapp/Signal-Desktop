@@ -1194,6 +1194,7 @@ export default class AccountManager extends EventTarget {
     await me.setProfileKey(Bytes.toBase64(profileKey), {
       reason: 'registration',
     });
+    await me.updateVerified();
 
     if (userAgent) {
       await storage.put('userAgent', userAgent);
