@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Item} other {{count,number} Items}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Hierdie media is nie meer beskikbaar nie."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Hierdie media is nie beskikbaar nie"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Gradiënteinde"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Pasgemaakte tyd…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Nou kan jy die grootte van die kletslys-kantbalk op raakskermtoestelle aanpas."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Ons het 'n seldsame fout reggestel wat verhoed het dat sommige kletse korrek oopmaak."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Wanneer jy nou jou primêre Signal-toestel aan 'n nuwe rekenaar koppel, kan jy jou kletsgeskiedenis en jou laaste 45 dae se media saam oordra. Die oordragproses is end-tot-end geënkripteer, en heeltemal opsioneel."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Ons het die teks by 'n knoppie in Signal vir rekenaars opgedateer om Android en iOS te laat ooreenstem."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Ons het 'n geringe animasiefout tydens groepoproepe reggestel."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

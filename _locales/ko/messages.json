@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {항목 {count,number}개}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "이 미디어를 더 이상 사용할 수 없습니다."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "이 미디어는 사용할 수 없습니다"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "그라데이션 끝"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "사용자 지정 시간…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "이제 터치스크린 기기에서 대화 목록 슬라이드바 크기를 조정할 수 있습니다."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "아주 가끔씩 일부 대화가 제대로 열리지 않는 버그를 해결했습니다."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "이제 Signal 기기를 새 데스크톱으로 연결할 때 대화 기록과 지난 45일간의 미디어를 가져올 수 있습니다. 전송 프로세스는 종단 간 암호화로 보호되지만, 전적으로 선택 가능합니다."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "데스크톱 앱 버튼의 텍스트를 Android 및 iOS와 일치하도록 업데이트했습니다."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "그룹 통화 중 발생하는 사소한 애니메이션 버그를 수정했습니다."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

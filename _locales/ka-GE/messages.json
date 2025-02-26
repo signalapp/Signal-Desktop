@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} ელემენტი} other {{count,number} ელემენტი}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "ეს მედია ფაილი ხელმისაწვდომი აღარაა."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "ეს მედია ფაილი ხელმისაწვდომი არაა"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "გრადიენტის დასრულება"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "არასტანდარტული დრო…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "ახლა უკვე შეგიძლია, სენსორულ მოწყობილობებზე ჩატების სიის გვერდითი ზოლის ზომა დაარეგულირო. მათი გადაადგილება რომ მოგინდება, წვალება აღარ მოგიწევს და შეძლებ, ჩატების სია მარტივად ასქროლო."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "ჩვენ გამოვასწორეთ ჩატებთან დაკავშირებული იშვიათი ხარვეზი, რომელიც მათი შერჩევის შემდეგ, ზოგიერთი ჩატის სწორად გახსნას ხელს უშლიდა."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "უკვე შეგიძლია, Signal-ის ძირითადი მოწყობილობის ახალ დესკტოპთან დაკავშირებისას, შენი ჩატის ისტორია და ბოლო 45 დღის მედია ფაილებიც თან გამოიყოლო. გადატანის პროცესი ბოლომდე დაშიფრული და სრულიად არჩევითია. ასე რომ, შენზეა დამოკიდებული, წარსულს უკან მოიტოვებ თუ არა."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "ვალენტინობის დღეს წყვილებს აღვნიშნავთ, ამიტომ ჩვენ განვაახლეთ ტექსტური იარლიყი ერთ ღილაკზე დესკტოპ აპში, რათა შევქმნათ საყვარელი წყვილი იმავე ღილაკთან თქვენს ტელეფონზე. ეს ძალიან პატარა ცვლილებას ჰგავს, და ასეც არის, მაგრამ ზოგჯერ სწორედ ეს პატარა დეტალებია, რომლებიც აჩვენებენ, რამდენად ზრუნავ."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "ჯგუფური ზარების დროს დაფიქსირებული ანიმაციის პატარა ბაგი გამოვასწორეთ. ბოდიშს გიხდით წინასწარ, თუ შენი დღის ყველაზე საინტერესო ნაწილი გრიდ ვიუზე გადასვლა და იმ მომენტის დაჭერა იყო, როცა შეხვედრაზე გვიან შემოსული მონაწილეების ვიდეო ფანჯრები შენი უფროსის პრეზენტაციის სლაიდებს ფარავდა."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

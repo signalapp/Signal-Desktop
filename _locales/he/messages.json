@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {פריט {count,number}} two {{count,number} פריטים} many {{count,number} פריטים} other {{count,number} פריטים}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "המדיה הזו לא זמינה יותר."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "מדיה זו אינה זמינה"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "סוף גרדיאנט"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "זמן מותאם אישית…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "עכשיו אפשר להתאים את גודל הסרגל הצדי של רשימת הצ׳אטים במכשירים עם מסך מגע."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "תיקנו באג נדיר שמנע מחלק מהצ׳אטים להיפתח כהלכה."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "עכשיו אפשר לקשר את מכשיר Signal העיקרי שלך לשולחן עבודה חדש ולהעביר איתך גם את היסטוריית הצ׳אט ואת 45 ימי המדיה האחרונים שלך."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "עדכנו את הטקסט בכפתור של אפליקציית שולחן העבודה כדי שהוא יהיה תואם ל–Android ו–iOS."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "תיקנו באג אנימציה קל שהתרחש במהלך שיחות קבוצתיות."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

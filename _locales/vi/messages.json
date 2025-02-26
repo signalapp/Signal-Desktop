@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} Mục}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Tập tin đa phương tiện không còn khả dụng."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Tập tin đa phương tiện này không có sẵn"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Kết thúc chuyển sắc"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Thời gian tuỳ chỉnh…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Giờ đây bạn có thể điều chỉnh kích thước thanh bên danh sách cuộc trò chuyện trên các thiết bị màn hình cảm ứng."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Chúng tôi đã sửa một lỗi hiếm gặp khiến một số cuộc trò chuyện không mở đúng cách."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Giờ đây bạn có thể chọn chuyển lịch sử trò chuyện và tập tin đa phương tiện trong 45 ngày vừa qua của mình đến Máy tính mới liên kết với thiết bị Signal chính."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Chúng tôi đã cập nhật nội dung của nút bấm trên phiên bản ứng dụng Máy tính để khớp với Android và iOS."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Chúng tôi đã sửa một lỗi nhỏ liên quan đến hình động trong các cuộc gọi nhóm."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

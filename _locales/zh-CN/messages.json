@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} 个项目}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "此媒体已不可用。"
   },
   "icu:mediaNotAvailable": {
     "messageformat": "该媒体不可用"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "渐变结束"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "自定义时间……"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "现在您可以在触屏设备上调整聊天列表侧边栏的大小。"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "我们修复了一个会导致一些聊天无法正确打开的罕见漏洞。"
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "现在当您将主 Signal 设备链接到新的桌面版时，您可以选择一并转移聊天记录和最近 45 天的媒体。转移过程受端到端加密保护，并且是完全可选的选项。当面临选择是否抛弃过往记录时，您可自行决定。"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "我们更新了桌面版的按钮文本，使其与 Android 和 iOS 版一致。"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "我们修复了群组通话时的一个动画小漏洞。"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

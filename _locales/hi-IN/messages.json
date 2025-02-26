@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number}चीज़ें} other {{count,number} आइटम}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "अब यह मीडिया उपलब्ध नहीं है।"
   },
   "icu:mediaNotAvailable": {
     "messageformat": "यह मीडिया उपलब्ध नहीं है"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "ग्रेडिएंट बंद"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "कस्टम समय..."
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "अब आप टचस्क्रीन डिवाइस पर चैट लिस्ट साइडबार का आकार कम-ज़्यादा कर सकते हैं। तो जब आप इसे ड्रैग करने की कोशिश करते हैं, तो ज़्यादा मुश्किल न हो और आपकी उंगलियों से निकलने वाली ऊर्जा से आपकी स्क्रीन पर धब्बे न दिखाई दें।"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "हमने एक ऐसी बड़ी गड़बड़ी को ठीक किया है जिसकी वजह से कुछ चैट चुने जाने के बाद ठीक से खुल नहीं पा रही थीं, इसलिए अब जब आप यह याद करने की कोशिश कर रहे होते हैं कि उन्होंने क्या कहा था, तो Signal डेस्कटॉप आपको खाली स्क्रीन नहीं दिखाता।"
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "अब, जब आप अपने मुख्य Signal डिवाइस को किसी नए डेस्कटॉप से लिंक करते हैं, तो आप उसमें अपनी चैट का इतिहास और पिछले 45 दिनों का अपना मीडिया ले सकते हैं। ट्रांसफ़र की प्रोसेस एंड-टू-एंड एनक्रिप्टेड और पूरी तरह वैकल्पिक होती है। जब बात आती है कि अपने अतीत को पीछे छोड़ा जाए या नहीं, तो सारी ज़िम्मेदारी आपके डिवाइस पर आ जाती है।"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "वैलेंटाइंस डे का मतलब होता है परफ़ेक्ट मैच ढूँढना, इसलिए हमने डेस्कटॉप ऐप में सिंगल बटन को क्यूट कपल बनाने के लिए अपडेट कर दिया है, ठीक वैसा ही जैसे आपके फ़ोन पर है। यह छोटे-से बदलाव जैसा लगता है और है भी, लेकिन कभी-कभी छोटी-छोटी चीज़ें ही बताती हैं कि आप कितनी फ़िक्र करते हैं।"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "हमने ग्रुप कॉल्स के दौरान ऐनिमेशन से जुड़ी एक छोटी गड़बड़ी ठीक कर दी है। अगर आपके दिन का सबसे मज़ेदार हिस्सा एक मीटिंग के दौरान ग्रिड व्यू में स्विच करना और उस पल को कैद करने का था जहाँ देर से आने वाले लोगों के स्क्वायर ने उस डेक को छिपा दिया था जो आपके बॉस प्रज़ेंट कर रहे थे, तो हम एडवांस में आपसे माफ़ी चाहते हैं।"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

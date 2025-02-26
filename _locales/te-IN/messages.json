@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} అంశం} other {{count,number}అంశాలు}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "ఈ మీడియా ఇకపై అందుబాటులో లేదు."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "ఈ మీడియా అందుబాటులో లేదు"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "గ్రేడియెంట్ చివర"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "అనుకూల సమయం"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "ఇప్పుడు మీరు టచ్ స్క్రీన్ పరికరాలలో చాట్ జాబితా సైడ్ బార్ పరిమాణాన్ని సర్దుబాటు చేయవచ్చు. కాబట్టి మీరు లాగడానికి ప్రయత్నించినప్పుడు అది అంత లాగడం కాదు మరియు మీ స్క్రీన్ పై ఉన్న మరకలు మీ వేలికొనల నుండి వెలువడే శక్తికి సాక్ష్యం."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "కొన్ని చాట్‌లను సరిగ్గా తెరవకుండా నిరోధించే అరుదైన బగ్‌ను మేము పరిష్కరించాము."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "ఇప్పుడు మీరు మీ చాట్ చరిత్ర మరియు మీ చివరి 45 రోజుల మీడియాను కొత్త లింక్ చేయబడిన పరికరానికి బదిలీ చేయడానికి ఎంచుకోవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు పూర్తిగా ఐచ్ఛికం. గతాన్ని విడిచిపెట్టాలా వద్దా అనే ఎంపిక చేసే విషయానికి వస్తే, మీరు మీ స్వంత పరికరాలకు వదిలివేయబడతారు."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Android మరియు iOS లకు సరిపోయేలా డెస్క్‌టాప్ యాప్‌లోని బటన్‌పై టెక్స్ట్‌ను మేము అప్‌డేట్ చేశాము. ఇది చాలా చిన్న మార్పులాగా అనిపించవచ్చు మరియు ఇది చిన్న మార్పే, కానీ కొన్నిసార్లు మీరు ఎంత శ్రద్ధ వహిస్తారో చూపించేవి ఈ చిన్న విషయాలే."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "గ్రూప్ కాల్స్ సమయంలో మేము ఒక చిన్న యానిమేషన్ బగ్‌ను పరిష్కరించాము."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

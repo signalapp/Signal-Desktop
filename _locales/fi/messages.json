@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} kappale} other {{count,number} kohdetta}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Media ei ole enää saatavilla."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Media ei ole saatavilla"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Liukuvärin loppu"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Muu aika…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Nyt voit säätää keskusteluluettelon sivupalkin kokoa kosketusnäytöllisissä laitteissa."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Korjasimme harvinaisen virheen, joka esti joitakin keskusteluja avautumasta oikein."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Nyt voit halutessasi tuoda keskusteluhistoriasi ja viimeisten 45 päivän mediasisällön mukanasi uuteen yhdistettyyn laitteeseen. Siirtoprosessi on salattu päästä päähän ja täysin valinnainen. Voit valita, tuotko historian mukanasi uuteen laitteeseen siirtyessä."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Päivitimme Desktop-sovelluksen painiketekstin vastaavaksi kuin Androidissa ja iOS:ssa."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Korjasimme pienen ryhmäpuheluiden aikana näkyneen animaatiovirheen."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

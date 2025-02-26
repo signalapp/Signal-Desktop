@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} பொருள்} other {{count,number} உருப்படிகள்}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "இந்த ஊடகம் இனி கிடைக்கப்பெறாது."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "இந்த ஊடகம் கிடைக்கவில்லை"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "கலர் கிரேடியண்ட் முடிவு"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "விருப்ப நேரம்…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "இப்போது நீங்கள் தொடுதிரை சாதனங்களில் சாட் பட்டியல் பக்கப்பட்டியின் அளவை மாற்றியமைக்கலாம்."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "தேர்ந்தெடுக்கப்பட்ட பிறகு சில சாட்ஸ் சரியாகத் திறப்பதைத் தடுக்கும் ஒரு அரிய பிழையை நாங்கள் சரிசெய்துள்ளோம், எனவே இப்போது சிக்னல் டெஸ்க்டாப் அவர்கள் சொன்னதை நினைவில் வைத்துக் கொள்ள முயலும்போது அது காலியாக இருக்காது."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "இப்போது உங்கள் சாட் வரலாற்றையும் உங்கள் கடைசி 45 நாட்கள் ஊடகத்தையும் புதிதாக இணைக்கப்பட்ட சாதனத்திற்கு இடமாற்ற நீங்கள் தேர்வு செய்யலாம். இடமாற்றச் செயல்முறை இருமுனை மறைகுறியாக்கப்பட்டுள்ளது, மேலும் விருப்பத்திற்குரியது. கடந்த கால சாதனங்களிலிருந்து வெளியேறலாமா வேண்டாமா என்பதைத் தேர்வுசெய்தவுடன், நீங்கள் உங்கள் சொந்த சாதனங்களிலிருந்து வெளியேறிவிடுவீர்கள்."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Android மற்றும் iOS உடன் பொருத்த டெஸ்க்டாப் செயலியில் இருக்கும் ஒரு பொத்தானில் உரையைப் புதுப்பித்தோம்."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "குழு அழைப்புகளின் போது சிறிய அனிமேஷன் பிழையை சரிசெய்துள்ளோம். சந்திப்பின்போது உங்கள் நாளின் மிகவும் உற்சாகமான பகுதி கிரிட் காட்சிக்கு மாறியிருந்தால், சில சமயங்களில் உங்கள் முதலாளி வழங்கும் பிரசன்டேசனை தாமதமாகச் சேர்ந்த நபர்களின் காணொளிக் கட்டங்கள் ஓரளவு மறைத்துவிட்ட தருணத்தைப் பிடிக்க முயன்றிருந்தால், நாங்கள் முன்கூட்டியே மன்னிப்பு கேட்டுக்கொள்கிறோம்."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementos}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Este archivo ya no está disponible."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Este archivo no está disponible"
@@ -2634,7 +2634,7 @@
     "messageformat": "¿Bloquear a {title}?"
   },
   "icu:MessageRequests--block-direct-confirm-body": {
-    "messageformat": "Las personas bloqueadas no podrán llamarte ni enviarte mensajes."
+    "messageformat": "Las personas que bloquees no podrán llamarte ni enviarte mensajes."
   },
   "icu:MessageRequests--block-group-confirm-title": {
     "messageformat": "¿Bloquear y abandonar \"{title}\"?"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Fin del degradado"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Duración personalizada…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Ahora puedes ajustar el tamaño de la barra lateral de la lista de chats en dispositivos con pantalla táctil. Así, ocupará el espacio justo sin monopolizar la pantalla ni obligarte a forzar la vista."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Hemos corregido un error poco frecuente que impedía que algunos chats se abrieran correctamente después de seleccionarlos. Así que ahora, cuando te cueste recordar qué te habían dicho, al menos tendrás la certeza de que Signal Desktop puede ayudarte con la respuesta."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Ahora, al vincular tu dispositivo Signal principal a un nuevo ordenador, podrás llevarte contigo tu historial de chats y tus últimos 45 días de archivos multimedia. El proceso de transferencia está cifrado de extremo a extremo y es completamente opcional. Así, la decisión de dejar tu pasado atrás solo dependerá de ti (¡y de tus dispositivos!)."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "A todos nos gusta ir conjuntados, así que hemos actualizado la etiqueta de texto en un botón en la app de escritorio para que haga juego con la de tu teléfono. Así contado, parece un cambio muy pequeño, y lo es; pero a veces son precisamente estos pequeños detalles los que marcan la diferencia."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Hemos corregido un pequeño error de animación en las llamadas grupales. Si lo más emocionante de tu día era cambiar a la vista de cuadrícula y tratar de capturar el momento en que los recuadros de las personas que se habían unido tarde a la llamada tapaban las diapositivas que estaba presentando tu jefe, ¡te pedimos disculpas!"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

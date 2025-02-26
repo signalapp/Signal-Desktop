@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number}} other {{count,number} آئٹمز}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "یہ میڈیا مزید دستیاب نہیں ہے۔"
   },
   "icu:mediaNotAvailable": {
     "messageformat": "یہ میڈیا دستیاب نہیں"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "گریڈینٹ کا اختتام"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "کسٹم ٹائم ..."
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "اب آپ ٹچ اسکرین ڈیوائسز پر چیٹ لسٹ کی سائیڈ بار کے سائز کو ایڈجسٹ کر سکتے ہیں۔"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "ہم نے ایک ایسے شاذو نادر پیش آنے والے نقص کو ٹھیک کیا ہے جس کی وجہ سے کچھ چیٹس ٹھیک طرح سے کھل نہیں رہی تھیں۔"
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "اب جب آپ اپنی بنیادی Signal ڈیوائس کو ایک نئے ڈیسک ٹاپ کے ساتھ لنک کریں گے، تو آپ اپنی چیٹ ہسٹری اور گزشتہ 45 دنوں کا میڈیا اس میں اپنے ساتھ لا سکتے ہیں۔ ٹرانسفر کا عمل اینڈ ٹو اینڈ انکرپٹ کردہ ہے، اور مکمل طور پر اختیاری ہے۔ جب یہ انتخاب کرنے کی بات آتی ہے کہ آیا ماضی کو پیچھے چھوڑنا ہے یا نہیں، تو آپ اپنی ڈیوائسز پر انحصار کرتے ہیں۔"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "ہم نے Desktop ایپ میں ایک بٹن کے متن کو اپ ڈیٹ کیا ہے تاکہ Android اور iOS کے ساتھ ہم آہنگ ہو سکے۔"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "ہم نے گروپ کالز کے دوران ایک چھوٹے سے اینیمیشن کے نقص کو ٹھیک کیا ہے۔"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

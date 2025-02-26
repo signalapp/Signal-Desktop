@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} টি বস্তু} other {{count,number}-টি আইটেম}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "এই মিডিয়াটি আর নেই।"
   },
   "icu:mediaNotAvailable": {
     "messageformat": "এই মিডিয়াটি আর নেই"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "গ্রেডিয়েন্ট শেষ"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "কাস্টম সময়…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "এখন আপনি টাচস্ক্রিন ডিভাইসে চ্যাট লিস্টের সাইডবারের আকার সমন্বয় করতে পারবেন।"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "আমরা এমন একটি বিরল বাগ সংশোধন করেছি যার কারণে কিছু চ্যাট সঠিকভাবে খুলতে পারতো না।"
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "এখন আপনি আপনার চ্যাট-এর ইতিহাস ও আপনার গত 45 দিনের মিডিয়া একটি নতুন লিংক করা ডিভাইসে ট্রান্সফার করার জন্য বেছে নিতে পারবেন।"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "আমরা ডেস্কটপ অ্যাপের একটি বাটনের লেখা Android ও iOS-এর সাথে মেলানোর জন্য আপডেট করেছি।"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "গ্রুপ কলের সময় ঘটে এমন একটি ছোট অ্যানিমেশন বাগ আমরা সংশোধন করেছি।"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

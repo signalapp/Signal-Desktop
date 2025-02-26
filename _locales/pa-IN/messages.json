@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} ਚੀਜਾਂ } other {{count,number} ਆਈਟਮਾਂ}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "ਇਹ ਮੀਡੀਆ ਹੁਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"
   },
   "icu:mediaNotAvailable": {
     "messageformat": "ਇਹ ਮੀਡੀਆ ਉਪਲਬਧ ਨਹੀਂ ਹੈ"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "ਗਰੇਡੀਐਂਟ ਅੰਤ"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "ਇੱਛਾ ਅਨੁਸਾਰ ਸਮਾਂਂ…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਟੱਚਸਕ੍ਰੀਨ ਡਿਵਾਈਸਾਂ 'ਤੇ ਚੈਟ ਸੂਚੀ ਸਾਈਡਬਾਰ ਦੇ ਆਕਾਰ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰ ਸਕਦੇ ਹੋ।"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "ਅਸੀਂ ਇੱਕ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ ਜੋ ਕੁਝ ਚੈਟਾਂ ਨੂੰ ਸਹੀ ਢੰਗ ਨਾਲ ਖੋਲ੍ਹਣ ਤੋਂ ਰੋਕਦੀ ਸੀ।"
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਆਪਣੀ ਪੁਰਾਣੀ ਚੈਟ ਅਤੇ ਆਪਣੇ ਪਿਛਲੇ 45 ਦਿਨਾਂ ਦੇ ਮੀਡੀਆ ਨੂੰ ਇੱਕ ਨਵੇਂ ਲਿੰਕ ਕੀਤੇ ਡਿਵਾਈਸ ਉੱਤੇ ਟ੍ਰਾਂਸਫਰ ਕਰਨ ਦੀ ਚੋਣ ਕਰ ਸਕਦੇ ਹੋ। ਟ੍ਰਾਂਸਫਰ ਦੀ ਪ੍ਰਕਿਰਿਆ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਹੁੰਦੀ ਹੈ ਅਤੇ ਇਸ ਵਿਕਲਪ ਨੂੰ ਵਰਤਣਾ ਪੂਰੀ ਤਰ੍ਹਾਂ ਤੁਹਾਡੀ ਇੱਛਾ ਉੱਤੇ ਨਿਰਭਰ ਕਰਦਾ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "ਅਸੀਂ Desktop ਐਪ ਵਿੱਚ ਇੱਕ ਬਟਨ ਦਾ ਟੈਕਸਟ ਅੱਪਡੇਟ ਕੀਤਾ ਹੈ ਤਾਂ ਜੋ ਉਹ Android ਅਤੇ iOS ਨਾਲ ਮੇਲ ਖਾਵੇ।"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "ਅਸੀਂ ਗਰੁੱਪ ਕਾਲਾਂ ਦੌਰਾਨ ਪੇਸ਼ ਆਉਣ ਵਾਲੀ ਇੱਕ ਛੋਟੀ ਜਿਹੀ ਐਨੀਮੇਸ਼ਨ ਖਰਾਬੀ ਠੀਕ ਕੀਤੀ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

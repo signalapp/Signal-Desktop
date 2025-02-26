@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {Kitu {count,number}} other {Vitu {count,number}}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Video hii haipatikani tena."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Video hii haipatikani"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Kuisha kwa rangi ya mwinamo"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Wakati maalum..."
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Sasa unaweza kurekebisha ukubwa wa utepe wa orodha ya gumzo kwenye vifaa vya skrini ya kugusa. Kwa hiyo unapojaribu kuvuruta haitachukua muda, na uchafu kwenye skrini yako ni ushahidi tu wa nguvu inayotoka kwenye vidole vyako."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Tulirekebisha hitilafu nadra ambayo ilizuia baadhi ya gumzo kufunguka vizuri baada ya kuchaguliwa, kwa hivyo sasa Signal Desktop itakusaidia pale unapojaribu kukumbuka walichosema."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Sasa unapounganisha kifaa chako msingi cha Signal kwenye Kompyuta ya Mezani mpya, unaweza kutembea na historia yako ya gumzo na picha na video zako za siku 45 zilizopita. Mchakato wa uhamishaji umesimbwa kwa njia fiche, na ni kwa hiari kabisa. Linapokuja suala la kufanya uchaguzi kuhusu kuacha au kutoyaacha yaliyopita, unaachwa kwa vifaa vyako."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Siku ya Valentine inahusu kusherehekea mapenzi, hivyo tumesasisha lebo ya maandishi kwenye kitufe kimoja kwenye programu ya Desktop kuunda couple nzuri na kitufe kimoja kwenye simu yako. Hii inaonekana kama mabadiliko madogo sana, na kweli ni hivyo, lakini wakati mwingine ni vitu vidogo ambavyo vinaonyesha ni kiasi gani unajali."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Tumerekebisha hitilafu ndogo ya uhuishaji wakati wa simu za vikundi. Tunaomba msamaha mapema ikiwa sehemu ya kufurahisha zaidi ya siku yako ilikuwa kubadilisha kwenda kwenye mtazamo wa gridi wakati wa mkutano na kujaribu kupata muda ambapo video squares kutoka kwa watu ambao walijiunga kwa kuchelewa ilificha sehemu ya slaidi ambayo bosi wako alikuwa akiwasilisha."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {ဒေါင်းလုဒ် {count,number} ခု}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "ဤမီဒီယာ မရှိတော့ပါ။"
   },
   "icu:mediaNotAvailable": {
     "messageformat": "ဤမီဒီယာကို မရရှိနိုင်ပါ"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Gradient အဆုံး"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "စိတ်ကြိုက် အချိန်..."
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "ယခု သင်သည် Touchscreen စက်များတွင် ချက်(တ်)စာရင်းဘေးမှ ဘား၏ အရွယ်အစားကို ချိန်ညှိနိုင်ပါပြီ။"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "အချို့သော ချက်(တ်)များကို မှန်ကန်စွာ ဖွင့်မရရန် တားဆီးထားသည့် ရှားပါးသော ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "ယခု သင်သည် ချက်(တ်)မှတ်တမ်းနှင့် နောက်ဆုံး 45 ရက်အတွင်း မီဒီယာကို ချိတ်ဆက်ထားသော စက်အသစ်သို့ လွှဲပြောင်းနိုင်ပါပြီ။ လွှဲပြောင်းခြင်းလုပ်ငန်းစဉ်ကို ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားပြီး ဆန္ဒရှိမှ လုပ်ဆောင်နိုင်သည်။"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Android နှင့် iOS ကိုက်ညီမှုရှိစေရန် Desktop အက်ပ်မှ ခလုတ်တစ်ခုပေါ်ရှိ စာသားကို ကျွန်ုပ်တို့ အပ်ဒိတ်လုပ်ထားသည်။"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "အဖွဲ့လိုက်ခေါ်ဆိုမှုများအတွင်း အန်နီမေးရှင်း ချွတ်ယွင်းချက် အသေးစားတစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

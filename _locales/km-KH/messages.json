@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} ធាតុ}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "មេឌៀនេះលែងមានទៀតហើយ។"
   },
   "icu:mediaNotAvailable": {
     "messageformat": "មេឌៀនេះមិនមានទេ"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "ចំណុចបញ្ចប់ Gradient"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "ពេលកំណត់ផ្ទាល់ខ្លួន…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "ឥឡូវនេះ អ្នកអាចកែទំហំរបារចំហៀងនៃបញ្ជីជជែកនៅលើឧបករណ៍ប៉ះអេក្រង់បាន។ ដូច្នេះអ្នកអាចទាញពង្រីក ឬបង្រួមវាបានយ៉ាងងាយស្រួល និងរលូននៅលើអេក្រង់របស់អ្នក ដោយគ្រាន់តែប្រើចុងម្រាមដៃរបស់អ្នក។"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "យើងបានដោះស្រាយបញ្ហាដ៏កម្រមួយដែលបានធ្វើឱ្យការជជែកមួយចំនួនមិនអាចបើកបានត្រឹមត្រូវ បន្ទាប់ពីពួកវាត្រូវបានជ្រើសរើស ដូច្នេះឥឡូវនេះ Signal Desktop ក៏មិនរអាក់រអួលទៀតដែរ ពេលអ្នកកំពុងព្យាយាមរកនឹកអ្វីដែលពួកគេបាននិយាយ។"
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "ឥឡូវនេះ នៅពេលដែលអ្នកភ្ជាប់ឧបករណ៍ Signal ចម្បងរបស់អ្នកជាមួយ Desktop ថ្មី អ្នកអាចយកប្រវត្តិជជែករបស់អ្នក និងមេឌៀរយៈពេល 45 ថ្ងៃចុងក្រោយរបស់អ្នកទៅជាមួយអ្នកបាន។ ដំណើរការផ្ទេរគឺត្រូវបានអ៊ីនគ្រីបពីដើមដល់ចប់ ហើយជាជម្រើសរបស់អ្នកទាំងស្រុង។ នៅពេលដែលគិតថាតើគួរតែបំភ្លេចរឿងអតីតចោលឬទេ ការសម្រេចគឺស្ថិតនៅលើអ្នកទាំងស្រុង។"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "ទិវានៃក្តីស្រឡាញ់គឺជាពេលដ៏ពិសេសក្នុងការអបអរគូផ្គូផ្គងដ៏ឥតខ្ចោះ ដូច្នេះយើងបានធ្វើបច្ចុប្បន្នភាពស្លាកអក្សរនៅលើប៊ូតុងតែមួយនៅក្នុងកម្មវិធីសម្រាប់ Desktop ដើម្បីបង្កើតគូស្នេហ៍ដ៏គួរឱ្យស្រឡាញ់ជាមួយប៊ូតុងតែមួយនៅលើទូរសព្ទរបស់អ្នក។ ស្តាប់ទៅដូចជាការផ្លាស់ប្តូរបន្តិចបន្តួចប៉ុណ្ណោះ ប៉ុន្តែពេលខ្លះរឿងតូចតាចនោះហើយដែលបង្ហាញថាអ្នកយកចិត្តទុកដាក់ខ្លាំងប៉ុនណា។"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាតូចមួយទាក់ទងនឹងចលនារូបភាពក្នុងអំឡុងពេលហៅជាក្រុម។ សូមអភ័យទោសទុកជាមុន ប្រសិនបើរឿងដ៏គួរឱ្យរំភើបបំផុតនៃថ្ងៃរបស់អ្នកបែរជាបង្ហាញក្នុងទម្រង់ជាក្រឡាចត្រង្គទៅវិញក្នុងអំឡុងពេលប្រជុំ ហើយរូបតូចៗនៃវីដេអូរបស់អ្នកចូលរួមយឺតបាំងផ្នែកខ្លះនៃស្លាយបទបង្ហាញដែលចៅហ្វាយនាយរបស់អ្នកកំពុងបង្ហាញ។"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

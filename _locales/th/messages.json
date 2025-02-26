@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} รายการ}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "ไม่พบไฟล์สื่อนี้"
   },
   "icu:mediaNotAvailable": {
     "messageformat": "ไม่พบไฟล์สื่อนี้"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "สิ้นสุดการไล่สี"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "กำหนดเวลา…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "พัฒนาให้อุปกรณ์ทัชสกรีนรองรับการปรับขนาดแถบรายการแชทได้แล้ว"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "เราแก้ไขบั๊กที่เคยเป็นอุปสรรคทำให้การเปิดแชทขัดข้อง"
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "เพิ่มตัวเลือกในขั้นตอนการเชื่อมโยงอุปกรณ์ ให้คุณสามารถถ่ายโอนประวัติการแชทและไฟล์สื่อจาก 45 วันที่ผ่านมา เลือกถ่ายโอนหรือข้ามขั้นตอนนี้ได้ตามใจคุณ ทั้งยังมั่นใจได้เสมอด้วยการเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "เราอัปเดตรูปแบบอักษรบนปุ่มของแอปบนเดสก์ท็อปให้เหมือนกับบนโทรศัพท์ Android และ iOS"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "เราแก้ไขบั๊กเกี่ยวกับภาพเคลื่อนไหวที่อาจเคยสร้างความรำคาญใจในระหว่างสายโทรกลุ่ม"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

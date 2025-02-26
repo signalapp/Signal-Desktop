@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} na item} other {{count,number} Item}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Hindi na available ang media na ito."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Hindi available ang media na ito"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Gradient end"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Custom time…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Pwede mo nang i-adjust ang size ng chat list sidebar sa touchscreen devices."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "May inayos kaming bug na pumipigil sa pagbukas nang tama ng ibang chats."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Pwede mo nang piliing ilipat ang iyong chat history at ang last 45 days ng media mo sa bagong linked device. Ang transfer process ay end-to-end encrypted at optional."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "In-update namin ang text sa button sa Desktop app para mag-match ito sa Android at iOS."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "May inayos kaming minor animation bug sa group calls."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }
