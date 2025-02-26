@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Stavka} few {{count,number} Stavke} many {{count,number} Stavki} other {{count,number} Stavki}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Ovaj medijski sadržaj više nije dostupan."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Ovaj medijski sadržaj nije dostupan"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Kraj gradijenta"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Prilagođeno vrijeme…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Sada možete prilagoditi veličinu bočne trake popisa za razgovor na uređajima sa zaslonom osjetljivim na dodir."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Ispravili smo rijetku pogrešku koja je sprječavala ispravno otvaranje nekih chatova."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Sada možete odlučiti prenijeti svoju povijest razgovora i posljednjih 45 dana medija na novi povezani uređaj. Proces prijenosa je end-to-end kriptiran i potpuno neobavezan."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Dan zaljubljenih se odnosi na proslavu savršenog spoja, pa smo ažurirali tekstualnu oznaku na jednom dugmetu u aplikaciji za desktop kako bismo stvorili slatki par s istim dugmetom na vašem telefonu. Ovo zvuči kao vrlo mala promjena, i jeste, ali ponekad male stvari pokazuju koliko vam je stalo."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Ispravili smo manju grešku u animaciji tokom grupnih poziva."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

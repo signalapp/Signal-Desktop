@@ -30,7 +30,7 @@
     "messageformat": "{count, plural, other {{count,number} anggota}}"
   },
   "icu:GroupListItem__message-already-member": {
-    "messageformat": "Telah menjadi anggota"
+    "messageformat": "Sudah menjadi anggota"
   },
   "icu:GroupListItem__message-pending": {
     "messageformat": "Keanggotaan tertunda"
@@ -60,7 +60,7 @@
     "messageformat": "{appEnv} (Intel)"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "Salin galat dan keluar"
+    "messageformat": "Salin error dan keluar"
   },
   "icu:unknownContact": {
     "messageformat": "Kontak tidak dikenal"
@@ -69,7 +69,7 @@
     "messageformat": "Grup tidak dikenal"
   },
   "icu:databaseError": {
-    "messageformat": "Kesalahan Basis Data"
+    "messageformat": "Kesalahan Database"
   },
   "icu:databaseError__detail": {
     "messageformat": "Terjadi kesalahan pada basis data. Anda dapat menyalin kode kesalahan dan menghubungi dukungan Signal untuk membantu mengatasi masalah ini. Jika Anda perlu segera menggunakan Signal, Anda dapat menghapus data Anda dan memulai ulang.\n\nHubungi dukungan dengan membuka: {link}"
@@ -93,7 +93,7 @@
     "messageformat": "Tidak dapat mengakses kunci enkripsi database karena backend keyring enkripsi OS telah berubah dari {previousBackend} menjadi {currentBackend}. Ini dapat terjadi jika lingkungan desktop berubah, misalnya diganti antara GNOME dan KDE.\n\nHarap ganti ke lingkungan desktop sebelumnya atau coba jalankan Signal dengan opsi command line --password-store = \"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
-    "messageformat": "&Berkas"
+    "messageformat": "&File"
   },
   "icu:mainMenuCreateStickers": {
     "messageformat": "Buat/unggah paket stiker"
@@ -120,7 +120,7 @@
     "messageformat": "Sembunyikan"
   },
   "icu:appMenuHideOthers": {
-    "messageformat": "Sembuyikan yang lainnya"
+    "messageformat": "Sembuyikan yang lain"
   },
   "icu:appMenuUnhide": {
     "messageformat": "Tampilkan Semua"
@@ -159,7 +159,7 @@
     "messageformat": "Berhenti bicara"
   },
   "icu:windowMenuClose": {
-    "messageformat": "Tutup Jendela"
+    "messageformat": "Tutup Halaman"
   },
   "icu:windowMenuMinimize": {
     "messageformat": "Kecilkan"
@@ -183,7 +183,7 @@
     "messageformat": "Beralih Ke Layar Penuh"
   },
   "icu:viewMenuToggleDevTools": {
-    "messageformat": "Beralih Ke Peralatan Pengembang"
+    "messageformat": "Beralih Ke Peralatan Developer"
   },
   "icu:viewMenuOpenCallingDevTools": {
     "messageformat": "Buka Alat Pengembang Panggilan"
@@ -192,10 +192,10 @@
     "messageformat": "Siapkan sebagai Perangkat Baru"
   },
   "icu:menuSetupAsStandalone": {
-    "messageformat": "Siapkan untuk Perangkat Berdiri Sendiri"
+    "messageformat": "Siapkan untuk Perangkat Mandiri"
   },
   "icu:messageContextMenuButton": {
-    "messageformat": "Aksi lainnya"
+    "messageformat": "Tindakan lainnya"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Salin Tautan"
@@ -204,7 +204,7 @@
     "messageformat": "Salin Gambar"
   },
   "icu:contextMenuNoSuggestions": {
-    "messageformat": "Tidak Ada Usulan"
+    "messageformat": "Tidak Ada Saran"
   },
   "icu:avatarMenuViewArchive": {
     "messageformat": "Lihat Arsip"
@@ -390,7 +390,7 @@
     "messageformat": "Lihat"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "Anda sudah bukan anggota dari grup ini."
+    "messageformat": "Anda sudah bukan anggota grup ini."
   },
   "icu:invalidConversation": {
     "messageformat": "Grup ini tidak valid. Harap buat grup baru."
@@ -411,22 +411,22 @@
     "messageformat": "Demi keamanan Anda, riwayat obrolan tidak dipindahkan ke perangkat terhubung yang baru."
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "Anda menandai Nomor Keamanan dengan {name} telah terverifikasi"
+    "messageformat": "Anda menandai Nomor Keamanan dengan {name} sebagai terverifikasi."
   },
   "icu:youMarkedAsNotVerified": {
-    "messageformat": "Anda menandai Nomor Keamanan Anda dengan {name} tidak terverifikasi"
+    "messageformat": "Anda menandai Nomor Keamanan Anda dengan {name} sebagai tidak terverifikasi"
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "Anda menandai Nomor Keamanan Anda dengan {name} terverifikasi dari perangkat lainnya"
+    "messageformat": "Anda menandai Nomor Keamanan Anda dengan {name} sebagai terverifikasi dari perangkat lainnya"
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "Anda menandai Nomor Keamanan Anda dengan {name} tidak terverifikasi dari perangkat lain."
+    "messageformat": "Anda menandai Nomor Keamanan Anda dengan {name} sebagai tidak terverifikasi dari perangkat lain."
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "Nomor keamanan yang Anda coba verifikasi telah berubah. Mohon tinjau ulang nomor keamanan baru Anda dengan {name1}. Ingat, perubahan ini berarti seseorang telah mencoba mencegat komunikasi Anda atau {name2} telah memasang ulang Signal."
+    "messageformat": "Nomor keamanan yang Anda coba verifikasi telah berubah. Mohon tinjau ulang nomor keamanan baru Anda dengan {name1}. Ingat, perubahan ini mungkin terjadi karena seseorang telah mencoba mengganggu komunikasi Anda atau {name2} telah menginstal ulang Signal."
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Pengguna berikut mungkin telah menginstal ulang Signal atau berganti perangkat. Klik penerima untuk mengonfirmasi nomor keamanan barunya. Ini bersifat opsional."
+    "messageformat": "Pengguna berikut mungkin telah menginstal ulang Signal atau mengganti perangkatnya. Klik penerima untuk mengonfirmasi nomor keamanan barunya. Ini bersifat opsional."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
     "messageformat": "Kirim pesan tertunda"
@@ -438,7 +438,7 @@
     "messageformat": "{count, plural, other {Anda punya {count,number} koneksi yang mungkin telah menginstal ulang Signal atau berganti perangkat. Anda dapat meninjau nomor keamanan mereka sebelum mengirim.}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
-    "messageformat": "Semua koneksi telah ditinjau, klik kirim untuk melanjutkan."
+    "messageformat": "Semua koneksi telah ditinjau. Klik kirim untuk melanjutkan."
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
     "messageformat": "{count, plural, other {Anda yakin ingin menghapus {count,number} penerima dari cerita {story}?}}"
@@ -450,13 +450,13 @@
     "messageformat": "Verifikasi nomor keamanan"
   },
   "icu:safetyNumberChangeDialog__remove": {
-    "messageformat": "Hapus dari cerita"
+    "messageformat": "Hapus dari story"
   },
   "icu:safetyNumberChangeDialog__actions-contact": {
     "messageformat": "Tindakan untuk kontak {contact}"
   },
   "icu:safetyNumberChangeDialog__actions-story": {
-    "messageformat": "Tindakan untuk cerita {story}"
+    "messageformat": "Tindakan untuk story {story}"
   },
   "icu:sendAnyway": {
     "messageformat": "Tetap kirim"
@@ -474,19 +474,19 @@
     "messageformat": "Lanjut bergabung"
   },
   "icu:debugLogExplanation": {
-    "messageformat": "Saat Anda mengeklik Kirim, log Anda akan diposting online selama 30 hari pada URL unik yang tidak dipublikasikan. Anda dapat Simpan secara lokal terlebih dahulu."
+    "messageformat": "Saat mengklik Kirim, log Anda akan diposting online selama 30 hari pada URL unik yang tidak dipublikasikan. Anda dapat menyimpannya dulu di penyimpanan lokal perangkat Anda."
   },
   "icu:debugLogError": {
-    "messageformat": "Terjadi kesalahan ketika mengunggah! Mohon kirimkan surel ke support@signal.org dan lampirkan catatan Anda dalam bentuk teks."
+    "messageformat": "Terjadi kesalahan ketika mengunggah! Kirimkan email ke support@signal.org dan lampirkan log Anda dalam bentuk teks."
   },
   "icu:debugLogSuccess": {
-    "messageformat": "Catatan awakutu terkirim"
+    "messageformat": "Log debug terkirim"
   },
   "icu:debugLogSuccessNextSteps": {
-    "messageformat": "Log awakutu diunggah. Saat Anda menghubungi tim dukungan, salin URL di bawah dan lampirkan disertai dengan deskripsi masalah yang Anda lihat dan langkah-langkah untuk mereproduksinya."
+    "messageformat": "Log debug diunggah. Saat Anda menghubungi tim dukungan, salin dan lampirkan URL di bawah disertai dengan deskripsi masalah serta langkah untuk melihat masalah tersebut."
   },
   "icu:debugLogLogIsIncomplete": {
-    "messageformat": "… untuk melihat log penuh, klik Simpan"
+    "messageformat": "…untuk melihat log selengkapnya, klik Simpan"
   },
   "icu:debugLogCopy": {
     "messageformat": "Salin Tautan"
@@ -495,10 +495,10 @@
     "messageformat": "Simpan"
   },
   "icu:debugLogLinkCopied": {
-    "messageformat": "Tautan Tersalin ke Papan Klip"
+    "messageformat": "Tautan Tersalin ke Clipboard"
   },
   "icu:reportIssue": {
-    "messageformat": "Hubungi Bantuan"
+    "messageformat": "Hubungi Tim Bantuan"
   },
   "icu:submit": {
     "messageformat": "Kirim"
@@ -570,10 +570,10 @@
     "messageformat": "Memuat Pratinjau…"
   },
   "icu:stagedPreviewThumbnail": {
-    "messageformat": "Draf gambar mini pratinjau tautan untuk {domain}"
+    "messageformat": "Draf thumbnail pratinjau tautan untuk {domain}"
   },
   "icu:previewThumbnail": {
-    "messageformat": "Gambar mini pratinjau tautan untuk {domain}"
+    "messageformat": "Thumbnail pratinjau tautan untuk {domain}"
   },
   "icu:stagedImageAttachment": {
     "messageformat": "Draf lampiran gambar: {path}"
@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -597,7 +600,7 @@
     "messageformat": "Anda hanya dapat memilih satu file dalam satu waktu."
   },
   "icu:maximumAttachments": {
-    "messageformat": "Anda tidak bisa lagi menambahkan lampiran untuk pesan ini."
+    "messageformat": "Anda tidak bisa lagi menambahkan lampiran ke pesan ini."
   },
   "icu:fileSizeWarning": {
     "messageformat": "Maaf, berkas tersebut melebihi batas ukuran pesan. {limit,number} {units}"
@@ -618,22 +621,22 @@
     "messageformat": "Tidak akan lama"
   },
   "icu:offline": {
-    "messageformat": "Luring"
+    "messageformat": "Offline"
   },
   "icu:checkNetworkConnection": {
     "messageformat": "Periksa koneksi jaringan Anda."
   },
   "icu:submitDebugLog": {
-    "messageformat": "Catatan Awakutu"
+    "messageformat": "Log debug"
   },
   "icu:debugLog": {
-    "messageformat": "Catatan Awakutu"
+    "messageformat": "Log Debug"
   },
   "icu:forceUpdate": {
     "messageformat": "Perbarui Secara Paksa"
   },
   "icu:helpMenuShowKeyboardShortcuts": {
-    "messageformat": "Tampilkan Pintasan Papan Ketik"
+    "messageformat": "Tampilkan Pintasan Keyboard"
   },
   "icu:contactUs": {
     "messageformat": "Hubungi Kami"
@@ -648,7 +651,7 @@
     "messageformat": "Cek halaman bantuan"
   },
   "icu:joinTheBeta": {
-    "messageformat": "Gabung uji versi beta"
+    "messageformat": "Ikuti uji coba versi beta"
   },
   "icu:signalDesktopPreferences": {
     "messageformat": "Preferensi Signal Desktop"
@@ -657,7 +660,7 @@
     "messageformat": "Pembuat Paket Stiker"
   },
   "icu:aboutSignalDesktop": {
-    "messageformat": "Mengenai Signal Desktop"
+    "messageformat": "Tentang Signal Desktop"
   },
   "icu:screenShareWindow": {
     "messageformat": "Berbagi layar"
@@ -678,7 +681,7 @@
     "messageformat": "Sembunyikan"
   },
   "icu:quit": {
-    "messageformat": "Berhenti"
+    "messageformat": "Keluar"
   },
   "icu:signalDesktop": {
     "messageformat": "Signal Desktop"
@@ -735,7 +738,7 @@
     "messageformat": "Cari dengan nama pengguna"
   },
   "icu:findByPhoneNumberHeader": {
-    "messageformat": "Cari menurut nomor telepon"
+    "messageformat": "Cari berdasarkan nomor telepon"
   },
   "icu:welcomeToSignal": {
     "messageformat": "Selamat datang di Signal"
@@ -765,7 +768,7 @@
     "messageformat": "kerja"
   },
   "icu:mobile": {
-    "messageformat": "mobil"
+    "messageformat": "mobile"
   },
   "icu:email": {
     "messageformat": "email"
@@ -792,7 +795,7 @@
     "messageformat": "Tanggapi Pesan"
   },
   "icu:replyToMessage": {
-    "messageformat": "Membalas Pesan"
+    "messageformat": "Balas Pesan"
   },
   "icu:originalMessageNotFound": {
     "messageformat": "Pesan asli tidak ditemukan"
@@ -801,13 +804,13 @@
     "messageformat": "Mulai rekam pesan suara"
   },
   "icu:voiceRecordingInterruptedMax": {
-    "messageformat": "Rekaman pesan suara telah dihentikan karena batas durasi waktu."
+    "messageformat": "Rekaman pesan suara dihentikan karena Anda sudah mencapai batas durasinya."
   },
   "icu:voiceNoteLimit": {
-    "messageformat": "Pesan suara dibatasi satu jam. Perekaman akan berhenti jika Anda beralih ke aplikasi lain."
+    "messageformat": "Durasi maksimal pesan suara adalah satu jam. Perekaman akan berhenti jika Anda beralih ke aplikasi lain."
   },
   "icu:voiceNoteMustBeOnlyAttachment": {
-    "messageformat": "Pesan suara harus memiliki satu lampiran saja."
+    "messageformat": "Pesan suara hanya boleh memiliki satu lampiran."
   },
   "icu:voiceNoteError": {
     "messageformat": "Terjadi kesalahan dengan perekam suara."
@@ -861,7 +864,7 @@
     "messageformat": "Signal tidak dapat diperbarui. Buka {url} untuk menginstal secara manual. Lalu, <contactSupportLink>hubungi dukungan</contactSupportLink> untuk menyampaikan masalah ini"
   },
   "icu:readOnlyVolume": {
-    "messageformat": "Signal Desktop tampak dalam karantina macOS dan tidak dapat melakukan pembaruan otomatis. Coba pindahkan {app} ke {folder} melalui Finder."
+    "messageformat": "Signal Desktop sepertinya berada di karantina macOS dan tidak dapat melakukan pembaruan otomatis. Coba pindahkan {app} ke {folder} melalui Finder."
   },
   "icu:ok": {
     "messageformat": "OK"
@@ -873,7 +876,7 @@
     "messageformat": "Batalkan"
   },
   "icu:error": {
-    "messageformat": "Galat"
+    "messageformat": "Error"
   },
   "icu:delete": {
     "messageformat": "Hapus"
@@ -900,7 +903,7 @@
     "messageformat": "Aktif"
   },
   "icu:off": {
-    "messageformat": "Mati"
+    "messageformat": "Nonaktif"
   },
   "icu:deleteWarning": {
     "messageformat": "Pesan ini akan dihapus dari perangkat ini."
@@ -927,7 +930,7 @@
     "messageformat": "Terkirim"
   },
   "icu:received": {
-    "messageformat": "Menerima"
+    "messageformat": "Diterima"
   },
   "icu:sendMessage": {
     "messageformat": "Pesan"
@@ -981,7 +984,7 @@
     "messageformat": "Kembali"
   },
   "icu:moreInfo": {
-    "messageformat": "Info lebih lanjut"
+    "messageformat": "Info selengkapnya"
   },
   "icu:copy": {
     "messageformat": "Salin teks"
@@ -1053,7 +1056,7 @@
     "messageformat": "Sesi obrolan diperbarui"
   },
   "icu:ChatRefresh--learnMore": {
-    "messageformat": "Pelajari Lebih Lanjut"
+    "messageformat": "Pelajari Selengkapnya"
   },
   "icu:ChatRefresh--summary": {
     "messageformat": "Signal menggunakan enkripsi ujung-ke-ujung dan mungkin terkadang perlu menyegarkan obrolan Anda. Ini tidak memengaruhi keamanan obrolan tetapi mungkin Anda akan melewatkan pesan dari kontak ini dan Anda dapat memintanya untuk mengirimkan ulang."
@@ -1068,7 +1071,7 @@
     "messageformat": "Sebuah pesan dari {sender} tidak dapat terkirim"
   },
   "icu:DeliveryIssue--learnMore": {
-    "messageformat": "Pelajari Lebih Lanjut"
+    "messageformat": "Pelajari Selengkapnya"
   },
   "icu:DeliveryIssue--title": {
     "messageformat": "Masalah Pengiriman"
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} item}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Media ini sudah tidak tersedia."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Media ini tidak tersedia"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Akhir gradasi"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Waktu kustom…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Kini Anda bisa menyesuaikanz ukuran panel samping untuk daftar chat di perangkat layar sentuh. Jadi, jika ingin melakukan penyesuaian, tinggal sat-set, selesai!"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Kami telah mengatasi bug langka yang mencegah Anda membuka chat di Signal Desktop. Anda kini tidak akan melihat layar kosong lagi dan tidak perlu mengingat-ingat chat sebelumnya."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Anda kini dapat mentransfer riwayat chat dan media dari 45 hari terakhir ke Desktop yang baru saat Anda menghubungkan Signal dari perangkat utama. Proses transfernya dienkripsi secara menyeluruh dan bersifat opsional. Anda bisa bebas untuk tetap menyimpan atau menghapus riwayat chat dan media."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Pada perayaan Valentine ini, kami memperbarui teks di sebuah tombol di desktop agar sama dengan tombol di Android dan iOS. Tampaknya perubahan ini kecil, memang kecil sih, tetapi kasih sayang bisa kita tunjukkan dengan melakukan hal-hal kecil untuk seseorang yang kita kasihi."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Kami memperbaiki bug ringan pada animasi selama panggilan grup. Sebelumnya kami mohon maaf jika pengalaman rapat Anda pernah terganggu karena layar menampilkan grid peserta yang baru bergabung di tengah rapat dan menutupi materi presentasi."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

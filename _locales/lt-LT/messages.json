@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} elementas} few {{count,number} elementai} many {{count,number} elementų} other {{count,number} elementas}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Šis įrašas nebeprieinamas."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Šis įrašas neprieinamas"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Gradiento pabaiga"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Tinkintas laikas…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Nuo šiol galite koreguoti pokalbių sąrašo šoninės juostos dydį įrenginiuose su jutikliniu ekranu."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Ištaisėme retą klaidą, dėl kurios tam tikrų pokalbių nebuvo galima tinkamai atidaryti."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Dabar galite perkelti savo pokalbių istoriją ir paskutinių 45 dienų įrašus į naują susietąjį įrenginį."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Atnaujinome mygtuko tekstą programėlėje kompiuteriams, kad suvienodintumėme „Android“ ir „iOS“."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Ištaisėme nedidelę animacijos klaidą, iškylančią per grupės skambučius."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

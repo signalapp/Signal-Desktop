@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} ಐಟಂ} other {{count,number} ಐಟಂಗಳು}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "ಈ ಮೀಡಿಯಾ ಇನ್ನು ಮುಂದೆ ಲಭ್ಯವಿರುವುದಿಲ್ಲ."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "ಈ ಮೀಡಿಯಾ ಲಭ್ಯವಿಲ್ಲ"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "ಗ್ರೇಡಿಯೆಂಟ್ ಮುಕ್ತಾಯ"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "ಕಸ್ಟಮ್ ಸಮಯ…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "ಈಗ ನೀವು ಟಚ್‌ಸ್ಕ್ರೀನ್ ಸಾಧನಗಳಲ್ಲಿ ಚಾಟ್ ಲಿಸ್ಟ್ ಸೈಡ್‌ಬಾರ್‌ನ ಗಾತ್ರವನ್ನು ಸರಿಹೊಂದಿಸಬಹುದು. ಹಾಗಾಗಿ ನೀವು ಡ್ರ್ಯಾಗ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ಅದು ಅಂತಹ ಡ್ರ್ಯಾಗ್ ಆಗುವುದಿಲ್ಲ ಮತ್ತು ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಮೇಲಿನ ಕಲೆಗಳು ನಿಮ್ಮ ಬೆರಳ ತುದಿಯಿಂದ ಹೊರಹೊಮ್ಮುವ ಶಕ್ತಿಗೆ ಸಾಕ್ಷಿಯಾಗಿವೆ."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "ಕೆಲವು ಚಾಟ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿದ ನಂತರ ಅವುಗಳನ್ನು ಸರಿಯಾಗಿ ತೆರೆಯುವುದನ್ನು ತಡೆಯುವ ಅಪರೂಪದ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ, ಆದ್ದರಿಂದ ಈಗ ನೀವು ಅವರು ಹೇಳಿದ್ದನ್ನು ನೆನಪಿಟ್ಟುಕೊಳ್ಳಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವಾಗ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಕೂಡ ನೆನಪಿಸಿಕೊಳ್ಳಲು ತಡಕಾಡುವುದಿಲ್ಲ."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "ಈಗ ನೀವು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ Signal ಸಾಧನವನ್ನು ಹೊಸ ಡೆಸ್ಕ್‌ಟಾಪ್ ಲಿಂಕ್ ಮಾಡಿದಾಗ, ನಿಮ್ಮ ಚಾಟ್ ಇತಿಹಾಸ ಮತ್ತು ನಿಮ್ಮ ಕಳೆದ 45 ದಿನಗಳ ಮೀಡಿಯಾವನ್ನು ನಿಮ್ಮೊಂದಿಗೆ ತರಬಹುದು. ವರ್ಗಾವಣೆ ಪ್ರಕ್ರಿಯೆಯು ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿದೆ ಮತ್ತು ಸಂಪೂರ್ಣವಾಗಿ ಐಚ್ಛಿಕವಾಗಿರುತ್ತದೆ. ಹಿಂದಿನದನ್ನು ಬಿಡಬೇಕೆ ಅಥವಾ ಬೇಡವೇ ಎಂಬುದರ ಕುರಿತು ಆಯ್ಕೆ ಮಾಡುವ ಸಂದರ್ಭ ಬಂದಾಗ, ನಿಮ್ಮ ಸ್ವಂತ ವಿವೇಚನೆಯ ಮೇಲೆ ನಿರ್ಣಯ ತೆಗೆದುಕೊಳ್ಳಬೇಕಾಗುತ್ತದೆ."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "ಪ್ರೇಮಿಗಳ ದಿನವು ಪರಿಪೂರ್ಣ ಜೋಡಿಯನ್ನು ಸಂಭ್ರಮಿಸುವುದರ ಬಗ್ಗೆ ಆಗಿದೆ, ಆದ್ದರಿಂದ ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಅದೇ ಬಟನ್‌ನೊಂದಿಗೆ ಮುದ್ದಾದ ಜೋಡಿಯನ್ನು ರಚಿಸಲು ನಾವು ಡೆಸ್ಕ್‌ಟಾಪ್ ಆ್ಯಪ್‌ನಲ್ಲಿ ಒಂದೇ ಬಟನ್‌ನಲ್ಲಿ ಪಠ್ಯ ಲೇಬಲ್ ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಿದ್ದೇವೆ. ಇದು ತುಂಬಾ ಸಣ್ಣ ಬದಲಾವಣೆಯಂತೆ ತೋರುತ್ತದೆ, ಮತ್ತು ಅದು ಹಾಗೆಯೇ ಇರುತ್ತದೆ, ಆದರೆ ಕೆಲವೊಮ್ಮೆ ನೀವು ಎಷ್ಟು ಕಾಳಜಿ ವಹಿಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ತೋರಿಸುವ ಸಣ್ಣ ವಿಷಯಗಳಾಗಿವೆ."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "ಗುಂಪು ಕರೆಗಳ ಸಮಯದಲ್ಲಿ ನಾವು ಸಣ್ಣ ಅನಿಮೇಷನ್ ಬಗ್ ಅನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಮೀಟಿಂಗ್ ಸಮಯದಲ್ಲಿ ಗ್ರಿಡ್ ವೀಕ್ಷಣೆಗೆ ಬದಲಾಯಿಸುವುದು ಮತ್ತು ತಡವಾಗಿ ಸೇರಿಕೊಂಡ ಜನರ ವೀಡಿಯೊ ಸ್ಕ್ವೇರ್‌ಗಳು ಕೆಲವೊಮ್ಮೆ ನಿಮ್ಮ ಬಾಸ್ ಪ್ರಸ್ತುತಪಡಿಸುತ್ತಿದ್ದ ಸ್ಲೈಡ್ ಡೆಕ್ ಅನ್ನು ಭಾಗಶಃ ಮರೆಮಾಡುವ ಕ್ಷಣವನ್ನು ಸೆರೆಹಿಡಿಯಲು ಪ್ರಯತ್ನಿಸುವುದು ನಿಮ್ಮ ದಿನದ ಅತ್ಯಂತ ರೋಮಾಂಚಕಾರಿ ಭಾಗವಾಗಿದ್ದರೆ ನಾವು ಮುಂಚಿತವಾಗಿ ಕ್ಷಮೆಯಾಚಿಸುತ್ತೇವೆ."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

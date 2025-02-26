@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} आयटम} other {{count,number} आयटम्स}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "हा मिडीया यापुढे उपलब्ध नाही."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "हा मिडीया उपलब्ध नाही"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "ग्रेडिएंट समाप्त"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "सानुकूल वेळ(...)"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "आता तुम्ही टचस्क्रीन डिव्हायसेस वर चॅट लिस्ट साइडबारचा आकार कमीजास्त करू शकता. त्यामुळे तुम्ही तो आता सहज ड्रॅग करू शकता आणि स्क्रीनवर उठणारे तुमच्या बोटांचे ठसे तुमच्या या नव्या शक्तीची साक्ष ठरतील."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "एक क्वचित आढळणारा बग काही चॅट्स निवडल्यानंतर त्यांना नीट उघडण्यापासून रोखायचा तो आता आम्ही घालवला आहे. आता Signal डेक्सटॉप नीट काम करेल."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "आता तुम्ही तुमचा प्राथमिक Signal डिव्हाईस एका नव्या डेस्कटॉपला जोडता, तेव्हा त्यासोबत तुम्ही तुमचा चॅट इतिहास आणि गेल्या ४५ दिवसांचा मिडीया आणू शकता."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "व्हॅलेंटाईन्स डे तुमची परफेक्ट जोडी साजरी करण्याचा दिवस असतो, म्हणूनच आम्ही डेस्कटॉप ॲपवरील एका बटणाचे टेक्स्ट लेबल अद्यतन केले आहे आणि तेच बटण तुमच्या फोनवर वापरून तुम्ही एक क्युट जोडा तयार करू शकता. हा बदल छोटासा वाटेल, आणि तो आहेच छोटा, पण कधीकधी अशा छोट्या गोष्टींमधूनच तुम्हाला किती काळजी वाटते हे दिसून येते."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "आम्ही गट कॉल्स दरम्यान उद्भवणारा एक छोटा ॲनिमेशन बग दुरुस्त केला. जर मीटिंग दरम्यान ग्रिड दृश्य लावणे आणि कधीकधी उशिरा आलेल्या लोकांच्या चौकटींनी तुमचा बॉस दाखवत असलेला स्लाईड डेक थोडासा झाकतानाचा क्षण अनुभवणे हीच तुमच्या अख्ख्या दिवसभरातील सर्वांत उत्साही गोष्ट असेल तर आम्ही आधीच माफी मागतो."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

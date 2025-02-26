@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} db elem} other {{count,number} elem}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Ez a médiafájl már nem érhető el."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Ez a médiatartalom nem érhető el"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Átmenet vége"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Egyedi időtartam…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Mostantól beállíthatod a csevegési lista oldalsávjának méretét az érintőképernyős eszközökön."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Kijavítottunk egy ritka hibát, amely megakadályozta, hogy néhány csevegés megfelelően nyíljon meg."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Amikor összekapcsolod elsődleges Signal-eszközödet egy új asztali számítógéppel, magaddal viheted csevegési előzményeidet és az elmúlt 45 nap médiatartalmát. Az átviteli folyamat végponttól végpontig titkosított, és teljesen opcionális. Amikor arról kell döntened, hogy magad mögött hagyod-e a múltat vagy sem, a saját eszközeidre kell hagyatkoznod."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Frissítettük az asztali alkalmazás gombjának szövegét, hogy megfeleljen az Android és az iOS rendszernek."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Kijavítottunk egy kisebb animációs hibát a csoportos hívások során."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

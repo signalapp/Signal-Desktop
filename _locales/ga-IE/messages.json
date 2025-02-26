@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {1 cheann} two {{count,number} cheann} few {{count,number} cinn} many {{count,number} gcinn} other {{count,number} ceann}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Níl na meáin seo ar fáil a thuilleadh."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Níl an meán sin ar fáil"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Grádán deiridh"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Am saincheaptha…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Anois is féidir leat méid thaobh-bharra an liosta comhráite ar ghléasanna scáileáin tadhaill a choigeartú."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Réitíomar fabht annamh a chuir cosc ar roinnt comhráite a oscailt i gceart."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Anois nuair a nascann tú do phríomhghléas Signal le Deasc nua, is féidir leat do stair comhráite agus na 45 lá deiridh de do mheáin a thabhairt leat. Tá an próiseas aistrithe criptithe ó cheann ceann, agus go hiomlán roghnach. Is leatsa an rogha cibé acu an ndéanfaidh tú na seansonraí a fhágáil i do dhiaidh nó a thabhairt leat."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Rinneamar an téacs ar chnaipe san aip Desktop a nuashonrú le bheith cosúil le Android agus iOS."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Réitíomar mionfhabht beochana a tharla le linn grúpghlaonna."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

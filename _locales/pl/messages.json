@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} element} few {{count,number} elementy} many {{count,number} elementów} other {{count,number} elementu}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Te multimedia nie są już dostępne."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Te multimedia nie są dostępne"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Koniec gradientu"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Własny czas..."
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Od teraz na urządzeniach z ekranem dotykowym możesz dostosować rozmiar paska bocznego z listą czatów. A wszystko po to, aby ani za duży, ani za mały pasek boczny nie zaburzał Twojego feng shui."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Naprawiliśmy rzadko występujący błąd, przez który niektóre czaty nie otwierały się poprawnie po ich kliknięciu. Teraz znowu masz czarno na białym, co i kiedy zostało powiedziane."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Od teraz, gdy połączysz w aplikacji Signal swoje główne urządzenie z nowym komputerem, oprócz historii czatów możesz też przenieść multimedia z ostatnich 45 dni. Proces transferu danych jest szyfrowany metodą end-to-end i całkowicie opcjonalny. Wymazać przeszłość czy zachować ciągłość historii? Tę decyzję zostawiamy Tobie."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "W walentynki świętujemy idealne dobranie w parę, dlatego zaktualizowaliśmy tekst przycisku w aplikacji Signal Desktop tak, aby był taki sam jak analogiczny przycisk na Twoim telefonie. Zmiana może się wydawać niewielka, ale czasem właśnie takie drobiazgi świadczą o tym, jak bardzo nam zależy."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Naprawiliśmy niewielki błąd animacji występujący podczas połączeń grupowych. Z góry przepraszamy wszystkich tych, którzy przez cały dzień w biurze czekali tylko na jedno: żeby na zdalnym spotkaniu firmowym odpalić tryb siatki i zobaczyć, jak okienka spóźnialskich przysłaniają prezentację szefowej."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

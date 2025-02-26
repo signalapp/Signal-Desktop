@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Objekt} other {{count,number} Objekte}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Media nuk disponohet më."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Kjo media nuk është e disponueshme"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Fundi i nuancave"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Kohë vetjake…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Tani mund të rregullosh madhësinë e shiritit anësor të listës së bisedave në pajisjet me ekran me prekje. Pra, kur provon ta tërheqësh, nuk do të jetë aq e vështirë, dhe njollat në ekran janë thjesht dëshmi e fuqisë që vjen nga gishtat."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Kemi rregulluar një defekt të rrallë që pengoi disa biseda të hapeshin siç duhet pasi ato u zgjodhën, kështu që tani Signal Desktop nuk do të tregojë më një ekran bosh ndërkohë që përpiqesh të kujtosh çfarë thanë."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Kur e lidh pajisjen kryesore të Signal me një Desktop të ri, tanimë mund ta marrësh me vete historikun e bisedave dhe mediat e 45 ditëve të fundit."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Dita e Shën Valentinit është e gjitha e lidhur me festimin e një përputhjeje të përsosur, kështu që kemi përditësuar etiketën e tekstit në një buton të vetëm në aplikacionin Desktop për të krijuar një çift të lezetshëm me të njëjtin buton në telefonin tënd. Ky tingëllon si një ndryshim shumë i vogël, dhe është i tillë, por ndonjëherë janë gjërat e vogla që tregojnë se sa shumë kujdese tregon."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Rregulluam një defekt të vogël të animacionit gjatë thirrjeve në grup. Kërkojmë falje paraprakisht, nëse pjesa më emocionuese e ditës, ishte kalimi në pamjen rrjetë gjatë takimit dhe përpjekja për të kapur momentin kur kuadratet e videove të njerëzve që futen me vonesë pengojnë ndonjëherë pjesërisht prezantimin e shefit."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

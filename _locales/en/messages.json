@@ -1522,10 +1522,6 @@
     "messageformat": "{count, plural, one {# item} other {# items}}",
     "description": "Describes a button shown on a grid of attachments to start of them downloading"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "This media is no longer available.",
-    "description": "(Deleted 2025/01/22) Shown in info toast for messages with old image and video attachments which are no longer available for download. Also used for accessibility label for the download attachment button."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "This media is not available",
     "description": "Shown in info toast for messages with old image and video attachments which are no longer available for download. Also used for accessibility label for the download attachment button."
@@ -1664,11 +1660,11 @@
   },
   "icu:Install__choose-device-name__description": {
     "messageformat": "You'll see this name under \"Linked Devices\" on your phone",
-    "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    "description": "(Deleted 2025/02/26) The subheader shown on the 'choose device name' screen in the device linking process"
   },
   "icu:Install__choose-device-name__placeholder": {
     "messageformat": "My Computer",
-    "description": "The placeholder for the 'choose device name' input"
+    "description": "(Deleted 2025/02/26) The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Phone Number",
@@ -1684,11 +1680,11 @@
   },
   "icu:chooseDeviceName": {
     "messageformat": "Choose this device's name",
-    "description": "The header shown on the 'choose device name' screen in the device linking process"
+    "description": "(Deleted 2025/02/26) The header shown on the 'choose device name' screen in the device linking process"
   },
   "icu:finishLinkingPhone": {
     "messageformat": "Finish linking phone",
-    "description": "The text on the button to finish the linking process, after choosing the device name"
+    "description": "(Deleted 2025/02/26) The text on the button to finish the linking process, after choosing the device name"
   },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups",
@@ -8002,7 +7998,7 @@
   },
   "icu:WhatsNew__v7.44--0": {
     "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting.",
-    "description": "Release notes for version 7.44"
+    "description": "(Deleted 2025/02/26) Release notes for version 7.44"
   },
   "icu:WhatsNew__v7.45--0": {
     "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too.",

@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} предмет} other {{count,number} предмети}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Оваа медиумска датотека повеќе не е достапна."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Оваа медиумска датотека не е достапна"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Крај со прелевање"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Прилагодено време…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Сега можете да ја прилагодите големината на страничната лента на листата со разговори на уреди со екран на допир."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Решивме грешка која спречуваше правилно отворање на одредени разговори."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Сега можете да ја пренесете вашата историја на разговори и вашите медиумски датотеки од последните 45 дена на нов поврзан уред."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Го ажуриравме текстот на копче во апликацијата за десктоп за да се совпаѓа со Android и iOS."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Решивме мала грешка со анимациите во текот на групни повици."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Enheder} other {{count,number} emner}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Denne mediefil er ikke længere tilgængelig."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Dette medie er ikke tilgængeligt"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Afslut på farveovergang"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Tilpas udløbstid…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Nu kan du justere størrelsen på chatlistens sidebjælke på enheder med touchskærm. Når du forsøger at trække nu, vil det ikke være lige så langtrukkent, og pletterne på din skærm er et bevis på den kraft, der kommer fra dine fingerspidser."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Vi har rettet en sjælden fejl, der forhindrede nogle chats i at blive åbnet korrekt, efter de blev valgt, så nu er Signal Desktop ikke helt blank, når du forsøger at huske, hvad dine venner sagde sagde."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Når du forbinder din primære Signal-enhed til en ny computer, kan du overføre din chathistorik og medierne for de sidste 45 dage. Overførselsprocessen er end-til-end-krypteret og helt valgfri. Når det kommer til at træffe valget om, hvorvidt du vil lade fortiden være fortid eller ej, er det helt op til dig."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Valentinsdag handler om at fejre et perfekt match, så vi har opdateret tekstetiketten på en knap i appen til computer for at danne et sødt par med den samme knap på din telefon. Det lyder som en meget lille ændring, og det er det også, men nogle gange er det de små ting, der viser, hvor meget du holder af en person (eller ting)."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Vi har rettet en mindre animationsfejl under gruppeopkald. Vi undskylder på forhånd, hvis den mest spændende del af din dag var at skifte til gittervisning under et møde og forsøge at fange det øjeblik, hvor videofirkanterne fra folk, der mødte ind sent, nogle gange delvist tilslørede det diasspil, din chef præsenterede."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

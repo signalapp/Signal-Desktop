@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Öğe} other {{count,number} öğe}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Bu medya artık kullanılamıyor."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Bu medya kullanılamıyor"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Geçiş sonu"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Özel zaman…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Bundan böyle dokunmatik ekranlı cihazlarda sohbet listesi kenar çubuğunun boyutunu ayarlayabilirsin. Böylece kenar çubuğunu eskisi gibi zorlanarak sürüklemeyecek, istediğin boyuta getirebileceksin."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Bazı sohbetlerin doğru şekilde açılmasını engelleyen nadir bir hatayı düzelttik."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Bundan böyle birincil Signal cihazını yeni bir Desktop'a bağlarsan sohbet geçmişini ve son 45 günlük medyanı yanında getirebilirsin. Aktarım süreci uçtan uca şifrelidir ve tamamen isteğe bağlıdır. İster geçmişi arkanda bırak ister bugüne taşı; kararı kendin ver!"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Android ve iOS'la uyumlu olması için Desktop uygulamasındaki bir düğmenin üzerindeki metini güncelledik. Bu kulağa çok ufak bir değişiklik gibi geliyor ama bazen ne kadar önemsendiğini gösteren de böyle ufak ayrıntılardır!"
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Grup aramaları sırasında oluşan küçük bir animasyon hatasını giderdik. Artık animasyonları zevkle izleyebilirsin!"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

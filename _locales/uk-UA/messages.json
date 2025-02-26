@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} файл} few {{count,number} файли} many {{count,number} файлів} other {{count,number} файлу}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Цей медіафайл уже недоступний."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Цей медіафайл недоступний"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Кінець градієнта"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Свій час…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Тепер на пристроях із сенсорним екраном можна змінювати розмір бічної панелі зі списком чатів. Встановлюйте зручний для себе розмір, просто перетягуючи панель без зайвої тягомотини!"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Ми виправили рідкісну помилку, через яку чати іноді не відкривалися, коли ви їх вибирали. Хай відкритими будуть чати, а не питання на кшталт «Та чому ж воно не працює?»."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Тепер, зв'язуючи основний пристрій Signal з новим комп'ютером, ви також можете переносити історію чатів і медіафайли за минулі 45 днів. Процес перенесення захищено наскрізним шифруванням. А ще воно необов'язкове, тож тільки вам вирішувати, чи зберегти минуле в пам'яті пристрою, чи тільки у своїй власній."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "День святого Валентина — свято єднання споріднених душ, тому ми оновили текст на самотній кнопці в програмі для комп'ютера, і тепер вона створює ідеальну пару з такою ж кнопкою на телефоні. Це дрібничка, але саме такі деталі показують справжню турботу."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Ми виправили незначну помилку з анімацією під час групових викликів. Заздалегідь перепрошуємо в усіх, хто обожнював під час робочого дзвінка змінювати конфігурацію екрана на сітку, намагаючись зловити момент, коли відео запізнілих учасників частково закривало слайди презентації керівника."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

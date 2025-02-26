@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {1 stavka} few {{count,number} stavke} many {{count,number} stavki} other {{count,number} stavki}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Medijski zapis više nije dostupan."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Medijski zapis nije dostupan"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Kraj gradijenta"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Prilagođeno vrijeme…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Sada možete prilagoditi širinu bočne trake s popisom razgovora na uređajima sa zaslonom osjetljivim na dodir."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Ispravili smo rijetku pogrešku koja je sprječavala ispravno otvaranje određenih razgovora."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Sada, kad povežete novo računalo sa svojim Signal računom, možete prenijeti svoju povijest razgovora i medijske zapise iz posljednjih 45 dana na novi povezani uređaj. Proces prijenosa je sveobuhvatno šifriran i potpuno neobavezan."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Ažurirali smo tekst na gumbu aplikacije za Desktop tako da odgovara gumbu aplikacije za Android i iOS."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Ispravili smo manju programsku pogrešku u animaciji tijekom grupnih poziva."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

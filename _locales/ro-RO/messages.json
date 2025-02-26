@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} articol} few {{count,number} itemi} other {{count,number} de itemi}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Acest fișier nu mai este disponibil."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Acest fișier media nu este disponibil"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Sfârșit gradient"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Timp personalizat..."
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Pe dispozitivele cu ecran tactil, acum poți ajusta bara laterală în lista conversațiilor. Astfel, atunci când tragi de ea să o dimensionezi, nu vei simți că ai tras din greu, iar urmele de pe ecran vor fi doar o dovadă că ți-ai folosit degetele."
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Am remediat o eroare rară care a împiedicat unele chat-uri să se deschidă corect după ce au fost selectate, așa că acum Signal Desktop nu ratează în timp ce încerci să-ți amintești ce s-a spus."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Acum, când conectezi dispozitivul Signal principal la un nou desktop, poți avea acces la istoricul conversațiilor și la fișierele media din ultimele 45 de zile. Procesul de transfer este criptat end-to-end și complet opțional. Când vine vorba de a alege dacă să lași sau nu trecutul în urmă, ești la mâna propriilor tale dispozitive."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Ziua Îndrăgostiților înseamnă sărbătorirea unei potriviri perfecte, așa că am actualizat eticheta textului pe un singur buton din aplicația Desktop pentru a crea un cuplu drăguț cu același buton de pe telefon. Pare o schimbare foarte mică, și este, dar uneori lucrurile mărunte arată cât de mult îți pasă."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Am remediat un bug minor de animație din timpul apelurilor de grup. Ne cerem scuze anticipat dacă cea mai interesantă parte a zilei tale a fost trecerea la vizualizarea tip grilă în timpul unei întâlniri și încercarea de a surprinde momentul în care pătratele video de la persoanele care s-au alăturat târziu au ascuns uneori parțial prezentarea șefului tău."
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }

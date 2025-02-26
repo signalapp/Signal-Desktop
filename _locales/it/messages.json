@@ -587,6 +587,9 @@
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
   },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Received invalid response from storage service. Please share your logs."
+  },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
@@ -1138,9 +1141,6 @@
   },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} elemento} other {{count,number} elementi}}"
-  },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Questo media non è più disponibile."
   },
   "icu:mediaNotAvailable": {
     "messageformat": "Questo media non è disponibile"
@@ -4349,6 +4349,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Fine gradiente"
   },
+  "icu:GIF--download": {
+    "messageformat": "Download GIF attachment"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Tempo personalizzato…"
   },
@@ -5857,19 +5860,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Da ora sui dispositivi touch puoi modificare le dimensioni della sidebar dell'elenco chat. Non potrai più dare la colpa a Signal in caso di miopia, visto che puoi ingrandire quanto vuoi per leggere meglio!"
-  },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Abbiamo risolto un raro bug che impediva ad alcune chat di aprirsi correttamente quando selezionate: insomma, da ora Signal Desktop non dovrebbe più avere problemi di memoria e si ricorderà subito quale chat aprire."
-  },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Da ora quando colleghi il tuo dispositivo principale di Signal a un nuovo desktop, puoi importare la cronologia delle tue chat e gli ultimi 45 giorni di media inviati/ricevuti. Il trasferimento è crittografato e del tutto opzionale. Insomma, scegli tu se lasciarti il passato alle spalle o meno!"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "San Valentino è la festa degli innamorati: una coppia è un match perfetto di anime gemelle (si spera!). E allora abbiamo voluto aggiornare il testo su un pulsante all'interno dell'app Signal per Desktop che faccia coppia con lo stesso testo del pulsante presente sul telefono. Sì, può sembrare un piccolo cambiamento ma, come in amore, sono i piccoli gesti che fanno la differenza."
-  },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Abbiamo risolto un bug legato alle animazioni durante le chiamate di gruppo. Ora potrai godertele in santa pace e vedere chiaramente chi preferisce tenere la camera spenta e chi invece la dimentica accesa anche in momenti in cui dovrebbe assolutamente rimanere spenta!"
+  },
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
   }
 }
