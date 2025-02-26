@@ -9,11 +9,13 @@ import {
   isUndefined,
   isString,
   omit,
+  partition,
 } from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
 
 import type { LinkPreviewType } from './message/LinkPreviews';
 import type { LoggerType } from './Logging';
+import * as logging from '../logging/log';
 import * as MIME from './MIME';
 import { toLogFormat } from './errors';
 import { SignalService } from '../protobuf';
@@ -1300,4 +1302,49 @@ export function getAttachmentIdForLogging(attachment: AttachmentType): string {
     return redactGenericText(digest);
   }
   return '[MissingDigest]';
+}
+
+// We now partition out the bodyAttachment on receipt, but older
+// messages may still have a bodyAttachment in the normal attachments field
+export function partitionBodyAndNormalAttachments<
+  T extends Pick<AttachmentType, 'contentType'>,
+>(
+  {
+    attachments,
+    existingBodyAttachment,
+  }: {
+    attachments: ReadonlyArray<T>;
+    existingBodyAttachment?: T;
+  },
+  { logId, logger = logging }: { logId: string; logger?: LoggerType }
+): {
+  bodyAttachment: T | undefined;
+  attachments: Array<T>;
+} {
+  const [bodyAttachments, normalAttachments] = partition(
+    attachments,
+    attachment => MIME.isLongMessage(attachment.contentType)
+  );
+
+  if (bodyAttachments.length > 1) {
+    logger.warn(
+      `${logId}: Received more than one long message attachment, ` +
+        `dropping ${bodyAttachments.length - 1}`
+    );
+  }
+
+  if (bodyAttachments.length > 0) {
+    if (existingBodyAttachment) {
+      logger.warn(`${logId}: there is already an existing body attachment`);
+    } else {
+      logger.info(
+        `${logId}: Moving a long message attachment to message.bodyAttachment`
+      );
+    }
+  }
+
+  return {
+    bodyAttachment: existingBodyAttachment ?? bodyAttachments[0],
+    attachments: normalAttachments,
+  };
 }

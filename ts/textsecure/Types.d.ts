@@ -202,6 +202,7 @@ export type ProcessedGiftBadge = {
 
 export type ProcessedDataMessage = {
   body?: string;
+  bodyAttachment?: ProcessedAttachment;
   attachments: ReadonlyArray<ProcessedAttachment>;
   groupV2?: ProcessedGroupV2Context;
   flags: number;

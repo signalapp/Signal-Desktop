@@ -122,9 +122,11 @@ function hasRequiredAttachmentDownloads(
 ): boolean {
   const attachments: ReadonlyArray<AttachmentType> = message.attachments || [];
 
-  const hasLongMessageAttachments = attachments.some(attachment => {
-    return MIME.isLongMessage(attachment.contentType);
-  });
+  const hasLongMessageAttachments =
+    Boolean(message.bodyAttachment) ||
+    attachments.some(attachment => {
+      return MIME.isLongMessage(attachment.contentType);
+    });
 
   if (hasLongMessageAttachments) {
     return true;
