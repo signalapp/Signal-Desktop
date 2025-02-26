@@ -126,10 +126,12 @@ export async function downloadAttachment(
   let downloadResult: Awaited<ReturnType<typeof downloadToDisk>>;
 
   let { downloadPath } = attachment;
+  const absoluteDownloadPath = downloadPath
+    ? window.Signal.Migrations.getAbsoluteAttachmentPath(downloadPath)
+    : undefined;
   let downloadOffset = 0;
-  if (downloadPath) {
-    const absoluteDownloadPath =
-      window.Signal.Migrations.getAbsoluteDownloadsPath(downloadPath);
+
+  if (absoluteDownloadPath) {
     try {
       ({ size: downloadOffset } = await stat(absoluteDownloadPath));
     } catch (error) {
@@ -139,7 +141,7 @@ export async function downloadAttachment(
           Errors.toLogFormat(error)
         );
         try {
-          await safeUnlink(downloadPath);
+          await safeUnlink(absoluteDownloadPath);
         } catch {
           downloadPath = undefined;
         }
@@ -148,9 +150,9 @@ export async function downloadAttachment(
   }
 
   // Start over if we go over the size
-  if (downloadOffset >= size && downloadPath) {
+  if (downloadOffset >= size && absoluteDownloadPath) {
     log.warn('downloadAttachment: went over, retrying');
-    await safeUnlink(downloadPath);
+    await safeUnlink(absoluteDownloadPath);
     downloadOffset = 0;
   }
 

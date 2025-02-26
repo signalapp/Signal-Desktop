@@ -19,6 +19,7 @@ import {
   ValidatingPassThrough,
 } from '@signalapp/libsignal-client/dist/incremental_mac';
 import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac';
+import { isAbsolute } from 'path';
 
 import * as log from './logging/log';
 import {
@@ -37,7 +38,7 @@ import { finalStream } from './util/finalStream';
 import { getIvAndDecipher } from './util/getIvAndDecipher';
 import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac';
 import { trimPadding } from './util/trimPadding';
-import { strictAssert } from './util/assert';
+import { assertDev, strictAssert } from './util/assert';
 import * as Errors from './types/errors';
 import { isNotNil } from './util/isNotNil';
 import { missingCaseError } from './util/missingCaseError';
@@ -733,11 +734,17 @@ export function getPlaintextHashForInMemoryAttachment(
  * Unlinks a file without throwing an error if it doesn't exist.
  * Throws an error if it fails to unlink for any other reason.
  */
-export async function safeUnlink(filePath: string): Promise<void> {
+export async function safeUnlink(absoluteFilePath: string): Promise<void> {
+  assertDev(
+    isAbsolute(absoluteFilePath),
+    'safeUnlink: a relative path was passed instead of an absolute one'
+  );
+
   try {
-    await unlink(filePath);
+    await unlink(absoluteFilePath);
   } catch (error) {
     // Ignore if file doesn't exist
+
     if (error.code !== 'ENOENT') {
       log.error('Failed to unlink', error);
       throw error;

@@ -134,7 +134,9 @@ describe('utils/ensureAttachmentIsReencryptable', async () => {
 
     after(async () => {
       if (path) {
-        await safeUnlink(path);
+        await safeUnlink(
+          window.Signal.Migrations.getAbsoluteAttachmentPath(path)
+        );
       }
     });
 
