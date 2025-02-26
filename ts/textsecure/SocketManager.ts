@@ -13,7 +13,7 @@ import type { connection as WebSocket } from 'websocket';
 import qs from 'querystring';
 import EventListener from 'events';
 
-import { AbortableProcess } from '../util/AbortableProcess';
+import type { AbortableProcess } from '../util/AbortableProcess';
 import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import {
@@ -42,7 +42,6 @@ import WebSocketResource, {
   LibsignalWebSocketResource,
   ServerRequestType,
   TransportOption,
-  WebSocketResourceWithShadowing,
 } from './WebsocketResources';
 import { ConnectTimeoutError, HTTPError } from './Errors';
 import type { IRequestHandler, WebAPICredentials } from './Types.d';
@@ -50,6 +49,7 @@ import { connect as connectWebSocket } from './WebSocket';
 import { isNightly, isBeta, isStaging } from '../util/version';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { isTestOrMockEnvironment } from '../environment';
+import type { ConfigKeyType } from '../RemoteConfig';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -645,34 +645,19 @@ export class SocketManager extends EventListener {
       return TransportOption.Libsignal;
     }
 
-    // in alpha, switch to using libsignal transport, unless user opts out,
-    // in which case switching to shadowing
+    let libsignalRemoteConfigFlag: ConfigKeyType;
     if (isNightly(this.options.version)) {
-      const configValue = window.Signal.RemoteConfig.isEnabled(
-        'desktop.experimentalTransportEnabled.alpha'
-      );
-      return configValue
-        ? TransportOption.Libsignal
-        : TransportOption.ShadowingHigh;
-    }
-
-    // in beta, switch to using 'ShadowingHigh' mode, unless user opts out,
-    // in which case switching to `ShadowingLow`
-    if (isBeta(this.options.version)) {
-      const configValue = window.Signal.RemoteConfig.isEnabled(
-        'desktop.experimentalTransportEnabled.beta'
-      );
-      return configValue
-        ? TransportOption.ShadowingHigh
-        : TransportOption.ShadowingLow;
+      libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.alpha';
+    } else if (isBeta(this.options.version)) {
+      libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.beta';
+    } else {
+      libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.prod';
     }
 
     const configValue = window.Signal.RemoteConfig.isEnabled(
-      'desktop.experimentalTransportEnabled.prod'
+      libsignalRemoteConfigFlag
     );
-    return configValue
-      ? TransportOption.ShadowingLow
-      : TransportOption.Original;
+    return configValue ? TransportOption.Libsignal : TransportOption.Original;
   }
 
   async #getUnauthenticatedResource(): Promise<IWebSocketResource> {
@@ -812,64 +797,7 @@ export class SocketManager extends EventListener {
       },
     });
 
-    const shadowingModeEnabled =
-      !resourceOptions.transportOption ||
-      resourceOptions.transportOption === TransportOption.Original;
-    return shadowingModeEnabled
-      ? webSocketResourceConnection
-      : this.#connectWithShadowing(
-          webSocketResourceConnection,
-          resourceOptions
-        );
-  }
-
-  /**
-   * A method that takes in an `AbortableProcess<>` that establishes
-   * a `WebSocketResource` connection and wraps it in a process
-   * that also tries to establish a `LibsignalWebSocketResource` connection.
-   *
-   * The shadowing connection will not block the main one (e.g. if it takes
-   * longer to connect) and an error in the shadowing connection will not
-   * affect the overall behavior.
-   *
-   * @param mainConnection an `AbortableProcess<WebSocketResource>` responsible
-   * for establishing a Desktop system WebSocket connection.
-   * @param options `WebSocketResourceOptions` options
-   * @private
-   */
-  #connectWithShadowing(
-    mainConnection: AbortableProcess<WebSocketResource>,
-    options: WebSocketResourceOptions
-  ): AbortableProcess<IWebSocketResource> {
-    // creating an `AbortableProcess` of libsignal websocket connection
-    const shadowingConnection = connectUnauthenticatedLibsignal({
-      libsignalNet: this.libsignalNet,
-      name: options.name,
-      keepalive: options.keepalive ?? {},
-    });
-    const shadowWrapper = async () => {
-      // if main connection results in an error,
-      // it's propagated as the error of the resulting process
-      const mainSocket = await mainConnection.resultPromise;
-      // here, we're not awaiting on `shadowingConnection.resultPromise`
-      // and just letting `WebSocketResourceWithShadowing`
-      // initiate and handle the result of the shadowing connection attempt
-      return new WebSocketResourceWithShadowing(
-        mainSocket,
-        shadowingConnection,
-        options
-      );
-    };
-    return new AbortableProcess<IWebSocketResource>(
-      `WebSocketResourceWithShadowing.connect(${options.name})`,
-      {
-        abort() {
-          mainConnection.abort();
-          shadowingConnection.abort();
-        },
-      },
-      shadowWrapper()
-    );
+    return webSocketResourceConnection;
   }
 
   async #checkResource(
