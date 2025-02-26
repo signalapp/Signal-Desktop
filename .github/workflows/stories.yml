@@ -24,6 +24,11 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
+      - name: Cache .electron-gyp
+        uses: actions/cache@v4
+        with:
+          path: ~/.electron-gyp
+          key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Setup sccache
         uses: mozilla-actions/sccache-action@v0.0.7
