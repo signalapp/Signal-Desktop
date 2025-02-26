@@ -5870,6 +5870,6 @@
     "messageformat": "День святого Валентина — это праздник для двоих, поэтому мы обновили текстовую метку на одной кнопке в нашем приложении для ПК, чтобы создать ей пару с такой же кнопкой на вашем телефоне. Возможно, это небольшое изменение, но иногда именно в мелочах раскрываются чувства."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Мы исправили небольшую ошибку анимации во время групповых звонков. Заранее приносим извинения, если самой увлекательным моментом вашего дня было переключение на сетку во время совещания в попытке поймать момент, когда квадраты с видео опоздавших частично перекрывали презентацию вашего начальника."
   }
 }

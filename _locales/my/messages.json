@@ -5870,6 +5870,6 @@
     "messageformat": "Android နှင့် iOS ကိုက်ညီမှုရှိစေရန် Desktop အက်ပ်မှ ခလုတ်တစ်ခုပေါ်ရှိ စာသားကို ကျွန်ုပ်တို့ အပ်ဒိတ်လုပ်ထားသည်။"
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "အဖွဲ့လိုက်ခေါ်ဆိုမှုများအတွင်း အန်နီမေးရှင်း ချွတ်ယွင်းချက် အသေးစားတစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   }
 }

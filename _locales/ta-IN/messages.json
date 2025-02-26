@@ -5870,6 +5870,6 @@
     "messageformat": "Android மற்றும் iOS உடன் பொருத்த டெஸ்க்டாப் செயலியில் இருக்கும் ஒரு பொத்தானில் உரையைப் புதுப்பித்தோம்."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "குழு அழைப்புகளின் போது சிறிய அனிமேஷன் பிழையை சரிசெய்துள்ளோம். சந்திப்பின்போது உங்கள் நாளின் மிகவும் உற்சாகமான பகுதி கிரிட் காட்சிக்கு மாறியிருந்தால், சில சமயங்களில் உங்கள் முதலாளி வழங்கும் பிரசன்டேசனை தாமதமாகச் சேர்ந்த நபர்களின் காணொளிக் கட்டங்கள் ஓரளவு மறைத்துவிட்ட தருணத்தைப் பிடிக்க முயன்றிருந்தால், நாங்கள் முன்கூட்டியே மன்னிப்பு கேட்டுக்கொள்கிறோம்."
   }
 }

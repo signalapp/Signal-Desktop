@@ -5870,6 +5870,6 @@
     "messageformat": "ვალენტინობის დღეს წყვილებს აღვნიშნავთ, ამიტომ ჩვენ განვაახლეთ ტექსტური იარლიყი ერთ ღილაკზე დესკტოპ აპში, რათა შევქმნათ საყვარელი წყვილი იმავე ღილაკთან თქვენს ტელეფონზე. ეს ძალიან პატარა ცვლილებას ჰგავს, და ასეც არის, მაგრამ ზოგჯერ სწორედ ეს პატარა დეტალებია, რომლებიც აჩვენებენ, რამდენად ზრუნავ."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "ჯგუფური ზარების დროს დაფიქსირებული ანიმაციის პატარა ბაგი გამოვასწორეთ. ბოდიშს გიხდით წინასწარ, თუ შენი დღის ყველაზე საინტერესო ნაწილი გრიდ ვიუზე გადასვლა და იმ მომენტის დაჭერა იყო, როცა შეხვედრაზე გვიან შემოსული მონაწილეების ვიდეო ფანჯრები შენი უფროსის პრეზენტაციის სლაიდებს ფარავდა."
   }
 }

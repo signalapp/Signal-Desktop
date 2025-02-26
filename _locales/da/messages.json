@@ -5870,6 +5870,6 @@
     "messageformat": "Valentinsdag handler om at fejre et perfekt match, så vi har opdateret tekstetiketten på en knap i appen til computer for at danne et sødt par med den samme knap på din telefon. Det lyder som en meget lille ændring, og det er det også, men nogle gange er det de små ting, der viser, hvor meget du holder af en person (eller ting)."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Vi har rettet en mindre animationsfejl under gruppeopkald. Vi undskylder på forhånd, hvis den mest spændende del af din dag var at skifte til gittervisning under et møde og forsøge at fange det øjeblik, hvor videofirkanterne fra folk, der mødte ind sent, nogle gange delvist tilslørede det diasspil, din chef præsenterede."
   }
 }

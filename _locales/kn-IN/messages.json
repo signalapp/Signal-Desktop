@@ -5870,6 +5870,6 @@
     "messageformat": "ಪ್ರೇಮಿಗಳ ದಿನವು ಪರಿಪೂರ್ಣ ಜೋಡಿಯನ್ನು ಸಂಭ್ರಮಿಸುವುದರ ಬಗ್ಗೆ ಆಗಿದೆ, ಆದ್ದರಿಂದ ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಅದೇ ಬಟನ್‌ನೊಂದಿಗೆ ಮುದ್ದಾದ ಜೋಡಿಯನ್ನು ರಚಿಸಲು ನಾವು ಡೆಸ್ಕ್‌ಟಾಪ್ ಆ್ಯಪ್‌ನಲ್ಲಿ ಒಂದೇ ಬಟನ್‌ನಲ್ಲಿ ಪಠ್ಯ ಲೇಬಲ್ ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಿದ್ದೇವೆ. ಇದು ತುಂಬಾ ಸಣ್ಣ ಬದಲಾವಣೆಯಂತೆ ತೋರುತ್ತದೆ, ಮತ್ತು ಅದು ಹಾಗೆಯೇ ಇರುತ್ತದೆ, ಆದರೆ ಕೆಲವೊಮ್ಮೆ ನೀವು ಎಷ್ಟು ಕಾಳಜಿ ವಹಿಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ತೋರಿಸುವ ಸಣ್ಣ ವಿಷಯಗಳಾಗಿವೆ."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "ಗುಂಪು ಕರೆಗಳ ಸಮಯದಲ್ಲಿ ನಾವು ಸಣ್ಣ ಅನಿಮೇಷನ್ ಬಗ್ ಅನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಮೀಟಿಂಗ್ ಸಮಯದಲ್ಲಿ ಗ್ರಿಡ್ ವೀಕ್ಷಣೆಗೆ ಬದಲಾಯಿಸುವುದು ಮತ್ತು ತಡವಾಗಿ ಸೇರಿಕೊಂಡ ಜನರ ವೀಡಿಯೊ ಸ್ಕ್ವೇರ್‌ಗಳು ಕೆಲವೊಮ್ಮೆ ನಿಮ್ಮ ಬಾಸ್ ಪ್ರಸ್ತುತಪಡಿಸುತ್ತಿದ್ದ ಸ್ಲೈಡ್ ಡೆಕ್ ಅನ್ನು ಭಾಗಶಃ ಮರೆಮಾಡುವ ಕ್ಷಣವನ್ನು ಸೆರೆಹಿಡಿಯಲು ಪ್ರಯತ್ನಿಸುವುದು ನಿಮ್ಮ ದಿನದ ಅತ್ಯಂತ ರೋಮಾಂಚಕಾರಿ ಭಾಗವಾಗಿದ್ದರೆ ನಾವು ಮುಂಚಿತವಾಗಿ ಕ್ಷಮೆಯಾಚಿಸುತ್ತೇವೆ."
   }
 }

@@ -5870,6 +5870,6 @@
     "messageformat": "Обновихме текстовия етикет на бутон в приложението за настолен компютър, за да съвпада със същия бутон в Android и iOS."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Отстранихме малък бъг в анимацията по време на груповите обаждания."
   }
 }

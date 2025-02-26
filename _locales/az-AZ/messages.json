@@ -5870,6 +5870,6 @@
     "messageformat": "\"Sevgililər günü\" mükəmməl uyğunlaşmaların günüdür. Biz də Android və iOS ilə uyğunlaşdırma üçün Desktop tətbiqində düymə üzərindəki mətni yenilədik. Bu sizə çox kiçik bir dəyişiklik kimi gələ bilər, amma sevginizi göstərməyin yolu da kiçik incəliklərdən keçir."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Qrup zəngləri zamanı animaisya ilə bağlı kiçik bir nasazlığı aradan qaldırdıq. Qrup video-çatlarında ekrana çıxan profil pəncərələri əsas təqim olunan slaydı görmənizə mane olur və buna vaxtınız çox gedirsə, bunun üçün üzr istəyirik."
   }
 }

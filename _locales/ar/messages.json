@@ -2094,10 +2094,10 @@
     "messageformat": "تبرُّع"
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days, plural, zero {{days,number} أيام مُتبقيّة} one {{days,number} يوم مُتبقي} two {{days,number} أيام مُتبقيّة} few {{days,number} أيام مُتبقيّة} many {{days,number} أيام مُتبقيّة} other {{days,number} أيام مُتبقيّة}}"
+    "messageformat": "{days, plural, zero {{days,number} أيام مُتبقيّة} one {{days,number} يوم مُتبقي} two {{days,number} يومان مُتبقيّان} few {{days,number} أيامٍ مُتبقيّة} many {{days,number} يومًا مُتبقيًّا} other {{days,number} يومٍ مُتبقيٍّ}}"
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours, plural, zero {{hours,number} ساعات مُتبقيّة} one {{hours,number} ساعة مُتبقيّة} two {{hours,number} ساعات مُتبقيّة} few {{hours,number} ساعات مُتبقيّة} many {{hours,number} ساعات مُتبقيّة} other {{hours,number} ساعات مُتبقيّة}}"
+    "messageformat": "{hours, plural, zero {{hours,number} ساعات مُتبقيّة} one {{hours,number} ساعة مُتبقيّة} two {{hours,number} ساعتان مُتبقيّتان} few {{hours,number} ساعاتٍ مُتبقيّة} many {{hours,number} ساعةً مُتبقيّة} other {{hours,number} ساعةٍ مُتبقيّة}}"
   },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, zero {{minutes,number} دقائق مُتبقيّة} one {1 دقيقة مُتبقيّة} two {{minutes,number} دقائق مُتبقيّة} few {{minutes,number} دقائق مُتبقيّة} many {{minutes,number} دقيقة مُتبقيّة} other {{minutes,number} دقيقة مُتبقيّة}}"
@@ -2229,28 +2229,28 @@
     "messageformat": "الأحدث"
   },
   "icu:EmojiPicker__button--emoji": {
-    "messageformat": "وجه مُعبِّر"
+    "messageformat": "الإيموجي"
   },
   "icu:EmojiPicker__button--animal": {
-    "messageformat": "حيوان"
+    "messageformat": "الحيوانات"
   },
   "icu:EmojiPicker__button--food": {
-    "messageformat": "أطعمة"
+    "messageformat": "الأطعمة"
   },
   "icu:EmojiPicker__button--activity": {
-    "messageformat": "نشاط"
+    "messageformat": "الأنشطة"
   },
   "icu:EmojiPicker__button--travel": {
-    "messageformat": "سفر"
+    "messageformat": "السفر"
   },
   "icu:EmojiPicker__button--object": {
-    "messageformat": "شيء"
+    "messageformat": "الأشياء"
   },
   "icu:EmojiPicker__button--symbol": {
-    "messageformat": "رمز"
+    "messageformat": "الرموز"
   },
   "icu:EmojiPicker__button--flag": {
-    "messageformat": "راية"
+    "messageformat": "الأعلام"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "إلغاء"
@@ -5870,6 +5870,6 @@
     "messageformat": "قمنا بتحديث النصّ على زرّ في تطبيق سيجنال Desktop لمطابقة إصدار التطبيق على Android وiOS."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "أصلحنا خطًأ بسيطًا يتعلَّق بالرسوم خلال المكالمات الجماعية."
   }
 }

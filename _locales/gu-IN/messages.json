@@ -5870,6 +5870,6 @@
     "messageformat": "અમે ડેસ્કટોપ બટન પરનું લખાણ Android અને iOS સાથે મેચ થાય તે માટે તેને અપડેટ કર્યું છે."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "અમે ગ્રૂપ કૉલ દરમિયાન આવતો એક નાનો એનિમેશન બગ ઠીક કર્યો છે."
   }
 }

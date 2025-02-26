@@ -5870,6 +5870,6 @@
     "messageformat": "व्हॅलेंटाईन्स डे तुमची परफेक्ट जोडी साजरी करण्याचा दिवस असतो, म्हणूनच आम्ही डेस्कटॉप ॲपवरील एका बटणाचे टेक्स्ट लेबल अद्यतन केले आहे आणि तेच बटण तुमच्या फोनवर वापरून तुम्ही एक क्युट जोडा तयार करू शकता. हा बदल छोटासा वाटेल, आणि तो आहेच छोटा, पण कधीकधी अशा छोट्या गोष्टींमधूनच तुम्हाला किती काळजी वाटते हे दिसून येते."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "आम्ही गट कॉल्स दरम्यान उद्भवणारा एक छोटा ॲनिमेशन बग दुरुस्त केला. जर मीटिंग दरम्यान ग्रिड दृश्य लावणे आणि कधीकधी उशिरा आलेल्या लोकांच्या चौकटींनी तुमचा बॉस दाखवत असलेला स्लाईड डेक थोडासा झाकतानाचा क्षण अनुभवणे हीच तुमच्या अख्ख्या दिवसभरातील सर्वांत उत्साही गोष्ट असेल तर आम्ही आधीच माफी मागतो."
   }
 }

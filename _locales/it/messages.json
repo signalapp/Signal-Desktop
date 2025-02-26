@@ -5870,6 +5870,6 @@
     "messageformat": "San Valentino è la festa degli innamorati: una coppia è un match perfetto di anime gemelle (si spera!). E allora abbiamo voluto aggiornare il testo su un pulsante all'interno dell'app Signal per Desktop che faccia coppia con lo stesso testo del pulsante presente sul telefono. Sì, può sembrare un piccolo cambiamento ma, come in amore, sono i piccoli gesti che fanno la differenza."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Abbiamo risolto un bug legato alle animazioni durante le chiamate di gruppo. Ora potrai godertele in santa pace e vedere chiaramente chi preferisce tenere la camera spenta e chi invece la dimentica accesa anche in momenti in cui dovrebbe assolutamente rimanere spenta!"
   }
 }

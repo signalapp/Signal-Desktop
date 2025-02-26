@@ -5870,6 +5870,6 @@
     "messageformat": "ទិវានៃក្តីស្រឡាញ់គឺជាពេលដ៏ពិសេសក្នុងការអបអរគូផ្គូផ្គងដ៏ឥតខ្ចោះ ដូច្នេះយើងបានធ្វើបច្ចុប្បន្នភាពស្លាកអក្សរនៅលើប៊ូតុងតែមួយនៅក្នុងកម្មវិធីសម្រាប់ Desktop ដើម្បីបង្កើតគូស្នេហ៍ដ៏គួរឱ្យស្រឡាញ់ជាមួយប៊ូតុងតែមួយនៅលើទូរសព្ទរបស់អ្នក។ ស្តាប់ទៅដូចជាការផ្លាស់ប្តូរបន្តិចបន្តួចប៉ុណ្ណោះ ប៉ុន្តែពេលខ្លះរឿងតូចតាចនោះហើយដែលបង្ហាញថាអ្នកយកចិត្តទុកដាក់ខ្លាំងប៉ុនណា។"
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាតូចមួយទាក់ទងនឹងចលនារូបភាពក្នុងអំឡុងពេលហៅជាក្រុម។ សូមអភ័យទោសទុកជាមុន ប្រសិនបើរឿងដ៏គួរឱ្យរំភើបបំផុតនៃថ្ងៃរបស់អ្នកបែរជាបង្ហាញក្នុងទម្រង់ជាក្រឡាចត្រង្គទៅវិញក្នុងអំឡុងពេលប្រជុំ ហើយរូបតូចៗនៃវីដេអូរបស់អ្នកចូលរួមយឺតបាំងផ្នែកខ្លះនៃស្លាយបទបង្ហាញដែលចៅហ្វាយនាយរបស់អ្នកកំពុងបង្ហាញ។"
   }
 }

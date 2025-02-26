@@ -5870,6 +5870,6 @@
     "messageformat": "Үйлесімді жұптар атап өтетін Ғашықтар күніне орай қолданбаның компьютерлік нұсқасындағы бір түйменің мәтіндік белгісін жаңарттық. Енді қолданбаның мобильдік нұсқасындағы дәл сондай түйменің де жұбы бар. Бұл болмашы өзгеріс болып көрінгенмен, көңілге жылу сыйлайтыны сөзсіз."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Топтық қоңырау кезіндегі болмашы анимация ақауын түзеттік. Жиналыстағы экраныңыз тор көрінісіне ауыса берді ме? Сондай-ақ кеш қосылған қатысушылардың шаршы бейнелері бастығыңыз көрсетіп жатқан слайдты жауып қала берді ме? Жұмыс күніңіздегі мұндай ерекше сәттер үшін сізден кешірім сұраймыз."
   }
 }

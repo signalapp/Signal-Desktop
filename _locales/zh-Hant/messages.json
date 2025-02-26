@@ -5870,6 +5870,6 @@
     "messageformat": "我們更新了桌面版應用程式中按鈕上的文字，以配合 Android 和 iOS 手機上相同的按鈕。小小的改變，表示我們在乎你。"
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "我們修復了群組通話期間的小動畫錯誤。"
   }
 }

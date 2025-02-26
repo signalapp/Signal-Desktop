@@ -5870,6 +5870,6 @@
     "messageformat": "ہم نے Desktop ایپ میں ایک بٹن کے متن کو اپ ڈیٹ کیا ہے تاکہ Android اور iOS کے ساتھ ہم آہنگ ہو سکے۔"
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "ہم نے گروپ کالز کے دوران ایک چھوٹے سے اینیمیشن کے نقص کو ٹھیک کیا ہے۔"
   }
 }

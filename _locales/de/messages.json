@@ -183,10 +183,10 @@
     "messageformat": "Vollbild ein/aus"
   },
   "icu:viewMenuToggleDevTools": {
-    "messageformat": "Entwicklerwerkzeuge ein/aus"
+    "messageformat": "Entwicklungswerkzeuge ein/aus"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Entwicklerwerkzeuge für Anrufe öffnen"
+    "messageformat": "Entwicklungswerkzeuge für Anrufe öffnen"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Einrichten als neues Gerät"
@@ -426,7 +426,7 @@
     "messageformat": "Die zu verifizierende Sicherheitsnummer hat sich geändert. Bitte überprüfe deine neue Sicherheitsnummer mit {name1}. Diese Veränderung könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber {name2} hat Signal einfach erneut installiert."
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Folgende Personen haben Signal möglicherweise erneut installiert oder das Gerät gewechselt. Tippe auf einen Empfänger, um die neue Sicherheitsnummer zu bestätigen. Dies ist optional."
+    "messageformat": "Folgende Personen haben Signal möglicherweise erneut installiert oder das Gerät gewechselt. Tippe auf eine Person, um die neue Sicherheitsnummer zu bestätigen. Dies ist optional."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
     "messageformat": "Ausstehende Nachrichten versenden"
@@ -600,7 +600,7 @@
     "messageformat": "Du kannst dieser Nachricht keine weiteren Anhänge hinzufügen."
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Die ausgewählte Datei überschreitet leider die maximal erlaubte Nachrichtengröße. "
+    "messageformat": "Die ausgewählte Datei überschreitet leider die maximal erlaubte Nachrichtengröße."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ausgewählter Anhang kann nicht geladen werden."
@@ -654,7 +654,7 @@
     "messageformat": "Einstellungen für Signal Desktop"
   },
   "icu:signalDesktopStickerCreator": {
-    "messageformat": "Sticker-Set-Gestalter"
+    "messageformat": "Sticker-Set-Ersteller"
   },
   "icu:aboutSignalDesktop": {
     "messageformat": "Über Signal Desktop"
@@ -663,7 +663,7 @@
     "messageformat": "Teilen des Bildschirms"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Entwicklerwerkzeuge für Anrufe"
+    "messageformat": "Entwicklungswerkzeuge für Anrufe"
   },
   "icu:callingDeveloperToolsDescription": {
     "messageformat": "Dieses Fenster wird während der Entwicklung verwendet, um die Diagnosen laufender Aufrufe anzuzeigen."
@@ -1878,7 +1878,7 @@
     "messageformat": "Bearbeitungen können nur innerhalb von 24 Stunden ab dem Senden dieser Nachricht vorgenommen werden."
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} ist kein*e Signal-Nutzer*in. Vergewissere dich, dass du den vollständigen Nutzernamen eingegeben hast."
+    "messageformat": "{atUsername} ist kein Signal-Nutzername. Vergewissere dich, dass du den vollständigen Nutzernamen eingegeben hast."
   },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Nutzer nicht gefunden. »{phoneNumber}« ist kein Signal-Nutzer."
@@ -2541,7 +2541,7 @@
     "messageformat": "Chat als ungelesen markiert"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Bitte richte Signal auf deinem Mobiltelefon und deinem Computer ein, um den Sticker-Set-Creator zu verwenden"
+    "messageformat": "Bitte richte Signal auf deinem Mobiltelefon und deinem Computer ein, um den Sticker-Set-Ersteller zu verwenden"
   },
   "icu:Reactions--remove": {
     "messageformat": "Reaktion entfernen"
@@ -3549,7 +3549,7 @@
     "messageformat": "Die Mitglieder oder Einstellungen dieser Gruppe haben sich geändert."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Aktualisiere diese Gruppe für neue Funktionen wie @Erwähnungen und Admins. Mitglieder, die ihre Namen und Fotos nicht mit dieser Gruppe geteilt haben, werden eingeladen, beizutreten. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
+    "messageformat": "Aktualisiere diese Gruppe für neue Funktionen wie @-Erwähnungen und Admins. Mitglieder, die ihre Namen und Fotos nicht mit dieser Gruppe geteilt haben, werden eingeladen, beizutreten. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
   },
   "icu:GroupV1--Migration--was-upgraded": {
     "messageformat": "Diese Gruppe wurde auf eine Gruppe neuen Typs aktualisiert."
@@ -3567,7 +3567,7 @@
     "messageformat": "Zu Gruppe neuen Typs aktualisieren"
   },
   "icu:GroupV1--Migration--info--summary": {
-    "messageformat": "Gruppen neuen Typs besitzen Funktionen wie @Erwähnungen und Gruppen-Admins und werden zukünftig weitere Funktionen unterstützen."
+    "messageformat": "Gruppen neuen Typs besitzen Funktionen wie @-Erwähnungen und Gruppen-Admins und werden zukünftig weitere Funktionen unterstützen."
   },
   "icu:GroupV1--Migration--info--keep-history": {
     "messageformat": "Der vor der Aktualisierung bestehende Nachrichtenverlauf und die Medieninhalte wurden erhalten."
@@ -3663,7 +3663,7 @@
     "messageformat": "Abbrechen …"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Herunterladen wird vorbereitet..."
+    "messageformat": "Herunterladen wird vorbereitet …"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dies kann einige Minuten dauern"
@@ -4002,7 +4002,7 @@
     "messageformat": "Anfrage von {name} ablehnen?"
   },
   "icu:PendingRequests--deny-for--with-link": {
-    "messageformat": "Beitrittsanfrage von {name} ablehnen?  Eine erneute Beitrittsanfrage über den Gruppen-Link ist dann nicht mehr möglich."
+    "messageformat": "Beitrittsanfrage von {name} ablehnen? Eine erneute Beitrittsanfrage über den Gruppen-Link ist dann nicht mehr möglich."
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Von dir eingeladen"
@@ -5454,7 +5454,7 @@
     "messageformat": "Story konnte nicht gesendet werden"
   },
   "icu:Stories__failed-send--partial": {
-    "messageformat": "Story konnte nicht an alle Empfänger gesendet werden"
+    "messageformat": "Story konnte nicht an alle Empfänger*innen gesendet werden"
   },
   "icu:TextAttachment__placeholder": {
     "messageformat": "Text hinzufügen"
@@ -5870,6 +5870,6 @@
     "messageformat": "Wir haben die Textbeschriftung auf einer bestimmten Schaltfläche in der Desktop-App aktualisiert, damit sie auf Android und iOS übereinstimmt. Das klingt nach einer sehr kleinen Veränderung, aber manchmal sind es die kleinen Dinge, die zeigen, wie sehr man sich kümmert."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Wir haben einen kleinen Animationsfehler bei Gruppenanrufen behoben. Wir bitten um Entschuldigung, falls der aufregendste Teil deines Tages darin bestand, während eines Meetings in die Rasteransicht zu wechseln und zu versuchen, den Moment zu erwischen, in dem die Videoquadrate von Leuten, die sich verspätet zugeschaltet haben, teilweise das von deinem Chef oder deiner Chefin präsentierte Foliendiagramm verdeckten."
   }
 }

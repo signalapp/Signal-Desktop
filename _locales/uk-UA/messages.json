@@ -5870,6 +5870,6 @@
     "messageformat": "День святого Валентина — свято єднання споріднених душ, тому ми оновили текст на самотній кнопці в програмі для комп'ютера, і тепер вона створює ідеальну пару з такою ж кнопкою на телефоні. Це дрібничка, але саме такі деталі показують справжню турботу."
   },
   "icu:WhatsNew__v7.44--0": {
-    "messageformat": "We fixed a minor animation bug during group calls. We apologize in advance if the most exciting part of your day was switching to grid view during a meeting and trying to catch the moment where the video squares from people who joined late sometimes partially obscured the slide deck your boss was presenting."
+    "messageformat": "Ми виправили незначну помилку з анімацією під час групових викликів. Заздалегідь перепрошуємо в усіх, хто обожнював під час робочого дзвінка змінювати конфігурацію екрана на сітку, намагаючись зловити момент, коли відео запізнілих учасників частково закривало слайди презентації керівника."
   }
 }
