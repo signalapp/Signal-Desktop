@@ -16,8 +16,18 @@ describe('renderWindowsToast', () => {
       type: NotificationType.Message,
     });
 
-    const expected =
-      '<toast launch="sgnl://show-conversation?token=token" activationType="protocol"><visual><binding template="ToastImageAndText02"><image id="1" src="file:///C:/temp/ab/abcd" hint-crop="circle"></image><text id="1">Alice</text><text id="2">Hi there!</text></binding></visual></toast>';
+    const expected = [
+      '<toast launch="sgnl://show-conversation?token=token" activationType="protocol">',
+      '<visual>',
+      '<binding template="ToastImageAndText02">',
+      '<image id="1" src="file:///C:/temp/ab/abcd" hint-crop="circle"></image>',
+      '<text id="1">Alice</text>',
+      '<text id="2">Hi there!</text>',
+      '</binding>',
+      '</visual>',
+      '<audio src="ms-winsoundevent:Notification.IM"></audio>',
+      '</toast>',
+    ].join('');
 
     assert.strictEqual(xml, expected);
   });
@@ -30,8 +40,17 @@ describe('renderWindowsToast', () => {
       type: NotificationType.Message,
     });
 
-    const expected =
-      '<toast launch="sgnl://show-conversation?token=token" activationType="protocol"><visual><binding template="ToastText02"><text id="1">Alice</text><text id="2">Hi there!</text></binding></visual></toast>';
+    const expected = [
+      '<toast launch="sgnl://show-conversation?token=token" activationType="protocol">',
+      '<visual>',
+      '<binding template="ToastText02">',
+      '<text id="1">Alice</text>',
+      '<text id="2">Hi there!</text>',
+      '</binding>',
+      '</visual>',
+      '<audio src="ms-winsoundevent:Notification.IM"></audio>',
+      '</toast>',
+    ].join('');
 
     assert.strictEqual(xml, expected);
   });
@@ -44,8 +63,17 @@ describe('renderWindowsToast', () => {
       type: NotificationType.Message,
     });
 
-    const expected =
-      '<toast launch="sgnl://show-conversation?token=token" activationType="protocol"><visual><binding template="ToastText02"><text id="1">Alice</text><text id="2">Hi there!</text></binding></visual></toast>';
+    const expected = [
+      '<toast launch="sgnl://show-conversation?token=token" activationType="protocol">',
+      '<visual>',
+      '<binding template="ToastText02">',
+      '<text id="1">Alice</text>',
+      '<text id="2">Hi there!</text>',
+      '</binding>',
+      '</visual>',
+      '<audio src="ms-winsoundevent:Notification.IM"></audio>',
+      '</toast>',
+    ].join('');
 
     assert.strictEqual(xml, expected);
   });
@@ -58,8 +86,16 @@ describe('renderWindowsToast', () => {
       type: NotificationType.IncomingCall,
     });
 
-    const expected =
-      '<toast launch="sgnl://show-window" activationType="protocol"><visual><binding template="ToastText02"><text id="1">Alice</text><text id="2">Hi there!</text></binding></visual></toast>';
+    const expected = [
+      '<toast launch="sgnl://show-window" activationType="protocol">',
+      '<visual>',
+      '<binding template="ToastText02">',
+      '<text id="1">Alice</text>',
+      '<text id="2">Hi there!</text>',
+      '</binding>',
+      '</visual>',
+      '</toast>',
+    ].join('');
 
     assert.strictEqual(xml, expected);
   });
@@ -72,8 +108,16 @@ describe('renderWindowsToast', () => {
       type: NotificationType.IncomingGroupCall,
     });
 
-    const expected =
-      '<toast launch="sgnl://start-call-lobby?token=token" activationType="protocol"><visual><binding template="ToastText02"><text id="1">Alice</text><text id="2">Hi there!</text></binding></visual></toast>';
+    const expected = [
+      '<toast launch="sgnl://start-call-lobby?token=token" activationType="protocol">',
+      '<visual>',
+      '<binding template="ToastText02">',
+      '<text id="1">Alice</text>',
+      '<text id="2">Hi there!</text>',
+      '</binding>',
+      '</visual>',
+      '</toast>',
+    ].join('');
 
     assert.strictEqual(xml, expected);
   });
@@ -86,8 +130,16 @@ describe('renderWindowsToast', () => {
       type: NotificationType.IsPresenting,
     });
 
-    const expected =
-      '<toast launch="sgnl://cancel-presenting" activationType="protocol"><visual><binding template="ToastText02"><text id="1">Alice</text><text id="2">Hi there!</text></binding></visual></toast>';
+    const expected = [
+      '<toast launch="sgnl://cancel-presenting" activationType="protocol">',
+      '<visual>',
+      '<binding template="ToastText02">',
+      '<text id="1">Alice</text>',
+      '<text id="2">Hi there!</text>',
+      '</binding>',
+      '</visual>',
+      '</toast>',
+    ].join('');
 
     assert.strictEqual(xml, expected);
   });

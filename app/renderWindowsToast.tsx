@@ -33,6 +33,7 @@ const Text = (props: { id: string; children: React.ReactNode }) =>
   React.createElement('text', props);
 const Image = (props: { id: string; src: string; 'hint-crop': string }) =>
   React.createElement('image', props);
+const Audio = (props: { src: string }) => React.createElement('audio', props);
 
 export function renderWindowsToast({
   avatarPath,
@@ -51,6 +52,8 @@ export function renderWindowsToast({
   const template = avatarPath ? 'ToastImageAndText02' : 'ToastText02';
   let launch: URL;
 
+  let audio: React.ReactNode | undefined;
+
   // Note:
   //   1) this maps to the notify() function in services/notifications.ts
   //   2) this also maps to the url-handling in main.ts
@@ -58,6 +61,7 @@ export function renderWindowsToast({
     launch = showConversationRoute.toAppUrl({
       token,
     });
+    audio = <Audio src="ms-winsoundevent:Notification.IM" />;
   } else if (type === NotificationType.IncomingGroupCall) {
     launch = startCallLobbyRoute.toAppUrl({
       token,
@@ -79,6 +83,7 @@ export function renderWindowsToast({
           <Text id="2">{body}</Text>
         </Binding>
       </Visual>
+      {audio}
     </Toast>
   );
 }
