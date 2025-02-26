@@ -184,9 +184,7 @@ export class IncomingWebSocketRequestLibsignal
   ) {}
 
   respond(status: number, _message: string): void {
-    if (this.ack) {
-      drop(this.ack.send(status));
-    }
+    this.ack?.send(status);
   }
 }
 

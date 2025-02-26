@@ -10682,7 +10682,7 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.1, adler2 2.0.0, anyhow 1.0.95, async-trait 0.1.86, atomic-waker 1.1.2, displaydoc 0.2.5, dyn-clone 1.0.18, fastrand 2.3.0, home 0.5.9, itoa 1.0.14, linkme-impl 0.3.31, linkme 0.3.31, linux-raw-sys 0.4.15, minimal-lexical 0.2.1, num_enum 0.7.3, num_enum_derive 0.7.3, once_cell 1.20.3, paste 1.0.15, pin-project-internal 1.1.9, pin-project-lite 0.2.16, pin-project 1.1.9, prettyplease 0.2.29, proc-macro-crate 3.2.0, proc-macro2 1.0.93, quote 1.0.38, rustc-hash 1.1.0, rustix 0.38.44, rustversion 1.0.19, semver 1.0.25, send_wrapper 0.6.0, serde 1.0.217, serde_derive 1.0.217, serde_json 1.0.138, syn-mid 0.6.0, syn 2.0.98, thiserror-impl 1.0.69, thiserror-impl 2.0.11, thiserror 1.0.69, thiserror 2.0.11, unicode-ident 1.0.16, utf-8 0.7.6
+## curve25519-dalek-derive 0.1.1, adler2 2.0.0, anyhow 1.0.95, async-trait 0.1.86, atomic-waker 1.1.2, auto_enums 0.8.7, derive_utils 0.15.0, displaydoc 0.2.5, dyn-clone 1.0.18, fastrand 2.3.0, home 0.5.9, itoa 1.0.14, linkme-impl 0.3.31, linkme 0.3.31, linux-raw-sys 0.4.15, minimal-lexical 0.2.1, num_enum 0.7.3, num_enum_derive 0.7.3, once_cell 1.20.3, paste 1.0.15, pin-project-internal 1.1.9, pin-project-lite 0.2.16, pin-project 1.1.9, prettyplease 0.2.29, proc-macro-crate 3.2.0, proc-macro2 1.0.93, quote 1.0.38, rustc-hash 1.1.0, rustix 0.38.44, rustversion 1.0.19, semver 1.0.25, send_wrapper 0.6.0, serde 1.0.217, serde_derive 1.0.217, serde_json 1.0.138, syn-mid 0.6.0, syn 2.0.98, thiserror-impl 1.0.69, thiserror-impl 2.0.11, thiserror 1.0.69, thiserror 2.0.11, unicode-ident 1.0.16, utf-8 0.7.6
 
 ```
 Permission is hereby granted, free of charge, to any
