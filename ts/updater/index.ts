@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import config from 'config';
-
+import { app } from 'electron';
 import type { Updater, UpdaterOptionsType } from './common';
 import { MacOSUpdater } from './macos';
 import { WindowsUpdater } from './windows';
-import { isLinuxVersionSupported } from './linux';
-import { DialogType } from '../types/Dialogs';
+import { initLinux } from './linux';
 
 let initialized = false;
 
@@ -15,7 +14,7 @@ let updater: Updater | undefined;
 
 export async function start(options: UpdaterOptionsType): Promise<void> {
   const { platform } = process;
-  const { logger, getMainWindow } = options;
+  const { logger } = options;
 
   if (initialized) {
     throw new Error('updater/start: Updates have already been initialized!');
@@ -24,15 +23,6 @@ export async function start(options: UpdaterOptionsType): Promise<void> {
 
   if (!logger) {
     throw new Error('updater/start: Must provide logger!');
-  }
-
-  if (platform === 'linux') {
-    if (!isLinuxVersionSupported(logger)) {
-      getMainWindow()?.webContents.send(
-        'show-update-dialog',
-        DialogType.UnsupportedOS
-      );
-    }
   }
 
   if (autoUpdateDisabled()) {
@@ -47,8 +37,10 @@ export async function start(options: UpdaterOptionsType): Promise<void> {
     updater = new WindowsUpdater(options);
   } else if (platform === 'darwin') {
     updater = new MacOSUpdater(options);
+  } else if (platform === 'linux') {
+    initLinux(options);
   } else {
-    throw new Error('updater/start: Unsupported platform');
+    throw new Error(`updater/start: Unsupported platform ${platform}`);
   }
 
   await updater?.start();
@@ -71,7 +63,5 @@ export function onRestartCancelled(): void {
 }
 
 function autoUpdateDisabled() {
-  return (
-    process.platform === 'linux' || process.mas || !config.get('updatesEnabled')
-  );
+  return !app.isPackaged || process.mas || !config.get('updatesEnabled');
 }
