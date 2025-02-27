@@ -20,6 +20,7 @@ import { ButtonVariant } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
+import { MediaPermissionsModal } from './MediaPermissionsModal';
 import type { StartCallData } from './ConfirmLeaveCallModal';
 import type { AttachmentNotAvailableModalType } from './AttachmentNotAvailableModal';
 
@@ -74,6 +75,15 @@ export type PropsType = {
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => JSX.Element;
+  // MediaPermissionsModal
+  mediaPermissionsModalProps:
+    | {
+        mediaType: 'camera' | 'microphone';
+        requestor: 'call' | 'voiceNote';
+      }
+    | undefined;
+  closeMediaPermissionsModal: () => void;
+  openSystemMediaPermissions: (mediaType: 'camera' | 'microphone') => void;
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   renderMessageRequestActionsConfirmation: () => JSX.Element;
@@ -156,6 +166,10 @@ export function GlobalModalContainer({
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
+  // MediaPermissionsModal
+  mediaPermissionsModalProps,
+  closeMediaPermissionsModal,
+  openSystemMediaPermissions,
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps,
   renderMessageRequestActionsConfirmation,
@@ -216,6 +230,18 @@ export function GlobalModalContainer({
   // Forward Modal
   if (forwardMessagesProps) {
     return renderForwardMessagesModal();
+  }
+
+  // Media Permissions Modal
+  if (mediaPermissionsModalProps) {
+    return (
+      <MediaPermissionsModal
+        i18n={i18n}
+        {...mediaPermissionsModalProps}
+        openSystemMediaPermissions={openSystemMediaPermissions}
+        onClose={closeMediaPermissionsModal}
+      />
+    );
   }
 
   // The Rest

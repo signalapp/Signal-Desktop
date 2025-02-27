@@ -6789,6 +6789,38 @@
     "messageformat": "9:16",
     "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Allow access to your microphone",
+    "description": "Title of MediaPermissionsModal when notifying user about absent microphone permissions"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Allow access to your camera",
+    "description": "Title of MediaPermissionsModal when notifying user about absent camera permissions"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "To join or start a call:",
+    "description": "Subtitle of MediaPermissionsModal when notifying user about insufficient microphone permissions for starting a call"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "To enable your video:",
+    "description": "Subtitle of MediaPermissionsModal when notifying user about insufficient camera permissions for starting a call"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "To send voice messages:",
+    "description": "Subtitle of MediaPermissionsModal when notifying user about insufficient media permissions for recording a voice note"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Tap “{buttonName}” below",
+    "description": "Text of the first step of the instructions from MediaPermissionsModal"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Turn on “Signal”",
+    "description": "Text of the second step of the instructions from MediaPermissionsModal"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Go to settings",
+    "description": "Text of the button opening system media permissions preferences window"
+  },
   "icu:MyStories__title": {
     "messageformat": "My Stories",
     "description": "Title for the my stories list"

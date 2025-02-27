@@ -53,6 +53,11 @@ export class RecorderClass {
       return false;
     }
 
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'microphone',
+      'voiceNote'
+    );
+
     this.clear();
 
     this.#context = new AudioContext();

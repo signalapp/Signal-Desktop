@@ -88,6 +88,8 @@ const IPC: IPCType = {
   getAutoLaunch: () => ipc.invoke('get-auto-launch'),
   getMediaAccessStatus: mediaType =>
     ipc.invoke('get-media-access-status', mediaType),
+  openSystemMediaPermissions: mediaType =>
+    ipc.invoke('open-system-media-permissions', mediaType),
   getMediaPermissions: () => ipc.invoke('settings:get:mediaPermissions'),
   getMediaCameraPermissions: () =>
     ipc.invoke('settings:get:mediaCameraPermissions'),

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
+import type { SystemPreferences } from 'electron';
 import type { AudioDevice } from '@signalapp/ringrtc';
 import { noop } from 'lodash';
 
@@ -115,7 +116,7 @@ export type IPCEventsCallbacksType = {
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
   getMediaAccessStatus: (
     mediaType: 'screen' | 'microphone' | 'camera'
-  ) => Promise<string | unknown>;
+  ) => Promise<ReturnType<SystemPreferences['getMediaAccessStatus']>>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
   isPrimary: () => boolean;
   removeCustomColor: (x: string) => void;
