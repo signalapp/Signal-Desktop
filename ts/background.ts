@@ -1726,9 +1726,9 @@ export async function startApp(): Promise<void> {
         log.info(`${logId}: postRegistrationSyncs not complete, sending sync`);
 
         setIsInitialContactSync(true);
-        const syncRequest = await sendSyncRequests();
+        contactSyncComplete = waitForEvent('contactSync:complete');
+        drop(sendSyncRequests());
         hasSentSyncRequests = true;
-        contactSyncComplete = syncRequest.contactSyncComplete;
       }
 
       // 4. Download (or resume download) of link & sync backup
