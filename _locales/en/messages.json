@@ -6810,7 +6810,7 @@
     "description": "Subtitle of MediaPermissionsModal when notifying user about insufficient media permissions for recording a voice note"
   },
   "icu:MediaPermissionsModal__step-1": {
-    "messageformat": "Tap “{buttonName}” below",
+    "messageformat": "Click “{buttonName}” below",
     "description": "Text of the first step of the instructions from MediaPermissionsModal"
   },
   "icu:MediaPermissionsModal__step-2": {
