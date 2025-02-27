@@ -10,7 +10,8 @@ const NAME = packageJson.name;
 const VERSION = packageJson.version;
 
 const SUPPORT_CONFIG = new Set([
-  'linux',
+  'linux-x64',
+  'linux-arm64',
   'windows',
   'macos-arm64',
   'macos-x64',
@@ -32,10 +33,14 @@ let fileName;
 let platform;
 /** @type {string} */
 let arch;
-if (config === 'linux') {
+if (config === 'linux-x64') {
   fileName = `${NAME}_${VERSION}_amd64.deb`;
   platform = 'linux';
   arch = 'x64';
+} else if (config === 'linux-arm64') {
+  fileName = `${NAME}_${VERSION}_arm64.deb`;
+  platform = 'linux';
+  arch = 'arm64';
 } else if (config === 'windows') {
   fileName = `${NAME}-win-x64-${VERSION}.exe`;
   platform = 'windows';
