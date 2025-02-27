@@ -1888,9 +1888,12 @@ function setLocalVideo(
         isGroupOrAdhocCallState(activeCall) ||
         (activeCall.callMode === CallMode.Direct && activeCall.callState)
       ) {
-        calling.setOutgoingVideo(activeCall.conversationId, payload.enabled);
+        await calling.setOutgoingVideo(
+          activeCall.conversationId,
+          payload.enabled
+        );
       } else if (payload.enabled) {
-        calling.enableLocalCamera();
+        await calling.enableLocalCamera();
       } else {
         calling.disableLocalVideo();
       }

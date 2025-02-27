@@ -327,6 +327,27 @@ export type NotifyScreenShareStatusOptionsType = Readonly<
   )
 >;
 
+async function ensureSystemPermissions({
+  hasLocalVideo,
+  hasLocalAudio,
+}: {
+  hasLocalVideo: boolean;
+  hasLocalAudio: boolean;
+}): Promise<void> {
+  if (hasLocalAudio) {
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'microphone',
+      'call'
+    );
+  }
+  if (hasLocalVideo) {
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'camera',
+      'call'
+    );
+  }
+}
+
 export class CallingClass {
   readonly #videoCapturer: GumVideoCapturer;
 
@@ -502,6 +523,7 @@ export class CallingClass {
     }
 
     log.info('CallingClass.startCallingLobby(): Starting lobby');
+    await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
 
     // It's important that this function comes before any calls to
     //   `videoCapturer.enableCapture` or `videoCapturer.enableCaptureAndSend` because of
@@ -522,7 +544,7 @@ export class CallingClass {
     await this.#startDeviceReselectionTimer();
 
     const enableLocalCameraIfNecessary = hasLocalVideo
-      ? () => this.enableLocalCamera()
+      ? () => drop(this.enableLocalCamera())
       : noop;
 
     switch (callMode) {
@@ -833,6 +855,8 @@ export class CallingClass {
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
     log.info('startCallLinkLobby() for roomId', roomId);
 
+    await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
+
     await this.#startDeviceReselectionTimer();
 
     const authCredentialPresentation =
@@ -848,7 +872,7 @@ export class CallingClass {
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
 
-    this.enableLocalCamera();
+    drop(this.enableLocalCamera());
 
     return {
       callMode: CallMode.Adhoc,
@@ -888,6 +912,17 @@ export class CallingClass {
     const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       log.info(`${logId}: Permissions were denied, new call not allowed.`);
+      this.stopCallingLobby();
+      return;
+    }
+
+    try {
+      await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
+    } catch (error) {
+      log.error(
+        `${logId}: failed to ensure system permissions`,
+        Errors.toLogFormat(error)
+      );
       this.stopCallingLobby();
       return;
     }
@@ -1239,6 +1274,7 @@ export class CallingClass {
       );
     }
 
+    await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
     await this.#startDeviceReselectionTimer();
 
     const groupCall = this.connectGroupCall(conversationId, {
@@ -1577,6 +1613,7 @@ export class CallingClass {
       );
     }
 
+    await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
     await this.#startDeviceReselectionTimer();
 
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
@@ -1924,6 +1961,10 @@ export class CallingClass {
 
     const haveMediaPermissions = await this.#requestPermissions(asVideoCall);
     if (haveMediaPermissions) {
+      await ensureSystemPermissions({
+        hasLocalAudio: true,
+        hasLocalVideo: asVideoCall,
+      });
       await this.#startDeviceReselectionTimer();
       RingRTC.setVideoCapturer(callId, this.#videoCapturer);
       RingRTC.setVideoRenderer(callId, this.videoRenderer);
@@ -2024,12 +2065,20 @@ export class CallingClass {
     }
   }
 
-  setOutgoingVideo(conversationId: string, enabled: boolean): void {
+  async setOutgoingVideo(
+    conversationId: string,
+    enabled: boolean
+  ): Promise<void> {
     const call = getOwn(this.#callsLookup, conversationId);
     if (!call) {
       log.warn('Trying to set outgoing video for a non-existent call');
       return;
     }
+
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'camera',
+      'call'
+    );
 
     if (call instanceof Call) {
       RingRTC.setOutgoingVideo(call.callId, enabled);
@@ -2083,11 +2132,13 @@ export class CallingClass {
           },
         })
       );
-      this.setOutgoingVideo(conversationId, true);
+      drop(this.setOutgoingVideo(conversationId, true));
     } else {
-      this.setOutgoingVideo(
-        conversationId,
-        this.#hadLocalVideoBeforePresenting ?? hasLocalVideo
+      drop(
+        this.setOutgoingVideo(
+          conversationId,
+          this.#hadLocalVideoBeforePresenting ?? hasLocalVideo
+        )
       );
       this.#hadLocalVideoBeforePresenting = undefined;
     }
@@ -2405,8 +2456,12 @@ export class CallingClass {
     RingRTC.setAudioOutput(device.index);
   }
 
-  enableLocalCamera(): void {
-    drop(this.#videoCapturer.enableCapture());
+  async enableLocalCamera(): Promise<void> {
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'camera',
+      'call'
+    );
+    await this.#videoCapturer.enableCapture();
   }
 
   async enableCaptureAndSend(

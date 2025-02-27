@@ -5,6 +5,7 @@
 
 import type { Store } from 'redux';
 import type * as Backbone from 'backbone';
+import type { SystemPreferences } from 'electron';
 import type PQueue from 'p-queue/dist';
 import type { assert } from 'chai';
 import type { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
@@ -68,8 +69,11 @@ export type IPCType = {
   getAutoLaunch: () => Promise<boolean>;
   getMediaAccessStatus: (
     mediaType: 'screen' | 'microphone' | 'camera'
-  ) => Promise<string | undefined>;
+  ) => Promise<ReturnType<SystemPreferences['getMediaAccessStatus']>>;
   getMediaCameraPermissions: () => Promise<boolean>;
+  openSystemMediaPermissions: (
+    mediaType: 'microphone' | 'camera'
+  ) => Promise<void>;
   getMediaPermissions: () => Promise<boolean>;
   logAppLoadedEvent?: (options: { processedCount?: number }) => void;
   readyForUpdates: () => void;

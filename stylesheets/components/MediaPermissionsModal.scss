@@ -1,0 +1,49 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.MediaPermissionsModal__headerTitle {
+  padding-block: 10px;
+}
+
+.MediaPermissionsModal__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MediaPermissionsModal h1 {
+  @include mixins.font-title-medium;
+
+  margin-inline: 0;
+  margin-block: 0 6px;
+  line-height: 24px;
+}
+
+.MediaPermissionsModal__subtitle {
+  @include mixins.font-body-1;
+
+  margin-inline: 0;
+  margin-block: 0 20px;
+
+  @include mixins.light-theme {
+    color: rgba(variables.$color-gray-60, 0.8);
+  }
+
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
+  }
+}
+
+.MediaPermissionsModal ol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  margin-inline: 0;
+  margin-block: 0 24px;
+
+  text-align: start;
+}

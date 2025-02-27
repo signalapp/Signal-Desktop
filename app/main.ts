@@ -2988,11 +2988,31 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
 ipc.handle('get-media-access-status', async (_event, value) => {
   // This function is not supported on Linux
   if (!systemPreferences.getMediaAccessStatus) {
-    return undefined;
+    return 'unknown';
   }
 
   return systemPreferences.getMediaAccessStatus(value);
 });
+
+ipc.handle(
+  'open-system-media-permissions',
+  async (_event, mediaType: 'camera' | 'microphone') => {
+    if (!OS.isMacOS()) {
+      return;
+    }
+    if (mediaType === 'camera') {
+      await shell.openExternal(
+        'x-apple.systempreferences:com.apple.preference.security?Privacy_Camera'
+      );
+    } else if (mediaType === 'microphone') {
+      await shell.openExternal(
+        'x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone'
+      );
+    } else {
+      throw missingCaseError(mediaType);
+    }
+  }
+);
 
 ipc.handle('get-auto-launch', async () => {
   return app.getLoginItemSettings(await getDefaultLoginItemSettings())

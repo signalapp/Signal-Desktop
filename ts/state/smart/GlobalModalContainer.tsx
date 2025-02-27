@@ -126,6 +126,7 @@ export const SmartGlobalModalContainer = memo(
       editNicknameAndNoteModalProps,
       errorModalProps,
       forwardMessagesProps,
+      mediaPermissionsModalProps,
       messageRequestActionsConfirmationProps,
       notePreviewModalProps,
       isProfileEditorVisible,
@@ -142,6 +143,7 @@ export const SmartGlobalModalContainer = memo(
 
     const {
       closeErrorModal,
+      closeMediaPermissionsModal,
       hideUserNotFoundModal,
       hideWhatsNewModal,
       toggleSignalConnectionsModal,
@@ -214,6 +216,9 @@ export const SmartGlobalModalContainer = memo(
         messageRequestActionsConfirmationProps={
           messageRequestActionsConfirmationProps
         }
+        mediaPermissionsModalProps={mediaPermissionsModalProps}
+        closeMediaPermissionsModal={closeMediaPermissionsModal}
+        openSystemMediaPermissions={window.IPC.openSystemMediaPermissions}
         notePreviewModalProps={notePreviewModalProps}
         hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
         hideUserNotFoundModal={hideUserNotFoundModal}

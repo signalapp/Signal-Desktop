@@ -3,6 +3,7 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
+import OS from '../../util/os/osMain';
 import type { ExplodePromiseResultType } from '../../util/explodePromise';
 import type {
   GroupV2PendingMemberType,
@@ -27,6 +28,8 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { isGroupV1 } from '../../util/whatTypeOfConversation';
+import { sleep } from '../../util/sleep';
+import { SECOND } from '../../util/durations';
 import { getGroupMigrationMembers } from '../../groups';
 import {
   MESSAGE_CHANGED,
@@ -122,6 +125,11 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   notePreviewModalProps: NotePreviewModalPropsType | null;
   usernameOnboardingState: UsernameOnboardingState;
+  mediaPermissionsModalProps?: {
+    mediaType: 'camera' | 'microphone';
+    requestor: 'call' | 'voiceNote';
+    abortController: AbortController;
+  };
   profileEditorHasError: boolean;
   profileEditorInitialEditState: ProfileEditorEditState | undefined;
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
@@ -185,6 +193,10 @@ const CLOSE_EDIT_HISTORY_MODAL = 'globalModals/CLOSE_EDIT_HISTORY_MODAL';
 const TOGGLE_USERNAME_ONBOARDING = 'globalModals/TOGGLE_USERNAME_ONBOARDING';
 const TOGGLE_CONFIRM_LEAVE_CALL_MODAL =
   'globalModals/TOGGLE_CONFIRM_LEAVE_CALL_MODAL';
+const CLOSE_MEDIA_PERMISSIONS_MODAL =
+  'globalModals/CLOSE_MEDIA_PERMISSIONS_MODAL';
+const SHOW_MEDIA_PERMISSIONS_MODAL =
+  'globalModals/SHOW_MEDIA_PERMISSIONS_MODAL';
 
 export type ContactModalStateType = ReadonlyDeep<{
   contactId: string;
@@ -361,6 +373,19 @@ export type ShowErrorModalActionType = ReadonlyDeep<{
   };
 }>;
 
+type CloseMediaPermissionsModalActionType = ReadonlyDeep<{
+  type: typeof CLOSE_MEDIA_PERMISSIONS_MODAL;
+}>;
+
+type ShowMediaPermissionsModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_MEDIA_PERMISSIONS_MODAL;
+  payload: {
+    mediaType: 'camera' | 'microphone';
+    requestor: 'call' | 'voiceNote';
+    abortController: AbortController;
+  };
+}>;
+
 type ToggleEditNicknameAndNoteModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL;
   payload: EditNicknameAndNoteModalPropsType | null;
@@ -393,6 +418,7 @@ type CloseEditHistoryModalActionType = ReadonlyDeep<{
 export type GlobalModalsActionType = ReadonlyDeep<
   | CloseEditHistoryModalActionType
   | CloseErrorModalActionType
+  | CloseMediaPermissionsModalActionType
   | CloseGV2MigrationDialogActionType
   | CloseShortcutGuideModalActionType
   | CloseStickerPackPreviewActionType
@@ -409,6 +435,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
+  | ShowMediaPermissionsModalActionType
   | ToggleEditNicknameAndNoteModalActionType
   | ToggleMessageRequestActionsConfirmationActionType
   | ShowSendAnywayDialogActionType
@@ -443,6 +470,7 @@ export const actions = {
   closeGV2MigrationDialog,
   closeShortcutGuideModal,
   closeStickerPackPreview,
+  closeMediaPermissionsModal,
   hideAttachmentNotAvailableModal,
   hideBlockingSafetyNumberChangeDialog,
   hideContactModal,
@@ -454,6 +482,7 @@ export const actions = {
   showContactModal,
   showEditHistoryModal,
   showErrorModal,
+  ensureSystemMediaPermissions,
   toggleEditNicknameAndNoteModal,
   toggleMessageRequestActionsConfirmation,
   showGV2MigrationDialog,
@@ -937,6 +966,63 @@ function showErrorModal({
   };
 }
 
+function closeMediaPermissionsModal(): CloseMediaPermissionsModalActionType {
+  return {
+    type: CLOSE_MEDIA_PERMISSIONS_MODAL,
+  };
+}
+
+const MEDIA_PERMISSIONS_POLL_INTERVAL = SECOND;
+
+export function ensureSystemMediaPermissions(
+  mediaType: 'camera' | 'microphone',
+  requestor: 'call' | 'voiceNote'
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowMediaPermissionsModalActionType | CloseMediaPermissionsModalActionType
+> {
+  return async dispatch => {
+    // Only macOS supported at the moment
+    if (!OS.isMacOS()) {
+      return;
+    }
+
+    const status = await window.IPC.getMediaAccessStatus(mediaType);
+    if (status !== 'denied') {
+      return;
+    }
+
+    const logId = `ensureSystemMediaPermissions(${mediaType}, ${requestor})`;
+    log.warn(`${logId}: permission denied, showing UI`);
+
+    const abortController = new AbortController();
+    dispatch({
+      type: SHOW_MEDIA_PERMISSIONS_MODAL,
+      payload: { mediaType, requestor, abortController },
+    });
+
+    const { signal } = abortController;
+    while (!signal.aborted) {
+      // eslint-disable-next-line no-await-in-loop
+      await sleep(MEDIA_PERMISSIONS_POLL_INTERVAL, signal);
+
+      // eslint-disable-next-line no-await-in-loop
+      const updatedStatus = await window.IPC.getMediaAccessStatus(mediaType);
+      if (signal.aborted) {
+        throw new Error('ensureSystemMediaPermissions: modal dismissed');
+      }
+
+      if (updatedStatus !== 'denied') {
+        break;
+      }
+    }
+
+    dispatch({ type: CLOSE_MEDIA_PERMISSIONS_MODAL });
+  };
+}
+
 function toggleEditNicknameAndNoteModal(
   payload: EditNicknameAndNoteModalPropsType | null
 ): ToggleEditNicknameAndNoteModalActionType {
@@ -1414,6 +1500,21 @@ export function reducer(
         };
       }
     }
+  }
+
+  if (action.type === CLOSE_MEDIA_PERMISSIONS_MODAL) {
+    state.mediaPermissionsModalProps?.abortController.abort();
+    return {
+      ...state,
+      mediaPermissionsModalProps: undefined,
+    };
+  }
+
+  if (action.type === SHOW_MEDIA_PERMISSIONS_MODAL) {
+    return {
+      ...state,
+      mediaPermissionsModalProps: action.payload,
+    };
   }
 
   return state;
