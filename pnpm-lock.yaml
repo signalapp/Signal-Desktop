@@ -82,6 +82,9 @@ importers:
 
   .:
     dependencies:
+      '@electron/asar':
+        specifier: 3.3.1
+        version: 3.3.1
       '@formatjs/fast-memoize':
         specifier: 2.2.3
         version: 2.2.3
@@ -407,9 +410,6 @@ importers:
       '@babel/preset-typescript':
         specifier: 7.26.0
         version: 7.26.0(@babel/core@7.26.0)
-      '@electron/asar':
-        specifier: 3.2.17
-        version: 3.2.17
       '@electron/fuses':
         specifier: 1.5.0
         version: 1.5.0
@@ -1127,6 +1127,11 @@ packages:
 
   '@electron/asar@3.2.17':
     resolution: {integrity: sha512-OcWImUI686w8LkghQj9R2ynZ2ME693Ek6L1SiaAgqGKzBaTIZw3fHDqN82Rcl+EU1Gm9EgkJ5KLIY/q5DCRbbA==}
+    engines: {node: '>=10.12.0'}
+    hasBin: true
+
+  '@electron/asar@3.3.1':
+    resolution: {integrity: sha512-WtpC/+34p0skWZiarRjLAyqaAX78DofhDxnREy/V5XHfu1XEXbFCSSMcDQ6hNCPJFaPy8/NnUgYuf9uiCkvKPg==}
     engines: {node: '>=10.12.0'}
     hasBin: true
 
@@ -10206,6 +10211,12 @@ snapshots:
       glob: 7.2.3
       minimatch: 3.1.2
 
+  '@electron/asar@3.3.1':
+    dependencies:
+      commander: 5.1.0
+      glob: 7.2.3
+      minimatch: 3.1.2
+
   '@electron/fuses@1.5.0':
     dependencies:
       chalk: 4.1.2
@@ -10304,7 +10315,7 @@ snapshots:
 
   '@electron/universal@2.0.1':
     dependencies:
-      '@electron/asar': 3.2.17
+      '@electron/asar': 3.3.1
       '@malept/cross-spawn-promise': 2.0.0
       debug: 4.3.7(supports-color@8.1.1)
       dir-compare: 4.2.0

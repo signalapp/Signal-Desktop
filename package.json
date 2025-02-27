@@ -101,6 +101,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
+    "@electron/asar": "3.3.1",
     "@formatjs/fast-memoize": "2.2.3",
     "@formatjs/icu-messageformat-parser": "2.9.3",
     "@formatjs/intl-localematcher": "0.2.32",
@@ -110,8 +111,8 @@
     "@indutny/simple-windows-notifications": "2.0.7",
     "@indutny/sneequals": "4.0.0",
     "@popperjs/core": "2.11.8",
-    "@react-aria/utils": "3.25.3",
     "@react-aria/focus": "3.19.1",
+    "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
     "@signalapp/better-sqlite3": "9.0.13",
     "@signalapp/libsignal-client": "0.67.1",
@@ -211,7 +212,6 @@
     "@babel/plugin-transform-typescript": "7.25.9",
     "@babel/preset-react": "7.25.9",
     "@babel/preset-typescript": "7.26.0",
-    "@electron/asar": "3.2.17",
     "@electron/fuses": "1.5.0",
     "@electron/notarize": "2.1.0",
     "@electron/symbolicate-mac": "2.3.1",
