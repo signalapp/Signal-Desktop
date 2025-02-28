@@ -31,6 +31,7 @@ type ZoomFactorServiceConfig = Readonly<{
 export class ZoomFactorService extends EventEmitter {
   #config: ZoomFactorServiceConfig;
   #cachedZoomFactor: number | null = null;
+  #isListeningForZoom = false;
 
   constructor(config: ZoomFactorServiceConfig) {
     super();
@@ -109,24 +110,38 @@ export class ZoomFactorService extends EventEmitter {
       initialZoomFactor = DEFAULT_ZOOM_FACTOR;
     }
 
+    const maybeListenForZoomEvents = () => {
+      if (this.#isListeningForZoom) {
+        return;
+      }
+
+      window.webContents.on('preferred-size-changed', onWindowChange);
+      window.webContents.on('zoom-changed', onWindowChange);
+      this.on('zoomFactorChanged', onServiceChange);
+      this.#isListeningForZoom = true;
+    };
+
+    const stopListenForZoomEvents = () => {
+      window.webContents.off('preferred-size-changed', onWindowChange);
+      window.webContents.off('zoom-changed', onWindowChange);
+      this.off('zoomFactorChanged', onServiceChange);
+      this.#isListeningForZoom = false;
+    };
+
     window.once('ready-to-show', () => {
       // Workaround to apply zoomFactor because webPreferences does not handle it
       // https://github.com/electron/electron/issues/10572
       window.webContents.setZoomFactor(initialZoomFactor);
-    });
 
-    window.once('show', async () => {
       // Install handler here after we init zoomFactor otherwise an initial
       // preferred-size-changed event emits with an undesired zoomFactor.
-      window.webContents.on('preferred-size-changed', onWindowChange);
-      window.webContents.on('zoom-changed', onWindowChange);
-      this.on('zoomFactorChanged', onServiceChange);
+      maybeListenForZoomEvents();
     });
 
-    window.on('close', () => {
-      window.webContents.off('preferred-size-changed', onWindowChange);
-      window.webContents.off('zoom-changed', onWindowChange);
-      this.off('zoomFactorChanged', onServiceChange);
-    });
+    // On MacOS, the 'show' event does not reliably emit  on startup, so also try to
+    // setup zoom handlers earlier during ready-to-show.
+    window.on('show', maybeListenForZoomEvents);
+
+    window.on('close', stopListenForZoomEvents);
   }
 }
