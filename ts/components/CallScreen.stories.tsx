@@ -84,6 +84,7 @@ const createActiveDirectCallProp = (
   conversation,
   callState: overrideProps.callState ?? CallState.Accepted,
   peekedParticipants: [] as [],
+  remoteAudioLevel: 0,
   remoteParticipants: [
     {
       hasRemoteVideo: overrideProps.hasRemoteVideo ?? false,

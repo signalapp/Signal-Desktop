@@ -4136,6 +4136,12 @@ button.module-image__border-overlay:focus {
     flex: 1;
   }
 
+  &__direct-call-speaking-indicator {
+    position: absolute;
+    inset-inline-end: 16px;
+    bottom: 112px;
+  }
+
   &__participants {
     display: flex;
     flex: 1 1 0;

@@ -66,6 +66,7 @@ describe('calling duck', () => {
     isIncoming: false,
     isVideoCall: false,
     hasRemoteVideo: false,
+    remoteAudioLevel: 0,
   };
   const stateWithDirectCall: CallingStateType = {
     ...getEmptyState(),
@@ -102,6 +103,7 @@ describe('calling duck', () => {
         isIncoming: true,
         isVideoCall: false,
         hasRemoteVideo: false,
+        remoteAudioLevel: 0,
       } satisfies DirectCallStateType,
     },
   };
@@ -2296,6 +2298,7 @@ describe('calling duck', () => {
             conversationId: 'fake-conversation-id',
             isIncoming: false,
             isVideoCall: true,
+            remoteAudioLevel: 0,
           });
           assert.deepEqual(result.activeCallState, {
             state: 'Active',
@@ -2694,6 +2697,7 @@ describe('calling duck', () => {
           callState: CallState.Prering,
           isIncoming: false,
           isVideoCall: false,
+          remoteAudioLevel: 0,
         });
         assert.deepEqual(result.activeCallState, {
           state: 'Active',
@@ -2934,6 +2938,7 @@ describe('calling duck', () => {
           isIncoming: false,
           isVideoCall: false,
           hasRemoteVideo: false,
+          remoteAudioLevel: 0,
         });
       });
     });

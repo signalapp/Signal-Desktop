@@ -204,6 +204,7 @@ const mapStateToActiveCallProp = (
         callMode: CallMode.Direct,
         callState: call.callState,
         peekedParticipants: [],
+        remoteAudioLevel: call.remoteAudioLevel,
         remoteParticipants: [
           {
             hasRemoteVideo: Boolean(call.hasRemoteVideo),

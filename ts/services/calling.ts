@@ -195,6 +195,7 @@ type CallingReduxInterface = Pick<
   | 'callStateChange'
   | 'cancelIncomingGroupCallRing'
   | 'cancelPresenting'
+  | 'directCallAudioLevelsChange'
   | 'groupCallAudioLevelsChange'
   | 'groupCallEnded'
   | 'groupCallRaisedHandsChange'
@@ -3038,7 +3039,8 @@ export class CallingClass {
   }
 
   #attachToCall(conversation: ConversationModel, call: Call): void {
-    this.#callsLookup[conversation.id] = call;
+    const conversationId = conversation.id;
+    this.#callsLookup[conversationId] = call;
 
     const reduxInterface = this.#reduxInterface;
     if (!reduxInterface) {
@@ -3056,7 +3058,7 @@ export class CallingClass {
       if (call.state === CallState.Ended) {
         this.#stopDeviceReselectionTimer();
         this.#lastMediaDeviceSettings = undefined;
-        delete this.#callsLookup[conversation.id];
+        delete this.#callsLookup[conversationId];
       }
 
       const localCallEvent = getLocalCallEventFromDirectCall(call);
@@ -3072,7 +3074,7 @@ export class CallingClass {
       }
 
       reduxInterface.callStateChange({
-        conversationId: conversation.id,
+        conversationId,
         callState: call.state,
         callEndedReason: call.endedReason,
         acceptedTime,
@@ -3087,7 +3089,7 @@ export class CallingClass {
     // eslint-disable-next-line no-param-reassign
     call.handleRemoteVideoEnabled = () => {
       reduxInterface.remoteVideoChange({
-        conversationId: conversation.id,
+        conversationId,
         hasVideo: call.remoteVideoEnabled,
       });
     };
@@ -3095,8 +3097,17 @@ export class CallingClass {
     // eslint-disable-next-line no-param-reassign
     call.handleRemoteSharingScreen = () => {
       reduxInterface.remoteSharingScreenChange({
-        conversationId: conversation.id,
+        conversationId,
         isSharingScreen: Boolean(call.remoteSharingScreen),
+      });
+    };
+
+    // eslint-disable-next-line no-param-reassign
+    call.handleAudioLevels = () => {
+      reduxInterface.directCallAudioLevelsChange({
+        conversationId,
+        localAudioLevel: call.outgoingAudioLevel,
+        remoteAudioLevel: call.remoteAudioLevel,
       });
     };
 
@@ -3284,8 +3295,7 @@ export class CallingClass {
       iceServers,
       hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
-      // TODO: DESKTOP-3101
-      // audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
+      audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
     };
 
     log.info('CallingClass.handleStartCall(): Proceeding');
