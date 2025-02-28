@@ -2274,12 +2274,18 @@ const _startCallLinkLobby = async ({
       dispatch(togglePip());
     } else {
       log.warn(
-        `${logId}: Attempted to start lobby while already waiting for it!`
+        `${logId}: Attempted to start lobby while already waiting for this call!`
       );
     }
     return;
   }
   if (activeCallState) {
+    if (activeCallState.state !== 'Active') {
+      log.warn(
+        `${logId}: Call wasn't active; still showing leave call modal`,
+        activeCallState
+      );
+    }
     dispatch(
       toggleConfirmLeaveCallModal({
         type: 'adhoc-rootKey',
@@ -2462,12 +2468,18 @@ function startCallingLobby({
         dispatch(togglePip());
       } else {
         log.warn(
-          `${logId}: Attempted to start lobby while already waiting for it!`
+          `${logId}: Attempted to start lobby while already waiting for this call!`
         );
       }
       return;
     }
     if (activeCallState) {
+      if (activeCallState.state !== 'Active') {
+        log.warn(
+          `${logId}: Call wasn't active; still showing leave call modal`,
+          activeCallState
+        );
+      }
       dispatch(
         toggleConfirmLeaveCallModal({
           type: 'conversation',
@@ -2550,8 +2562,12 @@ function startCall(
 
     log.info(`${logId}: starting, mode ${callMode}`);
 
-    if (activeCallState?.state === 'Waiting') {
-      log.error(`${logId}: Call is not ready; `);
+    if (
+      !activeCallState ||
+      activeCallState?.state === 'Waiting' ||
+      activeCallState?.conversationId !== conversationId
+    ) {
+      log.error(`${logId}: Call is not ready`, activeCallState);
       return;
     }
 
@@ -2840,6 +2856,14 @@ export function reducer(
   if (action.type === WAITING_FOR_CALLING_LOBBY) {
     const { conversationId } = action.payload;
 
+    if (state.activeCallState) {
+      log.warn(
+        `${action.type}: Already have an active call!`,
+        state.activeCallState
+      );
+      return state;
+    }
+
     return {
       ...state,
       activeCallState: {
@@ -2848,8 +2872,17 @@ export function reducer(
       },
     };
   }
+
   if (action.type === WAITING_FOR_CALL_LINK_LOBBY) {
     const { roomId } = action.payload;
+
+    if (state.activeCallState) {
+      log.warn(
+        `${action.type}: Already have an active call!`,
+        state.activeCallState
+      );
+      return state;
+    }
 
     return {
       ...state,
@@ -2859,23 +2892,44 @@ export function reducer(
       },
     };
   }
+
   if (action.type === CALL_LOBBY_FAILED) {
     const { conversationId } = action.payload;
 
     const { activeCallState } = state;
-    if (!activeCallState || activeCallState.conversationId !== conversationId) {
+    if (
+      !activeCallState ||
+      activeCallState.conversationId !== conversationId ||
+      activeCallState.state !== 'Waiting'
+    ) {
       log.warn(
-        `${action.type}: Active call does not match target conversation`
+        `${action.type}: Active call does not match target conversation`,
+        activeCallState
       );
+      return state;
     }
 
     return removeConversationFromState(state, conversationId);
   }
+
   if (
     action.type === START_CALLING_LOBBY ||
     action.type === START_CALL_LINK_LOBBY
   ) {
     const { callMode, conversationId } = action.payload;
+
+    const { activeCallState } = state;
+    if (
+      !activeCallState ||
+      activeCallState.conversationId !== conversationId ||
+      activeCallState.state !== 'Waiting'
+    ) {
+      log.warn(
+        `${action.type}: Active call does not match target conversation`,
+        activeCallState
+      );
+      return state;
+    }
 
     let call: DirectCallStateType | GroupCallStateType;
     let newAdhocCalls: AdhocCallsType;
@@ -2987,13 +3041,28 @@ export function reducer(
   }
 
   if (action.type === START_DIRECT_CALL) {
+    const { conversationId } = action.payload;
+
+    const { activeCallState } = state;
+    if (
+      activeCallState &&
+      (activeCallState.state === 'Waiting' ||
+        activeCallState.conversationId !== conversationId)
+    ) {
+      log.warn(
+        `${action.type}: Cannot start call; activeCall doesn't match conversation`,
+        activeCallState
+      );
+      return state;
+    }
+
     return {
       ...state,
       callsByConversation: {
         ...callsByConversation,
-        [action.payload.conversationId]: {
+        [conversationId]: {
           callMode: CallMode.Direct,
-          conversationId: action.payload.conversationId,
+          conversationId,
           callState: CallState.Prering,
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
@@ -3002,7 +3071,7 @@ export function reducer(
       activeCallState: {
         state: 'Active',
         callMode: CallMode.Direct,
-        conversationId: action.payload.conversationId,
+        conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
         localAudioLevel: 0,
@@ -3017,13 +3086,16 @@ export function reducer(
   }
 
   if (action.type === ACCEPT_CALL_PENDING) {
-    const call = getOwn(
-      state.callsByConversation,
-      action.payload.conversationId
-    );
+    const { conversationId } = action.payload;
+    const call = getOwn(state.callsByConversation, conversationId);
     if (!call) {
       log.warn('Unable to accept a non-existent call');
       return state;
+    }
+
+    const { activeCallState } = state;
+    if (!activeCallState || activeCallState.conversationId !== conversationId) {
+      log.warn(`${action.type}: Active call didn't match:`, activeCallState);
     }
 
     return {
@@ -3031,7 +3103,7 @@ export function reducer(
       activeCallState: {
         state: 'Active',
         callMode: call.callMode,
-        conversationId: action.payload.conversationId,
+        conversationId,
         hasLocalAudio: true,
         hasLocalVideo: action.payload.asVideoCall,
         localAudioLevel: 0,
@@ -3129,13 +3201,27 @@ export function reducer(
   }
 
   if (action.type === INCOMING_DIRECT_CALL) {
+    const { conversationId } = action.payload;
+
+    const { activeCallState } = state;
+    if (activeCallState && activeCallState.conversationId !== conversationId) {
+      log.warn(
+        `${action.type}: activeCallState didn't match conversation; overriding.`,
+        activeCallState
+      );
+    }
+
     return {
       ...state,
+      activeCallState: {
+        state: 'Waiting',
+        conversationId,
+      },
       callsByConversation: {
         ...callsByConversation,
-        [action.payload.conversationId]: {
+        [conversationId]: {
           callMode: CallMode.Direct,
-          conversationId: action.payload.conversationId,
+          conversationId,
           callState: CallState.Prering,
           isIncoming: true,
           isVideoCall: action.payload.isVideoCall,
@@ -3197,13 +3283,27 @@ export function reducer(
   }
 
   if (action.type === OUTGOING_CALL) {
+    const { conversationId } = action.payload;
+
+    const { activeCallState } = state;
+    if (
+      activeCallState &&
+      (activeCallState.state === 'Waiting' ||
+        activeCallState.conversationId !== conversationId)
+    ) {
+      log.warn(
+        `${action.type}: Cannot start call; activeCall doesn't match conversation`
+      );
+      return state;
+    }
+
     return {
       ...state,
       callsByConversation: {
         ...callsByConversation,
-        [action.payload.conversationId]: {
+        [conversationId]: {
           callMode: CallMode.Direct,
-          conversationId: action.payload.conversationId,
+          conversationId,
           callState: CallState.Prering,
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
@@ -3212,7 +3312,7 @@ export function reducer(
       activeCallState: {
         state: 'Active',
         callMode: CallMode.Direct,
-        conversationId: action.payload.conversationId,
+        conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
         localAudioLevel: 0,
