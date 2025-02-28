@@ -31,6 +31,7 @@ import {
   getConversationSelector,
   getHideStoryConversationIds,
   getMe,
+  PLACEHOLDER_CONTACT_ID,
 } from './conversations';
 import { getUserConversationId } from './user';
 import { getDistributionListSelector } from './storyDistributionLists';
@@ -189,6 +190,7 @@ export function getStoryView(
     readAt,
     timestamp,
   } = story;
+  const logId = `getStoryView/${timestamp}`;
 
   const { sendStateByConversationId } = story;
   let sendState: Array<StorySendStateType> | undefined;
@@ -200,8 +202,21 @@ export function getStoryView(
 
     Object.keys(sendStateByConversationId).forEach(recipientId => {
       const recipient = conversationSelector(recipientId);
+      if (recipient.id === PLACEHOLDER_CONTACT_ID) {
+        log.warn(
+          `${logId}: Found only placeholder contact for conversation ${recipientId}, skipping`
+        );
+        return;
+      }
 
       const recipientSendState = sendStateByConversationId[recipient.id];
+      if (!recipientSendState) {
+        log.warn(
+          `${logId}: No recipientSendState found for ${recipient.serviceId}, skipping.`
+        );
+        return;
+      }
+
       if (recipientSendState.status === SendStatus.Viewed) {
         innerViews += 1;
       }

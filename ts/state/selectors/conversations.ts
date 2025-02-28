@@ -74,6 +74,7 @@ export type ConversationWithStoriesType = ConversationType & {
 };
 
 let placeholderContact: ConversationType;
+export const PLACEHOLDER_CONTACT_ID = 'placeholder-contact';
 export const getPlaceholderContact = (): ConversationType => {
   if (placeholderContact) {
     return placeholderContact;
@@ -82,7 +83,7 @@ export const getPlaceholderContact = (): ConversationType => {
   placeholderContact = {
     acceptedMessageRequest: false,
     badges: [],
-    id: 'placeholder-contact',
+    id: PLACEHOLDER_CONTACT_ID,
     type: 'direct',
     title: window.i18n('icu:unknownContact'),
     isMe: false,
