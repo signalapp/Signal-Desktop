@@ -22,7 +22,6 @@ import { useI18n } from '../contexts/I18n';
 import { assert } from '../util/assert';
 import { ArtType } from '../constants';
 import type { EmojiData } from '../types.d';
-import EMOJI_SHEET from '../assets/emoji.webp';
 import EmojiPicker from './EmojiPicker';
 
 export type Mode = 'removable' | 'pick-emoji' | 'add';
@@ -53,7 +52,12 @@ function Emoji({ name, sheetX, sheetY }: EmojiData): JSX.Element {
     }
   };
   return (
-    <img alt={name} src={EMOJI_SHEET} className={styles.emoji} ref={onRef} />
+    <img
+      alt={name}
+      src="../../images/emoji-sheet-64.webp"
+      className={styles.emoji}
+      ref={onRef}
+    />
   );
 }
 

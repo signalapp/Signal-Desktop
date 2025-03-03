@@ -11,7 +11,7 @@
 .FunEmoji--Size16 {
   width: 16px;
   height: 16px;
-  background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets/32.png');
+  background-image: url('../images/emoji-sheet-32.webp');
   background-size: 1054px;
   background-position-x: calc(var(--fun-emoji-sheet-x) * -17px - 0.5px);
   background-position-y: calc(var(--fun-emoji-sheet-y) * -17px - 0.5px);
@@ -20,7 +20,7 @@
 .FunEmoji--Size32 {
   width: 32px;
   height: 32px;
-  background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets/64.png');
+  background-image: url('../images/emoji-sheet-64.webp');
   background-size: 2046px;
   background-position-x: calc(var(--fun-emoji-sheet-x) * -33px - 0.5px);
   background-position-y: calc(var(--fun-emoji-sheet-y) * -33px - 0.5px);
