@@ -54,6 +54,7 @@ import type {
 import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { drop } from './drop';
 import { sendSyncRequests } from '../textsecure/syncRequests';
+import { waitForEvent } from '../shims/events';
 
 type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -490,9 +491,11 @@ export function createIPCEvents(
 
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
     syncRequest: async () => {
-      const { contactSyncComplete } = await sendSyncRequests(
+      const contactSyncComplete = waitForEvent(
+        'contactSync:complete',
         5 * durations.MINUTE
       );
+      await sendSyncRequests();
       return contactSyncComplete;
     },
     getLastSyncTime: () => window.storage.get('synced_at'),

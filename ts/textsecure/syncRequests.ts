@@ -1,17 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { waitForEvent } from '../shims/events';
 import * as log from '../logging/log';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import MessageSender from './SendMessage';
 import { toLogFormat } from '../types/errors';
 
-export async function sendSyncRequests(
-  timeout?: number
-): Promise<{ contactSyncComplete: Promise<void> }> {
-  const contactSyncComplete = waitForEvent('contactSync:complete', timeout);
-
+export async function sendSyncRequests(): Promise<void> {
   log.info('sendSyncRequests: sending sync requests');
   try {
     await Promise.all([
@@ -28,5 +23,4 @@ export async function sendSyncRequests(
     );
     throw error;
   }
-  return { contactSyncComplete };
 }
