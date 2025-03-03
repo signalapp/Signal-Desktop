@@ -60,6 +60,7 @@ describe('state/selectors/calling', () => {
         isIncoming: false,
         isVideoCall: false,
         hasRemoteVideo: false,
+        remoteAudioLevel: 0,
       },
     },
   };
@@ -89,6 +90,7 @@ describe('state/selectors/calling', () => {
     isIncoming: true,
     isVideoCall: false,
     hasRemoteVideo: false,
+    remoteAudioLevel: 0,
   };
 
   const stateWithIncomingDirectCall: CallingStateType = {
@@ -151,6 +153,7 @@ describe('state/selectors/calling', () => {
             isIncoming: false,
             isVideoCall: false,
             hasRemoteVideo: false,
+            remoteAudioLevel: 0,
           },
         }
       );
@@ -176,6 +179,7 @@ describe('state/selectors/calling', () => {
           isIncoming: false,
           isVideoCall: false,
           hasRemoteVideo: false,
+          remoteAudioLevel: 0,
         }
       );
     });

@@ -148,6 +148,7 @@ export type DirectCallStateType = {
   isSharingScreen?: boolean;
   isVideoCall: boolean;
   hasRemoteVideo?: boolean;
+  remoteAudioLevel: number;
 };
 
 type GroupCallRingStateType = ReadonlyDeep<
@@ -624,6 +625,8 @@ const CHANGE_IO_DEVICE_FULFILLED = 'calling/CHANGE_IO_DEVICE_FULFILLED';
 const CLOSE_NEED_PERMISSION_SCREEN = 'calling/CLOSE_NEED_PERMISSION_SCREEN';
 const DECLINE_DIRECT_CALL = 'calling/DECLINE_DIRECT_CALL';
 const GROUP_CALL_AUDIO_LEVELS_CHANGE = 'calling/GROUP_CALL_AUDIO_LEVELS_CHANGE';
+const DIRECT_CALL_AUDIO_LEVELS_CHANGE =
+  'calling/DIRECT_CALL_AUDIO_LEVELS_CHANGE';
 const GROUP_CALL_ENDED = 'calling/GROUP_CALL_ENDED';
 const GROUP_CALL_RAISED_HANDS_CHANGE = 'calling/GROUP_CALL_RAISED_HANDS_CHANGE';
 const GROUP_CALL_STATE_CHANGE = 'calling/GROUP_CALL_STATE_CHANGE';
@@ -734,10 +737,18 @@ type GroupCallAudioLevelsChangeActionPayloadType = ReadonlyDeep<{
   localAudioLevel: number;
   remoteDeviceStates: ReadonlyArray<{ audioLevel: number; demuxId: number }>;
 }>;
-
 type GroupCallAudioLevelsChangeActionType = ReadonlyDeep<{
-  type: 'calling/GROUP_CALL_AUDIO_LEVELS_CHANGE';
+  type: typeof GROUP_CALL_AUDIO_LEVELS_CHANGE;
   payload: GroupCallAudioLevelsChangeActionPayloadType;
+}>;
+type DirectCallAudioLevelsChangeActionPayloadType = ReadonlyDeep<{
+  conversationId: string;
+  localAudioLevel: number;
+  remoteAudioLevel: number;
+}>;
+type DirectCallAudioLevelsChangeActionType = ReadonlyDeep<{
+  type: typeof DIRECT_CALL_AUDIO_LEVELS_CHANGE;
+  payload: DirectCallAudioLevelsChangeActionPayloadType;
 }>;
 
 type GroupCallEndedActionPayloadType = ReadonlyDeep<{
@@ -959,6 +970,7 @@ export type CallingActionType =
   | CancelIncomingGroupCallRingActionType
   | ChangeCallViewActionType
   | DenyUserActionType
+  | DirectCallAudioLevelsChangeActionType
   | StartCallingLobbyActionType
   | StartCallLinkLobbyActionType
   | CallStateChangeFulfilledActionType
@@ -1203,6 +1215,12 @@ function callStateChange(
       payload,
     });
   };
+}
+
+function directCallAudioLevelsChange(
+  payload: DirectCallAudioLevelsChangeActionPayloadType
+): DirectCallAudioLevelsChangeActionType {
+  return { type: DIRECT_CALL_AUDIO_LEVELS_CHANGE, payload };
 }
 
 function changeIODevice(
@@ -2677,6 +2695,7 @@ export const actions = {
   declineCall,
   deleteCallLink,
   denyUser,
+  directCallAudioLevelsChange,
   getPresentingSources,
   groupCallAudioLevelsChange,
   groupCallEnded,
@@ -2887,6 +2906,7 @@ export function reducer(
           conversationId,
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
+          remoteAudioLevel: 0,
         };
         outgoingRing = true;
         newAdhocCalls = adhocCalls;
@@ -2997,6 +3017,7 @@ export function reducer(
           callState: CallState.Prering,
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
+          remoteAudioLevel: 0,
         },
       },
       activeCallState: {
@@ -3139,6 +3160,7 @@ export function reducer(
           callState: CallState.Prering,
           isIncoming: true,
           isVideoCall: action.payload.isVideoCall,
+          remoteAudioLevel: 0,
         },
       },
     };
@@ -3207,6 +3229,7 @@ export function reducer(
           callState: CallState.Prering,
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
+          remoteAudioLevel: 0,
         },
       },
       activeCallState: {
@@ -3292,17 +3315,29 @@ export function reducer(
 
   if (action.type === GROUP_CALL_AUDIO_LEVELS_CHANGE) {
     const { callMode, conversationId, remoteDeviceStates } = action.payload;
-
     const { activeCallState } = state;
-    const existingCall = getGroupCall(conversationId, state, callMode);
+
+    if (
+      activeCallState &&
+      (activeCallState.state === 'Waiting' ||
+        activeCallState.conversationId !== conversationId)
+    ) {
+      log.warn(
+        `${action.type}: Cannot update levels; activeCall doesn't match conversation`,
+        activeCallState
+      );
+      return state;
+    }
 
     // The PiP check is an optimization. We don't need to update audio levels if the user
     //   cannot see them.
+    const existingCall = getGroupCall(conversationId, state, callMode);
     if (
       !activeCallState ||
-      activeCallState.state === 'Waiting' ||
       activeCallState.pip ||
-      !existingCall
+      !existingCall ||
+      (existingCall.callMode !== CallMode.Adhoc &&
+        existingCall.callMode !== CallMode.Group)
     ) {
       return state;
     }
@@ -3342,6 +3377,49 @@ export function reducer(
         conversationId,
         call: { ...existingCall, remoteAudioLevels },
       }),
+    };
+  }
+
+  if (action.type === DIRECT_CALL_AUDIO_LEVELS_CHANGE) {
+    const { conversationId } = action.payload;
+    const { activeCallState } = state;
+    const existingCall = getOwn(state.callsByConversation, conversationId);
+
+    if (
+      activeCallState &&
+      (activeCallState.state === 'Waiting' ||
+        activeCallState.conversationId !== conversationId)
+    ) {
+      log.warn(
+        `${action.type}: Cannot update levels; activeCall doesn't match conversation`,
+        activeCallState
+      );
+      return state;
+    }
+
+    // The PiP check is an optimization. We don't need to update audio levels if the user
+    //   cannot see them.
+    if (
+      !activeCallState ||
+      activeCallState.pip ||
+      !existingCall ||
+      existingCall.callMode !== CallMode.Direct
+    ) {
+      return state;
+    }
+
+    const localAudioLevel = truncateAudioLevel(action.payload.localAudioLevel);
+    const remoteAudioLevel = truncateAudioLevel(
+      action.payload.remoteAudioLevel
+    );
+
+    return {
+      ...state,
+      activeCallState: { ...activeCallState, localAudioLevel },
+      callsByConversation: {
+        ...state.callsByConversation,
+        [conversationId]: { ...existingCall, remoteAudioLevel },
+      },
     };
   }
 

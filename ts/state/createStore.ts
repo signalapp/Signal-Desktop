@@ -47,6 +47,9 @@ const logger = createLogger({
     if (action.type === 'calling/GROUP_CALL_AUDIO_LEVELS_CHANGE') {
       return false;
     }
+    if (action.type === 'calling/DIRECT_CALL_AUDIO_LEVELS_CHANGE') {
+      return false;
+    }
     return true;
   },
 });

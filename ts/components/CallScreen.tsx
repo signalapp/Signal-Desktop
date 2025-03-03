@@ -876,6 +876,15 @@ export function CallScreen({
           }
         />
       ) : null}
+      {activeCall.callMode === CallMode.Direct && (
+        <div className="module-ongoing-call__direct-call-speaking-indicator">
+          <CallingAudioIndicator
+            hasAudio
+            audioLevel={activeCall.remoteAudioLevel}
+            shouldShowSpeaking={activeCall.remoteAudioLevel > 0}
+          />
+        </div>
+      )}
       {/* We render the local preview first and set the footer flex direction to row-reverse
       to ensure the preview is visible at low viewport widths. */}
       <div className="module-ongoing-call__footer">

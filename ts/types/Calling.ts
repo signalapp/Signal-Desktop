@@ -78,6 +78,7 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
       serviceId?: ServiceIdString;
     },
   ];
+  remoteAudioLevel: number;
 };
 
 export type ActiveGroupCallType = ActiveCallBaseType & {
