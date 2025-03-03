@@ -142,8 +142,13 @@ export async function checkForUsername(
   username: string
 ): Promise<FoundUsernameType | undefined> {
   let hash: Buffer;
+  let fixedUsername = username;
+  if (fixedUsername.startsWith('@')) {
+    fixedUsername = fixedUsername.slice(1);
+  }
+
   try {
-    hash = usernames.hash(username);
+    hash = usernames.hash(fixedUsername);
   } catch (error) {
     log.error('checkForUsername: invalid username', Errors.toLogFormat(error));
     return undefined;
@@ -166,7 +171,7 @@ export async function checkForUsername(
 
     return {
       aci: account.uuid,
-      username,
+      username: fixedUsername,
     };
   } catch (error) {
     if (error instanceof HTTPError) {

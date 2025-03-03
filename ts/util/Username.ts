@@ -24,17 +24,21 @@ export function getUsernameFromSearch(searchTerm: string): string | undefined {
   }
 
   let modifiedTerm = searchTerm;
-  if (searchTerm.endsWith('.')) {
+
+  if (modifiedTerm.startsWith('@')) {
+    modifiedTerm = modifiedTerm.slice(1);
+  }
+  if (modifiedTerm.endsWith('.')) {
     // Allow nicknames without full discriminator
-    modifiedTerm = `${searchTerm}01`;
-  } else if (!/\.\d*$/.test(searchTerm)) {
+    modifiedTerm = `${modifiedTerm}01`;
+  } else if (!/\.\d*$/.test(modifiedTerm)) {
     // Allow nicknames without discriminator
-    modifiedTerm = `${searchTerm}.01`;
+    modifiedTerm = `${modifiedTerm}.01`;
   }
 
   try {
     usernames.hash(modifiedTerm);
-    return searchTerm;
+    return modifiedTerm;
   } catch {
     return undefined;
   }

@@ -15,8 +15,14 @@ describe('Username', () => {
     });
 
     it('matches partial username searches without discriminator', () => {
-      assert.strictEqual(getUsernameFromSearch('use'), 'use');
-      assert.strictEqual(getUsernameFromSearch('use.'), 'use.');
+      assert.strictEqual(getUsernameFromSearch('use'), 'use.01');
+      assert.strictEqual(getUsernameFromSearch('use.'), 'use.01');
+    });
+
+    it('matches and strips leading @', () => {
+      assert.strictEqual(getUsernameFromSearch('@user'), 'user.01');
+      assert.strictEqual(getUsernameFromSearch('@user.'), 'user.01');
+      assert.strictEqual(getUsernameFromSearch('@user.01'), 'user.01');
     });
 
     it('matches valid username searches', () => {
