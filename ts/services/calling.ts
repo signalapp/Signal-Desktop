@@ -158,6 +158,7 @@ import { getColorForCallLink } from '../util/getColorForCallLink';
 import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
 import OS from '../util/os/osMain';
 import { isLowerHandSuggestionEnabled } from '../util/isLowerHandSuggestionEnabled';
+import { sleep } from '../util/sleep';
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -176,6 +177,7 @@ const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
 ]);
 
 const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = 10 * durations.MINUTE;
+const OUTGOING_SIGNALING_WAIT = 15 * durations.SECOND;
 
 const ICE_SERVER_IS_IP_LIKE = /(turn|turns|stun):[.\d]+/;
 const MAX_CALL_DEBUG_STATS_TABS = 5;
@@ -2901,18 +2903,24 @@ export class CallingClass {
       const protoBytes = Proto.CallMessage.encode(proto).finish();
       const protoBase64 = Bytes.toBase64(protoBytes);
 
-      await conversationJobQueue.add({
+      const job = await conversationJobQueue.add({
         type: 'CallingMessage',
         conversationId: conversation.id,
         protoBase64,
         urgent,
       });
 
+      const failAfterTimeout = async () => {
+        await sleep(OUTGOING_SIGNALING_WAIT);
+        throw new Error('Ran out of time');
+      };
+      await Promise.race([job.completion, failAfterTimeout()]);
+
       return true;
     } catch (err) {
       const errorString = Errors.toLogFormat(err);
       log.error(
-        `handleOutgoingSignaling() failed to queue job: ${errorString}`
+        `handleOutgoingSignaling() failed to queue job or send: ${errorString}`
       );
       return false;
     }
