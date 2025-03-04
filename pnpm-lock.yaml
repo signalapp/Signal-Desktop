@@ -307,9 +307,6 @@ importers:
       react-contextmenu:
         specifier: 2.14.0
         version: 2.14.0(patch_hash=5ec508240616a7d029c1f80185121cada9d4587b179f7c7a7ffa02b6bf02e043)(prop-types@15.8.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      react-devtools-core:
-        specifier: 6.0.1
-        version: 6.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       react-dom:
         specifier: 17.0.2
         version: 17.0.2(react@17.0.2)
@@ -735,6 +732,9 @@ importers:
         specifier: 1.1.1
         version: 1.1.1(patch_hash=178ca99a7e71f1cce7aadae6118e2c4c3b2478d3bfb787c00a661c3b02c09923)(protobufjs@7.3.2(patch_hash=0ae0fcb7c2b673e67231536164cc4841642d16c8a26578de4d43637e2a6f1774))
       react-devtools:
+        specifier: 6.0.1
+        version: 6.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      react-devtools-core:
         specifier: 6.0.1
         version: 6.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       resedit:

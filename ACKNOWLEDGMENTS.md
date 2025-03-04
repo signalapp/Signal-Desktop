@@ -2790,10 +2790,6 @@ Signal Desktop makes use of the following open source projects.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-## react-devtools-core
-
-    License: MIT
-
 ## react-dom
 
     MIT License
