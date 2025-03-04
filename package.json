@@ -537,7 +537,7 @@
       {
         "from": "build/compact-locales",
         "to": "_locales",
-        "filter": "**/messages.json"
+        "filter": ["**/values.json", "keys.json"]
       },
       "js/**",
       "libtextsecure/**",
