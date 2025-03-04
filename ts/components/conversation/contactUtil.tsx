@@ -6,45 +6,34 @@ import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { Avatar, AvatarBlur } from '../Avatar';
-import { Spinner } from '../Spinner';
+import { AvatarColors } from '../../types/Colors';
+import { getName } from '../../types/EmbeddedContact';
+import { AttachmentStatusIcon } from './AttachmentStatusIcon';
 
 import type { LocalizerType } from '../../types/Util';
-import { AvatarColors } from '../../types/Colors';
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
-import { getName } from '../../types/EmbeddedContact';
+import { isPermanentlyUndownloadable } from '../../types/Attachment';
 
 export function renderAvatar({
   contact,
+  direction,
   i18n,
   size,
-  direction,
 }: {
   contact: ReadonlyDeep<EmbeddedContactType>;
-  i18n: LocalizerType;
-  size: 28 | 52 | 80;
   direction?: 'outgoing' | 'incoming';
+  i18n: LocalizerType;
+  size: 52 | 80;
 }): JSX.Element {
   const { avatar } = contact;
 
   const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
-  const pending = avatar && avatar.avatar && avatar.avatar.pending;
   const title = getName(contact) || '';
-  const spinnerSvgSize = size < 50 ? 'small' : 'normal';
-  const spinnerSize = size < 50 ? '24px' : undefined;
+  const isAttachmentNotAvailable = Boolean(
+    avatar?.avatar && isPermanentlyUndownloadable(avatar?.avatar)
+  );
 
-  if (pending) {
-    return (
-      <div className="module-embedded-contact__spinner-container">
-        <Spinner
-          svgSize={spinnerSvgSize}
-          size={spinnerSize}
-          direction={direction}
-        />
-      </div>
-    );
-  }
-
-  return (
+  const renderAttachmentDownloaded = () => (
     <Avatar
       acceptedMessageRequest={false}
       avatarUrl={avatarUrl}
@@ -57,6 +46,15 @@ export function renderAvatar({
       title={title}
       sharedGroupNames={[]}
       size={size}
+    />
+  );
+
+  return (
+    <AttachmentStatusIcon
+      attachment={avatar?.avatar}
+      isAttachmentNotAvailable={isAttachmentNotAvailable}
+      isIncoming={direction === 'incoming'}
+      renderAttachmentDownloaded={renderAttachmentDownloaded}
     />
   );
 }

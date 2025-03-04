@@ -529,7 +529,9 @@ function queueStoryDownload(
         payload: storyId,
       });
 
-      const wasUpdated = await queueAttachmentDownloads(message);
+      const wasUpdated = await queueAttachmentDownloads(message, {
+        isManualDownload: true,
+      });
       if (wasUpdated) {
         await window.MessageCache.saveMessage(message);
       }

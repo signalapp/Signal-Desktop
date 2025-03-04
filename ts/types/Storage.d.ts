@@ -22,6 +22,13 @@ import type { ServiceIdString } from './ServiceId';
 
 import type { RegisteredChallengeType } from '../challenge';
 
+export type AutoDownloadAttachmentType = {
+  photos: boolean;
+  videos: boolean;
+  audio: boolean;
+  documents: boolean;
+};
+
 export type SerializedCertificateType = {
   expires: number;
   serialized: Uint8Array;
@@ -47,6 +54,7 @@ export type StorageAccessType = {
   'always-relay-calls': boolean;
   'audio-notification': boolean;
   'auto-download-update': boolean;
+  'auto-download-attachment': AutoDownloadAttachmentType;
   autoConvertEmoji: boolean;
   'badge-count-muted-conversations': boolean;
   'blocked-groups': ReadonlyArray<string>;

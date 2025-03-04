@@ -57,6 +57,7 @@ import { linkCallRoute } from '../../util/signalRoutes';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
 import { getMessageById } from '../../messages/getMessageById';
 import type { AttachmentNotAvailableModalType } from '../../components/AttachmentNotAvailableModal';
+import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal';
 
 // State
 
@@ -135,6 +136,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   safetyNumberModalContactId?: string;
   stickerPackPreviewId?: string;
+  tapToViewNotAvailableModalProps?: TapToViewNotAvailablePropsType;
   userNotFoundModalState?: UserNotFoundModalStateType;
 }>;
 
@@ -144,6 +146,10 @@ const SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL =
   'globalModals/SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL';
 const HIDE_ATTACHMENT_NOT_AVAILABLE_MODAL =
   'globalModals/HIDE_ATTACHMENT_NOT_AVAILABLE_MODAL';
+const SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL =
+  'globalModals/SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL';
+const HIDE_TAP_TO_VIEW_NOT_AVAILABLE_MODAL =
+  'globalModals/HIDE_TAP_TO_VIEW_NOT_AVAILABLE_MODAL';
 const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
@@ -221,6 +227,15 @@ type HideAttachmentNotAvailableModalActionType = ReadonlyDeep<{
 type ShowAttachmentNotAvailableModalActionType = ReadonlyDeep<{
   type: typeof SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL;
   payload: AttachmentNotAvailableModalType;
+}>;
+
+type HideTapToViewNotAvailableModalActionType = ReadonlyDeep<{
+  type: typeof HIDE_TAP_TO_VIEW_NOT_AVAILABLE_MODAL;
+}>;
+
+type ShowTapToViewNotAvailableModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL;
+  payload: TapToViewNotAvailablePropsType;
 }>;
 
 type HideContactModalActionType = ReadonlyDeep<{
@@ -426,6 +441,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | HideContactModalActionType
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
+  | HideTapToViewNotAvailableModalActionType
   | HideUserNotFoundModalActionType
   | HideWhatsNewModalActionType
   | MessageChangedActionType
@@ -436,12 +452,11 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
   | ShowMediaPermissionsModalActionType
-  | ToggleEditNicknameAndNoteModalActionType
-  | ToggleMessageRequestActionsConfirmationActionType
   | ShowSendAnywayDialogActionType
   | ShowShortcutGuideModalActionType
   | ShowStickerPackPreviewActionType
   | ShowStoriesSettingsActionType
+  | ShowTapToViewNotAvailableModalActionType
   | ShowUserNotFoundModalActionType
   | ShowWhatsNewModalActionType
   | StartMigrationToGV2ActionType
@@ -453,7 +468,9 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleConfirmationModalActionType
   | ToggleConfirmLeaveCallModalActionType
   | ToggleDeleteMessagesModalActionType
+  | ToggleEditNicknameAndNoteModalActionType
   | ToggleForwardMessagesModalActionType
+  | ToggleMessageRequestActionsConfirmationActionType
   | ToggleNotePreviewModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
@@ -471,10 +488,12 @@ export const actions = {
   closeShortcutGuideModal,
   closeStickerPackPreview,
   closeMediaPermissionsModal,
+  ensureSystemMediaPermissions,
   hideAttachmentNotAvailableModal,
   hideBlockingSafetyNumberChangeDialog,
   hideContactModal,
   hideStoriesSettings,
+  hideTapToViewNotAvailableModal,
   hideUserNotFoundModal,
   hideWhatsNewModal,
   showAttachmentNotAvailableModal,
@@ -482,14 +501,12 @@ export const actions = {
   showContactModal,
   showEditHistoryModal,
   showErrorModal,
-  ensureSystemMediaPermissions,
-  toggleEditNicknameAndNoteModal,
-  toggleMessageRequestActionsConfirmation,
   showGV2MigrationDialog,
   showShareCallLinkViaSignal,
   showShortcutGuideModal,
   showStickerPackPreview,
   showStoriesSettings,
+  showTapToViewNotAvailableModal,
   showUserNotFoundModal,
   showWhatsNewModal,
   toggleAboutContactModal,
@@ -500,7 +517,9 @@ export const actions = {
   toggleConfirmationModal,
   toggleConfirmLeaveCallModal,
   toggleDeleteMessagesModal,
+  toggleEditNicknameAndNoteModal,
   toggleForwardMessagesModal,
+  toggleMessageRequestActionsConfirmation,
   toggleNotePreviewModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
@@ -524,6 +543,21 @@ function showAttachmentNotAvailableModal(
 ): ShowAttachmentNotAvailableModalActionType {
   return {
     type: SHOW_ATTACHMENT_NOT_AVAILABLE_MODAL,
+    payload,
+  };
+}
+
+function hideTapToViewNotAvailableModal(): HideTapToViewNotAvailableModalActionType {
+  return {
+    type: HIDE_TAP_TO_VIEW_NOT_AVAILABLE_MODAL,
+  };
+}
+
+function showTapToViewNotAvailableModal(
+  payload: TapToViewNotAvailablePropsType
+): ShowTapToViewNotAvailableModalActionType {
+  return {
+    type: SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL,
     payload,
   };
 }
@@ -1144,6 +1178,7 @@ export function getEmptyState(): GlobalModalsStateType {
     profileEditorHasError: false,
     profileEditorInitialEditState: undefined,
     messageRequestActionsConfirmationProps: null,
+    tapToViewNotAvailableModalProps: undefined,
     notePreviewModalProps: null,
   };
 }
@@ -1229,6 +1264,20 @@ export function reducer(
     return {
       ...state,
       attachmentNotAvailableModalType: action.payload,
+    };
+  }
+
+  if (action.type === HIDE_TAP_TO_VIEW_NOT_AVAILABLE_MODAL) {
+    return {
+      ...state,
+      tapToViewNotAvailableModalProps: undefined,
+    };
+  }
+
+  if (action.type === SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL) {
+    return {
+      ...state,
+      tapToViewNotAvailableModalProps: action.payload,
     };
   }
 

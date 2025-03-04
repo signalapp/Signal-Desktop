@@ -53,6 +53,8 @@ import {
 import { safeParsePartial } from '../util/schemas';
 import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
 import { createBatcher } from '../util/batcher';
+import { isOlderThan } from '../util/timestamp';
+import { ToastType } from '../types/Toast';
 
 export enum AttachmentDownloadUrgency {
   IMMEDIATE = 'immediate',
@@ -62,15 +64,17 @@ export enum AttachmentDownloadUrgency {
 // Type for adding a new job
 export type NewAttachmentDownloadJobType = {
   attachment: AttachmentType;
+  attachmentType: AttachmentDownloadJobTypeType;
+  isManualDownload: boolean;
   messageId: string;
   receivedAt: number;
   sentAt: number;
-  attachmentType: AttachmentDownloadJobTypeType;
   source: AttachmentDownloadSource;
   urgency?: AttachmentDownloadUrgency;
 };
 
 const MAX_CONCURRENT_JOBS = 3;
+const DOWNLOAD_FAILED_TIMESTAMP_REST = 10 * durations.SECOND;
 
 const DEFAULT_RETRY_CONFIG = {
   maxAttempts: 5,
@@ -204,8 +208,9 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   ): Promise<AttachmentType> {
     const {
       attachment,
-      messageId,
       attachmentType,
+      isManualDownload,
+      messageId,
       receivedAt,
       sentAt,
       source,
@@ -219,15 +224,16 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     }
 
     const parseResult = safeParsePartial(coreAttachmentDownloadJobSchema, {
+      attachment,
+      attachmentType,
+      ciphertextSize: getAttachmentCiphertextLength(attachment.size),
+      contentType: attachment.contentType,
+      digest: attachment.digest,
+      isManualDownload,
       messageId,
       receivedAt,
       sentAt,
-      attachmentType,
-      digest: attachment.digest,
-      contentType: attachment.contentType,
       size: attachment.size,
-      ciphertextSize: getAttachmentCiphertextLength(attachment.size),
-      attachment,
       // If the attachment does not have a backupLocator, we don't want to store it as a
       // "backup import" attachment, since it's really just a normal attachment that we'll
       // try to download from the transit tier (or it's an invalid attachment, etc.). We
@@ -637,7 +643,33 @@ export async function runDownloadAttachmentJobInner({
         );
       }
     }
+
+    if (!abortSignal.aborted && job.isManualDownload) {
+      showDownloadFailedToast(messageId);
+    }
+
     throw error;
+  }
+}
+
+export const lastErrorsByMessageId = new Map<string, number>();
+
+function showDownloadFailedToast(messageId: string): void {
+  const now = Date.now();
+
+  for (const [id, timestamp] of lastErrorsByMessageId) {
+    if (isOlderThan(timestamp, DOWNLOAD_FAILED_TIMESTAMP_REST)) {
+      lastErrorsByMessageId.delete(id);
+    }
+  }
+
+  const existing = lastErrorsByMessageId.get(messageId);
+  if (!existing) {
+    window.reduxActions.toast.showToast({
+      toastType: ToastType.AttachmentDownloadFailed,
+      parameters: { messageId },
+    });
+    lastErrorsByMessageId.set(messageId, now);
   }
 }
 

@@ -2308,10 +2308,10 @@ function kickOffAttachmentDownload(
         `kickOffAttachmentDownload: Message ${options.messageId} missing!`
       );
     }
-    const didUpdateValues = await queueAttachmentDownloadsForMessage(
-      message,
-      AttachmentDownloadUrgency.IMMEDIATE
-    );
+    const didUpdateValues = await queueAttachmentDownloadsForMessage(message, {
+      urgency: AttachmentDownloadUrgency.IMMEDIATE,
+      isManualDownload: true,
+    });
 
     if (didUpdateValues) {
       drop(window.MessageCache.saveMessage(message.attributes));

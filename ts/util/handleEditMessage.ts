@@ -289,7 +289,9 @@ export async function handleEditMessage(
   });
 
   // Queue up any downloads in case they're different, update the fields if so.
-  const wasUpdated = await queueAttachmentDownloads(mainMessageModel);
+  const wasUpdated = await queueAttachmentDownloads(mainMessageModel, {
+    isManualDownload: false,
+  });
 
   // If we've scheduled a bodyAttachment download, we need that edit to know about it
   if (wasUpdated && mainMessageModel.get('bodyAttachment')) {

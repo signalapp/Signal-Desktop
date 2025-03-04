@@ -84,6 +84,7 @@ export class SettingsChannel extends EventEmitter {
 
     this.#installSetting('autoConvertEmoji');
     this.#installSetting('autoDownloadUpdate');
+    this.#installSetting('autoDownloadAttachment');
     this.#installSetting('autoLaunch');
 
     this.#installSetting('alwaysRelayCalls');

@@ -67,6 +67,7 @@ const MESSAGE_DEFAULT_PROPS = {
   showExpiredOutgoingTapToViewToast: shouldNeverBeCalled,
   showLightboxForViewOnceMedia: shouldNeverBeCalled,
   showMediaNoLongerAvailableToast: shouldNeverBeCalled,
+  showTapToViewNotAvailableModal: shouldNeverBeCalled,
   startConversation: shouldNeverBeCalled,
   textDirection: TextDirection.Default,
   viewStory: shouldNeverBeCalled,
@@ -128,8 +129,12 @@ export function EditHistoryMessagesModal({
           isEditedMessage
           isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
           key={currentMessage.timestamp}
-          kickOffAttachmentDownload={kickOffAttachmentDownload}
-          cancelAttachmentDownload={cancelAttachmentDownload}
+          kickOffAttachmentDownload={() =>
+            kickOffAttachmentDownload({ messageId: currentMessage.id })
+          }
+          cancelAttachmentDownload={() =>
+            cancelAttachmentDownload({ messageId: currentMessage.id })
+          }
           messageExpanded={(messageId, displayLimit) => {
             const update = {
               ...displayLimitById,
@@ -192,8 +197,12 @@ export function EditHistoryMessagesModal({
                 getPreferredBadge={getPreferredBadge}
                 i18n={i18n}
                 isSpoilerExpanded={revealedSpoilersById[syntheticId] || {}}
-                kickOffAttachmentDownload={kickOffAttachmentDownload}
-                cancelAttachmentDownload={cancelAttachmentDownload}
+                kickOffAttachmentDownload={() =>
+                  kickOffAttachmentDownload({ messageId: currentMessage.id })
+                }
+                cancelAttachmentDownload={() =>
+                  cancelAttachmentDownload({ messageId: currentMessage.id })
+                }
                 messageExpanded={(messageId, displayLimit) => {
                   const update = {
                     ...displayLimitById,

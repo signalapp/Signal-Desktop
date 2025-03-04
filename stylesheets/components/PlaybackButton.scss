@@ -7,6 +7,7 @@
 
 .PlaybackButton {
   @include mixins.button-reset;
+  position: relative;
 
   & {
     flex-shrink: 0;
@@ -24,15 +25,20 @@
 
   @mixin audio-icon($name, $icon, $color) {
     &.PlaybackButton--#{$name}::before {
+      @include mixins.position-absolute-center;
       @include mixins.color-svg('../images/icons/#{$icon}.svg', $color, false);
+      & {
+        height: 20px;
+        width: 20px;
+      }
     }
   }
 
   @mixin all-audio-icons($color) {
     @include audio-icon(play, v3/play/play-fill, $color);
     @include audio-icon(pause, v3/pause/pause-fill, $color);
-    @include audio-icon(download, v3/arrow/arrow-down, $color);
-    @include audio-icon(pending, v2/audio-spinner-arc-22, $color);
+    @include audio-icon(not-downloaded, v3/arrow/arrow-down, $color);
+    @include audio-icon(downloading, v3/x/x-bold, $color);
   }
 
   &--variant-message {
@@ -43,6 +49,8 @@
   &--variant-mini {
     &::before {
       -webkit-mask-size: 100% !important;
+      width: 8px !important;
+      height: 8px !important;
     }
     width: 14px;
     height: 14px;
@@ -50,41 +58,104 @@
   &--variant-draft {
     &::before {
       -webkit-mask-size: 100% !important;
+      width: 10px !important;
+      height: 10px !important;
     }
     width: 18px;
     height: 18px;
   }
 
-  &--pending {
+  &--computing {
     cursor: auto;
   }
-
-  &--pending::before {
-    animation: rotate 1000ms linear infinite;
+  &__SpinnerV2-container {
+    @include mixins.position-absolute-center;
   }
-
+  .ProgressCircle {
+    @include mixins.position-absolute-center;
+    .ProgressCircle__background {
+      stroke: none;
+    }
+  }
+  @include mixins.dark-theme {
+    .ProgressCircle .ProgressCircle__background {
+      stroke: none;
+    }
+  }
   @include mixins.light-theme {
+    .ProgressCircle .ProgressCircle__fill {
+      stroke: variables.$color-white;
+    }
+    .SpinnerV2 .SpinnerV2__Path {
+      stroke: variables.$color-white;
+    }
+
+    @include all-audio-icons(variables.$color-gray-90);
+
     &--context-incoming {
       &.PlaybackButton--variant-message {
-        background: variables.$color-white;
+        background: variables.$color-white-alpha-80;
+        &:hover {
+          background: variables.$color-white-alpha-60;
+        }
+        &:active {
+          background: variables.$color-white-alpha-40;
+        }
+      }
+      .ProgressCircle .ProgressCircle__fill {
+        stroke: variables.$color-gray-90;
+      }
+      .SpinnerV2 .SpinnerV2__Path {
+        stroke: variables.$color-gray-90;
       }
     }
-    @include all-audio-icons(variables.$color-gray-60);
   }
 
   @include mixins.dark-theme {
+    .ProgressCircle .ProgressCircle__fill {
+      stroke: variables.$color-white-alpha-90;
+    }
+    .SpinnerV2 .SpinnerV2__Path {
+      stroke: variables.$color-white-alpha-90;
+    }
+
+    @include all-audio-icons(variables.$color-white-alpha-90);
+
     &--context-incoming {
       &.PlaybackButton--variant-message {
-        background: variables.$color-gray-60;
+        background: variables.$color-white-alpha-20;
+        &:hover {
+          background: variables.$color-white-alpha-30;
+        }
+        &:active {
+          background: variables.$color-white-alpha-40;
+        }
+      }
+      .ProgressCircle .ProgressCircle__fill {
+        stroke: variables.$color-white-alpha-90;
+      }
+      .SpinnerV2 .SpinnerV2__Path {
+        stroke: variables.$color-white-alpha-90;
       }
     }
-    @include all-audio-icons(variables.$color-gray-15);
   }
 
   &--context-outgoing {
     &.PlaybackButton--variant-message {
       background: variables.$color-white-alpha-20;
+      &:hover {
+        background: variables.$color-white-alpha-30;
+      }
+      &:active {
+        background: variables.$color-white-alpha-40;
+      }
     }
     @include all-audio-icons(variables.$color-white);
+  }
+
+  @include mixins.dark-theme {
+    &--context-outgoing {
+      @include all-audio-icons(variables.$color-white-alpha-90);
+    }
   }
 }

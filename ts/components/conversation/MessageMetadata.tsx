@@ -32,7 +32,6 @@ type PropsType = {
   isOutlineOnlyBubble?: boolean;
   isShowingImage: boolean;
   isSticker?: boolean;
-  isTapToViewExpired?: boolean;
   onWidthMeasured?: (width: number) => unknown;
   pushPanelForConversation: PushPanelForConversationActionType;
   retryMessageSend: (messageId: string) => unknown;
@@ -62,7 +61,6 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       isInline,
       isShowingImage,
       isSticker,
-      isTapToViewExpired,
       onWidthMeasured,
       pushPanelForConversation,
       retryMessageSend,
@@ -160,7 +158,6 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
             timestamp={timestamp}
             withImageNoCaption={withImageNoCaption}
             withSticker={isSticker}
-            withTapToViewExpired={isTapToViewExpired}
           />
         );
       }
@@ -226,7 +223,6 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
             expirationTimestamp={expirationTimestamp}
             withImageNoCaption={withImageNoCaption}
             withSticker={isSticker}
-            withTapToViewExpired={isTapToViewExpired}
           />
         ) : null}
         {textPending ? (
@@ -251,9 +247,6 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
                 : null,
               isOutlineOnlyBubble
                 ? 'module-message__metadata__status-icon--outline-only-bubble'
-                : null,
-              isTapToViewExpired
-                ? 'module-message__metadata__status-icon--with-tap-to-view-expired'
                 : null
             )}
           />

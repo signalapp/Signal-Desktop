@@ -75,6 +75,7 @@ const MESSAGE_DEFAULT_PROPS = {
   showLightbox: shouldNeverBeCalled,
   showLightboxForViewOnceMedia: shouldNeverBeCalled,
   showMediaNoLongerAvailableToast: shouldNeverBeCalled,
+  showTapToViewNotAvailableModal: shouldNeverBeCalled,
   startConversation: shouldNeverBeCalled,
   theme: ThemeType.dark,
   viewStory: shouldNeverBeCalled,

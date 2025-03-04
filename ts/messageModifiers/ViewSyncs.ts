@@ -10,13 +10,10 @@ import { GiftBadgeStates } from '../components/conversation/Message';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
-import { isDownloaded } from '../types/Attachment';
 import { isIncoming } from '../state/selectors/message';
 import { markViewed } from '../services/MessageUpdater';
 import { notificationService } from '../services/notifications';
-import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import { queueUpdateMessage } from '../util/messageBatcher';
-import { AttachmentDownloadUrgency } from '../jobs/AttachmentDownloadManager';
 import { isAciString } from '../util/isAciString';
 import { DataReader, DataWriter } from '../sql/Client';
 import { MessageModel } from '../models/messages';
@@ -121,16 +118,6 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
     if (message.get('readStatus') !== ReadStatus.Viewed) {
       didChangeMessage = true;
       message.set(markViewed(message.attributes, viewSync.viewedAt));
-
-      const attachments = message.get('attachments');
-      if (!attachments?.every(isDownloaded)) {
-        const didQueueDownload = await queueAttachmentDownloads(message, {
-          urgency: AttachmentDownloadUrgency.STANDARD,
-        });
-        if (didQueueDownload) {
-          didChangeMessage = true;
-        }
-      }
     }
 
     const giftBadge = message.get('giftBadge');

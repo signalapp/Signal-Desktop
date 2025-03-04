@@ -13,6 +13,13 @@ import { DataReader, DataWriter } from '../sql/Client';
 import type { SignalProtocolStore } from '../SignalProtocolStore';
 import * as log from '../logging/log';
 
+export const DEFAULT_AUTO_DOWNLOAD_ATTACHMENT = {
+  photos: true,
+  videos: true,
+  audio: true,
+  documents: true,
+};
+
 export class Storage implements StorageInterface {
   public readonly user: User;
 

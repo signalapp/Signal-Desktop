@@ -50,6 +50,12 @@ export default {
   args: {
     i18n,
 
+    autoDownloadAttachment: {
+      photos: true,
+      videos: false,
+      audio: false,
+      documents: false,
+    },
     availableCameras: [
       {
         deviceId:
@@ -133,6 +139,7 @@ export default {
     makeSyncRequest: action('makeSyncRequest'),
     onAudioNotificationsChange: action('onAudioNotificationsChange'),
     onAutoConvertEmojiChange: action('onAutoConvertEmojiChange'),
+    onAutoDownloadAttachmentChange: action('onAutoDownloadAttachmentChange'),
     onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
     onAutoLaunchChange: action('onAutoLaunchChange'),
     onCallNotificationsChange: action('onCallNotificationsChange'),

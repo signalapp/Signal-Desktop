@@ -1,12 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useContext } from 'react';
 import type { CSSProperties } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { ButtonProps } from './PlaybackButton';
 import { PlaybackButton } from './PlaybackButton';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import { ThemeType } from '../types/Util';
 
 export default {
   title: 'components/PlaybackButton',
@@ -20,6 +22,9 @@ const rowStyles: CSSProperties = {
 };
 
 export function Default(): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  const themeIncomingColor = theme === ThemeType.light ? '#e9e9e9' : '#3b3b3b';
+
   return (
     <>
       {(['message', 'draft', 'mini'] as const).map(variant => (
@@ -28,10 +33,19 @@ export function Default(): JSX.Element {
             <div
               style={{
                 ...rowStyles,
-                background: context === 'outgoing' ? '#2c6bed' : undefined,
+                background:
+                  context === 'outgoing' ? '#2c6bed' : themeIncomingColor,
               }}
             >
-              {(['play', 'download', 'pending', 'pause'] as const).map(mod => (
+              {(
+                [
+                  'play',
+                  'pause',
+                  'not-downloaded',
+                  'downloading',
+                  'computing',
+                ] as const
+              ).map(mod => (
                 <PlaybackButton
                   key={`${variant}_${context}_${mod}`}
                   variant={variant}

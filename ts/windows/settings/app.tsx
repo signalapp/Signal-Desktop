@@ -25,6 +25,7 @@ setEnvironment(
 SettingsWindowProps.onRender(
   ({
     addCustomColor,
+    autoDownloadAttachment,
     availableCameras,
     availableLocales,
     availableMicrophones,
@@ -75,6 +76,7 @@ SettingsWindowProps.onRender(
     notificationContent,
     onAudioNotificationsChange,
     onAutoConvertEmojiChange,
+    onAutoDownloadAttachmentChange,
     onAutoDownloadUpdateChange,
     onAutoLaunchChange,
     onCallNotificationsChange,
@@ -126,6 +128,7 @@ SettingsWindowProps.onRender(
     ReactDOM.render(
       <Preferences
         addCustomColor={addCustomColor}
+        autoDownloadAttachment={autoDownloadAttachment}
         availableCameras={availableCameras}
         availableLocales={availableLocales}
         availableMicrophones={availableMicrophones}
@@ -180,6 +183,7 @@ SettingsWindowProps.onRender(
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
         onAutoConvertEmojiChange={onAutoConvertEmojiChange}
+        onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
         onAutoLaunchChange={onAutoLaunchChange}
         onCallNotificationsChange={onCallNotificationsChange}

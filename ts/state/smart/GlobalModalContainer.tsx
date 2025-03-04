@@ -138,12 +138,14 @@ export const SmartGlobalModalContainer = memo(
       safetyNumberChangedBlockingData,
       safetyNumberModalContactId,
       stickerPackPreviewId,
+      tapToViewNotAvailableModalProps,
       userNotFoundModalState,
     } = useSelector(getGlobalModalsState);
 
     const {
       closeErrorModal,
       closeMediaPermissionsModal,
+      hideTapToViewNotAvailableModal,
       hideUserNotFoundModal,
       hideWhatsNewModal,
       toggleSignalConnectionsModal,
@@ -223,6 +225,7 @@ export const SmartGlobalModalContainer = memo(
         hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
         hideUserNotFoundModal={hideUserNotFoundModal}
         hideWhatsNewModal={hideWhatsNewModal}
+        hideTapToViewNotAvailableModal={hideTapToViewNotAvailableModal}
         i18n={i18n}
         isAboutContactModalVisible={aboutContactModalContactId != null}
         isProfileEditorVisible={isProfileEditorVisible}
@@ -259,6 +262,7 @@ export const SmartGlobalModalContainer = memo(
         safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
         safetyNumberModalContactId={safetyNumberModalContactId}
         stickerPackPreviewId={stickerPackPreviewId}
+        tapToViewNotAvailableModalProps={tapToViewNotAvailableModalProps}
         theme={theme}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         userNotFoundModalState={userNotFoundModalState}

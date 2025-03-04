@@ -42,6 +42,7 @@ installSetting('audioMessage');
 installSetting('audioNotification');
 installSetting('autoConvertEmoji');
 installSetting('autoDownloadUpdate');
+installSetting('autoDownloadAttachment');
 installSetting('autoLaunch');
 installSetting('callRingtoneNotification');
 installSetting('callSystemNotification');

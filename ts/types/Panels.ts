@@ -3,9 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { EmbeddedContactType } from './EmbeddedContact';
 import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import type { ServiceIdString } from './ServiceId';
 
 export enum PanelType {
   AllMedia = 'AllMedia',
@@ -27,11 +25,7 @@ export type PanelRequestType = ReadonlyDeep<
   | {
       type: PanelType.ContactDetails;
       args: {
-        contact: EmbeddedContactType;
-        signalAccount?: {
-          phoneNumber: string;
-          serviceId: ServiceIdString;
-        };
+        messageId: string;
       };
     }
   | { type: PanelType.ConversationDetails }
@@ -50,11 +44,7 @@ export type PanelRenderType = ReadonlyDeep<
   | {
       type: PanelType.ContactDetails;
       args: {
-        contact: EmbeddedContactType;
-        signalAccount?: {
-          phoneNumber: string;
-          serviceId: ServiceIdString;
-        };
+        messageId: string;
       };
     }
   | { type: PanelType.ConversationDetails }

@@ -20,6 +20,7 @@ import {
 } from '../../types/Attachment';
 import { ProgressCircle } from '../ProgressCircle';
 import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler';
+import { roundFractionForProgressBar } from '../../util/numbers';
 
 export enum CurveType {
   None = 0,
@@ -345,7 +346,9 @@ export function getSpinner({
     !isIncremental(attachment) &&
     attachment.size &&
     attachment.totalDownloaded
-      ? attachment.totalDownloaded / attachment.size
+      ? roundFractionForProgressBar(
+          attachment.totalDownloaded / attachment.size
+        )
       : undefined;
 
   if (downloadFraction) {

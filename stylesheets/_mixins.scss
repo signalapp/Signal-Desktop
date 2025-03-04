@@ -109,6 +109,12 @@
   font-style: italic;
 }
 
+@mixin font-body-small {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0px;
+}
+
 @mixin font-subtitle {
   font-size: 12px;
   line-height: 16px;

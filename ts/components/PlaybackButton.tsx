@@ -5,6 +5,8 @@ import { animated, useSpring } from '@react-spring/web';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { ProgressCircle } from './ProgressCircle';
+import { SpinnerV2 } from './SpinnerV2';
 
 const SPRING_CONFIG = {
   mass: 0.5,
@@ -16,7 +18,8 @@ const SPRING_CONFIG = {
 export type ButtonProps = {
   context?: 'incoming' | 'outgoing';
   variant: 'message' | 'mini' | 'draft';
-  mod: 'play' | 'pause' | 'download' | 'pending';
+  mod: 'play' | 'pause' | 'not-downloaded' | 'downloading' | 'computing';
+  downloadFraction?: number;
   label: string;
   visible?: boolean;
   onClick: () => void;
@@ -27,7 +30,22 @@ export type ButtonProps = {
 /** Handles animations, key events, and stopping event propagation */
 export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function ButtonInner(props, ref) {
-    const { mod, label, variant, onClick, context, visible = true } = props;
+    const {
+      context,
+      downloadFraction,
+      label,
+      mod,
+      onClick,
+      variant,
+      visible = true,
+    } = props;
+    let size = 36;
+    if (variant === 'mini') {
+      size = 14;
+    } else if (variant === 'draft') {
+      size = 18;
+    }
+
     const reducedMotion = useReducedMotion();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
     const [animProps] = useSpring(
@@ -64,6 +82,32 @@ export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       [onClick]
     );
 
+    let content: JSX.Element | null = null;
+    const strokeWidth = variant === 'message' ? 2 : 1;
+    if (mod === 'downloading' && downloadFraction) {
+      content = (
+        <ProgressCircle
+          fractionComplete={downloadFraction}
+          width={size}
+          strokeWidth={strokeWidth}
+        />
+      );
+    } else if (
+      mod === 'computing' ||
+      (mod === 'downloading' && !downloadFraction)
+    ) {
+      content = (
+        <div className="PlaybackButton__SpinnerV2-container">
+          <SpinnerV2
+            className="PlaybackButton__SpinnerV2"
+            size={size}
+            strokeWidth={strokeWidth * 2}
+            marginRatio={1}
+          />
+        </div>
+      );
+    }
+
     const buttonComponent = (
       <button
         type="button"
@@ -78,7 +122,9 @@ export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onKeyDown={onButtonKeyDown}
         tabIndex={0}
         aria-label={label}
-      />
+      >
+        {content}
+      </button>
     );
 
     if (variant === 'message') {

@@ -32,7 +32,6 @@ export function MessageTimestamp({
   timestamp,
   withImageNoCaption,
   withSticker,
-  withTapToViewExpired,
 }: Readonly<Props>): ReactElement {
   const now = useNowThatUpdatesEveryMinute();
   const moduleName = module || 'module-timestamp';
@@ -42,9 +41,6 @@ export function MessageTimestamp({
       className={classNames(
         moduleName,
         direction ? `${moduleName}--${direction}` : null,
-        withTapToViewExpired && direction
-          ? `${moduleName}--${direction}-with-tap-to-view-expired`
-          : null,
         withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
         withSticker ? `${moduleName}--with-sticker` : null,
         isOutlineOnlyBubble ? `${moduleName}--outline-only-bubble` : null

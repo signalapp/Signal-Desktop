@@ -23,6 +23,8 @@ import { WaveformScrubber } from './WaveformScrubber';
 import { useComputePeaks } from '../../hooks/useComputePeaks';
 import { durationToPlaybackText } from '../../util/durationToPlaybackText';
 import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
+import { formatFileSize } from '../../util/formatFileSize';
+import { roundFractionForProgressBar } from '../../util/numbers';
 
 export type OwnProps = Readonly<{
   active:
@@ -47,6 +49,7 @@ export type OwnProps = Readonly<{
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
+  cancelAttachmentDownload(): void;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
@@ -154,6 +157,7 @@ export function MessageAudio(props: Props): JSX.Element {
     textPending,
     timestamp,
 
+    cancelAttachmentDownload,
     kickOffAttachmentDownload,
     onCorrupted,
     setPlaybackRate,
@@ -275,13 +279,31 @@ export function MessageAudio(props: Props): JSX.Element {
   );
 
   let button: React.ReactElement;
-  if (state === State.Pending || state === State.Computing) {
+  if (state === State.Computing) {
     // Not really a button, but who cares?
     button = (
       <PlaybackButton
         variant="message"
-        mod="pending"
+        mod="computing"
         onClick={noop}
+        label={i18n('icu:MessageAudio--pending')}
+        context={direction}
+      />
+    );
+  } else if (state === State.Pending) {
+    // Not really a button, but who cares?
+    const downloadFraction =
+      attachment.size && attachment.totalDownloaded
+        ? roundFractionForProgressBar(
+            attachment.totalDownloaded / attachment.size
+          )
+        : undefined;
+    button = (
+      <PlaybackButton
+        variant="message"
+        mod="downloading"
+        downloadFraction={downloadFraction}
+        onClick={cancelAttachmentDownload}
         label={i18n('icu:MessageAudio--pending')}
         context={direction}
       />
@@ -291,7 +313,7 @@ export function MessageAudio(props: Props): JSX.Element {
       <PlaybackButton
         ref={buttonRef}
         variant="message"
-        mod="download"
+        mod="not-downloaded"
         label={i18n('icu:MessageAudio--download')}
         onClick={kickOffAttachmentDownload}
         context={direction}
@@ -316,6 +338,10 @@ export function MessageAudio(props: Props): JSX.Element {
   }
 
   const countDown = Math.max(0, duration - (active?.currentTime ?? 0));
+  const fileSizeOrDuration =
+    state === State.NotDownloaded || state === State.Pending || duration < 1
+      ? formatFileSize(attachment.size)
+      : durationToPlaybackText(countDown);
 
   const metadata = (
     <div className={`${CSS_BASE}__metadata`}>
@@ -326,7 +352,7 @@ export function MessageAudio(props: Props): JSX.Element {
           `${CSS_BASE}__countdown--${played ? 'played' : 'unplayed'}`
         )}
       >
-        {durationToPlaybackText(countDown)}
+        {fileSizeOrDuration}
       </div>
 
       <div className={`${CSS_BASE}__controls`}>
@@ -360,7 +386,6 @@ export function MessageAudio(props: Props): JSX.Element {
           id={id}
           isShowingImage={false}
           isSticker={false}
-          isTapToViewExpired={false}
           pushPanelForConversation={pushPanelForConversation}
           retryMessageSend={shouldNeverBeCalled}
           status={status}

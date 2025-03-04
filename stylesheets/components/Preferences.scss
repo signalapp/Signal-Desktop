@@ -107,6 +107,10 @@
     &--privacy {
       @include preferences-icon('../images/icons/v3/lock/lock.svg');
     }
+
+    &--data-usage {
+      @include preferences-icon('../images/icons/v3/data/data.svg');
+    }
   }
 
   &__settings-pane {
@@ -230,6 +234,16 @@
     padding-inline: 24px;
   }
 
+  &__option-name {
+    @include mixins.font-body-1;
+    @include mixins.light-theme {
+      color: variables.$color-gray-90;
+    }
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
+    }
+  }
+
   &__description {
     @include mixins.font-subtitle;
     @include mixins.light-theme {
@@ -241,6 +255,10 @@
 
     &--error {
       color: variables.$color-accent-red !important;
+    }
+
+    &--medium {
+      @include mixins.font-body-2;
     }
   }
 

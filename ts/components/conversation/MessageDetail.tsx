@@ -108,6 +108,7 @@ export type PropsReduxActions = Pick<
   | 'showLightboxForViewOnceMedia'
   | 'showMediaNoLongerAvailableToast'
   | 'showSpoiler'
+  | 'showTapToViewNotAvailableModal'
   | 'startConversation'
   | 'viewStory'
 > & {
@@ -157,6 +158,7 @@ export function MessageDetail({
   showLightboxForViewOnceMedia,
   showMediaNoLongerAvailableToast,
   showSpoiler,
+  showTapToViewNotAvailableModal,
   startConversation,
   theme,
   toggleSafetyNumberModal,
@@ -373,6 +375,7 @@ export function MessageDetail({
               showAttachmentDownloadStillInProgressToast
             }
             showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
+            showTapToViewNotAvailableModal={showTapToViewNotAvailableModal}
             showExpiredIncomingTapToViewToast={
               showExpiredIncomingTapToViewToast
             }
