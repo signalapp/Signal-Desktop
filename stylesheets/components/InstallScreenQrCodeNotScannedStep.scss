@@ -110,6 +110,7 @@
     &__code {
       height: $size;
       width: $size;
+      background: variables.$color-white;
       animation: 1s module-InstallScreenQrCodeNotScannedStep__slide-in;
       position: relative;
       transition: opacity 125ms;
