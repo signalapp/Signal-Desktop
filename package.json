@@ -630,6 +630,16 @@
       "!node_modules/mp4box/**",
       "node_modules/mp4box/package.json",
       "node_modules/mp4box/dist/mp4box.all.js",
+      "!node_modules/@signalapp/quill-cjs/**",
+      "node_modules/@signalapp/quill-cjs/dist/*.css",
+      "!node_modules/node_modules/fabric/src/**",
+      "!node_modules/react-blurhash/docs/**",
+      "!node_modules/framer-motion/**",
+      "!node_modules/intl-tel-input/**",
+      "!node_modules/@motionone/**",
+      "!node_modules/@swc/**",
+      "!node_modules/@react-spring/**",
+      "!node_modules/@babel/**",
       "!node_modules/.cache",
       "sticker-creator/dist/**"
     ]
