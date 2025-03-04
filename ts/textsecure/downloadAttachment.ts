@@ -127,7 +127,7 @@ export async function downloadAttachment(
 
   let { downloadPath } = attachment;
   const absoluteDownloadPath = downloadPath
-    ? window.Signal.Migrations.getAbsoluteAttachmentPath(downloadPath)
+    ? window.Signal.Migrations.getAbsoluteDownloadsPath(downloadPath)
     : undefined;
   let downloadOffset = 0;
 
