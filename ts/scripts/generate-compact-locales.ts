@@ -3,6 +3,49 @@
 
 import { readdir, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
+import pMap from 'p-map';
+import { isLocaleMessageType } from '../util/setupI18nMain';
+
+async function compact({
+  sourceDir,
+  targetDir,
+  locale,
+  keys,
+}: {
+  sourceDir: string;
+  targetDir: string;
+  locale: string;
+  keys: ReadonlyArray<string>;
+}): Promise<ReadonlyArray<string>> {
+  const sourcePath = join(sourceDir, locale, 'messages.json');
+  const targetPath = join(targetDir, locale, 'values.json');
+
+  await mkdir(dirname(targetPath), { recursive: true });
+
+  const json = JSON.parse(await readFile(sourcePath, 'utf8'));
+
+  const result = new Array<string | null>();
+  for (const key of keys) {
+    if (json[key] == null) {
+      // Pull English translation, or leave blank (string was deleted)
+      result.push(null);
+      continue;
+    }
+
+    const value = json[key];
+    if (!isLocaleMessageType(value)) {
+      continue;
+    }
+    if (value.messageformat == null) {
+      continue;
+    }
+    result.push(value.messageformat);
+  }
+
+  await writeFile(targetPath, JSON.stringify(result));
+
+  return keys;
+}
 
 async function main(): Promise<void> {
   const rootDir = join(__dirname, '..', '..');
@@ -11,30 +54,27 @@ async function main(): Promise<void> {
 
   const locales = await readdir(sourceDir);
 
-  await Promise.all(
-    locales.map(async locale => {
+  const allKeys = await pMap(
+    locales,
+    async locale => {
       const sourcePath = join(sourceDir, locale, 'messages.json');
-      const targetPath = join(targetDir, locale, 'messages.json');
-
-      await mkdir(dirname(targetPath), { recursive: true });
-
       const json = JSON.parse(await readFile(sourcePath, 'utf8'));
-      for (const value of Object.values(json)) {
-        const typedValue = value as { description?: string };
-        delete typedValue.description;
-      }
-      delete json.smartling;
+      return Object.entries(json)
+        .filter(([, value]) => isLocaleMessageType(value))
+        .map(([key]) => key);
+    },
+    { concurrency: 10 }
+  );
 
-      const entries = [...Object.entries(json)];
+  // Sort keys alphabetically for better incremental updates.
+  const keys = Array.from(new Set(allKeys.flat())).sort();
+  await mkdir(targetDir, { recursive: true });
+  await writeFile(join(targetDir, 'keys.json'), JSON.stringify(keys));
 
-      // Sort entries alphabetically for better incremental updates.
-      entries.sort(([a], [b]) => {
-        return a < b ? -1 : 1;
-      });
-
-      const result = Object.fromEntries(entries);
-      await writeFile(targetPath, JSON.stringify(result));
-    })
+  await pMap(
+    locales,
+    locale => compact({ sourceDir, targetDir, locale, keys }),
+    { concurrency: 10 }
   );
 }
 
