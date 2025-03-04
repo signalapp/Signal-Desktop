@@ -1787,6 +1787,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/AttachmentStatusIcon.tsx",
+    "line": "  const timerRef = useRef<NodeJS.Timeout | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-21T04:17:59.239Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/CallingNotification.tsx",
     "line": "    const menuTriggerRef = React.useRef<ContextMenuTriggerType | null>(null);",
     "reasonCategory": "usageTrusted",

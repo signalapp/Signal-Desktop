@@ -43,7 +43,7 @@ describe('settings', function (this: Mocha.Suite) {
     await settingsWindow.getByText('Language').first().waitFor();
 
     await settingsWindow.getByText('Chats').click();
-    await settingsWindow.getByText('Sent media quality').waitFor();
+    await settingsWindow.getByText('Spell check text').waitFor();
 
     await settingsWindow.getByText('Calls').click();
     await settingsWindow.getByText('Enable incoming calls').waitFor();
@@ -53,5 +53,8 @@ describe('settings', function (this: Mocha.Suite) {
 
     await settingsWindow.getByText('Privacy').click();
     await settingsWindow.getByText('Read receipts').waitFor();
+
+    await settingsWindow.getByText('Data usage').click();
+    await settingsWindow.getByText('Sent media quality').waitFor();
   });
 });

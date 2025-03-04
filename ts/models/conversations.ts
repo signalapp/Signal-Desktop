@@ -2307,8 +2307,10 @@ export class ConversationModel extends window.Backbone
       await Promise.all(
         readMessages.map(async m => {
           const registered = window.MessageCache.register(new MessageModel(m));
-          const shouldSave =
-            await queueAttachmentDownloadsForMessage(registered);
+          const shouldSave = await queueAttachmentDownloadsForMessage(
+            registered,
+            { isManualDownload: false }
+          );
           if (shouldSave) {
             await window.MessageCache.saveMessage(registered.attributes);
           }

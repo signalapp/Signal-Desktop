@@ -109,6 +109,7 @@ const getDefaultProps = () => ({
   ),
   showAttachmentNotAvailableModal: action('showAttachmentNotAvailableModal'),
   showMediaNoLongerAvailableToast: action('showMediaNoLongerAvailableToast'),
+  showTapToViewNotAvailableModal: action('showTapToViewNotAvailableModal'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showSpoiler: action('showSpoiler'),
   startConversation: action('startConversation'),

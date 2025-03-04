@@ -25,6 +25,7 @@ const settingMessageAudio = createSetting('audioMessage');
 const settingAudioNotification = createSetting('audioNotification');
 const settingAutoConvertEmoji = createSetting('autoConvertEmoji');
 const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
+const settingAutoDownloadAttachment = createSetting('autoDownloadAttachment');
 const settingAutoLaunch = createSetting('autoLaunch');
 const settingCallRingtoneNotification = createSetting(
   'callRingtoneNotification'
@@ -139,6 +140,7 @@ function attachRenderCallback<Value>(f: (value: Value) => Promise<Value>) {
 
 async function renderPreferences() {
   const {
+    autoDownloadAttachment,
     blockedCount,
     deviceName,
     hasAudioNotifications,
@@ -181,6 +183,7 @@ async function renderPreferences() {
     defaultConversationColor,
     isSyncNotSupported,
   } = await awaitObject({
+    autoDownloadAttachment: settingAutoDownloadAttachment.getValue(),
     blockedCount: settingBlockedCount.getValue(),
     deviceName: settingDeviceName.getValue(),
     hasAudioNotifications: settingAudioNotification.getValue(),
@@ -266,6 +269,7 @@ async function renderPreferences() {
 
   const props = {
     // Settings
+    autoDownloadAttachment,
     availableCameras,
     availableLocales,
     availableMicrophones,
@@ -351,6 +355,9 @@ async function renderPreferences() {
     ),
     onAutoDownloadUpdateChange: attachRenderCallback(
       settingAutoDownloadUpdate.setValue
+    ),
+    onAutoDownloadAttachmentChange: attachRenderCallback(
+      settingAutoDownloadAttachment.setValue
     ),
     onAutoLaunchChange: attachRenderCallback(settingAutoLaunch.setValue),
     onCallNotificationsChange: attachRenderCallback(

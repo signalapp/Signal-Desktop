@@ -122,6 +122,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     await downloadManager?.addJob({
       urgency,
       ...job,
+      isManualDownload: Boolean(job.isManualDownload),
     });
   }
   async function addJobs(
@@ -377,7 +378,10 @@ describe('AttachmentDownloadManager/JobManager', () => {
 
     // add the same job again and it should retry ASAP and reset attempts
     attempts = getPromisesForAttempts(jobs[0], 5);
-    await downloadManager?.addJob(jobs[0]);
+    await downloadManager?.addJob({
+      ...jobs[0],
+      isManualDownload: Boolean(jobs[0].isManualDownload),
+    });
     await attempts[0].completed;
     assert.strictEqual(runJob.callCount, 4);
 

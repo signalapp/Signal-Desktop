@@ -26,6 +26,7 @@
 @use 'components/App.scss';
 @use 'components/AttachmentDetailPill.scss';
 @use 'components/AttachmentNotAvailableModal.scss';
+@use 'components/AttachmentStatusIcon.scss';
 @use 'components/AudioCapture.scss';
 @use 'components/AutoSizeInput.scss';
 @use 'components/Avatar.scss';
@@ -179,6 +180,7 @@
 @use 'components/StoryViewsNRepliesModal.scss';
 @use 'components/SystemMessage.scss';
 @use 'components/Tabs.scss';
+@use 'components/TapToViewNotAvailableModal.scss';
 @use 'components/TextAttachment.scss';
 @use 'components/TimelineDateHeader.scss';
 @use 'components/TimelineFloatingHeader.scss';

@@ -90,7 +90,9 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
         // to display the message properly.
         hasRequiredAttachmentDownloads(message.attributes)
       ) {
-        const shouldSave = await queueAttachmentDownloadsForMessage(message);
+        const shouldSave = await queueAttachmentDownloadsForMessage(message, {
+          isManualDownload: false,
+        });
         if (shouldSave) {
           messageIdsToSave.push(messageId);
         }

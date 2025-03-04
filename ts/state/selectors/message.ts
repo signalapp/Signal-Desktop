@@ -351,6 +351,7 @@ const getAuthorForMessage = (
     avatarUrl,
     badges,
     color,
+    firstName,
     id,
     isMe,
     name,
@@ -366,6 +367,7 @@ const getAuthorForMessage = (
     avatarUrl,
     badges,
     color,
+    firstName,
     id,
     isMe,
     name,
@@ -772,7 +774,8 @@ export const getPropsForMessage = (
     isTapToView: isMessageTapToView,
     isTapToViewError:
       isMessageTapToView && isIncoming(message) && message.isTapToViewInvalid,
-    isTapToViewExpired: isMessageTapToView && message.isErased,
+    isTapToViewExpired:
+      isMessageTapToView && isIncoming(message) && message.isErased,
     readStatus: message.readStatus ?? ReadStatus.Read,
     selectedReaction,
     status: getMessagePropStatus(message, ourConversationId),

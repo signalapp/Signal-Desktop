@@ -14,8 +14,14 @@ export function ProgressCircle({
 }): JSX.Element {
   const radius = width / 2 - strokeWidth / 2;
   const circumference = radius * 2 * Math.PI;
+  const widthInPixels = `${width}px`;
+
   return (
-    <svg className="ProgressCircle" width={width} height={width}>
+    <svg
+      className="ProgressCircle"
+      width={widthInPixels}
+      height={widthInPixels}
+    >
       <circle
         className="ProgressCircle__background"
         strokeWidth={strokeWidth}

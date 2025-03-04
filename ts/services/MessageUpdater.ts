@@ -72,17 +72,16 @@ export async function markViewOnceMessageViewed(
 ): Promise<void> {
   const { fromSync } = options || {};
 
-  if (!isValidTapToView(message.attributes)) {
-    log.warn(
-      `markViewOnceMessageViewed: Message ${getMessageIdForLogging(message.attributes)} is not a valid tap to view message!`
-    );
-    return;
-  }
   if (message.attributes.isErased) {
     log.warn(
       `markViewOnceMessageViewed: Message ${getMessageIdForLogging(message.attributes)} is already erased!`
     );
     return;
+  }
+  if (!isValidTapToView(message.attributes)) {
+    log.warn(
+      `markViewOnceMessageViewed: Message ${getMessageIdForLogging(message.attributes)} is not a valid tap to view message!`
+    );
   }
 
   if (message.get('readStatus') !== ReadStatus.Viewed) {

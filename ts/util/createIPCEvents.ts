@@ -6,7 +6,10 @@ import type { SystemPreferences } from 'electron';
 import type { AudioDevice } from '@signalapp/ringrtc';
 import { noop } from 'lodash';
 
-import type { ZoomFactorType } from '../types/Storage.d';
+import type {
+  AutoDownloadAttachmentType,
+  ZoomFactorType,
+} from '../types/Storage.d';
 import type {
   ConversationColorType,
   CustomColorType,
@@ -55,6 +58,7 @@ import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { drop } from './drop';
 import { sendSyncRequests } from '../textsecure/syncRequests';
 import { waitForEvent } from '../shims/events';
+import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../textsecure/Storage';
 
 type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -64,6 +68,7 @@ export type IPCEventsValuesType = {
   audioNotification: boolean | undefined;
   audioMessage: boolean;
   autoConvertEmoji: boolean;
+  autoDownloadAttachment: AutoDownloadAttachmentType;
   autoDownloadUpdate: boolean;
   autoLaunch: boolean;
   callRingtoneNotification: boolean;
@@ -408,6 +413,13 @@ export function createIPCEvents(
       window.storage.get('typingIndicators', false),
 
     // Configurable settings
+    getAutoDownloadAttachment: () =>
+      window.storage.get(
+        'auto-download-attachment',
+        DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
+      ),
+    setAutoDownloadAttachment: (setting: AutoDownloadAttachmentType) =>
+      window.storage.put('auto-download-attachment', setting),
     getAutoDownloadUpdate: () =>
       window.storage.get('auto-download-update', true),
     setAutoDownloadUpdate: value =>

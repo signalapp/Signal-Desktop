@@ -6,6 +6,7 @@ export enum ToastType {
   AddedUsersToCall = 'AddedUsersToCall',
   AlreadyGroupMember = 'AlreadyGroupMember',
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
+  AttachmentDownloadFailed = 'AttachmentDownloadFailed',
   AttachmentDownloadStillInProgress = 'AttachmentDownloadStillInProgress',
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
@@ -82,6 +83,10 @@ export type AnyToast =
     }
   | { toastType: ToastType.AlreadyGroupMember }
   | { toastType: ToastType.AlreadyRequestedToJoin }
+  | {
+      toastType: ToastType.AttachmentDownloadFailed;
+      parameters: { messageId: string };
+    }
   | {
       toastType: ToastType.AttachmentDownloadStillInProgress;
       parameters: { count: number };

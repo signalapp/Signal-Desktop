@@ -658,6 +658,7 @@ export class BackupImportStream extends Writable {
           attachmentDownloadJobPromises.push(
             queueAttachmentDownloads(model, {
               source: AttachmentDownloadSource.BACKUP_IMPORT,
+              isManualDownload: false,
             })
           );
         }

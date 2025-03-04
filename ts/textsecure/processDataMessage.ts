@@ -151,7 +151,7 @@ export function processQuote(
     id: quote.id?.toNumber(),
     authorAci: normalizeAci(authorAci, 'Quote.authorAci'),
     text: dropNull(quote.text),
-    attachments: (quote.attachments ?? []).map(attachment => {
+    attachments: (quote.attachments ?? []).slice(0, 1).map(attachment => {
       return {
         contentType: attachment.contentType
           ? stringToMIMEType(attachment.contentType)
@@ -172,7 +172,7 @@ export function processContact(
     return undefined;
   }
 
-  return contact.map(item => {
+  return contact.slice(0, 1).map(item => {
     return {
       ...item,
       avatar: item.avatar
@@ -206,7 +206,7 @@ export function processPreview(
     return undefined;
   }
 
-  return preview.map(item => {
+  return preview.slice(0, 1).map(item => {
     return {
       url: dropNull(item.url),
       title: dropNull(item.title),

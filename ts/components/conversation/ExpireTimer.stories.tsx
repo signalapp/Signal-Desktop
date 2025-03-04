@@ -17,7 +17,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.expirationTimestamp || Date.now() + 30 * 1000,
   withImageNoCaption: overrideProps.withImageNoCaption || false,
   withSticker: overrideProps.withSticker || false,
-  withTapToViewExpired: overrideProps.withTapToViewExpired || false,
 });
 
 export const _30Seconds = (): JSX.Element => {
@@ -55,14 +54,6 @@ export function Expired(): JSX.Element {
 export function Sticker(): JSX.Element {
   const props = createProps({
     withSticker: true,
-  });
-
-  return <ExpireTimer {...props} />;
-}
-
-export function TapToViewExpired(): JSX.Element {
-  const props = createProps({
-    withTapToViewExpired: true,
   });
 
   return <ExpireTimer {...props} />;

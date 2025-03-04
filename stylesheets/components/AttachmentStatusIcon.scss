@@ -1,0 +1,164 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.AttachmentStatusIcon__container {
+  position: relative;
+  width: 36px;
+  height: 40px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-inline-end: 12px;
+}
+
+.AttachmentStatusIcon__circle-icon-container {
+  height: 36px;
+  width: 36px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+
+  border-radius: 18px;
+  position: relative;
+
+  @include mixins.light-theme {
+    background-color: variables.$color-white-alpha-20;
+    &:hover {
+      background-color: variables.$color-white-alpha-30;
+    }
+    &:active {
+      background-color: variables.$color-white-alpha-40;
+    }
+  }
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-20;
+    &:hover {
+      background-color: variables.$color-white-alpha-30;
+    }
+    &:active {
+      background-color: variables.$color-white-alpha-40;
+    }
+  }
+}
+
+.AttachmentStatusIcon__circle-icon-container--incoming {
+  @include mixins.light-theme {
+    background-color: variables.$color-white-alpha-80;
+    &:hover {
+      background-color: variables.$color-white-alpha-60;
+    }
+    &:active {
+      background-color: variables.$color-white-alpha-40;
+    }
+  }
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-20;
+  }
+}
+
+.AttachmentStatusIcon__circle-icon-container--disabled {
+  @include mixins.light-theme {
+    background-color: variables.$color-white-alpha-10;
+    &:hover {
+      background-color: variables.$color-white-alpha-10;
+    }
+    &:active {
+      background-color: variables.$color-white-alpha-10;
+    }
+  }
+
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-10;
+    &:hover {
+      background-color: variables.$color-white-alpha-10;
+    }
+    &:active {
+      background-color: variables.$color-white-alpha-10;
+    }
+  }
+}
+
+.AttachmentStatusIcon__circle-icon-container--incoming.AttachmentStatusIcon__circle-icon-container--disabled {
+  @include mixins.light-theme {
+    background-color: variables.$color-white-alpha-60;
+    &:hover {
+      background-color: variables.$color-white-alpha-60;
+    }
+    &:active {
+      background-color: variables.$color-white-alpha-60;
+    }
+  }
+
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-10;
+    &:hover {
+      background-color: variables.$color-white-alpha-10;
+    }
+    &:active {
+      background-color: variables.$color-white-alpha-10;
+    }
+  }
+}
+
+.AttachmentStatusIcon__circle-icon {
+  @include mixins.position-absolute-center;
+  & {
+    height: 20px;
+    width: 20px;
+  }
+}
+.AttachmentStatusIcon__circle-icon--x {
+  @include mixins.color-svg-themed(
+    '../images/icons/v3/x/x-bold.svg',
+    variables.$color-white,
+    variables.$color-white-alpha-90
+  );
+}
+.AttachmentStatusIcon__circle-icon--arrow-down {
+  @include mixins.color-svg-themed(
+    '../images/icons/v3/arrow/arrow-down-bold.svg',
+    variables.$color-white,
+    variables.$color-white-alpha-90
+  );
+}
+.AttachmentStatusIcon__circle-icon--incoming {
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-90;
+  }
+  @include mixins.dark-theme {
+    background-color: variables.$color-white-alpha-90;
+  }
+}
+
+.AttachmentStatusIcon__progress-container {
+  .ProgressCircle .ProgressCircle__background {
+    @include mixins.light-theme {
+      stroke: none;
+      fill: none;
+    }
+    @include mixins.dark-theme {
+      stroke: none;
+      fill: none;
+    }
+  }
+
+  .ProgressCircle .ProgressCircle__fill {
+    @include mixins.light-theme {
+      stroke: variables.$color-white;
+    }
+    @include mixins.dark-theme {
+      stroke: variables.$color-white-alpha-90;
+    }
+  }
+}
+.AttachmentStatusIcon__progress-container--incoming {
+  .ProgressCircle .ProgressCircle__fill {
+    @include mixins.light-theme {
+      stroke: variables.$color-gray-90;
+    }
+    @include mixins.dark-theme {
+      stroke: variables.$color-white-alpha-90;
+    }
+  }
+}

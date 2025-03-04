@@ -509,45 +509,6 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message__container--with-tap-to-view {
-  min-width: 148px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.module-message__container--with-tap-to-view-pending {
-  background-color: variables.$color-gray-15;
-}
-
-.module-message__container--with-tap-to-view-pending {
-  cursor: default;
-}
-
-.module-message__container--with-tap-to-view-expired {
-  @include mixins.light-theme {
-    border: 1px solid variables.$color-gray-15;
-    background-color: variables.$color-white;
-  }
-  @include mixins.dark-theme {
-    border: 1px solid variables.$color-gray-60;
-    background-color: variables.$color-gray-95;
-  }
-}
-
-.module-message__container--with-tap-to-view-error {
-  width: auto;
-  cursor: default;
-
-  @include mixins.light-theme {
-    background-color: variables.$color-white;
-    border: 1px solid variables.$color-deep-red;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-black;
-    border: 1px solid variables.$color-deep-red;
-  }
-}
-
 .module-message__container--deleted-for-everyone {
   @include mixins.light-theme {
     color: variables.$color-gray-90;
@@ -619,104 +580,6 @@ $message-padding-horizontal: 12px;
   border-bottom-right-radius: 4px;
 }
 
-.module-message__tap-to-view {
-  margin-top: 2px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.module-message__tap-to-view--with-content-above {
-  margin-top: 8px;
-}
-.module-message__tap-to-view--with-content-below {
-  margin-bottom: 8px;
-}
-
-.module-message__tap-to-view__spinner-container {
-  margin-inline-end: 6px;
-
-  flex-grow: 0;
-  flex-shrink: 0;
-
-  width: 20px;
-  height: 20px;
-}
-
-.module-message__tap-to-view__icon {
-  margin-inline-end: 6px;
-
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/view_once/view_once.svg',
-      variables.$color-gray-90
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/view_once/view_once.svg',
-      variables.$color-gray-05
-    );
-  }
-}
-.module-message__tap-to-view__icon--expired {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/view_once/view_once-dash.svg',
-      variables.$color-gray-75
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/view_once/view_once-dash.svg',
-      variables.$color-gray-05
-    );
-  }
-}
-.module-message__tap-to-view__icon--outgoing {
-  background-color: variables.$color-gray-05;
-}
-.module-message__tap-to-view__text {
-  @include mixins.font-body-1-bold;
-
-  color: variables.$color-gray-05;
-}
-.module-message__tap-to-view__text--incoming {
-  @include mixins.light-theme {
-    color: variables.$color-gray-90;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
-  }
-}
-.module-message__tap-to-view__text--incoming-expired {
-  @include mixins.light-theme {
-    color: variables.$color-gray-90;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
-  }
-}
-.module-message__tap-to-view__text--incoming-error {
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-
-.module-message__tap-to-view__text--outgoing {
-  color: variables.$color-white;
-}
-.module-message__tap-to-view__text--outgoing-expired {
-  color: variables.$color-gray-05;
-}
-
 .module-message__attachment-container {
   // To ensure that images are centered if they aren't full width of bubble
   text-align: center;
@@ -780,14 +643,13 @@ $message-padding-horizontal: 12px;
   border-color: variables.$color-white-alpha-30;
 }
 
+.module-message__container--is-clickable {
+  cursor: pointer;
+}
+
 .module-message__undownloadable-attachment--no-text
   + .module-message__metadata {
   margin-block-start: -25px;
-}
-
-.module-message__generic-attachment--undownloadable-no-text
-  + .module-message__metadata {
-  margin-block-start: -$message-padding-vertical - 2px;
 }
 
 .module-message__sticker-container {
@@ -814,14 +676,16 @@ $message-padding-horizontal: 12px;
   cursor: pointer;
 }
 
-.module-message__generic-attachment {
+.module-message__simple-attachment {
   @include mixins.button-reset;
 
   & {
+    user-select: none;
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
+    border-radius: 4px;
   }
 
   @include mixins.keyboard-mode {
@@ -831,32 +695,28 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message__generic-attachment--undownloadable {
-  min-width: 260px;
+.module-message__container--outgoing .module-message__simple-attachment {
+  @include mixins.keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px variables.$color-white;
+    }
+  }
 }
 
-.module-message__generic-attachment--with-content-below {
-  padding-bottom: 6px;
+.module-message__simple-attachment--with-content-below {
+  padding-bottom: 8px;
 }
 
-.module-message__generic-attachment--with-content-above {
+.module-message__simple-attachment--with-content-above {
   padding-top: 4px;
 }
 
-.module-message__generic-attachment__icon-container {
-  position: relative;
-  user-select: none;
-}
-.module-message__generic-attachment__spinner-container {
-  padding-inline: 4px;
-}
-
-.module-message__generic-attachment__icon {
-  background: url('../images/file-gradient.svg') no-repeat center;
-  height: 44px;
-  width: 56px;
-  margin-inline: -13px -14px;
-  margin-bottom: -4px;
+.module-message__simple-attachment__icon {
+  background: url('../images/generic-file.svg') no-repeat center;
+  height: 40px;
+  width: 30px;
+  margin-inline-start: 3px;
+  margin-inline-end: 3px;
 
   // So we can center the extension text inside this icon
   display: flex;
@@ -864,7 +724,7 @@ $message-padding-horizontal: 12px;
   align-items: center;
 }
 
-.module-message__generic-attachment__icon-dangerous-container {
+.module-message__simple-attachment__icon-dangerous-container {
   position: absolute;
 
   top: -1px;
@@ -877,7 +737,7 @@ $message-padding-horizontal: 12px;
   background-color: variables.$color-white;
 }
 
-.module-message__generic-attachment__icon-dangerous {
+.module-message__simple-attachment__icon-dangerous {
   height: 16px;
   width: 16px;
 
@@ -887,36 +747,38 @@ $message-padding-horizontal: 12px;
   );
 }
 
-.module-message__generic-attachment__icon__extension {
-  font-size: 10px;
-  line-height: 13px;
-  letter-spacing: 0.1px;
-  text-transform: uppercase;
+.module-message__simple-attachment__icon__extension {
+  @include mixins.font-subtitle;
+  text-transform: lowercase;
+  user-select: none;
 
   // Along with flow layout in parent item, centers text
   text-align: center;
-  width: 25px;
   margin-inline: auto;
 
-  // We don't have much room for text here, cut it off without ellipse
-  overflow-x: hidden;
+  // We shouldn't have problems with 1-3 character extensions, but clip if we do!
   white-space: nowrap;
+  overflow-x: hidden;
   text-overflow: clip;
 
   color: variables.$color-gray-90;
 }
 
-$message-attachment-padding-horizontal: 8px;
-
-.module-message__generic-attachment__text {
+// For longer extensions we manually only show the first three characters and an ellipse;
+// all we do here is change the font.
+.module-message__simple-attachment__icon__extension--more-char {
+  font-size: 9px;
+  line-height: 11px;
+  letter-spacing: -0.2px;
+}
+.module-message__simple-attachment__text {
   flex-grow: 1;
-  margin-inline-start: $message-attachment-padding-horizontal + 2px;
-  // The width of the icon plus our 8px margin plus 1px leeway
-  max-width: calc(100% - 36px);
+  // icon-container is 30px wide, 12px margin
+  max-width: calc(100% - 42px);
 }
 
-.module-message__generic-attachment__file-name {
-  @include mixins.font-body-1;
+.module-message__simple-attachment__file-name {
+  @include mixins.font-body-1-bold;
 
   margin-top: 2px;
   user-select: none;
@@ -931,45 +793,65 @@ $message-attachment-padding-horizontal: 8px;
     color: variables.$color-white;
   }
   @include mixins.dark-theme {
-    color: variables.$color-gray-02;
+    color: variables.$color-white-alpha-90;
   }
 }
 
-.module-message__generic-attachment__file-name--incoming {
+.module-message__simple-attachment__file-name--incoming {
   color: variables.$color-white;
 
   @include mixins.light-theme {
     color: variables.$color-gray-90;
   }
   @include mixins.dark-theme {
-    color: variables.$color-gray-25;
+    color: variables.$color-gray-05;
   }
+}
+
+.module-message__simple-attachment__bottom-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.module-message__simple-attachment__metadata-container {
+  flex-grow: 1;
+  padding-inline-start: 8px;
+  padding-top: 6px;
+  align-self: end;
 }
 
 .module-message__container--incoming
-  .module-message__generic-attachment__file-name--undownloadable {
-  color: variables.$color-black-alpha-50;
-}
-
-.module-message__generic-attachment__file-size {
-  @include mixins.font-body-2;
-
-  margin-top: 3px;
-  user-select: none;
-
+  .module-message__simple-attachment__file-name--undownloadable {
   @include mixins.light-theme {
-    color: variables.$color-white;
+    color: variables.$color-gray-90;
   }
   @include mixins.dark-theme {
-    color: variables.$color-gray-02;
+    color: variables.$color-gray-05;
   }
 }
 
-.module-message__generic-attachment__file-size--incoming {
+.module-message__simple-attachment__file-size {
+  flex-grow: 1;
+  flex-shrink: 0;
+  @include mixins.font-body-small;
+
+  margin-top: 2px;
+  user-select: none;
+  white-space: no-wrap;
+
+  @include mixins.light-theme {
+    color: variables.$color-white-alpha-80;
+  }
+  @include mixins.dark-theme {
+    color: variables.$color-white-alpha-60;
+  }
+}
+
+.module-message__simple-attachment__file-size--incoming {
   color: variables.$color-white;
 
   @include mixins.light-theme {
-    color: variables.$color-gray-90;
+    color: variables.$color-gray-60;
   }
   @include mixins.dark-theme {
     color: variables.$color-gray-25;
@@ -977,7 +859,7 @@ $message-attachment-padding-horizontal: 8px;
 }
 
 .module-message__undownloadable-attachment__icon-container {
-  margin-inline-end: $message-attachment-padding-horizontal;
+  margin-inline-end: 8px;
 }
 
 .module-message__undownloadable-attachment__icon-container--file {
@@ -1010,6 +892,13 @@ $message-attachment-padding-horizontal: 8px;
     );
   }
 
+  &--tap-to-view {
+    @include mixins.color-svg(
+      '../images/icons/v3/view_once/view_once-slash-bold.svg',
+      currentColor
+    );
+  }
+
   &--small {
     width: 16px;
     height: 16px;
@@ -1022,7 +911,12 @@ $message-attachment-padding-horizontal: 8px;
 
 .module-message__container--incoming
   .module-message__undownloadable-attachment-info--file {
-  color: variables.$color-black-alpha-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-80;
+  }
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
+  }
 }
 
 .module-message__undownloadable-attachment {
@@ -1225,23 +1119,6 @@ $message-attachment-padding-horizontal: 8px;
   white-space: nowrap;
   text-overflow: ellipsis;
   user-select: none;
-}
-
-.module-message__author--with-tap-to-view-expired {
-  @include mixins.font-body-2-bold;
-
-  height: 18px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  @include mixins.light-theme {
-    color: variables.$color-gray-75;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-white;
-  }
 }
 
 .module-message__author_with_sticker {
@@ -1478,16 +1355,6 @@ $message-attachment-padding-horizontal: 8px;
   @include mixins.dark-theme {
     color: variables.$color-gray-25;
   }
-}
-.module-message__metadata__date.module-message__metadata__date--incoming-with-tap-to-view-expired {
-  color: variables.$color-gray-75;
-
-  @include mixins.dark-theme {
-    color: variables.$color-white-alpha-80;
-  }
-}
-.module-message__metadata__date.module-message__metadata__date--outgoing-with-tap-to-view-expired {
-  color: variables.$color-white-alpha-80;
 }
 
 .module-message__metadata__date--with-sticker {
@@ -2115,6 +1982,34 @@ $message-attachment-padding-horizontal: 8px;
   }
 }
 
+.module-message__tap-to-view__icon--ready {
+  @include mixins.color-svg-themed(
+    '../images/icons/v3/view_once/view_once-bold.svg',
+    variables.$color-gray-90,
+    variables.$color-gray-05
+  );
+}
+.module-message__tap-to-view__icon--outgoing {
+  @include mixins.color-svg(
+    '../images/icons/v3/view_once/view_once-dash-bold.svg',
+    variables.$color-white-alpha-80
+  );
+}
+.module-message__tap-to-view__icon--viewed {
+  @include mixins.color-svg-themed(
+    '../images/icons/v3/view_once/view_once-viewed-bold.svg',
+    variables.$color-gray-90,
+    variables.$color-gray-05
+  );
+}
+.module-message__tap-to-view__icon--not-available {
+  @include mixins.color-svg-themed(
+    '../images/icons/v3/view_once/view_once-slash-bold.svg',
+    variables.$color-gray-90,
+    variables.$color-gray-05
+  );
+}
+
 // Module: Expire Timer
 
 .module-expire-timer {
@@ -2175,16 +2070,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include mixins.dark-theme {
     background-color: variables.$color-gray-25;
   }
-}
-.module-expire-timer.module-expire-timer--incoming-with-tap-to-view-expired {
-  background-color: variables.$color-gray-75;
-
-  @include mixins.dark-theme {
-    background-color: variables.$color-white-alpha-80;
-  }
-}
-.module-expire-timer.module-expire-timer--outgoing-with-tap-to-view-expired {
-  background-color: variables.$color-white-alpha-80;
 }
 .module-expire-timer--with-sticker {
   @include mixins.light-theme {
@@ -2249,30 +2134,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Embedded Contact
 
 .module-embedded-contact {
-  @include mixins.button-reset;
+  width: 100%;
+  padding-top: 4px;
+  padding-bottom: 4px;
 
-  & {
-    width: 100%;
-    padding: 5px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
-  }
-}
-
-.module-embedded-contact--outgoing {
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-white;
-    }
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .module-embedded-contact--with-content-above {
@@ -2283,15 +2151,51 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   padding-bottom: 4px;
 }
 
-.module-embedded-contact__spinner-container {
-  padding-inline: 5px;
+.module-embedded-contact__avatar-container {
+  height: 52px;
+  width: 52px;
+  border-radius: 26px;
+
+  @include mixins.keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
+    }
+  }
+}
+
+.module-embedded-contact--outgoing .module-embedded-contact__avatar-container {
+  @include mixins.keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px variables.$color-white;
+    }
+  }
+}
+
+.module-embedded-contact__avatar-container .AttachmentStatusIcon__container {
+  margin: 0;
+  height: 52px;
+  width: 52px;
+}
+
+.module-embedded-contact__avatar-container
+  .AttachmentStatusIcon__circle-icon-container {
+  margin: 0;
+}
+
+.module-embedded-contact__avatar-container {
+  @include mixins.button-reset;
+}
+
+.module-embedded-contact__avatar-container
+  .AttachmentStatusIcon__circle-icon-container {
+  @include mixins.position-absolute-center;
 }
 
 .module-embedded-contact__text-container {
   flex-grow: 1;
-  margin-inline-start: 8px;
+  margin-inline-start: 12px;
 
-  max-width: calc(100% - 58px);
+  max-width: calc(100% - 64px);
 }
 
 .module-embedded-contact__contact-name {
@@ -2357,7 +2261,35 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-contact-detail__avatar {
-  margin-bottom: 4px;
+  @include mixins.button-reset;
+  & {
+    cursor: default;
+    position: relative;
+    height: 80px;
+    width: 80px;
+    margin-bottom: 10px;
+    border-radius: 40px;
+  }
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-05;
+  }
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-80;
+  }
+}
+
+.module-contact-detail__avatar--clickable {
+  cursor: pointer;
+}
+
+.module-contact-detail__avatar .AttachmentStatusIcon__container {
+  height: 80px;
+  width: 80px;
+  margin: 0;
+}
+
+.module-contact-detail__avatar .AttachmentStatusIcon__circle-icon-container {
+  @include mixins.position-absolute-center;
 }
 
 .module-contact-detail__contact-name {
@@ -2677,7 +2609,10 @@ button.ConversationDetails__action-button {
 
   width: 48px;
   height: 48px;
-  @include mixins.color-svg('../images/file.svg', variables.$color-gray-45);
+  @include mixins.color-svg(
+    '../images/generic-file.svg',
+    variables.$color-gray-45
+  );
 }
 
 .module-document-list-item__metadata {
@@ -3459,7 +3394,7 @@ button.module-image__border-overlay:focus {
 .module-staged-generic-attachment__icon {
   margin-top: 30px;
 
-  background: url('../images/file-gradient.svg') no-repeat center;
+  background: url('../images/generic-file.svg') no-repeat center;
   height: 44px;
   width: 56px;
   margin-inline: 32px;

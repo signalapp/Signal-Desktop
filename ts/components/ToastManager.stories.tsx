@@ -27,6 +27,13 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.AlreadyGroupMember };
     case ToastType.AlreadyRequestedToJoin:
       return { toastType: ToastType.AlreadyRequestedToJoin };
+    case ToastType.AttachmentDownloadFailed:
+      return {
+        toastType: ToastType.AttachmentDownloadFailed,
+        parameters: {
+          messageId: 'fake-message-id',
+        },
+      };
     case ToastType.AttachmentDownloadStillInProgress:
       return {
         toastType: ToastType.AttachmentDownloadStillInProgress,

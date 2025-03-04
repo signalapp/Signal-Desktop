@@ -93,6 +93,12 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.AttachmentDownloadFailed) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:Toast--download-failed')}</Toast>
+    );
+  }
+
   if (toastType === ToastType.AttachmentDownloadStillInProgress) {
     return (
       <Toast onClose={hideToast}>

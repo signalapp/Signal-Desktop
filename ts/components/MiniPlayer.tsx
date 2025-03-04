@@ -64,7 +64,7 @@ export function MiniPlayer({
   }, [state, onPause, onPlay]);
 
   let label: string | undefined;
-  let mod: 'play' | 'pause' | 'pending';
+  let mod: 'play' | 'pause' | 'computing';
   switch (state) {
     case PlayerState.playing:
       label = i18n('icu:MessageAudio--pause');
@@ -76,7 +76,7 @@ export function MiniPlayer({
       break;
     case PlayerState.loading:
       label = i18n('icu:MessageAudio--pending');
-      mod = 'pending';
+      mod = 'computing';
       break;
     default:
       throw new TypeError(`Missing case ${state}`);

@@ -28,6 +28,9 @@ export type Props = {
   svgSize: SpinnerSvgSize;
 };
 
+/**
+ * @deprecated This has been superceded by the more customizable SpinnerV2 component.
+ */
 export function Spinner({
   ariaLabel,
   direction,

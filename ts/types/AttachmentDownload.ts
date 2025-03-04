@@ -28,15 +28,16 @@ export type AttachmentDownloadJobTypeType = z.infer<
 >;
 
 export type CoreAttachmentDownloadJobType = {
+  attachment: AttachmentType;
+  attachmentType: AttachmentDownloadJobTypeType;
+  ciphertextSize: number;
+  contentType: MIMEType;
+  digest: string;
+  isManualDownload?: boolean;
   messageId: string;
   receivedAt: number;
   sentAt: number;
-  attachmentType: AttachmentDownloadJobTypeType;
-  attachment: AttachmentType;
-  digest: string;
-  contentType: MIMEType;
   size: number;
-  ciphertextSize: number;
   source: AttachmentDownloadSource;
 };
 
@@ -44,18 +45,19 @@ export type AttachmentDownloadJobType = CoreAttachmentDownloadJobType &
   JobManagerJobType;
 
 export const coreAttachmentDownloadJobSchema = z.object({
-  messageId: z.string(),
-  receivedAt: z.number(),
-  sentAt: z.number(),
-  attachmentType: attachmentDownloadTypeSchema,
   attachment: z
     .object({ size: z.number(), contentType: MIMETypeSchema })
     .passthrough(),
-  digest: z.string(),
-  contentType: MIMETypeSchema,
-  size: z.number(),
+  attachmentType: attachmentDownloadTypeSchema,
   ciphertextSize: z.number(),
+  contentType: MIMETypeSchema,
+  digest: z.string(),
+  isManualDownload: z.boolean().optional(),
+  messageId: z.string(),
   messageIdForLogging: z.string().optional(),
+  receivedAt: z.number(),
+  sentAt: z.number(),
+  size: z.number(),
   source: z.nativeEnum(AttachmentDownloadSource),
 });
 

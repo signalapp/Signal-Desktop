@@ -17,6 +17,7 @@ import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import type { MediaDeviceSettings } from '../types/Calling';
 import type {
+  AutoDownloadAttachmentType,
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
@@ -73,6 +74,7 @@ type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
 
 export type PropsDataType = {
   // Settings
+  autoDownloadAttachment: AutoDownloadAttachmentType;
   blockedCount: number;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
@@ -162,6 +164,9 @@ type PropsFunctionType = {
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
   onAutoConvertEmojiChange: CheckboxChangeHandlerType;
+  onAutoDownloadAttachmentChange: (
+    setting: AutoDownloadAttachmentType
+  ) => unknown;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
   onCallNotificationsChange: CheckboxChangeHandlerType;
@@ -209,6 +214,7 @@ enum Page {
   Calls = 'Calls',
   Notifications = 'Notifications',
   Privacy = 'Privacy',
+  DataUsage = 'DataUsage',
 
   // Sub pages
   ChatColor = 'ChatColor',
@@ -245,6 +251,7 @@ const DEFAULT_ZOOM_FACTORS = [
 
 export function Preferences({
   addCustomColor,
+  autoDownloadAttachment,
   availableCameras,
   availableLocales,
   availableMicrophones,
@@ -295,6 +302,7 @@ export function Preferences({
   notificationContent,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
+  onAutoDownloadAttachmentChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
   onCallNotificationsChange,
@@ -884,25 +892,6 @@ export function Preferences({
             name="autoConvertEmoji"
             onChange={onAutoConvertEmojiChange}
           />
-          <Control
-            left={i18n('icu:Preferences__sent-media-quality')}
-            right={
-              <Select
-                onChange={onSentMediaQualityChange}
-                options={[
-                  {
-                    text: i18n('icu:sentMediaQualityStandard'),
-                    value: 'standard',
-                  },
-                  {
-                    text: i18n('icu:sentMediaQualityHigh'),
-                    value: 'high',
-                  },
-                ]}
-                value={sentMediaQualitySetting}
-              />
-            }
-          />
         </SettingsRow>
         {isSyncSupported && (
           <SettingsRow>
@@ -1404,6 +1393,111 @@ export function Preferences({
         ) : null}
       </>
     );
+  } else if (page === Page.DataUsage) {
+    settings = (
+      <>
+        <div className="Preferences__title">
+          <div className="Preferences__title--header">
+            {i18n('icu:Preferences__button--data-usage')}
+          </div>
+        </div>
+        <SettingsRow title={i18n('icu:Preferences__media-auto-download')}>
+          <Checkbox
+            checked={autoDownloadAttachment.photos !== false}
+            label={i18n('icu:Preferences__media-auto-download__photos')}
+            moduleClassName="Preferences__checkbox"
+            name="autoLaunch"
+            onChange={(newValue: boolean) =>
+              onAutoDownloadAttachmentChange({
+                ...autoDownloadAttachment,
+                photos: newValue,
+              })
+            }
+          />
+          <Checkbox
+            checked={autoDownloadAttachment.videos !== false}
+            label={i18n('icu:Preferences__media-auto-download__videos')}
+            moduleClassName="Preferences__checkbox"
+            name="autoLaunch"
+            onChange={(newValue: boolean) =>
+              onAutoDownloadAttachmentChange({
+                ...autoDownloadAttachment,
+                videos: newValue,
+              })
+            }
+          />
+          <Checkbox
+            checked={autoDownloadAttachment.audio !== false}
+            label={i18n('icu:Preferences__media-auto-download__audio')}
+            moduleClassName="Preferences__checkbox"
+            name="autoLaunch"
+            onChange={(newValue: boolean) =>
+              onAutoDownloadAttachmentChange({
+                ...autoDownloadAttachment,
+                audio: newValue,
+              })
+            }
+          />
+          <Checkbox
+            checked={autoDownloadAttachment.documents !== false}
+            label={i18n('icu:Preferences__media-auto-download__documents')}
+            moduleClassName="Preferences__checkbox"
+            name="autoLaunch"
+            onChange={(newValue: boolean) =>
+              onAutoDownloadAttachmentChange({
+                ...autoDownloadAttachment,
+                documents: newValue,
+              })
+            }
+          />
+          <div className="Preferences__padding">
+            <div
+              className={classNames(
+                'Preferences__description',
+                'Preferences__description--medium'
+              )}
+            >
+              {i18n('icu:Preferences__media-auto-download__description')}
+            </div>
+          </div>
+        </SettingsRow>
+        <SettingsRow>
+          <Control
+            left={
+              <>
+                <div className="Preferences__option-name">
+                  {i18n('icu:Preferences__sent-media-quality')}
+                </div>
+                <div
+                  className={classNames(
+                    'Preferences__description',
+                    'Preferences__description--medium'
+                  )}
+                >
+                  {i18n('icu:Preferences__sent-media-quality__description')}
+                </div>
+              </>
+            }
+            right={
+              <Select
+                onChange={onSentMediaQualityChange}
+                options={[
+                  {
+                    text: i18n('icu:sentMediaQualityStandard'),
+                    value: 'standard',
+                  },
+                  {
+                    text: i18n('icu:sentMediaQualityHigh'),
+                    value: 'high',
+                  },
+                ]}
+                value={sentMediaQualitySetting}
+              />
+            }
+          />
+        </SettingsRow>
+      </>
+    );
   } else if (page === Page.ChatColor) {
     settings = (
       <>
@@ -1648,6 +1742,18 @@ export function Preferences({
             onClick={() => setPage(Page.Privacy)}
           >
             {i18n('icu:Preferences__button--privacy')}
+          </button>
+
+          <button
+            type="button"
+            className={classNames({
+              Preferences__button: true,
+              'Preferences__button--data-usage': true,
+              'Preferences__button--selected': page === Page.DataUsage,
+            })}
+            onClick={() => setPage(Page.DataUsage)}
+          >
+            {i18n('icu:Preferences__button--data-usage')}
           </button>
         </div>
         <div className="Preferences__settings-pane" ref={settingsPaneRef}>
