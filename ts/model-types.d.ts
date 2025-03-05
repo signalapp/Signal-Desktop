@@ -345,6 +345,9 @@ export type ConversationAttributesType = {
   >;
   capabilities?: CapabilitiesType;
   color?: string;
+  // If present - the numeric value of `color` (possibly not yet supported) that
+  // we got the from primary during either backup or storage service import.
+  colorFromPrimary?: number;
   conversationColor?: ConversationColorType;
   customColor?: CustomColorType;
   customColorId?: string;

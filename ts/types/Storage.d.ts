@@ -225,6 +225,9 @@ export type StorageAccessType = {
   // The `firstAppVersion` present on an BackupInfo from an imported backup.
   restoredBackupFirstAppVersion: string;
 
+  // Stored solely for pesistance during import/export sequence
+  svrPin: string;
+
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
 
   // Deprecated

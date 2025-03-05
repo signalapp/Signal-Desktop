@@ -39,7 +39,7 @@ import type {
   ChatServerMessageAck,
   ChatServiceListener,
   ConnectionEventsListener,
-} from '@signalapp/libsignal-client/dist/net';
+} from '@signalapp/libsignal-client/dist/net/Chat';
 import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
 

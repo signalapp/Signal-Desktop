@@ -5273,7 +5273,12 @@ export class ConversationModel extends window.Backbone
   }
 
   getColor(): AvatarColorType {
-    return migrateColor(this.getServiceId(), this.get('color'));
+    return migrateColor(this.get('color'), {
+      aci: this.getAci(),
+      e164: this.get('e164'),
+      pni: this.getPni(),
+      groupId: this.get('groupId'),
+    });
   }
 
   getConversationColor(): ConversationColorType | undefined {

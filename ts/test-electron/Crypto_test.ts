@@ -19,6 +19,7 @@ import {
   decryptProfile,
   getRandomBytes,
   constantTimeEqual,
+  generateAvatarColor,
   generateRegistrationId,
   deriveSecrets,
   encryptDeviceName,
@@ -49,6 +50,7 @@ import {
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
 } from '../AttachmentCrypto';
+import type { AciString, PniString } from '../types/ServiceId';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
 
@@ -1161,6 +1163,61 @@ describe('Crypto', () => {
       for (let i = 0; i < 128; i += 1) {
         assert.strictEqual(getAesCbcCiphertextLength(i), encrypt(i).length);
       }
+    });
+  });
+
+  describe('generateAvatarColor', () => {
+    const aci = 'a025bf78-653e-44e0-beb9-deb14ba32487' as AciString;
+    const pni = 'PNI:11a175e3-fe31-4eda-87da-e0bf2a2e250b' as PniString;
+    const e164 = '+12135550124';
+    const groupId = 'BwJRIdomqOSOckHjnJsknNCibCZKJFt+RxLIpa9CWJ4=';
+
+    it('generates color based on ACI', () => {
+      assert.strictEqual(
+        generateAvatarColor({
+          aci,
+          e164,
+          pni,
+          groupId,
+        }),
+        'A140'
+      );
+    });
+
+    it('generates color based on E164', () => {
+      assert.strictEqual(
+        generateAvatarColor({
+          aci: undefined,
+          e164,
+          pni,
+          groupId,
+        }),
+        'A150'
+      );
+    });
+
+    it('generates color based on PNI', () => {
+      assert.strictEqual(
+        generateAvatarColor({
+          aci: undefined,
+          e164: undefined,
+          pni,
+          groupId,
+        }),
+        'A200'
+      );
+    });
+
+    it('generates color based on group id', () => {
+      assert.strictEqual(
+        generateAvatarColor({
+          aci: undefined,
+          e164: undefined,
+          pni: undefined,
+          groupId,
+        }),
+        'A130'
+      );
     });
   });
 });

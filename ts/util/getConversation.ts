@@ -36,6 +36,7 @@ import {
   canHaveUsername,
 } from './getTitle';
 import { hasDraft } from './hasDraft';
+import { isAciString } from './isAciString';
 import { isBlocked } from './isBlocked';
 import { isConversationAccepted } from './isConversationAccepted';
 import {
@@ -89,7 +90,12 @@ export function getConversation(model: ConversationModel): ConversationType {
   const ourAci = window.textsecure.storage.user.getAci();
   const ourPni = window.textsecure.storage.user.getPni();
 
-  const color = migrateColor(attributes.serviceId, attributes.color);
+  const color = migrateColor(attributes.color, {
+    aci: isAciString(attributes.serviceId) ? attributes.serviceId : undefined,
+    e164: attributes.e164,
+    pni: attributes.pni,
+    groupId: attributes.groupId,
+  });
 
   const { draftTimestamp, draftEditMessage, timestamp } = attributes;
   const draftPreview = getDraftPreview(attributes);

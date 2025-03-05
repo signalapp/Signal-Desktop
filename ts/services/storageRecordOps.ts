@@ -139,6 +139,52 @@ function fromRecordVerified(
   }
 }
 
+function fromAvatarColor(
+  color: Proto.AvatarColor | null | undefined
+): string | undefined {
+  switch (color) {
+    case Proto.AvatarColor.A100:
+      return 'A100';
+    case Proto.AvatarColor.A110:
+      return 'A110';
+    case Proto.AvatarColor.A120:
+      return 'A120';
+    case Proto.AvatarColor.A130:
+      return 'A130';
+    case Proto.AvatarColor.A140:
+      return 'A140';
+    case Proto.AvatarColor.A150:
+      return 'A150';
+    case Proto.AvatarColor.A160:
+      return 'A160';
+    case Proto.AvatarColor.A170:
+      return 'A170';
+    case Proto.AvatarColor.A180:
+      return 'A180';
+    case Proto.AvatarColor.A190:
+      return 'A190';
+    case Proto.AvatarColor.A200:
+      return 'A200';
+    case Proto.AvatarColor.A210:
+      return 'A210';
+    case undefined:
+    case null:
+      return undefined;
+    default:
+      throw missingCaseError(color);
+  }
+}
+
+function applyAvatarColor(
+  conversation: ConversationModel,
+  protoColor: Proto.AvatarColor | null | undefined
+): void {
+  conversation.set({
+    colorFromPrimary: dropNull(protoColor),
+    color: fromAvatarColor(protoColor) ?? conversation.get('color'),
+  });
+}
+
 function addUnknownFields(
   record: RecordClass,
   conversation: ConversationModel,
@@ -260,6 +306,10 @@ export async function toContactRecord(
   contactRecord.unregisteredAtTimestamp = getSafeLongFromTimestamp(
     conversation.get('firstUnregisteredAt')
   );
+  const avatarColor = conversation.get('colorFromPrimary');
+  if (avatarColor != null) {
+    contactRecord.avatarColor = avatarColor;
+  }
 
   applyUnknownFields(contactRecord, conversation);
 
@@ -485,6 +535,11 @@ export function toAccountRecord(
     }
   }
 
+  const avatarColor = conversation.get('colorFromPrimary');
+  if (avatarColor != null) {
+    accountRecord.avatarColor = avatarColor;
+  }
+
   applyUnknownFields(accountRecord, conversation);
 
   return accountRecord;
@@ -542,6 +597,11 @@ export function toGroupV2Record(
     } else {
       throw missingCaseError(storySendMode);
     }
+  }
+
+  const avatarColor = conversation.get('colorFromPrimary');
+  if (avatarColor != null) {
+    groupV2Record.avatarColor = avatarColor;
   }
 
   applyUnknownFields(groupV2Record, conversation);
@@ -1034,6 +1094,8 @@ export async function mergeGroupV2Record(
 
   applyMessageRequestState(groupV2Record, conversation);
 
+  applyAvatarColor(conversation, groupV2Record.avatarColor);
+
   let details = new Array<string>();
 
   addUnknownFields(groupV2Record, conversation, details);
@@ -1291,6 +1353,8 @@ export async function mergeContactRecord(
       shouldSave: false,
     });
   }
+
+  applyAvatarColor(conversation, contactRecord.avatarColor);
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
     await toContactRecord(conversation),
@@ -1682,6 +1746,8 @@ export async function mergeAccountRecord(
     await conversation.setAndMaybeFetchProfileAvatar(avatarUrl, profileKey);
     await window.storage.put('avatarUrl', avatarUrl);
   }
+
+  applyAvatarColor(conversation, accountRecord.avatarColor);
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
     toAccountRecord(conversation),

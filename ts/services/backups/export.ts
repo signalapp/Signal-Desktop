@@ -708,6 +708,7 @@ export class BackupExportStream extends Readable {
             ),
           }
         : null,
+      svrPin: storage.get('svrPin'),
       accountSettings: {
         readReceipts: storage.get('read-receipt-setting'),
         sealedSenderIndicators: storage.get('sealedSenderIndicators'),
@@ -824,7 +825,9 @@ export class BackupExportStream extends Readable {
     };
 
     if (isMe(convo)) {
-      res.self = {};
+      res.self = {
+        avatarColor: toAvatarColor(convo.color),
+      };
     } else if (isDirectConversation(convo)) {
       let visibility: Backups.Contact.Visibility;
       if (convo.removalStage == null) {
@@ -880,6 +883,7 @@ export class BackupExportStream extends Readable {
         systemNickname: convo.systemNickname,
         hideStory: convo.hideStory === true,
         identityKey: identityKey?.publicKey || null,
+        avatarColor: toAvatarColor(convo.color),
 
         // Integer values match so we can use it as is
         identityState: identityKey?.verified ?? 0,
@@ -916,6 +920,7 @@ export class BackupExportStream extends Readable {
         blocked: convo.groupId
           ? window.storage.blocked.isGroupBlocked(convo.groupId)
           : false,
+        avatarColor: toAvatarColor(convo.color),
         snapshot: {
           title: {
             title: convo.name?.trim() ?? '',
@@ -3055,4 +3060,37 @@ function toCallLinkRestrictionsProto(
   }
 
   return values.UNKNOWN;
+}
+
+function toAvatarColor(
+  color: string | undefined
+): Backups.AvatarColor | undefined {
+  switch (color) {
+    case 'A100':
+      return Backups.AvatarColor.A100;
+    case 'A110':
+      return Backups.AvatarColor.A110;
+    case 'A120':
+      return Backups.AvatarColor.A120;
+    case 'A130':
+      return Backups.AvatarColor.A130;
+    case 'A140':
+      return Backups.AvatarColor.A140;
+    case 'A150':
+      return Backups.AvatarColor.A150;
+    case 'A160':
+      return Backups.AvatarColor.A160;
+    case 'A170':
+      return Backups.AvatarColor.A170;
+    case 'A180':
+      return Backups.AvatarColor.A180;
+    case 'A190':
+      return Backups.AvatarColor.A190;
+    case 'A200':
+      return Backups.AvatarColor.A200;
+    case 'A210':
+      return Backups.AvatarColor.A210;
+    default:
+      return undefined;
+  }
 }
