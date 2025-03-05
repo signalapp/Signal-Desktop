@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "સ્ટોરેજ સેવા તરફથી અમાન્ય પ્રતિસાદ મળ્યો. કૃપા કરીને તમારા લૉગ શેર કરો."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "ગ્રેડિયન્ટ અંત"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF અટેચમેન્ટ ડાઉનલોડ કરો"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "કસ્ટમ સમય..."
@@ -5864,6 +5864,6 @@
     "messageformat": "અમે ગ્રૂપ કૉલ દરમિયાન આવતો એક નાનો એનિમેશન બગ ઠીક કર્યો છે."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "સ્ટીકર ડાઉનલોડ પર્ફોર્મન્સ સુધારણાઓ."
   }
 }

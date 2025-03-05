@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Получен неверный ответ от службы хранения. Пожалуйста, поделитесь своими журналами отладки."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Конец градиента"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Загрузить GIF-вложение"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Пользовательское время…"
@@ -5864,6 +5864,6 @@
     "messageformat": "Мы исправили небольшую ошибку анимации во время групповых звонков. Заранее приносим извинения, если самой увлекательным моментом вашего дня было переключение на сетку во время совещания в попытке поймать момент, когда квадраты с видео опоздавших частично перекрывали презентацию вашего начальника."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Стикеры должны прилипать, а не зависать! Теперь, если вы кликнете на стикер в недавно привязанном Signal Desktop, его загрузка автоматически получит приоритет – даже если в это время загружаются другие вложения."
   }
 }

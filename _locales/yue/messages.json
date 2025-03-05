@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "伺服器傳回無效嘅回應。請分享你嘅除錯記錄。"
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "漸變結束"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "下載 GIF 附件"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "自訂時間..."
@@ -5864,6 +5864,6 @@
     "messageformat": "我哋修復咗一個群組通話期間關於動畫嘅小錯誤。"
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "我哋改良咗貼圖嘅下載表現。而家，當你㩒一下新連結嘅 Signal 桌面版貼圖，就算有其他附件下載緊，系統都會自動優先處理貼圖下載。"
   }
 }

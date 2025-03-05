@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Umepokea majibu yasiyo sahihi kutoka huduma za uhifadhi. Tafadhali tuma logs zako."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Kuisha kwa rangi ya mwinamo"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Pakua attachment ya GIF"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Wakati maalum..."
@@ -5864,6 +5864,6 @@
     "messageformat": "Tumerekebisha hitilafu ndogo ya uhuishaji wakati wa simu za vikundi. Tunaomba msamaha mapema ikiwa sehemu ya kufurahisha zaidi ya siku yako ilikuwa kubadilisha kwenda kwenye mtazamo wa gridi wakati wa mkutano na kujaribu kupata muda ambapo video squares kutoka kwa watu ambao walijiunga kwa kuchelewa ilificha sehemu ya slaidi ambayo bosi wako alikuwa akiwasilisha."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Vibandiko vinapaswa kunata, sio kukwama, kwa hivyo sasa unaweza kubonyeza kwenye kibandiko katika Signal Desktop mpya na upakuaji wa kibandiko hiki kitapata kipaumbele hata pale viambatisho vingine vinapokua vinapakuliwa pia."
   }
 }

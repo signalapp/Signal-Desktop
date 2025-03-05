@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Сактоо кызматынан жараксыз жооп алынды. Журналдарыңызды бөлүшүңүз."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Градиенттин бүтүшү"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF тиркемени жүктөп алуу"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Ыңгайлаштырылган убакыт..."
@@ -5864,6 +5864,6 @@
     "messageformat": "Топтук чалуулардагы анимация мүчүлүштүгүн оңдодук. Топтук чалууда жетекчинин слайдшоусун жаап калган маселени чечтик."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Эми стикерди басып туруп жүктөп алсаңыз болот."
   }
 }

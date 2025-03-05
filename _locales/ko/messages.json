@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "스토리지 서비스에서 잘못된 응답을 받았습니다. 로그를 공유해 주세요."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "그라데이션 끝"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF 첨부 파일 다운로드"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "사용자 지정 시간…"
@@ -5864,6 +5864,6 @@
     "messageformat": "그룹 통화 중 발생하는 사소한 애니메이션 버그를 수정했습니다."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "스티커 다운로드 성능을 개선했습니다."
   }
 }

@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "შენახვის სერვისისგან არასწორი პასუხია მიღებული. გთხოვთ შენი ჩანაწერები გაგვიზიარო."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "გრადიენტის დასრულება"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "დართული GIF-ის ჩამოტვირთვა"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "არასტანდარტული დრო…"
@@ -5864,6 +5864,6 @@
     "messageformat": "ჯგუფური ზარების დროს დაფიქსირებული ანიმაციის პატარა ბაგი გამოვასწორეთ. ბოდიშს გიხდით წინასწარ, თუ შენი დღის ყველაზე საინტერესო ნაწილი გრიდ ვიუზე გადასვლა და იმ მომენტის დაჭერა იყო, როცა შეხვედრაზე გვიან შემოსული მონაწილეების ვიდეო ფანჯრები შენი უფროსის პრეზენტაციის სლაიდებს ფარავდა."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "ახლა უკვე შეგიძლია დააწკაპუნო სტიკერზე ახლად დაკავშირებულ Signal Desktop-ზე და ეს სტიკერი ავტომატურად მიიღებს პრიორიტეტს, მაშინაც კი, როდესაც სხვა დანართები გადმოწერის პროცესშია."
   }
 }

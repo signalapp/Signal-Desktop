@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "சேமிப்பகச் சேவையிலிருந்து தவறான பதில் கிடைத்தது. உங்கள் பதிவுகளைப் பகிருங்கள்."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "கலர் கிரேடியண்ட் முடிவு"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF இணைப்பை பதிவிறக்கு"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "விருப்ப நேரம்…"
@@ -5864,6 +5864,6 @@
     "messageformat": "குழு அழைப்புகளின் போது சிறிய அனிமேஷன் பிழையை சரிசெய்துள்ளோம். சந்திப்பின்போது உங்கள் நாளின் மிகவும் உற்சாகமான பகுதி கிரிட் காட்சிக்கு மாறியிருந்தால், சில சமயங்களில் உங்கள் முதலாளி வழங்கும் பிரசன்டேசனை தாமதமாகச் சேர்ந்த நபர்களின் காணொளிக் கட்டங்கள் ஓரளவு மறைத்துவிட்ட தருணத்தைப் பிடிக்க முயன்றிருந்தால், நாங்கள் முன்கூட்டியே மன்னிப்பு கேட்டுக்கொள்கிறோம்."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "ஸ்டிக்கர்கள் ஒட்டிக்கொண்டதாக உணர வேண்டும், அதேவேளையில் ஒட்டாமல் இருக்க வேண்டும், எனவே இப்போது நீங்கள் புதிதாக இணைக்கப்பட்ட சிக்னல் டெஸ்க்டாப்பில் ஒரு ஸ்டிக்கரைக் கிளிக் செய்யலாம், மற்ற இணைப்புகளும் பதிவிறக்கம் செய்யும்போதுகூட அந்த ஸ்டிக்கர் பதிவிறக்கம் தானாகவே முன்னுரிமை பெறப்படும்."
   }
 }

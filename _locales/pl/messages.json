@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Otrzymano nieprawidłową odpowiedź z usługi w chmurze. Udostępnij dzienniki."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Koniec gradientu"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Pobierz załącznik GIF"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Własny czas..."
@@ -5864,6 +5864,6 @@
     "messageformat": "Naprawiliśmy niewielki błąd animacji występujący podczas połączeń grupowych. Z góry przepraszamy wszystkich tych, którzy przez cały dzień w biurze czekali tylko na jedno: żeby na zdalnym spotkaniu firmowym odpalić tryb siatki i zobaczyć, jak okienka spóźnialskich przysłaniają prezentację szefowej."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Nic tak nie irytuje jak naklejka, która nie chce się wyświetlić. Dlatego od teraz, gdy w nowo połączonej aplikacji Signal Desktop klikniesz naklejkę, jej pobieranie automatycznie otrzyma priorytet, nawet jeśli w tym samym czasie pobierają się inne załączniki."
   }
 }

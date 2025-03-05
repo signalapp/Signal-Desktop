@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "បានទទួលការឆ្លើយតបមិនត្រឹមត្រូវពីសេវាកម្មផ្ទុក។ សូមចែករំលែកកំណត់ហេតុរបស់អ្នក។"
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "ចំណុចបញ្ចប់ Gradient"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "ទាញយកឯកសារភ្ជាប់រូបចលនា"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "ពេលកំណត់ផ្ទាល់ខ្លួន…"
@@ -5864,6 +5864,6 @@
     "messageformat": "យើងបានដោះស្រាយបញ្ហាតូចមួយទាក់ទងនឹងចលនារូបភាពក្នុងអំឡុងពេលហៅជាក្រុម។ សូមអភ័យទោសទុកជាមុន ប្រសិនបើរឿងដ៏គួរឱ្យរំភើបបំផុតនៃថ្ងៃរបស់អ្នកបែរជាបង្ហាញក្នុងទម្រង់ជាក្រឡាចត្រង្គទៅវិញក្នុងអំឡុងពេលប្រជុំ ហើយរូបតូចៗនៃវីដេអូរបស់អ្នកចូលរួមយឺតបាំងផ្នែកខ្លះនៃស្លាយបទបង្ហាញដែលចៅហ្វាយនាយរបស់អ្នកកំពុងបង្ហាញ។"
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "ស្ទីគ័រគួរតែមានភាពទាក់ទាញ មិនមែនគាំងៗទេ ដូច្នេះឥឡូវនេះ អ្នកអាចចុចលើស្ទីគ័រនៅលើ Signal Desktop ដែលបានភ្ជាប់ថ្មី ហើយការទាញយកស្ទីគ័រនោះនឹងធ្វើឡើងជាអាទិភាពដោយស្វ័យប្រវត្តិ ទោះបីជាពេលកំពុងទាញយកឯកសារភ្ជាប់ផ្សេងទៀតក៏ដោយ។"
   }
 }

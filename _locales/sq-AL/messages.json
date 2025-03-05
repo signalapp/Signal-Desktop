@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Morëm përgjigje të pavlefshme nga shërbimi i hapësirës ruajtëse. Të lutem, ndaj regjistrat."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Fundi i nuancave"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Shkarko bashkëngjitjen GIF"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Kohë vetjake…"
@@ -5864,6 +5864,6 @@
     "messageformat": "Rregulluam një defekt të vogël të animacionit gjatë thirrjeve në grup. Kërkojmë falje paraprakisht, nëse pjesa më emocionuese e ditës, ishte kalimi në pamjen rrjetë gjatë takimit dhe përpjekja për të kapur momentin kur kuadratet e videove të njerëzve që futen me vonesë pengojnë ndonjëherë pjesërisht prezantimin e shefit."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Ngjitëset duhet të ndihen se ngjisin, jo që ngecin, në mënyrë që të mund të klikosh mbi ngjitësen në një Signal Desktop të sapolidhur dhe shkarkimi i ngjitëses do të ketë automatikisht përparësi edhe kur po shkarkohen bashkëngjitje të tjera."
   }
 }

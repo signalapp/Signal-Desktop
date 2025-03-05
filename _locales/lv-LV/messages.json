@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Saņemta nederīga atbilde no servera. Lūdzu, nosūtiet mums atkļūdošanas žurnālus."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Gradienta beigas"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Lejupielādēt GIF pielikumu"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Pielāgots laiks…"
@@ -5864,6 +5864,6 @@
     "messageformat": "Mēs izlabojām mazu kļūdu animācijās grupu zvanu laikā."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Uzlīmēm vajadzētu būt lipīgām, nevis salipušām. Tagad, klikšķinot uz uzlīmes tikko piesaistītā Signal Desktop ierīcē, uzlīmes lejupielāde tiks automātiski prioritizēta, pat tad ja pamīšus lejupielādējat citus pielikumus."
   }
 }

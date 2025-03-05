@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "साठवण सेवेकडून अवैध सर्व्हर प्रतिसाद मिळाला. कृपया तुमचे लॉग्ज शेअर करा."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "ग्रेडिएंट समाप्त"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF अटॅचमेंट डाऊनलोड करा"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "सानुकूल वेळ(...)"
@@ -5864,6 +5864,6 @@
     "messageformat": "आम्ही गट कॉल्स दरम्यान उद्भवणारा एक छोटा ॲनिमेशन बग दुरुस्त केला. जर मीटिंग दरम्यान ग्रिड दृश्य लावणे आणि कधीकधी उशिरा आलेल्या लोकांच्या चौकटींनी तुमचा बॉस दाखवत असलेला स्लाईड डेक थोडासा झाकतानाचा क्षण अनुभवणे हीच तुमच्या अख्ख्या दिवसभरातील सर्वांत उत्साही गोष्ट असेल तर आम्ही आधीच माफी मागतो."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "स्टिकर चिकटायला हवेत, अडकायला नकोत, म्हणूनच आता तुम्ही नव्याने लिंक केलेल्या Signal डेस्कटॉप वरच्या स्टिकर वर क्लिक करू शकता आणि इतर अटॅचमेंट्स डाऊनलोड होत असतानाही त्या स्टिकर डाऊनलोडला आपोआप प्राधान्य मिळेल."
   }
 }

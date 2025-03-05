@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Nakatanggap ng invalid response mula sa storage service. Mangyaring i-share ang iyong logs."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Gradient end"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "I-download ang GIF attachment"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Custom time…"
@@ -5864,6 +5864,6 @@
     "messageformat": "May inayos kaming minor animation bug sa group calls."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "May performance improvements sa pag-download ng sticker."
   }
 }

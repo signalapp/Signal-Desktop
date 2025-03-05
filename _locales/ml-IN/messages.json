@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "സംഭരണ സേവനത്തിൽ നിന്ന് അസാധുവായ പ്രതികരണം ലഭിച്ചു. നിങ്ങളുടെ ലോഗുകൾ പങ്കിടുക."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "ഗ്രേഡിയന്റ് അവസാനം"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF അറ്റാച്ച്മെന്റ് ഡൗൺലോഡ് ചെയ്യുക"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "ഇഷ്‌ടാനുസൃത സമയം..."
@@ -5864,6 +5864,6 @@
     "messageformat": "ഗ്രൂപ്പ് കോളുകൾക്കിടയിലെ ഒരു ചെറിയ ആനിമേഷൻ ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. മീറ്റിംഗിൽ ഗ്രിഡ് വ്യൂവിൽ ആയിരിക്കുന്നതാണ് ഏറ്റവും ആവേശകരമെങ്കിലും വൈകി ചേർന്ന ആളുകളുടെ വീഡിയോ സ്ക്വയറുകൾ ചിലപ്പോൾ നിങ്ങളുടെ ബോസ് അവതരിപ്പിച്ച സ്ലൈഡ് ഡെക്കിനെ ഭാഗികമായി മറയ്ക്കുന്ന സാഹചര്യം ഉണ്ടാകുന്നതിൽ ഞങ്ങൾ മുൻകൂട്ടി ക്ഷമ ചോദിക്കുന്നു."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "സ്റ്റിക്കറുകൾ കുടുങ്ങിക്കിടക്കുന്നത് പോലെയല്ല മറിച്ച്, ഒട്ടിപ്പിടിച്ചിരിക്കുന്നത് പോലെ തോന്നണം, അതിനായി ഇപ്പോൾ നിങ്ങൾക്ക് അടുത്തിടെ ലിങ്ക് ചെയ്‌തിരിക്കുന്ന Signal ഡെസ്‌ക്‌ടോപ്പിലെ ഒരു സ്റ്റിക്കറിൽ ക്ലിക്കുചെയ്യാം, മറ്റ് അറ്റാച്ചുമെന്റുകൾ ഡൗൺലോഡ് ചെയ്യുമ്പോൾ പോലും ആ സ്റ്റിക്കർ ഡൗൺലോഡിന് സ്വയമേവ മുൻഗണന നൽകും."
   }
 }

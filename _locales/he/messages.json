@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "התקבלה תגובה לא חוקית משירות האחסון. יש לשתף את יומני ניפוי הבאגים שלך."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "סוף גרדיאנט"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "הורדת קובץ GIF מצורף"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "זמן מותאם אישית…"
@@ -5864,6 +5864,6 @@
     "messageformat": "תיקנו באג אנימציה קל שהתרחש במהלך שיחות קבוצתיות."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "שיפורי ביצועים בהורדת סטיקרים."
   }
 }

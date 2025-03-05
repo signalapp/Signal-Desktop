@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Сақтау қызметі жарамсыз жауап қайтарды. Журналдарыңызды бөлісіңіз."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Градиентті аяқтау"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF тіркемесін жүктеп алу"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Реттелмелі уақыт..."
@@ -5864,6 +5864,6 @@
     "messageformat": "Топтық қоңырау кезіндегі болмашы анимация ақауын түзеттік. Жиналыстағы экраныңыз тор көрінісіне ауыса берді ме? Сондай-ақ кеш қосылған қатысушылардың шаршы бейнелері бастығыңыз көрсетіп жатқан слайдты жауып қала берді ме? Жұмыс күніңіздегі мұндай ерекше сәттер үшін сізден кешірім сұраймыз."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Стикерлер алынбайтындай емес, жабысқақ болуы керек. Сондықтан енді жаңа байланыстырылған Signal Desktop-та стикерді түртсеңіз, басқа тіркемелер жүктеп алынып жатса да, стикер автоматты түрде бірінші жүктеп алынатын болады."
   }
 }

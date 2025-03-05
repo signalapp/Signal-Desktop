@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Răspuns invalid de la serviciul de stocare. Te rugăm să-ți partajezi jurnalele."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Sfârșit gradient"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Descarcă atașamentul GIF"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Timp personalizat..."
@@ -5864,6 +5864,6 @@
     "messageformat": "Am remediat un bug minor de animație din timpul apelurilor de grup. Ne cerem scuze anticipat dacă cea mai interesantă parte a zilei tale a fost trecerea la vizualizarea tip grilă în timpul unei întâlniri și încercarea de a surprinde momentul în care pătratele video de la persoanele care s-au alăturat târziu au ascuns uneori parțial prezentarea șefului tău."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Autocolantele ar trebui să pară lipicioase, nu blocate, așa că acum poți da clic pe un autocolant de pe un Signal Desktop nou conectat, iar descărcarea acelui autocolant va primi automat prioritate chiar și atunci când se descarcă și alte atașamente."
   }
 }

@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Respuesta no válida del servicio de almacenamiento. Te agradeceríamos que nos envíes tus registros."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Fin del degradado"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Descargar GIF adjunto"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Duración personalizada…"
@@ -5864,6 +5864,6 @@
     "messageformat": "Hemos corregido un pequeño error de animación en las llamadas grupales. Si lo más emocionante de tu día era cambiar a la vista de cuadrícula y tratar de capturar el momento en que los recuadros de las personas que se habían unido tarde a la llamada tapaban las diapositivas que estaba presentando tu jefe, ¡te pedimos disculpas!"
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Los stickers deberían pegarse, no encallarse… así que ahora, cuando hagas clic sobre un sticker en un dispositivo de Signal Desktop recién vinculado, se priorizará la descarga de este sticker de manera automática incluso aunque estés descargando otros archivos adjuntos."
   }
 }

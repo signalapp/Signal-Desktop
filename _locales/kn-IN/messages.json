@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "ಅಮಾನ್ಯ ಸರ್ವರ್ ಪ್ರತಿಕ್ರಿಯೆ. ನಿಮ್ಮ ಲಾಗ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "ಗ್ರೇಡಿಯೆಂಟ್ ಮುಕ್ತಾಯ"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "ಕಸ್ಟಮ್ ಸಮಯ…"
@@ -5864,6 +5864,6 @@
     "messageformat": "ಗುಂಪು ಕರೆಗಳ ಸಮಯದಲ್ಲಿ ನಾವು ಸಣ್ಣ ಅನಿಮೇಷನ್ ಬಗ್ ಅನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಮೀಟಿಂಗ್ ಸಮಯದಲ್ಲಿ ಗ್ರಿಡ್ ವೀಕ್ಷಣೆಗೆ ಬದಲಾಯಿಸುವುದು ಮತ್ತು ತಡವಾಗಿ ಸೇರಿಕೊಂಡ ಜನರ ವೀಡಿಯೊ ಸ್ಕ್ವೇರ್‌ಗಳು ಕೆಲವೊಮ್ಮೆ ನಿಮ್ಮ ಬಾಸ್ ಪ್ರಸ್ತುತಪಡಿಸುತ್ತಿದ್ದ ಸ್ಲೈಡ್ ಡೆಕ್ ಅನ್ನು ಭಾಗಶಃ ಮರೆಮಾಡುವ ಕ್ಷಣವನ್ನು ಸೆರೆಹಿಡಿಯಲು ಪ್ರಯತ್ನಿಸುವುದು ನಿಮ್ಮ ದಿನದ ಅತ್ಯಂತ ರೋಮಾಂಚಕಾರಿ ಭಾಗವಾಗಿದ್ದರೆ ನಾವು ಮುಂಚಿತವಾಗಿ ಕ್ಷಮೆಯಾಚಿಸುತ್ತೇವೆ."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಅಂಟಿಕೊಂಡಿರುವಂತಿರಬೇಕು, ಸಿಲುಕಿಹಾಕಿಕೊಂಡಂತಿರಬಾರದು, ಆದ್ದರಿಂದ ಈಗ ನೀವು ಹೊಸದಾಗಿ ಲಿಂಕ್ ಮಾಡಲಾದ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಸ್ಟಿಕ್ಕರ್ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಬಹುದು ಮತ್ತು ಇತರ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳು ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತಿರುವಾಗಲೂ ಆ ಸ್ಟಿಕ್ಕರ್ ಡೌನ್‌ಲೋಡ್‌ಗೆ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಆದ್ಯತೆ ನೀಡಲಾಗುತ್ತದೆ."
   }
 }

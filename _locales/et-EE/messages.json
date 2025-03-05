@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Salvestusteenuselt saadi kehtetu vastus. Palun jaga oma logisid."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Gradiendi lõpp"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Laadi GIF manus alla"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Kohandatud aeg…"
@@ -5864,6 +5864,6 @@
     "messageformat": "Parandasime grupikõnede ajal esineva väikese animatsioonivea."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Kleebiste allalaadimise jõudlus on nüüd parem."
   }
 }

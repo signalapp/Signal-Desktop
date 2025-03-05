@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Невалиден отговор от услугата за съхранение. Моля, споделете вашите дневници."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -4350,7 +4350,7 @@
     "messageformat": "Край на градиент"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Изтегляне на прикачения GIF"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Персонализирано време…"
@@ -5864,6 +5864,6 @@
     "messageformat": "Отстранихме малък бъг в анимацията по време на груповите обаждания."
   },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Подобрения в ефективността при изтегляне на стикери."
   }
 }
