@@ -440,14 +440,18 @@ export async function sendNormalMessage(
 
     await messageSendPromise;
 
-    const didFullySend =
-      !messageSendErrors.length ||
-      didSendToEveryone({
-        log,
-        message,
-        targetTimestamp: editedMessageTimestamp || messageTimestamp,
-      });
+    const didFullySend = didSendToEveryone({
+      isSendingInGroup: conversation.get('type') === 'group',
+      log,
+      message,
+      targetTimestamp: editedMessageTimestamp || messageTimestamp,
+    });
     if (!didFullySend) {
+      if (!messageSendErrors.length) {
+        log.warn(
+          'Did not send to everyone, but no errors returned - maybe all errors were UnregisteredUserErrors?'
+        );
+      }
       throw new Error('message did not fully send');
     }
   } catch (thrownError: unknown) {
@@ -1171,10 +1175,12 @@ async function markMessageFailed({
 }
 
 function didSendToEveryone({
+  isSendingInGroup,
   log,
   message,
   targetTimestamp,
 }: {
+  isSendingInGroup: boolean;
   log: LoggerType;
   message: MessageModel;
   targetTimestamp: number;
@@ -1186,7 +1192,19 @@ function didSendToEveryone({
       prop: 'sendStateByConversationId',
       targetTimestamp,
     }) || {};
-  return Object.values(sendStateByConversationId).every(sendState =>
-    isSent(sendState.status)
+  return Object.entries(sendStateByConversationId).every(
+    ([conversationId, sendState]) => {
+      const conversation = window.ConversationController.get(conversationId);
+      if (isSendingInGroup) {
+        if (!conversation) {
+          return true;
+        }
+        if (conversation.isUnregistered()) {
+          return true;
+        }
+      }
+
+      return isSent(sendState.status);
+    }
   );
 }
