@@ -4,51 +4,51 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "99.84.203.102"
+        "address": "18.161.21.122"
       },
       {
         "family": "ipv4",
-        "address": "99.84.203.113"
+        "address": "18.161.21.4"
       },
       {
         "family": "ipv4",
-        "address": "99.84.203.15"
+        "address": "18.161.21.66"
       },
       {
         "family": "ipv4",
-        "address": "99.84.203.48"
+        "address": "18.161.21.70"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:20c5:2a00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:1600:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:20c5:2c00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:3c00:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:20c5:6e00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:5600:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:20c5:9000:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:7600:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:20c5:b200:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:8800:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:20c5:c200:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:b400:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:20c5:d600:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:de00:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:20c5:ec00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:24eb:ee00:1d:4f32:50c0:93a1"
       }
     ]
   },
@@ -146,11 +146,11 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "142.250.72.179"
+        "address": "142.251.40.243"
       },
       {
         "family": "ipv6",
-        "address": "2607:f8b0:4007:80a::2013"
+        "address": "2607:f8b0:4006:823::2013"
       }
     ]
   },
