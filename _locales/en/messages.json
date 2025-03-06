@@ -563,10 +563,6 @@
     "messageformat": "{count, plural, one {# Unread Message} other {# Unread Messages}}",
     "description": "Text for unread message separator, with count"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "For your security, chat history isn't transferred to new linked devices.",
-    "description": "(Deleted 2025/01/29) Shown in the conversation history when a user links a new device to explain what is not supported."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "You marked your Safety Number with {name} as verified",
     "description": "Shown in the conversation history when the user marks a contact as verified."
@@ -3261,7 +3257,7 @@
   },
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Viewed",
-    "description": "Text shown on messages with individual timers, after user has viewed it"
+    "description": "(Deleted 2025/03/06) Text shown on messages with individual timers, after user has viewed it"
   },
   "icu:Message--tap-to-view--viewed": {
     "messageformat": "Viewed",
@@ -3269,7 +3265,7 @@
   },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Media",
-    "description": "Text shown on outgoing messages with individual timers (inaccessible)"
+    "description": "(Deleted 2025/03/06) Text shown on outgoing messages with individual timers (inaccessible)"
   },
   "icu:Message--tap-to-view--media": {
     "messageformat": "View Once Media",
@@ -3285,11 +3281,11 @@
   },
   "icu:Message--tap-to-view--incoming": {
     "messageformat": "View Photo",
-    "description": "Text shown on photo messages with individual timers, before user has viewed it"
+    "description": "(Deleted 2025/03/06) Text shown on photo messages with individual timers, before user has viewed it"
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "View Video",
-    "description": "Text shown on video messages with individual timers, before user has viewed it"
+    "description": "(Deleted 2025/03/06) Text shown on video messages with individual timers, before user has viewed it"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "View Once Video",
@@ -8110,7 +8106,7 @@
   },
   "icu:WhatsNew__v7.45--0": {
     "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too.",
-    "description": "Release notes for version 7.45"
+    "description": "(Deleted 2025/03/06) Release notes for version 7.45"
   },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive.",

@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Квалитет на испратена медиумска датотека"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "Sending high quality media will use more data."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандардно"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} непрочитана порака} other {{count,number} непрочитани пораки}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "За ваша безбедност, историјата од разговорите не се пренесува на нови поврзани уреди."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "Го обележавте вашиот безбедносен број со{name} како проверен"
   },
@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "Добиен е невалиден одговор од услугата за складирање. Ве молиме споделете ги вашите записи."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1163,6 +1163,12 @@
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Гласовната порака не е достапна"
   },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "View once media is not available"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Can't download view once media"
+  },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Датотеката не е достапна"
   },
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "Оваа гласовна порака не беше пренесена од вашиот телефон кога се поврза овој уред. Медиумските датотеки и датотеките постари од 45 дена во моментот на поврзување на уредот не може да се синхронизираат."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Can’t download view once media. {name} will need to send it again."
   },
   "icu:save": {
     "messageformat": "Зачувај"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Неуспешно пронаоѓање на телефонски број. Проверете ја интернет врската и обидете се повторно."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Download failed"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Може да се применуваат измени само во рок од 3 часа откако ја имате испратено пораката."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Знаме"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Emoji"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Stickers"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIFs"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Search emoji"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Search emoji"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Emoji Categories"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Smileys & People"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Animals & Nature"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Food & Drink"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Activities"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Travel & Places"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Objects"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Symbols"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Flags"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "No emoji found"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Change Skin Tone Preference"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Choose your default skintone"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Smileys & People"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Animals & Nature"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Food & Drink"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Travel & Places"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Activities"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Objects"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Symbols"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Flags"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Search stickers"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Search stickers"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Sticker Packs"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "No stickers found"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Search GIFs via Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Search Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF Categories"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Trending"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Celebrate"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Love"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Thumbs Up"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Surprised"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Excited"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Sad"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Angry"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Loading GIFs"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Retry"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "No GIFs found"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Откажи"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Видено"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Viewed"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Медиумски датотеки"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "View Once Media"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Веќе ја видовте оваа порака."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "Види видео"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "View Once Video"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "View Once Photo"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Click to view"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(прилог)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Испрати изменета порака"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Измени ја пораката"
   },
@@ -4350,7 +4536,7 @@
     "messageformat": "Крај со прелевање"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "Преземете GIF прилог"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Прилагодено време…"
@@ -4655,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "Приватност"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Data usage"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Media auto-download"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Photos"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Videos"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Documents"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Voice messages and stickers are always auto-downloaded."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Последен внес на {date} {time}"
   },
@@ -4811,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Новата верзија е преземена"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Open Signal on your phone"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal се соочува со технички потешкотии. Работиме напорно да ја вратиме услугата што е можно побрзо."
   },
@@ -4951,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Allow access to your microphone"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Allow access to your camera"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "To join or start a call:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "To enable your video:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "To send voice messages:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Click “{buttonName}” below"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Turn on “Signal”"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Go to settings"
   },
   "icu:MyStories__title": {
     "messageformat": "Мои приказни"
@@ -5860,10 +6097,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.44--0": {
-    "messageformat": "Решивме мала грешка со анимациите во текот на групни повици."
-  },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "Подобрувања на перформансот за преземање налепници."
+  },
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+  },
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
   }
 }

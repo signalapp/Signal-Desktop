@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "मिडिया पाठवण्याचा दर्जा"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "Sending high quality media will use more data."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "मानक"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} न वाचलेला संदेश} other {{count,number} न वाचलेले संदेश}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "आपल्या सुरक्षिततेसाठी, नवीन लिंंक केलेली डिव्हाइसेस वर चॅट्स इतिहास अंतरित केला नाही."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "आपण {name} सोबतचा आपला सुरक्षितता नंबर सत्यापित म्हणून चिन्हांकित केला आहे"
   },
@@ -588,7 +588,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Received invalid response from storage service. Please share your logs."
+    "messageformat": "साठवण सेवेकडून अवैध सर्व्हर प्रतिसाद मिळाला. कृपया तुमचे लॉग्ज शेअर करा."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1163,6 +1163,12 @@
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "व्हॉईस संदेश उपलब्ध नाही"
   },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "View once media is not available"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Can't download view once media"
+  },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "फाईल उपलब्ध नाही"
   },
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "हा डिव्हाईस लिंक केला तेव्हा हा व्हॉईस संदेश तुमच्या फोनवरून हस्तांतरण झाला नव्हता. डिव्हाईस सिंक करतेवेळी ४५ दिवसांपेक्षा जुना मिडीया आणि जुन्या फाईल्स सिंक करता येत नाहीत."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Can’t download view once media. {name} will need to send it again."
   },
   "icu:save": {
     "messageformat": "जतन करा"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "फोन नंबर ओढून काढण्यात अयशस्वी. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Download failed"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "आपण हा संदेश पाठवल्यापासून फक्त 24 तासांच्या आत संपादन करणे लागू केले जाऊ शकते."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "झेंडा"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Emoji"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Stickers"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIFs"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Search emoji"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Search emoji"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Emoji Categories"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Smileys & People"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Animals & Nature"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Food & Drink"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Activities"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Travel & Places"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Objects"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Symbols"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Flags"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "No emoji found"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Change Skin Tone Preference"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Choose your default skintone"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Smileys & People"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Animals & Nature"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Food & Drink"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Travel & Places"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Activities"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Objects"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Symbols"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Flags"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Search stickers"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Search stickers"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Sticker Packs"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "No stickers found"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Search GIFs via Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Search Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF Categories"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Recently Used"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Trending"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Celebrate"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Love"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Thumbs Up"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Surprised"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Excited"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Sad"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Angry"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Loading GIFs"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Retry"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "No GIFs found"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "रद्द करा"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "बघितले"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Viewed"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "मीडिया"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "View Once Media"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "हा संदेश आपण आधीच पाहिला आहे."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "व्हिडिओ बघा"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "View Once Video"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "View Once Photo"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Click to view"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(संलग्न)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "संपादित केलेले संदेश पाठवा"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "संदेश संपादित करा"
   },
@@ -4350,7 +4536,7 @@
     "messageformat": "ग्रेडिएंट समाप्त"
   },
   "icu:GIF--download": {
-    "messageformat": "Download GIF attachment"
+    "messageformat": "GIF अटॅचमेंट डाऊनलोड करा"
   },
   "icu:customDisappearingTimeOption": {
     "messageformat": "सानुकूल वेळ(...)"
@@ -4655,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "गोपनीयता"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Data usage"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Media auto-download"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Photos"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Videos"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Documents"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Voice messages and stickers are always auto-downloaded."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} रोजी शेवटची आयात"
   },
@@ -4811,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "अपडेट डाउनलोड केली"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Open Signal on your phone"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal तांत्रिक समस्या अनुभवत आहे. आम्ही लवकरात लवकर सेवा पुनर्स्थित करण्यासाठी कठोर परिश्रम करत आहोत."
   },
@@ -4951,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Allow access to your microphone"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Allow access to your camera"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "To join or start a call:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "To enable your video:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "To send voice messages:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Click “{buttonName}” below"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Turn on “Signal”"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Go to settings"
   },
   "icu:MyStories__title": {
     "messageformat": "माझ्या स्टोरीज"
@@ -5860,10 +6097,13 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.44--0": {
-    "messageformat": "आम्ही गट कॉल्स दरम्यान उद्भवणारा एक छोटा ॲनिमेशन बग दुरुस्त केला. जर मीटिंग दरम्यान ग्रिड दृश्य लावणे आणि कधीकधी उशिरा आलेल्या लोकांच्या चौकटींनी तुमचा बॉस दाखवत असलेला स्लाईड डेक थोडासा झाकतानाचा क्षण अनुभवणे हीच तुमच्या अख्ख्या दिवसभरातील सर्वांत उत्साही गोष्ट असेल तर आम्ही आधीच माफी मागतो."
-  },
   "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too."
+    "messageformat": "स्टिकर चिकटायला हवेत, अडकायला नकोत, म्हणूनच आता तुम्ही नव्याने लिंक केलेल्या Signal डेस्कटॉप वरच्या स्टिकर वर क्लिक करू शकता आणि इतर अटॅचमेंट्स डाऊनलोड होत असतानाही त्या स्टिकर डाऊनलोडला आपोआप प्राधान्य मिळेल."
+  },
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+  },
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
   }
 }
