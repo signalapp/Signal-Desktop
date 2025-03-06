@@ -1284,7 +1284,7 @@ function declineCall(
 
     const call = getOwn(getState().calling.callsByConversation, conversationId);
     if (!call) {
-      log.error('Trying to decline a non-existent call');
+      log.warn('Trying to decline a non-existent call');
       return;
     }
 
