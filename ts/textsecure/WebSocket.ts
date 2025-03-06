@@ -3,6 +3,7 @@
 
 import { client as WebSocketClient } from 'websocket';
 import type { connection as WebSocket } from 'websocket';
+import type { IncomingMessage } from 'http';
 
 import { AbortableProcess } from '../util/AbortableProcess';
 import { strictAssert } from '../util/assert';
@@ -32,6 +33,7 @@ export type ConnectOptionsType<Resource extends IResource> = Readonly<{
   proxyAgent?: ProxyAgent;
   timeout?: number;
   extraHeaders?: Record<string, string>;
+  onUpgradeResponse?: (response: IncomingMessage) => void;
 
   createResource(socket: WebSocket): Resource;
 }>;
@@ -44,6 +46,7 @@ export function connect<Resource extends IResource>({
   proxyAgent,
   extraHeaders = {},
   timeout = WEBSOCKET_CONNECT_TIMEOUT,
+  onUpgradeResponse,
   createResource,
 }: ConnectOptionsType<Resource>): AbortableProcess<Resource> {
   const fixedScheme = url
@@ -82,6 +85,10 @@ export function connect<Resource extends IResource>({
 
     resource = createResource(socket);
     resolve(resource);
+  });
+
+  client.on('upgradeResponse', response => {
+    onUpgradeResponse?.(response);
   });
 
   client.on('httpResponse', async response => {

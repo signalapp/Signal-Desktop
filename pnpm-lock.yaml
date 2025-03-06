@@ -26,6 +26,9 @@ patchedDependencies:
   '@types/node-fetch@2.6.12':
     hash: bc43fb8cfed85fb4f7917b5bd3b47644ae15a000c26a6fe23078b2f5217efaf0
     path: patches/@types+node-fetch+2.6.12.patch
+  '@types/websocket@1.0.0':
+    hash: 53fdd65a6b35f379eb8f5807d315f00c66e9bfe9741f4859a0fa21026bdb30fa
+    path: patches/@types+websocket+1.0.0.patch
   '@vitest/expect@2.0.5':
     hash: e8a96f71e52bf903c9f1eadba4740489a0beb48da33db52354adca484fe1f495
     path: patches/@vitest+expect+2.0.5.patch
@@ -72,7 +75,7 @@ patchedDependencies:
     hash: 94614db18e4db7ff5eee4c2acf88e3ef245bff2f9637416e99e401bec3531286
     path: patches/react-textarea-autosize+8.5.5.patch
   websocket@1.0.34:
-    hash: 4ce5bb237501a5576bd9e09fbff46551dd3e57f7702f6033bcffa49dde7f71bb
+    hash: b8d361a6a73e44000bb51102dea0d841c22d2bb455dd6c54de566d0e0bd86355
     path: patches/websocket+1.0.34.patch
   zod@3.23.8:
     hash: 239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d
@@ -375,7 +378,7 @@ importers:
         version: 11.0.2
       websocket:
         specifier: 1.0.34
-        version: 1.0.34(patch_hash=4ce5bb237501a5576bd9e09fbff46551dd3e57f7702f6033bcffa49dde7f71bb)
+        version: 1.0.34(patch_hash=b8d361a6a73e44000bb51102dea0d841c22d2bb455dd6c54de566d0e0bd86355)
       write-file-atomic:
         specifier: 6.0.0
         version: 6.0.0
@@ -429,8 +432,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 11.0.0
-        version: 11.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 11.1.0
+        version: 11.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -586,7 +589,7 @@ importers:
         version: 10.0.0
       '@types/websocket':
         specifier: 1.0.0
-        version: 1.0.0
+        version: 1.0.0(patch_hash=53fdd65a6b35f379eb8f5807d315f00c66e9bfe9741f4859a0fa21026bdb30fa)
       '@types/write-file-atomic':
         specifier: 4.0.3
         version: 4.0.3
@@ -2535,8 +2538,8 @@ packages:
   '@signalapp/libsignal-client@0.67.3':
     resolution: {integrity: sha512-GIiXJMqiIByPZbomytoYQcQLJ3pNgHBCjt5BvlE/3rkrmNwyXW1UVqszX6/WfZi91aqUapO4+7Op+8JCbDGRWA==}
 
-  '@signalapp/mock-server@11.0.0':
-    resolution: {integrity: sha512-JHEqdjXvWcXyLJ90OtaTIQVtizH/w+rmnPplNmHuUiDZIQIEvE3lRyZFyIvgVTNg29lQWs/Gw/o+hICerdOChQ==}
+  '@signalapp/mock-server@11.1.0':
+    resolution: {integrity: sha512-SYYek3QCh57vZZGNVQW+fSXMr+xHjnO8sMAFfj8DovjqW4HIBWbt3itGyyjxSoIXnaCMK346O6I/R79w8xY/aw==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -12266,7 +12269,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/mock-server@11.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@11.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.60.2
@@ -13134,7 +13137,7 @@ snapshots:
     dependencies:
       '@types/node': 20.17.6
 
-  '@types/websocket@1.0.0':
+  '@types/websocket@1.0.0(patch_hash=53fdd65a6b35f379eb8f5807d315f00c66e9bfe9741f4859a0fa21026bdb30fa)':
     dependencies:
       '@types/node': 20.17.6
 
@@ -20849,7 +20852,7 @@ snapshots:
 
   websocket-extensions@0.1.4: {}
 
-  websocket@1.0.34(patch_hash=4ce5bb237501a5576bd9e09fbff46551dd3e57f7702f6033bcffa49dde7f71bb):
+  websocket@1.0.34(patch_hash=b8d361a6a73e44000bb51102dea0d841c22d2bb455dd6c54de566d0e0bd86355):
     dependencies:
       bufferutil: 4.0.9
       debug: 2.6.9

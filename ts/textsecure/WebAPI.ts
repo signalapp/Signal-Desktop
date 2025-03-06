@@ -1812,6 +1812,10 @@ export function initialize({
       window.Whisper.events.trigger('firstEnvelope', incoming);
     });
 
+    socketManager.on('serverAlerts', alerts => {
+      window.Whisper.events.trigger('serverAlerts', alerts);
+    });
+
     if (useWebSocket) {
       void socketManager.authenticate({ username, password });
     }

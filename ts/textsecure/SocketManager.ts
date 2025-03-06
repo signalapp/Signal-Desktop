@@ -12,6 +12,7 @@ import { Headers } from 'node-fetch';
 import type { connection as WebSocket } from 'websocket';
 import qs from 'querystring';
 import EventListener from 'events';
+import type { IncomingMessage } from 'http';
 
 import type { AbortableProcess } from '../util/AbortableProcess';
 import { strictAssert } from '../util/assert';
@@ -50,6 +51,7 @@ import { isNightly, isBeta, isStaging } from '../util/version';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { isTestOrMockEnvironment } from '../environment';
 import type { ConfigKeyType } from '../RemoteConfig';
+import { ServerAlert } from '../state/ducks/server';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -219,6 +221,9 @@ export class SocketManager extends EventListener {
           extraHeaders: {
             Authorization: getBasicAuth({ username, password }),
             'X-Signal-Receive-Stories': String(!this.#hasStoriesDisabled),
+          },
+          onUpgradeResponse: (response: IncomingMessage) => {
+            this.#handleAuthenticatedUpgradeResponseHeaders(response.headers);
           },
           proxyAgent,
         });
@@ -758,6 +763,7 @@ export class SocketManager extends EventListener {
     resourceOptions,
     query = {},
     extraHeaders = {},
+    onUpgradeResponse,
     timeout,
   }: {
     name: string;
@@ -766,6 +772,7 @@ export class SocketManager extends EventListener {
     resourceOptions: WebSocketResourceOptions;
     query?: Record<string, string>;
     extraHeaders?: Record<string, string>;
+    onUpgradeResponse?: (response: IncomingMessage) => void;
     timeout?: number;
   }): AbortableProcess<IWebSocketResource> {
     const queryWithDefaults = {
@@ -787,6 +794,7 @@ export class SocketManager extends EventListener {
       timeout,
 
       extraHeaders,
+      onUpgradeResponse,
 
       createResource(socket: WebSocket): WebSocketResource {
         const duration = (performance.now() - start).toFixed(1);
@@ -947,6 +955,33 @@ export class SocketManager extends EventListener {
     return this.#lazyProxyAgent;
   }
 
+  #handleAuthenticatedUpgradeResponseHeaders(
+    headers: Record<string, string | Array<string> | undefined>
+  ) {
+    let alerts: Array<string> = [];
+    for (const [key, value] of Object.entries(headers)) {
+      if (key.toLowerCase() === 'x-signal-alert') {
+        if (value == null) {
+          alerts = [];
+        } else if (Array.isArray(value)) {
+          alerts = value;
+        } else {
+          alerts = [value];
+        }
+        break;
+      }
+    }
+
+    const serverAlerts: Array<ServerAlert> = [];
+    alerts.forEach(alert => {
+      if (alert.toLowerCase() === 'critical-idle-primary-device') {
+        serverAlerts.push(ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE);
+      }
+    });
+
+    this.emit('serverAlerts', serverAlerts);
+  }
+
   // EventEmitter types
 
   public override on(type: 'authError', callback: () => void): this;
@@ -956,6 +991,10 @@ export class SocketManager extends EventListener {
   public override on(
     type: 'firstEnvelope',
     callback: (incoming: IncomingWebSocketRequest) => void
+  ): this;
+  public override on(
+    type: 'serverAlerts',
+    callback: (alerts: Array<ServerAlert>) => void
   ): this;
 
   public override on(
@@ -973,6 +1012,10 @@ export class SocketManager extends EventListener {
   public override emit(
     type: 'firstEnvelope',
     incoming: IncomingWebSocketRequest
+  ): boolean;
+  public override emit(
+    type: 'serverAlerts',
+    alerts: Array<ServerAlert>
   ): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
