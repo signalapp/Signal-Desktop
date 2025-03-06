@@ -83,6 +83,7 @@ export function initializeRedux(data: ReduxInitData): void {
       store.dispatch
     ),
     search: bindActionCreators(actionCreators.search, store.dispatch),
+    server: bindActionCreators(actionCreators.server, store.dispatch),
     stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
     stories: bindActionCreators(actionCreators.stories, store.dispatch),
     storyDistributionLists: bindActionCreators(

@@ -69,6 +69,7 @@ export type PropsType = {
   otherTabsUnreadStats: UnreadStats;
   hasExpiredDialog: boolean;
   hasFailedStorySends: boolean;
+  hasCriticalIdlePrimaryDeviceAlert: boolean;
   hasNetworkDialog: boolean;
   hasPendingUpdate: boolean;
   hasRelinkDialog: boolean;
@@ -180,6 +181,12 @@ export type PropsType = {
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
+  renderCriticalIdlePrimaryDeviceDialog: (
+    _: Readonly<{
+      containerWidthBreakpoint: WidthBreakpoint;
+      i18n: LocalizerType;
+    }>
+  ) => JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
   }) => JSX.Element;
@@ -206,6 +213,7 @@ export function LeftPane({
   getPreferredBadge,
   hasExpiredDialog,
   hasFailedStorySends,
+  hasCriticalIdlePrimaryDeviceAlert,
   hasNetworkDialog,
   hasPendingUpdate,
   hasRelinkDialog,
@@ -227,6 +235,7 @@ export function LeftPane({
   renderCaptchaDialog,
   renderCrashReportDialog,
   renderExpiredBuildDialog,
+  renderCriticalIdlePrimaryDeviceDialog,
   renderMessageSearchResult,
   renderNetworkStatus,
   renderUnsupportedOSDialog,
@@ -611,6 +620,9 @@ export function LeftPane({
     maybeYellowDialog = renderNetworkStatus(commonDialogProps);
   } else if (hasRelinkDialog) {
     maybeYellowDialog = renderRelinkDialog(commonDialogProps);
+  } else if (hasCriticalIdlePrimaryDeviceAlert) {
+    maybeYellowDialog =
+      renderCriticalIdlePrimaryDeviceDialog(commonDialogProps);
   }
 
   // Update dialog

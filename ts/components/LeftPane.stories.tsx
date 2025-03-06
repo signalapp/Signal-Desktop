@@ -35,6 +35,7 @@ import {
   useUuidFetchState,
 } from '../test-both/helpers/fakeLookupConversationWithoutServiceId';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem';
+import { CriticalIdlePrimaryDeviceDialog } from './CriticalIdlePrimaryDeviceDialog';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -173,6 +174,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     getPreferredBadge: () => undefined,
     hasFailedStorySends: false,
     hasPendingUpdate: false,
+    hasCriticalIdlePrimaryDeviceAlert: false,
     i18n,
     isMacOS: false,
     preferredWidthFromStorage: 320,
@@ -271,6 +273,9 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       />
     ),
     renderExpiredBuildDialog: props => <DialogExpiredBuild {...props} />,
+    renderCriticalIdlePrimaryDeviceDialog: props => (
+      <CriticalIdlePrimaryDeviceDialog {...props} />
+    ),
     renderUnsupportedOSDialog: props => (
       <UnsupportedOSDialog
         i18n={i18n}
@@ -389,6 +394,15 @@ export function InboxBackupMediaDownloadWithDialogsAndUnpinnedConversations(): J
           archivedConversations: [],
           isAboutToSearch: false,
         },
+      })}
+    />
+  );
+}
+export function InboxCriticalIdlePrimaryDeviceAlert(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        hasCriticalIdlePrimaryDeviceAlert: true,
       })}
     />
   );

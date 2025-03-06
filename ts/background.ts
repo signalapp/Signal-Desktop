@@ -208,6 +208,7 @@ import { handleDataMessage } from './messages/handleDataMessage';
 import { MessageModel } from './models/messages';
 import { waitForEvent } from './shims/events';
 import { sendSyncRequests } from './textsecure/syncRequests';
+import { handleServerAlerts } from './util/handleServerAlerts';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -511,6 +512,8 @@ export async function startApp(): Promise<void> {
     restoreRemoteConfigFromStorage();
 
     window.Whisper.events.on('firstEnvelope', checkFirstEnvelope);
+    window.Whisper.events.on('serverAlerts', handleServerAlerts);
+
     server = window.WebAPI.connect({
       ...window.textsecure.storage.user.getWebAPICredentials(),
       hasStoriesDisabled: window.storage.get('hasStoriesDisabled', false),

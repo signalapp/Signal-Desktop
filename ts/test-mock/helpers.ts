@@ -252,12 +252,15 @@ export async function createGroup(
   await phone.setStorageState(state);
   return group;
 }
+export function getLeftPane(page: Page): Locator {
+  return page.locator('#LeftPane');
+}
 
 export async function clickOnConversationWithAci(
   page: Page,
   aci: string
 ): Promise<void> {
-  const leftPane = page.locator('#LeftPane');
+  const leftPane = getLeftPane(page);
   await leftPane.getByTestId(aci).click();
 }
 

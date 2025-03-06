@@ -1,5 +1,17 @@
+diff --git a/lib/WebSocketClient.js b/lib/WebSocketClient.js
+index fb7572b382de289f7fa3ff35a9647f118f3bd4eb..0000a94607520b4b7ac71f5eee4ed297df8d1bf7 100644
+--- a/lib/WebSocketClient.js
++++ b/lib/WebSocketClient.js
+@@ -258,6 +258,7 @@ WebSocketClient.prototype.connect = function(requestUrl, protocols, origin, head
+         self.socket = socket;
+         self.response = response;
+         self.firstDataChunk = head;
++        self.emit('upgradeResponse', response);
+         self.validateHandshake();
+     });
+     req.on('error', handleRequestError);
 diff --git a/lib/WebSocketConnection.js b/lib/WebSocketConnection.js
-index 219de63..93d3800 100644
+index 219de631dabe578e64574732fc95353a1c1047fa..93d380004b5bc58ba9895fb5a760709389641071 100644
 --- a/lib/WebSocketConnection.js
 +++ b/lib/WebSocketConnection.js
 @@ -271,7 +271,7 @@ WebSocketConnection.prototype.handleSocketData = function(data) {
