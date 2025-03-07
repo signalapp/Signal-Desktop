@@ -394,7 +394,8 @@ export function parseGroupLink(value: string): {
   masterKey: string;
   inviteLinkPassword: string;
 } {
-  const base64 = fromWebSafeBase64(value);
+  const valueWithUrlQueryRemoved = value.split("?")[0];
+  const base64 = fromWebSafeBase64(valueWithUrlQueryRemoved);
   const buffer = Bytes.fromBase64(base64);
 
   const inviteLinkProto = Proto.GroupInviteLink.decode(buffer);
