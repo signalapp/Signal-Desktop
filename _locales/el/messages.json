@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Ποιότητα απεσταλμένων πολυμέσων"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "Η αποστολή πολυμέσων υψηλής ποιότητας θα καταναλώνει περισσότερα δεδομένα."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Κανονική"
   },
@@ -406,9 +409,6 @@
   },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} μη αναγνωσμένο μήνυμα} other {{count,number} μη αναγνωσμένα μηνύματα}}"
-  },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "Για την ασφάλειά σου, το ιστορικό συνομιλίας δεν μεταφέρεται σε νέες συνδεδεμένες συσκευές."
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "Σημείωσες τον αριθμό ασφαλείας σου με τον/την {name} ως επιβεβαιωμένο."
@@ -1163,6 +1163,12 @@
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Το ηχητικό μήνυμα δεν είναι διαθέσιμο"
   },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "View once media is not available"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Can't download view once media"
+  },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Το αρχείο δεν είναι διαθέσιμο"
   },
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "Αυτό το ηχητικό μήνυμα δεν μεταφέρθηκε από το τηλέφωνό σου όταν συνδέθηκε αυτή η συσκευή. Δεν είναι δυνατός ο συγχρονισμός πολυμέσων και αρχείων παλαιότερων των 45 ημερών κατά τη σύνδεση της συσκευής."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Can’t download view once media. {name} will need to send it again."
   },
   "icu:save": {
     "messageformat": "Αποθήκευση"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Αποτυχία λήψης του τηλεφωνικού αριθμού. Έλεγξε τη σύνδεσή σου και προσπάθησε ξανά."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Download failed"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Οι τροποποιήσεις μπορούν να εφαρμοστούν μόνο εντός 24 ωρών από τη στιγμή που έστειλες αυτό το μήνυμα."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Σημαία"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Emoji"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Αυτοκόλλητα"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "Εικόνες GIF"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Αναζήτηση emoji"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Αναζήτηση emoji"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Emoji Categories"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Πρόσφατα χρησιμοποιημένα"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Φατσούλες και άνθρωποι"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Ζώα και φύση"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Φαγητό και ποτό"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Δραστηριότητες"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Ταξίδι και τοποθεσίες"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Αντικείμενα"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Σύμβολα"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Σημαίες"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "Δεν βρέθηκε emoji"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Change Skin Tone Preference"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Choose your default skintone"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Πρόσφατα χρησιμοποιημένα"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Φατσούλες και άνθρωποι"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Ζώα και φύση"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Φαγητό και ποτό"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Ταξίδι και τοποθεσίες"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Δραστηριότητες"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Αντικείμενα"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Σύμβολα"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Σημαίες"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Αναζήτηση αυτοκολλήτων"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Αναζήτηση αυτοκολλήτων"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Sticker Packs"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Πρόσφατα χρησιμοποιημένα"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Πρόσφατα χρησιμοποιημένα"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "Δε βρέθηκαν αυτοκόλλητα"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Search GIFs via Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Search Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF Categories"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Πρόσφατα χρησιμοποιημένα"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Trending"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Celebrate"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Love"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Thumbs Up"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Surprised"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Excited"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Sad"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Angry"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Loading GIFs"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Επανάληψη"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "No GIFs found"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Ακύρωση"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Αναγνωσμένο"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Αναγνωσμένο"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Μέσα"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "Μέσα Μεμονωμένης Προβολής"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Έχεις ήδη δει αυτό το μήνυμα"
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "Προβολή βίντεο"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "View Once Video"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "View Once Photo"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Click to view"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(συνημμένο)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Αποστολή τροποποιημένου μηνύματος"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Επεξεργασία μηνύματος"
   },
@@ -4655,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "Ιδιωτικότητα"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Χρήση δεδομένων"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Αυτόματη λήψη πολυμέσων"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Φωτογραφίες"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Βίντεο"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Ήχος"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Έγγραφα"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Voice messages and stickers are always auto-downloaded."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Τελευταία εισαγωγή στις {date} {time}"
   },
@@ -4811,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Έγινε λήψη της ενημέρωσης"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Άνοιξε το Signal στο κινητό σου"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Το Signal αντιμετωπίζει τεχνικές δυσκολίες. Εργαζόμαστε σκληρά για να αποκαταστήσουμε την υπηρεσία το συντομότερο δυνατό."
   },
@@ -4951,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Να δοθεί πρόσβαση στο μικρόφωνο"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Να δοθεί πρόσβαση στην κάμερα"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "To join or start a call:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "Για να ενεργοποιήσεις το βίντεο:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "Για να στείλεις ηχητικά μηνύματα:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Click “{buttonName}” below"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Turn on “Signal”"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Πήγαινε στις ρυθμίσεις"
   },
   "icu:MyStories__title": {
     "messageformat": "Οι ιστορίες μου"
@@ -5860,10 +6097,13 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.44--0": {
-    "messageformat": "Διορθώσαμε ένα μικρό σφάλμα σε σχέση με τα γραφικά κατά τη διάρκεια ομαδικών κλήσεων."
-  },
   "icu:WhatsNew__v7.45--0": {
     "messageformat": "Βελτιώσεις στην απόδοση κατά τη λήψη αυτοκόλλητων."
+  },
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+  },
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
   }
 }

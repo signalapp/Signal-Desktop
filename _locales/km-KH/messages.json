@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "មេឌៀគុណភាពល្អត្រូវបានផ្ញើចេញ"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "ការផ្ញើឯកសារមេឌៀដែលមានគុណភាពខ្ពស់នឹងអស់ទិន្នន័យអុីនធឺណិតច្រើន"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ស្ដង់ដារ"
   },
@@ -406,9 +409,6 @@
   },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, other {{count,number} សារមិនទាន់អាន}}"
-  },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "ដើម្បីសុវត្ថិភាពរបស់អ្នក ប្រវត្តិជជែកមិនត្រូវបានផ្ទេរទៅឧបករណ៍ដែលបានភ្ជាប់ថ្មីៗទេ។"
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "អ្នកបានដាក់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ {name}ថាបានផ្ទៀងផ្ទាត់"
@@ -1163,6 +1163,12 @@
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "សារជាសំឡេងមិនមានទេ"
   },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "View once media is not available"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Can't download view once media"
+  },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "ឯកសារមិនមានទេ"
   },
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "សារជាសំឡេងនេះមិនត្រូវបានផ្ទេរពីទូរសព្ទរបស់អ្នកទេ នៅពេលដែលឧបករណ៍នេះត្រូវបានភ្ជាប់។ មេឌៀ និងឯកសារដែលយូរជាង 45 ថ្ងៃនៅពេលភ្ជាប់ឧបករណ៍ មិនអាចធ្វើសមកាលកម្មបានទេ។"
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Can’t download view once media. {name} will need to send it again."
   },
   "icu:save": {
     "messageformat": "រក្សាទុក"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "មិនអាចស្រង់រកលេខទូរសព្ទបាន។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Download failed"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ការកែសារអាចធ្វើបានតែក្នុងរយៈពេល 24 ម៉ោងគិតចាប់ពីពេលដែលអ្នកបានផ្ញើសារនេះប៉ុណ្ណោះ។"
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "ទង់ជាតិ"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "រូបតំណាងអារម្មណ៍"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "ស្ទីកគ័រ"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIFs"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "ស្វែងរករូបតំណាងអារម្មណ៍"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "ស្វែងរករូបតំណាងអារម្មណ៍"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Emoji Categories"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "រូបមុខញញឹម និងមនុស្ស"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "សត្វ និងធម្មជាតិ"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "អាហារ និងភេសជ្ជៈ"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "សកម្មភាព"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "ការធ្វើដំណើរ និងទីកន្លែង"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "វត្ថុ"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "សញ្ញា"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "ទង់"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "ពុំមាន emoji"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Change Skin Tone Preference"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Choose your default skintone"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "រូបមុខញញឹម និងមនុស្ស"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "សត្វ និងធម្មជាតិ"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "អាហារ និងភេសជ្ជៈ"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "ការធ្វើដំណើរ និងទីកន្លែង"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "សកម្មភាព"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "វត្ថុ"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "សញ្ញា"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "ទង់"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "ស្វែងរកស្ទីកក័រ"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "ស្វែងរកស្ទីកក័រ"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Sticker Packs"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "ពុំមានស្ទីកគ័រ"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Search GIFs via Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Search Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF Categories"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Trending"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Celebrate"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Love"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Thumbs Up"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Surprised"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Excited"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Sad"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Angry"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Loading GIFs"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "ព្យាយាមម្តងទៀត"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "No GIFs found"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "បោះបង់"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "បានបើកមើល"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "បានបើកមើល"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "ឯកសារមេឌា"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "មេឌៀមើលបានតែម្តង"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "អ្នកបានមើលសារនេះហើយ។"
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "បង្ហាញវីដេអូ"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "View Once Video"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "View Once Photo"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Click to view"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(ឯកសារភ្ជាប់)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "ផ្ញើសារដែលបានកែ"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "កែសារ"
   },
@@ -4655,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "ឯកជនភាព"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Data usage"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "ឯកសារទាញយកដោយស្វ័យប្រវត្តិ"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "រូបភាព"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "វីដេអូ"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "សំឡេង"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "ឯកសារ"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Voice messages and stickers are always auto-downloaded."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "ការនាំចូលចុងក្រោយនៅ {date} {time}"
   },
@@ -4811,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "កំណែថ្មីត្រូវបានទាញយក"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "បើក Signal នៅលើទូរសព្ទរបស់អ្នក"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal កំពុងជួបប្រទះបញ្ហាបច្ចេកទេស។ យើងកំពុងធ្វើការស្តារសេវាកម្មយ៉ាងរហ័សតាមដែលអាចធ្វើទៅបាន។"
   },
@@ -4951,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "អនុញ្ញាតឱ្យចូលប្រើមីក្រូហ្វូនរបស់អ្នក"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "អនុញ្ញាតឱ្យចូលប្រើកាមេរ៉ារបស់អ្នក"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "To join or start a call:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "ដើម្បីបើកវីដេអូរបស់អ្នក៖"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "ដើម្បីផ្ញើសារជាសំឡេង៖"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Click “{buttonName}” below"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Turn on “Signal”"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "ចូលទៅកាន់ការកំណត់"
   },
   "icu:MyStories__title": {
     "messageformat": "រឿងរ៉ាវរបស់ខ្ញុំ"
@@ -5860,10 +6097,13 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.44--0": {
-    "messageformat": "យើងបានដោះស្រាយបញ្ហាតូចមួយទាក់ទងនឹងចលនារូបភាពក្នុងអំឡុងពេលហៅជាក្រុម។ សូមអភ័យទោសទុកជាមុន ប្រសិនបើរឿងដ៏គួរឱ្យរំភើបបំផុតនៃថ្ងៃរបស់អ្នកបែរជាបង្ហាញក្នុងទម្រង់ជាក្រឡាចត្រង្គទៅវិញក្នុងអំឡុងពេលប្រជុំ ហើយរូបតូចៗនៃវីដេអូរបស់អ្នកចូលរួមយឺតបាំងផ្នែកខ្លះនៃស្លាយបទបង្ហាញដែលចៅហ្វាយនាយរបស់អ្នកកំពុងបង្ហាញ។"
-  },
   "icu:WhatsNew__v7.45--0": {
     "messageformat": "ស្ទីគ័រគួរតែមានភាពទាក់ទាញ មិនមែនគាំងៗទេ ដូច្នេះឥឡូវនេះ អ្នកអាចចុចលើស្ទីគ័រនៅលើ Signal Desktop ដែលបានភ្ជាប់ថ្មី ហើយការទាញយកស្ទីគ័រនោះនឹងធ្វើឡើងជាអាទិភាពដោយស្វ័យប្រវត្តិ ទោះបីជាពេលកំពុងទាញយកឯកសារភ្ជាប់ផ្សេងទៀតក៏ដោយ។"
+  },
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+  },
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
   }
 }

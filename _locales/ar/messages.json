@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "جودة الوسائط المُرسَلة"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "إن إرسال وسائط بجودة عالية سوف يستخدم كمية أكبر من البيانات."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "قياسية"
   },
@@ -165,7 +168,7 @@
     "messageformat": "تصغير"
   },
   "icu:windowMenuZoom": {
-    "messageformat": "قرّب"
+    "messageformat": "تقريب"
   },
   "icu:windowMenuBringAllToFront": {
     "messageformat": "جلب جميع النوافذ للواجهة"
@@ -174,10 +177,10 @@
     "messageformat": "القياس الطبيعي"
   },
   "icu:viewMenuZoomIn": {
-    "messageformat": "كبّر"
+    "messageformat": "تكبير"
   },
   "icu:viewMenuZoomOut": {
-    "messageformat": "صغّر"
+    "messageformat": "تصغير"
   },
   "icu:viewMenuToggleFullScreen": {
     "messageformat": "تفعيل أو تعطيل ملء الشاشة"
@@ -327,7 +330,7 @@
     "messageformat": "رفع الحظر"
   },
   "icu:ConversationHeader__MenuItem--ReportSpam": {
-    "messageformat": "الإبلاغ عن رسائل غير مرغوب فيها"
+    "messageformat": "الإبلاغ"
   },
   "icu:ConversationHeader__MenuItem--DeleteChat": {
     "messageformat": "حذف الدردشة"
@@ -406,9 +409,6 @@
   },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, zero {{count,number} رسالة غير مقروءة} one {{count,number} رسالة غير مقروءة} two {{count,number} رسالتين غير مقروءتين} few {{count,number} رسائل غير مقروءة} many {{count,number} رسالة غير مقروءة} other {{count,number} رسالة غير مقروءة}}"
-  },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "من أجل أمانك، لا تُنقل محفوظات دردشاتك إلى الأجهزة المرتبطة الجديدة."
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "لقد حددت أن رقم أمانك مع {name} تم التحقق منه"
@@ -1163,6 +1163,12 @@
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "الرسالة الصوتية غير مُتوفِّرة"
   },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "View once media is not available"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Can't download view once media"
+  },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "الملف غير مُتوفِّر"
   },
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "لم يتم تحويل هذه الرسالة الصوتية من هاتفك عندما تمَّ ربط هذا الجهاز. لا يمكن مُزامنة الملفات والوسائط التي تعود إلى أكثر من 45 يوم منذ الوقت الذي تمَّ فيه ربط الجهاز."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Can’t download view once media. {name} will need to send it again."
   },
   "icu:save": {
     "messageformat": "حفظ"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "‫لقد فشل جلب رقم الهاتف. يُرجى التأكد من اتصالك ثم المحاولة مرة أخرى."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Download failed"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "لا يُمكن إحداث التعديلات إلاّ في غضون 24 ساعة من وقت إرسال هذه الرسالة."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "الأعلام"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "الإيموجي"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "المُلصقات"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "الصور المتحركة"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "البحث في الرمز التعبيري (الإيموجي)"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "البحث في الرمز التعبيري (الإيموجي)"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Emoji Categories"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "تمَّ الاستخدام مُؤخَّرًا"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "أوجُه سمايلي وأشخاص"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "الحيوانات والطبيعة"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "الطعام والشراب"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "الأنشطة"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "السفر والأماكن"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "الأشياء"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "الرموز"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "الأعلام"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "لم يعثر على الوجوه التعبيرية"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Change Skin Tone Preference"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Choose your default skintone"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "تمَّ الاستخدام مُؤخَّرًا"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "أوجُه سمايلي وأشخاص"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "الحيوانات والطبيعة"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "الطعام والشراب"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "السفر والأماكن"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "الأنشطة"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "الأشياء"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "الرموز"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "الأعلام"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "البحث في المُلصَقات"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "البحث في المُلصَقات"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Sticker Packs"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "تمَّ الاستخدام مُؤخَّرًا"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Search Results"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "تمَّ الاستخدام مُؤخَّرًا"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "لم يعثر على أي ملصقات"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Search GIFs via Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Search Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF Categories"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "تمَّ الاستخدام مُؤخَّرًا"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Trending"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Celebrate"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Love"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Thumbs Up"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Surprised"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Excited"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Sad"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Angry"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Loading GIFs"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "إعادة المُحاولة"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "No GIFs found"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "إلغاء"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "تمت المشاهدة"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "تمت المشاهدة"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "الوسائط"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "وسائط للمُشاهدة مرّة واحدة"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "لقد سبق لك رؤية هذه الرسالة."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "مشاهدة الفيديو"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "View Once Video"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "View Once Photo"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Click to view"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(مرفق)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "إرسال الرسالة المُعدلة"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "تعديل الرسالة"
   },
@@ -4655,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "الخصوصية"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "استخدام البيانات"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "التنزيل التلقائي للوسائط"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "الصور"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "الفيديوهات"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "صوت"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "الوثائق"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Voice messages and stickers are always auto-downloaded."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "‫‫آخر استيراد، منذ {date}‏ على الساعة {time}"
   },
@@ -4811,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "تم تنزيل التحديث"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "افتح تطبيق سيجنال على هاتفك"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "إنَّ سيجنال يواجِهُ صُعوبات تَقنية. نحنُ نعملُ بجد لاستعادة الخِدمة في أسرع وقت ممكن."
   },
@@ -4951,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "اسمح بالوصول إلى الميكروفون على جهازك"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "اسمح بالوصول إلى الكاميرا على جهازك"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "To join or start a call:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "لتفعيل الفيديو:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "لإرسال رسالة صوتية:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Click “{buttonName}” below"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Turn on “Signal”"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "انتقِل إلى الإعدادات"
   },
   "icu:MyStories__title": {
     "messageformat": "قِصصي"
@@ -5860,10 +6097,13 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.44--0": {
-    "messageformat": "أصلحنا خطًأ بسيطًا يتعلَّق بالرسوم خلال المكالمات الجماعية."
-  },
   "icu:WhatsNew__v7.45--0": {
     "messageformat": "من المفترَض أن تكون المُلصَقات سريعة الإضافة وليس بطيئة، لذا يمكنك الآن النقر على مُلصَق على حاسوب يحمل نسخة سيجنال Desktop تمَّ ربطه حديثًا، وسَيتمُّ إعطاء الأولوية لتنزيل ذلك المُلصَق تلقائيًا حتى ولو كانت هناك ملفات مُرفقَة أخرى يتمُّ تنزيلها."
+  },
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+  },
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
   }
 }
