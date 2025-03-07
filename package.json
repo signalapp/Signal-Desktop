@@ -120,7 +120,7 @@
     "@signalapp/better-sqlite3": "9.0.13",
     "@signalapp/libsignal-client": "0.67.3",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.50.1",
+    "@signalapp/ringrtc": "2.50.2",
     "@tanstack/react-virtual": "3.11.2",
     "@types/fabric": "4.5.3",
     "backbone": "1.6.0",
