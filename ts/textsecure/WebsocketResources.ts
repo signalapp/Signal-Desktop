@@ -58,6 +58,8 @@ import { AbortableProcess } from '../util/AbortableProcess';
 import type { WebAPICredentials } from './Types';
 import { NORMAL_DISCONNECT_CODE } from './SocketManager';
 import { parseUnknown } from '../util/schemas';
+import type { ServerAlert } from '../state/ducks/server';
+import { parseServerAlertFromHeader } from '../state/ducks/server';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
@@ -345,11 +347,13 @@ export function connectAuthenticatedLibsignal({
   handler,
   receiveStories,
   keepalive,
+  onReceivedAlerts,
 }: {
   libsignalNet: Net.Net;
   name: string;
   credentials: WebAPICredentials;
   handler: (request: IncomingWebSocketRequest) => void;
+  onReceivedAlerts: (alerts: Array<ServerAlert>) => void;
   receiveStories: boolean;
   keepalive: KeepAliveOptionsType;
 }): AbortableProcess<LibsignalWebSocketResource> {
@@ -390,6 +394,11 @@ export function connectAuthenticatedLibsignal({
       }
       this.resource.onConnectionInterrupted(cause);
       this.resource = undefined;
+    },
+    onReceivedAlerts(alerts: Array<string>): void {
+      onReceivedAlerts(
+        alerts.map(parseServerAlertFromHeader).filter(v => v !== undefined)
+      );
     },
   };
   return connectLibsignal(

@@ -13,6 +13,16 @@ export type ServerStateType = ReadonlyDeep<{
   alerts: Array<ServerAlert>;
 }>;
 
+export function parseServerAlertFromHeader(
+  headerValue: string
+): ServerAlert | undefined {
+  if (headerValue.toLowerCase() === 'critical-idle-primary-device') {
+    return ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE;
+  }
+
+  return undefined;
+}
+
 // Actions
 
 const UPDATE_SERVER_ALERTS = 'server/UPDATE_SERVER_ALERTS';
