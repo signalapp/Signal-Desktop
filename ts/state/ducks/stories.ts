@@ -70,6 +70,7 @@ import {
 } from '../../jobs/conversationJobQueue';
 import { ReceiptType } from '../../types/Receipt';
 import { cleanupMessages } from '../../util/cleanup';
+import { AttachmentDownloadUrgency } from '../../jobs/AttachmentDownloadManager';
 
 export type StoryDataType = ReadonlyDeep<
   {
@@ -531,6 +532,7 @@ function queueStoryDownload(
 
       const wasUpdated = await queueAttachmentDownloads(message, {
         isManualDownload: true,
+        urgency: AttachmentDownloadUrgency.IMMEDIATE,
       });
       if (wasUpdated) {
         await window.MessageCache.saveMessage(message);
