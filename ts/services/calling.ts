@@ -157,7 +157,6 @@ import { createIdenticon } from '../util/createIdenticon';
 import { getColorForCallLink } from '../util/getColorForCallLink';
 import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
 import OS from '../util/os/osMain';
-import { isLowerHandSuggestionEnabled } from '../util/isLowerHandSuggestionEnabled';
 import { sleep } from '../util/sleep';
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
@@ -1578,9 +1577,6 @@ export class CallingClass {
         });
       },
       onSpeechEvent: (_groupCall: GroupCall, event: SpeechEvent) => {
-        if (!isLowerHandSuggestionEnabled()) {
-          return;
-        }
         log.info('GroupCall#onSpeechEvent', event);
         if (event === SpeechEvent.LowerHandSuggestion) {
           this.#reduxInterface?.setSuggestLowerHand(true);
