@@ -126,6 +126,7 @@ export type PropsType = {
   toggleParticipants: () => void;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
+  toggleSelfViewExpanded: () => void;
   toggleSettings: () => void;
   changeCallView: (mode: CallViewMode) => void;
 } & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
@@ -215,6 +216,7 @@ export function CallScreen({
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
+  toggleSelfViewExpanded,
   toggleSettings,
 }: PropsType): JSX.Element {
   const {
@@ -280,7 +282,6 @@ export function CallScreen({
   }, []);
 
   const [controlsHover, setControlsHover] = useState(false);
-
   const onControlsMouseEnter = useCallback(() => {
     setControlsHover(true);
   }, [setControlsHover]);
@@ -290,7 +291,6 @@ export function CallScreen({
   }, [setControlsHover]);
 
   const [showControls, setShowControls] = useState(true);
-
   useEffect(() => {
     if (
       !showControls ||
@@ -306,6 +306,28 @@ export function CallScreen({
     return clearTimeout.bind(null, timer);
   }, [showControls, showReactionPicker, stickyControls, controlsHover]);
 
+  const [selfViewHover, setSelfViewHover] = useState(false);
+  const onSelfViewMouseEnter = useCallback(() => {
+    setSelfViewHover(true);
+  }, [setSelfViewHover]);
+
+  const onSelfViewMouseLeave = useCallback(() => {
+    setSelfViewHover(false);
+  }, [setSelfViewHover]);
+
+  const [showSelfViewControls, setShowSelfViewControls] = useState(false);
+  useEffect(() => {
+    if (selfViewHover) {
+      setShowSelfViewControls(true);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShowSelfViewControls(false);
+    }, 2000);
+    return clearTimeout.bind(null, timer);
+  }, [showSelfViewControls, setShowSelfViewControls, selfViewHover]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
       let eventHandled = false;
@@ -314,16 +336,20 @@ export function CallScreen({
 
       if (event.shiftKey && (key === 'V' || key === 'v')) {
         toggleVideo();
+        setShowControls(true);
         eventHandled = true;
       } else if (event.shiftKey && (key === 'M' || key === 'm')) {
         toggleAudio();
+        setShowControls(true);
+        eventHandled = true;
+      } else if (event.shiftKey && (key === 'P' || key === 'p')) {
+        toggleSelfViewExpanded();
         eventHandled = true;
       }
 
       if (eventHandled) {
         event.preventDefault();
         event.stopPropagation();
-        setShowControls(true);
       }
     };
 
@@ -331,7 +357,7 @@ export function CallScreen({
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [toggleAudio, toggleVideo]);
+  }, [setShowControls, toggleAudio, toggleSelfViewExpanded, toggleVideo]);
 
   useEffect(() => {
     if (!showReactionPicker) {
@@ -411,7 +437,24 @@ export function CallScreen({
   let lonelyInCallNode: ReactNode;
   let localPreviewNode: ReactNode;
 
+  const raisedHands = isGroupOrAdhocActiveCall(activeCall)
+    ? activeCall.raisedHands
+    : undefined;
+
+  // This is the value of our hand raised as seen by remote clients. We should prefer
+  // to use it in UI so the user understands what remote clients see.
+  const syncedLocalHandRaised = isHandRaised(raisedHands, localDemuxId);
+
   const isLonelyInCall = !activeCall.remoteParticipants.length;
+  const handlePreviewClick = useCallback(
+    (event?: React.MouseEvent) => {
+      event?.preventDefault();
+      event?.stopPropagation();
+
+      toggleSelfViewExpanded();
+    },
+    [toggleSelfViewExpanded]
+  );
 
   if (isLonelyInCall) {
     lonelyInCallNode = (
@@ -438,12 +481,12 @@ export function CallScreen({
       </div>
     );
   } else {
-    localPreviewNode = isSendingVideo ? (
+    const innerPreviewNode = isSendingVideo ? (
       <div
         className={classNames(
-          'module-ongoing-call__footer__local-preview__video',
+          'module-ongoing-call__local-preview__video',
           presentingSource &&
-            'module-ongoing-call__footer__local-preview__video--presenting'
+            'module-ongoing-call__local-preview__video--presenting'
         )}
         ref={setLocalPreviewContainer}
       />
@@ -466,6 +509,74 @@ export function CallScreen({
           size={AvatarSize.FORTY}
         />
       </CallBackgroundBlur>
+    );
+    localPreviewNode = (
+      // Keyboard shortcuts are available for this gesture, no need for keyboard support
+      /* eslint-disable-next-line max-len */
+      /* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
+      <div
+        className={classNames(
+          'module-ongoing-call__local-preview',
+          'module-ongoing-call__local-preview--active',
+          activeCall.selfViewExpanded
+            ? 'module-ongoing-call__local-preview--expanded'
+            : undefined,
+          !showControls
+            ? 'module-ongoing-call__local-preview--controls-hidden'
+            : undefined
+        )}
+        onMouseEnter={onSelfViewMouseEnter}
+        onMouseLeave={onSelfViewMouseLeave}
+        onClick={handlePreviewClick}
+      >
+        {innerPreviewNode}
+        {!isSendingVideo && (
+          <div
+            className={classNames(
+              'CallingStatusIndicator',
+              'CallingStatusIndicator--NoVideo',
+              !showSelfViewControls
+                ? 'module-ongoing-call__controls--fadeIn'
+                : undefined,
+              showSelfViewControls
+                ? 'module-ongoing-call__controls--fadeOut'
+                : undefined
+            )}
+          />
+        )}
+        <CallingAudioIndicator
+          hasAudio={hasLocalAudio}
+          audioLevel={localAudioLevel}
+          shouldShowSpeaking={isSpeaking}
+        />
+        <div
+          className={classNames(
+            'CallingButton__Button--self-view',
+            showSelfViewControls
+              ? 'module-ongoing-call__controls--fadeIn'
+              : undefined,
+            !showSelfViewControls
+              ? 'module-ongoing-call__controls--fadeOut'
+              : undefined,
+            !activeCall.selfViewExpanded
+              ? 'CallingButton__Button--self-view-normal'
+              : undefined
+          )}
+        >
+          <CallingButton
+            buttonType={
+              activeCall.selfViewExpanded
+                ? CallingButtonType.MINIMIZE
+                : CallingButtonType.MAXIMIZE
+            }
+            i18n={i18n}
+            onClick={handlePreviewClick}
+          />
+        </div>
+        {syncedLocalHandRaised && (
+          <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
+        )}
+      </div>
     );
   }
 
@@ -502,14 +613,6 @@ export function CallScreen({
   } else {
     presentingButtonType = CallingButtonType.PRESENTING_OFF;
   }
-
-  const raisedHands = isGroupOrAdhocActiveCall(activeCall)
-    ? activeCall.raisedHands
-    : undefined;
-
-  // This is the value of our hand raised as seen by remote clients. We should prefer
-  // to use it in UI so the user understands what remote clients see.
-  const syncedLocalHandRaised = isHandRaised(raisedHands, localDemuxId);
 
   // Don't call setLocalHandRaised because it only sets local state. Instead call
   // toggleRaiseHand() which will set ringrtc state and call setLocalHandRaised.
@@ -877,7 +980,17 @@ export function CallScreen({
         />
       ) : null}
       {activeCall.callMode === CallMode.Direct && (
-        <div className="module-ongoing-call__direct-call-speaking-indicator">
+        <div
+          className={classNames(
+            'module-ongoing-call__direct-call-speaking-indicator',
+            activeCall.selfViewExpanded
+              ? 'module-ongoing-call__direct-call-speaking-indicator--self-view-expanded'
+              : undefined,
+            activeCall.selfViewExpanded && !showControls
+              ? 'module-ongoing-call__direct-call-speaking-indicator--expanded-no-controls'
+              : undefined
+          )}
+        >
           <CallingAudioIndicator
             hasAudio
             audioLevel={activeCall.remoteAudioLevel}
@@ -885,27 +998,10 @@ export function CallScreen({
           />
         </div>
       )}
-      {/* We render the local preview first and set the footer flex direction to row-reverse
-      to ensure the preview is visible at low viewport widths. */}
+      {localPreviewNode}
+      {/* We set flex direction to row-reverse to render outward from local preview */}
       <div className="module-ongoing-call__footer">
-        {localPreviewNode ? (
-          <div className="module-ongoing-call__footer__local-preview module-ongoing-call__footer__local-preview--active">
-            {localPreviewNode}
-            {!isSendingVideo && (
-              <div className="CallingStatusIndicator CallingStatusIndicator--Video" />
-            )}
-            <CallingAudioIndicator
-              hasAudio={hasLocalAudio}
-              audioLevel={localAudioLevel}
-              shouldShowSpeaking={isSpeaking}
-            />
-            {syncedLocalHandRaised && (
-              <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
-            )}
-          </div>
-        ) : (
-          <div className="module-ongoing-call__footer__local-preview" />
-        )}
+        <div className="module-calling__spacer CallControls__OuterSpacer" />
         <div
           className={classNames(
             'CallControls',

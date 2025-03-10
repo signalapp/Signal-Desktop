@@ -36,27 +36,26 @@
   );
 }
 
-.CallingStatusIndicator--Video::after {
+.CallingStatusIndicator--NoVideo::after {
   @include mixins.color-svg(
     '../images/icons/v3/video/video-slash-fill-light.svg',
     variables.$color-white
   );
 }
 
-.module-ongoing-call__footer__local-preview .CallingStatusIndicator {
+.module-ongoing-call__local-preview .CallingStatusIndicator {
   position: absolute;
   z-index: variables.$z-index-base;
 }
 
-.module-ongoing-call__footer__local-preview .CallingStatusIndicator--Video {
-  top: 6px;
-  inset-inline-start: 6px;
+.module-ongoing-call__local-preview .CallingStatusIndicator--NoVideo {
+  top: 8px;
+  inset-inline-start: 8px;
 }
 
-.module-ongoing-call__footer__local-preview
-  .CallingStatusIndicator--HandRaised {
-  bottom: 6px;
-  inset-inline-start: 6px;
+.module-ongoing-call__local-preview .CallingStatusIndicator--HandRaised {
+  bottom: 8px;
+  inset-inline-start: 8px;
 }
 
 .module-ongoing-call__participants__grid

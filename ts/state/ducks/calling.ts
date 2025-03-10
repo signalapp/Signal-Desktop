@@ -190,6 +190,7 @@ export type ActiveCallStateType = {
   pip: boolean;
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: ReadonlyArray<PresentableSource>;
+  selfViewExpanded: boolean;
   settingsDialogOpen: boolean;
   showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
@@ -659,6 +660,7 @@ const TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS =
 const START_DIRECT_CALL = 'calling/START_DIRECT_CALL';
 const TOGGLE_PARTICIPANTS = 'calling/TOGGLE_PARTICIPANTS';
 const TOGGLE_PIP = 'calling/TOGGLE_PIP';
+const TOGGLE_SELF_VIEW_EXPANDED = 'calling/TOGGLE_SELF_VIEW_EXPANDED';
 const TOGGLE_SETTINGS = 'calling/TOGGLE_SETTINGS';
 const SWITCH_TO_PRESENTATION_VIEW = 'calling/SWITCH_TO_PRESENTATION_VIEW';
 const SWITCH_FROM_PRESENTATION_VIEW = 'calling/SWITCH_FROM_PRESENTATION_VIEW';
@@ -941,9 +943,11 @@ type ToggleParticipantsActionType = ReadonlyDeep<{
 }>;
 
 type TogglePipActionType = ReadonlyDeep<{
-  type: 'calling/TOGGLE_PIP';
+  type: typeof TOGGLE_PIP;
 }>;
-
+type ToggleSelfViewExpandedActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_SELF_VIEW_EXPANDED;
+}>;
 type ToggleSettingsActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_SETTINGS';
 }>;
@@ -1008,6 +1012,7 @@ export type CallingActionType =
   | ToggleNeedsScreenRecordingPermissionsActionType
   | ToggleParticipantsActionType
   | TogglePipActionType
+  | ToggleSelfViewExpandedActionType
   | SetPresentingFulfilledActionType
   | ToggleSettingsActionType
   | SuggestLowerHandActionType
@@ -2665,6 +2670,12 @@ function togglePip(): TogglePipActionType {
   };
 }
 
+function toggleSelfViewExpanded(): ToggleSelfViewExpandedActionType {
+  return {
+    type: TOGGLE_SELF_VIEW_EXPANDED,
+  };
+}
+
 function toggleScreenRecordingPermissionsDialog(): ToggleNeedsScreenRecordingPermissionsActionType {
   return {
     type: TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS,
@@ -2757,6 +2768,7 @@ export const actions = {
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
+  toggleSelfViewExpanded,
   toggleSettings,
   updateCallLinkName,
   updateCallLinkRestrictions,
@@ -3052,6 +3064,7 @@ export function reducer(
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
+        selfViewExpanded: false,
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing,
@@ -3098,6 +3111,7 @@ export function reducer(
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
+        selfViewExpanded: false,
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: true,
@@ -3130,6 +3144,7 @@ export function reducer(
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
+        selfViewExpanded: false,
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: false,
@@ -3342,6 +3357,7 @@ export function reducer(
         viewMode: CallViewMode.Paginated,
         pip: false,
         settingsDialogOpen: false,
+        selfViewExpanded: false,
         showParticipantsList: false,
         outgoingRing: true,
         joinedAt: null,
@@ -4035,6 +4051,21 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         pip: !activeCallState.pip,
+      },
+    };
+  }
+  if (action.type === TOGGLE_SELF_VIEW_EXPANDED) {
+    const { activeCallState } = state;
+    if (activeCallState?.state !== 'Active') {
+      log.warn('Cannot toggle PiP when there is no active call');
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        selfViewExpanded: !activeCallState.selfViewExpanded,
       },
     };
   }

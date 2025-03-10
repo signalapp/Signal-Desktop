@@ -51,6 +51,7 @@ const getCommonActiveCallData = (overrides: Overrides) => ({
   joinedAt: Date.now() - MINUTE,
   outgoingRing: true,
   pip: true,
+  selfViewExpanded: false,
   settingsDialogOpen: false,
   showParticipantsList: false,
 });

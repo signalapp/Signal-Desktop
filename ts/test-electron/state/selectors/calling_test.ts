@@ -78,6 +78,7 @@ describe('state/selectors/calling', () => {
       showParticipantsList: false,
       outgoingRing: true,
       pip: false,
+      selfViewExpanded: false,
       settingsDialogOpen: false,
       joinedAt: null,
     },

@@ -138,6 +138,7 @@ export type PropsType = {
   togglePip: () => void;
   toggleCallLinkPendingParticipantModal: (contactId: string) => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
+  toggleSelfViewExpanded: () => unknown;
   toggleSettings: () => void;
   pauseVoiceNotePlayer: () => void;
 } & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
@@ -200,6 +201,7 @@ function ActiveCallManager({
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
+  toggleSelfViewExpanded,
   toggleSettings,
   pauseVoiceNotePlayer,
 }: ActiveCallManagerPropsType): JSX.Element {
@@ -480,6 +482,7 @@ function ActiveCallManager({
         }
         toggleParticipants={toggleParticipants}
         togglePip={togglePip}
+        toggleSelfViewExpanded={toggleSelfViewExpanded}
         toggleSettings={toggleSettings}
       />
       {presentingSourcesAvailable && presentingSourcesAvailable.length ? (
@@ -573,6 +576,7 @@ export function CallManager({
   togglePip,
   toggleCallLinkPendingParticipantModal,
   toggleScreenRecordingPermissionsDialog,
+  toggleSelfViewExpanded,
   toggleSettings,
 }: PropsType): JSX.Element | null {
   const isCallActive = Boolean(activeCall);
@@ -667,6 +671,7 @@ export function CallManager({
           toggleScreenRecordingPermissionsDialog={
             toggleScreenRecordingPermissionsDialog
           }
+          toggleSelfViewExpanded={toggleSelfViewExpanded}
           toggleSettings={toggleSettings}
         />
       </CallingToastProvider>

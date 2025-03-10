@@ -13,6 +13,9 @@ export enum CallingButtonType {
   AUDIO_DISABLED = 'AUDIO_DISABLED',
   AUDIO_OFF = 'AUDIO_OFF',
   AUDIO_ON = 'AUDIO_ON',
+  MAXIMIZE = 'MAXIMIZE',
+  MINIMIZE = 'MINIMIZE',
+  MORE_OPTIONS = 'MORE_OPTIONS',
   PRESENTING_DISABLED = 'PRESENTING_DISABLED',
   PRESENTING_OFF = 'PRESENTING_OFF',
   PRESENTING_ON = 'PRESENTING_ON',
@@ -26,7 +29,6 @@ export enum CallingButtonType {
   VIDEO_DISABLED = 'VIDEO_DISABLED',
   VIDEO_OFF = 'VIDEO_OFF',
   VIDEO_ON = 'VIDEO_ON',
-  MORE_OPTIONS = 'MORE_OPTIONS',
 }
 
 export type PropsType = {
@@ -109,8 +111,23 @@ export function CallingButton({
   } else if (buttonType === CallingButtonType.MORE_OPTIONS) {
     classNameSuffix = 'more-options';
     tooltipContent = i18n('icu:CallingButton--more-options');
+  } else if (buttonType === CallingButtonType.MAXIMIZE) {
+    classNameSuffix = 'maximize';
+    tooltipContent = i18n('icu:calling__preview--maximize');
+  } else if (buttonType === CallingButtonType.MINIMIZE) {
+    classNameSuffix = 'minimize';
+    tooltipContent = i18n('icu:calling__preview--minimize');
   }
 
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      onClick();
+    },
+    [onClick]
+  );
   const buttonContent = (
     <button
       aria-label={tooltipContent}
@@ -120,7 +137,7 @@ export function CallingButton({
       )}
       disabled={disabled}
       id={uniqueButtonId}
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       type="button"

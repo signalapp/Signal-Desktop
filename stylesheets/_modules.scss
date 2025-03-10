@@ -3996,8 +3996,6 @@ button.module-image__border-overlay:focus {
   }
 }
 .module-ongoing-call {
-  $local-preview-height: 80px;
-
   &__remote-video-enabled {
     background-color: variables.$color-gray-95;
     height: 100%;
@@ -4075,6 +4073,13 @@ button.module-image__border-overlay:focus {
     position: absolute;
     inset-inline-end: 16px;
     bottom: 112px;
+    transition: bottom 0.3s variables.$ease-out-local-preview;
+  }
+  &__direct-call-speaking-indicator--self-view-expanded {
+    bottom: 330px;
+  }
+  &__direct-call-speaking-indicator--expanded-no-controls {
+    bottom: 232px;
   }
 
   &__participants {
@@ -4523,6 +4528,56 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &__local-preview {
+    z-index: variables.$z-index-calling-pip;
+    border-radius: 12px;
+    position: absolute;
+
+    display: flex;
+    height: 80px;
+    width: variables.$calling-local-preview-normal-width;
+
+    inset-inline-end: 16px;
+    bottom: 16px;
+
+    transition: all 0.3s variables.$ease-out-local-preview;
+
+    overflow: hidden;
+    cursor: pointer;
+
+    &--active {
+      box-shadow: 0px 4px 14px 0px variables.$color-black-alpha-40;
+    }
+
+    &--expanded {
+      bottom: 112px;
+      height: 200px;
+      width: 312px;
+    }
+
+    &--controls-hidden {
+      bottom: 16px;
+    }
+
+    &__video {
+      height: 100%;
+      width: 100%;
+
+      video {
+        // The background-color is seen while the video loads.
+        background-color: variables.$color-gray-75;
+        height: 100%;
+        width: 100%;
+
+        transform: rotateY(180deg);
+      }
+
+      &--presenting video {
+        transform: inherit;
+      }
+    }
+  }
+
   &__footer {
     bottom: 0;
     display: flex;
@@ -4536,40 +4591,6 @@ button.module-image__border-overlay:focus {
       display: flex;
       flex-grow: 1;
       justify-content: center;
-    }
-
-    &__local-preview {
-      border-radius: 10px;
-      display: flex;
-      flex-shrink: 0;
-      height: $local-preview-height;
-      margin-block-end: 16px;
-      margin-inline: 0 16px;
-      overflow: hidden;
-      position: relative;
-      width: variables.$calling-local-preview-width;
-
-      &--active {
-        box-shadow: 0px 4px 14px 0px variables.$color-black-alpha-40;
-      }
-
-      &__video {
-        height: 100%;
-        width: 100%;
-
-        video {
-          // The background-color is seen while the video loads.
-          background-color: variables.$color-gray-75;
-          height: 100%;
-          width: 100%;
-
-          transform: rotateY(180deg);
-        }
-
-        &--presenting video {
-          transform: inherit;
-        }
-      }
     }
   }
 

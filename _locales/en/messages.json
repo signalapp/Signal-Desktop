@@ -3555,6 +3555,10 @@
     "messageformat": "Toggle video on and off",
     "description": "Shown in the shortcuts guide"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off",
+    "description": "Shown in the shortcuts guide"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Answer call with video (video calls only)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -4114,6 +4118,14 @@
   "icu:calling__pip--off": {
     "messageformat": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview",
+    "description": "Title for button to make in-call video preview bigger"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview",
+    "description": "Title for button to make in-call video preview smaller"
   },
   "icu:calling__change-view": {
     "messageformat": "Change view",

@@ -160,6 +160,22 @@
     &--more-options {
       @include calling-button-icon-regular('../images/icons/v3/more/more.svg');
     }
+
+    &--maximize {
+      @include calling-button-icon(
+        '../images/icons/v3/maximize/maximize.svg',
+        rgba(variables.$color-gray-80, 0.7),
+        variables.$color-white
+      );
+    }
+
+    &--minimize {
+      @include calling-button-icon(
+        '../images/icons/v3/minimize/minimize.svg',
+        rgba(variables.$color-gray-80, 0.7),
+        variables.$color-white
+      );
+    }
   }
 
   &__button-container {
@@ -226,5 +242,25 @@
 
   &__tooltip[data-placement='top'] .module-tooltip-arrow::after {
     border-top-color: variables.$color-gray-80 !important;
+  }
+}
+
+.CallingButton__Button--self-view {
+  position: absolute;
+  inset-inline-start: 8px;
+  top: 8px;
+
+  .CallingButton__button-container {
+    margin: 0;
+  }
+}
+
+.CallingButton__Button--self-view-normal .CallingButton__icon {
+  height: 28px;
+  width: 28px;
+
+  div {
+    height: 16px;
+    width: 16px;
   }
 }
