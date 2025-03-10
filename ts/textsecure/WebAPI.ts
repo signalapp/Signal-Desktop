@@ -82,6 +82,7 @@ import { getMockServerPort } from '../util/getMockServerPort';
 import { pemToDer } from '../util/pemToDer';
 import { ToastType } from '../types/Toast';
 import { isProduction } from '../util/version';
+import type { ServerAlert } from '../state/ducks/server';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -1606,6 +1607,7 @@ export type WebAPIType = {
   getConfig: () => Promise<RemoteConfigResponseType>;
   authenticate: (credentials: WebAPICredentials) => Promise<void>;
   logout: () => Promise<void>;
+  getServerAlerts: () => Array<ServerAlert>;
   getSocketStatus: () => SocketStatuses;
   registerRequestHandler: (handler: IRequestHandler) => void;
   unregisterRequestHandler: (handler: IRequestHandler) => void;
@@ -1761,6 +1763,10 @@ export function initialize({
     }
   }
 
+  // We store server alerts (returned on the WS upgrade response headers) so that the app
+  // can query them later, which is necessary if they arrive before app state is ready
+  let serverAlerts: Array<ServerAlert> = [];
+
   // Thanks to function-hoisting, we can put this return statement before all of the
   //   below function definitions.
   return {
@@ -1813,7 +1819,8 @@ export function initialize({
     });
 
     socketManager.on('serverAlerts', alerts => {
-      window.Whisper.events.trigger('serverAlerts', alerts);
+      log.info(`onServerAlerts: number of alerts received: ${alerts.length}`);
+      serverAlerts = alerts;
     });
 
     if (useWebSocket) {
@@ -1939,6 +1946,7 @@ export function initialize({
       getReleaseNoteImageAttachment,
       getTransferArchive,
       getSenderCertificate,
+      getServerAlerts,
       getSocketStatus,
       getSticker,
       getStickerPackManifest,
@@ -2141,6 +2149,10 @@ export function initialize({
 
     function getSocketStatus(): SocketStatuses {
       return socketManager.getStatus();
+    }
+
+    function getServerAlerts(): Array<ServerAlert> {
+      return serverAlerts;
     }
 
     function checkSockets(): void {

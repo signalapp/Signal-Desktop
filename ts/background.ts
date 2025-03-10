@@ -512,7 +512,6 @@ export async function startApp(): Promise<void> {
     restoreRemoteConfigFromStorage();
 
     window.Whisper.events.on('firstEnvelope', checkFirstEnvelope);
-    window.Whisper.events.on('serverAlerts', handleServerAlerts);
 
     server = window.WebAPI.connect({
       ...window.textsecure.storage.user.getWebAPICredentials(),
@@ -1930,8 +1929,12 @@ export async function startApp(): Promise<void> {
   function afterEveryAuthConnect() {
     log.info('afterAuthSocketConnect/afterEveryAuthConnect');
 
+    strictAssert(server, 'afterEveryAuthConnect: server');
+    handleServerAlerts(server.getServerAlerts());
+
     strictAssert(challengeHandler, 'afterEveryAuthConnect: challengeHandler');
     drop(challengeHandler.onOnline());
+
     reconnectBackOff.reset();
     drop(window.Signal.Services.initializeGroupCredentialFetcher());
     drop(AttachmentDownloadManager.start());

@@ -51,7 +51,8 @@ import { isNightly, isBeta, isStaging } from '../util/version';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { isTestOrMockEnvironment } from '../environment';
 import type { ConfigKeyType } from '../RemoteConfig';
-import { ServerAlert } from '../state/ducks/server';
+import type { ServerAlert } from '../state/ducks/server';
+import { parseServerAlertFromHeader } from '../state/ducks/server';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -204,6 +205,9 @@ export class SocketManager extends EventListener {
           credentials: this.#credentials,
           handler: (req: IncomingWebSocketRequest): void => {
             this.#queueOrHandleRequest(req);
+          },
+          onReceivedAlerts: (alerts: Array<ServerAlert>) => {
+            this.emit('serverAlerts', alerts);
           },
           receiveStories: !this.#hasStoriesDisabled,
           keepalive: { path: '/v1/keepalive' },
@@ -972,12 +976,9 @@ export class SocketManager extends EventListener {
       }
     }
 
-    const serverAlerts: Array<ServerAlert> = [];
-    alerts.forEach(alert => {
-      if (alert.toLowerCase() === 'critical-idle-primary-device') {
-        serverAlerts.push(ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE);
-      }
-    });
+    const serverAlerts: Array<ServerAlert> = alerts
+      .map(parseServerAlertFromHeader)
+      .filter(v => v !== undefined);
 
     this.emit('serverAlerts', serverAlerts);
   }
