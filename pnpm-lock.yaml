@@ -134,8 +134,8 @@ importers:
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.50.1
-        version: 2.50.1
+        specifier: 2.50.2
+        version: 2.50.2
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
@@ -2548,8 +2548,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.50.1':
-    resolution: {integrity: sha512-kR43qdCLjasttxqUGe1wKRszAXTe/KYlrDnqOA30qUHMkXFZEWnvc1vsYLDLU9eTtXcV2uNMDk+MUOv9hAl1qg==}
+  '@signalapp/ringrtc@2.50.2':
+    resolution: {integrity: sha512-fZgfz4asC4CZsvrhxYMDVbIz0iffde9GhWEgIBpAxgEiLpuURx9YRK1ghnn9eonfZNEXwhrTUXUBlC6xYyy1rQ==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -9736,6 +9736,7 @@ packages:
   yaeti@0.0.6:
     resolution: {integrity: sha512-MvQa//+KcZCUkBTIC9blM+CU9J2GzuTytsOUwf2lidtvkx/6gnEp1QvJv34t9vdjhFmha/mUiNDbN0D0mJWdug==}
     engines: {node: '>=0.10.32'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   yallist@2.1.2:
     resolution: {integrity: sha512-ncTzHV7NvsQZkYe1DW7cbDLm0YpzHmZF5r/iyP3ZnQtMiJ+pjzisCiMNI+Sj+xQF5pXhSHxSB3uDbsBTzY/c2A==}
@@ -12301,7 +12302,7 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.50.1':
+  '@signalapp/ringrtc@2.50.2':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 6.2.1
