@@ -21,7 +21,6 @@ import {
   defunctCallLinkFromRecord,
 } from '../../util/callLinksRingrtc';
 import type { ReadableDB, WritableDB } from '../Interface';
-import { prepare } from '../Server';
 import { sql } from '../util';
 import { strictAssert } from '../../util/assert';
 import { CallStatusValue, DirectCallStatus } from '../../types/CallDisposition';
@@ -33,7 +32,13 @@ export function callLinkExists(db: ReadableDB, roomId: string): boolean {
     FROM callLinks
     WHERE roomId = ${roomId};
   `;
-  return db.prepare(query).pluck(true).get(params) === 1;
+  return (
+    db
+      .prepare(query, {
+        pluck: true,
+      })
+      .get(params) === 1
+  );
 }
 
 export function getCallLinkByRoomId(
@@ -53,11 +58,9 @@ export function getCallLinkRecordByRoomId(
   db: ReadableDB,
   roomId: string
 ): CallLinkRecord | undefined {
-  const row = prepare(db, 'SELECT * FROM callLinks WHERE roomId = $roomId').get(
-    {
-      roomId,
-    }
-  );
+  const row = db.prepare('SELECT * FROM callLinks WHERE roomId = $roomId').get({
+    roomId,
+  });
 
   if (!row) {
     return undefined;
@@ -83,8 +86,7 @@ function _insertCallLink(db: WritableDB, callLink: CallLinkType): void {
   assertRoomIdMatchesRootKey(roomId, rootKey);
 
   const data = callLinkToRecord(callLink);
-  prepare(
-    db,
+  db.prepare(
     `
     INSERT INTO callLinks (
       roomId,
@@ -174,8 +176,7 @@ export function updateCallLinkAdminKeyByRoomId(
   adminKey: string
 ): void {
   const adminKeyBytes = toAdminKeyBytes(adminKey);
-  prepare(
-    db,
+  db.prepare(
     `
     UPDATE callLinks
     SET adminKey = $adminKeyBytes
@@ -360,7 +361,11 @@ export function getAllMarkedDeletedCallLinkRoomIds(
   const [query] = sql`
     SELECT roomId FROM callLinks WHERE deleted = 1;
   `;
-  return db.prepare(query).pluck().all();
+  return db
+    .prepare(query, {
+      pluck: true,
+    })
+    .all();
 }
 
 // TODO: Run this after uploading storage records, maybe periodically on startup
@@ -387,7 +392,13 @@ export function defunctCallLinkExists(db: ReadableDB, roomId: string): boolean {
     FROM defunctCallLinks
     WHERE roomId = ${roomId};
   `;
-  return db.prepare(query).pluck(true).get(params) === 1;
+  return (
+    db
+      .prepare(query, {
+        pluck: true,
+      })
+      .get(params) === 1
+  );
 }
 
 export function getAllDefunctCallLinksWithAdminKey(
@@ -414,8 +425,7 @@ export function insertDefunctCallLink(
   assertRoomIdMatchesRootKey(roomId, rootKey);
 
   const data = defunctCallLinkToRecord(defunctCallLink);
-  prepare(
-    db,
+  db.prepare(
     `
     INSERT INTO defunctCallLinks (
       roomId,

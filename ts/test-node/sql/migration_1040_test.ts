@@ -5,20 +5,22 @@ import { assert } from 'chai';
 
 import type { ReadableDB, WritableDB } from '../../sql/Interface';
 import { jsonToObject, objectToJSON, sql, sqlJoin } from '../../sql/util';
-import { createDB, updateToVersion } from './helpers';
+import { createDB, updateToVersion, explain } from './helpers';
 import type { LegacyAttachmentDownloadJobType } from '../../sql/migrations/1040-undownloaded-backed-up-media';
 import type { AttachmentType } from '../../types/Attachment';
 import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload';
 import { IMAGE_JPEG } from '../../types/MIME';
 
-function getAttachmentDownloadJobs(db: ReadableDB) {
+function getAttachmentDownloadJobs(
+  db: ReadableDB
+): Array<Record<string, unknown>> {
   const [query] = sql`
     SELECT * FROM attachment_downloads ORDER BY receivedAt DESC;
   `;
 
   return db
     .prepare(query)
-    .all()
+    .all<{ attachmentJson: string }>()
     .map(job => ({
       ...omit(job, 'attachmentJson'),
       attachment: jsonToObject(job.attachmentJson),
@@ -64,7 +66,7 @@ function insertNewJob(
       ${job.messageId},
       ${job.attachmentType},
       ${objectToJSON(job.attachment)},
-      ${job.attachment.digest},
+      ${job.attachment.digest ?? null},
       ${job.attachment.contentType},
       ${job.attachment.size},
       ${job.receivedAt},
@@ -238,7 +240,7 @@ describe('SQL/updateToSchemaVersion1040', () => {
       });
 
       {
-        const [query, params] = sql`
+        const template = sql`
           SELECT * FROM attachment_downloads
           WHERE
             active = 0
@@ -248,6 +250,7 @@ describe('SQL/updateToSchemaVersion1040', () => {
           LIMIT 5
         `;
 
+        const [query, params] = template;
         const result = db.prepare(query).all(params);
         assert.strictEqual(result.length, 2);
         assert.deepStrictEqual(
@@ -255,11 +258,7 @@ describe('SQL/updateToSchemaVersion1040', () => {
           ['message4', 'message1']
         );
 
-        const details = db
-          .prepare(`EXPLAIN QUERY PLAN ${query}`)
-          .all(params)
-          .map(step => step.detail)
-          .join(', ');
+        const details = explain(db, template);
         assert.include(
           details,
           'USING INDEX attachment_downloads_active_receivedAt'
@@ -269,7 +268,7 @@ describe('SQL/updateToSchemaVersion1040', () => {
       }
       {
         const messageIds = ['message1', 'message2', 'message4'];
-        const [query, params] = sql`
+        const template = sql`
         SELECT * FROM attachment_downloads
         INDEXED BY attachment_downloads_active_messageId
         WHERE
@@ -282,17 +281,15 @@ describe('SQL/updateToSchemaVersion1040', () => {
         LIMIT 5
         `;
 
+        const [query, params] = template;
+
         const result = db.prepare(query).all(params);
         assert.strictEqual(result.length, 2);
         assert.deepStrictEqual(
           result.map(res => res.messageId),
           ['message1', 'message4']
         );
-        const details = db
-          .prepare(`EXPLAIN QUERY PLAN ${query}`)
-          .all(params)
-          .map(step => step.detail)
-          .join(', ');
+        const details = explain(db, template);
 
         // This query _will_ use a temp b-tree for ordering, but the number of rows
         // should be quite low.
@@ -466,16 +463,16 @@ function insertLegacyJob(
   job: Partial<LegacyAttachmentDownloadJobType>
 ): void {
   db.prepare('INSERT OR REPLACE INTO messages (id) VALUES ($id)').run({
-    id: job.messageId,
+    id: job.messageId ?? null,
   });
   const [query, params] = sql`
     INSERT INTO attachment_downloads
       (id, timestamp, pending, json)
     VALUES
       (
-        ${job.id},
-        ${job.timestamp},
-        ${job.pending},
+        ${job.id ?? null},
+        ${job.timestamp ?? null},
+        ${job.pending ?? null},
         ${objectToJSON(job)}
       );
   `;

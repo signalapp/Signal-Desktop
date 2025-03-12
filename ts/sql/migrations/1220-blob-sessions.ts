@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from 'assert';
 import z from 'zod';
-import type { Database } from '@signalapp/better-sqlite3';
+import type { Database } from '@signalapp/sqlcipher';
 import type { LoggerType } from '../../types/Logging';
 import * as Errors from '../../types/errors';
 import {
@@ -144,16 +144,17 @@ export function updateToSchemaVersion1220(
       ) STRICT;
     `);
 
-    const getItem = db
-      .prepare(
-        `
-          SELECT json -> '$.value' FROM items WHERE id IS ?
-        `
-      )
-      .pluck();
+    const getItem = db.prepare(
+      `
+      SELECT json -> '$.value' FROM items WHERE id IS ?
+    `,
+      {
+        pluck: true,
+      }
+    );
 
-    const identityKeyMapJson = getItem.get('identityKeyMap');
-    const registrationIdMapJson = getItem.get('registrationIdMap');
+    const identityKeyMapJson = getItem.get<string>(['identityKeyMap']);
+    const registrationIdMapJson = getItem.get<string>(['registrationIdMap']);
 
     // If we don't have private keys - the sessions cannot be used anyway
     if (!identityKeyMapJson || !registrationIdMapJson) {

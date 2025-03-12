@@ -61,6 +61,7 @@ describe('Message', () => {
     return window.MessageCache.register(
       new MessageModel({
         id,
+        conversationId: 'convo',
         ...attrs,
         sent_at: Date.now(),
         received_at: Date.now(),

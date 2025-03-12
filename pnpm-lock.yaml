@@ -124,9 +124,6 @@ importers:
       '@react-spring/web':
         specifier: 9.7.5
         version: 9.7.5(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      '@signalapp/better-sqlite3':
-        specifier: 9.0.13
-        version: 9.0.13
       '@signalapp/libsignal-client':
         specifier: 0.67.3
         version: 0.67.3
@@ -136,6 +133,9 @@ importers:
       '@signalapp/ringrtc':
         specifier: 2.50.2
         version: 2.50.2
+      '@signalapp/sqlcipher':
+        specifier: 1.0.0
+        version: 1.0.0
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
@@ -2529,9 +2529,6 @@ packages:
   '@sideway/pinpoint@2.0.0':
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
 
-  '@signalapp/better-sqlite3@9.0.13':
-    resolution: {integrity: sha512-sl5JJvHz/mGy3JXXcWFq7PxeO/d9SaCjPq/FPc4RCujaTC9JofHLdxQjn2xSSZQBLm28o2as3p6hD9eDk+BVNw==}
-
   '@signalapp/libsignal-client@0.60.2':
     resolution: {integrity: sha512-tU4kNP/yCwkFntb2ahXOSQJtzdy+YifAB2yv5hw0qyKSidRHLn6bYiz4Zo2tjxLDRoBLAUxCRsQramStiqNZdA==}
 
@@ -2550,6 +2547,9 @@ packages:
 
   '@signalapp/ringrtc@2.50.2':
     resolution: {integrity: sha512-fZgfz4asC4CZsvrhxYMDVbIz0iffde9GhWEgIBpAxgEiLpuURx9YRK1ghnn9eonfZNEXwhrTUXUBlC6xYyy1rQ==}
+
+  '@signalapp/sqlcipher@1.0.0':
+    resolution: {integrity: sha512-3+4Y/0Tf0gis8gaZrD58cnzVVRzeDtBCPhS3gUdvxgkEXMv4guSJ+MDfHZLQKmqvuPmjTlt+YOsTjvLCWruFaQ==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -12253,11 +12253,6 @@ snapshots:
 
   '@sideway/pinpoint@2.0.0': {}
 
-  '@signalapp/better-sqlite3@9.0.13':
-    dependencies:
-      bindings: 1.5.0
-      tar: 6.2.1
-
   '@signalapp/libsignal-client@0.60.2':
     dependencies:
       node-gyp-build: 4.8.4
@@ -12308,6 +12303,11 @@ snapshots:
       tar: 6.2.1
     transitivePeerDependencies:
       - supports-color
+
+  '@signalapp/sqlcipher@1.0.0':
+    dependencies:
+      node-addon-api: 8.3.0
+      node-gyp-build: 4.8.4
 
   '@sinclair/typebox@0.27.8': {}
 

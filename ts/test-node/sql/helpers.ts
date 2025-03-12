@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { noop } from 'lodash';
-import SQL from '@signalapp/better-sqlite3';
+import SQL from '@signalapp/sqlcipher';
 
 import type { ReadableDB, WritableDB } from '../../sql/Interface';
+import type { QueryTemplate } from '../../sql/util';
 import { SCHEMA_VERSIONS } from '../../sql/migrations';
 import { consoleLogger } from '../../util/consoleLogger';
 
@@ -13,7 +14,7 @@ export function createDB(): WritableDB {
 }
 
 export function updateToVersion(db: WritableDB, version: number): void {
-  const startVersion = db.pragma('user_version', { simple: true });
+  const startVersion = db.pragma('user_version', { simple: true }) as number;
 
   const silentLogger = {
     ...consoleLogger,
@@ -68,7 +69,7 @@ export function getTableData(db: ReadableDB, table: string): TableRows {
   return db
     .prepare(`SELECT * FROM ${table}`)
     .all()
-    .map((row: Record<string, string | number | Buffer | null>) => {
+    .map(row => {
       const result: Record<
         string,
         string | number | null | Record<string, unknown>
@@ -77,8 +78,8 @@ export function getTableData(db: ReadableDB, table: string): TableRows {
         if (value == null) {
           continue;
         }
-        if (Buffer.isBuffer(value)) {
-          result[key] = value.toString('hex');
+        if (value instanceof Uint8Array) {
+          result[key] = Buffer.from(value).toString('hex');
           continue;
         }
         try {
@@ -92,4 +93,15 @@ export function getTableData(db: ReadableDB, table: string): TableRows {
       }
       return result;
     });
+}
+
+export function explain(db: ReadableDB, template: QueryTemplate): string {
+  const [query, params] = template;
+  const details = db
+    .prepare(`EXPLAIN QUERY PLAN ${query}`)
+    .all<{ detail: string }>(params)
+    .map(({ detail }) => detail)
+    .join('\n');
+
+  return details;
 }

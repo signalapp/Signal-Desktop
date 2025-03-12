@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
+import type { Database } from '@signalapp/sqlcipher';
 import { omit } from 'lodash';
 
 import type { LoggerType } from '../../types/Logging';
@@ -484,27 +484,31 @@ function migrateItems(db: Database, logger: LoggerType): OurServiceIds {
   const uuidIdJson = db
     .prepare(
       `
-        SELECT json
-        FROM items
-        WHERE id IS 'uuid_id'
-      `
+    SELECT json
+    FROM items
+    WHERE id IS 'uuid_id'
+  `,
+      {
+        pluck: true,
+      }
     )
-    .pluck()
-    .get();
+    .get<string>();
   const pniJson = db
     .prepare(
       `
-        SELECT json
-        FROM items
-        WHERE id IS 'pni'
-      `
+    SELECT json
+    FROM items
+    WHERE id IS 'pni'
+  `,
+      {
+        pluck: true,
+      }
     )
-    .pluck()
-    .get();
+    .get<string>();
 
   let legacyAci: string | undefined;
   try {
-    [legacyAci] = JSON.parse(uuidIdJson).value.split('.', 2);
+    [legacyAci] = JSON.parse(uuidIdJson ?? '').value.split('.', 2);
   } catch (error) {
     if (uuidIdJson) {
       logger.warn(
@@ -518,7 +522,7 @@ function migrateItems(db: Database, logger: LoggerType): OurServiceIds {
 
   let legacyPni: string | undefined;
   try {
-    legacyPni = JSON.parse(pniJson).value;
+    legacyPni = JSON.parse(pniJson ?? '').value;
   } catch (error) {
     if (pniJson) {
       logger.warn('updateToSchemaVersion88: failed to parse pni item', error);
@@ -852,7 +856,10 @@ function migratePreKeys(
   ourServiceIds: OurServiceIds,
   logger: LoggerType
 ): void {
-  const preKeys = db.prepare(`SELECT id, json FROM ${table}`).all();
+  const preKeys = db.prepare(`SELECT id, json FROM ${table}`).all<{
+    id: string;
+    json: string;
+  }>();
 
   const updateStmt = db.prepare(`
     UPDATE ${table}
@@ -1001,7 +1008,11 @@ function migrateJobs(
   identifierToServiceId: Map<string, ServiceIdString>,
   logger: LoggerType
 ): void {
-  const jobs = db.prepare('SELECT id, queueType, data FROM jobs').all();
+  const jobs = db.prepare('SELECT id, queueType, data FROM jobs').all<{
+    id: string;
+    queueType: string;
+    data: string;
+  }>();
   const updateStmt = db.prepare('UPDATE jobs SET data = $data WHERE id IS $id');
 
   let updatedCount = 0;

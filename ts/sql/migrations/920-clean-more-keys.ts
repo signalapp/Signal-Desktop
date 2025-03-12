@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database, RunResult } from '@signalapp/better-sqlite3';
+import type { Database, RunResult } from '@signalapp/sqlcipher';
 
 import type { LoggerType } from '../../types/Logging';
 import type { QueryFragment } from '../util';
@@ -65,11 +65,12 @@ export function cleanKeys(
   // Grab our PNI
   let pni: PniString;
   const pniJson = db
-    .prepare("SELECT json FROM items WHERE id IS 'pni'")
-    .pluck()
-    .get();
+    .prepare("SELECT json FROM items WHERE id IS 'pni'", {
+      pluck: true,
+    })
+    .get<string>();
   try {
-    const pniData = JSON.parse(pniJson);
+    const pniData = JSON.parse(pniJson ?? '');
     pni = normalizePni(pniData.value, logId);
   } catch (error) {
     if (pniJson) {
@@ -84,10 +85,12 @@ export function cleanKeys(
   }
 
   // Do overall count - if it's less than 1000, move on
-  const totalKeys = db
-    .prepare(sql`SELECT count(*) FROM ${tableName};`[0])
-    .pluck(true)
-    .get();
+  const totalKeys =
+    db
+      .prepare(sql`SELECT count(*) FROM ${tableName};`[0], {
+        pluck: true,
+      })
+      .get<number>() ?? 0;
   logger.info(`${logId}: Found ${totalKeys} total keys`);
   if (totalKeys < 1000) {
     return;
@@ -96,7 +99,11 @@ export function cleanKeys(
   // Grab PNI-specific count
   const [beforeQuery, beforeParams] =
     sql`SELECT count(*) from ${tableName} WHERE ${idField} = ${pni}`;
-  const beforeKeys = db.prepare(beforeQuery).pluck(true).get(beforeParams);
+  const beforeKeys = db
+    .prepare(beforeQuery, {
+      pluck: true,
+    })
+    .get(beforeParams);
   logger.info(`${logId}: Found ${beforeKeys} keys for PNI`);
 
   // Create index to help us with all these queries
@@ -123,7 +130,11 @@ export function cleanKeys(
     LIMIT 1
     OFFSET 499
   `;
-  const oldBoundary = db.prepare(oldQuery).pluck(true).get(oldParams);
+  const oldBoundary = db
+    .prepare(oldQuery, {
+      pluck: true,
+    })
+    .get(oldParams);
   logger.info(`${logId}: Found 500th-oldest timestamp: ${oldBoundary}`);
 
   // Fetch 500th-newest timestamp for PNI
@@ -137,7 +148,11 @@ export function cleanKeys(
     LIMIT 1
     OFFSET 499
   `;
-  const newBoundary = db.prepare(newQuery).pluck(true).get(newParams);
+  const newBoundary = db
+    .prepare(newQuery, {
+      pluck: true,
+    })
+    .get(newParams);
   logger.info(`${logId}: Found 500th-newest timestamp: ${newBoundary}`);
 
   // Delete everything in between for PNI
@@ -146,8 +161,8 @@ export function cleanKeys(
     DELETE FROM ${tableName}
     WHERE
       createdAt IS NOT NULL AND
-      createdAt > ${oldBoundary} AND 
-      createdAt < ${newBoundary} AND
+      createdAt > ${oldBoundary ?? null} AND
+      createdAt < ${newBoundary ?? null} AND
       ${idField} = ${pni}
     LIMIT 10000;
   `;
@@ -164,7 +179,11 @@ export function cleanKeys(
     FROM ${tableName}
     WHERE ${idField} = ${pni};
   `;
-  const afterCount = db.prepare(afterQuery).pluck(true).get(afterParams);
+  const afterCount = db
+    .prepare(afterQuery, {
+      pluck: true,
+    })
+    .get(afterParams);
   logger.info(`${logId}: Found ${afterCount} keys for PNI after delete`);
 
   db.exec(

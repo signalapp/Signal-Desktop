@@ -9,8 +9,9 @@ import {
   saveSyncTasks,
   incrementAllSyncTaskAttempts,
 } from '../../sql/Server';
+import { sql } from '../../sql/util';
 import type { WritableDB } from '../../sql/Interface';
-import { updateToVersion, createDB } from './helpers';
+import { updateToVersion, createDB, explain } from './helpers';
 
 import type { SyncTaskType } from '../../util/syncTasks';
 
@@ -27,17 +28,15 @@ describe('SQL/updateToSchemaVersion1330', () => {
 
   describe('Sync Tasks task index', () => {
     it('uses the task index for queries', () => {
-      const { detail } = db
-        .prepare(
-          `
-            EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
             SELECT rowid, * FROM syncTasks
             WHERE rowid > 0 AND type IN ('delete-converation', 'delete-local-conversation')
             ORDER BY rowid ASC
             LIMIT 10000
         `
-        )
-        .get();
+      );
       assert.include(detail, 'USING INDEX syncTasks_type');
     });
   });

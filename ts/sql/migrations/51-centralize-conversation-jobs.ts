@@ -46,7 +46,7 @@ export default function updateToSchemaVersion51(
         return;
       }
 
-      const message = getMessageById.get(messageId);
+      const message = getMessageById.get([messageId]);
       if (!message) {
         logger.warn(
           `updateToSchemaVersion51: Unable to find message for reaction job ${id}`

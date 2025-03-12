@@ -4,7 +4,14 @@
 import { assert } from 'chai';
 
 import type { WritableDB } from '../../sql/Interface';
-import { createDB, updateToVersion, insertData, getTableData } from './helpers';
+import { sql } from '../../sql/util';
+import {
+  createDB,
+  updateToVersion,
+  insertData,
+  getTableData,
+  explain,
+} from './helpers';
 
 describe('SQL/updateToSchemaVersion90', () => {
   let db: WritableDB;
@@ -85,20 +92,16 @@ describe('SQL/updateToSchemaVersion90', () => {
   it('should use storyId index', () => {
     updateToVersion(db, 90);
 
-    const details = db
-      .prepare(
-        `
-        EXPLAIN QUERY PLAN
+    const details = explain(
+      db,
+      sql`
         UPDATE messages
         SET json = json_remove(json, '$.storyReplyContext.attachment.screenshotData')
         WHERE isStory = 0
         AND storyId > '0'
         AND json->'storyReplyContext.attachment.screenshotData' IS NOT NULL;
         `
-      )
-      .all()
-      .map(({ detail }) => detail)
-      .join('\n');
+    );
 
     assert.include(details, 'USING INDEX messages_by_storyId');
     assert.notInclude(details, 'SCAN');

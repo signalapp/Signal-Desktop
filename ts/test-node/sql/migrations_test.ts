@@ -12,7 +12,7 @@ import { objectToJSON, sql, sqlJoin } from '../../sql/util';
 import { BodyRange } from '../../types/BodyRange';
 import type { AciString } from '../../types/ServiceId';
 import { generateAci } from '../../types/ServiceId';
-import { createDB, updateToVersion } from './helpers';
+import { createDB, updateToVersion, explain } from './helpers';
 
 const OUR_UUID = generateGuid();
 
@@ -100,15 +100,24 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const senderKeyCount = db
-        .prepare('SELECT COUNT(*) FROM senderKeys')
-        .pluck();
-      const sessionCount = db.prepare('SELECT COUNT(*) FROM sessions').pluck();
-      const signedPreKeyCount = db
-        .prepare('SELECT COUNT(*) FROM signedPreKeys')
-        .pluck();
-      const preKeyCount = db.prepare('SELECT COUNT(*) FROM preKeys').pluck();
-      const itemCount = db.prepare('SELECT COUNT(*) FROM items').pluck();
+      const senderKeyCount = db.prepare('SELECT COUNT(*) FROM senderKeys', {
+        pluck: true,
+      });
+      const sessionCount = db.prepare('SELECT COUNT(*) FROM sessions', {
+        pluck: true,
+      });
+      const signedPreKeyCount = db.prepare(
+        'SELECT COUNT(*) FROM signedPreKeys',
+        {
+          pluck: true,
+        }
+      );
+      const preKeyCount = db.prepare('SELECT COUNT(*) FROM preKeys', {
+        pluck: true,
+      });
+      const itemCount = db.prepare('SELECT COUNT(*) FROM items', {
+        pluck: true,
+      });
 
       assert.strictEqual(senderKeyCount.get(), 1);
       assert.strictEqual(sessionCount.get(), 1);
@@ -223,7 +232,11 @@ describe('SQL migrations test', () => {
       updateToVersion(db, 41);
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM senderKeys').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM senderKeys', {
+            pluck: true,
+          })
+          .get(),
         0
       );
     });
@@ -321,7 +334,11 @@ describe('SQL migrations test', () => {
       updateToVersion(db, 41);
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM sessions').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM sessions', {
+            pluck: true,
+          })
+          .get(),
         0
       );
     });
@@ -342,7 +359,11 @@ describe('SQL migrations test', () => {
       updateToVersion(db, 41);
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM sessions').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM sessions', {
+            pluck: true,
+          })
+          .get(),
         0
       );
     });
@@ -537,10 +558,12 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const reactionCount = db
-        .prepare('SELECT COUNT(*) FROM reactions;')
-        .pluck();
-      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;').pluck();
+      const reactionCount = db.prepare('SELECT COUNT(*) FROM reactions;', {
+        pluck: true,
+      });
+      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;', {
+        pluck: true,
+      });
 
       assert.strictEqual(reactionCount.get(), 4);
       assert.strictEqual(messageCount.get(), 2);
@@ -551,8 +574,9 @@ describe('SQL migrations test', () => {
       assert.strictEqual(messageCount.get(), 2);
 
       const reactionMessageIds = db
-        .prepare('SELECT messageId FROM reactions;')
-        .pluck()
+        .prepare('SELECT messageId FROM reactions;', {
+          pluck: true,
+        })
         .all();
 
       assert.sameDeepMembers(reactionMessageIds, [MESSAGE_ID_1, MESSAGE_ID_2]);
@@ -576,10 +600,12 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const reactionCount = db
-        .prepare('SELECT COUNT(*) FROM reactions;')
-        .pluck();
-      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;').pluck();
+      const reactionCount = db.prepare('SELECT COUNT(*) FROM reactions;', {
+        pluck: true,
+      });
+      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;', {
+        pluck: true,
+      });
 
       assert.strictEqual(reactionCount.get(), 3);
       assert.strictEqual(messageCount.get(), 3);
@@ -599,8 +625,9 @@ describe('SQL migrations test', () => {
       assert.strictEqual(messageCount.get(), 2);
 
       const reactionMessageIds = db
-        .prepare('SELECT messageId FROM reactions;')
-        .pluck()
+        .prepare('SELECT messageId FROM reactions;', {
+          pluck: true,
+        })
         .all();
 
       assert.sameDeepMembers(reactionMessageIds, [MESSAGE_ID_2, MESSAGE_ID_3]);
@@ -700,9 +727,11 @@ describe('SQL migrations test', () => {
 
       updateToVersion(db, 43);
 
-      const { members, json: convoJSON } = db
+      const row = db
         .prepare("SELECT members, json FROM conversations WHERE id = 'c'")
-        .get();
+        .get<{ members: string; json: string }>();
+
+      const { members, json: convoJSON } = row || { members: '', json: '' };
 
       assert.strictEqual(members, `${UUID_A} ${UUID_B}`);
       assert.deepStrictEqual(JSON.parse(convoJSON), {
@@ -723,9 +752,10 @@ describe('SQL migrations test', () => {
         ],
       });
 
-      const { json: messageMJSON } = db
-        .prepare("SELECT  json FROM messages WHERE id = 'm'")
-        .get();
+      const messageMJSON =
+        db
+          .prepare("SELECT  json FROM messages WHERE id = 'm'")
+          .get<{ json: string }>()?.json ?? '';
 
       assert.deepStrictEqual(JSON.parse(messageMJSON), {
         id: 'm',
@@ -751,9 +781,10 @@ describe('SQL migrations test', () => {
         ],
       });
 
-      const { json: messageNJSON } = db
-        .prepare("SELECT  json FROM messages WHERE id = 'n'")
-        .get();
+      const messageNJSON =
+        db
+          .prepare("SELECT  json FROM messages WHERE id = 'n'")
+          .get<{ json: string }>()?.json ?? '';
 
       assert.deepStrictEqual(JSON.parse(messageNJSON), {
         id: 'n',
@@ -781,9 +812,10 @@ describe('SQL migrations test', () => {
 
       updateToVersion(db, 43);
 
-      const { json: messageMJSON } = db
-        .prepare("SELECT json FROM messages WHERE id = 'm'")
-        .get();
+      const messageMJSON =
+        db
+          .prepare("SELECT json FROM messages WHERE id = 'm'")
+          .get<{ json: string }>()?.json ?? '';
 
       assert.deepStrictEqual(JSON.parse(messageMJSON), {
         id: 'm',
@@ -822,10 +854,12 @@ describe('SQL migrations test', () => {
           ('${AUTHOR_ID}', '${CONVERSATION_ID}', '${STORY_ID_2}', ${Date.now()});     `
       );
 
-      const storyReadCount = db
-        .prepare('SELECT COUNT(*) FROM storyReads;')
-        .pluck();
-      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;').pluck();
+      const storyReadCount = db.prepare('SELECT COUNT(*) FROM storyReads;', {
+        pluck: true,
+      });
+      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;', {
+        pluck: true,
+      });
 
       assert.strictEqual(storyReadCount.get(), 2);
       assert.strictEqual(messageCount.get(), 5);
@@ -841,8 +875,9 @@ describe('SQL migrations test', () => {
       assert.strictEqual(messageCount.get(), 2);
 
       const storyReadIds = db
-        .prepare('SELECT storyId FROM storyReads;')
-        .pluck()
+        .prepare('SELECT storyId FROM storyReads;', {
+          pluck: true,
+        })
         .all();
       assert.sameDeepMembers(storyReadIds, [STORY_ID_2]);
     });
@@ -875,12 +910,15 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const listCount = db
-        .prepare('SELECT COUNT(*) FROM storyDistributions;')
-        .pluck();
-      const memberCount = db
-        .prepare('SELECT COUNT(*) FROM storyDistributionMembers;')
-        .pluck();
+      const listCount = db.prepare('SELECT COUNT(*) FROM storyDistributions;', {
+        pluck: true,
+      });
+      const memberCount = db.prepare(
+        'SELECT COUNT(*) FROM storyDistributionMembers;',
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(listCount.get(), 2);
       assert.strictEqual(memberCount.get(), 6);
@@ -891,8 +929,9 @@ describe('SQL migrations test', () => {
       assert.strictEqual(memberCount.get(), 2);
 
       const members = db
-        .prepare('SELECT uuid FROM storyDistributionMembers;')
-        .pluck()
+        .prepare('SELECT uuid FROM storyDistributionMembers;', {
+          pluck: true,
+        })
         .all();
 
       assert.sameDeepMembers(members, [UUID_1, UUID_2]);
@@ -948,15 +987,21 @@ describe('SQL migrations test', () => {
       updateToVersion(db, 47);
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         2
       );
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE isChangeCreatedByUs IS 0;'
+            'SELECT COUNT(*) FROM messages WHERE isChangeCreatedByUs IS 0;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         1,
         'zero'
@@ -964,9 +1009,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE isChangeCreatedByUs IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE isChangeCreatedByUs IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         1,
         'one'
@@ -994,20 +1041,26 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         3
       );
       assert.strictEqual(
         db
-          .prepare('SELECT COUNT(*) FROM messages WHERE isStory IS 0;')
-          .pluck()
+          .prepare('SELECT COUNT(*) FROM messages WHERE isStory IS 0;', {
+            pluck: true,
+          })
           .get(),
         2
       );
       assert.strictEqual(
         db
-          .prepare('SELECT COUNT(*) FROM messages WHERE isStory IS 1;')
-          .pluck()
+          .prepare('SELECT COUNT(*) FROM messages WHERE isStory IS 1;', {
+            pluck: true,
+          })
           .get(),
         1
       );
@@ -1035,33 +1088,43 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         4
       );
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE shouldAffectPreview IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE shouldAffectPreview IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         3
       );
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE shouldAffectActivity IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE shouldAffectActivity IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         2
       );
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE isUserInitiatedMessage IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE isUserInitiatedMessage IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         1
       );
@@ -1100,24 +1163,32 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         3
       );
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE isTimerChangeFromSync IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE isTimerChangeFromSync IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         1
       );
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE isTimerChangeFromSync IS 0;'
+            'SELECT COUNT(*) FROM messages WHERE isTimerChangeFromSync IS 0;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         2
       );
@@ -1199,24 +1270,32 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         5
       );
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE isGroupLeaveEvent IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE isGroupLeaveEvent IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         1
       );
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE isGroupLeaveEvent IS 0;'
+            'SELECT COUNT(*) FROM messages WHERE isGroupLeaveEvent IS 0;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         4
       );
@@ -1225,10 +1304,9 @@ describe('SQL migrations test', () => {
     it('ensures that index is used for getOlderMessagesByConversation', () => {
       updateToVersion(db, 47);
 
-      const { detail } = db
-        .prepare(
-          `
-        EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
         SELECT json FROM messages WHERE
           conversationId = 'd8b05bb1-36b3-4478-841b-600af62321eb' AND
           (NULL IS NULL OR id IS NOT NULL) AND
@@ -1241,8 +1319,7 @@ describe('SQL migrations test', () => {
         ORDER BY received_at DESC, sent_at DESC
         LIMIT 10;
         `
-        )
-        .get();
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');
@@ -1257,10 +1334,9 @@ describe('SQL migrations test', () => {
     it('creates usable index for hasUserInitiatedMessages', () => {
       updateToVersion(db, 48);
 
-      const details = db
-        .prepare(
-          `
-        EXPLAIN QUERY PLAN
+      const details = explain(
+        db,
+        sql`
         SELECT COUNT(*) as count FROM
           (
             SELECT 1 FROM messages
@@ -1270,10 +1346,7 @@ describe('SQL migrations test', () => {
             LIMIT 1
           );
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       assert.include(
         details,
@@ -1286,10 +1359,9 @@ describe('SQL migrations test', () => {
     it('creates usable index for messages preview', () => {
       updateToVersion(db, 49);
 
-      const details = db
-        .prepare(
-          `
-        EXPLAIN QUERY PLAN
+      const details = explain(
+        db,
+        sql`
         SELECT json FROM messages
         WHERE
           conversationId = 'convo' AND
@@ -1303,10 +1375,7 @@ describe('SQL migrations test', () => {
         ORDER BY received_at DESC, sent_at DESC
         LIMIT 1;
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       assert.include(details, 'USING INDEX messages_preview');
       assert.notInclude(details, 'TEMP B-TREE');
@@ -1318,10 +1387,9 @@ describe('SQL migrations test', () => {
     it('creates usable index for messages_unread', () => {
       updateToVersion(db, 50);
 
-      const details = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const details = explain(
+        db,
+        sql`
           SELECT * FROM messages WHERE
             conversationId = 'conversation' AND
             readStatus = 'something' AND
@@ -1330,10 +1398,7 @@ describe('SQL migrations test', () => {
           ORDER BY received_at ASC, sent_at ASC
           LIMIT 1;
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       assert.include(details, 'USING INDEX messages_unread');
       assert.notInclude(details, 'TEMP B-TREE');
@@ -1368,16 +1433,27 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
-      const normalSendJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'normal send';")
-        .pluck();
-      const conversationJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
-        .pluck();
-      const reactionJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'reactions';")
-        .pluck();
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;', {
+        pluck: true,
+      });
+      const normalSendJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'normal send';",
+        {
+          pluck: true,
+        }
+      );
+      const conversationJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';",
+        {
+          pluck: true,
+        }
+      );
+      const reactionJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'reactions';",
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(totalJobs.get(), 4, 'before total');
       assert.strictEqual(normalSendJobs.get(), 1, 'before normal');
@@ -1465,13 +1541,21 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
-      const reactionJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'reactions';")
-        .pluck();
-      const conversationJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
-        .pluck();
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;', {
+        pluck: true,
+      });
+      const reactionJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'reactions';",
+        {
+          pluck: true,
+        }
+      );
+      const conversationJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';",
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(totalJobs.get(), 6, 'total jobs before');
       assert.strictEqual(reactionJobs.get(), 6, 'reaction jobs before');
@@ -1542,13 +1626,21 @@ describe('SQL migrations test', () => {
         queueType: 'normal send',
       });
 
-      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
-      const normalSend = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'normal send';")
-        .pluck();
-      const conversationJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
-        .pluck();
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;', {
+        pluck: true,
+      });
+      const normalSend = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'normal send';",
+        {
+          pluck: true,
+        }
+      );
+      const conversationJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';",
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(totalJobs.get(), 3, 'total jobs before');
       assert.strictEqual(normalSend.get(), 3, 'normal send jobs before');
@@ -1595,7 +1687,6 @@ describe('SQL migrations test', () => {
       return [
         {
           template: sql`
-            EXPLAIN QUERY PLAN
             SELECT * FROM messages WHERE
               conversationId = 'conversation' AND
               readStatus = 'something' AND
@@ -1608,7 +1699,6 @@ describe('SQL migrations test', () => {
         },
         {
           template: sql`
-            EXPLAIN QUERY PLAN
             SELECT json FROM messages WHERE
               conversationId = 'd8b05bb1-36b3-4478-841b-600af62321eb' AND
               (NULL IS NULL OR id IS NOT NULL) AND
@@ -1631,12 +1721,7 @@ describe('SQL migrations test', () => {
 
       for (const storyId of ['123', undefined]) {
         for (const { template, index } of getQueries(storyId, true)) {
-          const [query, params] = template;
-          const details = db
-            .prepare(query)
-            .all(params)
-            .map(({ detail }) => detail)
-            .join('\n');
+          const details = explain(db, template);
 
           const postfixedIndex = index + (storyId ? '' : '_no_story_id');
 
@@ -1722,10 +1807,15 @@ describe('SQL migrations test', () => {
           `
       );
 
-      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
-      const reportSpamJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'report spam';")
-        .pluck();
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;', {
+        pluck: true,
+      });
+      const reportSpamJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'report spam';",
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(totalJobs.get(), 2, 'before total');
       assert.strictEqual(reportSpamJobs.get(), 1, 'before report spam');
@@ -1788,16 +1878,22 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         11,
         'starting total'
       );
       assert.strictEqual(
         db
           .prepare(
-            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         11,
         'starting unread count'
@@ -1806,16 +1902,22 @@ describe('SQL migrations test', () => {
       updateToVersion(db, 56);
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         11,
         'ending total'
       );
       assert.strictEqual(
         db
           .prepare(
-            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         10,
         'ending unread count'
@@ -1823,9 +1925,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            `SELECT COUNT(*) FROM messages WHERE seenStatus = ${SeenStatus.Unseen};`
+            `SELECT COUNT(*) FROM messages WHERE seenStatus = ${SeenStatus.Unseen};`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         10,
         'ending unseen count'
@@ -1834,9 +1938,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            "SELECT readStatus FROM messages WHERE type = 'other' LIMIT 1;"
+            "SELECT readStatus FROM messages WHERE type = 'other' LIMIT 1;",
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         ReadStatus.Read,
         "checking read status for lone 'other' message"
@@ -1846,10 +1952,9 @@ describe('SQL migrations test', () => {
     it('creates usable index for getOldestUnseenMessageForConversation', () => {
       updateToVersion(db, 56);
 
-      const first = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const first = explain(
+        db,
+        sql`
           SELECT * FROM messages WHERE
             conversationId = 'id-conversation-4' AND
             seenStatus = ${SeenStatus.Unseen} AND
@@ -1858,19 +1963,15 @@ describe('SQL migrations test', () => {
           ORDER BY received_at ASC, sent_at ASC
           LIMIT 1;
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       assert.include(first, 'USING INDEX messages_unseen_no_story', 'first');
       assert.notInclude(first, 'TEMP B-TREE', 'first');
       assert.notInclude(first, 'SCAN', 'first');
 
-      const second = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const second = explain(
+        db,
+        sql`
           SELECT * FROM messages WHERE
             conversationId = 'id-conversation-4' AND
             seenStatus = ${SeenStatus.Unseen} AND
@@ -1879,10 +1980,7 @@ describe('SQL migrations test', () => {
           ORDER BY received_at ASC, sent_at ASC
           LIMIT 1;
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       assert.include(
         second,
@@ -1896,10 +1994,9 @@ describe('SQL migrations test', () => {
     it('creates usable index for getUnreadByConversationAndMarkRead', () => {
       updateToVersion(db, 56);
 
-      const first = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const first = explain(
+        db,
+        sql`
           UPDATE messages
           SET
             readStatus = ${ReadStatus.Read},
@@ -1912,19 +2009,15 @@ describe('SQL migrations test', () => {
             NULL IS NULL AND
             received_at <= 2343233;
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       assert.include(first, 'USING INDEX messages_unseen_no_story', 'first');
       assert.notInclude(first, 'TEMP B-TREE', 'first');
       assert.notInclude(first, 'SCAN', 'first');
 
-      const second = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const second = explain(
+        db,
+        sql`
           UPDATE messages
           SET
             readStatus = ${ReadStatus.Read},
@@ -1937,10 +2030,7 @@ describe('SQL migrations test', () => {
             storyId IS 'id-story-4' AND
             received_at <= 2343233;
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       assert.include(
         second,
@@ -1954,10 +2044,9 @@ describe('SQL migrations test', () => {
     it('creates usable index for getTotalUnseenForConversationSync', () => {
       updateToVersion(db, 56);
 
-      const first = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const first = explain(
+        db,
+        sql`
           SELECT count(id)
           FROM messages
           WHERE
@@ -1966,20 +2055,16 @@ describe('SQL migrations test', () => {
             isStory IS 0 AND
             NULL IS NULL;
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       // Weird, but we don't included received_at so it doesn't really matter
       assert.include(first, 'USING INDEX messages_unseen_with_story', 'first');
       assert.notInclude(first, 'TEMP B-TREE', 'first');
       assert.notInclude(first, 'SCAN', 'first');
 
-      const second = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const second = explain(
+        db,
+        sql`
           SELECT count(id)
           FROM messages
           WHERE
@@ -1988,10 +2073,7 @@ describe('SQL migrations test', () => {
             isStory IS 0 AND
             storyId IS 'id-story-4';
         `
-        )
-        .all()
-        .map(({ detail }) => detail)
-        .join('\n');
+      );
 
       assert.include(
         second,
@@ -2040,16 +2122,22 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         11,
         'starting total'
       );
       assert.strictEqual(
         db
           .prepare(
-            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         11,
         'starting unread count'
@@ -2058,16 +2146,22 @@ describe('SQL migrations test', () => {
       updateToVersion(db, 56);
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         11,
         'ending total'
       );
       assert.strictEqual(
         db
           .prepare(
-            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         10,
         'ending unread count'
@@ -2075,9 +2169,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            `SELECT COUNT(*) FROM messages WHERE seenStatus = ${SeenStatus.Unseen};`
+            `SELECT COUNT(*) FROM messages WHERE seenStatus = ${SeenStatus.Unseen};`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         10,
         'ending unseen count'
@@ -2086,9 +2182,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            "SELECT readStatus FROM messages WHERE type = 'other' LIMIT 1;"
+            "SELECT readStatus FROM messages WHERE type = 'other' LIMIT 1;",
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         ReadStatus.Read,
         "checking read status for 'other' message"
@@ -2115,16 +2213,22 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         3,
         'starting total'
       );
       assert.strictEqual(
         db
           .prepare(
-            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         3,
         'starting unread count'
@@ -2133,16 +2237,22 @@ describe('SQL migrations test', () => {
       updateToVersion(db, 58);
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         3,
         'ending total'
       );
       assert.strictEqual(
         db
           .prepare(
-            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         1,
         'ending unread count'
@@ -2151,9 +2261,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            "SELECT readStatus FROM messages WHERE type = 'keychange' LIMIT 1;"
+            "SELECT readStatus FROM messages WHERE type = 'keychange' LIMIT 1;",
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         ReadStatus.Read,
         "checking read status for 'keychange' message"
@@ -2161,9 +2273,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            "SELECT seenStatus FROM messages WHERE type = 'keychange' LIMIT 1;"
+            "SELECT seenStatus FROM messages WHERE type = 'keychange' LIMIT 1;",
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         SeenStatus.Unseen,
         "checking seen status for 'keychange' message"
@@ -2201,7 +2315,11 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         4,
         'starting total'
       );
@@ -2211,9 +2329,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_1}' LIMIT 1;`
+            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_1}' LIMIT 1;`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         JSON.stringify({
           body: 'message1',
@@ -2225,9 +2345,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_2}' LIMIT 1;`
+            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_2}' LIMIT 1;`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         JSON.stringify({ body: 'message2', readStatus: ReadStatus.Read }),
         'checking JSON for message2'
@@ -2235,9 +2357,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_3}' LIMIT 1;`
+            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_3}' LIMIT 1;`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         JSON.stringify({
           body: 'message3',
@@ -2249,9 +2373,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_4}' LIMIT 1;`
+            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_4}' LIMIT 1;`,
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         JSON.stringify({
           body: 'message4',
@@ -2267,10 +2393,9 @@ describe('SQL migrations test', () => {
     it('updates index to make query efficient', () => {
       updateToVersion(db, 60);
 
-      const items = db
-        .prepare(
-          `
-        EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
         UPDATE messages
         INDEXED BY expiring_message_by_conversation_and_received_at
         SET
@@ -2288,9 +2413,7 @@ describe('SQL migrations test', () => {
           expireTimer > 0 AND
           received_at <= 234234;
         `
-        )
-        .all();
-      const detail = items.map(item => item.detail).join('\n');
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');
@@ -2318,19 +2441,26 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM sendLogPayloads;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM sendLogPayloads;', {
+            pluck: true,
+          })
+          .get(),
         1,
         'starting total'
       );
 
-      const payload = db
-        .prepare('SELECT * FROM sendLogPayloads LIMIT 1;')
-        .get();
+      const payload = db.prepare('SELECT * FROM sendLogPayloads LIMIT 1;').get<{
+        contentHint: number;
+        timestamp: number;
+        proto: Uint8Array;
+        urgent: number;
+      }>();
 
-      assert.strictEqual(payload.contentHint, 1);
-      assert.strictEqual(payload.timestamp, timestamp);
-      assert.strictEqual(payload.proto.length, 8);
-      assert.strictEqual(payload.urgent, 1);
+      assert.strictEqual(payload?.contentHint, 1);
+      assert.strictEqual(payload?.timestamp, timestamp);
+      assert.strictEqual(payload?.proto.length, 8);
+      assert.strictEqual(payload?.urgent, 1);
     });
   });
 
@@ -2372,15 +2502,16 @@ describe('SQL migrations test', () => {
     });
 
     it('removes the legacy groupCallRings table', () => {
-      const tableCount = db
-        .prepare(
-          `
-          SELECT COUNT(*) FROM sqlite_schema
-          WHERE type = 'table'
-          AND name = 'groupCallRings'
-          `
-        )
-        .pluck();
+      const tableCount = db.prepare(
+        `
+      SELECT COUNT(*) FROM sqlite_schema
+      WHERE type = 'table'
+      AND name = 'groupCallRings'
+      `,
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(tableCount.get(), 0);
     });
@@ -2429,7 +2560,11 @@ describe('SQL migrations test', () => {
       );
 
       assert.strictEqual(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         8,
         'total'
       );
@@ -2438,9 +2573,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE shouldAffectPreview IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE shouldAffectPreview IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         4,
         'shouldAffectPreview'
@@ -2448,9 +2585,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE shouldAffectActivity IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE shouldAffectActivity IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         4,
         'shouldAffectActivity'
@@ -2460,9 +2599,11 @@ describe('SQL migrations test', () => {
       assert.strictEqual(
         db
           .prepare(
-            'SELECT COUNT(*) FROM messages WHERE isUserInitiatedMessage IS 1;'
+            'SELECT COUNT(*) FROM messages WHERE isUserInitiatedMessage IS 1;',
+            {
+              pluck: true,
+            }
           )
-          .pluck()
           .get(),
         3,
         'isUserInitiatedMessage'
@@ -2525,23 +2666,33 @@ describe('SQL migrations test', () => {
         data: {},
       });
 
-      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
-      const conversationJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
-        .pluck();
-      const deliveryJobs = db
-        .prepare(
-          "SELECT COUNT(*) FROM jobs WHERE queueType = 'delivery receipts';"
-        )
-        .pluck();
-      const readJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'read receipts';")
-        .pluck();
-      const viewedJobs = db
-        .prepare(
-          "SELECT COUNT(*) FROM jobs WHERE queueType = 'viewed receipts';"
-        )
-        .pluck();
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;', {
+        pluck: true,
+      });
+      const conversationJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';",
+        {
+          pluck: true,
+        }
+      );
+      const deliveryJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'delivery receipts';",
+        {
+          pluck: true,
+        }
+      );
+      const readJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'read receipts';",
+        {
+          pluck: true,
+        }
+      );
+      const viewedJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'viewed receipts';",
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(totalJobs.get(), 5, 'before total');
       assert.strictEqual(conversationJobs.get(), 1, 'before conversation');
@@ -2669,15 +2820,21 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
-      const conversationJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
-        .pluck();
-      const deliveryJobs = db
-        .prepare(
-          "SELECT COUNT(*) FROM jobs WHERE queueType = 'delivery receipts';"
-        )
-        .pluck();
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;', {
+        pluck: true,
+      });
+      const conversationJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';",
+        {
+          pluck: true,
+        }
+      );
+      const deliveryJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'delivery receipts';",
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(totalJobs.get(), 7, 'total jobs before');
       assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
@@ -2840,13 +2997,21 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
-      const conversationJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
-        .pluck();
-      const readJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'read receipts';")
-        .pluck();
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;', {
+        pluck: true,
+      });
+      const conversationJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';",
+        {
+          pluck: true,
+        }
+      );
+      const readJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'read receipts';",
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(totalJobs.get(), 7, 'total jobs before');
       assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
@@ -2999,15 +3164,21 @@ describe('SQL migrations test', () => {
         `
       );
 
-      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
-      const conversationJobs = db
-        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
-        .pluck();
-      const viewedJobs = db
-        .prepare(
-          "SELECT COUNT(*) FROM jobs WHERE queueType = 'viewed receipts';"
-        )
-        .pluck();
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;', {
+        pluck: true,
+      });
+      const conversationJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';",
+        {
+          pluck: true,
+        }
+      );
+      const viewedJobs = db.prepare(
+        "SELECT COUNT(*) FROM jobs WHERE queueType = 'viewed receipts';",
+        {
+          pluck: true,
+        }
+      );
 
       assert.strictEqual(totalJobs.get(), 7, 'total jobs before');
       assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
@@ -3064,10 +3235,9 @@ describe('SQL migrations test', () => {
     beforeEach(() => updateToVersion(db, 83));
 
     it('ensures that index is used for getTotalUnreadMentionsOfMeForConversation, no storyId', () => {
-      const { detail } = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
           SELECT count(1)
           FROM messages
           WHERE
@@ -3077,8 +3247,7 @@ describe('SQL migrations test', () => {
             isStory IS 0 AND
             NULL IS NULL
           `
-        )
-        .get();
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');
@@ -3089,10 +3258,9 @@ describe('SQL migrations test', () => {
     });
 
     it('ensures that index is used for getTotalUnreadMentionsOfMeForConversation, with storyId', () => {
-      const { detail } = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
           SELECT count(1)
           FROM messages
           WHERE
@@ -3102,8 +3270,7 @@ describe('SQL migrations test', () => {
             isStory IS 0 AND
             storyId IS 'storyId'
           `
-        )
-        .get();
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');
@@ -3114,10 +3281,9 @@ describe('SQL migrations test', () => {
     });
 
     it('ensures that index is used for getOldestUnreadMentionOfMeForConversation, no storyId', () => {
-      const { detail } = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
           SELECT received_at, sent_at, id FROM messages WHERE
             conversationId = 'conversationId' AND
             readStatus = ${ReadStatus.Unread} AND
@@ -3127,8 +3293,7 @@ describe('SQL migrations test', () => {
           ORDER BY received_at ASC, sent_at ASC
           LIMIT 1;
           `
-        )
-        .get();
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');
@@ -3139,10 +3304,9 @@ describe('SQL migrations test', () => {
     });
 
     it('ensures that index is used for getOldestUnreadMentionOfMeForConversation, with storyId', () => {
-      const { detail } = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
           SELECT received_at, sent_at, id FROM messages WHERE
             conversationId = 'conversationId' AND
             readStatus = ${ReadStatus.Unread} AND
@@ -3152,8 +3316,7 @@ describe('SQL migrations test', () => {
           ORDER BY received_at ASC, sent_at ASC
           LIMIT 1;
           `
-        )
-        .get();
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');
@@ -3174,12 +3337,12 @@ describe('SQL migrations test', () => {
       id?: string;
       mentions?: Array<AciString>;
       boldRanges?: Array<Array<number>>;
-    }) {
-      const json: Partial<{
+    }): { id: string; body: string; bodyRanges?: Array<unknown> } {
+      const json: {
         id: string;
         body: string;
-        bodyRanges: Array<unknown>;
-      }> = {
+        bodyRanges?: Array<unknown>;
+      } = {
         id: id ?? generateGuid(),
         body: `Message body: ${id}`,
       };
@@ -3224,7 +3387,11 @@ describe('SQL migrations test', () => {
       );
 
       assert.equal(
-        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM messages;', {
+            pluck: true,
+          })
+          .get(),
         messages.length
       );
 
@@ -3288,7 +3455,11 @@ describe('SQL migrations test', () => {
     it('Updates mention table when new messages are added', () => {
       updateToVersion(db, schemaVersion);
       assert.equal(
-        db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM mentions;', {
+            pluck: true,
+          })
+          .get(),
         0
       );
 
@@ -3336,7 +3507,11 @@ describe('SQL migrations test', () => {
     it('Removes mentions when messages are deleted', () => {
       updateToVersion(db, schemaVersion);
       assert.equal(
-        db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM mentions;', {
+            pluck: true,
+          })
+          .get(),
         0
       );
 
@@ -3366,7 +3541,11 @@ describe('SQL migrations test', () => {
     it('Updates mentions when messages are updated', () => {
       updateToVersion(db, schemaVersion);
       assert.equal(
-        db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
+        db
+          .prepare('SELECT COUNT(*) FROM mentions;', {
+            pluck: true,
+          })
+          .get(),
         0
       );
 
@@ -3428,8 +3607,9 @@ describe('SQL migrations test', () => {
     });
     it('uses the mentionUuid index for searching mentions', () => {
       updateToVersion(db, schemaVersion);
-      const [query, params] = sql`
-        EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
         SELECT
           messages.rowid,
           mentionUuid
@@ -3444,8 +3624,8 @@ describe('SQL migrations test', () => {
           AND messages.storyId IS NULL
 
         LIMIT 100;
-        `;
-      const { detail } = db.prepare(query).get(params);
+        `
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');
@@ -3472,11 +3652,13 @@ describe('SQL migrations test', () => {
           `
       ).run();
 
-      const payload = db.prepare('SELECT * FROM kyberPreKeys LIMIT 1;').get();
+      const payload = db
+        .prepare('SELECT * FROM kyberPreKeys LIMIT 1;')
+        .get<{ id: string; json: string; ourUuid: string }>();
 
-      assert.strictEqual(payload.id, id);
-      assert.strictEqual(payload.json, json);
-      assert.strictEqual(payload.ourUuid, ourUuid);
+      assert.strictEqual(payload?.id, id);
+      assert.strictEqual(payload?.json, json);
+      assert.strictEqual(payload?.ourUuid, ourUuid);
     });
 
     it('adds a createdAt to all existing prekeys', () => {
@@ -3498,11 +3680,13 @@ describe('SQL migrations test', () => {
 
       updateToVersion(db, 85);
 
-      const payload = db.prepare('SELECT * FROM preKeys LIMIT 1;').get();
+      const payload = db
+        .prepare('SELECT * FROM preKeys LIMIT 1;')
+        .get<{ id: string; json: string }>();
 
-      assert.strictEqual(payload.id, id);
+      assert.strictEqual(payload?.id, id);
 
-      const object = JSON.parse(payload.json);
+      const object = JSON.parse(payload?.json ?? '');
       assert.strictEqual(object.ourUuid, ourUuid);
       assert.isAtLeast(object.createdAt, startingTime);
     });
@@ -3511,8 +3695,9 @@ describe('SQL migrations test', () => {
   describe('updateToSchemaVersion86', () => {
     it('supports the right index for first query used in getRecentStoryRepliesSync', () => {
       updateToVersion(db, 86);
-      const [query, params] = sql`
-        EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
         SELECT json FROM messages WHERE
           ('messageId' IS NULL OR id IS NOT 'messageId') AND
           isStory IS 0 AND
@@ -3520,8 +3705,8 @@ describe('SQL migrations test', () => {
           received_at = 100000 AND sent_at < 100000
           ORDER BY received_at DESC, sent_at DESC
           LIMIT 100
-      `;
-      const { detail } = db.prepare(query).get(params);
+      `
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');
@@ -3533,8 +3718,9 @@ describe('SQL migrations test', () => {
 
     it('supports the right index for second query used in getRecentStoryRepliesSync', () => {
       updateToVersion(db, 86);
-      const [query, params] = sql`
-        EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
         SELECT json FROM messages WHERE
           ('messageId' IS NULL OR id IS NOT 'messageId') AND
           isStory IS 0 AND
@@ -3542,8 +3728,8 @@ describe('SQL migrations test', () => {
           received_at < 100000
           ORDER BY received_at DESC, sent_at DESC
           LIMIT 100
-      `;
-      const { detail } = db.prepare(query).get(params);
+      `
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');

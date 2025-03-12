@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
+import type { Database } from '@signalapp/sqlcipher';
+import SQL from '@signalapp/sqlcipher';
 import { sql, sqlFragment, sqlJoin } from '../../sql/util';
 
 describe('sql/utils/sql', () => {

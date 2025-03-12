@@ -2418,12 +2418,6 @@ export class SignalProtocolStore extends EventEmitter {
     );
   }
 
-  getUnprocessedById(id: string): Promise<UnprocessedType | undefined> {
-    return this.withZone(GLOBAL_ZONE, 'getUnprocessedById', async () => {
-      return DataReader.getUnprocessedById(id);
-    });
-  }
-
   addUnprocessed(
     data: UnprocessedType,
     { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}

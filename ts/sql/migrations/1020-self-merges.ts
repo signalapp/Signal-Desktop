@@ -30,7 +30,11 @@ export function updateToSchemaVersion1020(
       SELECT id FROM conversations
       WHERE serviceId IS ${ourAci}
     `;
-    const ourConversationId = db.prepare(selectQuery).pluck().get(selectParams);
+    const ourConversationId = db
+      .prepare(selectQuery, {
+        pluck: true,
+      })
+      .get(selectParams);
     if (ourConversationId == null) {
       logger.error('updateToSchemaVersion1020: no conversation');
       db.pragma('user_version = 1020');

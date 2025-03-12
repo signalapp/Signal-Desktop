@@ -14,7 +14,6 @@ import {
   jsonToObject,
   objectToJSON,
 } from '../util';
-import type { EmptyQuery, Query } from '../util';
 import type { WritableDB } from '../Interface';
 
 type MessageType = Readonly<{
@@ -61,17 +60,18 @@ export default function updateToSchemaVersion43(
     pendingAdminApprovalV2?: Array<LegacyAdminApprovalType>;
   };
 
-  const getConversationUuid = db
-    .prepare<Query>(
-      `
-      SELECT uuid
-      FROM
-        conversations
-      WHERE
-        id = $conversationId
-      `
-    )
-    .pluck();
+  const getConversationUuid = db.prepare(
+    `
+  SELECT uuid
+  FROM
+    conversations
+  WHERE
+    id = $conversationId
+  `,
+    {
+      pluck: true,
+    }
+  );
 
   const updateConversationStmt = db.prepare(
     `
@@ -112,7 +112,7 @@ export default function updateToSchemaVersion43(
 
       const newValue = oldValue
         .map(member => {
-          const uuid: ServiceIdString = getConversationUuid.get({
+          const uuid = getConversationUuid.get<ServiceIdString>({
             conversationId: member.conversationId,
           });
           if (!uuid) {
@@ -278,7 +278,7 @@ export default function updateToSchemaVersion43(
             }
             changedDetails = true;
 
-            const newValue: ServiceIdString | null = getConversationUuid.get({
+            const newValue = getConversationUuid.get<ServiceIdString>({
               conversationId: oldValue,
             });
             if (key === 'inviter' && !newValue) {
@@ -318,7 +318,7 @@ export default function updateToSchemaVersion43(
     }
 
     if (sourceUuid) {
-      const newValue: ServiceIdString | null = getConversationUuid.get({
+      const newValue = getConversationUuid.get<ServiceIdString>({
         conversationId: sourceUuid,
       });
 
@@ -333,7 +333,7 @@ export default function updateToSchemaVersion43(
     if (invitedGV2Members) {
       const newMembers = invitedGV2Members
         .map(({ addedByUserId, conversationId }, i) => {
-          const uuid: ServiceIdString | null = getConversationUuid.get({
+          const uuid = getConversationUuid.get<ServiceIdString>({
             conversationId,
           });
           const oldMember =
@@ -357,7 +357,7 @@ export default function updateToSchemaVersion43(
             return newMember;
           }
 
-          const newAddedBy: ServiceIdString | null = getConversationUuid.get({
+          const newAddedBy = getConversationUuid.get<ServiceIdString>({
             conversationId: addedByUserId,
           });
           if (!newAddedBy) {
@@ -392,15 +392,16 @@ export default function updateToSchemaVersion43(
 
   db.transaction(() => {
     const allConversations = db
-      .prepare<EmptyQuery>(
+      .prepare(
         `
-      SELECT json, profileLastFetchedAt
+      SELECT json
       FROM conversations
       ORDER BY id ASC;
-      `
+      `,
+        { pluck: true }
       )
-      .all()
-      .map(({ json }) => jsonToObject<ConversationType>(json));
+      .all<string>()
+      .map(json => jsonToObject<ConversationType>(json));
 
     logger.info(
       'updateToSchemaVersion43: About to iterate through ' +

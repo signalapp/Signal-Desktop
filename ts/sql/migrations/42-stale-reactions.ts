@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { batchMultiVarQuery } from '../util';
-import type { ArrayQuery } from '../util';
 import type { WritableDB } from '../Interface';
 import type { LoggerType } from '../../types/Logging';
 
@@ -39,8 +38,9 @@ export default function updateToSchemaVersion42(
     // Note: we use `pluck` here to fetch only the first column of
     //   returned row.
     const messageIdList: Array<string> = db
-      .prepare('SELECT id FROM messages ORDER BY id ASC;')
-      .pluck()
+      .prepare('SELECT id FROM messages ORDER BY id ASC;', {
+        pluck: true,
+      })
       .all();
     const allReactions: Array<{
       rowid: number;
@@ -57,7 +57,7 @@ export default function updateToSchemaVersion42(
     });
 
     function deleteReactions(rowids: ReadonlyArray<number>) {
-      db.prepare<ArrayQuery>(
+      db.prepare(
         `
         DELETE FROM reactions
         WHERE rowid IN ( ${rowids.map(() => '?').join(', ')} );

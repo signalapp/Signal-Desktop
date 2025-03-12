@@ -6,11 +6,6 @@ import { isNumber, last } from 'lodash';
 import type { ReadableDB, WritableDB } from './Interface';
 import type { LoggerType } from '../types/Logging';
 
-export type EmptyQuery = [];
-export type ArrayQuery = Array<ReadonlyArray<null | number | bigint | string>>;
-export type Query = {
-  [key: string]: null | number | bigint | string | Uint8Array;
-};
 export type JSONRow = Readonly<{ json: string }>;
 export type JSONRows = Array<JSONRow>;
 
@@ -39,12 +34,7 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam =
-  | Uint8Array
-  | string
-  | number
-  | null
-  | undefined;
+export type QueryTemplateParam = Uint8Array | string | number | null;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export class QueryFragment {
@@ -184,7 +174,11 @@ export function explainQueryPlan(
   template: QueryTemplate
 ): QueryTemplate {
   const [query, params] = template;
-  const plan = db.prepare(`EXPLAIN QUERY PLAN ${query}`).all(params);
+  const plan = db.prepare(`EXPLAIN QUERY PLAN ${query}`).all<{
+    id: string | number;
+    parent: string | number;
+    detail: string;
+  }>(params);
   logger.info('EXPLAIN QUERY PLAN');
   for (const line of query.split('\n')) {
     logger.info(line);
@@ -200,15 +194,15 @@ export function explainQueryPlan(
 //
 
 export function getSQLiteVersion(db: ReadableDB): string {
-  const { sqlite_version: version } = db
-    .prepare<EmptyQuery>('select sqlite_version() AS sqlite_version')
-    .get();
-
-  return version;
+  return (
+    db
+      .prepare('select sqlite_version() AS sqlite_version', { pluck: true })
+      .get<string>() ?? ''
+  );
 }
 
 export function getSchemaVersion(db: ReadableDB): number {
-  return db.pragma('schema_version', { simple: true });
+  return db.pragma('schema_version', { simple: true }) as number;
 }
 
 export function setUserVersion(db: WritableDB, version: number): void {
@@ -219,11 +213,11 @@ export function setUserVersion(db: WritableDB, version: number): void {
 }
 
 export function getUserVersion(db: ReadableDB): number {
-  return db.pragma('user_version', { simple: true });
+  return db.pragma('user_version', { simple: true }) as number;
 }
 
 export function getSQLCipherVersion(db: ReadableDB): string | undefined {
-  return db.pragma('cipher_version', { simple: true });
+  return db.pragma('cipher_version', { simple: true }) as string | undefined;
 }
 
 //
@@ -276,7 +270,7 @@ export function createOrUpdate<Key extends string | number>(
     throw new Error('createOrUpdate: Provided data did not have a truthy id');
   }
 
-  db.prepare<Query>(
+  db.prepare(
     `
     INSERT OR REPLACE INTO ${table} (
       id,
@@ -310,14 +304,14 @@ export function getById<Key extends string | number, Result = unknown>(
   id: Key
 ): Result | undefined {
   const row = db
-    .prepare<Query>(
+    .prepare(
       `
-      SELECT *
+      SELECT json
       FROM ${table}
       WHERE id = $id;
       `
     )
-    .get({
+    .get<{ json: string }>({
       id,
     });
 
@@ -362,22 +356,21 @@ export function removeById<Key extends string | number>(
 }
 
 export function removeAllFromTable(db: WritableDB, table: TableType): number {
-  return db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run().changes;
+  return db.prepare(`DELETE FROM ${table};`).run().changes;
 }
 
 export function getAllFromTable<T>(db: ReadableDB, table: TableType): Array<T> {
-  const rows: JSONRows = db
-    .prepare<EmptyQuery>(`SELECT json FROM ${table};`)
-    .all();
+  const rows: JSONRows = db.prepare(`SELECT json FROM ${table};`).all();
 
   return rows.map(row => jsonToObject(row.json));
 }
 
 export function getCountFromTable(db: ReadableDB, table: TableType): number {
-  const result: null | number = db
-    .prepare<EmptyQuery>(`SELECT count(*) from ${table};`)
-    .pluck(true)
-    .get();
+  const result = db
+    .prepare(`SELECT count(*) from ${table};`, {
+      pluck: true,
+    })
+    .get<number>();
   if (isNumber(result)) {
     return result;
   }
@@ -392,7 +385,7 @@ export class TableIterator<ObjectType extends { id: string }> {
   ) {}
 
   *[Symbol.iterator](): Iterator<ObjectType> {
-    const fetchObject = this.db.prepare<Query>(
+    const fetchObject = this.db.prepare(
       `
         SELECT json FROM ${this.table}
         WHERE id > $id

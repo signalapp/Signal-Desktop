@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
+import type { Database } from '@signalapp/sqlcipher';
 
 import type { LoggerType } from '../../types/Logging';
 import type {
@@ -74,27 +74,31 @@ function migratePni(
   const uuidIdJson = db
     .prepare(
       `
-        SELECT json
-        FROM items
-        WHERE id IS 'uuid_id'
-      `
+    SELECT json
+    FROM items
+    WHERE id IS 'uuid_id'
+  `,
+      {
+        pluck: true,
+      }
     )
-    .pluck()
-    .get();
+    .get<string>();
   const pniJson = db
     .prepare(
       `
-        SELECT json
-        FROM items
-        WHERE id IS 'pni'
-      `
+    SELECT json
+    FROM items
+    WHERE id IS 'pni'
+  `,
+      {
+        pluck: true,
+      }
     )
-    .pluck()
-    .get();
+    .get<string>();
 
   let aci: string | undefined;
   try {
-    [aci] = JSON.parse(uuidIdJson).value.split('.', 2);
+    [aci] = JSON.parse(uuidIdJson ?? '').value.split('.', 2);
   } catch (error) {
     if (uuidIdJson) {
       logger.warn(
@@ -111,7 +115,7 @@ function migratePni(
 
   let legacyPni: string | undefined;
   try {
-    legacyPni = JSON.parse(pniJson).value;
+    legacyPni = JSON.parse(pniJson ?? '').value;
   } catch (error) {
     if (pniJson) {
       logger.warn('updateToSchemaVersion960: failed to parse pni item', error);
@@ -188,7 +192,7 @@ function migratePreKeys(
 ): void {
   const preKeys = db
     .prepare(`SELECT id, json FROM ${table} WHERE ourServiceId IS $legacyPni`)
-    .all({ legacyPni });
+    .all<{ id: string; json: string }>({ legacyPni });
 
   const updateStmt = db.prepare(`
     UPDATE ${table}

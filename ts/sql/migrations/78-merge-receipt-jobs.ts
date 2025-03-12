@@ -66,7 +66,7 @@ export default function updateToSchemaVersion78(
           return;
         }
 
-        const message = getMessageById.get(messageId);
+        const message = getMessageById.get([messageId]);
         if (!message) {
           logger.warn(
             `updateToSchemaVersion78: Unable to find message for ${queue.queueType} job ${id}`

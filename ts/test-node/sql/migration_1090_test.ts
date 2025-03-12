@@ -3,7 +3,8 @@
 
 import { assert } from 'chai';
 import type { WritableDB } from '../../sql/Interface';
-import { createDB, updateToVersion } from './helpers';
+import { sql } from '../../sql/util';
+import { createDB, updateToVersion, explain } from './helpers';
 
 describe('SQL/updateToSchemaVersion1090', () => {
   let db: WritableDB;
@@ -18,16 +19,12 @@ describe('SQL/updateToSchemaVersion1090', () => {
 
   describe('Additional messages_on_delete indexes', () => {
     it('uses index for selecting reactions by messageId', () => {
-      const details = db
-        .prepare(
-          `EXPLAIN QUERY PLAN 
-            SELECT rowid FROM reactions
+      const details = explain(
+        db,
+        sql`SELECT rowid FROM reactions
             WHERE messageId = '123';
            `
-        )
-        .all()
-        .map(step => step.detail)
-        .join(', ');
+      );
 
       assert.strictEqual(
         details,
@@ -36,15 +33,10 @@ describe('SQL/updateToSchemaVersion1090', () => {
     });
 
     it('uses index for selecting storyReads by storyId', () => {
-      const details = db
-        .prepare(
-          `EXPLAIN QUERY PLAN 
-            DELETE FROM storyReads WHERE storyId = '123';
-          `
-        )
-        .all()
-        .map(step => step.detail)
-        .join(', ');
+      const details = explain(
+        db,
+        sql`DELETE FROM storyReads WHERE storyId = '123';`
+      );
 
       assert.strictEqual(
         details,

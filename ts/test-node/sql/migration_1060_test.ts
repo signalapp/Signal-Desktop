@@ -11,7 +11,7 @@ import {
 } from '../../sql/Server';
 import type { WritableDB, ReadableDB, MessageType } from '../../sql/Interface';
 import { sql, jsonToObject } from '../../sql/util';
-import { insertData, updateToVersion, createDB } from './helpers';
+import { insertData, updateToVersion, createDB, explain } from './helpers';
 import { MAX_SYNC_TASK_ATTEMPTS } from '../../util/syncTasks.types';
 import { WEEK } from '../../util/durations';
 
@@ -36,7 +36,7 @@ export function getMostRecentAddressableMessages(
     LIMIT ${limit};
   `;
 
-  const rows = db.prepare(query).all(parameters);
+  const rows = db.prepare(query).all<{ json: string }>(parameters);
 
   return rows.map(row => jsonToObject(row.json));
 }
@@ -169,10 +169,9 @@ describe('SQL/updateToSchemaVersion1060', () => {
       });
 
       it('ensures that index is used for getMostRecentAddressableMessages, with storyId', () => {
-        const { detail } = db
-          .prepare(
-            `
-          EXPLAIN QUERY PLAN
+        const detail = explain(
+          db,
+          sql`
           SELECT json FROM messages
           INDEXED BY messages_by_date_addressable
           WHERE
@@ -181,8 +180,7 @@ describe('SQL/updateToSchemaVersion1060', () => {
           ORDER BY received_at DESC, sent_at DESC
           LIMIT 5;
           `
-          )
-          .get();
+        );
 
         assert.notInclude(detail, 'B-TREE');
         assert.notInclude(detail, 'SCAN');

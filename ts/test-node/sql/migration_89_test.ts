@@ -435,7 +435,7 @@ describe('SQL/updateToSchemaVersion89', () => {
       `;
       return db
         .prepare(query)
-        .all()
+        .all<{ json: string }>()
         .map(row => {
           return jsonToObject<MessageType>(row.json);
         });

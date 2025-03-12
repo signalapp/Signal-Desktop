@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database, RunResult } from '@signalapp/better-sqlite3';
+import type { Database, RunResult } from '@signalapp/sqlcipher';
 
 import type { LoggerType } from '../../types/Logging';
 import { sql } from '../util';
@@ -60,10 +60,12 @@ export default function updateToSchemaVersion91(
 
     // Do overall count - if it's less than 1000, move on
 
-    const totalKeys = db
-      .prepare('SELECT count(*) FROM preKeys;')
-      .pluck(true)
-      .get();
+    const totalKeys =
+      db
+        .prepare('SELECT count(*) FROM preKeys;', {
+          pluck: true,
+        })
+        .get<number>() ?? 0;
     logger.info(`updateToSchemaVersion91: Found ${totalKeys} keys`);
     if (totalKeys < 1000) {
       db.pragma('user_version = 91');
@@ -74,11 +76,12 @@ export default function updateToSchemaVersion91(
 
     let pni: PniString;
     const pniJson = db
-      .prepare("SELECT json FROM items WHERE id IS 'pni'")
-      .pluck()
-      .get();
+      .prepare("SELECT json FROM items WHERE id IS 'pni'", {
+        pluck: true,
+      })
+      .get<string>();
     try {
-      const pniData = JSON.parse(pniJson);
+      const pniData = JSON.parse(pniJson ?? '');
       pni = normalizePni(pniData.value, 'updateToSchemaVersion91');
     } catch (error) {
       db.pragma('user_version = 91');
@@ -97,7 +100,11 @@ export default function updateToSchemaVersion91(
 
     const [beforeQuery, beforeParams] =
       sql`SELECT count(*) from preKeys WHERE ourServiceId = ${pni}`;
-    const beforeKeys = db.prepare(beforeQuery).pluck(true).get(beforeParams);
+    const beforeKeys = db
+      .prepare(beforeQuery, {
+        pluck: true,
+      })
+      .get(beforeParams);
     logger.info(`updateToSchemaVersion91: Found ${beforeKeys} preKeys for PNI`);
 
     // Create index to help us with all these queries
@@ -124,7 +131,11 @@ export default function updateToSchemaVersion91(
       LIMIT 1
       OFFSET 499
     `;
-    const oldBoundary = db.prepare(oldQuery).pluck(true).get(oldParams);
+    const oldBoundary = db
+      .prepare(oldQuery, {
+        pluck: true,
+      })
+      .get(oldParams);
     logger.info(
       `updateToSchemaVersion91: Found 500th-oldest timestamp: ${oldBoundary}`
     );
@@ -141,7 +152,11 @@ export default function updateToSchemaVersion91(
       LIMIT 1
       OFFSET 499
     `;
-    const newBoundary = db.prepare(newQuery).pluck(true).get(newParams);
+    const newBoundary = db
+      .prepare(newQuery, {
+        pluck: true,
+      })
+      .get(newParams);
     logger.info(
       `updateToSchemaVersion91: Found 500th-newest timestamp: ${newBoundary}`
     );
@@ -155,8 +170,8 @@ export default function updateToSchemaVersion91(
         SELECT rowid FROM preKeys
         WHERE
           createdAt IS NOT NULL AND
-          createdAt > ${oldBoundary} AND 
-          createdAt < ${newBoundary} AND
+          createdAt > ${oldBoundary ?? null} AND
+          createdAt < ${newBoundary ?? null} AND
           ourServiceId = ${pni}
         LIMIT 10000
       );
@@ -175,7 +190,11 @@ export default function updateToSchemaVersion91(
       FROM preKeys
       WHERE ourServiceId = ${pni};
     `;
-    const afterCount = db.prepare(afterQuery).pluck(true).get(afterParams);
+    const afterCount = db
+      .prepare(afterQuery, {
+        pluck: true,
+      })
+      .get(afterParams);
     logger.info(
       `updateToSchemaVersion91: Found ${afterCount} preKeys for PNI after delete`
     );

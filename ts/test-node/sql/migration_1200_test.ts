@@ -5,7 +5,7 @@ import { assert } from 'chai';
 
 import { AttachmentDownloadSource, type WritableDB } from '../../sql/Interface';
 import { objectToJSON, sql } from '../../sql/util';
-import { createDB, updateToVersion } from './helpers';
+import { createDB, updateToVersion, explain } from './helpers';
 import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload';
 import { IMAGE_JPEG } from '../../types/MIME';
 
@@ -71,7 +71,7 @@ function insertJob(
       ${job.messageId},
       ${job.attachmentType},
       ${objectToJSON(job.attachment)},
-      ${job.attachment.digest},
+      ${job.attachment.digest ?? null},
       ${job.attachment.contentType},
       ${job.attachment.size},
       ${job.receivedAt},
@@ -113,7 +113,7 @@ describe('SQL/updateToSchemaVersion1200', () => {
 
   it('uses correct index for standard query', () => {
     const now = Date.now();
-    const [query, params] = sql`
+    const template = sql`
         SELECT * FROM attachment_downloads
         WHERE
          active = 0
@@ -122,11 +122,7 @@ describe('SQL/updateToSchemaVersion1200', () => {
         ORDER BY receivedAt DESC
         LIMIT 3
     `;
-    const details = db
-      .prepare(`EXPLAIN QUERY PLAN ${query}`)
-      .all(params)
-      .map(step => step.detail)
-      .join(', ');
+    const details = explain(db, template);
     assert.equal(
       details,
       'SEARCH attachment_downloads USING INDEX attachment_downloads_active_receivedAt (active=?)'
@@ -136,7 +132,7 @@ describe('SQL/updateToSchemaVersion1200', () => {
   it('uses correct index for standard query with sources', () => {
     const now = Date.now();
     // query with sources (e.g. when backup-import is paused)
-    const [query, params] = sql`
+    const template = sql`
         SELECT * FROM attachment_downloads
         WHERE
             active IS 0
@@ -147,11 +143,7 @@ describe('SQL/updateToSchemaVersion1200', () => {
         ORDER BY receivedAt DESC
         LIMIT 3
     `;
-    const details = db
-      .prepare(`EXPLAIN QUERY PLAN ${query}`)
-      .all(params)
-      .map(step => step.detail)
-      .join(', ');
+    const details = explain(db, template);
     assert.equal(
       details,
       'SEARCH attachment_downloads USING INDEX attachment_downloads_active_source_receivedAt (active=? AND source=?)'
@@ -160,7 +152,7 @@ describe('SQL/updateToSchemaVersion1200', () => {
 
   it('uses provided index for prioritized query with sources', () => {
     // prioritize visible messages with sources (e.g. when backup-import is paused)
-    const [query, params] = sql`
+    const template = sql`
         SELECT * FROM attachment_downloads
         INDEXED BY attachment_downloads_active_messageId
         WHERE
@@ -174,36 +166,30 @@ describe('SQL/updateToSchemaVersion1200', () => {
         ORDER BY receivedAt ASC
         LIMIT 3
     `;
+    const [query, params] = template;
     const result = db.prepare(query).all(params);
     assert.strictEqual(result.length, 1);
     assert.deepStrictEqual(result[0].messageId, 'message12');
-    const details = db
-      .prepare(`EXPLAIN QUERY PLAN ${query}`)
-      .all(params)
-      .map(step => step.detail)
-      .join(', ');
+    const details = explain(db, template);
     assert.equal(
       details,
-      'SEARCH attachment_downloads USING INDEX attachment_downloads_active_messageId (active=? AND messageId=?), USE TEMP B-TREE FOR ORDER BY'
+      'SEARCH attachment_downloads USING INDEX attachment_downloads_active_messageId (active=? AND messageId=?)\nUSE TEMP B-TREE FOR ORDER BY'
     );
   });
 
   it('uses existing index to remove all backup jobs ', () => {
     // prioritize visible messages with sources (e.g. when backup-import is paused)
-    const [query, params] = sql`
+    const template = sql`
         DELETE FROM attachment_downloads 
         WHERE source = 'backup_import';
     `;
 
-    const details = db
-      .prepare(`EXPLAIN QUERY PLAN ${query}`)
-      .all(params)
-      .map(step => step.detail)
-      .join(', ');
+    const details = explain(db, template);
     assert.equal(
       details,
       'SEARCH attachment_downloads USING COVERING INDEX attachment_downloads_source_ciphertextSize (source=?)'
     );
+    const [query, params] = template;
     db.prepare(query).run(params);
     assert.equal(
       db.prepare('SELECT * FROM attachment_downloads').all().length,

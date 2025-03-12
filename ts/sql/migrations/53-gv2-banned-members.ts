@@ -1,11 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
+import type { Database } from '@signalapp/sqlcipher';
 
 import type { LoggerType } from '../../types/Logging';
 import { jsonToObject } from '../util';
-import type { EmptyQuery } from '../util';
 
 export default function updateToSchemaVersion53(
   currentVersion: number,
@@ -67,16 +66,17 @@ export default function updateToSchemaVersion53(
 
   db.transaction(() => {
     const allConversations = db
-      .prepare<EmptyQuery>(
+      .prepare(
         `
-          SELECT json, profileLastFetchedAt
+          SELECT json
           FROM conversations
           WHERE type = 'group'
           ORDER BY id ASC;
-        `
+        `,
+        { pluck: true }
       )
-      .all()
-      .map(({ json }) => jsonToObject<ConversationType>(json));
+      .all<string>()
+      .map(json => jsonToObject<ConversationType>(json));
 
     logger.info(
       'updateToSchemaVersion53: About to iterate through ' +

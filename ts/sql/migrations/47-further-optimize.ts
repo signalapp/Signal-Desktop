@@ -4,7 +4,6 @@
 import type { LoggerType } from '../../types/Logging';
 import { getOurUuid } from './41-uuid-keys';
 import type { WritableDB } from '../Interface';
-import type { Query } from '../util';
 
 export default function updateToSchemaVersion47(
   currentVersion: number,
@@ -123,7 +122,7 @@ export default function updateToSchemaVersion47(
     if (!ourUuid) {
       logger.info('updateToSchemaVersion47: our UUID not found');
     } else {
-      db.prepare<Query>(
+      db.prepare(
         `
         UPDATE messages SET
           isChangeCreatedByUs = json_extract(json, '$.groupV2Change.from') IS $ourUuid;
