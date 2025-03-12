@@ -39,7 +39,7 @@
     "messageformat": "Media-verzendkwaliteit"
   },
   "icu:Preferences__sent-media-quality__description": {
-    "messageformat": "Sending high quality media will use more data."
+    "messageformat": "Als je media in hoge kwaliteit verzendt, verbruik je meer data."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standaard"
@@ -217,9 +217,6 @@
   },
   "icu:optimizingApplication": {
     "messageformat": "Applicatie aan het optimaliseren…"
-  },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Bezig met optimaliseren van berichten… {status} voltooid."
   },
   "icu:archivedConversations": {
     "messageformat": "Gearchiveerde chats"
@@ -707,9 +704,6 @@
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Geen ongelezen chats"
   },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS-contacten zijn niet beschikbaar in Signal Desktop."
-  },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Geen resultaten voor ‘{searchTerm}’ in ‘{conversationName}’"
   },
@@ -1164,10 +1158,10 @@
     "messageformat": "Spraakbericht niet beschikbaar"
   },
   "icu:attachmentNotAvailable__tapToView": {
-    "messageformat": "View once media is not available"
+    "messageformat": "Eenmaligeweergave-media is niet beschikbaar"
   },
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
-    "messageformat": "Can't download view once media"
+    "messageformat": "Kan eenmaligeweergave-media niet downloaden."
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Bestand niet beschikbaar"
@@ -1200,10 +1194,10 @@
     "messageformat": "Dit spraakbericht is niet overgezet van je telefoon toen dit apparaat werd gekoppeld. Media en bestanden die ouder zijn dan 45 dagen op het moment dat het apparaat wordt gekoppeld, kunnen niet worden gesynchroniseerd."
   },
   "icu:TapToViewNotAvailableModal__body--expired": {
-    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+    "messageformat": "Deze eenmaligeweergave-media is niet langer beschikbaar om te downloaden. Vraag {name} om het opnieuw te verzenden."
   },
   "icu:TapToViewNotAvailableModal__body--error": {
-    "messageformat": "Can’t download view once media. {name} will need to send it again."
+    "messageformat": "Kan eenmaligeweergave-media niet downloaden. {name} zal het opnieuw moeten verzenden."
   },
   "icu:save": {
     "messageformat": "Opslaan"
@@ -1887,7 +1881,7 @@
     "messageformat": "Het ophalen van het telefoonnummer is mislukt. Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:Toast--download-failed": {
-    "messageformat": "Download failed"
+    "messageformat": "Downloaden mislukt"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Berichten kunnen alleen binnen 24 uur na verzenden bewerkt worden."
@@ -2274,151 +2268,151 @@
     "messageformat": "Stickers"
   },
   "icu:FunPicker__Tab--Gifs": {
-    "messageformat": "GIFs"
+    "messageformat": "GIF's"
   },
   "icu:FunPanelEmojis__SearchLabel": {
-    "messageformat": "Search emoji"
+    "messageformat": "Emoji zoeken"
   },
   "icu:FunPanelEmojis__SearchPlaceholder": {
-    "messageformat": "Search emoji"
+    "messageformat": "Emoji zoeken"
   },
   "icu:FunPanelEmojis__SubNavLabel": {
-    "messageformat": "Emoji Categories"
+    "messageformat": "Emoji-categorieën"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
-    "messageformat": "Smileys & People"
+    "messageformat": "Smileys & mensen"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
-    "messageformat": "Animals & Nature"
+    "messageformat": "Dieren & natuur"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
-    "messageformat": "Food & Drink"
+    "messageformat": "Eten & drinken"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
-    "messageformat": "Activities"
+    "messageformat": "Activiteiten"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
-    "messageformat": "Travel & Places"
+    "messageformat": "Reizen & plaatsen"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
-    "messageformat": "Objects"
+    "messageformat": "Objecten"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
-    "messageformat": "Symbols"
+    "messageformat": "Symbolen"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
-    "messageformat": "Flags"
+    "messageformat": "Vlaggen"
   },
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
-    "messageformat": "No emoji found"
+    "messageformat": "Geen emoji gevonden"
   },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
-    "messageformat": "Change Skin Tone Preference"
+    "messageformat": "Wijzig de huidskleurvoorkeur"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
-    "messageformat": "Choose your default skintone"
+    "messageformat": "Kies je standaard huidskleur"
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
-    "messageformat": "Search Results"
+    "messageformat": "Zoekresultaten"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
-    "messageformat": "Smileys & People"
+    "messageformat": "Smileys & mensen"
   },
   "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
-    "messageformat": "Animals & Nature"
+    "messageformat": "Dieren & natuur"
   },
   "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
-    "messageformat": "Food & Drink"
+    "messageformat": "Eten & drinken"
   },
   "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
-    "messageformat": "Travel & Places"
+    "messageformat": "Reizen & plaatsen"
   },
   "icu:FunPanelEmojis__SectionTitle--Activities": {
-    "messageformat": "Activities"
+    "messageformat": "Activiteiten"
   },
   "icu:FunPanelEmojis__SectionTitle--Objects": {
-    "messageformat": "Objects"
+    "messageformat": "Objecten"
   },
   "icu:FunPanelEmojis__SectionTitle--Symbols": {
-    "messageformat": "Symbols"
+    "messageformat": "Symbolen"
   },
   "icu:FunPanelEmojis__SectionTitle--Flags": {
-    "messageformat": "Flags"
+    "messageformat": "Vlaggen"
   },
   "icu:FunPanelStickers__SearchLabel": {
-    "messageformat": "Search stickers"
+    "messageformat": "Stickers zoeken"
   },
   "icu:FunPanelStickers__SearchPlaceholder": {
-    "messageformat": "Search stickers"
+    "messageformat": "Stickers zoeken"
   },
   "icu:FunPanelSticker__SubNavLabel": {
-    "messageformat": "Sticker Packs"
+    "messageformat": "Stickerpakketten"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
-    "messageformat": "Search Results"
+    "messageformat": "Zoekresultaten"
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
-    "messageformat": "No stickers found"
+    "messageformat": "Geen stickers gevonden"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Search GIFs via Tenor"
+    "messageformat": "GIF's zoeken via Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Search Tenor"
+    "messageformat": "Zoeken in Tenor"
   },
   "icu:FunPanelGifs__SubNavLabel": {
-    "messageformat": "GIF Categories"
+    "messageformat": "GIF-categorieën"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Onlangs gebruikt"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
     "messageformat": "Trending"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
-    "messageformat": "Celebrate"
+    "messageformat": "Vieren"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
-    "messageformat": "Love"
+    "messageformat": "Liefde"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
-    "messageformat": "Thumbs Up"
+    "messageformat": "Duimpje omhoog"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
-    "messageformat": "Surprised"
+    "messageformat": "Verbaasd"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
-    "messageformat": "Excited"
+    "messageformat": "Blij"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
-    "messageformat": "Sad"
+    "messageformat": "Verdrietig"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
-    "messageformat": "Angry"
+    "messageformat": "Boos"
   },
   "icu:FunPanelGifs__SearchResults__LoadingLabel": {
-    "messageformat": "Loading GIFs"
+    "messageformat": "GIF's aan het laden"
   },
   "icu:FunPanelGifs__SearchResults__ErrorHeading": {
-    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+    "messageformat": "Kan GIF's niet laden. Controleer je internetverbinding en probeer het opnieuw"
   },
   "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
-    "messageformat": "Retry"
+    "messageformat": "Opnieuw proberen"
   },
   "icu:FunPanelGifs__SearchResults__EmptyHeading": {
-    "messageformat": "No GIFs found"
+    "messageformat": "Geen GIF's gevonden"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Annuleren"
@@ -2460,13 +2454,13 @@
     "messageformat": "Gezien"
   },
   "icu:Message--tap-to-view--viewed": {
-    "messageformat": "Viewed"
+    "messageformat": "Gezien"
   },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Media"
   },
   "icu:Message--tap-to-view--media": {
-    "messageformat": "View Once Media"
+    "messageformat": "Eenmaligeweergave-media"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Je hebt dit bericht al bekeken."
@@ -2481,13 +2475,13 @@
     "messageformat": "Video weergeven"
   },
   "icu:Message--tap-to-view--video": {
-    "messageformat": "View Once Video"
+    "messageformat": "Eenmaligeweergave-video"
   },
   "icu:Message--tap-to-view--photo": {
-    "messageformat": "View Once Photo"
+    "messageformat": "Eenmaligeweergave-afbeelding"
   },
   "icu:Message--tap-to-view--helper-text": {
-    "messageformat": "Click to view"
+    "messageformat": "Klik om te bekijken"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(bijlage)"
@@ -2680,6 +2674,9 @@
   },
   "icu:Keyboard--toggle-video": {
     "messageformat": "Camera aan- of uitzetten"
+  },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Oproep beantwoorden met video (alleen video-oproepen)"
@@ -3090,7 +3087,7 @@
     "messageformat": "{name} is een video-oproep gestart"
   },
   "icu:calling__in-another-call-tooltip": {
-    "messageformat": "Je neemt op dit moment al aan een oproep deel"
+    "messageformat": "Je neemt op dit moment al deel aan een oproep"
   },
   "icu:calling__call-notification__button__call-full-tooltip": {
     "messageformat": "De oproep heeft het maximale aantal van {max,number} deelnemers bereikt"
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Oproep in volledig scherm"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Weergave wijzigen"
@@ -3957,7 +3960,7 @@
     "messageformat": "Bewerkt bericht versturen"
   },
   "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Een emoji, sticker of GIF toevoegen"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Bericht bewerken"
@@ -4842,25 +4845,25 @@
     "messageformat": "Privacy"
   },
   "icu:Preferences__button--data-usage": {
-    "messageformat": "Data usage"
+    "messageformat": "Datagebruik"
   },
   "icu:Preferences__media-auto-download": {
-    "messageformat": "Media auto-download"
+    "messageformat": "Media automatisch downloaden"
   },
   "icu:Preferences__media-auto-download__photos": {
-    "messageformat": "Photos"
+    "messageformat": "Afbeeldingen"
   },
   "icu:Preferences__media-auto-download__videos": {
-    "messageformat": "Videos"
+    "messageformat": "Video's"
   },
   "icu:Preferences__media-auto-download__audio": {
     "messageformat": "Audio"
   },
   "icu:Preferences__media-auto-download__documents": {
-    "messageformat": "Documents"
+    "messageformat": "Documenten"
   },
   "icu:Preferences__media-auto-download__description": {
-    "messageformat": "Voice messages and stickers are always auto-downloaded."
+    "messageformat": "Spraakberichten en stickers worden altijd automatisch gedownload."
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Laatst geïmporteerd op {date} om {time}"
@@ -5019,10 +5022,10 @@
     "messageformat": "Update gedownload"
   },
   "icu:CriticalIdlePrimaryDevice__title": {
-    "messageformat": "Open Signal on your phone"
+    "messageformat": "Open de Signal-app op je telefoon"
   },
   "icu:CriticalIdlePrimaryDevice__body": {
-    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Je account wordt binnenkort verwijderd, tenzij je Signal op je telefoon opent. Dit bericht verdwijnt als dit is gelukt. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ondervindt momenteel technische problemen. We zijn hard aan het werk om de service zo snel mogelijk te herstellen."
@@ -5166,28 +5169,28 @@
     "messageformat": "9:16"
   },
   "icu:MediaPermissionsModal__title--microphone": {
-    "messageformat": "Allow access to your microphone"
+    "messageformat": "Toegang tot je microfoon toestaan"
   },
   "icu:MediaPermissionsModal__title--camera": {
-    "messageformat": "Allow access to your camera"
+    "messageformat": "Toegang tot je camera toestaan"
   },
   "icu:MediaPermissionsModal__subtitle--call": {
-    "messageformat": "To join or start a call:"
+    "messageformat": "Om deel te nemen aan een oproep of om een oproep te starten:"
   },
   "icu:MediaPermissionsModal__subtitle--call--camera": {
-    "messageformat": "To enable your video:"
+    "messageformat": "Om video in te schakelen:"
   },
   "icu:MediaPermissionsModal__subtitle--voice-note": {
-    "messageformat": "To send voice messages:"
+    "messageformat": "Om spraakberichten te versturen:"
   },
   "icu:MediaPermissionsModal__step-1": {
-    "messageformat": "Click “{buttonName}” below"
+    "messageformat": "Klik hieronder op ‘{buttonName}’"
   },
   "icu:MediaPermissionsModal__step-2": {
-    "messageformat": "Turn on “Signal”"
+    "messageformat": "Schakel ‘Signal’ in"
   },
   "icu:MediaPermissionsModal__open": {
-    "messageformat": "Go to settings"
+    "messageformat": "Ga naar instellingen"
   },
   "icu:MyStories__title": {
     "messageformat": "Mijn verhalen"
@@ -6097,13 +6100,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers moeten plakken, maar niet blijven hangen in de wachtrij. Klik je nu op een sticker op een nieuw gekoppelde Signal Desktop, dan krijgt het downloaden van die sticker automatisch voorrang, zelfs als andere bijlagen ook worden gedownload."
-  },
   "icu:WhatsNew__v7.46--0": {
-    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+    "messageformat": "Dankzij de nieuwe functie ‘Datagebruik’ in Signal-instellingen kun je nu gemakkelijk instellen of je foto's, video's, audiobestanden of andere documenten automatisch wilt downloaden of juist niet. Als in de groepschat de demo's van de band van de vriend van je bestie niet meer automatisch gedownload worden, houd je opslagruimte vrij voor nummers waar je wél echt naar gaat luisteren."
   },
   "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
+    "messageformat": "Een chat starten door iemands Signal-gebruikersnaam in te typen werkt nu ook als je per ongeluk eerst een '@' typt voor de naam."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

@@ -39,7 +39,7 @@
     "messageformat": "送信メディアの画質"
   },
   "icu:Preferences__sent-media-quality__description": {
-    "messageformat": "Sending high quality media will use more data."
+    "messageformat": "高画質なメディアの送信には、より多くのデータを使用します。"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
@@ -217,9 +217,6 @@
   },
   "icu:optimizingApplication": {
     "messageformat": "アプリケーションを最適化しています…"
-  },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "メッセージを最適化してます… {status}"
   },
   "icu:archivedConversations": {
     "messageformat": "アーカイブ済みのチャット"
@@ -707,9 +704,6 @@
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "未読のチャットはありません"
   },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMSの連絡先はデスクトップでは利用できません。"
-  },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} 内に「{searchTerm}」はありません"
   },
@@ -1164,10 +1158,10 @@
     "messageformat": "ボイスメッセージはご利用になれません"
   },
   "icu:attachmentNotAvailable__tapToView": {
-    "messageformat": "View once media is not available"
+    "messageformat": "使い捨てメディアを表示できません"
   },
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
-    "messageformat": "Can't download view once media"
+    "messageformat": "使い捨てメディアをダウンロードできません。"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "ファイルがダウンロードできません"
@@ -1200,10 +1194,10 @@
     "messageformat": "この端末をリンクしたときにこのボイスメッセージはスマートフォンから移行されませんでした。端末をリンクした時点で45日以上経過したメディアやファイルは同期できません。"
   },
   "icu:TapToViewNotAvailableModal__body--expired": {
-    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+    "messageformat": "この使い捨てメディアはダウンロードできなくなりました。{name} さんにもう一度送信してもらってください。"
   },
   "icu:TapToViewNotAvailableModal__body--error": {
-    "messageformat": "Can’t download view once media. {name} will need to send it again."
+    "messageformat": "使い捨てメディアをダウンロードできません。{name} さんがもう一度送信する必要があります。"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1887,7 +1881,7 @@
     "messageformat": "電話番号の取得に失敗しました。接続を確認して再度お試しください。"
   },
   "icu:Toast--download-failed": {
-    "messageformat": "Download failed"
+    "messageformat": "ダウンロードできませんでした"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "編集は、このメッセージを送信後24時間以内のみ可能です。"
@@ -2268,157 +2262,157 @@
     "messageformat": "旗"
   },
   "icu:FunPicker__Tab--Emojis": {
-    "messageformat": "Emoji"
+    "messageformat": "絵文字"
   },
   "icu:FunPicker__Tab--Stickers": {
-    "messageformat": "Stickers"
+    "messageformat": "ステッカー"
   },
   "icu:FunPicker__Tab--Gifs": {
-    "messageformat": "GIFs"
+    "messageformat": "GIF"
   },
   "icu:FunPanelEmojis__SearchLabel": {
-    "messageformat": "Search emoji"
+    "messageformat": "絵文字を検索"
   },
   "icu:FunPanelEmojis__SearchPlaceholder": {
-    "messageformat": "Search emoji"
+    "messageformat": "絵文字を検索"
   },
   "icu:FunPanelEmojis__SubNavLabel": {
-    "messageformat": "Emoji Categories"
+    "messageformat": "絵文字カテゴリー"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "最近使ったもの"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
-    "messageformat": "Smileys & People"
+    "messageformat": "顔文字と人"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
-    "messageformat": "Animals & Nature"
+    "messageformat": "動物と自然"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
-    "messageformat": "Food & Drink"
+    "messageformat": "食べ物と飲み物"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
-    "messageformat": "Activities"
+    "messageformat": "活動"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
-    "messageformat": "Travel & Places"
+    "messageformat": "旅行と場所"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
-    "messageformat": "Objects"
+    "messageformat": "オブジェクト"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
-    "messageformat": "Symbols"
+    "messageformat": "記号"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
-    "messageformat": "Flags"
+    "messageformat": "旗"
   },
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
-    "messageformat": "No emoji found"
+    "messageformat": "該当する絵文字はありません"
   },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
-    "messageformat": "Change Skin Tone Preference"
+    "messageformat": "スキントーンの設定を変更する"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
-    "messageformat": "Choose your default skintone"
+    "messageformat": "デフォルトのスキントーンを選択してください"
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
-    "messageformat": "Search Results"
+    "messageformat": "検索結果"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "最近使ったもの"
   },
   "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
-    "messageformat": "Smileys & People"
+    "messageformat": "顔文字と人"
   },
   "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
-    "messageformat": "Animals & Nature"
+    "messageformat": "動物と自然"
   },
   "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
-    "messageformat": "Food & Drink"
+    "messageformat": "食べ物と飲み物"
   },
   "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
-    "messageformat": "Travel & Places"
+    "messageformat": "旅行と場所"
   },
   "icu:FunPanelEmojis__SectionTitle--Activities": {
-    "messageformat": "Activities"
+    "messageformat": "活動"
   },
   "icu:FunPanelEmojis__SectionTitle--Objects": {
-    "messageformat": "Objects"
+    "messageformat": "オブジェクト"
   },
   "icu:FunPanelEmojis__SectionTitle--Symbols": {
-    "messageformat": "Symbols"
+    "messageformat": "記号"
   },
   "icu:FunPanelEmojis__SectionTitle--Flags": {
-    "messageformat": "Flags"
+    "messageformat": "旗"
   },
   "icu:FunPanelStickers__SearchLabel": {
-    "messageformat": "Search stickers"
+    "messageformat": "ステッカーを検索"
   },
   "icu:FunPanelStickers__SearchPlaceholder": {
-    "messageformat": "Search stickers"
+    "messageformat": "ステッカーを検索"
   },
   "icu:FunPanelSticker__SubNavLabel": {
-    "messageformat": "Sticker Packs"
+    "messageformat": "ステッカーパック"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "最近使ったもの"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
-    "messageformat": "Search Results"
+    "messageformat": "検索結果"
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "最近使ったもの"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
-    "messageformat": "No stickers found"
+    "messageformat": "ステッカーはありません"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Search GIFs via Tenor"
+    "messageformat": "Tenor内でGIFを検索"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Search Tenor"
+    "messageformat": "Tenorを検索"
   },
   "icu:FunPanelGifs__SubNavLabel": {
-    "messageformat": "GIF Categories"
+    "messageformat": "GIFカテゴリー"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "最近使ったもの"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
-    "messageformat": "Trending"
+    "messageformat": "トレンド"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
-    "messageformat": "Celebrate"
+    "messageformat": "お祝い"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
-    "messageformat": "Love"
+    "messageformat": "ラブ"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
-    "messageformat": "Thumbs Up"
+    "messageformat": "いいね"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
-    "messageformat": "Surprised"
+    "messageformat": "驚き"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
-    "messageformat": "Excited"
+    "messageformat": "ワクワク"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
-    "messageformat": "Sad"
+    "messageformat": "悲しみ"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
-    "messageformat": "Angry"
+    "messageformat": "怒り"
   },
   "icu:FunPanelGifs__SearchResults__LoadingLabel": {
-    "messageformat": "Loading GIFs"
+    "messageformat": "GIFを読み込み中です"
   },
   "icu:FunPanelGifs__SearchResults__ErrorHeading": {
-    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+    "messageformat": "GIFを読み込めませんでした。インターネット接続を確認して再度試してください"
   },
   "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
-    "messageformat": "Retry"
+    "messageformat": "再試行"
   },
   "icu:FunPanelGifs__SearchResults__EmptyHeading": {
-    "messageformat": "No GIFs found"
+    "messageformat": "GIFが見つかりませんでした"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "キャンセル"
@@ -2460,13 +2454,13 @@
     "messageformat": "閲覧済み"
   },
   "icu:Message--tap-to-view--viewed": {
-    "messageformat": "Viewed"
+    "messageformat": "閲覧済み"
   },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "メディア"
   },
   "icu:Message--tap-to-view--media": {
-    "messageformat": "View Once Media"
+    "messageformat": "使い捨てメディア"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "このメッセージは閲覧済みです。"
@@ -2481,13 +2475,13 @@
     "messageformat": "動画を見る"
   },
   "icu:Message--tap-to-view--video": {
-    "messageformat": "View Once Video"
+    "messageformat": "使い捨て動画"
   },
   "icu:Message--tap-to-view--photo": {
-    "messageformat": "View Once Photo"
+    "messageformat": "使い捨て写真"
   },
   "icu:Message--tap-to-view--helper-text": {
-    "messageformat": "Click to view"
+    "messageformat": "クリックして表示する"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(添付ファイル)"
@@ -2680,6 +2674,9 @@
   },
   "icu:Keyboard--toggle-video": {
     "messageformat": "ビデオのオン/オフを切り替える"
+  },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ビデオありで通話に応答する(ビデオ通話のみ)"
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "フルスクリーン"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "ビューを切り替える"
@@ -3957,7 +3960,7 @@
     "messageformat": "編集したメッセージを送信する"
   },
   "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "絵文字、ステッカー、GIFを追加する"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "メッセージの編集"
@@ -4842,25 +4845,25 @@
     "messageformat": "プライバシー"
   },
   "icu:Preferences__button--data-usage": {
-    "messageformat": "Data usage"
+    "messageformat": "データ通信量"
   },
   "icu:Preferences__media-auto-download": {
-    "messageformat": "Media auto-download"
+    "messageformat": "メディアの自動ダウンロード"
   },
   "icu:Preferences__media-auto-download__photos": {
-    "messageformat": "Photos"
+    "messageformat": "写真"
   },
   "icu:Preferences__media-auto-download__videos": {
-    "messageformat": "Videos"
+    "messageformat": "動画"
   },
   "icu:Preferences__media-auto-download__audio": {
-    "messageformat": "Audio"
+    "messageformat": "音声"
   },
   "icu:Preferences__media-auto-download__documents": {
-    "messageformat": "Documents"
+    "messageformat": "文書"
   },
   "icu:Preferences__media-auto-download__description": {
-    "messageformat": "Voice messages and stickers are always auto-downloaded."
+    "messageformat": "ボイスメッセージとステッカーは常に自動でダウンロードされます。"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "最終インポート: {date} {time}"
@@ -5019,10 +5022,10 @@
     "messageformat": "アップデートがダウンロードされました"
   },
   "icu:CriticalIdlePrimaryDevice__title": {
-    "messageformat": "Open Signal on your phone"
+    "messageformat": "ご利用のスマートフォンでSignalを開いてください"
   },
   "icu:CriticalIdlePrimaryDevice__body": {
-    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ご利用のスマートフォンでSignalを開かないと、アカウントは間もなく削除されます。Signalを開くと、このメッセージは表示されなくなります。<learnMoreLink>さらに詳しく</learnMoreLink>"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signalは技術的な問題を抱えています。私たちは、これをできるだけ早く解決するよう対応しています。"
@@ -5166,28 +5169,28 @@
     "messageformat": "9:16"
   },
   "icu:MediaPermissionsModal__title--microphone": {
-    "messageformat": "Allow access to your microphone"
+    "messageformat": "マイクへのアクセスの許可"
   },
   "icu:MediaPermissionsModal__title--camera": {
-    "messageformat": "Allow access to your camera"
+    "messageformat": "カメラへのアクセスを許可する"
   },
   "icu:MediaPermissionsModal__subtitle--call": {
-    "messageformat": "To join or start a call:"
+    "messageformat": "通話に参加する、または通話を開始するには："
   },
   "icu:MediaPermissionsModal__subtitle--call--camera": {
-    "messageformat": "To enable your video:"
+    "messageformat": "動画を有効にする："
   },
   "icu:MediaPermissionsModal__subtitle--voice-note": {
-    "messageformat": "To send voice messages:"
+    "messageformat": "ボイスメッセージを送信するには："
   },
   "icu:MediaPermissionsModal__step-1": {
-    "messageformat": "Click “{buttonName}” below"
+    "messageformat": "下にある「{buttonName}」をクリックする"
   },
   "icu:MediaPermissionsModal__step-2": {
-    "messageformat": "Turn on “Signal”"
+    "messageformat": "「Signal」をオンにする"
   },
   "icu:MediaPermissionsModal__open": {
-    "messageformat": "Go to settings"
+    "messageformat": "設定へ"
   },
   "icu:MyStories__title": {
     "messageformat": "マイストーリー"
@@ -6097,13 +6100,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "ステッカーのダウンロードパフォーマンスを改善しました。"
-  },
   "icu:WhatsNew__v7.46--0": {
-    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+    "messageformat": "Signalの設定に新しく追加された「データ使用量」機能を使うと、写真、動画、音声ファイル、その他のドキュメントを自動的にダウンロードするかどうかを簡単に選択できます。"
   },
   "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
+    "messageformat": "誰かのSignalユーザーネームでチャットを始めようとしたときに、最初に誤って「@」記号を入力してもチャットを開始できるようになりました。"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

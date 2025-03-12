@@ -307,10 +307,6 @@
     "messageformat": "Optimizing application...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizing messages... {status} complete.",
-    "description": "(Deleted 2025/02/06) Message shown on the loading screen while we are doing application optimizations"
-  },
   "icu:archivedConversations": {
     "messageformat": "Archived Chats",
     "description": "Shown in place of the search box when showing archived conversation list"
@@ -954,10 +950,6 @@
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "No unread chats",
     "description": "Shown in the search left pane when no results were found with only filter by unread enabled"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS contacts are not available on Desktop.",
-    "description": "(Deleted 2025/02/06) Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "No results for \"{searchTerm}\" in {conversationName}",

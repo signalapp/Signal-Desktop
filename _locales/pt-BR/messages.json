@@ -39,7 +39,7 @@
     "messageformat": "Qualidade da mídia enviada"
   },
   "icu:Preferences__sent-media-quality__description": {
-    "messageformat": "Sending high quality media will use more data."
+    "messageformat": "Enviar mídia em alta qualidade usará mais dados móveis"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Padrão"
@@ -217,9 +217,6 @@
   },
   "icu:optimizingApplication": {
     "messageformat": "Otimizando o aplicativo…"
-  },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Otimizando mensagens… {status} carregadas."
   },
   "icu:archivedConversations": {
     "messageformat": "Chats arquivados"
@@ -707,9 +704,6 @@
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Nenhuma conversa não lida"
   },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Contatos SMS/MMS não estão disponíveis no Signal para Desktop."
-  },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Nenhum resultado para \"{searchTerm}\" em {conversationName}"
   },
@@ -1164,10 +1158,10 @@
     "messageformat": "Mensagem de voz indisponível"
   },
   "icu:attachmentNotAvailable__tapToView": {
-    "messageformat": "View once media is not available"
+    "messageformat": "Não é possível visualizar mídia temporária"
   },
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
-    "messageformat": "Can't download view once media"
+    "messageformat": "Não é possível baixar a mídia temporária"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Arquivo não disponível"
@@ -1200,10 +1194,10 @@
     "messageformat": "Essa mensagem de voz não foi transferida do seu telefone quando este dispositivo foi vinculado. Arquivos e mídias com mais de 45 dias no momento da vinculação do dispositivo não podem ser sincronizados."
   },
   "icu:TapToViewNotAvailableModal__body--expired": {
-    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+    "messageformat": "Esta mídia temporária não está mais disponível para download. Peça a {name} para enviar novamente."
   },
   "icu:TapToViewNotAvailableModal__body--error": {
-    "messageformat": "Can’t download view once media. {name} will need to send it again."
+    "messageformat": "Não é possível baixar a mídia temporária. {name} terá que enviar o vídeo novamente."
   },
   "icu:save": {
     "messageformat": "Salvar"
@@ -1887,7 +1881,7 @@
     "messageformat": "Falha ao buscar o número de telefone. Verifique a sua conexão e tente novamente."
   },
   "icu:Toast--download-failed": {
-    "messageformat": "Download failed"
+    "messageformat": "Falha no download"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Só é possível fazer edições no período de 24 horas após enviar esta mensagem."
@@ -2268,157 +2262,157 @@
     "messageformat": "Bandeiras"
   },
   "icu:FunPicker__Tab--Emojis": {
-    "messageformat": "Emoji"
+    "messageformat": "Emojis e pessoas"
   },
   "icu:FunPicker__Tab--Stickers": {
-    "messageformat": "Stickers"
+    "messageformat": "Figurinhas"
   },
   "icu:FunPicker__Tab--Gifs": {
     "messageformat": "GIFs"
   },
   "icu:FunPanelEmojis__SearchLabel": {
-    "messageformat": "Search emoji"
+    "messageformat": "Pesquisar emoji"
   },
   "icu:FunPanelEmojis__SearchPlaceholder": {
-    "messageformat": "Search emoji"
+    "messageformat": "Pesquisar emoji"
   },
   "icu:FunPanelEmojis__SubNavLabel": {
-    "messageformat": "Emoji Categories"
+    "messageformat": "Categorias de emojis"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Utilizado recentemente"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
-    "messageformat": "Smileys & People"
+    "messageformat": "Emojis e pessoas"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
-    "messageformat": "Animals & Nature"
+    "messageformat": "Animais e Natureza"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
-    "messageformat": "Food & Drink"
+    "messageformat": "Comidas e Bebidas"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
-    "messageformat": "Activities"
+    "messageformat": "Atividades"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
-    "messageformat": "Travel & Places"
+    "messageformat": "Viagens e Lugares"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
-    "messageformat": "Objects"
+    "messageformat": "Objetos"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
-    "messageformat": "Symbols"
+    "messageformat": "Símbolos"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
-    "messageformat": "Flags"
+    "messageformat": "Bandeiras"
   },
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
-    "messageformat": "No emoji found"
+    "messageformat": "Nenhum emoji encontrado"
   },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
-    "messageformat": "Change Skin Tone Preference"
+    "messageformat": "Alterar preferência de tom de pele"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
-    "messageformat": "Choose your default skintone"
+    "messageformat": "Escolha o tom de pele padrão"
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
-    "messageformat": "Search Results"
+    "messageformat": "Resultados da pesquisa"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Utilizado recentemente"
   },
   "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
-    "messageformat": "Smileys & People"
+    "messageformat": "Emojis e pessoas"
   },
   "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
-    "messageformat": "Animals & Nature"
+    "messageformat": "Animais e Natureza"
   },
   "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
-    "messageformat": "Food & Drink"
+    "messageformat": "Comidas e Bebidas"
   },
   "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
-    "messageformat": "Travel & Places"
+    "messageformat": "Viagens e Lugares"
   },
   "icu:FunPanelEmojis__SectionTitle--Activities": {
-    "messageformat": "Activities"
+    "messageformat": "Atividades"
   },
   "icu:FunPanelEmojis__SectionTitle--Objects": {
-    "messageformat": "Objects"
+    "messageformat": "Objetos"
   },
   "icu:FunPanelEmojis__SectionTitle--Symbols": {
-    "messageformat": "Symbols"
+    "messageformat": "Símbolos"
   },
   "icu:FunPanelEmojis__SectionTitle--Flags": {
-    "messageformat": "Flags"
+    "messageformat": "Bandeiras"
   },
   "icu:FunPanelStickers__SearchLabel": {
-    "messageformat": "Search stickers"
+    "messageformat": "Pesquisar figurinha"
   },
   "icu:FunPanelStickers__SearchPlaceholder": {
-    "messageformat": "Search stickers"
+    "messageformat": "Pesquisar figurinha"
   },
   "icu:FunPanelSticker__SubNavLabel": {
-    "messageformat": "Sticker Packs"
+    "messageformat": "Pacotes de figurinhas"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Utilizado recentemente"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
-    "messageformat": "Search Results"
+    "messageformat": "Resultados da pesquisa"
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Utilizado recentemente"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
-    "messageformat": "No stickers found"
+    "messageformat": "Nenhuma figurinha encontrada"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Search GIFs via Tenor"
+    "messageformat": "Pesquise GIFs via Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Search Tenor"
+    "messageformat": "Pesquisar no Tenor"
   },
   "icu:FunPanelGifs__SubNavLabel": {
-    "messageformat": "GIF Categories"
+    "messageformat": "Categorias de GIF"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "Utilizado recentemente"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
-    "messageformat": "Trending"
+    "messageformat": "Em alta"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
-    "messageformat": "Celebrate"
+    "messageformat": "Comemoração"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
-    "messageformat": "Love"
+    "messageformat": "Amor"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
-    "messageformat": "Thumbs Up"
+    "messageformat": "Joinha"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
-    "messageformat": "Surprised"
+    "messageformat": "Surpreso"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
-    "messageformat": "Excited"
+    "messageformat": "Animado"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
-    "messageformat": "Sad"
+    "messageformat": "Triste"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
-    "messageformat": "Angry"
+    "messageformat": "Com raiva"
   },
   "icu:FunPanelGifs__SearchResults__LoadingLabel": {
-    "messageformat": "Loading GIFs"
+    "messageformat": "Carregando GIFs"
   },
   "icu:FunPanelGifs__SearchResults__ErrorHeading": {
-    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+    "messageformat": "Não foi possível carregar GIFs. Verifique a sua conexão e tente novamente"
   },
   "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
-    "messageformat": "Retry"
+    "messageformat": "Tente novamente"
   },
   "icu:FunPanelGifs__SearchResults__EmptyHeading": {
-    "messageformat": "No GIFs found"
+    "messageformat": "Nenhum GIF encontrado"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancelar"
@@ -2460,13 +2454,13 @@
     "messageformat": "Vista"
   },
   "icu:Message--tap-to-view--viewed": {
-    "messageformat": "Viewed"
+    "messageformat": "Vista"
   },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Mídia"
   },
   "icu:Message--tap-to-view--media": {
-    "messageformat": "View Once Media"
+    "messageformat": "Ver mídia temporária"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Você já visualizou essa mensagem."
@@ -2481,13 +2475,13 @@
     "messageformat": "Assistir vídeo"
   },
   "icu:Message--tap-to-view--video": {
-    "messageformat": "View Once Video"
+    "messageformat": "Ver vídeo temporário"
   },
   "icu:Message--tap-to-view--photo": {
-    "messageformat": "View Once Photo"
+    "messageformat": "Ver foto temporária"
   },
   "icu:Message--tap-to-view--helper-text": {
-    "messageformat": "Click to view"
+    "messageformat": "Clique para ver"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(anexo)"
@@ -2680,6 +2674,9 @@
   },
   "icu:Keyboard--toggle-video": {
     "messageformat": "Ativar e desativar a câmera"
+  },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atender chamada com vídeo (somente videochamadas)"
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Chamada em tela inteira"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Alterar visualização"
@@ -3957,7 +3960,7 @@
     "messageformat": "Enviar mensagem editada"
   },
   "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Adicione um emoji, figurinha ou GIF"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Editar mensagem"
@@ -4842,25 +4845,25 @@
     "messageformat": "Privacidade"
   },
   "icu:Preferences__button--data-usage": {
-    "messageformat": "Data usage"
+    "messageformat": "Uso de rede"
   },
   "icu:Preferences__media-auto-download": {
-    "messageformat": "Media auto-download"
+    "messageformat": "Download automático de mídia"
   },
   "icu:Preferences__media-auto-download__photos": {
-    "messageformat": "Photos"
+    "messageformat": "Fotos"
   },
   "icu:Preferences__media-auto-download__videos": {
-    "messageformat": "Videos"
+    "messageformat": "Vídeos"
   },
   "icu:Preferences__media-auto-download__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Áudio"
   },
   "icu:Preferences__media-auto-download__documents": {
-    "messageformat": "Documents"
+    "messageformat": "Documentos"
   },
   "icu:Preferences__media-auto-download__description": {
-    "messageformat": "Voice messages and stickers are always auto-downloaded."
+    "messageformat": "O download das mensagens de voz e figurinhas é sempre automático."
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Última importação feita em {date} {time}"
@@ -5019,10 +5022,10 @@
     "messageformat": "Update concluído"
   },
   "icu:CriticalIdlePrimaryDevice__title": {
-    "messageformat": "Open Signal on your phone"
+    "messageformat": "Abra o Signal no seu celular"
   },
   "icu:CriticalIdlePrimaryDevice__body": {
-    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Sua conta será excluída em breve, a não ser que você abra o Signal no seu telefone. Se você fizer isso, essa mensagem vai desaparecer. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "O Signal está com dificuldades técnicas. Estamos fazendo o possível para restaurar o serviço o quanto antes."
@@ -5166,28 +5169,28 @@
     "messageformat": "9:16"
   },
   "icu:MediaPermissionsModal__title--microphone": {
-    "messageformat": "Allow access to your microphone"
+    "messageformat": "Permitir acesso ao microfone"
   },
   "icu:MediaPermissionsModal__title--camera": {
-    "messageformat": "Allow access to your camera"
+    "messageformat": "Permita o acesso à sua câmera"
   },
   "icu:MediaPermissionsModal__subtitle--call": {
-    "messageformat": "To join or start a call:"
+    "messageformat": "Para entrar ou iniciar uma chamada:"
   },
   "icu:MediaPermissionsModal__subtitle--call--camera": {
-    "messageformat": "To enable your video:"
+    "messageformat": "Para ativar seu vídeo:"
   },
   "icu:MediaPermissionsModal__subtitle--voice-note": {
-    "messageformat": "To send voice messages:"
+    "messageformat": "Para enviar mensagens de voz:"
   },
   "icu:MediaPermissionsModal__step-1": {
-    "messageformat": "Click “{buttonName}” below"
+    "messageformat": "Clique em “{buttonName}” abaixo"
   },
   "icu:MediaPermissionsModal__step-2": {
-    "messageformat": "Turn on “Signal”"
+    "messageformat": "Ative o “Signal”"
   },
   "icu:MediaPermissionsModal__open": {
-    "messageformat": "Go to settings"
+    "messageformat": "Acessar configurações"
   },
   "icu:MyStories__title": {
     "messageformat": "Meus Stories"
@@ -6097,13 +6100,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Clicou, baixou! Agora, quando você clicar em uma figurinha no Signal Desktop recém-vinculado, o download dela será priorizado automaticamente, mesmo com outros downloads rolando."
-  },
   "icu:WhatsNew__v7.46--0": {
-    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+    "messageformat": "Com o novo recurso \"Uso de dados\", disponível nas configurações do Signal, ficou mais fácil escolher se quer ou não baixar fotos, vídeos, arquivos de áudio ou outros documentos automaticamente."
   },
   "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
+    "messageformat": "Agora, quando você tentar iniciar uma conversa com o nome de usuário de alguém no Signal, isso funcionará mesmo que você digite acidentalmente o símbolo “@” primeiro. Alguns h@bitos são difi@eis de larg@r."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }
