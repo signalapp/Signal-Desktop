@@ -121,8 +121,8 @@ export abstract class CDSSocketManagerBase<
     try {
       log.info('CDSSocketManager: starting lookup request');
 
-      const useNewConnectLogic = window.Signal.RemoteConfig.isEnabled(
-        'desktop.cdsiViaLibsignal.libsignalRouteBasedCDSILookup'
+      const useNewConnectLogic = !window.Signal.RemoteConfig.isEnabled(
+        'desktop.cdsiViaLibsignal.disableNewConnectionLogic'
       );
       const { timeout = REQUEST_TIMEOUT } = options;
       const response = await pTimeout(
