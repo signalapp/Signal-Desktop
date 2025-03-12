@@ -78,7 +78,6 @@ import {
 } from './util';
 import { hydrateMessage } from './hydration';
 
-import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
 import { SeenStatus } from '../MessageSeenStatus';
 import {
   attachmentBackupJobSchema,
@@ -5025,9 +5024,6 @@ function getNextAttachmentDownloadJobs(
           ...row,
           active: Boolean(row.active),
           attachment: jsonToObject(row.attachmentJson),
-          ciphertextSize:
-            row.ciphertextSize ||
-            getAttachmentCiphertextLength(row.attachment.size),
         } as unknown);
       } catch (error) {
         logger.error(
