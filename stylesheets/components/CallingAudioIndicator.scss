@@ -38,10 +38,10 @@
   }
 }
 
-.module-ongoing-call__footer__local-preview .CallingAudioIndicator {
+.module-ongoing-call__local-preview .CallingAudioIndicator {
   position: absolute;
-  top: 6px;
-  inset-inline-end: 6px;
+  top: 8px;
+  inset-inline-end: 8px;
   z-index: variables.$z-index-base;
 }
 

@@ -272,11 +272,12 @@ $color-selected-message-background-dark: $color-gray-65;
 $header-height: 52px;
 
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+$ease-out-local-preview: cubic-bezier(0.17, 0.17, 0, 1);
 
 $calling-background-color: $color-gray-90;
 
 // Maintain aspect ratio 960x720 with $local-preview-height
-$calling-local-preview-width: 106.67px;
+$calling-local-preview-normal-width: 106.67px;
 
 // General
 

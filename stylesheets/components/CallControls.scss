@@ -118,7 +118,7 @@
 }
 
 .CallControls__OuterSpacer {
-  flex-basis: calc(variables.$calling-local-preview-width + 16px);
+  flex-basis: calc(variables.$calling-local-preview-normal-width + 16px);
 }
 
 .CallControls__ReactionPickerContainer {

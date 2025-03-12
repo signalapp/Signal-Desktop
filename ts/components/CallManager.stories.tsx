@@ -81,6 +81,7 @@ const getCommonActiveCallData = () => ({
   viewMode: CallViewMode.Paginated,
   outgoingRing: true,
   pip: false,
+  selfViewExpanded: false,
   settingsDialogOpen: false,
   showParticipantsList: false,
 });
@@ -147,6 +148,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   toggleScreenRecordingPermissionsDialog: action(
     'toggle-screen-recording-permissions-dialog'
   ),
+  toggleSelfViewExpanded: action('toggle-self-view-expanded'),
   toggleSettings: action('toggle-settings'),
   pauseVoiceNotePlayer: action('pause-audio-player'),
 });
@@ -181,6 +183,7 @@ const getActiveCallForCallLink = (
     pendingParticipants: overrideProps.pendingParticipants ?? [],
     raisedHands: new Set<number>(),
     remoteAudioLevels: new Map<number, number>(),
+    selfViewExpanded: false,
     suggestLowerHand: false,
   };
 };

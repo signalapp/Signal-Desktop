@@ -56,6 +56,7 @@ type OverridePropsBase = {
   hasLocalVideo?: boolean;
   localAudioLevel?: number;
   viewMode?: CallViewMode;
+  outgoingRing?: boolean;
   reactions?: ActiveCallReactionsType;
 };
 
@@ -63,6 +64,9 @@ type DirectCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Direct;
   callState?: CallState;
   hasRemoteVideo?: boolean;
+  outgoingRing?: boolean;
+  selfViewExpanded?: boolean;
+  remoteAudioLevel?: number;
 };
 
 type GroupCallOverrideProps = OverridePropsBase & {
@@ -72,9 +76,11 @@ type GroupCallOverrideProps = OverridePropsBase & {
   peekedParticipants?: Array<ConversationType>;
   pendingParticipants?: Array<ConversationType>;
   raisedHands?: Set<number>;
-  remoteParticipants?: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevel?: number;
+  remoteParticipants?: Array<GroupCallRemoteParticipantType>;
+  selfViewExpanded?: boolean;
   suggestLowerHand?: boolean;
+  outgoingRing?: boolean;
 };
 
 const createActiveDirectCallProp = (
@@ -84,7 +90,7 @@ const createActiveDirectCallProp = (
   conversation,
   callState: overrideProps.callState ?? CallState.Accepted,
   peekedParticipants: [] as [],
-  remoteAudioLevel: 0,
+  remoteAudioLevel: overrideProps.remoteAudioLevel ?? 0,
   remoteParticipants: [
     {
       hasRemoteVideo: overrideProps.hasRemoteVideo ?? false,
@@ -168,9 +174,10 @@ const createActiveCallProp = (
     hasLocalVideo: overrideProps.hasLocalVideo ?? false,
     localAudioLevel: overrideProps.localAudioLevel ?? 0,
     viewMode: overrideProps.viewMode ?? CallViewMode.Sidebar,
-    outgoingRing: true,
+    outgoingRing: overrideProps.outgoingRing ?? true,
     pip: false,
     settingsDialogOpen: false,
+    selfViewExpanded: overrideProps.selfViewExpanded ?? false,
     showParticipantsList: false,
   };
 
@@ -236,6 +243,7 @@ const createProps = (
   toggleScreenRecordingPermissionsDialog: action(
     'toggle-screen-recording-permissions-dialog'
   ),
+  toggleSelfViewExpanded: action('toggle-self-view-expanded'),
   toggleSettings: action('toggle-settings'),
 });
 
@@ -269,7 +277,7 @@ export function PreRing(): JSX.Element {
   );
 }
 
-export function Ringing(): JSX.Element {
+export function DirectRinging(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -335,6 +343,46 @@ export function HasRemoteVideo(): JSX.Element {
   );
 }
 
+export function BothSpeaking(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        hasRemoteVideo: true,
+        hasLocalAudio: true,
+        localAudioLevel: 0.75,
+        remoteAudioLevel: 0.75,
+      })}
+    />
+  );
+}
+
+export function SelfViewExpanded(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        selfViewExpanded: true,
+      })}
+    />
+  );
+}
+
+export function SelfViewExpandedBothSpeaking(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        selfViewExpanded: true,
+        hasRemoteVideo: true,
+        hasLocalAudio: true,
+        localAudioLevel: 0.75,
+        remoteAudioLevel: 0.75,
+      })}
+    />
+  );
+}
+
 export function GroupCall1(): JSX.Element {
   return (
     <CallScreen
@@ -361,6 +409,16 @@ export function GroupCall1(): JSX.Element {
       })}
     />
   );
+}
+
+export function GroupCall0(): JSX.Element {
+  const props = createProps({
+    callMode: CallMode.Group,
+    remoteParticipants: [],
+    groupMembers: [],
+    outgoingRing: false,
+  });
+  return <CallScreen {...props} />;
 }
 
 export function GroupCallYourHandRaised(): JSX.Element {
@@ -516,7 +574,7 @@ export function GroupCallReconnecting(): JSX.Element {
   );
 }
 
-export function GroupCall0(): JSX.Element {
+export function GroupCallOutgoingRinging(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
