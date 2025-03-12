@@ -39,7 +39,7 @@
     "messageformat": "မီဒီယာ အရည်အသွေး ပို့ပြီး"
   },
   "icu:Preferences__sent-media-quality__description": {
-    "messageformat": "Sending high quality media will use more data."
+    "messageformat": "အရည်အသွေးမြင့်သည့် မီဒီယာဖိုင်ကို ပို့လျှင် ဒေတာ ပိုသုံးပါလိမ့်မည်။"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "စံအရည်အသွေး"
@@ -1164,10 +1164,10 @@
     "messageformat": "အသံမက်ဆေ့ချ်ကို မရရှိနိုင်ပါ"
   },
   "icu:attachmentNotAvailable__tapToView": {
-    "messageformat": "View once media is not available"
+    "messageformat": "တစ်ခါကြည့် မီဒီယာကို မရရှိနိုင်ပါ"
   },
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
-    "messageformat": "Can't download view once media"
+    "messageformat": "တစ်ခါကြည့် မီဒီယာကို ဒေါင်းလုဒ်လုပ်၍မရပါ။"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "ဖိုင်ကို မရရှိနိုင်ပါ"
@@ -1200,10 +1200,10 @@
     "messageformat": "ဤစက်ကို လင့်ခ်ချိတ်ထားချိန်တွင် ယခုအသံမက်ဆေ့(ချ်)ကို သင့်ဖုန်းမှ မလွှဲပြောင်းထားပါ။ လင့်ခ်ချိတ်ချိန်တွင် 45 ရက်ထက်ကြာသော မီဒီယာနှင့် ဖိုင်များကို တူအောင်ညှိ၍မရပါ။"
   },
   "icu:TapToViewNotAvailableModal__body--expired": {
-    "messageformat": "This view once media is no longer available to download. Ask {name} to send it again."
+    "messageformat": "ဤတစ်ခါကြည့် မီဒီယာကို ဒေါင်းလုဒ်လုပ်၍မရတော့ပါ။ ထပ်မံပေးပို့ရန် {name} ကို တောင်းဆိုပါ။"
   },
   "icu:TapToViewNotAvailableModal__body--error": {
-    "messageformat": "Can’t download view once media. {name} will need to send it again."
+    "messageformat": "တစ်ခါကြည့် မီဒီယာကို ဒေါင်းလုဒ်လုပ်၍မရပါ။ {name} သည် ၎င်းကို ထပ်ပို့ရန် လိုအပ်ပါသည်။"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -1887,7 +1887,7 @@
     "messageformat": "ဖုန်းနံပါတ် ထည့်ခြင်း မအောင်မြင်ပါ။ သင့်ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။"
   },
   "icu:Toast--download-failed": {
-    "messageformat": "Download failed"
+    "messageformat": "ဒေါင်းလုဒ် မအောင်မြင်ပါ"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ထိုမက်ဆေ့ချ်ကို ပေးပို့ခဲ့ချိန်မှ 24 နာရီအတွင်း၌သာ တည်းဖြတ်မှု လုပ်နိုင်ပါသည်။"
@@ -2268,157 +2268,157 @@
     "messageformat": "အလံ"
   },
   "icu:FunPicker__Tab--Emojis": {
-    "messageformat": "Emoji"
+    "messageformat": "အီမိုဂျီ"
   },
   "icu:FunPicker__Tab--Stickers": {
-    "messageformat": "Stickers"
+    "messageformat": "စတစ်ကာများ"
   },
   "icu:FunPicker__Tab--Gifs": {
-    "messageformat": "GIFs"
+    "messageformat": "GIF များ"
   },
   "icu:FunPanelEmojis__SearchLabel": {
-    "messageformat": "Search emoji"
+    "messageformat": "အီမိုဂျီ ရှာရန်"
   },
   "icu:FunPanelEmojis__SearchPlaceholder": {
-    "messageformat": "Search emoji"
+    "messageformat": "အီမိုဂျီ ရှာရန်"
   },
   "icu:FunPanelEmojis__SubNavLabel": {
-    "messageformat": "Emoji Categories"
+    "messageformat": "အီမိုဂျီ အမျိုးအစားများ"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "နောက်ဆုံးသုံးခဲ့သော"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
-    "messageformat": "Smileys & People"
+    "messageformat": "အပြုံးမျက်နှာများနှင့် လူများ"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
-    "messageformat": "Animals & Nature"
+    "messageformat": "တိရိစ္ဆာန်များနှင့် သဘာဝအရာများ"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
-    "messageformat": "Food & Drink"
+    "messageformat": "အစားအသောက်"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
-    "messageformat": "Activities"
+    "messageformat": "လှုပ်ရှားမှုများ"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
-    "messageformat": "Travel & Places"
+    "messageformat": "အသွားအလာနှင့် နေရာများ"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
-    "messageformat": "Objects"
+    "messageformat": "အရာဝတ္ထုများ"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
-    "messageformat": "Symbols"
+    "messageformat": "သင်္ကေတများ"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
-    "messageformat": "Flags"
+    "messageformat": "အလံများ"
   },
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
-    "messageformat": "No emoji found"
+    "messageformat": "အီမိုဂျီ ရှာမတွေ့ပါ"
   },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
-    "messageformat": "Change Skin Tone Preference"
+    "messageformat": "စိတ်ကြိုက်ဦးစားပေး အသားအရောင်သို့ ပြောင်းပါ"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
-    "messageformat": "Choose your default skintone"
+    "messageformat": "သင် အမြဲထားမည့် အသားအရောင်ကို ရွေးပါ"
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
-    "messageformat": "Search Results"
+    "messageformat": "ရှာဖွေမှုရလဒ်များ"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "နောက်ဆုံးသုံးခဲ့သော"
   },
   "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
-    "messageformat": "Smileys & People"
+    "messageformat": "အပြုံးမျက်နှာများနှင့် လူများ"
   },
   "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
-    "messageformat": "Animals & Nature"
+    "messageformat": "တိရိစ္ဆာန်များနှင့် သဘာဝအရာများ"
   },
   "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
-    "messageformat": "Food & Drink"
+    "messageformat": "အစားအသောက်"
   },
   "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
-    "messageformat": "Travel & Places"
+    "messageformat": "အသွားအလာနှင့် နေရာများ"
   },
   "icu:FunPanelEmojis__SectionTitle--Activities": {
-    "messageformat": "Activities"
+    "messageformat": "လှုပ်ရှားမှုများ"
   },
   "icu:FunPanelEmojis__SectionTitle--Objects": {
-    "messageformat": "Objects"
+    "messageformat": "အရာဝတ္ထုများ"
   },
   "icu:FunPanelEmojis__SectionTitle--Symbols": {
-    "messageformat": "Symbols"
+    "messageformat": "သင်္ကေတများ"
   },
   "icu:FunPanelEmojis__SectionTitle--Flags": {
-    "messageformat": "Flags"
+    "messageformat": "အလံများ"
   },
   "icu:FunPanelStickers__SearchLabel": {
-    "messageformat": "Search stickers"
+    "messageformat": "စတစ်ကာများ ရှာရန်"
   },
   "icu:FunPanelStickers__SearchPlaceholder": {
-    "messageformat": "Search stickers"
+    "messageformat": "စတစ်ကာများ ရှာရန်"
   },
   "icu:FunPanelSticker__SubNavLabel": {
-    "messageformat": "Sticker Packs"
+    "messageformat": "စတစ်ကာတွဲ"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "နောက်ဆုံးသုံးခဲ့သော"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
-    "messageformat": "Search Results"
+    "messageformat": "ရှာဖွေမှုရလဒ်များ"
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "နောက်ဆုံးသုံးခဲ့သော"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
-    "messageformat": "No stickers found"
+    "messageformat": "စတစ်ကာများ ရှာမတွေ့ပါ"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Search GIFs via Tenor"
+    "messageformat": "Tenor မှတစ်ဆင့် GIF များကို ရှာဖွေပါ"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Search Tenor"
+    "messageformat": "Tenor ကို ရှာပါ"
   },
   "icu:FunPanelGifs__SubNavLabel": {
-    "messageformat": "GIF Categories"
+    "messageformat": "GIF အမျိုးအစားများ"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
-    "messageformat": "Recently Used"
+    "messageformat": "နောက်ဆုံးသုံးခဲ့သော"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
-    "messageformat": "Trending"
+    "messageformat": "ခေတ်စားနေသည်"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
-    "messageformat": "Celebrate"
+    "messageformat": "ကျင်းပသည်"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
-    "messageformat": "Love"
+    "messageformat": "နှစ်သက်သည်"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
-    "messageformat": "Thumbs Up"
+    "messageformat": "လက်မထောင်သည်"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
-    "messageformat": "Surprised"
+    "messageformat": "အံ့သြသည်"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
-    "messageformat": "Excited"
+    "messageformat": "စိတ်လှုပ်ရှားသည်"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
-    "messageformat": "Sad"
+    "messageformat": "ဝမ်းနည်းသည်"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
-    "messageformat": "Angry"
+    "messageformat": "စိတ်ဆိုးသည်"
   },
   "icu:FunPanelGifs__SearchResults__LoadingLabel": {
-    "messageformat": "Loading GIFs"
+    "messageformat": "GIF များ ဖွင့်နေပါသည်"
   },
   "icu:FunPanelGifs__SearchResults__ErrorHeading": {
-    "messageformat": "Couldn’t load GIFs. Check your connection and try again"
+    "messageformat": "GIF များကို ဖွင့်၍မရပါ။ အင်တာနက်ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ"
   },
   "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
-    "messageformat": "Retry"
+    "messageformat": "ထပ်ကြိုးစားပါ"
   },
   "icu:FunPanelGifs__SearchResults__EmptyHeading": {
-    "messageformat": "No GIFs found"
+    "messageformat": "GIF များ မတွေ့ပါ"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "မလုပ်တော့ပါ"
@@ -2460,13 +2460,13 @@
     "messageformat": "ကြည့်ရှုပြီး"
   },
   "icu:Message--tap-to-view--viewed": {
-    "messageformat": "Viewed"
+    "messageformat": "ကြည့်ရှုပြီး"
   },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "ရုပ်၊သံ၊ပုံ များ"
   },
   "icu:Message--tap-to-view--media": {
-    "messageformat": "View Once Media"
+    "messageformat": "တစ်ခါကြည့် မီဒီယာ"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "သင်မှ ၎င်းမက်ဆေ့ချ်အား ဖတ်ရှုပြီးပါပြီ။"
@@ -2481,13 +2481,13 @@
     "messageformat": "ဗီဒီယို ကြည့်ရှုမယ်"
   },
   "icu:Message--tap-to-view--video": {
-    "messageformat": "View Once Video"
+    "messageformat": "တစ်ခါကြည့် ဗီဒီယို"
   },
   "icu:Message--tap-to-view--photo": {
-    "messageformat": "View Once Photo"
+    "messageformat": "တစ်ခါကြည့် ဓာတ်ပုံ"
   },
   "icu:Message--tap-to-view--helper-text": {
-    "messageformat": "Click to view"
+    "messageformat": "ကြည့်ရှုရန် နှိပ်ပါ"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(ပူးတွဲဖိုင်)"
@@ -3957,7 +3957,7 @@
     "messageformat": "တည်းဖြတ်ထားသော မက်ဆေ့ချ်ကို ပို့ရန်"
   },
   "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "အီမိုဂျီ၊ စတစ်ကာ သို့မဟုတ် GIF တစ်ခုထည့်ပါ"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "မက်ဆေ့ချ် တည်းဖြတ်ရန်"
@@ -4842,25 +4842,25 @@
     "messageformat": "ကိုယ်ရေးအချက်အလက်များလုံခြုံမှု"
   },
   "icu:Preferences__button--data-usage": {
-    "messageformat": "Data usage"
+    "messageformat": "ဒေတာသုံးစွဲမှု"
   },
   "icu:Preferences__media-auto-download": {
-    "messageformat": "Media auto-download"
+    "messageformat": "မီဒီယာကို အလိုအလျောက် ဒေါင်းလုဒ်လုပ်ပါ"
   },
   "icu:Preferences__media-auto-download__photos": {
-    "messageformat": "Photos"
+    "messageformat": "ဓာတ်ပုံများ"
   },
   "icu:Preferences__media-auto-download__videos": {
-    "messageformat": "Videos"
+    "messageformat": "ဗီဒီယိုများ"
   },
   "icu:Preferences__media-auto-download__audio": {
-    "messageformat": "Audio"
+    "messageformat": "အသံ"
   },
   "icu:Preferences__media-auto-download__documents": {
-    "messageformat": "Documents"
+    "messageformat": "စာရွက်စာတမ်းများ"
   },
   "icu:Preferences__media-auto-download__description": {
-    "messageformat": "Voice messages and stickers are always auto-downloaded."
+    "messageformat": "အသံမက်ဆေ့ချ်များနှင့် စတစ်ကာများကို အမြဲတမ်း အလိုအလျောက်ဒေါင်းလုဒ်လုပ်ထားသည်။"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} တွင် နောက်ဆုံးထည့်သွင်းခဲ့သည်"
@@ -5019,10 +5019,10 @@
     "messageformat": "အပ်ဒိတ် ဒေါင်းလုဒ်လုပ်ပြီး"
   },
   "icu:CriticalIdlePrimaryDevice__title": {
-    "messageformat": "Open Signal on your phone"
+    "messageformat": "သင့်ဖုန်းတွင် Signal ကို ဖွင့်ရန်"
   },
   "icu:CriticalIdlePrimaryDevice__body": {
-    "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "သင့်ဖုန်းတွင် Signal မဖွင့်ပါက သင့်အကောင့်ကို မကြာမီ ဖျက်သွားပါမည်။ သင်အောင်မြင်စွာ လုပ်ဆောင်ပြီးပါက ဤမက်ဆေ့ချ် ပျောက်သွားပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal သည် နည်းပညာပိုင်းဆိုင်ရာ အခက်အခဲများ ကြုံတွေ့နေပါသည်။ ဝန်ဆောင်မှုများကို အမြန်ဆုံးပြန်လည်စတင်နိုင်ရန် ကျွနု်ပ်တို့ ကြိုးစားနေပါသည်။"
@@ -5166,28 +5166,28 @@
     "messageformat": "9:16"
   },
   "icu:MediaPermissionsModal__title--microphone": {
-    "messageformat": "Allow access to your microphone"
+    "messageformat": "သင့်မိုက်ခရိုဖုန်း အသုံးပြုခွင့်ကိုပေးပါ"
   },
   "icu:MediaPermissionsModal__title--camera": {
-    "messageformat": "Allow access to your camera"
+    "messageformat": "သင့်ကင်မရာ အသုံးပြုခွင့်ပေးပါ"
   },
   "icu:MediaPermissionsModal__subtitle--call": {
-    "messageformat": "To join or start a call:"
+    "messageformat": "ပါဝင်ရန် သို့မဟုတ် ခေါ်ဆိုမှုစတင်ရန်-"
   },
   "icu:MediaPermissionsModal__subtitle--call--camera": {
-    "messageformat": "To enable your video:"
+    "messageformat": "သင့်ဗီဒီယိုကို ဖွင့်ရန်-"
   },
   "icu:MediaPermissionsModal__subtitle--voice-note": {
-    "messageformat": "To send voice messages:"
+    "messageformat": "အသံမက်ဆေ့(ချ်)များပေးပို့ရန်-"
   },
   "icu:MediaPermissionsModal__step-1": {
-    "messageformat": "Click “{buttonName}” below"
+    "messageformat": "အောက်ပါ “{buttonName}” ကိုနှိပ်ပါ"
   },
   "icu:MediaPermissionsModal__step-2": {
-    "messageformat": "Turn on “Signal”"
+    "messageformat": "\"Signal\" ကိုဖွင့်ပါ"
   },
   "icu:MediaPermissionsModal__open": {
-    "messageformat": "Go to settings"
+    "messageformat": "ဆက်တင်သို့ သွားရန်"
   },
   "icu:MyStories__title": {
     "messageformat": "ကျွန်ုပ်၏ စတိုရီများ"
@@ -6101,9 +6101,9 @@
     "messageformat": "စတစ်ကာများ ဒေါင်းလုဒ်လုပ်ခြင်းကို ပိုမိုကောင်းမွန်အောင် မွမ်းမံထားသည်။"
   },
   "icu:WhatsNew__v7.46--0": {
-    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive."
+    "messageformat": "Signal ဆက်တင်ရှိ \"ဒေတာအသုံးပြုမှု\" အင်္ဂါရပ်အသစ်သည် ဓာတ်ပုံများ၊ ဗီဒီယိုများ၊ အသံဖိုင်များ သို့မဟုတ် အခြားစာရွက်စာတမ်းများကို အလိုအလျောက် ဒေါင်းလုဒ်လုပ်ခြင်း ရှိ၊ မရှိ ရွေးချယ်ရန် လွယ်ကူစေသည်။"
   },
   "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k."
+    "messageformat": "ယခု သင်သည် တစ်စုံတစ်ဦး၏ Signal သုံးစွဲသူအမည်ဖြင့် ချက်(တ်) စတင်ရန် ကြိုးစားသောအခါ သင်သည် “@” သင်္ကေတကို မတော်တဆ ရိုက်ထည့်လိုက်လျှင်ပင် ၎င်းသည် အလုပ်လုပ်မည်ဖြစ်သည်။"
   }
 }
