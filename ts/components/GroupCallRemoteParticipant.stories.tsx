@@ -8,13 +8,11 @@ import type { PropsType } from './GroupCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
-import { setupI18n } from '../util/setupI18n';
 import { generateAci } from '../types/ServiceId';
-import enMessages from '../../_locales/en/messages.json';
 import type { CallingImageDataCache } from './CallManager';
 import { MINUTE } from '../util/durations';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type OverridePropsType = {
   audioLevel?: number;

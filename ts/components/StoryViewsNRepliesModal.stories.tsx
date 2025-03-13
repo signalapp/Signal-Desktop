@@ -8,15 +8,13 @@ import { v4 as generateUuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
-import enMessages from '../../_locales/en/messages.json';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
 import { StoryViewTargetType } from '../types/Stories';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoryViewsNRepliesModal',

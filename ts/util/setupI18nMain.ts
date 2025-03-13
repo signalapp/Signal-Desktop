@@ -121,6 +121,8 @@ export function setupI18n(
     renderEmojify,
   });
 
+  let usedStrings: Set<string> | undefined;
+
   const localizer: LocalizerType = (<
     Key extends keyof ICUStringMessageParamsByKeyType,
   >(
@@ -128,6 +130,8 @@ export function setupI18n(
     substitutions: ICUStringMessageParamsByKeyType[Key],
     options?: LocalizerOptions
   ) => {
+    usedStrings?.add(key);
+
     const result = intl.formatMessage(
       { id: key },
       normalizeSubstitutions(substitutions, options)
@@ -148,6 +152,22 @@ export function setupI18n(
   };
   localizer.getHourCyclePreference = () => {
     return window.SignalContext.getHourCyclePreference();
+  };
+
+  // Storybook
+  localizer.trackUsage = () => {
+    if (usedStrings !== undefined) {
+      throw new Error('Already tracking usage');
+    }
+    usedStrings = new Set();
+  };
+  localizer.stopTrackingUsage = () => {
+    if (usedStrings === undefined) {
+      throw new Error('Not tracking usage');
+    }
+    const result = Array.from(usedStrings);
+    usedStrings = undefined;
+    return result;
   };
 
   return localizer;

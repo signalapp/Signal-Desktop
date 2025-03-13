@@ -5,11 +5,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { type PropsType, AttachmentDetailPill } from './AttachmentDetailPill';
 import { type ComponentMeta } from '../../storybook/types';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/AttachmentDetailPill',

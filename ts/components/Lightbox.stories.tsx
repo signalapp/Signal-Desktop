@@ -5,11 +5,9 @@ import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { noop } from 'lodash';
 import type { Meta } from '@storybook/react';
-import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './Lightbox';
 import { Lightbox } from './Lightbox';
 import type { MediaItemType } from '../types/MediaItem';
-import { setupI18n } from '../util/setupI18n';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -20,7 +18,7 @@ import {
 
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Lightbox',

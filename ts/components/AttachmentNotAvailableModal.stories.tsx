@@ -3,8 +3,6 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './AttachmentNotAvailableModal';
 import {
   AttachmentNotAvailableModal,
@@ -12,7 +10,7 @@ import {
 } from './AttachmentNotAvailableModal';
 import type { ComponentMeta } from '../storybook/types';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/AttachmentNotAvailableModal',

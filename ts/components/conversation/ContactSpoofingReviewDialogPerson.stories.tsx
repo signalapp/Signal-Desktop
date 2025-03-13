@@ -5,15 +5,13 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../../_locales/en/messages.json';
-import { setupI18n } from '../../util/setupI18n';
 import { ThemeType } from '../../types/Util';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 import type { PropsType } from './ContactSpoofingReviewDialogPerson';
 import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   component: ContactSpoofingReviewDialogPerson,

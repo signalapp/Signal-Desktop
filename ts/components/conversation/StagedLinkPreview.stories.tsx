@@ -6,10 +6,8 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Props } from './StagedLinkPreview';
-import enMessages from '../../../_locales/en/messages.json';
 import { StagedLinkPreview } from './StagedLinkPreview';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
-import { setupI18n } from '../../util/setupI18n';
 import { IMAGE_JPEG } from '../../types/MIME';
 
 const LONG_TITLE =
@@ -17,7 +15,7 @@ const LONG_TITLE =
 const LONG_DESCRIPTION =
   "You're gonna love this description. Not only does it have a lot of characters, but it will also be truncated in the UI. How cool is that??";
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/StagedLinkPreview',

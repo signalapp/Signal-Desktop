@@ -8,15 +8,13 @@ import { isBoolean } from 'lodash';
 import { expect, fn, within, userEvent } from '@storybook/test';
 import type { AvatarColorType } from '../types/Colors';
 import type { Props } from './Avatar';
-import enMessages from '../../_locales/en/messages.json';
 import { Avatar, AvatarBlur, AvatarSize } from './Avatar';
 import { AvatarColors } from '../types/Colors';
 import { HasStories } from '../types/Stories';
 import { ThemeType } from '../types/Util';
 import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
-import { setupI18n } from '../util/setupI18n';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Avatar',

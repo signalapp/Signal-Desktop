@@ -4,13 +4,11 @@
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { PropsType } from './GroupV1Migration';
 import { GroupV1Migration } from './GroupV1Migration';
 import { ThemeType } from '../../types/Util';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const contact1 = getDefaultConversation({
   title: 'Alice',

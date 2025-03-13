@@ -5,12 +5,10 @@ import React, { type ComponentProps } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress';
 import { KIBIBYTE } from '../types/AttachmentSize';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type PropsType = ComponentProps<typeof BackupMediaDownloadProgress>;
 

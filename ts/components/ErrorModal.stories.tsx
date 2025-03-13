@@ -8,11 +8,9 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './ErrorModal';
 import { ErrorModal } from './ErrorModal';
 
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import { ButtonVariant } from './Button';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   buttonVariant: overrideProps.buttonVariant ?? undefined,

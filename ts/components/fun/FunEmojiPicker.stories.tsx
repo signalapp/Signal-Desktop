@@ -3,9 +3,7 @@
 import React, { StrictMode } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../../_locales/en/messages.json';
 import { type ComponentMeta } from '../../storybook/types';
-import { setupI18n } from '../../util/setupI18n';
 import type { FunEmojiPickerProps } from './FunEmojiPicker';
 import { FunEmojiPicker } from './FunEmojiPicker';
 import { MOCK_RECENT_EMOJIS } from './mocks';
@@ -13,7 +11,7 @@ import { FunProvider } from './FunProvider';
 import { packs, recentStickers } from '../stickers/mocks';
 import { EmojiSkinTone } from './data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type TemplateProps = Omit<FunEmojiPickerProps, 'children'>;
 

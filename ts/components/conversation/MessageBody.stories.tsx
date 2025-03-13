@@ -6,8 +6,6 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './MessageBody';
 import { MessageBody } from './MessageBody';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { BodyRange } from '../../types/BodyRange';
 import { generateAci } from '../../types/ServiceId';
 import { RenderLocation } from './MessageTextRenderer';
@@ -24,7 +22,7 @@ const SERVICE_ID_9 = generateAci();
 const SERVICE_ID_10 = generateAci();
 const SERVICE_ID_11 = generateAci();
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/MessageBody',

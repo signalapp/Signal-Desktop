@@ -9,15 +9,13 @@ import { noop } from 'lodash';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './StoryImage';
 import { StoryImage } from './StoryImage';
-import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
 import {
   fakeAttachment,
   fakeThumbnail,
 } from '../test-both/helpers/fakeAttachment';
 import { VIDEO_MP4 } from '../types/MIME';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoryImage',

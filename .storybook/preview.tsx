@@ -16,6 +16,7 @@ import { setupI18n } from '../ts/util/setupI18n';
 import { HourCyclePreference } from '../ts/types/I18N';
 import { Provider } from 'react-redux';
 import { Store, combineReducers, createStore } from 'redux';
+import { Globals } from '@react-spring/web';
 import { StateType } from '../ts/state/reducer';
 import {
   ScrollerLockContext,
@@ -130,6 +131,15 @@ window.SignalContext = {
     const result = parseUnknown(LocaleEmojiListSchema, json);
     return result;
   },
+
+  // For test-runner
+  _skipAnimation: () => {
+    Globals.assign({
+      skipAnimation: true,
+    });
+  },
+  _trackICUStrings: () => i18n.trackUsage(),
+  _stopTrackingICUStrings: () => i18n.stopTrackingUsage(),
 };
 
 window.i18n = i18n;

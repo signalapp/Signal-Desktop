@@ -9,16 +9,14 @@ import { expect, fn, within, userEvent } from '@storybook/test';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStories';
-import enMessages from '../../_locales/en/messages.json';
 import { MY_STORY_ID } from '../types/Stories';
 import { MyStories } from './MyStories';
 import { SendStatus } from '../messages/MessageSendState';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeMyStory } from '../test-both/helpers/getFakeStory';
-import { setupI18n } from '../util/setupI18n';
 import { sleep } from '../util/sleep';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/MyStories',

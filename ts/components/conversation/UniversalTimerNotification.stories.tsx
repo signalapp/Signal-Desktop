@@ -5,15 +5,13 @@ import React from 'react';
 import type { Meta } from '@storybook/react';
 import type { Props } from './UniversalTimerNotification';
 import { UniversalTimerNotification } from './UniversalTimerNotification';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { EXPIRE_TIMERS } from '../../test-both/util/expireTimers';
 
 export default {
   title: 'Components/UniversalTimerNotification',
 } satisfies Meta<Props>;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export function Seconds(): JSX.Element {
   return (

@@ -14,12 +14,10 @@ import {
   VIDEO_MP4,
   stringToMIMEType,
 } from '../../types/MIME';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/ImageGrid',

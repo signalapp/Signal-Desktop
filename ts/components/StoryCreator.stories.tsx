@@ -6,7 +6,6 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryCreator';
-import enMessages from '../../_locales/en/messages.json';
 import { StoryCreator } from './StoryCreator';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import {
@@ -14,9 +13,8 @@ import {
   getDefaultGroup,
 } from '../test-both/helpers/getDefaultConversation';
 import { getFakeDistributionListsWithMembers } from '../test-both/helpers/getFakeDistributionLists';
-import { setupI18n } from '../util/setupI18n';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoryCreator',

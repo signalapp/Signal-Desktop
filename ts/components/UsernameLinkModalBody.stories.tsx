@@ -5,9 +5,7 @@ import React, { useCallback, useState } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../_locales/en/messages.json';
 import { UsernameLinkState } from '../state/ducks/usernameEnums';
-import { setupI18n } from '../util/setupI18n';
 import { SignalService as Proto } from '../protobuf';
 
 import type { PropsType } from './UsernameLinkModalBody';
@@ -20,7 +18,7 @@ import { Modal } from './Modal';
 
 const ColorEnum = Proto.AccountRecord.UsernameLink.Color;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   component: UsernameLinkModalBody,

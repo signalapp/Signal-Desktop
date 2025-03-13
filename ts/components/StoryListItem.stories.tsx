@@ -7,15 +7,13 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryListItem';
 import { StoryListItem } from './StoryListItem';
-import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import {
   fakeAttachment,
   fakeThumbnail,
 } from '../test-both/helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoryListItem',

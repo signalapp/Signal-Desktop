@@ -137,6 +137,8 @@ export function getEmptyState(): UserStateType {
       getLocaleMessages: intlNotSetup,
       getLocaleDirection: intlNotSetup,
       getHourCyclePreference: intlNotSetup,
+      trackUsage: intlNotSetup,
+      stopTrackingUsage: intlNotSetup,
     }),
     interactionMode: 'mouse',
     isMainWindowMaximized: false,

@@ -6,10 +6,8 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupV2JoinDialog';
 import { GroupV2JoinDialog } from './GroupV2JoinDialog';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   memberCount: overrideProps.memberCount ?? 12,

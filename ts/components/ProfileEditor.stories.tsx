@@ -8,7 +8,6 @@ import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
 import type { PropsType } from './ProfileEditor';
-import enMessages from '../../_locales/en/messages.json';
 import { ProfileEditor } from './ProfileEditor';
 import { EditUsernameModalBody } from './EditUsernameModalBody';
 import {
@@ -17,10 +16,9 @@ import {
   UsernameReservationState,
 } from '../state/ducks/usernameEnums';
 import { getRandomColor } from '../test-both/helpers/getRandomColor';
-import { setupI18n } from '../util/setupI18n';
 import { SignalService as Proto } from '../protobuf';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   component: ProfileEditor,

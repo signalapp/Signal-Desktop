@@ -12,10 +12,8 @@ import { AvatarColors } from '../types/Colors';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import { generateAci } from '../types/ServiceId';
 import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 function createParticipant(
   participantProps: Partial<GroupCallRemoteParticipantType>

@@ -5,17 +5,15 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../_locales/en/messages.json';
 import { ToastManager } from './ToastManager';
 import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
 import type { AnyActionableMegaphone } from '../types/Megaphone';
 import { MegaphoneType } from '../types/Megaphone';
-import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import type { PropsType } from './ToastManager';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 function getToast(toastType: ToastType): AnyToast {
   switch (toastType) {

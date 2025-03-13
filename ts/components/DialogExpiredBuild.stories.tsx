@@ -5,12 +5,10 @@ import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DialogExpiredBuild';
 import { DialogExpiredBuild } from './DialogExpiredBuild';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import { WidthBreakpoint } from './_util';
 import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/DialogExpiredBuild',

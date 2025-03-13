@@ -4,8 +4,6 @@
 import React from 'react';
 import { times } from 'lodash';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import type { PropsType } from './CallingPreCallInfo';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
@@ -15,7 +13,7 @@ import { generateAci } from '../types/ServiceId';
 import { FAKE_CALL_LINK } from '../test-both/helpers/fakeCallLink';
 import { callLinkToConversation } from '../util/callLinks';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 const getDefaultGroupConversation = () =>
   getDefaultConversation({
     name: 'Tahoe Trip',

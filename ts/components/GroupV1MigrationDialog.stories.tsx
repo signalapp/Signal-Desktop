@@ -9,12 +9,10 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupV1MigrationDialog';
 import { GroupV1MigrationDialog } from './GroupV1MigrationDialog';
 import type { ConversationType } from '../state/ducks/conversations';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { ThemeType } from '../types/Util';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const contact1: ConversationType = getDefaultConversation({
   title: 'Alice',

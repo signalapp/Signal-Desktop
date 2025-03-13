@@ -27,8 +27,6 @@ import {
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
 import { computePeaks } from '../VoiceNotesPlaybackContext';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
@@ -45,7 +43,7 @@ import { ThemeType } from '../../types/Util';
 import { BadgeCategory } from '../../badges/BadgeCategory';
 import { PaymentEventKind } from '../../types/Payment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const quoteOptions = {
   none: undefined,
@@ -113,7 +111,7 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
   ref,
 }) => (
   <EmojiPicker
-    i18n={setupI18n('en', enMessages)}
+    i18n={i18n}
     skinTone={0}
     onSetSkinTone={action('EmojiPicker::onSetSkinTone')}
     ref={ref}

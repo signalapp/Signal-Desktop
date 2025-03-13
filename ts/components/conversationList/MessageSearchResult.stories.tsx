@@ -4,8 +4,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import { strictAssert } from '../../util/assert';
 import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
@@ -19,7 +17,7 @@ const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();
 const SERVICE_ID_3 = generateAci();
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/MessageSearchResult',

@@ -11,12 +11,10 @@ import { MessageDetail } from './MessageDetail';
 import { SendStatus } from '../../messages/MessageSendState';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const defaultMessage: MessageDataPropsType = {
   author: getDefaultConversation({

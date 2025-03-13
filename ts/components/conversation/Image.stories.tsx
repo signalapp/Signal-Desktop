@@ -9,13 +9,11 @@ import type { Props } from './Image';
 import { CurveType, Image } from './Image';
 import { IMAGE_PNG } from '../../types/MIME';
 import type { ThemeType } from '../../types/Util';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/Image',

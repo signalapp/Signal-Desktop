@@ -7,8 +7,6 @@ import type { Meta } from '@storybook/react';
 import { IMAGE_JPEG } from '../types/MIME';
 import type { Props } from './CompositionArea';
 import { CompositionArea } from './CompositionArea';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
 import { fakeDraftAttachment } from '../test-both/helpers/fakeAttachment';
@@ -18,7 +16,7 @@ import { ConversationColors } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { PaymentEventKind } from '../types/Payment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/CompositionArea',

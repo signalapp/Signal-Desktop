@@ -3,13 +3,11 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './TimerNotification';
 import { TimerNotification } from './TimerNotification';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/TimerNotification',

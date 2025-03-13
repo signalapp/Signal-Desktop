@@ -1,0 +1,61 @@
+# Copyright 2025 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+name: ICU Book
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.*'
+jobs:
+  build-icu-book:
+    name: Build ICU Book
+    runs-on: ubuntu-latest-8-cores
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.3.0
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
+      - name: Cache .electron-gyp
+        uses: actions/cache@v4
+        with:
+          path: ~/.electron-gyp
+          key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.7
+      - name: Restore sccache
+        uses: actions/cache@v4
+        id: cache-sccache
+        with:
+          path: ${{ env.SCCACHE_PATH }}
+          key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+
+      - name: Install Desktop node_modules
+        run: pnpm install
+        env:
+          CC: sccache gcc
+          CXX: sccache g++
+          SCCACHE_GHA_ENABLED: "true"
+          NPM_CONFIG_LOGLEVEL: verbose
+
+      - run: pnpm run build:storybook
+      - run: ./node_modules/.bin/playwright install chromium
+      - run: ./node_modules/.bin/run-p --race test:storybook:serve test:storybook:test
+        env:
+          ARTIFACTS_DIR: stories/data
+      - run: pnpm run build:esbuild
+      - run: node ts/scripts/compile-stories-icu-lookup.js stories
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ github.ref_name }}-icu
+          path: stories

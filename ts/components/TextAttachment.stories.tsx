@@ -4,12 +4,10 @@
 import React from 'react';
 
 import type { Meta } from '@storybook/react';
-import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
 import { TextAttachment } from './TextAttachment';
 import type { PropsType } from './TextAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const getDefaultProps = (): PropsType => ({
   i18n,

@@ -4,18 +4,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { setupI18n } from '../../util/setupI18n';
 import { sleep } from '../../util/sleep';
 import {
   InstallScreenBackupStep,
   InstallScreenBackupError,
 } from '../../types/InstallScreen';
 import { DialogType } from '../../types/Dialogs';
-import enMessages from '../../../_locales/en/messages.json';
 import type { PropsType } from './InstallScreenBackupImportStep';
 import { InstallScreenBackupImportStep } from './InstallScreenBackupImportStep';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const DEFAULT_UPDATES = {
   dialogType: DialogType.None,

@@ -10,10 +10,8 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './AvatarPreview';
 import { AvatarPreview } from './AvatarPreview';
 import { AvatarColors } from '../types/Colors';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const TEST_IMAGE = new Uint8Array(
   chunk(

@@ -6,14 +6,12 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './MessageBodyReadMore';
 import { MessageBodyReadMore } from './MessageBodyReadMore';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { HydratedBodyRangesType } from '../../types/BodyRange';
 import { BodyRange } from '../../types/BodyRange';
 import { generateAci } from '../../types/ServiceId';
 import { RenderLocation } from './MessageTextRenderer';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/MessageBodyReadMore',
