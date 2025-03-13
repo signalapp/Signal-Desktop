@@ -18,9 +18,7 @@ import { DialogUpdate } from './DialogUpdate';
 import { UnsupportedOSDialog } from './UnsupportedOSDialog';
 import type { ConversationType } from '../state/ducks/conversations';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
-import { setupI18n } from '../util/setupI18n';
 import { DurationInSeconds, DAY } from '../util/durations';
-import enMessages from '../../_locales/en/messages.json';
 import { LeftPaneMode } from '../types/leftPane';
 import { ThemeType } from '../types/Util';
 import {
@@ -37,7 +35,7 @@ import {
 import type { GroupListItemConversationType } from './conversationList/GroupListItem';
 import { CriticalIdlePrimaryDeviceDialog } from './CriticalIdlePrimaryDeviceDialog';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type OverridePropsType = Partial<PropsType> & {
   dialogNetworkStatus?: Partial<DialogNetworkStatusPropsType>;

@@ -7,15 +7,13 @@ import casual from 'casual';
 import { action } from '@storybook/addon-actions';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PropsType } from './ContactModal';
-import enMessages from '../../../_locales/en/messages.json';
 import { ContactModal } from './ContactModal';
 import { HasStories } from '../../types/Stories';
 import { ThemeType } from '../../types/Util';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { getFakeBadges } from '../../test-both/helpers/getFakeBadge';
-import { setupI18n } from '../../util/setupI18n';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const defaultContact: ConversationType = getDefaultConversation({
   about: '👍 Free to chat',

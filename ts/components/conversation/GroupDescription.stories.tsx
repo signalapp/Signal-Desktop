@@ -5,10 +5,8 @@ import React from 'react';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupDescription';
 import { GroupDescription } from './GroupDescription';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/GroupDescription',

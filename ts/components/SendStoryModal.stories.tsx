@@ -6,13 +6,11 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './SendStoryModal';
-import enMessages from '../../_locales/en/messages.json';
 import { SendStoryModal } from './SendStoryModal';
 import {
   getDefaultConversation,
   getDefaultGroup,
 } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
 import {
   getMyStories,
   getFakeDistributionListsWithMembers,
@@ -20,7 +18,7 @@ import {
 import { VIDEO_MP4 } from '../types/MIME';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const myStories = {
   ...getMyStories(),

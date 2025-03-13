@@ -4,14 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { ReactionPicker } from './ReactionPicker';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
   onClose,

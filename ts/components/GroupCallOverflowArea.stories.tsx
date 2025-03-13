@@ -7,18 +7,16 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupCallOverflowArea';
 import { GroupCallOverflowArea } from './GroupCallOverflowArea';
-import { setupI18n } from '../util/setupI18n';
 import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
-import enMessages from '../../_locales/en/messages.json';
 import { generateAci } from '../types/ServiceId';
 import type { CallingImageDataCache } from './CallManager';
 import { MINUTE } from '../util/durations';
 
 const MAX_PARTICIPANTS = 32;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   aci: generateAci(),

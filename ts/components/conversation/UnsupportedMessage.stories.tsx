@@ -3,12 +3,10 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { ContactType, Props } from './UnsupportedMessage';
 import { UnsupportedMessage } from './UnsupportedMessage';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/UnsupportedMessage',

@@ -6,10 +6,8 @@ import { action } from '@storybook/addon-actions';
 import type { PropsType } from './UsernameMegaphone';
 import { UsernameMegaphone } from './UsernameMegaphone';
 import { type ComponentMeta } from '../storybook/types';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/UsernameMegaphone',

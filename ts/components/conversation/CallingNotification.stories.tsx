@@ -4,8 +4,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import {
   CallMode,
   CallType,
@@ -22,7 +20,7 @@ import {
 import type { CallStatus } from '../../types/CallDisposition';
 import type { ConversationType } from '../../state/ducks/conversations';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/CallingNotification',

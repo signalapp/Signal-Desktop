@@ -4,14 +4,12 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import enMessages from '../../_locales/en/messages.json';
 import { AvatarColors } from '../types/Colors';
 import type { PropsType } from './AvatarLightbox';
 import { AvatarLightbox } from './AvatarLightbox';
-import { setupI18n } from '../util/setupI18n';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/AvatarLightbox',

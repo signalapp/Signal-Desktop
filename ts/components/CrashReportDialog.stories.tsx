@@ -7,15 +7,13 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './CrashReportDialog';
 import { CrashReportDialog } from './CrashReportDialog';
-import { setupI18n } from '../util/setupI18n';
 import { sleep } from '../util/sleep';
-import enMessages from '../../_locales/en/messages.json';
 
 export default {
   title: 'Components/CrashReportDialog',
 } satisfies Meta<PropsType>;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export function Basic(): JSX.Element {
   const [isPending, setIsPending] = useState(false);

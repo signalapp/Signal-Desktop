@@ -6,12 +6,10 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DialogRelink';
 import { DialogRelink } from './DialogRelink';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import { WidthBreakpoint } from './_util';
 import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const defaultProps = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,

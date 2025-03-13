@@ -4,13 +4,11 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
 import { InstallScreenError } from '../../types/InstallScreen';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './InstallScreenErrorStep';
 import { InstallScreenErrorStep } from './InstallScreenErrorStep';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/InstallScreen/InstallScreenErrorStep',

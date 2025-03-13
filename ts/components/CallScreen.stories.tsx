@@ -24,14 +24,12 @@ import { AvatarColors } from '../types/Colors';
 import type { PropsType } from './CallScreen';
 import { CallScreen as UnwrappedCallScreen } from './CallScreen';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
-import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
 } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
-import enMessages from '../../_locales/en/messages.json';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
 import type { CallingImageDataCache } from './CallManager';
 import { MINUTE } from '../util/durations';
@@ -39,7 +37,7 @@ import { MINUTE } from '../util/durations';
 const MAX_PARTICIPANTS = 75;
 const LOCAL_DEMUX_ID = 1;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const conversation = getDefaultConversation({
   id: '3051234567',

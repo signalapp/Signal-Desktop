@@ -5,15 +5,13 @@ import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import type { Props } from './DisappearingTimerSelect';
 import { DisappearingTimerSelect } from './DisappearingTimerSelect';
-import { setupI18n } from '../util/setupI18n';
 import { DurationInSeconds } from '../util/durations';
-import enMessages from '../../_locales/en/messages.json';
 
 export default {
   title: 'Components/DisappearingTimerSelect',
 } satisfies Meta<Props>;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type Args = {
   initialValue: number;

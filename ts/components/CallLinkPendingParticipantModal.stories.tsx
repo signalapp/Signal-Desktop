@@ -3,14 +3,12 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import type { CallLinkPendingParticipantModalProps } from './CallLinkPendingParticipantModal';
 import { CallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal';
 import type { ComponentMeta } from '../storybook/types';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const conversation = getDefaultConversation({
   acceptedMessageRequest: true,

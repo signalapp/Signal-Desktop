@@ -9,12 +9,10 @@ import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import type { Props } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
-import { setupI18n } from '../util/setupI18n';
 import { generateAci } from '../types/ServiceId';
-import enMessages from '../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/CompositionInput',

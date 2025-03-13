@@ -5,13 +5,11 @@ import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import { UnsupportedOSDialog } from './UnsupportedOSDialog';
 import type { PropsType } from './UnsupportedOSDialog';
-import { setupI18n } from '../util/setupI18n';
 import { DAY } from '../util/durations';
-import enMessages from '../../_locales/en/messages.json';
 import { WidthBreakpoint } from './_util';
 import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const defaultProps: PropsType = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,

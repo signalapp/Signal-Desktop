@@ -5,16 +5,14 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React, { useContext } from 'react';
 import casual from 'casual';
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './ConversationHero';
 import { ConversationHero } from './ConversationHero';
 import { HasStories } from '../../types/Stories';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../../util/setupI18n';
 import { ThemeType } from '../../types/Util';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/ConversationHero',

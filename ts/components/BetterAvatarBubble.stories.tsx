@@ -6,13 +6,11 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import enMessages from '../../_locales/en/messages.json';
 import { AvatarColors } from '../types/Colors';
 import type { PropsType } from './BetterAvatarBubble';
 import { BetterAvatarBubble } from './BetterAvatarBubble';
-import { setupI18n } from '../util/setupI18n';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   children: overrideProps.children,

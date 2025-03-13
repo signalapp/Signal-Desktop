@@ -2,13 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { StrictMode } from 'react';
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../_locales/en/messages.json';
 import { type ComponentMeta } from '../storybook/types';
-import { setupI18n } from '../util/setupI18n';
 import type { PropsType } from './MediaPermissionsModal';
 import { MediaPermissionsModal } from './MediaPermissionsModal';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type TemplateProps = Omit<PropsType, 'i18n' | 'children'>;
 

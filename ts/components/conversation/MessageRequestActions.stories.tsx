@@ -5,14 +5,12 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { MessageRequestActions } from './MessageRequestActions';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import {
   getDefaultConversation,
   getDefaultGroup,
 } from '../../test-both/helpers/getDefaultConversation';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type Args = {
   conversationType: 'direct' | 'group';

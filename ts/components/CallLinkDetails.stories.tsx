@@ -5,15 +5,13 @@ import { action } from '@storybook/addon-actions';
 import type { ComponentMeta } from '../storybook/types';
 import type { CallLinkDetailsProps } from './CallLinkDetails';
 import { CallLinkDetails } from './CallLinkDetails';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
 } from '../test-both/helpers/fakeCallLink';
 import { getFakeCallLinkHistoryGroup } from '../test-both/helpers/getFakeCallHistoryGroup';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/CallLinkDetails',

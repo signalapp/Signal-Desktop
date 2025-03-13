@@ -7,8 +7,6 @@ import { action } from '@storybook/addon-actions';
 import { times } from 'lodash';
 
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../../util/setupI18n';
-import enMessages from '../../../../_locales/en/messages.json';
 import type { Props } from './ConversationDetails';
 import { ConversationDetails } from './ConversationDetails';
 import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal';
@@ -21,7 +19,7 @@ import { DurationInSeconds } from '../../../util/durations';
 import { NavTab } from '../../../state/ducks/nav';
 import { getFakeCallHistoryGroup } from '../../../test-both/helpers/getFakeCallHistoryGroup';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/ConversationDetails/ConversationDetails',

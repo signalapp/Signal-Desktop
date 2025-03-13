@@ -9,10 +9,7 @@ import { Inbox } from './Inbox';
 import type { PropsType } from './Inbox';
 import { DAY, SECOND } from '../util/durations';
 
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
-
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Inbox',

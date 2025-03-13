@@ -5,10 +5,8 @@ import React, { useState } from 'react';
 import type { PropsType } from './CountryCodeSelect';
 import { CountryCodeSelect } from './CountryCodeSelect';
 import { type ComponentMeta } from '../storybook/types';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type StoryPropsType = Omit<PropsType, 'value' | 'onChange'>;
 

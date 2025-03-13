@@ -10,9 +10,7 @@ import {
   getDefaultGroup,
 } from '../../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
-import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
-import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import type { PropsType } from './ConversationHeader';
 import {
@@ -26,7 +24,7 @@ export default {
   title: 'Components/Conversation/ConversationHeader',
 } satisfies Meta<PropsType>;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type ItemsType = Array<{
   title: string;

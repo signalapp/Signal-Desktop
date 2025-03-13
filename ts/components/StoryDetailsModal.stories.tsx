@@ -7,13 +7,11 @@ import casual from 'casual';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryDetailsModal';
-import enMessages from '../../_locales/en/messages.json';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryDetailsModal } from './StoryDetailsModal';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoryDetailsModal',

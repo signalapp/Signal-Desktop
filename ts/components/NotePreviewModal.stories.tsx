@@ -2,16 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { action } from '@storybook/addon-actions';
 import * as React from 'react';
-import enMessages from '../../_locales/en/messages.json';
 import type { ComponentMeta } from '../storybook/types';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
 import {
   NotePreviewModal,
   type NotePreviewModalProps,
 } from './NotePreviewModal';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/NotePreviewModal',

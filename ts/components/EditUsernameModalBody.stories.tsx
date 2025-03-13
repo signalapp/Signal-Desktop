@@ -5,8 +5,6 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
 import type { UsernameReservationType } from '../types/Username';
 
 import type { PropsType } from './EditUsernameModalBody';
@@ -16,7 +14,7 @@ import {
   UsernameReservationError,
 } from '../state/ducks/usernameEnums';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const DEFAULT_RESERVATION: UsernameReservationType = {
   username: 'reserved.56',

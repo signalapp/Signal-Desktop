@@ -5,9 +5,7 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { EmojiPicker } from '../emoji/EmojiPicker';
-import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
-import enMessages from '../../../_locales/en/messages.json';
 import type { PropsType as TimelineItemProps } from './TimelineItem';
 import { TimelineItem } from './TimelineItem';
 import { UniversalTimerNotification } from './UniversalTimerNotification';
@@ -19,7 +17,7 @@ import { ThemeType } from '../../types/Util';
 import { PaymentEventKind } from '../../types/Payment';
 import { ErrorBoundary } from './ErrorBoundary';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
   onClose,
@@ -27,7 +25,7 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
   ref,
 }) => (
   <EmojiPicker
-    i18n={setupI18n('en', enMessages)}
+    i18n={i18n}
     skinTone={0}
     onSetSkinTone={action('EmojiPicker::onSetSkinTone')}
     ref={ref}

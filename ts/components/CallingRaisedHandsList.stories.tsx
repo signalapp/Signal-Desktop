@@ -17,8 +17,6 @@ import {
 import type { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
 import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 
 const MAX_HANDS = 20;
 const LOCAL_DEMUX_ID = 1;
@@ -31,7 +29,7 @@ const NAMES = [
   'Kiki',
 ];
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const conversation = getDefaultConversationWithServiceId({
   id: '3051234567',

@@ -4,16 +4,14 @@
 import React, { useEffect, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
 import { DialogType } from '../../types/Dialogs';
 import { InstallScreenQRCodeError } from '../../types/InstallScreen';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
 import type { PropsType } from './InstallScreenQrCodeNotScannedStep';
 import { InstallScreenQrCodeNotScannedStep } from './InstallScreenQrCodeNotScannedStep';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const LOADED_URL = {
   loadingState: LoadingState.Loaded as const,

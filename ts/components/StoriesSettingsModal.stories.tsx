@@ -6,19 +6,17 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoriesSettingsModal';
-import enMessages from '../../_locales/en/messages.json';
 import { StoriesSettingsModal } from './StoriesSettingsModal';
 import {
   getDefaultConversation,
   getDefaultGroup,
 } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
 import {
   getMyStories,
   getFakeDistributionList,
 } from '../test-both/helpers/getFakeDistributionLists';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoriesSettingsModal',
