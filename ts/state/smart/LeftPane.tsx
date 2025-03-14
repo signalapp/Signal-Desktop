@@ -60,6 +60,7 @@ import {
   getBackupMediaDownloadProgress,
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
+  getServerAlerts,
   getUsernameCorrupted,
   getUsernameLinkCorrupted,
 } from '../selectors/items';
@@ -104,9 +105,6 @@ import {
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
 } from '../../util/backupMediaDownload';
-import { getHasCriticalIdlePrimaryDeviceAlert } from '../selectors/server';
-import { CriticalIdlePrimaryDeviceDialog } from '../../components/CriticalIdlePrimaryDeviceDialog';
-import type { LocalizerType } from '../../types/I18N';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
@@ -125,14 +123,6 @@ function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
 ): JSX.Element {
   return <SmartUpdateDialog {...props} />;
-}
-function renderCriticalIdlePrimaryDeviceDialog(
-  props: Readonly<{
-    containerWidthBreakpoint: WidthBreakpoint;
-    i18n: LocalizerType;
-  }>
-): JSX.Element {
-  return <CriticalIdlePrimaryDeviceDialog {...props} />;
 }
 function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
   return <SmartCaptchaDialog onSkip={onSkip} />;
@@ -307,9 +297,8 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const backupMediaDownloadProgress = useSelector(
     getBackupMediaDownloadProgress
   );
-  const hasCriticalIdlePrimaryDeviceAlert = useSelector(
-    getHasCriticalIdlePrimaryDeviceAlert
-  );
+
+  const serverAlerts = useSelector(getServerAlerts);
 
   const {
     blockConversation,
@@ -402,7 +391,6 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       getPreferredBadge={getPreferredBadge}
       hasExpiredDialog={hasExpiredDialog}
       hasFailedStorySends={hasFailedStorySends}
-      hasCriticalIdlePrimaryDeviceAlert={hasCriticalIdlePrimaryDeviceAlert}
       hasNetworkDialog={hasNetworkDialog}
       hasPendingUpdate={hasPendingUpdate}
       hasRelinkDialog={hasRelinkDialog}
@@ -424,9 +412,6 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       renderCaptchaDialog={renderCaptchaDialog}
       renderCrashReportDialog={renderCrashReportDialog}
       renderExpiredBuildDialog={renderExpiredBuildDialog}
-      renderCriticalIdlePrimaryDeviceDialog={
-        renderCriticalIdlePrimaryDeviceDialog
-      }
       renderMessageSearchResult={renderMessageSearchResult}
       renderNetworkStatus={renderNetworkStatus}
       renderRelinkDialog={renderRelinkDialog}
@@ -437,6 +422,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       searchInConversation={searchInConversation}
       selectedConversationId={selectedConversationId}
+      serverAlerts={serverAlerts}
       setChallengeStatus={setChallengeStatus}
       setComposeGroupAvatar={setComposeGroupAvatar}
       setComposeGroupExpireTimer={setComposeGroupExpireTimer}

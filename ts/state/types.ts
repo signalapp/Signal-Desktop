@@ -23,7 +23,6 @@ import type { actions as mediaGallery } from './ducks/mediaGallery';
 import type { actions as network } from './ducks/network';
 import type { actions as safetyNumber } from './ducks/safetyNumber';
 import type { actions as search } from './ducks/search';
-import type { actions as server } from './ducks/server';
 import type { actions as stickers } from './ducks/stickers';
 import type { actions as stories } from './ducks/stories';
 import type { actions as storyDistributionLists } from './ducks/storyDistributionLists';
@@ -55,7 +54,6 @@ export type ReduxActions = {
   network: typeof network;
   safetyNumber: typeof safetyNumber;
   search: typeof search;
-  server: typeof server;
   stickers: typeof stickers;
   stories: typeof stories;
   storyDistributionLists: typeof storyDistributionLists;

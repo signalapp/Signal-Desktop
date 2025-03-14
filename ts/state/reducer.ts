@@ -27,7 +27,6 @@ import { reducer as network } from './ducks/network';
 import { reducer as preferredReactions } from './ducks/preferredReactions';
 import { reducer as safetyNumber } from './ducks/safetyNumber';
 import { reducer as search } from './ducks/search';
-import { reducer as server } from './ducks/server';
 import { reducer as stickers } from './ducks/stickers';
 import { reducer as stories } from './ducks/stories';
 import { reducer as storyDistributionLists } from './ducks/storyDistributionLists';
@@ -61,7 +60,6 @@ export const reducer = combineReducers({
   preferredReactions,
   safetyNumber,
   search,
-  server,
   stickers,
   stories,
   storyDistributionLists,

@@ -25,7 +25,6 @@ import { getEmptyState as networkEmptyState } from './ducks/network';
 import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions';
 import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber';
 import { getEmptyState as searchEmptyState } from './ducks/search';
-import { getEmptyState as serverEmptyState } from './ducks/server';
 import { getEmptyState as stickersEmptyState } from './ducks/stickers';
 import { getEmptyState as storiesEmptyState } from './ducks/stories';
 import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists';
@@ -145,7 +144,6 @@ function getEmptyState(): StateType {
     preferredReactions: preferredReactionsEmptyState(),
     safetyNumber: safetyNumberEmptyState(),
     search: searchEmptyState(),
-    server: serverEmptyState(),
     stickers: stickersEmptyState(),
     stories: storiesEmptyState(),
     storyDistributionLists: storyDistributionListsEmptyState(),

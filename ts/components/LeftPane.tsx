@@ -57,6 +57,8 @@ import { ContextMenu } from './ContextMenu';
 import { EditState as ProfileEditorEditState } from './ProfileEditor';
 import type { UnreadStats } from '../util/countUnreadStats';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress';
+import type { ServerAlertsType } from '../util/handleServerAlerts';
+import { getServerAlertDialog } from './ServerAlerts';
 
 export type PropsType = {
   backupMediaDownloadProgress: {
@@ -69,7 +71,6 @@ export type PropsType = {
   otherTabsUnreadStats: UnreadStats;
   hasExpiredDialog: boolean;
   hasFailedStorySends: boolean;
-  hasCriticalIdlePrimaryDeviceAlert: boolean;
   hasNetworkDialog: boolean;
   hasPendingUpdate: boolean;
   hasRelinkDialog: boolean;
@@ -147,6 +148,7 @@ export type PropsType = {
   setComposeGroupName: (_: string) => void;
   setComposeSearchTerm: (composeSearchTerm: string) => void;
   setComposeSelectedRegion: (newRegion: string) => void;
+  serverAlerts?: ServerAlertsType;
   showArchivedConversations: () => void;
   showChooseGroupMembers: () => void;
   showFindByUsername: () => void;
@@ -181,12 +183,6 @@ export type PropsType = {
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
-  renderCriticalIdlePrimaryDeviceDialog: (
-    _: Readonly<{
-      containerWidthBreakpoint: WidthBreakpoint;
-      i18n: LocalizerType;
-    }>
-  ) => JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
   }) => JSX.Element;
@@ -213,7 +209,6 @@ export function LeftPane({
   getPreferredBadge,
   hasExpiredDialog,
   hasFailedStorySends,
-  hasCriticalIdlePrimaryDeviceAlert,
   hasNetworkDialog,
   hasPendingUpdate,
   hasRelinkDialog,
@@ -235,7 +230,6 @@ export function LeftPane({
   renderCaptchaDialog,
   renderCrashReportDialog,
   renderExpiredBuildDialog,
-  renderCriticalIdlePrimaryDeviceDialog,
   renderMessageSearchResult,
   renderNetworkStatus,
   renderUnsupportedOSDialog,
@@ -263,6 +257,7 @@ export function LeftPane({
   showConversation,
   showInbox,
   showUserNotFoundModal,
+  serverAlerts,
   startComposing,
   startSearch,
   startSettingGroupMetadata,
@@ -608,6 +603,10 @@ export function LeftPane({
     scrollBehavior = ScrollBehavior.Hard;
   }
 
+  const maybeServerAlert = getServerAlertDialog(
+    serverAlerts,
+    commonDialogProps
+  );
   // Yellow dialogs
   let maybeYellowDialog: JSX.Element | undefined;
 
@@ -620,9 +619,8 @@ export function LeftPane({
     maybeYellowDialog = renderNetworkStatus(commonDialogProps);
   } else if (hasRelinkDialog) {
     maybeYellowDialog = renderRelinkDialog(commonDialogProps);
-  } else if (hasCriticalIdlePrimaryDeviceAlert) {
-    maybeYellowDialog =
-      renderCriticalIdlePrimaryDeviceDialog(commonDialogProps);
+  } else if (maybeServerAlert) {
+    maybeYellowDialog = maybeServerAlert;
   }
 
   // Update dialog

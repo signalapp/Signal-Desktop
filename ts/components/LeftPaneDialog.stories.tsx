@@ -88,6 +88,13 @@ export const Warning = {
   },
 };
 
+export const Info = {
+  args: {
+    type: 'info',
+    icon: 'error',
+  },
+};
+
 export const Error = {
   args: {
     type: 'error',
@@ -120,6 +127,14 @@ export const NarrowUpdate = {
 export const NarrowWarning = {
   args: {
     type: 'warning',
+    icon: 'warning',
+    containerWidthBreakpoint: WidthBreakpoint.Narrow,
+  },
+};
+
+export const NarrowInfo = {
+  args: {
+    type: 'info',
     icon: 'warning',
     containerWidthBreakpoint: WidthBreakpoint.Narrow,
   },

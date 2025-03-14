@@ -21,6 +21,7 @@ import type { BackupCredentialWrapperType } from './backups';
 import type { ServiceIdString } from './ServiceId';
 
 import type { RegisteredChallengeType } from '../challenge';
+import type { ServerAlertsType } from '../util/handleServerAlerts';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;
@@ -194,6 +195,7 @@ export type StorageAccessType = {
     entropy: Uint8Array;
     serverId: Uint8Array;
   };
+  serverAlerts: ServerAlertsType;
   needOrphanedAttachmentCheck: boolean;
   observedCapabilities: {
     deleteSync?: true;

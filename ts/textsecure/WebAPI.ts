@@ -82,7 +82,7 @@ import { getMockServerPort } from '../util/getMockServerPort';
 import { pemToDer } from '../util/pemToDer';
 import { ToastType } from '../types/Toast';
 import { isProduction } from '../util/version';
-import type { ServerAlert } from '../state/ducks/server';
+import type { ServerAlert } from '../util/handleServerAlerts';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for

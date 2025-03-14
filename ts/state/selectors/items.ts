@@ -273,3 +273,8 @@ export const getBackupMediaDownloadProgress = createSelector(
     downloadBannerDismissed: state.backupMediaDownloadBannerDismissed ?? false,
   })
 );
+
+export const getServerAlerts = createSelector(
+  getItems,
+  (state: ItemsStateType) => state.serverAlerts ?? {}
+);
