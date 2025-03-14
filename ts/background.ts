@@ -1930,7 +1930,7 @@ export async function startApp(): Promise<void> {
     log.info('afterAuthSocketConnect/afterEveryAuthConnect');
 
     strictAssert(server, 'afterEveryAuthConnect: server');
-    handleServerAlerts(server.getServerAlerts());
+    drop(handleServerAlerts(server.getServerAlerts()));
 
     strictAssert(challengeHandler, 'afterEveryAuthConnect: challengeHandler');
     drop(challengeHandler.onOnline());

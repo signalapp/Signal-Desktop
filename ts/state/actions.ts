@@ -23,7 +23,6 @@ import { actions as mediaGallery } from './ducks/mediaGallery';
 import { actions as network } from './ducks/network';
 import { actions as safetyNumber } from './ducks/safetyNumber';
 import { actions as search } from './ducks/search';
-import { actions as server } from './ducks/server';
 import { actions as stickers } from './ducks/stickers';
 import { actions as stories } from './ducks/stories';
 import { actions as storyDistributionLists } from './ducks/storyDistributionLists';
@@ -56,7 +55,6 @@ export const actionCreators: ReduxActions = {
   network,
   safetyNumber,
   search,
-  server,
   stickers,
   stories,
   storyDistributionLists,

@@ -51,8 +51,10 @@ import { isNightly, isBeta, isStaging } from '../util/version';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { isTestOrMockEnvironment } from '../environment';
 import type { ConfigKeyType } from '../RemoteConfig';
-import type { ServerAlert } from '../state/ducks/server';
-import { parseServerAlertFromHeader } from '../state/ducks/server';
+import {
+  parseServerAlertsFromHeader,
+  type ServerAlert,
+} from '../util/handleServerAlerts';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -977,8 +979,8 @@ export class SocketManager extends EventListener {
     }
 
     const serverAlerts: Array<ServerAlert> = alerts
-      .map(parseServerAlertFromHeader)
-      .filter(v => v !== undefined);
+      .map(parseServerAlertsFromHeader)
+      .flat();
 
     this.emit('serverAlerts', serverAlerts);
   }

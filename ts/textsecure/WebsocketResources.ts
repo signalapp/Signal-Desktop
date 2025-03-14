@@ -58,8 +58,10 @@ import { AbortableProcess } from '../util/AbortableProcess';
 import type { WebAPICredentials } from './Types';
 import { NORMAL_DISCONNECT_CODE } from './SocketManager';
 import { parseUnknown } from '../util/schemas';
-import type { ServerAlert } from '../state/ducks/server';
-import { parseServerAlertFromHeader } from '../state/ducks/server';
+import {
+  parseServerAlertsFromHeader,
+  type ServerAlert,
+} from '../util/handleServerAlerts';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
@@ -396,9 +398,7 @@ export function connectAuthenticatedLibsignal({
       this.resource = undefined;
     },
     onReceivedAlerts(alerts: Array<string>): void {
-      onReceivedAlerts(
-        alerts.map(parseServerAlertFromHeader).filter(v => v !== undefined)
-      );
+      onReceivedAlerts(alerts.map(parseServerAlertsFromHeader).flat());
     },
   };
   return connectLibsignal(

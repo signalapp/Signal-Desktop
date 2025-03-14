@@ -6683,6 +6683,14 @@
     "messageformat": "Your account will be deleted soon unless you open Signal on your phone. This message will go away if you've done it successfully. <learnMoreLink>Learn more</learnMoreLink>",
     "description": "The text in a banner alerting users if their primary device (e.g. phone) has not been logged into recently. "
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active",
+    "description": "The text in a banner alerting users if their primary device (e.g. phone) has not been logged into recently. "
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more",
+    "description": "The text in a link that will open a support page URL with more information"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
     "description": "The title of outage dialog during service outage."

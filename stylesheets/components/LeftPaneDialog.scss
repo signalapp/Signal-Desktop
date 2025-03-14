@@ -21,7 +21,6 @@
   $warning-background-color: variables.$color-accent-yellow;
   $warning-text-color: variables.$color-black;
 
-  align-items: center;
   background: $default-background-color;
   color: $default-text-color;
   cursor: inherit;
@@ -36,10 +35,6 @@
   line-height: 18px;
   letter-spacing: -0.0025em;
   font-weight: 400;
-
-  &--width-narrow {
-    padding-inline-start: 36px;
-  }
 
   &__retry {
     @include mixins.button-reset;
@@ -56,6 +51,10 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
+  }
+
+  &--width-narrow &__container {
+    justify-content: center;
   }
 
   &__container-close {
@@ -82,10 +81,21 @@
     }
   }
 
-  &__icon {
+  &__icon-container {
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
     margin-inline-end: 18px;
+    position: relative;
+  }
+
+  &--width-narrow &__icon-container {
+    margin-inline-end: 0;
+  }
+
+  &__icon {
+    width: 100%;
+    height: 100%;
     background-color: variables.$color-white;
     -webkit-mask-size: contain;
 
@@ -116,6 +126,25 @@
     &--error {
       -webkit-mask: url('../images/icons/v3/error/error-circle.svg') no-repeat
         center;
+    }
+  }
+
+  &__icon-background {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    outline-width: 5px;
+    outline-offset: -1px; // avoids a gap between background-color and outline
+    outline-style: solid;
+    &--warning {
+      outline-color: $warning-background-color;
+      background-color: $warning-background-color;
+      .LeftPaneDialog__icon {
+        background-color: $warning-text-color;
+        @media (forced-colors: active) {
+          background-color: WindowText;
+        }
+      }
     }
   }
 
@@ -224,6 +253,46 @@
 
       .LeftPaneDialog__action-text {
         color: $error-text-color;
+      }
+    }
+
+    &--info {
+      width: unset;
+      margin-inline: 10px;
+      margin-block-end: 6px;
+      margin-block-start: 2px;
+      border-radius: 10px;
+      color: inherit;
+
+      @include mixins.light-theme {
+        background-color: variables.$color-white;
+        --tooltip-background-color: variables.$color-white;
+        border: 1px solid variables.$color-gray-20;
+      }
+      @include mixins.dark-theme {
+        background: variables.$color-gray-75;
+        border: 1px solid variables.$color-gray-60;
+      }
+      .LeftPaneDialog__close-button::before {
+        @include mixins.light-theme {
+          background-color: variables.$color-gray-45;
+        }
+        @include mixins.dark-theme {
+          background-color: variables.$color-gray-20;
+        }
+      }
+    }
+
+    &--info &__action-text {
+      @include mixins.button-reset;
+      & {
+        @include mixins.font-subtitle-bold;
+        @include mixins.light-theme {
+          color: variables.$color-ultramarine;
+        }
+        @include mixins.dark-theme {
+          color: variables.$color-ultramarine-light;
+        }
       }
     }
 

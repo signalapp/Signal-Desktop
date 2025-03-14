@@ -33,7 +33,7 @@ import {
   useUuidFetchState,
 } from '../test-both/helpers/fakeLookupConversationWithoutServiceId';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem';
-import { CriticalIdlePrimaryDeviceDialog } from './CriticalIdlePrimaryDeviceDialog';
+import { ServerAlert } from '../util/handleServerAlerts';
 
 const { i18n } = window.SignalContext;
 
@@ -172,7 +172,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     getPreferredBadge: () => undefined,
     hasFailedStorySends: false,
     hasPendingUpdate: false,
-    hasCriticalIdlePrimaryDeviceAlert: false,
     i18n,
     isMacOS: false,
     preferredWidthFromStorage: 320,
@@ -271,9 +270,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       />
     ),
     renderExpiredBuildDialog: props => <DialogExpiredBuild {...props} />,
-    renderCriticalIdlePrimaryDeviceDialog: props => (
-      <CriticalIdlePrimaryDeviceDialog {...props} />
-    ),
     renderUnsupportedOSDialog: props => (
       <UnsupportedOSDialog
         i18n={i18n}
@@ -400,7 +396,38 @@ export function InboxCriticalIdlePrimaryDeviceAlert(): JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
-        hasCriticalIdlePrimaryDeviceAlert: true,
+        serverAlerts: {
+          [ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE]: {
+            firstReceivedAt: Date.now(),
+          },
+        },
+      })}
+    />
+  );
+}
+export function InboxIdlePrimaryDeviceAlert(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        serverAlerts: {
+          [ServerAlert.IDLE_PRIMARY_DEVICE]: {
+            firstReceivedAt: Date.now(),
+          },
+        },
+      })}
+    />
+  );
+}
+export function InboxIdlePrimaryDeviceAlertNonDismissable(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        serverAlerts: {
+          [ServerAlert.IDLE_PRIMARY_DEVICE]: {
+            firstReceivedAt: Date.now() - 10 * DAY,
+            dismissedAt: Date.now() - 8 * DAY,
+          },
+        },
       })}
     />
   );
