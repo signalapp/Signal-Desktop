@@ -393,10 +393,10 @@ const parseMetadata = (
 
   let date: number | null = null;
   const rawDate = getOpenGraphContent(document, [
-    'og:published_time',
-    'article:published_time',
     'og:modified_time',
     'article:modified_time',
+    'og:published_time',
+    'article:published_time',
   ]);
   if (rawDate) {
     const parsed = Date.parse(rawDate);
