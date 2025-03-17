@@ -2676,7 +2676,7 @@
     "messageformat": "Укључивање и искључивање видео приказа"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Укључивање/искључивање проширеног приказа"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Јави се на позив са видео приказом (само за видео позиве)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Позив преко целог екрана"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Максимизирај приказ"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Минимизирај приказ"
   },
   "icu:calling__change-view": {
     "messageformat": "Промени приказ"
@@ -6107,6 +6107,6 @@
     "messageformat": "Сада када покушате да започнете ћаскање са нечијим корисничким именом за Signal, то ће радити чак и ако прво случајно укуцате симбол „@“."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Сада можете да проширите свој локални видео приказ током позива да бисте боље видели себе."
   }
 }

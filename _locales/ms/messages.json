@@ -2676,7 +2676,7 @@
     "messageformat": "Togol hidupkan dan matikan video"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Togol pratonton diperbesar dihidupkan dan dimatikan"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jawab panggilan dengan video (panggilan video sahaja)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Panggilan skrin penuh"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimumkan pratonton"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimumkan pratonton"
   },
   "icu:calling__change-view": {
     "messageformat": "Tukar pandangan"
@@ -6107,6 +6107,6 @@
     "messageformat": "Kini, apabila anda cuba memulakan sembang dengan nama pengguna Signal seseorang, ia akan tetap berfungsi walaupun anda tersilap menaip simbol “@” terlebih dahulu."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Kini, anda boleh memperbesar pratonton video semasa panggilan untuk melihat diri anda dengan lebih baik."
   }
 }

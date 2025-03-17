@@ -2676,7 +2676,7 @@
     "messageformat": "వీడియోను ఆన్ మరియు ఆఫ్ టోగుల్ చేయండి"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "విస్తరించిన ప్రివ్యూను ఆన్ మరియు ఆఫ్‌కు టోగుల్ చేయండి"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "వీడియోతో కాల్‌కు సమాధానం ఇవ్వండి (వీడియో కాల్స్ మాత్రమే)"
@@ -3099,10 +3099,10 @@
     "messageformat": "పూర్తి స్క్రీన్ కాల్"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ప్రివ్యూను గరిష్ఠీకరించండి"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "ప్రివ్యూను కనిష్ఠీకరించండి"
   },
   "icu:calling__change-view": {
     "messageformat": "వీక్షణను మార్చండి"
@@ -6107,6 +6107,6 @@
     "messageformat": "ఇప్పుడు మీరు మరొకరి Signal యూజర్‌నేమ్‌తో చాట్‌ను ప్రారంభించడానికి ప్రయత్నించినప్పుడు, ఒకవేళ మీరు అనుకోకుండా “@” చిహ్నాన్ని ముందుగా టైప్ చేసినప్పటికీ కూడా ఇది పని చేస్తుంది."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ఇప్పుడు మిమ్మల్ని మీరు బాగా చూసుకోవడానికి కాల్ సమయంలో మీ స్థానిక వీడియో ప్రివ్యూను విస్తరించవచ్చు."
   }
 }

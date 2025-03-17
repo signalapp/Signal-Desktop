@@ -2676,7 +2676,7 @@
     "messageformat": "Toggle video on and off"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "I-on o i-off ang expanded preview"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Sagutin ang tawag na may video (video call lang)"
@@ -3099,10 +3099,10 @@
     "messageformat": "I-fullscreen ang call"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "I-maximize ang preview"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "I-minimize ang preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Palitan ang view"
@@ -6107,6 +6107,6 @@
     "messageformat": "Gagana na ang pagsimula ng chat gamit ang Signal username ng isang tao kahit hindi mo sinadyang i-type ang \"@\" symbol bago ito."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Pwede mo nang i-expand ang local video preview mo habang nasa call ka para mas makita mo nang maayos ang iyong sarili."
   }
 }

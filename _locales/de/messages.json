@@ -6101,7 +6101,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Mit der neuen Funktion »Datennutzung« in den Einstellungen von Signal kannst du ganz einfach festlegen, ob Fotos, Videos, Audiodateien oder andere Dokumente automatisch heruntergeladen werden sollen oder nicht. Wenn Signal nicht mehr automatisch die neuesten Songs von der Band deines Freundes oder deiner Freundin  herunterlädt, behältst du deinen Musikgeschmack und hast auch noch etwas Platz auf deiner Festplatte frei."
+    "messageformat": "Mit der neuen Funktion »Datennutzung« in den Einstellungen von Signal kannst du ganz einfach festlegen, ob Fotos, Videos, Audiodateien oder andere Dokumente automatisch heruntergeladen werden sollen oder nicht. Wenn Signal nicht mehr automatisch die neuesten Songs von der Band deines Freundes oder deiner Freundin herunterlädt, behältst du deinen Musikgeschmack und hast auch noch etwas Platz auf deiner Festplatte frei."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Wenn du jetzt versuchst, einen Chat mit dem Signal-Nutzernamen einer anderen Person zu starten, funktioniert es auch, wenn du das „@“-Symbol versehentlich zuerst eingibst. Einige Gewohnheiten l@ssen sich nur schwer @blegen."

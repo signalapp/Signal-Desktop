@@ -2676,7 +2676,7 @@
     "messageformat": "Bideoa aktibatu / desaktibatu"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Aktibatu eta desaktibatu aurrebista zabaldua"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Erantzun deiari bideoarekin (bideodeiak soilik)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Deia pantaila osoan jarri"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maximizatu aurrebista"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizatu aurrebista"
   },
   "icu:calling__change-view": {
     "messageformat": "Aldatu ikuspegia"
@@ -6107,6 +6107,6 @@
     "messageformat": "Orain, norbaiten Signal-eko erabiltzaile-izenarekin txateatzen hasi nahi duzunean, hasieran \"@\" idatzita ere funtzionatuko du."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Orain, deietan zure bideo-aurrebista lokala zabal dezakezu, zeure burua hobeto ikusteko."
   }
 }

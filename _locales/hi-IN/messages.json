@@ -2676,7 +2676,7 @@
     "messageformat": "टॉगल वीडियो चालू और बंद"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "बढ़ाए गए प्रीव्यू को टॉगल ऑन और ऑफ़ करें"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "वीडियो से कॉल का जवाब दें (केवल वीडियो कॉल)"
@@ -3099,10 +3099,10 @@
     "messageformat": "कॉल को फुलस्क्रीन करें"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "प्रीव्यू को मैक्सिमाइज़ करें"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "प्रीव्यू को मिनिमाइज़ करें"
   },
   "icu:calling__change-view": {
     "messageformat": "व्यु बदलें"
@@ -6107,6 +6107,6 @@
     "messageformat": "अब जब आप किसी के Signal यूज़रनेम से चैट शुरू करने की कोशिश करेंगे, तो यह काम करेगा, चाहे आप गलती से पहले “@” संकेत टाइप क्यों न कर दें। कुछ आदतें छोड़ना मुश्किल है।"
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "अब आप कॉल के दौरान अपने लोकल वीडियो के प्रीव्यू का आकार बढ़ा सकते हैं, ताकि आप खुद को बेहतर तरीके से देख सकें या समझ सकें कि आप कौन हैं।"
   }
 }

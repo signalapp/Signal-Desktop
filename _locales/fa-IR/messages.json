@@ -2676,7 +2676,7 @@
     "messageformat": "خاموش و روشن کردن ویدئو"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "روشن و خاموش کردن پیش‌نمایش گسترده"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "پاسخ به تماس با تصویر (فقط تماس‌های تصویری)"
@@ -3099,10 +3099,10 @@
     "messageformat": "تماس تمام‌صفحه"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "بزرگ کردن پیش‌نمایش"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "کوچک‌کردن پیش‌نمایش"
   },
   "icu:calling__change-view": {
     "messageformat": "تغییر نما"
@@ -6107,6 +6107,6 @@
     "messageformat": "اکنون زمانی که می‌خواهید گفتگویی با نام کاربری سیگنال کسی شروع کنید، حتی اگر اشتباهاً علامت “@” را اول تایپ کنید، باز هم کار خواهد کرد."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "اکنون می‌توانید پیش‌نمایش ویدئوی محلی خود را در طول تماس گسترش دهید تا خود را بهتر ببینید."
   }
 }

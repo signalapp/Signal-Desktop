@@ -2676,7 +2676,7 @@
     "messageformat": "ਵੀਡੀਓ ਆੱਨ ਅਤੇ ਆਫ਼ ਵਿੱਚ ਅਦਲਾ-ਬਦਲੀ ਕਰੋ"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "ਵਿਸਤ੍ਰਿਤ ਝਲਕ ਨੂੰ ਚਾਲੂ ਅਤੇ ਬੰਦ ਕਰੋ"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ਕਾਲ ਦਾ ਜਵਾਬ ਵੀਡੀਓ ਨਾਲ ਦਿਓ (ਸਿਰਫ਼ ਵੀਡੀਓ ਕਾਲਾਂ ਲਈ)"
@@ -3099,10 +3099,10 @@
     "messageformat": "ਪੂਰੀ ਸਕਰੀਨ ਉੱਤੇ ਕਾਲ"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ਝਲਕ ਨੂੰ ਵੱਡਾ ਕਰੋ"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "ਝਲਕ ਨੂੰ ਛੋਟਾ ਕਰੋ"
   },
   "icu:calling__change-view": {
     "messageformat": "ਵਿਊ ਬਦਲੋ"
@@ -6107,6 +6107,6 @@
     "messageformat": "ਹੁਣ ਜਦੋਂ ਤੁਸੀਂ ਕਿਸੇ ਦੇ Signal ਵਰਤੋਂਕਾਰ ਨਾਂ ਦੇ ਨਾਲ ਚੈਟ ਸ਼ੁਰੂ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦੇ ਹੋ, ਤਾਂ ਇਹ ਫੀਚਰ ਉਦੋਂ ਵੀ ਕੰਮ ਕਰੇਗਾ ਜੇਕਰ ਤੁਸੀਂ ਗਲਤੀ ਨਾਲ ਪਹਿਲਾਂ “@” ਚਿੰਨ੍ਹ ਟਾਈਪ ਕਰ ਦਿੰਦੇ ਹੋ।"
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਕਾਲ ਦੌਰਾਨ ਖੁਦ ਨੂੰ ਬਿਹਤਰ ਢੰਗ ਨਾਲ ਦੇਖਣ ਲਈ ਆਪਣੀ ਲੋਕਲ ਵੀਡੀਓ ਦੀ ਝਲਕ ਨੂੰ ਵੱਡਾ ਕਰ ਸਕਦੇ ਹੋ।"
   }
 }

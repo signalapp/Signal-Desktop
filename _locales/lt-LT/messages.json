@@ -2676,7 +2676,7 @@
     "messageformat": "Perjungti vaizdą"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Perjungti išskleistą peržiūrą"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atsiliepti su vaizdu (tik vaizdo skambučiams)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Skambutis visame ekrane"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Padidinti peržiūrą"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Sumažinti peržiūrą"
   },
   "icu:calling__change-view": {
     "messageformat": "Keisti rodinį"
@@ -6107,6 +6107,6 @@
     "messageformat": "Nuo šiol bandant pradėti pokalbį su kuriuo nors „Signal“ naudotoju, jo (-s) naudotojo vardas suveiks net ir tuo atveju, jei pirmiausia netyčia įvesite simbolį „@“."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Dabar skambučio metu gali išplėsti savo vietinio vaizdo peržiūrą, kad geriau matytum save."
   }
 }

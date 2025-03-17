@@ -2676,7 +2676,7 @@
     "messageformat": "បើក ឬបិទវីដេអូ"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "បើក/បិទការមើលជាមុនដែលបានពង្រីក"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ទទួលការហៅទូរសព្ទជាវីដេអូ (ការហៅជាវីដេអូតែប៉ុណ្ណោះ)"
@@ -3099,10 +3099,10 @@
     "messageformat": "ការហៅពេញអេក្រង់"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ពង្រីកការមើលជាមុន"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "បង្រួមការមើលជាមុន"
   },
   "icu:calling__change-view": {
     "messageformat": "ផ្លាស់ប្តូរទិដ្ឋភាព"
@@ -6107,6 +6107,6 @@
     "messageformat": "ឥឡូវនេះ នៅពេលអ្នកព្យាយាមចាប់ផ្តើមជជែកជាមួយឈ្មោះអ្នកប្រើ Signal របស់នរណាម្នាក់ វាក៏នឹងដំណើរការដែរ ទោះបីជាអ្នកវាយនិមិត្តសញ្ញា “@” ដោយចៃដន្យជាមុនក៏ដោយ។ ទម្លាប់មួយចំនួនពិបាកនឹងផ្លាស់ប្តូរ។"
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ឥឡូវនេះ អ្នកអាចពង្រីកការមើលជាមុននូវវីដេអូក្នុងឧបករណ៍របស់អ្នកក្នុងអំឡុងពេលហៅទូរសព្ទ ដើម្បីមើលខ្លួនឯងកាន់តែច្បាស់ ឬឆ្លុះបញ្ចាំងថាអ្នកជានរណា។"
   }
 }

@@ -2676,7 +2676,7 @@
     "messageformat": "Включить/отключить видео"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Включение и выключение развёрнутого предпросмотра"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Ответить на звонок с видео (только видеозвонки)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Развернуть звонок"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Развернуть предпросмотр"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Свернуть предпросмотр"
   },
   "icu:calling__change-view": {
     "messageformat": "Изменить вид"
@@ -6107,6 +6107,6 @@
     "messageformat": "Теперь у вас получится начать чат с чьим-либо именем пользователя Signal, даже если вы сначала случайно введёте символ «@». От некотор@х прив@чек оч@нь тр@дно изб@виться."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Теперь вы можете развернуть предпросмотр своего видео во время звонка, чтобы полюбоваться собой или задуматься о том, кто вы есть. "
   }
 }

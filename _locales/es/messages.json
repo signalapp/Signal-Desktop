@@ -4488,7 +4488,7 @@
     "messageformat": "Restablecer todos"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Restablecer predeterminados"
+    "messageformat": "Restablecer predeterminado"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Restablecer"

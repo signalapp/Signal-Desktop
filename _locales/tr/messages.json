@@ -2676,7 +2676,7 @@
     "messageformat": "Görüntüyü kapatıp açma"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Genişletilmiş ön izlemeyi aç ve kapat"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Aramayı görüntülü yanıtla (yalnızca görüntülü aramalar için)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Aramayı tam ekran yap"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Ön izlemeyi büyüt"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Ön izlemeyi küçült"
   },
   "icu:calling__change-view": {
     "messageformat": "Görünümü değiştir"
@@ -6107,6 +6107,6 @@
     "messageformat": "Bundan böyle birinin Signal kullanıcı adıyla sohbet başlatmaya çalıştığında, önce kazara \"@\" sembolü yazsan bile sorun olmayacaktır. Bazı a@lışkanlıklardan vazgeçmesi @ordur."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Bundan böyle kendine daha iyi bakmak için bir arama sırasında yerel video ön izlemeni büyütebilirsin."
   }
 }

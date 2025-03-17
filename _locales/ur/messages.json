@@ -2676,7 +2676,7 @@
     "messageformat": "ٹوگل ویڈیو آن اور آف"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "پھیلائے ہوئے پری ویو کو آن اور آف کرنے کے لیے ٹوگل کریں"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ویڈیو کے ساتھ کال کا جوب دیں (صرف ویڈیو کالز)"
@@ -3099,10 +3099,10 @@
     "messageformat": "فل سکرین کال"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "پری ویو کو بڑا کریں"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "پری ویو کو مختصر کریں"
   },
   "icu:calling__change-view": {
     "messageformat": "ویو تبدیل کریں"
@@ -6107,6 +6107,6 @@
     "messageformat": "اب جب آپ کسی کے Signal یوزر نیم کے ساتھ چیٹ شروع کرنے کی کوشش کرتے ہیں، تو یہ اس صورت میں بھی کام کرے گا اگر آپ بھولے سے “@” کی علامت پہلے ٹائپ کر دیتے ہیں۔"
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "اب آپ کال کے دوران اپنے آپ کو بہتر انداز میں دیکھنے کے لیے اپنے مقامی ویڈیو کے پری ویو کو پھیلا سکتے ہیں۔"
   }
 }

@@ -2676,7 +2676,7 @@
     "messageformat": "Slå video til og fra"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Slå udvidet forhåndsvisning til og fra"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar opkald med video (kun videoopkald)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Fuldskærmsopkald"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimer forhåndsvisning"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimer forhåndsvisning"
   },
   "icu:calling__change-view": {
     "messageformat": "Skift visning"
@@ -6107,6 +6107,6 @@
     "messageformat": "Når du nu forsøger at starte en chat med en persons Signal-brugernavn, vil det fungere, selvom du ved et uheld skriver \"@\"-symbolet først. Nogle h@bits @re h@rd til bre@k."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Nu kan du udvide dit lokale videoeksempel under et opkald for at få et bedre indblik i dig selv eller reflektere over, hvem du er."
   }
 }

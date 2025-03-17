@@ -2676,7 +2676,7 @@
     "messageformat": "سىن ئوچۇق ياكى تاقاقنى ئالماشتۇر"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "كېڭەيتىلگەن ئالدىن كۆرەكنى ئېچىش ۋە تاقاشنى ئالماشتۇرۇش"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "چاقىرىقنى ۋىدېيولۇق قوبۇل قىلىش (ۋىدېيولۇق چاقىرىق ئۈچۈنلا)"
@@ -3099,10 +3099,10 @@
     "messageformat": "چاقىرىقنى پۈتۈن ئېكرانلاشتۇرۇش"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ئالدىن كۆرەكنى چوڭايتىڭ"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "ئالدىن كۆرەكنى كىچىكلىتىش"
   },
   "icu:calling__change-view": {
     "messageformat": "كۆرۈنۈشنى ئۆزگەرتىش"
@@ -6107,6 +6107,6 @@
     "messageformat": "ھازىر سىز باشقىلارنىڭ Signal ئىشلەتكۈچى نامى بىلەن پاراڭنى باشلىماقچى بولسىڭىز ، ئېھتىياتسىزلىقتىن ئالدى بىلەن «@» بەلگىسىنى يېزىپ قويغان تەغدىردىمۇ ئوخشاشلا پاراڭلىشالايسىز. ھازىر سىز باشقىلارنىڭ Signal ئىشلەتكۈچى نامى بىلەن پاراڭنى باشلىماقچى بولسىڭىز ، ئېھتىياتسىزلىقتىن ئالدى بىلەن «@» بەلگىسىنى يېزىپ قويغان تەغدىردىمۇ ئوخشاشلا پاراڭلىشالايسىز."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ھازىر ئۆزىڭىزنى تېخىمۇ ياخشى كۆرۈش ئۈچۈن چاقىرىق جەريانىدا تېلېفونىڭىزدىكى سىن ئالدىن كۆرەكنى كېڭەيتەلەيسىز."
   }
 }

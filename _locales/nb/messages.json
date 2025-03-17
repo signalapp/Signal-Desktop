@@ -2676,7 +2676,7 @@
     "messageformat": "Skru video av og på"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Skru fullskjermsmodus av og på"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar anropet med video (kun videosamtaler)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Fullskjerm samtale"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Se forhåndsvisning i fullskjerm"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Lukk forhåndsvisning"
   },
   "icu:calling__change-view": {
     "messageformat": "Bytt visning"
@@ -6107,6 +6107,6 @@
     "messageformat": "Nå kan du innlede nye samtaler ved å søke etter brukernavn på Signal – uansett om du skriver @ før brukernavnet eller ikke."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Nå kan du se forhåndsvisninger av videoer i fullskjerm."
   }
 }

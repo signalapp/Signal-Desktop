@@ -2676,7 +2676,7 @@
     "messageformat": "Kytke video päälle ja pois"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Ota laajennettu esikatselu käyttöön tai pois käytöstä"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Vastaa puheluun videolla (vain videopuhelut)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Koko näytön puhelu"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Suurenna esikatselu"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Pienennä esikatselu"
   },
   "icu:calling__change-view": {
     "messageformat": "Vaihda näkymää"
@@ -6107,6 +6107,6 @@
     "messageformat": "Kun nyt yrität aloittaa keskustelun Signal-käyttäjänimellä, se toimii, vaikka kirjoittaisit vahingossa @-symbolin ensin."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Nyt voit laajentaa videon paikallista esikatselua puhelun aikana saadaksesi paremman kuvan itsestäsi."
   }
 }

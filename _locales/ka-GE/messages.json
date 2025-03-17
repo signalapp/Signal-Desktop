@@ -2676,7 +2676,7 @@
     "messageformat": "ვიდეოს ჩართვა და გამორთვა"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "გაფართოებული წინასწარ ნახვის ჩართვა და გამორთვა"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "უპასუხე ზარს ვიდეოთი (მხოლოდ ვიდეო ზარები)"
@@ -3099,10 +3099,10 @@
     "messageformat": "ზარის ფანჯრის მთელს ეკრანზე გადიდება"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "წინასწარ ნახვის ხედის გადიდება"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "წინასწარ ნახვის ხედის დაპატარავება"
   },
   "icu:calling__change-view": {
     "messageformat": "ხედის შეცვლა"
@@ -6107,6 +6107,6 @@
     "messageformat": "ახლა, როცა ჩატის დაწყებას Signal რომელიმე მომხმარებლის სახელით ეცდები, ეს „@“ სიმბოლოს აკრეფვის შემთხვევაშიც კი იმუშავებს. ზოგი ჩვევ@ რთულ@დ ქრებ@."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ახლა უკვე შეგიძლია, შენი ადგილობრივი ვიდეოს წინასწარი ნახვა ზარის დროს გააფართოვო, რათა საკუთარი თავი უკეთ დაინახო."
   }
 }

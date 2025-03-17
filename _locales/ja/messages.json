@@ -2676,7 +2676,7 @@
     "messageformat": "ビデオのオン/オフを切り替える"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "拡張プレビューのオンとオフの切り替え"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ビデオありで通話に応答する(ビデオ通話のみ)"
@@ -3099,10 +3099,10 @@
     "messageformat": "フルスクリーン"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "プレビューを最大化する"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "プレビューを最小化する"
   },
   "icu:calling__change-view": {
     "messageformat": "ビューを切り替える"
@@ -6107,6 +6107,6 @@
     "messageformat": "誰かのSignalユーザーネームでチャットを始めようとしたときに、最初に誤って「@」記号を入力してもチャットを開始できるようになりました。"
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "通話中にローカルビデオプレビューを拡大して、自分の姿をよく確認できるようになりました。"
   }
 }

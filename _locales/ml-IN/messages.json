@@ -2676,7 +2676,7 @@
     "messageformat": "വീഡിയോ ഓൺ, ഓഫ് എന്നിവ ടോഗിൾ ചെയ്യുക"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "വികസിപ്പിച്ച പ്രിവ്യൂ ഓണും ഓഫും ആക്കുക"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "വീഡിയോ കോൾ സ്വീകരിക്കുക (വീഡിയോ കോളുകൾ മാത്രം)"
@@ -3099,10 +3099,10 @@
     "messageformat": "ഫുൾസ്ക്രീൻ കോൾ"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "പ്രിവ്യൂ വലുതാക്കുക"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "പ്രിവ്യൂ ചെറുതാക്കുക"
   },
   "icu:calling__change-view": {
     "messageformat": "കാഴ്ച മാറ്റുക"
@@ -6107,6 +6107,6 @@
     "messageformat": "ഇനി നിങ്ങൾ ആരുടെയെങ്കിലും Signal ഉപയോക്തൃനാമം ഉപയോഗിച്ച് ഒരു ചാറ്റ് ആരംഭിക്കാൻ ശ്രമിക്കുമ്പോൾ, നിങ്ങൾ അബദ്ധത്തിൽ \"@\" ചിഹ്നം ആദ്യം ടൈപ്പ് ചെയ്താലും അത് പ്രവർത്തിക്കും. ഏതാനും h@bits @re h@rd to bre@k."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "നിങ്ങളെത്തന്നെ നന്നായി കാണുന്നതിനോ നിങ്ങൾ ആരാണെന്ന് ചിന്തിക്കുന്നതിനോ ഇപ്പോൾ ഒരു കോളിനിടെ നിങ്ങളുടെ ലോക്കൽ വീഡിയോ പ്രിവ്യൂ വികസിപ്പിക്കാൻ കഴിയും."
   }
 }

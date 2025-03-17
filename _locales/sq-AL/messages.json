@@ -2676,7 +2676,7 @@
     "messageformat": "Hapni dhe mbyllni videon"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Aktivizo dhe çaktivizo shfaqjen paraprake të zgjeruar"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Përgjigjju thirrjes me video (vetëm thirrjet me video)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Thirrje sa krejt ekrani"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimizo shfaqjen paraprake"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizo shfaqjen paraprake"
   },
   "icu:calling__change-view": {
     "messageformat": "Ndrysho pamjen"
@@ -6107,6 +6107,6 @@
     "messageformat": "Tani, kur përpiqesh të fillosh një bisedë me emrin e përdoruesit të dikujt në Signal, kjo gjë do të funksionojë edhe nëse në fillim shtyp aksidentalisht simbolin \"@\". Disa z@kone j@në të vështir@ për t'u th@er."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Tani mund të zgjerosh shfaqjen paraprake lokale të videos gjatë telefonatave për të pasur një pamje më të mirë të vetes ose për të reflektuar mbi atë që je."
   }
 }

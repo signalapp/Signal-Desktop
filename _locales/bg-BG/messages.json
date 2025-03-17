@@ -2676,7 +2676,7 @@
     "messageformat": "Превключване на видеото"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Превключване на разширения преглед"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Отговорете на повикване с видео (само за видео разговори)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Разговор на цял екран"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Увеличаване на прегледа"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Минимизиране на прегледа"
   },
   "icu:calling__change-view": {
     "messageformat": "Промяна на изгледа"
@@ -6107,6 +6107,6 @@
     "messageformat": "Когато се опитате да започнете чат чрез потребителското име за Signal на някого, това ще работи дори ако случайно първо въведете символа „@“."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Сега можете да разширите прегледа на локалното си видео по време на обаждане, за да виждате себе си по-добре."
   }
 }

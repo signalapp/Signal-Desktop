@@ -2676,7 +2676,7 @@
     "messageformat": "Увімкнути / Вимкнути відео"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Збільшити / зменшити попередній вигляд"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Відповісти на виклик з відео (тільки для відеовикликів)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Виклик на весь екран"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Збільшити попередній вигляд"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Зменшити попередній вигляд"
   },
   "icu:calling__change-view": {
     "messageformat": "Змінити вигляд"
@@ -6107,6 +6107,6 @@
     "messageformat": "Тепер можна почати розмову через ім'я користувача Signal, навіть якщо ви випадково спершу ввели символ @. Сил@ звички не повинн@ стримув@ти спілкув@ння."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Тепер ви можете збільшити попередній вигляд свого відео під час виклику, щоб краще себе роздивитися чи поміркувати над запитанням «хто я?»."
   }
 }

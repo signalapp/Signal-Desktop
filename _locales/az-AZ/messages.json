@@ -2676,7 +2676,7 @@
     "messageformat": "Videonu aç/bağla"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Artırılmış önbaxışı açıb, bağlayın"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Zəngə görüntülü cavab verin (yalnız video zənglər)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Tam ekran zəng"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Önbaxışı artırın"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Önbaxışı azaldın"
   },
   "icu:calling__change-view": {
     "messageformat": "Görünüşü dəyiş"
@@ -6107,6 +6107,6 @@
     "messageformat": "Artıq Signal istifadəçi adı ilə çatlaşma cəhd etdiyiniz zaman ilk olaraq təsadüfən “@” simvolunu yazsanız belə bu baş tutacaq. Bəzi vərdişləri unutm@q çətindir."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Artıq zəng zamanı yerli video önbaxışını artıraraq, özünüzə daha yaxşı baxa və kimliyinizi daha yaxşı əks etdirə bilərsiniz."
   }
 }

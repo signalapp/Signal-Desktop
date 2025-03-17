@@ -2676,7 +2676,7 @@
     "messageformat": "நிலைமாற்று: காணொளி நிறுத்த மற்றும் இயக்க"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "விரிவாக்கப்பட்ட முன்னோட்டத்தை ஆன் அல்லது ஆஃப் செய்க"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "வீடியோவுடன் அழைப்பிற்கு பதிலளி (வீடியோ அழைப்புகள் மட்டும்)"
@@ -3099,10 +3099,10 @@
     "messageformat": "முழுத்திரை அழைப்பு"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "முன்னோட்டத்தைப் பெரிதாக்கு"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "முன்னோட்டத்தைச் சிறிதாக்கு"
   },
   "icu:calling__change-view": {
     "messageformat": "வ்யூ-ஐ மாற்றவும்"
@@ -6107,6 +6107,6 @@
     "messageformat": "இப்போது ஒருவரின் சிக்னல் பயனர்பெயருடன் நீங்கள் சாட்டைத் தொடங்க முயலும்போது, நீங்கள் தற்செயலாக “@” குறியீட்டை முதலில் தட்டச்சு செய்தாலும் அது செயல்படும்."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "அழைப்பின் போது, உங்களை மேலும் நுண்ணிய விவரங்களுடன் பார்க்க, இப்போது உங்கள் லோக்கல் வீடியோ முன்னோட்டத்தை விரிவுபடுத்தலாம்."
   }
 }
