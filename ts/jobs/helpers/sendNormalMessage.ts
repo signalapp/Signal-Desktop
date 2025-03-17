@@ -38,6 +38,7 @@ import type {
   ConversationQueueJobBundle,
   NormalMessageSendJobData,
 } from '../conversationJobQueue';
+import type { QuotedMessageType } from '../../model-types.d';
 
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
@@ -844,10 +845,43 @@ async function uploadMessageQuote({
     prop: 'quote',
     targetTimestamp,
   });
-  const loadedQuote = await loadQuoteData(startingQuote);
+  let loadedQuote: QuotedMessageType | null;
 
-  if (!loadedQuote) {
-    return undefined;
+  // We are resilient to this because it's easy for quote thumbnails to be deleted out
+  // from under us, since the attachment is shared with the original message. Delete for
+  // Everyone on the original message, and the shared attachment will be deleted.
+  try {
+    loadedQuote = await loadQuoteData(startingQuote);
+    if (!loadedQuote) {
+      return undefined;
+    }
+  } catch (error) {
+    log.error(
+      'uplodateMessageQuote: Failed to load quote thumbnail',
+      Errors.toLogFormat(error)
+    );
+    if (!startingQuote) {
+      return undefined;
+    }
+
+    return {
+      isGiftBadge: startingQuote.isGiftBadge,
+      id: startingQuote.id ?? undefined,
+      authorAci: startingQuote.authorAci
+        ? normalizeAci(
+            startingQuote.authorAci,
+            'sendNormalMessage.quote.authorAci'
+          )
+        : undefined,
+      text: startingQuote.text,
+      bodyRanges: startingQuote.bodyRanges,
+      attachments: (startingQuote.attachments || []).map(attachment => {
+        return {
+          contentType: attachment.contentType,
+          fileName: attachment.fileName,
+        };
+      }),
+    };
   }
 
   const attachmentsAfterThumbnailUpload = await uploadQueue.addAll(
