@@ -1431,7 +1431,9 @@ export class CallingClass {
           this.#callsLookup[conversationId] = groupCall;
 
           // NOTE: This assumes only one active call at a time. See comment above.
-          if (localDeviceState.videoMuted) {
+          if (localDeviceState.sharingScreen) {
+            // Controlled by `#startPresenting`/`#stopPresenting`
+          } else if (localDeviceState.videoMuted) {
             this.disableLocalVideo();
           } else {
             drop(this.enableCaptureAndSend(groupCall, null, logId));
@@ -2173,10 +2175,13 @@ export class CallingClass {
       return;
     }
 
-    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
-      'camera',
-      'call'
-    );
+    if (enabled) {
+      // Make sure we have access to camera
+      await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+        'camera',
+        'call'
+      );
+    }
 
     if (call instanceof Call) {
       RingRTC.setOutgoingVideo(call.callId, enabled);
@@ -2187,16 +2192,56 @@ export class CallingClass {
     }
   }
 
-  #setOutgoingVideoIsScreenShare(
+  async #startPresenting(
     call: Call | GroupCall,
-    enabled: boolean
-  ): void {
+    mediaStream: MediaStream
+  ): Promise<void> {
     if (call instanceof Call) {
-      RingRTC.setOutgoingVideoIsScreenShare(call.callId, enabled);
-      // Note: there is no "presenting" API for direct calls.
+      RingRTC.setOutgoingVideoIsScreenShare(call.callId, true);
     } else if (call instanceof GroupCall) {
-      call.setOutgoingVideoIsScreenShare(enabled);
-      call.setPresenting(enabled);
+      call.setOutgoingVideoIsScreenShare(true);
+      call.setPresenting(true);
+    } else {
+      throw missingCaseError(call);
+    }
+
+    // Start screen sharing stream
+    await this.enableCaptureAndSend(call, {
+      maxFramerate: REQUESTED_SCREEN_SHARE_FRAMERATE,
+      maxHeight: REQUESTED_SCREEN_SHARE_HEIGHT,
+      maxWidth: REQUESTED_SCREEN_SHARE_WIDTH,
+      mediaStream,
+      onEnded: () => {
+        this.#reduxInterface?.cancelPresenting();
+      },
+    });
+
+    // Enable the video transmission once the stream is running
+    if (call instanceof Call) {
+      RingRTC.setOutgoingVideo(call.callId, true);
+    } else if (call instanceof GroupCall) {
+      call.setOutgoingVideoMuted(false);
+    } else {
+      throw missingCaseError(call);
+    }
+  }
+
+  async #stopPresenting(
+    call: Call | GroupCall,
+    hasLocalVideo: boolean
+  ): Promise<void> {
+    if (call instanceof Call) {
+      // Disable video transmission first
+      RingRTC.setOutgoingVideo(call.callId, hasLocalVideo);
+
+      // Stop screenshare
+      RingRTC.setOutgoingVideoIsScreenShare(call.callId, false);
+    } else if (call instanceof GroupCall) {
+      // Ditto
+      call.setOutgoingVideoMuted(!hasLocalVideo);
+
+      call.setOutgoingVideoIsScreenShare(false);
+      call.setPresenting(false);
     } else {
       throw missingCaseError(call);
     }
@@ -2219,29 +2264,13 @@ export class CallingClass {
     const isPresenting = mediaStream != null;
     if (isPresenting) {
       this.#hadLocalVideoBeforePresenting = hasLocalVideo;
-      drop(
-        this.enableCaptureAndSend(call, {
-          maxFramerate: REQUESTED_SCREEN_SHARE_FRAMERATE,
-          maxHeight: REQUESTED_SCREEN_SHARE_HEIGHT,
-          maxWidth: REQUESTED_SCREEN_SHARE_WIDTH,
-          mediaStream,
-          onEnded: () => {
-            this.#reduxInterface?.cancelPresenting();
-          },
-        })
-      );
-      drop(this.setOutgoingVideo(conversationId, true));
+      await this.#startPresenting(call, mediaStream);
     } else {
-      drop(
-        this.setOutgoingVideo(
-          conversationId,
-          this.#hadLocalVideoBeforePresenting ?? hasLocalVideo
-        )
-      );
+      const prevHasLocalVideo =
+        this.#hadLocalVideoBeforePresenting ?? hasLocalVideo;
       this.#hadLocalVideoBeforePresenting = undefined;
+      await this.#stopPresenting(call, prevHasLocalVideo);
     }
-
-    this.#setOutgoingVideoIsScreenShare(call, isPresenting);
 
     if (isPresenting) {
       ipcRenderer.send('show-screen-share', source?.name);
