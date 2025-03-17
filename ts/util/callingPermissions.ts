@@ -6,7 +6,7 @@ export async function requestCameraPermissions(): Promise<boolean> {
     await window.IPC.showPermissionsPopup(true, true);
 
     // Check the setting again (from the source of truth).
-    return window.IPC.getMediaCameraPermissions();
+    return (await window.IPC.getMediaCameraPermissions()) ?? false;
   }
 
   return true;

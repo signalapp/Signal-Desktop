@@ -119,7 +119,9 @@ export class SettingsChannel extends EventEmitter {
       return userConfig.get('mediaPermissions') || false;
     });
     ipc.handle('settings:get:mediaCameraPermissions', () => {
-      return userConfig.get('mediaCameraPermissions') || false;
+      // Intentionally returning `undefined` when unset to let app properly
+      // onboard the user.
+      return userConfig.get('mediaCameraPermissions');
     });
     ipc.handle('settings:set:mediaPermissions', (_event, value) => {
       userConfig.set('mediaPermissions', value);
