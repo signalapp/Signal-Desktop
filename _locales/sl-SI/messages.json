@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimiziranje nastavitev …"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimiziranje sporočil … {status} zaključeno."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arhivirani klepeti"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Ni neprebranih klepetov"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Stiki SMS/MMS niso na voljo na Signalu Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Ni rezultatov za \"{searchTerm}\" v {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Vklop in izklop kamere"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odgovorite na klic z videom (samo video klici)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Celostranski klic"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Spremeni pogled"
@@ -6097,13 +6100,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Izboljšave prenosa nalepk."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Z novo funkcijo \"Poraba podatkov\" v nastavitvah Signala lahko preprosto izberete, ali želite, da se fotografije, videi, zvočne datoteke ali drugi dokumenti samodejno prenesejo. Če Signal v skupinskem klepetu ne bo več samodejno prenašal najnovejših skladb glasbene skupine prijateljičinega fanta, boste ohranili svoj glasbeni okus in nekaj prostora na trdem disku."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Ko boste poskušali začeti klepet z uporabniškim imenom nekoga, bo to delovalo, tudi če pomotoma najprej vnesete simbol \"@\". Nekatere navade je težko prekiniti."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

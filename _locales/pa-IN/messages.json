@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "ਐਪਲੀਕੇਸ਼ਨ ਅਨੁਕੂਲ ਬਣਾਈ ਜਾ ਰਹੀ ਹੈ…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "ਸੁਨੇਹੇ ਅਨੁਕੂਲ ਬਣਾਏ ਜਾ ਰਹੇ ਹਨ…{status} ਪੂਰਾ।"
-  },
   "icu:archivedConversations": {
     "messageformat": "ਆਰਕਾਈਵ ਕੀਤੀਆਂ ਚੈਟਾਂ"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "ਕੋਈ ਵੀ ਨਹੀਂ-ਪੜ੍ਹੀ ਚੈਟ ਮੌਜੂਦ ਨਹੀਂ ਹੈ"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS ਸੰਪਰਕ ਡੈਸਕਟਾਪ ਉੱਤੇ ਮੌਜੂਦ ਨਹੀਂ ਹਨ।"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} ਵਿੱਚ \"{searchTerm}\" ਲਈ ਕੋਈ ਨਤੀਜੇ ਨਹੀਂ ਹਨ"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "ਵੀਡੀਓ ਆੱਨ ਅਤੇ ਆਫ਼ ਵਿੱਚ ਅਦਲਾ-ਬਦਲੀ ਕਰੋ"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "ਵਿਸਤ੍ਰਿਤ ਝਲਕ ਨੂੰ ਚਾਲੂ ਅਤੇ ਬੰਦ ਕਰੋ"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ਕਾਲ ਦਾ ਜਵਾਬ ਵੀਡੀਓ ਨਾਲ ਦਿਓ (ਸਿਰਫ਼ ਵੀਡੀਓ ਕਾਲਾਂ ਲਈ)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "ਪੂਰੀ ਸਕਰੀਨ ਉੱਤੇ ਕਾਲ"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "ਝਲਕ ਨੂੰ ਵੱਡਾ ਕਰੋ"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "ਝਲਕ ਨੂੰ ਛੋਟਾ ਕਰੋ"
   },
   "icu:calling__change-view": {
     "messageformat": "ਵਿਊ ਬਦਲੋ"
@@ -6097,13 +6100,13 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "ਸਟਿੱਕਰ ਡਾਊਨਲੋਡ ਕਰਨ ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤਾ ਗਿਆ ਹੈ।"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਨਵਾਂ \"ਡਾਟਾ ਦੀ ਵਰਤੋਂ\" ਵਾਲਾ ਫੀਚਰ ਇਹ ਚੁਣਨਾ ਆਸਾਨ ਬਣਾਉਂਦਾ ਹੈ ਕਿ ਫ਼ੋਟੋਆਂ, ਵੀਡੀਓ, ਆਡੀਓ ਫਾਈਲਾਂ, ਜਾਂ ਹੋਰ ਦਸਤਾਵੇਜ਼ਾਂ ਨੂੰ ਆਪਣੇ-ਆਪ ਡਾਊਨਲੋਡ ਕਰਨਾ ਹੈ ਜਾਂ ਨਹੀਂ।"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "ਹੁਣ ਜਦੋਂ ਤੁਸੀਂ ਕਿਸੇ ਦੇ Signal ਵਰਤੋਂਕਾਰ ਨਾਂ ਦੇ ਨਾਲ ਚੈਟ ਸ਼ੁਰੂ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦੇ ਹੋ, ਤਾਂ ਇਹ ਫੀਚਰ ਉਦੋਂ ਵੀ ਕੰਮ ਕਰੇਗਾ ਜੇਕਰ ਤੁਸੀਂ ਗਲਤੀ ਨਾਲ ਪਹਿਲਾਂ “@” ਚਿੰਨ੍ਹ ਟਾਈਪ ਕਰ ਦਿੰਦੇ ਹੋ।"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਕਾਲ ਦੌਰਾਨ ਖੁਦ ਨੂੰ ਬਿਹਤਰ ਢੰਗ ਨਾਲ ਦੇਖਣ ਲਈ ਆਪਣੀ ਲੋਕਲ ਵੀਡੀਓ ਦੀ ਝਲਕ ਨੂੰ ਵੱਡਾ ਕਰ ਸਕਦੇ ਹੋ।"
   }
 }

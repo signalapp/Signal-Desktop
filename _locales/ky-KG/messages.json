@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Колдонмо оптималдашууда..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Билдирүүлөр оптималдашууда... {status} оптималдашты."
-  },
   "icu:archivedConversations": {
     "messageformat": "Архивделген маектер"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Окула элек маектер жок"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS байланыштары Desktop'то жеткиликсиз."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} ичинде \"{searchTerm}\" боюнча жыйынтык жок"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Видеону күйгүзүү жана өчүрүү"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Чалууга видео режиминде жооп берүү (видео чалуулар гана)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Толук экрандуу чалуу"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Көрүнүштү өзгөртүү"
@@ -6097,13 +6100,13 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Эми стикерди басып туруп жүктөп алсаңыз болот."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal'дын параметрлериндеги жаңы \"Түзмөктөгү нерселердин колдонулушу\" функциясы аркылуу сүрөттөрдүн, видеолордун, аудио файлдардын ж.б. документтердин автоматтык түрдө жүктөлүп жүктөлбөсүн тандай аласыз. Эгер Signal'да топтук маектеги досуңуздун соңку тректери автоматтык түрдө жүктөлүп алынбай жатса, аларды катуу дискиңизге сактап койсоңуз болот."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Эми Signal'ды колдонгон кимдир бирөө менен сүйлөшүп баштагыңыз келсе, байкабай “@” символун басып алсаңыз деле сүйлөшүп баштайсыз. Кээ бир ад@даттардан кут@улуу оң@ой эме@с."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

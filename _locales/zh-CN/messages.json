@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "正在优化应用……"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "正在优化消息…… {status} 已完成。"
-  },
   "icu:archivedConversations": {
     "messageformat": "已存档聊天"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "没有未读的聊天记录"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "短信/彩信联系人在 Desktop 上不可用。"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "在{conversationName}中没有找到“{searchTerm}”"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "切换视频开关"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "打开或关闭扩展预览"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "视频接听（仅视频通话）"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "全屏通话"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "最大化预览"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "最小化预览"
   },
   "icu:calling__change-view": {
     "messageformat": "更改视图"
@@ -6097,13 +6100,13 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "表情下载的表现得到了优化。"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal 设置中新推出的“数据使用”功能可方便用户选择是否自动下载图片、视频、音频文件或其他文档。"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "现在当您想要和他人通过其 Signal 用户名开始聊天时，即使您不小心先输入了“@”符号，聊天也能正常开启。"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "现在您可以在通话期间扩展本地视频预览了，以更清楚地预览画面。"
   }
 }

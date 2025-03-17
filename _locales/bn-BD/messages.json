@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "অ্যাপ্লিকেশন অপ্টিমাইজ করা হচ্ছে …"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "মেসেজ অপ্টিমাইজ করা হচ্ছে… {status} শেষ হয়েছে।"
-  },
   "icu:archivedConversations": {
     "messageformat": "আর্কাইভকৃত চ্যাট"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "অপঠিত কোনো চ্যাট নেই"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS কন্ট্যাক্ট ডেস্কটপে থাকে না।"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "\"{searchTerm}\" এর জন্য {conversationName} মধ্যে কোন ফলাফল নেই"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "ভিডিও চালু ও বন্ধ টগল করুন"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "বড় করা প্রিভিউ চালু ও বন্ধ করুন"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ভিডিও-এর মাধ্যমে কলের উত্তর দিন (শুধু ভিডিও কল)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "পূর্ণস্ক্রিনে কল করুন"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "প্রিভিউ বড় করুন"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "প্রিভিউ ছোট করুন"
   },
   "icu:calling__change-view": {
     "messageformat": "ভিউ পরিবর্তন করুন"
@@ -6097,13 +6100,13 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "স্টিকার ডাউনলোডের কার্যকারিতা উন্নত করা হয়েছে।"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal সেটিংসে নতুন \"ডেটা ব্যবহার\" ফিচারটি ছবি, ভিডিও, অডিও ফাইল বা অন্যান্য ডকুমেন্ট স্বয়ংক্রিয়ভাবে ডাউনলোড করা হবে কিনা তা সহজে বেছে নেওয়ার সুযোগ দেয়।"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "এখন আপনি যখন কারো Signal 'ব্যবহারকারীর নাম' ব্যবহার করে চ্যাট শুরু করবেন, তখন ভুলবশত “@” চিহ্নটি প্রথমে টাইপ করলেও এটি কাজ করবে।"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "এখন আপনি কল চলাকালীন আপনার স্থানীয় ভিডিও প্রিভিউ বড় করতে পারেন যাতে আপনি নিজেকে আরো ভালোভাবে দেখতে পারেন বা আপনি কে সে বিষয়ে চিন্তা করতে পারেন।"
   }
 }

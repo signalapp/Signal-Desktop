@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Апликацијата се оптимизира…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Пораките се оптимизираат… {status} завршени."
-  },
   "icu:archivedConversations": {
     "messageformat": "Архивирани разговори"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Немате непрочитани разговори"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS контактите не се достапни на десктоп."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Нема резултати за \"{searchTerm}\" во {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Вклучи/исклучи видео"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Вклучете/исклучете зголемен преглед"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Одговорете на повикот со видео (само за видео повици)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Повик на цел екран"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Зголемете го прегледот"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Намалете го прегледот"
   },
   "icu:calling__change-view": {
     "messageformat": "Измени го прегледот на учесници"
@@ -6097,13 +6100,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Подобрувања на перформансот за преземање налепници."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Новата функција за „Искористеност на податоци“ во поставувањата на Signal ви го поедноставува изборот за тоа дали автоматски ќе се преземаат фотографиите, видеата, аудио датотеките, или другите документи."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Сега, кога ќе се обидете да започнете разговор со нечие корисничко име на Signal, ќе успеете дури и ако по грешка прво го внесете симболот „@“."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Сега можете да го зголемите прегледот на видеа во текот на повиците за подобро да се гледате."
   }
 }

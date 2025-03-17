@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Alkalmazás optimalizálása..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Üzenetek optimalizálása… {status} kész."
-  },
   "icu:archivedConversations": {
     "messageformat": "Archivált csevegések"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Nincs olvasatlan csevegés"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Az SMS/MMS kontaktok nem érhetőek el Desktopon."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Nem található \"{searchTerm}\" itt: {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Videó ki- és bekapcsolása"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Kiterjesztett előnézet be- és kikapcsolása"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Hívás fogadása videóval (csak videohívások esetén)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Hívás teljes képernyőre"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Előnézet maximalizálása"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Előnézet minimalizálása"
   },
   "icu:calling__change-view": {
     "messageformat": "Nézet módosítása"
@@ -6097,13 +6100,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Javítottuk a matricák letöltési teljesítményét."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "A Signal-beállítások új „Adathasználat” funkciója megkönnyíti annak eldöntését, hogy a rendszer automatikusan letöltse-e a fotókat, videókat, hangfájlokat vagy egyéb dokumentumokat."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Mostantól, amikor megpróbálsz csevegést indítani valakinek a Signal-felhasználónevével, akkor is működni fog, ha véletlenül először beírod a „@” szimbólumot."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Mostantól kibővítheted a helyi videó előnézetét hívás közben, hogy jobban lásd magad."
   }
 }

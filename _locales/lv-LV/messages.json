@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimizē lietotni…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizē ziņas… Pabeigti {status}."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arhivētās sarunas"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Nav nelasītu sarunu"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS kontaktpersonas nav pieejamas Desktop versijā."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Vaicājumam \"{searchTerm}\" nav rezultātu sadaļā {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Ieslēgt un izslēgt video"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atbildēt uz zvanu ar video (tikai video zvaniem)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Zvans pilnekrāna režīmā"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Mainīt skatu"
@@ -6097,13 +6100,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Uzlīmēm vajadzētu būt lipīgām, nevis salipušām. Tagad, klikšķinot uz uzlīmes tikko piesaistītā Signal Desktop ierīcē, uzlīmes lejupielāde tiks automātiski prioritizēta, pat tad ja pamīšus lejupielādējat citus pielikumus."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Jaunā funkcija \"Datu lietojums\" Signal iestatījumos ļauj izvēlēties, vai automātiski lejupielādēt fotoattēlus, videoklipus, audio failus un citus dokumentus."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Tagad, mēģinot uzsākt sarunu ar kādu, izmantojot šīs personas Signal lietotājvārdu, tas izdosies pat tad, ja nejauši vispirms ierakstīsiet simbolu \"@\". D@žus ier@dumus l@uzt ir grūti."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

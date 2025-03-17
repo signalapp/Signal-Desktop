@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "ऐप्लिकेशन को बेहतर कर रहे हैं..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "मेसेज बेहतर कर रहे हैं... {status} पूरा हुआ।"
-  },
   "icu:archivedConversations": {
     "messageformat": "संग्रहीत की हुई चैट"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "कोई भी अपठित चैट नहीं"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "डेस्कटॉप पर SMS/MMS संपर्क उपलब्ध नहीं हैं।"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} में \"{searchTerm}\" के कोई परिणाम नहीं मिले"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "टॉगल वीडियो चालू और बंद"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "बढ़ाए गए प्रीव्यू को टॉगल ऑन और ऑफ़ करें"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "वीडियो से कॉल का जवाब दें (केवल वीडियो कॉल)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "कॉल को फुलस्क्रीन करें"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "प्रीव्यू को मैक्सिमाइज़ करें"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "प्रीव्यू को मिनिमाइज़ करें"
   },
   "icu:calling__change-view": {
     "messageformat": "व्यु बदलें"
@@ -6097,13 +6100,13 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "स्टिकर चिपकने चाहिए, अटकने नहीं, तो अब आप नए लिंक किए गए Signal डेस्कटॉप पर किसी स्टिकर पर क्लिक कर सकते हैं और उस स्टिकर के डाउनलोड को प्राथमिकता दी जाएगी, चाहे दूसरे अटैचमेंट भी डाउनलोड हो रहे हों।"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal सेटिंग्स में नया \"डेटा उपयोग\" फ़ीचर यह चुनना आसान बना देता है कि फ़ोटोज़, वीडियो या ऑडियो फ़ाइलों या दूसरे दस्तावेज़ों को अपने-आप डाउनलोड किया जाए या नहीं। अगर Signal आपके दोस्त के बॉयफ़्रेंड के बैंड के नए ट्रैक्स को ग्रुप चैट में अपने-आप डाउनलोड करना बंद कर देता है, तो आप अपनी हार्ड ड्राइव पर थोड़ा खाली स्पेस बचाने के साथ-साथ अपना म्यूज़िक टेस्ट भी बचा सकते हैं।"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "अब जब आप किसी के Signal यूज़रनेम से चैट शुरू करने की कोशिश करेंगे, तो यह काम करेगा, चाहे आप गलती से पहले “@” संकेत टाइप क्यों न कर दें। कुछ आदतें छोड़ना मुश्किल है।"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "अब आप कॉल के दौरान अपने लोकल वीडियो के प्रीव्यू का आकार बढ़ा सकते हैं, ताकि आप खुद को बेहतर तरीके से देख सकें या समझ सकें कि आप कौन हैं।"
   }
 }

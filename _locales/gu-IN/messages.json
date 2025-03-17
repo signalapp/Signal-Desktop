@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "ઍપ્લિકેશન ઑપ્ટિમાઇઝ થઈ રહી છે..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "મેસેજ ઑપ્ટિમાઇઝ થાય છે... {status} પૂર્ણ."
-  },
   "icu:archivedConversations": {
     "messageformat": "આર્કાઇવ કરેલી ચેટ"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "કોઈ વાંચ્યા વગરની ચેટ નથી"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "ડેસ્કટોપ પર SMS/MMS સંપર્કો ઉપલબ્ધ નથી."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} માં \"{searchTerm}\" માટે કોઈ પરિણામ નથી"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "ટોગલ વિડિયો ચાલુ અને બંધ કરો"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "વિસ્તૃત પ્રિવ્યૂ ચાલુ અને બંધ ચાલુ-બંધ કરો"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "વિડિયો સાથે કૉલનો જવાબ આપો (ફક્ત વિડિયો કૉલ્સ)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "પૂર્ણસ્ક્રીન કૉલ"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "પ્રિવ્યૂ મોટું કરો"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "પ્રિવ્યૂ નાનું કરો"
   },
   "icu:calling__change-view": {
     "messageformat": "વ્યૂ બદલો"
@@ -6097,13 +6100,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "સ્ટીકર ડાઉનલોડ પર્ફોર્મન્સ સુધારણાઓ."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal સેટિંગ્સમાં નવું \"ડેટા વપરાશ\" ફીચર ફોટા, વીડિયો, ઓડિયો ફાઇલ અથવા અન્ય દસ્તાવેજો આપમેળે ડાઉનલોડ કરવા કે નહીં તે પસંદ કરવાનું સરળ બનાવે છે."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "હવે જ્યારે તમે કોઈના Signal યુઝરનેમ સાથે ચેટ શરૂ કરવાનો પ્રયાસ કરો છો, ત્યારે તમે ભૂલથી પહેલા “@” ચિહ્ન ટાઇપ કરો તો પણ તે કાર્ય કરશે."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "હવે તમે કૉલ દરમિયાન તમારા લોકલ વીડિયો પ્રિવ્યૂને વિસ્તૃત કરી શકો છો જેથી તમે પોતાને વધુ સારી રીતે જોઈ શકો."
   }
 }

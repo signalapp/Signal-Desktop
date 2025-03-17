@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Оптимизиране на приложението…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Оптимизиране на съобщенията… {status} завършено."
-  },
   "icu:archivedConversations": {
     "messageformat": "Архивирани чатове"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Няма непрочетени чатове"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS контакти не са достъпни на Desktop"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Няма резултати за \"{searchTerm}\" в {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Превключване на видеото"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Превключване на разширения преглед"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Отговорете на повикване с видео (само за видео разговори)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Разговор на цял екран"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Увеличаване на прегледа"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Минимизиране на прегледа"
   },
   "icu:calling__change-view": {
     "messageformat": "Промяна на изгледа"
@@ -6097,13 +6100,13 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Подобрения в ефективността при изтегляне на стикери."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Новата функция „Потребление на данни“ в настройките на Signal ви помага да избирате дали снимките, видеата, аудиофайловете и други документи да се изтеглят автоматично, или не."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Когато се опитате да започнете чат чрез потребителското име за Signal на някого, това ще работи дори ако случайно първо въведете символа „@“."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Сега можете да разширите прегледа на локалното си видео по време на обаждане, за да виждате себе си по-добре."
   }
 }

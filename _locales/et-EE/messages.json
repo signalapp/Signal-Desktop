@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Rakenduse optimeerimine…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Sõnumite optimeerimine… {status} valmis."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arhiveeritud vestlused"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Lugemata vestlusi ei ole"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS kontaktid pole Signal Desktopis saadaval."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Vestlusest {conversationName} ei leitud \"{searchTerm}\""
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Lülita video sisse/välja"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Lülita suurendatud eelvaade sisse/välja"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Vasta kõnele videoga (ainult videokõned)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Täisekraanil kõne"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Suurenda eelvaadet"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Vähenda eelvaadet"
   },
   "icu:calling__change-view": {
     "messageformat": "Muuda vaadet"
@@ -6097,13 +6100,13 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Kleebiste allalaadimise jõudlus on nüüd parem."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signali sätetes olev uus andmete kasutamise funktsioon võimaldab lihtsasti valida, kas laadida fotosid, videoid, helifaile või teisi dokumente automaatselt alla."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Kui nüüd proovid alustada vestlust kellegi Signali kasutajanime kaudu, õnnestub see ka siis, kui kogemata @ sümboli esimesena trükid."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Nüüd saad kõne ajal video eelvaadet suurendada, et end paremini näeksid."
   }
 }

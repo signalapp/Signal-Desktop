@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Đang tối ưu hóa ứng dụng…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Đang tối ưu hóa tin nhắn… hoàn thành {status}."
-  },
   "icu:archivedConversations": {
     "messageformat": "Cuộc trò chuyện đã lưu trữ"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Không có cuộc trò chuyện chưa đọc"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Liên hệ SMS/MMS không có sẵn trên Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Không có kết quả cho \"{searchTerm}\" trong {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Chuyển đổi bật tắt video"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Bật hoặc tắt khung xem trước mở rộng"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Trả lời cuộc gọi với video (chỉ cuộc gọi video)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Phóng toàn màn hình cuộc gọi"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Phóng to khung xem trước"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Thu nhỏ khung xem trước"
   },
   "icu:calling__change-view": {
     "messageformat": "Đổi chế độ hiển thị"
@@ -6097,13 +6100,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Cải thiện hiệu suất tải nhãn dán."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Tính năng 'Sử dụng dữ liệu' mới trong cài đặt Signal giúp bạn dễ dàng chọn có tự động tải xuống ảnh, video, tệp âm thanh hoặc tài liệu khác hay không."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Giờ đây bạn có thể nhập ký tự “@” trước khi nhập tên người dùng Signal của một người để bắt đầu cuộc trò chuyện."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Giờ đây bạn có thể mở rộng khung xem trước video trên thiết bị khi đang trong cuộc gọi để thấy được rõ hơn hình ảnh của mình."
   }
 }

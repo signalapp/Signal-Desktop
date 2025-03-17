@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimizacija aplikacije…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizacija poruka… {status} dovršeno."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arhivirani razgovori"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Nema nepročitanih razgovora"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS kontakti nisu dostupni na Desktopu."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Nema rezultata za \"{searchTerm}\" u {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Uključivanje i isključivanja videa"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Uključivanje i isključivanje proširenog pregleda"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odgovori na poziv s videom (samo videopozivi)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Poziv preko cijelog zaslona"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maksimiziraj pregled"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimiziraj pregled"
   },
   "icu:calling__change-view": {
     "messageformat": "Promijeni prikaz"
@@ -6097,13 +6100,13 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Postupak preuzimanja naljepnica je poboljšan."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Uz novu značajku potrošnje podataka u postavkama Signala sada možete jednostavno odabrati hoćete li da se fotografije, videozapisi, audio datoteke i drugi dokumenti automatski preuzimaju."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Sada kada pokušate započeti razgovor s nečijim korisničkim imenom za Signal, funkcionirat će čak i ako prvo slučajno upišete simbol „@“."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Sada možete proširiti pregled vlastite kamere tijekom poziva kako biste se bolje vidjeli."
   }
 }

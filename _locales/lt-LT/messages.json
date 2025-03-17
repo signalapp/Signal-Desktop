@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Programėlė optimizuojama…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Žinutės optimizuojamos… {status} atlikta."
-  },
   "icu:archivedConversations": {
     "messageformat": "Archyvuoti pokalbiai"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Nėra neskaitytų pokalbių"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS adresatai nėra prieinami Signal Desktop programoje."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Užklausa „{searchTerm}“, pokalbyje {conversationName}, negrąžino jokių rezultatų"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Perjungti vaizdą"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Perjungti išskleistą peržiūrą"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atsiliepti su vaizdu (tik vaizdo skambučiams)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Skambutis visame ekrane"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Padidinti peržiūrą"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Sumažinti peržiūrą"
   },
   "icu:calling__change-view": {
     "messageformat": "Keisti rodinį"
@@ -6097,13 +6100,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Lipdukų atsisiuntimo veikimo patobulinimai."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Naudodamiesi nauja „Signal“ nustatymuose prieinama funkcija „Duomenų naudojimas“ lengvai pasirinksite, ar automatiškai atsisiųsti nuotraukas, vaizdo įrašus, garso failus bei kitus dokumentus."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Nuo šiol bandant pradėti pokalbį su kuriuo nors „Signal“ naudotoju, jo (-s) naudotojo vardas suveiks net ir tuo atveju, jei pirmiausia netyčia įvesite simbolį „@“."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Dabar skambučio metu gali išplėsti savo vietinio vaizdo peržiūrą, kad geriau matytum save."
   }
 }

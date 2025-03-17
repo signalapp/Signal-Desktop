@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "అప్లికేషన్‌ను ఆప్టిమైజ్ చేస్తోంది..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "సందేశాలను ఆప్టిమైజ్ చేస్తోంది... {status} పూర్తి అయింది."
-  },
   "icu:archivedConversations": {
     "messageformat": "ఆర్కైవ్ చేసిన చాట్స్"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "చదవని చాట్‌‌లు లేవు"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS / MMS పరిచయాలు డెస్క్‌టాప్‌లో అందుబాటులో లేవు."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} లో {searchTerm} కోసం ఫలితాలు లేవు"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "వీడియోను ఆన్ మరియు ఆఫ్ టోగుల్ చేయండి"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "విస్తరించిన ప్రివ్యూను ఆన్ మరియు ఆఫ్‌కు టోగుల్ చేయండి"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "వీడియోతో కాల్‌కు సమాధానం ఇవ్వండి (వీడియో కాల్స్ మాత్రమే)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "పూర్తి స్క్రీన్ కాల్"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "ప్రివ్యూను గరిష్ఠీకరించండి"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "ప్రివ్యూను కనిష్ఠీకరించండి"
   },
   "icu:calling__change-view": {
     "messageformat": "వీక్షణను మార్చండి"
@@ -6097,13 +6100,13 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "స్టిక్కర్ డౌన్‌లోడ్ పనితీరు మెరుగుదలలు."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal సెట్టింగ్స్ లోని కొత్త \"డేటా వినియోగం\" ఫీచర్ ఫోటోలు, వీడియోలు, ఆడియో ఫైల్‌లు లేదా ఇతర డాక్యుమెంట్‌లను ఆటోమెటిక్‌గా డౌన్‌లోడ్ చేయాలా వద్దా అని ఎంచుకోవడాన్ని సులభం చేస్తుంది."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "ఇప్పుడు మీరు మరొకరి Signal యూజర్‌నేమ్‌తో చాట్‌ను ప్రారంభించడానికి ప్రయత్నించినప్పుడు, ఒకవేళ మీరు అనుకోకుండా “@” చిహ్నాన్ని ముందుగా టైప్ చేసినప్పటికీ కూడా ఇది పని చేస్తుంది."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "ఇప్పుడు మిమ్మల్ని మీరు బాగా చూసుకోవడానికి కాల్ సమయంలో మీ స్థానిక వీడియో ప్రివ్యూను విస్తరించవచ్చు."
   }
 }

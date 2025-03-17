@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "A otimizar aplicação…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "A otimizar mensagens… {status} completo."
-  },
   "icu:archivedConversations": {
     "messageformat": "Chats arquivados"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Não há chats não lidos"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Contactos SMS/MMS não se encontram disponíveis para Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Sem resultados para \"{searchTerm}\" em {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Ativar/desativar o vídeo"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Responder a chamada com vídeo (só videochamadas)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "chamada em ecrã completo"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Alterar vista"
@@ -6097,13 +6100,13 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Melhorias no desempenho da transferência de autocolantes."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "A nova funcionalidade de \"Utilização de dados\" nas definições do Signal torna fácil escolher se quer transferir automaticamente fotos, vídeos, ficheiros áudio ou outros documentos."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Agora, quando tenta começar um chat com o nome de utilizador do Signal de alguém, funciona mesmo que introduza acidentalmente o símbolo \"@\"."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

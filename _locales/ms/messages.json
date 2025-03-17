@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Mengoptimumkan aplikasi..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Mengoptimumkan mesej... {status} selesai."
-  },
   "icu:archivedConversations": {
     "messageformat": "Sembang Diarkibkan"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Tiada sembang belum dibaca"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Kenalan SMS/MMS tidak tersedia di Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Tiada keputusan untuk \"{searchTerm}\" dalam {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Togol hidupkan dan matikan video"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Togol pratonton diperbesar dihidupkan dan dimatikan"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jawab panggilan dengan video (panggilan video sahaja)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Panggilan skrin penuh"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maksimumkan pratonton"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimumkan pratonton"
   },
   "icu:calling__change-view": {
     "messageformat": "Tukar pandangan"
@@ -6097,13 +6100,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Peningkatan prestasi muat turun pelekat."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Ciri \"Penggunaan data\" baharu dalam tetapan Signal memudahkan anda memilih sama ada ingin memuat turun foto, video, fail audio atau dokumen lain secara automatik atau tidak."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Kini, apabila anda cuba memulakan sembang dengan nama pengguna Signal seseorang, ia akan tetap berfungsi walaupun anda tersilap menaip simbol “@” terlebih dahulu."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Kini, anda boleh memperbesar pratonton video semasa panggilan untuk melihat diri anda dengan lebih baik."
   }
 }

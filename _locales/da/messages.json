@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimerer applikation…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimerer beskeder… {status} fuldført."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arkiverede chats"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Ingen ulæste chats"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS-kontakter er ikke tilgængelige på Signal Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Ingen resultater på \"{searchTerm} efter {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Slå video til og fra"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Slå udvidet forhåndsvisning til og fra"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar opkald med video (kun videoopkald)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Fuldskærmsopkald"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maksimer forhåndsvisning"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimer forhåndsvisning"
   },
   "icu:calling__change-view": {
     "messageformat": "Skift visning"
@@ -6097,13 +6100,13 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Klistermærker skal føles klistrede, ikke permanente, så nu kan du klikke på et klistermærke på en nyligt linket Signal Desktop, hvorefter dette klistermærkedownload automatisk vil blive prioriteret, selv når andre vedhæftede filer også downloades."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Den nye funktion \"Dataforbrug\" i Signal-indstillingerne gør det nemt at vælge, om billeder, videoer, lydfiler eller andre dokumenter automatisk skal downloades eller ej. Hvis Signal stopper med automatisk at downloade de seneste musiknumre fra din vens kærestes band i gruppechatten, kan du gemme de musikalske genistreger med lidt ledig plads på din harddisk."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Når du nu forsøger at starte en chat med en persons Signal-brugernavn, vil det fungere, selvom du ved et uheld skriver \"@\"-symbolet først. Nogle h@bits @re h@rd til bre@k."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Nu kan du udvide dit lokale videoeksempel under et opkald for at få et bedre indblik i dig selv eller reflektere over, hvem du er."
   }
 }

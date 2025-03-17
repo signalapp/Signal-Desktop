@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "優化緊應用程式..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "優化緊訊息...已完成 {status}。"
-  },
   "icu:archivedConversations": {
     "messageformat": "封存咗嘅聊天"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "你冇未讀嘅聊天訊息"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "桌面版搵唔到短訊/多媒體短訊聯絡人。"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "喺 {conversationName} 搵唔到「{searchTerm}」"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "切換影片開閉"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "切換放大預覽開閉"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "接聽同開啟視像 (只限視像通話)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "全螢幕通話"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "放大預覽"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "縮細預覽"
   },
   "icu:calling__change-view": {
     "messageformat": "更改檢視方式"
@@ -6097,13 +6100,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "我哋改良咗貼圖嘅下載表現。而家，當你㩒一下新連結嘅 Signal 桌面版貼圖，就算有其他附件下載緊，系統都會自動優先處理貼圖下載。"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "透過 Signal 設定入面嘅「數據用量」新功能，你可以輕鬆選擇係咪要自動下載相片、影片、音訊檔案或者其他文檔。"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "而家，當你嘗試用某人嘅 Signal 用戶名稱開始聊天嗰陣，就算唔覺意打咗「@」符號先都冇問題。"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "而家，你可以喺通話期間放大自己嘅視像預覽，睇清楚啲自己個樣。"
   }
 }

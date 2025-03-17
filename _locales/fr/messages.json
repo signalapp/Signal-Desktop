@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimisation de l'application…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimisation des messages… {status} terminés."
-  },
   "icu:archivedConversations": {
     "messageformat": "Conversations archivées"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Aucune conversation non lue"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Les contacts SMS et MMS ne sont pas disponibles dans Signal Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Aucun résultat ne correspond à \"{searchTerm}\" dans \"{conversationName}\""
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Activer ou désactiver la vidéo"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Répondre à un appel vidéo (appels vidéo uniquement)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Appel plein écran"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Modifier l'affichage"
@@ -6097,13 +6100,13 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Les améliorations de performances, ça nous colle à la peau. Lorsque vous utilisez Signal sur un nouvel ordinateur associé et que vous cliquez sur un sticker, celui-ci sera automatiquement téléchargé en priorité, même si d'autres pièces jointes sont en cours de téléchargement."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Chacun ses priorités ! Grâce au nouveau paramètre \"Consommation des données\", vous pouvez facilement activer ou désactiver le téléchargement automatique des photos, vidéos, fichiers audio et autres documents. Si Signal interrompt automatiquement le téléchargement du dernier freestyle de votre cousin dans la conversation de groupe, c'est pour le bien de vos oreilles et de votre disque dur."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Lorsque vous recherchez un contact et que vous saisissez accidentellement le symbole @ avant son nom d'utilisateur, cela ne vous empêche plus de le trouver et de démarrer une conversation avec lui. P@rce qu'on s@it tous que cert@ines h@bitudes ont l@ vie dure."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Оптимизация приложения…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Оптимизация сообщений… {status} выполнено."
-  },
   "icu:archivedConversations": {
     "messageformat": "Архивированные чаты"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Нет непрочитанных чатов"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Контакты SMS/MMS недоступны в Signal Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Нет результатов для «{searchTerm}» в {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Включить/отключить видео"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Включение и выключение развёрнутого предпросмотра"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Ответить на звонок с видео (только видеозвонки)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Развернуть звонок"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Развернуть предпросмотр"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Свернуть предпросмотр"
   },
   "icu:calling__change-view": {
     "messageformat": "Изменить вид"
@@ -6097,13 +6100,13 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Стикеры должны прилипать, а не зависать! Теперь, если вы кликнете на стикер в недавно привязанном Signal Desktop, его загрузка автоматически получит приоритет – даже если в это время загружаются другие вложения."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Новая функция «Использование данных» в настройках Signal позволяет легко выбрать или отменить автоматическую загрузку фото, видео, аудиофайлов и других документов. Если Signal перестанет автоматически скачивать новые песни рок-группы парня вашей подруги из группового чата, вы сможете сохранить свои музыкальные вкусы. Как и немного места на жёстком диске."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Теперь у вас получится начать чат с чьим-либо именем пользователя Signal, даже если вы сначала случайно введёте символ «@». От некотор@х прив@чек оч@нь тр@дно изб@виться."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Теперь вы можете развернуть предпросмотр своего видео во время звонка, чтобы полюбоваться собой или задуматься о том, кто вы есть. "
   }
 }

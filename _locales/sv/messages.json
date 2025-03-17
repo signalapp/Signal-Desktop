@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimerar applikationen …"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimerar meddelanden … {status} slutförda."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arkiverade chattar"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Inga olästa chattar"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS-kontakter är inte tillgängliga på Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Inga resultat för \"{searchTerm}\" i {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Växla video på och av"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Växla expanderad förhandsvisning på och av"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Svara samtal med video (endast videosamtal)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Helskärmssamtal"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximera förhandsvisning"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimera förhandsvisning"
   },
   "icu:calling__change-view": {
     "messageformat": "Ändra vy"
@@ -6097,13 +6100,13 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Förbättrad prestanda vid nedladdning av klistermärken."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Den nya funktionen Dataanvändning i Signal-inställningarna gör det enkelt att välja om bilder, videor, ljudfiler eller andra dokument ska laddas ner automatiskt eller inte."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "När du nu försöker starta en chatt med någons Signal-användarnamn fungerar det även om du av misstag skriver ”@”-symbolen först."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Nu kan du expandera din lokala förhandsvisning av video under ett samtal för att få en bättre bild av dig själv."
   }
 }

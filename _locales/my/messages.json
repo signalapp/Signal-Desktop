@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "အက်ပ်ကို ချိန်ညှိနေဆဲ..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "မက်ဆေ့ချ်များကို ချိန်ညှိနေဆဲ... {status} ပြီးပါပြီ။"
-  },
   "icu:archivedConversations": {
     "messageformat": "မှတ်တမ်းတင်ထားသော ချက်(တ်)များ"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "မဖတ်ရသေးသည့် ချက်(တ်)များ မရှိပါ"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS အဆက်အသွယ်များကို Desktop တွင် မရရှိနိုင်ပါ။"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} တွင် \"{searchTerm}\" အတွက် ရလဒ်များ မရှိပါ"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "ဗီဒီယို အဖွင့်အပိတ် ပြောင်းရန်"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ခေါ်ဆိုမှုကို ဗီဒီယိုဖြင့် ဖြေရန် (ဗီဒီယိုခေါ်ဆိုမှုများသာ)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "ကောလ်ကို စခရင်အပြည့် လုပ်ရန်"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "မြင်ကွင်း ပြောင်းရန်"
@@ -6097,13 +6100,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "စတစ်ကာများ ဒေါင်းလုဒ်လုပ်ခြင်းကို ပိုမိုကောင်းမွန်အောင် မွမ်းမံထားသည်။"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal ဆက်တင်ရှိ \"ဒေတာအသုံးပြုမှု\" အင်္ဂါရပ်အသစ်သည် ဓာတ်ပုံများ၊ ဗီဒီယိုများ၊ အသံဖိုင်များ သို့မဟုတ် အခြားစာရွက်စာတမ်းများကို အလိုအလျောက် ဒေါင်းလုဒ်လုပ်ခြင်း ရှိ၊ မရှိ ရွေးချယ်ရန် လွယ်ကူစေသည်။"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "ယခု သင်သည် တစ်စုံတစ်ဦး၏ Signal သုံးစွဲသူအမည်ဖြင့် ချက်(တ်) စတင်ရန် ကြိုးစားသောအခါ သင်သည် “@” သင်္ကေတကို မတော်တဆ ရိုက်ထည့်လိုက်လျှင်ပင် ၎င်းသည် အလုပ်လုပ်မည်ဖြစ်သည်။"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

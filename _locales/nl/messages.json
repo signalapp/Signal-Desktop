@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Applicatie aan het optimaliseren…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Bezig met optimaliseren van berichten… {status} voltooid."
-  },
   "icu:archivedConversations": {
     "messageformat": "Gearchiveerde chats"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Geen ongelezen chats"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS-contacten zijn niet beschikbaar in Signal Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Geen resultaten voor ‘{searchTerm}’ in ‘{conversationName}’"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Camera aan- of uitzetten"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Oproep beantwoorden met video (alleen video-oproepen)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Oproep in volledig scherm"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Weergave wijzigen"
@@ -6097,13 +6100,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers moeten plakken, maar niet blijven hangen in de wachtrij. Klik je nu op een sticker op een nieuw gekoppelde Signal Desktop, dan krijgt het downloaden van die sticker automatisch voorrang, zelfs als andere bijlagen ook worden gedownload."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Dankzij de nieuwe functie ‘Datagebruik’ in Signal-instellingen kun je nu gemakkelijk instellen of je foto's, video's, audiobestanden of andere documenten automatisch wilt downloaden of juist niet. Als in de groepschat de demo's van de band van de vriend van je bestie niet meer automatisch gedownload worden, houd je opslagruimte vrij voor nummers waar je wél echt naar gaat luisteren."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Een chat starten door iemands Signal-gebruikersnaam in te typen werkt nu ook als je per ongeluk eerst een '@' typt voor de naam."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

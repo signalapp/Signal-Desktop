@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "กำลังเพิ่มประสิทธิภาพแอปพลิเคชัน…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "กำลังเพิ่มประสิทธิภาพข้อความ… {status} สำเร็จ"
-  },
   "icu:archivedConversations": {
     "messageformat": "แชทที่ถูกเก็บในที่เก็บถาวร"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "ไม่มีแชทที่ยังไม่ได้อ่าน"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "ไม่มีผู้ติดต่อ SMS/MMS บนเดสก์ท็อป"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "ไม่มีผลลัพ์สำหรับ \"{searchTerm}\" ใน  {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "ตัวเลือกเปิดและปิดวิดีโอ"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "เปิดปิดการขยายมุมมองของหน้าต่าง"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "รับสายโดยเปิดวิดีโอ (เฉพาะวิดีโอคอล)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "โทรเต็มจอ"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "ขยายหน้าต่าง"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "ย่อหน้าต่าง"
   },
   "icu:calling__change-view": {
     "messageformat": "เปลี่ยนมุมมอง"
@@ -6097,13 +6100,13 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "พัฒนาประสิทธิภาพของการดาวน์โหลดสติกเกอร์ให้ดียิ่งขึ้นอีก"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "ขอแนะนำ \"การใช้ข้อมูล\" ฟีเจอร์ใหม่ในการตั้งค่า Signal ที่จะทำให้คุณเลือกได้ตามสะดวกว่าจะดาวน์โหลดไฟล์แต่ละประเภท ไม่ว่าจะเป็นไฟล์ภาพ วิดีโอ เสียง หรือเอกสารโดยอัตโนมัติหรือไม่"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "ให้คุณเริ่มต้นแชทด้วยชื่อผู้ใช้ Signal ได้แบบไม่มีสะดุด แม้จะบังเอิญพิมพ์สัญลักษณ์ @ นำหน้าชื่อไปด้วยก็ตาม"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "พัฒนาให้คุณสามารถขยายหน้าต่างวิดีโอของตัวเองในระหว่างโทรได้ง่ายและสะดวกขึ้นอีก"
   }
 }

@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimizando a aplicación…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizando mensaxes... {status} completo."
-  },
   "icu:archivedConversations": {
     "messageformat": "Conversas arquivadas"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Non hai conversas sen ler"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Os contactos de SMS/MMS non están dispoñibles no ordenador."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Sen resultados para «{searchTerm}» en {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Activar ou desactivar vídeo"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Activar e desactivar a vista previa expandida"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Responder chamada con vídeo (só videochamadas)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Chamada a pantalla completa"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximizar vista previa"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimizar vista previa"
   },
   "icu:calling__change-view": {
     "messageformat": "Cambiar vista"
@@ -6097,13 +6100,13 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Melloras no rendemento da descarga de stickers."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Coa nova función de «Datos empregados» na configuración de Signal podes elixir descargar automaticamente as fotos, vídeos, arquivos de son ou outros documentos."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Agora podes iniciar unha conversa co nome de usuario de Signal de alguén aínda que escribas primeiro o símbolo «@» sen querer."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Agora podes ampliar a vista previa da túa pantalla durante a chamada para poder verte mellor."
   }
 }

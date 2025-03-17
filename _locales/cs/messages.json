@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimalizace aplikace…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimalizace zpráv… {status} dokončeno."
-  },
   "icu:archivedConversations": {
     "messageformat": "Archivované chaty"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Žádné nepřečtené chaty"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS kontakty nejsou na Desktopu dostupné"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Žádné výsledky pro „{searchTerm}“ v  {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Zapnutí a vypnutí videa"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Zapnout nebo vypnout větší náhled"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Přijmout hovor s videem (pouze videohovory)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Hovor přes celou obrazovku"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Zvětšit náhled"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Zmenšit náhled"
   },
   "icu:calling__change-view": {
     "messageformat": "Změnit zobrazení"
@@ -6097,13 +6100,13 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stahování nálepek bylo vylepšeno."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Nová funkce Využití dat v nastavení služby Signal umožňuje snadno zvolit, zda se mají automaticky stahovat fotografie, videa, zvukové soubory nebo jiné dokumenty."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Když se nyní pokusíte zahájit chat s uživatelským jménem někoho ve službě Signal, bude to fungovat, i když omylem napíšete nejprve symbol @."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Nyní si můžete během hovoru zvětšit místní náhled videa a lépe si sami sebe prohlédnout."
   }
 }

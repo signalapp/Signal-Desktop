@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimalizovanie aplikácie…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimalizácia správ… {status} dokončené."
-  },
   "icu:archivedConversations": {
     "messageformat": "Archivované čety"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Žiadne neprečítané čety"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Kontakty pre SMS/MMS nie sú k dispozícii na Signal Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Žiadne výsledky pre „{searchTerm}“ v {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Zapnúť/Vypnúť video"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Prijať hovor s videom (iba videohovory)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Hovor na celú obrazovku"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Zmeniť zobrazenie"
@@ -6097,13 +6100,13 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Optimalizácia rýchlosti sťahovania nálepiek."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Vďaka novej funkcii „Využitie dát“ v nastaveniach služby Signal si jednoducho vyberiete, či sa majú fotky, videá, zvukové súbory alebo iné dokumenty sťahovať automaticky."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Keď teraz pri začatí četu omylom zadáte ako prvý symbol „@“ namiesto používateľského mena Signal, čet bude bez problémov fungovať."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

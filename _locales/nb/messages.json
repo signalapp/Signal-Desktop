@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimaliserer applikasjonen …"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimaliserer meldinger … {status} fullført."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arkiverte samtaler"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Ingen uleste samtaler"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS-kontakter er ikke tilgjengelig på Desktop versjonen av Signal."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Ingen resultater for \"{searchTerm}\" i {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Skru video av og på"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Skru fullskjermsmodus av og på"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar anropet med video (kun videosamtaler)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Fullskjerm samtale"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Se forhåndsvisning i fullskjerm"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Lukk forhåndsvisning"
   },
   "icu:calling__change-view": {
     "messageformat": "Bytt visning"
@@ -6097,13 +6100,13 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Enklere å laste ned klistremerker."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Nå kan du styre dataforbruket ditt via Signal-innstillingene og enkelt velge om du vil laste ned bilder, videoer, lydfiler og andre dokumenter automatisk."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Nå kan du innlede nye samtaler ved å søke etter brukernavn på Signal – uansett om du skriver @ før brukernavnet eller ikke."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Nå kan du se forhåndsvisninger av videoer i fullskjerm."
   }
 }

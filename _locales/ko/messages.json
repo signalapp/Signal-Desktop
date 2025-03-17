@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "어플리케이션 최적화 중…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "메시지 최적화 중… {status} 완료."
-  },
   "icu:archivedConversations": {
     "messageformat": "보관된 대화"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "안 읽은 대화 없음"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS 연락처는 데스크톱에서 사용할 수 없습니다."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName}에 {searchTerm}가 검색되지 않았습니다."
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "토글 비디오 끄거나 켜기"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "영상 통화로 받기(영상 통화만 해당)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "전체화면 통화"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "보기 변경"
@@ -6097,13 +6100,13 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "스티커 다운로드 성능을 개선했습니다."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal 설정의 새로운 '데이터 사용' 기능을 사용하면 간편하게 사진이나 동영상, 오디오 파일 및 기타 문서를 자동으로 다운로드할지 선택할 수 있습니다."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "이제 다른 사용자의 Signal 사용자 이름을 사용하여 대화를 시작하려는 경우 실수로 '@' 기호를 먼저 입력해도 해당 기능이 작동합니다."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

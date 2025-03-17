@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Anwendung wird optimiert …"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Nachrichten werden optimiert … {status} abgeschlossen."
-  },
   "icu:archivedConversations": {
     "messageformat": "Archivierte Chats"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Keine ungelesenen Chats"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS-/MMS-Kontakte sind auf Signal Desktop nicht verfügbar."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Keine Ergebnisse für »{searchTerm}« in {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Video an-/ausschalten"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Anruf mit Video annehmen (nur Videoanrufe)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Anruf maximieren"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Ansicht ändern"
@@ -6097,13 +6100,13 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Sticker sollten gut kleben, nicht feststecken. Wenn du jetzt auf dem neu gekoppelten Signal Desktop auf einen Sticker klickst, wird dieser Sticker-Download automatisch vorgezogen, auch wenn gleichzeitig andere Anhänge heruntergeladen werden."
-  },
   "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Mit der neuen Funktion »Datennutzung« in den Einstellungen von Signal kannst du ganz einfach festlegen, ob Fotos, Videos, Audiodateien oder andere Dokumente automatisch heruntergeladen werden sollen oder nicht. Wenn Signal nicht mehr automatisch die neuesten Songs von der Band deines Freundes oder deiner Freundin  herunterlädt, behältst du deinen Musikgeschmack und hast auch noch etwas Platz auf deiner Festplatte frei."
+    "messageformat": "Mit der neuen Funktion »Datennutzung« in den Einstellungen von Signal kannst du ganz einfach festlegen, ob Fotos, Videos, Audiodateien oder andere Dokumente automatisch heruntergeladen werden sollen oder nicht. Wenn Signal nicht mehr automatisch die neuesten Songs von der Band deines Freundes oder deiner Freundin herunterlädt, behältst du deinen Musikgeschmack und hast auch noch etwas Platz auf deiner Festplatte frei."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Wenn du jetzt versuchst, einen Chat mit dem Signal-Nutzernamen einer anderen Person zu starten, funktioniert es auch, wenn du das „@“-Symbol versehentlich zuerst eingibst. Einige Gewohnheiten l@ssen sich nur schwer @blegen."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

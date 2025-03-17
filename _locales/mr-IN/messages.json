@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "अ‍ॅप्लिकेशन सानुकूलित करत आहे(...)"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "संदेश सानुकूलित करणे (...) {status} पूर्ण झाले."
-  },
   "icu:archivedConversations": {
     "messageformat": "आर्काईव्ह केलेले चॅट"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "न वाचलेले कोणतेही चॅटस् नाहीत"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS संपर्क डेस्कटॉपवर उपलब्ध नाहीत."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} मध्ये \"{searchTerm}\" करिता कुठलेही परिणाम नाहीत"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "व्हिडिओ चालू आणि बंद करणे टॉगल करा"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "वाढवलेले पूर्वावलोकन चालू आणि बंद करा"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "व्हिडीओसह कॉलला उत्तर द्या (फक्त व्हिडीओ कॉल्स)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "कॉल पूर्णस्क्रीन करा"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "पूर्वावलोकन मोठ्यात मोठे करा"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "पूर्वावलोकन छोटे करा"
   },
   "icu:calling__change-view": {
     "messageformat": "दृश्य बदला"
@@ -6097,13 +6100,13 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "स्टिकर चिकटायला हवेत, अडकायला नकोत, म्हणूनच आता तुम्ही नव्याने लिंक केलेल्या Signal डेस्कटॉप वरच्या स्टिकर वर क्लिक करू शकता आणि इतर अटॅचमेंट्स डाऊनलोड होत असतानाही त्या स्टिकर डाऊनलोडला आपोआप प्राधान्य मिळेल."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal सेटिंग्ज मधील नवीन \"डेटा वापर\" वैशिष्ट्यांमुळे फोटो, व्हिडिओ, ऑडिओ फाईल्स किंवा इतर दस्तऐवज आपोआप डाऊनलोड करावेत की नाहीत हे निवडणे सोपे होते. जर Signalने गट चॅटमधील तुमच्या मैत्रिणीच्या बॉयफ्रेंडच्या बँडची नवी गाणी आपोआप डाऊनलोड करणे बंद केले, तर तुमची संगीताची आवड आणि तुमच्या हार्ड ड्राईव्हवरची मोकळी जागा, दोन्ही टिकून राहू शकतील."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "आता तुम्ही कोणत्याही Signal वापरकर्ता नावाशी चॅट सुरू करायचा प्रयत्न कराल, तेव्हा तुम्ही चुकून \"@\" चिह्न टाईप केलेत तरी ते काम करेल. जित्याची खोड मेल्याशिवाय जात नाही हेच खरं."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "आता तुम्ही कॉलदरम्यान स्वतःकडे नीट पाहता यावे यासाठी तुमचे स्थानिक व्हिडिओ पूर्वावलोकन मोठे करू शकता."
   }
 }

@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Aip á barrfheabhsú…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Teachtaireachtaí á n-optamú… {status} críochnaithe."
-  },
   "icu:archivedConversations": {
     "messageformat": "Comhráite sa Chartlann"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Níl aon chomhrá neamhléite ann"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Níl teagmhálaithe SMS/MMS ar fáil ar an Deasc."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Níl aon toradh ar \"{searchTerm}\" in {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Scoránaigh Físeán air agus as"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Freagair an glao le físeán (físghlaonna amháin)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Cuir an glao i mód lánscáileáin"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Athraigh amharc"
@@ -6097,13 +6100,13 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Feabhsuithe ar fheidhmíocht íoslódála greamán."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Éascaíonn an ghné nua \"Úsáid Sonraí\" in Signal an rogha grianghraif, físeáin, comhaid fuaime nó doiciméid eile a íoslódáil go huathoibríoch nó gan é sin a dhéanamh."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Anois nuair a dhéanann tú iarracht tosú ar chomhrá le hainm úsáideora Signal ag duine, oibreoidh sé fiú má chlóscríobhann tú an tsiombail \"@\" de thaisme ar dtús."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

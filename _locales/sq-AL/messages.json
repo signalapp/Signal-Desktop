@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Po optimizohet aplikacioni…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Po optimizohen mesazhet…. {status} i plotësuar."
-  },
   "icu:archivedConversations": {
     "messageformat": "Bisedat e arkivuara"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Nuk ka biseda të palexuara"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Kontaktet SMS/MMS s’janë të passhëm në Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "S’ka përfundime për \"{searchTerm}\" te {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Hapni dhe mbyllni videon"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Aktivizo dhe çaktivizo shfaqjen paraprake të zgjeruar"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Përgjigjju thirrjes me video (vetëm thirrjet me video)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Thirrje sa krejt ekrani"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maksimizo shfaqjen paraprake"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimizo shfaqjen paraprake"
   },
   "icu:calling__change-view": {
     "messageformat": "Ndrysho pamjen"
@@ -6097,13 +6100,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Ngjitëset duhet të ndihen se ngjisin, jo që ngecin, në mënyrë që të mund të klikosh mbi ngjitësen në një Signal Desktop të sapolidhur dhe shkarkimi i ngjitëses do të ketë automatikisht përparësi edhe kur po shkarkohen bashkëngjitje të tjera."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Veçoria e re \"Përdorimi i internetit\" që gjendet te parametrat e Signal lehtëson zgjedhjen e shkarkimit automatik ose jo të fotove, videove, skedarëve audio ose të dokumenteve të tjera. Nëse Signal ndalon shkarkimin automatik të këngëve më të fundit të grupit të të dashurit të shoqes tënde në bisedën në grup, mund ta ruash shijen tënde muzikore së bashku me pak hapësirë të lirë në hard disk."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Tani, kur përpiqesh të fillosh një bisedë me emrin e përdoruesit të dikujt në Signal, kjo gjë do të funksionojë edhe nëse në fillim shtyp aksidentalisht simbolin \"@\". Disa z@kone j@në të vështir@ për t'u th@er."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Tani mund të zgjerosh shfaqjen paraprake lokale të videos gjatë telefonatave për të pasur një pamje më të mirë të vetes ose për të reflektuar mbi atë që je."
   }
 }

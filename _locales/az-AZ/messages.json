@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Tətbiq optimallaşdırılır..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Mesajlar optimallaşdırılır... {status} tamamlandı."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arxivləşdirilmiş çatlar"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Oxunmamış çatlar yoxdur"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS əlaqələri Masaüstündə əlçatmazdır."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} danışığında \"{searchTerm}\" üçün nəticə yoxdur"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Videonu aç/bağla"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Artırılmış önbaxışı açıb, bağlayın"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Zəngə görüntülü cavab verin (yalnız video zənglər)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Tam ekran zəng"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Önbaxışı artırın"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Önbaxışı azaldın"
   },
   "icu:calling__change-view": {
     "messageformat": "Görünüşü dəyiş"
@@ -6097,13 +6100,13 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Artıq yeni əlaqələndirilmiş Signal Desktop-da stikerin üzərinə klikləyərək onu endirə bilərsiniz və stikerin endirilməsi hətta digər qoşmalar da endirilən zaman avtomatik olaraq prioritetləşəcək."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal parametrlərindəki yeni \"Verilənlərin istifadəsi\" xüsusiyyəti fotoların, videoların, audio faylların və ya digər sənədlərin avtomatik endirilib-endirilməməsi ilə əlaqəli seçimi asanlaşdırır. Signal, qrup çatında dostunun sevgilisinin dinlədiyi musiqi qrupunun ən son mahnılarını avtomatik endirməyi dayandırdıqda, sadəcə sərt disk yaddaşında yer boşaldın və musiqidən zövq almağa davam edin."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Artıq Signal istifadəçi adı ilə çatlaşma cəhd etdiyiniz zaman ilk olaraq təsadüfən “@” simvolunu yazsanız belə bu baş tutacaq. Bəzi vərdişləri unutm@q çətindir."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Artıq zəng zamanı yerli video önbaxışını artıraraq, özünüzə daha yaxşı baxa və kimliyinizi daha yaxşı əks etdirə bilərsiniz."
   }
 }

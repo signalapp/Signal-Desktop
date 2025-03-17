@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Оптимизујемо апликацију…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Оптимизујемо поруке… {status} је урађено."
-  },
   "icu:archivedConversations": {
     "messageformat": "Архивирана ћаскања"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Нема непрочитаних ћаскања"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS контакти нису доступни на Desktop-у."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Нема резултата за „{searchTerm}“ у ћаскању {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Укључивање и искључивање видео приказа"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Укључивање/искључивање проширеног приказа"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Јави се на позив са видео приказом (само за видео позиве)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Позив преко целог екрана"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Максимизирај приказ"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Минимизирај приказ"
   },
   "icu:calling__change-view": {
     "messageformat": "Промени приказ"
@@ -6097,13 +6100,13 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Побољшане су перформансе преузимања налепница."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Нова функција „Потрошња података“ у подешавањима Signal-а олакшава избор да ли ће се аутоматски преузимати фотографије, видео-записи, аудио-фајлови и други документи."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Сада када покушате да започнете ћаскање са нечијим корисничким именом за Signal, то ће радити чак и ако прво случајно укуцате симбол „@“."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Сада можете да проширите свој локални видео приказ током позива да бисте боље видели себе."
   }
 }

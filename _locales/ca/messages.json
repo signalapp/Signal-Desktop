@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimitzant l'aplicació…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimitzant els missatges… {status} completat."
-  },
   "icu:archivedConversations": {
     "messageformat": "Xats arxivats"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "No hi ha xats sense llegir"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Els contactes d'SMS / MMS no estan disponibles a la versió d'escriptori."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "No hi ha resultats per a \"{searchTerm}\" a {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Activa / desactiva el vídeo"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Respon la trucada amb vídeo (només videotrucades)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Trucada a pantalla completa"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Canviar la vista"
@@ -6097,13 +6100,13 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Millores en el procés de descàrrega dels stickers."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "La nova funció \"Ús de dades\" als ajustos de Signal facilita triar si descarregar o no automàticament fotos, vídeos, arxius d'àudio o altres documents."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Ara, quan intentis iniciar un xat fent servir el nom d'usuari de Signal d'algú, funcionarà encara que t'oblidis d'escriure el símbol “@” abans del nom."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

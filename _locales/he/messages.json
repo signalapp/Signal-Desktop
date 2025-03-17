@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "ממטב יישום…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "ממטב הודעות… {status} הושלמו."
-  },
   "icu:archivedConversations": {
     "messageformat": "צ'אטים מאוחסנים בארכיון"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "אין צ׳אטים שלא נקראו"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "אנשי קשר של מסרונים/מסרוני MMS אינם זמינים בשולחן עבודה."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "אין תוצאות עבור \"{searchTerm}\" בשיחה {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "עורר וידאו מופעל וכבוי"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "מענה לשיחה עם וידאו (שיחות וידאו בלבד)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "עורר שיחה במצב מלא"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "שינוי תצוגה"
@@ -6097,13 +6100,13 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "שיפורי ביצועים בהורדת סטיקרים."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "הפיצ׳ר החדש ״שימוש בנתונים״ בהגדרות Signal מקל עליך לבחור אם להוריד באופן אוטומטי (או לא) תמונות, סרטונים, קובצי שמע, או מסמכים אחרים."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "עכשיו בעת הניסיון להתחיל צ׳אט עם מישהו או מישהי באמצעות שם המשתמש שלהם ב–Signal, זה יפעל גם אם בטעות הקלדת את הסמל \"@\" בהתחלה."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

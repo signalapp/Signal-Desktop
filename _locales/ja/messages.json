@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "アプリケーションを最適化しています…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "メッセージを最適化してます… {status}"
-  },
   "icu:archivedConversations": {
     "messageformat": "アーカイブ済みのチャット"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "未読のチャットはありません"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMSの連絡先はデスクトップでは利用できません。"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} 内に「{searchTerm}」はありません"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "ビデオのオン/オフを切り替える"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "拡張プレビューのオンとオフの切り替え"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ビデオありで通話に応答する(ビデオ通話のみ)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "フルスクリーン"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "プレビューを最大化する"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "プレビューを最小化する"
   },
   "icu:calling__change-view": {
     "messageformat": "ビューを切り替える"
@@ -6097,13 +6100,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "ステッカーのダウンロードパフォーマンスを改善しました。"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signalの設定に新しく追加された「データ使用量」機能を使うと、写真、動画、音声ファイル、その他のドキュメントを自動的にダウンロードするかどうかを簡単に選択できます。"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "誰かのSignalユーザーネームでチャットを始めようとしたときに、最初に誤って「@」記号を入力してもチャットを開始できるようになりました。"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "通話中にローカルビデオプレビューを拡大して、自分の姿をよく確認できるようになりました。"
   }
 }

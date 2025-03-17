@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "ایپلیکشن کی اصلاح کریں۔۔۔"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "پیغام کی اصلاح ہو رہی ہے۔۔۔{status} مکمل۔"
-  },
   "icu:archivedConversations": {
     "messageformat": "آرکائیو کردہ چیٹس"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "کوئی بغیر پڑھی ہوئی چیٹس نہیں"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Desktop پر SMS / MMS رابطے دستیاب نہیں ہیں۔"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} میں \"{searchTerm}\" کے لئے کوئی نتیجہ نہیں"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "ٹوگل ویڈیو آن اور آف"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "پھیلائے ہوئے پری ویو کو آن اور آف کرنے کے لیے ٹوگل کریں"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ویڈیو کے ساتھ کال کا جوب دیں (صرف ویڈیو کالز)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "فل سکرین کال"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "پری ویو کو بڑا کریں"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "پری ویو کو مختصر کریں"
   },
   "icu:calling__change-view": {
     "messageformat": "ویو تبدیل کریں"
@@ -6097,13 +6100,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "اسٹیکر ڈاؤن لوڈ کرنے کی کارکردگی میں بہتریاں۔"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal کی سیٹنگز میں \"ڈیٹا کے استعمال\" کا نیا فیچر یہ منتخب کرنے کو آسان بناتا ہے کہ آیا تصاویر، ویڈیوز، آڈیو فائلز، یا دیگر دستاویزات خود کار طور پر ڈاؤن لوڈ ہوں یا نہ ہوں۔"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "اب جب آپ کسی کے Signal یوزر نیم کے ساتھ چیٹ شروع کرنے کی کوشش کرتے ہیں، تو یہ اس صورت میں بھی کام کرے گا اگر آپ بھولے سے “@” کی علامت پہلے ٹائپ کر دیتے ہیں۔"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "اب آپ کال کے دوران اپنے آپ کو بہتر انداز میں دیکھنے کے لیے اپنے مقامی ویڈیو کے پری ویو کو پھیلا سکتے ہیں۔"
   }
 }

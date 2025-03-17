@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Βελτιστοποίηση εφαρμογής…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Βελτιστοποίηση μηνυμάτων… {status} ολοκληρώθηκαν."
-  },
   "icu:archivedConversations": {
     "messageformat": "Αρχειοθετημένες συνομιλίες"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Καμία μη αναγνωσμένη συνομιλία"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Οι επαφές SMS/MMS δεν είναι διαθέσιμες στο Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Δε βρέθηκαν αποτελέσματα για \"{searchTerm}\" στο {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Ενεργοποίηση και απενεργοποίηση βίντεο"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Ενεργοποίηση και απενεργοποίηση της διευρυμένης προεπισκόπησης"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Απάντηση κλήσης με βίντεο (μόνο βιντεοκλήσεις)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Κλήση σε πλήρη οθόνη"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Μεγιστοποίηση προεπισκόπησης"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Ελαχιστοποίηση προεπισκόπησης"
   },
   "icu:calling__change-view": {
     "messageformat": "Αλλαγή προβολής"
@@ -6097,13 +6100,13 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Βελτιώσεις στην απόδοση κατά τη λήψη αυτοκόλλητων."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Η νέα λειτουργία \"Χρήση δεδομένων\" στις ρυθμίσεις του Signal διευκολύνει την επιλογή της αυτόματης λήψης ή μη φωτογραφιών, βίντεο, αρχείων ήχου ή άλλων εγγράφων."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Τώρα, όταν προσπαθείς να ξεκινήσεις μια συνομιλία με το όνομα χρήστη Signal κάποιου, θα λειτουργεί ακόμα και αν κατά λάθος πληκτρολογήσεις πρώτα το σύμβολο \"@\"."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Τώρα μπορείς να επεκτείνεις την τοπική προεπισκόπηση βίντεο κατά τη διάρκεια μιας κλήσης για να δεις καλύτερα τον εαυτό σου."
   }
 }

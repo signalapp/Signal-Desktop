@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Ino-optimize ang application…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Ino-optimize ang messages… {status} tapos na."
-  },
   "icu:archivedConversations": {
     "messageformat": "Archived Chats"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Walang unread chats"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Ang SMS/MMS contacts ay hindi available sa Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Walang results for \"{searchTerm}\" sa {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Toggle video on and off"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "I-on o i-off ang expanded preview"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Sagutin ang tawag na may video (video call lang)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "I-fullscreen ang call"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "I-maximize ang preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "I-minimize ang preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Palitan ang view"
@@ -6097,13 +6100,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "May performance improvements sa pag-download ng sticker."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Pinadali ng bagong \"Data usage\" feature sa Signal settings ang pagpili kung gusto mong automatic na i-download ng photos, viddeos, audio files, o iba pang dokumento."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Gagana na ang pagsimula ng chat gamit ang Signal username ng isang tao kahit hindi mo sinadyang i-type ang \"@\" symbol bago ito."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Pwede mo nang i-expand ang local video preview mo habang nasa call ka para mas makita mo nang maayos ang iyong sarili."
   }
 }

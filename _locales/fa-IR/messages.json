@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "بهینه‌سازی برنامه..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "بهینه‌سازی پیام‌ها... {status} انجام شد."
-  },
   "icu:archivedConversations": {
     "messageformat": "گفتگوهای بایگانی‌شده"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "گفتگوی خوانده‌نشده وجود ندارد"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "مخاطبین پیامک/پیام چندرسانه‌ای در دسکتاپ در دسترس نیستند."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "هیچ نتیجه ای برای{searchTerm}در {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "خاموش و روشن کردن ویدئو"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "روشن و خاموش کردن پیش‌نمایش گسترده"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "پاسخ به تماس با تصویر (فقط تماس‌های تصویری)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "تماس تمام‌صفحه"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "بزرگ کردن پیش‌نمایش"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "کوچک‌کردن پیش‌نمایش"
   },
   "icu:calling__change-view": {
     "messageformat": "تغییر نما"
@@ -6097,13 +6100,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "بهبودهایی در عملکرد دانلود استیکر."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "قابلیت جدید «مصرف داده» در تنظیمات سیگنال، انتخاب دانلود یا عدم دانلود خودکار عکس‌ها، ویدئوها، فایل‌های صوتی یا سایر اسناد را آسان می‌کند."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "اکنون زمانی که می‌خواهید گفتگویی با نام کاربری سیگنال کسی شروع کنید، حتی اگر اشتباهاً علامت “@” را اول تایپ کنید، باز هم کار خواهد کرد."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "اکنون می‌توانید پیش‌نمایش ویدئوی محلی خود را در طول تماس گسترش دهید تا خود را بهتر ببینید."
   }
 }

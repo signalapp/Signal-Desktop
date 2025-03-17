@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Se optimizează aplicația..."
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizare mesaje... {status} complet."
-  },
   "icu:archivedConversations": {
     "messageformat": "Conversații arhivate"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Fără conversații necitite"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Contactele SMS/MMS nu sunt disponibile pe Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Nici un rezultat pentru \"{searchTerm}\" în {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Comutare video activat și dezactivat"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Răspunde la apel cu un videoclip (doar apeluri video)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Apel pe ecran complet"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Schimbă vizualizarea"
@@ -6097,13 +6100,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Autocolantele ar trebui să pară lipicioase, nu blocate, așa că acum poți da clic pe un autocolant de pe un Signal Desktop nou conectat, iar descărcarea acelui autocolant va primi automat prioritate chiar și atunci când se descarcă și alte atașamente."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Noua funcție „Utilizarea datelor” din setările Signal te ajută să alegi cu ușurință dacă să descarci sau nu automat fotografii, videoclipuri, fișiere audio sau alte documente. Dacă Signal oprește descărcarea automată a celor mai recente melodii de la trupa iubitului prietenului tău în chat-ul de grup, poți să le salvezi și să salvezi și spațiu liber, pe hard disk."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Acum, când încerci să începi un chat cu numele de utilizator Signal al cuiva, va funcționa chiar dacă introduci din greșeală simbolul „@”. Unele obiceiuri sunt greu de schimb@t."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

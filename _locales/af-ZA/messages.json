@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimaliseer tans die toepassing…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimaliseer tans boodskappe… {status} voltooi."
-  },
   "icu:archivedConversations": {
     "messageformat": "Geargiveerde kletse"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Geen ongeleesde kletse nie"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS-kontakte is nie op Desktop beskikbaar nie."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Geen resultate vir \"{searchTerm}\" in {conversationName} nie"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Wissel video aan en af"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Skakel uitgebreide voorskou aan en af"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Antwoord oproep met video (slegs videokletse)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Volskermoproep"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maksimaliseer voorskou"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimaliseer voorskou"
   },
   "icu:calling__change-view": {
     "messageformat": "Verander uitleg"
@@ -6097,13 +6100,13 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Verbeterings in plakkeraflaai-werkverrigting."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Die nuwe \"Datagebruik\"-kenmerk in Signal-instellings maak dit maklik om te kies of foto's, video's, klanklêers of ander dokumente outomaties afgelaai moet word of nie."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Wanneer jy nou probeer om 'n klets met iemand se Signal-gebruikernaam te begin, sal dit werk selfs al tik jy per ongeluk eers die \"@\"-simbool in."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Nou kan jy jou eie videovoorskou tydens 'n oproep vergroot om jouself beter te kan bekyk."
   }
 }

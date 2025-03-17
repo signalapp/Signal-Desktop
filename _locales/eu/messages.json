@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Aplikazioa optimizatzen…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Mezuak optimizatzen… {status} osatu da."
-  },
   "icu:archivedConversations": {
     "messageformat": "Artxibatutako txatak"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Ez dago irakurri gabeko txatik"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS kontaktuak ez daude erabilgarri ordenagailurako bertsioan."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Ez da topatu emaitzarik \"{searchTerm}\" bilaketarako {conversationName} solasaldian"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Bideoa aktibatu / desaktibatu"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Aktibatu eta desaktibatu aurrebista zabaldua"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Erantzun deiari bideoarekin (bideodeiak soilik)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Deia pantaila osoan jarri"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximizatu aurrebista"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimizatu aurrebista"
   },
   "icu:calling__change-view": {
     "messageformat": "Aldatu ikuspegia"
@@ -6097,13 +6100,13 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Eranskailuak deskargatzeko errendimendua hobetu da."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal-en ezarpenetako \"Datuen erabilera\" eginbide berriarekin, errazago aukera daiteke argazki, bideo, audio-fitxategi eta bestelako dokumentuak automatikoki deskargatu behar diren."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Orain, norbaiten Signal-eko erabiltzaile-izenarekin txateatzen hasi nahi duzunean, hasieran \"@\" idatzita ere funtzionatuko du."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Orain, deietan zure bideo-aurrebista lokala zabal dezakezu, zeure burua hobeto ikusteko."
   }
 }

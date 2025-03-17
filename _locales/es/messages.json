@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimizando aplicación…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizando mensajes… {status} completado."
-  },
   "icu:archivedConversations": {
     "messageformat": "Chats archivados"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "No hay chats sin leer"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Tus contactos con solo SMS/MMS no están disponibles en la aplicación de escritorio."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "No hay ningún resultado para \"{searchTerm}\" en {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Activar o desactivar vídeo"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atender llamada con vídeo (solo videollamadas)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Llamada a pantalla completa"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Cambiar la vista"
@@ -4485,7 +4488,7 @@
     "messageformat": "Restablecer todos"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Restablecer predeterminados"
+    "messageformat": "Restablecer predeterminado"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Restablecer"
@@ -6097,13 +6100,13 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Los stickers deberían pegarse, no encallarse… así que ahora, cuando hagas clic sobre un sticker en un dispositivo de Signal Desktop recién vinculado, se priorizará la descarga de este sticker de manera automática incluso aunque estés descargando otros archivos adjuntos."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "La nueva función \"Uso de datos\" en los ajustes de Signal te permite decidir si quieres descargar automáticamente fotos, vídeos, archivos de audio y otros documentos. Así, si Signal deja de descargar las últimas canciones de la banda del novio de tu amiga que inundan el chat grupal, tendrás más espacio libre para la música que de verdad te gusta."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Además, ahora puedes iniciar un chat usando el alias de Signal de alguien, incluso si se te olvida el símbolo \"@\" antes del nombre. S@bemos que cuest@ c@mbi@r l@s viej@s costumbres."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
   }
 }

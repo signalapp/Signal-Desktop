@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Uygulama optimize ediliyor…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "İletiler optimize ediliyor… {status} tamamlandı."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arşivlenmiş Sohbetler"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Okunmamış sohbet yok"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS kişileri Desktop'ta mevcut değil."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} konuşması \"{searchTerm}\" için sonuç bulunamadı"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Görüntüyü kapatıp açma"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Genişletilmiş ön izlemeyi aç ve kapat"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Aramayı görüntülü yanıtla (yalnızca görüntülü aramalar için)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Aramayı tam ekran yap"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Ön izlemeyi büyüt"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Ön izlemeyi küçült"
   },
   "icu:calling__change-view": {
     "messageformat": "Görünümü değiştir"
@@ -6097,13 +6100,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Çıkartma indirme performansında geliştirmeler."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal ayarlarındaki yeni \"Veri kullanımı\" özelliği; fotoğrafların, videoların, ses dosyalarının veya diğer belgelerin otomatik olarak indirilip indirilmeyeceğini seçmeyi kolaylaştırıyor. Böylece hangi medyaların otomatik olarak ineceğine, hangilerinin inmeyeceğine sadece sen karar verebilirsin."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Bundan böyle birinin Signal kullanıcı adıyla sohbet başlatmaya çalıştığında, önce kazara \"@\" sembolü yazsan bile sorun olmayacaktır. Bazı a@lışkanlıklardan vazgeçmesi @ordur."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Bundan böyle kendine daha iyi bakmak için bir arama sırasında yerel video ön izlemeni büyütebilirsin."
   }
 }

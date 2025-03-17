@@ -218,9 +218,6 @@
   "icu:optimizingApplication": {
     "messageformat": "Optimoidaan sovellusta…"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimoidaan viestejä… {status} valmis."
-  },
   "icu:archivedConversations": {
     "messageformat": "Arkistoidut keskustelut"
   },
@@ -706,9 +703,6 @@
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Ei lukemattomia keskusteluja"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "Tekstiviesti- tai MMS-yhteystiedot eivät ole saatavilla työpöytäsovelluksessa."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Ei tuloksia haulle {searchTerm} keskustelussa {conversationName}"
@@ -2681,6 +2675,9 @@
   "icu:Keyboard--toggle-video": {
     "messageformat": "Kytke video päälle ja pois"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Ota laajennettu esikatselu käyttöön tai pois käytöstä"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Vastaa puheluun videolla (vain videopuhelut)"
   },
@@ -3100,6 +3097,12 @@
   },
   "icu:calling__pip--off": {
     "messageformat": "Koko näytön puhelu"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Suurenna esikatselu"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Pienennä esikatselu"
   },
   "icu:calling__change-view": {
     "messageformat": "Vaihda näkymää"
@@ -6097,13 +6100,13 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Tarrojen lataamisen suorituskykyparannuksia."
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "Signal-asetusten uuden Datankäyttö-ominaisuuden avulla on helppo valita, ladataanko kuvat, videot, äänitiedostot tai muut asiakirjat automaattisesti vai ei."
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Kun nyt yrität aloittaa keskustelun Signal-käyttäjänimellä, se toimii, vaikka kirjoittaisit vahingossa @-symbolin ensin."
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Nyt voit laajentaa videon paikallista esikatselua puhelun aikana saadaksesi paremman kuvan itsestäsi."
   }
 }
