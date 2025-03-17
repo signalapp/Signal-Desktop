@@ -397,6 +397,7 @@
     ],
     "ignoredBuiltDependencies": [
       "core-js",
+      "electron-winstaller",
       "es5-ext",
       "protobufjs"
     ]
