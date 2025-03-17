@@ -11,6 +11,7 @@ describe('toWebStream', () => {
     const CHUNK_SIZE = 16 * 1024;
     let pushed = 0;
     const readable = new Readable({
+      highWaterMark: CHUNK_SIZE,
       read() {
         pushed += 1;
         this.push(Buffer.alloc(CHUNK_SIZE));

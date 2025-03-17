@@ -69,6 +69,9 @@ describe('unknown contacts', function (this: Mocha.Suite) {
     debug('accepting message request');
     await page.getByText('message you and share your name').waitFor();
     await page.getByRole('button', { name: 'Accept' }).click();
+    await page.getByText('message you and share your name').waitFor({
+      state: 'detached',
+    });
     assert.strictEqual(
       await page.getByText('message you and share your name').count(),
       0

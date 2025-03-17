@@ -1,4 +1,5 @@
 {
+  "packageManager": "pnpm@10.6.4",
   "name": "signal-art-creator",
   "private": true,
   "version": "0.0.0",

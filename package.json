@@ -1,5 +1,6 @@
 {
   "$schema": "./package.schema.json",
+  "packageManager": "pnpm@10.6.4",
   "name": "signal-desktop",
   "productName": "Signal",
   "description": "Private messaging from your desktop",
@@ -292,7 +293,7 @@
     "csv-parse": "5.5.6",
     "danger": "12.3.3",
     "debug": "4.3.7",
-    "electron": "34.2.0",
+    "electron": "35.0.2",
     "electron-builder": "26.0.10",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
@@ -403,7 +404,7 @@
     ]
   },
   "engines": {
-    "node": "20.18.2"
+    "node": "22.14.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
