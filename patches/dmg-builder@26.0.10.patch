@@ -1,0 +1,13 @@
+diff --git a/out/dmgLicense.js b/out/dmgLicense.js
+index cf1dbdf803d3af37e439c7f0fa219b497f8faaef..d727aac55e263486b88801ac04d5b98360b374ce 100644
+--- a/out/dmgLicense.js
++++ b/out/dmgLicense.js
+@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.addLicenseToDmg = addLicenseToDmg;
+ const license_1 = require("app-builder-lib/out/util/license");
+ const builder_util_1 = require("builder-util");
+-const dmg_license_1 = require("dmg-license");
++// SIGNAL: const dmg_license_1 = require("dmg-license");
+ const fs_extra_1 = require("fs-extra");
+ const js_yaml_1 = require("js-yaml");
+ const licenseButtons_1 = require("./licenseButtons");
