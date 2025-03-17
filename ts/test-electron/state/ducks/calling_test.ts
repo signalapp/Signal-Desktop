@@ -2178,7 +2178,7 @@ describe('calling duck', () => {
           );
 
           sinon.assert.calledWithMatch(startCallingLobbyStub, {
-            hasLocalVideo: true,
+            preferLocalVideo: true,
           });
         });
 
@@ -2189,7 +2189,7 @@ describe('calling duck', () => {
           })(noop, () => rootState, null);
 
           sinon.assert.calledWithMatch(startCallingLobbyStub, {
-            hasLocalVideo: true,
+            preferLocalVideo: true,
           });
         });
 
@@ -2200,7 +2200,7 @@ describe('calling duck', () => {
           })(noop, () => rootState, null);
 
           sinon.assert.calledWithMatch(startCallingLobbyStub, {
-            hasLocalVideo: false,
+            preferLocalVideo: false,
           });
         });
 

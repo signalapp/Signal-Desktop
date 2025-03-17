@@ -2536,7 +2536,7 @@ function startCallingLobby({
         conversation,
         hasLocalAudio:
           groupCallDeviceCount < MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
-        hasLocalVideo: isVideoCall,
+        preferLocalVideo: isVideoCall,
       });
       if (!callLobbyData) {
         throw new Error('Failed to start call lobby');

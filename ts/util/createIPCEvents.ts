@@ -91,7 +91,7 @@ export type IPCEventsValuesType = {
 
   // Optional
   mediaPermissions: boolean;
-  mediaCameraPermissions: boolean;
+  mediaCameraPermissions: boolean | undefined;
 
   // Only getters
 
@@ -734,7 +734,9 @@ export function createIPCEvents(
       return window.IPC.getMediaAccessStatus(mediaType);
     },
     getMediaPermissions: window.IPC.getMediaPermissions,
-    getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
+    getMediaCameraPermissions: async () => {
+      return (await window.IPC.getMediaCameraPermissions()) || false;
+    },
 
     setMediaPlaybackDisabled: (playbackDisabled: boolean) => {
       window.reduxActions?.lightbox.setPlaybackDisabled(playbackDisabled);

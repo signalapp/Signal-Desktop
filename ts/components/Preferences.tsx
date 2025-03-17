@@ -89,7 +89,7 @@ export type PropsDataType = {
   hasHideMenuBar?: boolean;
   hasIncomingCallNotifications: boolean;
   hasLinkPreviews: boolean;
-  hasMediaCameraPermissions: boolean;
+  hasMediaCameraPermissions: boolean | undefined;
   hasMediaPermissions: boolean;
   hasMessageAudio: boolean;
   hasMinimizeToAndStartInSystemTray: boolean;
@@ -609,7 +609,7 @@ export function Preferences({
             onChange={onMediaPermissionsChange}
           />
           <Checkbox
-            checked={hasMediaCameraPermissions}
+            checked={hasMediaCameraPermissions ?? false}
             label={i18n('icu:mediaCameraPermissionsDescription')}
             moduleClassName="Preferences__checkbox"
             name="mediaCameraPermissions"

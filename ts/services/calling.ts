@@ -92,6 +92,7 @@ import type { ProcessedEnvelope } from '../textsecure/Types.d';
 import type { GetIceServersResultType } from '../textsecure/WebAPI';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
+import { requestCameraPermissions } from '../util/callingPermissions';
 import {
   AUDIO_LEVEL_INTERVAL_MS,
   REQUESTED_VIDEO_WIDTH,
@@ -351,6 +352,18 @@ async function ensureSystemPermissions({
   }
 }
 
+async function checkCameraPermission(): Promise<boolean> {
+  // If user never went through on boarding, the value is going to be
+  // `undefined` and we should ask for permissions. If it is explicitly `false`
+  // camera is intentionally not available.
+  const cameraPermission = await window.IPC.getMediaCameraPermissions();
+  if (cameraPermission === false) {
+    return false;
+  }
+  const status = await window.IPC.getMediaAccessStatus('camera');
+  return status !== 'denied';
+}
+
 function getLogId(
   options:
     | {
@@ -500,11 +513,11 @@ export class CallingClass {
   async startCallingLobby({
     conversation,
     hasLocalAudio,
-    hasLocalVideo,
+    preferLocalVideo,
   }: Readonly<{
     conversation: Readonly<ConversationType>;
     hasLocalAudio: boolean;
-    hasLocalVideo: boolean;
+    preferLocalVideo: boolean;
   }>): Promise<
     | undefined
     | ({ hasLocalAudio: boolean; hasLocalVideo: boolean } & (
@@ -568,6 +581,8 @@ export class CallingClass {
       );
       return;
     }
+
+    const hasLocalVideo = preferLocalVideo && (await checkCameraPermission());
 
     const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
@@ -899,12 +914,12 @@ export class CallingClass {
     callLinkRootKey,
     adminPasskey,
     hasLocalAudio,
-    hasLocalVideo = true,
+    preferLocalVideo = true,
   }: Readonly<{
     callLinkRootKey: CallLinkRootKey;
     adminPasskey: Buffer | undefined;
     hasLocalAudio: boolean;
-    hasLocalVideo?: boolean;
+    preferLocalVideo?: boolean;
   }>): Promise<
     | undefined
     | {
@@ -918,7 +933,17 @@ export class CallingClass {
       }
   > {
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
-    log.info('startCallLinkLobby() for roomId', roomId);
+    const logId = `startCallLinkLobby(roomId=${roomId})`;
+    log.info(`${logId}: starting`);
+
+    const hasLocalVideo = preferLocalVideo && (await checkCameraPermission());
+
+    const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
+    if (!haveMediaPermissions) {
+      log.info(
+        `${logId}: Permissions were denied, but allow joining group call`
+      );
+    }
 
     await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
 
@@ -937,7 +962,9 @@ export class CallingClass {
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
 
-    drop(this.enableLocalCamera());
+    if (hasLocalVideo) {
+      drop(this.enableLocalCamera());
+    }
 
     return {
       callMode: CallMode.Adhoc,
@@ -2742,23 +2769,11 @@ export class CallingClass {
     }
   }
 
-  async #requestCameraPermissions(): Promise<boolean> {
-    const cameraPermission = await window.IPC.getMediaCameraPermissions();
-    if (!cameraPermission) {
-      await window.IPC.showPermissionsPopup(true, true);
-
-      // Check the setting again (from the source of truth).
-      return window.IPC.getMediaCameraPermissions();
-    }
-
-    return true;
-  }
-
   async #requestPermissions(isVideoCall: boolean): Promise<boolean> {
     const microphonePermission = await requestMicrophonePermissions(true);
     if (microphonePermission) {
       if (isVideoCall) {
-        return this.#requestCameraPermissions();
+        return requestCameraPermissions();
       }
 
       return true;
