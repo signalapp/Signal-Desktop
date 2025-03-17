@@ -383,6 +383,16 @@ async function runDownloadAttachmentJob({
         `${logId}: Cancelled attempt ${job.attempts}. Not scheduling a retry. Error:`,
         Errors.toLogFormat(error)
       );
+      // Remove `pending` flag from the attachment. User can retry later.
+      await addAttachmentToMessage(
+        message.id,
+        {
+          ...job.attachment,
+          pending: false,
+        },
+        logId,
+        { type: job.attachmentType }
+      );
       return { status: 'finished' };
     }
 
