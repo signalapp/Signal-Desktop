@@ -1,0 +1,40 @@
+diff --git a/binding.gyp b/binding.gyp
+index f3030f89e418275f10eeff4cb97269cdb248144d..330e120cab4b2c8873a31135e06136733f052340 100644
+--- a/binding.gyp
++++ b/binding.gyp
+@@ -1,14 +1,23 @@
+ {
+-	 "targets": [
+-		{
+-			"target_name": "screencapturepermissions",
+-			"sources": [
+-				"screen-capture-permissions.m"
+-			],
+-			"xcode_settings": {
+-				"MACOSX_DEPLOYMENT_TARGET": "10.14",
+-				"OTHER_LDFLAGS": ["-framework CoreGraphics"]
+-			}
+-		}
+-	]
++	"conditions": [
++		["OS=='mac'", {
++			"targets": [
++				{
++					"target_name": "screencapturepermissions",
++					"sources": [
++						"screen-capture-permissions.m"
++					],
++					"xcode_settings": {
++						"MACOSX_DEPLOYMENT_TARGET": "10.14",
++						"OTHER_LDFLAGS": ["-framework CoreGraphics"]
++					}
++				}
++			]
++		}, {
++			"targets": [{
++				"target_name": "noop",
++				"type": "none",
++			}],
++		}],
++	],
+ }
