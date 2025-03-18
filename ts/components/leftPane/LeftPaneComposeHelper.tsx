@@ -18,6 +18,7 @@ import {
   isFetchingByE164,
 } from '../../util/uuidFetchState';
 import type { GroupListItemConversationType } from '../conversationList/GroupListItem';
+import { isProbablyAUsername } from '../../util/Username';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemConversationType>;
@@ -136,15 +137,15 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }
 
   getRowCount(): number {
-    let result = this.#composeContacts.length + this.#composeGroups.length;
+    let result = 0;
     if (this.#hasTopButtons()) {
       result += 3;
     }
     if (this.#hasContactsHeader()) {
-      result += 1;
+      result += 1 + this.#composeContacts.length;
     }
     if (this.#hasGroupsHeader()) {
-      result += 1;
+      result += 1 + this.#composeGroups.length;
     }
     if (this.#isUsernameVisible) {
       result += 2;
@@ -304,11 +305,17 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }
 
   #hasContactsHeader(): boolean {
-    return Boolean(this.#composeContacts.length);
+    return (
+      Boolean(this.#composeContacts.length) &&
+      !isProbablyAUsername(this.#searchTerm)
+    );
   }
 
   #hasGroupsHeader(): boolean {
-    return Boolean(this.#composeGroups.length);
+    return (
+      Boolean(this.#composeGroups.length) &&
+      !isProbablyAUsername(this.#searchTerm)
+    );
   }
 
   #getHeaderIndices(): {

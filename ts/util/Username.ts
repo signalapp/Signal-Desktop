@@ -1,10 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { usernames } from '@signalapp/libsignal-client';
-
 import * as RemoteConfig from '../RemoteConfig';
-import { getNickname } from '../types/Username';
 import { parseIntWithFallback } from './parseIntWithFallback';
 
 export function getMaxNickname(): number {
@@ -17,13 +14,15 @@ export function getMinNickname(): number {
   return parseIntWithFallback(RemoteConfig.getValue('global.nicknames.min'), 3);
 }
 
+const USERNAME_CHARS = /^@?[a-zA-Z0-9]+(.\d+)?$/;
+const ALL_DIGITS = /^\d+$/;
+
 export function getUsernameFromSearch(searchTerm: string): string | undefined {
-  const nickname = getNickname(searchTerm);
-  if (nickname == null || nickname.length < getMinNickname()) {
+  let modifiedTerm = searchTerm;
+
+  if (ALL_DIGITS.test(searchTerm)) {
     return undefined;
   }
-
-  let modifiedTerm = searchTerm;
 
   if (modifiedTerm.startsWith('@')) {
     modifiedTerm = modifiedTerm.slice(1);
@@ -31,15 +30,40 @@ export function getUsernameFromSearch(searchTerm: string): string | undefined {
   if (modifiedTerm.endsWith('.')) {
     // Allow nicknames without full discriminator
     modifiedTerm = `${modifiedTerm}01`;
+  } else if (/\.\d$/.test(modifiedTerm)) {
+    // Add one more digit if they only have one
+    modifiedTerm = `${modifiedTerm}1`;
   } else if (!/\.\d*$/.test(modifiedTerm)) {
     // Allow nicknames without discriminator
     modifiedTerm = `${modifiedTerm}.01`;
   }
 
+  if (!USERNAME_CHARS.test(modifiedTerm)) {
+    return undefined;
+  }
+
   try {
-    usernames.hash(modifiedTerm);
     return modifiedTerm;
   } catch {
     return undefined;
   }
+}
+
+export function isProbablyAUsername(searchTerm: string): boolean {
+  if (searchTerm.startsWith('@')) {
+    return true;
+  }
+
+  if (!USERNAME_CHARS.test(searchTerm)) {
+    return false;
+  }
+  if (ALL_DIGITS.test(searchTerm)) {
+    return false;
+  }
+
+  if (/.+\.\d\d\d?$/.test(searchTerm)) {
+    return true;
+  }
+
+  return false;
 }
