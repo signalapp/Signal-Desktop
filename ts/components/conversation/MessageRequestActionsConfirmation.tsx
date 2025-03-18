@@ -14,6 +14,7 @@ export enum MessageRequestState {
   unblocking,
   reportingAndMaybeBlocking,
   acceptedOptions,
+  accepting,
   default,
 }
 
@@ -278,6 +279,30 @@ export function MessageRequestActionsConfirmation({
             ),
           }}
         />
+      </ConfirmationDialog>
+    );
+  }
+
+  if (state === MessageRequestState.accepting) {
+    return (
+      <ConfirmationDialog
+        key="messageRequestActionsConfirmation.accepting"
+        dialogName="messageRequestActionsConfirmation.accepting"
+        moduleClassName="MessageRequestActionsConfirmation"
+        i18n={i18n}
+        onClose={() => {
+          onChangeState(MessageRequestState.default);
+        }}
+        title={i18n('icu:MessageRequests--accept-confirm-title')}
+        actions={[
+          {
+            text: i18n('icu:MessageRequests--accept'),
+            action: () => acceptConversation(conversationId),
+            style: 'affirmative',
+          },
+        ]}
+      >
+        {i18n('icu:MessageRequests--accept-confirm-body')}
       </ConfirmationDialog>
     );
   }

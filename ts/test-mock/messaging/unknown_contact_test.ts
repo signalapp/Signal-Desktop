@@ -10,6 +10,7 @@ import assert from 'assert';
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
+import { acceptConversation } from '../helpers';
 
 export const debug = createDebug('mock:test:edit');
 
@@ -68,7 +69,7 @@ describe('unknown contacts', function (this: Mocha.Suite) {
 
     debug('accepting message request');
     await page.getByText('message you and share your name').waitFor();
-    await page.getByRole('button', { name: 'Accept' }).click();
+    await acceptConversation(page);
     await page.getByText('message you and share your name').waitFor({
       state: 'detached',
     });

@@ -336,6 +336,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       blockConversation={blockConversation}
       reportSpam={reportSpam}
       deleteConversation={deleteConversation}
+      sharedGroupNames={conversation.sharedGroupNames}
       // Signal Conversation
       isSignalConversation={isSignalConversation(conversation)}
       isMuted={isConversationMuted(conversation)}

@@ -19,12 +19,16 @@ export default {
   component: ConversationHero,
   args: {
     conversationType: 'direct',
+    fromOrAddedByTrustedContact: true,
     i18n,
+    isDirectConvoAndHasNickname: false,
     theme: ThemeType.light,
     unblurAvatar: action('unblurAvatar'),
     updateSharedGroups: action('updateSharedGroups'),
     viewUserStories: action('viewUserStories'),
     toggleAboutContactModal: action('toggleAboutContactModal'),
+    toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),
+    openConversationDetails: action('openConversationDetails'),
   },
 } satisfies Meta<Props>;
 
@@ -70,6 +74,12 @@ DirectNoGroupsName.args = {
 
 export const DirectNoGroupsJustProfile = Template.bind({});
 DirectNoGroupsJustProfile.args = {
+  phoneNumber: casual.phone,
+};
+
+export const SignalConversation = Template.bind({});
+SignalConversation.args = {
+  isSignalConversation: true,
   phoneNumber: casual.phone,
 };
 
@@ -146,6 +156,15 @@ GroupNoName.args = {
   title: '',
 };
 
+export const GroupNotAccepted = Template.bind({});
+GroupNotAccepted.args = {
+  conversationType: 'group',
+  groupDescription: casual.sentence,
+  membersCount: casual.integer(20, 100),
+  title: casual.title,
+  acceptedMessageRequest: false,
+};
+
 export const NoteToSelf = Template.bind({});
 NoteToSelf.args = {
   isMe: true,
@@ -159,4 +178,27 @@ UnreadStories.args = {
 export const ReadStories = Template.bind({});
 ReadStories.args = {
   hasStories: HasStories.Read,
+};
+
+export const DirectNotFromTrustedContact = Template.bind({});
+DirectNotFromTrustedContact.args = {
+  conversationType: 'direct',
+  title: casual.full_name,
+  fromOrAddedByTrustedContact: false,
+};
+
+export const DirectWithNickname = Template.bind({});
+DirectWithNickname.args = {
+  conversationType: 'direct',
+  title: casual.full_name,
+  fromOrAddedByTrustedContact: false,
+  isDirectConvoAndHasNickname: true,
+};
+
+export const GroupNotFromTrustedContact = Template.bind({});
+GroupNotFromTrustedContact.args = {
+  conversationType: 'group',
+  title: casual.title,
+  membersCount: casual.integer(5, 20),
+  fromOrAddedByTrustedContact: false,
 };

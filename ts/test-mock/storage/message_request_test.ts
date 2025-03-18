@@ -81,6 +81,11 @@ describe('storage service', function (this: Mocha.Suite) {
       .locator('.module-message-request-actions button >> "Accept"')
       .click();
 
+    await window
+      .locator('.MessageRequestActionsConfirmation')
+      .getByRole('button', { name: 'Accept' })
+      .click();
+
     debug('Verify that storage state was updated');
     {
       const nextState = await phone.waitForStorageState({

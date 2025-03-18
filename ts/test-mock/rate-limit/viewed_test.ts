@@ -10,7 +10,11 @@ import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import { ReceiptType } from '../../types/Receipt';
 import { toUntaggedPni } from '../../types/ServiceId';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers';
+import {
+  acceptConversation,
+  typeIntoInput,
+  waitForEnabledComposer,
+} from '../helpers';
 
 export const debug = createDebug('mock:test:challenge:receipts');
 
@@ -106,7 +110,6 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     const window = await app.getWindow();
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug(`Opening conversation with contact (${contact.toContact().aci})`);
     await leftPane
@@ -114,9 +117,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       .click();
 
     debug('Accept conversation from contact - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Sending a message back to user - will trigger captcha!');
     {
@@ -164,7 +165,6 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     const window = await app.getWindow();
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Sending a message from ContactA');
     const timestampA = bootstrap.getTimestamp();
@@ -178,9 +178,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       .click();
 
     debug('Accept conversation from ContactA - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Sending a message from ContactB');
     const timestampB = bootstrap.getTimestamp();
@@ -194,9 +192,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       .click();
 
     debug('Accept conversation from ContactB - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Sending a message back to ContactB - will trigger captcha!');
     {
@@ -276,7 +272,6 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     const window = await app.getWindow();
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug(`Opening conversation with contact (${contact.toContact().aci})`);
     await leftPane
@@ -284,9 +279,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       .click();
 
     debug('Accept conversation from contact - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Sending a message back to user - will trigger captcha!');
     {
@@ -355,9 +348,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       .click();
 
     debug('Accept conversation from Contact B - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug(
       'Sending to Contact B - we should not pop captcha because we are waiting!'

@@ -281,10 +281,22 @@ export async function pinContact(
   await phone.setStorageState(state);
 }
 
-export function acceptConversation(page: Page): Promise<void> {
-  return page
+export async function acceptConversation(page: Page): Promise<void> {
+  await page
     .locator('.module-message-request-actions button >> "Accept"')
     .click();
+
+  const confirmationButton = page
+    .locator('.MessageRequestActionsConfirmation')
+    .getByRole('button', { name: 'Accept' });
+
+  await confirmationButton.waitFor({
+    timeout: 500,
+  });
+
+  if (await confirmationButton.isVisible()) {
+    await confirmationButton.click();
+  }
 }
 
 export function getTimeline(page: Page): Locator {

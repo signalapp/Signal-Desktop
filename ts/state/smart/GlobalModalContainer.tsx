@@ -31,6 +31,7 @@ import { SmartCallLinkAddNameModal } from './CallLinkAddNameModal';
 import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal';
 import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal';
 import { SmartAttachmentNotAvailableModal } from './AttachmentNotAvailableModal';
+import { SmartProfileNameWarningModal } from './ProfileNameWarningModal';
 
 function renderCallLinkAddNameModal(): JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -58,6 +59,10 @@ function renderEditNicknameAndNoteModal(): JSX.Element {
 
 function renderProfileEditor(): JSX.Element {
   return <SmartProfileEditorModal />;
+}
+
+function renderProfileNameWarningModal(): JSX.Element {
+  return <SmartProfileNameWarningModal />;
 }
 
 function renderUsernameOnboarding(): JSX.Element {
@@ -130,6 +135,8 @@ export const SmartGlobalModalContainer = memo(
       messageRequestActionsConfirmationProps,
       notePreviewModalProps,
       isProfileEditorVisible,
+      isProfileNameWarningModalVisible,
+      profileNameWarningModalConversationType,
       isShortcutGuideModalVisible,
       isSignalConnectionsVisible,
       isStoriesSettingsVisible,
@@ -229,6 +236,7 @@ export const SmartGlobalModalContainer = memo(
         i18n={i18n}
         isAboutContactModalVisible={aboutContactModalContactId != null}
         isProfileEditorVisible={isProfileEditorVisible}
+        isProfileNameWarningModalVisible={isProfileNameWarningModalVisible}
         isShortcutGuideModalVisible={isShortcutGuideModalVisible}
         isSignalConnectionsVisible={isSignalConnectionsVisible}
         isStoriesSettingsVisible={isStoriesSettingsVisible}
@@ -253,6 +261,7 @@ export const SmartGlobalModalContainer = memo(
         }
         renderNotePreviewModal={renderNotePreviewModal}
         renderProfileEditor={renderProfileEditor}
+        renderProfileNameWarningModal={renderProfileNameWarningModal}
         renderUsernameOnboarding={renderUsernameOnboarding}
         renderSafetyNumber={renderSafetyNumber}
         renderSendAnywayDialog={renderSendAnywayDialog}
@@ -267,6 +276,9 @@ export const SmartGlobalModalContainer = memo(
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         userNotFoundModalState={userNotFoundModalState}
         usernameOnboardingState={usernameOnboardingState}
+        profileNameWarningModalConversationType={
+          profileNameWarningModalConversationType
+        }
       />
     );
   }

@@ -11,12 +11,16 @@ import { I18n } from './I18n';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import type { WidthBreakpoint } from './_util';
 import { formatFileSize } from '../util/formatFileSize';
+import { getLocalizedUrl } from '../util/getLocalizedUrl';
 
 function contactSupportLink(parts: ReactNode): JSX.Element {
+  const localizedSupportLink = getLocalizedUrl(
+    'https://support.signal.org/hc/LOCALE/requests/new?desktop'
+  );
   return (
     <a
       key="signal-support"
-      href="https://support.signal.org/hc/en-us/requests/new?desktop"
+      href={localizedSupportLink}
       rel="noreferrer"
       target="_blank"
     >

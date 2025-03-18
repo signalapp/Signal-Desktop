@@ -133,6 +133,9 @@ export type PropsType = {
   // UsernameOnboarding
   usernameOnboardingState: UsernameOnboardingState;
   renderUsernameOnboarding: () => JSX.Element;
+  isProfileNameWarningModalVisible: boolean;
+  profileNameWarningModalConversationType?: string;
+  renderProfileNameWarningModal: () => JSX.Element;
 };
 
 export function GlobalModalContainer({
@@ -220,6 +223,9 @@ export function GlobalModalContainer({
   // UsernameOnboarding
   usernameOnboardingState,
   renderUsernameOnboarding,
+  // ProfileNameWarningModal
+  isProfileNameWarningModalVisible,
+  renderProfileNameWarningModal,
 }: PropsType): JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 1. Errors
@@ -294,6 +300,10 @@ export function GlobalModalContainer({
 
   if (isProfileEditorVisible) {
     return renderProfileEditor();
+  }
+
+  if (isProfileNameWarningModalVisible) {
+    return renderProfileNameWarningModal();
   }
 
   if (isShortcutGuideModalVisible) {

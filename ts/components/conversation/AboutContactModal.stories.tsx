@@ -66,9 +66,11 @@ export default {
     onOpenNotePreviewModal: action('onOpenNotePreviewModal'),
     toggleSignalConnectionsModal: action('toggleSignalConnections'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+    toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),
     updateSharedGroups: action('updateSharedGroups'),
     unblurAvatar: action('unblurAvatar'),
     conversation,
+    fromOrAddedByTrustedContact: false,
     isSignalConnection: false,
   },
 } satisfies ComponentMeta<PropsType>;
@@ -121,6 +123,16 @@ export function WithSharedGroups(args: PropsType): JSX.Element {
       {...args}
       conversation={conversationWithSharedGroups}
       isSignalConnection
+    />
+  );
+}
+
+export function DirectFromTrustedContact(args: PropsType): JSX.Element {
+  return (
+    <AboutContactModal
+      {...args}
+      conversation={conversation}
+      fromOrAddedByTrustedContact
     />
   );
 }

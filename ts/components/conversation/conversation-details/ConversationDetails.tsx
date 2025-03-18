@@ -15,6 +15,7 @@ import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart
 import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
 import { assertDev } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
+import { getLocalizedUrl } from '../../../util/getLocalizedUrl';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { BadgeType } from '../../../badges/types';
@@ -40,6 +41,7 @@ import type {
 import { EditConversationAttributesModal } from './EditConversationAttributesModal';
 import { RequestState } from './util';
 import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
+import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { ConversationNotificationsModal } from './ConversationNotificationsModal';
 import type {
@@ -60,9 +62,11 @@ import {
   InAnotherCallTooltip,
   getTooltipContent,
 } from '../InAnotherCallTooltip';
+import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog';
 
 enum ModalState {
   AddingGroupMembers,
+  BecomeSustainer,
   ConfirmDeleteNicknameAndNote,
   EditingGroupDescription,
   EditingGroupTitle,
@@ -244,6 +248,11 @@ export function ConversationDetails({
   switch (modalState) {
     case ModalState.NothingOpen:
       modalNode = undefined;
+      break;
+    case ModalState.BecomeSustainer:
+      modalNode = (
+        <BadgeSustainerInstructionsDialog i18n={i18n} onClose={onCloseModal} />
+      );
       break;
     case ModalState.EditingGroupDescription:
     case ModalState.EditingGroupTitle:
@@ -472,6 +481,74 @@ export function ConversationDetails({
           </Button>
         )}
       </div>
+
+      {isSignalConversation && (
+        <>
+          <PanelSection>
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationHero--signal-official-chat')}
+                  icon={IconType.timer}
+                />
+              }
+              label={i18n('icu:ConversationHero--signal-official-chat')}
+            />
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationHero--release-notes')}
+                  icon={IconType.bell}
+                />
+              }
+              label={i18n('icu:ConversationHero--release-notes')}
+            />
+          </PanelSection>
+
+          <PanelSection title={i18n('icu:ConversationDetails--help-section')}>
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationDetails--support-center')}
+                  icon={IconType.help}
+                />
+              }
+              label={i18n('icu:ConversationDetails--support-center')}
+              onClick={() => {
+                openLinkInWebBrowser(
+                  getLocalizedUrl('https://support.signal.org/hc/LOCALE')
+                );
+              }}
+            />
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:contactUs')}
+                  icon={IconType.invite}
+                />
+              }
+              label={i18n('icu:contactUs')}
+              onClick={() => {
+                openLinkInWebBrowser(
+                  getLocalizedUrl(
+                    'https://support.signal.org/hc/LOCALE/requests/new?desktop'
+                  )
+                );
+              }}
+            />
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:BadgeDialog__become-a-sustainer-button')}
+                  icon={IconType.heart}
+                />
+              }
+              label={i18n('icu:BadgeDialog__become-a-sustainer-button')}
+              onClick={() => setModalState(ModalState.BecomeSustainer)}
+            />
+          </PanelSection>
+        </>
+      )}
 
       {callHistoryGroup && (
         <CallHistoryGroupPanelSection

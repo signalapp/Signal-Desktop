@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect } from 'react';
+import React, { type ReactNode, useCallback, useEffect } from 'react';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
@@ -26,9 +26,11 @@ export type PropsType = Readonly<{
   onClose: () => void;
   onOpenNotePreviewModal: () => void;
   conversation: ConversationType;
+  fromOrAddedByTrustedContact?: boolean;
   isSignalConnection: boolean;
   toggleSignalConnectionsModal: () => void;
   toggleSafetyNumberModal: (id: string) => void;
+  toggleProfileNameWarningModal: () => void;
   updateSharedGroups: (id: string) => void;
   unblurAvatar: (conversationId: string) => void;
 }>;
@@ -36,9 +38,11 @@ export type PropsType = Readonly<{
 export function AboutContactModal({
   i18n,
   conversation,
+  fromOrAddedByTrustedContact,
   isSignalConnection,
   toggleSignalConnectionsModal,
   toggleSafetyNumberModal,
+  toggleProfileNameWarningModal,
   updateSharedGroups,
   unblurAvatar,
   onClose,
@@ -75,6 +79,14 @@ export function AboutContactModal({
       toggleSafetyNumberModal(conversation.id);
     },
     [toggleSafetyNumberModal, conversation.id]
+  );
+
+  const onProfileNameWarningClick = useCallback(
+    (ev: React.MouseEvent) => {
+      ev.preventDefault();
+      toggleProfileNameWarningModal();
+    },
+    [toggleProfileNameWarningModal]
   );
 
   let statusRow: JSX.Element | undefined;
@@ -184,6 +196,32 @@ export function AboutContactModal({
           <UserText text={conversation.title} />
         )}
       </div>
+
+      {!isMe && !fromOrAddedByTrustedContact ? (
+        <div className="AboutContactModal__row">
+          <i
+            className={`AboutContactModal__row__icon AboutContactModal__row__icon--${conversation.type === 'group' ? 'group' : 'direct'}-question`}
+          />
+          <button
+            type="button"
+            className="AboutContactModal__button"
+            onClick={onProfileNameWarningClick}
+          >
+            <I18n
+              components={{
+                // eslint-disable-next-line react/no-unstable-nested-components
+                clickable: (parts: ReactNode) => <>{parts}</>,
+              }}
+              i18n={i18n}
+              id={
+                conversation.type === 'group'
+                  ? 'icu:ConversationHero--group-names'
+                  : 'icu:ConversationHero--profile-names'
+              }
+            />
+          </button>
+        </div>
+      ) : null}
 
       {!isMe && conversation.isVerified ? (
         <div className="AboutContactModal__row">

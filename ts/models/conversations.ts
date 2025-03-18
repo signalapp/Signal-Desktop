@@ -4943,6 +4943,7 @@ export class ConversationModel extends window.Backbone
     if (!messaging) {
       throw new Error('setProfileAvatar: Cannot fetch avatar when offline!');
     }
+
     const avatar = await messaging.getAvatar(avatarUrl);
 
     // decrypt

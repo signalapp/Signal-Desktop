@@ -420,6 +420,7 @@ const renderHeroRow = () => {
         updateSharedGroups={noop}
         viewUserStories={action('viewUserStories')}
         toggleAboutContactModal={action('toggleAboutContactModal')}
+        toggleProfileNameWarningModal={action('toggleProfileNameWarningModal')}
       />
     );
   }

@@ -2419,6 +2419,22 @@
     "messageformat": "Message",
     "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
   },
+  "icu:ConversationDetails--help-section": {
+    "messageformat": "Help",
+    "description": "Title of the help section in the conversation details screen"
+  },
+  "icu:ConversationDetails--support-center": {
+    "messageformat": "Support Center",
+    "description": "Label for the support center link in conversation details"
+  },
+  "icu:ConversationDetails--contact-us": {
+    "messageformat": "Contact us",
+    "description": "Label for the contact us link in conversation details"
+  },
+  "icu:ConversationDetails--donate": {
+    "messageformat": "Donate to Signal",
+    "description": "Label for the donation link in conversation details"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "View Safety Number",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -3635,6 +3651,14 @@
     "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
     "description": "Description of the safety tips modal"
   },
+  "icu:SafetyTipsModal__TipTitle--Fake": {
+    "messageformat": "Fake names and accounts",
+    "description": "Title of the fake name safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Fake": {
+    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified.",
+    "description": "Description of the fake name safety tip"
+  },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Crypto or money scams",
     "description": "Title of the crypto safety tip"
@@ -3811,6 +3835,14 @@
     "messageformat": "Accept",
     "description": "Shown as a button to let the user accept a message request"
   },
+  "icu:MessageRequests--accept-confirm-title": {
+    "messageformat": "Accept Request?",
+    "description": "Title of confirmation dialog shown before accepting a message request"
+  },
+  "icu:MessageRequests--accept-confirm-body": {
+    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified.",
+    "description": "Body text of confirmation dialog shown before accepting a message request"
+  },
   "icu:MessageRequests--continue": {
     "messageformat": "Continue",
     "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
@@ -3826,6 +3858,26 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {# member} other {# members}}",
     "description": "Specifies the number of members in a group conversation"
+  },
+  "icu:ConversationHero--review-carefully": {
+    "messageformat": "Review carefully",
+    "description": "Label shown in conversation hero to advise users to review the conversation carefully"
+  },
+  "icu:ConversationHero--group-names": {
+    "messageformat": "<clickable>Group names</clickable> are not verified",
+    "description": "Label for group names in the name verification warning in conversation hero"
+  },
+  "icu:ConversationHero--profile-names": {
+    "messageformat": "<clickable>Profile names</clickable> are not verified",
+    "description": "Label for profile names in the name verification warning in conversation hero"
+  },
+  "icu:ConversationHero--signal-official-chat": {
+    "messageformat": "This is the official and only chat from Signal",
+    "description": "Text indicating that this is the official Signal conversation"
+  },
+  "icu:ConversationHero--release-notes": {
+    "messageformat": "Keep up to date with news and release notes.",
+    "description": "Text explaining the purpose of the Signal official conversation"
   },
   "icu:member-of-1-group": {
     "messageformat": "Member of {group}",
@@ -5822,10 +5874,6 @@
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
     "messageformat": "Use this link to join a Signal call: {url}",
     "description": "Draft message text for sharing a call link"
-  },
-  "icu:MessageRequestWarning__learn-more": {
-    "messageformat": "Learn more",
-    "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Safety Tips",
@@ -8076,6 +8124,38 @@
   "icu:WhoCanFindMeReadOnlyToast": {
     "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
     "description": "A toast displayed when user clicks disabled option in settings window"
+  },
+  "icu:ProfileNameWarningModal__description--direct": {
+    "messageformat": "Profile names on Signal are chosen by their account holder:",
+    "description": "Description of how profile names work in the profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__list--item1--direct": {
+    "messageformat": "Profile names aren't verified",
+    "description": "First list item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__list--item2--direct": {
+    "messageformat": "Be cautious of accounts that impersonate others",
+    "description": "Second list item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__list--item3--direct": {
+    "messageformat": "Don't share personal information with people you don't know",
+    "description": "Third list item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__description--group": {
+    "messageformat": "Group names are chosen by members of the group.",
+    "description": "Description of how group names work in the profile name warning modal for group conversations"
+  },
+  "icu:ProfileNameWarningModal__list--item1--group": {
+    "messageformat": "Be cautious of groups that impersonate organizations and businesses",
+    "description": "First list item in profile name warning modal for group conversations"
+  },
+  "icu:ProfileNameWarningModal__list--item2--group": {
+    "messageformat": "Profile names of members in groups are not verified",
+    "description": "Second list item in profile name warning modal for group conversations"
+  },
+  "icu:ProfileNameWarningModal__list--item3--group": {
+    "messageformat": "Don't share personal information with people you don't know",
+    "description": "Third list item in profile name warning modal for group conversations"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",

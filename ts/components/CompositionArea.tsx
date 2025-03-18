@@ -100,6 +100,7 @@ export type OwnProps = Readonly<{
   areWeAdmin: boolean | null;
   areWePending: boolean | null;
   areWePendingApproval: boolean | null;
+  sharedGroupNames?: ReadonlyArray<string>;
   cancelRecording: () => unknown;
   completeRecording: (
     conversationId: string,
@@ -350,6 +351,7 @@ export const CompositionArea = memo(function CompositionArea({
   // SMS-only contacts
   isSmsOnlyOrUnregistered,
   isFetchingUUID,
+  sharedGroupNames,
   renderSmartCompositionRecording,
   renderSmartCompositionRecordingDraft,
   // Selected messages
@@ -893,6 +895,7 @@ export const CompositionArea = memo(function CompositionArea({
         isBlocked={isBlocked}
         isHidden={isHidden}
         isReported={isReported}
+        sharedGroupNames={sharedGroupNames}
         acceptConversation={acceptConversation}
         reportSpam={reportSpam}
         blockAndReportSpam={blockAndReportSpam}

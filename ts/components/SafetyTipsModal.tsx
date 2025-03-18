@@ -20,28 +20,34 @@ export function SafetyTipsModal({
   const pages = useMemo(() => {
     return [
       {
+        key: 'fake',
+        title: i18n('icu:SafetyTipsModal__TipTitle--Fake'),
+        description: i18n('icu:SafetyTipsModal__TipDescription--Fake'),
+        imageUrl: 'images/safety-tips/safety-tip-fake.webp',
+      },
+      {
         key: 'crypto',
         title: i18n('icu:SafetyTipsModal__TipTitle--Crypto'),
         description: i18n('icu:SafetyTipsModal__TipDescription--Crypto'),
-        imageUrl: 'images/safety-tips/safety-tip-crypto.png',
+        imageUrl: 'images/safety-tips/safety-tip-crypto.webp',
       },
       {
         key: 'vague',
         title: i18n('icu:SafetyTipsModal__TipTitle--Vague'),
         description: i18n('icu:SafetyTipsModal__TipDescription--Vague'),
-        imageUrl: 'images/safety-tips/safety-tip-vague.png',
+        imageUrl: 'images/safety-tips/safety-tip-vague.webp',
       },
       {
         key: 'links',
         title: i18n('icu:SafetyTipsModal__TipTitle--Links'),
         description: i18n('icu:SafetyTipsModal__TipDescription--Links'),
-        imageUrl: 'images/safety-tips/safety-tip-links.png',
+        imageUrl: 'images/safety-tips/safety-tip-links.webp',
       },
       {
         key: 'business',
         title: i18n('icu:SafetyTipsModal__TipTitle--Business'),
         description: i18n('icu:SafetyTipsModal__TipDescription--Business'),
-        imageUrl: 'images/safety-tips/safety-tip-business.png',
+        imageUrl: 'images/safety-tips/safety-tip-business.webp',
       },
     ];
   }, [i18n]);

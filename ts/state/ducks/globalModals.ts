@@ -119,6 +119,8 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   gv2MigrationProps?: MigrateToGV2PropsType;
   hasConfirmationModal: boolean;
   isProfileEditorVisible: boolean;
+  isProfileNameWarningModalVisible: boolean;
+  profileNameWarningModalConversationType?: string;
   isShortcutGuideModalVisible: boolean;
   isSignalConnectionsVisible: boolean;
   isStoriesSettingsVisible: boolean;
@@ -168,6 +170,8 @@ const TOGGLE_NOTE_PREVIEW_MODAL = 'globalModals/TOGGLE_NOTE_PREVIEW_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
   'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
+const TOGGLE_PROFILE_NAME_WARNING_MODAL =
+  'globalModals/TOGGLE_PROFILE_NAME_WARNING_MODAL';
 const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
 const TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL =
   'globalModals/TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL';
@@ -293,6 +297,13 @@ type ToggleProfileEditorActionType = ReadonlyDeep<{
 
 export type ToggleProfileEditorErrorActionType = ReadonlyDeep<{
   type: typeof TOGGLE_PROFILE_EDITOR_ERROR;
+}>;
+
+export type ToggleProfileNameWarningModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_PROFILE_NAME_WARNING_MODAL;
+  payload?: {
+    conversationType: string;
+  };
 }>;
 
 type ToggleSafetyNumberModalActionType = ReadonlyDeep<{
@@ -474,6 +485,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleNotePreviewModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
+  | ToggleProfileNameWarningModalActionType
   | ToggleSafetyNumberModalActionType
   | ToggleSignalConnectionsModalActionType
   | ToggleUsernameOnboardingActionType
@@ -523,6 +535,7 @@ export const actions = {
   toggleNotePreviewModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
+  toggleProfileNameWarningModal,
   toggleSafetyNumberModal,
   toggleSignalConnectionsModal,
   toggleUsernameOnboarding,
@@ -842,6 +855,15 @@ function toggleProfileEditor(
 
 function toggleProfileEditorHasError(): ToggleProfileEditorErrorActionType {
   return { type: TOGGLE_PROFILE_EDITOR_ERROR };
+}
+
+function toggleProfileNameWarningModal(
+  conversationType?: string
+): ToggleProfileNameWarningModalActionType {
+  return {
+    type: TOGGLE_PROFILE_NAME_WARNING_MODAL,
+    payload: conversationType ? { conversationType } : undefined,
+  };
 }
 
 function toggleSafetyNumberModal(
@@ -1170,6 +1192,8 @@ export function getEmptyState(): GlobalModalsStateType {
     confirmLeaveCallModalState: null,
     editNicknameAndNoteModalProps: null,
     isProfileEditorVisible: false,
+    isProfileNameWarningModalVisible: false,
+    profileNameWarningModalConversationType: undefined,
     isShortcutGuideModalVisible: false,
     isSignalConnectionsVisible: false,
     isStoriesSettingsVisible: false,
@@ -1220,6 +1244,16 @@ export function reducer(
     return {
       ...state,
       profileEditorHasError: !state.profileEditorHasError,
+    };
+  }
+  if (action.type === TOGGLE_PROFILE_NAME_WARNING_MODAL) {
+    return {
+      ...state,
+      isProfileNameWarningModalVisible: !state.isProfileNameWarningModalVisible,
+      profileNameWarningModalConversationType:
+        state.isProfileNameWarningModalVisible
+          ? undefined
+          : action.payload?.conversationType,
     };
   }
 

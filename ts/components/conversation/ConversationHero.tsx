@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState } from 'react';
+import React, { type ReactNode, useEffect, useState } from 'react';
+import classNames from 'classnames';
 import type { Props as AvatarProps } from '../Avatar';
 import { Avatar, AvatarSize, AvatarBlur } from '../Avatar';
 import { ContactName } from './ContactName';
@@ -12,22 +13,24 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { HasStories } from '../../types/Stories';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
 import { StoryViewModeType } from '../../types/Stories';
-import { ConfirmationDialog } from '../ConfirmationDialog';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 import { Button, ButtonVariant } from '../Button';
 import { SafetyTipsModal } from '../SafetyTipsModal';
+import { I18n } from '../I18n';
 
 export type Props = {
   about?: string;
   acceptedMessageRequest?: boolean;
+  fromOrAddedByTrustedContact?: boolean;
   groupDescription?: string;
   hasStories?: HasStories;
   id: string;
   i18n: LocalizerType;
+  isDirectConvoAndHasNickname?: boolean;
   isMe: boolean;
   isSignalConversation?: boolean;
   membersCount?: number;
+  openConversationDetails?: () => unknown;
   phoneNumber?: string;
   sharedGroupNames?: ReadonlyArray<string>;
   unblurAvatar: (conversationId: string) => void;
@@ -36,30 +39,39 @@ export type Props = {
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
   toggleAboutContactModal: (conversationId: string) => unknown;
+  toggleProfileNameWarningModal: (conversationType?: string) => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
-const renderMembershipRow = ({
+const renderExtraInformation = ({
   acceptedMessageRequest,
   conversationType,
+  fromOrAddedByTrustedContact,
   i18n,
+  isDirectConvoAndHasNickname,
   isMe,
-  onClickMessageRequestWarning,
+  membersCount,
+  onClickProfileNameWarning,
   onToggleSafetyTips,
+  openConversationDetails,
   phoneNumber,
   sharedGroupNames,
 }: Pick<
   Props,
   | 'acceptedMessageRequest'
   | 'conversationType'
+  | 'fromOrAddedByTrustedContact'
   | 'i18n'
+  | 'isDirectConvoAndHasNickname'
   | 'isMe'
+  | 'membersCount'
+  | 'openConversationDetails'
   | 'phoneNumber'
 > &
   Required<Pick<Props, 'sharedGroupNames'>> & {
-    onClickMessageRequestWarning: () => void;
+    onClickProfileNameWarning: () => void;
     onToggleSafetyTips: (showSafetyTips: boolean) => void;
   }) => {
-  if (conversationType !== 'direct') {
+  if (conversationType !== 'direct' && conversationType !== 'group') {
     return null;
   }
 
@@ -71,7 +83,7 @@ const renderMembershipRow = ({
     );
   }
 
-  const safetyTipsButton = (
+  const safetyTipsButton = !acceptedMessageRequest ? (
     <div>
       <Button
         className="module-conversation-hero__safety-tips-button"
@@ -83,54 +95,136 @@ const renderMembershipRow = ({
         {i18n('icu:MessageRequestWarning__safety-tips')}
       </Button>
     </div>
-  );
+  ) : null;
 
-  if (sharedGroupNames.length > 0) {
-    return (
-      <div className="module-conversation-hero__membership">
+  const shouldShowReviewCarefully =
+    !acceptedMessageRequest &&
+    (conversationType === 'group' || sharedGroupNames.length <= 1);
+
+  const reviewCarefullyLabel = shouldShowReviewCarefully ? (
+    <div className="module-conversation-hero__review-carefully">
+      <i className="module-conversation-hero__membership__review-carefully-icon" />
+      {i18n('icu:ConversationHero--review-carefully')}
+    </div>
+  ) : null;
+
+  const sharedGroupsLabel =
+    conversationType === 'direct' ? (
+      <div>
         <i className="module-conversation-hero__membership__chevron" />
         <SharedGroupNames
           i18n={i18n}
           nameClassName="module-conversation-hero__membership__name"
           sharedGroupNames={sharedGroupNames}
         />
-        {safetyTipsButton}
       </div>
-    );
+    ) : null;
+
+  const nameNotVerifiedLabel =
+    !fromOrAddedByTrustedContact && !isDirectConvoAndHasNickname ? (
+      <div className="module-conversation-hero__name-not-verified">
+        <i
+          className={classNames({
+            'module-conversation-hero__group-question-icon':
+              conversationType === 'group',
+            'module-conversation-hero__direct-question-icon':
+              conversationType === 'direct',
+          })}
+        />
+        <I18n
+          components={{
+            clickable: (parts: ReactNode) => (
+              <button
+                className="module-conversation-hero__name-not-verified__button"
+                type="button"
+                onClick={ev => {
+                  ev.preventDefault();
+                  onClickProfileNameWarning();
+                }}
+              >
+                {parts}
+              </button>
+            ),
+          }}
+          i18n={i18n}
+          id={
+            conversationType === 'group'
+              ? 'icu:ConversationHero--group-names'
+              : 'icu:ConversationHero--profile-names'
+          }
+        />
+      </div>
+    ) : null;
+
+  const membersCountLabel =
+    conversationType === 'group' && membersCount != null ? (
+      <div className="module-conversation-hero__membership__members-count">
+        <i className="module-conversation-hero__members-count-icon" />
+        <button
+          className="module-conversation-hero__members-count__button"
+          type="button"
+          onClick={ev => {
+            ev.preventDefault();
+            if (openConversationDetails) {
+              openConversationDetails();
+            }
+          }}
+        >
+          {i18n('icu:ConversationHero--members', { count: membersCount })}
+        </button>
+      </div>
+    ) : null;
+
+  if (
+    conversationType === 'direct' &&
+    sharedGroupNames.length === 0 &&
+    acceptedMessageRequest &&
+    phoneNumber
+  ) {
+    return null;
   }
-  if (acceptedMessageRequest) {
-    if (phoneNumber) {
-      return null;
-    }
-    return (
-      <div className="module-conversation-hero__membership">
-        {i18n('icu:no-groups-in-common')}
-        {safetyTipsButton}
-      </div>
-    );
+
+  // Check if we should show anything at all
+  const shouldShowAnything =
+    Boolean(reviewCarefullyLabel) ||
+    Boolean(nameNotVerifiedLabel) ||
+    Boolean(sharedGroupsLabel) ||
+    Boolean(safetyTipsButton) ||
+    Boolean(membersCountLabel);
+
+  if (!shouldShowAnything) {
+    return null;
   }
 
   return (
     <div className="module-conversation-hero__membership">
-      <div className="module-conversation-hero__membership__warning">
-        <i className="module-conversation-hero__membership__warning__icon" />
-        <span>{i18n('icu:no-groups-in-common-warning')}</span>
-        &nbsp;
-        <button
-          className="module-conversation-hero__membership__warning__learn-more"
-          type="button"
-          onClick={ev => {
-            ev.preventDefault();
-            onClickMessageRequestWarning();
-          }}
-        >
-          {i18n('icu:MessageRequestWarning__learn-more')}
-        </button>
-      </div>
+      {reviewCarefullyLabel}
+      {nameNotVerifiedLabel}
+      {sharedGroupsLabel}
+      {membersCountLabel}
       {safetyTipsButton}
     </div>
   );
 };
+
+function ReleaseNotesExtraInformation({
+  i18n,
+}: {
+  i18n: LocalizerType;
+}): JSX.Element {
+  return (
+    <div className="module-conversation-hero--release-notes-notice">
+      <div className="module-conversation-hero__release-notes-notice-content">
+        <i className="module-conversation-hero__release-notes-notice-check-icon" />
+        {i18n('icu:ConversationHero--signal-official-chat')}
+      </div>
+      <div className="module-conversation-hero__release-notes-notice-content">
+        <i className="module-conversation-hero__release-notes-notice-bell-icon" />
+        {i18n('icu:ConversationHero--release-notes')}
+      </div>
+    </div>
+  );
+}
 
 export function ConversationHero({
   i18n,
@@ -140,10 +234,13 @@ export function ConversationHero({
   badge,
   color,
   conversationType,
+  fromOrAddedByTrustedContact,
   groupDescription,
   hasStories,
   id,
+  isDirectConvoAndHasNickname,
   isMe,
+  openConversationDetails,
   isSignalConversation,
   membersCount,
   sharedGroupNames = [],
@@ -156,13 +253,9 @@ export function ConversationHero({
   updateSharedGroups,
   viewUserStories,
   toggleAboutContactModal,
+  toggleProfileNameWarningModal,
 }: Props): JSX.Element {
   const [isShowingSafetyTips, setIsShowingSafetyTips] = useState(false);
-  const [isShowingMessageRequestWarning, setIsShowingMessageRequestWarning] =
-    useState(false);
-  const closeMessageRequestWarning = () => {
-    setIsShowingMessageRequestWarning(false);
-  };
 
   useEffect(() => {
     // Kick off the expensive hydration of the current sharedGroupNames
@@ -215,7 +308,6 @@ export function ConversationHero({
     );
   }
 
-  /* eslint-disable no-nested-ternary */
   return (
     <>
       <div className="module-conversation-hero">
@@ -248,55 +340,36 @@ export function ConversationHero({
             <About text={about} />
           </div>
         )}
-        {!isMe ? (
+        {!isMe && groupDescription ? (
           <div className="module-conversation-hero__with">
-            {groupDescription ? (
-              <GroupDescription
-                i18n={i18n}
-                title={title}
-                text={groupDescription}
-              />
-            ) : membersCount != null ? (
-              i18n('icu:ConversationHero--members', { count: membersCount })
-            ) : null}
+            <GroupDescription
+              i18n={i18n}
+              title={title}
+              text={groupDescription}
+            />
           </div>
         ) : null}
         {!isSignalConversation &&
-          renderMembershipRow({
+          renderExtraInformation({
             acceptedMessageRequest,
             conversationType,
+            fromOrAddedByTrustedContact,
             i18n,
+            isDirectConvoAndHasNickname,
             isMe,
-            onClickMessageRequestWarning() {
-              setIsShowingMessageRequestWarning(true);
+            membersCount,
+            onClickProfileNameWarning() {
+              toggleProfileNameWarningModal(conversationType);
             },
             onToggleSafetyTips(showSafetyTips: boolean) {
               setIsShowingSafetyTips(showSafetyTips);
             },
+            openConversationDetails,
             phoneNumber,
             sharedGroupNames,
           })}
+        {isSignalConversation && <ReleaseNotesExtraInformation i18n={i18n} />}
       </div>
-      {isShowingMessageRequestWarning && (
-        <ConfirmationDialog
-          dialogName="ConversationHere.messageRequestWarning"
-          i18n={i18n}
-          onClose={closeMessageRequestWarning}
-          actions={[
-            {
-              text: i18n('icu:MessageRequestWarning__dialog__learn-even-more'),
-              action: () => {
-                openLinkInWebBrowser(
-                  'https://support.signal.org/hc/articles/360007459591'
-                );
-                closeMessageRequestWarning();
-              },
-            },
-          ]}
-        >
-          {i18n('icu:MessageRequestWarning__dialog__details')}
-        </ConfirmationDialog>
-      )}
 
       {isShowingSafetyTips && (
         <SafetyTipsModal
@@ -308,5 +381,4 @@ export function ConversationHero({
       )}
     </>
   );
-  /* eslint-enable no-nested-ternary */
 }

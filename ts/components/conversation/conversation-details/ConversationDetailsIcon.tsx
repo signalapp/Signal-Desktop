@@ -9,12 +9,16 @@ import { bemGenerator } from './util';
 
 export enum IconType {
   'approveAllMembers' = 'approveAllMembers',
+  'bell' = 'bell',
   'block' = 'block',
   'edit' = 'edit',
   'unblock' = 'unblock',
   'color' = 'color',
   'down' = 'down',
   'forward' = 'forward',
+  'heart' = 'heart',
+  'help' = 'help',
+  'invite' = 'invite',
   'invites' = 'invites',
   'leave' = 'leave',
   'link' = 'link',

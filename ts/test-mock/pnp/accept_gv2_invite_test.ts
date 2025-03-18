@@ -13,7 +13,7 @@ import {
 } from '../../util/libphonenumberInstance';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { expectSystemMessages } from '../helpers';
+import { acceptConversation, expectSystemMessages } from '../helpers';
 
 export const debug = createDebug('mock:test:gv2');
 
@@ -103,9 +103,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Accepting');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
@@ -256,9 +254,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .waitFor();
 
     debug('Accepting');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Checking final notification');
     await window
