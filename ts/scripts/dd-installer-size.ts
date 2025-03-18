@@ -39,11 +39,11 @@ async function main(): Promise<void> {
     platform = 'windows';
     arch = 'x64';
   } else if (config === 'macos-arm64') {
-    fileName = `${NAME}-mac-arm64-${VERSION}.dmg`;
+    fileName = `${NAME}-mac-arm64-${VERSION}.zip`;
     platform = 'macos';
     arch = 'arm64';
   } else if (config === 'macos-x64') {
-    fileName = `${NAME}-mac-x64-${VERSION}.dmg`;
+    fileName = `${NAME}-mac-x64-${VERSION}.zip`;
     platform = 'macos';
     arch = 'x64';
   } else if (config === 'macos-universal') {
