@@ -82,7 +82,7 @@ describe('LeftPaneComposeHelper', () => {
       );
     });
 
-    it('returns the number of contacts, number groups + 4 (for headers and username)', () => {
+    it('returns two if the search term looks like a username', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
@@ -91,6 +91,45 @@ describe('LeftPaneComposeHelper', () => {
           searchTerm: 'someone.01',
           uuidFetchState: {},
           username: 'someone.01',
+        }).getRowCount(),
+        2,
+        'ends with discriminator'
+      );
+      assert.strictEqual(
+        new LeftPaneComposeHelper({
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
+          regionCode: 'US',
+          searchTerm: '@someone',
+          uuidFetchState: {},
+          username: 'someone',
+        }).getRowCount(),
+        2,
+        'starts with @'
+      );
+      assert.strictEqual(
+        new LeftPaneComposeHelper({
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
+          regionCode: 'US',
+          searchTerm: '23432',
+          uuidFetchState: {},
+          username: '23432',
+        }).getRowCount(),
+        8,
+        "all numbers, so it doesn't look like a username"
+      );
+    });
+
+    it('returns the number of contacts, number groups + 4 (for headers and username)', () => {
+      assert.strictEqual(
+        new LeftPaneComposeHelper({
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
+          regionCode: 'US',
+          searchTerm: 'someone',
+          uuidFetchState: {},
+          username: 'someone',
         }).getRowCount(),
         8
       );
@@ -102,9 +141,9 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'foobar.01',
+          searchTerm: '5550101',
           uuidFetchState: {},
-          username: 'foobar.01',
+          username: undefined,
         }).getRowCount(),
         2
       );
@@ -113,9 +152,9 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'foobar.01',
+          searchTerm: '5550101',
           uuidFetchState: {},
-          username: 'foobar.01',
+          username: undefined,
         }).getRowCount(),
         5
       );
@@ -124,9 +163,9 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [getDefaultGroupListItem()],
           regionCode: 'US',
-          searchTerm: 'foobar.01',
+          searchTerm: '5550101',
           uuidFetchState: {},
-          username: 'foobar.01',
+          username: undefined,
         }).getRowCount(),
         7
       );
@@ -152,9 +191,9 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'someone.02',
+          searchTerm: 'someone',
           uuidFetchState: {},
-          username: 'someone.02',
+          username: 'someone',
         }).getRowCount(),
         2
       );
