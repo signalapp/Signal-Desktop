@@ -520,6 +520,7 @@ export const DataWriter: ServerWritableInterface = {
   incrementMessagesMigrationAttempts,
 
   removeSyncTaskById,
+  removeSyncTasks,
   saveSyncTasks,
   incrementAllSyncTaskAttempts,
   dequeueOldestSyncTasks,
@@ -2147,6 +2148,19 @@ export function removeSyncTaskById(db: WritableDB, id: string): void {
 
   db.prepare(query).run(parameters);
 }
+function removeSyncTaskBatch(db: WritableDB, ids: ReadonlyArray<string>): void {
+  db.prepare(
+    `
+    DELETE FROM syncTasks
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
+}
+
+function removeSyncTasks(db: WritableDB, ids: ReadonlyArray<string>): void {
+  batchMultiVarQuery(db, ids, batch => removeSyncTaskBatch(db, batch));
+}
+
 export function saveSyncTasks(
   db: WritableDB,
   tasks: Array<SyncTaskType>

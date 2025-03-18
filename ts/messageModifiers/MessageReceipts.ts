@@ -35,7 +35,8 @@ import { drop } from '../util/drop';
 import { getMessageById } from '../messages/getMessageById';
 import { MessageModel } from '../models/messages';
 
-const { deleteSentProtoRecipient, removeSyncTaskById } = DataWriter;
+const { deleteSentProtoRecipient, removeSyncTasks, removeSyncTaskById } =
+  DataWriter;
 
 export const messageReceiptTypeSchema = z.enum(['Delivery', 'Read', 'View']);
 
@@ -197,9 +198,21 @@ async function processReceiptsForMessage(
     );
   }
 
-  const { validReceipts } = await updateMessageWithReceipts(message, receipts);
+  const { droppedReceipts, validReceipts } = await updateMessageWithReceipts(
+    message,
+    receipts
+  );
 
-  await window.MessageCache.saveMessage(message.attributes);
+  await Promise.all([
+    window.MessageCache.saveMessage(message.attributes),
+    removeSyncTasks(
+      droppedReceipts.map(item => {
+        const { syncTaskId } = item;
+        cachedReceipts.delete(syncTaskId);
+        return syncTaskId;
+      })
+    ),
+  ]);
 
   // Confirm/remove receipts, and delete sent protos
   for (const receipt of validReceipts) {
@@ -219,6 +232,7 @@ async function updateMessageWithReceipts(
   message: MessageModel,
   receipts: Array<MessageReceiptAttributesType>
 ): Promise<{
+  droppedReceipts: Array<MessageReceiptAttributesType>;
   validReceipts: Array<MessageReceiptAttributesType>;
 }> {
   const logId = `updateMessageWithReceipts(timestamp=${message.get('timestamp')})`;
@@ -244,7 +258,8 @@ async function updateMessageWithReceipts(
 
   log.info(
     `${logId}: batch processing ${receipts.length}` +
-      ` receipt${receipts.length === 1 ? '' : 's'}`
+      ` receipt${receipts.length === 1 ? '' : 's'}` +
+      `, dropped count: ${droppedReceipts.length}`
   );
 
   // Generate the updated message synchronously
@@ -257,7 +272,7 @@ async function updateMessageWithReceipts(
   }
   message.set(attributes);
 
-  return { validReceipts: receiptsToProcess };
+  return { droppedReceipts, validReceipts: receiptsToProcess };
 }
 
 const deleteSentProtoBatcher = createWaitBatcher({

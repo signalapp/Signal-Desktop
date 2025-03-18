@@ -902,6 +902,7 @@ type WritableInterface = {
   ) => void;
 
   removeSyncTaskById: (id: string) => void;
+  removeSyncTasks: (ids: ReadonlyArray<string>) => void;
   saveSyncTasks: (tasks: Array<SyncTaskType>) => void;
 
   incrementAllSyncTaskAttempts: () => void;
