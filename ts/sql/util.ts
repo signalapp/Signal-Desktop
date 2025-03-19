@@ -227,27 +227,27 @@ export function getSQLCipherVersion(db: ReadableDB): string | undefined {
 export function batchMultiVarQuery<ValueT>(
   db: ReadableDB,
   values: ReadonlyArray<ValueT>,
-  query: (batch: ReadonlyArray<ValueT>) => void
+  query: (batch: ReadonlyArray<ValueT>, persistent: boolean) => void
 ): [];
 export function batchMultiVarQuery<ValueT, ResultT>(
   db: ReadableDB,
   values: ReadonlyArray<ValueT>,
-  query: (batch: ReadonlyArray<ValueT>) => Array<ResultT>
+  query: (batch: ReadonlyArray<ValueT>, persistent: boolean) => Array<ResultT>
 ): Array<ResultT>;
 
 export function batchMultiVarQuery<ValueT, ResultT>(
   db: ReadableDB,
   values: ReadonlyArray<ValueT>,
   query:
-    | ((batch: ReadonlyArray<ValueT>) => void)
-    | ((batch: ReadonlyArray<ValueT>) => Array<ResultT>)
+    | ((batch: ReadonlyArray<ValueT>, persistent: boolean) => void)
+    | ((batch: ReadonlyArray<ValueT>, persistent: boolean) => Array<ResultT>)
 ): Array<ResultT> {
   if (values.length > MAX_VARIABLE_COUNT) {
     const result: Array<ResultT> = [];
     db.transaction(() => {
       for (let i = 0; i < values.length; i += MAX_VARIABLE_COUNT) {
         const batch = values.slice(i, i + MAX_VARIABLE_COUNT);
-        const batchResult = query(batch);
+        const batchResult = query(batch, batch.length === MAX_VARIABLE_COUNT);
         if (Array.isArray(batchResult)) {
           result.push(...batchResult);
         }
@@ -256,7 +256,7 @@ export function batchMultiVarQuery<ValueT, ResultT>(
     return result;
   }
 
-  const result = query(values);
+  const result = query(values, values.length === MAX_VARIABLE_COUNT);
   return Array.isArray(result) ? result : [];
 }
 
@@ -342,12 +342,15 @@ export function removeById<Key extends string | number>(
 
   let totalChanges = 0;
 
-  const removeByIdsSync = (ids: ReadonlyArray<string | number>): void => {
+  const removeByIdsSync = (
+    ids: ReadonlyArray<string | number>,
+    persistent: boolean
+  ): void => {
     const [query, params] = sql`
       DELETE FROM ${table}
       WHERE id IN (${sqlJoin(ids)});
     `;
-    totalChanges += db.prepare(query).run(params).changes;
+    totalChanges += db.prepare(query, { persistent }).run(params).changes;
   };
 
   batchMultiVarQuery(db, id, removeByIdsSync);

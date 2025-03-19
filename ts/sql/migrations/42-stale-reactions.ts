@@ -56,12 +56,16 @@ export default function updateToSchemaVersion42(
       }
     });
 
-    function deleteReactions(rowids: ReadonlyArray<number>) {
+    function deleteReactions(
+      rowids: ReadonlyArray<number>,
+      persistent: boolean
+    ) {
       db.prepare(
         `
         DELETE FROM reactions
         WHERE rowid IN ( ${rowids.map(() => '?').join(', ')} );
-        `
+        `,
+        { persistent }
       ).run(rowids);
     }
 

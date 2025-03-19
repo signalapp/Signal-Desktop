@@ -60,7 +60,6 @@ import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { updateSchema } from './migrations';
 import type { JSONRows } from './util';
 import {
-  // TODO(indutny): disable caching for final batch
   batchMultiVarQuery,
   bulkAdd,
   createOrUpdate,
@@ -1754,13 +1753,18 @@ function updateConversations(
   })();
 }
 
-function removeConversations(db: WritableDB, ids: ReadonlyArray<string>): void {
+function removeConversations(
+  db: WritableDB,
+  ids: ReadonlyArray<string>,
+  persistent: boolean
+): void {
   // Our node interface doesn't seem to allow you to replace one single ? with an array
   db.prepare(
     `
     DELETE FROM conversations
     WHERE id IN ( ${ids.map(() => '?').join(', ')} );
-    `
+    `,
+    { persistent }
   ).run(ids);
 }
 
@@ -1777,7 +1781,9 @@ function removeConversation(db: WritableDB, id: Array<string> | string): void {
     throw new Error('removeConversation: No ids to delete!');
   }
 
-  batchMultiVarQuery(db, id, ids => removeConversations(db, ids));
+  batchMultiVarQuery(db, id, (ids, persistent) =>
+    removeConversations(db, ids, persistent)
+  );
 }
 
 function _removeAllConversations(db: WritableDB): void {
@@ -2148,17 +2154,24 @@ export function removeSyncTaskById(db: WritableDB, id: string): void {
 
   db.prepare(query).run(parameters);
 }
-function removeSyncTaskBatch(db: WritableDB, ids: ReadonlyArray<string>): void {
+function removeSyncTaskBatch(
+  db: WritableDB,
+  ids: ReadonlyArray<string>,
+  persistent: boolean
+): void {
   db.prepare(
     `
     DELETE FROM syncTasks
     WHERE id IN ( ${ids.map(() => '?').join(', ')} );
-    `
+    `,
+    { persistent }
   ).run(ids);
 }
 
 function removeSyncTasks(db: WritableDB, ids: ReadonlyArray<string>): void {
-  batchMultiVarQuery(db, ids, batch => removeSyncTaskBatch(db, batch));
+  batchMultiVarQuery(db, ids, (batch, persistent) =>
+    removeSyncTaskBatch(db, batch, persistent)
+  );
 }
 
 export function saveSyncTasks(
@@ -2508,17 +2521,24 @@ function removeMessage(db: WritableDB, id: string): void {
   db.prepare('DELETE FROM messages WHERE id = $id;').run({ id });
 }
 
-function removeMessagesBatch(db: WritableDB, ids: ReadonlyArray<string>): void {
+function removeMessagesBatch(
+  db: WritableDB,
+  ids: ReadonlyArray<string>,
+  persistent: boolean
+): void {
   db.prepare(
     `
     DELETE FROM messages
     WHERE id IN ( ${ids.map(() => '?').join(', ')} );
-    `
+    `,
+    { persistent }
   ).run(ids);
 }
 
 function removeMessages(db: WritableDB, ids: ReadonlyArray<string>): void {
-  batchMultiVarQuery(db, ids, batch => removeMessagesBatch(db, batch));
+  batchMultiVarQuery(db, ids, (batch, persistent) =>
+    removeMessagesBatch(db, batch, persistent)
+  );
 }
 
 export function getMessageById(
@@ -2551,14 +2571,15 @@ function getMessagesById(
   return batchMultiVarQuery(
     db,
     messageIds,
-    (batch: ReadonlyArray<string>): Array<MessageType> => {
+    (batch: ReadonlyArray<string>, persistent: boolean): Array<MessageType> => {
       const query = db.prepare(
         `
           SELECT ${MESSAGE_COLUMNS.join(', ')}
           FROM messages
           WHERE id IN (
             ${Array(batch.length).fill('?').join(',')}
-          );`
+          );`,
+        { persistent }
       );
       const rows: Array<MessageTypeUnhydrated> = query.all(batch);
       return rows.map(row => hydrateMessage(row));
@@ -2792,15 +2813,20 @@ function getUnreadReactionsAndMarkRead(
       });
 
     const idsToUpdate = unreadMessages.map(item => item.rowid);
-    batchMultiVarQuery(db, idsToUpdate, (ids: ReadonlyArray<number>): void => {
-      db.prepare(
-        `
+    batchMultiVarQuery(
+      db,
+      idsToUpdate,
+      (ids: ReadonlyArray<number>, persistent: boolean): void => {
+        db.prepare(
+          `
         UPDATE reactions
         SET unread = 0
         WHERE rowid IN ( ${ids.map(() => '?').join(', ')} );
-        `
-      ).run(ids);
-    });
+        `,
+          { persistent }
+        ).run(ids);
+      }
+    );
 
     return unreadMessages;
   })();
@@ -3734,7 +3760,7 @@ function clearCallHistory(
 
     let deletedMessageIds: ReadonlyArray<string> = [];
 
-    batchMultiVarQuery(db, deletedCallIds, (ids): void => {
+    batchMultiVarQuery(db, deletedCallIds, (ids, persistent): void => {
       const idsFragment = sqlJoin(ids);
 
       const [clearCallsHistoryQuery, clearCallsHistoryParams] = sql`
@@ -3745,7 +3771,9 @@ function clearCallHistory(
         WHERE callsHistory.callId IN (${idsFragment});
       `;
 
-      db.prepare(clearCallsHistoryQuery).run(clearCallsHistoryParams);
+      db.prepare(clearCallsHistoryQuery, { persistent }).run(
+        clearCallsHistoryParams
+      );
 
       const [deleteMessagesQuery, deleteMessagesParams] = sql`
         DELETE FROM messages
@@ -3757,6 +3785,7 @@ function clearCallHistory(
       const batchDeletedMessageIds = db
         .prepare(deleteMessagesQuery, {
           pluck: true,
+          persistent,
         })
         .all<string>(deleteMessagesParams);
 
@@ -4127,7 +4156,7 @@ function getCallHistoryGroupData(
       if (conversationIds != null) {
         strictAssert(conversationIds.length > 0, "can't filter by empty array");
 
-        batchMultiVarQuery(db, conversationIds, ids => {
+        batchMultiVarQuery(db, conversationIds, (ids, persistent) => {
           const idList = sqlJoin(ids.map(id => sqlFragment`${id}`));
 
           const [insertQuery, insertParams] = sql`
@@ -4138,14 +4167,14 @@ function getCallHistoryGroupData(
             WHERE conversations.id IN (${idList});
           `;
 
-          db.prepare(insertQuery).run(insertParams);
+          db.prepare(insertQuery, { persistent }).run(insertParams);
         });
       }
 
       if (callLinkRoomIds != null) {
         strictAssert(callLinkRoomIds.length > 0, "can't filter by empty array");
 
-        batchMultiVarQuery(db, callLinkRoomIds, ids => {
+        batchMultiVarQuery(db, callLinkRoomIds, (ids, persistent) => {
           const idList = sqlJoin(ids.map(id => sqlFragment`(${id})`));
 
           const [insertQuery, insertParams] = sql`
@@ -4154,7 +4183,7 @@ function getCallHistoryGroupData(
             VALUES ${idList};
           `;
 
-          db.prepare(insertQuery).run(insertParams);
+          db.prepare(insertQuery, { persistent }).run(insertParams);
         });
       }
     }
@@ -4467,13 +4496,13 @@ function _markCallHistoryMissed(
   db: WritableDB,
   callIds: ReadonlyArray<string>
 ) {
-  batchMultiVarQuery(db, callIds, batch => {
+  batchMultiVarQuery(db, callIds, (batch, persistent) => {
     const [updateQuery, updateParams] = sql`
       UPDATE callsHistory
       SET status = ${sqlConstant(GroupCallStatus.Missed)}
       WHERE callId IN (${sqlJoin(batch)})
     `;
-    return db.prepare(updateQuery).run(updateParams);
+    return db.prepare(updateQuery, { persistent }).run(updateParams);
   });
 }
 
@@ -4920,19 +4949,20 @@ function getUnprocessedByIdsAndIncrementAttempts(
     totalIds: ids.length,
   });
 
-  batchMultiVarQuery(db, ids, batch => {
+  batchMultiVarQuery(db, ids, (batch, persistent) => {
     return db
       .prepare(
         `
           UPDATE unprocessed
           SET attempts = attempts + 1
           WHERE id IN (${batch.map(() => '?').join(', ')})
-        `
+        `,
+        { persistent }
       )
       .run(batch);
   });
 
-  return batchMultiVarQuery(db, ids, batch => {
+  return batchMultiVarQuery(db, ids, (batch, persistent) => {
     return db
       .prepare(
         `
@@ -4940,7 +4970,8 @@ function getUnprocessedByIdsAndIncrementAttempts(
           FROM unprocessed
           WHERE id IN (${batch.map(() => '?').join(', ')})
           ORDER BY receivedAtCounter ASC;
-        `
+        `,
+        { persistent }
       )
       .all(batch)
       .map(row => ({
@@ -4952,12 +4983,17 @@ function getUnprocessedByIdsAndIncrementAttempts(
   });
 }
 
-function removeUnprocesseds(db: WritableDB, ids: ReadonlyArray<string>): void {
+function removeUnprocesseds(
+  db: WritableDB,
+  ids: ReadonlyArray<string>,
+  persistent: boolean
+): void {
   db.prepare(
     `
     DELETE FROM unprocessed
     WHERE id IN ( ${ids.map(() => '?').join(', ')} );
-    `
+    `,
+    { persistent }
   ).run(ids);
 }
 
@@ -4974,7 +5010,9 @@ function removeUnprocessed(db: WritableDB, id: string | Array<string>): void {
     return;
   }
 
-  batchMultiVarQuery(db, id, batch => removeUnprocesseds(db, batch));
+  batchMultiVarQuery(db, id, (batch, persistent) =>
+    removeUnprocesseds(db, batch, persistent)
+  );
 }
 
 function removeAllUnprocessed(db: WritableDB): void {
@@ -6601,13 +6639,13 @@ function modifyStoryDistributionMembers(
   batchMultiVarQuery(
     db,
     toRemove,
-    (serviceIds: ReadonlyArray<ServiceIdString>) => {
+    (serviceIds: ReadonlyArray<ServiceIdString>, persistent: boolean) => {
       const serviceIdSet = sqlJoin(serviceIds);
       const [sqlQuery, sqlParams] = sql`
         DELETE FROM storyDistributionMembers
         WHERE listId = ${listId} AND serviceId IN (${serviceIdSet});
       `;
-      db.prepare(sqlQuery).run(sqlParams);
+      db.prepare(sqlQuery, { persistent }).run(sqlParams);
     }
   );
 }
@@ -6904,9 +6942,12 @@ export function incrementMessagesMigrationAttempts(
   db: WritableDB,
   messageIds: ReadonlyArray<string>
 ): void {
-  batchMultiVarQuery(db, messageIds, (batch: ReadonlyArray<string>): void => {
-    const idSet = sqlJoin(batch);
-    const [sqlQuery, sqlParams] = sql`
+  batchMultiVarQuery(
+    db,
+    messageIds,
+    (batch: ReadonlyArray<string>, persistent: boolean): void => {
+      const idSet = sqlJoin(batch);
+      const [sqlQuery, sqlParams] = sql`
         UPDATE
           messages
         SET
@@ -6918,8 +6959,9 @@ export function incrementMessagesMigrationAttempts(
         WHERE
           id IN (${idSet})
       `;
-    db.prepare(sqlQuery).run(sqlParams);
-  });
+      db.prepare(sqlQuery, { persistent }).run(sqlParams);
+    }
+  );
 }
 
 function getMessageServerGuidsForSpam(
@@ -7185,13 +7227,17 @@ function pageMessages(
     const messages = batchMultiVarQuery(
       writable,
       rowids,
-      (batch: ReadonlyArray<number>): Array<MessageType> => {
+      (
+        batch: ReadonlyArray<number>,
+        persistent: boolean
+      ): Array<MessageType> => {
         const query = writable.prepare(
           `
           SELECT ${MESSAGE_COLUMNS.join(', ')}
           FROM messages
           WHERE rowid IN (${Array(batch.length).fill('?').join(',')});
-          `
+          `,
+          { persistent }
         );
         const rows: Array<MessageTypeUnhydrated> = query.all(batch);
         return rows.map(row => hydrateMessage(row));
