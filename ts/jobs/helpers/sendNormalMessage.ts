@@ -1226,6 +1226,10 @@ function didSendToEveryone({
       prop: 'sendStateByConversationId',
       targetTimestamp,
     }) || {};
+  const ourConversationId =
+    window.ConversationController.getOurConversationIdOrThrow();
+  const areWePrimaryDevice = window.ConversationController.areWePrimaryDevice();
+
   return Object.entries(sendStateByConversationId).every(
     ([conversationId, sendState]) => {
       const conversation = window.ConversationController.get(conversationId);
@@ -1236,6 +1240,10 @@ function didSendToEveryone({
         if (conversation.isUnregistered()) {
           return true;
         }
+      }
+
+      if (conversationId === ourConversationId && areWePrimaryDevice) {
+        return true;
       }
 
       return isSent(sendState.status);
