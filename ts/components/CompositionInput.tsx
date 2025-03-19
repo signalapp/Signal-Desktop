@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
+import classNames from 'classnames';
+import { Manager, Reference } from 'react-popper';
 import Quill, { Delta } from '@signalapp/quill-cjs';
 import {
   matchText,
@@ -10,8 +11,7 @@ import {
   matchBreak,
 } from '@signalapp/quill-cjs/modules/clipboard';
 import Emitter from '@signalapp/quill-cjs/core/emitter';
-import classNames from 'classnames';
-import { Manager, Reference } from 'react-popper';
+import type { Context } from '@signalapp/quill-cjs/modules/keyboard';
 import type { Range as RangeStatic } from '@signalapp/quill-cjs';
 
 import { MentionCompletion } from '../quill/mentions/completion';
@@ -519,7 +519,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     return true;
   };
 
-  const onBackspace = (): boolean => {
+  const onBackspace = (_range: RangeStatic, context: Context): boolean => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -531,23 +531,56 @@ export function CompositionInput(props: Props): React.ReactElement {
       return true;
     }
 
-    const [blotToDelete] = quill.getLeaf(selection.index);
+    let startIndex = selection.index;
+    let additionalDeletions = 0;
+
+    const leaf = quill.getLeaf(startIndex);
+    let blotToDelete = leaf[0];
+    const offset = leaf[1];
+
     if (!blotToDelete) {
       return true;
     }
 
+    // To match macOS option-delete, search back through non-newline whitespace
+    if (context.event.altKey && platform === 'darwin') {
+      const value = blotToDelete.value();
+
+      // Sometimes the value returned here is an object, the target Blot details.
+      if (typeof value === 'string') {
+        const valueBeforeCursor = value.slice(0, offset);
+        if (/^[^\S\r\n]+$/.test(valueBeforeCursor)) {
+          additionalDeletions = offset;
+          startIndex -= offset;
+
+          [blotToDelete] = quill.getLeaf(startIndex);
+          if (!blotToDelete) {
+            return true;
+          }
+        }
+      }
+    }
+
     if (isMentionBlot(blotToDelete)) {
-      const contents = quill.getContents(0, selection.index - 1);
+      const contents = quill.getContents(0, startIndex - 1);
       const restartDelta = getDeltaToRestartMention(contents.ops);
 
+      if (additionalDeletions) {
+        restartDelta.delete(additionalDeletions);
+      }
+
       quill.updateContents(restartDelta);
-      quill.setSelection(selection.index, 0);
+      quill.setSelection(startIndex, 0);
       return false;
     }
 
     if (isEmojiBlot(blotToDelete)) {
-      const contents = quill.getContents(0, selection.index);
+      const contents = quill.getContents(0, startIndex);
       const restartDelta = getDeltaToRestartEmoji(contents.ops);
+
+      if (additionalDeletions) {
+        restartDelta.delete(additionalDeletions);
+      }
 
       quill.updateContents(restartDelta);
       return false;
@@ -784,7 +817,10 @@ export function CompositionInput(props: Props): React.ReactElement {
                 },
                 Backspace: {
                   key: 'Backspace',
-                  handler: () => callbacksRef.current.onBackspace(),
+                  // We want to be called no matter the state of this key
+                  altKey: null,
+                  handler: (_: RangeStatic, context: Context) =>
+                    callbacksRef.current.onBackspace(_, context),
                 },
               },
             },
