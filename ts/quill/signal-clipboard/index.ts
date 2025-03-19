@@ -3,11 +3,8 @@
 
 import type Quill from '@signalapp/quill-cjs';
 import { Delta } from '@signalapp/quill-cjs';
-import { deleteRange } from '@signalapp/quill-cjs/modules/keyboard';
-
 import { FormattingMenu, QuillFormattingStyle } from '../formatting/menu';
 import { insertEmojiOps } from '../util';
-import { createEventHandler } from './util';
 
 type ClipboardOptions = Readonly<{
   isDisabled: boolean;
@@ -22,24 +19,10 @@ export class SignalClipboard {
     this.options = options;
 
     this.quill.root.addEventListener('paste', e => this.onCapturePaste(e));
-    this.quill.root.addEventListener('cut', e => this.onCaptureCut(e));
   }
 
   updateOptions(options: Partial<ClipboardOptions>): void {
     this.options = { ...this.options, ...options };
-  }
-
-  onCaptureCut(event: ClipboardEvent): void {
-    const [range] = this.quill.selection.getRange();
-
-    // This updates the clipboard with what we want
-    const handler = createEventHandler({ deleteSelection: true });
-    handler(event);
-
-    // And this updates quill's internal state to reflect the cut
-    if (range) {
-      deleteRange({ range, quill: this.quill });
-    }
   }
 
   onCapturePaste(event: ClipboardEvent): void {
