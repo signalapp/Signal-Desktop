@@ -8116,16 +8116,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive.",
-    "description": "(Deleted 2025/03/12) Release notes for version 7.46"
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k.",
-    "description": "(Deleted 2025/03/12) Release notes for version 7.46"
-  },
   "icu:WhatsNew__v7.47--0": {
     "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are.",
     "description": "Release notes for version 7.47"
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release.",
+    "description": "Release notes for version 7.48"
   }
 }
