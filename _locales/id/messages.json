@@ -2676,7 +2676,7 @@
     "messageformat": "Ganti video aktif dan mati"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Mengaktifkan & menonaktifkan fitur perluas pratinjau"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jawab panggilan dengan video (hanya panggilan video)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Tampilkan panggilan di layar penuh"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimalkan pratinjau"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimalkan pratinjau"
   },
   "icu:calling__change-view": {
     "messageformat": "Ubah tampilan"
@@ -6107,6 +6107,6 @@
     "messageformat": "Kini, Anda tetap bisa memulai chat dengan seseorang menggunakan nama penggunanya meski tidak sengaja mengetik simbol “@” di awal. Beber@p@ kebias@@n memang sulit diub@h."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Sekarang Anda bisa memperluas pratinjau video di perangkat selama panggilan berlangsung agar dapat melihat tampilan diri secara lebih jelas."
   }
 }

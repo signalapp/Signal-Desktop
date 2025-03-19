@@ -2676,7 +2676,7 @@
     "messageformat": "Geuza video uiwashe na kuizima"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Washa na uzime onyesha lililopanuliwa"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jibu simu kwa video (simu za video peke yake)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Mazungumzo ya simu ya skrini nzima"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Panua onyesho"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Punguza onyesho"
   },
   "icu:calling__change-view": {
     "messageformat": "Badili mtazamo"
@@ -6107,6 +6107,6 @@
     "messageformat": "Sasa unapojaribu kuanzisha gumzo ukitumia jina la mtumiaji la Signal la mtu, itafanikiwa hata ikiwa utaandika alama ya \"@\" kwa bahati mbaya. Baadhi ya t@bia ni ngumu kuzi@cha."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Sasa unaweza kupanua onyesho lako la video wakati wa simu ili ujitazame vizuri au utafakari kuhusu maisha yako."
   }
 }

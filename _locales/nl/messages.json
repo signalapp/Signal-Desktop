@@ -2676,7 +2676,7 @@
     "messageformat": "Camera aan- of uitzetten"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Gemaximaliseerd voorbeeld in- en uitschakelen"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Oproep beantwoorden met video (alleen video-oproepen)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Oproep in volledig scherm"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Voorbeeld maximaliseren"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Voorbeeld minimaliseren"
   },
   "icu:calling__change-view": {
     "messageformat": "Weergave wijzigen"
@@ -6107,6 +6107,6 @@
     "messageformat": "Een chat starten door iemands Signal-gebruikersnaam in te typen werkt nu ook als je per ongeluk eerst een '@' typt voor de naam."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Je kunt nu tijdens een oproep je eigen videovoorbeeld maximaliseren. Dan kun je jezelf eindelijk écht in de ogen kijken."
   }
 }

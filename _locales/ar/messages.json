@@ -261,10 +261,10 @@
     "messageformat": "أدخِل اسم مُستخدِم متبوعًا بنقطة ومجموعة من الأرقام الخاصة به."
   },
   "icu:CountryCodeSelect__placeholder": {
-    "messageformat": "كود البلد"
+    "messageformat": "كود الدولة"
   },
   "icu:CountryCodeSelect__Modal__title": {
-    "messageformat": "كود البلد"
+    "messageformat": "كود الدولة"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "عرض علامات التبويب"
@@ -2676,7 +2676,7 @@
     "messageformat": "تفعيل أو تعطيل الڤيديو خلال الاتصال"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "تفعيل أو تعطيل المعاينة المُكبَّرة"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "الرد على المكالمة بالفيديو (مكالمات الفيديو فقط)"
@@ -3099,10 +3099,10 @@
     "messageformat": "مكالمة بملء الشاشة"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "تكبير المعاينة"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "تصغير المعاينة"
   },
   "icu:calling__change-view": {
     "messageformat": "تغيير طريقة العرض"
@@ -5610,10 +5610,10 @@
     "messageformat": "القصص"
   },
   "icu:StoryListItem__unhide": {
-    "messageformat": "إظهار قصة"
+    "messageformat": "إظهار القصة"
   },
   "icu:StoryListItem__hide": {
-    "messageformat": "إخفاء قصة"
+    "messageformat": "إخفاء القصة"
   },
   "icu:StoryListItem__go-to-chat": {
     "messageformat": "انتقِل إلى الدردشة"
@@ -5625,7 +5625,7 @@
     "messageformat": "معلومات"
   },
   "icu:StoryListItem__hide-modal--body": {
-    "messageformat": "‫إخفاء القصة ؟ لن تظهر مُستجدات قِصص {name} الجديدة في أعلى لائحة القصص بعد الآن."
+    "messageformat": "‫هل ترغبُ بإخفاء القصة؟ لن تظهر مُستجدات قِصص {name} الجديدة في أعلى لائحة القصص بعد الآن."
   },
   "icu:StoryListItem__hide-modal--confirm": {
     "messageformat": "إخفاء"
@@ -6107,6 +6107,6 @@
     "messageformat": "الآن عندما تحاول البدء بمحادثة مع شخصٍ ما باستخدام اسم المُستخدِم الخاص به على سيجنال، سيكون هذا مُمكِنًا حتى لو كتبت \"@\" أولًا عن طريق الخطأ. بعض @العادات @يصعب @علينا ت@ركها."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "يمكنك الآن تكبير معاينة الفيديو الخاص بك خلال مُكالمة لتحظى برؤية أفضل لنفسك."
   }
 }

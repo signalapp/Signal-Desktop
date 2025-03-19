@@ -2676,7 +2676,7 @@
     "messageformat": "撥動影片開或關"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "撥動放大預覽開或關"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "接聽並開啟視訊（僅限視訊通話）"
@@ -3099,10 +3099,10 @@
     "messageformat": "全螢幕通話"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "將預覽放大"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "將預覽縮小"
   },
   "icu:calling__change-view": {
     "messageformat": "變更檢視"
@@ -6107,6 +6107,6 @@
     "messageformat": "現在當你嘗試使用某人的 Signal 用戶名稱開始聊天時，即使你不小心先輸入了「@」符號，也是有效的。"
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "現在你可以在通話期間放大自己的視訊預覽，讓你更清楚看到自己。"
   }
 }

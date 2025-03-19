@@ -2676,7 +2676,7 @@
     "messageformat": "ဗီဒီယို အဖွင့်အပိတ် ပြောင်းရန်"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "ချဲ့ထားသော ကြိုတင်ကြည့်ရှုမှုကို အဖွင့်အပိတ်လုပ်ရန်"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ခေါ်ဆိုမှုကို ဗီဒီယိုဖြင့် ဖြေရန် (ဗီဒီယိုခေါ်ဆိုမှုများသာ)"
@@ -3099,10 +3099,10 @@
     "messageformat": "ကောလ်ကို စခရင်အပြည့် လုပ်ရန်"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ကြိုတင်ကြည့်ရှုမှုကို အများဆုံးချဲ့ရန်"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "ကြိုတင်ကြည့်ရှုမှုကို အနည်းဆုံးချုံ့ရန်"
   },
   "icu:calling__change-view": {
     "messageformat": "မြင်ကွင်း ပြောင်းရန်"
@@ -6107,6 +6107,6 @@
     "messageformat": "ယခု သင်သည် တစ်စုံတစ်ဦး၏ Signal သုံးစွဲသူအမည်ဖြင့် ချက်(တ်) စတင်ရန် ကြိုးစားသောအခါ သင်သည် “@” သင်္ကေတကို မတော်တဆ ရိုက်ထည့်လိုက်လျှင်ပင် ၎င်းသည် အလုပ်လုပ်မည်ဖြစ်သည်။"
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ယခု သင်သည်ခေါ်ဆိုမှုတစ်ခုအတွင်း သင့်ကိုယ်သင် ပိုမိုကောင်းမွန်စွာမြင်နိုင်ရန် ဗီဒီယိုချဲ့၍ ကြည့်ရှုနိုင်ပါပြီ။"
   }
 }

@@ -2676,7 +2676,7 @@
     "messageformat": "Видеону күйгүзүү жана өчүрүү"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Алдын ала кеңири көрүнүштү күйгүзүү/өчүрүү"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Чалууга видео режиминде жооп берүү (видео чалуулар гана)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Толук экрандуу чалуу"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Алдын ала көрүнүштү чоңойтуу"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Алдын ала көрүнүштү кичирейтүү"
   },
   "icu:calling__change-view": {
     "messageformat": "Көрүнүштү өзгөртүү"
@@ -6107,6 +6107,6 @@
     "messageformat": "Эми Signal'ды колдонгон кимдир бирөө менен сүйлөшүп баштагыңыз келсе, байкабай “@” символун басып алсаңыз деле сүйлөшүп баштайсыз. Кээ бир ад@даттардан кут@улуу оң@ой эме@с."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Эми чалуу учурунда видеонун алдын ала көрүнүшүн чоңойтуп, өзүңүздү жакшыраак карай аласыз."
   }
 }

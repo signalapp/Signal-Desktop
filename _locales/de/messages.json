@@ -2676,7 +2676,7 @@
     "messageformat": "Video an-/ausschalten"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Schaltet die erweiterte Vorschau ein und aus"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Anruf mit Video annehmen (nur Videoanrufe)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Anruf maximieren"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Vorschau vergrößern"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Vorschau verkleinern"
   },
   "icu:calling__change-view": {
     "messageformat": "Ansicht ändern"
@@ -6107,6 +6107,6 @@
     "messageformat": "Wenn du jetzt versuchst, einen Chat mit dem Signal-Nutzernamen einer anderen Person zu starten, funktioniert es auch, wenn du das „@“-Symbol versehentlich zuerst eingibst. Einige Gewohnheiten l@ssen sich nur schwer @blegen."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Jetzt kannst du während eines Anrufs deine persönliche Videovorschau vergrößern, um dich selbst besser zu sehen oder darüber nachzudenken, wer du wirklich bist."
   }
 }

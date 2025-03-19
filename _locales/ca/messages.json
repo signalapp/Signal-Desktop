@@ -2676,7 +2676,7 @@
     "messageformat": "Activa / desactiva el vídeo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Activar o desactivar la vista prèvia ampliada"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Respon la trucada amb vídeo (només videotrucades)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Trucada a pantalla completa"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maximitzar vista prèvia"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimitzar vista prèvia"
   },
   "icu:calling__change-view": {
     "messageformat": "Canviar la vista"
@@ -6107,6 +6107,6 @@
     "messageformat": "Ara, quan intentis iniciar un xat fent servir el nom d'usuari de Signal d'algú, funcionarà encara que t'oblidis d'escriure el símbol “@” abans del nom."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Ara pots ampliar la vista prèvia del teu vídeo local durant una trucada per poder veure't millor."
   }
 }

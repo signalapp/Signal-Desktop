@@ -2676,7 +2676,7 @@
     "messageformat": "Activer ou désactiver la vidéo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Activer ou désactiver l'option \"Agrandir l'aperçu\""
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Répondre à un appel vidéo (appels vidéo uniquement)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Appel plein écran"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Agrandir l'aperçu"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Réduire l'aperçu"
   },
   "icu:calling__change-view": {
     "messageformat": "Modifier l'affichage"
@@ -6107,6 +6107,6 @@
     "messageformat": "Lorsque vous recherchez un contact et que vous saisissez accidentellement le symbole @ avant son nom d'utilisateur, cela ne vous empêche plus de le trouver et de démarrer une conversation avec lui. P@rce qu'on s@it tous que cert@ines h@bitudes ont l@ vie dure."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Qui dit nouvelle mise à jour, dit nouvelle amélioration ! Pendant un appel, vous pouvez maintenant agrandir l'aperçu vidéo pour vous recoiffer ou faire le point avec vous-même."
   }
 }

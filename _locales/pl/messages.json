@@ -2676,7 +2676,7 @@
     "messageformat": "Włącz/wyłącz wideo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Przełącznik powiększonego podglądu"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odbierz z wideo (tylko dla połączeń wideo)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Pełny ekran"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Powiększ podgląd"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Zmniejsz podgląd"
   },
   "icu:calling__change-view": {
     "messageformat": "Zmień widok"
@@ -6107,6 +6107,6 @@
     "messageformat": "Od teraz, gdy chcesz rozpocząć czat z innym użytkownikiem aplikacji Signal, wyszukasz daną osobę, nawet jeśli przy wpisywaniu imienia omyłkowo zaczniesz od symbolu „@”. Nie dziękuj. Zn@my siłę n@wyku."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Od teraz w trakcie rozmowy wideo możesz powiększyć podgląd obrazu z kamerki – świetna opcja dla tych, którzy nie mogą się na siebie napatrzeć."
   }
 }

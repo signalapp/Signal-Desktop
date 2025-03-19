@@ -2676,7 +2676,7 @@
     "messageformat": "Activar o desactivar vídeo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Activar o desactivar la vista previa ampliada"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atender llamada con vídeo (solo videollamadas)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Llamada a pantalla completa"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maximizar vista previa"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizar vista previa"
   },
   "icu:calling__change-view": {
     "messageformat": "Cambiar la vista"
@@ -6107,6 +6107,6 @@
     "messageformat": "Además, ahora puedes iniciar un chat usando el alias de Signal de alguien, incluso si se te olvida el símbolo \"@\" antes del nombre. S@bemos que cuest@ c@mbi@r l@s viej@s costumbres."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "A partir de ahora, podrás ampliar la vista previa de tu vídeo local durante una llamada. Así podrás ver qué tal tienes el pelo o reflexionar sobre quién eres en realidad."
   }
 }

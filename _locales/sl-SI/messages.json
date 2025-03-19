@@ -2676,7 +2676,7 @@
     "messageformat": "Vklop in izklop kamere"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Vklop in izklop razširjenega predogleda"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odgovorite na klic z videom (samo video klici)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Celostranski klic"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Povečanje predogleda"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Pomanjšanje predogleda"
   },
   "icu:calling__change-view": {
     "messageformat": "Spremeni pogled"
@@ -6107,6 +6107,6 @@
     "messageformat": "Ko boste poskušali začeti klepet z uporabniškim imenom nekoga, bo to delovalo, tudi če pomotoma najprej vnesete simbol \"@\". Nekatere navade je težko prekiniti."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Zdaj lahko med klicem razširite lokalni predogled videoposnetka, da se bolje vidite."
   }
 }

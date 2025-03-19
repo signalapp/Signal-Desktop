@@ -2676,7 +2676,7 @@
     "messageformat": "Ieslēgt un izslēgt video"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Paplašinātā priekšskatījuma ieslēgšana un izslēgšana"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atbildēt uz zvanu ar video (tikai video zvaniem)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Zvans pilnekrāna režīmā"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimizēt priekšskatījumu"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizēt priekšskatījumu"
   },
   "icu:calling__change-view": {
     "messageformat": "Mainīt skatu"
@@ -6107,6 +6107,6 @@
     "messageformat": "Tagad, mēģinot uzsākt sarunu ar kādu, izmantojot šīs personas Signal lietotājvārdu, tas izdosies pat tad, ja nejauši vispirms ierakstīsiet simbolu \"@\". D@žus ier@dumus l@uzt ir grūti."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Tagad zvana laikā varat paplašināt vietējā video priekšskatījumu, tā iegūstot jaunu skatu uz sevi un iespēju pareflektēt par to, kas esat."
   }
 }

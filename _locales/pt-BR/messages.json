@@ -2676,7 +2676,7 @@
     "messageformat": "Ativar e desativar a câmera"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Ativar/desativar prévia expandida"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atender chamada com vídeo (somente videochamadas)"
@@ -3099,10 +3099,10 @@
     "messageformat": "Chamada em tela inteira"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maximizar prévia"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizar prévia"
   },
   "icu:calling__change-view": {
     "messageformat": "Alterar visualização"
@@ -6107,6 +6107,6 @@
     "messageformat": "Agora, quando você tentar iniciar uma conversa com o nome de usuário de alguém no Signal, isso funcionará mesmo que você digite acidentalmente o símbolo “@” primeiro. Alguns h@bitos são difi@eis de larg@r."
   },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Agora você pode expandir a prévia do seu próprio vídeo durante a chamada para se ver melhor."
   }
 }
