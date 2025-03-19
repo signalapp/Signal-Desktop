@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "该媒体不可用"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "媒体不可用"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "了解更多"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "切换视频开关"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "打开或关闭扩展预览"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "视频接听（仅视频通话）"
@@ -3099,10 +3096,10 @@
     "messageformat": "全屏通话"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "最大化预览"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "最小化预览"
   },
   "icu:calling__change-view": {
     "messageformat": "更改视图"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "重试"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "跳过"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "要跳过消息转移吗？"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "如果选择跳过，您将无法访问此设备上的任何消息或媒体。在跳过后，您可以在“设置 > 聊天 > 转移”页面重新开始转移消息。"
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "取消"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "正在恢复媒体"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "请在您的手机上打开 Signal，否则您的账户将会很快被删除。当您成功打开 Signal 后，此消息将会消失。<learnMoreLink>了解更多</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal 遇到了一些技术故障。我们正努力使服务尽快恢复。"
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal 设置中新推出的“数据使用”功能可方便用户选择是否自动下载图片、视频、音频文件或其他文档。"
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "现在当您想要和他人通过其 Signal 用户名开始聊天时，即使您不小心先输入了“@”符号，聊天也能正常开启。"
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "现在您可以在通话期间扩展本地视频预览了，以更清楚地预览画面。"
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

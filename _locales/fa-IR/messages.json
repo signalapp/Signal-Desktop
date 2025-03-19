@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "این رسانه در دسترس نیست"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "رسانه در دسترس نیست"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "بیشتر بدانید"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "خاموش و روشن کردن ویدئو"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "روشن و خاموش کردن پیش‌نمایش گسترده"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "پاسخ به تماس با تصویر (فقط تماس‌های تصویری)"
@@ -3099,10 +3096,10 @@
     "messageformat": "تماس تمام‌صفحه"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "بزرگ کردن پیش‌نمایش"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "کوچک‌کردن پیش‌نمایش"
   },
   "icu:calling__change-view": {
     "messageformat": "تغییر نما"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "تلاش مجدد"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "رد کردن"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "انتقال پیام رد شود؟"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "اگر رد شوید، به هیچ یک از پیام‌ها یا رسانه‌های خود در این دستگاه دسترسی نخواهید داشت. پس از رد کردن، می‌توانید از قسمت «تنظیمات» > «گفتگوها» > «انتقال»، انتقال جدیدی را شروع کنید."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "لغو"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "در حال بازیابی رسانه"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "اگر سیگنال را در تلفن خود باز نکنید، حساب شما به‌زودی حذف خواهد شد. اگر این کار را با موفقیت انجام داده باشید، این پیام از بین خواهد رفت. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "سیگنال با مشکلات فنی روبروست. به سختی تلاش میکنیم تا سرویس را تا حد ممکن سریعا برگردانیم."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "قابلیت جدید «مصرف داده» در تنظیمات سیگنال، انتخاب دانلود یا عدم دانلود خودکار عکس‌ها، ویدئوها، فایل‌های صوتی یا سایر اسناد را آسان می‌کند."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "اکنون زمانی که می‌خواهید گفتگویی با نام کاربری سیگنال کسی شروع کنید، حتی اگر اشتباهاً علامت “@” را اول تایپ کنید، باز هم کار خواهد کرد."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "اکنون می‌توانید پیش‌نمایش ویدئوی محلی خود را در طول تماس گسترش دهید تا خود را بهتر ببینید."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

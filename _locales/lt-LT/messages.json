@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Šis įrašas neprieinamas"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Įrašas nepasiekiamas"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Sužinoti daugiau"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Perjungti vaizdą"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Perjungti išskleistą peržiūrą"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atsiliepti su vaizdu (tik vaizdo skambučiams)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Skambutis visame ekrane"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Padidinti peržiūrą"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Sumažinti peržiūrą"
   },
   "icu:calling__change-view": {
     "messageformat": "Keisti rodinį"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Bandyti dar kartą"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Praleisti"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Praleisti žinučių perkėlimą?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Jei nuspręsite praleisti, neturėsite prieigos prie jokių žinučių ar įrašų šiame įrenginyje. Praleidę, naują perkėlimą galite pradėti Nustatymai > Pokalbiai > Perkėlimas."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Atšaukti"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Įrašai atkuriami"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Jūsų paskyra netrukus bus ištrinta, nebent telefone atidarysite „Signal“. Tai atlikus ši žinutė išnyks. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal patiria techninius nesklandumus. Mes sunkiai dirbame, kad kaip įmanoma greičiau atkurtume paslaugą."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Naudodamiesi nauja „Signal“ nustatymuose prieinama funkcija „Duomenų naudojimas“ lengvai pasirinksite, ar automatiškai atsisiųsti nuotraukas, vaizdo įrašus, garso failus bei kitus dokumentus."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Nuo šiol bandant pradėti pokalbį su kuriuo nors „Signal“ naudotoju, jo (-s) naudotojo vardas suveiks net ir tuo atveju, jei pirmiausia netyčia įvesite simbolį „@“."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Dabar skambučio metu gali išplėsti savo vietinio vaizdo peržiūrą, kad geriau matytum save."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

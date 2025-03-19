@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Šī multivide nav pieejama"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Multivide nav pieejama"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Uzzināt vairāk"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Ieslēgt un izslēgt video"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Paplašinātā priekšskatījuma ieslēgšana un izslēgšana"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atbildēt uz zvanu ar video (tikai video zvaniem)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Zvans pilnekrāna režīmā"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimizēt priekšskatījumu"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizēt priekšskatījumu"
   },
   "icu:calling__change-view": {
     "messageformat": "Mainīt skatu"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Mēģināt vēlreiz"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Izlaist"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Vai izlaist ziņu pārsūtīšanu?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Ja izvēlēsieties izlaist, jums šajā ierīcē nebūs piekļuves nevienai ziņai vai multividei. Ja pēc izlaišanas pārdomāsiet, varat sākt jaunu pārsūtīšanu sadaļā Iestatījumi > Sarunas > Pārsūtīt."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Atcelt"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Multivide tiek atjaunota"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Ja savā tālrunī neatvērsiet Signal, jūsu konts drīz tiks dzēsts. Ja to sekmīgi izdarīsiet, šis ziņojums vairs netiks rādīts. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ir tehniskas grūtības. Tiek cītīgi strādāts, lai pēc iespējas ātrāk atjaunotu pakalpojumu."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Jaunā funkcija \"Datu lietojums\" Signal iestatījumos ļauj izvēlēties, vai automātiski lejupielādēt fotoattēlus, videoklipus, audio failus un citus dokumentus."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Tagad, mēģinot uzsākt sarunu ar kādu, izmantojot šīs personas Signal lietotājvārdu, tas izdosies pat tad, ja nejauši vispirms ierakstīsiet simbolu \"@\". D@žus ier@dumus l@uzt ir grūti."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Tagad zvana laikā varat paplašināt vietējā video priekšskatījumu, tā iegūstot jaunu skatu uz sevi un iespēju pareflektēt par to, kas esat."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

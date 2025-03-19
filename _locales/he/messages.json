@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "מדיה זו אינה זמינה"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "מדיה לא זמינה"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "למידע נוסף"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "עורר וידאו מופעל וכבוי"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "הפעלה והשבתה של תצוגה מקדימה מורחבת"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "מענה לשיחה עם וידאו (שיחות וידאו בלבד)"
@@ -3099,10 +3096,10 @@
     "messageformat": "עורר שיחה במצב מלא"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "הגדלת תצוגה מקדימה"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "הקטנת תצוגה מקדימה"
   },
   "icu:calling__change-view": {
     "messageformat": "שינוי תצוגה"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "נסה שוב"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "דלג"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "לדלג על העברת הודעות?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "אם תבחר/י לדלג, לא תהיה לך גישה לאף אחת מההודעות או המדיה שלך במכשיר זה. אפשר להתחיל העברה חדשה לאחר הדילוג מתוך הגדרות > צ׳אטים > העברה."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "ביטול"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "מדיה בשחזור"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "החשבון שלך יימחק בקרוב אלא אם כן תפתח/י את Signal בטלפון שלך. אם עשית זאת בהצלחה, ההודעה הזו תיעלם. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal חווה קשיים טכניים. אנו עובדים קשות כדי לשחזר את השירות מהר ככל האפשר."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "הפיצ׳ר החדש ״שימוש בנתונים״ בהגדרות Signal מקל עליך לבחור אם להוריד באופן אוטומטי (או לא) תמונות, סרטונים, קובצי שמע, או מסמכים אחרים."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "עכשיו בעת הניסיון להתחיל צ׳אט עם מישהו או מישהי באמצעות שם המשתמש שלהם ב–Signal, זה יפעל גם אם בטעות הקלדת את הסמל \"@\" בהתחלה."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "עכשיו יש לך אפשרות להרחיב את תצוגה מקדימה מקומית של וידאו במהלך שיחה כדי לראות את עצמך טוב יותר."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "ეს მედია ფაილი ხელმისაწვდომი არაა"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "მედია ფაილი მიუწვდომელია"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "გაიგე მეტი"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "ვიდეოს ჩართვა და გამორთვა"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "გაფართოებული წინასწარ ნახვის ჩართვა და გამორთვა"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "უპასუხე ზარს ვიდეოთი (მხოლოდ ვიდეო ზარები)"
@@ -3099,10 +3096,10 @@
     "messageformat": "ზარის ფანჯრის მთელს ეკრანზე გადიდება"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "წინასწარ ნახვის ხედის გადიდება"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "წინასწარ ნახვის ხედის დაპატარავება"
   },
   "icu:calling__change-view": {
     "messageformat": "ხედის შეცვლა"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "თავიდან ცდა"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "გამოტოვება"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "გსურს გამოტოვო შეტყობინების გადატანა?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "თუ გამოტოვებ, ამ მოწყობილობაზე წვდომა არ გექნება არც ერთ შეტყობინებასა ან მედია ფაილზე. შეგიძლია, გამოტოვების შემდეგ ახალი გადატანა დაიწყო. აირჩიე: პარამეტრები > ჩატები > გადატანა."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "გაუქმება"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "მედია ფაილების აღდგენა"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "თუ შენს მობილურზე Signal-ს არ გახსნი, შენი ანგარიში მალე წაიშლება. თუ ამას წარმატებით გააკეთებ, ეს შეტყობინება გაქრება. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal-ი ტექნიკურ სირთულეებს განიცდის. ჩვენ ბევრს ვმუშაობთ სერვისის რაც შეიძლება სწრაფად აღდგენისთვის."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal-ის პარამეტრებში დამატებული \"მონაცემთა გამოყენების\" ახალი ფუნქცია აადვილებს არჩევანს, ავტომატურად ჩამოიტვირთოს თუ არა ფოტოები, ვიდეო, აუდიო ფაილები ან სხვა დოკუმენტები. თუ Signal ავტომატურად შეწყვეტს უახლესი ტრეკების ჩამოტვირთვას, შენი მუსიკალური გემოვნება შეგიძლია ჰარდ დრაივზე დაასეივო."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "ახლა, როცა ჩატის დაწყებას Signal რომელიმე მომხმარებლის სახელით ეცდები, ეს „@“ სიმბოლოს აკრეფვის შემთხვევაშიც კი იმუშავებს. ზოგი ჩვევ@ რთულ@დ ქრებ@."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ახლა უკვე შეგიძლია, შენი ადგილობრივი ვიდეოს წინასწარი ნახვა ზარის დროს გააფართოვო, რათა საკუთარი თავი უკეთ დაინახო."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

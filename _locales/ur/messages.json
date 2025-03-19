@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "یہ میڈیا دستیاب نہیں"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "میڈیا دستیاب نہیں ہے"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "مزید جانیں"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "ٹوگل ویڈیو آن اور آف"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "پھیلائے ہوئے پری ویو کو آن اور آف کرنے کے لیے ٹوگل کریں"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ویڈیو کے ساتھ کال کا جوب دیں (صرف ویڈیو کالز)"
@@ -3099,10 +3096,10 @@
     "messageformat": "فل سکرین کال"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "پری ویو کو بڑا کریں"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "پری ویو کو مختصر کریں"
   },
   "icu:calling__change-view": {
     "messageformat": "ویو تبدیل کریں"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "دوبارہ کوشش کریں"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "چھوڑ دو"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "میسج ٹرانسفر کو چھوڑ دیں؟"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "اگر آپ چھوڑنے کا انتخاب کرتے ہیں، تو آپ کو اس ڈیوائس پر موجود اپنے کسی بھی میسجز یا میڈیا تک رسائی حاصل نہیں ہو گی۔ آپ سیٹنگز > چیٹس > ٹرانسفر کریں سے چھوڑنے کے بعد ایک نیا ٹرانسفر شروع کر سکتے ہیں۔"
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "منسوخ کریں"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "میڈیا بحال ہو رہا ہے"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "اگر آپ اپنے فون پر Signal نہیں کھولتے تو آپ کا اکاؤنٹ جلد ہی خذف کر دیا جائے گا۔ اگر آپ نے اسے کامیابی سے کر لیا ہے تو یہ میسج غائب ہو جائے گا۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "signal تکنیکی مشکلات کا تجربہ کر رہا ہے۔جتنا جلدی ممکن ہو ہم سروس بحال کرنے کیلئے سخت محنت کر رہے ہیں۔"
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal کی سیٹنگز میں \"ڈیٹا کے استعمال\" کا نیا فیچر یہ منتخب کرنے کو آسان بناتا ہے کہ آیا تصاویر، ویڈیوز، آڈیو فائلز، یا دیگر دستاویزات خود کار طور پر ڈاؤن لوڈ ہوں یا نہ ہوں۔"
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "اب جب آپ کسی کے Signal یوزر نیم کے ساتھ چیٹ شروع کرنے کی کوشش کرتے ہیں، تو یہ اس صورت میں بھی کام کرے گا اگر آپ بھولے سے “@” کی علامت پہلے ٹائپ کر دیتے ہیں۔"
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "اب آپ کال کے دوران اپنے آپ کو بہتر انداز میں دیکھنے کے لیے اپنے مقامی ویڈیو کے پری ویو کو پھیلا سکتے ہیں۔"
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Níl an meán sin ar fáil"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Níl an meán ar fáil"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Tuilleadh faisnéise"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Scoránaigh Físeán air agus as"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Scoránaigh an réamhamharc uasmhéadaithe air agus as"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Freagair an glao le físeán (físghlaonna amháin)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Cuir an glao i mód lánscáileáin"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Uasmhéadaigh an réamhamharc"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Íoslaghdaigh an réamhamharc"
   },
   "icu:calling__change-view": {
     "messageformat": "Athraigh amharc"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Bain triail eile as"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Léim thairis seo"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Léim thar aistriú teachtaireachtaí?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Má roghnaíonn tú scipeáil, ní bheidh rochtain agat ar aon cheann de do theachtaireachtaí nó meáin ar an ngléas seo. Is féidir leat tosú ar aistriú nua tar éis scipeáil ó Shocruithe >Comhráite > Aistrigh."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cuir ar ceal"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Meáin á n-aischur"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Scriosfar do chuntas go luath mura n-osclaíonn tú Signal ar do ghuthán. Imeoidh an teachtaireacht seo má éiríonn leat é a dhéanamh. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Tá Signal buailte le deacrachtaí teicniúla faoi láthair. Táimid ag déanamh ár ndíchill an fhadhb a réiteach chomh luath agus is féidir."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Éascaíonn an ghné nua \"Úsáid Sonraí\" in Signal an rogha grianghraif, físeáin, comhaid fuaime nó doiciméid eile a íoslódáil go huathoibríoch nó gan é sin a dhéanamh."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Anois nuair a dhéanann tú iarracht tosú ar chomhrá le hainm úsáideora Signal ag duine, oibreoidh sé fiú má chlóscríobhann tú an tsiombail \"@\" de thaisme ar dtús."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Anois is féidir leat réamhamharc ar d'fhíseán logánta a uasmhéadú ionas go mbeidh amharc níos fearr agat ort féin."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

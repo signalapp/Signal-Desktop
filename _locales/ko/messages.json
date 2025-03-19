@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "이 미디어는 사용할 수 없습니다"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "미디어를 사용할 수 없음"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "더 알아보기"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "토글 비디오 끄거나 켜기"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "미리 보기 펼치기 사용/사용 안 함 전환"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "영상 통화로 받기(영상 통화만 해당)"
@@ -3099,10 +3096,10 @@
     "messageformat": "전체화면 통화"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "미리 보기 최대화"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "미리 보기 최소화"
   },
   "icu:calling__change-view": {
     "messageformat": "보기 변경"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "재시도"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "건너뛰기"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "메시지 전송을 건너뛸까요?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "건너뛰도록 선택할 경우 이 기기의 모든 메시지와 미디어에 액세스할 수 없습니다. 건너뛴 다음 설정 > 대화 > 전송에서 새로운 전송을 시작할 수 있습니다."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "취소"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "미디어 복원 중"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "휴대폰에서 Signal을 열지 않으면 계정이 곧 삭제됩니다. Signal을 열면 이 메시지는 사라집니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal에 기술적 문제가 발생했습니다. 문제를 최대한 신속하게 처리하겠습니다."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal 설정의 새로운 '데이터 사용' 기능을 사용하면 간편하게 사진이나 동영상, 오디오 파일 및 기타 문서를 자동으로 다운로드할지 선택할 수 있습니다."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "이제 다른 사용자의 Signal 사용자 이름을 사용하여 대화를 시작하려는 경우 실수로 '@' 기호를 먼저 입력해도 해당 기능이 작동합니다."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "이제 통화 중에 내 모습이 더 잘 보이도록 로컬 화상 미리 보기를 펼칠 수 있습니다."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

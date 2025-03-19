@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Этот медиафайл недоступен"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Медиафайл недоступен"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Узнать больше"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Включить/отключить видео"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Включение и выключение развёрнутого предпросмотра"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Ответить на звонок с видео (только видеозвонки)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Развернуть звонок"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Развернуть предпросмотр"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Свернуть предпросмотр"
   },
   "icu:calling__change-view": {
     "messageformat": "Изменить вид"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Повторить попытку"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Пропустить"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Пропустить перенос сообщений?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Если вы решите пропустить, у вас не будет доступа к сообщениям или медиафайлам на этом устройстве. Вы можете начать новый перенос после пропуска из Настроек > Чаты > Перенос."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Отменить"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Восстановление медиафайлов"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Ваша учётная запись будет удалена в ближайшее время, если вы не откроете Signal на своем телефоне. Данное сообщение исчезнет, если вы это сделали. <learnMoreLink>Узнать больше</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "У Signal возникли технические неполадки. Мы прилагаем все усилия, чтобы как можно быстрее восстановить обслуживание."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Новая функция «Использование данных» в настройках Signal позволяет легко выбрать или отменить автоматическую загрузку фото, видео, аудиофайлов и других документов. Если Signal перестанет автоматически скачивать новые песни рок-группы парня вашей подруги из группового чата, вы сможете сохранить свои музыкальные вкусы. Как и немного места на жёстком диске."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Теперь у вас получится начать чат с чьим-либо именем пользователя Signal, даже если вы сначала случайно введёте символ «@». От некотор@х прив@чек оч@нь тр@дно изб@виться."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Теперь вы можете развернуть предпросмотр своего видео во время звонка, чтобы полюбоваться собой или задуматься о том, кто вы есть. "
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Toto médium není dostupné"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Média nejsou k dispozici"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Zjistit více"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Zapnutí a vypnutí videa"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Zapnout nebo vypnout větší náhled"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Přijmout hovor s videem (pouze videohovory)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Hovor přes celou obrazovku"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Zvětšit náhled"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Zmenšit náhled"
   },
   "icu:calling__change-view": {
     "messageformat": "Změnit zobrazení"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Zkusit znovu"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Přeskočit"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Přeskočit přenos zpráv?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Pokud se rozhodnete pro přeskočení, nebudete mít v tomto zařízení přístup k žádným svým zprávám ani médiím. Nový přenos můžete po přeskočení spustit v Nastavení > Chaty > Přenos."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Zrušit"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Obnovování médií"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Váš účet bude brzy smazán, pokud v telefonu neotevřete aplikaci Signal. Pokud jste zprávu úspěšně zobrazili, bude smazána. <learnMoreLink>Zjistit více</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal se potýká s technickými problémy. Usilovně pracujeme na co nejrychlejším obnovení služby."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Nová funkce Využití dat v nastavení služby Signal umožňuje snadno zvolit, zda se mají automaticky stahovat fotografie, videa, zvukové soubory nebo jiné dokumenty."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Když se nyní pokusíte zahájit chat s uživatelským jménem někoho ve službě Signal, bude to fungovat, i když omylem napíšete nejprve symbol @."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Nyní si můžete během hovoru zvětšit místní náhled videa a lépe si sami sebe prohlédnout."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

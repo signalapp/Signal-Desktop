@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Dieser Medieninhalt ist nicht verfügbar"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Medieninhalt nicht verfügbar"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Mehr erfahren"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Video an-/ausschalten"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Schaltet die erweiterte Vorschau ein und aus"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Anruf mit Video annehmen (nur Videoanrufe)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Anruf maximieren"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Vorschau vergrößern"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Vorschau verkleinern"
   },
   "icu:calling__change-view": {
     "messageformat": "Ansicht ändern"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Erneut versuchen"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Überspringen"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Nachrichtenübertragung überspringen?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Wenn du »Überspringen« wählst, hast du auf diesem Gerät keinen Zugriff mehr auf deine Nachrichten oder Medien. Du kannst eine neue Übertragung nach dem Überspringen von Einstellungen > Chats > Übertragung starten."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Abbrechen"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Medien werden wiederhergestellt"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Dein Konto wird bald gelöscht, wenn du Signal nicht auf deinem Telefon öffnest. Diese Nachricht verschwindet, sobald du Signal erfolgreich geöffnet hast. <learnMoreLink>Mehr erfahren</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal hat derzeit technische Schwierigkeiten. Wir arbeiten hart daran, den Betrieb so schnell wie möglich wiederherzustellen."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Mit der neuen Funktion »Datennutzung« in den Einstellungen von Signal kannst du ganz einfach festlegen, ob Fotos, Videos, Audiodateien oder andere Dokumente automatisch heruntergeladen werden sollen oder nicht. Wenn Signal nicht mehr automatisch die neuesten Songs von der Band deines Freundes oder deiner Freundin  herunterlädt, behältst du deinen Musikgeschmack und hast auch noch etwas Platz auf deiner Festplatte frei."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Wenn du jetzt versuchst, einen Chat mit dem Signal-Nutzernamen einer anderen Person zu starten, funktioniert es auch, wenn du das „@“-Symbol versehentlich zuerst eingibst. Einige Gewohnheiten l@ssen sich nur schwer @blegen."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Jetzt kannst du während eines Anrufs deine persönliche Videovorschau vergrößern, um dich selbst besser zu sehen oder darüber nachzudenken, wer du wirklich bist."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

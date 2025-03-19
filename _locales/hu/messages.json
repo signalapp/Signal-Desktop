@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Ez a médiatartalom nem érhető el"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Médiafájl nem érhető el"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Tudj meg többet!"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Videó ki- és bekapcsolása"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Kiterjesztett előnézet be- és kikapcsolása"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Hívás fogadása videóval (csak videohívások esetén)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Hívás teljes képernyőre"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Előnézet maximalizálása"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Előnézet minimalizálása"
   },
   "icu:calling__change-view": {
     "messageformat": "Nézet módosítása"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Újra"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Kihagyás"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Kihagyod az üzenetátvitelt?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Ha úgy döntesz, hogy kihagyod, ezen az eszközön nem fogsz hozzáférni egyetlen üzenetedhez vagy médiafájlhoz sem. Ha kihagyod, a Beállítások > Csevegés > Átvitel menüpontban új átvitelt indíthatsz."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Mégse"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Médiafájl visszaállítása"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "A fiókod hamarosan törlésre kerül, hacsak nem nyitod meg a Signalt a telefonodon. Ez az üzenet eltűnik, ha sikerrel jártál. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "A Signal technikai nehézségekkel küzd. Keményen dolgozunk a gyors helyreállásért."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "A Signal-beállítások új „Adathasználat” funkciója megkönnyíti annak eldöntését, hogy a rendszer automatikusan letöltse-e a fotókat, videókat, hangfájlokat vagy egyéb dokumentumokat."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Mostantól, amikor megpróbálsz csevegést indítani valakinek a Signal-felhasználónevével, akkor is működni fog, ha véletlenül először beírod a „@” szimbólumot."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Mostantól kibővítheted a helyi videó előnézetét hívás közben, hogy jobban lásd magad."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

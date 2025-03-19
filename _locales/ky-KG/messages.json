@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Бул медиа файлды көрө албайсыз"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Медиа файл жок"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Кененирээк маалымат"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Видеону күйгүзүү жана өчүрүү"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Алдын ала кеңири көрүнүштү күйгүзүү/өчүрүү"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Чалууга видео режиминде жооп берүү (видео чалуулар гана)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Толук экрандуу чалуу"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Алдын ала көрүнүштү чоңойтуу"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Алдын ала көрүнүштү кичирейтүү"
   },
   "icu:calling__change-view": {
     "messageformat": "Көрүнүштү өзгөртүү"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Кайра аракет кылуу"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Өткөрүп жиберүү"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Билдирүүнү өткөрбөйсүзбү?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Өткөрбөсөңүз, бул түзмөктөгү бардык билдирүүлөрүңүз менен медиа файлдарыңыз жеткиликсиз болуп калат. Өткөрүп жибергенден кийин Параметрлер > Маектер > Өткөрүү дегенден кайра өткөрүп көрсөңүз болот."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Жок"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Медиа файлдарыңыз калыбына келүүдө"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Телефонуңузда Signal'ды ачпасаңыз, аккаунтуңуз өчүп калат. Аны кылсаңыз, бул билдирүү өчөт. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal техникалык кыйынчылыктарга дуушар болууда. Биз кызматты мүмкүн болушунча тез арада калыбына келтирүү үчүн көп аракет кылып жатабыз."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal'дын параметрлериндеги жаңы \"Түзмөктөгү нерселердин колдонулушу\" функциясы аркылуу сүрөттөрдүн, видеолордун, аудио файлдардын ж.б. документтердин автоматтык түрдө жүктөлүп жүктөлбөсүн тандай аласыз. Эгер Signal'да топтук маектеги досуңуздун соңку тректери автоматтык түрдө жүктөлүп алынбай жатса, аларды катуу дискиңизге сактап койсоңуз болот."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Эми Signal'ды колдонгон кимдир бирөө менен сүйлөшүп баштагыңыз келсе, байкабай “@” символун басып алсаңыз деле сүйлөшүп баштайсыз. Кээ бир ад@даттардан кут@улуу оң@ой эме@с."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Эми чалуу учурунда видеонун алдын ала көрүнүшүн чоңойтуп, өзүңүздү жакшыраак карай аласыз."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

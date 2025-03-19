@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Hindi available ang media na ito"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Hindi available ang media"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Matuto pa"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Toggle video on and off"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "I-on o i-off ang expanded preview"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Sagutin ang tawag na may video (video call lang)"
@@ -3099,10 +3096,10 @@
     "messageformat": "I-fullscreen ang call"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "I-maximize ang preview"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "I-minimize ang preview"
   },
   "icu:calling__change-view": {
     "messageformat": "Palitan ang view"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Subukang muli"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Laktawan"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Gusto mo bang i-skip ang message transfer?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Kapag nilaktawan mo ito, hindi mo na ma-a-access ang anumang messages o media sa device na ito. Maaari kang magsimula ng bagong transfer pagkatapos mong mag-skip mula sa Settings > Chats > Transfer"
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "I-cancel"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Nire-restore ang media"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Mabubura na ang account mo kapag hindi mo binuksan ang Signal app sa phone mo. Mawawala ang message na ito kung nagawa mo ito successfully. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Nakakaranas ng mga teknikal na problema ang Signal. Nagsisikap kaming ibalik ang serbisyo sa lalong madaling panahon."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Pinadali ng bagong \"Data usage\" feature sa Signal settings ang pagpili kung gusto mong automatic na i-download ng photos, viddeos, audio files, o iba pang dokumento."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Gagana na ang pagsimula ng chat gamit ang Signal username ng isang tao kahit hindi mo sinadyang i-type ang \"@\" symbol bago ito."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Pwede mo nang i-expand ang local video preview mo habang nasa call ka para mas makita mo nang maayos ang iyong sarili."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

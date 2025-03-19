@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "ไม่พบไฟล์สื่อนี้"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "ไม่พบไฟล์สื่อ"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "เรียนรู้เพิ่มเติม"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "ตัวเลือกเปิดและปิดวิดีโอ"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "เปิดปิดการขยายมุมมองของหน้าต่าง"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "รับสายโดยเปิดวิดีโอ (เฉพาะวิดีโอคอล)"
@@ -3099,10 +3096,10 @@
     "messageformat": "โทรเต็มจอ"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ขยายหน้าต่าง"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "ย่อหน้าต่าง"
   },
   "icu:calling__change-view": {
     "messageformat": "เปลี่ยนมุมมอง"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ลองอีกครั้ง"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "ข้าม"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "ข้ามการถ่ายโอนข้อความใช่หรือไม่"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "หากข้ามการถ่ายโอน คุณจะไม่สามารถเข้าถึงข้อความหรือไฟล์สื่อบนอุปกรณ์เครื่องนี้ โดยคุณสามารถเริ่มถ่ายโอนได้ใหม่ โดยไปที่การตั้งค่า > แชท > การถ่ายโอน"
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "ยกเลิก"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "กำลังกู้คืนไฟล์สื่อ"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "หากไม่มีการเปิด Signal บนโทรศัพท์ บัญชีของคุณจะถูกลบในอีกไม่ช้า โดยข้อความนี้จะหายไปเมื่อคุณดำเนินการสำเร็จ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal กำลังพบกับอุปสรรคทางเทคนิค เรากำลังทำงานอย่างหนักเพื่อให้สามารถกลับมาให้บริการได้โดยเร็วที่สุดเท่าที่จะเป็นไปได้"
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "ขอแนะนำ \"การใช้ข้อมูล\" ฟีเจอร์ใหม่ในการตั้งค่า Signal ที่จะทำให้คุณเลือกได้ตามสะดวกว่าจะดาวน์โหลดไฟล์แต่ละประเภท ไม่ว่าจะเป็นไฟล์ภาพ วิดีโอ เสียง หรือเอกสารโดยอัตโนมัติหรือไม่"
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "ให้คุณเริ่มต้นแชทด้วยชื่อผู้ใช้ Signal ได้แบบไม่มีสะดุด แม้จะบังเอิญพิมพ์สัญลักษณ์ @ นำหน้าชื่อไปด้วยก็ตาม"
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "พัฒนาให้คุณสามารถขยายหน้าต่างวิดีโอของตัวเองในระหว่างโทรได้ง่ายและสะดวกขึ้นอีก"
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

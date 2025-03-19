@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Media ei ole saatavilla"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Media ei saatavilla"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Lue lisää"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Kytke video päälle ja pois"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Ota laajennettu esikatselu käyttöön tai pois käytöstä"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Vastaa puheluun videolla (vain videopuhelut)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Koko näytön puhelu"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Suurenna esikatselu"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Pienennä esikatselu"
   },
   "icu:calling__change-view": {
     "messageformat": "Vaihda näkymää"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Yritä uudelleen"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Ohita"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Ohitetaanko viestien siirto?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Jos ohitat siirron, et voi käyttää viestejäsi tai mediasisältöäsi tällä laitteella. Voit aloittaa uuden siirron kohdasta Asetukset > Keskustelut > Siirto."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Peruuta"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Palautetaan mediaa"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Tilisi poistetaan pian, ellet avaa Signalia puhelimellasi. Tämä viesti poistuu, jos olet tehnyt sen onnistuneesti. <learnMoreLink>Lue lisää</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signalissa ilmenee tällä hetkellä teknisiä ongelmia. Työskentelemme parhaillaan palvelun palauttamiseksi."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal-asetusten uuden Datankäyttö-ominaisuuden avulla on helppo valita, ladataanko kuvat, videot, äänitiedostot tai muut asiakirjat automaattisesti vai ei."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Kun nyt yrität aloittaa keskustelun Signal-käyttäjänimellä, se toimii, vaikka kirjoittaisit vahingossa @-symbolin ensin."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Nyt voit laajentaa videon paikallista esikatselua puhelun aikana saadaksesi paremman kuvan itsestäsi."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

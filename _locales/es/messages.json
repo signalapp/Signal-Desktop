@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Este archivo no está disponible"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Archivo multimedia no disponible"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Más información"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Activar o desactivar vídeo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Activar o desactivar la vista previa ampliada"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atender llamada con vídeo (solo videollamadas)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Llamada a pantalla completa"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maximizar vista previa"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizar vista previa"
   },
   "icu:calling__change-view": {
     "messageformat": "Cambiar la vista"
@@ -3884,18 +3881,6 @@
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Reintentar"
   },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Omitir"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "¿Omitir la transferencia de mensajes?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Si decides omitir este paso, no tendrás acceso a ninguno de tus mensajes ni archivos multimedia en este dispositivo. Puedes iniciar una nueva transferencia después de seleccionar Omitir en Ajustes > Chats > Transferencia."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancelar"
-  },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restaurando archivos multimedia"
   },
@@ -4488,7 +4473,7 @@
     "messageformat": "Restablecer todos"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Restablecer predeterminados"
+    "messageformat": "Restablecer predeterminado"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Restablecer"
@@ -5026,6 +5011,12 @@
   },
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Tu cuenta se eliminará pronto a menos que abras Signal en tu teléfono. Este mensaje desaparecerá en cuanto lo hagas. <learnMoreLink>Más información</learnMoreLink>"
+  },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal está teniendo dificultades técnicas. Estamos trabajando para restablecer el servicio lo antes posible."
@@ -6100,13 +6091,10 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "La nueva función \"Uso de datos\" en los ajustes de Signal te permite decidir si quieres descargar automáticamente fotos, vídeos, archivos de audio y otros documentos. Así, si Signal deja de descargar las últimas canciones de la banda del novio de tu amiga que inundan el chat grupal, tendrás más espacio libre para la música que de verdad te gusta."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Además, ahora puedes iniciar un chat usando el alias de Signal de alguien, incluso si se te olvida el símbolo \"@\" antes del nombre. S@bemos que cuest@ c@mbi@r l@s viej@s costumbres."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "A partir de ahora, podrás ampliar la vista previa de tu vídeo local durante una llamada. Así podrás ver qué tal tienes el pelo o reflexionar sobre quién eres en realidad."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

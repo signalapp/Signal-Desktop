@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Dit mediabestand is niet beschikbaar"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Media niet beschikbaar"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Meer informatie"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Camera aan- of uitzetten"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Gemaximaliseerd voorbeeld in- en uitschakelen"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Oproep beantwoorden met video (alleen video-oproepen)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Oproep in volledig scherm"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Voorbeeld maximaliseren"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Voorbeeld minimaliseren"
   },
   "icu:calling__change-view": {
     "messageformat": "Weergave wijzigen"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Opnieuw proberen"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Overslaan"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Berichtoverdracht overslaan?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Als je besluit dit over te slaan, heb je geen toegang tot je berichten of media op dit apparaat. Je kunt een nieuwe overdracht starten nadat je deze hebt overgeslagen via Instellingen > Chats > Overzetten."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Annuleren"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Media aan het herstellen"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Je account wordt binnenkort verwijderd, tenzij je Signal op je telefoon opent. Dit bericht verdwijnt als dit is gelukt. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ondervindt momenteel technische problemen. We zijn hard aan het werk om de service zo snel mogelijk te herstellen."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Dankzij de nieuwe functie ‘Datagebruik’ in Signal-instellingen kun je nu gemakkelijk instellen of je foto's, video's, audiobestanden of andere documenten automatisch wilt downloaden of juist niet. Als in de groepschat de demo's van de band van de vriend van je bestie niet meer automatisch gedownload worden, houd je opslagruimte vrij voor nummers waar je wél echt naar gaat luisteren."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Een chat starten door iemands Signal-gebruikersnaam in te typen werkt nu ook als je per ongeluk eerst een '@' typt voor de naam."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Je kunt nu tijdens een oproep je eigen videovoorbeeld maximaliseren. Dan kun je jezelf eindelijk écht in de ogen kijken."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

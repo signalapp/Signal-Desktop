@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Media ini tidak tersedia"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Media tidak tersedia"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Ketahui lebih lanjut"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Togol hidupkan dan matikan video"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Togol pratonton diperbesar dihidupkan dan dimatikan"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jawab panggilan dengan video (panggilan video sahaja)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Panggilan skrin penuh"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimumkan pratonton"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimumkan pratonton"
   },
   "icu:calling__change-view": {
     "messageformat": "Tukar pandangan"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Cuba Semula"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Langkau"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Langkau pemindahan mesej?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Jika anda memilih untuk melangkau, anda tidak akan mempunyai akses kepada mana-mana mesej atau media anda pada peranti ini. Anda boleh memulakan pemindahan baharu selepas melangkau daripada Tetapan > Sembang > Pemindahan."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Batal"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Memulihkan media"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Akaun anda akan dipadamkan tidak lama lagi melainkan anda membuka Signal pada telefon anda. Mesej ini akan hilang jika anda berjaya melakukannya. <learnMoreLink>Ketahui lebih lanjut</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal sedang mengalami masalah teknikal. Kami sedang berusaha untuk memulihkan perkhidmatan dengan secepat mungkin."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Ciri \"Penggunaan data\" baharu dalam tetapan Signal memudahkan anda memilih sama ada ingin memuat turun foto, video, fail audio atau dokumen lain secara automatik atau tidak."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Kini, apabila anda cuba memulakan sembang dengan nama pengguna Signal seseorang, ia akan tetap berfungsi walaupun anda tersilap menaip simbol “@” terlebih dahulu."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Kini, anda boleh memperbesar pratonton video semasa panggilan untuk melihat diri anda dengan lebih baik."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

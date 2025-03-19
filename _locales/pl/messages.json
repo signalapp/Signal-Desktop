@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Te multimedia nie są dostępne"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Multimedia niedostępne"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Dowiedz się więcej"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Włącz/wyłącz wideo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Przełącznik powiększonego podglądu"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odbierz z wideo (tylko dla połączeń wideo)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Pełny ekran"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Powiększ podgląd"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Zmniejsz podgląd"
   },
   "icu:calling__change-view": {
     "messageformat": "Zmień widok"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Ponów"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Pomiń"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Pominąć przenoszenie wiadomości?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Jeśli pominiesz ten krok, nie będziesz mieć dostępu do żadnych wiadomości i multimediów na tym urządzeniu. Możesz pominąć teraz i przenieść dane później w Ustawienia > Czaty > Przenieś."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Anuluj"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Przywracanie multimediów"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Twoje konto zostanie wkrótce usunięte. Aby temu zapobiec, uruchom aplikację Signal na swoim telefonie. Gdy to zrobisz, ten komunikat zniknie. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Usługa Signal ma problemy techniczne. Prosimy o cierpliwość w trakcie usuwania awarii."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Dzięki nowej funkcji „Użycie danych” dostępnej w ustawieniach aplikacji Signal możesz określić, czy chcesz automatycznie pobierać zdjęcia, wideo, pliki audio lub inne dokumenty. Jeśli Twoja zakochana kumpela regularnie wysyła Ci najnowsze gitarowe kawałki autorstwa swojego chłopaka, mamy dobrą wiadomość: nie musisz ich mieć na dysku. Nikomu nie powiemy."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Od teraz, gdy chcesz rozpocząć czat z innym użytkownikiem aplikacji Signal, wyszukasz daną osobę, nawet jeśli przy wpisywaniu imienia omyłkowo zaczniesz od symbolu „@”. Nie dziękuj. Zn@my siłę n@wyku."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Od teraz w trakcie rozmowy wideo możesz powiększyć podgląd obrazu z kamerki – świetna opcja dla tych, którzy nie mogą się na siebie napatrzeć."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

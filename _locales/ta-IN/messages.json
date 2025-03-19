@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "இந்த ஊடகம் கிடைக்கவில்லை"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "ஊடகம் கிடைக்கவில்லை"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "மேலும் அறிக"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "நிலைமாற்று: காணொளி நிறுத்த மற்றும் இயக்க"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "விரிவாக்கப்பட்ட முன்னோட்டத்தை ஆன் அல்லது ஆஃப் செய்க"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "வீடியோவுடன் அழைப்பிற்கு பதிலளி (வீடியோ அழைப்புகள் மட்டும்)"
@@ -3099,10 +3096,10 @@
     "messageformat": "முழுத்திரை அழைப்பு"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "முன்னோட்டத்தைப் பெரிதாக்கு"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "முன்னோட்டத்தைச் சிறிதாக்கு"
   },
   "icu:calling__change-view": {
     "messageformat": "வ்யூ-ஐ மாற்றவும்"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "மீண்டும் முயற்சி செய்"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "தவிர்"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "மெசேஜ் இடமாற்றத்தைத் தவிர்ப்பதா?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "நீங்கள் தவிர் என்ற விருப்பத்தைத் தேர்ந்தெடுத்தால், இந்த சாதனத்தில் உள்ள உங்கள் மெசேஜ்கள் அல்லது மீடியாவை அணுக முடியாது. அமைப்புகள் > சாட்ஸ் > இடமாற்றம் என்பதற்குச் சென்ற பிறகு புதிய இடமாற்றத்தைத் தொடங்கலாம்."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "ரத்துசெய்"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "மீடியாவை மீட்டமைக்கிறது"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "உங்கள் பேசியில் சிக்னலைத் திறக்காவிட்டால் உங்கள் கணக்கு விரைவில் நீக்கப்படும். நீங்கள் அதை வெற்றிகரமாக செய்திருந்தால் இந்த மெசேஜ் தோன்றாது. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal தொழில்நுட்ப சிக்கல்களை எதிர்கொள்கிறது. சேவையை விரைவாக மீட்டெடுக்க நாங்கள் விரைவாக வேலை செய்து வருகிறோம்."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "சிக்னல் அமைப்புகளில் காணப்படும் புதிய \"டேட்டா பயன்பாடு\" அம்சமானது படங்கள், காணொளிகள், ஒலிக் கோப்புகள் அல்லது பிற ஆவணங்களைத் தானாகவே பதிவிறக்க வேண்டுமா அல்லது இல்லையா என்பதைத் தேர்ந்தெடுப்பதை எளிதாக்குகிறது."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "இப்போது ஒருவரின் சிக்னல் பயனர்பெயருடன் நீங்கள் சாட்டைத் தொடங்க முயலும்போது, நீங்கள் தற்செயலாக “@” குறியீட்டை முதலில் தட்டச்சு செய்தாலும் அது செயல்படும்."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "அழைப்பின் போது, உங்களை மேலும் நுண்ணிய விவரங்களுடன் பார்க்க, இப்போது உங்கள் லோக்கல் வீடியோ முன்னோட்டத்தை விரிவுபடுத்தலாம்."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

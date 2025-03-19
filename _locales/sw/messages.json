@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Video hii haipatikani"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Video na picha haipatikani"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Jifunze zaidi"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Geuza video uiwashe na kuizima"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Washa na uzime onyesha lililopanuliwa"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jibu simu kwa video (simu za video peke yake)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Mazungumzo ya simu ya skrini nzima"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Panua onyesho"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Punguza onyesho"
   },
   "icu:calling__change-view": {
     "messageformat": "Badili mtazamo"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Jaribu Upya"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Ruka"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Ungependa kuruka uhamishaji wa ujumbe?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Ikiwa utachagua kuruka, hutaweza kufikia jumbe au picha na video zako zozote kwenye kifaa hiki. Unaweza kuanza uhamishaji mpya baada ya kuruka kutoka kwenye Mipangilio > Gumzo > Uhamishaji."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Ghairi"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Inarejesha video na picha"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Akaunti yako itafutwa hivi karibuni isipokuwa ukifungua Signal kwenye simu yako. Ujumbe huu utaondoka ikiwa umefanya hivyo. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal inakabiliwa na matatizo ya kiufundi. Tunajitahidi kurejesha huduma haraka iwezekanavyo."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Kipengele kipya cha \"Matumizi ya data\" katika Mipangilio ya Signal hufanya iwe rahisi kuchagua kupakua picha, video, faili za sauti, au hati zingine kiotomatiki au la. Ikiwa Signal itaacha kupakua kiotomatiki nyimbo za hivi majuzi kutoka kwenye bendi ya mpenzi wako katika gumzo la kikundi, unaweza kuhifadhi mapendeleo yako ya muziki katika nafasi ya burea kwenye diski kuu."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Sasa unapojaribu kuanzisha gumzo ukitumia jina la mtumiaji la Signal la mtu, itafanikiwa hata ikiwa utaandika alama ya \"@\" kwa bahati mbaya. Baadhi ya t@bia ni ngumu kuzi@cha."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Sasa unaweza kupanua onyesho lako la video wakati wa simu ili ujitazame vizuri au utafakari kuhusu maisha yako."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

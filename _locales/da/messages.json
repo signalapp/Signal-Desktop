@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Dette medie er ikke tilgængeligt"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Mediet er ikke tilgængeligt"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Læs mere"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Slå video til og fra"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Slå udvidet forhåndsvisning til og fra"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar opkald med video (kun videoopkald)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Fuldskærmsopkald"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimer forhåndsvisning"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimer forhåndsvisning"
   },
   "icu:calling__change-view": {
     "messageformat": "Skift visning"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Prøv igen"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Spring over"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Vil du springe beskedoverførsel over?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Hvis du vælger at springe over, kan du ikke tilgå nogen af dine beskeder eller medier på denne enhed. Du kan starte en ny overførsel efter at have sprunget over fra Indstillinger > Chats > Overførsel."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Annullér"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Gendanner medier"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Din konto vil snart blive slettet, medmindre du åbner Signal på din telefon. Denne besked forsvinder, når du har åbnet Signal. <learnMoreLink>Få mere at vide</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal oplever tekniske vanskeligheder. Vi arbejder hårdt på at genoprette tjenesten så hurtigt som muligt!"
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Den nye funktion \"Dataforbrug\" i Signal-indstillingerne gør det nemt at vælge, om billeder, videoer, lydfiler eller andre dokumenter automatisk skal downloades eller ej. Hvis Signal stopper med automatisk at downloade de seneste musiknumre fra din vens kærestes band i gruppechatten, kan du gemme de musikalske genistreger med lidt ledig plads på din harddisk."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Når du nu forsøger at starte en chat med en persons Signal-brugernavn, vil det fungere, selvom du ved et uheld skriver \"@\"-symbolet først. Nogle h@bits @re h@rd til bre@k."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Nu kan du udvide dit lokale videoeksempel under et opkald for at få et bedre indblik i dig selv eller reflektere over, hvem du er."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Questo media non è disponibile"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Media non disponibile"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Scopri di più"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Attiva e disattiva il video"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Attiva e disattiva l'espansione dell'anteprima"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Rispondi alla chiamata anche con video (solo videochiamate)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Chiamata a schermo intero"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Espandi l'anteprima"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Riduci al minimo l'anteprima"
   },
   "icu:calling__change-view": {
     "messageformat": "Cambia layout"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Riprova"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Salta"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Vuoi saltare il trasferimento dei messaggi?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Se salti questo passaggio, non potrai accedere ai messaggi e media presenti su questo dispositivo. Ricorda che puoi cominciare un nuovo trasferimento in qualsiasi momento su Impostazioni > Chat > Trasferimento."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Annulla"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Ripristino dei media in corso"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Il tuo account verrà eliminato a breve se non apri Signal sul tuo telefono. Una volta aperta l'app, questo messaggio scomparirà. <learnMoreLink>Scopri di più</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal sta riscontrando problemi tecnici. Stiamo lavorando duramente per ripristinare il servizio al più presto."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "La nuova funzione \"Utilizzo dati\" nelle Impostazioni di Signal rende più semplice scegliere se scaricare in automatico foto, video, file audio o altri documenti. Così puoi risparmiare un po' di spazio di archiviazione sul tuo dispositivo, a meno che non preferisci riempirlo di tanti bellissimi meme."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Da ora quando provi a iniziare una chat cercando un nome utente di Signal, il nome apparirà anche se digiti per sbaglio la chiocciola prima del nome. Eh sì, perdere certe @bitudini non è f@cile, vero?"
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Da ora puoi espandere l'anteprima video della tua schermata durante una chiamata così da guardarti meglio da vicino, nel caso tu non abbia uno specchio a portata di mano."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }
