@@ -33,10 +33,10 @@ export class SignalClipboard {
     const [range] = this.quill.selection.getRange();
 
     // This updates the clipboard with what we want
-    const handler = createEventHandler({ deleteSelection: true });
+    const handler = createEventHandler({ deleteSelection: false });
     handler(event);
 
-    // And this updates quill's internal state to reflect the cut
+    // And this updates quill's internal state and the content-editable to reflect the cut
     if (range) {
       deleteRange({ range, quill: this.quill });
     }
