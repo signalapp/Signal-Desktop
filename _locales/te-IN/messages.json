@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "ఈ మీడియా అందుబాటులో లేదు"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "మీడియా అందుబాటులో లేదు"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "మరింత నేర్చుకోండి"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "వీడియోను ఆన్ మరియు ఆఫ్ టోగుల్ చేయండి"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "విస్తరించిన ప్రివ్యూను ఆన్ మరియు ఆఫ్‌కు టోగుల్ చేయండి"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "వీడియోతో కాల్‌కు సమాధానం ఇవ్వండి (వీడియో కాల్స్ మాత్రమే)"
@@ -3099,10 +3096,10 @@
     "messageformat": "పూర్తి స్క్రీన్ కాల్"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ప్రివ్యూను గరిష్ఠీకరించండి"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "ప్రివ్యూను కనిష్ఠీకరించండి"
   },
   "icu:calling__change-view": {
     "messageformat": "వీక్షణను మార్చండి"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "మళ్ళీ ప్రయత్నించు"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "దాటవేయి"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "సందేశ బదిలీని దాటవేసేదా?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "ఒకవేళ మీరు దాటవేయడాన్ని ఎంచుకుంటే, ఈ పరికరంలోని మీ సందేశాలు లేదా మీడియా దేనినీ మీరు యాక్సెస్ చేయలేరు. సెట్టింగులు > చాట్‌లు > బదిలీ నుంచి దాటవేసిన తర్వాత మీరు కొత్త బదిలీని ప్రారంభించవచ్చు."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "రద్దు చేయండి"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "మీడియాను పునరుద్ధరిస్తోంది"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "మీరు మీ ఫోన్‌లో Signal ను తెరవకపోతే మీ ఖాతా త్వరలో తొలగించబడుతుంది. ఒకవేళ మీరు దీన్ని విజయవంతంగా పూర్తి చేసి ఉంటే ఈ సందేశం వెళ్లిపోతుంది. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal సాంకేతిక సమస్యలను ఎదుర్కొంటోంది. వీలైనంత త్వరగా సేవని పునరుద్ధరించడానికి మేము కృషి చేస్తున్నాము."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal సెట్టింగ్స్ లోని కొత్త \"డేటా వినియోగం\" ఫీచర్ ఫోటోలు, వీడియోలు, ఆడియో ఫైల్‌లు లేదా ఇతర డాక్యుమెంట్‌లను ఆటోమెటిక్‌గా డౌన్‌లోడ్ చేయాలా వద్దా అని ఎంచుకోవడాన్ని సులభం చేస్తుంది."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "ఇప్పుడు మీరు మరొకరి Signal యూజర్‌నేమ్‌తో చాట్‌ను ప్రారంభించడానికి ప్రయత్నించినప్పుడు, ఒకవేళ మీరు అనుకోకుండా “@” చిహ్నాన్ని ముందుగా టైప్ చేసినప్పటికీ కూడా ఇది పని చేస్తుంది."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ఇప్పుడు మిమ్మల్ని మీరు బాగా చూసుకోవడానికి కాల్ సమయంలో మీ స్థానిక వీడియో ప్రివ్యూను విస్తరించవచ్చు."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

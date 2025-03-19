@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "呢個媒體已經冇咗"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "媒體已經冇咗"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "了解多啲"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "切換影片開閉"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "切換放大預覽開閉"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "接聽同開啟視像 (只限視像通話)"
@@ -3099,10 +3096,10 @@
     "messageformat": "全螢幕通話"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "放大預覽"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "縮細預覽"
   },
   "icu:calling__change-view": {
     "messageformat": "更改檢視方式"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "再試多次"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "跳過"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "係咪要跳過訊息轉移？"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "如果你揀跳過，就唔會睇到呢部裝置入面任何訊息同媒體㗎喇。你可以喺跳過之後㩒入「設定」 > 「聊天」 > 「轉移」，嚟開始新嘅轉移。"
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "取消"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "還原緊媒體"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "如果你再唔喺手機度打開 Signal，你個帳戶好快會被刪除。成功開返之後，呢個訊息就會消失。<learnMoreLink>了解詳情</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal 發生技術問題。我哋現正搶修，務求儘快回復服務。"
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "透過 Signal 設定入面嘅「數據用量」新功能，你可以輕鬆選擇係咪要自動下載相片、影片、音訊檔案或者其他文檔。"
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "而家，當你嘗試用某人嘅 Signal 用戶名稱開始聊天嗰陣，就算唔覺意打咗「@」符號先都冇問題。"
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "而家，你可以喺通話期間放大自己嘅視像預覽，睇清楚啲自己個樣。"
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

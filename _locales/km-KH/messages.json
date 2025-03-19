@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "មេឌៀនេះមិនមានទេ"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "មេឌៀមិនមានទេ"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "ស្វែងយល់បន្ថែម"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "បើក ឬបិទវីដេអូ"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "បើក/បិទការមើលជាមុនដែលបានពង្រីក"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ទទួលការហៅទូរសព្ទជាវីដេអូ (ការហៅជាវីដេអូតែប៉ុណ្ណោះ)"
@@ -3099,10 +3096,10 @@
     "messageformat": "ការហៅពេញអេក្រង់"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ពង្រីកការមើលជាមុន"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "បង្រួមការមើលជាមុន"
   },
   "icu:calling__change-view": {
     "messageformat": "ផ្លាស់ប្តូរទិដ្ឋភាព"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "ព្យាយាមម្តងទៀត"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "រំលង"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "រំលងការផ្ទេរសារឬ?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "ប្រសិនបើអ្នកជ្រើសរើសរំលង អ្នកនឹងមិនអាចចូលប្រើសារ ឬមេឌៀណាមួយរបស់អ្នកនៅលើឧបករណ៍នេះបានទេ។ អ្នកអាចចាប់ផ្តើមការផ្ទេរថ្មីបន្ទាប់ពីរំលង នៅក្នុងការកំណត់ > ជជែក > ផ្ទេរ។"
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "បោះបង់"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "កំពុងស្ដារមេឌៀឡើងវិញ"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "គណនីរបស់អ្នកនឹងត្រូវបានលុបក្នុងពេលឆាប់ៗនេះ លើកលែងតែអ្នកបើក Signal នៅលើទូរសព្ទរបស់អ្នក។ សារនេះនឹងបាត់ទៅវិញ បើអ្នកបានបើកចូលដោយជោគជ័យហើយ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal កំពុងជួបប្រទះបញ្ហាបច្ចេកទេស។ យើងកំពុងធ្វើការស្តារសេវាកម្មយ៉ាងរហ័សតាមដែលអាចធ្វើទៅបាន។"
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "មុខងារ \"ការប្រើប្រាស់ទិន្នន័យ\" ថ្មីនៅក្នុងការកំណត់ Signal ធ្វើឱ្យមានភាពងាយស្រួលក្នុងការជ្រើសរើសថាតើត្រូវទាញយករូបថត វីដេអូ ឯកសារជាសំឡេង ឬឯកសារផ្សេងៗទៀតដោយស្វ័យប្រវត្តិឬទេ។ ប្រសិនបើ Signal បញ្ឈប់ការទាញយកដោយស្វ័យប្រវត្តិនូវបទចុងក្រោយបង្អស់ពីក្រុមតន្រ្តីនៃសង្សាររបស់មិត្តភក្តិអ្នកនៅក្នុងការជជែកជាក្រុម អ្នកអាចរក្សាទុករសជាតិចម្រៀងរបស់អ្នក នៅក្នុងទំហំផ្ទុកទំនេរមួយចំនួននៅក្នុងហាដដ្រាយរបស់អ្នក។"
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "ឥឡូវនេះ នៅពេលអ្នកព្យាយាមចាប់ផ្តើមជជែកជាមួយឈ្មោះអ្នកប្រើ Signal របស់នរណាម្នាក់ វាក៏នឹងដំណើរការដែរ ទោះបីជាអ្នកវាយនិមិត្តសញ្ញា “@” ដោយចៃដន្យជាមុនក៏ដោយ។ ទម្លាប់មួយចំនួនពិបាកនឹងផ្លាស់ប្តូរ។"
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ឥឡូវនេះ អ្នកអាចពង្រីកការមើលជាមុននូវវីដេអូក្នុងឧបករណ៍របស់អ្នកក្នុងអំឡុងពេលហៅទូរសព្ទ ដើម្បីមើលខ្លួនឯងកាន់តែច្បាស់ ឬឆ្លុះបញ្ចាំងថាអ្នកជានរណា។"
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

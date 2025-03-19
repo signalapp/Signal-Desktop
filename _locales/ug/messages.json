@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "بۇ مېدىيانى ئىشلەتكىلى بولمايدۇ"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "مېدىيانى ئىشلەتكىلى بولمايدۇ"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "تەپسىلاتى"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "سىن ئوچۇق ياكى تاقاقنى ئالماشتۇر"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "كېڭەيتىلگەن ئالدىن كۆرەكنى ئېچىش ۋە تاقاشنى ئالماشتۇرۇش"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "چاقىرىقنى ۋىدېيولۇق قوبۇل قىلىش (ۋىدېيولۇق چاقىرىق ئۈچۈنلا)"
@@ -3099,10 +3096,10 @@
     "messageformat": "چاقىرىقنى پۈتۈن ئېكرانلاشتۇرۇش"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "ئالدىن كۆرەكنى چوڭايتىڭ"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "ئالدىن كۆرەكنى كىچىكلىتىش"
   },
   "icu:calling__change-view": {
     "messageformat": "كۆرۈنۈشنى ئۆزگەرتىش"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "قايتا سىنا"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "ئاتلا"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "ئۇچۇر يوللاشتىن ۋاز كېچەمسىز؟"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "ئەگەر ئاتلاشنى تاللىسىڭىز ، بۇ ئۈسكۈنىدىكى ھېچقانداق ئۇچۇر ياكى مېدىياغا ئېرىشەلمەيسىز. تەڭشەكلەر> پاراڭلار> يۆتكەش نى ئاتلاپ بولغاندىن كېيىن يېڭى يۆتكەشنى باشلىيالايسىز."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "بىكار قىلىش"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "مېدىيانى ئەسلىگە كەلتۈرىۋاتىدۇ"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "تېلېفونىڭىزدا Signal ئاچمىسىڭىز ھېساباتىڭىز تېزلا ئۆچۈرۈلىدۇ. ئەگەر مۇۋەپپەقىيەتلىك قىلغان بولسىڭىز بۇ ئۇچۇر يوقىلىدۇ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal دا تېخنىكىلىق قىيىنچىلىق كۆرۈلدى. بىز ئامالنىڭ بارىچە تىرىشىپ ئىشلەپ مۇلازىمەتنى ئەڭ تېز سۈرئەتتە ئەسلىگە كەلتۈرىمىز."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal تەڭشىكىدىكى يېڭى «سانلىق مەلۇماتنى ئىشلىتىش» ئىقتىدارى رەسىم ، سىن ، ئاۋاز ھۆججىتى ياكى باشقا ھۆججەتلەرنى ئاپتوماتىك چۈشۈرۈش ياكى چۈشۈرمەسلىكنى تاللاشنى ئاسانلاشتۇرىدۇ. Signal تەڭشىكىدىكى يېڭى «سانلىق مەلۇماتنى ئىشلىتىش» ئىقتىدارى رەسىم ، سىن ، ئاۋاز ھۆججىتى ياكى باشقا ھۆججەتلەرنى ئاپتوماتىك چۈشۈرۈش ياكى چۈشۈرمەسلىكنى تاللاشنى ئاسانلاشتۇرىدۇ."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "ھازىر سىز باشقىلارنىڭ Signal ئىشلەتكۈچى نامى بىلەن پاراڭنى باشلىماقچى بولسىڭىز ، ئېھتىياتسىزلىقتىن ئالدى بىلەن «@» بەلگىسىنى يېزىپ قويغان تەغدىردىمۇ ئوخشاشلا پاراڭلىشالايسىز. ھازىر سىز باشقىلارنىڭ Signal ئىشلەتكۈچى نامى بىلەن پاراڭنى باشلىماقچى بولسىڭىز ، ئېھتىياتسىزلىقتىن ئالدى بىلەن «@» بەلگىسىنى يېزىپ قويغان تەغدىردىمۇ ئوخشاشلا پاراڭلىشالايسىز."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "ھازىر ئۆزىڭىزنى تېخىمۇ ياخشى كۆرۈش ئۈچۈن چاقىرىق جەريانىدا تېلېفونىڭىزدىكى سىن ئالدىن كۆرەكنى كېڭەيتەلەيسىز."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

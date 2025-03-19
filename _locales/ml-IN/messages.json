@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "ഈ മീഡിയ ലഭ്യമല്ല"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "മീഡിയ ലഭ്യമല്ല"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "കൂടുതൽ അറിയുക"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "വീഡിയോ ഓൺ, ഓഫ് എന്നിവ ടോഗിൾ ചെയ്യുക"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "വികസിപ്പിച്ച പ്രിവ്യൂ ഓണും ഓഫും ആക്കുക"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "വീഡിയോ കോൾ സ്വീകരിക്കുക (വീഡിയോ കോളുകൾ മാത്രം)"
@@ -3099,10 +3096,10 @@
     "messageformat": "ഫുൾസ്ക്രീൻ കോൾ"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "പ്രിവ്യൂ വലുതാക്കുക"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "പ്രിവ്യൂ ചെറുതാക്കുക"
   },
   "icu:calling__change-view": {
     "messageformat": "കാഴ്ച മാറ്റുക"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "വീണ്ടും ശ്രമിക്കുക"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "ഒഴിവാക്കുക"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "സന്ദേശ കൈമാറ്റം ഒഴിവാക്കണോ?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "നിങ്ങൾ ഒഴിവാക്കാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, ഈ ഉപകരണത്തിലെ നിങ്ങളുടെ സന്ദേശങ്ങളിലേക്കോ മീഡിയയിലേക്കോ നിങ്ങൾക്ക് ആക്‌സസ് ഉണ്ടാകില്ല. ക്രമീകരണങ്ങൾ > ചാറ്റുകൾ > കൈമാറ്റം എന്നതിൽ നിന്ന് ഒഴിവാക്കിയ ശേഷം നിങ്ങൾക്ക് ഒരു പുതിയ കൈമാറ്റം ആരംഭിക്കാം."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "റദ്ദാക്കുക"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "മീഡിയ പുനഃസ്ഥാപിക്കുന്നു"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "നിങ്ങളുടെ ഫോണിൽ Signal തുറന്നില്ലെങ്കിൽ നിങ്ങളുടെ അക്കൗണ്ട് ഉടൻ ഇല്ലാതാക്കപ്പെടും. നിങ്ങൾ ഇത് വിജയകരമായി ചെയ്തുവെങ്കിൽ ഈ സന്ദേശം അപ്രത്യക്ഷമാകും. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ചില സാങ്കേതിക പ്രശ്നങ്ങൾ നേരിടുകയാണ്. കഴിയുന്നതും വേഗം സേവനം പുനസ്ഥാപിക്കാൻ ഞങ്ങൾ കഠിനപ്രയത്നം നടത്തുകയാണ്."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "ഫോട്ടോകൾ, വീഡിയോകൾ, ഓഡിയോ ഫയലുകൾ അല്ലെങ്കിൽ മറ്റ് ഡോക്യുമെന്റുകൾ സ്വയമേവ ഡൗൺലോഡ് ചെയ്യണോ വേണ്ടയോയെന്ന് തിരഞ്ഞെടുക്കുന്നത് Signal ക്രമീകരണങ്ങളിലെ പുതിയ \"ഡാറ്റ ഉപയോഗം\" എന്ന സവിശേഷത എളുപ്പമാക്കുന്നു. ഗ്രൂപ്പ് ചാറ്റിൽ നിങ്ങളുടെ സുഹൃത്തിന്റെ ബോയ്‌ഫ്രണ്ടിന്റെ ബാൻഡിൽ നിന്നുള്ള ഏറ്റവും പുതിയ ട്രാക്കുകൾ ഡൗൺലോഡ് ചെയ്യുന്നത് Signal സ്വയമേവ നിർത്തുകയാണെങ്കിൽ, നിങ്ങളുടെ ഹാർഡ് ഡ്രൈവിൽ കുറച്ച് സ്ഥലം ലാഭിക്കുന്നതിനൊപ്പം സംഗീതത്തിൽ നിങ്ങളുടെ അഭിരുചി സംരക്ഷിക്കാനും കഴിയും."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "ഇനി നിങ്ങൾ ആരുടെയെങ്കിലും Signal ഉപയോക്തൃനാമം ഉപയോഗിച്ച് ഒരു ചാറ്റ് ആരംഭിക്കാൻ ശ്രമിക്കുമ്പോൾ, നിങ്ങൾ അബദ്ധത്തിൽ \"@\" ചിഹ്നം ആദ്യം ടൈപ്പ് ചെയ്താലും അത് പ്രവർത്തിക്കും. ഏതാനും h@bits @re h@rd to bre@k."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "നിങ്ങളെത്തന്നെ നന്നായി കാണുന്നതിനോ നിങ്ങൾ ആരാണെന്ന് ചിന്തിക്കുന്നതിനോ ഇപ്പോൾ ഒരു കോളിനിടെ നിങ്ങളുടെ ലോക്കൽ വീഡിയോ പ്രിവ്യൂ വികസിപ്പിക്കാൻ കഴിയും."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

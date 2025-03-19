@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Acest fișier media nu este disponibil"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Fișierul nu este disponibil"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Află mai multe"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Comutare video activat și dezactivat"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Activează și dezactivează previzualizarea extinsă"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Răspunde la apel cu un videoclip (doar apeluri video)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Apel pe ecran complet"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Mărește previzualizarea"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizează previzualizarea"
   },
   "icu:calling__change-view": {
     "messageformat": "Schimbă vizualizarea"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Încearcă din nou"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Omite"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Omiți transferul de mesaje?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Dacă alegi să le omiți, nu vei avea acces la niciunul dintre mesajele sau fișierele tale de pe acest dispozitiv. Poți începe un nou transfer după ce omiți din Setări > Conversații > Transfer."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Anulează"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Se restaurează fișierele"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Contul tău va fi șters în curând, cu excepția cazului în care deschizi Signal pe telefon. Acest mesaj va dispărea dacă ai făcut-o cu succes. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal întâmpină dificultăți tehnice. Muncim din greu pentru a restabili serviciul cât mai repede posibil."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Noua funcție „Utilizarea datelor” din setările Signal te ajută să alegi cu ușurință dacă să descarci sau nu automat fotografii, videoclipuri, fișiere audio sau alte documente. Dacă Signal oprește descărcarea automată a celor mai recente melodii de la trupa iubitului prietenului tău în chat-ul de grup, poți să le salvezi și să salvezi și spațiu liber, pe hard disk."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Acum, când încerci să începi un chat cu numele de utilizator Signal al cuiva, va funcționa chiar dacă introduci din greșeală simbolul „@”. Unele obiceiuri sunt greu de schimb@t."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Acum îți poți extinde previzualizarea videoclipului local în timpul unui apel, pentru a te vedea mai bine sau pentru a reflecta despre cine ești."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

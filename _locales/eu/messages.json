@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Multimedia-edukia ez dago erabilgarri"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Multimedia-edukia ez dago eskuragarri"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Informazio gehiago"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Bideoa aktibatu / desaktibatu"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Aktibatu eta desaktibatu aurrebista zabaldua"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Erantzun deiari bideoarekin (bideodeiak soilik)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Deia pantaila osoan jarri"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maximizatu aurrebista"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizatu aurrebista"
   },
   "icu:calling__change-view": {
     "messageformat": "Aldatu ikuspegia"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Berriro saiatu"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Saltatu"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Mezuen transferentzia saltatu nahi duzu?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Saltatzea aukeratzen baduzu, ezingo dituzu atzitu gailu honetako mezuak eta multimedia-edukia. Saltatu arren, geroago ere egin dezakezu transferentzia Ezarpenak > Txatak > Transferentzia atalean."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Utzi"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Multimedia-edukia leheneratzen"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Signal telefonoan ireki ezean, zure kontua laster ezabatuko da. Signal irekitzen baduzu, mezu hau desagertu egingo da. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal arazo teknikoak izaten ari da. Gogor ari gara lanean zerbitzua ahal bezain laster berriro martxan jartzeko."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal-en ezarpenetako \"Datuen erabilera\" eginbide berriarekin, errazago aukera daiteke argazki, bideo, audio-fitxategi eta bestelako dokumentuak automatikoki deskargatu behar diren."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Orain, norbaiten Signal-eko erabiltzaile-izenarekin txateatzen hasi nahi duzunean, hasieran \"@\" idatzita ere funtzionatuko du."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Orain, deietan zure bideo-aurrebista lokala zabal dezakezu, zeure burua hobeto ikusteko."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

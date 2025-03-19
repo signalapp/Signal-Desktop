@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Bu media faylı aktiv deyil"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Media faylı mövcud deyil"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Daha ətraflı"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Videonu aç/bağla"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Artırılmış önbaxışı açıb, bağlayın"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Zəngə görüntülü cavab verin (yalnız video zənglər)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Tam ekran zəng"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Önbaxışı artırın"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Önbaxışı azaldın"
   },
   "icu:calling__change-view": {
     "messageformat": "Görünüşü dəyiş"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Yenidən sına"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Ötür"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Mesaj köçürmə ötürülsün?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Ötürməni seçsəniz bu cihazda heç bir mesaj və ya media faylınıza daxil ola bilməyəcəksiniz. Parametrlər > Çatlar > Köçür bölməsindən addımlarıkeçdikdən sonra yeni köçürməyə başlaya bilərsiniz."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Ləğv et"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Media faylı bərpa olunur"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Signal-ı telefonunuzda açmayana qədər hesabınız tezliklə silinəcək. Hər şeyi uğurlu şəkildə yerinə yetirmisinizsə, bu mesaj yox olacaqdır. <learnMoreLink>Daha ətraflı</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal, hal-hazırda texniki çətinliklər yaşayır. Xidməti mümkün olan ən qısa vaxtda bərpa etmək üçün əlimizdən gələni edirik."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal parametrlərindəki yeni \"Verilənlərin istifadəsi\" xüsusiyyəti fotoların, videoların, audio faylların və ya digər sənədlərin avtomatik endirilib-endirilməməsi ilə əlaqəli seçimi asanlaşdırır. Signal, qrup çatında dostunun sevgilisinin dinlədiyi musiqi qrupunun ən son mahnılarını avtomatik endirməyi dayandırdıqda, sadəcə sərt disk yaddaşında yer boşaldın və musiqidən zövq almağa davam edin."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Artıq Signal istifadəçi adı ilə çatlaşma cəhd etdiyiniz zaman ilk olaraq təsadüfən “@” simvolunu yazsanız belə bu baş tutacaq. Bəzi vərdişləri unutm@q çətindir."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Artıq zəng zamanı yerli video önbaxışını artıraraq, özünüzə daha yaxşı baxa və kimliyinizi daha yaxşı əks etdirə bilərsiniz."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

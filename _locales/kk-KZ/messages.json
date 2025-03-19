@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Бұл мультимедиа файлы қолжетімді емес"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Мультимедиа қолжетімді емес"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Толық ақпарат"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Видеоны қосып-өшіру"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Кеңейтілген алғы көріністі қосу және өшіру"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Қоңырауға видео арқылы жауап беру (видео қоңырауларда ғана)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Қоңырауды толық экранда ашу"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Алғы көріністі барынша ұлғайту"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Алғы көріністі барынша кішірейту"
   },
   "icu:calling__change-view": {
     "messageformat": "Көріністі өзгерту"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Қайтадан байқап көру"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Өткізіп жіберу"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Хабарларды тасымалдауды өткізіп жіберу керек пе?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Егер өткізіп жіберетін болсаңыз, бұл құрылғыдағы кез келген хабарларға немесе мультимедиаға қол жеткізе алмайсыз. Өткізіп жібергеннен кейін \"Параметрлер > Чаттар > Тасымалдау\" тармағы арқылы хабарларды жаңадан тасымалдауға болады."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Бас тарту"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Мультимедианы қалпына келтіру"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Аккаунтыңыз көп ұзамай жойылады. Оны сақтап қалу үшін телефоныңызда Signal қолданбасын ашыңыз. Бәрі дұрыс болса, бұл хабар өзі-ақ жоғалады. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal қолданбасында техникалық қиындықтар туындады. Қызметті мүмкіндігінше тезірек қалпына келтіру үшін аянбай жұмыс істеп жатырмыз."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Signal параметрлеріндегі жаңа \"Деректер трафигі\" функциясының көмегімен фотосуреттерді, бейнелерді, аудиофайлдарды немесе басқа құжаттарды автоматты түрде жүктеп алу керектігін немесе керек еместігін оңай таңдауға болады. Егер Signal топтық чатта досыңыздың жігіті өнер көрсететін топтың соңғы тректерін автоматты түрде жүктеп алмайтын болса, телефоныңызда ғана емес, талғамыңызда да біраз орын босайды."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Енді біреудің Signal пайдаланушы аты арқылы чатта сөйлесуді бастағанда, байқамай алдына \"@\" қойып жіберсеңіз де, бәрі дұрыс жұмыс істейді. Кейбір әдеттерден @рылу оң@й емес."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Қоңырау барысында бейненің жергілікті алғы көрінісін ұлғайтып, өзіңізге жаңа көзқараспен қарап, болмысыңызға тамсана аласыз."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

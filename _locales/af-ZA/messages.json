@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Hierdie media is nie beskikbaar nie"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Media nie beskikbaar nie"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Vind meer uit"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Wissel video aan en af"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Skakel uitgebreide voorskou aan en af"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Antwoord oproep met video (slegs videokletse)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Volskermoproep"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimaliseer voorskou"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimaliseer voorskou"
   },
   "icu:calling__change-view": {
     "messageformat": "Verander uitleg"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Probeer weer"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Slaan oor"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Slaan boodskapoordrag oor?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "As jy kies om oor te slaan, sal jy nie toegang tot enige van jou boodskappe of media op hierdie toestel hê nie. Jy kan 'n nuwe oordrag begin nadat jy Instellings > Kletse > Oordrag oorgeslaan het."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Kanselleer"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Besig om media te herstel"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Jou rekening sal binnekort geskrap word tensy jy Signal op jou foon oopmaak. Hierdie boodskap sal weggaan as jy dit suksesvol gedoen het. <learnMoreLink>Vind meer uit</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ervaar tans tegniese probleme. Ons werk hard daaraan om diens so spoedig moontlik te herstel."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Die nuwe \"Datagebruik\"-kenmerk in Signal-instellings maak dit maklik om te kies of foto's, video's, klanklêers of ander dokumente outomaties afgelaai moet word of nie."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Wanneer jy nou probeer om 'n klets met iemand se Signal-gebruikernaam te begin, sal dit werk selfs al tik jy per ongeluk eers die \"@\"-simbool in."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Nou kan jy jou eie videovoorskou tydens 'n oproep vergroot om jouself beter te kan bekyk."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

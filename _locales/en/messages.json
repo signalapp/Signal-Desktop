@@ -1518,10 +1518,6 @@
     "messageformat": "This media is not available",
     "description": "Shown in info toast for messages with old image and video attachments which are no longer available for download. Also used for accessibility label for the download attachment button."
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Media not available",
-    "description": "(Deleted 2025/02/13) Title of info dialog shown for messages with missing old image and video attachments which are no longer available for download."
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Learn more",
     "description": "Link in message placeholder and info toast for messages with old attachments which are no longer available for download."
@@ -5159,22 +5155,6 @@
     "messageformat": "Retry",
     "description": "Text of the retry button of the error modal in the backup import screen"
   },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Skip",
-    "description": "(Deleted 2025/02/13) Text of the Skip button in the error and skip confirmation modals in the backup import screen"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Skip message transfer?",
-    "description": "(Deleted 2025/02/13) Title of the cancel confirmation modal in the backup import screen"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "If you choose to skip, you won’t have access to any of your messages or media on this device. You can start a new transfer after skipping from Settings > Chats > Transfer.",
-    "description": "(Deleted 2025/02/13) Body of the cancel confirmation modal in the backup import screen"
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel",
-    "description": "(Deleted 2025/02/13) Text of the cancel button of the skip confirmation modal in the backup import screen"
-  },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restoring media",
     "description": "Label next to a progress bar showing active media (attachment) download progress after restoring from backup"
@@ -8118,7 +8098,7 @@
   },
   "icu:WhatsNew__v7.47--0": {
     "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are.",
-    "description": "Release notes for version 7.47"
+    "description": "(Deleted 2025/03/19) Release notes for version 7.47"
   },
   "icu:WhatsNew__v7.48--0": {
     "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release.",

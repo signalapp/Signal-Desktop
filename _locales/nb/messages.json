@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Mediefilen er ikke tilgjengelig"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Mediefilen er ikke tilgjengelig"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Les mer"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Skru video av og på"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Skru fullskjermsmodus av og på"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar anropet med video (kun videosamtaler)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Fullskjerm samtale"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Se forhåndsvisning i fullskjerm"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Lukk forhåndsvisning"
   },
   "icu:calling__change-view": {
     "messageformat": "Bytt visning"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Prøv på nytt"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Hopp over"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Vil du hoppe over overføringen?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Dette vil medføre at du ikke får tilgang til meldingene og mediefilene dine på denne enheten. Du kan overføre dem senere ved å gå til Innstillinger > Samtaler > Overfør."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Avbryt"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Gjenoppretter mediefiler"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Kontoen din slettes hvis du ikke åpner Signal på telefonen din snart. Denne meldingen forsvinner når du har åpnet appen på mobilen. <learnMoreLink>Les mer</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal opplever tekniske problemer. Vi jobber for å løse problemet."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Nå kan du styre dataforbruket ditt via Signal-innstillingene og enkelt velge om du vil laste ned bilder, videoer, lydfiler og andre dokumenter automatisk."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Nå kan du innlede nye samtaler ved å søke etter brukernavn på Signal – uansett om du skriver @ før brukernavnet eller ikke."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Nå kan du se forhåndsvisninger av videoer i fullskjerm."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

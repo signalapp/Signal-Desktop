@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Aquest arxiu multimèdia no està disponible"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Arxiu no disponible"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Més informació"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Activa / desactiva el vídeo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Activar o desactivar la vista prèvia ampliada"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Respon la trucada amb vídeo (només videotrucades)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Trucada a pantalla completa"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maximitzar vista prèvia"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimitzar vista prèvia"
   },
   "icu:calling__change-view": {
     "messageformat": "Canviar la vista"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Torna a provar-ho"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Omet"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Ometre la transferència de missatges?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Si decideixes ometre aquest pas, no podràs accedir a cap dels teus missatges o arxius multimèdia des d'aquest dispositiu. Pots iniciar una nova transferència després d'haver-la omès des d'Ajustos > Xats > Transferència."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancel·la"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restaurant els arxius"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "El teu compte s'eliminarà aviat a menys que obris Signal al telèfon. Aquest missatge desapareixerà un cop ho hagis pogut fer. <learnMoreLink>Més informació</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "El Signal té problemes tècnics. Estem treballant per recuperar el servei tan ràpidament com sigui possible."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "La nova funció \"Ús de dades\" als ajustos de Signal facilita triar si descarregar o no automàticament fotos, vídeos, arxius d'àudio o altres documents."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Ara, quan intentis iniciar un xat fent servir el nom d'usuari de Signal d'algú, funcionarà encara que t'oblidis d'escriure el símbol “@” abans del nom."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Ara pots ampliar la vista prèvia del teu vídeo local durant una trucada per poder veure't millor."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

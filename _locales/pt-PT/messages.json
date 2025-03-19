@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Este ficheiro multimédia não está disponível"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Ficheiro multimédia não disponível"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Saber mais"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Ativar/desativar o vídeo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Ativar/desativar pré-visualização expandida"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Responder a chamada com vídeo (só videochamadas)"
@@ -3099,10 +3096,10 @@
     "messageformat": "chamada em ecrã completo"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maximizar pré-visualização"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimizar pré-visualização"
   },
   "icu:calling__change-view": {
     "messageformat": "Alterar vista"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Tentar novamente"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Saltar"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Saltar transferência de mensagens?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Se escolher saltar, não terá acesso a nenhuma das suas mensagens ou ficheiros multimédia neste dispositivo. Pode iniciar uma nova transferência a partir das Definições > Chats > Transferir."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Cancelar"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "A restaurar os ficheiros"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "A sua conta será eliminada em breve a não ser que abra o Signal do seu telemóvel. Esta mensagem desaparecerá se o tiver feito com êxito. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "O Signal está a ter alguns problemas técnicos. Estamos a trabalhar para restituir o serviço o mais rapidamente possível."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "A nova funcionalidade de \"Utilização de dados\" nas definições do Signal torna fácil escolher se quer transferir automaticamente fotos, vídeos, ficheiros áudio ou outros documentos."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Agora, quando tenta começar um chat com o nome de utilizador do Signal de alguém, funciona mesmo que introduza acidentalmente o símbolo \"@\"."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Agora pode expandir a pré-visualização do vídeo local durante uma chamada para se ver melhor."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

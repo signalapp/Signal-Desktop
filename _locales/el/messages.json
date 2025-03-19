@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Αυτό το πολυμέσο δεν είναι διαθέσιμο"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Το πολυμέσο δεν είναι διαθέσιμο"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Μάθε περισσότερα"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Ενεργοποίηση και απενεργοποίηση βίντεο"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Ενεργοποίηση και απενεργοποίηση της διευρυμένης προεπισκόπησης"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Απάντηση κλήσης με βίντεο (μόνο βιντεοκλήσεις)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Κλήση σε πλήρη οθόνη"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Μεγιστοποίηση προεπισκόπησης"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Ελαχιστοποίηση προεπισκόπησης"
   },
   "icu:calling__change-view": {
     "messageformat": "Αλλαγή προβολής"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Επανάληψη"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Παράλειψη"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Παράβλεψη μεταφοράς μηνύματος;"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Εάν επιλέξεις την παράλειψη, δεν θα έχεις πρόσβαση σε κανένα από τα μηνύματα ή τα πολυμέσα σου σε αυτήν τη συσκευή. Μπορείς να ξεκινήσεις μια νέα μεταφορά αφού κάνεις παράλειψη από τις Ρυθμίσεις > Συνομιλίες > Μεταφορά."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Ακύρωση"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Επαναφορά πολυμέσων"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Ο λογαριασμός σου θα διαγραφεί σύντομα εκτός και αν ανοίξεις το Signal στο τηλέφωνό σου. Αυτό το μήνυμα θα εξαφανιστεί εάν το έχεις κάνει με επιτυχία. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Το Signal αντιμετωπίζει τεχνικές δυσκολίες. Εργαζόμαστε σκληρά για να αποκαταστήσουμε την υπηρεσία το συντομότερο δυνατό."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Η νέα λειτουργία \"Χρήση δεδομένων\" στις ρυθμίσεις του Signal διευκολύνει την επιλογή της αυτόματης λήψης ή μη φωτογραφιών, βίντεο, αρχείων ήχου ή άλλων εγγράφων."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Τώρα, όταν προσπαθείς να ξεκινήσεις μια συνομιλία με το όνομα χρήστη Signal κάποιου, θα λειτουργεί ακόμα και αν κατά λάθος πληκτρολογήσεις πρώτα το σύμβολο \"@\"."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Τώρα μπορείς να επεκτείνεις την τοπική προεπισκόπηση βίντεο κατά τη διάρκεια μιας κλήσης για να δεις καλύτερα τον εαυτό σου."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Medijski zapis nije dostupan"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Medijski zapis nije dostupan"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Saznajte više"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Uključivanje i isključivanja videa"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Uključivanje i isključivanje proširenog pregleda"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odgovori na poziv s videom (samo videopozivi)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Poziv preko cijelog zaslona"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimiziraj pregled"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimiziraj pregled"
   },
   "icu:calling__change-view": {
     "messageformat": "Promijeni prikaz"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Pokušajte ponovno"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Preskoči"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Preskočiti prijenos poruka?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Ukoliko odlučite preskočiti ovaj korak, nećete imati pristup nijednoj poruci ili medijskom zapisu s ovog uređaja. Ako preskočite prijenos poruka sada, možete ga naknadno pokrenuti u Postavkama > Razgovori > Prijenos."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Odustani"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Vraćanje medijskih zapisa"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Ako ne otvorite Signal na svom telefonu, vaš će račun uskoro biti izbrisan. Ova poruka će nestati čim to uspješno napravite. <learnMoreLink>Saznaj više</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ima tehničkih poteškoća. Naporno radimo na što bržem vraćanju usluge."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Uz novu značajku potrošnje podataka u postavkama Signala sada možete jednostavno odabrati hoćete li da se fotografije, videozapisi, audio datoteke i drugi dokumenti automatski preuzimaju."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Sada kada pokušate započeti razgovor s nečijim korisničkim imenom za Signal, funkcionirat će čak i ako prvo slučajno upišete simbol „@“."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Sada možete proširiti pregled vlastite kamere tijekom poziva kako biste se bolje vidjeli."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

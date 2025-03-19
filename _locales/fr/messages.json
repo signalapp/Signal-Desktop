@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Média indisponible"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Média indisponible"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "En savoir plus"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Activer ou désactiver la vidéo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Activer ou désactiver l'option \"Agrandir l'aperçu\""
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Répondre à un appel vidéo (appels vidéo uniquement)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Appel plein écran"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Agrandir l'aperçu"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Réduire l'aperçu"
   },
   "icu:calling__change-view": {
     "messageformat": "Modifier l'affichage"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Réessayer"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Ignorer"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Ignorer le transfert des messages ?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Si vous choisissez d'ignorer cette étape, l'ensemble de vos messages et médias seront inaccessibles sur cet appareil. Vous pourrez lancer un nouveau transfert ultérieurement sous Paramètres > Conversations > Transfert."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Annuler"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Restauration des médias en cours"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Pour éviter la suppression imminente de votre compte, vous devez ouvrir Signal sur votre téléphone sans tarder. Ce message disparaîtra lorsque vous l'aurez fait. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Petit souci technique... Nous mettons tout en œuvre pour restaurer le service le plus rapidement possible."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Chacun ses priorités ! Grâce au nouveau paramètre \"Consommation des données\", vous pouvez facilement activer ou désactiver le téléchargement automatique des photos, vidéos, fichiers audio et autres documents. Si Signal interrompt automatiquement le téléchargement du dernier freestyle de votre cousin dans la conversation de groupe, c'est pour le bien de vos oreilles et de votre disque dur."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Lorsque vous recherchez un contact et que vous saisissez accidentellement le symbole @ avant son nom d'utilisateur, cela ne vous empêche plus de le trouver et de démarrer une conversation avec lui. P@rce qu'on s@it tous que cert@ines h@bitudes ont l@ vie dure."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Qui dit nouvelle mise à jour, dit nouvelle amélioration ! Pendant un appel, vous pouvez maintenant agrandir l'aperçu vidéo pour vous recoiffer ou faire le point avec vous-même."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

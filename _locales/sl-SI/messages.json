@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Ta medij ni na voljo"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Mediji niso na voljo"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Preberite več"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Vklop in izklop kamere"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Vklop in izklop razširjenega predogleda"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odgovorite na klic z videom (samo video klici)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Celostranski klic"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Povečanje predogleda"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Pomanjšanje predogleda"
   },
   "icu:calling__change-view": {
     "messageformat": "Spremeni pogled"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Ponovno"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Preskoči"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Želite preskočiti prenos sporočila?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Če se odločite za preskok, v tej napravi ne boste imeli dostopa do svojih sporočil ali medijev. Nov prenos lahko začnete, ko preskočite z Nastavitve > Klepeti > Prenos."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Prekliči"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Obnovitev medijev"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Vaš račun bo kmalu izbrisan, razen če v telefonu odprete aplikacijo Signal. To sporočilo bo izginilo, če ste postopek uspešno opravili. <learnMoreLink>Več o tem</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Prihaja do tehničnih težav v omrežju Signal. Ekipa vzdrževalcev se trudi, da bodo čimprej odpravljene."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Z novo funkcijo \"Poraba podatkov\" v nastavitvah Signala lahko preprosto izberete, ali želite, da se fotografije, videi, zvočne datoteke ali drugi dokumenti samodejno prenesejo. Če Signal v skupinskem klepetu ne bo več samodejno prenašal najnovejših skladb glasbene skupine prijateljičinega fanta, boste ohranili svoj glasbeni okus in nekaj prostora na trdem disku."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Ko boste poskušali začeti klepet z uporabniškim imenom nekoga, bo to delovalo, tudi če pomotoma najprej vnesete simbol \"@\". Nekatere navade je težko prekiniti."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Zdaj lahko med klicem razširite lokalni predogled videoposnetka, da se bolje vidite."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }

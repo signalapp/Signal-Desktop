@@ -1139,9 +1139,6 @@
   "icu:mediaNotAvailable": {
     "messageformat": "Media ini tidak tersedia"
   },
-  "icu:mediaNotAvailable--short": {
-    "messageformat": "Media tidak tersedia"
-  },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Selengkapnya"
   },
@@ -2676,7 +2673,7 @@
     "messageformat": "Ganti video aktif dan mati"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Toggle expanded preview on and off"
+    "messageformat": "Mengaktifkan & menonaktifkan fitur perluas pratinjau"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jawab panggilan dengan video (hanya panggilan video)"
@@ -3099,10 +3096,10 @@
     "messageformat": "Tampilkan panggilan di layar penuh"
   },
   "icu:calling__preview--maximize": {
-    "messageformat": "Maximize preview"
+    "messageformat": "Maksimalkan pratinjau"
   },
   "icu:calling__preview--minimize": {
-    "messageformat": "Minimize preview"
+    "messageformat": "Minimalkan pratinjau"
   },
   "icu:calling__change-view": {
     "messageformat": "Ubah tampilan"
@@ -3883,18 +3880,6 @@
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Coba lagi"
-  },
-  "icu:BackupImportScreen__skip": {
-    "messageformat": "Lewati"
-  },
-  "icu:BackupImportScreen__skip-confirmation__title": {
-    "messageformat": "Lewati transfer pesan?"
-  },
-  "icu:BackupImportScreen__skip-confirmation__body": {
-    "messageformat": "Jika pilih untuk melewati, Anda tidak akan bisa mengakses pesan atau media apa pun di perangkat ini. Anda dapat memulai transfer baru setelah melewati, dengan membuka Pengaturan > Obrolan > Transfer."
-  },
-  "icu:BackupImportScreen__skip-confirmation__cancel": {
-    "messageformat": "Batal"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
     "messageformat": "Memulihkan media"
@@ -5027,6 +5012,12 @@
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Akun akan segera dihapus kecuali Anda membuka Signal di ponsel. Pesan ini akan hilang setelah Anda berhasil melakukannya. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
   },
+  "icu:IdlePrimaryDevice__body": {
+    "messageformat": "Open Signal on your phone to keep your account active"
+  },
+  "icu:IdlePrimaryDevice__learnMore": {
+    "messageformat": "Learn more"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal sedang mengalami kesulitan teknis. Kami bekerja keras untuk memulihkan layanan secepat mungkin."
   },
@@ -6100,13 +6091,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.46--0": {
-    "messageformat": "Fitur \"Penggunaan data\" yang baru di pengaturan Signal memudahkan Anda memilih apakah ingin mengunduh foto, video, file audio, atau dokumen lainnya secara otomatis atau tidak. Silakan nonaktifkan pengunduhan otomatis jika Anda ingin mengontrol media atau dokumen yang akan diunduh agar bisa lebih menghemat ruang penyimpanan."
-  },
-  "icu:WhatsNew__v7.46--1": {
-    "messageformat": "Kini, Anda tetap bisa memulai chat dengan seseorang menggunakan nama penggunanya meski tidak sengaja mengetik simbol “@” di awal. Beber@p@ kebias@@n memang sulit diub@h."
-  },
   "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are."
+    "messageformat": "Sekarang Anda bisa memperluas pratinjau video di perangkat selama panggilan berlangsung agar dapat melihat tampilan diri secara lebih jelas."
+  },
+  "icu:WhatsNew__v7.48--0": {
+    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
   }
 }
