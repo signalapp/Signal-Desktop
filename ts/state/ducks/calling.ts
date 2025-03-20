@@ -1195,7 +1195,18 @@ function callStateChange(
   CallStateChangeFulfilledActionType
 > {
   return async dispatch => {
-    const { callState, acceptedTime, callEndedReason } = payload;
+    const { conversationId, callState, acceptedTime, callEndedReason } =
+      payload;
+
+    // This is a special case were we won't update our local call, because we have an
+    // ongoing active call. The ended call would stomp on the active call.
+    if (callEndedReason === CallEndedReason.ReceivedOfferWhileActive) {
+      const conversation = window.ConversationController.get(conversationId);
+      log.info(
+        `callStateChange: Got offer while active for conversation ${conversation?.idForLogging()}`
+      );
+      return;
+    }
 
     const wasAccepted = acceptedTime != null;
     const isEnded = callState === CallState.Ended && callEndedReason != null;
