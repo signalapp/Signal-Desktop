@@ -39,6 +39,7 @@ import * as StorageService from './services/storage';
 import type { ConversationPropsForUnreadStats } from './util/countUnreadStats';
 import { countAllConversationsUnreadStats } from './util/countUnreadStats';
 import { isTestOrMockEnvironment } from './environment';
+import { conversationJobQueue } from './jobs/conversationJobQueue';
 
 type ConvoMatchType =
   | {
@@ -1531,5 +1532,46 @@ export class ConversationController {
       );
       throw error;
     }
+  }
+  async archiveSessionsForConversation(
+    conversationId: string | undefined
+  ): Promise<void> {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      return;
+    }
+
+    const logId = `archiveSessionsForConversation/${conversation.idForLogging()}`;
+
+    log.info(`${logId}: Starting. First archiving sessions...`);
+    const recipients = conversation.getRecipients();
+    const queue = new PQueue({ concurrency: 1 });
+    recipients.forEach(serviceId => {
+      drop(
+        queue.add(async () => {
+          await window.textsecure.storage.protocol.archiveAllSessions(
+            serviceId
+          );
+        })
+      );
+    });
+    await queue.onEmpty();
+
+    if (conversation.get('senderKeyInfo')) {
+      log.info(`${logId}: Next, clearing senderKeyInfo...`);
+      conversation.set({ senderKeyInfo: undefined });
+      await DataWriter.updateConversation(conversation.attributes);
+    }
+
+    log.info(`${logId}: Now queuing null message send...`);
+    const job = await conversationJobQueue.add({
+      type: 'NullMessage',
+      conversationId: conversation.id,
+    });
+
+    log.info(`${logId}: Send queued; waiting for send completion...`);
+    await job.completion;
+
+    log.info(`${logId}: Complete!`);
   }
 }
