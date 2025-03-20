@@ -417,6 +417,14 @@ export async function maybeCreateGroupSendEndorsementState(
       );
       return { state: null, didRefreshGroupState: false };
     }
+    if (conversation.isBlocked()) {
+      onFailedToSendWithEndorsements(
+        new Error(
+          `${logId}: Group is blocked and endorsements are invalid: ${result.reason}`
+        )
+      );
+      return { state: null, didRefreshGroupState: false };
+    }
 
     log.info(
       `${logId}: Endorsements invalid, refreshing group: ${result.reason}`
