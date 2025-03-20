@@ -17,6 +17,7 @@ import type { Readable } from 'stream';
 
 import { Net } from '@signalapp/libsignal-client';
 import { assertDev, strictAssert } from '../util/assert';
+import { drop } from '../util/drop';
 import { isRecord } from '../util/isRecord';
 import * as durations from '../util/durations';
 import type { ExplodePromiseResultType } from '../util/explodePromise';
@@ -116,9 +117,6 @@ function resolveLibsignalNet(
       TESTING_localServer_chatPort: parseInt(getMockServerPort(url), 10),
       TESTING_localServer_cdsiPort: DISCARD_PORT,
       TESTING_localServer_svr2Port: DISCARD_PORT,
-      TESTING_localServer_svr3SgxPort: DISCARD_PORT,
-      TESTING_localServer_svr3NitroPort: DISCARD_PORT,
-      TESTING_localServer_svr3Tpm2SnpPort: DISCARD_PORT,
       TESTING_localServer_rootCertificateDer: pemToDer(certificateAuthority),
     });
   }
@@ -1692,6 +1690,46 @@ export type TopLevelType = {
 
 type InflightCallback = (error: Error) => unknown;
 
+// `libsignalNet` is an instance of a class from libsignal that is responsible
+// for providing network layer API and related functionality.
+// It's important to have a single instance of this class as it holds
+// resources that are shared across all other use cases.
+let libsignalNet: Net.Net;
+
+// Not definied in tests
+if (window.SignalContext.config?.serverUrl) {
+  const { config } = window.SignalContext;
+
+  libsignalNet = resolveLibsignalNet(
+    config.serverUrl,
+    config.version,
+    config.certificateAuthority
+  );
+
+  libsignalNet.setIpv6Enabled(!config.disableIPv6);
+  if (config.proxyUrl) {
+    log.info('WebAPI: Setting libsignal proxy');
+    try {
+      libsignalNet.setProxyFromUrl(config.proxyUrl);
+    } catch (error) {
+      log.error(`WebAPI: Failed to set proxy: ${error}`);
+      libsignalNet.clearProxy();
+    }
+  }
+
+  drop(
+    (async () => {
+      try {
+        log.info('WebAPI: preconnect start');
+        await libsignalNet.preconnectChat();
+        log.info('WebAPI: preconnect done');
+      } catch (error) {
+        log.error(`WebAPI: Failed to preconnect: ${toLogFormat(error)}`);
+      }
+    })()
+  );
+}
+
 // We first set up the data that won't change during this session of the app
 export function initialize({
   chatServiceUrl,
@@ -1704,7 +1742,6 @@ export function initialize({
   contentProxyUrl,
   proxyUrl,
   version,
-  disableIPv6,
 }: InitializeOptionsType): WebAPIConnectType {
   if (!isString(chatServiceUrl)) {
     throw new Error('WebAPI.initialize: Invalid chatServiceUrl');
@@ -1741,26 +1778,6 @@ export function initialize({
   }
   if (!isString(version)) {
     throw new Error('WebAPI.initialize: Invalid version');
-  }
-
-  // `libsignalNet` is an instance of a class from libsignal that is responsible
-  // for providing network layer API and related functionality.
-  // It's important to have a single instance of this class as it holds
-  // resources that are shared across all other use cases.
-  const libsignalNet = resolveLibsignalNet(
-    chatServiceUrl,
-    version,
-    certificateAuthority
-  );
-  libsignalNet.setIpv6Enabled(!disableIPv6);
-  if (proxyUrl) {
-    log.info('Setting libsignal proxy');
-    try {
-      libsignalNet.setProxyFromUrl(proxyUrl);
-    } catch (error) {
-      log.error(`Failed to set proxy: ${error}`);
-      libsignalNet.clearProxy();
-    }
   }
 
   // We store server alerts (returned on the WS upgrade response headers) so that the app
