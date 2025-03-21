@@ -54,7 +54,7 @@ patchedDependencies:
     hash: cfe393dc1cca8970377087e9555a285d1121f75d57223ddd872b1a8d3f8c909b
     path: patches/got+11.8.5.patch
   growing-file@0.1.3:
-    hash: 98ffa9ef0b45bf0bc8bdc9f747adb92ade55c1f2935eb576197aadb483c215a0
+    hash: 1bb085e3fda38f2983114beedc229acf8b0c539736fe73e2e8183dab2df074b4
     path: patches/growing-file+0.1.3.patch
   mac-screen-capture-permissions:
     hash: b8dc0573396f72c869190aa36e306030fdb778263076e9ba35bc3099ded2c6cc
@@ -228,7 +228,7 @@ importers:
         version: 11.8.5(patch_hash=cfe393dc1cca8970377087e9555a285d1121f75d57223ddd872b1a8d3f8c909b)
       growing-file:
         specifier: 0.1.3
-        version: 0.1.3(patch_hash=98ffa9ef0b45bf0bc8bdc9f747adb92ade55c1f2935eb576197aadb483c215a0)
+        version: 0.1.3(patch_hash=1bb085e3fda38f2983114beedc229acf8b0c539736fe73e2e8183dab2df074b4)
       heic-convert:
         specifier: 2.1.0
         version: 2.1.0
@@ -16186,7 +16186,7 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  growing-file@0.1.3(patch_hash=98ffa9ef0b45bf0bc8bdc9f747adb92ade55c1f2935eb576197aadb483c215a0):
+  growing-file@0.1.3(patch_hash=1bb085e3fda38f2983114beedc229acf8b0c539736fe73e2e8183dab2df074b4):
     dependencies:
       oop: 0.0.3
 
