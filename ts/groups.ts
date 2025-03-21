@@ -3225,30 +3225,52 @@ async function updateGroup(
       item => item.serviceId === ourAci || item.serviceId === ourPni
     )?.addedByUserId || newAttributes.addedBy;
 
-  if (justAdded && addedBy) {
+  if (justAdded) {
     const adder = window.ConversationController.get(addedBy);
+
+    // Wait for empty queue to make it more likely the group update succeeds
+    const waitThenLeave = async (reason: string) => {
+      log.warn(
+        `waitThenLeave/${logId}/${reason}: Waiting for empty event queue.`
+      );
+      await window.waitForEmptyEventQueue();
+      log.warn(
+        `waitThenLeave/${logId}/${reason}: Empty event queue, starting group leave.`
+      );
+
+      // We're guaranteed to fail if we're not up to date in the group, which we won't be
+      // if we're dropping updates. So we prepare for failure.
+      try {
+        await conversation.leaveGroupV2();
+        log.warn(`waitThenLeave/${logId}/${reason}: Leave complete.`);
+      } catch (error) {
+        log.error(
+          `waitThenLeave/${logId}/${reason}: Failed to leave group.`,
+          Errors.toLogFormat(error)
+        );
+      }
+    };
 
     if (adder && adder.isBlocked()) {
       log.warn(
         `updateGroup/${logId}: Added to group by blocked user ${adder.idForLogging()}. Scheduling group leave.`
       );
 
-      // Wait for empty queue to make it more likely the group update succeeds
-      const waitThenLeave = async () => {
-        log.warn(`waitThenLeave/${logId}: Waiting for empty event queue.`);
-        await window.waitForEmptyEventQueue();
-        log.warn(
-          `waitThenLeave/${logId}: Empty event queue, starting group leave.`
-        );
-
-        await conversation.leaveGroupV2();
-        log.warn(`waitThenLeave/${logId}: Leave complete.`);
-      };
-
       // Cannot await here, would infinitely block queue
-      drop(waitThenLeave());
+      drop(waitThenLeave('added by blocked user'));
 
       // Return early to discard group changes resulting from the blocked user's action.
+      return;
+    }
+    if (conversation.isBlocked()) {
+      log.warn(
+        `updateGroup/${logId}: We were added to a group we blocked. Scheduling group leave.`
+      );
+
+      // Cannot await here, would infinitely block queue
+      drop(waitThenLeave('group is blocked'));
+
+      // Return early to discard group changes resulting from unwanted group add
       return;
     }
   }
