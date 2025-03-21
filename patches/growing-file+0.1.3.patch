@@ -1,8 +1,8 @@
 diff --git a/lib/growing_file.js b/lib/growing_file.js
-index a25d618..0ff7634 100644
+index a25d618c340fa1ceb5bd717af650e854267a463d..baa80798e3e544dbccb857b6acba53c39864c1e8 100644
 --- a/lib/growing_file.js
 +++ b/lib/growing_file.js
-@@ -69,11 +69,15 @@ GrowingFile.prototype._readUntilEof = function() {
+@@ -69,11 +69,16 @@ GrowingFile.prototype._readUntilEof = function() {
  
    this._reading = true;
  
@@ -17,6 +17,7 @@ index a25d618..0ff7634 100644
 +      // @todo: Remove if this gets merged: https://github.com/joyent/node/pull/881
 +      end: Infinity
 +    });
++    this.readable = true;
 +  } catch (error) {
 +    this._handleError(error);
 +  }
