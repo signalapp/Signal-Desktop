@@ -111,6 +111,14 @@
     "messageformat": "Unknown group",
     "description": "Shown as the name of a group if we don't have any information about it"
   },
+  "icu:cantOpenSignalError": {
+    "messageformat": "Can’t Open Signal",
+    "description": "Title of a popup if the app cannot start up properly"
+  },
+  "icu:cantOpenSignalError__detail": {
+    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone.",
+    "description": "Description shown in a popup if the app cannot start up properly"
+  },
   "icu:databaseError": {
     "messageformat": "Database Error",
     "description": "Title of a popup if the database cannot start up properly"
@@ -124,11 +132,11 @@
     "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently delete all data?",
+    "messageformat": "Permanently Delete All Data",
     "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. You will be able to use Signal on this device after relinking it. This will not delete any data from your phone.",
+    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone.",
     "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
   },
   "icu:databaseError__startOldVersion": {
