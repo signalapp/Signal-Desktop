@@ -120,7 +120,7 @@
     "@react-spring/web": "9.7.5",
     "@signalapp/libsignal-client": "0.67.4",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.50.2",
+    "@signalapp/ringrtc": "2.50.3",
     "@signalapp/sqlcipher": "1.0.0",
     "@tanstack/react-virtual": "3.11.2",
     "@types/fabric": "4.5.3",
