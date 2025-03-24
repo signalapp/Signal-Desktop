@@ -1777,7 +1777,10 @@ export function getMessagePropStatus(
     ) {
       return sent ? 'partial-sent' : 'error';
     }
-    return sent ? 'viewed' : 'sending';
+    const sentStatus = window.storage.get('read-receipt-setting')
+      ? 'viewed'
+      : 'delivered';
+    return sent ? sentStatus : 'sending';
   }
 
   const highestSuccessfulStatus = getHighestSuccessfulRecipientStatus(
