@@ -817,8 +817,11 @@ export function CompositionInput(props: Props): React.ReactElement {
                 },
                 Backspace: {
                   key: 'Backspace',
-                  // We want to be called no matter the state of this key
+                  // We want to be called no matter the state of these keys
                   altKey: null,
+                  ctrlKey: null,
+                  shiftKey: null,
+                  metaKey: null,
                   handler: (_: RangeStatic, context: Context) =>
                     callbacksRef.current.onBackspace(_, context),
                 },
