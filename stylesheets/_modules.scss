@@ -5771,6 +5771,10 @@ button.module-calling-participants-list__contact {
           }
         }
       }
+
+      .NavSidebar--narrow & {
+        margin-left: 0;
+      }
     }
 
     &__text {
@@ -5785,6 +5789,14 @@ button.module-calling-participants-list__contact {
       @include mixins.dark-theme {
         color: variables.$color-gray-05;
       }
+
+      .NavSidebar--narrow & {
+        @include mixins.sr-only;
+      }
+    }
+
+    .NavSidebar--narrow & {
+      justify-content: center;
     }
   }
 
@@ -5864,6 +5876,10 @@ button.module-calling-participants-list__contact {
   @include mixins.dark-theme {
     color: variables.$color-gray-25;
     background-color: variables.$color-gray-75;
+  }
+
+  .NavSidebar--narrow & {
+    display: none;
   }
 }
 .module-left-pane__no-search-results__unread-header {
