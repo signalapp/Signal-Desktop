@@ -47,10 +47,10 @@ describe('unknown contacts', function (this: Mocha.Suite) {
 
     debug('sending calling offer message');
     await unknownContact.sendRaw(desktop, {
-      callingMessage: {
+      callMessage: {
         offer: {
-          callId: new Long(Math.floor(Math.random() * 1e10)),
-          type: Proto.CallingMessage.Offer.Type.OFFER_AUDIO_CALL,
+          id: new Long(Math.floor(Math.random() * 1e10)),
+          type: Proto.CallMessage.Offer.Type.OFFER_AUDIO_CALL,
           opaque: new Uint8Array(0),
         },
       },

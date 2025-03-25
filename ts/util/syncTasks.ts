@@ -17,11 +17,8 @@ import {
   receiptSyncTaskSchema,
   onReceipt,
 } from '../messageModifiers/MessageReceipts';
-import {
-  deleteConversation,
-  deleteLocalOnlyConversation,
-  getConversationFromTarget,
-} from './deleteForMe';
+import { deleteConversation, deleteLocalOnlyConversation } from './deleteForMe';
+import { getConversationFromTarget } from './syncIdentifiers';
 import {
   onSync as onReadSync,
   readSyncTaskSchema,

@@ -532,6 +532,7 @@ export type GetRecentStoryRepliesOptionsType = {
 export enum AttachmentDownloadSource {
   BACKUP_IMPORT = 'backup_import',
   STANDARD = 'standard',
+  BACKFILL = 'backfill',
 }
 
 type ReadableInterface = {

@@ -4,10 +4,12 @@ import { noop, omit, throttle } from 'lodash';
 
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
+import type { AttachmentBackfillResponseSyncEvent } from '../textsecure/messageReceiverEvents';
 import {
   type AttachmentDownloadJobTypeType,
   type AttachmentDownloadJobType,
   type CoreAttachmentDownloadJobType,
+  AttachmentDownloadUrgency,
   coreAttachmentDownloadJobSchema,
 } from '../types/AttachmentDownload';
 import {
@@ -24,6 +26,7 @@ import {
   AttachmentVariant,
   mightBeOnBackupTier,
 } from '../types/Attachment';
+import { type ReadonlyMessageAttributesType } from '../model-types.d';
 import { getMessageById } from '../messages/getMessageById';
 import {
   KIBIBYTE,
@@ -53,13 +56,9 @@ import {
 import { safeParsePartial } from '../util/schemas';
 import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
 import { createBatcher } from '../util/batcher';
-import { isOlderThan } from '../util/timestamp';
-import { ToastType } from '../types/Toast';
-
-export enum AttachmentDownloadUrgency {
-  IMMEDIATE = 'immediate',
-  STANDARD = 'standard',
-}
+import { showDownloadFailedToast } from '../util/showDownloadFailedToast';
+import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAttachmentAsPermanentlyErrored';
+import { AttachmentBackfill } from './helpers/attachmentBackfill';
 
 // Type for adding a new job
 export type NewAttachmentDownloadJobType = {
@@ -74,7 +73,6 @@ export type NewAttachmentDownloadJobType = {
 };
 
 const MAX_CONCURRENT_JOBS = 3;
-const DOWNLOAD_FAILED_TIMESTAMP_REST = 10 * durations.SECOND;
 
 const DEFAULT_RETRY_CONFIG = {
   maxAttempts: 5,
@@ -133,6 +131,8 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       drop(this.maybeStartJobs());
     },
   });
+
+  #attachmentBackfill = new AttachmentBackfill();
 
   private static _instance: AttachmentDownloadManager | undefined;
   override logPrefix = 'AttachmentDownloadManager';
@@ -310,6 +310,18 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       callback();
     }
   }
+
+  static async requestBackfill(
+    message: ReadonlyMessageAttributesType
+  ): Promise<void> {
+    return this.instance.#attachmentBackfill.request(message);
+  }
+
+  static async handleBackfillResponse(
+    event: AttachmentBackfillResponseSyncEvent
+  ): Promise<void> {
+    return this.instance.#attachmentBackfill.handleResponse(event);
+  }
 }
 
 type DependenciesType = {
@@ -412,9 +424,21 @@ async function runDownloadAttachmentJob({
     }
 
     if (error instanceof AttachmentPermanentlyUndownloadableError) {
+      if (
+        job.isManualDownload &&
+        job.source !== AttachmentDownloadSource.BACKFILL &&
+        AttachmentBackfill.isEnabledForJob(
+          job.attachmentType,
+          message.attributes
+        )
+      ) {
+        await AttachmentDownloadManager.requestBackfill(message.attributes);
+        return { status: 'finished' };
+      }
+
       await addAttachmentToMessage(
         message.id,
-        _markAttachmentAsPermanentlyErrored(job.attachment),
+        markAttachmentAsPermanentlyErrored(job.attachment),
         logId,
         { type: job.attachmentType }
       );
@@ -654,32 +678,30 @@ export async function runDownloadAttachmentJobInner({
       }
     }
 
+    let showToast = false;
+
+    // Show toast if manual download failed
     if (!abortSignal.aborted && job.isManualDownload) {
+      if (job.source === AttachmentDownloadSource.BACKFILL) {
+        // ...and it was already a backfill request
+        showToast = true;
+      } else {
+        // ...or we didn't backfill the download
+        const message = await getMessageById(job.messageId);
+        showToast =
+          message != null &&
+          !AttachmentBackfill.isEnabledForJob(
+            attachmentType,
+            message.attributes
+          );
+      }
+    }
+
+    if (showToast) {
       showDownloadFailedToast(messageId);
     }
 
     throw error;
-  }
-}
-
-export const lastErrorsByMessageId = new Map<string, number>();
-
-function showDownloadFailedToast(messageId: string): void {
-  const now = Date.now();
-
-  for (const [id, timestamp] of lastErrorsByMessageId) {
-    if (isOlderThan(timestamp, DOWNLOAD_FAILED_TIMESTAMP_REST)) {
-      lastErrorsByMessageId.delete(id);
-    }
-  }
-
-  const existing = lastErrorsByMessageId.get(messageId);
-  if (!existing) {
-    window.reduxActions.toast.showToast({
-      toastType: ToastType.AttachmentDownloadFailed,
-      parameters: { messageId },
-    });
-    lastErrorsByMessageId.set(messageId, now);
   }
 }
 
@@ -711,15 +733,9 @@ async function downloadBackupThumbnail({
 
 function _markAttachmentAsTooBig(attachment: AttachmentType): AttachmentType {
   return {
-    ..._markAttachmentAsPermanentlyErrored(attachment),
+    ...markAttachmentAsPermanentlyErrored(attachment),
     wasTooBig: true,
   };
-}
-
-function _markAttachmentAsPermanentlyErrored(
-  attachment: AttachmentType
-): AttachmentType {
-  return { ...omit(attachment, ['key', 'id']), pending: false, error: true };
 }
 
 function _markAttachmentAsTransientlyErrored(

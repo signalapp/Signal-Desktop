@@ -70,7 +70,7 @@ import {
 } from '../../jobs/conversationJobQueue';
 import { ReceiptType } from '../../types/Receipt';
 import { cleanupMessages } from '../../util/cleanup';
-import { AttachmentDownloadUrgency } from '../../jobs/AttachmentDownloadManager';
+import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
 
 export type StoryDataType = ReadonlyDeep<
   {

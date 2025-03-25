@@ -1602,6 +1602,18 @@
     "messageformat": "Can’t download view once media. {name} will need to send it again.",
     "description": "Body text for info dialog for messages with old view once media which are no longer available for download."
   },
+  "icu:BackfillFailureModal__title": {
+    "messageformat": "Can’t download media",
+    "description": "Title for modal saying that message's attachments cannot be downloaded from the primary device"
+  },
+  "icu:BackfillFailureModal__body--timeout": {
+    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again.",
+    "description": "Body for modal saying that message's attachments cannot be downloaded from the primary device due to timeout"
+  },
+  "icu:BackfillFailureModal__body--not-found": {
+    "messageformat": "This media is no longer available on your phone and can’t be downloaded.",
+    "description": "Body for modal saying that message's attachments cannot be downloaded from the primary device due to message not being available anymore"
+  },
   "icu:save": {
     "messageformat": "Save",
     "description": "Used on save buttons"

@@ -69,3 +69,8 @@ export const attachmentDownloadJobSchema = coreAttachmentDownloadJobSchema.and(
     attachment: Record<string, unknown>;
   }
 >;
+
+export enum AttachmentDownloadUrgency {
+  IMMEDIATE = 'immediate',
+  STANDARD = 'standard',
+}
