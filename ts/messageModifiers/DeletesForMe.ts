@@ -8,29 +8,31 @@ import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
 
 import type { MessageAttributesType } from '../model-types';
 import type {
-  ConversationToDelete,
-  MessageToDelete,
+  ConversationIdentifier,
+  AddressableMessage,
 } from '../textsecure/messageReceiverEvents';
 import {
   deleteAttachmentFromMessage,
   deleteMessage,
+} from '../util/deleteForMe';
+import {
   doesMessageMatch,
   getConversationFromTarget,
   getMessageQueryFromTarget,
-} from '../util/deleteForMe';
+} from '../util/syncIdentifiers';
 import { DataWriter } from '../sql/Client';
 
 const { removeSyncTaskById } = DataWriter;
 
 export type DeleteForMeAttributesType = {
-  conversation: ConversationToDelete;
+  conversation: ConversationIdentifier;
   deleteAttachmentData?: {
     clientUuid?: string;
     fallbackDigest?: string;
     fallbackPlaintextHash?: string;
   };
   envelopeId: string;
-  message: MessageToDelete;
+  message: AddressableMessage;
   syncTaskId: string;
   timestamp: number;
 };

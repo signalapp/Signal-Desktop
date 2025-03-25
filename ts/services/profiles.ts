@@ -70,6 +70,7 @@ type JobType = {
 const OBSERVED_CAPABILITY_KEYS = Object.keys({
   deleteSync: true,
   ssre2: true,
+  attachmentBackfill: true,
 } satisfies CapabilitiesType) as ReadonlyArray<keyof CapabilitiesType>;
 
 export class ProfileService {

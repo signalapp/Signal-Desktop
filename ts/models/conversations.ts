@@ -179,11 +179,11 @@ import { getMessageAuthorText } from '../util/getMessageAuthorText';
 import { downscaleOutgoingAttachment } from '../util/attachments';
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
 import { hasExpiration } from '../types/Message2';
-import type { MessageToDelete } from '../textsecure/messageReceiverEvents';
+import type { AddressableMessage } from '../textsecure/messageReceiverEvents';
 import {
-  getConversationToDelete,
-  getMessageToDelete,
-} from '../util/deleteForMe';
+  getConversationIdentifier,
+  getAddressableMessage,
+} from '../util/syncIdentifiers';
 import { explodePromise } from '../util/explodePromise';
 import { getCallHistorySelector } from '../state/selectors/callHistory';
 import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
@@ -5195,8 +5195,8 @@ export class ConversationModel extends window.Backbone
       const addressableMessages = await getMostRecentAddressableMessages(
         this.id
       );
-      const mostRecentMessages: Array<MessageToDelete> = addressableMessages
-        .map(getMessageToDelete)
+      const mostRecentMessages: Array<AddressableMessage> = addressableMessages
+        .map(getAddressableMessage)
         .filter(isNotNil)
         .slice(0, 5);
       log.info(
@@ -5207,12 +5207,12 @@ export class ConversationModel extends window.Backbone
         item => item.expireTimer
       );
 
-      let mostRecentNonExpiringMessages: Array<MessageToDelete> | undefined;
+      let mostRecentNonExpiringMessages: Array<AddressableMessage> | undefined;
       if (areAnyDisappearing) {
         const nondisappearingAddressableMessages =
           await getMostRecentAddressableNondisappearingMessages(this.id);
         mostRecentNonExpiringMessages = nondisappearingAddressableMessages
-          .map(getMessageToDelete)
+          .map(getAddressableMessage)
           .filter(isNotNil)
           .slice(0, 5);
         log.info(
@@ -5225,7 +5225,7 @@ export class ConversationModel extends window.Backbone
           MessageSender.getDeleteForMeSyncMessage([
             {
               type: 'delete-conversation',
-              conversation: getConversationToDelete(this.attributes),
+              conversation: getConversationIdentifier(this.attributes),
               isFullDelete: true,
               mostRecentMessages,
               mostRecentNonExpiringMessages,
@@ -5238,7 +5238,7 @@ export class ConversationModel extends window.Backbone
           MessageSender.getDeleteForMeSyncMessage([
             {
               type: 'delete-local-conversation',
-              conversation: getConversationToDelete(this.attributes),
+              conversation: getConversationIdentifier(this.attributes),
               timestamp,
             },
           ])

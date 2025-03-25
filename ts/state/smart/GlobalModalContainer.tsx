@@ -121,6 +121,7 @@ export const SmartGlobalModalContainer = memo(
       aboutContactModalContactId,
       addUserToAnotherGroupModalContactId,
       attachmentNotAvailableModalType,
+      backfillFailureModalProps,
       callLinkAddNameModalRoomId,
       callLinkEditModalRoomId,
       callLinkPendingParticipantContactId,
@@ -155,6 +156,7 @@ export const SmartGlobalModalContainer = memo(
       hideTapToViewNotAvailableModal,
       hideUserNotFoundModal,
       hideWhatsNewModal,
+      hideBackfillFailureModal,
       toggleSignalConnectionsModal,
     } = useGlobalModalActions();
 
@@ -210,6 +212,7 @@ export const SmartGlobalModalContainer = memo(
         addUserToAnotherGroupModalContactId={
           addUserToAnotherGroupModalContactId
         }
+        backfillFailureModalProps={backfillFailureModalProps}
         callLinkAddNameModalRoomId={callLinkAddNameModalRoomId}
         callLinkEditModalRoomId={callLinkEditModalRoomId}
         callLinkPendingParticipantContactId={
@@ -230,6 +233,7 @@ export const SmartGlobalModalContainer = memo(
         openSystemMediaPermissions={window.IPC.openSystemMediaPermissions}
         notePreviewModalProps={notePreviewModalProps}
         hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
+        hideBackfillFailureModal={hideBackfillFailureModal}
         hideUserNotFoundModal={hideUserNotFoundModal}
         hideWhatsNewModal={hideWhatsNewModal}
         hideTapToViewNotAvailableModal={hideTapToViewNotAvailableModal}

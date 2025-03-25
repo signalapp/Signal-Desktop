@@ -29,6 +29,7 @@ import { drop } from '../../util/drop';
 import type { DurationInSeconds } from '../../util/durations';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import * as Attachment from '../../types/Attachment';
+import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import { instance as libphonenumberInstance } from '../../util/libphonenumberInstance';
@@ -191,18 +192,15 @@ import {
 } from '../../util/idForLogging';
 import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 import MessageSender from '../../textsecure/SendMessage';
-import {
-  AttachmentDownloadManager,
-  AttachmentDownloadUrgency,
-} from '../../jobs/AttachmentDownloadManager';
+import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager';
 import type {
   DeleteForMeSyncEventData,
-  MessageToDelete,
+  AddressableMessage,
 } from '../../textsecure/messageReceiverEvents';
 import {
-  getConversationToDelete,
-  getMessageToDelete,
-} from '../../util/deleteForMe';
+  getConversationIdentifier,
+  getAddressableMessage,
+} from '../../util/syncIdentifiers';
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types';
 import { markCallHistoryReadInConversation } from './callHistory';
 import type { CapabilitiesType } from '../../textsecure/WebAPI';
@@ -1782,7 +1780,7 @@ function deleteMessages({
     const messages = (
       await Promise.all(
         messageIds.map(
-          async (messageId): Promise<MessageToDelete | undefined> => {
+          async (messageId): Promise<AddressableMessage | undefined> => {
             const message = await getMessageById(messageId);
             if (!message) {
               throw new Error(`deleteMessages: Message ${messageId} missing!`);
@@ -1795,7 +1793,7 @@ function deleteMessages({
               );
             }
 
-            return getMessageToDelete(message.attributes);
+            return getAddressableMessage(message.attributes);
           }
         )
       )
@@ -1839,7 +1837,7 @@ function deleteMessages({
     }
 
     const chunks = chunk(messages, MAX_MESSAGE_COUNT);
-    const conversationToDelete = getConversationToDelete(
+    const conversationToDelete = getConversationIdentifier(
       conversation.attributes
     );
     const timestamp = Date.now();

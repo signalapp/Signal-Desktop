@@ -76,6 +76,7 @@ import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { getProfile } from './util/getProfile';
 import type {
+  AttachmentBackfillResponseSyncEvent,
   ConfigurationEvent,
   DeliveryEvent,
   EnvelopeQueuedEvent,
@@ -720,6 +721,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'deleteForMeSync',
       queuedEventListener(onDeleteForMeSync, false)
+    );
+    messageReceiver.addEventListener(
+      'attachmentBackfillResponseSync',
+      queuedEventListener(onAttachmentBackfillResponseSync, false)
     );
     messageReceiver.addEventListener(
       'deviceNameChangeSync',
@@ -1917,6 +1922,7 @@ export async function startApp(): Promise<void> {
         deleteSync: true,
         versionedExpirationTimer: true,
         ssre2: true,
+        attachmentBackfill: true,
       });
     } catch (error) {
       log.error(
@@ -3688,6 +3694,13 @@ export async function startApp(): Promise<void> {
     await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
     log.info(`${logId}: Done`);
+  }
+  async function onAttachmentBackfillResponseSync(
+    ev: AttachmentBackfillResponseSyncEvent
+  ) {
+    const { confirm } = ev;
+    await AttachmentDownloadManager.handleBackfillResponse(ev);
+    confirm();
   }
 }
 

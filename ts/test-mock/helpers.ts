@@ -146,13 +146,19 @@ export function sendTextMessage({
   to,
   text,
   attachments,
+  sticker,
+  preview,
+  quote,
   desktop,
   timestamp = Date.now(),
 }: {
   from: PrimaryDevice;
   to: PrimaryDevice | Device | GroupInfo;
-  text: string;
+  text: string | undefined;
   attachments?: Array<Proto.IAttachmentPointer>;
+  sticker?: Proto.DataMessage.ISticker;
+  preview?: Proto.IPreview;
+  quote?: Proto.DataMessage.IQuote;
   desktop: Device;
   timestamp?: number;
 }): Promise<void> {
@@ -167,6 +173,9 @@ export function sendTextMessage({
       dataMessage: {
         body: text,
         attachments,
+        sticker,
+        preview: preview == null ? null : [preview],
+        quote,
         timestamp: Long.fromNumber(timestamp),
         groupV2: groupInfo
           ? {
@@ -209,7 +218,7 @@ export function sendReaction({
         reaction: {
           emoji,
           targetAuthorAci: getDevice(targetAuthor).aci,
-          targetTimestamp: Long.fromNumber(targetMessageTimestamp),
+          targetSentTimestamp: Long.fromNumber(targetMessageTimestamp),
         },
       },
     }),

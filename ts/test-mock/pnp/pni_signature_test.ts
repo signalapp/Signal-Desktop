@@ -260,7 +260,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     debug('Send a PNI sync message');
     const timestamp = bootstrap.getTimestamp();
     const destinationServiceId = stranger.device.pni;
-    const destination = stranger.device.number;
+    const destinationE164 = stranger.device.number;
     const destinationPniIdentityKey = await stranger.device.getIdentityKey(
       ServiceIdKind.PNI
     );
@@ -272,7 +272,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       syncMessage: {
         sent: {
           destinationServiceId,
-          destination,
+          destinationE164,
           timestamp: Long.fromNumber(timestamp),
           message: originalDataMessage,
           unidentifiedStatus: [
@@ -322,7 +322,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
         .innerText();
       assert.equal(
         strangerName.slice(-4),
-        destination?.slice(-4),
+        destinationE164?.slice(-4),
         'no profile, just phone number'
       );
     }

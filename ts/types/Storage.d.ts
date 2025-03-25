@@ -200,6 +200,7 @@ export type StorageAccessType = {
   observedCapabilities: {
     deleteSync?: true;
     ssre2?: true;
+    attachmentBackfill?: true;
 
     // Note: Upon capability deprecation - change the value type to `never` and
     // remove it in `ts/background.ts`

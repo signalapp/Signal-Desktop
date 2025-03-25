@@ -491,7 +491,7 @@ export class DeviceNameChangeSyncEvent extends ConfirmableEvent {
   }
 }
 
-const messageToDeleteSchema = z.union([
+const addressableMessageSchema = z.union([
   z.object({
     type: z.literal('aci').readonly(),
     authorAci: z.string().refine(isAciString),
@@ -509,9 +509,9 @@ const messageToDeleteSchema = z.union([
   }),
 ]);
 
-export type MessageToDelete = z.infer<typeof messageToDeleteSchema>;
+export type AddressableMessage = z.infer<typeof addressableMessageSchema>;
 
-const conversationToDeleteSchema = z.union([
+const conversationIdentifierSchema = z.union([
   z.object({
     type: z.literal('aci').readonly(),
     aci: z.string().refine(isAciString),
@@ -530,32 +530,34 @@ const conversationToDeleteSchema = z.union([
   }),
 ]);
 
-export type ConversationToDelete = z.infer<typeof conversationToDeleteSchema>;
+export type ConversationIdentifier = z.infer<
+  typeof conversationIdentifierSchema
+>;
 
 export const deleteMessageSchema = z.object({
   type: z.literal('delete-message').readonly(),
-  conversation: conversationToDeleteSchema,
-  message: messageToDeleteSchema,
+  conversation: conversationIdentifierSchema,
+  message: addressableMessageSchema,
   timestamp: z.number(),
 });
 export type DeleteMessageSyncTarget = z.infer<typeof deleteMessageSchema>;
 export const deleteConversationSchema = z.object({
   type: z.literal('delete-conversation').readonly(),
-  conversation: conversationToDeleteSchema,
-  mostRecentMessages: z.array(messageToDeleteSchema),
-  mostRecentNonExpiringMessages: z.array(messageToDeleteSchema).optional(),
+  conversation: conversationIdentifierSchema,
+  mostRecentMessages: z.array(addressableMessageSchema),
+  mostRecentNonExpiringMessages: z.array(addressableMessageSchema).optional(),
   isFullDelete: z.boolean(),
   timestamp: z.number(),
 });
 export const deleteLocalConversationSchema = z.object({
   type: z.literal('delete-local-conversation').readonly(),
-  conversation: conversationToDeleteSchema,
+  conversation: conversationIdentifierSchema,
   timestamp: z.number(),
 });
 export const deleteAttachmentSchema = z.object({
   type: z.literal('delete-single-attachment').readonly(),
-  conversation: conversationToDeleteSchema,
-  message: messageToDeleteSchema,
+  conversation: conversationIdentifierSchema,
+  message: addressableMessageSchema,
   clientUuid: z.string().optional(),
   fallbackDigest: z.string().optional(),
   fallbackPlaintextHash: z.string().optional(),
@@ -580,6 +582,40 @@ export class DeleteForMeSyncEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('deleteForMeSync', confirm);
+  }
+}
+
+export type AttachmentBackfillAttachmentType = Readonly<
+  | {
+      attachment: ProcessedAttachment;
+    }
+  | {
+      status: Proto.SyncMessage.AttachmentBackfillResponse.AttachmentData.Status;
+    }
+>;
+
+export type AttachmentBackfillResponseSyncEventData = Readonly<
+  | {
+      error: Proto.SyncMessage.AttachmentBackfillResponse.Error;
+      targetMessage?: AddressableMessage;
+      targetConversation?: ConversationIdentifier;
+    }
+  | {
+      attachments: ReadonlyArray<AttachmentBackfillAttachmentType>;
+      longText: AttachmentBackfillAttachmentType | undefined;
+      targetMessage: AddressableMessage;
+      targetConversation: ConversationIdentifier;
+    }
+>;
+
+export class AttachmentBackfillResponseSyncEvent extends ConfirmableEvent {
+  constructor(
+    public readonly response: AttachmentBackfillResponseSyncEventData,
+    public readonly timestamp: number,
+    public readonly envelopeId: string,
+    confirm: ConfirmCallback
+  ) {
+    super('attachmentBackfillResponseSync', confirm);
   }
 }
 

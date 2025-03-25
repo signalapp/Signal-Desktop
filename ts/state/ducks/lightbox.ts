@@ -41,7 +41,7 @@ import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { DataReader } from '../../sql/Client';
 import { deleteDownloadsJobQueue } from '../../jobs/deleteDownloadsJobQueue';
-import { AttachmentDownloadUrgency } from '../../jobs/AttachmentDownloadManager';
+import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import { markViewOnceMessageViewed } from '../../services/MessageUpdater';

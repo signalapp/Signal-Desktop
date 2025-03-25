@@ -10,11 +10,13 @@ import { omit } from 'lodash';
 import * as MIME from '../../types/MIME';
 import {
   AttachmentDownloadManager,
-  AttachmentDownloadUrgency,
   runDownloadAttachmentJobInner,
   type NewAttachmentDownloadJobType,
 } from '../../jobs/AttachmentDownloadManager';
-import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload';
+import {
+  type AttachmentDownloadJobType,
+  AttachmentDownloadUrgency,
+} from '../../types/AttachmentDownload';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { MINUTE } from '../../util/durations';
 import { type AttachmentType, AttachmentVariant } from '../../types/Attachment';

@@ -782,11 +782,13 @@ export type WebAPIConnectType = {
 export type CapabilitiesType = {
   deleteSync: boolean;
   ssre2: boolean;
+  attachmentBackfill: boolean;
 };
 export type CapabilitiesUploadType = {
   deleteSync: true;
   versionedExpirationTimer: true;
   ssre2: true;
+  attachmentBackfill: true;
 };
 
 type StickerPackManifestType = Uint8Array;
@@ -2992,6 +2994,7 @@ export function initialize({
         deleteSync: true,
         versionedExpirationTimer: true,
         ssre2: true,
+        attachmentBackfill: true,
       };
 
       const jsonData = {
@@ -3048,6 +3051,7 @@ export function initialize({
         deleteSync: true,
         versionedExpirationTimer: true,
         ssre2: true,
+        attachmentBackfill: true,
       };
 
       const jsonData = {

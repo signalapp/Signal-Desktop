@@ -27,6 +27,10 @@ import {
   TapToViewNotAvailableModal,
   type DataPropsType as TapToViewNotAvailablePropsType,
 } from './TapToViewNotAvailableModal';
+import {
+  BackfillFailureModal,
+  type DataPropsType as BackfillFailureModalPropsType,
+} from './BackfillFailureModal';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -124,6 +128,9 @@ export type PropsType = {
   // TapToViewNotAvailableModal
   tapToViewNotAvailableModalProps: TapToViewNotAvailablePropsType | undefined;
   hideTapToViewNotAvailableModal: () => void;
+  // BackfillFailureModal
+  backfillFailureModalProps: BackfillFailureModalPropsType | undefined;
+  hideBackfillFailureModal: () => void;
   // UserNotFoundModal
   hideUserNotFoundModal: () => unknown;
   userNotFoundModalState: UserNotFoundModalStateType | undefined;
@@ -214,6 +221,9 @@ export function GlobalModalContainer({
   // TapToViewNotAvailableModal
   tapToViewNotAvailableModalProps,
   hideTapToViewNotAvailableModal,
+  // BackfillFailureModal
+  backfillFailureModalProps,
+  hideBackfillFailureModal,
   // UserNotFoundModal
   hideUserNotFoundModal,
   userNotFoundModalState,
@@ -390,6 +400,16 @@ export function GlobalModalContainer({
         i18n={i18n}
         onClose={hideTapToViewNotAvailableModal}
         {...tapToViewNotAvailableModalProps}
+      />
+    );
+  }
+
+  if (backfillFailureModalProps != null) {
+    return (
+      <BackfillFailureModal
+        i18n={i18n}
+        onClose={hideBackfillFailureModal}
+        {...backfillFailureModalProps}
       />
     );
   }

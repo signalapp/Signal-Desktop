@@ -81,12 +81,12 @@ import {
 import { missingCaseError } from '../util/missingCaseError';
 import { drop } from '../util/drop';
 import type {
-  ConversationToDelete,
+  ConversationIdentifier,
   DeleteForMeSyncEventData,
   DeleteMessageSyncTarget,
-  MessageToDelete,
+  AddressableMessage,
 } from './messageReceiverEvents';
-import { getConversationFromTarget } from '../util/deleteForMe';
+import { getConversationFromTarget } from '../util/syncIdentifiers';
 import type { CallDetails, CallHistoryDetails } from '../types/CallDisposition';
 import {
   AdhocCallStatus,
@@ -1609,6 +1609,35 @@ export default class MessageSender {
     };
   }
 
+  static getAttachmentBackfillSyncMessage(
+    targetConversation: ConversationIdentifier,
+    targetMessage: AddressableMessage
+  ): SingleProtoJobData {
+    const myAci = window.textsecure.storage.user.getCheckedAci();
+
+    const syncMessage = this.createSyncMessage();
+    syncMessage.attachmentBackfillRequest = {
+      targetMessage: toAddressableMessage(targetMessage),
+      targetConversation: toConversationIdentifier(targetConversation),
+    };
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: myAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'attachmentBackfillRequestSync',
+      urgent: false,
+    };
+  }
+
   static getClearCallHistoryMessage(
     latestCall: CallHistoryDetails
   ): SingleProtoJobData {
@@ -2465,8 +2494,8 @@ export default class MessageSender {
 
 // Helpers
 
-function toAddressableMessage(message: MessageToDelete) {
-  const targetMessage = new Proto.SyncMessage.DeleteForMe.AddressableMessage();
+function toAddressableMessage(message: AddressableMessage) {
+  const targetMessage = new Proto.AddressableMessage();
   targetMessage.sentTimestamp = Long.fromNumber(message.sentAt);
 
   if (message.type === 'aci') {
@@ -2482,9 +2511,8 @@ function toAddressableMessage(message: MessageToDelete) {
   return targetMessage;
 }
 
-function toConversationIdentifier(conversation: ConversationToDelete) {
-  const targetConversation =
-    new Proto.SyncMessage.DeleteForMe.ConversationIdentifier();
+function toConversationIdentifier(conversation: ConversationIdentifier) {
+  const targetConversation = new Proto.ConversationIdentifier();
 
   if (conversation.type === 'aci') {
     targetConversation.threadServiceId = conversation.aci;

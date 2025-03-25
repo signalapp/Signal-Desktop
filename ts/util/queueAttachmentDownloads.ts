@@ -26,13 +26,12 @@ import {
   isVoiceMessage,
   partitionBodyAndNormalAttachments,
 } from '../types/Attachment';
+import { AttachmentDownloadUrgency } from '../types/AttachmentDownload';
 import type { StickerType } from '../types/Stickers';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import { strictAssert } from './assert';
 import { isNotNil } from './isNotNil';
-import {
-  AttachmentDownloadManager,
-  AttachmentDownloadUrgency,
-} from '../jobs/AttachmentDownloadManager';
+import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager';
 import { AttachmentDownloadSource } from '../sql/Interface';
 import type { MessageModel } from '../models/messages';
 import type { ConversationModel } from '../models/conversations';
@@ -97,6 +96,7 @@ export async function queueAttachmentDownloadsForMessage(
   message: MessageModel,
   options: {
     urgency?: AttachmentDownloadUrgency;
+    source?: AttachmentDownloadSource;
     isManualDownload: boolean;
   }
 ): Promise<boolean> {
@@ -304,7 +304,6 @@ export async function queueAttachmentDownloads(
 
   let sticker = message.get('sticker');
   let copiedSticker = false;
-  let queuedStickerDownload = false;
   if (sticker && sticker.data && sticker.data.path) {
     log.info(`${logId}: Sticker attachment already downloaded`);
   } else if (sticker) {
@@ -312,13 +311,23 @@ export async function queueAttachmentDownloads(
     const { packId, stickerId, packKey } = sticker;
 
     const status = getStickerPackStatus(packId);
-    let data: AttachmentType | undefined;
 
     if (status && (status === 'downloaded' || status === 'installed')) {
       try {
         log.info(`${logId}: Copying sticker from installed pack`);
-        data = await copyStickerToAttachments(packId, stickerId);
         copiedSticker = true;
+        const data = await copyStickerToAttachments(packId, stickerId);
+
+        // Refresh sticker attachment since we had to await above
+        const freshSticker = message.get('sticker');
+        strictAssert(freshSticker != null, 'Sticker is gone while copying');
+        sticker = {
+          ...freshSticker,
+          data,
+        };
+        message.set({
+          sticker,
+        });
       } catch (error) {
         log.error(
           `${logId}: Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
@@ -327,11 +336,10 @@ export async function queueAttachmentDownloads(
       }
     }
 
-    if (!data) {
+    if (!copiedSticker) {
       if (sticker.data) {
         log.info(`${logId}: Queueing sticker download`);
-        queuedStickerDownload = true;
-        data = await AttachmentDownloadManager.addJob({
+        await AttachmentDownloadManager.addJob({
           attachment: sticker.data,
           attachmentType: 'sticker',
           isManualDownload,
@@ -357,18 +365,6 @@ export async function queueAttachmentDownloads(
     } else {
       await DataWriter.addStickerPackReference(stickerRef);
     }
-
-    if (!data) {
-      throw new Error('queueAttachmentDownloads: Failed to fetch sticker data');
-    }
-
-    sticker = {
-      ...sticker,
-      data,
-    };
-  }
-  if (queuedStickerDownload || copiedSticker) {
-    message.set({ sticker });
   }
 
   let editHistory = message.get('editHistory');

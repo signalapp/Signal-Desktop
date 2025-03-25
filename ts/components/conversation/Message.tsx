@@ -1205,6 +1205,11 @@ export class Message extends React.PureComponent<Props, State> {
           this.openGenericAttachment();
         }}
         tabIndex={tabIndex}
+        aria-label={
+          isDownloading(firstAttachment)
+            ? i18n('icu:cancelDownload')
+            : i18n('icu:startDownload')
+        }
       >
         <AttachmentStatusIcon
           key={id}

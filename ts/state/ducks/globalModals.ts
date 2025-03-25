@@ -58,6 +58,7 @@ import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
 import { getMessageById } from '../../messages/getMessageById';
 import type { AttachmentNotAvailableModalType } from '../../components/AttachmentNotAvailableModal';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal';
+import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal';
 
 // State
 
@@ -102,6 +103,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   aboutContactModalContactId?: string;
   attachmentNotAvailableModalType: AttachmentNotAvailableModalType | undefined;
+  backfillFailureModalProps: BackfillFailureModalPropsType | undefined;
   callLinkAddNameModalRoomId: string | null;
   callLinkEditModalRoomId: string | null;
   callLinkPendingParticipantContactId: string | undefined;
@@ -152,6 +154,8 @@ const SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL =
   'globalModals/SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL';
 const HIDE_TAP_TO_VIEW_NOT_AVAILABLE_MODAL =
   'globalModals/HIDE_TAP_TO_VIEW_NOT_AVAILABLE_MODAL';
+const SHOW_BACKFILL_FAILURE_MODAL = 'globalModals/SHOW_BACKFILL_FAILURE_MODAL';
+const HIDE_BACKFILL_FAILURE_MODAL = 'globalModals/HIDE_BACKFILL_FAILURE_MODAL';
 const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
@@ -240,6 +244,15 @@ type HideTapToViewNotAvailableModalActionType = ReadonlyDeep<{
 type ShowTapToViewNotAvailableModalActionType = ReadonlyDeep<{
   type: typeof SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL;
   payload: TapToViewNotAvailablePropsType;
+}>;
+
+type HideBackfillFailureModalActionType = ReadonlyDeep<{
+  type: typeof HIDE_BACKFILL_FAILURE_MODAL;
+}>;
+
+type ShowBackfillFailureModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_BACKFILL_FAILURE_MODAL;
+  payload: BackfillFailureModalPropsType;
 }>;
 
 type HideContactModalActionType = ReadonlyDeep<{
@@ -449,6 +462,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | CloseShortcutGuideModalActionType
   | CloseStickerPackPreviewActionType
   | HideAttachmentNotAvailableModalActionType
+  | HideBackfillFailureModalActionType
   | HideContactModalActionType
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
@@ -459,6 +473,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | MessageDeletedActionType
   | MessageExpiredActionType
   | ShowAttachmentNotAvailableModalActionType
+  | ShowBackfillFailureModalActionType
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
@@ -502,6 +517,7 @@ export const actions = {
   closeMediaPermissionsModal,
   ensureSystemMediaPermissions,
   hideAttachmentNotAvailableModal,
+  hideBackfillFailureModal,
   hideBlockingSafetyNumberChangeDialog,
   hideContactModal,
   hideStoriesSettings,
@@ -509,6 +525,7 @@ export const actions = {
   hideUserNotFoundModal,
   hideWhatsNewModal,
   showAttachmentNotAvailableModal,
+  showBackfillFailureModal,
   showBlockingSafetyNumberChangeDialog,
   showContactModal,
   showEditHistoryModal,
@@ -572,6 +589,21 @@ function showTapToViewNotAvailableModal(
   return {
     type: SHOW_TAP_TO_VIEW_NOT_AVAILABLE_MODAL,
     payload,
+  };
+}
+
+function showBackfillFailureModal(
+  payload: BackfillFailureModalPropsType
+): ShowBackfillFailureModalActionType {
+  return {
+    type: SHOW_BACKFILL_FAILURE_MODAL,
+    payload,
+  };
+}
+
+function hideBackfillFailureModal(): HideBackfillFailureModalActionType {
+  return {
+    type: HIDE_BACKFILL_FAILURE_MODAL,
   };
 }
 
@@ -1185,6 +1217,7 @@ function copyOverMessageAttributesIntoForwardMessages(
 export function getEmptyState(): GlobalModalsStateType {
   return {
     attachmentNotAvailableModalType: undefined,
+    backfillFailureModalProps: undefined,
     hasConfirmationModal: false,
     callLinkAddNameModalRoomId: null,
     callLinkEditModalRoomId: null,
@@ -1312,6 +1345,20 @@ export function reducer(
     return {
       ...state,
       tapToViewNotAvailableModalProps: action.payload,
+    };
+  }
+
+  if (action.type === SHOW_BACKFILL_FAILURE_MODAL) {
+    return {
+      ...state,
+      backfillFailureModalProps: action.payload,
+    };
+  }
+
+  if (action.type === HIDE_BACKFILL_FAILURE_MODAL) {
+    return {
+      ...state,
+      backfillFailureModalProps: undefined,
     };
   }
 
