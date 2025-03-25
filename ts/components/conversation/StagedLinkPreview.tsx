@@ -8,7 +8,7 @@ import { unescape } from 'lodash';
 import { CurveType, Image } from './Image';
 import { LinkPreviewDate } from './LinkPreviewDate';
 
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
 import type { LocalizerType } from '../../types/Util';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
 import { isImageAttachment } from '../../types/Attachment';
@@ -17,7 +17,7 @@ import { Avatar } from '../Avatar';
 import { getColorForCallLink } from '../../util/getColorForCallLink';
 import { getKeyFromCallLink } from '../../util/callLinks';
 
-export type Props = LinkPreviewType & {
+export type Props = LinkPreviewForUIType & {
   i18n: LocalizerType;
   imageSize?: number;
   moduleClassName?: string;

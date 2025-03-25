@@ -58,7 +58,12 @@ import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
 import { createBatcher } from '../util/batcher';
 import { showDownloadFailedToast } from '../util/showDownloadFailedToast';
 import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAttachmentAsPermanentlyErrored';
-import { AttachmentBackfill } from './helpers/attachmentBackfill';
+import {
+  AttachmentBackfill,
+  isPermanentlyUndownloadable,
+} from './helpers/attachmentBackfill';
+
+export { isPermanentlyUndownloadable };
 
 // Type for adding a new job
 export type NewAttachmentDownloadJobType = {
@@ -424,21 +429,23 @@ async function runDownloadAttachmentJob({
     }
 
     if (error instanceof AttachmentPermanentlyUndownloadableError) {
-      if (
+      const canBackfill =
         job.isManualDownload &&
-        job.source !== AttachmentDownloadSource.BACKFILL &&
         AttachmentBackfill.isEnabledForJob(
           job.attachmentType,
           message.attributes
-        )
-      ) {
+        );
+
+      if (job.source !== AttachmentDownloadSource.BACKFILL && canBackfill) {
         await AttachmentDownloadManager.requestBackfill(message.attributes);
         return { status: 'finished' };
       }
 
       await addAttachmentToMessage(
         message.id,
-        markAttachmentAsPermanentlyErrored(job.attachment),
+        markAttachmentAsPermanentlyErrored(job.attachment, {
+          backfillError: false,
+        }),
         logId,
         { type: job.attachmentType }
       );
@@ -733,7 +740,9 @@ async function downloadBackupThumbnail({
 
 function _markAttachmentAsTooBig(attachment: AttachmentType): AttachmentType {
   return {
-    ...markAttachmentAsPermanentlyErrored(attachment),
+    ...markAttachmentAsPermanentlyErrored(attachment, {
+      backfillError: false,
+    }),
     wasTooBig: true,
   };
 }

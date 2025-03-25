@@ -14,6 +14,7 @@ import {
 } from './PhoneNumber';
 import type {
   AttachmentType,
+  AttachmentForUIType,
   AttachmentWithHydratedData,
   LocalAttachmentV2Type,
   UploadedAttachmentType,
@@ -38,6 +39,7 @@ type GenericEmbeddedContactType<AvatarType> = {
 };
 
 export type EmbeddedContactType = GenericEmbeddedContactType<Avatar>;
+export type EmbeddedContactForUIType = GenericEmbeddedContactType<AvatarForUI>;
 export type EmbeddedContactWithHydratedAvatar =
   GenericEmbeddedContactType<AvatarWithHydratedData>;
 export type EmbeddedContactWithUploadedAvatar =
@@ -95,6 +97,7 @@ type GenericAvatar<Attachment> = {
 };
 
 export type Avatar = GenericAvatar<AttachmentType>;
+export type AvatarForUI = GenericAvatar<AttachmentForUIType>;
 export type AvatarWithHydratedData = GenericAvatar<AttachmentWithHydratedData>;
 export type UploadedAvatar = GenericAvatar<UploadedAttachmentType>;
 
@@ -154,21 +157,25 @@ export function embeddedContactSelector(
     firstNumber?: string;
     serviceId?: ServiceIdString;
   }
-): ReadonlyDeep<EmbeddedContactType> {
+): ReadonlyDeep<EmbeddedContactForUIType> {
   const { firstNumber, serviceId, regionCode } = options;
 
-  let { avatar } = contact;
+  const { avatar } = contact;
+  let avatarForUI: EmbeddedContactForUIType['avatar'];
   if (avatar && avatar.avatar) {
     if (avatar.avatar.error) {
-      avatar = undefined;
+      avatarForUI = undefined;
     } else {
-      avatar = {
+      avatarForUI = {
         ...avatar,
         avatar: {
           ...avatar.avatar,
           path: avatar.avatar.path
             ? getLocalAttachmentUrl(avatar.avatar)
             : undefined,
+
+          // `error` case is handled above
+          isPermanentlyUndownloadable: false,
         },
       };
     }
@@ -178,7 +185,7 @@ export function embeddedContactSelector(
     ...contact,
     firstNumber,
     serviceId,
-    avatar,
+    avatar: avatarForUI,
     number:
       contact.number &&
       contact.number.map(item => ({

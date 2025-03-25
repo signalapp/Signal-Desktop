@@ -23,7 +23,10 @@ import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
 import { UsernameOnboardingState } from '../../types/globalModals';
 import * as log from '../../logging/log';
-import { getMessagePropsSelector } from '../selectors/message';
+import {
+  getMessagePropsSelector,
+  getPropsForAttachment,
+} from '../selectors/message';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { useBoundActions } from '../../hooks/useBoundActions';
@@ -37,10 +40,8 @@ import {
   MESSAGE_EXPIRED,
   actions as conversationsActions,
 } from './conversations';
-import {
-  isDownloaded,
-  isPermanentlyUndownloadable,
-} from '../../types/Attachment';
+import { isDownloaded } from '../../types/Attachment';
+import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager';
 import type { ButtonVariant } from '../../components/Button';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
 import type { MessageForwardDraft } from '../../types/ForwardDraft';
@@ -782,7 +783,11 @@ function toggleForwardMessagesModal(
             !attachments.every(
               attachment =>
                 isDownloaded(attachment) ||
-                isPermanentlyUndownloadable(attachment)
+                isPermanentlyUndownloadable(
+                  attachment,
+                  'attachment',
+                  message.attributes
+                )
             )
           ) {
             dispatch(
@@ -799,7 +804,12 @@ function toggleForwardMessagesModal(
             {
               ...messageProps,
               attachments: (messageProps.attachments ?? []).filter(
-                attachment => !isPermanentlyUndownloadable(attachment)
+                attachment =>
+                  !isPermanentlyUndownloadable(
+                    attachment,
+                    'attachment',
+                    message.attributes
+                  )
               ),
             },
             conversationSelector
@@ -1207,7 +1217,9 @@ function copyOverMessageAttributesIntoForwardMessages(
     }
     return {
       ...messageDraft,
-      attachments: attributes.attachments,
+      attachments: attributes.attachments?.map(attachment =>
+        getPropsForAttachment(attachment, 'attachment', attributes)
+      ),
     };
   });
 }

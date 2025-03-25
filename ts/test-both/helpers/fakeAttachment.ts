@@ -19,6 +19,7 @@ export const fakeAttachment = (
   size: 10304,
   // This is to get rid of the download buttons on most of our stories
   path: 'ab/ablahblahblah',
+  isPermanentlyUndownloadable: false,
   ...overrides,
 });
 

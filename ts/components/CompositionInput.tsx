@@ -61,7 +61,7 @@ import { isNotNil } from '../util/isNotNil';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { useEmojiSearch } from '../hooks/useEmojiSearch';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import type { DraftEditMessageType } from '../model-types.d';
 import { usePrevious } from '../hooks/usePrevious';
@@ -147,7 +147,7 @@ export type Props = Readonly<{
   quotedMessageId: string | null;
   shouldHidePopovers: boolean | null;
   linkPreviewLoading?: boolean;
-  linkPreviewResult: LinkPreviewType | null;
+  linkPreviewResult: LinkPreviewForUIType | null;
   onCloseLinkPreview?(conversationId: string): unknown;
 }>;
 

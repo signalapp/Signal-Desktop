@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentForUIType } from '../types/Attachment';
 import type { PropsType } from './ForwardMessagesModal';
 import {
   ForwardMessagesModal,
@@ -17,8 +17,8 @@ import { CompositionTextArea } from './CompositionTextArea';
 import type { MessageForwardDraft } from '../types/ForwardDraft';
 
 const createAttachment = (
-  props: Partial<AttachmentType> = {}
-): AttachmentType => ({
+  props: Partial<AttachmentForUIType> = {}
+): AttachmentForUIType => ({
   pending: false,
   path: 'fileName.jpg',
   contentType: stringToMIMEType(props.contentType ?? ''),
@@ -26,6 +26,7 @@ const createAttachment = (
   screenshotPath: props.pending === false ? props.screenshotPath : undefined,
   url: props.pending === false ? (props.url ?? '') : '',
   size: 3433,
+  isPermanentlyUndownloadable: false,
 });
 
 export default {

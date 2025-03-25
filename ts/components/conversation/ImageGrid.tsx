@@ -16,7 +16,6 @@ import {
   getUrl,
   isDownloadable,
   isIncremental,
-  isPermanentlyUndownloadable,
   isVideoAttachment,
 } from '../../types/Attachment';
 
@@ -160,7 +159,7 @@ export function ImageGrid({
 
   const showAttachmentOrNoLongerAvailableToast = React.useCallback(
     attachmentIndex =>
-      isPermanentlyUndownloadable(attachments[attachmentIndex])
+      attachments[attachmentIndex].isPermanentlyUndownloadable
         ? showMediaNoLongerAvailableToast
         : showVisualAttachment,
     [attachments, showVisualAttachment, showMediaNoLongerAvailableToast]

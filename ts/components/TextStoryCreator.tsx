@@ -8,7 +8,7 @@ import { noop } from 'lodash';
 import { usePopper } from 'react-popper';
 
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import type { LocalizerType } from '../types/Util';
 import type { Props as EmojiButtonPropsType } from './emoji/EmojiButton';
 import type { TextAttachmentType } from '../types/Attachment';
@@ -43,7 +43,7 @@ export type PropsType = {
   ) => unknown;
   i18n: LocalizerType;
   isSending: boolean;
-  linkPreview?: LinkPreviewType;
+  linkPreview?: LinkPreviewForUIType;
   onClose: () => unknown;
   onDone: (textAttachment: TextAttachmentType) => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;

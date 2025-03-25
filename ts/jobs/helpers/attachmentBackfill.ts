@@ -9,6 +9,7 @@ import {
   type AttachmentType,
   isDownloading,
   isDownloaded,
+  isDownloadable,
 } from '../../types/Attachment';
 import {
   type AttachmentDownloadJobTypeType,
@@ -191,7 +192,9 @@ export class AttachmentBackfill {
           changeCount += 1;
           updatedSticker = {
             ...updatedSticker,
-            data: markAttachmentAsPermanentlyErrored(existing),
+            data: markAttachmentAsPermanentlyErrored(existing, {
+              backfillError: true,
+            }),
           };
           showToast = true;
         } else {
@@ -240,7 +243,8 @@ export class AttachmentBackfill {
         } else if (response.longText.status === Status.TERMINAL_ERROR) {
           changeCount += 1;
           updatedBodyAttachment = markAttachmentAsPermanentlyErrored(
-            updatedBodyAttachment
+            updatedBodyAttachment,
+            { backfillError: true }
           );
           showToast = true;
         } else {
@@ -272,8 +276,10 @@ export class AttachmentBackfill {
           showToast = true;
 
           changeCount += 1;
-          updatedAttachments[index] =
-            markAttachmentAsPermanentlyErrored(existing);
+          updatedAttachments[index] = markAttachmentAsPermanentlyErrored(
+            existing,
+            { backfillError: true }
+          );
         } else {
           throw missingCaseError(entry.status);
         }
@@ -431,4 +437,29 @@ export class AttachmentBackfill {
       kind: BackfillFailureKind.Timeout,
     });
   }
+}
+
+export function isPermanentlyUndownloadable(
+  attachment: AttachmentType,
+  disposition: AttachmentDownloadJobTypeType,
+  message: Pick<ReadonlyMessageAttributesType, 'type'>
+): boolean {
+  // Attachment is downloadable or user have not failed to download it yet
+  if (isDownloadable(attachment) || !attachment.error) {
+    return false;
+  }
+
+  // Too big attachments cannot be retried anymore
+  if (attachment.wasTooBig) {
+    return true;
+  }
+
+  // Previous backfill failed
+  if (attachment.backfillError) {
+    return true;
+  }
+
+  // If backfill is unavailable for the attachment - it cannot be downloaded
+  // at this time.
+  return !AttachmentBackfill.isEnabledForJob(disposition, message);
 }

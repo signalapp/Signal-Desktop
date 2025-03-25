@@ -71,12 +71,14 @@ export function getStoryDataFromMessageAttributes(
         ...attachment.textAttachment,
         preview: {
           ...preview,
-          image: preview.image && getPropsForAttachment(preview.image),
+          image:
+            preview.image &&
+            getPropsForAttachment(preview.image, 'preview', message),
         },
       },
     };
   } else if (attachment) {
-    attachment = getPropsForAttachment(attachment);
+    attachment = getPropsForAttachment(attachment, 'attachment', message);
   }
 
   // for a story, the message should always include the sourceDevice

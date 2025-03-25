@@ -1,14 +1,14 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { CurveType, Image } from './Image';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
 import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
 import type { LocalizerType } from '../../types/Util';
 import type {
-  AttachmentType,
+  AttachmentForUIType,
   AttachmentDraftType,
 } from '../../types/Attachment';
 import {
@@ -18,15 +18,16 @@ import {
   isVideoAttachment,
 } from '../../types/Attachment';
 
-export type Props<T extends AttachmentType | AttachmentDraftType> = Readonly<{
-  attachments: ReadonlyArray<T>;
-  canEditImages?: boolean;
-  i18n: LocalizerType;
-  onAddAttachment?: () => void;
-  onClickAttachment?: (attachment: T) => void;
-  onClose?: () => void;
-  onCloseAttachment: (attachment: T) => void;
-}>;
+export type Props<T extends AttachmentForUIType | AttachmentDraftType> =
+  Readonly<{
+    attachments: ReadonlyArray<T>;
+    canEditImages?: boolean;
+    i18n: LocalizerType;
+    onAddAttachment?: () => void;
+    onClickAttachment?: (attachment: T) => void;
+    onClose?: () => void;
+    onCloseAttachment: (attachment: T) => void;
+  }>;
 
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;
@@ -36,7 +37,7 @@ const BLANK_VIDEO_THUMBNAIL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQAAAAA3bvkkAAAACklEQVR42mNiAAAABgADm78GJQAAAABJRU5ErkJggg==';
 
 function getUrl(
-  attachment: AttachmentType | AttachmentDraftType
+  attachment: AttachmentForUIType | AttachmentDraftType
 ): string | undefined {
   if (attachment.pending) {
     return undefined;
@@ -49,7 +50,9 @@ function getUrl(
   return attachment.url;
 }
 
-export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
+export function AttachmentList<
+  T extends AttachmentForUIType | AttachmentDraftType,
+>({
   attachments,
   canEditImages,
   i18n,
@@ -58,6 +61,21 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
   onCloseAttachment,
   onClose,
 }: Props<T>): JSX.Element | null {
+  const attachmentsForUI = useMemo(() => {
+    return attachments.map((attachment: T): AttachmentForUIType => {
+      // Already ForUI attachment
+      if ('isPermanentlyUndownloadable' in attachment) {
+        return attachment;
+      }
+
+      // Draft
+      return {
+        ...attachment,
+        isPermanentlyUndownloadable: false,
+      };
+    });
+  }, [attachments]);
+
   if (!attachments.length) {
     return null;
   }
@@ -77,8 +95,9 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
         </div>
       ) : null}
       <div className="module-attachments__rail">
-        {(attachments || []).map((attachment, index) => {
+        {attachments.map((attachment, index) => {
           const url = getUrl(attachment);
+          const forUI = attachmentsForUI[index];
 
           const key = url || attachment.path || attachment.fileName || index;
 
@@ -106,7 +125,7 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
                 })}
                 className="module-staged-attachment"
                 i18n={i18n}
-                attachment={attachment}
+                attachment={forUI}
                 curveBottomLeft={CurveType.Tiny}
                 curveBottomRight={CurveType.Tiny}
                 curveTopLeft={CurveType.Tiny}

@@ -8,7 +8,6 @@ import type { ReadonlyDeep } from 'type-fest';
 
 import { AddressType, ContactFormType } from '../../types/EmbeddedContact';
 import { missingCaseError } from '../../util/missingCaseError';
-import { isPermanentlyUndownloadable } from '../../types/Attachment';
 import {
   renderAvatar,
   renderContactShorthand,
@@ -16,7 +15,7 @@ import {
 } from './contactUtil';
 
 import type {
-  EmbeddedContactType,
+  EmbeddedContactForUIType,
   Email,
   Phone,
   PostalAddress,
@@ -25,7 +24,7 @@ import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   cancelAttachmentDownload: (options: { messageId: string }) => void;
-  contact: ReadonlyDeep<EmbeddedContactType>;
+  contact: ReadonlyDeep<EmbeddedContactForUIType>;
   hasSignalAccount: boolean;
   i18n: LocalizerType;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
@@ -103,7 +102,7 @@ export function ContactDetail({
     if (!attachment) {
       return;
     }
-    if (isPermanentlyUndownloadable(attachment)) {
+    if (attachment.isPermanentlyUndownloadable) {
       return;
     }
     if (attachment.pending) {
@@ -117,7 +116,7 @@ export function ContactDetail({
   const attachment = contact.avatar?.avatar;
   const isClickable =
     attachment &&
-    !isPermanentlyUndownloadable(attachment) &&
+    !attachment.isPermanentlyUndownloadable &&
     (attachment.pending || !attachment.path);
 
   return (

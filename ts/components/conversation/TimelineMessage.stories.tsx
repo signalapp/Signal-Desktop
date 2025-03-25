@@ -363,6 +363,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     contentType: LONG_MESSAGE,
     size: 123,
     pending: false,
+    isPermanentlyUndownloadable: false,
   },
   theme: ThemeType.light,
   timestamp: overrideProps.timestamp ?? Date.now(),
@@ -551,6 +552,7 @@ Pending.args = {
     contentType: LONG_MESSAGE,
     size: 123,
     pending: true,
+    isPermanentlyUndownloadable: false,
   },
 };
 
@@ -564,6 +566,7 @@ LongBodyCanBeDownloaded.args = {
     error: true,
     digest: 'abc',
     key: 'def',
+    isPermanentlyUndownloadable: false,
   },
 };
 
@@ -861,6 +864,7 @@ const bigAttachment = {
   id: undefined,
   error: true,
   wasTooBig: true,
+  isPermanentlyUndownloadable: true,
 };
 
 export function AttachmentTooBig(): JSX.Element {
@@ -2319,6 +2323,7 @@ EmbeddedContactAvatarPermanentError.args = {
         id: undefined,
         key: undefined,
         error: true,
+        isPermanentlyUndownloadable: true,
         path: undefined,
         contentType: IMAGE_GIF,
         size: 1000000,
@@ -2539,6 +2544,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
+        isPermanentlyUndownloadable: true,
       }),
     ],
     status: 'sent',
@@ -2555,6 +2561,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
+        isPermanentlyUndownloadable: true,
       }),
       fakeAttachment({
         contentType: IMAGE_JPEG,
@@ -2566,6 +2573,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
+        isPermanentlyUndownloadable: true,
       }),
     ],
     status: 'sent',
@@ -2583,6 +2591,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
+        isPermanentlyUndownloadable: true,
       }),
     ],
     status: 'sent',
@@ -2599,6 +2608,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
+        isPermanentlyUndownloadable: true,
       }),
     ],
     status: 'sent',
@@ -2614,6 +2624,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
+        isPermanentlyUndownloadable: true,
       }),
     ],
     status: 'sent',
@@ -2633,6 +2644,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
+        isPermanentlyUndownloadable: true,
       }),
     ],
     status: 'sent',
@@ -2649,6 +2661,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         width: 128,
         height: 128,
         error: true,
+        isPermanentlyUndownloadable: true,
       }),
     ],
     isSticker: true,
@@ -2662,6 +2675,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
       pending: false,
       key: undefined,
       error: true,
+      isPermanentlyUndownloadable: true,
     },
   });
 

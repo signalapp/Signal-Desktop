@@ -1,7 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType, AttachmentWithHydratedData } from '../Attachment';
+import type {
+  AttachmentType,
+  AttachmentForUIType,
+  AttachmentWithHydratedData,
+} from '../Attachment';
 
 type GenericLinkPreviewType<Image> = {
   title?: string;
@@ -16,6 +20,7 @@ type GenericLinkPreviewType<Image> = {
 };
 
 export type LinkPreviewType = GenericLinkPreviewType<AttachmentType>;
+export type LinkPreviewForUIType = GenericLinkPreviewType<AttachmentForUIType>;
 export type LinkPreviewWithHydratedData =
   GenericLinkPreviewType<AttachmentWithHydratedData>;
 

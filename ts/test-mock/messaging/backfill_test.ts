@@ -225,6 +225,10 @@ describe('attachment backfill', function (this: Mocha.Suite) {
         name: 'This media is not available',
       })
       .waitFor();
+
+    await conversationStack
+      .locator('.module-image__undownloadable-icon')
+      .waitFor();
   });
 
   it('should show modal on timeout', async () => {

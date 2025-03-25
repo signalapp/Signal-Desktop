@@ -22,7 +22,7 @@ import {
 import { DataReader, DataWriter } from '../../sql/Client';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRanges } from '../../types/BodyRange';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
 import type { ShowToastActionType } from './toast';
@@ -103,7 +103,7 @@ type ComposerStateByConversationType = {
   focusCounter: number;
   isDisabled: boolean;
   linkPreviewLoading: boolean;
-  linkPreviewResult?: LinkPreviewType;
+  linkPreviewResult?: LinkPreviewForUIType;
   messageCompositionId: string;
   quotedMessage?: QuotedMessageForComposerType;
   sendCounter: number;
