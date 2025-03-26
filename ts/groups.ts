@@ -104,6 +104,8 @@ import { getProfile } from './util/getProfile';
 import { generateMessageId } from './util/generateMessageId';
 import { postSaveUpdates } from './util/cleanup';
 import { MessageModel } from './models/messages';
+import { areWePending } from './util/groupMembershipUtils';
+import { isConversationAccepted } from './util/isConversationAccepted';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -3792,11 +3794,11 @@ async function updateGroupViaPreJoinInfo({
 
   newAttributes = {
     ...newAttributes,
-    ...(await applyNewAvatar(
-      dropNull(preJoinInfo.avatar),
-      newAttributes,
-      logId
-    )),
+    ...(await applyNewAvatar({
+      newAvatarUrl: dropNull(preJoinInfo.avatar),
+      attributes: newAttributes,
+      logId,
+    })),
   };
 
   return {
@@ -5441,7 +5443,11 @@ async function applyGroupChange({
     const { avatar } = actions.modifyAvatar;
     result = {
       ...result,
-      ...(await applyNewAvatar(dropNull(avatar), result, logId)),
+      ...(await applyNewAvatar({
+        newAvatarUrl: dropNull(avatar),
+        attributes: result,
+        logId,
+      })),
     };
   }
 
@@ -5721,13 +5727,23 @@ export async function decryptGroupAvatar(
 
 // Overwriting result.avatar as part of functionality
 export async function applyNewAvatar(
-  newAvatarUrl: string | undefined,
-  attributes: Readonly<
-    Pick<ConversationAttributesType, 'avatar' | 'secretParams'>
-  >,
-  logId: string
-): Promise<Pick<ConversationAttributesType, 'avatar'>> {
-  const result: Pick<ConversationAttributesType, 'avatar'> = {};
+  options:
+    | {
+        newAvatarUrl?: string | undefined;
+        attributes: Pick<ConversationAttributesType, 'avatar' | 'secretParams'>;
+        logId: string;
+        forceDownload: true;
+      }
+    | {
+        newAvatarUrl?: string | undefined;
+        attributes: ConversationAttributesType;
+        logId: string;
+        forceDownload?: false | undefined;
+      }
+): Promise<Pick<ConversationAttributesType, 'avatar' | 'remoteAvatarUrl'>> {
+  const { newAvatarUrl, attributes, logId, forceDownload } = options;
+  const result: Pick<ConversationAttributesType, 'avatar' | 'remoteAvatarUrl'> =
+    {};
   try {
     // Avatar has been dropped
     if (!newAvatarUrl && attributes.avatar) {
@@ -5739,19 +5755,34 @@ export async function applyNewAvatar(
       result.avatar = undefined;
     }
 
+    const avatarUrlToUse =
+      newAvatarUrl ||
+      ('remoteAvatarUrl' in attributes
+        ? attributes.remoteAvatarUrl
+        : undefined);
+
     // Group has avatar; has it changed?
     if (
-      newAvatarUrl &&
-      (!attributes.avatar?.path || attributes.avatar.url !== newAvatarUrl)
+      avatarUrlToUse &&
+      (!attributes.avatar?.path || attributes.avatar.url !== avatarUrlToUse)
     ) {
       if (!attributes.secretParams) {
         throw new Error('applyNewAvatar: group was missing secretParams!');
       }
 
-      const data = await decryptGroupAvatar(
-        newAvatarUrl,
+      if (
+        !forceDownload &&
+        (areWePending(attributes) || !isConversationAccepted(attributes))
+      ) {
+        result.remoteAvatarUrl = avatarUrlToUse;
+        return result;
+      }
+
+      const data: Uint8Array = await decryptGroupAvatar(
+        avatarUrlToUse,
         attributes.secretParams
       );
+
       const hash = computeHash(data);
 
       if (attributes.avatar?.hash === hash) {
@@ -5760,7 +5791,7 @@ export async function applyNewAvatar(
         );
         result.avatar = {
           ...attributes.avatar,
-          url: newAvatarUrl,
+          url: avatarUrlToUse,
         };
         return result;
       }
@@ -5770,10 +5801,9 @@ export async function applyNewAvatar(
           attributes.avatar.path
         );
       }
-
       const local = await window.Signal.Migrations.writeNewAttachmentData(data);
       result.avatar = {
-        url: newAvatarUrl,
+        url: avatarUrlToUse,
         ...local,
         hash,
       };
@@ -5871,7 +5901,11 @@ async function applyGroupState({
   // avatar
   result = {
     ...result,
-    ...(await applyNewAvatar(dropNull(groupState.avatar), result, logId)),
+    ...(await applyNewAvatar({
+      newAvatarUrl: dropNull(groupState.avatar),
+      attributes: result,
+      logId,
+    })),
   };
 
   // disappearingMessagesTimer

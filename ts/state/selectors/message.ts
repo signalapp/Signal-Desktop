@@ -164,7 +164,6 @@ type FormattedContact = Partial<ConversationType> &
     | 'sharedGroupNames'
     | 'title'
     | 'type'
-    | 'unblurredAvatarUrl'
   >;
 export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
 export type MessagePropsType = Omit<
@@ -351,11 +350,13 @@ const getAuthorForMessage = (
   options: GetContactOptions
 ): PropsData['author'] => {
   const {
+    avatarPlaceholderGradient,
     acceptedMessageRequest,
     avatarUrl,
     badges,
     color,
     firstName,
+    hasAvatar,
     id,
     isMe,
     name,
@@ -363,15 +364,16 @@ const getAuthorForMessage = (
     profileName,
     sharedGroupNames,
     title,
-    unblurredAvatarUrl,
   } = getContact(message, options);
 
   const unsafe = {
+    avatarPlaceholderGradient,
     acceptedMessageRequest,
     avatarUrl,
     badges,
     color,
     firstName,
+    hasAvatar,
     id,
     isMe,
     name,
@@ -379,7 +381,6 @@ const getAuthorForMessage = (
     profileName,
     sharedGroupNames,
     title,
-    unblurredAvatarUrl,
   };
 
   const safe: AssertProps<PropsData['author'], typeof unsafe> = unsafe;

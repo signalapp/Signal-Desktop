@@ -23,6 +23,7 @@ import {
   getAllComposableConversations,
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
+  getPendingAvatarDownloadSelector,
 } from '../selectors/conversations';
 import {
   getAreWeASubscriber,
@@ -98,6 +99,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const conversationSelector = useSelector(getConversationByIdSelector);
   const defaultConversationColor = useSelector(getDefaultConversationColor);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
   const selectedNavTab = useSelector(getSelectedNavTab);
 
   const {
@@ -114,6 +116,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     setDisappearingMessages,
     setMuteExpiration,
     showConversation,
+    startAvatarDownload,
     updateGroupAttributes,
     updateNicknameAndNote,
   } = useConversationsActions();
@@ -205,6 +208,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       pendingApprovalMemberships={pendingApprovalMemberships}
+      pendingAvatarDownload={isPendingAvatarDownload(conversationId)}
       pendingMemberships={pendingMemberships}
       pushPanelForConversation={pushPanelForConversation}
       renderChooseGroupMembersModal={renderChooseGroupMembersModal}
@@ -218,6 +222,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       showContactModal={showContactModal}
       showConversation={showConversation}
       showLightbox={showLightbox}
+      startAvatarDownload={() => startAvatarDownload(conversationId)}
       theme={theme}
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}

@@ -13,7 +13,6 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { HasStories } from '../../types/Stories';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
 import { StoryViewModeType } from '../../types/Stories';
-import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 import { Button, ButtonVariant } from '../Button';
 import { SafetyTipsModal } from '../SafetyTipsModal';
 import { I18n } from '../I18n';
@@ -23,6 +22,7 @@ export type Props = {
   acceptedMessageRequest?: boolean;
   fromOrAddedByTrustedContact?: boolean;
   groupDescription?: string;
+  hasAvatar?: boolean;
   hasStories?: HasStories;
   id: string;
   i18n: LocalizerType;
@@ -31,10 +31,10 @@ export type Props = {
   isSignalConversation?: boolean;
   membersCount?: number;
   openConversationDetails?: () => unknown;
+  pendingAvatarDownload?: boolean;
   phoneNumber?: string;
   sharedGroupNames?: ReadonlyArray<string>;
-  unblurAvatar: (conversationId: string) => void;
-  unblurredAvatarUrl?: string;
+  startAvatarDownload: () => void;
   updateSharedGroups: (conversationId: string) => unknown;
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
@@ -57,6 +57,7 @@ const renderExtraInformation = ({
   sharedGroupNames,
 }: Pick<
   Props,
+  | 'avatarPlaceholderGradient'
   | 'acceptedMessageRequest'
   | 'conversationType'
   | 'fromOrAddedByTrustedContact'
@@ -227,6 +228,7 @@ function ReleaseNotesExtraInformation({
 }
 
 export function ConversationHero({
+  avatarPlaceholderGradient,
   i18n,
   about,
   acceptedMessageRequest,
@@ -236,6 +238,7 @@ export function ConversationHero({
   conversationType,
   fromOrAddedByTrustedContact,
   groupDescription,
+  hasAvatar,
   hasStories,
   id,
   isDirectConvoAndHasNickname,
@@ -243,13 +246,13 @@ export function ConversationHero({
   openConversationDetails,
   isSignalConversation,
   membersCount,
+  pendingAvatarDownload,
   sharedGroupNames = [],
   phoneNumber,
   profileName,
+  startAvatarDownload,
   theme,
   title,
-  unblurAvatar,
-  unblurredAvatarUrl,
   updateSharedGroups,
   viewUserStories,
   toggleAboutContactModal,
@@ -264,17 +267,14 @@ export function ConversationHero({
 
   let avatarBlur: AvatarBlur = AvatarBlur.NoBlur;
   let avatarOnClick: undefined | (() => void);
-  if (
-    shouldBlurAvatar({
-      acceptedMessageRequest,
-      avatarUrl,
-      isMe,
-      sharedGroupNames,
-      unblurredAvatarUrl,
-    })
-  ) {
+
+  if (!avatarUrl && !isMe && hasAvatar) {
     avatarBlur = AvatarBlur.BlurPictureWithClickToView;
-    avatarOnClick = () => unblurAvatar(id);
+    avatarOnClick = () => {
+      if (!pendingAvatarDownload) {
+        startAvatarDownload();
+      }
+    };
   } else if (hasStories) {
     avatarOnClick = () => {
       viewUserStories({
@@ -312,7 +312,7 @@ export function ConversationHero({
     <>
       <div className="module-conversation-hero">
         <Avatar
-          acceptedMessageRequest={acceptedMessageRequest}
+          avatarPlaceholderGradient={avatarPlaceholderGradient}
           avatarUrl={avatarUrl}
           badge={badge}
           blur={avatarBlur}
@@ -320,7 +320,8 @@ export function ConversationHero({
           color={color}
           conversationType={conversationType}
           i18n={i18n}
-          isMe={isMe}
+          hasAvatar={hasAvatar}
+          loading={pendingAvatarDownload && !avatarUrl}
           noteToSelf={isMe}
           onClick={avatarOnClick}
           profileName={profileName}

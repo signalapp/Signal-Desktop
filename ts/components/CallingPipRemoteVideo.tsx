@@ -40,11 +40,10 @@ function NoVideo({
   i18n: LocalizerType;
 }): JSX.Element {
   const {
-    acceptedMessageRequest,
+    avatarPlaceholderGradient,
     avatarUrl,
     color,
     type: conversationType,
-    isMe,
     phoneNumber,
     profileName,
     sharedGroupNames,
@@ -56,14 +55,13 @@ function NoVideo({
       <CallBackgroundBlur avatarUrl={avatarUrl}>
         <div className="module-calling-pip__video--avatar">
           <Avatar
-            acceptedMessageRequest={acceptedMessageRequest}
+            avatarPlaceholderGradient={avatarPlaceholderGradient}
             avatarUrl={avatarUrl}
             badge={undefined}
             color={color || AvatarColors[0]}
             noteToSelf={false}
             conversationType={conversationType}
             i18n={i18n}
-            isMe={isMe}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}

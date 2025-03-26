@@ -23,12 +23,13 @@ export default {
     i18n,
     isDirectConvoAndHasNickname: false,
     theme: ThemeType.light,
-    unblurAvatar: action('unblurAvatar'),
     updateSharedGroups: action('updateSharedGroups'),
     viewUserStories: action('viewUserStories'),
     toggleAboutContactModal: action('toggleAboutContactModal'),
     toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),
     openConversationDetails: action('openConversationDetails'),
+    startAvatarDownload: action('startAvatarDownload'),
+    pendingAvatarDownload: false,
   },
 } satisfies Meta<Props>;
 

@@ -61,11 +61,9 @@ export function UsernameSearchResultListItem({
     <ListTile
       leading={
         <Avatar
-          acceptedMessageRequest={false}
           conversationType="direct"
           searchResult
           i18n={i18n}
-          isMe={false}
           title={username}
           size={AvatarSize.THIRTY_TWO}
           badge={undefined}

@@ -217,11 +217,12 @@ export function CallsNewCall({
           <ListTile
             leading={
               <Avatar
-                acceptedMessageRequest
+                avatarPlaceholderGradient={
+                  item.conversation.avatarPlaceholderGradient
+                }
                 avatarUrl={item.conversation.avatarUrl}
                 conversationType="group"
                 i18n={i18n}
-                isMe={false}
                 title={item.conversation.title}
                 sharedGroupNames={[]}
                 size={AvatarSize.THIRTY_TWO}

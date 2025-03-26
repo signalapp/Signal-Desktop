@@ -499,17 +499,11 @@ export type ConversationAttributesType = {
   isTemporary?: boolean;
   temporaryMemberCount?: number;
 
-  // Avatars are blurred for some unapproved conversations, but users can manually unblur
-  //   them. If the avatar was unblurred and then changed, we don't update this value so
-  //   the new avatar gets blurred.
-  //
-  // This value is useless once the message request has been approved. We don't clean it
-  //   up but could. We don't persist it but could (though we'd probably want to clean it
-  //   up in that case).
-  unblurredAvatarUrl?: string;
-
   // Legacy field, mapped to above in getConversation()
   unblurredAvatarPath?: string;
+
+  // remoteAvatarUrl
+  remoteAvatarUrl?: string;
 
   // Only used during backup integration tests. After import, our data model merges
   // Contact and Chat frames from a backup, and we will then by default export both, even

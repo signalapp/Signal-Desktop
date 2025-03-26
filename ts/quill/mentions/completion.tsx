@@ -294,17 +294,16 @@ export class MentionCompletion {
                   )}
                 >
                   <Avatar
-                    acceptedMessageRequest={member.acceptedMessageRequest}
+                    avatarPlaceholderGradient={member.avatarPlaceholderGradient}
                     avatarUrl={member.avatarUrl}
                     badge={getPreferredBadge(member.badges)}
                     conversationType="direct"
+                    hasAvatar={member.hasAvatar}
                     i18n={this.options.i18n}
-                    isMe={member.isMe}
                     sharedGroupNames={member.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}
                     theme={theme}
                     title={member.title}
-                    unblurredAvatarUrl={member.unblurredAvatarUrl}
                   />
                   <div className="module-composition-input__suggestions__title">
                     <UserText text={member.title} />

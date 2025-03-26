@@ -372,14 +372,12 @@ export function NavTabs({
               <span className="NavTabs__ItemButton">
                 <span className="NavTabs__ItemContent">
                   <Avatar
-                    acceptedMessageRequest
                     avatarUrl={me.avatarUrl}
                     badge={badge}
                     className="module-main-header__avatar"
                     color={me.color}
                     conversationType="direct"
                     i18n={i18n}
-                    isMe
                     phoneNumber={me.phoneNumber}
                     profileName={me.profileName}
                     theme={theme}

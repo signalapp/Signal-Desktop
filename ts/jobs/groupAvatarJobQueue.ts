@@ -44,7 +44,11 @@ export class GroupAvatarJobQueue extends JobQueue<GroupAvatarJobData> {
     }
 
     // Generate correct attributes patch
-    const patch = await applyNewAvatar(newAvatarUrl, attributes, logId);
+    const patch = await applyNewAvatar({
+      newAvatarUrl,
+      attributes,
+      logId,
+    });
 
     convo.set(patch);
     await DataWriter.updateConversation(convo.attributes);

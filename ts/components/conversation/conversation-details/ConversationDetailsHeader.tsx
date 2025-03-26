@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
-import { Avatar, AvatarSize } from '../../Avatar';
+import { Avatar, AvatarBlur, AvatarSize } from '../../Avatar';
 import { AvatarLightbox } from '../../AvatarLightbox';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { GroupDescription } from '../GroupDescription';
@@ -27,6 +27,8 @@ export type Props = {
   isMe: boolean;
   isSignalConversation: boolean;
   membersCount: number | null;
+  pendingAvatarDownload: boolean;
+  startAvatarDownload: () => void;
   startEditing: (isGroupTitle: boolean) => void;
   toggleAboutContactModal: (contactId: string) => void;
   theme: ThemeType;
@@ -47,6 +49,8 @@ export function ConversationDetailsHeader({
   isMe,
   isSignalConversation,
   membersCount,
+  pendingAvatarDownload,
+  startAvatarDownload,
   startEditing,
   toggleAboutContactModal,
   theme,
@@ -84,8 +88,15 @@ export function ConversationDetailsHeader({
     preferredBadge = badges?.[0];
   }
 
+  const shouldShowClickToView =
+    !conversation.avatarUrl && !isMe && conversation.hasAvatar;
+  const avatarBlur = shouldShowClickToView
+    ? AvatarBlur.BlurPictureWithClickToView
+    : AvatarBlur.NoBlur;
+
   const avatar = (
     <Avatar
+      blur={avatarBlur}
       badge={preferredBadge}
       conversationType={conversation.type}
       i18n={i18n}
@@ -93,9 +104,18 @@ export function ConversationDetailsHeader({
       {...conversation}
       noteToSelf={isMe}
       onClick={() => {
+        if (shouldShowClickToView) {
+          startAvatarDownload();
+          return;
+        }
         setActiveModal(ConversationDetailsHeaderActiveModal.ShowingAvatar);
       }}
+      loading={pendingAvatarDownload}
       onClickBadge={() => {
+        if (shouldShowClickToView) {
+          startAvatarDownload();
+          return;
+        }
         setActiveModal(ConversationDetailsHeaderActiveModal.ShowingBadges);
       }}
       sharedGroupNames={[]}
@@ -108,9 +128,11 @@ export function ConversationDetailsHeader({
     case ConversationDetailsHeaderActiveModal.ShowingAvatar:
       modal = (
         <AvatarLightbox
+          avatarPlaceholderGradient={conversation.avatarPlaceholderGradient}
           avatarColor={conversation.color}
           avatarUrl={conversation.avatarUrl}
           conversationTitle={conversation.title}
+          hasAvatar={conversation.hasAvatar}
           i18n={i18n}
           isGroup={isGroup}
           noteToSelf={isMe}

@@ -14,7 +14,7 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
 import { StoryViewModeType } from '../../types/Stories';
 import * as log from '../../logging/log';
-import { Avatar, AvatarSize } from '../Avatar';
+import { Avatar, AvatarBlur, AvatarSize } from '../Avatar';
 import { AvatarLightbox } from '../AvatarLightbox';
 import { BadgeDialog } from '../BadgeDialog';
 import { ConfirmationDialog } from '../ConfirmationDialog';
@@ -55,6 +55,7 @@ type PropsActionType = {
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
   removeMemberFromGroup: (conversationId: string, contactId: string) => void;
   showConversation: ShowConversationType;
+  startAvatarDownload: () => void;
   toggleAdmin: (conversationId: string, contactId: string) => void;
   toggleAboutContactModal: (conversationId: string) => unknown;
   togglePip: () => void;
@@ -98,6 +99,7 @@ export function ContactModal({
   onOutgoingVideoCallInConversation,
   removeMemberFromGroup,
   showConversation,
+  startAvatarDownload,
   theme,
   toggleAboutContactModal,
   toggleAddUserToAnotherGroupModal,
@@ -310,13 +312,18 @@ export function ContactModal({
         >
           <div className="ContactModal">
             <Avatar
-              acceptedMessageRequest={contact.acceptedMessageRequest}
+              avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
               avatarUrl={contact.avatarUrl}
               badge={preferredBadge}
+              blur={
+                !contact.avatarUrl && !contact.isMe && contact.hasAvatar
+                  ? AvatarBlur.BlurPictureWithClickToView
+                  : AvatarBlur.NoBlur
+              }
               color={contact.color}
               conversationType="direct"
+              hasAvatar={contact.hasAvatar}
               i18n={i18n}
-              isMe={contact.isMe}
               onClick={() => {
                 if (conversation && hasStories) {
                   viewUserStories({
@@ -324,6 +331,12 @@ export function ContactModal({
                     storyViewMode: StoryViewModeType.User,
                   });
                   hideContactModal();
+                } else if (
+                  !contact.avatarUrl &&
+                  !contact.isMe &&
+                  contact.hasAvatar
+                ) {
+                  startAvatarDownload();
                 } else {
                   setView(ContactModalView.ShowingAvatar);
                 }
@@ -335,7 +348,6 @@ export function ContactModal({
               storyRing={hasStories}
               theme={theme}
               title={contact.title}
-              unblurredAvatarUrl={contact.unblurredAvatarUrl}
             />
             <button
               type="button"
@@ -468,9 +480,11 @@ export function ContactModal({
     case ContactModalView.ShowingAvatar:
       return (
         <AvatarLightbox
+          avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
           avatarColor={contact.color}
           avatarUrl={contact.avatarUrl}
           conversationTitle={contact.title}
+          hasAvatar={contact.hasAvatar}
           i18n={i18n}
           onClose={() => setView(ContactModalView.Default)}
         />

@@ -37,7 +37,6 @@ export type ContactListItemConversationType = Pick<
   | 'systemFamilyName'
   | 'title'
   | 'type'
-  | 'unblurredAvatarUrl'
   | 'username'
   | 'e164'
   | 'serviceId'
@@ -63,7 +62,6 @@ type PropsType = PropsDataType & PropsHousekeepingType;
 export const ContactListItem: FunctionComponent<PropsType> = React.memo(
   function ContactListItem({
     about,
-    acceptedMessageRequest,
     avatarUrl,
     badge,
     color,
@@ -85,7 +83,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     theme,
     title,
     type,
-    unblurredAvatarUrl,
     serviceId,
   }) {
     const [isConfirmingBlocking, setConfirmingBlocking] = useState(false);
@@ -264,19 +261,16 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
           moduleClassName="ContactListItem"
           leading={
             <Avatar
-              acceptedMessageRequest={acceptedMessageRequest}
               avatarUrl={avatarUrl}
               color={color}
               conversationType={type}
               noteToSelf={Boolean(isMe)}
               i18n={i18n}
-              isMe={isMe}
               phoneNumber={phoneNumber}
               profileName={profileName}
               title={title}
               sharedGroupNames={sharedGroupNames}
               size={AvatarSize.THIRTY_TWO}
-              unblurredAvatarUrl={unblurredAvatarUrl}
               // This is here to appease the type checker.
               {...(badge ? { badge, theme } : { badge: undefined })}
             />

@@ -87,6 +87,7 @@ const createProps = (
   pushPanelForConversation: action('pushPanelForConversation'),
   showConversation: action('showConversation'),
   showLightbox: action('showLightbox'),
+  startAvatarDownload: action('startAvatarDownload'),
   updateGroupAttributes: async () => {
     action('updateGroupAttributes')();
   },

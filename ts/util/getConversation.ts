@@ -17,11 +17,11 @@ import { canEditGroupInfo } from './canEditGroupInfo';
 import { dropNull } from './dropNull';
 import { getAboutText } from './getAboutText';
 import {
-  getLocalUnblurredAvatarUrl,
   getAvatarHash,
   getLocalAvatarUrl,
   getLocalProfileAvatarUrl,
   getRawAvatarPath,
+  hasAvatar,
 } from './avatarUtils';
 import { getAvatarData } from './getAvatarData';
 import { getConversationMembers } from './getConversationMembers';
@@ -46,16 +46,17 @@ import {
   isMe,
 } from './whatTypeOfConversation';
 import {
+  areWePending,
   getBannedMemberships,
   getMembersCount,
   getMemberships,
   getPendingApprovalMemberships,
   getPendingMemberships,
-  isMember,
   isMemberAwaitingApproval,
-  isMemberPending,
 } from './groupMembershipUtils';
 import { isNotNil } from './isNotNil';
+import { getIdentifierHash } from '../Crypto';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
@@ -88,7 +89,13 @@ export function getConversation(model: ConversationModel): ConversationType {
   );
 
   const ourAci = window.textsecure.storage.user.getAci();
-  const ourPni = window.textsecure.storage.user.getPni();
+
+  const identifierHash = getIdentifierHash({
+    aci: isAciString(attributes.serviceId) ? attributes.serviceId : undefined,
+    e164: attributes.e164,
+    pni: attributes.pni,
+    groupId: attributes.groupId,
+  });
 
   const color = migrateColor(attributes.color, {
     aci: isAciString(attributes.serviceId) ? attributes.serviceId : undefined,
@@ -96,6 +103,11 @@ export function getConversation(model: ConversationModel): ConversationType {
     pni: attributes.pni,
     groupId: attributes.groupId,
   });
+
+  const avatarPlaceholderGradient =
+    hasAvatar(attributes) && identifierHash != null
+      ? getAvatarPlaceholderGradient(identifierHash)
+      : undefined;
 
   const { draftTimestamp, draftEditMessage, timestamp } = attributes;
   const draftPreview = getDraftPreview(attributes);
@@ -142,20 +154,14 @@ export function getConversation(model: ConversationModel): ConversationType {
     acceptedMessageRequest: isConversationAccepted(attributes),
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     activeAt: attributes.active_at!,
-    areWePending:
-      ourAci &&
-      (isMemberPending(attributes, ourAci) ||
-        Boolean(
-          ourPni &&
-            !isMember(attributes, ourAci) &&
-            isMemberPending(attributes, ourPni)
-        )),
+    areWePending: areWePending(attributes),
     areWePendingApproval: Boolean(
       ourConversationId &&
         ourAci &&
         isMemberAwaitingApproval(attributes, ourAci)
     ),
     areWeAdmin: areWeAdmin(attributes),
+    avatarPlaceholderGradient,
     avatars: getAvatarData(attributes),
     badges: attributes.badges ?? EMPTY_ARRAY,
     canChangeTimer: canChangeTimer(attributes),
@@ -164,8 +170,8 @@ export function getConversation(model: ConversationModel): ConversationType {
     avatarUrl: getLocalAvatarUrl(attributes),
     rawAvatarPath: getRawAvatarPath(attributes),
     avatarHash: getAvatarHash(attributes),
-    unblurredAvatarUrl: getLocalUnblurredAvatarUrl(attributes),
     profileAvatarUrl: getLocalProfileAvatarUrl(attributes),
+    hasAvatar: hasAvatar(attributes),
     color,
     conversationColor: attributes.conversationColor,
     customColor,

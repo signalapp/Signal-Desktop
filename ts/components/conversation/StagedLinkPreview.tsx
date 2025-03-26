@@ -124,12 +124,10 @@ export function Thumbnail({
     return (
       <div className={getClassName('__icon-container-call-link')}>
         <Avatar
-          acceptedMessageRequest
           badge={undefined}
           color={getColorForCallLink(getKeyFromCallLink(url))}
           conversationType="callLink"
           i18n={i18n}
-          isMe={false}
           sharedGroupNames={[]}
           size={64}
           title={title ?? i18n('icu:calling__call-link-default-title')}

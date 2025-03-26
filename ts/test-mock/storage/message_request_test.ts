@@ -6,7 +6,11 @@ import { assert } from 'chai';
 import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers';
+import {
+  acceptConversation,
+  typeIntoInput,
+  waitForEnabledComposer,
+} from '../helpers';
 
 describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
@@ -50,7 +54,6 @@ describe('storage service', function (this: Mocha.Suite) {
     const window = await app.getWindow();
 
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Opening conversation with a stranger');
     debug(stranger.toContact().aci);
@@ -77,14 +80,7 @@ describe('storage service', function (this: Mocha.Suite) {
     }
 
     debug('Accept conversation from a stranger');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
-
-    await window
-      .locator('.MessageRequestActionsConfirmation')
-      .getByRole('button', { name: 'Accept' })
-      .click();
+    await acceptConversation(window);
 
     debug('Verify that storage state was updated');
     {

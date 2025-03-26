@@ -1655,9 +1655,7 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     `
   ).run({
     id,
-    json: objectToJSON(
-      omit(data, ['profileLastFetchedAt', 'unblurredAvatarUrl'])
-    ),
+    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
 
     e164: e164 || null,
     serviceId: serviceId || null,
@@ -1723,9 +1721,7 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
     `
   ).run({
     id,
-    json: objectToJSON(
-      omit(data, ['profileLastFetchedAt', 'unblurredAvatarUrl'])
-    ),
+    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
 
     e164: e164 || null,
     serviceId: serviceId || null,

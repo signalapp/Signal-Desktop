@@ -62,19 +62,18 @@ export function CallLinkPendingParticipantModal({
       theme={Theme.Dark}
     >
       <Avatar
-        acceptedMessageRequest={conversation.acceptedMessageRequest}
         avatarUrl={conversation.avatarUrl}
+        avatarPlaceholderGradient={conversation.avatarPlaceholderGradient}
         badge={undefined}
         color={conversation.color}
         conversationType="direct"
+        hasAvatar={conversation.hasAvatar}
         i18n={i18n}
-        isMe={conversation.isMe}
         profileName={conversation.profileName}
         sharedGroupNames={conversation.sharedGroupNames}
         size={AvatarSize.EIGHTY}
         title={conversation.title}
         theme={ThemeType.dark}
-        unblurredAvatarUrl={conversation.unblurredAvatarUrl}
       />
 
       <button

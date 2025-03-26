@@ -14,32 +14,31 @@ export type PropsType = {
 } & Pick<
   ConversationType,
   | 'about'
-  | 'acceptedMessageRequest'
+  | 'avatarPlaceholderGradient'
   | 'avatarUrl'
   | 'color'
   | 'firstName'
+  | 'hasAvatar'
   | 'id'
   | 'isMe'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
   | 'title'
-  | 'unblurredAvatarUrl'
 >;
 
 export function ContactPill({
-  acceptedMessageRequest,
+  avatarPlaceholderGradient,
   avatarUrl,
   color,
   firstName,
+  hasAvatar,
   i18n,
-  isMe,
   id,
   phoneNumber,
   profileName,
   sharedGroupNames,
   title,
-  unblurredAvatarUrl,
   onClickRemove,
 }: PropsType): JSX.Element {
   const removeLabel = i18n('icu:ContactPill--remove');
@@ -47,20 +46,19 @@ export function ContactPill({
   return (
     <div className="module-ContactPill">
       <Avatar
-        acceptedMessageRequest={acceptedMessageRequest}
+        avatarPlaceholderGradient={avatarPlaceholderGradient}
         avatarUrl={avatarUrl}
         badge={undefined}
         color={color}
         noteToSelf={false}
         conversationType="direct"
+        hasAvatar={hasAvatar}
         i18n={i18n}
-        isMe={isMe}
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}
         sharedGroupNames={sharedGroupNames}
         size={AvatarSize.TWENTY}
-        unblurredAvatarUrl={unblurredAvatarUrl}
       />
       <ContactName
         firstName={firstName}

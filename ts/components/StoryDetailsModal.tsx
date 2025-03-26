@@ -128,20 +128,17 @@ export function StoryDetailsModal({
                 return (
                   <div key={contact.id} className="StoryDetailsModal__contact">
                     <Avatar
-                      acceptedMessageRequest={contact.acceptedMessageRequest}
                       avatarUrl={contact.avatarUrl}
                       badge={getPreferredBadge(contact.badges)}
                       color={contact.color}
                       conversationType="direct"
                       i18n={i18n}
-                      isMe={contact.isMe}
                       phoneNumber={contact.phoneNumber}
                       profileName={contact.profileName}
                       sharedGroupNames={contact.sharedGroupNames}
                       size={AvatarSize.THIRTY_TWO}
                       theme={ThemeType.dark}
                       title={contact.title}
-                      unblurredAvatarUrl={contact.unblurredAvatarUrl}
                     />
                     <div className="StoryDetailsModal__contact__text">
                       <ContactName title={contact.title} />
@@ -171,13 +168,12 @@ export function StoryDetailsModal({
           </div>
           <div className="StoryDetailsModal__contact">
             <Avatar
-              acceptedMessageRequest={sender.acceptedMessageRequest}
+              avatarPlaceholderGradient={sender.avatarPlaceholderGradient}
               avatarUrl={sender.avatarUrl}
               badge={getPreferredBadge(sender.badges)}
               color={sender.color}
               conversationType="direct"
               i18n={i18n}
-              isMe={sender.isMe}
               profileName={sender.profileName}
               sharedGroupNames={sender.sharedGroupNames}
               size={AvatarSize.THIRTY_TWO}

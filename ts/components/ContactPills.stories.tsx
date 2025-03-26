@@ -38,6 +38,7 @@ const contactPillProps = (
     getDefaultConversation({
       avatarUrl: gifUrl,
       firstName: 'John',
+      hasAvatar: true,
       id: 'abc123',
       isMe: false,
       name: 'John Bon Bon Jovi',

@@ -382,13 +382,11 @@ export function StoryViewsNRepliesModal({
           >
             <div>
               <Avatar
-                acceptedMessageRequest={view.recipient.acceptedMessageRequest}
                 avatarUrl={view.recipient.avatarUrl}
                 badge={undefined}
                 color={getAvatarColor(view.recipient.color)}
                 conversationType="direct"
                 i18n={i18n}
-                isMe={Boolean(view.recipient.isMe)}
                 profileName={view.recipient.profileName}
                 sharedGroupNames={view.recipient.sharedGroupNames || []}
                 size={AvatarSize.TWENTY_EIGHT}
@@ -564,13 +562,11 @@ function ReplyOrReactionMessage({
         >
           <div className="StoryViewsNRepliesModal__reaction--container">
             <Avatar
-              acceptedMessageRequest={reply.author.acceptedMessageRequest}
               avatarUrl={reply.author.avatarUrl}
               badge={getPreferredBadge(reply.author.badges)}
               color={getAvatarColor(reply.author.color)}
               conversationType="direct"
               i18n={i18n}
-              isMe={Boolean(reply.author.isMe)}
               profileName={reply.author.profileName}
               sharedGroupNames={reply.author.sharedGroupNames || []}
               size={AvatarSize.TWENTY_EIGHT}

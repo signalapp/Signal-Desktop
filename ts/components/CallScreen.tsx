@@ -500,14 +500,14 @@ export function CallScreen({
     ) : (
       <CallBackgroundBlur avatarUrl={me.avatarUrl}>
         <Avatar
-          acceptedMessageRequest
+          avatarPlaceholderGradient={me.avatarPlaceholderGradient}
           avatarUrl={me.avatarUrl}
           badge={undefined}
           color={me.color || AvatarColors[0]}
+          hasAvatar={me.hasAvatar}
           noteToSelf={false}
           conversationType="direct"
           i18n={i18n}
-          isMe
           phoneNumber={me.phoneNumber}
           profileName={me.profileName}
           title={me.title}

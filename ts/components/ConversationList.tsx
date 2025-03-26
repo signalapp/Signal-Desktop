@@ -402,12 +402,14 @@ export function ConversationList({
           break;
         case RowType.Conversation: {
           const itemProps = pick(row.conversation, [
+            'avatarPlaceholderGradient',
             'acceptedMessageRequest',
             'avatarUrl',
             'badges',
             'color',
             'draftPreview',
             'groupId',
+            'hasAvatar',
             'id',
             'isBlocked',
             'isMe',
@@ -425,7 +427,6 @@ export function ConversationList({
             'title',
             'type',
             'typingContactIdTimestamps',
-            'unblurredAvatarUrl',
             'unreadCount',
             'unreadMentionsCount',
             'serviceId',

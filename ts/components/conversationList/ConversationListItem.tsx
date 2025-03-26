@@ -38,12 +38,14 @@ export type MessageStatusType = (typeof MessageStatuses)[number];
 
 export type PropsData = Pick<
   ConversationType,
+  | 'avatarPlaceholderGradient'
   | 'acceptedMessageRequest'
   | 'avatarUrl'
   | 'badges'
   | 'color'
   | 'draftPreview'
   | 'groupId'
+  | 'hasAvatar'
   | 'id'
   | 'isBlocked'
   | 'isMe'
@@ -62,7 +64,6 @@ export type PropsData = Pick<
   | 'title'
   | 'type'
   | 'typingContactIdTimestamps'
-  | 'unblurredAvatarUrl'
   | 'unreadCount'
   | 'unreadMentionsCount'
   | 'serviceId'
@@ -82,6 +83,7 @@ export type Props = PropsData & PropsHousekeeping;
 
 export const ConversationListItem: FunctionComponent<Props> = React.memo(
   function ConversationListItem({
+    avatarPlaceholderGradient,
     acceptedMessageRequest,
     avatarUrl,
     badge,
@@ -89,6 +91,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     color,
     draftPreview,
     groupId,
+    hasAvatar,
     i18n,
     id,
     isBlocked,
@@ -109,7 +112,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     title,
     type,
     typingContactIdTimestamps,
-    unblurredAvatarUrl,
     unreadCount,
     unreadMentionsCount,
     serviceId,
@@ -211,13 +213,14 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
 
     return (
       <BaseConversationListItem
-        acceptedMessageRequest={acceptedMessageRequest}
+        avatarPlaceholderGradient={avatarPlaceholderGradient}
         avatarUrl={avatarUrl}
         badge={badge}
         buttonAriaLabel={buttonAriaLabel}
         color={color}
         conversationType={type}
         groupId={groupId}
+        hasAvatar={hasAvatar}
         headerDate={lastUpdated}
         headerName={headerName}
         i18n={i18n}
@@ -237,7 +240,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         title={title}
         unreadCount={unreadCount}
         unreadMentionsCount={unreadMentionsCount}
-        unblurredAvatarUrl={unblurredAvatarUrl}
         serviceId={serviceId}
       />
     );

@@ -90,16 +90,16 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     } = props;
 
     const {
-      acceptedMessageRequest,
+      avatarPlaceholderGradient,
       addedTime,
       avatarUrl,
       color,
       demuxId,
+      hasAvatar,
       hasRemoteAudio,
       hasRemoteVideo,
       isHandRaised,
       isBlocked,
-      isMe,
       mediaKeysReceived,
       profileName,
       sharedGroupNames,
@@ -455,14 +455,14 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       } else {
         noVideoNode = (
           <Avatar
-            acceptedMessageRequest={acceptedMessageRequest}
+            avatarPlaceholderGradient={avatarPlaceholderGradient}
             avatarUrl={avatarUrl}
             badge={undefined}
             color={color || AvatarColors[0]}
             noteToSelf={false}
             conversationType="direct"
+            hasAvatar={hasAvatar}
             i18n={i18n}
-            isMe={isMe}
             profileName={profileName}
             title={title}
             sharedGroupNames={sharedGroupNames}

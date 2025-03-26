@@ -12,6 +12,7 @@ import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
 import { getInitials } from '../util/getInitials';
 import { imagePathToBytes } from '../util/imagePathToBytes';
+import { type ConversationType } from '../state/ducks/conversations';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;
@@ -26,19 +27,22 @@ export type PropsType = {
   onClear?: () => unknown;
   onClick?: () => unknown;
   style?: CSSProperties;
-};
+} & Pick<ConversationType, 'avatarPlaceholderGradient' | 'hasAvatar'>;
 
 enum ImageStatus {
   Nothing = 'nothing',
   Loading = 'loading',
   HasImage = 'has-image',
+  HasPlaceholder = 'has-placeholder',
 }
 
 export function AvatarPreview({
+  avatarPlaceholderGradient,
   avatarColor = AvatarColors[0],
   avatarUrl,
   avatarValue,
   conversationTitle,
+  hasAvatar,
   i18n,
   isEditable,
   isGroup,
@@ -127,6 +131,8 @@ export function AvatarPreview({
   } else if (avatarUrl) {
     encodedPath = avatarUrl;
     imageStatus = ImageStatus.HasImage;
+  } else if (hasAvatar && avatarPlaceholderGradient) {
+    imageStatus = ImageStatus.HasPlaceholder;
   } else {
     imageStatus = ImageStatus.Nothing;
   }
@@ -180,6 +186,22 @@ export function AvatarPreview({
           {content}
           {isEditable && <div className="AvatarPreview__upload" />}
         </div>
+      </div>
+    );
+  }
+
+  if (imageStatus === ImageStatus.HasPlaceholder) {
+    return (
+      <div className="AvatarPreview">
+        <div
+          className="AvatarPreview__avatar"
+          style={{
+            ...componentStyle,
+            backgroundImage: avatarPlaceholderGradient
+              ? `linear-gradient(to bottom, ${avatarPlaceholderGradient[0]}, ${avatarPlaceholderGradient[1]})`
+              : undefined,
+          }}
+        />
       </div>
     );
   }

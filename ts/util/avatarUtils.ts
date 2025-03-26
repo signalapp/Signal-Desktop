@@ -7,6 +7,14 @@ import { isMe } from './whatTypeOfConversation';
 import { isSignalConversation } from './isSignalConversation';
 import { getLocalAttachmentUrl } from './getLocalAttachmentUrl';
 
+export function hasAvatar(
+  conversationAttrs: ConversationAttributesType
+): boolean {
+  return Boolean(
+    getAvatar(conversationAttrs) || conversationAttrs.remoteAvatarUrl
+  );
+}
+
 export function getAvatarHash(
   conversationAttrs: ConversationAttributesType
 ): undefined | string {
@@ -64,30 +72,4 @@ export function getLocalProfileAvatarUrl(
 ): string | undefined {
   const avatar = conversationAttrs.profileAvatar || conversationAttrs.avatar;
   return avatar?.path ? getLocalAttachmentUrl(avatar) : undefined;
-}
-
-export function getLocalUnblurredAvatarUrl(
-  conversationAttrs: ConversationAttributesType
-): string | undefined {
-  const { unblurredAvatarPath, unblurredAvatarUrl } = conversationAttrs;
-  if (unblurredAvatarUrl != null) {
-    return unblurredAvatarUrl;
-  }
-
-  if (unblurredAvatarPath == null) {
-    return undefined;
-  }
-
-  // Compatibility mode
-  const avatar = getAvatar(conversationAttrs);
-
-  // Since we use `unblurredAvatarUrl` only for equality checks - if the path
-  // is the same - return equivalent url
-  if (avatar?.path === unblurredAvatarPath) {
-    return getLocalAvatarUrl(conversationAttrs);
-  }
-
-  // Otherwise generate some valid url, but it will never be the same because of
-  // absent "size".
-  return getLocalAttachmentUrl({ path: unblurredAvatarPath });
 }

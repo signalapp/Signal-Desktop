@@ -415,7 +415,12 @@ export async function joinViaLink(value: string): Promise<void> {
       secretParams,
     };
     try {
-      const patch = await applyNewAvatar(result.avatar, attributes, logId);
+      const patch = await applyNewAvatar({
+        newAvatarUrl: result.avatar,
+        attributes,
+        logId,
+        forceDownload: true,
+      });
       attributes = { ...attributes, ...patch };
 
       if (attributes.avatar && attributes.avatar.path) {

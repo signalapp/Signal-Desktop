@@ -34,7 +34,6 @@ import {
   getAvatar,
   getRawAvatarPath,
   getLocalAvatarUrl,
-  getLocalProfileAvatarUrl,
 } from '../util/avatarUtils';
 import { getDraftPreview } from '../util/getDraftPreview';
 import { hasDraft } from '../util/hasDraft';
@@ -192,6 +191,7 @@ import { getIsInitialContactSync } from '../services/contactSync';
 import { queueAttachmentDownloadsForMessage } from '../util/queueAttachmentDownloads';
 import { cleanupMessages } from '../util/cleanup';
 import { MessageModel } from './messages';
+import { applyNewAvatar } from '../groups';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -2485,6 +2485,25 @@ export class ConversationModel extends window.Backbone
         //   time to go through old messages to download attachments.
         if (didResponseChange && !wasPreviouslyAccepted) {
           await this.handleReadAndDownloadAttachments({ isLocalAction });
+          if (this.attributes.remoteAvatarUrl) {
+            if (isDirectConversation(this.attributes)) {
+              drop(
+                this.setAndMaybeFetchProfileAvatar({
+                  avatarUrl: this.attributes.remoteAvatarUrl,
+                })
+              );
+            }
+
+            if (isGroup(this.attributes)) {
+              const updateAttrs = await applyNewAvatar({
+                newAvatarUrl: this.attributes.remoteAvatarUrl,
+                attributes: this.attributes,
+                logId: 'applyMessageRequestResponse',
+                forceDownload: true,
+              });
+              this.set(updateAttrs);
+            }
+          }
         }
 
         if (isLocalAction) {
@@ -4922,10 +4941,12 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async setAndMaybeFetchProfileAvatar(
-    avatarUrl: undefined | null | string,
-    decryptionKey: Uint8Array
-  ): Promise<void> {
+  async setAndMaybeFetchProfileAvatar(options: {
+    avatarUrl: undefined | null | string;
+    decryptionKey?: Uint8Array | null | undefined;
+    forceFetch?: boolean;
+  }): Promise<void> {
+    const { avatarUrl, decryptionKey, forceFetch } = options;
     if (isMe(this.attributes)) {
       if (avatarUrl) {
         await window.storage.put('avatarUrl', avatarUrl);
@@ -4944,10 +4965,28 @@ export class ConversationModel extends window.Backbone
       throw new Error('setProfileAvatar: Cannot fetch avatar when offline!');
     }
 
+    if (!this.getAccepted({ ignoreEmptyConvo: true }) && !forceFetch) {
+      this.set({ remoteAvatarUrl: avatarUrl });
+      return;
+    }
+
     const avatar = await messaging.getAvatar(avatarUrl);
 
+    // If decryptionKey isn't provided, use the one from the model
+    const modelProfileKey = this.get('profileKey');
+    const updatedDecryptionKey =
+      decryptionKey ||
+      (modelProfileKey ? Bytes.fromBase64(modelProfileKey) : null);
+
+    if (!updatedDecryptionKey) {
+      log.warn(
+        'setAndMaybeFetchProfileAvatar: No decryption key provided and none found on model'
+      );
+      return;
+    }
+
     // decrypt
-    const decrypted = decryptProfile(avatar, decryptionKey);
+    const decrypted = decryptProfile(avatar, updatedDecryptionKey);
 
     // update the conversation avatar only if hash differs
     if (decrypted) {
@@ -5301,15 +5340,6 @@ export class ConversationModel extends window.Backbone
       customColor: this.get('customColor'),
       customColorId: this.get('customColorId'),
     };
-  }
-
-  unblurAvatar(): void {
-    const avatarUrl = getLocalProfileAvatarUrl(this.attributes);
-    if (avatarUrl) {
-      this.set('unblurredAvatarUrl', avatarUrl);
-    } else {
-      this.unset('unblurredAvatarUrl');
-    }
   }
 
   areWeAdmin(): boolean {

@@ -411,10 +411,11 @@ export function ChooseGroupMembersModal({
             {selectedContacts.map(contact => (
               <ContactPill
                 key={contact.id}
-                acceptedMessageRequest={contact.acceptedMessageRequest}
+                avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
                 avatarUrl={contact.avatarUrl}
                 color={contact.color}
                 firstName={contact.systemGivenName ?? contact.firstName}
+                hasAvatar={contact.hasAvatar}
                 i18n={i18n}
                 isMe={contact.isMe}
                 id={contact.id}

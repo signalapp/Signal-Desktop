@@ -670,6 +670,34 @@ export function constantTimeEqual(
   return crypto.constantTimeEqual(left, right);
 }
 
+export function getIdentifierHash({
+  aci,
+  e164,
+  pni,
+  groupId,
+}: {
+  aci: AciString | undefined;
+  e164: string | undefined;
+  pni: PniString | undefined;
+  groupId: string | undefined;
+}): number | null {
+  let identifier: Uint8Array;
+  if (aci != null) {
+    identifier = Aci.parseFromServiceIdString(aci).getServiceIdBinary();
+  } else if (e164 != null) {
+    identifier = Bytes.fromString(e164);
+  } else if (pni != null) {
+    identifier = Pni.parseFromServiceIdString(pni).getServiceIdBinary();
+  } else if (groupId != null) {
+    identifier = Bytes.fromBase64(groupId);
+  } else {
+    return null;
+  }
+
+  const digest = hash(HashType.size256, identifier);
+  return digest[0];
+}
+
 export function generateAvatarColor({
   aci,
   e164,
@@ -681,19 +709,11 @@ export function generateAvatarColor({
   pni: PniString | undefined;
   groupId: string | undefined;
 }): string {
-  let identifier: Uint8Array;
-  if (aci != null) {
-    identifier = Aci.parseFromServiceIdString(aci).getServiceIdBinary();
-  } else if (e164 != null) {
-    identifier = Bytes.fromString(e164);
-  } else if (pni != null) {
-    identifier = Pni.parseFromServiceIdString(pni).getServiceIdBinary();
-  } else if (groupId != null) {
-    identifier = Bytes.fromBase64(groupId);
-  } else {
+  const hashValue = getIdentifierHash({ aci, e164, pni, groupId });
+
+  if (hashValue == null) {
     return sample(AvatarColors) || AvatarColors[0];
   }
 
-  const digest = hash(HashType.size256, identifier);
-  return AvatarColors[digest[0] % AVATAR_COLOR_COUNT];
+  return AvatarColors[hashValue % AVATAR_COLOR_COUNT];
 }

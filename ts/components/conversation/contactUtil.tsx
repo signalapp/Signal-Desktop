@@ -34,14 +34,12 @@ export function renderAvatar({
 
   const renderAttachmentDownloaded = () => (
     <Avatar
-      acceptedMessageRequest={false}
       avatarUrl={avatarUrl}
       badge={undefined}
       blur={AvatarBlur.NoBlur}
       color={AvatarColors[0]}
       conversationType="direct"
       i18n={i18n}
-      isMe
       title={title}
       sharedGroupNames={[]}
       size={size}

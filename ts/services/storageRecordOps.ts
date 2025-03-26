@@ -1743,7 +1743,10 @@ export async function mergeAccountRecord(
     );
 
     const avatarUrl = dropNull(accountRecord.avatarUrl);
-    await conversation.setAndMaybeFetchProfileAvatar(avatarUrl, profileKey);
+    await conversation.setAndMaybeFetchProfileAvatar({
+      avatarUrl,
+      decryptionKey: profileKey,
+    });
     await window.storage.put('avatarUrl', avatarUrl);
   }
 

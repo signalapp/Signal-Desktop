@@ -334,8 +334,6 @@ const actions = () => ({
   closeContactSpoofingReview: action('closeContactSpoofingReview'),
   reviewConversationNameCollision: action('reviewConversationNameCollision'),
 
-  unblurAvatar: action('unblurAvatar'),
-
   peekGroupCallForTheFirstTime: action('peekGroupCallForTheFirstTime'),
   peekGroupCallIfItHasMembers: action('peekGroupCallIfItHasMembers'),
 
@@ -346,6 +344,8 @@ const actions = () => ({
   onOpenMessageRequestActionsConfirmation: action(
     'onOpenMessageRequestActionsConfirmation'
   ),
+
+  startAvatarDownload: action('startAvatarDownload'),
 });
 
 const renderItem = ({
@@ -416,7 +416,8 @@ const renderHeroRow = () => {
         sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
         theme={theme}
         title={getTitle()}
-        unblurAvatar={action('unblurAvatar')}
+        startAvatarDownload={action('startAvatarDownload')}
+        pendingAvatarDownload={false}
         updateSharedGroups={noop}
         viewUserStories={action('viewUserStories')}
         toggleAboutContactModal={action('toggleAboutContactModal')}

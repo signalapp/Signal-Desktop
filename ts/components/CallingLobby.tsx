@@ -35,9 +35,11 @@ export type PropsType = {
   callMode: CallMode;
   conversation: Pick<
     CallingConversationType,
+    | 'avatarPlaceholderGradient'
     | 'acceptedMessageRequest'
     | 'avatarUrl'
     | 'color'
+    | 'hasAvatar'
     | 'isMe'
     | 'memberships'
     | 'name'
@@ -48,7 +50,6 @@ export type PropsType = {
     | 'systemNickname'
     | 'title'
     | 'type'
-    | 'unblurredAvatarUrl'
   >;
   getIsSharingPhoneNumberWithEverybody: () => boolean;
   groupMembers?: Array<

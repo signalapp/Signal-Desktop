@@ -166,11 +166,13 @@ export function getStoryView(
   const sender = pick(
     conversationSelector(story.sourceServiceId || story.source),
     [
+      'avatarPlaceholderGradient',
       'acceptedMessageRequest',
       'avatarUrl',
       'badges',
       'color',
       'firstName',
+      'hasAvatar',
       'hideStory',
       'id',
       'isMe',

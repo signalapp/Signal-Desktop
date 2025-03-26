@@ -279,18 +279,19 @@ export type PropsData = {
   contact?: ReadonlyDeep<EmbeddedContactForUIType>;
   author: Pick<
     ConversationType,
+    | 'avatarPlaceholderGradient'
     | 'acceptedMessageRequest'
     | 'avatarUrl'
     | 'badges'
     | 'color'
     | 'firstName'
+    | 'hasAvatar'
     | 'id'
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
     | 'title'
-    | 'unblurredAvatarUrl'
   >;
   conversationType: ConversationTypeType;
   attachments?: ReadonlyArray<AttachmentForUIType>;
@@ -1578,12 +1579,10 @@ export class Message extends React.PureComponent<Props, State> {
           {first.isCallLink && (
             <div className="module-message__link-preview__call-link-icon">
               <Avatar
-                acceptedMessageRequest
                 badge={undefined}
                 color={getColorForCallLink(getKeyFromCallLink(first.url))}
                 conversationType="callLink"
                 i18n={i18n}
-                isMe={false}
                 sharedGroupNames={[]}
                 size={64}
                 title={title ?? i18n('icu:calling__call-link-default-title')}
@@ -2173,13 +2172,11 @@ export class Message extends React.PureComponent<Props, State> {
           <AvatarSpacer size={GROUP_AVATAR_SIZE} />
         ) : (
           <Avatar
-            acceptedMessageRequest={author.acceptedMessageRequest}
             avatarUrl={author.avatarUrl}
             badge={getPreferredBadge(author.badges)}
             color={author.color}
             conversationType="direct"
             i18n={i18n}
-            isMe={author.isMe}
             onClick={event => {
               event.stopPropagation();
               event.preventDefault();
@@ -2192,7 +2189,6 @@ export class Message extends React.PureComponent<Props, State> {
             size={GROUP_AVATAR_SIZE}
             theme={theme}
             title={author.title}
-            unblurredAvatarUrl={author.unblurredAvatarUrl}
           />
         )}
       </div>

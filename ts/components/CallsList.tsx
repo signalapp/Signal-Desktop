@@ -900,12 +900,14 @@ export function CallsList({
             aria-selected={isSelected}
             leading={
               <Avatar
-                acceptedMessageRequest
+                avatarPlaceholderGradient={
+                  conversation.avatarPlaceholderGradient
+                }
                 avatarUrl={conversation.avatarUrl}
                 color={conversation.color}
                 conversationType={conversation.type}
+                hasAvatar={conversation.hasAvatar}
                 i18n={i18n}
-                isMe={false}
                 title={conversation.title}
                 sharedGroupNames={[]}
                 size={AvatarSize.THIRTY_SIX}

@@ -82,11 +82,13 @@ export type StoryViewType = {
   readAt?: number;
   sender: Pick<
     ConversationType,
+    | 'avatarPlaceholderGradient'
     | 'acceptedMessageRequest'
     | 'avatarUrl'
     | 'badges'
     | 'color'
     | 'firstName'
+    | 'hasAvatar'
     | 'hideStory'
     | 'id'
     | 'isMe'

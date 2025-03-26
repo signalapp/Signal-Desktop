@@ -94,8 +94,10 @@ export type StateProps = {
   maxRecommendedGroupSize: number;
   memberships: ReadonlyArray<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
+  pendingAvatarDownload?: boolean;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   selectedNavTab: NavTab;
+  startAvatarDownload: () => void;
   theme: ThemeType;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   renderChooseGroupMembersModal: (
@@ -197,6 +199,7 @@ export function ConversationDetails({
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   pendingApprovalMemberships,
+  pendingAvatarDownload,
   pendingMemberships,
   pushPanelForConversation,
   renderChooseGroupMembersModal,
@@ -210,6 +213,7 @@ export function ConversationDetails({
   showContactModal,
   showConversation,
   showLightbox,
+  startAvatarDownload,
   theme,
   toggleAboutContactModal,
   toggleSafetyNumberModal,
@@ -410,6 +414,8 @@ export function ConversationDetails({
         isGroup={isGroup}
         isSignalConversation={isSignalConversation}
         membersCount={conversation.membersCount ?? null}
+        pendingAvatarDownload={pendingAvatarDownload ?? false}
+        startAvatarDownload={startAvatarDownload}
         startEditing={(isGroupTitle: boolean) => {
           setModalState(
             isGroupTitle

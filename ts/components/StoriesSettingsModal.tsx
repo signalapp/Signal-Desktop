@@ -160,13 +160,12 @@ function DistributionListItem({
       <span className="StoriesSettingsModal__list__left">
         {isMyStory ? (
           <Avatar
-            acceptedMessageRequest={me.acceptedMessageRequest}
+            avatarPlaceholderGradient={me.avatarPlaceholderGradient}
             avatarUrl={me.avatarUrl}
             badge={undefined}
             color={me.color}
             conversationType={me.type}
             i18n={i18n}
-            isMe
             sharedGroupNames={me.sharedGroupNames}
             size={AvatarSize.THIRTY_TWO}
             title={me.title}
@@ -214,13 +213,12 @@ function GroupStoryItem({
     >
       <span className="StoriesSettingsModal__list__left">
         <Avatar
-          acceptedMessageRequest={groupStory.acceptedMessageRequest}
+          avatarPlaceholderGradient={groupStory.avatarPlaceholderGradient}
           avatarUrl={groupStory.avatarUrl}
           badge={undefined}
           color={groupStory.color}
           conversationType={groupStory.type}
           i18n={i18n}
-          isMe={false}
           sharedGroupNames={[]}
           size={AvatarSize.THIRTY_TWO}
           title={groupStory.title}
@@ -675,13 +673,12 @@ export function DistributionListSettingsModal({
             >
               <span className="StoriesSettingsModal__list__left">
                 <Avatar
-                  acceptedMessageRequest={member.acceptedMessageRequest}
+                  avatarPlaceholderGradient={member.avatarPlaceholderGradient}
                   avatarUrl={member.avatarUrl}
                   badge={getPreferredBadge(member.badges)}
                   color={member.color}
                   conversationType={member.type}
                   i18n={i18n}
-                  isMe
                   sharedGroupNames={member.sharedGroupNames}
                   size={AvatarSize.THIRTY_TWO}
                   theme={theme}
@@ -1094,13 +1091,12 @@ export function EditDistributionListModal({
           >
             <span className="StoriesSettingsModal__list__left">
               <Avatar
-                acceptedMessageRequest={contact.acceptedMessageRequest}
+                avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
                 avatarUrl={contact.avatarUrl}
                 badge={getPreferredBadge(contact.badges)}
                 color={contact.color}
                 conversationType={contact.type}
                 i18n={i18n}
-                isMe
                 sharedGroupNames={contact.sharedGroupNames}
                 size={AvatarSize.THIRTY_TWO}
                 theme={theme}
@@ -1190,10 +1186,10 @@ export function EditDistributionListModal({
           {selectedContacts.map(contact => (
             <ContactPill
               key={contact.id}
-              acceptedMessageRequest={contact.acceptedMessageRequest}
               avatarUrl={contact.avatarUrl}
               color={contact.color}
               firstName={contact.firstName}
+              hasAvatar={contact.hasAvatar}
               i18n={i18n}
               id={contact.id}
               isMe={contact.isMe}
@@ -1287,13 +1283,12 @@ export function GroupStorySettingsModal({
     >
       <div className="GroupStorySettingsModal__header">
         <Avatar
-          acceptedMessageRequest={group.acceptedMessageRequest}
+          avatarPlaceholderGradient={group.avatarPlaceholderGradient}
           avatarUrl={group.avatarUrl}
           badge={undefined}
           color={group.color}
           conversationType={group.type}
           i18n={i18n}
-          isMe={false}
           sharedGroupNames={[]}
           size={AvatarSize.THIRTY_TWO}
           title={group.title}
@@ -1316,13 +1311,12 @@ export function GroupStorySettingsModal({
             className="GroupStorySettingsModal__members_item"
           >
             <Avatar
-              acceptedMessageRequest={member.acceptedMessageRequest}
+              avatarPlaceholderGradient={member.avatarPlaceholderGradient}
               avatarUrl={member.avatarUrl}
               badge={undefined}
               color={member.color}
               conversationType={member.type}
               i18n={i18n}
-              isMe={false}
               sharedGroupNames={[]}
               size={AvatarSize.THIRTY_TWO}
               title={member.title}

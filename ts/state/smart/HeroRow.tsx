@@ -8,7 +8,10 @@ import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
 import { getHasStoriesSelector } from '../selectors/stories2';
 import { isSignalConversation } from '../../util/isSignalConversation';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  getPendingAvatarDownloadSelector,
+} from '../selectors/conversations';
 import {
   type ConversationType,
   useConversationsActions,
@@ -46,6 +49,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
   const conversationSelector = useSelector(getConversationSelector);
+  const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
   const conversation = conversationSelector(id);
   if (conversation == null) {
     throw new Error(`Did not find conversation ${id} in state!`);
@@ -55,7 +59,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const isSignalConversationValue = isSignalConversation(conversation);
   const fromOrAddedByTrustedContact =
     isFromOrAddedByTrustedContact(conversation);
-  const { pushPanelForConversation, unblurAvatar, updateSharedGroups } =
+  const { pushPanelForConversation, startAvatarDownload, updateSharedGroups } =
     useConversationsActions();
   const { toggleAboutContactModal, toggleProfileNameWarningModal } =
     useGlobalModalActions();
@@ -64,10 +68,12 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   }, [pushPanelForConversation]);
   const { viewUserStories } = useStoriesActions();
   const {
+    avatarPlaceholderGradient,
     about,
     acceptedMessageRequest,
     avatarUrl,
     groupDescription,
+    hasAvatar,
     isMe,
     membersCount,
     nicknameGivenName,
@@ -77,7 +83,6 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     sharedGroupNames,
     title,
     type,
-    unblurredAvatarUrl,
   } = conversation;
 
   const isDirectConvoAndHasNickname =
@@ -85,6 +90,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
 
   return (
     <ConversationHero
+      avatarPlaceholderGradient={avatarPlaceholderGradient}
       about={about}
       acceptedMessageRequest={acceptedMessageRequest}
       avatarUrl={avatarUrl}
@@ -92,6 +98,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
       conversationType={type}
       fromOrAddedByTrustedContact={fromOrAddedByTrustedContact}
       groupDescription={groupDescription}
+      hasAvatar={hasAvatar}
       hasStories={hasStories}
       i18n={i18n}
       id={id}
@@ -100,15 +107,15 @@ export const SmartHeroRow = memo(function SmartHeroRow({
       isSignalConversation={isSignalConversationValue}
       membersCount={membersCount}
       openConversationDetails={openConversationDetails}
+      pendingAvatarDownload={isPendingAvatarDownload(id)}
       phoneNumber={phoneNumber}
       profileName={profileName}
       sharedGroupNames={sharedGroupNames}
+      startAvatarDownload={() => startAvatarDownload(id)}
       theme={theme}
       title={title}
       toggleAboutContactModal={toggleAboutContactModal}
       toggleProfileNameWarningModal={toggleProfileNameWarningModal}
-      unblurAvatar={unblurAvatar}
-      unblurredAvatarUrl={unblurredAvatarUrl}
       updateSharedGroups={updateSharedGroups}
       viewUserStories={viewUserStories}
     />

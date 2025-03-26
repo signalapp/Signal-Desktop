@@ -201,7 +201,6 @@ export function StoryViewer({
     timestamp,
   } = story;
   const {
-    acceptedMessageRequest,
     avatarUrl,
     color,
     isMe,
@@ -737,13 +736,11 @@ export function StoryViewer({
             <div className="StoryViewer__meta__playback-bar">
               <div className="StoryViewer__meta__playback-bar__container">
                 <Avatar
-                  acceptedMessageRequest={acceptedMessageRequest}
                   avatarUrl={avatarUrl}
                   badge={undefined}
                   color={getAvatarColor(color)}
                   conversationType="direct"
                   i18n={i18n}
-                  isMe={Boolean(isMe)}
                   profileName={profileName}
                   sharedGroupNames={sharedGroupNames}
                   size={AvatarSize.TWENTY_EIGHT}
@@ -751,14 +748,12 @@ export function StoryViewer({
                 />
                 {group && (
                   <Avatar
-                    acceptedMessageRequest={group.acceptedMessageRequest}
                     avatarUrl={group.avatarUrl}
                     badge={undefined}
                     className="StoryViewer__meta--group-avatar"
                     color={getAvatarColor(group.color)}
                     conversationType="group"
                     i18n={i18n}
-                    isMe={false}
                     profileName={group.profileName}
                     sharedGroupNames={group.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}

@@ -557,13 +557,14 @@ export function SendStoryModal({
                     htmlFor={id}
                   >
                     <Avatar
-                      acceptedMessageRequest={group.acceptedMessageRequest}
+                      avatarPlaceholderGradient={
+                        group.avatarPlaceholderGradient
+                      }
                       avatarUrl={group.avatarUrl}
                       badge={undefined}
                       color={group.color}
                       conversationType={group.type}
                       i18n={i18n}
-                      isMe={false}
                       sharedGroupNames={[]}
                       size={AvatarSize.THIRTY_TWO}
                       title={group.title}
@@ -707,13 +708,11 @@ export function SendStoryModal({
               >
                 {list.id === MY_STORY_ID ? (
                   <Avatar
-                    acceptedMessageRequest={me.acceptedMessageRequest}
                     avatarUrl={me.avatarUrl}
                     badge={undefined}
                     color={me.color}
                     conversationType={me.type}
                     i18n={i18n}
-                    isMe
                     sharedGroupNames={me.sharedGroupNames}
                     size={AvatarSize.THIRTY_TWO}
                     storyRing={undefined}
@@ -822,13 +821,11 @@ export function SendStoryModal({
                 htmlFor={id}
               >
                 <Avatar
-                  acceptedMessageRequest={group.acceptedMessageRequest}
                   avatarUrl={group.avatarUrl}
                   badge={undefined}
                   color={group.color}
                   conversationType={group.type}
                   i18n={i18n}
-                  isMe={false}
                   sharedGroupNames={[]}
                   size={AvatarSize.THIRTY_TWO}
                   storyRing={group.hasStories}

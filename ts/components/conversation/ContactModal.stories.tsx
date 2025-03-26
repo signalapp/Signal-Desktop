@@ -53,6 +53,7 @@ export default {
     ),
     removeMemberFromGroup: action('removeMemberFromGroup'),
     showConversation: action('showConversation'),
+    startAvatarDownload: action('startAvatarDownload'),
     theme: ThemeType.light,
     toggleAboutContactModal: action('AboutContactModal'),
     toggleAdmin: action('toggleAdmin'),

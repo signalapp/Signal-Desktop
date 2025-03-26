@@ -1339,3 +1339,14 @@ export const getPreloadedConversationId = createSelector(
   getConversations,
   ({ preloadData }): string | undefined => preloadData?.conversationId
 );
+
+export const getPendingAvatarDownloadSelector = createSelector(
+  getConversations,
+  (conversations: ConversationsStateType) => {
+    return (conversationId: string): boolean => {
+      return Boolean(
+        conversations.pendingRequestedAvatarDownload[conversationId]
+      );
+    };
+  }
+);

@@ -1,11 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode, useCallback, useEffect } from 'react';
+import React, { type ReactNode, useCallback, useEffect, useMemo } from 'react';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
-import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar';
 import { Modal } from '../Modal';
 import { UserText } from '../UserText';
@@ -28,11 +27,12 @@ export type PropsType = Readonly<{
   conversation: ConversationType;
   fromOrAddedByTrustedContact?: boolean;
   isSignalConnection: boolean;
+  pendingAvatarDownload?: boolean;
+  startAvatarDownload?: (id: string) => unknown;
   toggleSignalConnectionsModal: () => void;
   toggleSafetyNumberModal: (id: string) => void;
   toggleProfileNameWarningModal: () => void;
   updateSharedGroups: (id: string) => void;
-  unblurAvatar: (conversationId: string) => void;
 }>;
 
 export function AboutContactModal({
@@ -40,30 +40,44 @@ export function AboutContactModal({
   conversation,
   fromOrAddedByTrustedContact,
   isSignalConnection,
+  pendingAvatarDownload,
+  startAvatarDownload,
   toggleSignalConnectionsModal,
   toggleSafetyNumberModal,
   toggleProfileNameWarningModal,
   updateSharedGroups,
-  unblurAvatar,
   onClose,
   onOpenNotePreviewModal,
 }: PropsType): JSX.Element {
-  const { isMe } = conversation;
+  const { avatarUrl, hasAvatar, isMe } = conversation;
 
   useEffect(() => {
     // Kick off the expensive hydration of the current sharedGroupNames
     updateSharedGroups(conversation.id);
   }, [conversation.id, updateSharedGroups]);
 
-  const avatarBlur = shouldBlurAvatar(conversation)
+  // If hasAvatar is true, we show the download button instead of blur
+  const enableClickToLoad = !avatarUrl && !isMe && hasAvatar;
+
+  const avatarBlur = enableClickToLoad
     ? AvatarBlur.BlurPictureWithClickToView
     : AvatarBlur.NoBlur;
 
-  const onAvatarClick = useCallback(() => {
-    if (avatarBlur === AvatarBlur.BlurPictureWithClickToView) {
-      unblurAvatar(conversation.id);
+  const avatarOnClick = useMemo(() => {
+    if (!enableClickToLoad) {
+      return undefined;
     }
-  }, [avatarBlur, unblurAvatar, conversation.id]);
+    return () => {
+      if (!pendingAvatarDownload && startAvatarDownload) {
+        startAvatarDownload(conversation.id);
+      }
+    };
+  }, [
+    conversation.id,
+    startAvatarDownload,
+    enableClickToLoad,
+    pendingAvatarDownload,
+  ]);
 
   const onSignalConnectionClick = useCallback(
     (ev: React.MouseEvent) => {
@@ -131,20 +145,20 @@ export function AboutContactModal({
     >
       <div className="AboutContactModal__row AboutContactModal__row--centered">
         <Avatar
-          acceptedMessageRequest={conversation.acceptedMessageRequest}
+          avatarPlaceholderGradient={conversation.avatarPlaceholderGradient}
           avatarUrl={conversation.avatarUrl}
           blur={avatarBlur}
-          onClick={avatarBlur === AvatarBlur.NoBlur ? undefined : onAvatarClick}
+          onClick={avatarOnClick}
           badge={undefined}
           color={conversation.color}
           conversationType="direct"
+          hasAvatar={conversation.hasAvatar}
           i18n={i18n}
-          isMe={conversation.isMe}
+          loading={pendingAvatarDownload && !conversation.avatarUrl}
           profileName={conversation.profileName}
           sharedGroupNames={[]}
           size={AvatarSize.TWO_HUNDRED_SIXTEEN}
           title={conversation.title}
-          unblurredAvatarUrl={conversation.unblurredAvatarUrl}
         />
       </div>
 

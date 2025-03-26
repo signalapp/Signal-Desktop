@@ -257,13 +257,11 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
             >
               <div className="module-reaction-viewer__body__row__avatar">
                 <Avatar
-                  acceptedMessageRequest={from.acceptedMessageRequest}
                   avatarUrl={from.avatarUrl}
                   badge={getPreferredBadge(from.badges)}
                   conversationType="direct"
                   sharedGroupNames={from.sharedGroupNames}
                   size={32}
-                  isMe={from.isMe}
                   color={from.color}
                   profileName={from.profileName}
                   phoneNumber={from.phoneNumber}

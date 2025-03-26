@@ -233,6 +233,8 @@ export type StorageAccessType = {
 
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
 
+  avatarsHaveBeenMigrated: boolean;
+
   // Deprecated
   'challenge:retry-message-ids': never;
   nextSignedKeyRotationTime: number;

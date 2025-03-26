@@ -882,19 +882,18 @@ function LightboxHeader({
     <div className="Lightbox__header--container">
       <div className="Lightbox__header--avatar">
         <Avatar
-          acceptedMessageRequest={conversation.acceptedMessageRequest}
+          avatarPlaceholderGradient={conversation.avatarPlaceholderGradient}
           avatarUrl={conversation.avatarUrl}
           badge={undefined}
           color={conversation.color}
           conversationType={conversation.type}
+          hasAvatar={conversation.hasAvatar}
           i18n={i18n}
-          isMe={conversation.isMe}
           phoneNumber={conversation.e164}
           profileName={conversation.profileName}
           sharedGroupNames={conversation.sharedGroupNames}
           size={AvatarSize.THIRTY_TWO}
           title={conversation.title}
-          unblurredAvatarUrl={conversation.unblurredAvatarUrl}
         />
       </div>
       <div className="Lightbox__header--content">

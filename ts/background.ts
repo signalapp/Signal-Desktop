@@ -1445,6 +1445,10 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v5.31.0')) {
         window.ConversationController.repairPinnedConversations();
       }
+
+      if (!window.storage.get('avatarsHaveBeenMigrated', false)) {
+        window.ConversationController.migrateAvatarsForNonAcceptedConversations();
+      }
     }
 
     void badgeImageFileDownloader.checkForFilesToDownload();

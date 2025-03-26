@@ -784,10 +784,10 @@ async function doGetProfile(
   try {
     if (requestDecryptionKey != null) {
       // Note: Fetches avatar
-      await c.setAndMaybeFetchProfileAvatar(
-        profile.avatar,
-        requestDecryptionKey
-      );
+      await c.setAndMaybeFetchProfileAvatar({
+        avatarUrl: profile.avatar,
+        decryptionKey: requestDecryptionKey,
+      });
     }
   } catch (error) {
     if (error instanceof HTTPError) {

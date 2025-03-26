@@ -66,12 +66,10 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
 
     const avatar = (
       <Avatar
-        acceptedMessageRequest={false}
         color={AvatarColors[0]}
         conversationType="direct"
         searchResult
         i18n={i18n}
-        isMe={false}
         title={title}
         sharedGroupNames={[]}
         size={AvatarSize.THIRTY_TWO}

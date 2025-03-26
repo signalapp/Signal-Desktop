@@ -43,6 +43,8 @@ function Wrapper(overrideProps: Partial<Props>) {
       isGroup
       isMe={false}
       isSignalConversation={false}
+      pendingAvatarDownload={false}
+      startAvatarDownload={action('startAvatarDownload')}
       theme={theme}
       toggleAboutContactModal={action('toggleAboutContactModal')}
       {...overrideProps}

@@ -460,13 +460,17 @@ function HeaderContent({
   const avatar = (
     <span className="module-ConversationHeader__header__avatar">
       <Avatar
-        acceptedMessageRequest={conversation.acceptedMessageRequest}
+        avatarPlaceholderGradient={
+          conversation.gradientStart && conversation.gradientEnd
+            ? [conversation.gradientStart, conversation.gradientEnd]
+            : undefined
+        }
         avatarUrl={conversation.avatarUrl ?? undefined}
         badge={badge ?? undefined}
         color={conversation.color ?? undefined}
         conversationType={conversation.type}
+        hasAvatar={conversation.hasAvatar}
         i18n={i18n}
-        isMe={conversation.isMe}
         noteToSelf={conversation.isMe}
         onClick={hasStories ? onViewUserStories : onClick}
         phoneNumber={conversation.phoneNumber ?? undefined}
@@ -477,7 +481,6 @@ function HeaderContent({
         storyRing={conversation.isMe ? undefined : (hasStories ?? undefined)}
         theme={theme}
         title={conversation.title}
-        unblurredAvatarUrl={conversation.unblurredAvatarUrl ?? undefined}
       />
     </span>
   );

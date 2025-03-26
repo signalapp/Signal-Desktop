@@ -214,11 +214,12 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
           <ContactPills>
             {this.#selectedContacts.map(contact => (
               <ContactPill
+                avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
                 key={contact.id}
-                acceptedMessageRequest={contact.acceptedMessageRequest}
                 avatarUrl={contact.avatarUrl}
                 color={contact.color}
                 firstName={contact.systemGivenName ?? contact.firstName}
+                hasAvatar={contact.hasAvatar}
                 i18n={i18n}
                 id={contact.id}
                 isMe={contact.isMe}

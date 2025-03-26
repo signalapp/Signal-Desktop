@@ -25,8 +25,8 @@ import { assertDev } from '../util/assert';
 import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath';
 import { getInitials } from '../util/getInitials';
 import { isBadgeVisible } from '../badges/isBadgeVisible';
-import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
 import { SIGNAL_AVATAR_PATH } from '../types/SignalConversation';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient';
 
 export enum AvatarBlur {
   NoBlur,
@@ -54,20 +54,18 @@ type BadgePlacementType = { bottom: number; right: number };
 
 export type Props = {
   avatarUrl?: string;
+  avatarPlaceholderGradient?: Readonly<[string, string]>;
   blur?: AvatarBlur;
   color?: AvatarColorType;
+  hasAvatar?: boolean;
   loading?: boolean;
-
-  acceptedMessageRequest: boolean;
   conversationType: 'group' | 'direct' | 'callLink';
-  isMe: boolean;
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
   sharedGroupNames: ReadonlyArray<string>;
   size: AvatarSize;
   title: string;
-  unblurredAvatarUrl?: string;
   searchResult?: boolean;
   storyRing?: HasStories;
 
@@ -100,39 +98,26 @@ const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
   [112, { bottom: -4, right: 3 }],
 ]);
 
-const getDefaultBlur = (
-  ...args: Parameters<typeof shouldBlurAvatar>
-): AvatarBlur =>
-  shouldBlurAvatar(...args) ? AvatarBlur.BlurPicture : AvatarBlur.NoBlur;
-
 export function Avatar({
-  acceptedMessageRequest,
   avatarUrl,
+  avatarPlaceholderGradient = getAvatarPlaceholderGradient(0),
   badge,
   className,
   color = 'A200',
   conversationType,
+  hasAvatar,
   i18n,
-  isMe,
   innerRef,
   loading,
   noteToSelf,
   onClick,
   onClickBadge,
-  sharedGroupNames,
   size,
   theme,
   title,
-  unblurredAvatarUrl,
   searchResult,
   storyRing,
-  blur = getDefaultBlur({
-    acceptedMessageRequest,
-    avatarUrl,
-    isMe,
-    sharedGroupNames,
-    unblurredAvatarUrl,
-  }),
+  blur = AvatarBlur.NoBlur,
   ...ariaProps
 }: Props): JSX.Element {
   const [imageBroken, setImageBroken] = useState(false);
@@ -197,6 +182,20 @@ export function Avatar({
           style={{
             backgroundImage: `url('${avatarUrl}')`,
             ...(isBlurred ? { filter: `blur(${Math.ceil(size / 2)}px)` } : {}),
+          }}
+        />
+        {blur === AvatarBlur.BlurPictureWithClickToView && (
+          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
+        )}
+      </>
+    );
+  } else if (hasAvatar && !hasImage) {
+    contentsChildren = (
+      <>
+        <div
+          className="module-Avatar__image"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, ${avatarPlaceholderGradient[0]}, ${avatarPlaceholderGradient[1]})`,
           }}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (

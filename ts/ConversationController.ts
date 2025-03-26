@@ -21,7 +21,7 @@ import { getAuthorId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assertDev, strictAssert } from './util/assert';
 import { drop } from './util/drop';
-import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
+import { isGroup, isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
 import {
   isServiceIdString,
@@ -39,6 +39,8 @@ import * as StorageService from './services/storage';
 import type { ConversationPropsForUnreadStats } from './util/countUnreadStats';
 import { countAllConversationsUnreadStats } from './util/countUnreadStats';
 import { isTestOrMockEnvironment } from './environment';
+import { isConversationAccepted } from './util/isConversationAccepted';
+import { areWePending } from './util/groupMembershipUtils';
 import { conversationJobQueue } from './jobs/conversationJobQueue';
 
 type ConvoMatchType =
@@ -1370,6 +1372,52 @@ export class ConversationController {
 
     this.#_conversationOpenStart.delete(conversationId);
     this.get(conversationId)?.onOpenComplete(loadStart);
+  }
+
+  migrateAvatarsForNonAcceptedConversations(): void {
+    if (window.storage.get('avatarsHaveBeenMigrated')) {
+      return;
+    }
+    const conversations = this.getAll();
+    let numberOfConversationsMigrated = 0;
+    for (const conversation of conversations) {
+      const attrs = conversation.attributes;
+      if (
+        !isConversationAccepted(attrs) ||
+        (isGroup(attrs) && areWePending(attrs))
+      ) {
+        const avatarPath = attrs.avatar?.path;
+        const profileAvatarPath = attrs.profileAvatar?.path;
+
+        if (avatarPath || profileAvatarPath) {
+          drop(
+            (async () => {
+              const { doesAttachmentExist, deleteAttachmentData } =
+                window.Signal.Migrations;
+              if (avatarPath && (await doesAttachmentExist(avatarPath))) {
+                await deleteAttachmentData(avatarPath);
+              }
+
+              if (
+                profileAvatarPath &&
+                (await doesAttachmentExist(profileAvatarPath))
+              ) {
+                await deleteAttachmentData(profileAvatarPath);
+              }
+            })()
+          );
+        }
+
+        conversation.set('avatar', undefined);
+        conversation.set('profileAvatar', undefined);
+        drop(updateConversation(conversation.attributes));
+        numberOfConversationsMigrated += 1;
+      }
+    }
+    log.info(
+      `ConversationController: unset avatars for ${numberOfConversationsMigrated} unaccepted conversations`
+    );
+    drop(window.storage.put('avatarsHaveBeenMigrated', true));
   }
 
   repairPinnedConversations(): void {

@@ -128,8 +128,6 @@ export function CallLinkEditModal({
           color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          acceptedMessageRequest
-          isMe={false}
           sharedGroupNames={[]}
           title={
             callLink.name === ''
