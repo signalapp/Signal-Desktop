@@ -31,6 +31,7 @@ import {
   BackfillFailureModal,
   type DataPropsType as BackfillFailureModalPropsType,
 } from './BackfillFailureModal';
+import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -80,6 +81,9 @@ export type PropsType = {
   // DeleteMessageModal
   deleteMessagesProps: DeleteMessagesPropsType | undefined;
   renderDeleteMessagesModal: () => JSX.Element;
+  // DraftGifMessageSendModal
+  draftGifMessageSendModalProps: SmartDraftGifMessageSendModalProps | null;
+  renderDraftGifMessageSendModal: () => JSX.Element;
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => JSX.Element;
@@ -180,6 +184,9 @@ export function GlobalModalContainer({
   // DeleteMessageModal
   deleteMessagesProps,
   renderDeleteMessagesModal,
+  // DraftGifMessageSendModal
+  draftGifMessageSendModalProps,
+  renderDraftGifMessageSendModal,
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
@@ -298,6 +305,10 @@ export function GlobalModalContainer({
 
   if (deleteMessagesProps) {
     return renderDeleteMessagesModal();
+  }
+
+  if (draftGifMessageSendModalProps) {
+    return renderDraftGifMessageSendModal();
   }
 
   if (messageRequestActionsConfirmationProps) {

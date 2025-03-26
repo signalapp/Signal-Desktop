@@ -68,6 +68,8 @@ import { SearchInput } from './SearchInput';
 import { removeDiacritics } from '../util/removeDiacritics';
 import { assertDev } from '../util/assert';
 import { I18n } from './I18n';
+import { FunSkinTonesList } from './fun/FunSkinTones';
+import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -79,6 +81,7 @@ export type PropsDataType = {
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
+  emojiSkinToneDefault: EmojiSkinTone;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
   hasAutoDownloadUpdate: boolean;
@@ -172,6 +175,7 @@ type PropsFunctionType = {
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onCountMutedConversationsChange: CheckboxChangeHandlerType;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
   onHasStoriesDisabledChanged: SelectChangeHandlerType<boolean>;
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
@@ -264,6 +268,7 @@ export function Preferences({
   doDeleteAllData,
   doneRendering,
   editCustomColor,
+  emojiSkinToneDefault,
   getConversationsWithCustomColor,
   hasAudioNotifications,
   hasAutoConvertEmoji,
@@ -308,6 +313,7 @@ export function Preferences({
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onCountMutedConversationsChange,
+  onEmojiSkinToneDefaultChange,
   onHasStoriesDisabledChanged,
   onHideMenuBarChange,
   onIncomingCallNotificationsChange,
@@ -892,6 +898,20 @@ export function Preferences({
             name="autoConvertEmoji"
             onChange={onAutoConvertEmojiChange}
           />
+          <SettingsRow>
+            <Control
+              left={i18n('icu:Preferences__EmojiSkinToneDefaultSetting__Label')}
+              right={
+                <FunSkinTonesList
+                  i18n={i18n}
+                  // Raised Hand
+                  emoji={emojiParentKeyConstant('\u{270B}')}
+                  skinTone={emojiSkinToneDefault}
+                  onSelectSkinTone={onEmojiSkinToneDefaultChange}
+                />
+              }
+            />
+          </SettingsRow>
         </SettingsRow>
         {isSyncSupported && (
           <SettingsRow>

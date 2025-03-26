@@ -36,6 +36,8 @@ installSetting('typingIndicatorSetting', {
 installCallback('deleteAllMyStories');
 installCallback('isPrimary');
 installCallback('syncRequest');
+installCallback('getEmojiSkinToneDefault');
+installCallback('setEmojiSkinToneDefault');
 
 installSetting('alwaysRelayCalls');
 installSetting('audioMessage');

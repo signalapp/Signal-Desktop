@@ -65,6 +65,8 @@ export class SettingsChannel extends EventEmitter {
     this.#installCallback('getAvailableIODevices');
     this.#installCallback('isPrimary');
     this.#installCallback('syncRequest');
+    this.#installCallback('setEmojiSkinToneDefault');
+    this.#installCallback('getEmojiSkinToneDefault');
 
     // Getters only. These are set by the primary device
     this.#installSetting('blockedCount', { setter: false });

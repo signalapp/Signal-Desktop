@@ -8,9 +8,6 @@
 @use 'global';
 @use 'titlebar';
 
-// Old style: components
-@use 'emoji';
-
 // Old style: modules
 @use 'modules';
 
@@ -97,6 +94,7 @@
 @use 'components/DeleteMessagesModal.scss';
 @use 'components/DisappearingTimeDialog.scss';
 @use 'components/DisappearingTimerSelect.scss';
+@use 'components/DraftGifMessageSendModal.scss';
 @use 'components/EditConversationAttributesModal.scss';
 @use 'components/EditHistoryMessagesModal.scss';
 @use 'components/EditNicknameAndNoteModal.scss';

@@ -2115,6 +2115,27 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/fun/FunGif.tsx",
+    "line": "  const ref = useRef<HTMLVideoElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-03-21T23:22:07.920Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/FunGif.tsx",
+    "line": "  const timerRef = useRef<ReturnType<typeof setTimeout>>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-03-21T23:22:07.920Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/FunGif.tsx",
+    "line": "  const videoRef = useRef<HTMLVideoElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-03-24T18:57:50.198Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/stickers/StickerButton.tsx",
     "line": "    const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",

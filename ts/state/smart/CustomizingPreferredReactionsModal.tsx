@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { usePreferredReactionsActions } from '../ducks/preferredReactions';
 import { useItemsActions } from '../ducks/items';
 import { getIntl } from '../selectors/user';
-import { getEmojiSkinTone } from '../selectors/items';
+import { getEmojiSkinToneDefault } from '../selectors/items';
 import { useRecentEmojis } from '../selectors/emojis';
 import { getCustomizeModalState } from '../selectors/preferredReactions';
 import { CustomizingPreferredReactionsModal } from '../../components/CustomizingPreferredReactionsModal';
@@ -15,7 +15,7 @@ export const SmartCustomizingPreferredReactionsModal = memo(
   function SmartCustomizingPreferredReactionsModal(): JSX.Element {
     const i18n = useSelector(getIntl);
     const customizeModalState = useSelector(getCustomizeModalState);
-    const skinTone = useSelector(getEmojiSkinTone);
+    const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
     const recentEmojis = useRecentEmojis();
 
     const {
@@ -26,7 +26,7 @@ export const SmartCustomizingPreferredReactionsModal = memo(
       savePreferredReactions,
       selectDraftEmojiToBeReplaced,
     } = usePreferredReactionsActions();
-    const { onSetSkinTone } = useItemsActions();
+    const { setEmojiSkinToneDefault } = useItemsActions();
 
     strictAssert(
       customizeModalState != null,
@@ -51,7 +51,7 @@ export const SmartCustomizingPreferredReactionsModal = memo(
         hadSaveError={hadSaveError}
         i18n={i18n}
         isSaving={isSaving}
-        onSetSkinTone={onSetSkinTone}
+        onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
         originalPreferredReactions={originalPreferredReactions}
         recentEmojis={recentEmojis}
         replaceSelectedDraftEmoji={replaceSelectedDraftEmoji}
@@ -59,7 +59,7 @@ export const SmartCustomizingPreferredReactionsModal = memo(
         savePreferredReactions={savePreferredReactions}
         selectDraftEmojiToBeReplaced={selectDraftEmojiToBeReplaced}
         selectedDraftEmojiIndex={selectedDraftEmojiIndex}
-        skinTone={skinTone}
+        emojiSkinToneDefault={emojiSkinToneDefault}
       />
     );
   }

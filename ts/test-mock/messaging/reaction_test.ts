@@ -35,7 +35,9 @@ async function getReactionsForMessage(page: Page, timestamp: number) {
 
     for (const row of reactionRows) {
       // eslint-disable-next-line no-await-in-loop
-      const emoji = await row.locator('img').getAttribute('title');
+      const emoji = await row
+        .locator('.FunStaticEmoji')
+        .getAttribute('data-emoji-value');
       // eslint-disable-next-line no-await-in-loop
       const reactor = await row
         .locator('.module-reaction-viewer__body__row__name')

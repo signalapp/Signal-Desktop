@@ -17,7 +17,6 @@ import { AvatarEditor } from './AvatarEditor';
 import { AvatarPreview } from './AvatarPreview';
 import { Button, ButtonVariant } from './Button';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
-import { Emoji } from './emoji/Emoji';
 import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
 import { EmojiButton, EmojiButtonVariant } from './emoji/EmojiButton';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
@@ -34,7 +33,7 @@ import type { UsernameLinkState } from '../state/ducks/usernameEnums';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
 import { getEmojiData, unifiedToEmoji } from './emoji/lib';
-import { assertDev } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
@@ -48,6 +47,18 @@ import { UserText } from './UserText';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { offsetDistanceModifier } from '../util/popperUtil';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { FunStaticEmoji } from './fun/FunEmoji';
+import type { EmojiSkinTone, EmojiVariantKey } from './fun/data/emojis';
+import {
+  getEmojiParentByKey,
+  getEmojiParentKeyByEnglishShortName,
+  getEmojiParentKeyByVariantKey,
+  getEmojiVariantByKey,
+  getEmojiVariantByParentKeyAndSkinTone,
+  getEmojiVariantKeyByValue,
+  isEmojiEnglishShortName,
+  isEmojiVariantValue,
+} from './fun/data/emojis';
 
 export enum EditState {
   None = 'None',
@@ -89,12 +100,12 @@ export type PropsDataType = {
   usernameLinkColor?: number;
   usernameLink?: string;
   usernameLinkCorrupted: boolean;
-} & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
+} & Pick<EmojiButtonProps, 'recentEmojis' | 'emojiSkinToneDefault'>;
 
 type PropsActionType = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   markCompletedUsernameLinkOnboarding: () => void;
-  onSetSkinTone: (tone: number) => unknown;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
   replaceAvatar: ReplaceAvatarActionType;
   saveAttachment: SaveAttachmentActionCreatorType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
@@ -139,6 +150,20 @@ function getDefaultBios(i18n: LocalizerType): Array<DefaultBio> {
   ];
 }
 
+function BioEmoji(props: { emoji: EmojiVariantKey }) {
+  const emojiVariant = getEmojiVariantByKey(props.emoji);
+  const emojiParentKey = getEmojiParentKeyByVariantKey(props.emoji);
+  const emojiParent = getEmojiParentByKey(emojiParentKey);
+  return (
+    <FunStaticEmoji
+      role="img"
+      aria-label={emojiParent.englishShortNameDefault}
+      emoji={emojiVariant}
+      size={24}
+    />
+  );
+}
+
 export function ProfileEditor({
   aboutEmoji,
   aboutText,
@@ -154,7 +179,7 @@ export function ProfileEditor({
   markCompletedUsernameLinkOnboarding,
   onEditStateChanged,
   onProfileChanged,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   openUsernameReservationModal,
   profileAvatarUrl,
   recentEmojis,
@@ -167,7 +192,7 @@ export function ProfileEditor({
   setUsernameEditState,
   setUsernameLinkColor,
   showToast,
-  skinTone,
+  emojiSkinToneDefault,
   userAvatarData,
   username,
   usernameCorrupted,
@@ -226,13 +251,13 @@ export function ProfileEditor({
   // To make EmojiButton re-render less often
   const setAboutEmoji = useCallback(
     (ev: EmojiPickDataType) => {
-      const emojiData = getEmojiData(ev.shortName, skinTone);
+      const emojiData = getEmojiData(ev.shortName, emojiSkinToneDefault);
       setStagedProfile(profileData => ({
         ...profileData,
         aboutEmoji: unifiedToEmoji(emojiData.unified),
       }));
     },
-    [setStagedProfile, skinTone]
+    [setStagedProfile, emojiSkinToneDefault]
   );
 
   // To make AvatarEditor re-render less often
@@ -416,9 +441,9 @@ export function ProfileEditor({
                 emoji={stagedProfile.aboutEmoji}
                 i18n={i18n}
                 onPickEmoji={setAboutEmoji}
-                onSetSkinTone={onSetSkinTone}
+                onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
                 recentEmojis={recentEmojis}
-                skinTone={skinTone}
+                emojiSkinToneDefault={emojiSkinToneDefault}
               />
             </div>
           }
@@ -446,27 +471,44 @@ export function ProfileEditor({
           whenToShowRemainingCount={40}
         />
 
-        {defaultBios.map(defaultBio => (
-          <PanelRow
-            className="ProfileEditor__row"
-            key={defaultBio.shortName}
-            icon={
-              <div className="ProfileEditor__icon--container">
-                <Emoji shortName={defaultBio.shortName} size={24} />
-              </div>
-            }
-            label={defaultBio.i18nLabel}
-            onClick={() => {
-              const emojiData = getEmojiData(defaultBio.shortName, skinTone);
+        {defaultBios.map(defaultBio => {
+          strictAssert(
+            isEmojiEnglishShortName(defaultBio.shortName),
+            'Must be valid english short name'
+          );
+          const emojiParentKey = getEmojiParentKeyByEnglishShortName(
+            defaultBio.shortName
+          );
+          const emojiVariant = getEmojiVariantByParentKeyAndSkinTone(
+            emojiParentKey,
+            emojiSkinToneDefault
+          );
 
-              setStagedProfile(profileData => ({
-                ...profileData,
-                aboutEmoji: unifiedToEmoji(emojiData.unified),
-                aboutText: defaultBio.i18nLabel,
-              }));
-            }}
-          />
-        ))}
+          return (
+            <PanelRow
+              className="ProfileEditor__row"
+              key={defaultBio.shortName}
+              icon={
+                <div className="ProfileEditor__icon--container">
+                  <BioEmoji emoji={emojiVariant.key} />
+                </div>
+              }
+              label={defaultBio.i18nLabel}
+              onClick={() => {
+                const emojiData = getEmojiData(
+                  defaultBio.shortName,
+                  emojiSkinToneDefault
+                );
+
+                setStagedProfile(profileData => ({
+                  ...profileData,
+                  aboutEmoji: unifiedToEmoji(emojiData.unified),
+                  aboutText: defaultBio.i18nLabel,
+                }));
+              }}
+            />
+          );
+        })}
 
         <Modal.ButtonFooter>
           <Button
@@ -712,9 +754,11 @@ export function ProfileEditor({
         <PanelRow
           className="ProfileEditor__row"
           icon={
-            fullBio.aboutEmoji ? (
+            fullBio.aboutEmoji && isEmojiVariantValue(fullBio.aboutEmoji) ? (
               <div className="ProfileEditor__icon--container">
-                <Emoji emoji={fullBio.aboutEmoji} size={24} />
+                <BioEmoji
+                  emoji={getEmojiVariantKeyByValue(fullBio.aboutEmoji)}
+                />
               </div>
             ) : (
               <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--bio" />

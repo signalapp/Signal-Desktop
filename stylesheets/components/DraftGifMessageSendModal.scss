@@ -1,0 +1,8 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+@use '../variables';
+
+.DraftGifMessageSendModal__GifPreview {
+  display: flex;
+  justify-content: center;
+}

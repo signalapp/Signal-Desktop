@@ -8,12 +8,12 @@ import type {
 } from '../../../state/ducks/stickers';
 import type { LocalizerType } from '../../../types/I18N';
 import { strictAssert } from '../../../util/assert';
-import type { FunStickersSection } from '../FunConstants';
+import type { FunStickersSection } from '../constants';
 import {
   FunSectionCommon,
   FunStickersSectionBase,
   toFunStickersPackSection,
-} from '../FunConstants';
+} from '../constants';
 import {
   FunGridCell,
   FunGridContainer,
@@ -23,7 +23,7 @@ import {
   FunGridRowGroup,
   FunGridScrollerSection,
 } from '../base/FunGrid';
-import { FunItemButton, FunItemSticker } from '../base/FunItem';
+import { FunItemButton } from '../base/FunItem';
 import { FunPanel } from '../base/FunPanel';
 import { FunScroller } from '../base/FunScroller';
 import { FunSearch } from '../base/FunSearch';
@@ -54,7 +54,15 @@ import type {
 import { useFunVirtualGrid } from '../virtual/useFunVirtualGrid';
 import { useFunContext } from '../FunProvider';
 import { FunResults, FunResultsHeader } from '../base/FunResults';
-import { FunEmoji } from '../FunEmoji';
+import { FunStaticEmoji } from '../FunEmoji';
+import {
+  FunLightboxPortal,
+  FunLightboxBackdrop,
+  FunLightboxDialog,
+  FunLightboxProvider,
+  useFunLightboxKey,
+} from '../base/FunLightbox';
+import { FunSticker } from '../FunSticker';
 
 const STICKER_GRID_COLUMNS = 4;
 const STICKER_GRID_CELL_WIDTH = 80;
@@ -267,6 +275,7 @@ export function FunPanelStickers({
   return (
     <FunPanel>
       <FunSearch
+        i18n={i18n}
         searchInput={searchInput}
         onSearchInputChange={onSearchInputChange}
         placeholder={i18n('icu:FunPanelStickers__SearchPlaceholder')}
@@ -325,73 +334,74 @@ export function FunPanelStickers({
           <FunResults aria-busy={false}>
             <FunResultsHeader>
               {i18n('icu:FunPanelStickers__SearchResults__EmptyHeading')}{' '}
-              <FunEmoji
+              <FunStaticEmoji
                 size={16}
                 role="presentation"
-                // For presentation only
-                aria-label=""
                 emoji={emojiVariantConstant('\u{1F641}')}
               />
             </FunResultsHeader>
           </FunResults>
         )}
-        <FunKeyboard
-          scrollerRef={scrollerRef}
-          keyboard={keyboard}
-          onStateChange={handleKeyboardStateChange}
-        >
-          <FunGridContainer
-            totalSize={layout.totalHeight}
-            cellWidth={STICKER_GRID_CELL_WIDTH}
-            cellHeight={STICKER_GRID_CELL_HEIGHT}
-            columnCount={STICKER_GRID_COLUMNS}
+        <FunLightboxProvider containerRef={scrollerRef}>
+          <StickersLightbox i18n={i18n} stickerLookup={stickerLookup} />
+          <FunKeyboard
+            scrollerRef={scrollerRef}
+            keyboard={keyboard}
+            onStateChange={handleKeyboardStateChange}
           >
-            {layout.sections.map(section => {
-              return (
-                <FunGridScrollerSection
-                  key={section.key}
-                  id={section.id}
-                  sectionOffset={section.sectionOffset}
-                  sectionSize={section.sectionSize}
-                >
-                  <FunGridHeader
-                    id={section.header.key}
-                    headerOffset={section.header.headerOffset}
-                    headerSize={section.header.headerSize}
+            <FunGridContainer
+              totalSize={layout.totalHeight}
+              cellWidth={STICKER_GRID_CELL_WIDTH}
+              cellHeight={STICKER_GRID_CELL_HEIGHT}
+              columnCount={STICKER_GRID_COLUMNS}
+            >
+              {layout.sections.map(section => {
+                return (
+                  <FunGridScrollerSection
+                    key={section.key}
+                    id={section.id}
+                    sectionOffset={section.sectionOffset}
+                    sectionSize={section.sectionSize}
                   >
-                    <FunGridHeaderText>
-                      {getTitleForSection(
-                        i18n,
-                        section.id as FunStickersSection,
-                        packsLookup
-                      )}
-                    </FunGridHeaderText>
-                  </FunGridHeader>
-                  <FunGridRowGroup
-                    aria-labelledby={section.header.key}
-                    colCount={section.colCount}
-                    rowCount={section.rowCount}
-                    rowGroupOffset={section.rowGroup.rowGroupOffset}
-                    rowGroupSize={section.rowGroup.rowGroupSize}
-                  >
-                    {section.rowGroup.rows.map(row => {
-                      return (
-                        <Row
-                          key={row.key}
-                          rowIndex={row.rowIndex}
-                          cells={row.cells}
-                          stickerLookup={stickerLookup}
-                          focusedCellKey={focusedCellKey}
-                          onPressSticker={handlePressSticker}
-                        />
-                      );
-                    })}
-                  </FunGridRowGroup>
-                </FunGridScrollerSection>
-              );
-            })}
-          </FunGridContainer>
-        </FunKeyboard>
+                    <FunGridHeader
+                      id={section.header.key}
+                      headerOffset={section.header.headerOffset}
+                      headerSize={section.header.headerSize}
+                    >
+                      <FunGridHeaderText>
+                        {getTitleForSection(
+                          i18n,
+                          section.id as FunStickersSection,
+                          packsLookup
+                        )}
+                      </FunGridHeaderText>
+                    </FunGridHeader>
+                    <FunGridRowGroup
+                      aria-labelledby={section.header.key}
+                      colCount={section.colCount}
+                      rowCount={section.rowCount}
+                      rowGroupOffset={section.rowGroup.rowGroupOffset}
+                      rowGroupSize={section.rowGroup.rowGroupSize}
+                    >
+                      {section.rowGroup.rows.map(row => {
+                        return (
+                          <Row
+                            key={row.key}
+                            rowIndex={row.rowIndex}
+                            cells={row.cells}
+                            stickerLookup={stickerLookup}
+                            focusedCellKey={focusedCellKey}
+                            onPressSticker={handlePressSticker}
+                          />
+                        );
+                      })}
+                    </FunGridRowGroup>
+                  </FunGridScrollerSection>
+                );
+              })}
+            </FunGridContainer>
+          </FunKeyboard>
+        </FunLightboxProvider>
       </FunScroller>
     </FunPanel>
   );
@@ -467,8 +477,46 @@ const Cell = memo(function Cell(props: {
         aria-label={sticker.emoji ?? 'Sticker'}
         onClick={handleClick}
       >
-        <FunItemSticker src={sticker.url} />
+        <FunSticker role="presentation" src={sticker.url} size={68} />
       </FunItemButton>
     </FunGridCell>
   );
 });
+
+function StickersLightbox(props: {
+  i18n: LocalizerType;
+  stickerLookup: StickerLookup;
+}) {
+  const { i18n } = props;
+  const key = useFunLightboxKey();
+  const sticker = useMemo(() => {
+    if (key == null) {
+      return null;
+    }
+    const [, , ...stickerIdParts] = key.split('-');
+    const stickerId = stickerIdParts.join('-');
+    const found = props.stickerLookup[stickerId];
+    strictAssert(found, `Must have sticker for "${stickerId}"`);
+    return found;
+  }, [props.stickerLookup, key]);
+  if (sticker == null) {
+    return null;
+  }
+  return (
+    <FunLightboxPortal>
+      <FunLightboxBackdrop>
+        <FunLightboxDialog
+          aria-label={i18n('icu:FunPanelStickers__LightboxDialog__Label')}
+        >
+          <FunSticker
+            role="img"
+            aria-label={sticker.emoji ?? ''}
+            src={sticker.url}
+            size={512}
+            ignoreReducedMotion
+          />
+        </FunLightboxDialog>
+      </FunLightboxBackdrop>
+    </FunLightboxPortal>
+  );
+}

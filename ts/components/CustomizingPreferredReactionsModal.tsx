@@ -18,6 +18,7 @@ import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../reactions/const
 import { convertShortName } from './emoji/lib';
 import { offsetDistanceModifier } from '../util/popperUtil';
 import { handleOutsideClick } from '../util/handleOutsideClick';
+import type { EmojiSkinTone } from './fun/data/emojis';
 
 export type PropsType = {
   draftPreferredReactions: ReadonlyArray<string>;
@@ -27,11 +28,11 @@ export type PropsType = {
   originalPreferredReactions: ReadonlyArray<string>;
   recentEmojis: ReadonlyArray<string>;
   selectedDraftEmojiIndex: undefined | number;
-  skinTone: number;
+  emojiSkinToneDefault: EmojiSkinTone;
 
   cancelCustomizePreferredReactionsModal(): unknown;
   deselectDraftEmoji(): unknown;
-  onSetSkinTone(tone: number): unknown;
+  onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: EmojiSkinTone) => void;
   replaceSelectedDraftEmoji(newEmoji: string): unknown;
   resetDraftEmoji(): unknown;
   savePreferredReactions(): unknown;
@@ -42,10 +43,11 @@ export function CustomizingPreferredReactionsModal({
   cancelCustomizePreferredReactionsModal,
   deselectDraftEmoji,
   draftPreferredReactions,
+  emojiSkinToneDefault,
   hadSaveError,
   i18n,
   isSaving,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   originalPreferredReactions,
   recentEmojis,
   replaceSelectedDraftEmoji,
@@ -53,7 +55,6 @@ export function CustomizingPreferredReactionsModal({
   savePreferredReactions,
   selectDraftEmojiToBeReplaced,
   selectedDraftEmojiIndex,
-  skinTone,
 }: Readonly<PropsType>): JSX.Element {
   const [referenceElement, setReferenceElement] =
     useState<null | HTMLDivElement>(null);
@@ -98,7 +99,7 @@ export function CustomizingPreferredReactionsModal({
     !isSaving &&
     !isEqual(
       DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(shortName =>
-        convertShortName(shortName, skinTone)
+        convertShortName(shortName, emojiSkinToneDefault)
       ),
       draftPreferredReactions
     );
@@ -188,8 +189,8 @@ export function CustomizingPreferredReactionsModal({
               replaceSelectedDraftEmoji(emoji);
             }}
             recentEmojis={recentEmojis}
-            skinTone={skinTone}
-            onSetSkinTone={onSetSkinTone}
+            emojiSkinToneDefault={emojiSkinToneDefault}
+            onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
             onClose={() => {
               deselectDraftEmoji();
             }}

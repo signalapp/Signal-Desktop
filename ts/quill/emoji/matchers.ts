@@ -2,19 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Delta } from '@signalapp/quill-cjs';
-import type { AttributeMap } from '@signalapp/quill-cjs';
 
 import { insertEmojiOps } from '../util';
 import type { Matcher } from '../util';
+import {
+  FUN_INLINE_EMOJI_CLASS,
+  FUN_STATIC_EMOJI_CLASS,
+} from '../../components/fun/FunEmoji';
 
 export const matchEmojiImage: Matcher = (
-  node: Element,
-  delta: Delta,
-  attributes: AttributeMap
+  node,
+  delta,
+  _scroll,
+  attributes
 ): Delta => {
   if (
-    node.classList.contains('emoji') ||
-    node.classList.contains('module-emoji__image--16px')
+    node.classList.contains(FUN_INLINE_EMOJI_CLASS) ||
+    (node.classList.contains(FUN_STATIC_EMOJI_CLASS) &&
+      node.dataset.emoji == null)
   ) {
     const value = node.getAttribute('aria-label');
     return new Delta().insert({ emoji: { value } }, attributes);
@@ -28,7 +33,10 @@ export const matchEmojiBlot: Matcher = (
   _scroll,
   attributes
 ): Delta => {
-  if (node.classList.contains('emoji-blot')) {
+  if (
+    node.classList.contains(FUN_STATIC_EMOJI_CLASS) &&
+    node.dataset.emoji != null
+  ) {
     const { emoji: value, source } = node.dataset;
     return new Delta().insert({ emoji: { value, source } }, attributes);
   }

@@ -47,7 +47,10 @@ export type PropsType = {
   onClose: () => unknown;
   onDone: (textAttachment: TextAttachmentType) => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
-} & Pick<EmojiButtonPropsType, 'onSetSkinTone' | 'recentEmojis' | 'skinTone'>;
+} & Pick<
+  EmojiButtonPropsType,
+  'onEmojiSkinToneDefaultChange' | 'recentEmojis' | 'emojiSkinToneDefault'
+>;
 
 enum LinkPreviewApplied {
   None = 'None',
@@ -138,10 +141,10 @@ export function TextStoryCreator({
   linkPreview,
   onClose,
   onDone,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   onUseEmoji,
   recentEmojis,
-  skinTone,
+  emojiSkinToneDefault,
 }: PropsType): JSX.Element {
   const [showConfirmDiscardModal, setShowConfirmDiscardModal] = useState(false);
 
@@ -452,8 +455,8 @@ export function TextStoryCreator({
                   );
                 }}
                 recentEmojis={recentEmojis}
-                skinTone={skinTone}
-                onSetSkinTone={onSetSkinTone}
+                emojiSkinToneDefault={emojiSkinToneDefault}
+                onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
               />
             </div>
           ) : (

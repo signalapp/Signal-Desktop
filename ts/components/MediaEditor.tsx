@@ -163,9 +163,9 @@ export function MediaEditor({
   sortedGroupMembers,
 
   // EmojiPickerProps
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   recentEmojis,
-  skinTone,
+  emojiSkinToneDefault,
 
   // StickerButtonProps
   installedPacks,
@@ -1313,7 +1313,7 @@ export function MediaEditor({
                     setCaptionBodyRanges(bodyRanges);
                     setCaption(messageText);
                   }}
-                  skinTone={skinTone ?? null}
+                  emojiSkinToneDefault={emojiSkinToneDefault ?? null}
                   onPickEmoji={onPickEmoji}
                   onSubmit={noop}
                   onTextTooLong={onTextTooLong}
@@ -1342,8 +1342,8 @@ export function MediaEditor({
                     onOpen={() => setEmojiPopperOpen(true)}
                     onClose={closeEmojiPickerAndFocusComposer}
                     recentEmojis={recentEmojis}
-                    skinTone={skinTone}
-                    onSetSkinTone={onSetSkinTone}
+                    emojiSkinToneDefault={emojiSkinToneDefault}
+                    onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
                   />
                 </CompositionInput>
               </div>

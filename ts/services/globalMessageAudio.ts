@@ -2,10 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { noop } from 'lodash';
-
-function isAbortError(error: unknown) {
-  return error instanceof DOMException && error.name === 'AbortError';
-}
+import { isAbortError } from '../util/isAbortError';
 
 /**
  * Wrapper around a global HTMLAudioElement that can update the

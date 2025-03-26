@@ -12,11 +12,12 @@ import {
   ReactionPickerPickerMoreButton,
   ReactionPickerPickerStyle,
 } from '../ReactionPickerPicker';
+import type { EmojiSkinTone } from '../fun/data/emojis';
 
 export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
   Pick<
     EmojiPickerProps,
-    'onClickSettings' | 'onPickEmoji' | 'onSetSkinTone'
+    'onClickSettings' | 'onPickEmoji' | 'onEmojiSkinToneDefaultChange'
   > & {
     ref: React.Ref<HTMLDivElement>;
   };
@@ -26,7 +27,7 @@ export type OwnProps = {
   selected?: string;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
-  onSetSkinTone: (tone: number) => unknown;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => unknown;
   openCustomizePreferredReactionsModal?: () => unknown;
   preferredReactionEmoji: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
@@ -40,7 +41,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       i18n,
       onClose,
       onPick,
-      onSetSkinTone,
+      onEmojiSkinToneDefaultChange,
       openCustomizePreferredReactionsModal,
       preferredReactionEmoji,
       renderEmojiPicker,
@@ -82,7 +83,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
         onClickSettings: openCustomizePreferredReactionsModal,
         onClose,
         onPickEmoji,
-        onSetSkinTone,
+        onEmojiSkinToneDefaultChange,
         ref,
         style,
       });

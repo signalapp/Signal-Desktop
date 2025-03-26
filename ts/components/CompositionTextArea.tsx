@@ -15,6 +15,7 @@ import type { ThemeType } from '../types/Util';
 import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import * as grapheme from '../util/grapheme';
+import type { EmojiSkinTone } from './fun/data/emojis';
 
 export type CompositionTextAreaProps = {
   bodyRanges: HydratedBodyRangesType | null;
@@ -31,7 +32,7 @@ export type CompositionTextAreaProps = {
     draftBodyRanges: HydratedBodyRangesType,
     caretLocation?: number | undefined
   ) => void;
-  onSetSkinTone: (tone: number) => void;
+  onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: EmojiSkinTone) => void;
   onSubmit: (
     message: string,
     draftBodyRanges: DraftBodyRanges,
@@ -43,7 +44,7 @@ export type CompositionTextAreaProps = {
   getPreferredBadge: PreferredBadgeSelectorType;
   draftText: string;
   theme: ThemeType;
-} & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
+} & Pick<EmojiButtonProps, 'recentEmojis' | 'emojiSkinToneDefault'>;
 
 /**
  * Essentially an HTML textarea but with support for emoji picker and
@@ -63,14 +64,14 @@ export function CompositionTextArea({
   onChange,
   onPickEmoji,
   onScroll,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   onSubmit,
   onTextTooLong,
   ourConversationId,
   placeholder,
   platform,
   recentEmojis,
-  skinTone,
+  emojiSkinToneDefault,
   theme,
   whenToShowRemainingCount = Infinity,
 }: CompositionTextAreaProps): JSX.Element {
@@ -153,7 +154,7 @@ export function CompositionTextArea({
         quotedMessageId={null}
         sendCounter={0}
         theme={theme}
-        skinTone={skinTone ?? null}
+        emojiSkinToneDefault={emojiSkinToneDefault}
         // These do not apply in the forward modal because there isn't
         // strictly one conversation
         conversationId={null}
@@ -170,9 +171,9 @@ export function CompositionTextArea({
           i18n={i18n}
           onClose={focusTextEditInput}
           onPickEmoji={insertEmoji}
-          onSetSkinTone={onSetSkinTone}
+          onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
           recentEmojis={recentEmojis}
-          skinTone={skinTone}
+          emojiSkinToneDefault={emojiSkinToneDefault}
         />
       </div>
       {maxLength !== undefined &&

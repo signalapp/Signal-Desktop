@@ -38,7 +38,7 @@ export function ProfileEditorModal({
   initialEditState,
   markCompletedUsernameLinkOnboarding,
   myProfileChanged,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   openUsernameReservationModal,
   profileAvatarUrl,
   recentEmojis,
@@ -50,7 +50,7 @@ export function ProfileEditorModal({
   setUsernameEditState,
   setUsernameLinkColor,
   showToast,
-  skinTone,
+  emojiSkinToneDefault,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   userAvatarData,
@@ -115,7 +115,7 @@ export function ProfileEditorModal({
           setModalTitle(MODAL_TITLES_BY_EDIT_STATE[editState]);
         }}
         onProfileChanged={myProfileChanged}
-        onSetSkinTone={onSetSkinTone}
+        onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
         openUsernameReservationModal={openUsernameReservationModal}
         profileAvatarUrl={profileAvatarUrl}
         recentEmojis={recentEmojis}
@@ -127,7 +127,7 @@ export function ProfileEditorModal({
         setUsernameEditState={setUsernameEditState}
         setUsernameLinkColor={setUsernameLinkColor}
         showToast={showToast}
-        skinTone={skinTone}
+        emojiSkinToneDefault={emojiSkinToneDefault}
         toggleProfileEditor={toggleProfileEditor}
         userAvatarData={userAvatarData}
         username={username}

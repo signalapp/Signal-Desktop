@@ -10,7 +10,7 @@ import type {
 } from './tenor';
 import { tenor, isTenorTailCursor } from './tenor';
 
-const PREVIEW_CONTENT_FORMAT: TenorContentFormat = 'mediumgif';
+const PREVIEW_CONTENT_FORMAT: TenorContentFormat = 'tinymp4';
 const ATTACHMENT_CONTENT_FORMAT: TenorContentFormat = 'mp4';
 
 function toGif(result: TenorResponseResult): GifType {
@@ -40,7 +40,7 @@ export type GifsPaginated = Readonly<{
   gifs: ReadonlyArray<GifType>;
 }>;
 
-export async function fetchFeatured(
+export async function fetchGifsFeatured(
   limit: number,
   cursor: TenorNextCursor | null,
   signal?: AbortSignal
@@ -48,7 +48,7 @@ export async function fetchFeatured(
   const response = await tenor(
     'v2/featured',
     {
-      // contentfilter: 'medium',
+      contentfilter: 'low',
       media_filter: [PREVIEW_CONTENT_FORMAT, ATTACHMENT_CONTENT_FORMAT],
       limit,
       pos: cursor ?? undefined,
@@ -61,7 +61,7 @@ export async function fetchFeatured(
   return { next, gifs };
 }
 
-export async function fetchSearch(
+export async function fetchGifsSearch(
   query: string,
   limit: number,
   cursor: TenorNextCursor | null,
@@ -71,7 +71,7 @@ export async function fetchSearch(
     'v2/search',
     {
       q: query,
-      contentfilter: 'medium',
+      contentfilter: 'low',
       media_filter: [PREVIEW_CONTENT_FORMAT, ATTACHMENT_CONTENT_FORMAT],
       limit,
       pos: cursor ?? undefined,

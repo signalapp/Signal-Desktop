@@ -6,8 +6,8 @@ import { DialogTrigger } from 'react-aria-components';
 import type { LocalizerType } from '../../../types/I18N';
 import { strictAssert } from '../../../util/assert';
 import { missingCaseError } from '../../../util/missingCaseError';
-import type { FunEmojisSection } from '../FunConstants';
-import { FunEmojisSectionOrder, FunSectionCommon } from '../FunConstants';
+import type { FunEmojisSection } from '../constants';
+import { FunEmojisSectionOrder, FunSectionCommon } from '../constants';
 import {
   FunGridCell,
   FunGridContainer,
@@ -37,10 +37,10 @@ import type {
   EmojiVariantKey,
 } from '../data/emojis';
 import {
+  emojiParentKeyConstant,
   EmojiPickerCategory,
   emojiVariantConstant,
   getEmojiParentByKey,
-  getEmojiParentKeyByValueUnsafe,
   getEmojiPickerCategoryParentKeys,
   getEmojiVariantByParentKeyAndSkinTone,
   isEmojiParentKey,
@@ -55,8 +55,8 @@ import type {
   GridSectionNode,
 } from '../virtual/useFunVirtualGrid';
 import { useFunVirtualGrid } from '../virtual/useFunVirtualGrid';
-import { SkinTonesListBox } from '../base/FunSkinTones';
-import { FunEmoji } from '../FunEmoji';
+import { FunSkinTonesList } from '../FunSkinTones';
+import { FunStaticEmoji } from '../FunEmoji';
 import { useFunContext } from '../FunProvider';
 import { FunResults, FunResultsHeader } from '../base/FunResults';
 
@@ -252,6 +252,7 @@ export function FunPanelEmojis({
   return (
     <FunPanel>
       <FunSearch
+        i18n={i18n}
         searchInput={searchInput}
         onSearchInputChange={onSearchInputChange}
         placeholder={i18n('icu:FunPanelEmojis__SearchLabel')}
@@ -342,11 +343,9 @@ export function FunPanelEmojis({
           <FunResults aria-busy={false}>
             <FunResultsHeader>
               {i18n('icu:FunPanelEmojis__SearchResults__EmptyHeading')}{' '}
-              <FunEmoji
+              <FunStaticEmoji
                 size={16}
                 role="presentation"
-                // For presentation only
-                aria-label=""
                 emoji={emojiVariantConstant('\u{1F641}')}
               />
             </FunResultsHeader>
@@ -386,8 +385,8 @@ export function FunPanelEmojis({
                       {section.id === EmojiPickerCategory.SmileysAndPeople && (
                         <SectionSkinTonePopover
                           i18n={i18n}
-                          skinTone={fun.defaultEmojiSkinTone}
-                          onSelectSkinTone={fun.onChangeDefaultEmojiSkinTone}
+                          skinTone={fun.emojiSkinToneDefault}
+                          onSelectSkinTone={fun.onEmojiSkinToneDefaultChange}
                         />
                       )}
                     </FunGridHeader>
@@ -405,7 +404,7 @@ export function FunPanelEmojis({
                             rowIndex={row.rowIndex}
                             cells={row.cells}
                             focusedCellKey={focusedCellKey}
-                            defaultEmojiSkinTone={fun.defaultEmojiSkinTone}
+                            emojiSkinToneDefault={fun.emojiSkinToneDefault}
                             onPressEmoji={handlePressEmoji}
                           />
                         );
@@ -426,7 +425,7 @@ type RowProps = Readonly<{
   rowIndex: number;
   cells: ReadonlyArray<CellLayoutNode>;
   focusedCellKey: CellKey | null;
-  defaultEmojiSkinTone: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone;
   onPressEmoji: (event: MouseEvent, emojiSelection: FunEmojiSelection) => void;
 }>;
 
@@ -446,7 +445,7 @@ const Row = memo(function Row(props: RowProps): JSX.Element {
             rowIndex={cell.rowIndex}
             colIndex={cell.colIndex}
             isTabbable={isTabbable}
-            defaultEmojiSkinTone={props.defaultEmojiSkinTone}
+            emojiSkinToneDefault={props.emojiSkinToneDefault}
             onPressEmoji={props.onPressEmoji}
           />
         );
@@ -461,7 +460,7 @@ type CellProps = Readonly<{
   colIndex: number;
   rowIndex: number;
   isTabbable: boolean;
-  defaultEmojiSkinTone: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone;
   onPressEmoji: (event: MouseEvent, emojiSelection: FunEmojiSelection) => void;
 }>;
 
@@ -478,8 +477,8 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
 
   const skinTone = useMemo(() => {
     // TODO(jamie): Need to implement emoji-specific skin tone preferences
-    return props.defaultEmojiSkinTone;
-  }, [props.defaultEmojiSkinTone]);
+    return props.emojiSkinToneDefault;
+  }, [props.emojiSkinToneDefault]);
 
   const emojiVariant = useMemo(() => {
     return getEmojiVariantByParentKeyAndSkinTone(emojiParent.key, skinTone);
@@ -509,12 +508,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
         aria-label={emojiParent.englishShortNameDefault}
         onClick={handleClick}
       >
-        <FunEmoji
-          role="presentation"
-          aria-label=""
-          size={32}
-          emoji={emojiVariant}
-        />
+        <FunStaticEmoji role="presentation" size={32} emoji={emojiVariant} />
       </FunItemButton>
     </FunGridCell>
   );
@@ -555,8 +549,9 @@ function SectionSkinTonePopover(
         <FunGridHeaderPopoverHeader>
           {i18n('icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel')}
         </FunGridHeaderPopoverHeader>
-        <SkinTonesListBox
-          emoji={getEmojiParentKeyByValueUnsafe('\u{270B}')}
+        <FunSkinTonesList
+          i18n={i18n}
+          emoji={emojiParentKeyConstant('\u{270B}')}
           skinTone={props.skinTone}
           onSelectSkinTone={handleSelectSkinTone}
         />

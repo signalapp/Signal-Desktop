@@ -16,6 +16,7 @@ import { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
 import { PaymentEventKind } from '../../types/Payment';
 import { ErrorBoundary } from './ErrorBoundary';
+import { EmojiSkinTone } from '../fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -26,8 +27,10 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
 }) => (
   <EmojiPicker
     i18n={i18n}
-    skinTone={0}
-    onSetSkinTone={action('EmojiPicker::onSetSkinTone')}
+    emojiSkinToneDefault={EmojiSkinTone.None}
+    onEmojiSkinToneDefaultChange={action(
+      'EmojiPicker::onEmojiSkinToneDefaultChange'
+    )}
     ref={ref}
     onClose={onClose}
     onPickEmoji={onPickEmoji}

@@ -14,7 +14,7 @@ import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import type { EmojiSkinTone } from './data/emojis';
 import { EmojiPickerCategory, type EmojiParentKey } from './data/emojis';
 import type { GifType } from './panels/FunPanelGifs';
-import type { FunGifsSection, FunStickersSection } from './FunConstants';
+import type { FunGifsSection, FunStickersSection } from './constants';
 import {
   type FunEmojisSection,
   FunGifsCategory,
@@ -22,7 +22,9 @@ import {
   FunSectionCommon,
   FunStickersSectionBase,
   toFunStickersPackSection,
-} from './FunConstants';
+} from './constants';
+import type { fetchGifsFeatured, fetchGifsSearch } from './data/gifs';
+import type { tenorDownload } from './data/tenor';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;
@@ -33,17 +35,25 @@ export type FunContextSmartProps = Readonly<{
   recentGifs: ReadonlyArray<GifType>;
 
   // Emojis
-  defaultEmojiSkinTone: EmojiSkinTone;
-  onChangeDefaultEmojiSkinTone: (emojiSkinTone: EmojiSkinTone) => void;
+  emojiSkinToneDefault: EmojiSkinTone;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
 
   // Stickers
   installedStickerPacks: ReadonlyArray<StickerPackType>;
   showStickerPickerHint: boolean;
   onClearStickerPickerHint: () => unknown;
+
+  // GIFs
+  fetchGifsFeatured: typeof fetchGifsFeatured;
+  fetchGifsSearch: typeof fetchGifsSearch;
+  fetchGif: typeof tenorDownload;
 }>;
 
 export type FunContextProps = FunContextSmartProps &
   Readonly<{
+    // Open state
+    onClose: () => void;
+
     // Current Tab
     tab: FunPickerTabKey;
     onChangeTab: (key: FunPickerTabKey) => unknown;
@@ -101,16 +111,38 @@ export const FunProvider = memo(function FunProvider(
     setSearchInput(newSearchInput);
   }, []);
 
+  const defaultEmojiSection = useMemo((): FunEmojisSection => {
+    if (props.recentEmojis.length) {
+      return FunSectionCommon.Recents;
+    }
+    return EmojiPickerCategory.SmileysAndPeople;
+  }, [props.recentEmojis]);
+
+  const defaultStickerSection = useMemo((): FunStickersSection => {
+    if (props.recentStickers.length > 0) {
+      return FunSectionCommon.Recents;
+    }
+    const firstInstalledStickerPack = props.installedStickerPacks.at(0);
+    if (firstInstalledStickerPack != null) {
+      return toFunStickersPackSection(firstInstalledStickerPack);
+    }
+    return FunStickersSectionBase.StickersSetup;
+  }, [props.recentStickers, props.installedStickerPacks]);
+
+  const defaultGifsSection = useMemo((): FunGifsSection => {
+    if (props.recentGifs.length > 0) {
+      return FunSectionCommon.Recents;
+    }
+    return FunGifsCategory.Trending;
+  }, [props.recentGifs]);
+
   // Selected Sections
   const [selectedEmojisSection, setSelectedEmojisSection] = useState(
     (): FunEmojisSection => {
       if (searchQuery !== '') {
         return FunSectionCommon.SearchResults;
       }
-      if (props.recentEmojis.length) {
-        return FunSectionCommon.Recents;
-      }
-      return EmojiPickerCategory.SmileysAndPeople;
+      return defaultEmojiSection;
     }
   );
   const [selectedStickersSection, setSelectedStickersSection] = useState(
@@ -118,14 +150,7 @@ export const FunProvider = memo(function FunProvider(
       if (searchQuery !== '') {
         return FunSectionCommon.SearchResults;
       }
-      if (props.recentStickers.length > 0) {
-        return FunSectionCommon.Recents;
-      }
-      const firstInstalledStickerPack = props.installedStickerPacks.at(0);
-      if (firstInstalledStickerPack != null) {
-        return toFunStickersPackSection(firstInstalledStickerPack);
-      }
-      return FunStickersSectionBase.StickersSetup;
+      return defaultStickerSection;
     }
   );
   const [selectedGifsSection, setSelectedGifsSection] = useState(
@@ -133,10 +158,7 @@ export const FunProvider = memo(function FunProvider(
       if (searchQuery !== '') {
         return FunSectionCommon.SearchResults;
       }
-      if (props.recentGifs.length > 0) {
-        return FunSectionCommon.Recents;
-      }
-      return FunGifsCategory.Trending;
+      return defaultGifsSection;
     }
   );
   const handleChangeSelectedEmojisSection = useCallback(
@@ -158,9 +180,18 @@ export const FunProvider = memo(function FunProvider(
     []
   );
 
+  const handleClose = useCallback(() => {
+    setSearchInput('');
+    setSelectedEmojisSection(defaultEmojiSection);
+    setSelectedStickersSection(defaultStickerSection);
+    setSelectedGifsSection(defaultGifsSection);
+  }, [defaultEmojiSection, defaultStickerSection, defaultGifsSection]);
+
   return (
     <FunProviderInner
       i18n={props.i18n}
+      // Open state
+      onClose={handleClose}
       // Current Tab
       tab={tab}
       onChangeTab={handleChangeTab}
@@ -179,12 +210,16 @@ export const FunProvider = memo(function FunProvider(
       recentStickers={props.recentStickers}
       recentGifs={props.recentGifs}
       // Emojis
-      defaultEmojiSkinTone={props.defaultEmojiSkinTone}
-      onChangeDefaultEmojiSkinTone={props.onChangeDefaultEmojiSkinTone}
+      emojiSkinToneDefault={props.emojiSkinToneDefault}
+      onEmojiSkinToneDefaultChange={props.onEmojiSkinToneDefaultChange}
       // Stickers
       installedStickerPacks={props.installedStickerPacks}
       showStickerPickerHint={props.showStickerPickerHint}
       onClearStickerPickerHint={props.onClearStickerPickerHint}
+      // GIFs
+      fetchGifsFeatured={props.fetchGifsFeatured}
+      fetchGifsSearch={props.fetchGifsSearch}
+      fetchGif={props.fetchGif}
     >
       {props.children}
     </FunProviderInner>

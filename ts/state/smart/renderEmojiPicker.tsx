@@ -10,7 +10,7 @@ export function renderEmojiPicker({
   ref,
   onClickSettings,
   onPickEmoji,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   onClose,
   style,
 }: RenderEmojiPickerProps): JSX.Element {
@@ -19,7 +19,7 @@ export function renderEmojiPicker({
       ref={ref}
       onClickSettings={onClickSettings}
       onPickEmoji={onPickEmoji}
-      onSetSkinTone={onSetSkinTone}
+      onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
       onClose={onClose}
       style={style}
     />

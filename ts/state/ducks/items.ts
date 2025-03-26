@@ -19,6 +19,7 @@ import { reloadSelectedConversation } from '../../shims/reloadSelectedConversati
 import type { StorageAccessType } from '../../types/Storage.d';
 import { actions as conversationActions } from './conversations';
 import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig';
+import type { EmojiSkinTone } from '../../components/fun/data/emojis';
 
 // State
 
@@ -77,7 +78,7 @@ export const actions = {
   savePreferredLeftPaneWidth,
   setGlobalDefaultConversationColor,
   toggleNavTabsCollapse,
-  onSetSkinTone,
+  setEmojiSkinToneDefault,
   putItem,
   putItemExternal,
   removeItem,
@@ -102,10 +103,10 @@ function putItem<K extends keyof StorageAccessType>(
   };
 }
 
-function onSetSkinTone(
-  tone: number
+function setEmojiSkinToneDefault(
+  emojiSkinToneDefault: EmojiSkinTone
 ): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
-  return putItem('skinTone', tone);
+  return putItem('emojiSkinToneDefault', emojiSkinToneDefault);
 }
 
 function putItemExternal(key: string, value: unknown): ItemPutExternalAction {

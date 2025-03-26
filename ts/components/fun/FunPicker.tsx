@@ -1,10 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
-import { FunPickerTabKey } from './FunConstants';
+import { FunPickerTabKey } from './constants';
 import { FunPopover } from './base/FunPopover';
 import { FunPickerTab, FunTabList, FunTabPanel, FunTabs } from './base/FunTabs';
 import type { FunEmojiSelection } from './panels/FunPanelEmojis';
@@ -35,7 +35,7 @@ export const FunPicker = memo(function FunPicker(
 ): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
-  const { i18n } = fun;
+  const { i18n, onClose } = fun;
 
   const [isOpen, setIsOpen] = useState(props.defaultOpen ?? false);
 
@@ -50,6 +50,12 @@ export const FunPicker = memo(function FunPicker(
   const handleClose = useCallback(() => {
     setIsOpen(false);
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      onClose();
+    }
+  }, [isOpen, onClose]);
 
   return (
     <DialogTrigger isOpen={isOpen} onOpenChange={handleOpenChange}>

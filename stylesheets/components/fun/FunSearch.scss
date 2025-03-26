@@ -7,6 +7,9 @@
 $icon-image-size: 20px;
 $icon-actual-size: 18px;
 $icon-margin-inline-start: 12px;
+$clear-padding-inline: 6px;
+$clear-button-size: 20px;
+$clear-icon-size: 16px;
 $input-padding-inline: 12px;
 
 .FunSearch__Container {
@@ -56,12 +59,50 @@ $input-padding-inline: 12px;
   }
 }
 
-.FunSearch__NoResults {
+.FunSearch__Clear {
+  @include mixins.button-reset();
+  & {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    inset-block: 0;
+    inset-inline-end: 0;
+    padding-inline: $clear-padding-inline;
+  }
+  &:focus {
+    // Handled by .FunSearch__ClearButton
+    outline: none;
+  }
+}
+
+.FunSearch__ClearButton {
   display: flex;
-  width: 100cqw;
-  height: 100cqh;
   align-items: center;
   justify-content: center;
-  @include mixins.font-body-1;
-  color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+  width: $clear-button-size;
+  height: $clear-button-size;
+  border-radius: 9999px;
+  color: light-dark(
+    variables.$color-black-alpha-50,
+    variables.$color-white-alpha-50
+  );
+
+  .FunSearch__Clear:hover &,
+  .FunSearch__Clear:focus & {
+    color: light-dark(variables.$color-gray-75, variables.$color-gray-25);
+  }
+
+  .FunSearch__Clear:focus & {
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    width: $clear-icon-size;
+    height: $clear-icon-size;
+    @include mixins.color-svg('../images/icons/v3/x/x.svg', currentColor);
+  }
 }

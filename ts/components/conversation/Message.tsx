@@ -43,7 +43,6 @@ import { Quote } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 import type { OwnProps as ReactionViewerProps } from './ReactionViewer';
 import { ReactionViewer } from './ReactionViewer';
-import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
@@ -105,11 +104,19 @@ import { getKeyFromCallLink } from '../../util/callLinks';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip';
 import { formatFileSize } from '../../util/formatFileSize';
 import { AttachmentNotAvailableModalType } from '../AttachmentNotAvailableModal';
-import { assertDev } from '../../util/assert';
+import { assertDev, strictAssert } from '../../util/assert';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal';
+import { FunStaticEmoji } from '../fun/FunEmoji';
+import {
+  getEmojiParentByKey,
+  getEmojiParentKeyByVariantKey,
+  getEmojiVariantByKey,
+  getEmojiVariantKeyByValue,
+  isEmojiVariantValue,
+} from '../fun/data/emojis';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -223,6 +230,26 @@ export type GiftBadgeType =
   | {
       state: GiftBadgeStates.Failed;
     };
+
+function ReactionEmoji(props: { emojiVariantValue: string }) {
+  strictAssert(
+    isEmojiVariantValue(props.emojiVariantValue),
+    'Expected a valid emoji variant value'
+  );
+  const emojiVariantKey = getEmojiVariantKeyByValue(props.emojiVariantValue);
+  const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
+  const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
+  const emojiParent = getEmojiParentByKey(emojiParentKey);
+
+  return (
+    <FunStaticEmoji
+      role="img"
+      aria-label={emojiParent.englishShortNameDefault}
+      size={16}
+      emoji={emojiVariant}
+    />
+  );
+}
 
 export type PropsData = {
   id: string;
@@ -2885,7 +2912,7 @@ export class Message extends React.PureComponent<Props, State> {
                       </span>
                     ) : (
                       <>
-                        <Emoji size={16} emoji={re.emoji} />
+                        <ReactionEmoji emojiVariantValue={re.emoji} />
                         {re.count > 1 ? (
                           <span
                             className={classNames(

@@ -6,6 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './EmojiButton';
 import { EmojiButton } from './EmojiButton';
+import { EmojiSkinTone } from '../fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -26,8 +27,8 @@ export function Base(): JSX.Element {
       <EmojiButton
         i18n={i18n}
         onPickEmoji={action('onPickEmoji')}
-        skinTone={0}
-        onSetSkinTone={action('onSetSkinTone')}
+        emojiSkinToneDefault={EmojiSkinTone.None}
+        onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
         recentEmojis={[
           'grinning',
           'grin',

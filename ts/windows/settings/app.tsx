@@ -35,6 +35,7 @@ SettingsWindowProps.onRender(
     customColors,
     defaultConversationColor,
     deviceName,
+    emojiSkinToneDefault,
     phoneNumber,
     doDeleteAllData,
     doneRendering,
@@ -82,6 +83,7 @@ SettingsWindowProps.onRender(
     onCallNotificationsChange,
     onCallRingtoneNotificationChange,
     onCountMutedConversationsChange,
+    onEmojiSkinToneDefaultChange,
     onHasStoriesDisabledChanged,
     onHideMenuBarChange,
     onIncomingCallNotificationsChange,
@@ -138,6 +140,7 @@ SettingsWindowProps.onRender(
         customColors={customColors}
         defaultConversationColor={defaultConversationColor}
         deviceName={deviceName}
+        emojiSkinToneDefault={emojiSkinToneDefault}
         phoneNumber={phoneNumber}
         doDeleteAllData={doDeleteAllData}
         doneRendering={doneRendering}
@@ -189,6 +192,7 @@ SettingsWindowProps.onRender(
         onCallNotificationsChange={onCallNotificationsChange}
         onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
         onCountMutedConversationsChange={onCountMutedConversationsChange}
+        onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
         onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
         onHideMenuBarChange={onHideMenuBarChange}
         onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}

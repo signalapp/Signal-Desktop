@@ -32,6 +32,7 @@ import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal';
 import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal';
 import { SmartAttachmentNotAvailableModal } from './AttachmentNotAvailableModal';
 import { SmartProfileNameWarningModal } from './ProfileNameWarningModal';
+import { SmartDraftGifMessageSendModal } from './DraftGifMessageSendModal';
 
 function renderCallLinkAddNameModal(): JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -75,6 +76,10 @@ function renderContactModal(): JSX.Element {
 
 function renderDeleteMessagesModal(): JSX.Element {
   return <SmartDeleteMessagesModal />;
+}
+
+function renderDraftGifMessageSendModal(): JSX.Element {
+  return <SmartDraftGifMessageSendModal />;
 }
 
 function renderForwardMessagesModal(): JSX.Element {
@@ -128,6 +133,7 @@ export const SmartGlobalModalContainer = memo(
       confirmLeaveCallModalState,
       contactModalState,
       deleteMessagesProps,
+      draftGifMessageSendModalProps,
       editHistoryMessages,
       editNicknameAndNoteModalProps,
       errorModalProps,
@@ -224,6 +230,7 @@ export const SmartGlobalModalContainer = memo(
         editNicknameAndNoteModalProps={editNicknameAndNoteModalProps}
         errorModalProps={errorModalProps}
         deleteMessagesProps={deleteMessagesProps}
+        draftGifMessageSendModalProps={draftGifMessageSendModalProps}
         forwardMessagesProps={forwardMessagesProps}
         messageRequestActionsConfirmationProps={
           messageRequestActionsConfirmationProps
@@ -259,6 +266,7 @@ export const SmartGlobalModalContainer = memo(
         renderEditNicknameAndNoteModal={renderEditNicknameAndNoteModal}
         renderErrorModal={renderErrorModal}
         renderDeleteMessagesModal={renderDeleteMessagesModal}
+        renderDraftGifMessageSendModal={renderDraftGifMessageSendModal}
         renderForwardMessagesModal={renderForwardMessagesModal}
         renderMessageRequestActionsConfirmation={
           renderMessageRequestActionsConfirmation

@@ -1702,6 +1702,10 @@
     "messageformat": "To change the name of this device, open Signal on your phone and navigate to Settings > Linked devices",
     "description": "Shown in the Settings window below the read-only device name"
   },
+  "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
+    "messageformat": "Emoji skin tone",
+    "description": "Preferences Window > Chats Tab > Emoji skin tone default setting > Label"
+  },
   "icu:chooseDeviceName": {
     "messageformat": "Choose this device's name",
     "description": "(Deleted 2025/02/26) The header shown on the 'choose device name' screen in the device linking process"
@@ -3171,6 +3175,10 @@
     "messageformat": "No stickers found",
     "description": "FunPicker > Stickers Panel > Search Results > Empty State > Heading"
   },
+  "icu:FunPanelStickers__LightboxDialog__Label": {
+    "messageformat": "Sticker Preview",
+    "description": "FunPicker > Stickers Panel > Lightbox Dialog (long press on sticker to see large preview) > Label"
+  },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Search GIFs via Tenor",
     "description": "FunPicker > GIFs Panel > Search Input > Label (Must use brand name 'Tenor')"
@@ -3234,6 +3242,42 @@
   "icu:FunPanelGifs__SearchResults__EmptyHeading": {
     "messageformat": "No GIFs found",
     "description": "FunPicker > Gifs Panel > Search Results > Empty State > Heading"
+  },
+  "icu:FunPanelGifs__LightboxDialog__Label": {
+    "messageformat": "GIF Preview",
+    "description": "FunPicker > Gifs Panel > Lightbox Dialog (long press on gif to see large preview) > Label"
+  },
+  "icu:FunSearch__ClearButtonLabel": {
+    "messageformat": "Clear Search",
+    "description": "FunPicker > Search Field > Clear Search Button > Accessibility Label"
+  },
+  "icu:FunSkinTones__List": {
+    "messageformat": "Skin tone",
+    "description": "FunPicker > Emojis Panel > Skin Tone Picker > Accessibility label"
+  },
+  "icu:FunSkinTones__ListItem--None": {
+    "messageformat": "None",
+    "description": "FunPicker > Emojis Panel > Skin Tone Picker > Skin Tone Option: None > Accessibility label"
+  },
+  "icu:FunSkinTones__ListItem--Light": {
+    "messageformat": "Light skin tone",
+    "description": "Fun Picker > Emojis Panel > Skin Tone Picker > Skin Tone Option: Light skin tone > Accessibility label"
+  },
+  "icu:FunSkinTones__ListItem--MediumLight": {
+    "messageformat": "Medium-light skin tone",
+    "description": "Fun Picker > Emojis Panel > Skin Tone Picker > Skin Tone Option: Medium-light skin tone > Accessibility label"
+  },
+  "icu:FunSkinTones__ListItem--Medium": {
+    "messageformat": "Medium skin tone",
+    "description": "Fun Picker > Emojis Panel > Skin Tone Picker > Skin Tone Option: Medium skin tone > Accessibility label"
+  },
+  "icu:FunSkinTones__ListItem--MediumDark": {
+    "messageformat": "Medium-dark skin tone",
+    "description": "Fun Picker > Emojis Panel > Skin Tone Picker > Skin Tone Option: Medium-dark skin tone > Accessibility label"
+  },
+  "icu:FunSkinTones__ListItem--Dark": {
+    "messageformat": "Dark skin tone",
+    "description": "Fun Picker > Emojis Panel > Skin Tone Picker > Skin Tone Option: Dark skin tone > Accessibility label"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancel",
@@ -5314,6 +5358,18 @@
   "icu:CompositionArea__FunButtonLabel": {
     "messageformat": "Add an Emoji, Sticker, or GIF",
     "description": "Composition Area > Fun Button > Accessibility label"
+  },
+  "icu:CompositionArea__ConfirmGifSelection__Title": {
+    "messageformat": "Replace attachment?",
+    "description": "Composition Area > GIF Picker > After selecting a GIF > When you already have an attachment > Confirm Dialog > Title"
+  },
+  "icu:CompositionArea__ConfirmGifSelection__Body": {
+    "messageformat": "Adding this GIF will replace the item in your current draft message.",
+    "description": "Composition Area > GIF Picker > After selecting a GIF > When you already have an attachment > Confirm Dialog > Body"
+  },
+  "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
+    "messageformat": "Replace",
+    "description": "Composition Area > GIF Picker > After selecting a GIF > When you already have an attachment > Confirm Dialog > Replace Button"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Edit message",
@@ -7832,6 +7888,18 @@
   "icu:MessageMetadata__edited": {
     "messageformat": "Edited",
     "description": "label for an edited message"
+  },
+  "icu:DraftGifMessageSendModal__Title": {
+    "messageformat": "Add a message",
+    "description": "Draft GIF Message Send Modal > Title"
+  },
+  "icu:DraftGifMessageSendModal__SendButtonLabel": {
+    "messageformat": "Send",
+    "description": "Draft GIF Message Send Modal > Send Button > Label"
+  },
+  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
+    "messageformat": "Cancel",
+    "description": "Draft GIF Message Send Modal > Cancel Button > Label"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Edit history",

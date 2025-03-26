@@ -2,12 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
-
-import { emojiToImage } from '../../components/emoji/lib';
+import { strictAssert } from '../../util/assert';
+import {
+  getEmojiVariantByKey,
+  getEmojiVariantKeyByValue,
+  isEmojiVariantValue,
+} from '../../components/fun/data/emojis';
+import {
+  createStaticEmojiBlot,
+  FUN_STATIC_EMOJI_CLASS,
+} from '../../components/fun/FunEmoji';
 
 // the DOM structure of this EmojiBlot should match the other emoji implementations:
-// ts/components/conversation/Emojify.tsx
-// ts/components/emoji/Emoji.tsx
+// ts/components/fun/FunEmoji.tsx
 
 export type EmojiBlotValue = Readonly<{
   value: string;
@@ -17,22 +24,27 @@ export type EmojiBlotValue = Readonly<{
 export class EmojiBlot extends EmbedBlot {
   static override blotName = 'emoji';
 
+  // See `createStaticEmojiBlot()`
   static override tagName = 'img';
 
-  static override className = 'emoji-blot';
+  static override className = FUN_STATIC_EMOJI_CLASS;
 
   static override create({ value: emoji, source }: EmojiBlotValue): Node {
-    const node = super.create(undefined) as HTMLElement;
-    node.dataset.emoji = emoji;
-    node.dataset.source = source;
+    const node = super.create(undefined) as HTMLImageElement;
 
-    const image = emojiToImage(emoji);
+    strictAssert(isEmojiVariantValue(emoji), 'Value is not a known emoji');
+    const variantKey = getEmojiVariantKeyByValue(emoji);
+    const variant = getEmojiVariantByKey(variantKey);
 
-    node.setAttribute('src', image || '');
+    createStaticEmojiBlot(node, {
+      role: 'img',
+      'aria-label': emoji,
+      emoji: variant,
+      size: 20,
+    });
     node.setAttribute('data-emoji', emoji);
-    node.setAttribute('data-source', source || '');
-    node.setAttribute('title', emoji);
-    node.setAttribute('aria-label', emoji);
+    node.setAttribute('data-emoji', emoji);
+    node.setAttribute('data-source', source ?? '');
 
     return node;
   }

@@ -11,20 +11,31 @@
 }
 
 .FunSkinTones__ListBoxItem {
+  padding: 1px;
+
+  &:focus {
+    // Handled in .FunSkinTones__ListBoxItem
+    outline: none;
+  }
+}
+
+.FunSkinTones__ListBoxItemButton {
   padding: 4px;
   border-radius: 10px;
-  border: 1px solid FunConstants.$Fun__BgColor;
 
-  &:hover,
-  &:focus {
+  .FunSkinTones__ListBoxItem:hover &,
+  .FunSkinTones__ListBoxItem:focus & {
     background: light-dark(variables.$color-gray-02, variables.$color-gray-78);
   }
 
-  &:focus {
-    outline: none;
+  .FunSkinTones__ListBoxItem:focus & {
     @include mixins.keyboard-mode {
       outline: 2px solid variables.$color-ultramarine;
       outline-offset: -2px;
     }
+  }
+
+  .FunSkinTones__ListBoxItem[data-selected='true'] & {
+    background: light-dark(variables.$color-gray-05, variables.$color-gray-60);
   }
 }

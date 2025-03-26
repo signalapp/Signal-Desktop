@@ -279,8 +279,6 @@ export function FunSubNavImage(props: FunSubNavImageProps): JSX.Element {
       src={props.src}
       width={26}
       height={26}
-      // presentational
-      alt=""
     />
   );
 }

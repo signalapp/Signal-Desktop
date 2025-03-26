@@ -36,7 +36,7 @@ export default {
     i18n,
     platform: 'darwin',
     onClose: action('onClose'),
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     onReact: action('onReact'),
     onReply: action('onReply'),
     onTextTooLong: action('onTextTooLong'),

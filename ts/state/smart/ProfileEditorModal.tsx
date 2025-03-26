@@ -15,7 +15,7 @@ import {
   getProfileEditorInitialEditState,
 } from '../selectors/globalModals';
 import {
-  getEmojiSkinTone,
+  getEmojiSkinToneDefault,
   getHasCompletedUsernameLinkOnboarding,
   getUsernameCorrupted,
   getUsernameLink,
@@ -55,7 +55,7 @@ export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
   const hasError = useSelector(getProfileEditorHasError);
   const initialEditState = useSelector(getProfileEditorInitialEditState);
   const recentEmojis = useSelector(selectRecentEmojis);
-  const skinTone = useSelector(getEmojiSkinTone);
+  const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const usernameCorrupted = useSelector(getUsernameCorrupted);
   const usernameEditState = useSelector(getUsernameEditState);
   const usernameLink = useSelector(getUsernameLink);
@@ -81,7 +81,7 @@ export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
   const { toggleProfileEditor, toggleProfileEditorHasError } =
     useGlobalModalActions();
   const { showToast } = useToastActions();
-  const { onSetSkinTone } = useItemsActions();
+  const { setEmojiSkinToneDefault } = useItemsActions();
 
   return (
     <ProfileEditorModal
@@ -99,7 +99,7 @@ export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
       initialEditState={initialEditState}
       markCompletedUsernameLinkOnboarding={markCompletedUsernameLinkOnboarding}
       myProfileChanged={myProfileChanged}
-      onSetSkinTone={onSetSkinTone}
+      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       openUsernameReservationModal={openUsernameReservationModal}
       profileAvatarUrl={profileAvatarUrl}
       recentEmojis={recentEmojis}
@@ -111,7 +111,7 @@ export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
       setUsernameEditState={setUsernameEditState}
       setUsernameLinkColor={setUsernameLinkColor}
       showToast={showToast}
-      skinTone={skinTone}
+      emojiSkinToneDefault={emojiSkinToneDefault}
       toggleProfileEditor={toggleProfileEditor}
       toggleProfileEditorHasError={toggleProfileEditorHasError}
       userAvatarData={userAvatarData}

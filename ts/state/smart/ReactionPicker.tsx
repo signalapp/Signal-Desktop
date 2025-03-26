@@ -14,11 +14,11 @@ import { ReactionPicker } from '../../components/conversation/ReactionPicker';
 type ExternalProps = Omit<
   InternalProps,
   | 'i18n'
-  | 'onSetSkinTone'
+  | 'onEmojiSkinToneDefaultChange'
   | 'openCustomizePreferredReactionsModal'
   | 'preferredReactionEmoji'
   | 'selectionStyle'
-  | 'skinTone'
+  | 'emojiSkinToneDefault'
 >;
 
 export const SmartReactionPicker = memo(
@@ -29,7 +29,7 @@ export const SmartReactionPicker = memo(
     const { openCustomizePreferredReactionsModal } =
       usePreferredReactionsActions();
 
-    const { onSetSkinTone } = useItemsActions();
+    const { setEmojiSkinToneDefault } = useItemsActions();
 
     const i18n = useSelector(getIntl);
     const preferredReactionEmoji = useSelector(getPreferredReactionEmoji);
@@ -37,7 +37,7 @@ export const SmartReactionPicker = memo(
     return (
       <ReactionPicker
         i18n={i18n}
-        onSetSkinTone={onSetSkinTone}
+        onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
         openCustomizePreferredReactionsModal={
           openCustomizePreferredReactionsModal
         }

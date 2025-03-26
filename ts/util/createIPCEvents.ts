@@ -59,6 +59,7 @@ import { drop } from './drop';
 import { sendSyncRequests } from '../textsecure/syncRequests';
 import { waitForEvent } from '../shims/events';
 import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../textsecure/Storage';
+import { EmojiSkinTone } from '../components/fun/data/emojis';
 
 type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -152,7 +153,9 @@ export type IPCEventsCallbacksType = {
     color: ConversationColorType,
     customColor?: { id: string; value: CustomColorType }
   ) => void;
+  setEmojiSkinToneDefault: (emojiSkinTone: EmojiSkinTone) => void;
   getDefaultConversationColor: () => DefaultConversationColorType;
+  getEmojiSkinToneDefault: () => EmojiSkinTone;
   uploadStickerPack: (
     manifest: Uint8Array,
     stickers: ReadonlyArray<Uint8Array>
@@ -343,6 +346,11 @@ export function createIPCEvents(
       await deleteAllMyStories();
     },
 
+    setGlobalDefaultConversationColor: (...args) =>
+      window.reduxActions.items.setGlobalDefaultConversationColor(...args),
+    setEmojiSkinToneDefault: (emojiSkinTone: EmojiSkinTone) =>
+      window.reduxActions.items.setEmojiSkinToneDefault(emojiSkinTone),
+
     // Chat Color redux hookups
     getCustomColors: () => {
       return getCustomColors(window.reduxStore.getState()) || {};
@@ -366,8 +374,6 @@ export function createIPCEvents(
       window.reduxActions.conversations.resetAllChatColors(),
     resetDefaultChatColor: () =>
       window.reduxActions.items.resetDefaultChatColor(),
-    setGlobalDefaultConversationColor: (...args) =>
-      window.reduxActions.items.setGlobalDefaultConversationColor(...args),
 
     // Getters only
     getAvailableIODevices: async () => {
@@ -396,6 +402,8 @@ export function createIPCEvents(
         'defaultConversationColor',
         DEFAULT_CONVERSATION_COLOR
       ),
+    getEmojiSkinToneDefault: () =>
+      window.storage.get('emojiSkinToneDefault', EmojiSkinTone.None),
     getLinkPreviewSetting: () => window.storage.get('linkPreviews', false),
     getPhoneNumberDiscoverabilitySetting: () =>
       window.storage.get(

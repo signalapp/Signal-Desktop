@@ -13,16 +13,23 @@ import { createPortal } from 'react-dom';
 import type { VirtualElement } from '@popperjs/core';
 import { convertShortName, isShortName } from '../../components/emoji/lib';
 import type { SearchFnType } from '../../components/emoji/lib';
-import { Emoji } from '../../components/emoji/Emoji';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as log from '../../logging/log';
+import { FunStaticEmoji } from '../../components/fun/FunEmoji';
+import { strictAssert } from '../../util/assert';
+import type { EmojiSkinTone } from '../../components/fun/data/emojis';
+import {
+  getEmojiParentKeyByEnglishShortName,
+  getEmojiVariantByParentKeyAndSkinTone,
+  isEmojiEnglishShortName,
+} from '../../components/fun/data/emojis';
 
-type EmojiPickerOptions = {
+export type EmojiCompletionOptions = {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
   setEmojiPickerElement: (element: JSX.Element | null) => void;
-  skinTone: number;
+  emojiSkinToneDefault: EmojiSkinTone;
   search: SearchFnType;
 };
 
@@ -39,7 +46,7 @@ export class EmojiCompletion {
 
   index: number;
 
-  options: EmojiPickerOptions;
+  options: EmojiCompletionOptions;
 
   root: HTMLDivElement;
 
@@ -47,7 +54,7 @@ export class EmojiCompletion {
 
   outsideClickDestructor?: () => void;
 
-  constructor(quill: Quill, options: EmojiPickerOptions) {
+  constructor(quill: Quill, options: EmojiCompletionOptions) {
     this.results = [];
     this.index = 0;
     this.options = options;
@@ -248,7 +255,10 @@ export class EmojiCompletion {
     withTrailingSpace = false,
     justPressedColon = false,
   }: InsertEmojiOptionsType): void {
-    const emoji = convertShortName(shortName, this.options.skinTone);
+    const emoji = convertShortName(
+      shortName,
+      this.options.emojiSkinToneDefault
+    );
 
     let source = this.quill.getText(index, range);
     if (justPressedColon) {
@@ -274,7 +284,7 @@ export class EmojiCompletion {
 
     this.options.onPickEmoji({
       shortName,
-      skinTone: this.options.skinTone,
+      skinTone: this.options.emojiSkinToneDefault,
     });
 
     this.reset();
@@ -356,34 +366,46 @@ export class EmojiCompletion {
             }`}
             tabIndex={0}
           >
-            {emojiResults.map((emoji, index) => (
-              <button
-                type="button"
-                key={emoji}
-                id={`emoji-result--${emoji}`}
-                role="option button"
-                aria-selected={emojiResultsIndex === index}
-                onClick={() => {
-                  this.index = index;
-                  this.completeEmoji();
-                }}
-                className={classNames(
-                  'module-composition-input__suggestions__row',
-                  emojiResultsIndex === index
-                    ? 'module-composition-input__suggestions__row--selected'
-                    : null
-                )}
-              >
-                <Emoji
-                  shortName={emoji}
-                  size={16}
-                  skinTone={this.options.skinTone}
-                />
-                <div className="module-composition-input__suggestions__row__short-name">
-                  :{emoji}:
-                </div>
-              </button>
-            ))}
+            {emojiResults.map((emoji, index) => {
+              strictAssert(
+                isEmojiEnglishShortName(emoji),
+                'Must be valid english short name'
+              );
+              const emojiParentKey = getEmojiParentKeyByEnglishShortName(emoji);
+              const emojiVariant = getEmojiVariantByParentKeyAndSkinTone(
+                emojiParentKey,
+                this.options.emojiSkinToneDefault
+              );
+
+              return (
+                <button
+                  type="button"
+                  key={emoji}
+                  id={`emoji-result--${emoji}`}
+                  role="option button"
+                  aria-selected={emojiResultsIndex === index}
+                  onClick={() => {
+                    this.index = index;
+                    this.completeEmoji();
+                  }}
+                  className={classNames(
+                    'module-composition-input__suggestions__row',
+                    emojiResultsIndex === index
+                      ? 'module-composition-input__suggestions__row--selected'
+                      : null
+                  )}
+                >
+                  <FunStaticEmoji
+                    role="presentation"
+                    emoji={emojiVariant}
+                    size={16}
+                  />
+                  <div className="module-composition-input__suggestions__row__short-name">
+                    :{emoji}:
+                  </div>
+                </button>
+              );
+            })}
           </div>
         )}
       </Popper>,

@@ -66,7 +66,7 @@
         transition: background 200ms variables.$ease-out-expo;
       }
 
-      .module-emoji {
+      .FunStaticEmoji {
         transform: scale(
           math.div($button-content-size, $emoji-size-from-component)
         );
@@ -160,7 +160,7 @@
 
       &--emoji {
         @mixin focus-or-hover-styles {
-          .module-emoji {
+          .FunStaticEmoji {
             transform: scale(
                 math.div($big-emoji-size, $emoji-size-from-component)
               )
@@ -205,7 +205,7 @@
       &--selected {
         opacity: 1;
 
-        .module-emoji {
+        .FunStaticEmoji {
           transform: scale(
             math.div($big-emoji-size, $emoji-size-from-component)
           );

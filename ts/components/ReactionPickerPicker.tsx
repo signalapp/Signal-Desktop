@@ -5,8 +5,14 @@ import type { CSSProperties, ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { Emoji } from './emoji/Emoji';
 import type { LocalizerType } from '../types/Util';
+import { FunStaticEmoji } from './fun/FunEmoji';
+import { strictAssert } from '../util/assert';
+import {
+  getEmojiVariantByKey,
+  getEmojiVariantKeyByValue,
+  isEmojiVariantValue,
+} from './fun/data/emojis';
 
 export enum ReactionPickerPickerStyle {
   Picker,
@@ -25,6 +31,13 @@ export const ReactionPickerPickerEmojiButton = React.forwardRef<
   { emoji, onClick, isSelected, title },
   ref
 ) {
+  strictAssert(
+    isEmojiVariantValue(emoji),
+    'Expected a valid emoji variant value'
+  );
+  const emojiVariantKey = getEmojiVariantKeyByValue(emoji);
+  const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
+
   return (
     <button
       type="button"
@@ -47,7 +60,12 @@ export const ReactionPickerPickerEmojiButton = React.forwardRef<
         }
       }}
     >
-      <Emoji size={48} emoji={emoji} title={title} />
+      <FunStaticEmoji
+        role="img"
+        aria-label={title ?? ''}
+        size={48}
+        emoji={emojiVariant}
+      />
     </button>
   );
 });

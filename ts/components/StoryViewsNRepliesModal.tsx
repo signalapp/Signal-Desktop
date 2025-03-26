@@ -37,6 +37,7 @@ import { getAvatarColor } from '../types/Colors';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import { ContextMenu } from './ContextMenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import type { EmojiSkinTone } from './fun/data/emojis';
 
 // Menu is disabled so these actions are inaccessible. We also don't support
 // link previews, tap to view messages, attachments, or gifts. Just regular
@@ -107,7 +108,7 @@ export type PropsType = {
     bodyRanges: DraftBodyRanges,
     timestamp: number
   ) => unknown;
-  onSetSkinTone: (tone: number) => unknown;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
   onTextTooLong: () => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
   ourConversationId: string | undefined;
@@ -116,7 +117,7 @@ export type PropsType = {
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replies: ReadonlyArray<ReplyType>;
   showContactModal: (contactId: string, conversationId?: string) => void;
-  skinTone?: number;
+  emojiSkinToneDefault: EmojiSkinTone;
   sortedGroupMembers?: ReadonlyArray<ConversationType>;
   views: ReadonlyArray<StorySendStateType>;
   viewTarget: StoryViewTargetType;
@@ -139,7 +140,7 @@ export function StoryViewsNRepliesModal({
   onClose,
   onReact,
   onReply,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   onTextTooLong,
   onUseEmoji,
   ourConversationId,
@@ -148,7 +149,7 @@ export function StoryViewsNRepliesModal({
   renderEmojiPicker,
   replies,
   showContactModal,
-  skinTone,
+  emojiSkinToneDefault,
   sortedGroupMembers,
   viewTarget,
   views,
@@ -238,7 +239,7 @@ export function StoryViewsNRepliesModal({
             }
             onReact(emoji);
           }}
-          onSetSkinTone={onSetSkinTone}
+          onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
           preferredReactionEmoji={preferredReactionEmoji}
           renderEmojiPicker={renderEmojiPicker}
         />
@@ -274,7 +275,7 @@ export function StoryViewsNRepliesModal({
               platform={platform}
               quotedMessageId={null}
               sendCounter={0}
-              skinTone={skinTone ?? null}
+              emojiSkinToneDefault={emojiSkinToneDefault}
               sortedGroupMembers={sortedGroupMembers ?? null}
               theme={ThemeType.dark}
               conversationId={null}
@@ -290,8 +291,8 @@ export function StoryViewsNRepliesModal({
                 onPickEmoji={insertEmoji}
                 onClose={focusComposer}
                 recentEmojis={recentEmojis}
-                skinTone={skinTone}
-                onSetSkinTone={onSetSkinTone}
+                emojiSkinToneDefault={emojiSkinToneDefault}
+                onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
               />
             </CompositionInput>
           </div>

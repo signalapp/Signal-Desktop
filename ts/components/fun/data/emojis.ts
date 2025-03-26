@@ -52,8 +52,24 @@ export enum EmojiSkinTone {
   Type5 = 'EmojiSkinTone.Type5', // 1F3FF
 }
 
+export function isValidEmojiSkinTone(value: unknown): value is EmojiSkinTone {
+  return (
+    typeof value === 'string' &&
+    EMOJI_SKIN_TONE_ORDER.includes(value as EmojiSkinTone)
+  );
+}
+
+export const EMOJI_SKIN_TONE_ORDER: ReadonlyArray<EmojiSkinTone> = [
+  EmojiSkinTone.None,
+  EmojiSkinTone.Type1,
+  EmojiSkinTone.Type2,
+  EmojiSkinTone.Type3,
+  EmojiSkinTone.Type4,
+  EmojiSkinTone.Type5,
+];
+
 /** @deprecated We should use `EmojiSkinTone` everywhere */
-export const SKIN_TONE_TO_NUMBER: Map<EmojiSkinTone, number> = new Map([
+export const EMOJI_SKIN_TONE_TO_NUMBER: Map<EmojiSkinTone, number> = new Map([
   [EmojiSkinTone.None, 0],
   [EmojiSkinTone.Type1, 1],
   [EmojiSkinTone.Type2, 2],
@@ -63,24 +79,22 @@ export const SKIN_TONE_TO_NUMBER: Map<EmojiSkinTone, number> = new Map([
 ]);
 
 /** @deprecated We should use `EmojiSkinTone` everywhere */
-export const NUMBER_TO_SKIN_TONE: Map<number, EmojiSkinTone> = new Map([
-  [0, EmojiSkinTone.None],
-  [1, EmojiSkinTone.Type1],
-  [2, EmojiSkinTone.Type2],
-  [3, EmojiSkinTone.Type3],
-  [4, EmojiSkinTone.Type4],
-  [5, EmojiSkinTone.Type5],
+export const KEY_TO_EMOJI_SKIN_TONE = new Map<string, EmojiSkinTone>([
+  ['1F3FB', EmojiSkinTone.Type1],
+  ['1F3FC', EmojiSkinTone.Type2],
+  ['1F3FD', EmojiSkinTone.Type3],
+  ['1F3FE', EmojiSkinTone.Type4],
+  ['1F3FF', EmojiSkinTone.Type5],
 ]);
 
-export type EmojiSkinToneVariant = Exclude<EmojiSkinTone, EmojiSkinTone.None>;
-
-const KeyToEmojiSkinTone: Record<string, EmojiSkinToneVariant> = {
-  '1F3FB': EmojiSkinTone.Type1,
-  '1F3FC': EmojiSkinTone.Type2,
-  '1F3FD': EmojiSkinTone.Type3,
-  '1F3FE': EmojiSkinTone.Type4,
-  '1F3FF': EmojiSkinTone.Type5,
-};
+/** @deprecated We should use `EmojiSkinTone` everywhere */
+export const EMOJI_SKIN_TONE_TO_KEY: Map<EmojiSkinTone, string> = new Map([
+  [EmojiSkinTone.Type1, '1F3FB'],
+  [EmojiSkinTone.Type2, '1F3FC'],
+  [EmojiSkinTone.Type3, '1F3FD'],
+  [EmojiSkinTone.Type4, '1F3FE'],
+  [EmojiSkinTone.Type5, '1F3FF'],
+]);
 
 export type EmojiParentKey = string & { EmojiParentKey: never };
 export type EmojiVariantKey = string & { EmojiVariantKey: never };
@@ -94,18 +108,17 @@ export type EmojiEnglishShortName = string & { EmojiEnglishShortName: never };
 export type EmojiVariantData = Readonly<{
   key: EmojiVariantKey;
   value: EmojiVariantValue;
+  valueNonqualified: EmojiVariantValue | null;
   sheetX: number;
   sheetY: number;
 }>;
 
-type EmojiDefaultSkinToneVariants = Record<
-  EmojiSkinToneVariant,
-  EmojiVariantKey
->;
+type EmojiDefaultSkinToneVariants = Record<EmojiSkinTone, EmojiVariantKey>;
 
 export type EmojiParentData = Readonly<{
   key: EmojiParentKey;
   value: EmojiParentValue;
+  valueNonqualified: EmojiParentValue | null;
   unicodeCategory: EmojiUnicodeCategory;
   pickerCategory: EmojiPickerCategory | null;
   defaultVariant: EmojiVariantKey;
@@ -124,6 +137,7 @@ export type EmojiParentData = Readonly<{
 
 const RawEmojiSkinToneSchema = z.object({
   unified: z.string(),
+  non_qualified: z.union([z.string(), z.null()]),
   sheet_x: z.number(),
   sheet_y: z.number(),
   has_img_apple: z.boolean(),
@@ -133,6 +147,7 @@ const RawEmojiSkinToneMapSchema = z.record(z.string(), RawEmojiSkinToneSchema);
 
 const RawEmojiSchema = z.object({
   unified: z.string(),
+  non_qualified: z.union([z.string(), z.null()]),
   category: z.string(),
   sort_order: z.number(),
   sheet_x: z.number(),
@@ -282,6 +297,9 @@ const EMOJI_INDEX: EmojiIndex = {
 function addParent(parent: EmojiParentData, rank: number) {
   EMOJI_INDEX.parentByKey[parent.key] = parent;
   EMOJI_INDEX.parentKeysByValue[parent.value] = parent.key;
+  if (parent.valueNonqualified != null) {
+    EMOJI_INDEX.parentKeysByValue[parent.valueNonqualified] = parent.key;
+  }
   EMOJI_INDEX.parentKeysByName[parent.englishShortNameDefault] = parent.key;
   EMOJI_INDEX.unicodeCategories[parent.unicodeCategory].push(parent.key);
   if (parent.pickerCategory != null) {
@@ -306,6 +324,9 @@ function addVariant(parentKey: EmojiParentKey, variant: EmojiVariantData) {
   EMOJI_INDEX.parentKeysByVariantKeys[variant.key] = parentKey;
   EMOJI_INDEX.variantByKey[variant.key] = variant;
   EMOJI_INDEX.variantKeysByValue[variant.value] = variant.key;
+  if (variant.valueNonqualified) {
+    EMOJI_INDEX.variantKeysByValue[variant.valueNonqualified] = variant.key;
+  }
 }
 
 for (const rawEmoji of RAW_EMOJI_DATA) {
@@ -314,6 +335,10 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
   const defaultVariant: EmojiVariantData = {
     key: toEmojiVariantKey(rawEmoji.unified),
     value: toEmojiVariantValue(rawEmoji.unified),
+    valueNonqualified:
+      rawEmoji.non_qualified != null
+        ? toEmojiVariantValue(rawEmoji.non_qualified)
+        : null,
     sheetX: rawEmoji.sheet_x,
     sheetY: rawEmoji.sheet_y,
   };
@@ -331,6 +356,10 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
       const skinToneVariant: EmojiVariantData = {
         key: variantKey,
         value: toEmojiVariantValue(value.unified),
+        valueNonqualified:
+          rawEmoji.non_qualified != null
+            ? toEmojiVariantValue(rawEmoji.non_qualified)
+            : null,
         sheetX: value.sheet_x,
         sheetY: value.sheet_y,
       };
@@ -339,7 +368,7 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
     }
 
     const result: Partial<EmojiDefaultSkinToneVariants> = {};
-    for (const [key, skinTone] of Object.entries(KeyToEmojiSkinTone)) {
+    for (const [key, skinTone] of KEY_TO_EMOJI_SKIN_TONE) {
       const one = map.get(key) ?? null;
       const two = map.get(`${key}-${key}`) ?? null;
       const variantKey = one ?? two;
@@ -356,6 +385,10 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
   const parent: EmojiParentData = {
     key: toEmojiParentKey(rawEmoji.unified),
     value: toEmojiParentValue(rawEmoji.unified),
+    valueNonqualified:
+      rawEmoji.non_qualified != null
+        ? toEmojiParentValue(rawEmoji.non_qualified)
+        : null,
     unicodeCategory: toEmojiUnicodeCategory(rawEmoji.category),
     pickerCategory: toEmojiPickerCategory(rawEmoji.category),
     defaultVariant: defaultVariant.key,
@@ -402,16 +435,6 @@ export function getEmojiVariantByKey(key: EmojiVariantKey): EmojiVariantData {
   const data = EMOJI_INDEX.variantByKey[key];
   strictAssert(data, `Missing emoji variant data for key "${key}"`);
   return data;
-}
-
-export function getEmojiParentKeyByValueUnsafe(input: string): EmojiParentKey {
-  strictAssert(
-    isEmojiParentValue(input),
-    `Missing emoji parent value for input "${input}"`
-  );
-  const key = EMOJI_INDEX.parentKeysByValue[input];
-  strictAssert(key, `Missing emoji parent key for input "${input}"`);
-  return key;
 }
 
 export function getEmojiParentKeyByValue(
@@ -490,6 +513,14 @@ export function getEmojiParentKeyByEnglishShortName(
 /** Exported for testing */
 export function* _allEmojiVariantKeys(): Iterable<EmojiVariantKey> {
   yield* Object.keys(EMOJI_INDEX.variantByKey) as Array<EmojiVariantKey>;
+}
+
+export function emojiParentKeyConstant(input: string): EmojiParentKey {
+  strictAssert(
+    isEmojiParentValue(input),
+    `Missing emoji parent for value "${input}"`
+  );
+  return getEmojiParentKeyByValue(input);
 }
 
 export function emojiVariantConstant(input: string): EmojiVariantData {
