@@ -364,16 +364,6 @@ async function runDownloadAttachmentJob({
   try {
     log.info(`${logId}: Starting job`);
 
-    if (
-      job.source !== AttachmentDownloadSource.BACKFILL &&
-      isPermanentlyUndownloadableWithoutBackfill(job.attachment)
-    ) {
-      // We should only get to here only if
-      throw new AttachmentPermanentlyUndownloadableError(
-        'Not downloadable without backfill'
-      );
-    }
-
     const result = await runDownloadAttachmentJobInner({
       job,
       abortSignal: options.abortSignal,
@@ -575,6 +565,16 @@ export async function runDownloadAttachmentJobInner({
     logId,
     { type: attachmentType }
   );
+
+  if (
+    job.source !== AttachmentDownloadSource.BACKFILL &&
+    isPermanentlyUndownloadableWithoutBackfill(job.attachment)
+  ) {
+    // We should only get to here only if
+    throw new AttachmentPermanentlyUndownloadableError(
+      'Not downloadable without backfill'
+    );
+  }
 
   try {
     const { downloadPath } = attachment;

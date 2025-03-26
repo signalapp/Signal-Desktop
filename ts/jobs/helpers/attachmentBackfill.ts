@@ -100,7 +100,7 @@ export class AttachmentBackfill {
     timestamp,
     response,
   }: AttachmentBackfillResponseSyncEvent): Promise<void> {
-    const logId = `onAttachmentBackfillResponseSync(${timestamp})`;
+    let logId = `onAttachmentBackfillResponseSync(${timestamp})`;
     if (!isBackfillEnabled()) {
       log.info(`${logId}: disabled`);
       return;
@@ -129,6 +129,7 @@ export class AttachmentBackfill {
     }
 
     const message = window.MessageCache.register(new MessageModel(attributes));
+    logId += `(${message.get('sent_at')})`;
 
     const timer = this.#pendingRequests.get(message.id);
     if (timer != null) {
