@@ -8,8 +8,9 @@ import {
   LeftPaneDialogIcon,
   LeftPaneDialogIconBackground,
 } from './LeftPaneDialog';
-import type { WidthBreakpoint } from './_util';
+import { WidthBreakpoint } from './_util';
 import type { LocalizerType } from '../types/I18N';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
 export type Props = {
   containerWidthBreakpoint: WidthBreakpoint;
@@ -33,6 +34,13 @@ export function WarningIdlePrimaryDeviceDialog({
           <LeftPaneDialogIcon type="error" />
         </LeftPaneDialogIconBackground>
       }
+      {...(containerWidthBreakpoint === WidthBreakpoint.Narrow
+        ? {
+            onClick: () => openLinkInWebBrowser(SUPPORT_PAGE),
+            clickLabel: i18n('icu:IdlePrimaryDevice__learnMore'),
+            hasAction: false,
+          }
+        : { hasAction: false })}
       {...(handleClose == null
         ? { hasXButton: false }
         : {
@@ -42,11 +50,13 @@ export function WarningIdlePrimaryDeviceDialog({
           })}
     >
       {i18n('icu:IdlePrimaryDevice__body')}
-      <div>
-        <a href={SUPPORT_PAGE} rel="noreferrer" target="_blank">
-          {i18n('icu:IdlePrimaryDevice__learnMore')}
-        </a>
-      </div>
+      {containerWidthBreakpoint !== WidthBreakpoint.Narrow ? (
+        <div>
+          <a href={SUPPORT_PAGE} rel="noreferrer" target="_blank">
+            {i18n('icu:IdlePrimaryDevice__learnMore')}
+          </a>
+        </div>
+      ) : null}
     </LeftPaneDialog>
   );
 }

@@ -27,7 +27,7 @@ export type PropsType = {
   | {
       onClick: () => void;
       clickLabel: string;
-      hasAction: true;
+      hasAction: boolean;
     }
 ) &
   (
