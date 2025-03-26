@@ -3825,6 +3825,16 @@ export default class MessageReceiver
       logId
     );
 
+    strictAssert(
+      targetMessage != null,
+      'MessageReceiver.handleAttachmentBackfillResponse: invalid target message'
+    );
+    strictAssert(
+      targetConversation != null,
+      'MessageReceiver.handleAttachmentBackfillResponse: ' +
+        'invalid target conversation'
+    );
+
     let eventData: AttachmentBackfillResponseSyncEventData;
     if (response.error != null) {
       eventData = {
@@ -3833,16 +3843,6 @@ export default class MessageReceiver
         targetConversation,
       };
     } else {
-      strictAssert(
-        targetMessage != null,
-        'MessageReceiver.handleAttachmentBackfillResponse: invalid target message'
-      );
-      strictAssert(
-        targetConversation != null,
-        'MessageReceiver.handleAttachmentBackfillResponse: ' +
-          'invalid target conversation'
-      );
-
       const { attachments } = response;
       strictAssert(
         attachments != null,

@@ -7,16 +7,16 @@ import { noop } from 'lodash';
 
 import { DataWriter } from '../../sql/Client';
 import { IMAGE_PNG } from '../../types/MIME';
-import {
-  AttachmentPermanentlyUndownloadableError,
-  downloadAttachment,
-} from '../../util/downloadAttachment';
+import { downloadAttachment } from '../../util/downloadAttachment';
 import { MediaTier } from '../../types/AttachmentDownload';
 import { HTTPError } from '../../textsecure/Errors';
 import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment';
 import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers';
 import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId';
-import { AttachmentVariant } from '../../types/Attachment';
+import {
+  AttachmentVariant,
+  AttachmentPermanentlyUndownloadableError,
+} from '../../types/Attachment';
 
 describe('utils/downloadAttachment', () => {
   const baseAttachment = {

@@ -5,6 +5,7 @@ import {
   type AttachmentType,
   mightBeOnBackupTier,
   AttachmentVariant,
+  AttachmentPermanentlyUndownloadableError,
   getAttachmentIdForLogging,
 } from '../types/Attachment';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
@@ -13,8 +14,6 @@ import * as log from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { toLogFormat } from '../types/errors';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
-
-export class AttachmentPermanentlyUndownloadableError extends Error {}
 
 export async function downloadAttachment({
   attachment,
@@ -105,7 +104,7 @@ export async function downloadAttachment({
       error instanceof HTTPError &&
       (error.code === 404 || error.code === 403)
     ) {
-      throw new AttachmentPermanentlyUndownloadableError();
+      throw new AttachmentPermanentlyUndownloadableError(`HTTP ${error.code}`);
     } else {
       throw error;
     }

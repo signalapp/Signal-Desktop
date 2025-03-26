@@ -113,17 +113,6 @@ export class AttachmentBackfill {
       AttachmentData: { Status },
     } = Proto.SyncMessage.AttachmentBackfillResponse;
 
-    if ('error' in response) {
-      if (response.error === ErrorEnum.MESSAGE_NOT_FOUND) {
-        window.reduxActions.globalModals.showBackfillFailureModal({
-          kind: BackfillFailureKind.NotFound,
-        });
-      } else {
-        throw missingCaseError(response.error);
-      }
-      return;
-    }
-
     const { targetMessage, targetConversation } = response;
 
     const convo = getConversationFromTarget(targetConversation);
@@ -141,12 +130,28 @@ export class AttachmentBackfill {
 
     const message = window.MessageCache.register(new MessageModel(attributes));
 
-    // IMPORTANT: no awaits until we finish modifying attachments
-
     const timer = this.#pendingRequests.get(message.id);
     if (timer != null) {
       clearTimeout(timer);
     }
+
+    if ('error' in response) {
+      // Don't show error if we didn't request the data or already timed out
+      if (timer == null) {
+        return;
+      }
+
+      if (response.error === ErrorEnum.MESSAGE_NOT_FOUND) {
+        window.reduxActions.globalModals.showBackfillFailureModal({
+          kind: BackfillFailureKind.NotFound,
+        });
+      } else {
+        throw missingCaseError(response.error);
+      }
+      return;
+    }
+
+    // IMPORTANT: no awaits until we finish modifying attachments
 
     // Since we are matching remote attachments with local attachments we need
     // to make sure things are normalized before starting.
@@ -462,4 +467,25 @@ export function isPermanentlyUndownloadable(
   // If backfill is unavailable for the attachment - it cannot be downloaded
   // at this time.
   return !AttachmentBackfill.isEnabledForJob(disposition, message);
+}
+
+export function isPermanentlyUndownloadableWithoutBackfill(
+  attachment: AttachmentType
+): boolean {
+  // Attachment is downloadable or user have not failed to download it yet
+  if (isDownloadable(attachment) || !attachment.error) {
+    return false;
+  }
+
+  // Too big attachments cannot be retried anymore
+  if (attachment.wasTooBig) {
+    return true;
+  }
+
+  // Previous backfill failed
+  if (attachment.backfillError) {
+    return true;
+  }
+
+  return true;
 }
