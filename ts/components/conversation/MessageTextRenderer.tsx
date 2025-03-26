@@ -24,8 +24,8 @@ import { AtMention } from './AtMention';
 import { isLinkSneaky } from '../../types/LinkPreview';
 import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
-import type { SizeClassType } from '../emoji/lib';
 import type { LocalizerType } from '../../types/Util';
+import type { FunJumboEmojiSize } from '../fun/FunEmoji';
 
 const EMOJI_REGEXP = emojiRegex();
 export enum RenderLocation {
@@ -41,7 +41,7 @@ type Props = {
   bodyRanges: BodyRangesForDisplayType;
   direction: 'incoming' | 'outgoing' | undefined;
   disableLinks: boolean;
-  emojiSizeClass: SizeClassType | undefined;
+  jumboEmojiSize: FunJumboEmojiSize | null;
   i18n: LocalizerType;
   isSpoilerExpanded: Record<number, boolean>;
   messageText: string;
@@ -56,7 +56,7 @@ export function MessageTextRenderer({
   bodyRanges,
   direction,
   disableLinks,
-  emojiSizeClass,
+  jumboEmojiSize,
   i18n,
   isSpoilerExpanded,
   messageText,
@@ -112,7 +112,7 @@ export function MessageTextRenderer({
         renderNode({
           direction,
           disableLinks,
-          emojiSizeClass,
+          jumboEmojiSize,
           i18n,
           isInvisible: false,
           isSpoilerExpanded,
@@ -129,7 +129,7 @@ export function MessageTextRenderer({
 function renderNode({
   direction,
   disableLinks,
-  emojiSizeClass,
+  jumboEmojiSize,
   i18n,
   isInvisible,
   isSpoilerExpanded,
@@ -140,7 +140,7 @@ function renderNode({
 }: {
   direction: 'incoming' | 'outgoing' | undefined;
   disableLinks: boolean;
-  emojiSizeClass: SizeClassType | undefined;
+  jumboEmojiSize: FunJumboEmojiSize | null;
   i18n: LocalizerType;
   isInvisible: boolean;
   isSpoilerExpanded: Record<number, boolean>;
@@ -159,7 +159,7 @@ function renderNode({
       renderNode({
         direction,
         disableLinks,
-        emojiSizeClass,
+        jumboEmojiSize,
         i18n,
         isInvisible: isSpoilerHidden,
         isSpoilerExpanded,
@@ -236,7 +236,7 @@ function renderNode({
   let content = renderMentions({
     direction,
     disableLinks,
-    emojiSizeClass,
+    jumboEmojiSize,
     isInvisible,
     mentions: node.mentions,
     onMentionTrigger,
@@ -284,7 +284,7 @@ function renderNode({
 function renderMentions({
   direction,
   disableLinks,
-  emojiSizeClass,
+  jumboEmojiSize,
   isInvisible,
   mentions,
   node,
@@ -292,7 +292,7 @@ function renderMentions({
 }: {
   direction: 'incoming' | 'outgoing' | undefined;
   disableLinks: boolean;
-  emojiSizeClass: SizeClassType | undefined;
+  jumboEmojiSize: FunJumboEmojiSize | null;
   isInvisible: boolean;
   mentions: ReadonlyArray<HydratedBodyRangeMention>;
   node: DisplayNode;
@@ -310,7 +310,7 @@ function renderMentions({
         renderText({
           isInvisible,
           key: result.length.toString(),
-          emojiSizeClass,
+          jumboEmojiSize,
           text: text.slice(offset, mention.start),
         })
       );
@@ -337,7 +337,7 @@ function renderMentions({
     renderText({
       isInvisible,
       key: result.length.toString(),
-      emojiSizeClass,
+      jumboEmojiSize,
       text: text.slice(offset, text.length),
     })
   );
@@ -401,12 +401,12 @@ function renderMention({
 /** Render text that does not contain body ranges or is in between body ranges */
 function renderText({
   text,
-  emojiSizeClass,
+  jumboEmojiSize,
   isInvisible,
   key,
 }: {
   text: string;
-  emojiSizeClass: SizeClassType | undefined;
+  jumboEmojiSize: FunJumboEmojiSize | null;
   isInvisible: boolean;
   key: string;
 }) {
@@ -417,7 +417,7 @@ function renderText({
       renderNonEmoji={({ text: innerText, key: innerKey }) => (
         <AddNewLines key={innerKey} text={innerText} />
       )}
-      sizeClass={emojiSizeClass}
+      fontSizeOverride={jumboEmojiSize}
       text={text}
     />
   );

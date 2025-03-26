@@ -68,6 +68,11 @@ export const getDeleteMessagesProps = createSelector(
   ({ deleteMessagesProps }) => deleteMessagesProps
 );
 
+export const getDraftGifMessageSendModalProps = createSelector(
+  getGlobalModalsState,
+  ({ draftGifMessageSendModalProps }) => draftGifMessageSendModalProps
+);
+
 export const getEditHistoryMessages = createSelector(
   getGlobalModalsState,
   ({ editHistoryMessages }) => editHistoryMessages

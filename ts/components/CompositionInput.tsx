@@ -73,9 +73,12 @@ import {
   matchStrikethrough,
 } from '../quill/formatting/matchers';
 import { missingCaseError } from '../util/missingCaseError';
+import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-ascii-emojis';
 import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis';
 import { dropNull } from '../util/dropNull';
 import { SimpleQuillWrapper } from './SimpleQuillWrapper';
+import type { EmojiSkinTone } from './fun/data/emojis';
+import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji';
 
 Quill.register(
   {
@@ -117,7 +120,7 @@ export type Props = Readonly<{
   isFormattingEnabled: boolean;
   isActive: boolean;
   sendCounter: number;
-  skinTone: NonNullable<EmojiPickDataType['skinTone']> | null;
+  emojiSkinToneDefault: EmojiSkinTone;
   draftText: string | null;
   draftBodyRanges: HydratedBodyRangesType | null;
   moduleClassName?: string;
@@ -182,7 +185,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     platform,
     quotedMessageId,
     shouldHidePopovers,
-    skinTone,
+    emojiSkinToneDefault,
     sendCounter,
     sortedGroupMembers,
     theme,
@@ -600,7 +603,9 @@ export function CompositionInput(props: Props): React.ReactElement {
       // typing new text. This code removes the style tags that we don't want there, and
       // quill doesn't know about. It can result formatting on the resultant message that
       // doesn't match the composer.
-      const withStyles = quill.container.querySelectorAll('[style]');
+      const withStyles = quill.container.querySelectorAll(
+        `[style]:not(.${FUN_STATIC_EMOJI_CLASS})`
+      );
       for (const node of withStyles) {
         node.attributes.removeNamedItem('style');
       }
@@ -689,12 +694,12 @@ export function CompositionInput(props: Props): React.ReactElement {
   React.useEffect(() => {
     const emojiCompletion = emojiCompletionRef.current;
 
-    if (emojiCompletion == null || skinTone == null) {
+    if (emojiCompletion == null || emojiSkinToneDefault == null) {
       return;
     }
 
-    emojiCompletion.options.skinTone = skinTone;
-  }, [skinTone]);
+    emojiCompletion.options.emojiSkinToneDefault = emojiSkinToneDefault;
+  }, [emojiSkinToneDefault]);
 
   React.useEffect(
     () => () => {
@@ -790,7 +795,9 @@ export function CompositionInput(props: Props): React.ReactElement {
                 ['br', matchBreak],
                 [Node.ELEMENT_NODE, matchNewline],
                 ['IMG', matchEmojiImage],
+                ['SPAN', matchEmojiImage],
                 ['IMG', matchEmojiBlot],
+                ['SPAN', matchEmojiBlot],
                 ['STRONG', matchBold],
                 ['EM', matchItalic],
                 ['SPAN', matchMonospace],
@@ -831,12 +838,12 @@ export function CompositionInput(props: Props): React.ReactElement {
               setEmojiPickerElement: setEmojiCompletionElement,
               onPickEmoji: (emoji: EmojiPickDataType) =>
                 callbacksRef.current.onPickEmoji(emoji),
-              skinTone,
+              emojiSkinToneDefault,
               search,
             },
             autoSubstituteAsciiEmojis: {
-              skinTone,
-            },
+              emojiSkinToneDefault,
+            } satisfies AutoSubstituteAsciiEmojisOptions,
             formattingMenu: {
               i18n,
               isMenuEnabled: isFormattingEnabled,

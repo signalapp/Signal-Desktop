@@ -166,8 +166,9 @@ function InstallScreenQrCode(
     case LoadingState.Loading:
       contents = <Spinner size="24px" svgSize="small" />;
       break;
-    case LoadingState.LoadFailed:
-      switch (props.error) {
+    case LoadingState.LoadFailed: {
+      const { error } = props;
+      switch (error) {
         case InstallScreenQRCodeError.Timeout:
           contents = (
             <>
@@ -229,9 +230,10 @@ function InstallScreenQrCode(
           );
           break;
         default:
-          throw missingCaseError(props.error);
+          throw missingCaseError(error);
       }
       break;
+    }
     case LoadingState.Loaded:
       contents = <QRCodeImage i18n={i18n} link={props.value} />;
       break;

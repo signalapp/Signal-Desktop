@@ -42,6 +42,7 @@ import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 import { BadgeCategory } from '../../badges/BadgeCategory';
 import { PaymentEventKind } from '../../types/Payment';
+import { EmojiSkinTone } from '../fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -112,8 +113,10 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
 }) => (
   <EmojiPicker
     i18n={i18n}
-    skinTone={0}
-    onSetSkinTone={action('EmojiPicker::onSetSkinTone')}
+    emojiSkinToneDefault={EmojiSkinTone.None}
+    onEmojiSkinToneDefaultChange={action(
+      'EmojiPicker::onEmojiSkinToneDefaultChange'
+    )}
     ref={ref}
     onClose={onClose}
     onPickEmoji={onPickEmoji}

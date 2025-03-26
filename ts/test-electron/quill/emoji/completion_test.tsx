@@ -5,8 +5,12 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 
 import { EmojiCompletion } from '../../../quill/emoji/completion';
-import type { InsertEmojiOptionsType } from '../../../quill/emoji/completion';
+import type {
+  EmojiCompletionOptions,
+  InsertEmojiOptionsType,
+} from '../../../quill/emoji/completion';
 import { createSearch } from '../../../components/emoji/lib';
+import { EmojiSkinTone } from '../../../components/fun/data/emojis';
 
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;
@@ -25,10 +29,10 @@ describe('emojiCompletion', () => {
       setSelection: sinon.stub(),
       updateContents: sinon.stub(),
     };
-    const options = {
+    const options: EmojiCompletionOptions = {
       onPickEmoji: sinon.stub(),
       setEmojiPickerElement: sinon.stub(),
-      skinTone: 0,
+      emojiSkinToneDefault: EmojiSkinTone.None,
       search: createSearch([
         { shortName: 'smile', tags: [], rank: 0 },
         { shortName: 'smile_cat', tags: [], rank: 0 },

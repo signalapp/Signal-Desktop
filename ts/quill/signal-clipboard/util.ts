@@ -1,6 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import {
+  FUN_INLINE_EMOJI_CLASS,
+  FUN_STATIC_EMOJI_CLASS,
+} from '../../components/fun/FunEmoji';
+
 const QUILL_EMBED_GUARD = '\uFEFF';
 
 export function createEventHandler({
@@ -73,9 +78,8 @@ function getStringFromNode(
 
   const element = node as Element;
   if (
-    element.nodeName === 'IMG' &&
-    (element.classList.contains('emoji') ||
-      element.classList.contains('emoji-blot'))
+    element.classList.contains(FUN_STATIC_EMOJI_CLASS) ||
+    element.classList.contains(FUN_INLINE_EMOJI_CLASS)
   ) {
     return element.ariaLabel || '';
   }

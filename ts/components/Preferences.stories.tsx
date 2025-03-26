@@ -11,6 +11,7 @@ import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { DurationInSeconds } from '../util/durations';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -79,6 +80,7 @@ export default {
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
     deviceName: 'Work Windows ME',
+    emojiSkinToneDefault: EmojiSkinTone.None,
     phoneNumber: '+1 555 123-4567',
     hasAudioNotifications: true,
     hasAutoConvertEmoji: true,
@@ -145,6 +147,7 @@ export default {
       'onCallRingtoneNotificationChange'
     ),
     onCountMutedConversationsChange: action('onCountMutedConversationsChange'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     onHasStoriesDisabledChanged: action('onHasStoriesDisabledChanged'),
     onHideMenuBarChange: action('onHideMenuBarChange'),
     onIncomingCallNotificationsChange: action(

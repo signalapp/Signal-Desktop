@@ -60,6 +60,7 @@ import { getMessageById } from '../../messages/getMessageById';
 import type { AttachmentNotAvailableModalType } from '../../components/AttachmentNotAvailableModal';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal';
 import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal';
+import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal';
 
 // State
 
@@ -111,6 +112,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   confirmLeaveCallModalState: StartCallData | null;
   contactModalState?: ContactModalStateType;
   deleteMessagesProps?: DeleteMessagesPropsType;
+  draftGifMessageSendModalProps: SmartDraftGifMessageSendModalProps | null;
   editHistoryMessages?: EditHistoryMessagesType;
   editNicknameAndNoteModalProps: EditNicknameAndNoteModalPropsType | null;
   errorModalProps?: {
@@ -169,6 +171,8 @@ const SHOW_STORIES_SETTINGS = 'globalModals/SHOW_STORIES_SETTINGS';
 const HIDE_STORIES_SETTINGS = 'globalModals/HIDE_STORIES_SETTINGS';
 const TOGGLE_DELETE_MESSAGES_MODAL =
   'globalModals/TOGGLE_DELETE_MESSAGES_MODAL';
+const TOGGLE_DRAFT_GIF_MESSAGE_SEND_MODAL =
+  'globalModals/TOGGLE_DRAFT_GIF_MESSAGE_SEND_MODAL';
 const TOGGLE_FORWARD_MESSAGES_MODAL =
   'globalModals/TOGGLE_FORWARD_MESSAGES_MODAL';
 const TOGGLE_NOTE_PREVIEW_MODAL = 'globalModals/TOGGLE_NOTE_PREVIEW_MODAL';
@@ -285,6 +289,11 @@ export type ShowUserNotFoundModalActionType = ReadonlyDeep<{
 type ToggleDeleteMessagesModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_DELETE_MESSAGES_MODAL;
   payload: DeleteMessagesPropsType | undefined;
+}>;
+
+type ToggleDraftGifMessageSendModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_DRAFT_GIF_MESSAGE_SEND_MODAL;
+  payload: SmartDraftGifMessageSendModalProps | null;
 }>;
 
 type ToggleForwardMessagesModalActionType = ReadonlyDeep<{
@@ -495,6 +504,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleConfirmationModalActionType
   | ToggleConfirmLeaveCallModalActionType
   | ToggleDeleteMessagesModalActionType
+  | ToggleDraftGifMessageSendModalActionType
   | ToggleEditNicknameAndNoteModalActionType
   | ToggleForwardMessagesModalActionType
   | ToggleMessageRequestActionsConfirmationActionType
@@ -547,6 +557,7 @@ export const actions = {
   toggleConfirmationModal,
   toggleConfirmLeaveCallModal,
   toggleDeleteMessagesModal,
+  toggleDraftGifMessageSendModal,
   toggleEditNicknameAndNoteModal,
   toggleForwardMessagesModal,
   toggleMessageRequestActionsConfirmation,
@@ -718,6 +729,15 @@ function toggleDeleteMessagesModal(
 ): ToggleDeleteMessagesModalActionType {
   return {
     type: TOGGLE_DELETE_MESSAGES_MODAL,
+    payload: props,
+  };
+}
+
+function toggleDraftGifMessageSendModal(
+  props: SmartDraftGifMessageSendModalProps | null
+): ToggleDraftGifMessageSendModalActionType {
+  return {
+    type: TOGGLE_DRAFT_GIF_MESSAGE_SEND_MODAL,
     payload: props,
   };
 }
@@ -1235,6 +1255,7 @@ export function getEmptyState(): GlobalModalsStateType {
     callLinkEditModalRoomId: null,
     callLinkPendingParticipantContactId: undefined,
     confirmLeaveCallModalState: null,
+    draftGifMessageSendModalProps: null,
     editNicknameAndNoteModalProps: null,
     isProfileEditorVisible: false,
     isProfileNameWarningModalVisible: false,
@@ -1435,6 +1456,13 @@ export function reducer(
     return {
       ...state,
       deleteMessagesProps: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_DRAFT_GIF_MESSAGE_SEND_MODAL) {
+    return {
+      ...state,
+      draftGifMessageSendModalProps: action.payload,
     };
   }
 

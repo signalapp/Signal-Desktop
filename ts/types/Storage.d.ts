@@ -165,7 +165,7 @@ export type StorageAccessType = {
   setBackupMediaSignatureKey: boolean;
   lastReceivedAtCounter: number;
   preferredReactionEmoji: ReadonlyArray<string>;
-  skinTone: number;
+  emojiSkinToneDefault: EmojiSkinToneDefault;
   unreadCount: number;
   'challenge:conversations': ReadonlyArray<RegisteredChallengeType>;
 

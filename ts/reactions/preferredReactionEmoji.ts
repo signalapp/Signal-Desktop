@@ -6,6 +6,7 @@ import * as log from '../logging/log';
 import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from './constants';
 import { convertShortName } from '../components/emoji/lib';
 import { isValidReactionEmoji } from './isValidReactionEmoji';
+import type { EmojiSkinTone } from '../components/fun/data/emojis';
 
 const MAX_STORED_LENGTH = 20;
 const MAX_ITEM_LENGTH = 20;
@@ -15,7 +16,7 @@ const PREFERRED_REACTION_EMOJI_COUNT =
 
 export function getPreferredReactionEmoji(
   storedValue: unknown,
-  skinTone: number
+  emojiSkinToneDefault: EmojiSkinTone
 ): Array<string> {
   const storedValueAsArray: Array<unknown> = Array.isArray(storedValue)
     ? storedValue
@@ -36,7 +37,10 @@ export function getPreferredReactionEmoji(
       return '❤️';
     }
 
-    const fallbackEmoji = convertShortName(fallbackShortName, skinTone);
+    const fallbackEmoji = convertShortName(
+      fallbackShortName,
+      emojiSkinToneDefault
+    );
     if (!fallbackEmoji) {
       log.error(
         'No fallback emoji. Does the fallback list contain an invalid short name?'

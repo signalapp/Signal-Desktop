@@ -25,12 +25,16 @@ function Template(props: TemplateProps): JSX.Element {
         recentStickers={recentStickers}
         recentGifs={[]}
         // Emojis
-        defaultEmojiSkinTone={EmojiSkinTone.None}
-        onChangeDefaultEmojiSkinTone={() => null}
+        emojiSkinToneDefault={EmojiSkinTone.None}
+        onEmojiSkinToneDefaultChange={() => null}
         // Stickers
         installedStickerPacks={packs}
         showStickerPickerHint={false}
         onClearStickerPickerHint={() => null}
+        // Gifs
+        fetchGifsSearch={() => Promise.reject()}
+        fetchGifsFeatured={() => Promise.reject()}
+        fetchGif={() => Promise.reject()}
       >
         <FunEmojiPicker {...props}>
           <Button>Open EmojiPicker</Button>

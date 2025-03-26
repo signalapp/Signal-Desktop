@@ -1,22 +1,50 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { RefObject } from 'react';
-import React, { useRef, useEffect, useState } from 'react';
+import type { ForwardedRef, RefObject } from 'react';
+import React, { useRef, useEffect, useState, forwardRef } from 'react';
 import classNames from 'classnames';
 import { isFocusable } from '@react-aria/focus';
 import { strictAssert } from '../../../util/assert';
 import { useReducedMotion } from '../../../hooks/useReducedMotion';
+import type { FunImageAriaProps } from '../types';
 
-export type FunAnimatedImageProps = Readonly<{
-  role: 'image' | 'presentation';
-  className?: string;
-  src: string;
-  width: number;
-  height: number;
-  alt: string;
-}>;
+export type FunImageProps = FunImageAriaProps &
+  Readonly<{
+    className?: string;
+    src: string;
+    width: number;
+    height: number;
+    ignoreReducedMotion?: boolean;
+  }>;
 
-export function FunImage(props: FunAnimatedImageProps): JSX.Element {
+export function FunImage(props: FunImageProps): JSX.Element {
+  if (props.ignoreReducedMotion) {
+    return <FunImageBase {...props} />;
+  }
+  return <FunImageReducedMotion {...props} />;
+}
+
+/** @internal */
+const FunImageBase = forwardRef(function FunImageBase(
+  props: FunImageProps,
+  ref: ForwardedRef<HTMLImageElement>
+) {
+  return (
+    <img
+      ref={ref}
+      role={props.role}
+      aria-label={props['aria-label']}
+      className={props.className}
+      src={props.src}
+      width={props.width}
+      height={props.height}
+      draggable={false}
+    />
+  );
+});
+
+/** @internal */
+function FunImageReducedMotion(props: FunImageProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const intent = useIntent(imageRef);
   const [staticSource, setStaticSource] = useState<string | null>(null);
@@ -69,16 +97,7 @@ export function FunImage(props: FunAnimatedImageProps): JSX.Element {
       {staticSource != null && reducedMotion && !intent && (
         <source className="FunImage--StaticSource" srcSet={staticSource} />
       )}
-      {/* Using <img> to benefit from browser */}
-      <img
-        ref={imageRef}
-        role={props.role}
-        className={props.className}
-        src={props.src}
-        width={props.width}
-        height={props.height}
-        alt={props.alt}
-      />
+      <FunImageBase {...props} ref={imageRef} />
     </picture>
   );
 }
@@ -108,7 +127,7 @@ function closestElement(
  * - However, this will break if elements become focusable/unfocusable during
  *   their lifetime (this is generally a sign something is being done wrong).
  */
-function useIntent(ref: RefObject<HTMLElement>): boolean {
+export function useIntent(ref: RefObject<HTMLElement>): boolean {
   const [intent, setIntent] = useState(false);
 
   useEffect(() => {

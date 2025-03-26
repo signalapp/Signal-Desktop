@@ -84,6 +84,7 @@ import { pemToDer } from '../util/pemToDer';
 import { ToastType } from '../types/Toast';
 import { isProduction } from '../util/version';
 import type { ServerAlert } from '../util/handleServerAlerts';
+import { isAbortError } from '../util/isAbortError';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -397,6 +398,9 @@ async function _promiseAjax(
       ? await socketManager.fetch(url, fetchOptions)
       : await fetch(url, fetchOptions);
   } catch (e) {
+    if (isAbortError(e)) {
+      throw e;
+    }
     log.error(logId, 0, 'Error');
     const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
     throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
@@ -466,6 +470,9 @@ async function _promiseAjax(
       result = await response.textConverted();
     }
   } catch (error) {
+    if (isAbortError(error)) {
+      throw error;
+    }
     log.error(logId, response.status, 'Error');
     const stack = `${error.stack}\nInitial stack:\n${options.stack}`;
     throw makeHTTPError(
@@ -1339,6 +1346,13 @@ export type GetTransferArchiveOptionsType = Readonly<{
   abortSignal?: AbortSignal;
 }>;
 
+export type ProxiedRequestParams = Readonly<{
+  method: 'GET' | 'HEAD';
+  url: string;
+  headers?: HeaderListType;
+  signal?: AbortSignal;
+}>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
@@ -1463,12 +1477,10 @@ export type WebAPIType = {
   linkDevice: (options: LinkDeviceOptionsType) => Promise<LinkDeviceResultType>;
   unlink: () => Promise<void>;
   fetchJsonViaProxy: (
-    targetUrl: string,
-    signal?: AbortSignal
+    params: ProxiedRequestParams
   ) => Promise<JSONWithDetailsType>;
   fetchBytesViaProxy: (
-    targetUrl: string,
-    signal?: AbortSignal
+    params: ProxiedRequestParams
   ) => Promise<BytesWithDetailsType>;
   makeSfuRequest: (
     targetUrl: string,
@@ -4268,38 +4280,38 @@ export function initialize({
     }
 
     async function fetchJsonViaProxy(
-      targetUrl: string,
-      signal?: AbortSignal
+      params: ProxiedRequestParams
     ): Promise<JSONWithDetailsType> {
-      return _outerAjax(targetUrl, {
+      return _outerAjax(params.url, {
         responseType: 'jsonwithdetails',
         proxyUrl: contentProxyUrl,
-        type: 'GET',
+        type: params.method,
         redirect: 'follow',
         redactUrl: () => '[REDACTED_URL]',
         headers: {
           'X-SignalPadding': getHeaderPadding(),
+          ...params.headers,
         },
         version,
-        abortSignal: signal,
+        abortSignal: params.signal,
       });
     }
 
     async function fetchBytesViaProxy(
-      targetUrl: string,
-      signal?: AbortSignal
+      params: ProxiedRequestParams
     ): Promise<BytesWithDetailsType> {
-      return _outerAjax(targetUrl, {
+      return _outerAjax(params.url, {
         responseType: 'byteswithdetails',
         proxyUrl: contentProxyUrl,
-        type: 'GET',
+        type: params.method,
         redirect: 'follow',
         redactUrl: () => '[REDACTED_URL]',
         headers: {
           'X-SignalPadding': getHeaderPadding(),
+          ...params.headers,
         },
         version,
-        abortSignal: signal,
+        abortSignal: params.signal,
       });
     }
 

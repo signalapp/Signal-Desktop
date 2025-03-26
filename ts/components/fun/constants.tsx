@@ -60,17 +60,3 @@ export const FunEmojisSectionOrder: ReadonlyArray<
   EmojiPickerCategory.Symbols,
   EmojiPickerCategory.Flags,
 ];
-
-export const FunGifsSectionOrder: ReadonlyArray<
-  FunSectionCommon.Recents | FunGifsCategory
-> = [
-  FunSectionCommon.Recents,
-  FunGifsCategory.Trending,
-  FunGifsCategory.Celebrate,
-  FunGifsCategory.Love,
-  FunGifsCategory.ThumbsUp,
-  FunGifsCategory.Surprised,
-  FunGifsCategory.Excited,
-  FunGifsCategory.Sad,
-  FunGifsCategory.Angry,
-];

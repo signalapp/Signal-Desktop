@@ -54,6 +54,7 @@ import { RenderLocation } from './conversation/MessageTextRenderer';
 import { arrow } from '../util/keyboard';
 import { useElementId } from '../hooks/useUniqueId';
 import { StoryProgressSegment } from './StoryProgressSegment';
+import type { EmojiSkinTone } from './fun/data/emojis';
 
 function renderStrong(parts: Array<JSX.Element | string>) {
   return <strong>{parts}</strong>;
@@ -92,7 +93,7 @@ export type PropsType = {
   numStories: number;
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
-  onSetSkinTone: (tone: number) => unknown;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => unknown;
   onTextTooLong: () => unknown;
   onReactToStory: (emoji: string, story: StoryViewType) => unknown;
   onReplyToStory: (
@@ -115,7 +116,7 @@ export type PropsType = {
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showToast: ShowToastAction;
-  skinTone?: number;
+  emojiSkinToneDefault: EmojiSkinTone;
   story: StoryViewType;
   storyViewMode: StoryViewModeType;
   viewStory: ViewStoryActionCreatorType;
@@ -156,7 +157,7 @@ export function StoryViewer({
   onHideStory,
   onReactToStory,
   onReplyToStory,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   onTextTooLong,
   onUseEmoji,
   onMediaPlaybackStart,
@@ -172,7 +173,7 @@ export function StoryViewer({
   setHasAllStoriesUnmuted,
   showContactModal,
   showToast,
-  skinTone,
+  emojiSkinToneDefault,
   story,
   storyViewMode,
   viewStory,
@@ -977,7 +978,7 @@ export function StoryViewer({
               }
               onReplyToStory(message, replyBodyRanges, replyTimestamp, story);
             }}
-            onSetSkinTone={onSetSkinTone}
+            onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
             onTextTooLong={onTextTooLong}
             onUseEmoji={onUseEmoji}
             ourConversationId={ourConversationId}
@@ -986,7 +987,7 @@ export function StoryViewer({
             renderEmojiPicker={renderEmojiPicker}
             replies={replies}
             showContactModal={showContactModal}
-            skinTone={skinTone}
+            emojiSkinToneDefault={emojiSkinToneDefault}
             sortedGroupMembers={group?.sortedGroupMembers}
             views={views}
             viewTarget={currentViewTarget}

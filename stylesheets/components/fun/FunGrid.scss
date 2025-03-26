@@ -43,7 +43,7 @@
 .FunGrid__HeaderText {
   padding-block: 4px;
   flex: 1;
-  @include mixins.font-body-1;
+  @include mixins.font-body-2;
   font-weight: 600;
   color: light-dark(
     variables.$color-black-alpha-50,

@@ -4,13 +4,17 @@
 import { assert } from 'chai';
 import {
   getAreWeASubscriber,
-  getEmojiSkinTone,
+  getEmojiSkinToneDefault,
   getPinnedConversationIds,
   getPreferredLeftPaneWidth,
   getPreferredReactionEmoji,
 } from '../../../state/selectors/items';
 import type { StateType } from '../../../state/reducer';
 import type { ItemsStateType } from '../../../state/ducks/items';
+import {
+  EMOJI_SKIN_TONE_ORDER,
+  EmojiSkinTone,
+} from '../../../components/fun/data/emojis';
 
 describe('both/state/selectors/items', () => {
   // Note: we would like to use the full reducer here, to get a real empty state object
@@ -38,7 +42,7 @@ describe('both/state/selectors/items', () => {
   });
 
   describe('#getEmojiSkinTone', () => {
-    it('returns 0 if passed anything invalid', () => {
+    it('returns "None" if passed anything invalid', () => {
       [
         // Invalid types
         undefined,
@@ -54,16 +58,16 @@ describe('both/state/selectors/items', () => {
         1.2,
         NaN,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- for testing
-      ].forEach((skinTone: any) => {
-        const state = getRootState({ skinTone });
-        assert.strictEqual(getEmojiSkinTone(state), 0);
+      ].forEach((emojiSkinToneDefault: any) => {
+        const state = getRootState({ emojiSkinToneDefault });
+        assert.strictEqual(getEmojiSkinToneDefault(state), EmojiSkinTone.None);
       });
     });
 
     it('returns all valid skin tones', () => {
-      [0, 1, 2, 3, 4, 5].forEach(skinTone => {
-        const state = getRootState({ skinTone });
-        assert.strictEqual(getEmojiSkinTone(state), skinTone);
+      EMOJI_SKIN_TONE_ORDER.forEach(skinTone => {
+        const state = getRootState({ emojiSkinToneDefault: skinTone });
+        assert.strictEqual(getEmojiSkinToneDefault(state), skinTone);
       });
     });
   });
@@ -120,7 +124,9 @@ describe('both/state/selectors/items', () => {
     const expectedDefault = ['❤️', '👍🏿', '👎🏿', '😂', '😮', '😢'];
 
     it('returns the default set if no value is stored', () => {
-      const state = getRootState({ skinTone: 5 });
+      const state = getRootState({
+        emojiSkinToneDefault: EmojiSkinTone.Type5,
+      });
       const actual = getPreferredReactionEmoji(state);
 
       assert.deepStrictEqual(actual, expectedDefault);
@@ -128,7 +134,7 @@ describe('both/state/selectors/items', () => {
 
     it('returns the default set if the stored value is invalid', () => {
       const state = getRootState({
-        skinTone: 5,
+        emojiSkinToneDefault: EmojiSkinTone.Type5,
         preferredReactionEmoji: ['garbage!!'],
       });
       const actual = getPreferredReactionEmoji(state);
@@ -138,7 +144,10 @@ describe('both/state/selectors/items', () => {
 
     it('returns a custom set of emoji', () => {
       const preferredReactionEmoji = ['✨', '❇️', '🤙🏻', '🦈', '💖', '🅿️'];
-      const state = getRootState({ skinTone: 5, preferredReactionEmoji });
+      const state = getRootState({
+        emojiSkinToneDefault: EmojiSkinTone.Type5,
+        preferredReactionEmoji,
+      });
       const actual = getPreferredReactionEmoji(state);
 
       assert.deepStrictEqual(actual, preferredReactionEmoji);

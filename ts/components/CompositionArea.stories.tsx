@@ -15,6 +15,7 @@ import { RecordingState } from '../types/AudioRecorder';
 import { ConversationColors } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { PaymentEventKind } from '../types/Payment';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -84,9 +85,9 @@ export default {
     sortedGroupMembers: [],
     // EmojiButton
     onPickEmoji: action('onPickEmoji'),
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     recentEmojis: [],
-    skinTone: 1,
+    emojiSkinToneDefault: EmojiSkinTone.Type1,
     // StickerButton
     knownPacks: [],
     receivedPacks: [],

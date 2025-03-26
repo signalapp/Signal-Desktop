@@ -13,6 +13,7 @@ import {
   getEmptyState,
   reducer,
 } from '../../../state/ducks/preferredReactions';
+import { EmojiSkinTone } from '../../../components/fun/data/emojis';
 
 describe('preferred reactions duck', () => {
   const getEmptyRootState = (): StateType =>
@@ -114,7 +115,7 @@ describe('preferred reactions duck', () => {
         ...emptyRootState,
         items: {
           ...emptyRootState.items,
-          skinTone: 5,
+          emojiSkinToneDefault: EmojiSkinTone.Type5,
         },
       };
 

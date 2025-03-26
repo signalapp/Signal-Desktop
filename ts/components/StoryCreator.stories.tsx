@@ -13,6 +13,7 @@ import {
   getDefaultGroup,
 } from '../test-both/helpers/getDefaultConversation';
 import { getFakeDistributionListsWithMembers } from '../test-both/helpers/getFakeDistributionLists';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -38,7 +39,7 @@ export default {
     onDistributionListCreated: undefined,
     onHideMyStoriesFrom: action('onHideMyStoriesFrom'),
     onSend: action('onSend'),
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     onUseEmoji: action('onUseEmoji'),
     onViewersUpdated: action('onViewersUpdated'),
     processAttachment: undefined,
@@ -49,7 +50,7 @@ export default {
       'setMyStoriesToAllSignalConnections'
     ),
     signalConnections: Array.from(Array(42), getDefaultConversation),
-    skinTone: 0,
+    emojiSkinToneDefault: EmojiSkinTone.None,
     toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
   },
 } satisfies Meta<PropsType>;

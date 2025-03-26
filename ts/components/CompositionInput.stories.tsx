@@ -11,6 +11,7 @@ import type { Props } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
 import { generateAci } from '../types/ServiceId';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -46,7 +47,8 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     quotedMessageId: null,
     sendCounter: 0,
     sortedGroupMembers: overrideProps.sortedGroupMembers ?? [],
-    skinTone: overrideProps.skinTone ?? null,
+    emojiSkinToneDefault:
+      overrideProps.emojiSkinToneDefault ?? EmojiSkinTone.None,
     theme: React.useContext(StorybookThemeContext),
     inputApi: null,
     shouldHidePopovers: null,

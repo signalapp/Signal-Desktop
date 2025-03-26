@@ -172,7 +172,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         bodyRanges={displayBodyRanges}
         direction={undefined}
         disableLinks
-        emojiSizeClass={undefined}
+        jumboEmojiSize={null}
         i18n={i18n}
         isSpoilerExpanded={EMPTY_OBJECT}
         onMentionTrigger={noop}

@@ -17,6 +17,7 @@ import {
 } from '../state/ducks/usernameEnums';
 import { getRandomColor } from '../test-both/helpers/getRandomColor';
 import { SignalService as Proto } from '../protobuf';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -60,13 +61,13 @@ export default {
     usernameLinkState: UsernameLinkState.Ready,
 
     recentEmojis: [],
-    skinTone: 0,
+    emojiSkinToneDefault: EmojiSkinTone.None,
     userAvatarData: [],
     username: undefined,
 
     onEditStateChanged: action('onEditStateChanged'),
     onProfileChanged: action('onProfileChanged'),
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     saveAttachment: action('saveAttachment'),
     setUsernameLinkColor: action('setUsernameLinkColor'),
     showToast: action('showToast'),
@@ -107,13 +108,15 @@ function renderEditUsernameModalBody(props: {
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
-  const [skinTone, setSkinTone] = useState(0);
+  const [emojiSkinToneDefault, setEmojiSkinToneDefault] = useState(
+    EmojiSkinTone.None
+  );
 
   return (
     <ProfileEditor
       {...args}
-      skinTone={skinTone}
-      onSetSkinTone={setSkinTone}
+      emojiSkinToneDefault={emojiSkinToneDefault}
+      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       renderEditUsernameModalBody={renderEditUsernameModalBody}
     />
   );

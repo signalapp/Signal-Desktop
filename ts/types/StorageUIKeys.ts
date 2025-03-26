@@ -37,7 +37,7 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'sent-media-quality',
   'showStickerPickerHint',
   'showStickersIntroduction',
-  'skinTone',
+  'emojiSkinToneDefault',
   'textFormatting',
   'version',
   'zoomFactor',

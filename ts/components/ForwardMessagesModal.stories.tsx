@@ -15,6 +15,7 @@ import { getDefaultConversation } from '../test-both/helpers/getDefaultConversat
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { CompositionTextArea } from './CompositionTextArea';
 import type { MessageForwardDraft } from '../types/ForwardDraft';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const createAttachment = (
   props: Partial<AttachmentForUIType> = {}
@@ -64,11 +65,11 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       isActive
       isFormattingEnabled
       onPickEmoji={action('onPickEmoji')}
-      onSetSkinTone={action('onSetSkinTone')}
+      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
       onTextTooLong={action('onTextTooLong')}
       ourConversationId="me"
       platform="darwin"
-      skinTone={0}
+      emojiSkinToneDefault={EmojiSkinTone.None}
     />
   ),
   showToast: action('showToast'),

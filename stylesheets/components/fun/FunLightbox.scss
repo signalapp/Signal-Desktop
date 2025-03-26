@@ -1,0 +1,33 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../variables';
+
+.FunLightbox__Backdrop {
+  position: absolute;
+  z-index: 100001;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: variables.$color-black-alpha-60;
+  pointer-events: none;
+  transition: all ease-out 400ms;
+}
+
+.FunLightbox__Dialog {
+  pointer-events: none;
+  filter: drop-shadow(0 4px 6px variables.$color-black-alpha-20);
+  transition: all ease-out 400ms;
+}
+
+@starting-style {
+  .FunLightbox__Backdrop {
+    opacity: 0;
+  }
+
+  .FunLightbox__Dialog {
+    opacity: 0;
+    transform: scale(95%);
+  }
+}

@@ -11,9 +11,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { VisuallyHidden } from 'react-aria';
+import { useId, VisuallyHidden } from 'react-aria';
 import { LRUCache } from 'lru-cache';
-import { FunItemButton, FunItemGif } from '../base/FunItem';
+import { FunItemButton } from '../base/FunItem';
 import { FunPanel } from '../base/FunPanel';
 import { FunScroller } from '../base/FunScroller';
 import { FunSearch } from '../base/FunSearch';
@@ -24,8 +24,8 @@ import {
   FunSubNavListBoxItem,
 } from '../base/FunSubNav';
 import { FunWaterfallContainer, FunWaterfallItem } from '../base/FunWaterfall';
-import type { FunGifsSection } from '../FunConstants';
-import { FunGifsCategory, FunSectionCommon } from '../FunConstants';
+import type { FunGifsSection } from '../constants';
+import { FunGifsCategory, FunSectionCommon } from '../constants';
 import { FunKeyboard } from '../keyboard/FunKeyboard';
 import type { WaterfallKeyboardState } from '../keyboard/WaterfallKeyboardDelegate';
 import { WaterfallKeyboardDelegate } from '../keyboard/WaterfallKeyboardDelegate';
@@ -33,9 +33,7 @@ import { useInfiniteQuery } from '../data/infinite';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { strictAssert } from '../../../util/assert';
 import type { GifsPaginated } from '../data/gifs';
-import { fetchFeatured, fetchSearch } from '../data/gifs';
 import { drop } from '../../../util/drop';
-import { tenorDownload } from '../data/tenor';
 import { useFunContext } from '../FunProvider';
 import {
   FunResults,
@@ -44,8 +42,21 @@ import {
   FunResultsHeader,
   FunResultsSpinner,
 } from '../base/FunResults';
-import { FunEmoji } from '../FunEmoji';
+import { FunStaticEmoji } from '../FunEmoji';
 import { emojiVariantConstant } from '../data/emojis';
+import {
+  FunLightboxPortal,
+  FunLightboxBackdrop,
+  FunLightboxDialog,
+  FunLightboxProvider,
+  useFunLightboxKey,
+} from '../base/FunLightbox';
+import type { tenorDownload } from '../data/tenor';
+import { FunGif } from '../FunGif';
+import type { LocalizerType } from '../../../types/I18N';
+import { isAbortError } from '../../../util/isAbortError';
+import * as log from '../../../logging/log';
+import * as Errors from '../../../types/errors';
 
 const MAX_CACHE_SIZE = 50 * 1024 * 1024; // 50 MB
 const FunGifBlobCache = new LRUCache<string, Blob>({
@@ -95,7 +106,12 @@ type GifsQuery = Readonly<{
 }>;
 
 export type FunGifSelection = Readonly<{
-  attachmentMedia: GifMediaType;
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  width: number;
+  height: number;
 }>;
 
 export type FunPanelGifsProps = Readonly<{
@@ -115,6 +131,9 @@ export function FunPanelGifs({
     selectedGifsSection,
     onChangeSelectedSelectGifsSection,
     recentGifs,
+    fetchGifsFeatured,
+    fetchGifsSearch,
+    fetchGif,
   } = fun;
 
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -142,6 +161,14 @@ export function FunPanelGifs({
   });
 
   useEffect(() => {
+    if (
+      debouncedQuery.searchQuery === searchQuery &&
+      debouncedQuery.selectedSection === selectedGifsSection
+    ) {
+      // don't update twice
+      return;
+    }
+
     const query: GifsQuery = {
       selectedSection: selectedGifsSection,
       searchQuery,
@@ -158,7 +185,7 @@ export function FunPanelGifs({
     return () => {
       clearTimeout(timeout);
     };
-  }, [searchQuery, selectedGifsSection]);
+  }, [debouncedQuery, searchQuery, selectedGifsSection]);
 
   const loader = useCallback(
     async (
@@ -170,7 +197,7 @@ export function FunPanelGifs({
       const limit = cursor != null ? 30 : 10;
 
       if (query.searchQuery !== '') {
-        return fetchSearch(query.searchQuery, limit, cursor, signal);
+        return fetchGifsSearch(query.searchQuery, limit, cursor, signal);
       }
       strictAssert(
         query.selectedSection !== FunSectionCommon.SearchResults,
@@ -180,33 +207,33 @@ export function FunPanelGifs({
         return { next: null, gifs: recentGifs };
       }
       if (query.selectedSection === FunGifsCategory.Trending) {
-        return fetchFeatured(limit, cursor, signal);
+        return fetchGifsFeatured(limit, cursor, signal);
       }
       if (query.selectedSection === FunGifsCategory.Celebrate) {
-        return fetchSearch('celebrate', limit, cursor, signal);
+        return fetchGifsSearch('celebrate', limit, cursor, signal);
       }
       if (query.selectedSection === FunGifsCategory.Love) {
-        return fetchSearch('love', limit, cursor, signal);
+        return fetchGifsSearch('love', limit, cursor, signal);
       }
       if (query.selectedSection === FunGifsCategory.ThumbsUp) {
-        return fetchSearch('thumbs-up', limit, cursor, signal);
+        return fetchGifsSearch('thumbs-up', limit, cursor, signal);
       }
       if (query.selectedSection === FunGifsCategory.Surprised) {
-        return fetchSearch('surprised', limit, cursor, signal);
+        return fetchGifsSearch('surprised', limit, cursor, signal);
       }
       if (query.selectedSection === FunGifsCategory.Excited) {
-        return fetchSearch('excited', limit, cursor, signal);
+        return fetchGifsSearch('excited', limit, cursor, signal);
       }
       if (query.selectedSection === FunGifsCategory.Sad) {
-        return fetchSearch('sad', limit, cursor, signal);
+        return fetchGifsSearch('sad', limit, cursor, signal);
       }
       if (query.selectedSection === FunGifsCategory.Angry) {
-        return fetchSearch('angry', limit, cursor, signal);
+        return fetchGifsSearch('angry', limit, cursor, signal);
       }
 
       throw missingCaseError(query.selectedSection);
     },
-    [recentGifs]
+    [recentGifs, fetchGifsSearch, fetchGifsFeatured]
   );
 
   const hasNextPage = useCallback(
@@ -275,6 +302,7 @@ export function FunPanelGifs({
     scrollPaddingStart: 20,
     scrollPaddingEnd: 20,
     getItemKey,
+    initialOffset: 100,
   });
 
   // Scroll back to top when query changes
@@ -350,6 +378,7 @@ export function FunPanelGifs({
   return (
     <FunPanel>
       <FunSearch
+        i18n={i18n}
         searchInput={searchInput}
         onSearchInputChange={handleSearchInputChange}
         placeholder={i18n('icu:FunPanelGifs__SearchPlaceholder--Tenor')}
@@ -449,11 +478,9 @@ export function FunPanelGifs({
             {!queryState.pending && !queryState.rejected && (
               <FunResultsHeader>
                 {i18n('icu:FunPanelGifs__SearchResults__EmptyHeading')}{' '}
-                <FunEmoji
+                <FunStaticEmoji
                   size={16}
                   role="presentation"
-                  // For presentation only
-                  aria-label=""
                   emoji={emojiVariantConstant('\u{1F641}')}
                 />
               </FunResultsHeader>
@@ -461,34 +488,38 @@ export function FunPanelGifs({
           </FunResults>
         )}
         {count !== 0 && (
-          <FunKeyboard
-            scrollerRef={scrollerRef}
-            keyboard={keyboard}
-            onStateChange={handleKeyboardStateChange}
-          >
-            <FunWaterfallContainer totalSize={virtualizer.getTotalSize()}>
-              {virtualizer.getVirtualItems().map(item => {
-                const gif = items[item.index];
-                const key = String(item.key);
-                const isTabbable =
-                  selectedItemKey != null
-                    ? key === selectedItemKey
-                    : item.index === 0;
-                return (
-                  <Item
-                    key={key}
-                    gif={gif}
-                    itemKey={key}
-                    itemHeight={item.size}
-                    itemOffset={item.start}
-                    itemLane={item.lane}
-                    isTabbable={isTabbable}
-                    onPressGif={handlePressGif}
-                  />
-                );
-              })}
-            </FunWaterfallContainer>
-          </FunKeyboard>
+          <FunLightboxProvider containerRef={scrollerRef}>
+            <GifsLightbox i18n={i18n} items={items} />
+            <FunKeyboard
+              scrollerRef={scrollerRef}
+              keyboard={keyboard}
+              onStateChange={handleKeyboardStateChange}
+            >
+              <FunWaterfallContainer totalSize={virtualizer.getTotalSize()}>
+                {virtualizer.getVirtualItems().map(item => {
+                  const gif = items[item.index];
+                  const key = String(item.key);
+                  const isTabbable =
+                    selectedItemKey != null
+                      ? key === selectedItemKey
+                      : item.index === 0;
+                  return (
+                    <Item
+                      key={key}
+                      gif={gif}
+                      itemKey={key}
+                      itemHeight={item.size}
+                      itemOffset={item.start}
+                      itemLane={item.lane}
+                      isTabbable={isTabbable}
+                      onPressGif={handlePressGif}
+                      fetchGif={fetchGif}
+                    />
+                  );
+                })}
+              </FunWaterfallContainer>
+            </FunKeyboard>
+          </FunLightboxProvider>
         )}
       </FunScroller>
     </FunPanel>
@@ -503,16 +534,24 @@ const Item = memo(function Item(props: {
   itemLane: number;
   isTabbable: boolean;
   onPressGif: (event: MouseEvent, gifSelection: FunGifSelection) => void;
+  fetchGif: typeof tenorDownload;
 }) {
-  const { onPressGif } = props;
+  const { onPressGif, fetchGif } = props;
+
   const handleClick = useCallback(
     async (event: MouseEvent) => {
       onPressGif(event, {
-        attachmentMedia: props.gif.attachmentMedia,
+        id: props.gif.id,
+        title: props.gif.title,
+        description: props.gif.description,
+        url: props.gif.attachmentMedia.url,
+        width: props.gif.attachmentMedia.width,
+        height: props.gif.attachmentMedia.height,
       });
     },
     [props.gif, onPressGif]
   );
+
   const descriptionId = `FunGifsPanelItem__GifDescription--${props.gif.id}`;
   const [src, setSrc] = useState<string | null>(() => {
     const cached = readGifMediaFromCache(props.gif.previewMedia);
@@ -528,10 +567,16 @@ const Item = memo(function Item(props: {
     const { signal } = controller;
 
     async function download() {
-      const bytes = await tenorDownload(props.gif.previewMedia.url, signal);
-      const blob = new Blob([bytes]);
-      saveGifMediaToCache(props.gif.previewMedia, blob);
-      setSrc(URL.createObjectURL(blob));
+      try {
+        const bytes = await fetchGif(props.gif.previewMedia.url, signal);
+        const blob = new Blob([bytes]);
+        saveGifMediaToCache(props.gif.previewMedia, blob);
+        setSrc(URL.createObjectURL(blob));
+      } catch (error) {
+        if (!isAbortError(error)) {
+          log.error('Failed to download gif', Errors.toLogFormat(error));
+        }
+      }
     }
 
     drop(download());
@@ -539,7 +584,7 @@ const Item = memo(function Item(props: {
     return () => {
       controller.abort();
     };
-  }, [props.gif, src]);
+  }, [props.gif, src, fetchGif]);
 
   useEffect(() => {
     return () => {
@@ -559,15 +604,15 @@ const Item = memo(function Item(props: {
     >
       <FunItemButton
         aria-label={props.gif.title}
-        aria-describedby={descriptionId}
         onClick={handleClick}
         tabIndex={props.isTabbable ? 0 : -1}
       >
         {src != null && (
-          <FunItemGif
+          <FunGif
             src={src}
             width={props.gif.previewMedia.width}
             height={props.gif.previewMedia.height}
+            aria-describedby={descriptionId}
           />
         )}
         <VisuallyHidden id={descriptionId}>
@@ -577,3 +622,59 @@ const Item = memo(function Item(props: {
     </FunWaterfallItem>
   );
 });
+
+function GifsLightbox(props: {
+  i18n: LocalizerType;
+  items: ReadonlyArray<GifType>;
+}) {
+  const { i18n } = props;
+  const key = useFunLightboxKey();
+  const descriptionId = useId();
+
+  const result = useMemo(() => {
+    if (key == null) {
+      return null;
+    }
+    const gif = props.items.find(item => {
+      return item.id === key;
+    });
+    strictAssert(gif, `Must have gif for "${key}"`);
+    const blob = readGifMediaFromCache(gif.previewMedia);
+    strictAssert(blob, 'Missing media');
+    const url = URL.createObjectURL(blob);
+    return { gif, url };
+  }, [props.items, key]);
+
+  useEffect(() => {
+    return () => {
+      if (result != null) {
+        URL.revokeObjectURL(result.url);
+      }
+    };
+  }, [result]);
+
+  if (result == null) {
+    return null;
+  }
+
+  return (
+    <FunLightboxPortal>
+      <FunLightboxBackdrop>
+        <FunLightboxDialog
+          aria-label={i18n('icu:FunPanelGifs__LightboxDialog__Label')}
+        >
+          <FunGif
+            src={result.url}
+            width={result.gif.previewMedia.width}
+            height={result.gif.previewMedia.height}
+            aria-describedby={descriptionId}
+            ignoreReducedMotion
+          />
+          <VisuallyHidden id={descriptionId}>
+            {result.gif.description}
+          </VisuallyHidden>
+        </FunLightboxDialog>
+      </FunLightboxBackdrop>
+    </FunLightboxPortal>
+  );
+}

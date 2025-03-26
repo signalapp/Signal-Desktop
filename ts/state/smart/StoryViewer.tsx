@@ -8,7 +8,7 @@ import { ToastType } from '../../types/Toast';
 import { useToastActions } from '../ducks/toast';
 import { getConversationSelector } from '../selectors/conversations';
 import {
-  getEmojiSkinTone,
+  getEmojiSkinToneDefault,
   getHasStoryViewReceiptSetting,
   getPreferredReactionEmoji,
   getTextFormattingEnabled,
@@ -56,7 +56,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
     showConversation,
     toggleHideStories,
   } = useConversationsActions();
-  const { onSetSkinTone } = useItemsActions();
+  const { setEmojiSkinToneDefault } = useItemsActions();
   const { showToast } = useToastActions();
   const { showContactModal } = useGlobalModalActions();
 
@@ -76,7 +76,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
 
   const getStoryById = useSelector(getStoryByIdSelector);
   const recentEmojis = useRecentEmojis();
-  const skinTone = useSelector(getEmojiSkinTone);
+  const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const replyState = useSelector(getStoryReplies);
   const hasAllStoriesUnmuted = useSelector(getHasAllStoriesUnmuted);
   const hasActiveCall = useSelector(isInFullScreenCall);
@@ -152,7 +152,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       onReactToStory={handleReactToStory}
       onReplyToStory={handleReplyToStory}
-      onSetSkinTone={onSetSkinTone}
+      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       onTextTooLong={handleTextTooLong}
       onUseEmoji={onUseEmoji}
       ourConversationId={ourConversationId}
@@ -167,7 +167,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
       setHasAllStoriesUnmuted={setHasAllStoriesUnmuted}
       showContactModal={showContactModal}
       showToast={showToast}
-      skinTone={skinTone}
+      emojiSkinToneDefault={emojiSkinToneDefault}
       story={storyView}
       storyViewMode={selectedStoryData.storyViewMode}
       viewStory={viewStory}

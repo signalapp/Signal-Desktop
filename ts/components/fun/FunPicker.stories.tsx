@@ -7,13 +7,15 @@ import { type ComponentMeta } from '../../storybook/types';
 import { packs, recentStickers } from '../stickers/mocks';
 import type { FunPickerProps } from './FunPicker';
 import { FunPicker } from './FunPicker';
+import type { FunProviderProps } from './FunProvider';
 import { FunProvider } from './FunProvider';
-import { MOCK_RECENT_EMOJIS } from './mocks';
+import { MOCK_GIFS_PAGINATED_ONE_PAGE, MOCK_RECENT_EMOJIS } from './mocks';
 import { EmojiSkinTone } from './data/emojis';
 
 const { i18n } = window.SignalContext;
 
-type TemplateProps = Omit<FunPickerProps, 'children'>;
+type TemplateProps = Omit<FunPickerProps, 'children'> &
+  Pick<FunProviderProps, 'fetchGifsSearch' | 'fetchGifsFeatured' | 'fetchGif'>;
 
 function Template(props: TemplateProps) {
   return (
@@ -25,12 +27,16 @@ function Template(props: TemplateProps) {
         recentStickers={recentStickers}
         recentGifs={[]}
         // Emojis
-        defaultEmojiSkinTone={EmojiSkinTone.None}
-        onChangeDefaultEmojiSkinTone={() => null}
+        emojiSkinToneDefault={EmojiSkinTone.None}
+        onEmojiSkinToneDefaultChange={() => null}
         // Stickers
         installedStickerPacks={packs}
         showStickerPickerHint={false}
         onClearStickerPickerHint={() => null}
+        // Gifs
+        fetchGifsSearch={props.fetchGifsSearch}
+        fetchGifsFeatured={props.fetchGifsFeatured}
+        fetchGif={props.fetchGif}
       >
         <FunPicker {...props}>
           <Button>Open FunPicker</Button>
@@ -47,10 +53,13 @@ export default {
     placement: 'bottom',
     defaultOpen: true,
     onOpenChange: action('onOpenChange'),
-    onSelectEmoji: action('onPickEmoji'),
-    onSelectSticker: action('onPickSticker'),
-    onSelectGif: action('onPickGif'),
+    onSelectEmoji: action('onSelectEmoji'),
+    onSelectSticker: action('onSelectSticker'),
+    onSelectGif: action('onSelectGif'),
     onAddStickerPack: action('onAddStickerPack'),
+    fetchGifsSearch: () => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE),
+    fetchGifsFeatured: () => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE),
+    fetchGif: () => Promise.resolve(new Blob([new Uint8Array(1)])),
   },
 } satisfies ComponentMeta<TemplateProps>;
 

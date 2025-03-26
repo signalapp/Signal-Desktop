@@ -4,8 +4,8 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { chunk } from 'lodash';
 import React, { StrictMode, useCallback, useEffect, useRef } from 'react';
 import { type ComponentMeta } from '../../storybook/types';
-import type { FunEmojiProps } from './FunEmoji';
-import { FunEmoji } from './FunEmoji';
+import type { FunStaticEmojiProps } from './FunEmoji';
+import { FunStaticEmoji } from './FunEmoji';
 import {
   _allEmojiVariantKeys,
   getEmojiParentByKey,
@@ -26,7 +26,7 @@ export default {
 
 const COLUMNS = 8;
 
-type AllProps = Pick<FunEmojiProps, 'size'>;
+type AllProps = Pick<FunStaticEmojiProps, 'size'>;
 
 export function All(props: AllProps): JSX.Element {
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -102,7 +102,7 @@ export function All(props: AllProps): JSX.Element {
                       key={emojiVariantKey}
                       style={{ display: 'flex', outline: '1px solid' }}
                     >
-                      <FunEmoji
+                      <FunStaticEmoji
                         role="img"
                         aria-label={parent.englishShortNameDefault}
                         size={props.size}

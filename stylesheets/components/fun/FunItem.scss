@@ -16,6 +16,7 @@
     width: 100%;
     height: 100%;
     vertical-align: top;
+    padding: 2px;
     border-radius: 10px;
     border: 1px solid FunConstants.$Fun__BgColor;
   }
@@ -32,18 +33,4 @@
       outline-offset: -2px;
     }
   }
-}
-
-.FunItem__Sticker {
-  width: 68px;
-  height: 68px;
-  border-radius: 4px;
-  vertical-align: top;
-}
-
-.FunItem__Gif {
-  width: 160px;
-  height: auto;
-  vertical-align: top;
-  border-radius: 8px;
 }

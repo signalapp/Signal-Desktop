@@ -6,13 +6,20 @@ import type { MutableRefObject } from 'react';
 import classNames from 'classnames';
 import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
-import { Emoji } from './Emoji';
 import type { Props as EmojiPickerProps } from './EmojiPicker';
 import { EmojiPicker } from './EmojiPicker';
 import type { LocalizerType } from '../../types/Util';
 import { useRefMerger } from '../../hooks/useRefMerger';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as KeyboardLayout from '../../services/keyboardLayout';
+import { FunStaticEmoji } from '../fun/FunEmoji';
+import { strictAssert } from '../../util/assert';
+import type { EmojiVariantData } from '../fun/data/emojis';
+import {
+  getEmojiVariantByKey,
+  getEmojiVariantKeyByValue,
+  isEmojiVariantValue,
+} from '../fun/data/emojis';
 
 export enum EmojiButtonVariant {
   Normal,
@@ -33,7 +40,10 @@ export type OwnProps = Readonly<{
 export type Props = OwnProps &
   Pick<
     EmojiPickerProps,
-    'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
+    | 'onPickEmoji'
+    | 'onEmojiSkinToneDefaultChange'
+    | 'recentEmojis'
+    | 'emojiSkinToneDefault'
   >;
 
 export type EmojiButtonAPI = Readonly<{
@@ -49,8 +59,8 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   onClose,
   onOpen,
   onPickEmoji,
-  skinTone,
-  onSetSkinTone,
+  emojiSkinToneDefault,
+  onEmojiSkinToneDefaultChange,
   recentEmojis,
   variant = EmojiButtonVariant.Normal,
 }: Props) {
@@ -150,6 +160,13 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
     };
   }, [open, setOpen]);
 
+  let emojiVariant: EmojiVariantData;
+  if (emoji != null) {
+    strictAssert(isEmojiVariantValue(emoji), 'Must be emoji variant value');
+    const emojiVariantKey = getEmojiVariantKeyByValue(emoji);
+    emojiVariant = getEmojiVariantByKey(emojiVariantKey);
+  }
+
   return (
     <Manager>
       <Reference>
@@ -167,7 +184,13 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
             })}
             aria-label={i18n('icu:EmojiButton__label')}
           >
-            {emoji && <Emoji emoji={emoji} size={24} />}
+            {emojiVariant && (
+              <FunStaticEmoji
+                role="presentation"
+                emoji={emojiVariant}
+                size={24}
+              />
+            )}
           </button>
         )}
       </Reference>
@@ -186,8 +209,8 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
                   }
                 }}
                 onClose={handleClose}
-                skinTone={skinTone}
-                onSetSkinTone={onSetSkinTone}
+                emojiSkinToneDefault={emojiSkinToneDefault}
+                onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
                 wasInvokedFromKeyboard={wasInvokedFromKeyboard}
                 recentEmojis={recentEmojis}
               />

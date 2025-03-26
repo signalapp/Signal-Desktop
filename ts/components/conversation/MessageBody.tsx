@@ -68,7 +68,7 @@ export function MessageBody({
       ? `${text}...`
       : text;
 
-  const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
+  const sizeClass = disableJumbomoji ? null : getSizeClass(text);
 
   let endNotification: React.ReactNode;
   if (onIncreaseTextLength) {
@@ -150,7 +150,7 @@ export function MessageBody({
         bodyRanges={bodyRanges ?? []}
         direction={direction}
         disableLinks={shouldDisableLinks}
-        emojiSizeClass={sizeClass}
+        jumboEmojiSize={sizeClass}
         i18n={i18n}
         isSpoilerExpanded={isSpoilerExpanded}
         messageText={textWithSuffix}

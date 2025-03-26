@@ -416,7 +416,7 @@ async function withPreSendChecks(
 ): Promise<void> {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
-    throw new Error('sendMultiMediaMessage: No conversation found');
+    throw new Error('withPreSendChecks: No conversation found');
   }
 
   const sendStart = Date.now();
@@ -949,7 +949,7 @@ function onEditorStateChange({
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('processAttachments: Unable to find conversation');
+      throw new Error('onEditorStateChange: Unable to find conversation');
     }
 
     const state = getState().composer.conversations[conversationId];

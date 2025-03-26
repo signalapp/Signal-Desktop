@@ -5,6 +5,7 @@ import { z } from 'zod';
 import type { Simplify } from 'type-fest';
 import { strictAssert } from '../../../util/assert';
 import { parseUnknown } from '../../../util/schemas';
+import { fetchInSegments } from './segments';
 
 const BASE_URL = 'https://tenor.googleapis.com/v2';
 const API_KEY = 'AIzaSyBt6SUfSsCQic2P2VkNkLjsGI7HGWZI95g';
@@ -215,23 +216,18 @@ export async function tenor<Path extends keyof TenorEndpoints>(
     url.searchParams.set(key, param);
   }
 
-  const response = await messaging.server.fetchJsonViaProxy(
-    url.toString(),
-    signal
-  );
+  const response = await messaging.server.fetchJsonViaProxy({
+    method: 'GET',
+    url: url.toString(),
+    signal,
+  });
   const result = parseUnknown(schema, response.data);
   return result;
 }
 
-export async function tenorDownload(
+export function tenorDownload(
   tenorCdnUrl: string,
   signal?: AbortSignal
-): Promise<Uint8Array> {
-  const { messaging } = window.textsecure;
-  strictAssert(messaging, 'Missing window.textsecure.messaging');
-  const response = await messaging.server.fetchBytesViaProxy(
-    tenorCdnUrl,
-    signal
-  );
-  return response.data;
+): Promise<Blob> {
+  return fetchInSegments(tenorCdnUrl, signal);
 }

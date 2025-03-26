@@ -24,7 +24,7 @@ import { getAddStoryData } from '../selectors/stories';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
-  getEmojiSkinTone,
+  getEmojiSkinToneDefault,
   getHasSetMyStoriesPrivacy,
   getTextFormattingEnabled,
 } from '../selectors/items';
@@ -94,8 +94,8 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
   }
 
   const recentEmojis = useRecentEmojis();
-  const skinTone = useSelector(getEmojiSkinTone);
-  const { onSetSkinTone } = useItemsActions();
+  const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
+  const { setEmojiSkinToneDefault } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
   const { onTextTooLong } = useComposerActions();
@@ -138,7 +138,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       onRepliesNReactionsChanged={allowsRepliesChanged}
       onSelectedStoryList={verifyStoryListMembers}
       onSend={sendStoryMessage}
-      onSetSkinTone={onSetSkinTone}
+      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       onTextTooLong={onTextTooLong}
       onUseEmoji={onUseEmoji}
       onViewersUpdated={updateStoryViewers}
@@ -151,7 +151,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}
       sortedGroupMembers={null}
-      skinTone={skinTone}
+      emojiSkinToneDefault={emojiSkinToneDefault}
       theme={ThemeType.dark}
       toggleGroupsForStorySend={toggleGroupsForStorySend}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}

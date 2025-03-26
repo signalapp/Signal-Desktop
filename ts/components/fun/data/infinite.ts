@@ -52,7 +52,7 @@ export function useInfiniteQuery<Query, Page>(
   const [edition, setEdition] = useState(0);
   const [state, setState] = useState<InfiniteQueryState<Query, Page>>({
     query: options.query,
-    pending: false,
+    pending: true,
     rejected: false,
     pages: [],
     hasNextPage: false,

@@ -12,7 +12,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderNonEmoji: overrideProps.renderNonEmoji,
-  sizeClass: overrideProps.sizeClass,
+  fontSizeOverride: overrideProps.fontSizeOverride,
   text: overrideProps.text || '',
 });
 
@@ -35,7 +35,7 @@ export function SkinColorModifier(): JSX.Element {
 export function Jumbo(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
-    sizeClass: 'max',
+    fontSizeOverride: 56,
   });
 
   return <Emojify {...props} />;
@@ -44,7 +44,7 @@ export function Jumbo(): JSX.Element {
 export function ExtraLarge(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
-    sizeClass: 'extra-large',
+    fontSizeOverride: 48,
   });
 
   return <Emojify {...props} />;
@@ -53,7 +53,7 @@ export function ExtraLarge(): JSX.Element {
 export function Large(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
-    sizeClass: 'large',
+    fontSizeOverride: 40,
   });
 
   return <Emojify {...props} />;
@@ -62,7 +62,7 @@ export function Large(): JSX.Element {
 export function Medium(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
-    sizeClass: 'medium',
+    fontSizeOverride: 36,
   });
 
   return <Emojify {...props} />;
@@ -71,7 +71,7 @@ export function Medium(): JSX.Element {
 export function Small(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
-    sizeClass: 'small',
+    fontSizeOverride: 32,
   });
 
   return <Emojify {...props} />;

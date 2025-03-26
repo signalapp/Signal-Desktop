@@ -75,7 +75,6 @@ import { handleOutsideClick } from '../util/handleOutsideClick';
 import { Spinner } from './Spinner';
 import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
-import { Emoji } from './emoji/Emoji';
 import {
   CallingRaisedHandsList,
   CallingRaisedHandsListButton,
@@ -86,10 +85,18 @@ import {
   useCallReactionBursts,
 } from './CallReactionBurst';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
-import { assertDev } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { emojiToData } from './emoji/lib';
 import { CallingPendingParticipants } from './CallingPendingParticipants';
 import type { CallingImageDataCache } from './CallManager';
+import { FunStaticEmoji } from './fun/FunEmoji';
+import {
+  getEmojiParentByKey,
+  getEmojiParentKeyByVariantKey,
+  getEmojiVariantByKey,
+  getEmojiVariantKeyByValue,
+  isEmojiVariantValue,
+} from './fun/data/emojis';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -1242,13 +1249,25 @@ function useReactionsToast(props: UseReactionsToastType): void {
     reactions.forEach(({ timestamp, demuxId, value }) => {
       const conversation = conversationsByDemuxId.get(demuxId);
       const key = `reactions-${timestamp}-${demuxId}`;
+
+      strictAssert(isEmojiVariantValue(value), 'Expected a valid emoji value');
+      const emojiVariantKey = getEmojiVariantKeyByValue(value);
+      const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
+      const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
+      const emojiParent = getEmojiParentByKey(emojiParentKey);
+
       showToast({
         key,
         onlyShowOnce: true,
         autoClose: true,
         content: (
           <span className="CallingReactionsToasts__reaction">
-            <Emoji size={28} emoji={value} />
+            <FunStaticEmoji
+              role="img"
+              aria-label={emojiParent.englishShortNameDefault}
+              size={28}
+              emoji={emojiVariant}
+            />
             {demuxId === localDemuxId ||
             (ourServiceId && conversation?.serviceId === ourServiceId)
               ? i18n('icu:CallingReactions--me')

@@ -20,26 +20,39 @@ import {
 } from 'lodash';
 import FocusTrap from 'focus-trap-react';
 
-import { Emoji } from './Emoji';
 import { dataByCategory } from './lib';
 import type { LocalizerType } from '../../types/Util';
 import { isSingleGrapheme } from '../../util/grapheme';
 import { missingCaseError } from '../../util/missingCaseError';
 import { useEmojiSearch } from '../../hooks/useEmojiSearch';
+import { FunStaticEmoji } from '../fun/FunEmoji';
+import { strictAssert } from '../../util/assert';
+import {
+  EMOJI_SKIN_TONE_ORDER,
+  emojiParentKeyConstant,
+  EmojiSkinTone,
+  emojiVariantConstant,
+  getEmojiParentKeyByEnglishShortName,
+  getEmojiVariantByParentKeyAndSkinTone,
+  isEmojiEnglishShortName,
+  EMOJI_SKIN_TONE_TO_NUMBER,
+} from '../fun/data/emojis';
 
 export type EmojiPickDataType = {
-  skinTone?: number;
+  skinTone: EmojiSkinTone;
   shortName: string;
 };
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly recentEmojis?: ReadonlyArray<string>;
-  readonly skinTone?: number;
+  readonly emojiSkinToneDefault: EmojiSkinTone;
   readonly onClickSettings?: () => unknown;
   readonly onClose?: () => unknown;
   readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
-  readonly onSetSkinTone?: (tone: number) => unknown;
+  readonly onEmojiSkinToneDefaultChange?: (
+    emojiSkinTone: EmojiSkinTone
+  ) => void;
   readonly wasInvokedFromKeyboard: boolean;
 };
 
@@ -84,8 +97,8 @@ export const EmojiPicker = React.memo(
       {
         i18n,
         onPickEmoji,
-        skinTone = 0,
-        onSetSkinTone,
+        emojiSkinToneDefault = EmojiSkinTone.None,
+        onEmojiSkinToneDefaultChange,
         recentEmojis = [],
         style,
         onClickSettings,
@@ -107,7 +120,8 @@ export const EmojiPicker = React.memo(
       const [searchMode, setSearchMode] = React.useState(false);
       const [searchText, setSearchText] = React.useState('');
       const [scrollToRow, setScrollToRow] = React.useState(0);
-      const [selectedTone, setSelectedTone] = React.useState(skinTone);
+      const [selectedTone, setSelectedTone] =
+        React.useState(emojiSkinToneDefault);
 
       const search = useEmojiSearch(i18n.getLocale());
 
@@ -144,28 +158,6 @@ export const EmojiPicker = React.memo(
           debounceSearchChange(e.currentTarget.value);
         },
         [debounceSearchChange]
-      );
-
-      const handlePickTone = React.useCallback(
-        (
-          e:
-            | React.MouseEvent<HTMLButtonElement>
-            | React.KeyboardEvent<HTMLButtonElement>
-        ) => {
-          if (isEventFromMouse(e)) {
-            setIsUsingKeyboard(false);
-          }
-          e.preventDefault();
-          e.stopPropagation();
-
-          const { tone = '0' } = e.currentTarget.dataset;
-          const parsedTone = parseInt(tone, 10);
-          setSelectedTone(parsedTone);
-          if (onSetSkinTone) {
-            onSetSkinTone(parsedTone);
-          }
-        },
-        [onSetSkinTone]
       );
 
       const handlePickEmoji = React.useCallback(
@@ -327,7 +319,21 @@ export const EmojiPicker = React.memo(
         ({ key, style: cellStyle, rowIndex, columnIndex }) => {
           const shortName = emojiGrid[rowIndex][columnIndex];
 
-          return shortName ? (
+          if (!shortName) {
+            return null;
+          }
+
+          strictAssert(
+            isEmojiEnglishShortName(shortName),
+            'Must be a valid emoji short name'
+          );
+          const parentKey = getEmojiParentKeyByEnglishShortName(shortName);
+          const variantKey = getEmojiVariantByParentKeyAndSkinTone(
+            parentKey,
+            selectedTone
+          );
+
+          return (
             <div
               key={key}
               className="module-emoji-picker__body__emoji-cell"
@@ -341,10 +347,14 @@ export const EmojiPicker = React.memo(
                 data-short-name={shortName}
                 title={shortName}
               >
-                <Emoji shortName={shortName} skinTone={selectedTone} />
+                <FunStaticEmoji
+                  role="presentation"
+                  emoji={variantKey}
+                  size={28}
+                />
               </button>
             </div>
-          ) : null;
+          );
         },
         [emojiGrid, handlePickEmoji, selectedTone]
       );
@@ -505,11 +515,19 @@ export const EmojiPicker = React.memo(
                 )}
               >
                 {i18n('icu:EmojiPicker--empty')}
-                <Emoji
-                  shortName="slightly_frowning_face"
-                  size={16}
-                  style={{ marginInlineStart: '4px' }}
-                />
+                <span
+                  style={{
+                    display: 'inline-block',
+                    marginInlineStart: '4px',
+                  }}
+                >
+                  <FunStaticEmoji
+                    role="presentation"
+                    // Slightly Frowning Face
+                    emoji={emojiVariantConstant('\u{1F641}')}
+                    size={16}
+                  />
+                </span>
               </div>
             )}
             <footer className="module-emoji-picker__footer">
@@ -540,34 +558,51 @@ export const EmojiPicker = React.memo(
                   type="button"
                 />
               )}
-              {onSetSkinTone ? (
+              {onEmojiSkinToneDefaultChange != null ? (
                 <div className="module-emoji-picker__footer__skin-tones">
-                  {[0, 1, 2, 3, 4, 5].map(tone => (
-                    <button
-                      aria-pressed={selectedTone === tone}
-                      type="button"
-                      key={tone}
-                      data-tone={tone}
-                      onClick={handlePickTone}
-                      onKeyDown={event => {
-                        if (event.key === 'Enter' || event.key === 'Space') {
-                          handlePickTone(event);
-                        }
-                      }}
-                      title={i18n('icu:EmojiPicker--skin-tone', {
-                        tone: `${tone}`,
-                      })}
-                      className={classNames(
-                        'module-emoji-picker__button',
-                        'module-emoji-picker__button--footer',
-                        selectedTone === tone
-                          ? 'module-emoji-picker__button--selected'
-                          : null
-                      )}
-                    >
-                      <Emoji shortName="hand" skinTone={tone} size={20} />
-                    </button>
-                  ))}
+                  {EMOJI_SKIN_TONE_ORDER.map(emojiSkinTone => {
+                    return (
+                      <button
+                        aria-pressed={selectedTone === emojiSkinTone}
+                        type="button"
+                        key={emojiSkinTone}
+                        data-tone={emojiSkinTone}
+                        onClick={() => {
+                          setIsUsingKeyboard(false);
+                          setSelectedTone(emojiSkinTone);
+                          onEmojiSkinToneDefaultChange(emojiSkinTone);
+                        }}
+                        onKeyDown={event => {
+                          if (event.key === 'Enter' || event.key === 'Space') {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            setSelectedTone(emojiSkinTone);
+                            onEmojiSkinToneDefaultChange(emojiSkinTone);
+                          }
+                        }}
+                        title={i18n('icu:EmojiPicker--skin-tone', {
+                          tone: `${EMOJI_SKIN_TONE_TO_NUMBER.get(emojiSkinTone)}`,
+                        })}
+                        className={classNames(
+                          'module-emoji-picker__button',
+                          'module-emoji-picker__button--footer',
+                          selectedTone === emojiSkinTone
+                            ? 'module-emoji-picker__button--selected'
+                            : null
+                        )}
+                      >
+                        <FunStaticEmoji
+                          role="presentation"
+                          // Raised Hand
+                          emoji={getEmojiVariantByParentKeyAndSkinTone(
+                            emojiParentKeyConstant('\u{270B}'),
+                            emojiSkinTone
+                          )}
+                          size={20}
+                        />
+                      </button>
+                    );
+                  })}
                 </div>
               ) : null}
               {Boolean(onClickSettings) && (

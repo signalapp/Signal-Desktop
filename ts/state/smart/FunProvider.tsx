@@ -17,11 +17,17 @@ import type { EmojiSkinTone } from '../../components/fun/data/emojis';
 import {
   getEmojiParentKeyByEnglishShortName,
   isEmojiEnglishShortName,
-  NUMBER_TO_SKIN_TONE,
-  SKIN_TONE_TO_NUMBER,
 } from '../../components/fun/data/emojis';
-import { getEmojiSkinTone, getShowStickerPickerHint } from '../selectors/items';
+import {
+  getEmojiSkinToneDefault,
+  getShowStickerPickerHint,
+} from '../selectors/items';
 import { useItemsActions } from '../ducks/items';
+import {
+  fetchGifsFeatured,
+  fetchGifsSearch,
+} from '../../components/fun/data/gifs';
+import { tenorDownload } from '../../components/fun/data/tenor';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;
@@ -36,10 +42,10 @@ export const SmartFunProvider = memo(function SmartFunProvider(
   const installedStickerPacks = useSelector(getInstalledStickerPacks);
   const recentEmojis = useSelector(selectRecentEmojis);
   const recentStickers = useSelector(getRecentStickers);
-  const recentGifs: Array<GifType> = [];
-  const emojiSkinTone = useSelector(getEmojiSkinTone);
+  const recentGifs: Array<GifType> = useMemo(() => [], []);
+  const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const showStickerPickerHint = useSelector(getShowStickerPickerHint);
-  const { removeItem, onSetSkinTone } = useItemsActions();
+  const { removeItem, setEmojiSkinToneDefault } = useItemsActions();
 
   // Translate recent emojis to keys
   const recentEmojisKeys = useMemo(() => {
@@ -52,19 +58,11 @@ export const SmartFunProvider = memo(function SmartFunProvider(
     });
   }, [recentEmojis]);
 
-  const defaultEmojiSkinTone = useMemo((): EmojiSkinTone => {
-    const result = NUMBER_TO_SKIN_TONE.get(emojiSkinTone);
-    strictAssert(result, `Unexpected skin tone preference ${emojiSkinTone}`);
-    return result;
-  }, [emojiSkinTone]);
-
-  const handleChangeDefaultEmojiSkinTone = useCallback(
-    (updated: EmojiSkinTone) => {
-      const result = SKIN_TONE_TO_NUMBER.get(updated);
-      strictAssert(result, `Unexpected skin tone preference ${updated}`);
-      onSetSkinTone(result);
+  const handleEmojiSkinToneDefaultChange = useCallback(
+    (emojiSkinTone: EmojiSkinTone) => {
+      setEmojiSkinToneDefault(emojiSkinTone);
     },
-    [onSetSkinTone]
+    [setEmojiSkinToneDefault]
   );
 
   // Stickers
@@ -80,12 +78,16 @@ export const SmartFunProvider = memo(function SmartFunProvider(
       recentStickers={recentStickers}
       recentGifs={recentGifs}
       // Emojis
-      defaultEmojiSkinTone={defaultEmojiSkinTone}
-      onChangeDefaultEmojiSkinTone={handleChangeDefaultEmojiSkinTone}
+      emojiSkinToneDefault={emojiSkinToneDefault}
+      onEmojiSkinToneDefaultChange={handleEmojiSkinToneDefaultChange}
       // Stickers
       installedStickerPacks={installedStickerPacks}
       showStickerPickerHint={showStickerPickerHint}
       onClearStickerPickerHint={handleClearStickerPickerHint}
+      // Gifs
+      fetchGifsSearch={fetchGifsSearch}
+      fetchGifsFeatured={fetchGifsFeatured}
+      fetchGif={tenorDownload}
     >
       {props.children}
     </FunProvider>

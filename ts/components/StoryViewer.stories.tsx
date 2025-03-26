@@ -14,6 +14,7 @@ import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 
@@ -43,7 +44,7 @@ export default {
     onHideStory: action('onHideStory'),
     onReactToStory: action('onReactToStory'),
     onReplyToStory: action('onReplyToStory'),
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     onTextTooLong: action('onTextTooLong'),
     onUseEmoji: action('onUseEmoji'),
     onMediaPlaybackStart: action('onMediaPlaybackStart'),
@@ -52,7 +53,7 @@ export default {
     renderEmojiPicker: () => <>EmojiPicker</>,
     retryMessageSend: action('retryMessageSend'),
     showToast: action('showToast'),
-    skinTone: 0,
+    emojiSkinToneDefault: EmojiSkinTone.None,
     story: getFakeStoryView(),
     storyViewMode: StoryViewModeType.All,
     viewStory: action('viewStory'),

@@ -8,6 +8,7 @@ import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MediaEditor';
 import { MediaEditor } from './MediaEditor';
 import { Stickers, installedPacks } from '../test-both/helpers/getStickerPacks';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;
 const IMAGE_1 = '/fixtures/nathan-anderson-316188-unsplash.jpg';
@@ -32,7 +33,7 @@ export default {
     onTextTooLong: action('onTextTooLong'),
     platform: 'darwin',
     recentStickers: [Stickers.wide, Stickers.tall, Stickers.abe],
-    skinTone: 0,
+    emojiSkinToneDefault: EmojiSkinTone.None,
   },
 } satisfies Meta<PropsType>;
 
