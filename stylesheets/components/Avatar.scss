@@ -35,6 +35,10 @@
     }
   }
 
+  &__contents:has(.module-Avatar__image) {
+    background-color: transparent;
+  }
+
   &__image,
   &__label,
   &__icon,
