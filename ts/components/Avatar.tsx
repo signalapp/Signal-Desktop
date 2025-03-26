@@ -189,20 +189,6 @@ export function Avatar({
         )}
       </>
     );
-  } else if (hasAvatar && !hasImage) {
-    contentsChildren = (
-      <>
-        <div
-          className="module-Avatar__image"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, ${avatarPlaceholderGradient[0]}, ${avatarPlaceholderGradient[1]})`,
-          }}
-        />
-        {blur === AvatarBlur.BlurPictureWithClickToView && (
-          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
-        )}
-      </>
-    );
   } else if (searchResult) {
     contentsChildren = (
       <div
@@ -220,6 +206,20 @@ export function Avatar({
           'module-Avatar__icon--note-to-self'
         )}
       />
+    );
+  } else if (hasAvatar && !hasImage) {
+    contentsChildren = (
+      <>
+        <div
+          className="module-Avatar__image"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, ${avatarPlaceholderGradient[0]}, ${avatarPlaceholderGradient[1]})`,
+          }}
+        />
+        {blur === AvatarBlur.BlurPictureWithClickToView && (
+          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
+        )}
+      </>
     );
   } else if (shouldUseInitials) {
     contentsChildren = (
