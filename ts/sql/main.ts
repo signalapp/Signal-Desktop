@@ -254,10 +254,11 @@ export class MainSQL {
     }>;
 
     // pageMessages runs over several queries and needs to have access to
-    // the same temporary table.
+    // the same temporary table, it also creates temporary insert/update
+    // triggers so it has to run on the same connection that updates the tables
     const isPaging = PAGING_QUERIES.has(method);
 
-    const entry = isPaging ? this.#pool.at(-1) : this.#getWorker();
+    const entry = isPaging ? this.#pool[0] : this.#getWorker();
     strictAssert(entry != null, 'Must have a pool entry');
 
     const { result, duration } = await this.#send<SqlCallResult>(entry, {
