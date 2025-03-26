@@ -121,7 +121,7 @@ export function setupI18n(
     renderEmojify,
   });
 
-  let usedStrings: Set<string> | undefined;
+  let usedStrings: Map<string, string> | undefined;
 
   const localizer: LocalizerType = (<
     Key extends keyof ICUStringMessageParamsByKeyType,
@@ -130,12 +130,12 @@ export function setupI18n(
     substitutions: ICUStringMessageParamsByKeyType[Key],
     options?: LocalizerOptions
   ) => {
-    usedStrings?.add(key);
-
     const result = intl.formatMessage(
       { id: key },
       normalizeSubstitutions(substitutions, options)
     );
+
+    usedStrings?.set(key, result);
 
     strictAssert(result !== key, `i18n: missing translation for "${key}"`);
 
@@ -159,13 +159,13 @@ export function setupI18n(
     if (usedStrings !== undefined) {
       throw new Error('Already tracking usage');
     }
-    usedStrings = new Set();
+    usedStrings = new Map();
   };
   localizer.stopTrackingUsage = () => {
     if (usedStrings === undefined) {
       throw new Error('Not tracking usage');
     }
-    const result = Array.from(usedStrings);
+    const result = Array.from(usedStrings.entries());
     usedStrings = undefined;
     return result;
   };

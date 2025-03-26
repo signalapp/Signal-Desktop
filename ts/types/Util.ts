@@ -51,7 +51,7 @@ export type LocalizerType = {
 
   // Storybook
   trackUsage(): void;
-  stopTrackingUsage(): Array<string>;
+  stopTrackingUsage(): Array<[string, string]>;
 };
 
 export enum SentMediaQualityType {

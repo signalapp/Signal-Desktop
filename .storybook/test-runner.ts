@@ -8,6 +8,8 @@ import {
   waitForPageReady,
 } from '@storybook/test-runner';
 
+const SECOND = 1000;
+
 const { ARTIFACTS_DIR } = process.env;
 
 const config: TestRunnerConfig = {
@@ -38,15 +40,44 @@ const config: TestRunnerConfig = {
       return;
     }
 
-    const image = await page.screenshot({ fullPage: true });
-
     const dir = join(ARTIFACTS_DIR, context.id);
     await mkdir(dir, { recursive: true });
 
-    await Promise.all([
-      writeFile(join(dir, 'screenshot.png'), image),
-      writeFile(join(dir, 'strings.json'), JSON.stringify(result)),
-    ]);
+    for (const [key, value] of result) {
+      const locator = page
+        .getByText(value)
+        .or(page.getByTitle(value))
+        .or(page.getByLabel(value));
+
+      if (await locator.count()) {
+        const first = locator.first();
+
+        try {
+          await first.focus({ timeout: SECOND });
+        } catch {
+          // Opportunistic
+        }
+        try {
+          if (await first.isVisible()) {
+            await first.scrollIntoViewIfNeeded({ timeout: SECOND });
+          }
+        } catch {
+          // Opportunistic
+        }
+      }
+
+      const image = await page.screenshot({
+        animations: 'disabled',
+        fullPage: true,
+        mask: [locator],
+        // Semi-transparent ultramarine
+        maskColor: 'rgba(44, 107, 273, 0.3)',
+        type: 'jpeg',
+        quality: 95,
+      });
+
+      await writeFile(join(dir, `${key.replace(/^icu:/, '')}.jpg`), image);
+    }
   },
 };
 export default config;

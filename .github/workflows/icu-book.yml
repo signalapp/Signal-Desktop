@@ -52,7 +52,16 @@ jobs:
           ARTIFACTS_DIR: stories/data
       - run: pnpm run build:esbuild
       - run: node ts/scripts/compile-stories-icu-lookup.js stories
-      - name: Upload artifacts
+
+      - name: Upload test artifacts
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+        with:
+          name: desktop-test-icu
+          path: stories
+
+      - name: Upload release artifacts
+        if: github.event_name != 'workflow_dispatch'
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
         with:
           name: desktop-${{ github.ref_name }}-icu

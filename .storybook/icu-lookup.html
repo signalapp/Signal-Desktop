@@ -56,7 +56,8 @@
             story.appendChild(title);
 
             const img = document.createElement('img');
-            img.src = `data/${encodeURIComponent(storyId)}/screenshot.png`;
+            img.src = `data/${encodeURIComponent(storyId)}/` +
+              `${encodeURIComponent(key.replace(/^icu:/, ''))}.jpg`;
             img.loading = 'lazy';
             story.appendChild(img);
           }
