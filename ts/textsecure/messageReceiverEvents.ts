@@ -595,17 +595,18 @@ export type AttachmentBackfillAttachmentType = Readonly<
 >;
 
 export type AttachmentBackfillResponseSyncEventData = Readonly<
-  | {
-      error: Proto.SyncMessage.AttachmentBackfillResponse.Error;
-      targetMessage?: AddressableMessage;
-      targetConversation?: ConversationIdentifier;
-    }
-  | {
-      attachments: ReadonlyArray<AttachmentBackfillAttachmentType>;
-      longText: AttachmentBackfillAttachmentType | undefined;
-      targetMessage: AddressableMessage;
-      targetConversation: ConversationIdentifier;
-    }
+  {
+    targetMessage: AddressableMessage;
+    targetConversation: ConversationIdentifier;
+  } & (
+    | {
+        error: Proto.SyncMessage.AttachmentBackfillResponse.Error;
+      }
+    | {
+        attachments: ReadonlyArray<AttachmentBackfillAttachmentType>;
+        longText: AttachmentBackfillAttachmentType | undefined;
+      }
+  )
 >;
 
 export class AttachmentBackfillResponseSyncEvent extends ConfirmableEvent {

@@ -12,10 +12,7 @@ import {
   AttachmentDownloadUrgency,
   coreAttachmentDownloadJobSchema,
 } from '../types/AttachmentDownload';
-import {
-  AttachmentPermanentlyUndownloadableError,
-  downloadAttachment as downloadAttachmentUtil,
-} from '../util/downloadAttachment';
+import { downloadAttachment as downloadAttachmentUtil } from '../util/downloadAttachment';
 import { DataWriter } from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 
@@ -24,6 +21,7 @@ import {
   AttachmentSizeError,
   type AttachmentType,
   AttachmentVariant,
+  AttachmentPermanentlyUndownloadableError,
   mightBeOnBackupTier,
 } from '../types/Attachment';
 import { type ReadonlyMessageAttributesType } from '../model-types.d';
@@ -61,6 +59,7 @@ import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAtta
 import {
   AttachmentBackfill,
   isPermanentlyUndownloadable,
+  isPermanentlyUndownloadableWithoutBackfill,
 } from './helpers/attachmentBackfill';
 
 export { isPermanentlyUndownloadable };
@@ -364,6 +363,16 @@ async function runDownloadAttachmentJob({
 
   try {
     log.info(`${logId}: Starting job`);
+
+    if (
+      job.source !== AttachmentDownloadSource.BACKFILL &&
+      isPermanentlyUndownloadableWithoutBackfill(job.attachment)
+    ) {
+      // We should only get to here only if
+      throw new AttachmentPermanentlyUndownloadableError(
+        'Not downloadable without backfill'
+      );
+    }
 
     const result = await runDownloadAttachmentJobInner({
       job,

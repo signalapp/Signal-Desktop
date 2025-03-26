@@ -1,5 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable max-classes-per-file */
 
 import moment from 'moment';
 import {
@@ -45,6 +46,14 @@ const MIN_HEIGHT = 50;
 // Used for display
 
 export class AttachmentSizeError extends Error {}
+
+// Used for downlaods
+
+export class AttachmentPermanentlyUndownloadableError extends Error {
+  constructor(message: string) {
+    super(`AttachmentPermanentlyUndownloadableError: ${message}`);
+  }
+}
 
 type ScreenshotType = Omit<AttachmentType, 'size'> & {
   height: number;
