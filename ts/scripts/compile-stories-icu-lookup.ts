@@ -1,14 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
+import { join, basename } from 'node:path';
 import pMap from 'p-map';
-import z from 'zod';
+import fastGlob from 'fast-glob';
 
 import { drop } from '../util/drop';
-
-const jsonSchema = z.string().array();
 
 async function main(): Promise<void> {
   const source = process.argv[2];
@@ -16,7 +14,10 @@ async function main(): Promise<void> {
     throw new Error('Missing required source directory argument');
   }
 
-  const ids = await readdir(join(source, 'data'), { withFileTypes: true });
+  const dirEntries = await fastGlob('*/*.jpg', {
+    cwd: join(source, 'data'),
+    onlyFiles: true,
+  });
 
   const enMessages = JSON.parse(
     await readFile(
@@ -28,27 +29,18 @@ async function main(): Promise<void> {
   const icuToStory: Record<string, Array<string>> = Object.create(null);
 
   await pMap(
-    ids,
-    async entity => {
-      if (!entity.isDirectory()) {
-        return;
+    dirEntries,
+    async entry => {
+      const [storyId, imageFile] = entry.split('/', 2);
+
+      const icuId = `icu:${basename(imageFile, '.jpg')}`;
+
+      let list = icuToStory[icuId];
+      if (list == null) {
+        list = [];
+        icuToStory[icuId] = list;
       }
-
-      const storyId = entity.name;
-      const dir = join(source, 'data', storyId);
-
-      const strings = jsonSchema.parse(
-        JSON.parse(await readFile(join(dir, 'strings.json'), 'utf8'))
-      );
-
-      for (const icuId of strings) {
-        let list = icuToStory[icuId];
-        if (list == null) {
-          list = [];
-          icuToStory[icuId] = list;
-        }
-        list.push(storyId);
-      }
+      list.push(storyId);
     },
     { concurrency: 20 }
   );
