@@ -5,20 +5,20 @@ import { orderBy } from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types';
 import {
   isVoiceMessage,
-  type AttachmentType,
+  type AttachmentForUIType,
   isDownloaded,
 } from './Attachment';
 import type { HydratedBodyRangesType } from './BodyRange';
-import type { LinkPreviewType } from './message/LinkPreviews';
+import type { LinkPreviewForUIType } from './message/LinkPreviews';
 
 export type MessageForwardDraft = Readonly<{
-  attachments?: ReadonlyArray<AttachmentType>;
+  attachments?: ReadonlyArray<AttachmentForUIType>;
   bodyRanges?: HydratedBodyRangesType;
   hasContact: boolean;
   isSticker: boolean;
   messageBody?: string;
   originalMessageId: string | null; // null for new messages
-  previews: ReadonlyArray<LinkPreviewType>;
+  previews: ReadonlyArray<LinkPreviewForUIType>;
 }>;
 
 export type ForwardMessageData = Readonly<{

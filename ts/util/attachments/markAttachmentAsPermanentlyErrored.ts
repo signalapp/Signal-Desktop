@@ -6,7 +6,13 @@ import { omit } from 'lodash';
 import { type AttachmentType } from '../../types/Attachment';
 
 export function markAttachmentAsPermanentlyErrored(
-  attachment: AttachmentType
+  attachment: AttachmentType,
+  { backfillError }: { backfillError: boolean }
 ): AttachmentType {
-  return { ...omit(attachment, ['key', 'id']), pending: false, error: true };
+  return {
+    ...omit(attachment, ['key', 'id']),
+    pending: false,
+    error: true,
+    backfillError,
+  };
 }

@@ -969,6 +969,7 @@ describe('both/state/ducks/stories', () => {
           contentType: IMAGE_JPEG,
           digest: 'digest-1',
           size: 0,
+          isPermanentlyUndownloadable: false,
         },
         isCallLink: false,
       };

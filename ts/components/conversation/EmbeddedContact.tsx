@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { EmbeddedContactType } from '../../types/EmbeddedContact';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
 
 import type { LocalizerType } from '../../types/Util';
 import {
@@ -15,7 +15,7 @@ import {
 } from './contactUtil';
 
 export type Props = {
-  contact: ReadonlyDeep<EmbeddedContactType>;
+  contact: ReadonlyDeep<EmbeddedContactForUIType>;
   i18n: LocalizerType;
   isIncoming: boolean;
   onClick?: () => void;

@@ -10,7 +10,7 @@ import type {
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
 import type { LinkPreviewSourceType } from '../types/LinkPreview';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { PropsType as SendStoryModalPropsType } from './SendStoryModal';
@@ -51,7 +51,7 @@ export type PropsType = {
   file?: File;
   i18n: LocalizerType;
   isSending: boolean;
-  linkPreview?: LinkPreviewType;
+  linkPreview?: LinkPreviewForUIType;
   onClose: () => unknown;
   onSend: (
     listIds: Array<StoryDistributionIdString>,

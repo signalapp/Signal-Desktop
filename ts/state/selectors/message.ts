@@ -54,12 +54,12 @@ import type {
   ServiceIdString,
 } from '../../types/ServiceId';
 
-import type { EmbeddedContactType } from '../../types/EmbeddedContact';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
 import { embeddedContactSelector } from '../../types/EmbeddedContact';
 import type { HydratedBodyRangesType } from '../../types/BodyRange';
 import { hydrateRanges } from '../../types/BodyRange';
 import type { AssertProps } from '../../types/Util';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
 import { SignalService as Proto } from '../../protobuf';
 import type {
@@ -67,6 +67,7 @@ import type {
   AttachmentType,
 } from '../../types/Attachment';
 import { isVoiceMessage, defaultBlurHash } from '../../types/Attachment';
+import type { AttachmentDownloadJobTypeType } from '../../types/AttachmentDownload';
 import { type DefaultConversationColorType } from '../../types/Colors';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
@@ -79,6 +80,7 @@ import * as iterables from '../../util/iterables';
 import { strictAssert } from '../../util/assert';
 import { canEditMessage } from '../../util/canEditMessage';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
+import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager';
 
 import { getAccountSelector } from './accounts';
 import { getDefaultConversationColor } from './items';
@@ -300,10 +302,10 @@ export function getConversation(
 
 // Message
 
-export const getAttachmentsForMessage = ({
-  sticker,
-  attachments = [],
-}: MessageWithUIFieldsType): Array<AttachmentType> => {
+export const getAttachmentsForMessage = (
+  message: MessageWithUIFieldsType
+): Array<AttachmentType> => {
+  const { sticker, attachments = [] } = message;
   if (sticker && sticker.data) {
     const { data } = sticker;
 
@@ -324,7 +326,9 @@ export const getAttachmentsForMessage = ({
       // Long message attachments are removed from message.attachments quickly,
       // but in case they are still around, let's make sure not to show them
       .filter(attachment => attachment.contentType !== LONG_MESSAGE)
-      .map(attachment => getPropsForAttachment(attachment))
+      .map(attachment =>
+        getPropsForAttachment(attachment, 'attachment', message)
+      )
       .filter(isNotNil)
   );
 };
@@ -383,15 +387,18 @@ const getAuthorForMessage = (
   return safe;
 };
 
-const getPreviewsForMessage = ({
-  preview: previews = [],
-}: MessageWithUIFieldsType): Array<LinkPreviewType> => {
+const getPreviewsForMessage = (
+  message: MessageWithUIFieldsType
+): Array<LinkPreviewForUIType> => {
+  const { preview: previews = [] } = message;
   return previews.map(preview => ({
     ...preview,
     isStickerPack: isStickerPack(preview.url),
     isCallLink: isCallLink(preview.url),
     domain: getSafeDomain(preview.url),
-    image: preview.image ? getPropsForAttachment(preview.image) : undefined,
+    image: preview.image
+      ? getPropsForAttachment(preview.image, 'preview', message)
+      : undefined,
   }));
 };
 
@@ -596,7 +603,8 @@ function getTextAttachment(
   message: MessageWithUIFieldsType
 ): AttachmentType | undefined {
   return (
-    message.bodyAttachment && getPropsForAttachment(message.bodyAttachment)
+    message.bodyAttachment &&
+    getPropsForAttachment(message.bodyAttachment, 'long-message', message)
   );
 }
 
@@ -725,7 +733,9 @@ export const getPropsForMessage = (
   );
 
   return {
-    attachments,
+    attachments: attachments?.map(attachment =>
+      getPropsForAttachment(attachment, 'attachment', message)
+    ),
     attachmentDroppedDueToSize,
     author,
     bodyRanges,
@@ -734,7 +744,10 @@ export const getPropsForMessage = (
     quote,
     reactions,
     storyReplyContext,
-    textAttachment,
+    textAttachment:
+      textAttachment == null
+        ? undefined
+        : getPropsForAttachment(textAttachment, 'long-message', message),
     payment,
     canCopy: canCopy(message),
     canEditMessage: canEditMessage(message),
@@ -1810,7 +1823,7 @@ export function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
   regionCode: string | undefined,
   accountSelector: (identifier?: string) => ServiceIdString | undefined
-): ReadonlyDeep<EmbeddedContactType> | undefined {
+): ReadonlyDeep<EmbeddedContactForUIType> | undefined {
   const contacts = message.contact;
   if (!contacts || !contacts.length) {
     return undefined;
@@ -1828,12 +1841,10 @@ export function getPropsForEmbeddedContact(
 }
 
 export function getPropsForAttachment(
-  attachment: AttachmentType
-): AttachmentForUIType | undefined {
-  if (!attachment) {
-    return undefined;
-  }
-
+  attachment: AttachmentType,
+  disposition: AttachmentDownloadJobTypeType,
+  message: Pick<ReadonlyMessageAttributesType, 'type'>
+): AttachmentForUIType {
   const { path, pending, screenshot, thumbnail, thumbnailFromBackup } =
     attachment;
 
@@ -1865,6 +1876,11 @@ export function getPropsForAttachment(
           url: getLocalAttachmentUrl(thumbnail),
         }
       : undefined,
+    isPermanentlyUndownloadable: isPermanentlyUndownloadable(
+      attachment,
+      disposition,
+      message
+    ),
   };
 }
 

@@ -5,13 +5,13 @@ import React from 'react';
 import classNames from 'classnames';
 import { unescape } from 'lodash';
 
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import type { LocalizerType } from '../types/Util';
 import { CurveType, Image } from './conversation/Image';
 import { isImageAttachment } from '../types/Attachment';
 import { getSafeDomain } from '../types/LinkPreview';
 
-export type Props = LinkPreviewType & {
+export type Props = LinkPreviewForUIType & {
   forceCompactMode?: boolean;
   i18n: LocalizerType;
 };

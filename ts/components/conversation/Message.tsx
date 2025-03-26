@@ -45,7 +45,7 @@ import type { OwnProps as ReactionViewerProps } from './ReactionViewer';
 import { ReactionViewer } from './ReactionViewer';
 import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
 import type { WidthBreakpoint } from '../_util';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
@@ -68,11 +68,10 @@ import {
   isGIF,
   isImage,
   isImageAttachment,
-  isPermanentlyUndownloadable,
   isPlayed,
   isVideo,
 } from '../../types/Attachment';
-import type { EmbeddedContactType } from '../../types/EmbeddedContact';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
 
 import { getIncrement } from '../../util/timer';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
@@ -250,7 +249,7 @@ export type PropsData = {
   timestamp: number;
   receivedAtMS?: number;
   status?: MessageStatusType;
-  contact?: ReadonlyDeep<EmbeddedContactType>;
+  contact?: ReadonlyDeep<EmbeddedContactForUIType>;
   author: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
@@ -299,7 +298,7 @@ export type PropsData = {
     storyId?: string;
     text: string;
   };
-  previews: ReadonlyArray<LinkPreviewType>;
+  previews: ReadonlyArray<LinkPreviewForUIType>;
 
   isTapToView?: boolean;
   isTapToViewExpired?: boolean;
@@ -662,7 +661,7 @@ export class Message extends React.PureComponent<Props, State> {
     if (!text && !deletedForEveryone && !attachmentDroppedDueToSize) {
       const firstAttachment = attachments && attachments[0];
       const isAttachmentNotAvailable =
-        firstAttachment && isPermanentlyUndownloadable(firstAttachment);
+        firstAttachment?.isPermanentlyUndownloadable;
 
       if (this.isGenericAttachment(attachments, imageBroken)) {
         return MetadataPlacement.RenderedElsewhere;
@@ -1001,7 +1000,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     // attachmentDroppedDueToSize is handled in renderAttachmentTooBig
     const isAttachmentNotAvailable =
-      isPermanentlyUndownloadable(firstAttachment) &&
+      firstAttachment.isPermanentlyUndownloadable &&
       !attachmentDroppedDueToSize;
 
     if (
@@ -1391,7 +1390,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderUndownloadableTextAttachment(): JSX.Element | null {
     const { i18n, textAttachment, showAttachmentNotAvailableModal } =
       this.props;
-    if (!textAttachment || !isPermanentlyUndownloadable(textAttachment)) {
+    if (!textAttachment || !textAttachment.isPermanentlyUndownloadable) {
       return null;
     }
     return (
@@ -2051,7 +2050,7 @@ export class Message extends React.PureComponent<Props, State> {
     const avatarNeedsAction =
       attachment &&
       !isDownloaded(attachment) &&
-      !isPermanentlyUndownloadable(attachment);
+      !attachment.isPermanentlyUndownloadable;
     const tabIndex = otherContent || avatarNeedsAction ? 0 : -1;
 
     return (
@@ -2560,8 +2559,7 @@ export class Message extends React.PureComponent<Props, State> {
     const isViewed = readStatus === ReadStatus.Viewed;
     const isExpired = Boolean(
       !isViewed &&
-        (isTapToViewExpired ||
-          (firstAttachment && isPermanentlyUndownloadable(firstAttachment)))
+        (isTapToViewExpired || firstAttachment?.isPermanentlyUndownloadable)
     );
     const isError = isTapToViewError || attachmentDroppedDueToSize;
 
@@ -3044,11 +3042,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    if (
-      attachments &&
-      attachments.length > 0 &&
-      isPermanentlyUndownloadable(attachments[0])
-    ) {
+    if (attachments?.[0]?.isPermanentlyUndownloadable) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -3162,7 +3156,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
     const isAttachmentNotAvailable =
-      isPermanentlyUndownloadable(firstAttachment) &&
+      firstAttachment.isPermanentlyUndownloadable &&
       !attachmentDroppedDueToSize;
 
     if (isAttachmentNotAvailable) {
@@ -3235,7 +3229,7 @@ export class Message extends React.PureComponent<Props, State> {
       (isSticker &&
         attachments &&
         attachments[0] &&
-        !isPermanentlyUndownloadable(attachments[0]));
+        !attachments[0].isPermanentlyUndownloadable);
 
     // If it's a mostly-normal gray incoming text box, we don't want to darken it as much
     const lighterSelect =

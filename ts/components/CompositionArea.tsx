@@ -52,7 +52,7 @@ import type {
   ShowConversationType,
 } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import { isSameLinkPreview } from '../types/message/LinkPreviews';
 
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
@@ -135,7 +135,7 @@ export type OwnProps = Readonly<{
   isSmsOnlyOrUnregistered: boolean | null;
   left: boolean | null;
   linkPreviewLoading: boolean;
-  linkPreviewResult: LinkPreviewType | null;
+  linkPreviewResult: LinkPreviewForUIType | null;
   onClearAttachments(conversationId: string): unknown;
   onCloseLinkPreview(conversationId: string): unknown;
   platform: string;

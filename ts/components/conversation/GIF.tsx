@@ -13,7 +13,6 @@ import {
   getImageDimensions,
   defaultBlurHash,
   isDownloadable,
-  isPermanentlyUndownloadable,
 } from '../../types/Attachment';
 import * as Errors from '../../types/errors';
 import * as log from '../../logging/log';
@@ -273,7 +272,7 @@ export function GIF(props: Props): JSX.Element {
         <span />
       </button>
     );
-  } else if (isPermanentlyUndownloadable(attachment)) {
+  } else if (attachment.isPermanentlyUndownloadable) {
     overlay = (
       <button
         type="button"

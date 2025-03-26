@@ -11,8 +11,7 @@ import { getName } from '../../types/EmbeddedContact';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon';
 
 import type { LocalizerType } from '../../types/Util';
-import type { EmbeddedContactType } from '../../types/EmbeddedContact';
-import { isPermanentlyUndownloadable } from '../../types/Attachment';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
 
 export function renderAvatar({
   contact,
@@ -20,7 +19,7 @@ export function renderAvatar({
   i18n,
   size,
 }: {
-  contact: ReadonlyDeep<EmbeddedContactType>;
+  contact: ReadonlyDeep<EmbeddedContactForUIType>;
   direction?: 'outgoing' | 'incoming';
   i18n: LocalizerType;
   size: 52 | 80;
@@ -30,7 +29,7 @@ export function renderAvatar({
   const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
   const title = getName(contact) || '';
   const isAttachmentNotAvailable = Boolean(
-    avatar?.avatar && isPermanentlyUndownloadable(avatar?.avatar)
+    avatar?.avatar?.isPermanentlyUndownloadable
   );
 
   const renderAttachmentDownloaded = () => (
@@ -64,7 +63,7 @@ export function renderName({
   isIncoming,
   module,
 }: {
-  contact: ReadonlyDeep<EmbeddedContactType>;
+  contact: ReadonlyDeep<EmbeddedContactForUIType>;
   isIncoming: boolean;
   module: string;
 }): JSX.Element {
@@ -85,7 +84,7 @@ export function renderContactShorthand({
   isIncoming,
   module,
 }: {
-  contact: ReadonlyDeep<EmbeddedContactType>;
+  contact: ReadonlyDeep<EmbeddedContactForUIType>;
   isIncoming: boolean;
   module: string;
 }): JSX.Element {
