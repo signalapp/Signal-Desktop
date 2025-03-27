@@ -63,6 +63,8 @@ import { isMe } from '../util/whatTypeOfConversation';
 import type {
   AvailableIODevicesType,
   CallEndedReason,
+  IceServerType,
+  IceServerCacheType,
   MediaDeviceSettings,
   PresentedSource,
 } from '../types/Calling';
@@ -180,6 +182,7 @@ const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = 10 * durations.MINUTE;
 const OUTGOING_SIGNALING_WAIT = 15 * durations.SECOND;
 
 const ICE_SERVER_IS_IP_LIKE = /(turn|turns|stun):[.\d]+/;
+
 const MAX_CALL_DEBUG_STATS_TABS = 5;
 
 // We send group call update messages to tell other clients to peek, which triggers
@@ -416,6 +419,9 @@ export class CallingClass {
   public _sfuUrl?: string;
 
   public _iceServerOverride?: GetIceServersResultType | string;
+
+  // A cache to limit requests for relay servers.
+  #iceServersCache: IceServerCacheType | undefined;
 
   #lastMediaDeviceSettings?: MediaDeviceSettings;
   #deviceReselectionTimer?: NodeJS.Timeout;
@@ -3396,17 +3402,10 @@ export class CallingClass {
     return null;
   }
 
-  async #handleStartCall(call: Call): Promise<boolean> {
-    type IceServer = {
-      username?: string;
-      password?: string;
-      hostname?: string;
-      urls: Array<string>;
-    };
-
+  async #getIceServers(): Promise<Array<IceServerType>> {
     function iceServerConfigToList(
       iceServerConfig: GetIceServersResultType
-    ): Array<IceServer> {
+    ): Array<IceServerType> {
       if (!iceServerConfig.relays) {
         return [];
       }
@@ -3427,6 +3426,61 @@ export class CallingClass {
       ]);
     }
 
+    const currentTime = Date.now();
+    if (
+      this.#iceServersCache &&
+      currentTime < this.#iceServersCache.expirationTimestamp
+    ) {
+      // Use the cached value for iceServers.
+      return this.#iceServersCache.iceServers;
+    }
+
+    let iceServers: Array<IceServerType> = [];
+    // Set the default cache expiration time to now + 0.
+    let expirationTimestamp = currentTime;
+
+    // The messaging context should have already been checked before entering
+    // this function, so this should be a noop.
+    const { messaging } = window.textsecure;
+    strictAssert(messaging, 'textsecure messaging not available');
+
+    const iceServerConfig = await messaging.server.getIceServers();
+
+    // Advance the next expiration time to the minimum provided ttl value,
+    // or if there were none, use 0 to disable the cache.
+    const minTtl = (iceServerConfig.relays ?? []).reduce(
+      (min, { ttl }) => Math.min(min, ttl ?? 0),
+      Infinity
+    );
+
+    expirationTimestamp += minTtl !== Infinity ? minTtl * durations.SECOND : 0;
+
+    // Prioritize ice servers with IPs to avoid DNS entries and only include
+    // hostname with urlsWithIps.
+    iceServers = iceServerConfigToList(iceServerConfig);
+
+    if (this._iceServerOverride) {
+      if (typeof this._iceServerOverride === 'string') {
+        if (ICE_SERVER_IS_IP_LIKE.test(this._iceServerOverride)) {
+          iceServers[0].urls = [this._iceServerOverride];
+          iceServers = [iceServers[0]];
+        } else {
+          iceServers[1].urls = [this._iceServerOverride];
+          iceServers = [iceServers[1]];
+        }
+      } else {
+        iceServers = iceServerConfigToList(this._iceServerOverride);
+      }
+    }
+
+    if (iceServers.length > 0) {
+      // Update the cached value for iceServers.
+      this.#iceServersCache = { iceServers, expirationTimestamp };
+    }
+    return iceServers;
+  }
+
+  async #handleStartCall(call: Call): Promise<boolean> {
     if (!window.textsecure.messaging) {
       log.error('CallingClass.handleStartCall: offline!');
       return false;
@@ -3453,8 +3507,7 @@ export class CallingClass {
       return false;
     }
 
-    const iceServerConfig =
-      await window.textsecure.messaging.server.getIceServers();
+    const iceServers = await this.#getIceServers();
 
     // We do this again, since getIceServers is a call that can take some time
     if (call.endedReason) {
@@ -3469,24 +3522,6 @@ export class CallingClass {
 
     // If the peer is not a Signal Connection, force IP hiding.
     const isContactUntrusted = !isSignalConnection(conversation.attributes);
-
-    // Prioritize ice servers with IPs to avoid DNS only include
-    // hostname with urlsWithIps.
-    let iceServers = iceServerConfigToList(iceServerConfig);
-
-    if (this._iceServerOverride) {
-      if (typeof this._iceServerOverride === 'string') {
-        if (ICE_SERVER_IS_IP_LIKE.test(this._iceServerOverride)) {
-          iceServers[0].urls = [this._iceServerOverride];
-          iceServers = [iceServers[0]];
-        } else {
-          iceServers[1].urls = [this._iceServerOverride];
-          iceServers = [iceServers[1]];
-        }
-      } else {
-        iceServers = iceServerConfigToList(this._iceServerOverride);
-      }
-    }
 
     const callSettings = {
       iceServers,

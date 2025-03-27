@@ -208,3 +208,15 @@ export enum ScreenShareStatus {
   Reconnecting = 'Reconnecting',
   Disconnected = 'Disconnected',
 }
+
+export type IceServerType = {
+  username?: string;
+  password?: string;
+  hostname?: string;
+  urls: Array<string>;
+};
+
+export type IceServerCacheType = {
+  iceServers: Array<IceServerType>;
+  expirationTimestamp: number;
+};

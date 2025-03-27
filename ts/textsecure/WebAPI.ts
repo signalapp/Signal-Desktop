@@ -923,6 +923,7 @@ export type IceServerGroupType = Readonly<{
   urls?: ReadonlyArray<string>;
   urlsWithIps?: ReadonlyArray<string>;
   hostname?: string;
+  ttl?: number;
 }>;
 
 export type GetSenderCertificateResultType = Readonly<{ certificate: string }>;
