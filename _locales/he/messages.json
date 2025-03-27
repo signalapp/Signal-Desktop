@@ -5013,10 +5013,10 @@
     "messageformat": "החשבון שלך יימחק בקרוב אלא אם כן תפתח/י את Signal בטלפון שלך. אם עשית זאת בהצלחה, ההודעה הזו תיעלם. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "יש לפתוח את Signal בטלפון שלך כדי לשמור על החשבון שלך פעיל"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "למידע נוסף"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal חווה קשיים טכניים. אנו עובדים קשות כדי לשחזר את השירות מהר ככל האפשר."
@@ -6095,6 +6095,6 @@
     "messageformat": "עכשיו יש לך אפשרות להרחיב את תצוגה מקדימה מקומית של וידאו במהלך שיחה כדי לראות את עצמך טוב יותר."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "הוספנו קיצור דרך נוח כדי להורדת היד במהירות אחרי שהתחלת לדבר במהלך שיחת Signal קבוצתית."
   }
 }

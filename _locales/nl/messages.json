@@ -5013,10 +5013,10 @@
     "messageformat": "Je account wordt binnenkort verwijderd, tenzij je Signal op je telefoon opent. Dit bericht verdwijnt als dit is gelukt. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Open Signal op je telefoon om je account actief te houden"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Meer informatie"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ondervindt momenteel technische problemen. We zijn hard aan het werk om de service zo snel mogelijk te herstellen."
@@ -6095,6 +6095,6 @@
     "messageformat": "Je kunt nu tijdens een oproep je eigen videovoorbeeld maximaliseren. Dan kun je jezelf eindelijk écht in de ogen kijken."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "We hebben een handige snelkoppeling toegevoegd, waarmee je snel je hand omlaag kunt doen nadat je bent begonnen met spreken tijdens een Signal-groepsoproep."
   }
 }

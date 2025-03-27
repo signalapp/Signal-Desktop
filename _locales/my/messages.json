@@ -5013,10 +5013,10 @@
     "messageformat": "သင့်ဖုန်းတွင် Signal မဖွင့်ပါက သင့်အကောင့်ကို မကြာမီ ဖျက်သွားပါမည်။ သင်အောင်မြင်စွာ လုပ်ဆောင်ပြီးပါက ဤမက်ဆေ့ချ် ပျောက်သွားပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "သင့်အကောင့်ကို အက်တစ်ဖြစ်စေရန် သင့်ဖုန်းတွင် Signal ကိုဖွင့်ပါ"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ပိုမိုသိရှိရန်"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal သည် နည်းပညာပိုင်းဆိုင်ရာ အခက်အခဲများ ကြုံတွေ့နေပါသည်။ ဝန်ဆောင်မှုများကို အမြန်ဆုံးပြန်လည်စတင်နိုင်ရန် ကျွနု်ပ်တို့ ကြိုးစားနေပါသည်။"
@@ -6095,6 +6095,6 @@
     "messageformat": "ယခု သင်သည်ခေါ်ဆိုမှုတစ်ခုအတွင်း သင့်ကိုယ်သင် ပိုမိုကောင်းမွန်စွာမြင်နိုင်ရန် ဗီဒီယိုချဲ့၍ ကြည့်ရှုနိုင်ပါပြီ။"
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Signal အဖွဲ့ခေါ်ဆိုမှုအတွင်း သင်စကားစပြောပြီးနောက် သင့်လက်ကို လျင်မြန်စွာပြန်ချပေးရန် အဆင်ပြေစေမည့် ဖြတ်လမ်းတစ်ခုကို ထည့်ထားပါသည်။"
   }
 }

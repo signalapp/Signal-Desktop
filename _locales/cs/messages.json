@@ -5013,10 +5013,10 @@
     "messageformat": "Váš účet bude brzy smazán, pokud v telefonu neotevřete aplikaci Signal. Pokud jste zprávu úspěšně zobrazili, bude smazána. <learnMoreLink>Zjistit více</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Aby zůstal váš účet aktivní, otevřete aplikaci Signal ve svém telefonu"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Zjistit více"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal se potýká s technickými problémy. Usilovně pracujeme na co nejrychlejším obnovení služby."
@@ -6095,6 +6095,6 @@
     "messageformat": "Nyní si můžete během hovoru zvětšit místní náhled videa a lépe si sami sebe prohlédnout."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Přidali jsme praktickou zkratku pro rychlé spuštění ruky, když začnete mluvit během skupinového hovoru Signal."
   }
 }

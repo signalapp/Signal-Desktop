@@ -5013,10 +5013,10 @@
     "messageformat": "اگر سیگنال را در تلفن خود باز نکنید، حساب شما به‌زودی حذف خواهد شد. اگر این کار را با موفقیت انجام داده باشید، این پیام از بین خواهد رفت. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "سیگنال را روی گوشی خود باز کنید تا حسابتان فعال بماند"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "بیشتر بدانید"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "سیگنال با مشکلات فنی روبروست. به سختی تلاش میکنیم تا سرویس را تا حد ممکن سریعا برگردانیم."
@@ -6095,6 +6095,6 @@
     "messageformat": "اکنون می‌توانید پیش‌نمایش ویدئوی محلی خود را در طول تماس گسترش دهید تا خود را بهتر ببینید."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "ما یک میان‌بُر آسان اضافه کردیم تا بعد از شروع صحبت در طول تماس گروهی سیگنال فوراً دست خود را پایین بیاورید."
   }
 }

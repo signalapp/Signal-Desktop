@@ -5013,10 +5013,10 @@
     "messageformat": "Jūsų paskyra netrukus bus ištrinta, nebent telefone atidarysite „Signal“. Tai atlikus ši žinutė išnyks. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Atidarykite „Signal“ telefone, kad paskyra liktų aktyvi"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Sužinoti daugiau"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal patiria techninius nesklandumus. Mes sunkiai dirbame, kad kaip įmanoma greičiau atkurtume paslaugą."
@@ -6095,6 +6095,6 @@
     "messageformat": "Dabar skambučio metu gali išplėsti savo vietinio vaizdo peržiūrą, kad geriau matytum save."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Pridėjome patogų spartųjį klavišą, leidžiantį greitai nuleisti ranką pradėjus kalbėti „Signal“ grupės skambučio metu."
   }
 }

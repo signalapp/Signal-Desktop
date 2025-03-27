@@ -5013,10 +5013,10 @@
     "messageformat": "تېلېفونىڭىزدا Signal ئاچمىسىڭىز ھېساباتىڭىز تېزلا ئۆچۈرۈلىدۇ. ئەگەر مۇۋەپپەقىيەتلىك قىلغان بولسىڭىز بۇ ئۇچۇر يوقىلىدۇ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "ھېساباتىڭىزنى ئاكتىپ ھالەتتە ساقلاش ئۈچۈن تېلېفونىڭىزدا Signal نى ئېچىپ تۇرۇڭ"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "تەپسىلاتى"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal دا تېخنىكىلىق قىيىنچىلىق كۆرۈلدى. بىز ئامالنىڭ بارىچە تىرىشىپ ئىشلەپ مۇلازىمەتنى ئەڭ تېز سۈرئەتتە ئەسلىگە كەلتۈرىمىز."
@@ -6095,6 +6095,6 @@
     "messageformat": "ھازىر ئۆزىڭىزنى تېخىمۇ ياخشى كۆرۈش ئۈچۈن چاقىرىق جەريانىدا تېلېفونىڭىزدىكى سىن ئالدىن كۆرەكنى كېڭەيتەلەيسىز."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Signal گۇرۇپپا چاقىرىقى جەريانىدا سۆزلەشكە باشلىغاندىن كېيىنلا قولىڭىزنى تېزلىكتە قۇيۇپ بېرىش ئۈچۈن قۇلايلىق تېزلەتمە قوشتۇق. بۇ بىز بۇ قېتىملىق نەشىردىكى ئەڭ ياقتۇرىدىغان ئىقتىدار."
   }
 }

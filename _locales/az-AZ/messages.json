@@ -5013,10 +5013,10 @@
     "messageformat": "Signal-ı telefonunuzda açmayana qədər hesabınız tezliklə silinəcək. Hər şeyi uğurlu şəkildə yerinə yetirmisinizsə, bu mesaj yox olacaqdır. <learnMoreLink>Daha ətraflı</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Hesabınızı aktiv saxlamaq üçün Signal-ı telefonunuzda açın"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Daha ətraflı"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal, hal-hazırda texniki çətinliklər yaşayır. Xidməti mümkün olan ən qısa vaxtda bərpa etmək üçün əlimizdən gələni edirik."
@@ -6095,6 +6095,6 @@
     "messageformat": "Artıq zəng zamanı yerli video önbaxışını artıraraq, özünüzə daha yaxşı baxa və kimliyinizi daha yaxşı əks etdirə bilərsiniz."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Signal qrup zəngi zamanı danışmağa başladığınız zaman əl işarəsinin sürətlə aşağı enməsi üçün rahat işləyən bir qısayol əlavə etdik. O, bu buraxılışda şübhəsiz ki, ən sevdiyimiz xüsusiyyətdir."
   }
 }

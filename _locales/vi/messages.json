@@ -5013,10 +5013,10 @@
     "messageformat": "Tài khoản của bạn sẽ sớm bị xóa trừ khi bạn mở Signal trên điện thoại của mình. Thông điệp này sẽ không còn nếu bạn hoàn thành việc đó. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Mở Signal trên điện thoại để giữ cho tài khoản của bạn hoạt động"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tìm hiểu thêm"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal đang gặp trục trặc kĩ thuật. Chúng thôi đang cố hết sức để khôi phục dịch vụ càng sớm càng tốt."
@@ -6095,6 +6095,6 @@
     "messageformat": "Giờ đây bạn có thể mở rộng khung xem trước video trên thiết bị khi đang trong cuộc gọi để thấy được rõ hơn hình ảnh của mình."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Chúng tôi đã thêm phím tắt tiện lợi để bạn nhanh chóng hạ tay xuống sau khi bạn bắt đầu nói trong một cuộc gọi nhóm Signal."
   }
 }

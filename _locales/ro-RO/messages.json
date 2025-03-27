@@ -5013,10 +5013,10 @@
     "messageformat": "Contul tău va fi șters în curând, cu excepția cazului în care deschizi Signal pe telefon. Acest mesaj va dispărea dacă ai făcut-o cu succes. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Deschide Signal pe telefon pentru a-ți menține contul activ"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Află mai multe"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal întâmpină dificultăți tehnice. Muncim din greu pentru a restabili serviciul cât mai repede posibil."
@@ -6095,6 +6095,6 @@
     "messageformat": "Acum îți poți extinde previzualizarea videoclipului local în timpul unui apel, pentru a te vedea mai bine sau pentru a reflecta despre cine ești."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Am adăugat o comandă rapidă convenabilă ca să cobori rapid mâna după ce începi să vorbești în timpul unui apel de grup Signal. Este, fără îndoială, funcția noastră preferată din această lansare."
   }
 }

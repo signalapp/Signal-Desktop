@@ -5013,10 +5013,10 @@
     "messageformat": "Vaš račun bo kmalu izbrisan, razen če v telefonu odprete aplikacijo Signal. To sporočilo bo izginilo, če ste postopek uspešno opravili. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Odprite aplikacijo Signal v telefonu, da bo vaš račun ostal aktiven"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Preberite več"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Prihaja do tehničnih težav v omrežju Signal. Ekipa vzdrževalcev se trudi, da bodo čimprej odpravljene."
@@ -6095,6 +6095,6 @@
     "messageformat": "Zdaj lahko med klicem razširite lokalni predogled videoposnetka, da se bolje vidite."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Dodali smo priročno bližnjico za hitro spuščanje roke, ko začnete govoriti med skupinskim klicem v Signalu. To je naša najljubša funkcija v tej izdaji."
   }
 }

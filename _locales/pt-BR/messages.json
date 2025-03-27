@@ -5013,10 +5013,10 @@
     "messageformat": "Sua conta será excluída em breve, a não ser que você abra o Signal no seu telefone. Se você fizer isso, essa mensagem vai desaparecer. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Abra o Signal no seu telefone pra manter sua conta ativa"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Saiba mais"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "O Signal está com dificuldades técnicas. Estamos fazendo o possível para restaurar o serviço o quanto antes."
@@ -6095,6 +6095,6 @@
     "messageformat": "Agora você pode expandir a prévia do seu próprio vídeo durante a chamada para se ver melhor."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Adicionamos um atalho prático pra você baixar a mão rapidamente depois de começar a falar numa chamada em grupo no Signal. É nosso recurso favorito nesse lançamento. Levanta a mão quem concorda "
   }
 }

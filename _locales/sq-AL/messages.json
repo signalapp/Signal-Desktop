@@ -5013,10 +5013,10 @@
     "messageformat": "Llogaria do të fshihet së shpejti nëse nuk hap e Signal në telefon. Ky mesazh do të fshihet nëse e ke kryer me sukses. <learnMoreLink>Mëso më shumë</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Hap Signal në telefon për ta mbajtur llogarinë aktive"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Mëso më shumë"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal-i po kalon vështirësi teknike. Po punojmë fort të rikthejmë shërbimin sa më shpejt që të mundet."
@@ -6095,6 +6095,6 @@
     "messageformat": "Tani mund të zgjerosh shfaqjen paraprake lokale të videos gjatë telefonatave për të pasur një pamje më të mirë të vetes ose për të reflektuar mbi atë që je."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Kemi shtuar një shkurtore të përshtatshme për të ulur shpejt dorën pasi të kesh filluar të flasësh gjatë një telefonate në grup në Signal. Është, pa dyshim, veçoria jonë e preferuar në këtë publikim."
   }
 }

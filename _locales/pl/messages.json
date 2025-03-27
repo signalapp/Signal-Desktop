@@ -5013,10 +5013,10 @@
     "messageformat": "Twoje konto zostanie wkrótce usunięte. Aby temu zapobiec, uruchom aplikację Signal na swoim telefonie. Gdy to zrobisz, ten komunikat zniknie. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Otwórz aplikację Signal na telefonie, aby zapobiec dezaktywacji konta"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Dowiedz się więcej"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Usługa Signal ma problemy techniczne. Prosimy o cierpliwość w trakcie usuwania awarii."
@@ -6095,6 +6095,6 @@
     "messageformat": "Od teraz w trakcie rozmowy wideo możesz powiększyć podgląd obrazu z kamerki – świetna opcja dla tych, którzy nie mogą się na siebie napatrzeć."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Dodaliśmy wygodny skrót, dzięki któremu w trakcie rozmowy grupowej możesz szybko opuścić rękę po tym, jak zabierzesz głos. Już nikt Ci nie zarzuci, że monopolizujesz dyskusję."
   }
 }

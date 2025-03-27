@@ -5013,10 +5013,10 @@
     "messageformat": "Аккаунтыңыз көп ұзамай жойылады. Оны сақтап қалу үшін телефоныңызда Signal қолданбасын ашыңыз. Бәрі дұрыс болса, бұл хабар өзі-ақ жоғалады. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Аккаунтыңыз белсенді болып тұруы үшін телефоныңызда Signal-ды ашыңыз"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Толық ақпарат"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal қолданбасында техникалық қиындықтар туындады. Қызметті мүмкіндігінше тезірек қалпына келтіру үшін аянбай жұмыс істеп жатырмыз."
@@ -6095,6 +6095,6 @@
     "messageformat": "Қоңырау барысында бейненің жергілікті алғы көрінісін ұлғайтып, өзіңізге жаңа көзқараспен қарап, болмысыңызға тамсана аласыз."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Signal-да топтық қоңырау кезінде сөйлей бастағаннан кейін қолыңызды тез түсіру үшін ыңғайлы пәрмен қостық. Мұны осы шығарылымдағы ең пайдалы функция деуге болады."
   }
 }

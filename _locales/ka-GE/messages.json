@@ -5013,10 +5013,10 @@
     "messageformat": "თუ შენს მობილურზე Signal-ს არ გახსნი, შენი ანგარიში მალე წაიშლება. თუ ამას წარმატებით გააკეთებ, ეს შეტყობინება გაქრება. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "შედი Signal-ზე შენს მობილურში შენი ანგარიშის აქტივობის შესანარჩუნებლად"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "გაიგე მეტი"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal-ი ტექნიკურ სირთულეებს განიცდის. ჩვენ ბევრს ვმუშაობთ სერვისის რაც შეიძლება სწრაფად აღდგენისთვის."
@@ -6095,6 +6095,6 @@
     "messageformat": "ახლა უკვე შეგიძლია, შენი ადგილობრივი ვიდეოს წინასწარი ნახვა ზარის დროს გააფართოვო, რათა საკუთარი თავი უკეთ დაინახო."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "ჩვენ დავამატეთ მოსახერხებელი მალსახმობი, რათა Signal-ის ჯგუფური ზარის დროს საუბარს რომ დაიწყებ, ხელი სწრაფად ჩამოწიო. ამ გამოშვებაში ეს ჩვენი ფავორიტი ფუნქციაა."
   }
 }

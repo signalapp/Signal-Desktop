@@ -5013,10 +5013,10 @@
     "messageformat": "Jou rekening sal binnekort geskrap word tensy jy Signal op jou foon oopmaak. Hierdie boodskap sal weggaan as jy dit suksesvol gedoen het. <learnMoreLink>Vind meer uit</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Maak Signal op jou telefoon oop om jou rekening aktief te hou"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Vind meer uit"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ervaar tans tegniese probleme. Ons werk hard daaraan om diens so spoedig moontlik te herstel."
@@ -6095,6 +6095,6 @@
     "messageformat": "Nou kan jy jou eie videovoorskou tydens 'n oproep vergroot om jouself beter te kan bekyk."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Ons het 'n gerieflike kortpad bygevoeg om jou hand vinnig te laat sak nadat jy tydens 'n Signal-groepoproep begin praat het."
   }
 }

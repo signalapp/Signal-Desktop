@@ -5013,10 +5013,10 @@
     "messageformat": "请在您的手机上打开 Signal，否则您的账户将会很快被删除。当您成功打开 Signal 后，此消息将会消失。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "请在手机上打开 Signal，使您的账户保持活跃状态"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "了解更多"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal 遇到了一些技术故障。我们正努力使服务尽快恢复。"
@@ -6095,6 +6095,6 @@
     "messageformat": "现在您可以在通话期间扩展本地视频预览了，以更清楚地预览画面。"
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "我们添加了一个方便的快捷键，让您在群组通话期间开始讲话后快速把举起的手放下来。"
   }
 }

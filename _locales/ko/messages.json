@@ -5013,10 +5013,10 @@
     "messageformat": "휴대폰에서 Signal을 열지 않으면 계정이 곧 삭제됩니다. Signal을 열면 이 메시지는 사라집니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "휴대 전화에서 Signal을 열어 계정을 활성 상태로 유지하세요."
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "더 알아보기"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal에 기술적 문제가 발생했습니다. 문제를 최대한 신속하게 처리하겠습니다."
@@ -6095,6 +6095,6 @@
     "messageformat": "이제 통화 중에 내 모습이 더 잘 보이도록 로컬 화상 미리 보기를 펼칠 수 있습니다."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Signal 그룹 통화 중에 대화를 시작한 후 손을 바로 내릴 수 있는 편리한 단축키를 추가했습니다. 이번 릴리스에서 단연코 가장 마음에 드는 기능입니다."
   }
 }

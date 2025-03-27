@@ -5013,10 +5013,10 @@
     "messageformat": "Akaunti yako itafutwa hivi karibuni isipokuwa ukifungua Signal kwenye simu yako. Ujumbe huu utaondoka ikiwa umefanya hivyo. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Fungua Signal kwenye simu yako ili akaunti yako iendelee kutumika"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Jifunze zaidi"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal inakabiliwa na matatizo ya kiufundi. Tunajitahidi kurejesha huduma haraka iwezekanavyo."
@@ -6095,6 +6095,6 @@
     "messageformat": "Sasa unaweza kupanua onyesho lako la video wakati wa simu ili ujitazame vizuri au utafakari kuhusu maisha yako."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Tumeweka njia ya mkato rahisi ili kushusha mkono wako haraka baada ya kuanza kuongea katika simu ya kikundi ya Signal. Ni kipengele kinachopendwa zaidi katika toleo hili."
   }
 }

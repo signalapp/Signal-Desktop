@@ -5013,10 +5013,10 @@
     "messageformat": "तुम्ही तुमच्या फोनवर Signal उघडले नाहीत तर तुमचे खाते लवकरच हटवले जाईल. तुम्ही जर ते यशस्वीपणे केलेत तर हा संदेश निघून जाईल. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "तुमच्या फोनवर Signal उघडा आणि तुमचे खाते सक्रिय ठेवा"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "अधिक जाणून घ्या"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal तांत्रिक समस्या अनुभवत आहे. आम्ही लवकरात लवकर सेवा पुनर्स्थित करण्यासाठी कठोर परिश्रम करत आहोत."
@@ -6095,6 +6095,6 @@
     "messageformat": "आता तुम्ही कॉलदरम्यान स्वतःकडे नीट पाहता यावे यासाठी तुमचे स्थानिक व्हिडिओ पूर्वावलोकन मोठे करू शकता."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "तुम्ही Signal गट कॉलवर बोलायला सुरुवात केल्यावर तुम्हाला हात लगेच खाली घेता यावा यासाठी आम्ही एक सोयीचा शॉर्टकट जोडला आहे. हे आमचे या प्रकाशनातील सगळ्यांत आवडते वैशिष्ट्य आहे."
   }
 }

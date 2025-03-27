@@ -5013,10 +5013,10 @@
     "messageformat": "Mabubura na ang account mo kapag hindi mo binuksan ang Signal app sa phone mo. Mawawala ang message na ito kung nagawa mo ito successfully. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Buksan ang Signal sa phone mo para mapanatiling active ang iyong account"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Matuto pa"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Nakakaranas ng mga teknikal na problema ang Signal. Nagsisikap kaming ibalik ang serbisyo sa lalong madaling panahon."
@@ -6095,6 +6095,6 @@
     "messageformat": "Pwede mo nang i-expand ang local video preview mo habang nasa call ka para mas makita mo nang maayos ang iyong sarili."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Nagdagdag kami ng shortcut para maibababa mo agad ang iyong kamay kapag nagsimula ka nang magsalita sa isang Signal group call."
   }
 }

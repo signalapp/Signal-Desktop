@@ -2979,7 +2979,7 @@
     "messageformat": "Verbindung wird hergestellt …"
   },
   "icu:outgoingCallRinging": {
-    "messageformat": "Klingelt …"
+    "messageformat": "Es klingelt …"
   },
   "icu:makeOutgoingCall": {
     "messageformat": "Anruf starten"
@@ -5013,10 +5013,10 @@
     "messageformat": "Dein Konto wird bald gelöscht, wenn du Signal nicht auf deinem Telefon öffnest. Diese Nachricht verschwindet, sobald du Signal erfolgreich geöffnet hast. <learnMoreLink>Mehr erfahren</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Öffne Signal auf deinem Telefon, um zu verhindern, dass dein Konto deaktiviert wird"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Mehr erfahren"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal hat derzeit technische Schwierigkeiten. Wir arbeiten hart daran, den Betrieb so schnell wie möglich wiederherzustellen."
@@ -5917,7 +5917,7 @@
     "messageformat": "Keine Ergebnisse für »{query}«"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
-    "messageformat": "Keine Ergebnisse für »{query}« in Verpasste Anrufe"
+    "messageformat": "Keine Ergebnisse für »{query}« in verpassten Anrufe"
   },
   "icu:CallsList__EmptyState--missedCalls": {
     "messageformat": "Keine verpassten Anrufe"
@@ -6095,6 +6095,6 @@
     "messageformat": "Jetzt kannst du während eines Anrufs deine persönliche Videovorschau vergrößern, um dich selbst besser zu sehen oder darüber nachzudenken, wer du wirklich bist."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Wir haben einen praktischen Shortcut hinzugefügt, mit dem du deine Hand nach dem Sprechen während eines Signal-Gruppenanrufs schnell wieder senken kannst. Hand aufs Herz: Das ist ganz klar unsere Lieblingsfunktion in dieser Version."
   }
 }

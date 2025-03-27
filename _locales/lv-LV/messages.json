@@ -5013,10 +5013,10 @@
     "messageformat": "Ja savā tālrunī neatvērsiet Signal, jūsu konts drīz tiks dzēsts. Ja to sekmīgi izdarīsiet, šis ziņojums vairs netiks rādīts. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Lai saglabātu kontu aktīvu, atveriet Signal tālrunī"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Uzzināt vairāk"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ir tehniskas grūtības. Tiek cītīgi strādāts, lai pēc iespējas ātrāk atjaunotu pakalpojumu."
@@ -6095,6 +6095,6 @@
     "messageformat": "Tagad zvana laikā varat paplašināt vietējā video priekšskatījumu, tā iegūstot jaunu skatu uz sevi un iespēju pareflektēt par to, kas esat."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Mēs pievienojām ērtu saīsni, kas ļauj ātri nolaist roku, kolīdz sākat runāt Signal grupas zvana laikā."
   }
 }

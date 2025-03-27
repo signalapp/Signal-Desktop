@@ -5013,10 +5013,10 @@
     "messageformat": "আপনি আপনার ফোনে Signal না খুললে আপনার অ্যাকাউন্ট শীঘ্রই মুছে ফেলা হবে। আপনি যদি এটি সফলভাবে করেন তবে এই মেসেজটি চলে যাবে। <learnMoreLink>আরো জানুন</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "আপনার অ্যাকাউন্ট সক্রিয় রাখতে আপনার ফোনে Signal খুলুন"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "আরো জানুন"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal  প্রযুক্তিগত অসুবিধাগুলি অনুভব করছে। আমরা যত তাড়াতাড়ি সম্ভব সেবা পুনরুদ্ধার করতে কঠোর পরিশ্রম করছি।"
@@ -6095,6 +6095,6 @@
     "messageformat": "এখন আপনি কল চলাকালীন আপনার স্থানীয় ভিডিও প্রিভিউ বড় করতে পারেন যাতে আপনি নিজেকে আরো ভালোভাবে দেখতে পারেন বা আপনি কে সে বিষয়ে চিন্তা করতে পারেন।"
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Signal গ্রুপ কলের সময় কথা বলা শুরু করার পরে আপনার হাত দ্রুত নিচে নামানোর সুবিধার্থে আমরা একটি শর্টকাট যুক্ত করেছি।"
   }
 }

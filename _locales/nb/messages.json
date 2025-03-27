@@ -285,7 +285,7 @@
     "messageformat": "Samtaler"
   },
   "icu:NavTabs__ItemLabel--Calls": {
-    "messageformat": "Samtaler"
+    "messageformat": "Anrop"
   },
   "icu:NavTabs__ItemLabel--Stories": {
     "messageformat": "Storyer"
@@ -666,7 +666,7 @@
     "messageformat": "Utviklerverktøy for anrop"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Dette vinduet viser utviklere diagnostikk fra pågående samtaler."
+    "messageformat": "Dette vinduet viser utviklere diagnostikk fra pågående telefonsamtaler."
   },
   "icu:speech": {
     "messageformat": "Tale"
@@ -1593,7 +1593,7 @@
     "messageformat": "Videresend alle anrop"
   },
   "icu:alwaysRelayCallsDetail": {
-    "messageformat": "Videresend alle samtaler gjennom Signal serveren for å unngå å avsløre IP-adressen din til kontakten din. Aktivering vill redusere samtalekvaliteten."
+    "messageformat": "Omdiriger alle anrop gjennom Signal-tjenesten for å unngå å avsløre IP-adressen din til kontakten din. Aktivering vil redusere samtalekvaliteten."
   },
   "icu:permissions": {
     "messageformat": "Tillatelser"
@@ -1788,10 +1788,10 @@
     "messageformat": "Spill ringelyder"
   },
   "icu:callSystemNotificationDescription": {
-    "messageformat": "Vis meldinger om samtaler"
+    "messageformat": "Vis varsler om anrop"
   },
   "icu:incomingCallNotificationDescription": {
-    "messageformat": "Tillat innkommende samtaler"
+    "messageformat": "Aktiver innkommende anrop"
   },
   "icu:contactChangedProfileName": {
     "messageformat": "{sender} endret sitt profilnavn fra {oldProfile} til {newProfile}."
@@ -4821,7 +4821,7 @@
     "messageformat": "Samtaler"
   },
   "icu:Preferences__button--calls": {
-    "messageformat": "Samtaler"
+    "messageformat": "Anrop"
   },
   "icu:Preferences__button--notifications": {
     "messageformat": "Varslinger"
@@ -5013,10 +5013,10 @@
     "messageformat": "Kontoen din slettes hvis du ikke åpner Signal på telefonen din snart. Denne meldingen forsvinner når du har åpnet appen på mobilen. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Åpne Signal på telefonen for å holde kontoen din aktiv"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Les mer"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal opplever tekniske problemer. Vi jobber for å løse problemet."
@@ -5854,7 +5854,7 @@
     "messageformat": "Flere funksjoner"
   },
   "icu:CallsTab__HeaderTitle--CallsList": {
-    "messageformat": "Samtaler"
+    "messageformat": "Anrop"
   },
   "icu:CallsTab__HeaderTitle--NewCall": {
     "messageformat": "Nytt anrop"
@@ -5911,7 +5911,7 @@
     "messageformat": "Ingen anrop"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Nylige samtaler dukker opp her."
+    "messageformat": "Nylige anrop vises her."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "«{query}» ga ingen resultater"
@@ -6095,6 +6095,6 @@
     "messageformat": "Nå kan du se forhåndsvisninger av videoer i fullskjerm."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Vi har lagt til en snarvei for å ta ned hånden raskt når du tar ordet i gruppesamtaler på Signal."
   }
 }

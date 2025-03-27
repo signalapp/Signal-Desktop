@@ -5013,10 +5013,10 @@
     "messageformat": "உங்கள் பேசியில் சிக்னலைத் திறக்காவிட்டால் உங்கள் கணக்கு விரைவில் நீக்கப்படும். நீங்கள் அதை வெற்றிகரமாக செய்திருந்தால் இந்த மெசேஜ் தோன்றாது. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "உங்கள் கணக்கைச் செயலில் வைத்திருக்க உங்கள் தொலைபேசியில் சிக்னலைத் திறக்கவும்"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "மேலும் அறிக"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal தொழில்நுட்ப சிக்கல்களை எதிர்கொள்கிறது. சேவையை விரைவாக மீட்டெடுக்க நாங்கள் விரைவாக வேலை செய்து வருகிறோம்."
@@ -6095,6 +6095,6 @@
     "messageformat": "அழைப்பின் போது, உங்களை மேலும் நுண்ணிய விவரங்களுடன் பார்க்க, இப்போது உங்கள் லோக்கல் வீடியோ முன்னோட்டத்தை விரிவுபடுத்தலாம்."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "சிக்னல் குழு அழைப்பின் போது நீங்கள் பேசத் தொடங்கிய பிறகு உயர்த்திய கையை விரைவாக இறக்குவதற்காக எளியவழியைச் சேர்த்துள்ளோம். கையை விரைவாக இறக்குவதற்கான அம்சத்தை இதில் சேர்த்துள்ளோம்."
   }
 }

@@ -5013,10 +5013,10 @@
     "messageformat": "គណនីរបស់អ្នកនឹងត្រូវបានលុបក្នុងពេលឆាប់ៗនេះ លើកលែងតែអ្នកបើក Signal នៅលើទូរសព្ទរបស់អ្នក។ សារនេះនឹងបាត់ទៅវិញ បើអ្នកបានបើកចូលដោយជោគជ័យហើយ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "បើក Signal នៅលើទូរសព្ទរបស់អ្នក ដើម្បីរក្សាគណនីរបស់អ្នកឱ្យសកម្ម"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal កំពុងជួបប្រទះបញ្ហាបច្ចេកទេស។ យើងកំពុងធ្វើការស្តារសេវាកម្មយ៉ាងរហ័សតាមដែលអាចធ្វើទៅបាន។"
@@ -6095,6 +6095,6 @@
     "messageformat": "ឥឡូវនេះ អ្នកអាចពង្រីកការមើលជាមុននូវវីដេអូក្នុងឧបករណ៍របស់អ្នកក្នុងអំឡុងពេលហៅទូរសព្ទ ដើម្បីមើលខ្លួនឯងកាន់តែច្បាស់ ឬឆ្លុះបញ្ចាំងថាអ្នកជានរណា។"
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "យើងបានបញ្ចូលផ្លូវកាត់ដ៏ងាយស្រួលមួយ ដើម្បីដាក់ដៃអ្នកចុះបានលឿន បន្ទាប់ពីអ្នកចាប់ផ្តើមនិយាយអំឡុងពេលហៅជាក្រុមនៅលើ Signal។ វាជាមុខងារដែលយើងចូលចិត្តបំផុតនៅក្នុងការចេញផ្សាយនេះ។"
   }
 }

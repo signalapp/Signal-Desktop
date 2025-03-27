@@ -5013,10 +5013,10 @@
     "messageformat": "Sinu konto kustutatakse varsti, kui sa oma telefonis Signalit ei ava. See sõnum kaob, kui oled selle edukalt ära teinud. <learnMoreLink>Rohkem teavet</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Ava oma telefonis Signal, et kontot aktiivsena hoida"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Rohkem infot"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signalil on tehnilisi raskusi. Pingutame selle nimel, et teenus võimalikult kiiresti taastada."
@@ -6095,6 +6095,6 @@
     "messageformat": "Nüüd saad kõne ajal video eelvaadet suurendada, et end paremini näeksid."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Lisasime mugava otsetee tõstetud käe kiireks langetamiseks, kui oled Signali rühmakõne ajal rääkimist alustanud."
   }
 }

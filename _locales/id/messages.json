@@ -5013,10 +5013,10 @@
     "messageformat": "Akun akan segera dihapus kecuali Anda membuka Signal di ponsel. Pesan ini akan hilang setelah Anda berhasil melakukannya. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Buka Signal di ponsel Anda agar akun tetap aktif"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Selengkapnya"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal sedang mengalami kesulitan teknis. Kami bekerja keras untuk memulihkan layanan secepat mungkin."
@@ -6095,6 +6095,6 @@
     "messageformat": "Sekarang Anda bisa memperluas pratinjau video di perangkat selama panggilan berlangsung agar dapat melihat tampilan diri secara lebih jelas."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Kami menambahkan tombol pintasan praktis untuk menurunkan tangan setelah Anda mulai berbicara dalam panggilan grup Signal. Inilah fitur favorit pada rilisan kali ini."
   }
 }

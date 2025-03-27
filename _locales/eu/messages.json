@@ -5013,10 +5013,10 @@
     "messageformat": "Signal telefonoan ireki ezean, zure kontua laster ezabatuko da. Signal irekitzen baduzu, mezu hau desagertu egingo da. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Ireki Signal telefonoan kontua aktibo mantentzeko"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Informazio gehiago"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal arazo teknikoak izaten ari da. Gogor ari gara lanean zerbitzua ahal bezain laster berriro martxan jartzeko."
@@ -6095,6 +6095,6 @@
     "messageformat": "Orain, deietan zure bideo-aurrebista lokala zabal dezakezu, zeure burua hobeto ikusteko."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Lasterbide eroso bat gehitu dugu, Signal-eko taldeko deietan hitz egiten hasten zarenean eskua bizkor jaisteko."
   }
 }

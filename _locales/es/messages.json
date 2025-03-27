@@ -1347,7 +1347,7 @@
     "messageformat": "Alguien te ha eliminado de la llamada."
   },
   "icu:calling__removed-from-call-title": {
-    "messageformat": "Se te ha eliminado de la llamada"
+    "messageformat": "Ya no estás en la llamada"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Cualquier persona que se una a esta llamada usando el enlace podrá ver tu nombre y foto de perfil."
@@ -1494,16 +1494,16 @@
     "messageformat": "{others, plural, one {Signal sonará en la app de {first}, {second} y {others,number} más} other {Signal sonará en la app de {first}, {second} y {others,number} más}}"
   },
   "icu:calling__pre-call-info--will-notify-1": {
-    "messageformat": "Se enviará una notificación a {person}"
+    "messageformat": "Se notificará a {person}"
   },
   "icu:calling__pre-call-info--will-notify-2": {
-    "messageformat": "Se enviará una notificación a {first} y {second}"
+    "messageformat": "Se notificará a {first} y {second}"
   },
   "icu:calling__pre-call-info--will-notify-3": {
-    "messageformat": "Se enviará una notificación a {first}, {second} y {third}"
+    "messageformat": "Se notificará a {first}, {second} y {third}"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{others, plural, one {Se enviará una notificación a {first}, {second} y {others,number} más} other {Se enviará una notificación a {first}, {second} y {others,number} más}}"
+    "messageformat": "{others, plural, one {Se notificará a {first}, {second} y {others,number} más} other {Se notificará a {first}, {second} y {others,number} más}}"
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "No hay nadie más"
@@ -2781,7 +2781,7 @@
     "messageformat": "¿Compartir tu nombre y foto de perfil con {name} y permitir que te envíe mensajes? Has eliminado a esta persona anteriormente."
   },
   "icu:MessageRequests--message-direct-blocked": {
-    "messageformat": "¿Permitir que {name} te envíe mensajes y compartir tu nombre y foto de perfil con esta persona? No recibirás ningún mensaje hasta que la desbloquees."
+    "messageformat": "¿Permitir que {name} te envíe mensajes y compartir tu nombre y foto de perfil con esta persona? No recibirás ninguno de sus mensajes hasta la desbloquees."
   },
   "icu:MessageRequests--message-group": {
     "messageformat": "¿Unirte a este grupo y compartir tu nombre y foto de perfil con sus participantes? No sabrán que has visto sus mensajes hasta que aceptes."
@@ -5013,10 +5013,10 @@
     "messageformat": "Tu cuenta se eliminará pronto a menos que abras Signal en tu teléfono. Este mensaje desaparecerá en cuanto lo hagas. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Abre Signal en tu teléfono para mantener tu cuenta activa"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Más información"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal está teniendo dificultades técnicas. Estamos trabajando para restablecer el servicio lo antes posible."
@@ -6095,6 +6095,6 @@
     "messageformat": "A partir de ahora, podrás ampliar la vista previa de tu vídeo local durante una llamada. Así podrás ver qué tal tienes el pelo o reflexionar sobre quién eres en realidad."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Hemos añadido un atajo de lo más práctico para que, en una llamada grupal de Signal, puedas bajar rápidamente la mano una vez que empieces a hablar. Es, con la mano en el corazón, nuestra función favorita de esta versión."
   }
 }

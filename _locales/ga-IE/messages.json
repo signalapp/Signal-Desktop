@@ -5013,10 +5013,10 @@
     "messageformat": "Scriosfar do chuntas go luath mura n-osclaíonn tú Signal ar do ghuthán. Imeoidh an teachtaireacht seo má éiríonn leat é a dhéanamh. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Oscail Signal ar do ghuthán chun do chuntas a choinneáil gníomhach"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tuilleadh faisnéise"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Tá Signal buailte le deacrachtaí teicniúla faoi láthair. Táimid ag déanamh ár ndíchill an fhadhb a réiteach chomh luath agus is féidir."
@@ -6095,6 +6095,6 @@
     "messageformat": "Anois is féidir leat réamhamharc ar d'fhíseán logánta a uasmhéadú ionas go mbeidh amharc níos fearr agat ort féin."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Chuireamar aicearra áisiúil leis chun do lámh a ísliú go tapa tar éis duit tosú ag labhairt le linn ghrúpghlao Signal."
   }
 }

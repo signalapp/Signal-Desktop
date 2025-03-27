@@ -5013,10 +5013,10 @@
     "messageformat": "A fiókod hamarosan törlésre kerül, hacsak nem nyitod meg a Signalt a telefonodon. Ez az üzenet eltűnik, ha sikerrel jártál. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Ahhoz, hogy a fiókod aktív maradjon, nyisd meg a Signal appot."
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tudj meg többet!"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "A Signal technikai nehézségekkel küzd. Keményen dolgozunk a gyors helyreállásért."
@@ -6095,6 +6095,6 @@
     "messageformat": "Mostantól kibővítheted a helyi videó előnézetét hívás közben, hogy jobban lásd magad."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Hozzáadtunk egy kényelmes parancsikont, amellyel gyorsan leteheted a kezed, miután elkezdtél beszélni egy csoportos hívás során a Signalon."
   }
 }

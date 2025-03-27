@@ -5013,10 +5013,10 @@
     "messageformat": "Ditt konto kommer snart att raderas om du inte öppnar Signal på din telefon. Det här meddelandet försvinner när du har gjort det. <learnMoreLink>Läs mer</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Öppna Signal på din telefon för att hålla ditt konto aktivt"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Läs mer"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal har tekniska problem. Vi arbetar för fullt med att få igång tjänsten så snabbt vi kan."
@@ -6095,6 +6095,6 @@
     "messageformat": "Nu kan du expandera din lokala förhandsvisning av video under ett samtal för att få en bättre bild av dig själv."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Vi har lagt till en praktisk genväg för att snabbt sänka handen när du börjar prata i ett Signal-gruppsamtal."
   }
 }

@@ -5013,10 +5013,10 @@
     "messageformat": "A sua conta será eliminada em breve a não ser que abra o Signal do seu telemóvel. Esta mensagem desaparecerá se o tiver feito com êxito. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Abra o Signal no seu telemóvel para manter a sua conta ativa"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Saber mais"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "O Signal está a ter alguns problemas técnicos. Estamos a trabalhar para restituir o serviço o mais rapidamente possível."
@@ -6095,6 +6095,6 @@
     "messageformat": "Agora pode expandir a pré-visualização do vídeo local durante uma chamada para se ver melhor."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Adicionámos um atalho prático para baixar a sua mão rapidamente após começar a falar durante uma chamada de grupo do Signal."
   }
 }

@@ -5013,10 +5013,10 @@
     "messageformat": "Якщо найближчим часом ви не ввійдете у свій акаунт Signal на телефоні, його буде видалено. Це повідомлення зникне після успішного входу. <learnMoreLink>Докладніше</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Відкрийте Signal на телефоні, щоб не втратити свій акаунт"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Докладніше"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "У Signal виникли технічні проблеми. Ми робимо все можливе, щоб якнайшвидше відновити роботу."
@@ -6095,6 +6095,6 @@
     "messageformat": "Тепер ви можете збільшити попередній вигляд свого відео під час виклику, щоб краще себе роздивитися чи поміркувати над запитанням «хто я?»."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Ми додали зручне сполучення клавіш, щоб ви могли швидко опустити руку під час групового виклику в Signal, коли вже почали говорити. Надіємося, ця функція зіграє вам на руку."
   }
 }

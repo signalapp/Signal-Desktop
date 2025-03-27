@@ -5013,10 +5013,10 @@
     "messageformat": "Ваша учётная запись будет удалена в ближайшее время, если вы не откроете Signal на своем телефоне. Данное сообщение исчезнет, если вы это сделали. <learnMoreLink>Узнать больше</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Откройте Signal на телефоне, чтобы сохранить свою учётную запись активной"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Узнать больше"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "У Signal возникли технические неполадки. Мы прилагаем все усилия, чтобы как можно быстрее восстановить обслуживание."
@@ -6095,6 +6095,6 @@
     "messageformat": "Теперь вы можете развернуть предпросмотр своего видео во время звонка, чтобы полюбоваться собой или задуматься о том, кто вы есть. "
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Мы добавили удобное сочетание клавиш, позволяющее быстро опустить руку после того, как вы начнете говорить во время группового звонка в Signal. Опустить руки — это, конечно, наша любимая функция в этом релизе."
   }
 }

@@ -5013,10 +5013,10 @@
     "messageformat": "Ο λογαριασμός σου θα διαγραφεί σύντομα εκτός και αν ανοίξεις το Signal στο τηλέφωνό σου. Αυτό το μήνυμα θα εξαφανιστεί εάν το έχεις κάνει με επιτυχία. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "Άνοιξε το Signal στο τηλέφωνό σου για να διατηρήσεις τον λογαριασμό σου ενεργό"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Μάθε περισσότερα"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Το Signal αντιμετωπίζει τεχνικές δυσκολίες. Εργαζόμαστε σκληρά για να αποκαταστήσουμε την υπηρεσία το συντομότερο δυνατό."
@@ -6095,6 +6095,6 @@
     "messageformat": "Τώρα μπορείς να επεκτείνεις την τοπική προεπισκόπηση βίντεο κατά τη διάρκεια μιας κλήσης για να δεις καλύτερα τον εαυτό σου."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "Προσθέσαμε μία βολική συντόμευση για να κατεβάζεις γρηγορότερα το χέρι σου, αφού αρχίσεις να μιλάς κατά τη διάρκειας μιας ομαδικής κλήσης στο Signal."
   }
 }
