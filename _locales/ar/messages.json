@@ -71,6 +71,12 @@
   "icu:unknownGroup": {
     "messageformat": "مجموعة غير معروفة"
   },
+  "icu:cantOpenSignalError": {
+    "messageformat": "Can’t Open Signal"
+  },
+  "icu:cantOpenSignalError__detail": {
+    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+  },
   "icu:databaseError": {
     "messageformat": "حدث خطأ في قاعدة البيانات"
   },
@@ -81,10 +87,10 @@
     "messageformat": "حذف البيانات ثم إعادة التشغيل"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "هل ترغبُ بحذف جميع البيانات للأبد؟"
+    "messageformat": "Permanently Delete All Data"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "سيُحذَف سِجل رسائلك والوسائط بشكل نهائي من هذا الجهاز. ستتمكَّن من استخدام سيجنال على هذا الجهاز بعد إعادة ربطه. لن يُؤدي هذا إلى حذف أي بيانات من هاتفك."
+    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "لا يتطابق إصدار قاعدة بياناتك مع إصدار سيجنال هذا. تأكَّد من فتح أحدث إصدار لِسيجنال على حاسوبك."
@@ -837,7 +843,7 @@
     "messageformat": "صوت"
   },
   "icu:video": {
-    "messageformat": "ڤيديو"
+    "messageformat": "فيديو"
   },
   "icu:photo": {
     "messageformat": "صورة"
@@ -921,16 +927,16 @@
     "messageformat": "منك إلى {receiverContact}"
   },
   "icu:sent": {
-    "messageformat": "تم الإرسال"
+    "messageformat": "تمَّ الإرسال"
   },
   "icu:received": {
-    "messageformat": "تم الاستلام"
+    "messageformat": "تمَّ الاستلام"
   },
   "icu:sendMessage": {
     "messageformat": "إرسال"
   },
   "icu:showMembers": {
-    "messageformat": "أظهر الأعضاء"
+    "messageformat": "إظهار الأعضاء"
   },
   "icu:showSafetyNumber": {
     "messageformat": "عرض رقم الأمان"
@@ -1071,10 +1077,10 @@
     "messageformat": "مشاكل التوصيل"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "لم يتمكن {sender} من توصيل رسالة أو ملصقة أو رد فعل أو وصل القراءة أو وسيط إليك. يُحتمَل أنها أُرسلَت إليك مباشرة أو أنها قد أُرسلَت في مجموعة."
+    "messageformat": "لم يتمكن {sender} من توصيل رسالة أو مُلصَق أو تفاعُل أو إيصال تأكيد القراءة أو وسيط إليك. يُحتمَل أنها أُرسلَت إليك مباشرة أو أنها قد أُرسِلَت في مجموعة."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "لم يتمكن {sender} من توصيل رسالة أو ملصق أو رد فعل أو وصل القراءة أو وسائط إليك في هذه الدردشة."
+    "messageformat": "لم يتمكن {sender} من توصيل رسالة أو مُلصَق أو تفاعُل أو إيصال تأكيد القراءة أو وسائط إليك في هذه الدردشة."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "‫‏لقد تغير رقم هاتف {sender}"
@@ -1196,6 +1202,15 @@
   "icu:TapToViewNotAvailableModal__body--error": {
     "messageformat": "لا يمكن تنزيل ملف الوسائط الذي يُعرَض لمرّة واحدة. سَيحتاج {name} إلى إرساله مرّة أخرى."
   },
+  "icu:BackfillFailureModal__title": {
+    "messageformat": "Can’t download media"
+  },
+  "icu:BackfillFailureModal__body--timeout": {
+    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+  },
+  "icu:BackfillFailureModal__body--not-found": {
+    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+  },
   "icu:save": {
     "messageformat": "حفظ"
   },
@@ -1206,7 +1221,7 @@
     "messageformat": "الأجهزة المرتبطة"
   },
   "icu:linkNewDevice": {
-    "messageformat": "اربط بجهاز جديد"
+    "messageformat": "ربط جهاز جديد"
   },
   "icu:Install__learn-more": {
     "messageformat": "لمعرفة المزيد"
@@ -1227,10 +1242,10 @@
     "messageformat": "انقرعلى {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "تعذَّرَ تحميل كود الـ QR. تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
+    "messageformat": "تعذَّرَ تحميل كود الـ QR. تحقَّق من اتصالك بالشبكة ثم حاوِل مرّة أخرى."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>‫حدث خطأ غير متوقَّع.</paragraph><paragraph>يُرجى إعادة المحاولة لاحقًا.</paragraph>"
+    "messageformat": "<paragraph>‫حدث خطأ غير متوقَّع.</paragraph><paragraph>يُرجى المحاولة مرّة أخرى.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
     "messageformat": "لا يُمكن لسيجنال ربط هذا الجهاز باستخدام شبكتك الحالية."
@@ -1262,6 +1277,9 @@
   "icu:Preferences--device-name__description": {
     "messageformat": "لتغيير اسم هذا الجهاز، افتح تطبيق سيجنال على هاتفك وانتقل إلى \"الإعدادات\" > \"الأجهزة المُرتبِطة\""
   },
+  "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
+    "messageformat": "Emoji skin tone"
+  },
   "icu:chooseDeviceName": {
     "messageformat": "اختر اسم هذا الجهاز"
   },
@@ -1287,10 +1305,10 @@
     "messageformat": "حدث خطأ ما !"
   },
   "icu:installUnknownError": {
-    "messageformat": "‫لقد حدث خطأ غير متوقع. يُرجى إعادة المحاولة لاحقا."
+    "messageformat": "حدث خطأ غير متوقَّع. يُرجى المحاولة مرّة أخرى لاحقًا."
   },
   "icu:installTryAgain": {
-    "messageformat": "حاول مجدداً"
+    "messageformat": "حاوِل مُجدَّدًا"
   },
   "icu:Preferences--theme": {
     "messageformat": "السِّمَة"
@@ -1335,7 +1353,7 @@
     "messageformat": "مكالمة سيجنال"
   },
   "icu:calling__call-link-delete-failed": {
-    "messageformat": "تعذَّر حذف الرابط. تحقَّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
+    "messageformat": "تعذَّر حذف الرابط. تحقَّق من اتصالك بالشبكة ثم حاوِل مرّة أخرى."
   },
   "icu:calling__join-request-denied": {
     "messageformat": "رُفِضَ طلب انضمامك إلى هذه المكالمة."
@@ -1590,13 +1608,13 @@
     "messageformat": "تجاهُل"
   },
   "icu:alwaysRelayCallsDescription": {
-    "messageformat": "مناوبة الاتصالات دوما"
+    "messageformat": "مناوبة الاتصالات دومًا"
   },
   "icu:alwaysRelayCallsDetail": {
     "messageformat": "‫تمرير جميع المكالمات عبر خوادم سيجنال لتجنُّب الإفصاح عن عنوان IP الخاص بك لجهة الاتصال. تفعيل هذه الخاصية سيقلل من جودة المكالمة.‬"
   },
   "icu:permissions": {
-    "messageformat": "الصلاحيات"
+    "messageformat": "الأذونات"
   },
   "icu:mediaPermissionsDescription": {
     "messageformat": "إعطاء صلاحية الوصول إلى الميكروفون"
@@ -1817,6 +1835,18 @@
   "icu:ConversationDetails__HeaderButton--Message": {
     "messageformat": "مراسلة"
   },
+  "icu:ConversationDetails--help-section": {
+    "messageformat": "Help"
+  },
+  "icu:ConversationDetails--support-center": {
+    "messageformat": "Support Center"
+  },
+  "icu:ConversationDetails--contact-us": {
+    "messageformat": "Contact us"
+  },
+  "icu:ConversationDetails--donate": {
+    "messageformat": "Donate to Signal"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "عرض رقم اﻷمان"
   },
@@ -1872,10 +1902,10 @@
     "messageformat": "إرسال السجل"
   },
   "icu:Toast--failed-to-fetch-username": {
-    "messageformat": "فشل إحضار اسم المُستخدم هذا. تفقّد اتصال شبكتك وحاول مرة أخرى."
+    "messageformat": "فشل إحضار اسم المُستخدم هذا. تفقّد اتصال شبكتك وحاوِل مرّة أخرى."
   },
   "icu:Toast--failed-to-fetch-phone-number": {
-    "messageformat": "‫لقد فشل جلب رقم الهاتف. يُرجى التأكد من اتصالك ثم المحاولة مرة أخرى."
+    "messageformat": "فشل جلب رقم الهاتف. يُرجى التأكُّد من اتصالك ثم المحاولة مرّة أخرى."
   },
   "icu:Toast--download-failed": {
     "messageformat": "تعذَّر التنزيل"
@@ -2046,13 +2076,13 @@
     "messageformat": "رسالة غير مدعومة"
   },
   "icu:message--getDescription--disappearing-media": {
-    "messageformat": "ملف وسائط للعرض مرة واحدة"
+    "messageformat": "ملف وسائط للعرض لمرّة واحدة"
   },
   "icu:message--getDescription--disappearing-photo": {
-    "messageformat": "الصورة للعرض مرة واحدة"
+    "messageformat": "الصورة للعرض لمرّة واحدة"
   },
   "icu:message--getDescription--disappearing-video": {
-    "messageformat": "مقطع فيديو للعرض مرة واحدة"
+    "messageformat": "مقطع فيديو للعرض لمرّة واحدة"
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "لقد حُذفَت هذه الرسالة."
@@ -2067,7 +2097,7 @@
     "messageformat": "استخدِم هذا الرابط للانضمام إلى مكالمة على تطبيق سيجنال"
   },
   "icu:donation--missing": {
-    "messageformat": "تعذّر البحث عن معلومات التبرّع"
+    "messageformat": "تعذَّر إيجاد معلومات التبرُّع"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "اعرض هذه الرسالة على الجوال لفتحها"
@@ -2363,6 +2393,9 @@
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "لم يعثر على أي ملصقات"
   },
+  "icu:FunPanelStickers__LightboxDialog__Label": {
+    "messageformat": "Sticker Preview"
+  },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "البحث عن الصور المُتحركة (GIFs) في Tenor"
   },
@@ -2403,13 +2436,40 @@
     "messageformat": "جارٍ تحميل الصور المتحركة (GIFs)"
   },
   "icu:FunPanelGifs__SearchResults__ErrorHeading": {
-    "messageformat": "تعذَّر تحميل الصور المتحركة (GIFs). تحقَّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
+    "messageformat": "تعذَّر تحميل الصور المتحركة (GIFs). تحقَّق من اتصالك بالشبكة ثم حاوِل مرّة أخرى."
   },
   "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
     "messageformat": "إعادة المُحاولة"
   },
   "icu:FunPanelGifs__SearchResults__EmptyHeading": {
     "messageformat": "لم يتم العثور على صور متحركة (GIFs)"
+  },
+  "icu:FunPanelGifs__LightboxDialog__Label": {
+    "messageformat": "GIF Preview"
+  },
+  "icu:FunSearch__ClearButtonLabel": {
+    "messageformat": "Clear Search"
+  },
+  "icu:FunSkinTones__List": {
+    "messageformat": "Skin tone"
+  },
+  "icu:FunSkinTones__ListItem--None": {
+    "messageformat": "None"
+  },
+  "icu:FunSkinTones__ListItem--Light": {
+    "messageformat": "Light skin tone"
+  },
+  "icu:FunSkinTones__ListItem--MediumLight": {
+    "messageformat": "Medium-light skin tone"
+  },
+  "icu:FunSkinTones__ListItem--Medium": {
+    "messageformat": "Medium skin tone"
+  },
+  "icu:FunSkinTones__ListItem--MediumDark": {
+    "messageformat": "Medium-dark skin tone"
+  },
+  "icu:FunSkinTones__ListItem--Dark": {
+    "messageformat": "Dark skin tone"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "إلغاء"
@@ -2463,7 +2523,7 @@
     "messageformat": "لقد سبق لك رؤية هذه الرسالة."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "لن تُحفظ الرسائل من نوع المشاهدة لمرة واحدة في محفوظات دردشاتك."
+    "messageformat": "لن تُحفَظ الرسائل من نوع المشاهدة لمرّة واحدة في محفوظات دردشاتك."
   },
   "icu:Message--tap-to-view--incoming": {
     "messageformat": "مشاهدة الصورة"
@@ -2724,7 +2784,7 @@
     "messageformat": "إزالة رد الفعل"
   },
   "icu:Reactions--error": {
-    "messageformat": "تعذر إرسال التفاعل. يرجى المحاولة مرة أخرى."
+    "messageformat": "تعذَّر إرسال التفاعل. يُرجى المحاولة مرّة أخرى."
   },
   "icu:Reactions--more": {
     "messageformat": "المزيد"
@@ -2737,6 +2797,12 @@
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "احذر عند قبول طلب مراسلة من أشخاص لا تعرفهم. احذر من:"
+  },
+  "icu:SafetyTipsModal__TipTitle--Fake": {
+    "messageformat": "Fake names and accounts"
+  },
+  "icu:SafetyTipsModal__TipDescription--Fake": {
+    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "عمليات الاحتيال المالية أو من خلال العملات المشفرة"
@@ -2870,6 +2936,12 @@
   "icu:MessageRequests--accept": {
     "messageformat": "قبول"
   },
+  "icu:MessageRequests--accept-confirm-title": {
+    "messageformat": "Accept Request?"
+  },
+  "icu:MessageRequests--accept-confirm-body": {
+    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+  },
   "icu:MessageRequests--continue": {
     "messageformat": "الاستمرار"
   },
@@ -2881,6 +2953,21 @@
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, zero {{count,number} عضو} one {1 عضو} two {{count,number} عضوان} few {{count,number} أعضاء} many {{count,number} عضوًا} other {{count,number} عضو}}"
+  },
+  "icu:ConversationHero--review-carefully": {
+    "messageformat": "Review carefully"
+  },
+  "icu:ConversationHero--group-names": {
+    "messageformat": "<clickable>Group names</clickable> are not verified"
+  },
+  "icu:ConversationHero--profile-names": {
+    "messageformat": "<clickable>Profile names</clickable> are not verified"
+  },
+  "icu:ConversationHero--signal-official-chat": {
+    "messageformat": "This is the official and only chat from Signal"
+  },
+  "icu:ConversationHero--release-notes": {
+    "messageformat": "Keep up to date with news and release notes."
   },
   "icu:member-of-1-group": {
     "messageformat": "عضو في {group}"
@@ -3222,7 +3309,7 @@
     "messageformat": "حدث خطأ ما !"
   },
   "icu:ErrorModal--description": {
-    "messageformat": "يُرجى المحاولة لاحقا أو الاتصال بفريق الدعم."
+    "messageformat": "يُرجى المحاولة مرّة أخرى أو التواصل بفريق الدعم."
   },
   "icu:Confirmation--confirm": {
     "messageformat": "حسنا"
@@ -3306,7 +3393,7 @@
     "messageformat": "خطأ في الرابط"
   },
   "icu:GroupV2--join--general-join-failure": {
-    "messageformat": "تعذر الانضمام إلى المجموعة. يُرجى إعادة المحاولة لاحقا."
+    "messageformat": "تعذَّر الانضمام إلى المجموعة. يُرجى المحاولة مرّة أخرى لاحقًا."
   },
   "icu:GroupV2--admin": {
     "messageformat": "المشرف"
@@ -3831,7 +3918,7 @@
     "messageformat": "يجب لمس صورة حسابك في الأعلى على اليسار لفتح الإعدادات"
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "انقر على \"تبرّع لسيجنال\" واشترك"
+    "messageformat": "انقر على \"تبرَّع لسيجنال\" واشترِك"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "جاري مزامنة الرسائل"
@@ -3946,6 +4033,15 @@
   },
   "icu:CompositionArea__FunButtonLabel": {
     "messageformat": "أضِف رمز تعبيري (إيموجي) أو مُلصَق أو صورة متحركة."
+  },
+  "icu:CompositionArea__ConfirmGifSelection__Title": {
+    "messageformat": "Replace attachment?"
+  },
+  "icu:CompositionArea__ConfirmGifSelection__Body": {
+    "messageformat": "Adding this GIF will replace the item in your current draft message."
+  },
+  "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
+    "messageformat": "Replace"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "تعديل الرسالة"
@@ -4140,7 +4236,7 @@
     "messageformat": "استلام الإشعارات إذا ذُكر اسمك في الدردشات المكتومة"
   },
   "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "نبِّه دوما"
+    "messageformat": "نبِّه دومًا"
   },
   "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
     "messageformat": "لا داعي لإشعاري إذا كانت مكتومة"
@@ -4218,7 +4314,7 @@
     "messageformat": "حظر الطلب؟"
   },
   "icu:PendingRequests--block--contents": {
-    "messageformat": "‫لن يتمكن المستخدم {name} من إرسال طلب الانضمام بواسطة وصلة المجموعة. لكن يمكن إضافته يدويا للمجموعة."
+    "messageformat": "‫لن يتمكن المُستخدِم {name} من إرسال طلب الانضمام بواسطة وصلة المجموعة. لكن يمكن إضافته يدويًا للمجموعة."
   },
   "icu:PendingRequests--block--confirm": {
     "messageformat": "حظر الطلب"
@@ -4367,9 +4463,6 @@
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
     "messageformat": "اِستخدم هذا الرابط للانضمام إلى مكالمة سيجنال: {url}"
   },
-  "icu:MessageRequestWarning__learn-more": {
-    "messageformat": "لمعرفة المزيد"
-  },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "نصائح السلامة"
   },
@@ -4449,16 +4542,16 @@
     "messageformat": "لَقَد اِكتَمَلَ التَّحَقُّق."
   },
   "icu:verificationFailed": {
-    "messageformat": "فشل التحقق. يٌرجى إعادة المحاولة لاحقا."
+    "messageformat": "فشل التحقُّق. يُرجى المحاولة مرّة أخرى لاحقًا."
   },
   "icu:deleteForEveryoneFailed": {
-    "messageformat": "فشل حذف الرسائل من عند الجميع. يُرجى إعادة المحاولة لاحقا."
+    "messageformat": "فشل حذف الرسائل من عند الجميع. يُرجى المحاولة مرّة أخرى لاحقًا."
   },
   "icu:ChatColorPicker__delete--title": {
     "messageformat": "حذف اللون"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, zero {يُستخدم هذا اللون المخصص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} one {يُستخدم هذا اللون المخصص في {num,number} دردشة. هل تريد حذفه؟} two {يُستخدم هذا اللون المخصص في {num,number} دردشتيْن. هل تريد حذفه لجميع الدردشات؟} few {يُستخدم هذا اللون المخصص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} many {يُستخدم هذا اللون المخصص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟} other {يُستخدم هذا اللون المُخصص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟}}"
+    "messageformat": "{num, plural, zero {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} one {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشة. هل تريد حذفه؟} two {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشتيْن. هل تريد حذفه لجميع الدردشات؟} few {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} many {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟} other {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟}}"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "لون الدردشة"
@@ -4527,10 +4620,10 @@
     "messageformat": "نزِّل ملف GIF مرفق"
   },
   "icu:customDisappearingTimeOption": {
-    "messageformat": "المهلة المخصصة…"
+    "messageformat": "وقت مُخصَّص…"
   },
   "icu:selectedCustomDisappearingTimeOption": {
-    "messageformat": "تخصيص الوقت"
+    "messageformat": "وقت مُخصَّص"
   },
   "icu:DisappearingTimeDialog__label--value": {
     "messageformat": "العدد"
@@ -4542,7 +4635,7 @@
     "messageformat": "وَقتٌ مُخَصَّص"
   },
   "icu:DisappearingTimeDialog__body": {
-    "messageformat": "اختر فترة مُخصًّصة للرسائل ذاتية الاختفاء."
+    "messageformat": "اختر وقت مُخصًّص للرسائل ذاتية الاختفاء."
   },
   "icu:DisappearingTimeDialog__set": {
     "messageformat": "تعيين"
@@ -4680,7 +4773,7 @@
     "messageformat": "الأرقام التي تحتوي على أكثر من رقمين لا يُمكن أن تبدأ بـ 0"
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "قمت بمحاولات كثيرة. يُرجى المحاولة لاحقاً"
+    "messageformat": "قُمتَ بمحاولاتٍ كثيرة. يُرجى المحاولة لاحقًا."
   },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "اسم المُستخدم هذا غير متاح"
@@ -4869,7 +4962,7 @@
     "messageformat": "تحويل الرموز التعبيرية المكتوبة إلى وجوه تعبيرية"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "مثلاً، سَيتم تحويل :-) إلى <emojify>🙂</emojify>"
+    "messageformat": "مثلًا، سَيتم تحويل :-) إلى <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "مُتقدِم"
@@ -4941,7 +5034,7 @@
     "messageformat": "التراسُل"
   },
   "icu:Preferences--read-receipts": {
-    "messageformat": "وصولات القراءة"
+    "messageformat": "إيصالات تأكيد القراءة"
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "مؤشرات الكتابة"
@@ -4998,7 +5091,7 @@
     "messageformat": "إعادة التشغيل"
   },
   "icu:DialogUpdate--version-available": {
-    "messageformat": "إن اﻹصدار {version} متاح حاليا"
+    "messageformat": "إن اﻹصدار {version} متاح حاليًا"
   },
   "icu:DialogUpdate__downloading": {
     "messageformat": "جارٍ تنزيل التحديث…"
@@ -5013,10 +5106,10 @@
     "messageformat": "سَيتمُّ حذف حسابك قريبًا إلّا إذا فتحتَ سيجنال على هاتفك. سَتختفي هذه الرسالة إذا قُمتَ بذلك. <learnMoreLink>اعرف المزيد</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Open Signal on your phone to keep your account active"
+    "messageformat": "افتح سيجنال على هاتفك لإبقاء حسابك نشِطًا"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "اعرف المزيد"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "إنَّ سيجنال يواجِهُ صُعوبات تَقنية. نحنُ نعملُ بجد لاستعادة الخِدمة في أسرع وقت ممكن."
@@ -5050,11 +5143,11 @@
     "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
-    "messageformat": "يُرجى إغلاقه يدويا ثم الضغط مرة أخرى على إعادة المحاولة للاستمرار.‏",
+    "messageformat": "يُرجى إغلاقه يدويًا ثم الضغط مرّة أخرى على إعادة المحاولة للاستمرار.‏",
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
-    "messageformat": "‫إن {appName} يعمل حاليا.\n‫يُرجى الضغط على « موافق » لغلقه.\n‫إذا لم يُغلَق، يُرجى محاولة إغلاقه يدويا.",
+    "messageformat": "‫إن {appName} يعمل حاليًا.\n‫يُرجى الضغط على « موافق » لغلقه.\n‫إذا لم يُغلَق، يُرجى محاولة إغلاقه يدويًا.",
     "ignoreUnused": true
   },
   "icu:NSIS__decompressionFailed": {
@@ -5088,7 +5181,7 @@
     "messageformat": "يُرجى الضغط على زر الفأرة لاستبدال الوجه المُعبِّر"
   },
   "icu:CustomizingPreferredReactions__had-save-error": {
-    "messageformat": "لقد حدث خطأ أثناء حفظ إعداداتك. يٌرجى المحاولة لاحقا.‏"
+    "messageformat": "حدث خطأ أثناء حفظ إعداداتك. يُرجى المحاولة لاحقًا.‏"
   },
   "icu:MediaEditor__input-placeholder": {
     "messageformat": "مراسلة"
@@ -5313,7 +5406,7 @@
     "messageformat": "القِصص المخفية"
   },
   "icu:Stories__list-empty": {
-    "messageformat": "لا توجد قصص حديثة للمشاهدة حاليا"
+    "messageformat": "لا توجد قصص حديثة للمشاهدة حاليًا"
   },
   "icu:Stories__list__empty--title": {
     "messageformat": "لا توجد قصص"
@@ -5568,10 +5661,10 @@
     "messageformat": "فعِّل إيصالات القراءة لرؤية من شاهد قِصصك. يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص."
   },
   "icu:StoryViewsNRepliesModal__no-replies": {
-    "messageformat": "لا جواب حاليا"
+    "messageformat": "لا جواب حاليًا"
   },
   "icu:StoryViewsNRepliesModal__no-views": {
-    "messageformat": "لا مشاهدة حاليا"
+    "messageformat": "لا مشاهدات حاليًا"
   },
   "icu:StoryViewsNRepliesModal__tab--views": {
     "messageformat": "المشاهدات"
@@ -5841,6 +5934,15 @@
   "icu:MessageMetadata__edited": {
     "messageformat": "تم التعديل"
   },
+  "icu:DraftGifMessageSendModal__Title": {
+    "messageformat": "Add a message"
+  },
+  "icu:DraftGifMessageSendModal__SendButtonLabel": {
+    "messageformat": "Send"
+  },
+  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
+    "messageformat": "Cancel"
+  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "سجل التعديلات"
   },
@@ -6060,6 +6162,30 @@
   "icu:WhoCanFindMeReadOnlyToast": {
     "messageformat": "لتغيير هذا الإعداد، اختر \"لا أحد\" عن تحديد \"من يُمكنه رؤية رقمي\"."
   },
+  "icu:ProfileNameWarningModal__description--direct": {
+    "messageformat": "Profile names on Signal are chosen by their account holder:"
+  },
+  "icu:ProfileNameWarningModal__list--item1--direct": {
+    "messageformat": "Profile names aren't verified"
+  },
+  "icu:ProfileNameWarningModal__list--item2--direct": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__list--item3--direct": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
+  "icu:ProfileNameWarningModal__description--group": {
+    "messageformat": "Group names are chosen by members of the group."
+  },
+  "icu:ProfileNameWarningModal__list--item1--group": {
+    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+  },
+  "icu:ProfileNameWarningModal__list--item2--group": {
+    "messageformat": "Profile names of members in groups are not verified"
+  },
+  "icu:ProfileNameWarningModal__list--item3--group": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ما الجديد"
   },
@@ -6095,6 +6221,9 @@
     "messageformat": "يمكنك الآن تكبير معاينة الفيديو الخاص بك خلال مُكالمة لتحظى برؤية أفضل لنفسك."
   },
   "icu:WhatsNew__v7.48--0": {
-    "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release."
+    "messageformat": "أضفنا طريقة مُختصرة ومُيسّرة لِخفض يدك بسرعة بعد بدء الكلام خلال مكالمة جماعية على سيجنال. هي ميزتنا المفضلة في هذا الإصدار."
+  },
+  "icu:WhatsNew__v7.49--0": {
+    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

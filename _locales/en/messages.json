@@ -125,7 +125,7 @@
   },
   "icu:databaseError__detail": {
     "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
-    "description": "Description shown in a popup if the database cannot start up properly"
+    "description": "(Deleted 2025/03/27) Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
     "messageformat": "Delete data and restart",
@@ -2449,11 +2449,11 @@
   },
   "icu:ConversationDetails--contact-us": {
     "messageformat": "Contact us",
-    "description": "Label for the contact us link in conversation details"
+    "description": "(Deleted 2025/03/27) Label for the contact us link in conversation details"
   },
   "icu:ConversationDetails--donate": {
     "messageformat": "Donate to Signal",
-    "description": "Label for the donation link in conversation details"
+    "description": "(Deleted 2025/03/27) Label for the donation link in conversation details"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "View Safety Number",
@@ -3257,7 +3257,7 @@
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "None",
-    "description": "FunPicker > Emojis Panel > Skin Tone Picker > Skin Tone Option: None > Accessibility label"
+    "description": "(Deleted 2025/03/27) FunPicker > Emojis Panel > Skin Tone Picker > Skin Tone Option: None > Accessibility label"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone",
@@ -5937,11 +5937,11 @@
   },
   "icu:MessageRequestWarning__dialog__details": {
     "messageformat": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
-    "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    "description": "(Deleted 2025/03/27) Shown in the message request warning dialog. Gives more information about message requests"
   },
   "icu:MessageRequestWarning__dialog__learn-even-more": {
     "messageformat": "About Message Requests",
-    "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    "description": "(Deleted 2025/03/27) Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
@@ -8270,7 +8270,7 @@
   },
   "icu:WhatsNew__v7.48--0": {
     "messageformat": "We added a convenient shortcut to quickly lower your hand after you start speaking during a Signal group call. It's hands down our favorite feature in this release.",
-    "description": "Release notes for version 7.48"
+    "description": "(Deleted 2025/03/27) Release notes for version 7.48"
   },
   "icu:WhatsNew__v7.49--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure.",
