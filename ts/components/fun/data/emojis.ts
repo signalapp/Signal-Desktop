@@ -5,6 +5,7 @@ import { sortBy } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { z } from 'zod';
 import * as log from '../../../logging/log';
+import * as Errors from '../../../types/errors';
 import type { LocaleEmojiListType } from '../../../types/emoji';
 import type { LocalizerType } from '../../../types/I18N';
 import { strictAssert } from '../../../util/assert';
@@ -569,7 +570,7 @@ function createEmojiSearchIndex(
 
 const FuseKeys: Array<Fuse.FuseOptionKey> = [
   { name: 'shortName', weight: 100 },
-  // { name: 'shortNames', weight: 1 },
+  { name: 'shortNames', weight: 1 },
   { name: 'emoticon', weight: 50 },
   { name: 'emoticons', weight: 1 },
 ];
@@ -648,7 +649,10 @@ export function useEmojiSearch(i18n: LocalizerType): EmojiSearch {
           setLocaleIndex(result);
         }
       } catch (error) {
-        log.error(`Failed to get localized emoji list for ${locale}`, error);
+        log.error(
+          `Failed to get localized emoji list for ${locale}`,
+          Errors.toLogFormat(error)
+        );
       }
     }
 
