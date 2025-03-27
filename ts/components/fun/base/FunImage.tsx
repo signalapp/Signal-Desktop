@@ -39,6 +39,8 @@ const FunImageBase = forwardRef(function FunImageBase(
       width={props.width}
       height={props.height}
       draggable={false}
+      decoding="async"
+      loading="lazy"
     />
   );
 });

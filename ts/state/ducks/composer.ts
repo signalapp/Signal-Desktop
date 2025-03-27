@@ -402,6 +402,7 @@ export function saveDraftRecordingIfNeeded(): ThunkAction<
 type WithPreSendChecksOptions = Readonly<{
   message?: string;
   voiceNoteAttachment?: InMemoryAttachmentDraftType;
+  draftAttachments?: ReadonlyArray<AttachmentDraftType>;
 }>;
 
 async function withPreSendChecks(
@@ -425,6 +426,8 @@ async function withPreSendChecks(
   ]);
 
   const { message, voiceNoteAttachment } = options;
+  const draftAttachments =
+    options.draftAttachments ?? conversation.attributes.draftAttachments;
 
   try {
     dispatch(setComposerDisabledState(conversationId, true));
@@ -457,7 +460,7 @@ async function withPreSendChecks(
 
     if (
       !message?.length &&
-      !hasDraftAttachments(conversation.attributes.draftAttachments, {
+      !hasDraftAttachments(draftAttachments, {
         includePending: false,
       }) &&
       !voiceNoteAttachment

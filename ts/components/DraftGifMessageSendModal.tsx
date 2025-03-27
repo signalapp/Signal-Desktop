@@ -84,7 +84,7 @@ export function DraftGifMessageSendModal(
           state={props.gifDownloadState.loadingState}
           width={props.gifSelection.width}
           height={props.gifSelection.height}
-          maxHeight={200}
+          maxHeight={256}
           aria-label={props.gifSelection.title}
           aria-describedby={descriptionId}
         />
