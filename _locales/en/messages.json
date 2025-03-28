@@ -5659,6 +5659,10 @@
     "messageformat": "Require an admin to approve new members joining via the group link",
     "description": "Description for the require new member admin approval select area"
   },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard",
+    "description": "GroupLinkManagement > Header > Group link text > Button (looks like normal text) > Accessibility label"
+  },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Requests ({count, number})",
     "description": "Label for the tab to view pending requests"
