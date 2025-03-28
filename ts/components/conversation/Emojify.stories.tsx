@@ -121,3 +121,19 @@ export function TensOfThousandsOfEmojiInterspersedWithText(): JSX.Element {
 
   return <Emojify {...props} />;
 }
+
+export function NonQualifiedEmoji(): JSX.Element {
+  const props = createProps({
+    text: '\u{00AE}',
+  });
+
+  return <Emojify {...props} />;
+}
+
+export function OverlyQualifiedEmoji(): JSX.Element {
+  const props = createProps({
+    text: '\u{26AA}\u{FE0F}',
+  });
+
+  return <Emojify {...props} />;
+}
