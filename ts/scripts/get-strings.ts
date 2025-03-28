@@ -3,10 +3,10 @@
 
 import { rm, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { Readable } from 'node:stream';
 import fastGlob from 'fast-glob';
-import unzipper from 'unzipper';
 import prettier from 'prettier';
+import pMap from 'p-map';
+import z from 'zod';
 
 import { authenticate, API_BASE, PROJECT_ID } from '../util/smartling';
 
@@ -30,6 +30,19 @@ const RENAMES = new Map([
   ['sr-YR', 'sr'],
 ]);
 
+const StatusSchema = z.object({
+  response: z.object({
+    code: z.literal('SUCCESS'),
+    data: z.object({
+      items: z
+        .object({
+          localeId: z.string(),
+        })
+        .array(),
+    }),
+  }),
+});
+
 async function main() {
   if (!SMARTLING_USER) {
     console.error('Need to set SMARTLING_USER environment variable!');
@@ -46,24 +59,28 @@ async function main() {
     userSecret: SMARTLING_SECRET,
   });
 
-  const zipURL = new URL(
-    `./files-api/v2/projects/${PROJECT_ID}/locales/all/file/zip`,
+  const statusURL = new URL(
+    `./files-api/v2/projects/${PROJECT_ID}/file/status`,
     API_BASE
   );
-  zipURL.searchParams.set('fileUri', '_locales/en/messages.json');
-  zipURL.searchParams.set('retrievalType', 'published');
-  zipURL.searchParams.set('includeOriginalStrings', 'true');
+  statusURL.searchParams.set('fileUri', '_locales/en/messages.json');
 
-  const fileRes = await fetch(zipURL, {
+  console.log('Getting list of locales...');
+  const statusRes = await fetch(statusURL, {
     headers,
   });
 
-  if (!fileRes.ok) {
-    throw new Error('Failed to fetch the file');
+  if (!statusRes.ok) {
+    throw new Error('Failed to fetch the status');
   }
-  if (!fileRes.body) {
+  if (!statusRes.body) {
     throw new Error('Missing body');
   }
+  const {
+    response: {
+      data: { items: locales },
+    },
+  } = StatusSchema.parse(await statusRes.json());
 
   console.log('Cleaning _locales directory...');
   const dirEntries = await fastGlob(['_locales/*', '!_locales/en'], {
@@ -79,39 +96,54 @@ async function main() {
 
   const prettierConfig = await prettier.resolveConfig('_locales');
 
-  const zip = Readable.from(
-    fileRes.body as unknown as AsyncIterable<Uint8Array>
-  ).pipe(unzipper.Parse({ forceStream: true }));
-  for await (const entry of zip) {
-    if (entry.type !== 'File') {
-      entry.autodrain();
-      continue;
-    }
+  await pMap(
+    locales,
+    async ({ localeId }) => {
+      const fileURL = new URL(
+        `./files-api/v2/projects/${PROJECT_ID}/` +
+          `locales/${encodeURIComponent(localeId)}/file`,
+        API_BASE
+      );
+      fileURL.searchParams.set('fileUri', '_locales/en/messages.json');
+      fileURL.searchParams.set('retrievalType', 'published');
+      fileURL.searchParams.set('includeOriginalStrings', 'true');
 
-    let [locale] = entry.path.split(/[\\/]/, 1);
-    locale = RENAMES.get(locale) ?? locale;
+      const fileRes = await fetch(fileURL, {
+        headers,
+      });
 
-    const targetDir = path.join('_locales', locale);
-    try {
-      await mkdir(targetDir);
-    } catch (error) {
-      console.error(error);
-    }
+      if (!fileRes.ok) {
+        throw new Error('Failed to fetch the file');
+      }
+      if (!fileRes.body) {
+        throw new Error('Missing body');
+      }
 
-    const targetFile = path.join(targetDir, 'messages.json');
-    console.log('Writing', locale);
-    const json = JSON.parse((await entry.buffer()).toString());
-    for (const value of Object.values(json)) {
-      const typedValue = value as { description?: string };
-      delete typedValue.description;
-    }
-    delete json.smartling;
-    const output = await prettier.format(JSON.stringify(json, null, 2), {
-      ...prettierConfig,
-      filepath: targetFile,
-    });
-    await writeFile(targetFile, output);
-  }
+      const targetLocale = RENAMES.get(localeId) ?? localeId;
+      const targetDir = path.join('_locales', targetLocale);
+
+      try {
+        await mkdir(targetDir);
+      } catch (error) {
+        console.error(error);
+      }
+
+      const targetFile = path.join(targetDir, 'messages.json');
+      console.log('Writing', targetLocale);
+      const json = await fileRes.json();
+      for (const value of Object.values(json)) {
+        const typedValue = value as { description?: string };
+        delete typedValue.description;
+      }
+      delete json.smartling;
+      const output = await prettier.format(JSON.stringify(json, null, 2), {
+        ...prettierConfig,
+        filepath: targetFile,
+      });
+      await writeFile(targetFile, output);
+    },
+    { concurrency: 20 }
+  );
 }
 
 main().catch(err => {
