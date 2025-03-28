@@ -1836,16 +1836,16 @@
     "messageformat": "Сообщение"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Поддержка"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Центр поддержки"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Связаться с нами"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Поддержать Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Посмотреть код безопасности"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Очистить поиск"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Нет"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "Будьте осторожны, принимая запросы на сообщения от незнакомых людей. Остерегайтесь:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Поддельные имена и учётные записи"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal никогда не связывается с вами для получения регистрационного кода или Пин-кода. Будьте осторожны с запросами от тех, кто выдают себя за других. Имена профилей выбираются владельцем учётной записи и не проверяются."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Мошенничество с криптовалютой или деньгами"
@@ -2937,7 +2937,7 @@
     "messageformat": "Принять"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Принять запрос?"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, one {{count,number} участник} few {{count,number} участника} many {{count,number} участников} other {{count,number} участника}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Внимательно проверьте"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Это официальный и единственный чат от Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Будьте в курсе новостей и свежих релизов."
   },
   "icu:member-of-1-group": {
     "messageformat": "Состоит в {group}"
@@ -4041,7 +4041,7 @@
     "messageformat": "Adding this GIF will replace the item in your current draft message."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Заменить"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Редактировать сообщение"
@@ -5935,13 +5935,13 @@
     "messageformat": "Изменено"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Добавьте сообщение"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Отправить"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "История изменений"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Будьте осторожны с учётными записями тех, кто выдаёт себя за других"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Будьте осторожны с группами, которые выдают себя за организации и компании"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Имена профилей участников групп не проверяются"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

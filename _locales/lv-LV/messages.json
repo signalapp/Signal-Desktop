@@ -1836,16 +1836,16 @@
     "messageformat": "Ziņa"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Palīdzība"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Atbalsta centrs"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Sazināties ar mums"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Ziedot Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Skatīt drošības numuru"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Notīrīt meklēšanu"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Neko"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "Rīkojieties piesardzīgi, apstiprinot sazināšanās pieprasījumus no nepazīstamām personām. Lūk, no kā uzmanīties:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Viltus vārdi un konti"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal jums nekad neprasīs nosaukt reģistrācijas vai PIN kodu. Uzmanieties no pieprasījumiem, ko iesniedz personas, kuras uzdodas par citiem. Profilu nosaukumus izvēlas to kontu īpašnieki, un tie netiek pārbaudīti."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Kriptovalūtu vai naudas krāpšana"
@@ -2937,7 +2937,7 @@
     "messageformat": "Apstiprināt"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Vai apstiprināt pieprasījumu?"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, zero {{count,number} dalībnieki} one {1 dalībnieks} other {{count,number} dalībnieki}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Rūpīgi pārbaudiet"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Šis ir oficiālais un vienīgais sarunu kanāls ar Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Sekojiet līdzi jaunumiem un informācijai par lietotnes atjauninājumiem."
   },
   "icu:member-of-1-group": {
     "messageformat": "{group} dalībnieks"
@@ -5935,13 +5935,13 @@
     "messageformat": "Rediģēta"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Pievienojiet ziņu"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Sūtīt"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atcelt"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Rediģēšanas vēsture"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Uzmanieties no kontiem, kuru īpašnieki uzdodas par citām personām"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Uzmanieties no grupām, kuru dalībnieki uzdodas par organizāciju un uzņēmumu pārstāvjiem"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Grupu dalībnieku profilu nosaukumi netiek pārbaudīti"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

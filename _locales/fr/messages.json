@@ -1836,16 +1836,16 @@
     "messageformat": "Écrire"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Aide"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Centre d'assistance"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Nous contacter"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Faire un don à Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Afficher le numéro de sécurité"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Effacer la recherche"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Aucun"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "Soyez vigilant lorsque des inconnus vous envoient des invitations par message. Certains contenus doivent éveiller vos soupçons. Notamment :"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Faux noms et faux comptes"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal ne vous demande jamais de communiquer votre code d'inscription ni votre PIN. Attention aux usurpations d'identité lorsque vous recevez des invitations par message ! Les utilisateurs choisissent librement leur nom de profil et leur identité n'est pas vérifiée."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Les escroqueries financières ou liées aux crypto-monnaies"
@@ -2937,7 +2937,7 @@
     "messageformat": "Accepter"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Accepter la demande ?"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, one {1 membre} other {{count,number} membres}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Faites attention"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Ceci est le seul canal de diffusion officiel de Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Pour découvrir les nouveautés et notes de version."
   },
   "icu:member-of-1-group": {
     "messageformat": "Membre de {group}"
@@ -4041,7 +4041,7 @@
     "messageformat": "Adding this GIF will replace the item in your current draft message."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Remplacer"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Modifier le message"
@@ -5935,13 +5935,13 @@
     "messageformat": "Modifié"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Ajouter un message"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Envoyer"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuler"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historique des modifications"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Certains utilisateurs peuvent se faire passer pour d'autres : faites attention"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Attention aux groupes qui se font passer pour des organisations ou des entreprises"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Lorsque des utilisateurs rejoignent un groupe, Signal ne vérifie pas les noms de profil de ses membres"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

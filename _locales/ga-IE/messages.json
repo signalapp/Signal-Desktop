@@ -1836,16 +1836,16 @@
     "messageformat": "Seol teachtaireacht"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Cabhair"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Lárionad Tacaíochta"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Déan teagmháil linn"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Bronn airgead ar Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Féach ar an Uimhir Shábháilteachta"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Glan an Cuardach"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Gan Fuaim"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "Bí cúramach agus tú ag glacadh le hiarratais teachtaireachta ó dhaoine nach bhfuil aithne agat orthu. Bí ag faire amach do na rudaí seo:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Ainmneacha bréige agus cuntais bhréige"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Ní iarrfaidh Signal do chód clárúcháin ná UAP ort choíche. Bí ar d'fhaichill ar iarratais a dhéanann daoine eile a phearsanú. Roghnaíonn sealbhóir an chuntais ainm na próifíle agus níl an t-ainm fíoraithe."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Camscéimeanna criptea-airgeadra nó airgid"
@@ -2937,7 +2937,7 @@
     "messageformat": "Glac leis"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Glac leis an iarratas?"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, one {1 bhall} two {{count,number} bhall} few {{count,number} bhall} many {{count,number} mball} other {{count,number} ball}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Déan athbhreithniú go cúramach"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Seo é an t-aon chomhrá oifigiúil de chuid Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Coinnigh suas chun dáta le nuacht agus le nótaí eisiúna."
   },
   "icu:member-of-1-group": {
     "messageformat": "Ball de {group}"
@@ -4041,7 +4041,7 @@
     "messageformat": "Adding this GIF will replace the item in your current draft message."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Ionadaigh"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Cuir teachtaireacht in eagar"
@@ -5935,13 +5935,13 @@
     "messageformat": "Curtha in eagar"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Cuir teachtaireacht leis"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Seol"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Stair eagarthóireachta"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Bí ar d'fhaichill ar chuntais a dhéanann daoine eile a phearsanú"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Bí ar d'fhaichill ar ghrúpaí a dhéanann eagraíochtaí agus gnóthais a phearsanú"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Níl ainmneacha próifíle ag baill i ngrúpaí fíoraithe"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

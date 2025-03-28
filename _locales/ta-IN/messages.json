@@ -1836,16 +1836,16 @@
     "messageformat": "மெசேஜ்"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "உதவி"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "ஆதரவு மையம்"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "எங்களை தொடர்பு கொள்ள"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Signal-க்கு நன்கொடை அளி"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "தேடலை நீக்கு"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "எதுவும் இல்லை"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "உங்களுக்கு தெரியாத நபர்களிடமிருந்து பெறப்படும் மெசேஜ் கோரிக்கைகளை ஏற்கும்போது கவனமாக இருங்கள். கவனமாக இருங்கள்:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "போலியான பெயர்கள் மற்றும் கணக்குகள்"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "உங்கள் பதிவுக் குறியீடு அல்லது பின் போன்றவற்றைக் கெட்டு சிக்னல் உங்களை ஒருபோதும் தொடர்பு கொள்ளாது. மற்றவர்கள் போல் ஆள்மாறாட்டம் செய்யும் கோரிக்கைகளிடமிருந்து எச்சரிக்கையாக இருங்கள். ப்ரொஃபைல் பெயர்களானது கணக்கு வைத்திருப்பவர்களால் தேர்ந்தெடுக்கப்படுகின்றன, அவை இன்னும் சரிபார்க்கப்படவில்லை."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "கிரிப்டோ அல்லது பண மோசடிகள்"
@@ -2937,7 +2937,7 @@
     "messageformat": "ஒப்புக்கொள்"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "கோரிக்கையை ஏற்கவா?"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, one {1 உறுப்பினர்} other {{count,number} உறுப்பினர்கள்}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "கவனமாக மதிப்பாய்வு செய்க"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "இது அதிகாரப்பூர்வமானது மேலும் சிக்னல் சாட்டிலிருந்து மட்டும் பெறப்படுகிறது"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "செய்திகள் மற்றும் ரிலீஸ் குறிப்புகளுடன் புதுப்பித்த நிலையில் இருங்கள்."
   },
   "icu:member-of-1-group": {
     "messageformat": "உறுப்பினர்{group}"
@@ -5935,13 +5935,13 @@
     "messageformat": "திருத்தப்பட்டது"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "கூட்டு ஒரு செய்தி"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "அனுப்புக"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "திருத்தங்களின் வரலாறு"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "மற்றவர்கள் போல் ஆள்மாறாட்டம் செய்யும் கணக்குகளிடமிருந்து எச்சரிக்கையாக இருங்கள்"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "நிறுவனங்கள் மற்றும் வணிகங்களாகத் தங்களைக் காட்டிக்கொண்டு ஆள்மாறாட்டம் செய்யும் குழுக்களிடமிருந்து எச்சரிக்கையாக இருங்கள்"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "குழுக்களில் உறுப்பினர்களின் ப்ரொஃபைல் பெயர்கள் சரிபார்க்கப்படவில்லை"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

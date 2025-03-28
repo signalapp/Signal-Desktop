@@ -1836,16 +1836,16 @@
     "messageformat": "مراسلة"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "المساعدة"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "مركز الدعم"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "تواصَل معنا"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "تبرَّع لسيجنال"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "عرض رقم اﻷمان"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "مسح البحث"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "لا شيء"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "احذر عند قبول طلب مراسلة من أشخاص لا تعرفهم. احذر من:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "الأسماء والحسابات المُزيَّفة"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "لن يَطلب سيجنال منك أبدًا كود التسجيل أو رقم التعريف الشخصي (PIN). كُن حذرًا من الطلبات التي تنتحل شخصية الآخرين. يقوم أصحاب الحسابات بتحديد أسماء حساباتهم الشخصية، وهي غير خاضعة لعملية التحقُّق."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "عمليات الاحتيال المالية أو من خلال العملات المشفرة"
@@ -2937,7 +2937,7 @@
     "messageformat": "قبول"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "هل ترغبُ بقبول الطلب؟"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, zero {{count,number} عضو} one {1 عضو} two {{count,number} عضوان} few {{count,number} أعضاء} many {{count,number} عضوًا} other {{count,number} عضو}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "مراجعة بحذر"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "هذه هي الدردشة الوحيدة والرسمية من سيجنال."
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "ابقَ على اطِّلاع على آخر الأخبار وملاحظات الإصدارات."
   },
   "icu:member-of-1-group": {
     "messageformat": "عضو في {group}"
@@ -4041,7 +4041,7 @@
     "messageformat": "Adding this GIF will replace the item in your current draft message."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "استبدال"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "تعديل الرسالة"
@@ -5935,13 +5935,13 @@
     "messageformat": "تم التعديل"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "إضافة نص"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "أرسِلْ"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "سجل التعديلات"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "كُن حذرًا من الحسابات التي تنتحل شخصية الآخرين."
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "كُن حذرًا من المجموعات التي تنتحل صفات المنظمات والشركات."
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "أسماء الحسابات الشخصية الخاصة بأعضاء المجموعات لم يتم التحقُّق منها."
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

@@ -1836,16 +1836,16 @@
     "messageformat": "မက်ဆေ့ချ်"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "အကူအညီ"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "ပံ့ပိုးမှု စင်တာ"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "ကျွန်ုပ်တို့ကိုဆက်သွယ်ရန်"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Signal ကိုလှူဒါန်းပါ"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "ရှာဖွေမှုကို ရှင်းရန်"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "မည်သည့်အရာမှ မဟုတ်သော"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "သင်မသိသူများထံမှ မက်ဆေ့ချ်တောင်းဆိုချက်များကို လက်ခံသောအခါ သတိထားပါ။ ဤသည်တို့ကို သတိပြုပါ-"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "အမည်အတုနှင့် အကောင့်များ"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal သည် သင်၏ကုဒ် သို့မဟုတ် ပင်နံပါတ်ကို မည်သည့်အခါမျှ ဆက်သွယ်မေးမြန်းမည်မဟုတ်ပါ။ အခြားသူများအယောင်ဆောင်၍ တောင်းဆိုမှုများကို သတိထားပါ။ ပရိုဖိုင်း အမည်များကို ၎င်းတို့၏အကောင့်ပိုင်ရှင်က ရွေးချယ်ထားပြီး အတည်မပြုထားပါ။"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "ခရစ်ပ်တို သို့မဟုတ် ငွေကြေး လိမ်လည်မှုများ"
@@ -2937,7 +2937,7 @@
     "messageformat": "လက်ခံသည်"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "တောင်းဆိုမှုကို လက်ခံပါသလား။"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, other {မန်ဘာ {count,number} ဦး}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "သေချာပြန်လည်စစ်ဆေးပါ"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Signal မှ တစ်ခုတည်းသော တရားဝင်ချက်(တ်)ဖြစ်သည်"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "သတင်းများနှင့် ထုတ်ဝေမှုမှတ်ချက်များကို အပ်ဒိတ်ရယူလိုက်ပါ။"
   },
   "icu:member-of-1-group": {
     "messageformat": "အဖွဲ့ဝင်{group}"
@@ -5935,13 +5935,13 @@
     "messageformat": "တည်းဖြတ်ပြီး"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "ပေးပို့ရန်"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "မလုပ်တော့ပါ"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "တည်းဖြတ်မှု မှတ်တမ်း"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "အခြားသူများအယောင်ဆောင်ထားသော အကောင့်များကိုသတိထားပါ"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "အဖွဲ့အစည်းများနှင့် လုပ်ငန်းများ အယောင်ဆောင်ထားသည့် အုပ်စုများကို သတိထားပါ"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "အဖွဲ့များရှိ အဖွဲ့ဝင်များ၏ ပရိုဖိုင်း အမည်များကို အတည်မပြုထားပါ"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

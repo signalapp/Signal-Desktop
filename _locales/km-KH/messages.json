@@ -1836,16 +1836,16 @@
     "messageformat": "សារ"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "ជំនួយ"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "មណ្ឌលគាំទ្រ"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "ទាក់ទងយើង"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "ឧបត្ថម្ភទៅ Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "មើលលេខសុវត្ថិភាព"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "លុបការស្វែងរក"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "គ្មាន"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "សូមប្រុងប្រយ័ត្នពេលទទួលយកសំណើសារពីមនុស្សដែលអ្នកមិនស្គាល់។ សូមប្រុងប្រយ័ត្នចំពោះ៖"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "ឈ្មោះ និងគណនីក្លែងក្លាយ"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal នឹងមិនទាក់ទងអ្នកដើម្បីសួររកលេខកូដចុះឈ្មោះ ឬលេខកូដសម្ងាត់របស់អ្នកជាដាច់ខាត។ សូមប្រុងប្រយ័ត្នចំពោះសំណើទាំងឡាយណាដែលក្លែងបន្លំជាអ្នកផ្សេង។ ឈ្មោះប្រូហ្វាល់ត្រូវបានជ្រើសរើសដោយម្ចាស់គណនី ហើយមិនត្រូវបានផ្ទៀងផ្ទាត់ទេ។"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "ការបោកប្រាស់លុយកាក់ ឬលុយគ្រីបតូ"
@@ -2937,7 +2937,7 @@
     "messageformat": "យល់ព្រម"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "ទទួលយកសំណើឬទេ?"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, other {សមាជិក {count,number} នាក់}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "ពិនិត្យមើលដោយយកចិត្តទុកដាក់"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "នេះជាការជជែកជាផ្លូវការ និងតែមួយគត់ពី Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "ទទួលបានព័ត៌មាន និងកំណត់ចំណាំនៃការចេញផ្សាយថ្មីៗ។"
   },
   "icu:member-of-1-group": {
     "messageformat": "សមាជិកនៃ {group}"
@@ -5935,13 +5935,13 @@
     "messageformat": "បានកែ"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "បន្ថែមសារមួយ"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "ផ្ញើ"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "បោះបង់"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "កែប្រវត្តិ"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "សូមប្រុងប្រយ័ត្នចំពោះគណនីដែលក្លែងបន្លំជាអ្នកផ្សេង"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "សូមប្រុងប្រយ័ត្នចំពោះក្រុមដែលក្លែងបន្លំជាអង្គការ និងអាជីវកម្មផ្សេងៗ"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "ឈ្មោះប្រូហ្វាល់របស់សមាជិកក្នុងក្រុមមិនត្រូវបានផ្ទៀងផ្ទាត់ទេ"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

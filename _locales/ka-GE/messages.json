@@ -1836,16 +1836,16 @@
     "messageformat": "მიწერა"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "დახმარება"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "მხარდაჭერის ცენტრი"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "დაგვიკავშირდი"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Signal-ისთვის დონაციის გაკეთება"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "უსაფრთხოების ნომრის ნახვა"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "ძიების გასუფთავება"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "არცერთი"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "ფრთხილად იყავი, როცა მიმოწერის მოთხოვნებს უცნობებისგან იღებ. უფრთხილდი:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "ყალბი სახელები და ანგარიშები"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal არასოდეს დაგიკავშირდება შენი სარეგისტრაციო კოდის ან პინ-კოდისთვის. ფრთხილად იყავი თხოვნებთან იმ ანგარიშებიდან, რომლებიც სხვებად ასაღებენ თავს. პროფილის სახელებს მათი ანგარიშის მფლობელი ირჩევს და ვერიფიცირებული არაა."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "კრიპტო ან ფულის თაღლითობები"
@@ -2937,7 +2937,7 @@
     "messageformat": "დასტური"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "გსურს მოთხოვნა დაადასტურო?"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, one {1 წევრი} other {{count,number} წევრი}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "ყურადღებით გადახედე"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "ეს Signal-ის ოფიციალური და ერთადერთი ჩატია"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "გაიგე სიახლეები და გამოშვების შენიშვნები."
   },
   "icu:member-of-1-group": {
     "messageformat": "{group} -ის წევრი"
@@ -5935,13 +5935,13 @@
     "messageformat": "დარედაქტებული"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "შეტყობინების დამატება"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "გაგზავნა"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "რედაქტირების ისტორია"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "ფრთხილად იყავი ანგარიშებთან, რომლებიც სხვებად ასაღებენ თავს"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "ფრთხილად იყავი ჯგუფებთან, რომლებიც ორგანიზაციებად და ბიზნესებად ასაღებენ თავს"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "ჯგუფების წევრების პროფილის სახელები დადასტურებული არ არის"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"

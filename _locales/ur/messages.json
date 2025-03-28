@@ -1836,16 +1836,16 @@
     "messageformat": "میسج"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "مدد کریں"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "مدداور تعاون کا مرکز"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "ہم سے رابطہ کریں"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Signal کے لئے عطیہ کریں"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "حفاظتی نمبر دیکھیں"
@@ -2448,13 +2448,13 @@
     "messageformat": "GIF Preview"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "تلاش صاف کریں"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "کوئی نہیں"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2799,10 +2799,10 @@
     "messageformat": "ایسے افراد جن کو آپ جانتے نہیں ہیں کی طرف سے میسج کی درخواستوں کو قبول کرتے ہوئے احتیاط برتیں۔ درج ذیل کے حوالے سے احتیاط کریں:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "جعلی نام اور اکاؤنٹس"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal آپ سے آپ کے رجسٹریشن کوڈ یا پِن کے لیے کبھی رابطہ نہیں کرے گا۔ ان درخواستوں سے محتاط رہیں جو دوسروں کی نقالی کرتی ہیں۔ پروفائل نیمز ان کے اکاؤنٹ ہولڈر کی جانب سے منتخب کیے جاتے ہیں اور تصدیق شدہ نہیں ہوتے۔"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "کرپٹو یا پیسے کے سکیمز"
@@ -2937,7 +2937,7 @@
     "messageformat": "قبول کریں"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "درخواست قبول کریں؟"
   },
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
@@ -2955,7 +2955,7 @@
     "messageformat": "{count, plural, one {1 ممبر} other {{count,number} ممبرز}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "احتیاط سے جائزہ لیں"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified"
@@ -2964,10 +2964,10 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "یہ Signal کی آفیشل اور واحد چیٹ ہے"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "خبروں اور ریلیز نوٹس کے ساتھ باخبر رہیں۔"
   },
   "icu:member-of-1-group": {
     "messageformat": "کا رکن{group}"
@@ -4041,7 +4041,7 @@
     "messageformat": "Adding this GIF will replace the item in your current draft message."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "تبدیل کریں"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "میسج میں ترمیم کریں"
@@ -5935,13 +5935,13 @@
     "messageformat": "ترمیم کردہ"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "پیغام شامل کریں"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "بھیجیں"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ترمیم کی ہسٹری"
@@ -6169,7 +6169,7 @@
     "messageformat": "Profile names aren't verified"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "ایسے اکاؤنٹس سے محتاط رہیں جو دوسروں کی نقالی کرتے ہیں"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know"
@@ -6178,10 +6178,10 @@
     "messageformat": "Group names are chosen by members of the group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "ان گروپس سے محتاط رہیں جو تنظیموں اور کاروباروں کی نقالی کرتے ہیں"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "گروپس میں شامل ممبرز کے پروفائل نیمز تصدیق شدہ نہیں ہیں"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Don't share personal information with people you don't know"
