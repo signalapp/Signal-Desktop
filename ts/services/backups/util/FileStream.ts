@@ -15,7 +15,7 @@ export class FileStream extends InputStream {
     super();
   }
 
-  public async close(): Promise<void> {
+  public override async close(): Promise<void> {
     await this.#initPromise;
     await this.#file?.close();
   }

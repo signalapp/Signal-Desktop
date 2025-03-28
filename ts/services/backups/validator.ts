@@ -21,23 +21,12 @@ export async function validateBackup(
     aci,
   });
 
-  const streams = new Array<FileStream>();
-
-  let outcome: libsignal.ValidationOutcome;
-  try {
-    outcome = await libsignal.validate(
-      backupKey,
-      libsignal.Purpose.RemoteBackup,
-      () => {
-        const stream = new FileStream(filePath);
-        streams.push(stream);
-        return stream;
-      },
-      BigInt(fileSize)
-    );
-  } finally {
-    await Promise.all(streams.map(stream => stream.close()));
-  }
+  const outcome = await libsignal.validate(
+    backupKey,
+    libsignal.Purpose.RemoteBackup,
+    () => new FileStream(filePath),
+    BigInt(fileSize)
+  );
 
   if (isTestOrMockEnvironment()) {
     strictAssert(
