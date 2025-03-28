@@ -11,8 +11,9 @@ import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
+  isEmojiVariantValueNonQualified,
 } from '../fun/data/emojis';
-import { strictAssert } from '../../util/assert';
+import * as log from '../../logging/log';
 
 export type Props = {
   fontSizeOverride?: number | null;
@@ -34,10 +35,16 @@ export function Emojify({
     <>
       {splitByEmoji(text).map(({ type, value: match }, index) => {
         if (type === 'emoji') {
-          strictAssert(
-            isEmojiVariantValue(match),
-            `Must be emoji variant value: ${match}`
-          );
+          // If we don't recognize the emoji, render it as text.
+          if (!isEmojiVariantValue(match)) {
+            log.error(`Found emoji that we did not recognize: ${match}`);
+            return renderNonEmoji({ text: match, key: index });
+          }
+
+          // Render emoji as text if they are a non-qualified emoji value.
+          if (isEmojiVariantValueNonQualified(match)) {
+            return renderNonEmoji({ text: match, key: index });
+          }
 
           const variantKey = getEmojiVariantKeyByValue(match);
           const variant = getEmojiVariantByKey(variantKey);

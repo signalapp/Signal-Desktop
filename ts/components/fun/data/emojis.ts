@@ -252,10 +252,12 @@ type EmojiIndex = Readonly<{
   parentByKey: Record<EmojiParentKey, EmojiParentData>;
   parentKeysByName: Record<EmojiEnglishShortName, EmojiParentKey>;
   parentKeysByValue: Record<EmojiParentValue, EmojiParentKey>;
+  parentKeysByValueNonQualified: Record<EmojiParentValue, EmojiParentKey>;
   parentKeysByVariantKeys: Record<EmojiVariantKey, EmojiParentKey>;
 
   variantByKey: Record<EmojiVariantKey, EmojiVariantData>;
   variantKeysByValue: Record<EmojiVariantValue, EmojiVariantKey>;
+  variantKeysByValueNonQualified: Record<EmojiVariantValue, EmojiVariantKey>;
 
   unicodeCategories: Record<EmojiUnicodeCategory, Array<EmojiParentKey>>;
   pickerCategories: Record<EmojiPickerCategory, Array<EmojiParentKey>>;
@@ -266,10 +268,12 @@ type EmojiIndex = Readonly<{
 const EMOJI_INDEX: EmojiIndex = {
   parentByKey: {},
   parentKeysByValue: {},
+  parentKeysByValueNonQualified: {},
   parentKeysByName: {},
   parentKeysByVariantKeys: {},
   variantByKey: {},
   variantKeysByValue: {},
+  variantKeysByValueNonQualified: {},
   unicodeCategories: {
     [EmojiUnicodeCategory.SmileysAndEmotion]: [],
     [EmojiUnicodeCategory.PeopleAndBody]: [],
@@ -300,6 +304,8 @@ function addParent(parent: EmojiParentData, rank: number) {
   EMOJI_INDEX.parentKeysByValue[parent.value] = parent.key;
   if (parent.valueNonqualified != null) {
     EMOJI_INDEX.parentKeysByValue[parent.valueNonqualified] = parent.key;
+    EMOJI_INDEX.parentKeysByValueNonQualified[parent.valueNonqualified] =
+      parent.key;
   }
   EMOJI_INDEX.parentKeysByName[parent.englishShortNameDefault] = parent.key;
   EMOJI_INDEX.unicodeCategories[parent.unicodeCategory].push(parent.key);
@@ -327,6 +333,8 @@ function addVariant(parentKey: EmojiParentKey, variant: EmojiVariantData) {
   EMOJI_INDEX.variantKeysByValue[variant.value] = variant.key;
   if (variant.valueNonqualified) {
     EMOJI_INDEX.variantKeysByValue[variant.valueNonqualified] = variant.key;
+    EMOJI_INDEX.variantKeysByValueNonQualified[variant.valueNonqualified] =
+      variant.key;
   }
 }
 
@@ -417,6 +425,12 @@ export function isEmojiParentValue(input: string): input is EmojiParentValue {
 
 export function isEmojiVariantValue(input: string): input is EmojiVariantValue {
   return Object.hasOwn(EMOJI_INDEX.variantKeysByValue, input);
+}
+
+export function isEmojiVariantValueNonQualified(
+  input: EmojiVariantValue
+): boolean {
+  return Object.hasOwn(EMOJI_INDEX.variantKeysByValueNonQualified, input);
 }
 
 /** @deprecated Prefer EmojiKey for refs, load short names from translations */
