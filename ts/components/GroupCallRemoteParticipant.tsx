@@ -230,14 +230,18 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
         if (
           imageData?.width !== frameWidth ||
-          imageData?.height !== frameHeight
+          imageData?.height !== frameHeight ||
+          imageData?.data.buffer !== frameBuffer.buffer ||
+          imageData?.data.byteOffset !== frameBuffer.byteOffset
         ) {
-          imageData = new ImageData(frameWidth, frameHeight);
+          const view = new Uint8ClampedArray(
+            frameBuffer.buffer,
+            frameBuffer.byteOffset,
+            frameWidth * frameHeight * 4
+          );
+          imageData = new ImageData(view, frameWidth, frameHeight);
           imageDataRef.current = imageData;
         }
-        imageData.data.set(
-          frameBuffer.subarray(0, frameWidth * frameHeight * 4)
-        );
 
         // Screen share is at a slow FPS so updates slowly if we PiP then restore.
         // Cache the image data so we can quickly show the most recent frame.
@@ -586,7 +590,9 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               ref={canvasEl => {
                 remoteVideoRef.current = canvasEl;
                 if (canvasEl) {
-                  canvasContextRef.current = canvasEl.getContext('2d');
+                  canvasContextRef.current = canvasEl.getContext('2d', {
+                    alpha: false,
+                  });
                 } else {
                   canvasContextRef.current = null;
                 }
