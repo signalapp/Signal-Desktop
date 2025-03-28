@@ -453,6 +453,16 @@ export function CallScreen({
   const syncedLocalHandRaised = isHandRaised(raisedHands, localDemuxId);
 
   const isLonelyInCall = !activeCall.remoteParticipants.length;
+  const isAudioOnly = !hasLocalVideo && !hasRemoteVideo;
+
+  const controlsFadedOut = !showControls && !isAudioOnly && isConnected;
+  const controlsFadeClass = classNames({
+    'module-ongoing-call__controls': true,
+    'module-ongoing-call__controls--fadeIn':
+      (showControls || isAudioOnly) && !isConnected,
+    'module-ongoing-call__controls--fadeOut': controlsFadedOut,
+  });
+
   const handlePreviewClick = useCallback(
     (event?: React.MouseEvent) => {
       event?.preventDefault();
@@ -528,7 +538,7 @@ export function CallScreen({
           activeCall.selfViewExpanded
             ? 'module-ongoing-call__local-preview--expanded'
             : undefined,
-          !showControls
+          controlsFadedOut
             ? 'module-ongoing-call__local-preview--controls-hidden'
             : undefined
         )}
@@ -599,16 +609,6 @@ export function CallScreen({
   const audioButtonType = hasLocalAudio
     ? CallingButtonType.AUDIO_ON
     : CallingButtonType.AUDIO_OFF;
-
-  const isAudioOnly = !hasLocalVideo && !hasRemoteVideo;
-
-  const controlsFadedOut = !showControls && !isAudioOnly && isConnected;
-  const controlsFadeClass = classNames({
-    'module-ongoing-call__controls': true,
-    'module-ongoing-call__controls--fadeIn':
-      (showControls || isAudioOnly) && !isConnected,
-    'module-ongoing-call__controls--fadeOut': controlsFadedOut,
-  });
 
   const isGroupCall = isGroupOrAdhocActiveCall(activeCall);
 
@@ -993,7 +993,7 @@ export function CallScreen({
             activeCall.selfViewExpanded
               ? 'module-ongoing-call__direct-call-speaking-indicator--self-view-expanded'
               : undefined,
-            activeCall.selfViewExpanded && !showControls
+            activeCall.selfViewExpanded && controlsFadedOut
               ? 'module-ongoing-call__direct-call-speaking-indicator--expanded-no-controls'
               : undefined
           )}
