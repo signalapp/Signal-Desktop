@@ -60,6 +60,8 @@ const getDefaultCall = (overrides: Overrides): ActiveDirectCallType => {
     callMode: CallMode.Direct as CallMode.Direct,
     callState: CallState.Accepted,
     peekedParticipants: [],
+    hasRemoteAudio: true,
+    hasRemoteVideo: true,
     remoteAudioLevel: 0,
     remoteParticipants: [
       { hasRemoteVideo: true, presenting: false, title: 'Arsene' },

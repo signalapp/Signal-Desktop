@@ -999,7 +999,7 @@ export function CallScreen({
           )}
         >
           <CallingAudioIndicator
-            hasAudio
+            hasAudio={activeCall.hasRemoteAudio}
             audioLevel={activeCall.remoteAudioLevel}
             shouldShowSpeaking={activeCall.remoteAudioLevel > 0}
           />
