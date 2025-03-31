@@ -209,6 +209,7 @@ type CallingReduxInterface = Pick<
   | 'receiveIncomingDirectCall'
   | 'receiveIncomingGroupCall'
   | 'refreshIODevices'
+  | 'remoteAudioChange'
   | 'remoteSharingScreenChange'
   | 'remoteVideoChange'
   | 'sendGroupCallRaiseHand'
@@ -3256,9 +3257,11 @@ export class CallingClass {
 
     // eslint-disable-next-line no-param-reassign
     call.handleRemoteAudioEnabled = () => {
-      // TODO: Implement handling for the remote audio state using call.remoteAudioEnabled
+      reduxInterface.remoteAudioChange({
+        conversationId,
+        hasAudio: call.remoteAudioEnabled,
+      });
     };
-
     // eslint-disable-next-line no-param-reassign
     call.handleRemoteVideoEnabled = () => {
       reduxInterface.remoteVideoChange({

@@ -79,6 +79,8 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
       serviceId?: ServiceIdString;
     },
   ];
+  hasRemoteVideo: boolean;
+  hasRemoteAudio: boolean;
   remoteAudioLevel: number;
 };
 

@@ -147,6 +147,7 @@ export type DirectCallStateType = {
   isIncoming: boolean;
   isSharingScreen?: boolean;
   isVideoCall: boolean;
+  hasRemoteAudio?: boolean;
   hasRemoteVideo?: boolean;
   remoteAudioLevel: number;
 };
@@ -344,6 +345,10 @@ export type StartCallType = ReadonlyDeep<
 export type RemoteVideoChangeType = ReadonlyDeep<{
   conversationId: string;
   hasVideo: boolean;
+}>;
+export type RemoteAudioChangeType = ReadonlyDeep<{
+  conversationId: string;
+  hasAudio: boolean;
 }>;
 
 type RemoteSharingScreenChangeType = ReadonlyDeep<{
@@ -642,6 +647,7 @@ const OUTGOING_CALL = 'calling/OUTGOING_CALL';
 const PEEK_GROUP_CALL_FULFILLED = 'calling/PEEK_GROUP_CALL_FULFILLED';
 const RAISE_HAND_GROUP_CALL = 'calling/RAISE_HAND_GROUP_CALL';
 const REFRESH_IO_DEVICES = 'calling/REFRESH_IO_DEVICES';
+const REMOTE_AUDIO_CHANGE = 'calling/REMOTE_AUDIO_CHANGE';
 const REMOTE_SHARING_SCREEN_CHANGE = 'calling/REMOTE_SHARING_SCREEN_CHANGE';
 const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
 const REMOVE_CLIENT = 'calling/REMOVE_CLIENT';
@@ -872,8 +878,12 @@ type RemoteSharingScreenChangeActionType = ReadonlyDeep<{
 }>;
 
 type RemoteVideoChangeActionType = ReadonlyDeep<{
-  type: 'calling/REMOTE_VIDEO_CHANGE';
+  type: typeof REMOTE_VIDEO_CHANGE;
   payload: RemoteVideoChangeType;
+}>;
+type RemoteAudioChangeActionType = ReadonlyDeep<{
+  type: typeof REMOTE_AUDIO_CHANGE;
+  payload: RemoteAudioChangeType;
 }>;
 
 type RemoveClientActionType = ReadonlyDeep<{
@@ -997,6 +1007,7 @@ export type CallingActionType =
   | OutgoingCallActionType
   | PeekGroupCallFulfilledActionType
   | RefreshIODevicesActionType
+  | RemoteAudioChangeActionType
   | RemoteSharingScreenChangeActionType
   | RemoteVideoChangeActionType
   | RemoveClientActionType
@@ -1849,6 +1860,14 @@ function remoteSharingScreenChange(
   };
 }
 
+function remoteAudioChange(
+  payload: RemoteAudioChangeType
+): RemoteAudioChangeActionType {
+  return {
+    type: REMOTE_AUDIO_CHANGE,
+    payload,
+  };
+}
 function remoteVideoChange(
   payload: RemoteVideoChangeType
 ): RemoteVideoChangeActionType {
@@ -2756,6 +2775,7 @@ export const actions = {
   receiveIncomingDirectCall,
   receiveIncomingGroupCall,
   refreshIODevices,
+  remoteAudioChange,
   remoteSharingScreenChange,
   remoteVideoChange,
   removeClient,
@@ -3928,6 +3948,25 @@ export function reducer(
         [conversationId]: {
           ...call,
           hasRemoteVideo: hasVideo,
+        },
+      },
+    };
+  }
+  if (action.type === REMOTE_AUDIO_CHANGE) {
+    const { conversationId, hasAudio } = action.payload;
+    const call = getOwn(state.callsByConversation, conversationId);
+    if (call?.callMode !== CallMode.Direct) {
+      log.warn('Cannot update remote audio for a non-direct call');
+      return state;
+    }
+
+    return {
+      ...state,
+      callsByConversation: {
+        ...callsByConversation,
+        [conversationId]: {
+          ...call,
+          hasRemoteAudio: hasAudio,
         },
       },
     };

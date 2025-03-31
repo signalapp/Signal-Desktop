@@ -62,6 +62,7 @@ type DirectCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Direct;
   callState?: CallState;
   hasRemoteVideo?: boolean;
+  hasRemoteAudio?: boolean;
   outgoingRing?: boolean;
   selfViewExpanded?: boolean;
   remoteAudioLevel?: number;
@@ -89,6 +90,8 @@ const createActiveDirectCallProp = (
   callState: overrideProps.callState ?? CallState.Accepted,
   peekedParticipants: [] as [],
   remoteAudioLevel: overrideProps.remoteAudioLevel ?? 0,
+  hasRemoteAudio: overrideProps.hasRemoteAudio ?? true,
+  hasRemoteVideo: overrideProps.hasRemoteVideo ?? true,
   remoteParticipants: [
     {
       hasRemoteVideo: overrideProps.hasRemoteVideo ?? false,
@@ -98,6 +101,7 @@ const createActiveDirectCallProp = (
   ] as [
     {
       hasRemoteVideo: boolean;
+      hasRemoteAudio: boolean;
       presenting: boolean;
       title: string;
     },

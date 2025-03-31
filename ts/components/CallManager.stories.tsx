@@ -206,6 +206,8 @@ export function OngoingDirectCall(): JSX.Element {
           callState: CallState.Accepted,
           peekedParticipants: [],
           remoteAudioLevel: 0,
+          hasRemoteAudio: true,
+          hasRemoteVideo: true,
           remoteParticipants: [
             { hasRemoteVideo: true, presenting: false, title: 'Remy' },
           ],
@@ -294,6 +296,8 @@ export function CallRequestNeeded(): JSX.Element {
           callState: CallState.Accepted,
           peekedParticipants: [],
           remoteAudioLevel: 0,
+          hasRemoteAudio: true,
+          hasRemoteVideo: true,
           remoteParticipants: [
             { hasRemoteVideo: true, presenting: false, title: 'Mike' },
           ],
