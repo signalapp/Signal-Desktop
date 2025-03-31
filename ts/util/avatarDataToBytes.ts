@@ -42,10 +42,7 @@ async function drawImage(
 }
 
 async function getFont(text: string): Promise<string> {
-  const font = new window.FontFace(
-    'Inter',
-    'url("fonts/inter-v3.19/Inter-Regular.woff2")'
-  );
+  const font = new window.FontFace('Inter', 'url("fonts/InterVariable.woff2")');
   await font.load();
 
   const measurerCanvas = document.createElement('canvas');
