@@ -9,6 +9,8 @@ import { roundFractionForProgressBar } from '../util/numbers';
 import { ProgressCircle } from './ProgressCircle';
 import { ContextMenu } from './ContextMenu';
 import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog';
+import { LeftPaneDialog } from './LeftPaneDialog';
+import { WidthBreakpoint } from './_util';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
@@ -16,6 +18,7 @@ export type PropsType = Readonly<{
   totalBytes: number;
   isIdle: boolean;
   isPaused: boolean;
+  widthBreakpoint: WidthBreakpoint;
   handleCancel: VoidFunction;
   handleClose: VoidFunction;
   handleResume: VoidFunction;
@@ -32,6 +35,7 @@ export function BackupMediaDownloadProgress({
   handleClose,
   handleResume,
   handlePause,
+  widthBreakpoint,
 }: PropsType): JSX.Element | null {
   const [isShowingCancelConfirmation, setIsShowingCancelConfirmation] =
     useState(false);
@@ -62,7 +66,10 @@ export function BackupMediaDownloadProgress({
   let actionButton: JSX.Element | undefined;
   if (fractionComplete === 1) {
     icon = (
-      <div className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--complete" />
+      <div
+        className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--complete"
+        aria-label={i18n('icu:BackupMediaDownloadProgress__title-complete')}
+      />
     );
     content = (
       <>
@@ -77,7 +84,10 @@ export function BackupMediaDownloadProgress({
     actionButton = closeButton;
   } else if (isIdle && !isPaused) {
     icon = (
-      <div className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--idle" />
+      <div
+        className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--idle"
+        aria-label={i18n('icu:BackupMediaDownloadProgress__description-idle')}
+      />
     );
     content = (
       <>
@@ -94,27 +104,33 @@ export function BackupMediaDownloadProgress({
     );
     actionButton = closeButton;
   } else {
-    icon = (
-      <div className="BackupMediaDownloadProgress__icon">
-        <ProgressCircle fractionComplete={fractionComplete} />
-      </div>
-    );
-
     if (isPaused) {
       content = (
         <>
           <div className="BackupMediaDownloadProgress__title">
             {i18n('icu:BackupMediaDownloadProgress__title-paused')}
           </div>
-          <button
-            type="button"
-            onClick={handleResume}
-            className="BackupMediaDownloadProgress__button"
-            aria-label={i18n('icu:BackupMediaDownloadProgress__button-resume')}
-          >
-            {i18n('icu:BackupMediaDownloadProgress__button-resume')}
-          </button>
+          {widthBreakpoint !== WidthBreakpoint.Narrow ? (
+            <button
+              type="button"
+              onClick={handleResume}
+              className="BackupMediaDownloadProgress__button"
+              aria-label={i18n(
+                'icu:BackupMediaDownloadProgress__button-resume'
+              )}
+            >
+              {i18n('icu:BackupMediaDownloadProgress__button-resume')}
+            </button>
+          ) : null}
         </>
+      );
+      icon = (
+        <div className="BackupMediaDownloadProgress__icon">
+          <ProgressCircle
+            fractionComplete={fractionComplete}
+            ariaLabel={i18n('icu:BackupMediaDownloadProgress__title-paused')}
+          />
+        </div>
       );
     } else {
       content = (
@@ -130,6 +146,16 @@ export function BackupMediaDownloadProgress({
             })}
           </div>
         </>
+      );
+      icon = (
+        <div className="BackupMediaDownloadProgress__icon">
+          <ProgressCircle
+            fractionComplete={fractionComplete}
+            ariaLabel={i18n(
+              'icu:BackupMediaDownloadProgress__title-in-progress'
+            )}
+          />
+        </div>
       );
     }
 
@@ -173,10 +199,13 @@ export function BackupMediaDownloadProgress({
   }
 
   return (
-    <div className="BackupMediaDownloadProgress">
-      {icon}
+    <LeftPaneDialog
+      type="info"
+      containerWidthBreakpoint={widthBreakpoint}
+      icon={icon}
+    >
       <div className="BackupMediaDownloadProgress__content">{content}</div>
-      {actionButton}
+      {widthBreakpoint !== WidthBreakpoint.Narrow ? actionButton : null}
       {isShowingCancelConfirmation ? (
         <BackupMediaDownloadCancelConfirmationDialog
           i18n={i18n}
@@ -184,6 +213,6 @@ export function BackupMediaDownloadProgress({
           handleConfirmCancel={handleConfirmedCancel}
         />
       ) : null}
-    </div>
+    </LeftPaneDialog>
   );
 }

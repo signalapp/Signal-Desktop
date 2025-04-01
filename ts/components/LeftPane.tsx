@@ -801,6 +801,7 @@ export function LeftPane({
         {showBackupMediaDownloadProgress ? (
           <BackupMediaDownloadProgress
             i18n={i18n}
+            widthBreakpoint={widthBreakpoint}
             {...backupMediaDownloadProgress}
             handleClose={dismissBackupMediaDownloadBanner}
             handlePause={pauseBackupMediaDownload}

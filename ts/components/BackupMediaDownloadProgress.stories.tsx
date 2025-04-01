@@ -7,10 +7,39 @@ import { action } from '@storybook/addon-actions';
 
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress';
 import { KIBIBYTE } from '../types/AttachmentSize';
+import { WidthBreakpoint } from './_util';
 
 const { i18n } = window.SignalContext;
 
 type PropsType = ComponentProps<typeof BackupMediaDownloadProgress>;
+
+function Template(args: PropsType): JSX.Element {
+  return (
+    <>
+      <div style={{ width: 350 }}>
+        <p>Wide</p>
+        <BackupMediaDownloadProgress
+          {...args}
+          widthBreakpoint={WidthBreakpoint.Wide}
+        />
+      </div>
+      <div style={{ width: 280 }}>
+        <p>Medium</p>
+        <BackupMediaDownloadProgress
+          {...args}
+          widthBreakpoint={WidthBreakpoint.Medium}
+        />
+      </div>
+      <div style={{ width: 130 }}>
+        <p>Narrow</p>
+        <BackupMediaDownloadProgress
+          {...args}
+          widthBreakpoint={WidthBreakpoint.Narrow}
+        />
+      </div>
+    </>
+  );
+}
 
 export default {
   title: 'Components/BackupMediaDownloadProgress',
@@ -27,34 +56,27 @@ export default {
 } satisfies Meta<PropsType>;
 
 export function InProgress(args: PropsType): JSX.Element {
-  return <BackupMediaDownloadProgress {...args} />;
+  return <Template {...args} />;
 }
 
 export function Increasing(args: PropsType): JSX.Element {
-  return (
-    <BackupMediaDownloadProgress
-      {...args}
-      {...useIncreasingFractionComplete()}
-    />
-  );
+  return <Template {...args} {...useIncreasingFractionComplete()} />;
 }
 
 export function Paused(args: PropsType): JSX.Element {
-  return <BackupMediaDownloadProgress {...args} isPaused />;
+  return <Template {...args} isPaused />;
 }
 
 export function Idle(args: PropsType): JSX.Element {
-  return <BackupMediaDownloadProgress {...args} isIdle />;
+  return <Template {...args} isIdle />;
 }
 
 export function PausedAndIdle(args: PropsType): JSX.Element {
-  return <BackupMediaDownloadProgress {...args} isPaused isIdle />;
+  return <Template {...args} isPaused isIdle />;
 }
 
 export function Complete(args: PropsType): JSX.Element {
-  return (
-    <BackupMediaDownloadProgress {...args} downloadedBytes={args.totalBytes} />
-  );
+  return <Template {...args} downloadedBytes={args.totalBytes} />;
 }
 
 function useIncreasingFractionComplete() {

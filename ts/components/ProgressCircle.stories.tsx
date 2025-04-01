@@ -10,7 +10,12 @@ type Props = React.ComponentProps<typeof ProgressCircle>;
 export default {
   title: 'Components/ProgressCircle',
   component: ProgressCircle,
-  args: { fractionComplete: 0, width: undefined, strokeWidth: undefined },
+  args: {
+    fractionComplete: 0,
+    width: undefined,
+    strokeWidth: undefined,
+    ariaLabel: undefined,
+  },
 } satisfies ComponentMeta<Props>;
 
 export function Zero(args: Props): JSX.Element {

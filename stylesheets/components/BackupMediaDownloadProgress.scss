@@ -4,34 +4,17 @@
 @use '../mixins';
 @use '../variables';
 
-.BackupMediaDownloadProgress {
-  border-radius: 12px;
+.BackupMediaDownloadProgress__content {
   display: flex;
-  gap: 10px;
-  padding: 11px;
-  padding-inline-end: 16px;
-  margin-inline: 10px;
-  margin-block-end: 6px;
-  margin-block-start: 2px;
-  user-select: none;
-  position: relative;
-
-  &__title {
-    @include mixins.font-body-2-bold;
-  }
-
-  @include mixins.light-theme {
-    background-color: variables.$color-white;
-    border: 1px solid variables.$color-gray-20;
-  }
-  @include mixins.dark-theme {
-    background: variables.$color-gray-75;
-    border: 1px solid variables.$color-gray-60;
-  }
+  flex-direction: column;
+  justify-content: center;
+  min-height: 36px;
+  margin-inline-end: 20px;
+  gap: 2px;
 }
 
-.BackupMediaDownloadProgress__icon {
-  margin-top: 6px;
+.BackupMediaDownloadProgress__title {
+  @include mixins.font-body-2-bold;
 }
 
 .BackupMediaDownloadProgress__icon--complete {
@@ -89,10 +72,12 @@ button.BackupMediaDownloadProgress__button {
 }
 
 button.BackupMediaDownloadProgress__button-more {
-  position: absolute;
-  inset-inline-end: 14px;
-  inset-block-start: 10px;
   @include mixins.button-reset;
+  & {
+    position: absolute;
+    inset-block-start: 8px;
+    inset-inline-end: 14px;
+  }
   &::after {
     content: '';
     display: block;
@@ -113,10 +98,12 @@ button.BackupMediaDownloadProgress__button-more {
   }
 }
 button.BackupMediaDownloadProgress__button-close {
-  position: absolute;
-  inset-inline-end: 14px;
-  inset-block-start: 10px;
   @include mixins.button-reset;
+  & {
+    position: absolute;
+    inset-block-start: 12px;
+    inset-inline-end: 12px;
+  }
   &::after {
     content: '';
     display: block;
@@ -135,14 +122,6 @@ button.BackupMediaDownloadProgress__button-close {
       );
     }
   }
-}
-
-.BackupMediaDownloadProgress__content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2px;
-  min-height: 36px;
 }
 
 .BackupMediaDownloadProgress__description {

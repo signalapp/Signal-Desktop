@@ -7,10 +7,12 @@ export function ProgressCircle({
   fractionComplete,
   width = 24,
   strokeWidth = 3,
+  ariaLabel,
 }: {
   fractionComplete: number;
   width?: number;
   strokeWidth?: number;
+  ariaLabel?: string;
 }): JSX.Element {
   const radius = width / 2 - strokeWidth / 2;
   const circumference = radius * 2 * Math.PI;
@@ -21,6 +23,11 @@ export function ProgressCircle({
       className="ProgressCircle"
       width={widthInPixels}
       height={widthInPixels}
+      role="progressbar"
+      aria-label={ariaLabel}
+      aria-valuenow={Math.trunc(fractionComplete * 100)}
+      aria-valuemin={0}
+      aria-valuemax={100}
     >
       <circle
         className="ProgressCircle__background"
