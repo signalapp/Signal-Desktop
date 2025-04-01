@@ -59,8 +59,7 @@ function isBackfillEnabled(): boolean {
   if (RemoteConfig.isEnabled('desktop.internalUser')) {
     return true;
   }
-  const ourConversation = window.ConversationController.getOurConversation();
-  return ourConversation?.get('capabilities')?.attachmentBackfill === true;
+  return false;
 }
 
 export class AttachmentBackfill {
