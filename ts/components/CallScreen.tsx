@@ -508,7 +508,10 @@ export function CallScreen({
         ref={setLocalPreviewContainer}
       />
     ) : (
-      <CallBackgroundBlur avatarUrl={me.avatarUrl}>
+      <CallBackgroundBlur
+        className="module-ongoing-call__local-preview__background"
+        avatarUrl={me.avatarUrl}
+      >
         <Avatar
           avatarPlaceholderGradient={me.avatarPlaceholderGradient}
           avatarUrl={me.avatarUrl}
