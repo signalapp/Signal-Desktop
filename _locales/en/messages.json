@@ -8291,5 +8291,9 @@
   "icu:WhatsNew__v7.49--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure.",
     "description": "Release notes for version 7.49"
+  },
+  "icu:WhatsNew__v7.50--0": {
+    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure.",
+    "description": "Release notes for version 7.49"
   }
 }
