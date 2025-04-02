@@ -72,10 +72,10 @@
     "messageformat": "უცნობი ჯგუფი"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal-ის გახსნა შეუძლებელია"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "პრობლემის გადასაჭრელად, მიჰყევი აღდგენის გზამკვლევს მხარდაჭერის გვერდზე ან დაუკავშირდი Signal-ის მხარდაჭერის გუნდს, რათა პრობლემის მოგვარებაში დაგეხმაროთ.\n\nთუ Signal-ის გამოყენება დაუყოვნებლივ გჭირდება, შეგიძლია, შენი მონაცემები წაშალო და ეს დესკტოპი თავიდან დააკავშირო. შესაძლებლობა გექნება, შენი მობილურიდან მიმოწერის ისტორია გადმოიტანო."
   },
   "icu:databaseError": {
     "messageformat": "მონაცემთა ბაზის ხარვეზი"
@@ -87,10 +87,10 @@
     "messageformat": "მონაცემთა წაშლა და გადატვირთვა"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "ყველა მონაცემის სამუდამოდ წაშლა"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "შენი მიმოწერის მთელი ისტორია და მედია ფაილები ამ მოწყობილობიდან სამუდამოდ წაიშლება. ეს შენი ტელეფონიდან არცერთ მონაცემს არ წაშლის.\n\nSignal-ის გამოყენებას ამ მოწყობილობაზე ხელახლა დაკავშირების შემდეგ შეძლებ. შესაძლებლობა გექნება, შენი მობილურიდან მიმოწერის ისტორია გადმოიტანო."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "შენი მონაცემთა ბაზის ვერსია Signal-ის ამ ვერსიას არ ემთხვევა. დარწმუნდი, რომ შენს კომპიუტერში Signal-ის უახლეს ვერსიას ხსნი."
@@ -1203,13 +1203,13 @@
     "messageformat": "ერთჯერადი მედია-ფაილის გადმოწერა ვერ მოხერხდა. {name}-ს მისი თავიდან გამოგზავნა მოუწევს."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "მედია ფაილის ჩამოტვირთვა შეუძლებელია"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "შეამოწმე შენი დესკტოპის და მობილურის ინტერნეტ კავშირი. შედი Signal-ზე შენს მობილურში და თავიდან ჩამოტვირთვა სცადე."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "ეს მედია ფაილი შენს მობილურზე ხელმისაწვდომი აღარაა და ვერ ჩამოიტვირთება."
   },
   "icu:save": {
     "messageformat": "შენახვა"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "დახმარება გჭირდება?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "ამ სახელს შენს ტელეფონზე \"დაკავშირებული მოწყობილობების\" ქვეშ დაინახავ"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "ჩემი კომპიუტერი"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "ტელეფონის ნომერი"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "ამ მოწყობილობის სახელის შესაცვლელად გახსენი Signal შენს მობილურში და აირჩიე პარამეტრები > დაკავშირებული მოწყობილობები"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "აირჩიე ამ მოწყობილობის სახელი"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "დაასრულე ტელეფონთან დაკავშირება"
+    "messageformat": "Emoji-ის კანის ტონი"
   },
   "icu:initialSync": {
     "messageformat": "მიმდინარეობს კონტაქტებისა და ჯგუფების სინქრონიზაცია"
@@ -1836,16 +1824,16 @@
     "messageformat": "მიწერა"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "დახმარება"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "მხარდაჭერის ცენტრი"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "დაგვიკავშირდი"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Signal-ისთვის დონაციის გაკეთება"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "უსაფრთხოების ნომრის ნახვა"
@@ -2394,7 +2382,7 @@
     "messageformat": "სტიკერების მოძებნა ვერ მოხერხდა"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "სტიკერის წინასწარ ნახვა"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "მოძებნე GIF-ები Tenor-ზე"
@@ -2445,31 +2433,40 @@
     "messageformat": "GIF-ები ვერ მოიძებნა"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF-ის წინასწარ ნახვა"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "ძიების გასუფთავება"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "კანის ტონი"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "არცერთი"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "კანის ღია ტონი"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "კანის საშუალოდ ღია ტონი"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "კანის საშუალო ტონი"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "კანის საშუალოდ მუქი ტონი"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "კანის მუქი ტონი"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "გაუქმება"
@@ -2799,10 +2796,10 @@
     "messageformat": "ფრთხილად იყავი, როცა მიმოწერის მოთხოვნებს უცნობებისგან იღებ. უფრთხილდი:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "ყალბი სახელები და ანგარიშები"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal არასოდეს დაგიკავშირდება შენი სარეგისტრაციო კოდის ან პინ-კოდისთვის. ფრთხილად იყავი თხოვნებთან იმ ანგარიშებიდან, რომლებიც სხვებად ასაღებენ თავს. პროფილის სახელებს მათი ანგარიშის მფლობელი ირჩევს და ვერიფიცირებული არაა."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "კრიპტო ან ფულის თაღლითობები"
@@ -2937,10 +2934,10 @@
     "messageformat": "დასტური"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "გსურს მოთხოვნა დაადასტურო?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "ყურადღებით გადახედე მოთხოვნებს. პროფილის სახელებს მათი ანგარიშის მფლობელი ირჩევს და ვერიფიცირებული არაა."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "გაგრძელება"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {1 წევრი} other {{count,number} წევრი}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "ყურადღებით გადახედე"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>ჯგუფის სახელები</clickable> ვერიფიცირებული არაა"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>პროფილის სახელები</clickable> ვერიფიცირებული არაა"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "ეს Signal-ის ოფიციალური და ერთადერთი ჩატია"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "გაიგე სიახლეები და გამოშვების შენიშვნები."
   },
   "icu:member-of-1-group": {
     "messageformat": "{group} -ის წევრი"
@@ -4035,13 +4032,13 @@
     "messageformat": "დაამატე Emoji, სტიკერი ან GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "გსურს დანართი ჩაანაცვლო?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "ამ GIF-ის დამატება შენი წერილის მიმდინარე მონახაზში არსებულ ერთეულს ჩაანაცვლებს."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "ჩანაცვლება"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "შეტყობინების რედაქტირება"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "მოითხოვე, რომ ადმინმა დაადასტუროს ახალი წევრები, ვინც ჯგუფის ბმულით ცდილობს გაწევრიანებას"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "მოთხოვნები ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "დარედაქტებული"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "შეტყობინების დამატება"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "გაგზავნა"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "რედაქტირების ისტორია"
@@ -6163,28 +6163,28 @@
     "messageformat": "ამ პარამეტრის შესაცვლელად, დააყენე \"ვინ ხედავს ჩემს ნომერს\" \"არავინ\"-ზე."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal-ზე პროფილის სახელებს ანგარიშის მფლობელები ირჩევენ:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "პროფილის სახელები დადასტურებული არაა"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "ფრთხილად იყავი ანგარიშებთან, რომლებიც სხვებად ასაღებენ თავს"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "არ გაუზიარო პირადი ინფორმაცია უცნობებს"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "ჯგუფის სახელებს ჯგუფის წევრები ირჩევენ."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "ფრთხილად იყავი ჯგუფებთან, რომლებიც ორგანიზაციებად და ბიზნესებად ასაღებენ თავს"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "ჯგუფების წევრების პროფილის სახელები დადასტურებული არ არის"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "არ გაუზიარო პირადი ინფორმაცია უცნობებს"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "რა არის ახალი"
@@ -6224,6 +6224,9 @@
     "messageformat": "ჩვენ დავამატეთ მოსახერხებელი მალსახმობი, რათა Signal-ის ჯგუფური ზარის დროს საუბარს რომ დაიწყებ, ხელი სწრაფად ჩამოწიო. ამ გამოშვებაში ეს ჩვენი ფავორიტი ფუნქციაა."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "თუ Signal Android-ზე ახალ დესკტოპს დააკავშირებ და შენი მიმოწერის ისტორიის გადატანას აირჩევ, ახლა უკვე შეგიძლია, შენი ძირითადი მოწყობილობიდანაც შერჩევით გადაიტანო ძველი დანართები. გადმოიტანე წარსული აწმყოში დროის უკან დაბრუნებით და ჩამოტვირთვის ხატულაზე დაწკაპუნებით. როგორც ყოველთვის, გადატანის პროცესი ბოლომდე დაშიფრული და უსაფრთხოა."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

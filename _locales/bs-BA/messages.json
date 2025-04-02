@@ -72,10 +72,10 @@
     "messageformat": "Nepoznata grupa"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Nije moguće otvoriti Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Da biste riješili problem, slijedite vodič za oporavak na stranici za podršku ili kontaktirajte podršku Signala da biste riješili problem.\n\nAko trebate odmah koristiti Signal, možete izbrisati svoje podatke i ponovo povezati ovu radnu površinu. Imat ćete opciju prijenosa historije poruka sa svog telefona."
   },
   "icu:databaseError": {
     "messageformat": "Greška baze podataka"
@@ -87,10 +87,10 @@
     "messageformat": "Izbrišite podatke i ponovo pokrenite"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Trajno brisanje svih podataka"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Sva vaša historija poruka i mediji će biti trajno izbrisani s ovog uređaja. Ovim se neće izbrisati nikakvi podaci sa vašeg telefona.Moći ćete koristiti Signal na ovom uređaju nakon ponovnog povezivanja. Imat ćete opciju prijenosa historije poruka sa svog telefona."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Verzija vaše baze podataka ne odgovara ovoj verziji Signala. Provjerite otvarate li najnoviju verziju Signala na svom računaru."
@@ -1203,13 +1203,13 @@
     "messageformat": "Nije moguće preuzeti jednokratni medij. {name} će ga morati poslati ponovo."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Nije moguće preuzeti medijski sadržaj"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Provjerite internetsku vezu vašeg desktopa i telefona. Otvorite Signal na telefonu, a zatim pokušajte ponovo preuzeti."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Ovaj medijski sadržaj više nije dostupan na vašem telefonu i ne može se preuzeti."
   },
   "icu:save": {
     "messageformat": "Pohrani"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "Trebate li pomoć?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "Vidjet ćete ovaj naziv pod \"Povezai uređaji\" na telefonu"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "Moj računar"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "Broj telefona"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "Da promijenite naziv ovog uređaja, otvorite Signal na svom telefonu i idite u Postavke > Povezani uređaji"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "Odaberite naziv ovog uređaja"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "Završite s povezivanjem telefona"
+    "messageformat": "Ton kože emoji sličice"
   },
   "icu:initialSync": {
     "messageformat": "Sinhroniziranje kontakata i grupa"
@@ -1836,16 +1824,16 @@
     "messageformat": "Poruka"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Pomoć"
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Support Center"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Kontaktirajte nas"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Donirajte za Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Vidi Sigurnosni broj"
@@ -2394,7 +2382,7 @@
     "messageformat": "Nije pronađena nijedna naljepnica"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Pregled naljepnice"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Pretražujte GIF-ove putem Tenora"
@@ -2445,31 +2433,40 @@
     "messageformat": "Nisu pronađeni GIF-ovi"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Pregled gifa"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Obriši pretraživanje"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Ton kože"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Nijedno"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Svijetal ton kože"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Srednje svijetal ton kože"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Srednji ton kože"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Srednje taman ton kože"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Taman ton kože"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Otkaži"
@@ -2799,10 +2796,10 @@
     "messageformat": "Budite oprezni kada prihvatate zahtjeve za poruke od osoba koje ne poznajete. Pazite na sljedeće:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Lažna imena i računi"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal vas nikada neće kontaktirati za vaš registracioni kod ili PIN. Budite oprezni sa zahtjevima koji se lažno predstavljaju. Imena profila bira vlasnik računa i nisu potvrđena."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Prevare koje uključuju kriptovalute ili novac"
@@ -2937,10 +2934,10 @@
     "messageformat": "Prihvati"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Prihvatiti zahtjev?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Pažljivo pregledajte zahtjeve. Imena profila bira vlasnik računa i nisu potvrđena."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Nastavi"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {{count,number} član} few {{count,number} člana} many {{count,number} članova} other {{count,number} članova}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Pažljivo pregledajte"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Nazivi grupe</clickable> nisu potvrđeni"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Imena profila</clickable> nisu potvrđeni"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Ovo je službeni i jedini chat od Signala"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Budite u toku s vijestima i napomenama o izdanjima."
   },
   "icu:member-of-1-group": {
     "messageformat": "Član grupe {group}"
@@ -4035,13 +4032,13 @@
     "messageformat": "Dodaj emoji, naljepnicu ili GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Ukloniti dodatak?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Dodavanje ovog GIF-a će zamijeniti stavku u vašoj trenutnoj nacrtu poruke."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Zamijeni"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Uredi poruku"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Administrator je potreban za odobravanje pridruživanja novih članova putem linka grupe"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Zahtjevi ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "Uređeno"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Napiši poruku"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Pošalji"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Otkaži"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historija uređivanja"
@@ -6163,28 +6163,28 @@
     "messageformat": "Da promijenite ovu postavku, postavite opciju \"Ko može vidjeti moj broj\" na \"Niko\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Imena profila na Signalu bira njihov vlasnik računa:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Imena profila nisu potvrđena"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Budite oprezni sa računima koji se lažno predstavljaju"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ne dijelite lične podatke s ljudima koje ne poznajete"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Imena grupa biraju članovi grupe."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Budite oprezni sa grupama koje se lažno predstavljaju kao organizacije i preduzeća"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Imena profila članova u grupama nisu potvrđena"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ne dijelite lične podatke s ljudima koje ne poznajete"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Šta je novo"
@@ -6224,6 +6224,9 @@
     "messageformat": "Dodali smo praktičan prečac za brzo spuštanje ruke nakon što počnete govoriti tijekom Signal grupnog poziva."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "Ako povežete novi desktop na Signal Androidu i odaberete prijenos historije poruka, sada također možete selektivno prenijeti stare priloge sa svog primarnog uređaja. Prenesite prošlost u sadašnjost tako što ćete se pomicati u prošlost i kliknuti na ikonu za preuzimanje. Kao i uvijek, postupak prijenosa je sveobuhvatno šifriran i siguran."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

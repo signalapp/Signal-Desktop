@@ -1682,14 +1682,6 @@
     "messageformat": "Need help?",
     "description": "Shown on the install screen. Link takes users to a support page"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "You'll see this name under \"Linked Devices\" on your phone",
-    "description": "(Deleted 2025/02/26) The subheader shown on the 'choose device name' screen in the device linking process"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "My Computer",
-    "description": "(Deleted 2025/02/26) The placeholder for the 'choose device name' input"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "Phone Number",
     "description": "The label in settings panel shown for the phone number associated with user's account"
@@ -1705,14 +1697,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emoji skin tone",
     "description": "Preferences Window > Chats Tab > Emoji skin tone default setting > Label"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "Choose this device's name",
-    "description": "(Deleted 2025/02/26) The header shown on the 'choose device name' screen in the device linking process"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "Finish linking phone",
-    "description": "(Deleted 2025/02/26) The text on the button to finish the linking process, after choosing the device name"
   },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups",
@@ -5369,7 +5353,7 @@
   },
   "icu:CompositionArea__FunButtonLabel": {
     "messageformat": "Add an Emoji, Sticker, or GIF",
-    "description": "Composition Area > Fun Button > Accessibility label"
+    "description": "(Deleted 2025/04/02) Composition Area > Fun Button > Accessibility label"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Replace attachment?",
@@ -8354,7 +8338,7 @@
   },
   "icu:WhatsNew__v7.49--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure.",
-    "description": "Release notes for version 7.49"
+    "description": "(Deleted 2025/04/02) Release notes for version 7.49"
   },
   "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure.",

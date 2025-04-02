@@ -72,10 +72,10 @@
     "messageformat": "不明なグループ"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signalを開けません"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "問題解決のために、サポートページに記載されている復元ガイドを実行するか、Signalサポートへお問い合わせください。\n\nすぐにSignalを使う必要がある場合は、データを消去してこのデスクトップを再リンクすることができます。ご利用中のスマートフォンからメッセージ履歴を移行するかどうかを選択できます。"
   },
   "icu:databaseError": {
     "messageformat": "データベースのエラー"
@@ -87,10 +87,10 @@
     "messageformat": "すべてのデータを消去して再起動する"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "すべてのデータを完全に消去します"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "過去のすべてのメッセージとメディアはお使いの端末から完全に消去されます。ご利用中のスマートフォンのデータは消去されません。\n\n再リンクすると、この端末でSignalを使用できるようになります。ご利用中のスマートフォンからメッセージ履歴を移行するかどうかを選択できます。"
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "データベースのバージョンと、開いたSignalのバージョンが一致しません。 ご利用のコンピューターで、最新バージョンのSignalを開いているかをお確かめください。"
@@ -1203,13 +1203,13 @@
     "messageformat": "使い捨てメディアをダウンロードできません。{name} さんがもう一度送信する必要があります。"
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "メディアをダウンロードできません"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "デスクトップとスマートフォンのインターネット接続を確認してください。スマートフォンでSignalを開き、もう一度ダウンロードしてみてください。"
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "このメディアはお使いのスマートフォンではご利用できなくなっており、ダウンロードできません。"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "お困りですか？"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "この名前はスマートフォン版Signalの「リンク済み端末」に表示されます"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "このコンピュータ"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "電話番号"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "この端末の名前を変更するには、スマートフォンでSignalを開き、「設定」 > 「リンク済み端末」に移動します。"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "この端末の名前を設定してください"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "スマートフォンとのリンクを完了"
+    "messageformat": "絵文字のスキントーン"
   },
   "icu:initialSync": {
     "messageformat": "連絡先とグループを同期しています"
@@ -1836,16 +1824,16 @@
     "messageformat": "メッセージを送る"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "ヘルプ"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "サポートセンター"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "お問い合わせ"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Signalへの寄付"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "安全番号の検証"
@@ -2394,7 +2382,7 @@
     "messageformat": "ステッカーはありません"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "ステッカープレビュー"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor内でGIFを検索"
@@ -2445,31 +2433,40 @@
     "messageformat": "GIFが見つかりませんでした"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIFプレビュー"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "検索テキストを消去"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "スキントーン"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "なし"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "明るいスキントーン"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "やや明るいスキントーン"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "中間のスキントーン"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "やや暗めのスキントーン"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "暗いスキントーン"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "キャンセル"
@@ -2799,10 +2796,10 @@
     "messageformat": "知らない人からのメッセージリクエストにはご注意ください。次の点にご注意ください。"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "偽名と偽アカウント"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signalが登録コードやPINについてお客様に連絡することは一切ありません。なりすましによる不正アクセスにはご注意ください。プロフィールネームはアカウント所有者によって選択され、検証はされません。"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "暗号通貨または金銭詐欺"
@@ -2937,10 +2934,10 @@
     "messageformat": "承認する"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "申請を承認しますか？"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "慎重に申請を確認してください。プロフィールネームはアカウント所有者によって選択され、検証はされません。"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "続ける"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, other {メンバー{count,number}人}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "慎重に確認してください"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>グループネーム</clickable>は検証されません"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>プロフィールネーム</clickable>は検証されません"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "これはSignalの公式かつ唯一のチャットです"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "ニュースやリリースノートで最新情報をチェックしてください。"
   },
   "icu:member-of-1-group": {
     "messageformat": "{group} のメンバー"
@@ -4035,13 +4032,13 @@
     "messageformat": "絵文字、ステッカー、GIFを追加する"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "添付ファイルを置き換えますか？"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "このGIFを追加すると、現在の下書きのメッセージ内のアイテムが置き換えられます。"
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "置き換え"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "メッセージの編集"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "グループリンク経由での新メンバー参加時に、管理者の承認を要求します。"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "申請 ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "編集済み"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "メッセージを追加してください"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "送信"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "キャンセル"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "編集履歴"
@@ -6163,28 +6163,28 @@
     "messageformat": "この設定を変更するには、「自分の番号を閲覧できる人」を「誰も閲覧できない」に設定します。"
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal上のプロフィールネームは、アカウント所有者によって選択されます。"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "プロフィールネームは検証されません"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "なりすましの可能性のあるアカウントにはご注意ください"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "知らない人とは個人情報を共有しないでください"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "グループネームは、グループのメンバーによって選択されます。"
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "組織や企業になりすましたグループにはご注意ください"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "グループ内のメンバーのプロフィールネームは認証されていません"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "知らない人とは個人情報を共有しないでください"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "更新情報"
@@ -6224,6 +6224,9 @@
     "messageformat": "Signalのグループ通話中に、話し始めてすぐに手を降ろすための便利なショートカットを追加しました。"
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "Signal Androidで新しいデスクトップをリンクしてメッセージ履歴の移行を選択した場合、プライマリデバイス内の添付ファイルも選んで移行できるようになりました。移行プロセスはエンドツーエンドで暗号化され、安全です。"
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

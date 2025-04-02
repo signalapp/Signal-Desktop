@@ -72,10 +72,10 @@
     "messageformat": "Nežinoma grupė"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Nepavyksta atidaryti „Signal“"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Jei ieškote pagalbos, kaip išspręsti problemą, vadovaukitės pagalbos puslapyje pateiktu atkūrimo vadovu arba kreipkitės į „Signal“ palaikymo komandą.\n\nJei pasinaudoti „Signal“ jums reikia skubiai, galite ištrinti savo duomenis ir susieti šį darbalaukį iš naujo. Turėsite galimybę iš savo telefono perkelti žinučių istoriją."
   },
   "icu:databaseError": {
     "messageformat": "Duomenų bazės klaida"
@@ -87,10 +87,10 @@
     "messageformat": "Ištrinti duomenis ir paleisti iš naujo"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Ištrinti visus duomenis visam laikui"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Visa jūsų žinučių istorija ir įrašai bus ištrinti iš šio įrenginio visam laikui. Iš jūsų telefono nebus ištrinti jokie duomenys.\n\nGalėsite naudoti „Signal“ šiame įrenginyje po to, kai iš naujo susiesite. Turėsite galimybę iš savo telefono perkelti žinučių istoriją."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Tavo duomenų bazės versija neatitinka šios „Signal“ versijos. Įsitikink, kad savo kompiuteryje bandai atidaryti naujausią „Signal“ versiją."
@@ -1203,13 +1203,13 @@
     "messageformat": "Nepavyksta atsisiųsti medijos, kurią galima peržiūrėti vieną kartą. {name} turės dar kartą ją išsiųsti."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Nepavyksta atsisiųsti įrašų"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Patikrinkite darbalaukio ir telefono interneto ryšį. Telefone atverkite „Signal“ ir bandykite atsisiųsti dar kartą."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Šis įrašas telefone nebepasiekiamas ir jo atsisiųsti negalima."
   },
   "icu:save": {
     "messageformat": "Įrašyti"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "Reikia pagalbos?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "Jūs matysite šį pavadinimą savo telefone, „Susietų įrenginių“ skyrelyje."
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "Mano kompiuteris"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefono numeris"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "Norėdami pakeisti šio įrenginio pavadinimą, savo telefone atidarykite „Signal“ ir eikite į Nustatymai > Susieti įrenginiai"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "Pasirinkite šio įrenginio pavadinimą"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "Užbaigti telefono susiejimą"
+    "messageformat": "Jaustukų odos atspalvis"
   },
   "icu:initialSync": {
     "messageformat": "Sinchronizuojami adresatai ir grupės"
@@ -1836,16 +1824,16 @@
     "messageformat": "Siųsk žinutę"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Pagalba"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Palaikymo centras"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Susisiekite su mumis"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Paaukokite Signal programėlei"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Rodyti saugumo numerį"
@@ -2394,7 +2382,7 @@
     "messageformat": "Nerasta jokių lipdukų"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Lipduko peržiūra"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Ieškoti GIF „Tenor“"
@@ -2445,31 +2433,40 @@
     "messageformat": "Jokių GIF nerasta"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF peržiūra"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Išvalyti paiešką"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Odos atspalvis"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Nėra"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Šviesus odos atspalvis"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Vidutinio šviesumo odos atspalvis"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Vidutinis odos atspalvis"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Vidutinio tamsumo odos atspalvis"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Tamsus odos atspalvis"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Atšaukti"
@@ -2799,10 +2796,10 @@
     "messageformat": "Atsargiai vertinkite žinučių užklausas iš nepažįstamų žmonių. Štai į ką reikia atkreipti dėmesį:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Netikri vardai ir paskyros"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "„Signal“ niekada neprašys jūsų pateikti registracijos kodą ar PIN. Būkite atidūs – naudotojai gali apsimesti kitais žmonėmis. Profilio vardus pasirenka paskyros turėtojai, jie nėra patvirtinti."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Kriptovaliutų ar pinigų sukčiai"
@@ -2937,10 +2934,10 @@
     "messageformat": "Priimti"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Priimti užklausą?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Atidžiai peržiūrėkite užklausas. Profilio vardus pasirenka paskyros savininkai, jie nėra patvirtinti."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Tęsti"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {1 narys} few {{count,number} nariai} many {{count,number} nario} other {{count,number} narių}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Atidžiai peržiūrėkite"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Grupių vardai</clickable> nėra patvirtinti"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Profilių vardai</clickable> nėra patvirtinti"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Tai oficialus ir vienintelis pokalbis su „Signal“"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Sekite naujienas ir informaciją apie naujas versijas."
   },
   "icu:member-of-1-group": {
     "messageformat": "{group} grupės narys"
@@ -4035,13 +4032,13 @@
     "messageformat": "Pridėti jaustuką, lipduką arba GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Keisti priedą?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Pridėjus šį GIF bus pakeistas elementas dabartiniame žinutės juodraštyje."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Pakeisti"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Redaguoti žinutę"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Reikalauti, kad administratorius patvirtintų naujus, per grupės nuorodą prisijungiančius, narius"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Prašymai ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "Redaguota"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Pridėti žinutę"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Siųsti"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redagavimo istorija"
@@ -6163,28 +6163,28 @@
     "messageformat": "Jei norite pakeisti šį nustatymą, nustatykite „Kas gali matyti mano numerį“ vertę į „Niekas“."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Programoje „Signal“ profilių vardus pasirenka paskyros savininkai:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Profilių vardai nėra patvirtinti"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Būkite atidūs – naudotojai gali apsimesti kitais žmonėmis"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Nesidalinkite asmenine informacija su nepažįstamais žmonėmis"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Grupės pavadinimus pasirenka grupės nariai."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Būkite atidūs – grupės gali apsimesti organizacijomis ir įmonėmis"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Grupės narių profilių vardai nėra patvirtinti"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Nesidalinkite asmenine informacija su nepažįstamais žmonėmis"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kas naujo"
@@ -6224,6 +6224,9 @@
     "messageformat": "Pridėjome patogų spartųjį klavišą, leidžiantį greitai nuleisti ranką pradėjus kalbėti „Signal“ grupės skambučio metu."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "Jei susiejate naują darbalaukį su „Signal Android“ ir pasirenkate perkelti žinučių istoriją, dabar galite pasirinktinai perkelti ir senus priedus iš pagrindinio įrenginio. Perkėlimo procesas yra visiškai užšifruotas ir saugus."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

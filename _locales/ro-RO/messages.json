@@ -72,10 +72,10 @@
     "messageformat": "Grup necunoscut"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Nu se poate deschide Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Pentru a ajuta la remedierea problemei, urmează ghidul de recuperare de pe pagina de asistență sau contactează asistența Signal ca să te ajute.\n\nDacă trebuie să utilizezi Signal imediat, îți poți șterge datele și reconectezi acest desktop. Vei avea opțiunea de a transfera istoricul mesajelor de pe telefon."
   },
   "icu:databaseError": {
     "messageformat": "Eroare de bază de date"
@@ -87,10 +87,10 @@
     "messageformat": "Șterge datele și repornește"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Elimină definitiv toate datele"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Tot istoricul mesajelor și conținutul media vor fi șterse definitiv de pe acest dispozitiv. Asta nu va șterge datele de pe telefonul tău.\n\nVei putea folosi Signal pe acest dispozitiv după ce îl reconectezi. Vei avea opțiunea de a transfera istoricul mesajelor de pe telefon."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versiunea bazei de date nu se potrivește cu această versiune de Signal. Asigură-te că deschizi cea mai nouă versiune de Signal pe computer."
@@ -1203,13 +1203,13 @@
     "messageformat": "Nu se poate descărca media vizibilă o singură dată. {name} va trebui să o trimită din nou."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Nu se poate descărca fișierul media"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Verifică desktopul și conexiunea la internet a telefonului. Deschide Signal pe telefon, apoi încearcă să descarci din nou."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Acest conținut media nu mai este disponibil pe telefonul tău și nu poate fi descărcat."
   },
   "icu:save": {
     "messageformat": "Salvează"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "Ai nevoie de ajutor?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "Vei vedea acest nume în meniul \"Dispozitive Asociate\" pe telefonul tău"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "Computerul meu"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "Număr de telefon"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "Pentru a schimba numele acestui dispozitiv, deschide Signal pe telefon și navighează la Setări > Dispozitive asociate"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "Alege numele dispozitivului"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "Finalizează asocierea telefonului"
+    "messageformat": "Tonul pielii emoji"
   },
   "icu:initialSync": {
     "messageformat": "Sincronizare contacte și grupuri"
@@ -1836,16 +1824,16 @@
     "messageformat": "Mesaj"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Ajutor"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Centru Asistență"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Contactează-ne"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Donează pentru Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Afișează Numărul de Siguranță"
@@ -2394,7 +2382,7 @@
     "messageformat": "Nici un autocolant găsit"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Previzualizare Autocolant"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Caută GIF-uri prin Tenor"
@@ -2445,31 +2433,40 @@
     "messageformat": "Nu s-au găsit GIF-uri"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Previzualizare GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Șterge căutarea"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Tonul pielii"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Niciunul"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Ton deschis al pielii"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Ton mediu-deschis al pielii"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Ton mediu al pielii"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Ton mediu-închis al pielii"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Ton întunecat al pielii"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Anulează"
@@ -2799,10 +2796,10 @@
     "messageformat": "Ai grijă când accepți cereri de mesaje de la persoane pe care nu le cunoști. Ai grijă la:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Nume și conturi false"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal nu te va contacta niciodată pentru codul de înregistrare sau PIN. Ai grijă la cererile care uzurpă identitatea altora. Numele profilurilor sunt alese de titularul contului și nu sunt verificate."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Escrocherii cu cripto sau bani"
@@ -2937,10 +2934,10 @@
     "messageformat": "Acceptă"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Accepți cererea?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Examinează cu atenție solicitările. Numele de profil sunt alese de proprietarul contului și nu sunt verificate."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Continuă"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {1 membru} few {{count,number} membri} other {{count,number} de membri}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Examinează cu atenție"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Numele de profil</clickable> nu sunt verificate"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Numele de profil</clickable> nu sunt verificate"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Acesta este singurul chat oficial de la Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Fii la curent cu știrile și notele de lansare."
   },
   "icu:member-of-1-group": {
     "messageformat": "Membru al {group}"
@@ -4035,13 +4032,13 @@
     "messageformat": "Adaugă un emoji, un autocolant sau un GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Înlocuiești atașamentul?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Adăugarea acestui GIF va înlocui elementul din mesajul nefinalizat curent."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Înlocuiește"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Editează mesajul"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Solicită unui administrator să aprobe membrii noi care se alătură prin linkul grupului"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Solicitări ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "Editat"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Adaugă un mesaj"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Trimite"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Editează istoricul"
@@ -6163,28 +6163,28 @@
     "messageformat": "Pentru a schimba această setare, setează „Cine poate vedea numărul meu” la „Nimeni”."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Numele de profil de pe Signal sunt alese de titularii conturilor:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Numele de profil nu sunt verificate"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Ai grijă la conturile care uzurpă identitatea altora"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Nu partaja informații personale cu persoane pe care nu le cunoști"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Numele de grup sunt alese de membrii grupului."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Ai grijă la grupurile care uzurpă identitatea organizațiilor și companiilor"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Numele de profil membrilor din grupuri nu sunt verificate"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Nu partaja informații personale cu persoane pe care nu le cunoști"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ce este nou"
@@ -6224,6 +6224,9 @@
     "messageformat": "Am adăugat o comandă rapidă convenabilă ca să cobori rapid mâna după ce începi să vorbești în timpul unui apel de grup Signal. Este, fără îndoială, funcția noastră preferată din această lansare."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "Dacă conectezi un desktop nou pe Signal Android și alegi să-ți transferi istoricul mesajelor, acum poți transfera selectiv și atașamentele vechi de pe dispozitivul tău principal. Adu trecutul în prezent, derulând înapoi în timp și dând clic pe pictograma de descărcare. Ca întotdeauna, procesul de transfer este criptat și securizat end-to-end."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }
