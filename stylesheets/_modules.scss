@@ -4551,6 +4551,10 @@ button.module-image__border-overlay:focus {
       bottom: 16px;
     }
 
+    &__background {
+      background-color: variables.$color-gray-78;
+    }
+
     &__video {
       height: 100%;
       width: 100%;
