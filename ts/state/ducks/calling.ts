@@ -1946,7 +1946,7 @@ function setLocalVideo(
           payload.enabled
         );
       } else if (payload.enabled) {
-        await calling.enableLocalCamera();
+        await calling.enableLocalCamera(activeCall.callMode);
       } else {
         calling.disableLocalVideo();
       }

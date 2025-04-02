@@ -100,6 +100,8 @@ import {
   REQUESTED_VIDEO_WIDTH,
   REQUESTED_VIDEO_HEIGHT,
   REQUESTED_VIDEO_FRAMERATE,
+  REQUESTED_GROUP_VIDEO_WIDTH,
+  REQUESTED_GROUP_VIDEO_HEIGHT,
   REQUESTED_SCREEN_SHARE_WIDTH,
   REQUESTED_SCREEN_SHARE_HEIGHT,
   REQUESTED_SCREEN_SHARE_FRAMERATE,
@@ -408,6 +410,18 @@ function getLogId(
   return `${source}(${idForLogging}${additionalText})`;
 }
 
+const DIRECT_CALL_OPTIONS: GumVideoCaptureOptions = {
+  maxWidth: REQUESTED_VIDEO_WIDTH,
+  maxHeight: REQUESTED_VIDEO_HEIGHT,
+  maxFramerate: REQUESTED_VIDEO_FRAMERATE,
+};
+
+const GROUP_CALL_OPTIONS: GumVideoCaptureOptions = {
+  maxWidth: REQUESTED_GROUP_VIDEO_WIDTH,
+  maxHeight: REQUESTED_GROUP_VIDEO_HEIGHT,
+  maxFramerate: REQUESTED_VIDEO_FRAMERATE,
+};
+
 export class CallingClass {
   readonly #videoCapturer: GumVideoCapturer;
 
@@ -436,11 +450,7 @@ export class CallingClass {
   #sendProfileKeysForAdhocCallCache: Set<AciString>;
 
   constructor() {
-    this.#videoCapturer = new GumVideoCapturer({
-      maxWidth: REQUESTED_VIDEO_WIDTH,
-      maxHeight: REQUESTED_VIDEO_HEIGHT,
-      maxFramerate: REQUESTED_VIDEO_FRAMERATE,
-    });
+    this.#videoCapturer = new GumVideoCapturer(DIRECT_CALL_OPTIONS);
     this.videoRenderer = new CanvasVideoRenderer();
 
     this.#callsLookup = {};
@@ -619,7 +629,7 @@ export class CallingClass {
     await this.#startDeviceReselectionTimer();
 
     const enableLocalCameraIfNecessary = hasLocalVideo
-      ? () => drop(this.enableLocalCamera())
+      ? () => drop(this.enableLocalCamera(callMode))
       : noop;
 
     switch (callMode) {
@@ -970,7 +980,7 @@ export class CallingClass {
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
 
     if (hasLocalVideo) {
-      drop(this.enableLocalCamera());
+      drop(this.enableLocalCamera(CallMode.Group));
     }
 
     return {
@@ -1394,7 +1404,7 @@ export class CallingClass {
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
-    drop(this.enableCaptureAndSend(groupCall, null, logId));
+    drop(this.enableCaptureAndSend(groupCall, undefined, logId));
 
     if (shouldRing) {
       groupCall.ringAll();
@@ -1469,7 +1479,7 @@ export class CallingClass {
           } else if (localDeviceState.videoMuted) {
             this.disableLocalVideo();
           } else {
-            drop(this.enableCaptureAndSend(groupCall, null, logId));
+            drop(this.enableCaptureAndSend(groupCall, undefined, logId));
           }
 
           // Call enters the Joined state, once per call.
@@ -2613,24 +2623,24 @@ export class CallingClass {
     RingRTC.setAudioOutput(device.index);
   }
 
-  async enableLocalCamera(): Promise<void> {
+  async enableLocalCamera(mode: CallMode): Promise<void> {
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'camera',
       'call'
     );
-    await this.#videoCapturer.enableCapture();
+
+    await this.#videoCapturer.enableCapture(
+      mode === CallMode.Direct ? undefined : GROUP_CALL_OPTIONS
+    );
   }
 
   async enableCaptureAndSend(
     call: GroupCall | Call,
-    options?: GumVideoCaptureOptions | null,
-    logId?: string
+    options = call instanceof GroupCall ? GROUP_CALL_OPTIONS : undefined,
+    logId = 'enableCaptureAndSend'
   ): Promise<void> {
     try {
-      await this.#videoCapturer.enableCaptureAndSend(
-        call,
-        options ?? undefined
-      );
+      await this.#videoCapturer.enableCaptureAndSend(call, options);
     } catch (err) {
       log.error(
         `${
