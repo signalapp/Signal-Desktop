@@ -1,23 +1,27 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { StrictMode } from 'react';
+import React, { StrictMode, useCallback, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
 import { type ComponentMeta } from '../../storybook/types';
 import { packs, recentStickers } from '../stickers/mocks';
 import type { FunPickerProps } from './FunPicker';
 import { FunPicker } from './FunPicker';
-import type { FunProviderProps } from './FunProvider';
 import { FunProvider } from './FunProvider';
 import { MOCK_GIFS_PAGINATED_ONE_PAGE, MOCK_RECENT_EMOJIS } from './mocks';
 import { EmojiSkinTone } from './data/emojis';
 
 const { i18n } = window.SignalContext;
 
-type TemplateProps = Omit<FunPickerProps, 'children'> &
-  Pick<FunProviderProps, 'fetchGifsSearch' | 'fetchGifsFeatured' | 'fetchGif'>;
+type TemplateProps = Omit<FunPickerProps, 'open' | 'onOpenChange' | 'children'>;
 
 function Template(props: TemplateProps) {
+  const [open, setOpen] = useState(true);
+
+  const handleOpenChange = useCallback((openState: boolean) => {
+    setOpen(openState);
+  }, []);
+
   return (
     <StrictMode>
       <FunProvider
@@ -34,11 +38,11 @@ function Template(props: TemplateProps) {
         showStickerPickerHint={false}
         onClearStickerPickerHint={() => null}
         // Gifs
-        fetchGifsSearch={props.fetchGifsSearch}
-        fetchGifsFeatured={props.fetchGifsFeatured}
-        fetchGif={props.fetchGif}
+        fetchGifsSearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
+        fetchGifsFeatured={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
+        fetchGif={() => Promise.resolve(new Blob([new Uint8Array(1)]))}
       >
-        <FunPicker {...props}>
+        <FunPicker {...props} open={open} onOpenChange={handleOpenChange}>
           <Button>Open FunPicker</Button>
         </FunPicker>
       </FunProvider>
@@ -51,15 +55,11 @@ export default {
   component: Template,
   args: {
     placement: 'bottom',
-    defaultOpen: true,
-    onOpenChange: action('onOpenChange'),
+    theme: undefined,
     onSelectEmoji: action('onSelectEmoji'),
     onSelectSticker: action('onSelectSticker'),
     onSelectGif: action('onSelectGif'),
     onAddStickerPack: action('onAddStickerPack'),
-    fetchGifsSearch: () => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE),
-    fetchGifsFeatured: () => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE),
-    fetchGif: () => Promise.resolve(new Blob([new Uint8Array(1)])),
   },
 } satisfies ComponentMeta<TemplateProps>;
 

@@ -1,19 +1,21 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
 import { FunPopover } from './base/FunPopover';
 import type { FunEmojiSelection } from './panels/FunPanelEmojis';
 import { FunPanelEmojis } from './panels/FunPanelEmojis';
 import { useFunContext } from './FunProvider';
+import type { ThemeType } from '../../types/Util';
 
 export type FunEmojiPickerProps = Readonly<{
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   placement?: Placement;
-  defaultOpen?: boolean;
-  onOpenChange?: (isOpen: boolean) => void;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
+  theme?: ThemeType;
   children: ReactNode;
 }>;
 
@@ -22,31 +24,24 @@ export const FunEmojiPicker = memo(function FunEmojiPicker(
 ): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
-  const { onClose } = fun;
-  const [isOpen, setIsOpen] = useState(props.defaultOpen ?? false);
+  const { onOpenChange: onFunOpenChange } = fun;
 
   const handleOpenChange = useCallback(
-    (nextIsOpen: boolean) => {
-      setIsOpen(nextIsOpen);
-      onOpenChange?.(nextIsOpen);
+    (open: boolean) => {
+      onOpenChange(open);
+      onFunOpenChange(open);
     },
-    [onOpenChange]
+    [onOpenChange, onFunOpenChange]
   );
 
   const handleClose = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) {
-      onClose();
-    }
-  }, [isOpen, onClose]);
+    handleOpenChange(false);
+  }, [handleOpenChange]);
 
   return (
-    <DialogTrigger isOpen={isOpen} onOpenChange={handleOpenChange}>
+    <DialogTrigger isOpen={props.open} onOpenChange={handleOpenChange}>
       {props.children}
-      <FunPopover placement={props.placement}>
+      <FunPopover placement={props.placement} theme={props.theme}>
         <FunPanelEmojis
           onEmojiSelect={props.onSelectEmoji}
           onClose={handleClose}

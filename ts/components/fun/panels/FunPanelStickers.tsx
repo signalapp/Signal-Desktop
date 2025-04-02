@@ -122,6 +122,7 @@ function getTitleForSection(
 export type FunStickerSelection = Readonly<{
   stickerPackId: string;
   stickerId: number;
+  stickerUrl: string;
 }>;
 
 export type FunPanelStickersProps = Readonly<{
@@ -461,6 +462,7 @@ const Cell = memo(function Cell(props: {
       onPressSticker(event, {
         stickerPackId: sticker.packId,
         stickerId: sticker.id,
+        stickerUrl: sticker.url,
       });
     },
     [sticker, onPressSticker]

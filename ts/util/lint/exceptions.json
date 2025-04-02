@@ -1410,9 +1410,9 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionTextArea.tsx",
-    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-10-03T16:06:12.837Z"
+    "updated": "2025-04-01T21:15:44.903Z"
   },
   {
     "rule": "React-useRef",

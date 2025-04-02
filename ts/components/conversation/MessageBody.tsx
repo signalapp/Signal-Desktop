@@ -3,11 +3,8 @@
 
 import type { KeyboardEvent } from 'react';
 import React from 'react';
-
 import type { AttachmentType } from '../../types/Attachment';
 import { canBeDownloaded, isDownloaded } from '../../types/Attachment';
-import { getSizeClass } from '../emoji/lib';
-
 import type { ShowConversationType } from '../../state/ducks/conversations';
 import type { HydratedBodyRangesType } from '../../types/BodyRange';
 import type { LocalizerType } from '../../types/Util';
@@ -15,6 +12,32 @@ import { MessageTextRenderer } from './MessageTextRenderer';
 import type { RenderLocation } from './MessageTextRenderer';
 import { UserText } from '../UserText';
 import { shouldLinkifyMessage } from '../../types/LinkPreview';
+import { FunJumboEmojiSize } from '../fun/FunEmoji';
+import { getEmojifyData } from '../fun/data/emojis';
+
+function getSizeClass(str: string): FunJumboEmojiSize | null {
+  const emojifyData = getEmojifyData(str);
+  // Do we have non-emoji characters?
+  if (!emojifyData.isEmojiOnlyText) {
+    return null;
+  }
+  if (emojifyData.emojiCount === 1) {
+    return FunJumboEmojiSize.Max;
+  }
+  if (emojifyData.emojiCount === 2) {
+    return FunJumboEmojiSize.ExtraLarge;
+  }
+  if (emojifyData.emojiCount === 3) {
+    return FunJumboEmojiSize.Large;
+  }
+  if (emojifyData.emojiCount === 4) {
+    return FunJumboEmojiSize.Medium;
+  }
+  if (emojifyData.emojiCount === 5) {
+    return FunJumboEmojiSize.Small;
+  }
+  return null;
+}
 
 export type Props = {
   author?: string;

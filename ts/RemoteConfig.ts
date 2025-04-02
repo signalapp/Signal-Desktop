@@ -33,7 +33,9 @@ export type ConfigKeyType =
   | 'desktop.experimentalTransportEnabled.prod'
   | 'desktop.cdsiViaLibsignal'
   | 'desktop.cdsiViaLibsignal.disableNewConnectionLogic'
-  | 'desktop.funPicker'
+  | 'desktop.funPicker' // alpha
+  | 'desktop.funPicker.beta'
+  | 'desktop.funPicker.prod'
   | 'desktop.releaseNotes'
   | 'desktop.releaseNotes.beta'
   | 'desktop.releaseNotes.dev'

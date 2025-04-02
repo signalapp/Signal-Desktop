@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import FocusTrap from 'focus-trap-react';
 import * as React from 'react';
-
+import { FocusScope } from 'react-aria';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import type { LocalizerType } from '../../types/Util';
@@ -158,11 +157,7 @@ export const StickerPicker = React.memo(
       const analogTime = getAnalogTime();
 
       return (
-        <FocusTrap
-          focusTrapOptions={{
-            allowOutsideClick: true,
-          }}
-        >
+        <FocusScope contain>
           <div className="module-sticker-picker" ref={ref} style={style}>
             <div className="module-sticker-picker__header">
               <div className="module-sticker-picker__header__packs">
@@ -403,7 +398,7 @@ export const StickerPicker = React.memo(
               ) : null}
             </div>
           </div>
-        </FocusTrap>
+        </FocusScope>
       );
     }
   )

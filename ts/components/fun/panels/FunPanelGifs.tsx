@@ -355,11 +355,10 @@ export function FunPanelGifs({
   );
 
   const handlePressGif = useCallback(
-    (event: MouseEvent, gifSelection: FunGifSelection) => {
+    (_event: MouseEvent, gifSelection: FunGifSelection) => {
       onSelectGif(gifSelection);
-      if (!(event.ctrlKey || event.metaKey)) {
-        onClose();
-      }
+      // Should always close, cannot select multiple
+      onClose();
     },
     [onSelectGif, onClose]
   );

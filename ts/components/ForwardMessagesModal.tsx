@@ -336,7 +336,6 @@ export function ForwardMessagesModal({
         moduleClassName="module-ForwardMessageModal"
         title={title}
         theme={modalTheme}
-        useFocusTrap={isInFullScreenCall}
         padded={false}
         modalFooter={footer}
         noMouseClose

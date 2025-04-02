@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { StrictMode } from 'react';
+import React, { StrictMode, useCallback, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
 import enMessages from '../../../_locales/en/messages.json';
@@ -15,9 +15,18 @@ import { EmojiSkinTone } from './data/emojis';
 
 const i18n = setupI18n('en', enMessages);
 
-type TemplateProps = Omit<FunStickerPickerProps, 'children'>;
+type TemplateProps = Omit<
+  FunStickerPickerProps,
+  'open' | 'onOpenChange' | 'children'
+>;
 
 function Template(props: TemplateProps): JSX.Element {
+  const [open, setOpen] = useState(true);
+
+  const handleOpenChange = useCallback((openState: boolean) => {
+    setOpen(openState);
+  }, []);
+
   return (
     <StrictMode>
       <FunProvider
@@ -38,7 +47,11 @@ function Template(props: TemplateProps): JSX.Element {
         fetchGifsFeatured={() => Promise.reject()}
         fetchGif={() => Promise.reject()}
       >
-        <FunStickerPicker {...props}>
+        <FunStickerPicker
+          {...props}
+          open={open}
+          onOpenChange={handleOpenChange}
+        >
           <Button>Open StickerPicker</Button>
         </FunStickerPicker>
       </FunProvider>
@@ -51,9 +64,8 @@ export default {
   component: Template,
   args: {
     placement: 'bottom',
-    defaultOpen: true,
+    theme: undefined,
     onSelectSticker: action('onSelectSticker'),
-    onOpenChange: action('onOpenChange'),
   },
 } satisfies ComponentMeta<TemplateProps>;
 

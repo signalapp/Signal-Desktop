@@ -3,12 +3,11 @@
 
 import React, { useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import FocusTrap from 'focus-trap-react';
 import type { SpringValues } from '@react-spring/web';
 import { animated } from '@react-spring/web';
 import classNames from 'classnames';
 import { noop } from 'lodash';
-
+import { FocusScope } from 'react-aria';
 import type { ModalConfigType } from '../hooks/useAnimated';
 import type { Theme } from '../util/theme';
 import { assertDev } from '../util/assert';
@@ -34,7 +33,6 @@ export type PropsType = Readonly<{
   onTopOfEverything?: boolean;
   overlayStyles?: SpringValues<ModalConfigType>;
   theme?: Theme;
-  useFocusTrap?: boolean;
 }>;
 
 export const ModalHost = React.memo(function ModalHostInner({
@@ -48,9 +46,7 @@ export const ModalHost = React.memo(function ModalHostInner({
   onTopOfEverything,
   overlayStyles,
   theme,
-  useFocusTrap = true,
 }: PropsType) {
-  const [root, setRoot] = React.useState<HTMLElement | null>(null);
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const previousModalName = usePrevious(modalName, modalName);
   const modalContainer = useContext(ModalContainerContext) ?? document.body;
@@ -62,17 +58,6 @@ export const ModalHost = React.memo(function ModalHostInner({
     );
     assertDev(false, 'Modal conflict');
   }
-
-  useEffect(() => {
-    const div = document.createElement('div');
-    modalContainer.appendChild(div);
-    setRoot(div);
-
-    return () => {
-      modalContainer.removeChild(div);
-      setRoot(null);
-    };
-  }, [modalContainer]);
 
   useEscapeHandling(noEscapeClose ? noop : onEscape || onClose);
   useEffect(() => {
@@ -118,37 +103,10 @@ export const ModalHost = React.memo(function ModalHostInner({
     </div>
   );
 
-  return root
-    ? createPortal(
-        useFocusTrap ? (
-          <FocusTrap
-            focusTrapOptions={{
-              allowOutsideClick: ({ target }) => {
-                if (!target || !(target instanceof HTMLElement)) {
-                  return false;
-                }
-
-                // Exemptions:
-                // - Quill suggestions since they are placed in the document.body
-                // - Calling module (and pip) are always above everything else
-                const exemptParent = target.closest(
-                  '.module-composition-input__suggestions, ' +
-                    '.module-composition-input__format-menu, ' +
-                    '.module-calling__modal-container'
-                );
-                if (exemptParent) {
-                  return true;
-                }
-                return false;
-              },
-            }}
-          >
-            {modalContent}
-          </FocusTrap>
-        ) : (
-          modalContent
-        ),
-        root
-      )
-    : null;
+  return createPortal(
+    <FocusScope contain autoFocus restoreFocus>
+      {modalContent}
+    </FocusScope>,
+    document.body
+  );
 });

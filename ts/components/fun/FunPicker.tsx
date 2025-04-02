@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
 import { FunPickerTabKey } from './constants';
@@ -14,19 +14,21 @@ import { FunPanelGifs } from './panels/FunPanelGifs';
 import type { FunStickerSelection } from './panels/FunPanelStickers';
 import { FunPanelStickers } from './panels/FunPanelStickers';
 import { useFunContext } from './FunProvider';
+import type { ThemeType } from '../../types/Util';
 
 /**
  * FunPicker
  */
 
 export type FunPickerProps = Readonly<{
-  placement?: Placement;
-  defaultOpen?: boolean;
-  onOpenChange?: (isOpen: boolean) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   onSelectSticker: (stickerSelection: FunStickerSelection) => void;
   onSelectGif: (gifSelection: FunGifSelection) => void;
   onAddStickerPack: (() => void) | null;
+  placement?: Placement;
+  theme?: ThemeType;
   children: ReactNode;
 }>;
 
@@ -35,32 +37,24 @@ export const FunPicker = memo(function FunPicker(
 ): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
-  const { i18n, onClose } = fun;
-
-  const [isOpen, setIsOpen] = useState(props.defaultOpen ?? false);
+  const { i18n, onOpenChange: onFunOpenChange } = fun;
 
   const handleOpenChange = useCallback(
-    (nextIsOpen: boolean) => {
-      setIsOpen(nextIsOpen);
-      onOpenChange?.(nextIsOpen);
+    (open: boolean) => {
+      onOpenChange(open);
+      onFunOpenChange(open);
     },
-    [onOpenChange]
+    [onOpenChange, onFunOpenChange]
   );
 
   const handleClose = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) {
-      onClose();
-    }
-  }, [isOpen, onClose]);
+    handleOpenChange(false);
+  }, [handleOpenChange]);
 
   return (
-    <DialogTrigger isOpen={isOpen} onOpenChange={handleOpenChange}>
+    <DialogTrigger isOpen={props.open} onOpenChange={handleOpenChange}>
       {props.children}
-      <FunPopover placement={props.placement}>
+      <FunPopover placement={props.placement} theme={props.theme}>
         <FunTabs value={fun.tab} onChange={fun.onChangeTab}>
           <FunTabList>
             <FunPickerTab id={FunPickerTabKey.Emoji}>

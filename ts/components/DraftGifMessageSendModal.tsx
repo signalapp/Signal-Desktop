@@ -59,7 +59,6 @@ export function DraftGifMessageSendModal(
       modalName="DraftGifMessageSendModal"
       moduleClassName="DraftGifMessageSendModal"
       onClose={props.onClose}
-      useFocusTrap
       noMouseClose
       padded={false}
       modalFooter={

@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import FocusTrap from 'focus-trap-react';
+import { FocusScope } from 'react-aria';
 import type { UIEvent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
@@ -52,7 +52,6 @@ import { strictAssert } from '../util/assert';
 import { MessageBody } from './conversation/MessageBody';
 import { RenderLocation } from './conversation/MessageTextRenderer';
 import { arrow } from '../util/keyboard';
-import { useElementId } from '../hooks/useUniqueId';
 import { StoryProgressSegment } from './StoryProgressSegment';
 import type { EmojiSkinTone } from './fun/data/emojis';
 
@@ -187,8 +186,6 @@ export function StoryViewer({
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
   >();
-
-  const [viewerId, viewerSelector] = useElementId('StoryViewer');
 
   const {
     attachment,
@@ -571,18 +568,12 @@ export function StoryViewer({
   };
 
   return (
-    <FocusTrap
-      focusTrapOptions={{
-        clickOutsideDeactivates: true,
-        initialFocus: viewerSelector,
-      }}
-    >
+    <FocusScope contain autoFocus>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="StoryViewer"
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
-        id={viewerId}
         onMouseDown={event => {
           if (isDescendentEvent(event)) {
             setPressing(true);
@@ -1031,6 +1022,6 @@ export function StoryViewer({
           </ConfirmationDialog>
         )}
       </div>
-    </FocusTrap>
+    </FocusScope>
   );
 }
