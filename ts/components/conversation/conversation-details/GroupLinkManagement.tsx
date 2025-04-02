@@ -14,6 +14,7 @@ import { Select } from '../../Select';
 import { SignalService as Proto } from '../../../protobuf';
 
 import { copyGroupLink } from '../../../util/copyLinksWithToast';
+import { drop } from '../../../util/drop';
 import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus';
 import { useUniqueId } from '../../../hooks/useUniqueId';
 
@@ -67,7 +68,22 @@ export function GroupLinkManagement({
     conversation.groupLink &&
     conversation.accessControlAddFromInviteLink !==
       AccessControlEnum.UNSATISFIABLE;
-  const groupLinkInfo = hasGroupLink ? conversation.groupLink : '';
+
+  let groupLinkInfo: JSX.Element | undefined;
+  if (hasGroupLink) {
+    groupLinkInfo = (
+      <button
+        type="button"
+        className="ConversationDetails__panel-row__group-link"
+        aria-label={i18n('icu:GroupLinkManagement__CopyGroupLinkButtonLabel')}
+        onClick={() => {
+          drop(copyGroupLink(conversation.groupLink ?? ''));
+        }}
+      >
+        {conversation.groupLink}
+      </button>
+    );
+  }
 
   const [hasGenerateNewLinkDialog, setHasGenerateNewLinkDialog] =
     useState(false);
@@ -138,7 +154,7 @@ export function GroupLinkManagement({
               ref={!isAdmin ? focusRef : undefined}
               onClick={() => {
                 if (conversation.groupLink) {
-                  void copyGroupLink(conversation.groupLink);
+                  drop(copyGroupLink(conversation.groupLink));
                 }
               }}
             />
