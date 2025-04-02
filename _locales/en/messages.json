@@ -2224,6 +2224,9 @@
   "icu:notificationReaction": {
     "messageformat": "{sender} reacted {emoji} to your message"
   },
+  "icu:notificationReactionNoEmoji": {
+    "messageformat": "{sender} reacted to your message"
+  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reacted {emoji} to: {message}"
   },
