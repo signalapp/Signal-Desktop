@@ -207,6 +207,11 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     );
   }
 
+  override requiresFullWidth(): boolean {
+    const hasNoConversations = !this.#archivedConversations.length;
+    return hasNoConversations;
+  }
+
   shouldRecomputeRowHeights(old: Readonly<LeftPaneArchivePropsType>): boolean {
     const hasSearchingChanged =
       'conversationResults' in old !== Boolean(this.#searchHelper);
