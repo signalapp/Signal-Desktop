@@ -72,10 +72,10 @@
     "messageformat": "Grupo desconhecido"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Não foi possível abrir o Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Para corrigir o problema, siga o guia de recuperação na página de suporte ou entre em contato com o suporte do Signal.\n\nSe precisar usar o Signal imediatamente, exclua seus dados e vincule o Signal novamente ao desktop. Você poderá transferir o histórico de mensagens do seu telefone."
   },
   "icu:databaseError": {
     "messageformat": "Erro no banco de dados"
@@ -87,10 +87,10 @@
     "messageformat": "Excluir dados e reiniciar"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Excluir todos os dados permanentemente"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Todo o seu histórico de mensagens e mídia serão excluídos permanentemente deste dispositivo. Os dados do seu telefone não serão excluídos.\n\nVocê poderá usar o Signal neste dispositivo após vinculá-lo novamente. Você poderá transferir o histórico de mensagens do seu telefone."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "A versão da sua base de dados não corresponde a esta versão do Signal. Confira se está abrindo a versão mais recente do Signal no seu computador."
@@ -1203,13 +1203,13 @@
     "messageformat": "Não é possível baixar a mídia temporária. {name} terá que enviar o vídeo novamente."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Não foi possível baixar a mídia"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Verifique a conexão de internet do seu desktop e telefone. Abra o Signal no seu telefone e tente baixar novamente."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Essa mídia não está mais disponível em seu telefone e não pode ser baixada."
   },
   "icu:save": {
     "messageformat": "Salvar"
@@ -1278,7 +1278,7 @@
     "messageformat": "Para alterar o nome deste dispositivo, abra o Signal em seu telefone e vá até Configurações > Dispositivos vinculados"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Tom de pele do emoji"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Escolher o nome deste aparelho"
@@ -2394,7 +2394,7 @@
     "messageformat": "Nenhuma figurinha encontrada"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Prévia da figurinha"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Pesquise GIFs via Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Nenhum GIF encontrado"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Prévia do GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Limpar os resultados da pesquisa"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Tom de pele"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Nenhum"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Tom de pele claro"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Tom de pele médio-claro"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Tom de pele médio"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Tom de pele médio-escuro"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Tom de pele escuro"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancelar"
@@ -2802,7 +2802,7 @@
     "messageformat": "Contas e nomes falsos"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "O Signal nunca solicitará seu código ou PIN de registro.  Fique atento a quem tenta se passar por outra pessoa. Os nomes de perfil são definidos pelo próprio usuário e não são verificados. "
+    "messageformat": "O Signal nunca solicitará seu código ou PIN de registro. Fique atento a quem tenta se passar por outra pessoa. Os nomes de perfil são definidos pelo próprio usuário e não são verificados."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Golpes de cripto ou dinheiro"
@@ -2940,7 +2940,7 @@
     "messageformat": "Aceitar solicitação?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Analise os pedidos com atenção. Os nomes de perfil são escolhidos pelo titular da conta e não são verificados."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Continuar"
@@ -2958,10 +2958,10 @@
     "messageformat": "Analise com atenção"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "Os <clickable>nomes de grupos</clickable> não são verificados"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "Os <clickable>nomes de perfil</clickable> não são verificados"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Este é o único chat oficial do Signal"
@@ -4035,10 +4035,10 @@
     "messageformat": "Adicione um emoji, figurinha ou GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Substituir o anexo?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Se você adicionar esse GIF, o item na sua mensagem de rascunho atual será substituído."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Substituir"
@@ -6163,19 +6163,19 @@
     "messageformat": "Para alterar esta configuração, defina \"Quem pode ver meu número\" como \"Ninguém\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Os nomes de perfil no Signal são escolhidos pelo titular da conta:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Os nomes dos perfis não são verificados"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Tenha cuidado com contas que se façam passar por outras pessoas"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Não compartilhe informações pessoais com desconhecidos"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Os nomes do grupo são escolhidos pelos membros do grupo."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Tenha cuidado com grupos que se façam passar por outras pessoas ou empresas"
@@ -6184,7 +6184,7 @@
     "messageformat": "Os nomes de perfil nos grupos não são verificados"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Não compartilhe informações pessoais com desconhecidos"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Novidades"
@@ -6224,6 +6224,6 @@
     "messageformat": "Adicionamos um atalho prático pra você baixar a mão rapidamente depois de começar a falar numa chamada em grupo no Signal. É nosso recurso favorito nesse lançamento. Levanta a mão quem concorda "
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Se você vincular um novo desktop no Signal Android e optar por transferir seu histórico de mensagens, também poderá transferir seletivamente anexos antigos do seu dispositivo principal. Para trazer o passado para o presente, é só rolar a tela e clicar no ícone de download. Como sempre, o processo de transferência é criptografado e seguro de ponta a ponta."
   }
 }

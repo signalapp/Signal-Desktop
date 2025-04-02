@@ -72,10 +72,10 @@
     "messageformat": "Grup desconegut"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "No es pot obrir Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Per ajudar a solucionar el problema, segueix la guia de recuperació de la pàgina d'assistència o posa't en contacte amb el servei de suport de Signal.\n\nSi necessites utilitzar Signal immediatament, pots eliminar les teves dades i tornar a enllaçar aquest escriptori. Tindràs l'opció de transferir l'historial dels missatges des del teu telèfon"
   },
   "icu:databaseError": {
     "messageformat": "Error de la base de dades"
@@ -87,10 +87,10 @@
     "messageformat": "Eliminar les dades i reiniciar"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Eliminar totes les dades permanentment"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Tot el teu historial de missatges i arxius multimèdia s'eliminaran permanentment d'aquest dispositiu. Això no eliminarà cap dada del teu telèfon.\n\nPodràs utilitzar Signal en aquest dispositiu després de tornar-lo a enllaçar. Tindràs l'opció de transferir l'historial dels missatges des del teu telèfon"
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "La versió de la teva base de dades no coincideix amb aquesta versió de Signal. Assegura't d'estar obrint la versió més recent de Signal al teu ordinador."
@@ -1203,13 +1203,13 @@
     "messageformat": "No es pot descarregar el contingut d'una sola visualització. {name} haurà de tornar-lo a enviar."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "No es pot descarregar l'arxiu"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Comprova la connexió a Internet del teu ordinador i telèfon. Obre Signal al telèfon i intenta descarregar-ho de nou."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Aquests arxius multimèdia ja no estan disponibles al telèfon i no es pot descarregar."
   },
   "icu:save": {
     "messageformat": "Desa"
@@ -1278,7 +1278,7 @@
     "messageformat": "Per canviar el nom d'aquest dispositiu, obre Signal al teu telèfon i ves a Ajustos > Dispositius enllaçats"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "To de pell de l'emoji"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Trieu el nom d'aquest dispositiu"
@@ -2394,7 +2394,7 @@
     "messageformat": "No s'ha trobat cap adhesiu."
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Vista prèvia del sticker"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Buscar GIFs a través de Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "No s'han trobat GIFs"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Vista prèvia del GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Neteja la cerca"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "To de pell"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Cap"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "To de pell clar"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "To de pell mig-clar"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "To de pell mig"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "To de pell mig-fosc"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "To de pell fosc"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancel·la"
@@ -2940,7 +2940,7 @@
     "messageformat": "Acceptar la sol·licitud?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Revisa les sol·licituds amb atenció. Els noms de perfil els tria el titular del compte i no es verifiquen."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Continua"
@@ -2958,10 +2958,10 @@
     "messageformat": "Revisa amb atenció"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Els noms de grup</clickable> no es verifiquen"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Els noms de perfil</clickable> no es verifiquen"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Aquest és l'únic xat oficial de Signal"
@@ -4035,10 +4035,10 @@
     "messageformat": "Afegeix un emoji, un sticker o un GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Substituir l'arxiu?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Afegir aquest GIF substituirà l'element actual de l'esborrany del teu missatge."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Substituir"
@@ -6163,19 +6163,19 @@
     "messageformat": "Per canviar això, configura \"Qui pot veure el meu número\" seleccionant \"Ningú\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Els noms de perfil els tria el titular del compte:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Els noms de perfil no es verifiquen"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Ves amb compte amb els comptes que es fan passar per altres"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "No comparteixis informació personal amb persones que no coneguis"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Els noms dels grups els trien els membres del grup."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Ves amb compte amb els grups que es fan passar per organitzacions i empreses"
@@ -6184,7 +6184,7 @@
     "messageformat": "Els noms de perfil dels membres dels grups no es verifiquen"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "No comparteixis informació personal amb persones que no coneguis"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Què hi ha de nou"
@@ -6224,6 +6224,6 @@
     "messageformat": "Hem afegit una funció d'allò més pràctica perquè, durant una trucada grupal de Signal, puguis baixar ràpidament la mà un cop comencis a parlar."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Ara, si enllaces un nou Escriptori a Signal Android i decideixes transferir-hi el teu historial de missatges, tindràs també l'opció de transferir selectivament arxius adjunts antics des del dispositiu principal. El procés de transferència és segur i xifrat d'extrem a extrem."
   }
 }

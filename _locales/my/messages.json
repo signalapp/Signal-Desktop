@@ -72,10 +72,10 @@
     "messageformat": "မသိသော အဖွဲ့"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal ဖွင့်၍မရပါ"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "ပြဿနာကို ကူညီဖြေရှင်းရန် ပံ့ပိုးမှုစာမျက်နှာရှိ ပြန်လည်ရယူရေးလမ်းညွှန်ကို လိုက်နာပါ သို့မဟုတ် ပြဿနာကိုဖြေရှင်းရန် Signal ပံ့ပိုးမှုကို ဆက်သွယ်ပါ။\n\nSignal ကို ချက်ချင်းအသုံးပြုရန်လိုအပ်ပါက သင်၏ဒေတာကိုဖျက်ပြီး ဤ Desktop ကို ပြန်လည်ချိတ်ဆက်နိုင်သည်။ သင့်ဖုန်းမှ မက်ဆေ့ချ်မှတ်တမ်းကို လွှဲပြောင်းရန် ရွေးချယ်နိုင်သည်။"
   },
   "icu:databaseError": {
     "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်"
@@ -87,10 +87,10 @@
     "messageformat": "ဒေတာကို ဖျက်ပြီး ပြန်လည်စတင်ရန်"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "ဒေတာအားလုံးကို အပြီးဖျက်မည်"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "သင်၏ မက်ဆေ့ချ်မှတ်တမ်းနှင့် မီဒီယာအားလုံးကို ဤစက်မှ အပြီးဖျက်လိုက်ပါမည်။ ၎င်းသည် သင့်ဖုန်းမှ မည်သည့်ဒေတာကိုမျှ ဖျက်မည်မဟုတ်ပါ။\n\nပြန်လည်ချိတ်ဆက်ပြီးနောက် ဤစက်တွင် Signal ကို အသုံးပြုနိုင်ပါမည်။ သင့်ဖုန်းမှ မက်ဆေ့ချ်မှတ်တမ်းကို လွှဲပြောင်းရန် ရွေးချယ်နိုင်သည်။"
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "သင်၏ ဒေတာဘေ့စ်ဗားရှင်းသည် ဤ Signal ဗားရှင်းနှင့် မကိုက်ညီပါ။ သင့်ကွန်ပျူတာတွင် Signal နောက်ဆုံးထွက်ဗားရှင်းကို ဖွင့်ထားခြင်းဖြစ်ကြောင်း သေချာအောင်လုပ်ပါ။"
@@ -1203,13 +1203,13 @@
     "messageformat": "တစ်ခါကြည့် မီဒီယာကို ဒေါင်းလုဒ်လုပ်၍မရပါ။ {name} သည် ၎င်းကို ထပ်ပို့ရန် လိုအပ်ပါသည်။"
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "မီဒီယာကို ဒေါင်းလုဒ်လုပ်၍မရပါ"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Desktop နှင့် ဖုန်း၏ အင်တာနက်ချိတ်ဆက်မှုကို စစ်ဆေးပါ။ သင့်ဖုန်းတွင် Signal ကိုဖွင့်ပြီးနောက် ထပ်မံဒေါင်းလုဒ်လုပ်ကြည့်ပါ။"
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "ဤမီဒီယာသည် သင့်ဖုန်းတွင် မရရှိတော့သဖြင့် ဒေါင်းလုဒ်လုပ်၍မရပါ။"
   },
   "icu:save": {
     "messageformat": "သိမ်းမယ်"
@@ -1278,7 +1278,7 @@
     "messageformat": "ဤစက်အမည်ကို ပြောင်းရန် သင့်ဖုန်းတွင် Signal ကိုဖွင့်ပြီး ဆက်တင် > ချိတ်ထားသည့် စက်များသို့ သွားပါ။"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "အီမိုဂျီ အသားအရောင်"
   },
   "icu:chooseDeviceName": {
     "messageformat": "ဤစက်အမည်ကို ရွေးပါ"
@@ -2394,7 +2394,7 @@
     "messageformat": "စတစ်ကာများ ရှာမတွေ့ပါ"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "စတစ်ကာကြိုတင်ကြည့်ရှုမှု"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor မှတစ်ဆင့် GIF များကို ရှာဖွေပါ"
@@ -2445,31 +2445,31 @@
     "messageformat": "GIF များ မတွေ့ပါ"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF ကြိုတင်ကြည့်ရှုမှု"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ရှာဖွေမှုကို ရှင်းရန်"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "အသားအရောင်"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "မည်သည့်အရာမှ မဟုတ်သော"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "ဖြူသောအသားရောင်"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "အတော်အသင့် ဖြူသောအသားရောင်"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "လတ်သောအသားရောင်"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "အလယ်အလတ် ညိုသောအသားရောင်"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "ညိုသောအသားရောင်"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "မလုပ်တော့ပါ"
@@ -2940,7 +2940,7 @@
     "messageformat": "တောင်းဆိုမှုကို လက်ခံပါသလား။"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "တောင်းဆိုမှုများကို သေချာ ပြန်သုံးသပ်ပါ။ ပရိုဖိုင်း အမည်များကို ၎င်းတို့၏အကောင့်ပိုင်ရှင်က ရွေးချယ်ထားပြီး အတည်မပြုထားပါ။"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "ဆက်လုပ်ရန်"
@@ -2958,10 +2958,10 @@
     "messageformat": "သေချာပြန်လည်စစ်ဆေးပါ"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>အဖွဲ့အမည်များ</clickable> မစစ်ဆေးထားပါ"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>ပရိုဖိုင်း အမည်များအား</clickable> မစစ်ဆေးထားပါ"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Signal မှ တစ်ခုတည်းသော တရားဝင်ချက်(တ်)ဖြစ်သည်"
@@ -4035,13 +4035,13 @@
     "messageformat": "အီမိုဂျီ၊ စတစ်ကာ သို့မဟုတ် GIF တစ်ခုထည့်ပါ"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "ပူးတွဲဖိုင်ကို အစားထိုးမလား။"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "ဤ GIF ကိုထည့်ခြင်းဖြင့် သင့်လက်ရှိမူကြမ်းမက်ဆေ့ချ်ရှိ အရာအား အစားထိုးသွားမည်ဖြစ်သည်။"
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "အစားထိုးရန်"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "မက်ဆေ့ချ် တည်းဖြတ်ရန်"
@@ -6163,28 +6163,28 @@
     "messageformat": "ဤဆက်တင်ကို ပြောင်းရန် \"ကျွန်ုပ်၏နံပါတ်ကို မည်သူတို့မြင်တွေ့နိုင်သနည်း\" အား Nobody ဟု သတ်မှတ်ပါ။"
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal ပေါ်ရှိ ပရိုဖိုင်းအမည်များကို ၎င်းတို့၏ အကောင့်ပိုင်ရှင်က ရွေးချယ်သည်-"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "ပရိုဖိုင်း အမည်များကို မစစ်ဆေးထားပါ"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "အခြားသူများအယောင်ဆောင်ထားသော အကောင့်များကိုသတိထားပါ"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "ကိုယ်ရေးကိုယ်တာ အချက်အလက်ကို သင်မသိသူများအား မမျှဝေပါနှင့်"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "အဖွဲ့အမည်များကို အဖွဲ့ဝင်များက ရွေးချယ်သည်။"
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "အဖွဲ့အစည်းများနှင့် လုပ်ငန်းများ အယောင်ဆောင်ထားသည့် အုပ်စုများကို သတိထားပါ"
+    "messageformat": "အဖွဲ့အစည်းများနှင့် လုပ်ငန်းများ အယောင်ဆောင်ထားသည့် အဖွဲ့များကို သတိထားပါ"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
     "messageformat": "အဖွဲ့များရှိ အဖွဲ့ဝင်များ၏ ပရိုဖိုင်း အမည်များကို အတည်မပြုထားပါ"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "ကိုယ်ရေးကိုယ်တာ အချက်အလက်ကို သင်မသိသူများအား မမျှဝေပါနှင့်"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "အသစ်များ"
@@ -6224,6 +6224,6 @@
     "messageformat": "Signal အဖွဲ့ခေါ်ဆိုမှုအတွင်း သင်စကားစပြောပြီးနောက် သင့်လက်ကို လျင်မြန်စွာပြန်ချပေးရန် အဆင်ပြေစေမည့် ဖြတ်လမ်းတစ်ခုကို ထည့်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Signal Android တွင် Desktop အသစ်တစ်ခုကို လင့်ခ်ချိတ်ပြီး သင့်မက်ဆေ့ချ်မှတ်တမ်းကို လွှဲပြောင်းရန် ရွေးချယ်ပါက ယခု သင်သည် သင်၏ပင်မစက်မှ ပူးတွဲဖိုင်ဟောင်းများကို ရွေးချယ်၍လည်း လွှဲပြောင်းနိုင်ပါသည်။ လွှဲပြောင်းခြင်းလုပ်ငန်းစဉ်သည် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထား၍ လုံခြုံပါသည်။"
   }
 }

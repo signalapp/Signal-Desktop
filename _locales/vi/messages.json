@@ -72,10 +72,10 @@
     "messageformat": "Nhóm chưa biết"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Không thể mở Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Để khắc phục vấn đề, hãy làm theo hướng dẫn khôi phục trên trang hỗ trợ hoặc liên hệ với bộ phận hỗ trợ của Signal để được trợ giúp khắc phục vấn đề.\n\nNếu bạn cần sử dụng Signal ngay, bạn có thể xóa dữ liệu của mình và liên kết lại với máy tính này. Bạn sẽ có tùy chọn chuyển lịch sử tin nhắn từ điện thoại của mình."
   },
   "icu:databaseError": {
     "messageformat": "Lỗi Cơ sở dữ liệu"
@@ -87,10 +87,10 @@
     "messageformat": "Xóa dữ liệu và khởi động lại"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Xóa vĩnh viễn tất cả dữ liệu"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Tất cả lịch sử tin nhắn và tệp đa phương tiện của bạn sẽ bị xóa vĩnh viễn khỏi thiết bị này. Thao tác này sẽ không xóa bất kỳ dữ liệu nào trên điện thoại của bạn.\n\nBạn sẽ có thể sử dụng Signal trên thiết bị này sau khi liên kết lại. Bạn sẽ có tùy chọn chuyển lịch sử tin nhắn từ điện thoại của mình."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Phiên bản cơ sở dữ liệu của bạn không khớp với phiên bản Signal này. Đảm bảo bạn đang sử dụng phiên bản Signal mới nhất trên máy tính của mình."
@@ -1203,13 +1203,13 @@
     "messageformat": "Không thể tải xuống đa phương tiện xem một lần. {name} cần gửi lại."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Không tải tập tin đa phương tiện"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Kiểm tra kết nối internet của máy tính và điện thoại. Mở Signal trên điện thoại của bạn, sau đó thử tải xuống lại."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Tập tin đa phương tiện này không còn trên điện thoại của bạn và không thể tải xuống."
   },
   "icu:save": {
     "messageformat": "Lưu"
@@ -1278,7 +1278,7 @@
     "messageformat": "Để đổi tên thiết bị này, mở Signal trên điện thoại của bạn và đến mục Cài đặt > Các thiết bị đã liên kết"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Màu da của emoji"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Chọn tên cho thiết bị này"
@@ -2394,7 +2394,7 @@
     "messageformat": "Không tìm thấy nhãn dán"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Xem trước nhãn dán"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tìm GIF qua Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Không tìm thấy GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Xem trước GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Xoá Tìm kiếm"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Màu da"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Không"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Màu da sáng"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Màu da trung bình sáng"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Màu da trung bình"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Màu da trung bình tối"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Màu da tối"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Hủy"
@@ -2940,7 +2940,7 @@
     "messageformat": "Chấp nhận yêu cầu?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Kiểm tra các yêu cầu một cách kĩ lưỡng. Tên hồ sơ được chọn bởi chủ tài khoản và không được xác minh."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Tiếp tục"
@@ -2958,10 +2958,10 @@
     "messageformat": "Kiểm tra kỹ"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Tên nhóm</clickable> chưa được xác minh"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Tên hồ sơ</clickable> chưa được xác minh"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Đây là cuộc trò chuyện chính thức và duy nhất từ Signal"
@@ -4035,10 +4035,10 @@
     "messageformat": "Thêm Emoji, Nhãn dán hoặc GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Thay tập tin đính kèm?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Thao tác thêm ảnh GIF Này sẽ thay thế tập tin đính kèm trong tin nhắn nháp hiện tại của bạn."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Thay thế"
@@ -6163,19 +6163,19 @@
     "messageformat": "Để đổi cài đặt này, đặt mục “Ai có thể thấy số của tôi” thành “Không ai cả”."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Tên hồ sơ trên Signal được chọn bởi chủ tài khoản:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Tên hồ sơ chưa được xác minh"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Hãy cẩn trọng với các tài khoản mạo danh"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Không chia sẻ thông tin cá nhân với người bạn không quen biết"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Tên nhóm được chọn bởi thành viên của nhóm."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Hãy cẩn trọng với các nhóm mạo danh tổ chức và doanh nghiệp"
@@ -6184,7 +6184,7 @@
     "messageformat": "Tên hồ sơ của các thành viên trong nhóm chưa được xác minh"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Không chia sẻ thông tin cá nhân với người bạn không quen biết"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Có gì mới"
@@ -6224,6 +6224,6 @@
     "messageformat": "Chúng tôi đã thêm phím tắt tiện lợi để bạn nhanh chóng hạ tay xuống sau khi bạn bắt đầu nói trong một cuộc gọi nhóm Signal."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Nếu bạn liên kết một Máy tính mới trên Signal Android và chọn chuyển lịch sử tin nhắn, giờ đây bạn cũng có thể chuyển các tập tin đính kèm cũ một cách có chọn lọc từ thiết bị chính của mình. Như thường lệ, quá trình chuyển dữ liệu được mã hóa đầu cuối và bảo mật."
   }
 }

@@ -72,10 +72,10 @@
     "messageformat": "അജ്ഞാത ഗ്രൂപ്പ്"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal തുറക്കാൻ കഴിയുന്നില്ല"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "പ്രശ്നം പരിഹരിക്കാൻ സഹായിക്കുന്നതിന്, പിന്തുണ പേജിലെ വീണ്ടെടുക്കൽ ഗൈഡ് പിന്തുടരുക അല്ലെങ്കിൽ പ്രശ്നം പരിഹരിക്കാൻ സഹായിക്കുന്നതിന് Signal പിന്തുണയുമായി ബന്ധപ്പെടുക.\n\nനിങ്ങൾക്ക് ഉടൻ തന്നെ Signal ഉപയോഗിക്കണമെങ്കിൽ, നിങ്ങളുടെ ഡാറ്റ ഇല്ലാതാക്കി ഈ ഡെസ്‌ക്‌ടോപ്പ് വീണ്ടും ലിങ്ക് ചെയ്യാം. നിങ്ങളുടെ ഫോണിൽ നിന്ന് സന്ദേശ ചരിത്രം കൈമാറാനുള്ള ഓപ്ഷൻ നിങ്ങൾക്ക് ലഭിക്കും."
   },
   "icu:databaseError": {
     "messageformat": "ഡാറ്റാബേസ് പിശക്"
@@ -87,10 +87,10 @@
     "messageformat": "ഡാറ്റാ ഇല്ലാതാക്കി പുനരാരംഭിക്കുക"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "എല്ലാ ഡാറ്റയും ശാശ്വതമായി ഇല്ലാതാക്കുക"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "നിങ്ങളുടെ എല്ലാ സന്ദേശ ചരിത്രവും മീഡിയയും ഈ ഉപകരണത്തിൽ നിന്ന് ശാശ്വതമായി ഇല്ലാതാക്കും. ഇത് നിങ്ങളുടെ ഫോണിൽ നിന്ന് ഡാറ്റയൊന്നും ഇല്ലാതാക്കില്ല.\n\nSignal വീണ്ടും ലിങ്ക് ചെയ്‌ത ശേഷം നിങ്ങൾക്ക് ഈ ഉപകരണത്തിൽ Signal ഉപയോഗിക്കാനാകും. നിങ്ങളുടെ ഫോണിൽ നിന്ന് സന്ദേശ ചരിത്രം കൈമാറാനുള്ള ഓപ്ഷൻ നിങ്ങൾക്ക് ലഭിക്കും."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "നിങ്ങളുടെ ഡാറ്റാബേസിന്റെ പതിപ്പ് നിങ്ങളുടെ Signal പതിപ്പുമായി പൊരുത്തപ്പെടുന്നില്ല. നിങ്ങളുടെ കമ്പ്യൂട്ടറിൽ Signal-ന്റെ ഏറ്റവും പുതിയ പതിപ്പാണ് തുറക്കുന്നതെന്ന് ഉറപ്പാക്കുക."
@@ -1203,13 +1203,13 @@
     "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന മീഡിയ ഡൗൺലോഡ് ചെയ്യാൻ കഴിയില്ല. {name} അത് വീണ്ടും അയയ്‌ക്കേണ്ടതുണ്ട്."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "മീഡിയ ഡൗൺലോഡ് ചെയ്യാൻ കഴിയില്ല"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "നിങ്ങളുടെ ഡെസ്ക്ടോപ്പിന്റെയും ഫോണിന്റെയും ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക. നിങ്ങളുടെ ഫോണിൽ Signal തുറക്കുക, തുടർന്ന് വീണ്ടും ഡൗൺലോഡ് ചെയ്യാൻ ശ്രമിക്കുക."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "ഈ മീഡിയ ഇനി നിങ്ങളുടെ ഫോണിൽ ലഭ്യമല്ല, ഡൗൺലോഡ് ചെയ്യാനും കഴിയില്ല."
   },
   "icu:save": {
     "messageformat": "സംരക്ഷിക്കൂ"
@@ -1278,7 +1278,7 @@
     "messageformat": "ഈ ഉപകരണത്തിന്റെ പേര് മാറ്റാൻ, നിങ്ങളുടെ ഫോണിൽ Signal തുറന്ന് ക്രമീകരണങ്ങൾ > ലിങ്ക് ചെയ്ത ഉപകരണങ്ങൾ എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "ഇമോജി സ്കിൻ ടോൺ"
   },
   "icu:chooseDeviceName": {
     "messageformat": "ഈ ഉപകരണത്തിന്റെ പേര് തിരഞ്ഞെടുക്കുക"
@@ -2394,7 +2394,7 @@
     "messageformat": "സ്റ്റിക്കറുകൾ ഒന്നും കണ്ടെത്തിയില്ല"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "സ്റ്റിക്കർ പ്രിവ്യൂ"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor വഴി GIF-കൾ തിരയുക"
@@ -2445,31 +2445,31 @@
     "messageformat": "GIF-കളൊന്നും കണ്ടെത്തിയില്ല"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF പ്രിവ്യൂ"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "തിരച്ചിലുകൾ മായ്‌ക്കുക"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "സ്കിൻ ടോൺ"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "ഒന്നുമില്ല"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "ലൈറ്റ് സ്കിൻ ടോൺ"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "മീഡിയം-ലൈറ്റ് സ്കിൻ ടോൺ"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "മീഡിയം സ്കിൻ ടോൺ"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "മീഡിയം-ഡാർക്ക് സ്കിൻ ടോൺ"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "ഡാർക്ക് സ്കിൻ ടോൺ"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "റദ്ദാക്കുക"
@@ -2940,7 +2940,7 @@
     "messageformat": "അഭ്യർത്ഥന സ്വീകരിക്കണോ?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "അഭ്യർത്ഥനകൾ ശ്രദ്ധാപൂർവ്വം അവലോകനം ചെയ്യുക. പ്രൊഫൈൽ നാമങ്ങൾ അവരുടെ അക്കൗണ്ട് ഉടമയാണ് തിരഞ്ഞെടുക്കുന്നത്, അവ പരിശോധിച്ചുറപ്പിച്ചിട്ടില്ല."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "തുടരുക"
@@ -2958,10 +2958,10 @@
     "messageformat": "ശ്രദ്ധാപൂർവ്വം അവലോകനം ചെയ്യുക"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>ഗ്രൂപ്പ് നാമങ്ങൾ</clickable> പരിശോധിച്ചുറപ്പിച്ചിട്ടില്ല"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>പ്രൊഫൈൽ നാമങ്ങൾ</clickable> പരിശോധിച്ചുറപ്പിച്ചിട്ടില്ല"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "ഇതാണ്, ഔദ്യോഗികവും Signal-ൽ നിന്ന് മാത്രമുള്ളതുമായ ഒരൊറ്റ ചാറ്റ്"
@@ -4035,13 +4035,13 @@
     "messageformat": "ഒരു ഇമോജി, സ്റ്റിക്കർ അല്ലെങ്കിൽ GIF ചേർക്കുക"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "അറ്റാച്ചുമെന്റ് മാറ്റി പകരം മറ്റൊന്ന് വയ്ക്കണോ?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "ഈ GIF ചേർക്കുന്നത് നിങ്ങളുടെ നിലവിലെ ഡ്രാഫ്റ്റ് സന്ദേശത്തിലെ ഇനത്തെ മാറ്റി പകരം മറ്റൊന്ന് വയ്ക്കും."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "മാറ്റി പകരം മറ്റൊന്ന് വയ്ക്കുക"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "സന്ദേശം എഡിറ്റ് ചെയ്യുക"
@@ -6163,19 +6163,19 @@
     "messageformat": "ഈ ക്രമീകരണം മാറ്റാൻ, “ആർക്കൊക്കെ എന്റെ നമ്പർ കാണാൻ കഴിയും” എന്നത് “ആരും കാണണ്ട” എന്ന് സജ്ജീകരിക്കുക."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal-ലെ പ്രൊഫൈൽ നാമങ്ങൾ അവരുടെ അക്കൗണ്ട് ഉടമയാണ് തിരഞ്ഞെടുക്കുന്നത്:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "പ്രൊഫൈൽ നാമങ്ങൾ പരിശോധിച്ചുറപ്പിച്ചിട്ടില്ല"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "മറ്റുള്ളവരായി ആൾമാറാട്ടം നടത്തുന്ന അക്കൗണ്ടുകൾക്കെതിരെ ജാഗ്രത പാലിക്കുക"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "പരിചയമില്ലാത്ത ആളുകളുമായി സ്വകാര്യ വിവരങ്ങൾ പങ്കിടരുത്"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "ഗ്രൂപ്പിലെ അംഗങ്ങളാണ് ഗ്രൂപ്പ് നാമങ്ങൾ തിരഞ്ഞെടുക്കുന്നത്."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "സ്ഥാപനങ്ങളായും ബിസിനസുകളായും ആൾമാറാട്ടം നടത്തുന്ന ഗ്രൂപ്പുകളെക്കുറിച്ച് ജാഗ്രത പാലിക്കുക"
@@ -6184,7 +6184,7 @@
     "messageformat": "ഗ്രൂപ്പുകളിലെ അംഗങ്ങളുടെ പ്രൊഫൈൽ നാമങ്ങൾ പരിശോധിച്ചുറപ്പിച്ചിട്ടില്ല"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "പരിചയമില്ലാത്ത ആളുകളുമായി സ്വകാര്യ വിവരങ്ങൾ പങ്കിടരുത്"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
@@ -6224,6 +6224,6 @@
     "messageformat": "Signal ഗ്രൂപ്പ് കോളിനിടെ സംസാരിച്ചു തുടങ്ങിയാൽ കൈ വേഗത്തിൽ താഴ്ത്താൻ സൗകര്യപ്രദമായ ഒരു കുറുക്കുവഴി ഞങ്ങൾ ചേർത്തിട്ടുണ്ട്. ഒരു സംശയവും വേണ്ട, ഈ റിലീസിലെ ഞങ്ങളുടെ പ്രിയപ്പെട്ട ഫീച്ചറാണിത്."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Signal Android-ൽ ഒരു പുതിയ ഡെസ്‌ക്‌ടോപ്പ് ലിങ്ക് ചെയ്‌ത് നിങ്ങളുടെ സന്ദേശ ചരിത്രം കൈമാറാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, ഇപ്പോൾ നിങ്ങളുടെ പ്രാഥമിക ഉപകരണത്തിൽ നിന്ന് പഴയ അറ്റാച്ചുമെന്റുകൾ തിരഞ്ഞെടുത്ത് കൈമാറാനും കഴിയും. ഭൂതകാലത്തിലേക്ക് സ്ക്രോൾ ചെയ്ത് ഡൗൺലോഡ് ഐക്കണിൽ ക്ലിക്ക് ചെയ്തുകൊണ്ട് ഭൂതകാലത്തെ വർത്തമാനകാലത്തിലേക്ക് കൊണ്ടുവരിക. എല്ലായ്‌പ്പോഴും എന്നപോലെ, കൈമാറ്റ പ്രക്രിയ പൂർണ്ണമായും എൻക്രിപ്റ്റ് ചെയ്‌തതും സുരക്ഷിതവുമാണ്."
   }
 }

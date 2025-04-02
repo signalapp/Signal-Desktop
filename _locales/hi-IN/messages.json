@@ -72,10 +72,10 @@
     "messageformat": "अंजान ग्रुप"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal नहीं खोला जा सकता"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "समस्या ठीक करने के लिए, सपोर्ट पेज पर रिकवरी गाइड का पालन करें या समस्या ठीक करने में मदद पाने के लिए, Signal समर्थन से संपर्क करें।\n\nअगर आपको Signal तुरंत इस्तेमाल करना हो, तो आप अपना डेटा डिलीट कर सकते हैं और यह डेस्कटॉप फिर से लिंक कर सकते हैं। आपके पास अपने फ़ोन से संदेश इतिहास ट्रांसफ़र करने का विकल्प होगा।"
   },
   "icu:databaseError": {
     "messageformat": "डेटाबेस त्रुटि"
@@ -87,10 +87,10 @@
     "messageformat": "डेटा को डिलीट करें और रीस्टार्ट करें"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "पूरा डेटा हमेशा के लिए डिलीट करें"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "आपके पूरे संदेश इतिहास और मीडिया को हमेशा के लिए इस डिवाइस से डिलीट कर दिया जाएगा। इससे आपके फ़ोन से कोई भी डेटा डिलीट नहीं होगा।\n\nदोबारा लिंक करने के बाद ही आप इस डिवाइस पर Signal का इस्तेमाल कर पाएँगे। आपके पास अपने फ़ोन से संदेश इतिहास ट्रांसफ़र करने का विकल्प होगा।"
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "आपके डेटाबेस का वर्ज़न सिग्नल के इस वर्ज़न से मेल नहीं खाता है। सुनिश्चित करें कि आप अपने कंप्यूटर पर सिग्नल का सबसे नया वर्ज़न खोल रहे हैं।"
@@ -1203,13 +1203,13 @@
     "messageformat": "'देखें-एक बार मीडिया' डाउनलोड नहीं किया जा सका। {name} को इसे फिर से भेजना होगा।"
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "मीडिया डाउनलोड नहीं किया जा सकता"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "अपने डेस्कटॉप और फ़ोन का इंटरनेट कनेक्शन जाँच लें। अपने फ़ोन पर Signal खोलें, फिर दोबारा डाउनलोड करने की कोशिश करें।"
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "यह मीडिया अब आपके फ़ोन पर उपलब्ध नहीं है और डाउनलोड नहीं किया जा सकता।"
   },
   "icu:save": {
     "messageformat": "संरक्षित करें"
@@ -1278,7 +1278,7 @@
     "messageformat": "इस डिवाइस का नाम बदलने के लिए, अपने फ़ोन पर Signal खोलें और सेटिंग्स > लिंक किए गए डिवाइस पर जाएँ"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "इमोजी स्किन टोन"
   },
   "icu:chooseDeviceName": {
     "messageformat": "डिवाइस का नाम चुनें"
@@ -2394,7 +2394,7 @@
     "messageformat": "स्टिकर नहीं मिले"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "स्टिकर प्रीव्यू"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor के ज़रिए GIF खोजें"
@@ -2445,31 +2445,31 @@
     "messageformat": "कोई GIF नहीं मिला"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF प्रीव्यू"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "सर्च को साफ करें"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "स्किन टोन"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "कुछ नहीं"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "हल्का स्किन टोन"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "मध्यम हल्का स्किन टोन"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "मध्यम स्किन टोन"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "मध्यम गहरा स्किन टोन"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "गहरा स्किन टोन"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "रद्द करें"
@@ -2940,7 +2940,7 @@
     "messageformat": "अनुरोध मंज़ूर करें?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "अनुरोधों की सावधानी से समीक्षा करें। प्रोफ़ाइल नाम को अकाउंट के मालिक चुनते हैं और वे वेरिफ़ाइड नहीं होते।"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "आगे"
@@ -2958,10 +2958,10 @@
     "messageformat": "सावधानी से समीक्षा करें"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>ग्रुप नाम</clickable> वेरिफ़ाइड नहीं हैं"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>प्रोफ़ाइल नाम</clickable> वेरिफ़ाइड नहीं हैं"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "यह Signal की ओर से आधिकारिक और इकलौती चैट है"
@@ -4035,10 +4035,10 @@
     "messageformat": "इमोजी, स्टिकर या GIF जोड़ें"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "अटैचमेंट बदलें?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "यह GIF जोड़ने से, आपके मौजूदा ड्राफ़्ट संदेश में आइटम बदल जाएगा।"
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "बदलें"
@@ -6163,19 +6163,19 @@
     "messageformat": "इस सेटिंग्स को बदलने के लिए, \"मेरा नंबर कौन देख सकता है\" को \"कोई नहीं\" पर सेट करें।"
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal पर प्रोफ़ाइल नाम को उनके अकाउंट के मालिक चुनते हैं:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "प्रोफ़ाइल नाम वेरिफ़ाइड नहीं हैं"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "दूसरों की पहचान चुराने वाले अकाउंट्स से सावधान रहें"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "आप जिन लोगों को नहीं जानते उनके साथ व्यक्तिगत जानकारी शेयन न करें"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "ग्रुप के नाम ग्रुप के सदस्य चुनते हैं।"
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "संगठनों और व्यवसायों की पहचान चुराने वाले ग्रुप्स से सावधान रहें"
@@ -6184,7 +6184,7 @@
     "messageformat": "ग्रुप्स में सदस्यों के प्रोफ़ाइल नाम वेरिफ़ाइड नहीं होते"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "आप जिन लोगों को नहीं जानते उनके साथ व्यक्तिगत जानकारी शेयन न करें"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "नया क्या है"
@@ -6224,6 +6224,6 @@
     "messageformat": "Signal ग्रुप के दौरान आप बोलना शुरू करने के बाद जल्दी हाथ नीचे कर सकें, इसके लिए हमने एक सुविधाजनक शॉर्टकट बनाया है। इस रिलीज़ में यह हमारा सबसे पसंदीदा फ़ीचर है।"
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "अगर आप Signal Android पर नया डेस्कटॉप लिंक करते हैं और अपना संदेश इतिहास ट्रांसफ़र करना चुनते हैं, तो अब आप अपने प्राथमिक डिवाइस से भी चुनिंदा पुराने अटैचमेंट ट्रांसफ़र भी कर सकते हैं। समय में पीछे जाकर और डाउनलोड आइकन पर क्लिक करके अतीत को वर्तमान में लाएँ। हमेशा की तरह, ट्रांसफ़र की प्रोसेस एंड-टू-एंड एनक्रिप्टेड और सुरक्षित है।"
   }
 }

@@ -72,10 +72,10 @@
     "messageformat": "Neznámá skupina"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Aplikaci Signal nelze otevřít"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Problém můžete opravit podle průvodce obnovením na stránce podpory, případně kontaktujte podporu Signal, kde vám pomohou problém vyřešit.\n\nJestliže potřebujete používat aplikaci Signal ihned, můžete zkusit odstranit svá data a tuto plochu znovu propojit. Budete mít možnost přenést historii zpráv ze svého telefonu."
   },
   "icu:databaseError": {
     "messageformat": "Chyba databáze"
@@ -87,10 +87,10 @@
     "messageformat": "Smazat data a restartovat"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Trvale odstranit všechna data"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Veškerá vaše historie zpráv a médií bude trvale z tohoto zařízení odstraněna. Tímto postupem nedojte ke smazání žádných dat z vašeho telefonu.\n\nSlužbu Signal budete moct na tomto zařízení používat po jeho opětovném propojení. Budete mít možnost přenést historii zpráv ze svého telefonu."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Verze vaší databáze neodpovídá této verzi aplikace Signal. Ujistěte se, že v počítači otevíráte nejnovější verzi aplikace Signal."
@@ -1203,13 +1203,13 @@
     "messageformat": "Médium, které lze zobrazit jen jednou, nelze stáhnout. {name} jej bude muset poslat znovu."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Média nelze stáhnout"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Zkontrolujte připojení počítače a telefonu k internetu. Otevřete aplikaci Signál v telefonu a zkuste je stáhnout znovu."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Tato média již nejsou v telefonu k dispozici a nelze je stáhnout."
   },
   "icu:save": {
     "messageformat": "Uložit"
@@ -1278,7 +1278,7 @@
     "messageformat": "Pokud chcete změnit název tohoto zařízení, otevřete v telefonu aplikaci Signal a přejděte do nabídky Nastavení > Propojená zařízení"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Odstín pleti emoji"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Zvolte název tohoto zařízení"
@@ -1845,7 +1845,7 @@
     "messageformat": "Kontaktujte nás"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Podpořte Signal finančně"
+    "messageformat": "Přispějte na službu Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Zobrazit bezpečnostní číslo"
@@ -2394,7 +2394,7 @@
     "messageformat": "Nebyly nalezeny žádné nálepky"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Náhled nálepky"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Hledat soubory GIF na webu Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Nebyly nalezeny žádné soubory GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Náhled GIFu"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Vymazat hledání"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Odstín pleti"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Žádné"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Světlý odstín pleti"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Středně světlý odstín pleti"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Střední odstín pleti"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Středně tmavý odstín pleti"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Tmavý odstín pleti"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Zrušit"
@@ -2940,7 +2940,7 @@
     "messageformat": "Přijmout žádost?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Žádosti pečlivě kontrolujte. Jména profilů si vybírá majitel účtu a nejsou ověřována."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Pokračovat"
@@ -2958,13 +2958,13 @@
     "messageformat": "Pečlivě kontrolujte"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Názvy skupin</clickable> nejsou ověřovány"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Jména profilů</clickable> nejsou ověřována"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "Toto je jediný oficiální chat od Signal"
+    "messageformat": "Toto je jediný oficiální chat od služby Signal"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Sledujte novinky a poznámky k vydání."
@@ -4035,10 +4035,10 @@
     "messageformat": "Přidání emoji, nálepky nebo GIFu"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Nahradit přílohu?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Přidáním tohoto GIFu nahradíte položku v rozepsané zprávě."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Nahradit"
@@ -6163,19 +6163,19 @@
     "messageformat": "Pokud toto nastavení chcete změnit, nastavte možnost „Kdo uvidí moje číslo“ na „Nikdo“."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Jména profilů ve službě Signal vybírá majitel účtu:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Jména profilů nejsou ověřována"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Dávejte si pozor na účty, které se vydávají za jiné"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Nesdílejte osobní údaje s lidmi, které neznáte"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Názvy skupin vybírají členové skupiny."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Dávejte si pozor na skupiny, které se vydávají za organizace a podniky"
@@ -6184,7 +6184,7 @@
     "messageformat": "Jména profilů členů skupin nejsou ověřována"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Nesdílejte osobní údaje s lidmi, které neznáte"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Co je nového"
@@ -6224,6 +6224,6 @@
     "messageformat": "Přidali jsme praktickou zkratku pro rychlé spuštění ruky, když začnete mluvit během skupinového hovoru Signal."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Když v Signal Android propojíte novou plochu a rozhodnete se přenést historii zpráv, můžete nyní selektivně přenést i staré přílohy z primárního zařízení. Přenos je jako vždy koncově šifrován a zabezpečen."
   }
 }

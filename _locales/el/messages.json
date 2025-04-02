@@ -72,10 +72,10 @@
     "messageformat": "Άγνωστη ομάδα"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Δεν είναι δυνατό το άνοιγμα του Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Για να επιλύσεις το πρόβλημα, ακολούθησε τον οδηγό ανάκτησης στη σελίδα υποστήριξης ή επικοινώνησε με την υποστήριξη Signal για να σε βοηθήσει να διορθώσεις το πρόβλημα.\n\nΕάν πρέπει να χρησιμοποιήσεις το Signal αμέσως, μπορείς να διαγράψεις τα δεδομένα σου και να συνδέσεις ξανά αυτόν τον υπολογιστή. Θα έχεις την επιλογή να μεταφέρεις το ιστορικό μηνυμάτων από το τηλέφωνό σου."
   },
   "icu:databaseError": {
     "messageformat": "Σφάλμα στη βάση δεδομένων"
@@ -87,10 +87,10 @@
     "messageformat": "Διαγραφή δεδομένων και επανεκκίνηση"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Οριστική διαγραφή όλων των δεδομένων"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Όλο το ιστορικό μηνυμάτων και τα πολυμέσα σου θα διαγραφούν οριστικά από αυτή τη συσκευή. Δεν θα διαγραφούν δεδομένα από το τηλέφωνό σου.\n\nΘα μπορείς να χρησιμοποιήσεις το Signal σε αυτή τη συσκευή αφού τη συνδέσεις ξανά. Θα έχεις την επιλογή να μεταφέρεις το ιστορικό μηνυμάτων από το τηλέφωνό σου."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Η έκδοση της βάσης δεδομένων σου δεν ταιριάζει με αυτή την έκδοση του Signal. Βεβαιώσου ότι ανοίγεις την πιο πρόσφατη έκδοση του Signal στον υπολογιστή σου."
@@ -1203,13 +1203,13 @@
     "messageformat": "Δεν είναι δυνατή η λήψη του πολυμέσου μιας μόνο προβολής. Ο χρήστης {name} πρέπει να το στείλει ξανά."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Δεν είναι δυνατή η λήψη του πολυμέσου"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Έλεγξε τη σύνδεση του υπολογιστή και του τηλεφώνου σου στο διαδίκτυο. Άνοιξε το Signal στο τηλέφωνό σου και, στη συνέχεια, δοκίμασε να το κατεβάσεις ξανά."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Αυτό το πολυμέσο δεν είναι πλέον διαθέσιμο στο τηλέφωνό σου και δεν είναι δυνατή η λήψη του."
   },
   "icu:save": {
     "messageformat": "Αποθήκευση"
@@ -1278,7 +1278,7 @@
     "messageformat": "Για να αλλάξεις το όνομα αυτής της συσκευής, άνοιξε το Signal στο τηλέφωνό σου και πήγαινε στις Ρυθμίσεις > Συνδεδεμένες συσκευές"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Τόνος δέρματος emoji"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Διάλεξε το όνομα αυτής της συσκευής"
@@ -2394,7 +2394,7 @@
     "messageformat": "Δε βρέθηκαν αυτοκόλλητα"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Προεπισκόπηση αυτοκόλλητου"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Αναζήτηση GIF μέσω Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Δεν βρέθηκαν GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Προεπισκόπηση GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Εκκαθάριση αναζήτησης"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Τόνος δέρματος"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Κανένας"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Ανοιχτόχρωμος τόνος δέρματος"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Μέτριος ανοιχτόχρωμος τόνος δέρματος"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Μέτριος τόνος δέρματος"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Μέτριος σκουρόχρωμος τόνος δέρματος"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Σκουρόχρωμος τόνος δέρματος"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Ακύρωση"
@@ -2940,7 +2940,7 @@
     "messageformat": "Αποδοχή αιτήματος;"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Έλεγξε τα αιτήματα προσεκτικά. Τα ονόματα προφίλ επιλέγονται από τον κάτοχο του λογαριασμού και δεν είναι επαληθευμένα."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Συνέχεια"
@@ -2958,10 +2958,10 @@
     "messageformat": "Προσεκτικός έλεγχος"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "Τα <clickable>ονόματα ομάδας</clickable> δεν είναι επαληθευμένα"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "Τα <clickable>ονόματα προφίλ</clickable> δεν είναι επαληθευμένα"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Αυτή είναι η επίσημη και μοναδική συνομιλία από το Signal"
@@ -4035,10 +4035,10 @@
     "messageformat": "Προσθήκη Emoji, αυτοκόλλητου ή GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Αντικατάσταση συνημμένου;"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Η προσθήκη αυτού του GIF θα αντικαταστήσει το στοιχείο στο τρέχον πρόχειρο μήνυμά σου."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Αντικατάσταση"
@@ -6163,19 +6163,19 @@
     "messageformat": "Για να αλλάξεις αυτή τη ρύθμιση, όρισε την επιλογή \"Ποιος μπορεί να δει τον αριθμό μου\" σε \"Κανείς\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Τα ονόματα προφίλ επιλέγονται από τον κάτοχο του λογαριασμού:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Τα ονόματα προφίλ δεν είναι επαληθευμένα"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Να προσέχεις για λογαριασμούς που υποδύνται άλλους"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Μην μοιράζεσαι προσωπικές πληροφορίες με άτομα που δεν γνωρίζεις"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Τα ονόματα ομάδας επιλέγονται από τα μέλη της ομάδας."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Να προσέχεις για ομάδες που υποδύονται οργανισμούς και επιχειρήσεις"
@@ -6184,7 +6184,7 @@
     "messageformat": "Τα ονόματα προφίλ των μελών σε ομάδες δεν είναι επαληθευμένα"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Μην μοιράζεσαι προσωπικές πληροφορίες με άτομα που δεν γνωρίζεις"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Νέες δυνατότητες"
@@ -6224,6 +6224,6 @@
     "messageformat": "Προσθέσαμε μία βολική συντόμευση για να κατεβάζεις γρηγορότερα το χέρι σου, αφού αρχίσεις να μιλάς κατά τη διάρκειας μιας ομαδικής κλήσης στο Signal."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Εάν συνδέσεις έναν νέο υπολογιστή στο Signal Android και επιλέξεις να μεταφέρεις το ιστορικό των μηνυμάτων σου, πλέον μπορείς επίσης να μεταφέρεις επιλεκτικά και παλιά συνημμένα αρχεία από την κύρια συσκευή σου. Η διαδικασία μεταφοράς είναι κρυπτογραφημένη από άκρο σε άκρο και ασφαλής."
   }
 }

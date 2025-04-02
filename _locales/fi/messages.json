@@ -72,10 +72,10 @@
     "messageformat": "Tuntematon ryhmä"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signalia ei voitu avata"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Voit korjata ongelman seuraamalla tukisivun palautusopasta tai ottamalla yhteyttä Signal-tukeen ja pyytää apua korjaamisessa.\n\nJos sinun on käytettävä Signalia heti, voit poistaa tietosi ja yhdistää tämän tietokoneen uudelleen. Saat mahdollisuuden siirtää puhelimesi viestihistorian."
   },
   "icu:databaseError": {
     "messageformat": "Tietokantavirhe"
@@ -87,10 +87,10 @@
     "messageformat": "Tuhoa tiedot ja käynnistä uudelleen"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Poista kaikki tiedot pysyvästi"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Kaikki viestihistoriasi ja mediasi poistetaan tältä laitteelta pysyvästi. Tämä ei poista mitään tietoja puhelimestasi.\n\nVoit käyttää Signalia tällä laitteella, kun olet yhdistänyt sen tiliisi uudelleen. Saat mahdollisuuden siirtää puhelimesi viestihistorian."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Tietokantasi versio ei vastaa tätä Signal-versiota. Varmista, että avaat Signalin uusimman version tietokoneellasi."
@@ -1203,13 +1203,13 @@
     "messageformat": "Kerran katsottavaa mediaa ei voitu ladata. Käyttäjän {name} on lähetettävä se uudelleen."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Mediaa ei voi ladata"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Tarkista tietokoneen ja puhelimen internetyhteys. Avaa Signal puhelimellasi ja yritä sitten ladata uudelleen."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Tämä media ei ole enää saatavilla puhelimessasi, eikä sitä voi ladata."
   },
   "icu:save": {
     "messageformat": "Tallenna"
@@ -1278,7 +1278,7 @@
     "messageformat": "Jos haluat muuttaa laitteen nimeä, avaa Signal puhelimessasi ja siirry kohtaan Asetukset > Yhdistetyt laitteet"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Emojin ihonväri"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Valitse nimi tälle laitteelle"
@@ -2394,7 +2394,7 @@
     "messageformat": "Tarroja ei löytynyt"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Tarran esikatselu"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Etsi GIF-tiedostoja Tenorista"
@@ -2445,31 +2445,31 @@
     "messageformat": "GIF-tiedostoja ei löytynyt"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF-esikatselu"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Tyhjennä haku"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Ihonväri"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Ei mitään"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Vaalea ihonväri"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Keskivaalea ihonväri"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Keskisävyinen ihonväri"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Keskitumma ihonväri"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Tumma ihonväri"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Peruuta"
@@ -2940,7 +2940,7 @@
     "messageformat": "Hyväksytäänkö pyyntö?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Tarkista pyynnöt huolellisesti. Profiilin nimi on tilin haltijan valittavissa eikä sitä vahvisteta."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Jatka"
@@ -2958,10 +2958,10 @@
     "messageformat": "Tarkista huolellisesti"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Ryhmien nimiä</clickable> ei vahvisteta"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Profiilin nimiä</clickable> ei vahvisteta"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Tämä on ainoa virallinen Signal-keskustelu"
@@ -4035,10 +4035,10 @@
     "messageformat": "Lisää emoji, tarra tai GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Vaihdetaanko liite?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "GIF-tiedoston lisääminen korvaa kohteen nykyisessä viestiluonnoksessa."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Korvaa"
@@ -6163,19 +6163,19 @@
     "messageformat": "Jos haluat muuttaa tätä asetusta, määritä Kuka näkee numeroni -asetukseksi Ei kukaan."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signalissa profiilin nimi on tilin haltijan valittavissa:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Profiilin nimiä ei vahvisteta"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Varo tilejä, jotka esittävät toista käyttäjää"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Älä jaa henkilökohtaisia tietoja tuntemattomille ihmisille"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Ryhmän nimet ovat ryhmän jäsenten valittavissa."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Varo ryhmiä, joissa esitetään organisaatioita tai yrityksiä"
@@ -6184,7 +6184,7 @@
     "messageformat": "Profiilin nimiä ryhmissä ei vahvisteta"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Älä jaa henkilökohtaisia tietoja tuntemattomille ihmisille"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Uudet ominaisuudet"
@@ -6224,6 +6224,6 @@
     "messageformat": "Lisäsimme kätevän pikavalinnan, jolla voit laskea kätesi nopeasti, kun aloitat puhumisen Signal-ryhmäpuhelun aikana."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Jos yhdistät uuden tietokoneen Signal Androidissa ja siirrät viestihistoriasi, voit nyt myös valikoivasti siirtää vanhoja liitteitä ensisijaiselta laitteeltasi. Siirtoprosessi on salattu päästä päähän."
   }
 }

@@ -72,10 +72,10 @@
     "messageformat": "తెలియని సమూహం"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal ను తెరవలేను"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "సమస్యను పరిష్కరించడంలో సహాయపడటానికి, మద్దతు పేజీలోని రికవరీ గైడ్‌ను అనుసరించండి లేదా సమస్యను పరిష్కరించడంలో సహాయపడటానికి Signal మద్దతును సంప్రదించండి.\n\nఒకవేళ మీరు వెంటనే Signal ను ఉపయోగించాల్సి వస్తే, మీరు మీ డేటాను తొలగించి, ఈ డెస్క్‌టాప్‌ను తిరిగి లింక్ చేయవచ్చు. మీ ఫోన్ నుండి సందేశ చరిత్రను బదిలీ చేసే ఆప్షన్ మీకు ఉంటుంది."
   },
   "icu:databaseError": {
     "messageformat": "దత్తాంశమూల లోపం"
@@ -87,10 +87,10 @@
     "messageformat": "డేటాను తొలగించి, రీస్టార్ట్ చేయండి"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "మొత్తం డేటాను శాశ్వతంగా తొలగించండి"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "మీ మొత్తం సందేశ చరిత్ర మరియు మీడియా ఈ పరికరం నుండి శాశ్వతంగా తొలగించబడతాయి. ఇది మీ ఫోన్ నుండి ఎలాంటి డేటాను తొలగించదు.\n\nSignal ను మళ్ళీ లింక్ చేసిన తర్వాత మీరు ఈ పరికరంలో దాన్ని ఉపయోగించగలుగుతారు. మీ ఫోన్ నుండి సందేశ చరిత్రను బదిలీ చేసే ఆప్షన్ మీకు ఉంటుంది."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "మీ డేటాబేస్ యొక్క వెర్షన్ Signal యొక్క ఈ వెర్షన్‌తో సరిపోలడం లేదు. మీరు మీ కంప్యూటరులో Signal యొక్క తాజా వెర్షన్‌ను తెరుస్తున్నారని నిర్ధారించుకోండి."
@@ -1203,13 +1203,13 @@
     "messageformat": "ఒకసారి చూసే మీడియాను డౌన్‌లోడ్ చేయలేరు. దానిని {name} మళ్ళీ పంపాలి."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "మీడియాను డౌన్‌లోడ్ చేయలేను"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "మీ డెస్క్‌టాప్ మరియు ఫోన్ యొక్క ఇంటర్నెట్ కనెక్షన్‌ను తనిఖీ చేయండి. మీ ఫోన్‌లో Signal ను తెరవండి, తర్వాత మళ్ళీ డౌన్‌లోడ్ చేయడానికి ప్రయత్నించండి."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "ఈ మీడియా ఇకపై మీ ఫోన్‌లో అందుబాటులో ఉండదు మరియు డౌన్‌లోడ్ చేయబడదు."
   },
   "icu:save": {
     "messageformat": "భద్రపరుచు"
@@ -1278,7 +1278,7 @@
     "messageformat": "ఈ పరికరం యొక్క పేరును మార్చడానికి, మీ ఫోన్‌లో Signal ను తెరిచి, సెట్టింగ్‌లు > లింక్ చేసిన పరికరాలకు నావిగేట్ చేయండి"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "ఎమోజీ స్కిన్ టోన్"
   },
   "icu:chooseDeviceName": {
     "messageformat": "ఈ పరికరం పేరును ఎంచుకోండి"
@@ -2394,7 +2394,7 @@
     "messageformat": "స్టిక్కర్లు కనుగొనబడలేదు"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "స్టిక్కర్ ప్రివ్యూ"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor ద్వారా GIFలను శోధించండి"
@@ -2445,31 +2445,31 @@
     "messageformat": "GIFలు ఏవీ కనుగొనబడలేదు"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF ప్రివ్యూ"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "శోధనను క్లియర్ చేయండి"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "స్కిన్ టోన్"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "ఏదీ కాదు"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "లైట్ స్కిన్ టోన్"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "మీడియం-లైట్ స్కిన్ టోన్"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "మీడియం స్కిన్ టోన్"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "మీడియం-డార్క్ స్కిన్ టోన్"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "డార్క్ స్కిన్ టోన్"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "రద్దు"
@@ -2940,7 +2940,7 @@
     "messageformat": "అభ్యర్థనను అంగీకరిస్తారా?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "అభ్యర్థనలను జాగ్రత్తగా సమీక్షించండి. ప్రొఫైల్ పేర్లు వాటి ఖాతా యజమానిచే ఎంచుకోబడతాయి మరియు అవి ధృవీకరించబడలేదు."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "కొనసాగించండి"
@@ -2958,10 +2958,10 @@
     "messageformat": "జాగ్రత్తగా సమీక్షించండి"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>గ్రూప్ పేర్లు</clickable> ధృవీకరించబడలేదు"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>ప్రొఫైల్ పేర్లు</clickable> ధృవీకరించబడలేదు"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "ఇది Signal నుండి అధికారిక మరియు ఏకైక చాట్"
@@ -4035,13 +4035,13 @@
     "messageformat": "ఎమోజీ, స్టిక్కర్ లేదా GIF ను జోడించండి"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "అటాచ్‌మెంట్‌ను భర్తీ చేసేదా?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "ఈ GIF ని జోడించడం వలన మీ ప్రస్తుత ముసాయిదా సందేశంలోని అంశం భర్తీ చేయబడుతుంది."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "రీప్లేస్"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "సందేశాన్ని సవరించండి"
@@ -6163,19 +6163,19 @@
     "messageformat": "ఈ సెట్టింగ్‌ను మార్చడానికి, “నా నంబర్‌ను ఎవరు చూడగలరు” అనే దానిని “ఎవరూ చూడలేరు” కు సెట్ చేయండి."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal లో ప్రొఫైల్ పేర్లు వాటి ఖాతాదారునిచే ఎంచుకోబడతాయి:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "ప్రొఫైల్ పేర్లు ధృవీకరించబడలేదు"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "ఇతరులను అనుకరించే ఖాతాల పట్ల జాగ్రత్తగా ఉండండి"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "మీకు పరిచయం లేని వ్యక్తులతో వ్యక్తిగత సమాచారాన్ని పంచుకోవద్దు"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "గ్రూప్ పేర్లు గ్రూప్ సభ్యులచే ఎంచుకోబడతాయి."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "సంస్థలు మరియు వ్యాపారాలను అనుకరించే గ్రూపుల పట్ల జాగ్రత్తగా ఉండండి"
@@ -6184,7 +6184,7 @@
     "messageformat": "గ్రూపుల్లోని సభ్యుల ప్రొఫైల్ పేర్లు ధృవీకరించబడలేదు"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "మీకు పరిచయం లేని వ్యక్తులతో వ్యక్తిగత సమాచారాన్ని పంచుకోవద్దు"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "కొత్తది ఏమిటి"
@@ -6224,6 +6224,6 @@
     "messageformat": "Signal గ్రూప్ కాల్ సమయంలో మీరు మాట్లాడటం ప్రారంభించిన తర్వాత మీ చేయిని త్వరగా కిందికి దించడానికి మేము అనుకూలమైన షార్ట్‌కట్‌ను జోడించాము."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "ఒకవేళ మీరు Signal Android లో కొత్త డెస్క్‌టాప్‌ను లింక్ చేసినట్లయితే మరియు మీ సందేశ చరిత్రను బదిలీ చేయాలని ఎంచుకుంటే, ఇప్పుడు మీరు మీ ప్రాథమిక పరికరం నుండి పాత అటాచ్‌మెంట్‌లను కూడా ఎంపిక చేసుకుని బదిలీ చేయవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు సురక్షితమైనది."
   }
 }

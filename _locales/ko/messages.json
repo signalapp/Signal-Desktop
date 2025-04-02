@@ -72,10 +72,10 @@
     "messageformat": "알 수 없는 그룹"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal을 열 수 없음"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "문제를 해결하려면 지원 페이지의 복원 가이드를 따라하거나, Signal 지원팀에 연락하여 도움을 받으세요.\n\nSignal을 바로 사용해야 하는 경우 데이터를 삭제한 다음 이 데스크톱을 다시 연결할 수 있습니다. 원하는 경우 휴대폰의 메시지 기록을 전송할 수 있습니다."
   },
   "icu:databaseError": {
     "messageformat": "데이터베이스 오류"
@@ -87,10 +87,10 @@
     "messageformat": "데이터 삭제 후 다시 시작"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "모든 데이터 영구 삭제"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "모든 메시지 기록과 미디어가 이 기기에서 영구 삭제됩니다. 휴대폰 데이터는 삭제하지 않습니다.\n\n다시 연결한 후 이 기기에서 Signal을 사용할 수 있습니다. 원하는 경우 휴대폰의 메시지 기록을 전송할 수 있습니다."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "데이터베이스 버전이 이 버전의 Signal과 일치하지 않습니다. 컴퓨터에서 최신 버전 Signal을 열었는지 확인하세요."
@@ -1203,13 +1203,13 @@
     "messageformat": "한 번만 볼 수 있는 미디어를 다운로드할 수 없습니다. {name} 님이 다시 공유해야 합니다."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "미디어를 다운로드할 수 없음"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "데스크톱과 휴대폰의 인터넷 연결을 확인하세요. 휴대폰에서 Signal을 연 다음 다시 다운로드해 보세요."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "이 미디어는 더 이상 휴대폰에서 사용할 수 없으며, 다운로드할 수 없습니다."
   },
   "icu:save": {
     "messageformat": "저장"
@@ -1278,7 +1278,7 @@
     "messageformat": "이 기기 이름을 변경하려면 휴대폰에서 Signal을 연 다음 설정 > 연결된 기기로 이동하세요"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "이모지 피부색"
   },
   "icu:chooseDeviceName": {
     "messageformat": "기기 이름을 선택하세요"
@@ -2394,7 +2394,7 @@
     "messageformat": "스티커 없음"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "스티커 미리 보기"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor를 통해 GIF 검색"
@@ -2445,31 +2445,31 @@
     "messageformat": "GIF를 찾지 못함"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF 미리 보기"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "검색 기록 삭제"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "피부색"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "없음"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "밝은 피부색"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "조금 밝은 피부색"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "중간 밝기 피부색"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "조금 어두운 피부색"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "어두운 피부색"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "취소"
@@ -2940,7 +2940,7 @@
     "messageformat": "요청을 수락하시겠어요?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "신중하게 요청을 검토하세요. 프로필 이름은 해당 계정 소유자가 선택하며, 프로필 이름이 확인되지 않았습니다."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "계속"
@@ -2958,10 +2958,10 @@
     "messageformat": "신중하게 검토하세요"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>그룹 이름</clickable>이 확인되지 않음"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>프로필 이름</clickable>이 확인되지 않음"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "유일한 Signal 공식 채팅입니다"
@@ -4035,10 +4035,10 @@
     "messageformat": "이모지, 스티커, GIF 추가"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "첨부 파일을 바꾸시겠습니까?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "이 GIF를 추가하면 현재 초안 메시지의 항목이 바뀝니다."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "바꾸기"
@@ -6163,19 +6163,19 @@
     "messageformat": "이 설정을 바꾸려면 '내 전화번호를 볼 수 있는 사람'을 '아무도 보지 못함'으로 설정하세요."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal의 프로필 이름은 해당 계정 보유자가 선택합니다."
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "프로필 이름이 확인되지 않았습니다"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "사칭 계정에 유의하세요"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "모르는 사람과 개인 정보를 공유하지 마세요"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "그룹 이름은 해당 그룹의 구성원이 선택합니다."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "다른 조직이나 비즈니스를 사칭하는 그룹에 유의하세요"
@@ -6184,7 +6184,7 @@
     "messageformat": "그룹의 구성원 프로필 이름이 확인되지 않았습니다"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "모르는 사람과 개인 정보를 공유하지 마세요"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "업데이트 내용"
@@ -6224,6 +6224,6 @@
     "messageformat": "Signal 그룹 통화 중에 대화를 시작한 후 손을 바로 내릴 수 있는 편리한 단축키를 추가했습니다. 이번 릴리스에서 단연코 가장 마음에 드는 기능입니다."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "이제 Signal Android에서 새로운 데스크톱을 연결하고 메시지 기록을 전송하도록 선택할 경우 기본 기기에서 이전 첨부 파일을 선택하여 전송할 수 있습니다. 전송 프로세스는 안전하게 엔드투엔드로 암호화됩니다."
   }
 }

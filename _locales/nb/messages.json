@@ -72,10 +72,10 @@
     "messageformat": "Ukjent gruppe"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Kunne ikke åpne Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Du kan følge veiledningen på hjelpesiden vår eller ta kontakt med Signals brukerstøtte for å få hjelp.\n\nHvis du trenger tilgang til Signal umiddelbart, kan du slette alle dataene og koble til skrivebordet på nytt. Du har muligheten til å overføre meldingsloggen fra telefonen din."
   },
   "icu:databaseError": {
     "messageformat": "Databasefeil"
@@ -87,10 +87,10 @@
     "messageformat": "Slett alle data og start på nytt"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Slett alle dataene permanent"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Alle meldingene og mediefilene dine slettes fra denne enheten for godt. Ingen data fra mobilen din slettes.\n\nDu kan bruke Signal på denne enheten hvis du kobler den til på nytt. Du har muligheten til å overføre meldingsloggen fra telefonen din."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versjonen av databasen passer ikke sammen med denne versjonen av Signal. Sørg for at du bruker den nyeste versjonen av Signal på datamaskinen din."
@@ -1203,13 +1203,13 @@
     "messageformat": "Den flyktige mediefilen kunne ikke lastes ned. {name} må sende den på nytt."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Mediefilen kunne ikke lastes ned"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Sørg for at begge enhetene er koblet til internett. Åpne Signal på telefonen, og prøv å laste ned filen på nytt."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Denne mediefilen er ikke lenger tilgjengelig på telefonen din og kan derfor ikke lastes ned."
   },
   "icu:save": {
     "messageformat": "Lagre"
@@ -1278,7 +1278,7 @@
     "messageformat": "For å endre navnet på denne enheten må du åpne Signal på telefonen din og gå til Innstillinger > Tilkoblede enheter."
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Emoji-hudtone"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Skriv inn et navn for enheten"
@@ -1839,13 +1839,13 @@
     "messageformat": "Hjelp"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Supportsenter"
+    "messageformat": "Brukerstøttesenter"
   },
   "icu:ConversationDetails--contact-us": {
     "messageformat": "Kontakt oss"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donér til Signal"
+    "messageformat": "Gi penger til Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Vis sikkerhetsnummer"
@@ -2394,7 +2394,7 @@
     "messageformat": "Ingen klistremerker funnet"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Forhåndsvisning av klistremerke"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Søk blant GIF-er i Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Fant ingen GIF-er"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Forhåndsvisning av GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Fjern søk"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Hudtone"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Ingen"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Lys hudtone"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Medium til lys hudtone"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Medium hudtone"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Medium til mørk hudtone"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Mørk hudtone"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Avbryt"
@@ -2802,7 +2802,7 @@
     "messageformat": "Falske navn og kontoer"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal kommer aldri til å be deg om å sende registreringskoden eller PIN-koden din. Vær på vakt mot forespørsler fra svindlere som utgir seg for å være andre. Profilnavn velges av kontoinnehavere og bekreftes ikke."
+    "messageformat": "Signal kommer aldri til å be deg om å sende registreringskoden eller PIN-koden din. Vær på vakt mot forespørsler fra svindlere som utgir seg for å være andre. Profilnavn velges av kontoinnehaveren og kan ikke bekreftes."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Krypto- og pengesvindel"
@@ -2940,7 +2940,7 @@
     "messageformat": "Vil du godta forespørselen?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Se nøye gjennom forespørsler. Profilnavn velges av kontoinnehavere og bekreftes ikke."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Fortsett"
@@ -2958,10 +2958,10 @@
     "messageformat": "Se nøye gjennom"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Gruppenavn</clickable> kan ikke bekreftes"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Profilnavn</clickable> kan ikke bekreftes"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Dette er den offisielle og eneste samtalen du har med Signal"
@@ -4035,10 +4035,10 @@
     "messageformat": "Legg til emoji, klistremerke eller GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Vil du bytte vedlegg?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Hvis du legger til denne GIF-en, endres den i meldingsutkastet ditt."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Bytt ut"
@@ -6163,28 +6163,28 @@
     "messageformat": "For å endre dette velger du «Ingen» under «Hvem kan se telefonnummeret mitt?»."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Profilnavn på Signal velges av kontoinnehaveren:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Profilnavn kan ikke bekreftes"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Vær på vakt mot svindlere som utgir seg for å være andre"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ikke send personlige opplysninger til folk du ikke kjenner"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Gruppenavn velges av gruppemedlemmene."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Vær på vakt mot grupper som utgir seg for å være organisasjoner og bedrifter"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profilnavnene til gruppemedlemmer bekreftes ikke"
+    "messageformat": "Profilnavnene til gruppemedlemmer kan ikke bekreftes"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ikke send personlige opplysninger til folk du ikke kjenner"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Siste nytt"
@@ -6224,6 +6224,6 @@
     "messageformat": "Vi har lagt til en snarvei for å ta ned hånden raskt når du tar ordet i gruppesamtaler på Signal."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Hvis du kobler til en ny Desktop-enhet på Signal for Android og ønsker å overføre meldingsloggen din, kan du velge om du også vil overføre gamle vedlegg. Overføringen er som alltid ende-til-ende-kryptert og sikker."
   }
 }

@@ -72,10 +72,10 @@
     "messageformat": "Grúpa anaithnid"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Ní féidir Signal a oscailt"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Chun cabhrú leis an bhfadhb a réiteach, lean an treoir athshlánaithe ar an leathanach tacaíochta, nó déan teagmháil le Tacaíocht Signal chun cabhrú leis an bhfadhb a réiteach.\n\nMás gá duit Signal a úsáid díreach anois, is féidir leat do shonraí a scriosadh agus an deasc seo a athnascadh. Beidh an rogha agat stair teachtaireachtaí a aistriú ó do ghuthán."
   },
   "icu:databaseError": {
     "messageformat": "Earráid leis an mBunachar Sonraí"
@@ -87,10 +87,10 @@
     "messageformat": "Scrios sonraí agus atosaigh"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Scrios Na Sonraí Ar Fad Go Buan"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Scriosfar stair do theachtaireachtaí agus do mheán uile go buan ón ngléas seo. Ní scriosfar sonraí ó do ghuthán leis sin.\n\nBeidh tú in ann Signal a úsáid ar an ngléas seo tar éis é a athnascadh. Beidh an rogha agat stair teachtaireachtaí a aistriú ó do ghuthán."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Ní hionann an leagan bunachair shonraí atá agat agus an leagan seo de Signal. Cinntigh go bhfuil an leagan is nuaí de Signal á oscailt agat ar do ríomhaire."
@@ -1203,13 +1203,13 @@
     "messageformat": "Ní féidir meán amhairc aonuaire a íoslódáil. Beidh ar {name} é a sheoladh arís."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Ní féidir na meáin a íoslódáil"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Seiceáil an nasc Idirlín le do dheasc agus le do ghuthán. Oscail Signal ar do ghuthán, ansin triail íoslódáil arís."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Níl na meáin sin ar fáil ar do ghuthán a thuilleadh agus ní féidir iad a íoslódáil."
   },
   "icu:save": {
     "messageformat": "Cuir i dtaisce é"
@@ -1278,7 +1278,7 @@
     "messageformat": "Chun ainm an ghléis seo a athrú, oscail Signal ar do ghuthán agus téigh chuig Socruithe > Gléasanna nasctha"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Ton craicinn Emoji"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Roghnaigh ainm an ghléis seo"
@@ -2394,7 +2394,7 @@
     "messageformat": "Níor aimsíodh aon ghreamán"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Réamhamharc ar Ghreamán"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Cuardaigh GIFanna via Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Níor aimsíodh aon GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Réamhamharc ar GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Glan an Cuardach"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Ton craicinn"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "Gan Fuaim"
+    "messageformat": "Ceann ar bith"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Ton craicinn éadrom"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Ton craicinn meán-éadrom"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Ton craicinn meánach"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Ton craicinn meándorcha"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Ton craicinn dorcha"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cuir ar ceal"
@@ -2940,7 +2940,7 @@
     "messageformat": "Glac leis an iarratas?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Déan athbhreithniú ar iarratais go cúramach. Roghnaíonn sealbhóir an chuntais ainm na próifíle agus níl siad fíoraithe."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Ar aghaidh"
@@ -2958,16 +2958,16 @@
     "messageformat": "Déan athbhreithniú go cúramach"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "Níl <clickable>ainmneacha grúpa</clickable> fíoraithe"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "Níl <clickable>ainmneacha próifíle</clickable> fíoraithe"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Seo é an t-aon chomhrá oifigiúil de chuid Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Coinnigh suas chun dáta le nuacht agus le nótaí eisiúna."
+    "messageformat": "Coinnigh suas chun dáta leis an nuacht agus le nótaí eisiúna."
   },
   "icu:member-of-1-group": {
     "messageformat": "Ball de {group}"
@@ -4035,10 +4035,10 @@
     "messageformat": "Cuir Emoji, Greamán nó GIF leis"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Ionadaigh an ceangaltán?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Má chuirtear an GIF seo leis, cuirfear in ionad na míre i do dhréacht-theachtaireacht reatha é."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Ionadaigh"
@@ -6163,19 +6163,19 @@
     "messageformat": "Leis an socrú sin a athrú, socraigh \"Daoine atá in ann m'uimhir a fheiceáil\" go \"Duine ar bith\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Roghnaíonn sealbhóir an chuntais ainm na próifíle ar Signal:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Níl ainmneacha próifíle fíoraithe"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Bí ar d'fhaichill ar chuntais a dhéanann daoine eile a phearsanú"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ná comhroinn faisnéis phearsanta le daoine nach bhfuil aithne agat orthu"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Roghnaíonn baill den ghrúpa ainm an ghrúpa."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Bí ar d'fhaichill ar ghrúpaí a dhéanann eagraíochtaí agus gnóthais a phearsanú"
@@ -6184,7 +6184,7 @@
     "messageformat": "Níl ainmneacha próifíle ag baill i ngrúpaí fíoraithe"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ná comhroinn faisnéis phearsanta le daoine nach bhfuil aithne agat orthu"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua"
@@ -6224,6 +6224,6 @@
     "messageformat": "Chuireamar aicearra áisiúil leis chun do lámh a ísliú go tapa tar éis duit tosú ag labhairt le linn ghrúpghlao Signal."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Má nascann tú Deasc nua ar Signal Android agus má roghnaíonn tú stair do theachtaireachtaí a aistriú, anois is féidir leat seancheangaltáin a aistriú go roghnach ó do phríomhghléas freisin. Tá an próiseas aistrithe criptithe ó cheann ceann agus slán."
   }
 }

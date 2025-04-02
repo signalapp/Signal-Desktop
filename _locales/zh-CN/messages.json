@@ -72,10 +72,10 @@
     "messageformat": "未知群组"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "无法打开 Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "如需解决该问题，您可以按照支持页面上的恢复指南进行操作，或者联系 Signal 支持团队获取帮助。\n\n如果您需要立即使用 Signal，您可以删除您的数据并重新链接此桌面设备。您可以选择从手机中转移消息记录。"
   },
   "icu:databaseError": {
     "messageformat": "数据库错误"
@@ -87,10 +87,10 @@
     "messageformat": "删除数据并重新启动"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "永久删除所有数据"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "您的所有消息记录和媒体将会从此设备中永久删除。此操作不会从您的手机中删除任何数据。\n\n重新关联后，您将可以在此设备上使用 Signal。您可以选择从手机中转移消息记录。"
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "您的数据库版本与此版本的 Signal 不匹配。请确保您在电脑上打开的是最新版本的 Signal。"
@@ -1203,13 +1203,13 @@
     "messageformat": "无法下载阅后即焚媒体。{name}需要重发一遍。"
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "无法下载媒体"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "请检查您的桌面设备和手机的互联网连接。在手机上打开 Signal，然后尝试再次下载。"
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "该媒体在您的手机上已不可用，无法下载。"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1278,7 +1278,7 @@
     "messageformat": "如要更改此设备的名称，请打开您手机上的 Signal，然后前往“设置 > 已链接设备”"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "表情符号肤色"
   },
   "icu:chooseDeviceName": {
     "messageformat": "选择这个设备的名称"
@@ -2394,7 +2394,7 @@
     "messageformat": "没有找到表情"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "表情预览"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "通过 Tonor 网站搜索 GIF"
@@ -2445,31 +2445,31 @@
     "messageformat": "未找到 GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF 预览"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "清空搜索"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "肤色"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "无"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "浅肤色"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "中等浅肤色"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "中等肤色"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "中等深肤色"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "深肤色"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "取消"
@@ -2940,7 +2940,7 @@
     "messageformat": "要接受请求吗？"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "请仔细审查请求。昵称是账户持有人自行选择的，未经过验证。"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "继续"
@@ -2958,10 +2958,10 @@
     "messageformat": "请仔细审查"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>群组名称</clickable>未经过验证"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>昵称</clickable>未经过验证"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "这是 Signal 的官方且唯一聊天号"
@@ -4035,10 +4035,10 @@
     "messageformat": "添加表情符号、表情贴图或 GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "要替换附件？"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "添加此 GIF 会替换您当前草稿消息中的内容。"
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "替换"
@@ -6163,19 +6163,19 @@
     "messageformat": "如要更改此设置，请将“谁可以看到我的电话号码”设置为“没有人”。"
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal 上的昵称是账户持有人自行选择的："
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "昵称未经过验证"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "请谨慎甄别假冒仿冒账户"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "请勿与陌生用户分享您的个人信息"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "群组名称是群组成员自行选择的。"
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "请谨慎甄别假冒仿冒组织或企业的群组"
@@ -6184,7 +6184,7 @@
     "messageformat": "群组成员昵称未经过验证"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "请勿与陌生用户分享您的个人信息"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息"
@@ -6224,6 +6224,6 @@
     "messageformat": "我们添加了一个方便的快捷键，让您在群组通话期间开始讲话后快速把举起的手放下来。"
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "如果您在 Android 版 Signal 上链接一个新的桌面设备，并选择转移您的消息记录，现在您也可以有选择地从主设备中转移旧附件。转移过程受端对端加密保护，安全可靠。"
   }
 }

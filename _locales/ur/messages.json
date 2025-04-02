@@ -72,10 +72,10 @@
     "messageformat": "نامعلوم گروپ"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal کو کھولنے سے قاصر"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "مسئلے کو حل کرنے کے لیے، سپورٹ پیج پر دیے گئے ریکوری گائیڈ پر عمل کریں یا مسئلے کو حل کرنے کے لیے Signal سپورٹ سے رابطہ کریں۔\n\nاگر آپ کو فوری طور پر Signal استعمال کرنا ہو، تو آپ اپنے ڈیٹا کو حذف کر سکتے ہیں اور اس ڈیسک ٹاپ کو دوبارہ لنک کر سکتے ہیں۔ آپ کے پاس اپنے فون سے میسج ہسٹری ٹرانسفر کرنے کا اختیار ہو گا۔"
   },
   "icu:databaseError": {
     "messageformat": "ڈیٹا بیس ایرر"
@@ -87,10 +87,10 @@
     "messageformat": "ڈیٹا حذف کریں اور ری اسٹارٹ کریں"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "تمام ڈیٹا کو مستقل طور پر حذف کریں"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "اس ڈیوائس میں موجود آپ کی ساری میسج ہسٹری اور میڈیا کو ہمیشہ کے لیے حذف کر دیا جائے گا۔ اس طرح آپ کے فون میں موجود کوئی دوسرا ڈیٹا حذف نہیں ہو گا۔\n\nدوبارہ لنک کرنے کے بعد، آپ اس ڈیوائس پر Signal استعمال کر سکیں گے۔ آپ کے پاس اپنے فون سے میسج ہسٹری ٹرانسفر کرنے کا اختیار ہو گا۔"
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "آپ کے ڈیٹا بیس کا ورژن Signal کے اس ورژن سے ملتا نہیں ہے۔ اس بات کو یقینی بنائیں کہ آپ اپنے کمپیوٹر پر Signal کا تازہ ترین ورژن کھول رہے ہیں۔"
@@ -1203,13 +1203,13 @@
     "messageformat": "صرف ایک بار دیکھنے کا میڈیا ڈاؤن لوڈ نہیں ہو سکتا۔ {name} کو اسے دوبارہ بھیجنے کی ضرورت ہو گی۔"
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "میڈیا ڈاؤن لوڈ کرنے سے قاصر"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "اپنے ڈیسک ٹاپ اور فون کے انٹرنیٹ کنکشن کو چیک کریں۔ اپنے فون پر Signal کھولیں، پھر دوبارہ ڈاؤنلوڈ کرنے کی کوشش کریں۔"
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "یہ میڈیا اب آپ کے فون میں مزید دستیاب نہیں ہے اور اسے ڈاؤن لوڈ نہیں کیا جا سکتا۔"
   },
   "icu:save": {
     "messageformat": "محفوظ کریں"
@@ -1278,7 +1278,7 @@
     "messageformat": "اس ڈیوائس کا نام تبدیل کرنے کے لیے، اپنے فون پر Signal کھولیں اور سیٹنگز > لنک کردہ ڈیوائسز پر جائیں"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "ایموجی کی اسکن ٹون"
   },
   "icu:chooseDeviceName": {
     "messageformat": "ڈیوائس کا نام منتخب کریں"
@@ -2394,7 +2394,7 @@
     "messageformat": "کوئی اسٹیکر نہیں ملا"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "اسٹکر کا پری ویو"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor کے ذریعے GIFs کو تلاش کریں"
@@ -2445,31 +2445,31 @@
     "messageformat": "کوئی GIFs نہیں ملے"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF پری ویو"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "تلاش صاف کریں"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "اسکن ٹون"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "کوئی نہیں"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "ہلکی اسکن ٹون"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "درمیانی ہلکی اسکن ٹون"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "درمیانی اسکن ٹون"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "درمیانی گہری اسکن ٹون"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "گہری اسکن ٹون"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "منسوخ کریں"
@@ -2940,7 +2940,7 @@
     "messageformat": "درخواست قبول کریں؟"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "درخواستوں کا احتیاط سے جائزہ لیں۔ پروفائل نیمز ان کے اکاؤنٹ کے مالک کی جانب سے منتخب کیے جاتے ہیں اور تصدیق شدہ نہیں ہوتے۔"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "جاری رکھیں"
@@ -2958,10 +2958,10 @@
     "messageformat": "احتیاط سے جائزہ لیں"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>گروپ کے نام</clickable> تصدیق شدہ نہیں ہیں"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>پروفائل نیمز</clickable> تصدیق شدہ نہیں ہیں"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "یہ Signal کی آفیشل اور واحد چیٹ ہے"
@@ -4035,10 +4035,10 @@
     "messageformat": "کوئی ایموجی، اسٹیکر، یا GIF شامل کریں"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "منسلکہ بدلیں؟"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "اس GIF کو شامل کرنے سے آپ کے موجودہ ڈرافٹ میسج میں موجود آئٹم کی جگہ بدل جائے گی۔"
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "تبدیل کریں"
@@ -6163,19 +6163,19 @@
     "messageformat": "اس سیٹنگ کو تبدیل کرنے کے لیے، \"کون میرا نمبر دیکھ سکتا ہے\" کو \"کوئی بھی نہیں\" پر سیٹ کر دیں۔"
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal پر پروفائل نیمز ان کے اکاؤنٹ ہولڈر کی جانب سے منتخب کیے جاتے ہیں۔"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "پروفائل نیمز تصدیق شدہ نہیں ہیں"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "ایسے اکاؤنٹس سے محتاط رہیں جو دوسروں کی نقالی کرتے ہیں"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "ان لوگوں کے ساتھ ذاتی معلومات شیئر نہ کریں جنہیں آپ جانتے نہیں ہیں"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "گروپ کے نام گروپ کے ممبرز کی جانب سے منتخب کیے جاتے ہیں۔"
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "ان گروپس سے محتاط رہیں جو تنظیموں اور کاروباروں کی نقالی کرتے ہیں"
@@ -6184,7 +6184,7 @@
     "messageformat": "گروپس میں شامل ممبرز کے پروفائل نیمز تصدیق شدہ نہیں ہیں"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "ان لوگوں کے ساتھ ذاتی معلومات شیئر نہ کریں جنہیں آپ جانتے نہیں ہیں"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "نیا کیا ہے"
@@ -6224,6 +6224,6 @@
     "messageformat": "ہم نے ایک آسان شارٹ کٹ شامل کیا ہے تاکہ آپ Signal کی گروپ کال کے دوران بولنا شروع کرنے کے بعد فوری طور پر اپنا ہاتھ نیچے کر سکیں۔"
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "اگر آپ Signal Android پر نیا ڈیسک ٹاپ لنک کرتے ہیں اور اپنی میسج ہسٹری ٹرانسفر کرنے کا انتخاب کرتے ہیں، تو اب آپ اپنی بنیادی ڈیوائس سے پرانے منسلکات کو چن کر بھی ٹرانسفر کر سکتے ہیں۔ یہ ٹرانسفر کا عمل اینڈ ٹو اینڈ انکرپٹ کردہ اور محفوظ ہے۔"
   }
 }

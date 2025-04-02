@@ -72,10 +72,10 @@
     "messageformat": "Onbekende groep"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Kan nie Signal oopmaak nie"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Om te help om die probleem op te los, volg die herwinningsgids op die steundiensbladsy of kontak Signal-steundiens om te help om die probleem op te los.\n\nAs jy Signal dadelik moet gebruik, kan jy jou data skrap en hierdie rekenaar herkoppel. Jy sal die opsie hê om die boodskapgeskiedenis van jou foon af oor te dra."
   },
   "icu:databaseError": {
     "messageformat": "Databasisfout"
@@ -87,10 +87,10 @@
     "messageformat": "Skrap data en begin weer"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Skrap alle data permanent"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Jou hele boodskapgeskiedenis en al jou media sal permanent van hierdie toestel geskrap word. Dit sal nie enige data van jou foon af skrap nie.\n\nJy sal Signal op hierdie toestel kan gebruik nadat jy dit herkoppel het. Jy sal die opsie hê om die boodskapgeskiedenis van jou foon af oor te dra."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Die weergawe van jou databasis pas nie by hierdie weergawe van Signal nie. Maak seker dat jy die jongste weergawe van Signal op jou rekenaar oopmaak."
@@ -1203,13 +1203,13 @@
     "messageformat": "Kan nie eenkeerkyk-media aflaai nie. {name} sal dit weer moet stuur."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Kan nie media aflaai nie"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Gaan jou rekenaar en telefoon se internetverbinding na. Maak Signal op jou telefoon oop en probeer dan weer aflaai."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Hierdie media is nie meer op jou foon beskikbaar nie en kan nie afgelaai word nie."
   },
   "icu:save": {
     "messageformat": "Stoor"
@@ -1278,7 +1278,7 @@
     "messageformat": "Om die naam van hierdie toestel te verander, maak Signal op jou foon oop en gaan na Instellings > Gekoppelde toestelle"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Emoji-velkleur"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Kies hierdie toestelnaam"
@@ -2394,7 +2394,7 @@
     "messageformat": "Geen plakkers gevind nie."
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Plakkervoorskou"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Soek GIF's via Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Geen GIF's gevind nie"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF-voorskou"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Vee Soek uit"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Velkleur"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Geen"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Ligte velkleur"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Mediumligte velkleur"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Medium velkleur"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Mediumdonker velkleur"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Donker velkleur"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Kanselleer"
@@ -2940,7 +2940,7 @@
     "messageformat": "Aanvaar versoek?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Gaan versoeke noukeurig na. Profielname word deur hul rekeningeienaar gekies en word nie geverifieer nie."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Gaan voort"
@@ -2958,10 +2958,10 @@
     "messageformat": "Gaan noukeurig na"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Groepname</clickable> is nie geverifieer nie"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Profielname</clickable> is nie geverifieer nie"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Hierdie is die amptelike en enigste klets van Signal"
@@ -4035,13 +4035,13 @@
     "messageformat": "Voeg 'n Emoji, Plakker of GIF by"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Vervang aanhegsel?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Die byvoeging van hierdie GIF sal die item in die huidige konsep van jou boodskap vervang."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Vervang"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Wysig boodskap"
@@ -6163,19 +6163,19 @@
     "messageformat": "Om hierdie instelling te verander, stel \"Wie kan my nommer sien\" na \"Niemand\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Profielname in Signal word deur die rekeninghouer gekies:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Profielname is nie geverifieer nie"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Wees versigtig vir rekeninge wat ander naboots"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Moenie persoonlike inligting deel met mense wat jy nie ken nie"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Groepname word deur lede van die groep gekies."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Wees versigtig vir groepe wat organisasies en besighede naboots"
@@ -6184,7 +6184,7 @@
     "messageformat": "Profielname van lede in groepe word nie geverifieer nie"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Moenie persoonlike inligting deel met mense wat jy nie ken nie"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat is nuut"
@@ -6224,6 +6224,6 @@
     "messageformat": "Ons het 'n gerieflike kortpad bygevoeg om jou hand vinnig te laat sak nadat jy tydens 'n Signal-groepoproep begin praat het."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "As jy 'n nuwe rekenaar op Signal Android koppel en kies om jou boodskapgeskiedenis oor te dra, kan jy nou ook ou aanhegsels selektief van jou primêre toestel af oordra."
   }
 }

@@ -72,10 +72,10 @@
     "messageformat": "Grup tidak dikenal"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Tidak Bisa Buka Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Untuk mengatasi masalah ini, ikuti panduan pemulihan di halaman dukungan atau hubungi dukungan Signal.\n\nJika Anda ingin langsung memakai Signal, silakan hapus data dan hubungkan kembali desktop ini. Nanti akan ada opsi mentransfer riwayat pesan dari ponsel Anda."
   },
   "icu:databaseError": {
     "messageformat": "Kesalahan Database"
@@ -87,10 +87,10 @@
     "messageformat": "Hapus data dan mulai ulang"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Hapus Permanen Semua Data"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Semua riwayat pesan dan media Anda akan dihapus permanen dari perangkat ini. Tindakan ini tidak akan menghapus data apa pun dari ponsel Anda.\n\nAnda bisa memakai Signal di perangkat ini setelah menghubungkannya lagi. Nanti akan ada opsi mentransfer riwayat pesan dari ponsel Anda."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versi basis data Anda tidak cocok dengan versi Signal ini. Pastikan Anda membuka Signal versi terbaru di komputer Anda."
@@ -1203,13 +1203,13 @@
     "messageformat": "Tidak bisa mengunduh media sekali lihat. {name} harus mengirimnya lagi."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Tidak bisa mengunduh media"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Periksa koneksi internet desktop dan ponsel Anda. Buka Signal di ponsel, lalu coba unduh lagi."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Media ini sudah tidak tersedia di ponsel Anda dan tidak bisa diunduh."
   },
   "icu:save": {
     "messageformat": "Simpan"
@@ -1278,7 +1278,7 @@
     "messageformat": "Untuk mengubah nama perangkat, buka Signal di ponsel dan akses Pengaturan > Perangkat terhubung"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Warna kulit emoji"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Pilih nama perangkat Anda"
@@ -2394,7 +2394,7 @@
     "messageformat": "Tidak ditemukan stiker"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Pratinjau Stiker"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Cari GIF via Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Tidak ditemukan GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Pratinjau GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Bersihkan Pencarian"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Warna kulit"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Kosong"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Warna kulit terang"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Warna kulit agak terang"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Warna kulit sedang"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Warna kulit agak gelap"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Warna kulit gelap"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Batal"
@@ -2940,7 +2940,7 @@
     "messageformat": "Terima permintaan?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Tinjau permintaan dengan cermat. Nama profil dipilih oleh pemilik akun dan belum diverifikasi."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Lanjutkan"
@@ -2958,10 +2958,10 @@
     "messageformat": "Tinjau dengan cermat"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Nama grup</clickable> belum diverifikasi"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Nama profil</clickable> belum diverifikasi"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Ini chat resmi dan satu-satunya dari Signal"
@@ -4035,10 +4035,10 @@
     "messageformat": "Tambahkan Emoji, Stiker, atau GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Ganti lampiran?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Menambahkan GIF ini akan menggantikan item di pesan draf saat ini."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Ganti"
@@ -6163,19 +6163,19 @@
     "messageformat": "Untuk mengubahnya, tetapkan pengaturan “Siapa bisa melihat nomor saya” ke opsi “Tidak ada”."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Nama profil di Signal dipilih oleh pemilik akun:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Nama profil belum diverifikasi"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Berhati-hatilah dengan akun yang tidak jelas"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Jangan bagikan info pribadi dengan orang yang tidak dikenal"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Nama grup dipilih oleh anggota grup."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Berhati-hatilah dengan grup yang mungkin menggunakan nama organisasi dan bisnis orang lain"
@@ -6184,7 +6184,7 @@
     "messageformat": "Nama profil anggota grup ini belum diverifikasi"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Jangan bagikan info pribadi dengan orang yang tidak dikenal"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yang Baru"
@@ -6224,6 +6224,6 @@
     "messageformat": "Kami menambahkan tombol pintasan praktis untuk menurunkan tangan setelah Anda mulai berbicara dalam panggilan grup Signal. Inilah fitur favorit pada rilisan kali ini."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Saat menghubungkan Desktop baru ke Signal Android dan memilih \"Transfer riwayat pesan\", bukan hanya pesan yang bisa ditransfer, tetapi Anda juga bisa memilih lampiran lama mana saja yang akan ditransfer dari perangkat utama. Anda bisa mentransfer lampiran lama ke perangkat baru dengan mengeklik ikon unduh. Dan seperti biasa, proses transfer dienkripsi secara menyeluruh dan dipastikan keamanannya."
   }
 }

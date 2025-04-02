@@ -72,10 +72,10 @@
     "messageformat": "अज्ञात गट"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal उघडता येत नाही"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "समस्या दुरुस्त करण्यास मदत करण्यासाठी, सपोर्ट पानावरील पुनःप्राप्ती मार्गदर्शिकेचे पालन करा किंवा Signal सपोर्टशी संपर्क साधा.\n\nतुम्हाला तातडीने Signal वापरायचे असेल, तर तुम्ही तुमचा डेटा हटवू शकता आणि हा डेस्कटॉप पुन्हा लिंक करू शकता. तुमच्याकडे तुमच्या फोनवरून संदेश इतिहास हस्तांतरण करण्याचा पर्याय असेल."
   },
   "icu:databaseError": {
     "messageformat": "डेटाबेस त्रुटी"
@@ -87,10 +87,10 @@
     "messageformat": "डेटा हटवा आणि पुन्हा सुरू करा"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "सर्व डेटा कायमचा हटवा"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "या डिव्हाइसवरून तुमच्या सर्व संदेशांचा इतिहास आणि मिडीया कायमचे हटवले जातील. याने तुमच्या फोनवरील कोणताही डेटा हटणार नाही.\n\nतुम्ही हा डिव्हाइस पुन्हा लिंक करून त्यावर Signal वापरू शकाल. तुमच्याकडे तुमच्या फोनवरून संदेश इतिहास हस्तांतरण करण्याचा पर्याय असेल."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "आपल्या डेटाबेसची आवृत्ती या Signal च्या आवृत्ती बरोबर जुळत नाही. आपण आपल्या संगणकावर Signal ची नवीनतम आवृत्ती उघडत असल्याची खात्री करा."
@@ -1203,13 +1203,13 @@
     "messageformat": "एकदा-बघा मिडीया डाऊनलोड करता येत नाही. {name}ने तो पुन्हा पाठवावा."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "मिडीया डाऊनलोड करता येत नाही"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "तुमच्या डेस्कटॉपचे आणि फोनचे इंटरनेट कनेक्शन तपासा. तुमच्या फोनवर Signal उघडा, मग पुन्हा डाऊनलोड करायचा प्रयत्न करा."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "हा मिडीया आता तुमच्या फोनवर उपलब्ध नाही आणि म्हणून डाऊनलोड होणार नाही."
   },
   "icu:save": {
     "messageformat": "जतन करा"
@@ -1278,7 +1278,7 @@
     "messageformat": "या डिव्हाईसचे नाव बदलण्यासाठी, तुमच्या फोनवर Signal उघडा आणि सेटिंग्ज > लिंक केलेले डिव्हाइसेस वर जा"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "ईमोजीचा वर्ण"
   },
   "icu:chooseDeviceName": {
     "messageformat": "या डिव्हाईसचे नाव निवडा"
@@ -2394,7 +2394,7 @@
     "messageformat": "कुठलेही स्टिकर आढळले नाही"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "स्टिकरचे पूर्वावलोकन करा"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor वर GIFs शोधा"
@@ -2445,31 +2445,31 @@
     "messageformat": "GIFs सापडले नाहीत"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF चे पूर्वावलोकन करा"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "शोध साफ करा"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "वर्ण"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "कुठलेही नाही"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "उजळ वर्ण"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "मध्यम उजळ वर्ण"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "सावळा वर्ण"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "सावळा - गडद वर्ण"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "गडद वर्ण"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "रद्द करा"
@@ -2940,7 +2940,7 @@
     "messageformat": "विनंती स्वीकारायची?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "विनंत्यांचे काळजीपूर्वक पुनरावलोकन करा. प्रोफाइल नावे त्यांच्या खाते धारकांकडून निवडली जातात आणि पडताळलेली नसतात."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "सुरू ठेवा"
@@ -2958,10 +2958,10 @@
     "messageformat": "काळजीपूर्वक पुनरावलोकन करा"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>गटाची नावे</clickable> पडताळलेली नसतात"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>प्रोफाइल नावे</clickable> पडताळलेली नसतात"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "हे Signal कडून मिळणारे अधिकृत आणि एकमेव चॅट आहे"
@@ -4035,10 +4035,10 @@
     "messageformat": "ईमोजी, स्टिकर किंवा GIF समाविष्ट करा"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "अटॅचमेंट बदलायची का?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "ही GIF समाविष्ट करा ती तुमच्या सध्याच्या मसुदा संदेशामधील जोडणीची जागा घेईल."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "बदला"
@@ -6163,19 +6163,19 @@
     "messageformat": "ही सेटिंग्ज बदलण्यासाठी, \"माझा नंबर कोण पाहू शकतो\" ते \"कोणीही नाही\" ला सेट करा."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal वरील प्रोफाइल नावे खाते धारकांकडून निवडली जातात:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "प्रोफाइल नावे पडताळलेली नाहीत"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "दुसरे कोणी असल्याची बतावणी करणाऱ्या खात्याबाबत जागरूक राहा"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "तुम्ही ओळखत नसलेल्या लोकांना तुमची वैयक्तिक माहिती देऊ नका"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "गटाची नावे गटाचे सदस्य ठरवतात."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "संस्था आणि व्यवसाय असल्याची बतावणी करणाऱ्या गटांपासून सावध राहा"
@@ -6184,7 +6184,7 @@
     "messageformat": "गटांमधील सदस्यांची प्रोफाइल नावे पडताळलेली नसतात"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "तुम्ही ओळखत नसलेल्या लोकांना तुमची वैयक्तिक माहिती देऊ नका"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "नवीन काय आहे"
@@ -6224,6 +6224,6 @@
     "messageformat": "तुम्ही Signal गट कॉलवर बोलायला सुरुवात केल्यावर तुम्हाला हात लगेच खाली घेता यावा यासाठी आम्ही एक सोयीचा शॉर्टकट जोडला आहे. हे आमचे या प्रकाशनातील सगळ्यांत आवडते वैशिष्ट्य आहे."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "जर तुम्ही Signal ॲन्ड्राइड वर नवीन डेस्कटॉप जोडलात आणि तुमचा संदेश इतिहास हस्तांतरण करायचे ठरवलेत, तर तुम्ही तुमच्या प्रायमरी डिव्हाईसवरील ठरावीक जुनी अटॅचमेंट्ससुद्धा हस्तांतरण करू शकता. स्क्रोल करून भूतकाळात प्रवास करा आणि डाऊनलोड आयकन वर क्लिक करून हवा तो भूतकाळ वर्तमानात आणा. नेहमीप्रमाणेच, हस्तांतरण प्रक्रिया एंड-टू-एंड कूटबद्ध केलेली आहे आणि सुरक्षित आहे."
   }
 }

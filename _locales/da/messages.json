@@ -72,10 +72,10 @@
     "messageformat": "Ukendt gruppe"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Kan ikke åbne Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "For at hjælpe med at løse problemet skal du følge gendannelsesvejledningen på supportsiden eller kontakte Signal-support for at hjælpe med at løse problemet.\n\nHvis du skal bruge Signal med det samme, kan du slette dine data og tilknytte denne computer igen. Du vil have mulighed for at overføre din beskedhistorik fra din telefon."
   },
   "icu:databaseError": {
     "messageformat": "Databasefejl"
@@ -87,10 +87,10 @@
     "messageformat": "Slet data og genstart"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Slet alle data permanent"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Din samlede beskedhistorik og dine medier slettes permanent fra denne enhed. Dette sletter ikke data fra din telefon.\n\nDu vil kunne bruge Signal på denne enhed, når du har genoprettet forbindelsen. Du har mulighed for at overføre beskedhistorikken fra din telefon."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Din version af databasen stemmer ikke overens med denne version af Signal. Sørg for, at du åbner den nyeste version af Signal på din computer."
@@ -1203,13 +1203,13 @@
     "messageformat": "Kan ikke downloade medie med engangsvisning. {name} skal sende mediet igen."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Kan ikke downloade medie"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Tjek internetforbindelsen til din computer og telefon. Åbn Signal på din telefon, og prøv så at downloade igen."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Denne mediefil er ikke længere tilgængelig på din telefon og kan ikke downloades."
   },
   "icu:save": {
     "messageformat": "Gem"
@@ -1278,7 +1278,7 @@
     "messageformat": "For at ændre navnet på denne enhed skal du åbne Signal på din telefon og gå ind i Indstillinger > Forbundne enheder"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "Emoji-hudfarve"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Vælg denne enheds navn"
@@ -2394,7 +2394,7 @@
     "messageformat": "Ingen fundne klistermærker"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Forhåndsvisning af klistermærker"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Søg efter GIF'er i Tenor"
@@ -2445,31 +2445,31 @@
     "messageformat": "Ingen GIF'er fundet"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Forhåndsvisning af GIF'er"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Ryd søgning"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Hudfarve"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "Ingen"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Lys hudfarve"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Mellemlys hudfarve"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Mellem hudfarve"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Mellemmørk hudfarve"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Mørk hudfarve"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Annullér"
@@ -2940,7 +2940,7 @@
     "messageformat": "Vil du acceptere anmodningen?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Gennemgå anmodninger omhyggeligt. Profilnavne vælges af kontoens indehaver og verificeres ikke."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Fortsæt"
@@ -2958,10 +2958,10 @@
     "messageformat": "Gennemgå omhyggeligt"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Gruppenavne</clickable> er ikke verificerede"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Profilnavne</clickable> er ikke verificerede"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Dette er den officielle og eneste Signal-chat"
@@ -4035,10 +4035,10 @@
     "messageformat": "Tilføj en emoji, et klistermærke eller en GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Vil du erstatte vedhæftningen?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Hvis du tilføjer denne GIF, vil det erstatte vedhæftningen i din nuværende kladde."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Erstat"
@@ -6163,19 +6163,19 @@
     "messageformat": "For at ændre denne indstilling skal du indstille \"Personer, der kan se mit nummer\" til \"Ingen\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Profilnavne på Signal vælges af kontoens indehaver:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Profilnavne verificeres ikke"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Tag dig i agt for kontoer, der udgiver sig for at være nogen, de ikke er"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Del ikke personlige oplysninger med personer, du ikke kender"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Gruppenavne vælges af gruppens medlemmer."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Tag dig i agt for grupper, der udgiver sig for at være organisationer og virksomheder"
@@ -6184,7 +6184,7 @@
     "messageformat": "Profilnavne på medlemmer i grupper verificeres ikke"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Del ikke personlige oplysninger med personer, du ikke kender"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Nyheder"
@@ -6224,6 +6224,6 @@
     "messageformat": "Vi har tilføjet en praktisk genvej, så du hurtigt kan trække din håndsoprækning tilbage, når du begynder at tale under et gruppeopkald i Signal. Hånden på hjertet. Denne funktion er uden tvivl vores favorit i denne udgivelse."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Hvis du tilknytter en ny computer på Signal Android og vælger at overføre din beskedhistorik, kan du nu også selektivt overføre gamle vedhæftede filer fra din primære enhed. Bring fortiden ind i nutiden ved at scrolle tilbage i tiden og klikke på downloadikonet. Som altid er overførselsprocessen E2E-krypteret og sikker."
   }
 }

@@ -72,10 +72,10 @@
     "messageformat": "未知的群組"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "無法開啟 Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "若要解決問題，請依照支援頁面上的復原指南，或聯絡 Signal 支援尋求協助。\n\n如果你需要立即使用 Signal，可以刪除你的資料，並重新連結此桌面電腦。你可以選擇從手機轉移訊息紀錄。"
   },
   "icu:databaseError": {
     "messageformat": "資料庫錯誤"
@@ -87,10 +87,10 @@
     "messageformat": "刪除資料並重新啟動"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "永久刪除所有資料"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "你的所有訊息紀錄和媒體將從此裝置中永久刪除。這不會刪除你手機中的任何資料。\n\n重新連結後，你將可以在此裝置上使用 Signal。你可以選擇從手機轉移訊息紀錄。"
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "你的資料庫版本與此 Signal 的版本不匹配。請確定你在電腦上開啟了最新版本的 Signal。"
@@ -1203,13 +1203,13 @@
     "messageformat": "無法下載閱後即焚媒體。{name} 需要再次傳送。"
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "無法下載媒體"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "檢查桌面電腦和手機的網路連線。開啟手機上的 Signal，然後嘗試再次下載。"
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "無法在你的手機上取得此媒體，也無法下載。"
   },
   "icu:save": {
     "messageformat": "儲存"
@@ -1278,7 +1278,7 @@
     "messageformat": "要變更此裝置名稱，請在你的手機上開啟 Signal 並前往「設定」 > 「已連結裝置」"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
+    "messageformat": "表情符號膚色"
   },
   "icu:chooseDeviceName": {
     "messageformat": "選擇此裝置的名稱"
@@ -2394,7 +2394,7 @@
     "messageformat": "找不到貼圖"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "貼圖預覽"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "透過 Tenor 搜尋 GIF"
@@ -2445,31 +2445,31 @@
     "messageformat": "找不到 GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF 預覽"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "清除搜尋"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "膚色"
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "無"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "淺膚色"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "中等偏淺膚色"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "中等膚色"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "中等偏深膚色"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "深膚色"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "取消"
@@ -2940,7 +2940,7 @@
     "messageformat": "要接受請求嗎？"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "請仔細檢視請求。個人檔案名稱由其帳戶持有人選擇，並未經過驗證。"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "繼續"
@@ -2958,10 +2958,10 @@
     "messageformat": "仔細檢查"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>群組名稱</clickable>未經驗證"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>個人檔案名稱</clickable>未經驗證"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "這是 Signal 官方及唯一版本的聊天"
@@ -4035,10 +4035,10 @@
     "messageformat": "新增表情符號、貼圖或 GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "要更換附件嗎？"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "新增此 GIF 將取代目前草稿訊息中的項目。"
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "取代"
@@ -6163,19 +6163,19 @@
     "messageformat": "若要變更此設定，請將「誰可以看到我的號碼」設定為「沒有人」。"
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal 上的個人檔案名稱由其帳戶持有人選擇："
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "個人檔案名稱未經驗證"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "請小心那些冒充他人的帳戶"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "不要與不認識的人分享個人資料"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "群組名稱由群組成員選擇。"
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "請小心那些冒充其他組織和企業的群組"
@@ -6184,7 +6184,7 @@
     "messageformat": "群組中成員的個人檔案名稱未經驗證"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "不要與不認識的人分享個人資料"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "有甚麼新的"
@@ -6224,6 +6224,6 @@
     "messageformat": "我們新增了一個方便的捷徑，讓你在 Signal 群組通話中開始發言後，可以快速放下你的手。這是此發行版本中我們最喜歡的功能。"
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "如果你在 Signal Android 上連結新的桌面電腦並選擇轉移訊息紀錄，現在你也可以選擇性地從主裝置轉移舊附件。回顧過去並點擊下載圖示，將過去帶入現在。與往常一樣，轉移過程是端對端加密且安全的。"
   }
 }
