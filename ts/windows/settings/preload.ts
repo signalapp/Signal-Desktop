@@ -60,6 +60,18 @@ const settingZoomFactor = createSetting('zoomFactor');
 
 // Getters only.
 const settingBlockedCount = createSetting('blockedCount');
+const settingBackupFeatureEnabled = createSetting('backupFeatureEnabled', {
+  setter: false,
+});
+const settingCloudBackupStatus = createSetting('cloudBackupStatus', {
+  setter: false,
+});
+const settingBackupSubscriptionStatus = createSetting(
+  'backupSubscriptionStatus',
+  {
+    setter: false,
+  }
+);
 const settingLinkPreview = createSetting('linkPreviewSetting', {
   setter: false,
 });
@@ -88,6 +100,10 @@ const ipcGetEmojiSkinToneDefault = createCallback('getEmojiSkinToneDefault');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcMakeSyncRequest = createCallback('syncRequest');
 const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
+const ipcRefreshCloudBackupStatus = createCallback('refreshCloudBackupStatus');
+const ipcRefreshBackupSubscriptionStatus = createCallback(
+  'refreshBackupSubscriptionStatus'
+);
 
 // ChatColorPicker redux hookups
 // The redux actions update over IPC through a preferences re-render
@@ -144,7 +160,10 @@ function attachRenderCallback<Value>(f: (value: Value) => Promise<Value>) {
 async function renderPreferences() {
   const {
     autoDownloadAttachment,
+    backupFeatureEnabled,
+    backupSubscriptionStatus,
     blockedCount,
+    cloudBackupStatus,
     deviceName,
     emojiSkinToneDefault,
     hasAudioNotifications,
@@ -188,7 +207,10 @@ async function renderPreferences() {
     isSyncNotSupported,
   } = await awaitObject({
     autoDownloadAttachment: settingAutoDownloadAttachment.getValue(),
+    backupFeatureEnabled: settingBackupFeatureEnabled.getValue(),
+    backupSubscriptionStatus: settingBackupSubscriptionStatus.getValue(),
     blockedCount: settingBlockedCount.getValue(),
+    cloudBackupStatus: settingCloudBackupStatus.getValue(),
     deviceName: settingDeviceName.getValue(),
     hasAudioNotifications: settingAudioNotification.getValue(),
     hasAutoConvertEmoji: settingAutoConvertEmoji.getValue(),
@@ -279,7 +301,10 @@ async function renderPreferences() {
     availableLocales,
     availableMicrophones,
     availableSpeakers,
+    backupFeatureEnabled,
+    backupSubscriptionStatus,
     blockedCount,
+    cloudBackupStatus,
     customColors,
     defaultConversationColor,
     deviceName,
@@ -333,12 +358,13 @@ async function renderPreferences() {
     initialSpellCheckSetting:
       MinimalSignalContext.config.appStartInitialSpellcheckSetting,
     makeSyncRequest: ipcMakeSyncRequest,
+    refreshCloudBackupStatus: ipcRefreshCloudBackupStatus,
+    refreshBackupSubscriptionStatus: ipcRefreshBackupSubscriptionStatus,
     removeCustomColor: ipcRemoveCustomColor,
     removeCustomColorOnConversations: ipcRemoveCustomColorOnConversations,
     resetAllChatColors: ipcResetAllChatColors,
     resetDefaultChatColor: ipcResetDefaultChatColor,
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
-
     // Limited support features
     isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(
       OS,

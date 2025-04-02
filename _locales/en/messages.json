@@ -6587,6 +6587,10 @@
     "messageformat": "Voice messages and stickers are always auto-downloaded.",
     "description": "Additional clarification for how media auto-download will behave"
   },
+  "icu:Preferences__button--backups": {
+    "messageformat": "Backups",
+    "description": "Button to switch the settings view to control message & media backups"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Last import at {date} {time}",
     "description": "Label for date and time of last sync operation"
@@ -6626,6 +6630,66 @@
   "icu:Preferences--blocked": {
     "messageformat": "Blocked",
     "description": "Label for blocked contacts setting"
+  },
+  "icu:Preferences--backup-details__header": {
+    "messageformat": "Backup details",
+    "description": "Section title for info on your current backup (created time & size)"
+  },
+  "icu:Preferences--backup-media-plan__description": {
+    "messageformat": "Text + all media backup",
+    "description": "Description of a backup plan that backups all of their messages (text) and media"
+  },
+  "icu:Preferences--backup-plan-not-found__description": {
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups.",
+    "description": "Description when a backup subscription used to exist but is not active"
+  },
+  "icu:Preferences--backup-messages-plan__description": {
+    "messageformat": "Text + {mediaDayCount, plural, one {# day} other {# days}} media backup",
+    "description": "Description of a backup plan that backups all of their messages (text) and recent ~45 days of media"
+  },
+  "icu:Preferences--backup-messages-plan__cost-description": {
+    "messageformat": "Your backup plan is free",
+    "description": "Description of the cost of the user's (free!) backup plan"
+  },
+  "icu:Preferences--backup-plan__renewal-date": {
+    "messageformat": "Renews {date}",
+    "description": "Text describing the date at which the backup plan renews"
+  },
+  "icu:Preferences--backup-plan__expiry-date": {
+    "messageformat": "Expires {date}",
+    "description": "Text describing the date at which the backup plan expires"
+  },
+  "icu:Preferences--backup-plan__canceled": {
+    "messageformat": "Subscription canceled",
+    "description": "Description of plan when it has been canceled (i.e. not going to renew but still active)"
+  },
+  "icu:Preferences--backup-media-plan__note": {
+    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone.",
+    "description": "Note next to backups plan summary"
+  },
+  "icu:Preferences--backup-messages-plan__note": {
+    "messageformat": "You can manage or upgrade Signal Backups on your phone.",
+    "description": "Note next to backups plan summary"
+  },
+  "icu:Preferences--backup-plan__not-found": {
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups.",
+    "description": "Shown if if we could not find the user's subscription"
+  },
+  "icu:Preferences--backup-plan__not-found__note": {
+    "messageformat": "You can manage or renew your Signal Backups subscription on your phone.",
+    "description": "Note next to backups plan summary if we could not find their subscription"
+  },
+  "icu:Preferences--backup-created-at__label": {
+    "messageformat": "Last backup",
+    "description": "Label for the date that the last backup was created for this user"
+  },
+  "icu:Preferences--backup-created-by-phone": {
+    "messageformat": "Your phone",
+    "description": "Label for the primary device (your phone) that made the most recent cloud backup"
+  },
+  "icu:Preferences--backup-size__label": {
+    "messageformat": "Backup size",
+    "description": "Label for the size (e.g. 1.4 GB) of this user's backup"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {# contact} other {# contacts}}",

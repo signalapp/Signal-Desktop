@@ -17,7 +17,6 @@ import { type Loadable, LoadingState } from '../../util/loadable';
 import { isRecord } from '../../util/isRecord';
 import { strictAssert } from '../../util/assert';
 import * as Registration from '../../util/registration';
-import { isBackupEnabled } from '../../util/isBackupEnabled';
 import { missingCaseError } from '../../util/missingCaseError';
 import { HTTPError } from '../../textsecure/Errors';
 import {
@@ -322,7 +321,7 @@ function finishInstall({
     const accountManager = window.getAccountManager();
     strictAssert(accountManager, 'Expected an account manager');
 
-    if (isBackupEnabled() || isLinkAndSync) {
+    if (isLinkAndSync) {
       dispatch({ type: SHOW_BACKUP_IMPORT });
     } else {
       dispatch({ type: SHOW_LINK_IN_PROGRESS });

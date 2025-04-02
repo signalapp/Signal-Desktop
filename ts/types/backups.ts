@@ -29,3 +29,35 @@ export type BackupCdnReadCredentialType = Readonly<{
   retrievedAtMs: number;
   cdnNumber: number;
 }>;
+
+export type SubscriptionCostType = {
+  amount: number;
+  currencyCode: string;
+};
+
+export type BackupStatusType = {
+  createdAt?: number;
+  protoSize?: number;
+  mediaSize?: number;
+};
+
+export type BackupsSubscriptionType =
+  | {
+      status: 'not-found' | 'expired';
+    }
+  | {
+      status: 'free';
+      mediaIncludedInBackupDurationDays: number;
+    }
+  | (
+      | {
+          status: 'active';
+          renewalDate?: Date;
+          cost?: SubscriptionCostType;
+        }
+      | {
+          status: 'pending-cancellation';
+          expiryDate?: Date;
+          cost?: SubscriptionCostType;
+        }
+    );

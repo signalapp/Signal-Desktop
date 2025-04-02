@@ -18,7 +18,6 @@ import type { Readable } from 'stream';
 import { Net } from '@signalapp/libsignal-client';
 import { assertDev, strictAssert } from '../util/assert';
 import { drop } from '../util/drop';
-import { isRecord } from '../util/isRecord';
 import * as durations from '../util/durations';
 import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { explodePromise } from '../util/explodePromise';
@@ -212,6 +211,7 @@ type PromiseAjaxOptionsType = {
     | 'jsonwithdetails'
     | 'bytes'
     | 'byteswithdetails'
+    | 'raw'
     | 'stream'
     | 'streamwithdetails';
   stack?: string;
@@ -249,6 +249,33 @@ type StreamWithDetailsType = {
   stream: Readable;
   contentType: string | null;
   response: Response;
+};
+
+type GetAttachmentArgsType = {
+  cdnPath: string;
+  cdnNumber: number;
+  headers?: Record<string, string>;
+  redactor: RedactUrl;
+  options?: {
+    disableRetries?: boolean;
+    timeout?: number;
+    downloadOffset?: number;
+    onProgress?: (currentBytes: number, totalBytes: number) => void;
+    abortSignal?: AbortSignal;
+  };
+};
+
+type GetAttachmentFromBackupTierArgsType = {
+  mediaId: string;
+  backupDir: string;
+  mediaDir: string;
+  cdnNumber: number;
+  headers: Record<string, string>;
+  options?: {
+    disableRetries?: boolean;
+    timeout?: number;
+    downloadOffset?: number;
+  };
 };
 
 export const multiRecipient200ResponseSchema = z.object({
@@ -466,6 +493,8 @@ async function _promiseAjax(
       options.responseType === 'streamwithdetails'
     ) {
       result = response.body;
+    } else if (options.responseType === 'raw') {
+      result = response;
     } else {
       result = await response.textConverted();
     }
@@ -619,6 +648,10 @@ function _outerAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType & { responseType: 'streamwithdetails' }
 ): Promise<StreamWithDetailsType>;
+function _outerAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType & { responseType: 'raw' }
+): Promise<Response>;
 function _outerAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
@@ -1354,6 +1387,29 @@ export type ProxiedRequestParams = Readonly<{
   signal?: AbortSignal;
 }>;
 
+const backupFileHeadersSchema = z.object({
+  'content-length': z.coerce.number(),
+  'last-modified': z.coerce.date(),
+});
+
+type BackupFileHeadersType = z.infer<typeof backupFileHeadersSchema>;
+
+const subscriptionResponseSchema = z.object({
+  subscription: z.object({
+    level: z.number(),
+    billingCycleAnchor: z.coerce.date().optional(),
+    endOfCurrentPeriod: z.coerce.date().optional(),
+    active: z.boolean(),
+    cancelAtPeriodEnd: z.boolean().optional(),
+    currency: z.string().optional(),
+    amount: z.number().nonnegative().optional(),
+  }),
+});
+
+export type SubscriptionResponseType = z.infer<
+  typeof subscriptionResponseSchema
+>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
@@ -1371,19 +1427,9 @@ export type WebAPIType = {
     version: string,
     imageFiles: Array<string>
   ) => Promise<Array<Uint8Array>>;
-  getAttachmentFromBackupTier: (args: {
-    mediaId: string;
-    backupDir: string;
-    mediaDir: string;
-    cdnNumber: number;
-    headers: Record<string, string>;
-    options?: {
-      disableRetries?: boolean;
-      timeout?: number;
-      downloadOffset?: number;
-      abortSignal: AbortSignal;
-    };
-  }) => Promise<Readable>;
+  getAttachmentFromBackupTier: (
+    args: GetAttachmentFromBackupTierArgsType
+  ) => Promise<Readable>;
   getAttachment: (args: {
     cdnKey: string;
     cdnNumber?: number;
@@ -1444,6 +1490,9 @@ export type WebAPIType = {
   getSubscriptionConfiguration: (
     userLanguages: ReadonlyArray<string>
   ) => Promise<unknown>;
+  getSubscription: (
+    subscriberId: Uint8Array
+  ) => Promise<SubscriptionResponseType>;
   getProvisioningResource: (
     handler: IRequestHandler,
     timeout?: number
@@ -1572,6 +1621,12 @@ export type WebAPIType = {
     headers: BackupPresentationHeadersType
   ) => Promise<GetBackupInfoResponseType>;
   getBackupStream: (options: GetBackupStreamOptionsType) => Promise<Readable>;
+  getBackupFileHeaders: (
+    options: Pick<
+      GetBackupStreamOptionsType,
+      'cdn' | 'backupDir' | 'backupName' | 'headers'
+    >
+  ) => Promise<{ 'content-length': number; 'last-modified': Date }>;
   getEphemeralBackupStream: (
     options: GetEphemeralBackupStreamOptionsType
   ) => Promise<Readable>;
@@ -1950,6 +2005,7 @@ export function initialize({
       getBackupCDNCredentials,
       getBackupInfo,
       getBackupStream,
+      getBackupFileHeaders,
       getBackupMediaUploadForm,
       getBackupUploadForm,
       getBadgeImageFile,
@@ -1985,6 +2041,7 @@ export function initialize({
       getStorageCredentials,
       getStorageManifest,
       getStorageRecords,
+      getSubscription,
       getSubscriptionConfiguration,
       linkDevice,
       logout,
@@ -3244,6 +3301,25 @@ export function initialize({
         },
       });
     }
+    async function getBackupFileHeaders({
+      headers,
+      cdn,
+      backupDir,
+      backupName,
+    }: Pick<
+      GetBackupStreamOptionsType,
+      'headers' | 'cdn' | 'backupDir' | 'backupName'
+    >): Promise<BackupFileHeadersType> {
+      const result = await _getAttachmentHeaders({
+        cdnPath: `/backups/${encodeURIComponent(backupDir)}/${encodeURIComponent(backupName)}`,
+        cdnNumber: cdn,
+        redactor: _createRedactor(backupDir, backupName),
+        headers,
+      });
+      const responseHeaders = Object.fromEntries(result.entries());
+
+      return parseUnknown(backupFileHeadersSchema, responseHeaders as unknown);
+    }
 
     async function getEphemeralBackupStream({
       cdn,
@@ -3974,25 +4050,49 @@ export function initialize({
       cdnNumber,
       headers,
       options,
-    }: {
-      mediaId: string;
-      backupDir: string;
-      mediaDir: string;
-      cdnNumber: number;
-      headers: Record<string, string>;
-      options?: {
-        disableRetries?: boolean;
-        timeout?: number;
-        downloadOffset?: number;
-      };
-    }) {
+    }: GetAttachmentFromBackupTierArgsType) {
       return _getAttachment({
-        cdnPath: `/backups/${backupDir}/${mediaDir}/${mediaId}`,
+        cdnPath: urlPathFromComponents([
+          'backups',
+          backupDir,
+          mediaDir,
+          mediaId,
+        ]),
         cdnNumber,
         headers,
         redactor: _createRedactor(backupDir, mediaDir, mediaId),
         options,
       });
+    }
+
+    function getCheckedCdnUrl(cdnNumber: number, cdnPath: string) {
+      const baseUrl = cdnUrlObject[cdnNumber] ?? cdnUrlObject['0'];
+      const { origin: expectedOrigin } = new URL(baseUrl);
+      const fullCdnUrl = `${baseUrl}${cdnPath}`;
+      const { origin } = new URL(fullCdnUrl);
+
+      strictAssert(origin === expectedOrigin, `Unexpected origin: ${origin}`);
+      return fullCdnUrl;
+    }
+
+    async function _getAttachmentHeaders({
+      cdnPath,
+      cdnNumber,
+      headers = {},
+      redactor,
+    }: Omit<GetAttachmentArgsType, 'options'>): Promise<fetch.Headers> {
+      const fullCdnUrl = getCheckedCdnUrl(cdnNumber, cdnPath);
+      const response = await _outerAjax(fullCdnUrl, {
+        headers,
+        certificateAuthority,
+        proxyUrl,
+        responseType: 'raw',
+        timeout: DEFAULT_TIMEOUT,
+        type: 'HEAD',
+        redactUrl: redactor,
+        version,
+      });
+      return response.headers;
     }
 
     async function _getAttachment({
@@ -4001,21 +4101,8 @@ export function initialize({
       headers = {},
       redactor,
       options,
-    }: {
-      cdnPath: string;
-      cdnNumber: number;
-      headers?: Record<string, string>;
-      redactor: RedactUrl;
-      options?: {
-        disableRetries?: boolean;
-        timeout?: number;
-        downloadOffset?: number;
-        onProgress?: (currentBytes: number, totalBytes: number) => void;
-        abortSignal?: AbortSignal;
-      };
-    }): Promise<Readable> {
+    }: GetAttachmentArgsType): Promise<Readable> {
       const abortController = new AbortController();
-      const cdnUrl = cdnUrlObject[cdnNumber] ?? cdnUrlObject['0'];
 
       let streamWithDetails: StreamWithDetailsType | undefined;
 
@@ -4035,10 +4122,7 @@ export function initialize({
         if (options?.downloadOffset) {
           targetHeaders.range = `bytes=${options.downloadOffset}-`;
         }
-        const { origin: expectedOrigin } = new URL(cdnUrl);
-        const fullCdnUrl = `${cdnUrl}${cdnPath}`;
-        const { origin } = new URL(fullCdnUrl);
-        strictAssert(origin === expectedOrigin, `Unexpected origin: ${origin}`);
+        const fullCdnUrl = getCheckedCdnUrl(cdnNumber, cdnPath);
 
         streamWithDetails = await _outerAjax(fullCdnUrl, {
           headers: targetHeaders,
@@ -4075,7 +4159,7 @@ export function initialize({
           );
           strictAssert(
             !streamWithDetails.contentType?.includes('multipart'),
-            `Expected non-multipart response for ${cdnUrl}${cdnPath}`
+            'Expected non-multipart response'
           );
 
           const range = streamWithDetails.response.headers.get('content-range');
@@ -4686,11 +4770,11 @@ export function initialize({
       };
     }
 
-    async function getHasSubscription(
+    async function getSubscription(
       subscriberId: Uint8Array
-    ): Promise<boolean> {
+    ): Promise<SubscriptionResponseType> {
       const formattedId = toWebSafeBase64(Bytes.toBase64(subscriberId));
-      const data = await _ajax({
+      const response = await _ajax({
         call: 'subscriptions',
         httpType: 'GET',
         urlParameters: `/${formattedId}`,
@@ -4701,11 +4785,14 @@ export function initialize({
         redactUrl: _createRedactor(formattedId),
       });
 
-      return (
-        isRecord(data) &&
-        isRecord(data.subscription) &&
-        Boolean(data.subscription.active)
-      );
+      return parseUnknown(subscriptionResponseSchema, response);
+    }
+
+    async function getHasSubscription(
+      subscriberId: Uint8Array
+    ): Promise<boolean> {
+      const data = await getSubscription(subscriberId);
+      return data.subscription.active;
     }
 
     function getProvisioningResource(

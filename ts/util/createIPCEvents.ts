@@ -60,6 +60,11 @@ import { sendSyncRequests } from '../textsecure/syncRequests';
 import { waitForEvent } from '../shims/events';
 import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../textsecure/Storage';
 import { EmojiSkinTone } from '../components/fun/data/emojis';
+import type {
+  BackupsSubscriptionType,
+  BackupStatusType,
+} from '../types/backups';
+import { isBackupFeatureEnabled } from './isBackupEnabled';
 
 type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -95,7 +100,9 @@ export type IPCEventsValuesType = {
   mediaCameraPermissions: boolean | undefined;
 
   // Only getters
-
+  backupFeatureEnabled: boolean;
+  cloudBackupStatus: BackupStatusType | undefined;
+  backupSubscriptionStatus: BackupsSubscriptionType | undefined;
   blockedCount: number;
   linkPreviewSetting: boolean;
   phoneNumberDiscoverabilitySetting: PhoneNumberDiscoverability;
@@ -114,6 +121,8 @@ export type IPCEventsCallbacksType = {
     availableMicrophones: Array<AudioDevice>;
     availableSpeakers: Array<AudioDevice>;
   }>;
+  refreshCloudBackupStatus(): void;
+  refreshBackupSubscriptionStatus(): void;
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
   cleanupDownloads: () => Promise<void>;
@@ -185,6 +194,9 @@ type ValuesWithSetters = Omit<
   | 'typingIndicatorSetting'
   | 'deviceName'
   | 'phoneNumber'
+  | 'backupFeatureEnabled'
+  | 'cloudBackupStatus'
+  | 'backupSubscriptionStatus'
 
   // Optional
   | 'mediaPermissions'
@@ -394,6 +406,19 @@ export function createIPCEvents(
         availableSpeakers,
       };
     },
+    getBackupFeatureEnabled: () => {
+      return isBackupFeatureEnabled();
+    },
+    getCloudBackupStatus: () => {
+      return window.storage.get('cloudBackupStatus');
+    },
+    getBackupSubscriptionStatus: () => {
+      return window.storage.get('backupSubscriptionStatus');
+    },
+    refreshCloudBackupStatus:
+      window.Signal.Services.backups.throttledFetchCloudBackupStatus,
+    refreshBackupSubscriptionStatus:
+      window.Signal.Services.backups.throttledFetchSubscriptionStatus,
     getBlockedCount: () =>
       window.storage.blocked.getBlockedServiceIds().length +
       window.storage.blocked.getBlockedGroups().length,

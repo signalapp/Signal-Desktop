@@ -12,10 +12,18 @@ import type {
   BackupMediaBatchResponseType,
   BackupListMediaResponseType,
   TransferArchiveType,
+  SubscriptionResponseType,
 } from '../../textsecure/WebAPI';
 import type { BackupCredentials } from './credentials';
-import { BackupCredentialType } from '../../types/backups';
+import {
+  BackupCredentialType,
+  type BackupsSubscriptionType,
+  type SubscriptionCostType,
+} from '../../types/backups';
 import { uploadFile } from '../../util/uploadAttachment';
+import { HTTPError } from '../../textsecure/Errors';
+import * as log from '../../logging/log';
+import { toLogFormat } from '../../types/errors';
 
 export type DownloadOptionsType = Readonly<{
   downloadOffset: number;
@@ -113,6 +121,34 @@ export class BackupAPI {
     });
   }
 
+  public async getBackupProtoInfo(): Promise<
+    | { backupExists: false }
+    | { backupExists: true; size: number; createdAt: Date }
+  > {
+    const { cdn, backupDir, backupName } = await this.#getCachedInfo(
+      BackupCredentialType.Messages
+    );
+    const { headers } = await this.credentials.getCDNReadCredentials(
+      cdn,
+      BackupCredentialType.Messages
+    );
+    try {
+      const { 'content-length': size, 'last-modified': createdAt } =
+        await this.#server.getBackupFileHeaders({
+          cdn,
+          backupDir,
+          backupName,
+          headers,
+        });
+      return { backupExists: true, size, createdAt };
+    } catch (error) {
+      if (error instanceof HTTPError && error.code === 404) {
+        return { backupExists: false };
+      }
+      throw error;
+    }
+  }
+
   public async getTransferArchive(
     abortSignal: AbortSignal
   ): Promise<TransferArchiveType> {
@@ -167,6 +203,59 @@ export class BackupAPI {
       cursor,
       limit,
     });
+  }
+
+  public async getSubscriptionInfo(): Promise<BackupsSubscriptionType> {
+    const subscriberId = window.storage.get('backupsSubscriberId');
+    if (!subscriberId) {
+      log.error('Backups.getSubscriptionInfo: missing subscriberId');
+      return { status: 'not-found' };
+    }
+
+    let subscriptionResponse: SubscriptionResponseType;
+    try {
+      subscriptionResponse = await this.#server.getSubscription(subscriberId);
+    } catch (e) {
+      log.error(
+        'Backups.getSubscriptionInfo: error fetching subscription',
+        toLogFormat(e)
+      );
+      return { status: 'not-found' };
+    }
+
+    const { subscription } = subscriptionResponse;
+    const { active, amount, currency, endOfCurrentPeriod, cancelAtPeriodEnd } =
+      subscription;
+
+    if (!active) {
+      return { status: 'expired' };
+    }
+
+    let cost: SubscriptionCostType | undefined;
+    if (amount && currency) {
+      cost = {
+        amount,
+        currencyCode: currency,
+      };
+    } else {
+      log.error(
+        'Backups.getSubscriptionInfo: invalid amount/currency returned for active subscription'
+      );
+    }
+
+    if (cancelAtPeriodEnd) {
+      return {
+        status: 'pending-cancellation',
+        cost,
+        expiryDate: endOfCurrentPeriod,
+      };
+    }
+
+    return {
+      status: 'active',
+      cost,
+      renewalDate: endOfCurrentPeriod,
+    };
   }
 
   public clearCache(): void {

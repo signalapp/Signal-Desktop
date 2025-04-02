@@ -17,7 +17,11 @@ import type {
   SessionResetsType,
   StorageServiceCredentials,
 } from '../textsecure/Types.d';
-import type { BackupCredentialWrapperType } from './backups';
+import type {
+  BackupCredentialWrapperType,
+  BackupsSubscriptionType,
+  BackupStatusType,
+} from './backups';
 import type { ServiceIdString } from './ServiceId';
 
 import type { RegisteredChallengeType } from '../challenge';
@@ -221,6 +225,10 @@ export type StorageAccessType = {
     cdn: number;
     key: string;
   };
+
+  backupTier: number | undefined;
+  cloudBackupStatus: BackupStatusType | undefined;
+  backupSubscriptionStatus: BackupsSubscriptionType;
 
   // If true Desktop message history was restored from backup
   isRestoredFromBackup: boolean;

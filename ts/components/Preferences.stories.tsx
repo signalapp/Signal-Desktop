@@ -6,12 +6,12 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './Preferences';
-import { Preferences } from './Preferences';
+import { Page, Preferences } from './Preferences';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
-import { DurationInSeconds } from '../util/durations';
 import { EmojiSkinTone } from './fun/data/emojis';
+import { DAY, DurationInSeconds, WEEK } from '../util/durations';
 
 const { i18n } = window.SignalContext;
 
@@ -76,6 +76,7 @@ export default {
     availableLocales: ['en'],
     availableMicrophones,
     availableSpeakers,
+    backupFeatureEnabled: false,
     blockedCount: 0,
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
@@ -177,6 +178,8 @@ export default {
     onWhoCanSeeMeChange: action('onWhoCanSeeMeChange'),
     onWhoCanFindMeChange: action('onWhoCanFindMeChange'),
     onZoomFactorChange: action('onZoomFactorChange'),
+    refreshCloudBackupStatus: action('refreshCloudBackupStatus'),
+    refreshBackupSubscriptionStatus: action('refreshBackupSubscriptionStatus'),
     removeCustomColor: action('removeCustomColor'),
     removeCustomColorOnConversations: action(
       'removeCustomColorOnConversations'
@@ -219,4 +222,81 @@ export const PNPDiscoverabilityDisabled = Template.bind({});
 PNPDiscoverabilityDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.NotDiscoverable,
+};
+
+export const BackupsPaidActive = Template.bind({});
+BackupsPaidActive.args = {
+  initialPage: Page.Backups,
+  backupFeatureEnabled: true,
+  cloudBackupStatus: {
+    mediaSize: 539_249_410_039,
+    protoSize: 100_000_000,
+    createdAt: new Date(Date.now() - WEEK).getTime(),
+  },
+  backupSubscriptionStatus: {
+    status: 'active',
+    cost: {
+      amount: 22.99,
+      currencyCode: 'USD',
+    },
+    renewalDate: new Date(Date.now() + 20 * DAY),
+  },
+};
+
+export const BackupsPaidCancelled = Template.bind({});
+BackupsPaidCancelled.args = {
+  initialPage: Page.Backups,
+  backupFeatureEnabled: true,
+  cloudBackupStatus: {
+    mediaSize: 539_249_410_039,
+    protoSize: 100_000_000,
+    createdAt: new Date(Date.now() - WEEK).getTime(),
+  },
+  backupSubscriptionStatus: {
+    status: 'pending-cancellation',
+    cost: {
+      amount: 22.99,
+      currencyCode: 'USD',
+    },
+    expiryDate: new Date(Date.now() + 20 * DAY),
+  },
+};
+
+export const BackupsFree = Template.bind({});
+BackupsFree.args = {
+  initialPage: Page.Backups,
+  backupFeatureEnabled: true,
+  backupSubscriptionStatus: {
+    status: 'free',
+    mediaIncludedInBackupDurationDays: 30,
+  },
+};
+
+export const BackupsOff = Template.bind({});
+BackupsOff.args = {
+  initialPage: Page.Backups,
+  backupFeatureEnabled: true,
+};
+
+export const BackupsSubscriptionNotFound = Template.bind({});
+BackupsSubscriptionNotFound.args = {
+  initialPage: Page.Backups,
+  backupFeatureEnabled: true,
+  backupSubscriptionStatus: {
+    status: 'not-found',
+  },
+  cloudBackupStatus: {
+    mediaSize: 539_249_410_039,
+    protoSize: 100_000_000,
+    createdAt: new Date(Date.now() - WEEK).getTime(),
+  },
+};
+
+export const BackupsSubscriptionExpired = Template.bind({});
+BackupsSubscriptionExpired.args = {
+  initialPage: Page.Backups,
+  backupFeatureEnabled: true,
+  backupSubscriptionStatus: {
+    status: 'expired',
+  },
 };

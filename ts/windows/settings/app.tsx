@@ -30,8 +30,11 @@ SettingsWindowProps.onRender(
     availableLocales,
     availableMicrophones,
     availableSpeakers,
+    backupFeatureEnabled,
+    backupSubscriptionStatus,
     blockedCount,
     closeSettings,
+    cloudBackupStatus,
     customColors,
     defaultConversationColor,
     deviceName,
@@ -110,6 +113,8 @@ SettingsWindowProps.onRender(
     onWhoCanSeeMeChange,
     onZoomFactorChange,
     preferredSystemLocales,
+    refreshCloudBackupStatus,
+    refreshBackupSubscriptionStatus,
     removeCustomColor,
     removeCustomColorOnConversations,
     resetAllChatColors,
@@ -135,8 +140,11 @@ SettingsWindowProps.onRender(
         availableLocales={availableLocales}
         availableMicrophones={availableMicrophones}
         availableSpeakers={availableSpeakers}
+        backupFeatureEnabled={backupFeatureEnabled}
+        backupSubscriptionStatus={backupSubscriptionStatus}
         blockedCount={blockedCount}
         closeSettings={closeSettings}
+        cloudBackupStatus={cloudBackupStatus}
         customColors={customColors}
         defaultConversationColor={defaultConversationColor}
         deviceName={deviceName}
@@ -221,6 +229,8 @@ SettingsWindowProps.onRender(
         onWhoCanSeeMeChange={onWhoCanSeeMeChange}
         onZoomFactorChange={onZoomFactorChange}
         preferredSystemLocales={preferredSystemLocales}
+        refreshCloudBackupStatus={refreshCloudBackupStatus}
+        refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
         removeCustomColorOnConversations={removeCustomColorOnConversations}
         removeCustomColor={removeCustomColor}
         resetAllChatColors={resetAllChatColors}

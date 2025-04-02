@@ -13,6 +13,7 @@ import { createCipheriv, createHmac, randomBytes } from 'crypto';
 import { noop } from 'lodash';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
+import { throttle } from 'lodash/fp';
 
 import { DataReader, DataWriter } from '../../sql/Client';
 import * as log from '../../logging/log';
@@ -26,7 +27,7 @@ import { appendMacStream } from '../../util/appendMacStream';
 import { getIvAndDecipher } from '../../util/getIvAndDecipher';
 import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
 import { missingCaseError } from '../../util/missingCaseError';
-import { HOUR } from '../../util/durations';
+import { DAY, HOUR, MINUTE } from '../../util/durations';
 import type { ExplodePromiseResultType } from '../../util/explodePromise';
 import { explodePromise } from '../../util/explodePromise';
 import type { RetryBackupImportValue } from '../../state/ducks/installer';
@@ -36,7 +37,11 @@ import {
   InstallScreenBackupError,
 } from '../../types/InstallScreen';
 import * as Errors from '../../types/errors';
-import { BackupCredentialType } from '../../types/backups';
+import {
+  BackupCredentialType,
+  type BackupsSubscriptionType,
+  type BackupStatusType,
+} from '../../types/backups';
 import { HTTPError } from '../../textsecure/Errors';
 import { constantTimeEqual } from '../../Crypto';
 import { measureSize } from '../../AttachmentCrypto';
@@ -58,6 +63,7 @@ import {
 } from './errors';
 import { ToastType } from '../../types/Toast';
 import { isAdhoc, isNightly } from '../../util/version';
+import { getMessageQueueTime } from '../../util/getMessageQueueTime';
 
 export { BackupType };
 
@@ -102,6 +108,14 @@ export class BackupsService {
 
   public readonly credentials = new BackupCredentials();
   public readonly api = new BackupAPI(this.credentials);
+  public readonly throttledFetchCloudBackupStatus = throttle(
+    MINUTE,
+    this.fetchCloudBackupStatus.bind(this)
+  );
+  public readonly throttledFetchSubscriptionStatus = throttle(
+    MINUTE,
+    this.fetchSubscriptionStatus.bind(this)
+  );
 
   public start(): void {
     if (this.#isStarted) {
@@ -778,6 +792,8 @@ export class BackupsService {
     } catch (error) {
       log.error('Backup: periodic refresh failed', Errors.toLogFormat(error));
     }
+    drop(this.fetchCloudBackupStatus());
+    drop(this.fetchSubscriptionStatus());
   }
 
   async #unlinkAndDeleteAllData() {
@@ -811,6 +827,75 @@ export class BackupsService {
   }
   public isExportRunning(): boolean {
     return this.#isRunning === 'export';
+  }
+
+  #getBackupTierFromStorage(): BackupLevel | null {
+    const backupTier = window.storage.get('backupTier');
+    switch (backupTier) {
+      case BackupLevel.Free:
+        return BackupLevel.Free;
+      case BackupLevel.Paid:
+        return BackupLevel.Paid;
+      case undefined:
+        return null;
+      default:
+        log.error('Unknown backupTier in storage', backupTier);
+        return null;
+    }
+  }
+
+  async #getBackedUpMediaSize(): Promise<number> {
+    const backupInfo = await this.api.getInfo(BackupCredentialType.Media);
+    return backupInfo.usedSpace ?? 0;
+  }
+
+  async fetchCloudBackupStatus(): Promise<BackupStatusType | undefined> {
+    let result: BackupStatusType | undefined;
+    const [backupProtoInfo, mediaSize] = await Promise.all([
+      this.api.getBackupProtoInfo(),
+      this.#getBackedUpMediaSize(),
+    ]);
+
+    if (backupProtoInfo.backupExists) {
+      const { createdAt, size: protoSize } = backupProtoInfo;
+      result = {
+        createdAt: createdAt.getTime(),
+        protoSize,
+        mediaSize,
+      };
+    }
+
+    await window.storage.put('cloudBackupStatus', result);
+    return result;
+  }
+
+  async fetchSubscriptionStatus(): Promise<
+    BackupsSubscriptionType | undefined
+  > {
+    const backupTier = this.#getBackupTierFromStorage();
+    let result: BackupsSubscriptionType;
+    switch (backupTier) {
+      case null:
+      case undefined:
+      case BackupLevel.Free:
+        result = {
+          status: 'free',
+          mediaIncludedInBackupDurationDays: getMessageQueueTime() / DAY,
+        };
+        break;
+      case BackupLevel.Paid:
+        result = await this.api.getSubscriptionInfo();
+        break;
+      default:
+        throw missingCaseError(backupTier);
+    }
+
+    drop(window.storage.put('backupSubscriptionStatus', result));
+    return result;
+  }
+
+  getCachedCloudBackupStatus(): BackupStatusType | undefined {
+    return window.storage.get('cloudBackupStatus');
   }
 }
 

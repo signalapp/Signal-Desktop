@@ -68,6 +68,13 @@ export class SettingsChannel extends EventEmitter {
     this.#installCallback('setEmojiSkinToneDefault');
     this.#installCallback('getEmojiSkinToneDefault');
 
+    // Backups
+    this.#installSetting('backupFeatureEnabled', { setter: false });
+    this.#installSetting('cloudBackupStatus', { setter: false });
+    this.#installSetting('backupSubscriptionStatus', { setter: false });
+    this.#installCallback('refreshCloudBackupStatus');
+    this.#installCallback('refreshBackupSubscriptionStatus');
+
     // Getters only. These are set by the primary device
     this.#installSetting('blockedCount', { setter: false });
     this.#installSetting('linkPreviewSetting', { setter: false });

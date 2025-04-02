@@ -40,7 +40,7 @@ import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
-import { isBackupEnabled } from './util/isBackupEnabled';
+import { isBackupFeatureEnabled } from './util/isBackupEnabled';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
 import {
@@ -1949,7 +1949,7 @@ export async function startApp(): Promise<void> {
     drop(window.Signal.Services.initializeGroupCredentialFetcher());
     drop(AttachmentDownloadManager.start());
 
-    if (isBackupEnabled()) {
+    if (isBackupFeatureEnabled()) {
       backupsService.start();
       drop(AttachmentBackupManager.start());
     }

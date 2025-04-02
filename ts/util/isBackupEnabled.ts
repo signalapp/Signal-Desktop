@@ -5,7 +5,7 @@ import * as RemoteConfig from '../RemoteConfig';
 import { isTestOrMockEnvironment } from '../environment';
 import { isStagingServer } from './isStagingServer';
 
-export function isBackupEnabled(): boolean {
+export function isBackupFeatureEnabled(): boolean {
   if (isStagingServer() || isTestOrMockEnvironment()) {
     return true;
   }

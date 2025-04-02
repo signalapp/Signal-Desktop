@@ -469,6 +469,10 @@ export function toAccountRecord(
   }
 
   accountRecord.backupSubscriberData = generateBackupsSubscriberData();
+  const backupTier = window.storage.get('backupTier');
+  if (backupTier) {
+    accountRecord.backupTier = Long.fromNumber(backupTier);
+  }
 
   const displayBadgesOnProfile = window.storage.get('displayBadgesOnProfile');
   if (displayBadgesOnProfile !== undefined) {
@@ -1398,6 +1402,7 @@ export async function mergeAccountRecord(
     subscriberCurrencyCode,
     donorSubscriptionManuallyCancelled,
     backupSubscriberData,
+    backupTier,
     displayBadgesOnProfile,
     keepMutedChatsArchived,
     hasCompletedUsernameOnboarding,
@@ -1614,6 +1619,7 @@ export async function mergeAccountRecord(
   }
 
   await saveBackupsSubscriberData(backupSubscriberData);
+  await window.storage.put('backupTier', backupTier?.toNumber());
 
   await window.storage.put(
     'displayBadgesOnProfile',
