@@ -357,9 +357,12 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       };
 
       if ('top' in props) {
+        const isRTL = i18n.getLocaleDirection() === 'rtl';
+
         containerStyles.position = 'absolute';
-        containerStyles.insetInlineStart = `${props.left}px`;
-        containerStyles.top = `${props.top}px`;
+
+        const left = isRTL ? -props.left : props.left;
+        containerStyles.transform = `translate(${left}px, ${props.top}px)`;
       }
 
       const nameElement = (
