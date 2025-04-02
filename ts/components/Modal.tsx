@@ -36,7 +36,6 @@ type PropsType = {
   onBackButtonClick?: () => unknown;
   onClose?: () => void;
   title?: ReactNode;
-  useFocusTrap?: boolean;
   padded?: boolean;
   ['aria-describedby']?: string;
 };
@@ -64,7 +63,6 @@ export function Modal({
   onClose = noop,
   theme,
   title,
-  useFocusTrap,
   hasHeaderDivider = false,
   hasFooterDivider = false,
   noTransform = false,
@@ -122,7 +120,6 @@ export function Modal({
       onEscape={onBackButtonClick}
       overlayStyles={overlayStyles}
       theme={theme}
-      useFocusTrap={useFocusTrap}
     >
       <animated.div style={modalStyles}>
         <ModalPage
@@ -324,7 +321,6 @@ type PagedModalProps = Readonly<{
   children: RenderModalPage;
   moduleClassName?: string;
   onClose?: () => void;
-  useFocusTrap?: boolean;
   noMouseClose?: boolean;
   theme?: Theme;
 }>;
@@ -344,7 +340,6 @@ export function PagedModal({
   noMouseClose,
   onClose = noop,
   theme,
-  useFocusTrap,
 }: PagedModalProps): JSX.Element | null {
   const { close, isClosed, modalStyles, overlayStyles } = useAnimated(onClose, {
     getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
@@ -380,7 +375,6 @@ export function PagedModal({
       onClose={close}
       overlayStyles={overlayStyles}
       theme={theme}
-      useFocusTrap={useFocusTrap}
     >
       <animated.div style={modalStyles}>{children(close)}</animated.div>
     </ModalHost>

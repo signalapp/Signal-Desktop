@@ -244,7 +244,6 @@ export function InstallScreenUpdateDialog({
         i18n={i18n}
         modalName={dialogName}
         noMouseClose
-        useFocusTrap={false}
         title={i18n('icu:cannotUpdate')}
       >
         <I18n
@@ -276,7 +275,6 @@ export function DownloadingModal({
       i18n={i18n}
       modalName="InstallScreenUpdateDialog.Downloading"
       noMouseClose
-      useFocusTrap={false}
       title={i18n('icu:DialogUpdate__downloading')}
     >
       <div className="InstallScreenUpdateDialog__progress--container">

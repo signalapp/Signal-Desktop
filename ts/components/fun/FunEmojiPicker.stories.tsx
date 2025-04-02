@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { StrictMode } from 'react';
+import React, { StrictMode, useCallback, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
 import { type ComponentMeta } from '../../storybook/types';
@@ -13,9 +13,18 @@ import { EmojiSkinTone } from './data/emojis';
 
 const { i18n } = window.SignalContext;
 
-type TemplateProps = Omit<FunEmojiPickerProps, 'children'>;
+type TemplateProps = Omit<
+  FunEmojiPickerProps,
+  'open' | 'onOpenChange' | 'children'
+>;
 
 function Template(props: TemplateProps): JSX.Element {
+  const [open, setOpen] = useState(true);
+
+  const handleOpenChange = useCallback((openState: boolean) => {
+    setOpen(openState);
+  }, []);
+
   return (
     <StrictMode>
       <FunProvider
@@ -36,7 +45,7 @@ function Template(props: TemplateProps): JSX.Element {
         fetchGifsFeatured={() => Promise.reject()}
         fetchGif={() => Promise.reject()}
       >
-        <FunEmojiPicker {...props}>
+        <FunEmojiPicker {...props} open={open} onOpenChange={handleOpenChange}>
           <Button>Open EmojiPicker</Button>
         </FunEmojiPicker>
       </FunProvider>
@@ -49,9 +58,8 @@ export default {
   component: Template,
   args: {
     placement: 'bottom',
-    defaultOpen: true,
+    theme: undefined,
     onSelectEmoji: action('onSelectEmoji'),
-    onOpenChange: action('onOpenChange'),
   },
 } satisfies ComponentMeta<TemplateProps>;
 

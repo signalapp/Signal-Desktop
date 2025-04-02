@@ -4,6 +4,7 @@ import Fuse from 'fuse.js';
 import { sortBy } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { z } from 'zod';
+import emojiRegex from 'emoji-regex';
 import * as log from '../../../logging/log';
 import * as Errors from '../../../types/errors';
 import type { LocaleEmojiListType } from '../../../types/emoji';
@@ -686,4 +687,70 @@ export function useEmojiSearch(i18n: LocalizerType): EmojiSearch {
   }, [searchIndex]);
 
   return emojiSearch;
+}
+
+/**
+ *
+ */
+
+function isSafeEmojifyEmoji(value: string): value is EmojiVariantValue {
+  return isEmojiVariantValue(value) && !isEmojiVariantValueNonQualified(value);
+}
+
+export type EmojiSpan = Readonly<{
+  index: number;
+  length: number;
+  emoji: EmojiVariantValue;
+}>;
+
+export type EmojifyData = Readonly<{
+  text: string;
+  emojiCount: number;
+  isEmojiOnlyText: boolean;
+}>;
+
+export function getEmojifyData(input: string): EmojifyData {
+  // Fast path, and treat empty strings like they have non-emoji text
+  if (input === '' || input.trim() === '') {
+    return { text: input, emojiCount: 0, isEmojiOnlyText: false };
+  }
+
+  let hasEmojis = false;
+  let hasNonEmojis = false;
+  let emojiCount = 0;
+
+  const regex = emojiRegex();
+
+  let match = regex.exec(input);
+  let lastIndex = 0;
+  while (match) {
+    const value = match[0];
+
+    // Only consider safe emojis as matches
+    if (isSafeEmojifyEmoji(value)) {
+      const { index } = match;
+      hasEmojis = true;
+      // Track if we skipped over any text
+      if (index > lastIndex) {
+        hasNonEmojis = true;
+        lastIndex += index;
+      }
+      emojiCount += 1;
+      // Needs to be the value.length not the match.length
+      lastIndex = index + value.length;
+    }
+
+    match = regex.exec(input);
+  }
+
+  // Track if we had any remaining text
+  if (lastIndex === 0 || lastIndex < input.length) {
+    hasNonEmojis = true;
+  }
+
+  return {
+    text: input,
+    emojiCount,
+    isEmojiOnlyText: hasEmojis && !hasNonEmojis,
+  };
 }

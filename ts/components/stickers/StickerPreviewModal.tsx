@@ -171,7 +171,7 @@ export const StickerPreviewModal = React.memo(
       : i18n('icu:stickers--StickerManager--Install');
 
     const modalFooter =
-      pack && pack.status !== 'error' ? (
+      pack && pack.status != null && pack.status !== 'error' ? (
         <div className="module-sticker-manager__preview-modal__footer">
           <div className="module-sticker-manager__preview-modal__footer--info">
             <h3 className="module-sticker-manager__preview-modal__footer--title">

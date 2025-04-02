@@ -3279,6 +3279,18 @@
     "messageformat": "Dark skin tone",
     "description": "Fun Picker > Emojis Panel > Skin Tone Picker > Skin Tone Option: Dark skin tone > Accessibility label"
   },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF",
+    "description": "Fun Picker > Trigger Button > Accessibility label"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji",
+    "description": "Emoji Picker > Trigger Button > Accessibility label"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker",
+    "description": "Sticker Picker > Trigger Button > Accessibility label"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancel",
     "description": "Appears on the cancel button in confirmation dialogs."

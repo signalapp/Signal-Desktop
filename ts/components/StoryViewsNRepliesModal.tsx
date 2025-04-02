@@ -10,7 +10,6 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import { noop, orderBy } from 'lodash';
-
 import type { DraftBodyRanges } from '../types/BodyRange';
 import type { LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -38,6 +37,10 @@ import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import { ContextMenu } from './ContextMenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { EmojiSkinTone } from './fun/data/emojis';
+import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
+import { FunEmojiPicker } from './fun/FunEmojiPicker';
+import { FunEmojiPickerButton } from './fun/FunButton';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
 
 // Menu is disabled so these actions are inaccessible. We also don't support
 // link previews, tap to view messages, attachments, or gifts. Just regular
@@ -174,6 +177,7 @@ export function StoryViewsNRepliesModal({
   const shouldScrollToBottomRef = useRef(true);
   const bottomRef = useRef<HTMLDivElement>(null);
   const [messageBodyText, setMessageBodyText] = useState('');
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
   const currentTab = useMemo<StoryViewsNRepliesTab>(() => {
     return viewTarget === StoryViewTargetType.Replies
@@ -193,6 +197,10 @@ export function StoryViewsNRepliesModal({
     );
   };
 
+  const handleEmojiPickerOpenChange = useCallback((open: boolean) => {
+    setEmojiPickerOpen(open);
+  }, []);
+
   const focusComposer = useCallback(() => {
     if (inputApiRef.current) {
       inputApiRef.current.focus();
@@ -207,6 +215,17 @@ export function StoryViewsNRepliesModal({
       }
     },
     [inputApiRef, onUseEmoji]
+  );
+
+  const handleSelectEmoji = useCallback(
+    (emojiSelection: FunEmojiSelection) => {
+      const data: EmojiPickDataType = {
+        shortName: emojiSelection.englishShortName,
+        skinTone: emojiSelection.skinTone,
+      };
+      insertEmoji(data);
+    },
+    [insertEmoji]
   );
 
   let composerElement: JSX.Element | undefined;
@@ -242,6 +261,7 @@ export function StoryViewsNRepliesModal({
           onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
           preferredReactionEmoji={preferredReactionEmoji}
           renderEmojiPicker={renderEmojiPicker}
+          theme={ThemeType.dark}
         />
         <div className="StoryViewsNRepliesModal__compose-container">
           <div className="StoryViewsNRepliesModal__composer">
@@ -285,15 +305,28 @@ export function StoryViewsNRepliesModal({
               shouldHidePopovers={null}
               linkPreviewResult={null}
             >
-              <EmojiButton
-                className="StoryViewsNRepliesModal__emoji-button"
-                i18n={i18n}
-                onPickEmoji={insertEmoji}
-                onClose={focusComposer}
-                recentEmojis={recentEmojis}
-                emojiSkinToneDefault={emojiSkinToneDefault}
-                onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-              />
+              {!isFunPickerEnabled() && (
+                <EmojiButton
+                  className="StoryViewsNRepliesModal__emoji-button"
+                  i18n={i18n}
+                  onPickEmoji={insertEmoji}
+                  onClose={focusComposer}
+                  recentEmojis={recentEmojis}
+                  emojiSkinToneDefault={emojiSkinToneDefault}
+                  onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
+                />
+              )}
+              {isFunPickerEnabled() && (
+                <FunEmojiPicker
+                  open={emojiPickerOpen}
+                  onOpenChange={handleEmojiPickerOpenChange}
+                  onSelectEmoji={handleSelectEmoji}
+                  placement="top"
+                  theme={ThemeType.dark}
+                >
+                  <FunEmojiPickerButton i18n={i18n} />
+                </FunEmojiPicker>
+              )}
             </CompositionInput>
           </div>
         </div>
@@ -461,7 +494,6 @@ export function StoryViewsNRepliesModal({
         })}
         onClose={onClose}
         padded={false}
-        useFocusTrap={Boolean(composerElement)}
         theme={Theme.Dark}
       >
         <div className="StoryViewsNRepliesModal__content">

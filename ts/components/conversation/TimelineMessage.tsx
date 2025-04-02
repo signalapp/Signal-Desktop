@@ -191,7 +191,13 @@ export function TimelineMessage(props: Props): JSX.Element {
     let cleanUpHandler: (() => void) | undefined;
     if (reactionPickerRoot) {
       cleanUpHandler = handleOutsideClick(
-        () => {
+        target => {
+          if (
+            target instanceof Element &&
+            target.closest('.FunPopover') != null
+          ) {
+            return true;
+          }
           toggleReactionPicker(true);
           return true;
         },

@@ -4,9 +4,6 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
-
-import { Button } from 'react-aria-components';
-import { VisuallyHidden } from 'react-aria';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
@@ -80,13 +77,16 @@ import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
 import { ForwardMessagesModalType } from './ForwardMessagesModal';
 import { SignalConversationMuteToggle } from './conversation/SignalConversationMuteToggle';
 import { FunPicker } from './fun/FunPicker';
-import * as RemoteConfig from '../RemoteConfig';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
 import type { FunStickerSelection } from './fun/panels/FunPanelStickers';
 import type { FunGifSelection } from './fun/panels/FunPanelGifs';
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal';
 import { strictAssert } from '../util/assert';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import type { EmojiSkinTone } from './fun/data/emojis';
+import type { StickerPackType, StickerType } from '../state/ducks/stickers';
+import { FunPickerButton } from './fun/FunButton';
+import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -207,6 +207,12 @@ export type OwnProps = Readonly<{
   toggleDraftGifMessageSendModal: (
     props: SmartDraftGifMessageSendModalProps | null
   ) => void;
+
+  onPickEmoji: (e: EmojiPickDataType) => void;
+  emojiSkinToneDefault: EmojiSkinTone;
+  // StickerButton
+  installedPacks: ReadonlyArray<StickerPackType>;
+  recentStickers: ReadonlyArray<StickerType>;
 }>;
 
 export type Props = Pick<
@@ -597,11 +603,12 @@ export const CompositionArea = memo(function CompositionArea({
 
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
-  const isFunPickerEnabled = RemoteConfig.isEnabled('desktop.funPicker');
+  const [funPickerOpen, setFunPickerOpen] = useState(false);
 
   const handleFunPickerOpenChange = useCallback(
-    (isOpen: boolean) => {
-      if (!isOpen) {
+    (open: boolean) => {
+      setFunPickerOpen(open);
+      if (!open) {
         setComposerFocus(conversationId);
       }
     },
@@ -703,25 +710,22 @@ export const CompositionArea = memo(function CompositionArea({
           {i18n('icu:CompositionArea__ConfirmGifSelection__Body')}
         </ConfirmationDialog>
       )}
-      {isFunPickerEnabled && (
+      {isFunPickerEnabled() && (
         <div className="CompositionArea__button-cell">
           <FunPicker
             placement="top start"
+            open={funPickerOpen}
             onOpenChange={handleFunPickerOpenChange}
             onSelectEmoji={handleFunPickerSelectEmoji}
             onSelectSticker={handleFunPickerSelectSticker}
             onSelectGif={handleFunPickerSelectGif}
             onAddStickerPack={handleFunPickerAddStickerPack}
           >
-            <Button className="CompositionArea__FunButton">
-              <VisuallyHidden>
-                {i18n('icu:CompositionArea__FunButtonLabel')}
-              </VisuallyHidden>
-            </Button>
+            <FunPickerButton i18n={i18n} />
           </FunPicker>
         </div>
       )}
-      {!isFunPickerEnabled && (
+      {!isFunPickerEnabled() && (
         <div className="CompositionArea__button-cell">
           <EmojiButton
             emojiButtonApi={emojiButtonRef}
@@ -731,6 +735,7 @@ export const CompositionArea = memo(function CompositionArea({
             recentEmojis={recentEmojis}
             emojiSkinToneDefault={emojiSkinToneDefault}
             onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
+            closeOnPick
           />
         </div>
       )}
@@ -809,7 +814,7 @@ export const CompositionArea = memo(function CompositionArea({
 
   const stickerButtonPlacement = large ? 'top-start' : 'top-end';
   const stickerButtonFragment =
-    !isFunPickerEnabled && !draftEditMessage && withStickers ? (
+    !isFunPickerEnabled() && !draftEditMessage && withStickers ? (
       <div className="CompositionArea__button-cell">
         <StickerButton
           i18n={i18n}

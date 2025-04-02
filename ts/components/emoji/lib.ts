@@ -3,7 +3,6 @@
 
 // Camelcase disabled due to emoji-datasource using snake_case
 /* eslint-disable camelcase */
-import emojiRegex from 'emoji-regex';
 import Fuse from 'fuse.js';
 import {
   compact,
@@ -17,7 +16,6 @@ import {
 } from 'lodash';
 import type { LocaleEmojiType } from '../../types/emoji';
 import { getOwn } from '../../util/getOwn';
-import { FunJumboEmojiSize } from '../fun/FunEmoji';
 import {
   EMOJI_SKIN_TONE_TO_KEY,
   EmojiSkinTone,
@@ -312,54 +310,6 @@ export function convertShortName(
 
 export function emojiToData(emoji: string): EmojiData | undefined {
   return getOwn(dataByEmoji, emoji);
-}
-
-export function getEmojiCount(str: string): number {
-  const regex = emojiRegex();
-
-  let match = regex.exec(str);
-  let count = 0;
-
-  if (!regex.global) {
-    return match ? 1 : 0;
-  }
-
-  while (match) {
-    count += 1;
-    match = regex.exec(str);
-  }
-
-  return count;
-}
-
-export function hasNonEmojiText(str: string): boolean {
-  return str.replace(emojiRegex(), '').trim().length > 0;
-}
-
-export function getSizeClass(str: string): FunJumboEmojiSize | null {
-  // Do we have non-emoji characters?
-  if (hasNonEmojiText(str)) {
-    return null;
-  }
-
-  const emojiCount = getEmojiCount(str);
-
-  if (emojiCount === 1) {
-    return FunJumboEmojiSize.Max;
-  }
-  if (emojiCount === 2) {
-    return FunJumboEmojiSize.ExtraLarge;
-  }
-  if (emojiCount === 3) {
-    return FunJumboEmojiSize.Large;
-  }
-  if (emojiCount === 4) {
-    return FunJumboEmojiSize.Medium;
-  }
-  if (emojiCount === 5) {
-    return FunJumboEmojiSize.Small;
-  }
-  return null;
 }
 
 data.forEach(emoji => {

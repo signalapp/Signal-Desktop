@@ -1,7 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSpring, animated } from '@react-spring/web';
 
 import type { AvatarColorType } from '../types/Colors';
@@ -59,6 +65,10 @@ import {
   isEmojiEnglishShortName,
   isEmojiVariantValue,
 } from './fun/data/emojis';
+import { FunEmojiPicker } from './fun/FunEmojiPicker';
+import { FunEmojiPickerButton } from './fun/FunButton';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
+import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
 
 export enum EditState {
   None = 'None',
@@ -234,6 +244,17 @@ export function ProfileEditor({
   });
   const [isResettingUsername, setIsResettingUsername] = useState(false);
   const [isResettingUsernameLink, setIsResettingUsernameLink] = useState(false);
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+
+  const stagedAboutEmojiVariantKey = useMemo(() => {
+    if (
+      stagedProfile.aboutEmoji == null ||
+      !isEmojiVariantValue(stagedProfile.aboutEmoji)
+    ) {
+      return null;
+    }
+    return getEmojiVariantKeyByValue(stagedProfile.aboutEmoji);
+  }, [stagedProfile.aboutEmoji]);
 
   // Reset username edit state when leaving
   useEffect(() => {
@@ -248,6 +269,10 @@ export function ProfileEditor({
     onEditStateChanged(EditState.None);
   }, [setEditState, onEditStateChanged]);
 
+  const handleEmojiPickerOpenChange = useCallback((open: boolean) => {
+    setEmojiPickerOpen(open);
+  }, []);
+
   // To make EmojiButton re-render less often
   const setAboutEmoji = useCallback(
     (ev: EmojiPickDataType) => {
@@ -258,6 +283,18 @@ export function ProfileEditor({
       }));
     },
     [setStagedProfile, emojiSkinToneDefault]
+  );
+
+  const handleSelectEmoji = useCallback(
+    (emojiSelection: FunEmojiSelection) => {
+      const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
+
+      setStagedProfile(profileData => ({
+        ...profileData,
+        aboutEmoji: emojiVariant.value,
+      }));
+    },
+    [setStagedProfile]
   );
 
   // To make AvatarEditor re-render less often
@@ -435,16 +472,31 @@ export function ProfileEditor({
           i18n={i18n}
           icon={
             <div className="module-composition-area__button-cell">
-              <EmojiButton
-                variant={EmojiButtonVariant.ProfileEditor}
-                closeOnPick
-                emoji={stagedProfile.aboutEmoji}
-                i18n={i18n}
-                onPickEmoji={setAboutEmoji}
-                onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-                recentEmojis={recentEmojis}
-                emojiSkinToneDefault={emojiSkinToneDefault}
-              />
+              {!isFunPickerEnabled() && (
+                <EmojiButton
+                  variant={EmojiButtonVariant.ProfileEditor}
+                  closeOnPick
+                  emoji={stagedProfile.aboutEmoji}
+                  i18n={i18n}
+                  onPickEmoji={setAboutEmoji}
+                  onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
+                  recentEmojis={recentEmojis}
+                  emojiSkinToneDefault={emojiSkinToneDefault}
+                />
+              )}
+              {isFunPickerEnabled() && (
+                <FunEmojiPicker
+                  open={emojiPickerOpen}
+                  onOpenChange={handleEmojiPickerOpenChange}
+                  placement="bottom"
+                  onSelectEmoji={handleSelectEmoji}
+                >
+                  <FunEmojiPickerButton
+                    i18n={i18n}
+                    selectedEmoji={stagedAboutEmojiVariantKey}
+                  />
+                </FunEmojiPicker>
+              )}
             </div>
           }
           maxLengthCount={140}

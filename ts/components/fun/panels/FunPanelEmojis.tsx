@@ -236,6 +236,7 @@ export function FunPanelEmojis({
 
   const handlePressEmoji = useCallback(
     (event: MouseEvent, emojiSelection: FunEmojiSelection) => {
+      event.stopPropagation();
       onEmojiSelect(emojiSelection);
       // TODO(jamie): Quill is stealing focus updating the selection
       if (!(event.ctrlKey || event.metaKey)) {

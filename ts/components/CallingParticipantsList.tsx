@@ -5,9 +5,8 @@
 
 import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
-import FocusTrap from 'focus-trap-react';
 import classNames from 'classnames';
-
+import { FocusScope } from 'react-aria';
 import { Avatar, AvatarSize } from './Avatar';
 import { ContactName } from './conversation/ContactName';
 import { InContactsIcon } from './InContactsIcon';
@@ -80,7 +79,7 @@ export const CallingParticipantsList = React.memo(
     }
 
     return createPortal(
-      <FocusTrap>
+      <FocusScope contain restoreFocus>
         <div
           className="module-calling-participants-list__overlay"
           onClick={handleCancel}
@@ -188,7 +187,7 @@ export const CallingParticipantsList = React.memo(
             </div>
           </div>
         </div>
-      </FocusTrap>,
+      </FocusScope>,
       root
     );
   }

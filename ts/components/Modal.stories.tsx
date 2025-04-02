@@ -22,7 +22,7 @@ const LOREM_IPSUM =
 
 export function BareBonesShort(): JSX.Element {
   return (
-    <Modal modalName="test" i18n={i18n} useFocusTrap={false}>
+    <Modal modalName="test" i18n={i18n}>
       Hello world!
     </Modal>
   );
@@ -30,7 +30,7 @@ export function BareBonesShort(): JSX.Element {
 
 export function BareBonesLong(): JSX.Element {
   return (
-    <Modal modalName="test" i18n={i18n} useFocusTrap={false}>
+    <Modal modalName="test" i18n={i18n}>
       <p>{LOREM_IPSUM}</p>
       <p>{LOREM_IPSUM}</p>
       <p>{LOREM_IPSUM}</p>
@@ -98,13 +98,7 @@ export function LotsOfButtonsInTheFooter(): JSX.Element {
 
 export function LongBodyWithTitle(): JSX.Element {
   return (
-    <Modal
-      modalName="test"
-      i18n={i18n}
-      title="Hello world"
-      onClose={onClose}
-      useFocusTrap={false}
-    >
+    <Modal modalName="test" i18n={i18n} title="Hello world" onClose={onClose}>
       <p>{LOREM_IPSUM}</p>
       <p>{LOREM_IPSUM}</p>
       <p>{LOREM_IPSUM}</p>
@@ -223,7 +217,6 @@ export function WithBackButton(): JSX.Element {
       hasXButton
       i18n={i18n}
       onBackButtonClick={noop}
-      useFocusTrap={false}
       title="The Modal Title"
     >
       Hello world!

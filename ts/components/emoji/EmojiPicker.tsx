@@ -18,8 +18,7 @@ import {
   last,
   zipObject,
 } from 'lodash';
-import FocusTrap from 'focus-trap-react';
-
+import { FocusScope } from 'react-aria';
 import { dataByCategory } from './lib';
 import type { LocalizerType } from '../../types/Util';
 import { isSingleGrapheme } from '../../util/grapheme';
@@ -412,12 +411,7 @@ export const EmojiPicker = React.memo(
       }
 
       return (
-        <FocusTrap
-          focusTrapOptions={{
-            allowOutsideClick: true,
-            returnFocusOnDeactivate: false,
-          }}
-        >
+        <FocusScope contain>
           <div className="module-emoji-picker" ref={ref} style={style}>
             <header className="module-emoji-picker__header">
               <button
@@ -610,7 +604,7 @@ export const EmojiPicker = React.memo(
               )}
             </footer>
           </div>
-        </FocusTrap>
+        </FocusScope>
       );
     }
   )

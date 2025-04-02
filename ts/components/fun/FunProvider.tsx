@@ -52,7 +52,7 @@ export type FunContextSmartProps = Readonly<{
 export type FunContextProps = FunContextSmartProps &
   Readonly<{
     // Open state
-    onClose: () => void;
+    onOpenChange: (open: boolean) => void;
 
     // Current Tab
     tab: FunPickerTabKey;
@@ -180,18 +180,24 @@ export const FunProvider = memo(function FunProvider(
     []
   );
 
-  const handleClose = useCallback(() => {
-    setSearchInput('');
-    setSelectedEmojisSection(defaultEmojiSection);
-    setSelectedStickersSection(defaultStickerSection);
-    setSelectedGifsSection(defaultGifsSection);
-  }, [defaultEmojiSection, defaultStickerSection, defaultGifsSection]);
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (open) {
+        return;
+      }
+      setSearchInput('');
+      setSelectedEmojisSection(defaultEmojiSection);
+      setSelectedStickersSection(defaultStickerSection);
+      setSelectedGifsSection(defaultGifsSection);
+    },
+    [defaultEmojiSection, defaultStickerSection, defaultGifsSection]
+  );
 
   return (
     <FunProviderInner
       i18n={props.i18n}
       // Open state
-      onClose={handleClose}
+      onOpenChange={handleOpenChange}
       // Current Tab
       tab={tab}
       onChangeTab={handleChangeTab}

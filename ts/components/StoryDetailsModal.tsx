@@ -228,7 +228,6 @@ export function StoryDetailsModal({
       i18n={i18n}
       moduleClassName="StoryDetailsModal"
       onClose={onClose}
-      useFocusTrap={false}
       theme={Theme.Dark}
       title={
         <ContextMenu

@@ -17,7 +17,6 @@ import { drop, groupBy, orderBy, take, unescape } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 import type { ReadonlyDeep } from 'type-fest';
-
 import type {
   ConversationType,
   ConversationTypeType,
@@ -85,7 +84,7 @@ import type {
   CustomColorType,
 } from '../../types/Colors';
 import { createRefMerger } from '../../util/refMerger';
-import { emojiToData, getEmojiCount, hasNonEmojiText } from '../emoji/lib';
+import { emojiToData } from '../emoji/lib';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import type { ServiceIdString } from '../../types/ServiceId';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
@@ -111,6 +110,8 @@ import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal';
 import { FunStaticEmoji } from '../fun/FunEmoji';
 import {
+  type EmojifyData,
+  getEmojifyData,
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
@@ -849,6 +850,8 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  #cachedEmojifyData: EmojifyData | null = null;
+
   #canRenderStickerLikeEmoji(): boolean {
     const {
       attachments,
@@ -859,16 +862,34 @@ export class Message extends React.PureComponent<Props, State> {
       text,
     } = this.props;
 
-    return Boolean(
-      text &&
-        !hasNonEmojiText(text) &&
-        getEmojiCount(text) < 6 &&
-        !quote &&
-        !storyReplyContext &&
-        (!attachments || !attachments.length) &&
-        (!bodyRanges || !bodyRanges.length) &&
-        (!previews || !previews.length)
-    );
+    if (
+      text == null ||
+      quote != null ||
+      storyReplyContext != null ||
+      (attachments != null && attachments.length > 0) ||
+      (bodyRanges != null && bodyRanges.length > 0) ||
+      (previews != null && previews.length > 0)
+    ) {
+      return false;
+    }
+
+    if (
+      this.#cachedEmojifyData == null ||
+      this.#cachedEmojifyData.text !== text
+    ) {
+      this.#cachedEmojifyData = getEmojifyData(text);
+    }
+    const emojifyData = this.#cachedEmojifyData;
+
+    if (
+      !emojifyData.isEmojiOnlyText ||
+      emojifyData.emojiCount === 0 ||
+      emojifyData.emojiCount >= 6
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   #updateMetadataWidth = (newMetadataWidth: number): void => {
