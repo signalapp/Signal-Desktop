@@ -72,10 +72,10 @@
     "messageformat": "Unknown group"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Hindi Mabuksan ang Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Para maayos ang isyu, sundin ang recovery guide sa support page o kontakin ang Signal support para matulungan ka.\n\nKung kailangan mong gamitin agad ang Signal, maaari mong burahin ang data mo at i-relink ang desktop na ito. May option kang ilipat ang message history mula sa phone mo."
   },
   "icu:databaseError": {
     "messageformat": "Database Error"
@@ -87,10 +87,10 @@
     "messageformat": "Burahin ang data at mag-restart"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Permanenteng Burahin ang Lahat ng Data"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Ang lahat ng message history at media mo ay permanenteng buburahin sa device na ito. Hindi nito buburahin ang anumang data sa phone mo.\n\nPwede mong gamitin ang Signal sa device na ito pagkatapos mo itong i-relink. May option kang ilipat ang message history mula sa phone mo."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Hindi magka-match ang version ng database mo at ang version na ito ng Signal. Siguraduhing buksan ang pinakabagong version ng Signal sa computer mo."
@@ -1203,13 +1203,13 @@
     "messageformat": "Hindi ma-download ang view once media. Kailangan ulit itong i-send ni {name}."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Hindi ma-download ang media"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "I-check ang desktop mo at ang internet connection ng iyong phone. Buksan ang Signal sa phone mo, at subukang mag-download ulit."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Ang media na ito ay hindi na available sa phone mo at hindi na maaaring ma-download."
   },
   "icu:save": {
     "messageformat": "I-save"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "Kailangan mo ba ng tulong?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "Makikita mo ang name na ito under \"Linked Devices\" sa iyong phone"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "My Computer"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "Phone Number"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "Para palitan ang pangalan ng device na ito, buksan ang Signal sa phone mo at pumunta sa Settings > Linked devices"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "Choose this device's name"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "Finish linking phone"
+    "messageformat": "Skin tone ng emoji"
   },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups"
@@ -1836,16 +1824,16 @@
     "messageformat": "Message"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Tulong"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Support center"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Kontakin kami"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Mag-donate sa Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Tingnan ang Safety Number"
@@ -2394,7 +2382,7 @@
     "messageformat": "No stickers found"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Preview ng Sticker"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Maghanap ng GIFs sa Tenor"
@@ -2445,7 +2433,7 @@
     "messageformat": "Walang nakitang GIFs"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "Preview ng GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Clear Search"
@@ -2454,7 +2442,7 @@
     "messageformat": "Skin tone"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Wala"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone"
@@ -2470,6 +2458,15 @@
   },
   "icu:FunSkinTones__ListItem--Dark": {
     "messageformat": "Dark skin tone"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Kanselahin"
@@ -2799,10 +2796,10 @@
     "messageformat": "Mag-ingat sa pagtanggap ng mga message request mula sa mga taong hindi mo kilala. Mag-ingat sa:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Pekeng pangalan at accounts"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Hindi kailanman makikipag-ugnayan sa 'yo ang Signal para hingin ang registration code o PIN mo. Mag-ingat sa requests na nagpapanggap bilang ibang tao. Ang profile names ay pinili ng may-ari ng account at hindi verified."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Mga scam kaugnay ng crypto o pera"
@@ -2937,10 +2934,10 @@
     "messageformat": "Tanggapin"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Tanggapin ang request?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Suriin nang maigi ang requests. Ang profile names ay pinili ng may-ari ng account at hindi verified."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Magpatuloy"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {1 member} other {{count,number} members}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Suriing mabuti"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "Hindi verified ang <clickable>Group names</clickable>"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "Hindi verified ang <clickable>Profile names</clickable>"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Ito ang opisyal at natatanging chat mula sa Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Maging updated sa mga balita at release notes."
   },
   "icu:member-of-1-group": {
     "messageformat": "Kasapi ng {group}"
@@ -4035,13 +4032,13 @@
     "messageformat": "Maglagay ng Emoji, Sticker, o GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Palitan ang attachment?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Kapag idinagdag mo ang GIF na ito, papalitan nito ang item sa kasalukuyang draft message mo."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Palitan"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "I-edit ang message"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "I-require ang admin na mag-approve ng bagong members na nag-join gamit ang group link."
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Requests ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "In-edit"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Mag-add ng message"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "I-send"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "History ng edits"
@@ -6163,28 +6163,28 @@
     "messageformat": "Para baguhin ang setting na ito, i-set sa \"Nobody\" ang \"Who can see my number\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Ang profile names sa Signal ay pinili ng may-ari ng account:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Hindi verified ang profile names"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Mag-ingat sa accounts na nagpapanggap bilang ibang tao"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Huwag magbigay ng personal na impormasyon sa mga hindi mo kakilala"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Ang group names ay pinili ng members ng group."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Mag-ingat sa groups na nagpapanggap bilang mga organisasyon at negosyo"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Ang profile names ng group members ay hindi verified"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Huwag magbigay ng personal na impormasyon sa mga hindi mo kakilala"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "what's new"
@@ -6224,6 +6224,9 @@
     "messageformat": "Nagdagdag kami ng shortcut para maibababa mo agad ang iyong kamay kapag nagsimula ka nang magsalita sa isang Signal group call."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "Kapag nag-link ka ng bagong Desktop sa Signal Android at pinili mong ilipat ang message history mo, maaari mo na ring piliin ang mga gusto mong ilipat na lumang attachments mula sa primary device mo. Ang proseso ng paglipat ay end-to-end encrypted at secure."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

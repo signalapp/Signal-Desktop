@@ -72,10 +72,10 @@
     "messageformat": "தெரியாத குழு"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "சிக்னலைத் திறக்க முடியவில்லை"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "சிக்கலை சரிசெய்ய உதவ, ஆதரவு பக்கத்தில் மீட்பு வழிகாட்டியைப் பின்பற்றவும் அல்லது சிக்கலை சரிசெய்ய உதவும் சிக்னல் ஆதரவைத் தொடர்பு கொள்ளவும்.\n\nநீங்கள் இப்போதே சிக்னலைப் பயன்படுத்த வேண்டும் எனில், உங்கள் தரவை நீக்கி இந்த டெஸ்க்டாப்பை மீண்டும் இணைக்கலாம். உங்கள் ஃபோனிலிருந்து மெசேஜ் வரலாற்றை இடமாற்ற உங்களுக்கு விருப்பம் இருக்கும்."
   },
   "icu:databaseError": {
     "messageformat": "தரவுத் தளம் பிழை"
@@ -87,10 +87,10 @@
     "messageformat": "தரவை நீக்கி மீண்டும் தொடங்கவும்"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "நிரந்தரமாக அனைத்துத் தரவையும் நீக்குதல்"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "உங்கள் மெசேஜ் வரலாறு மற்றும் ஊடகம் அனைத்தும் இந்த சாதனத்தில் இருந்து நிரந்தரமாக நீக்கப்படும். இது உங்கள் ஃபோனில் இருந்து எந்தத் தரவையும் நீக்காது.\n\nஇந்தச் சாதனத்தை மீண்டும் இணைத்த பிறகு நீங்கள் சிக்னலைப் பயன்படுத்த முடியும். உங்கள் ஃபோனிலிருந்து மெசேஜ் வரலாற்றை இடமாற்ற உங்களுக்கு விருப்பம் இருக்கும்."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "உங்கள் தரவுத்தளத்தின் பதிப்பு Signal இன் இந்தப் பதிப்போடு பொருந்தவில்லை. உங்கள் கணினியில் Signal இன் புதிய பதிப்பைத் திறக்கிறீர்கள் என்பதை உறுதிப்படுத்தவும்."
@@ -1203,13 +1203,13 @@
     "messageformat": "ஒரு முறை-காணும் ஊடகத்தைப் பதிவிறக்க முடியாது. {name} என்பவர் அதை மீண்டும் அனுப்ப வேண்டும்."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "ஊடகத்தைப் பதிவிறக்க வேண்டாம்"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "உங்கள் டெஸ்க்டாப் மற்றும் ஃபோனின் இணைய இணைப்பைச் சரிபார்க்கவும். உங்கள் ஃபோனில் சிக்னலைத் திறந்து, மீண்டும் பதிவிறக்க முயலவும்."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "இந்த ஊடகம் இனி உங்கள் ஃபோனில் கிடைக்காது, பதிவிறக்கம் செய்ய முடியாது."
   },
   "icu:save": {
     "messageformat": "சேமி"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "உங்களுக்கு உதவி வேண்டுமா?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "உங்கள் மொபைலில் \"இணைக்கப்பட்ட சாதனங்கள்\" என்பதன் கீழ் இந்தப் பெயரைக் காண்பீர்கள்"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "எனது கணினி"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "தொலைபேசி எண்"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "இந்தச் சாதனத்தின் பெயரை மாற்ற, உங்கள் தொலைபேசியில் சிக்னலைத் திறந்து அமைப்புகள் > இணைக்கப்பட்ட சாதனங்கள் என்பதற்குச் செல்லவும்"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "இந்த சாதனத்தின் பெயரைத் தேர்வுசெய்க"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "தொலைபேசியை இணைப்பதை முடிக்கவும்"
+    "messageformat": "ஈமோஜி ஸ்கின் டோன்"
   },
   "icu:initialSync": {
     "messageformat": "தொடர்புகள் மற்றும் குழுக்களை ஒத்திசைத்தல்"
@@ -1836,16 +1824,16 @@
     "messageformat": "மெசேஜ்"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "உதவி"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "ஆதரவு மையம்"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "எங்களை தொடர்பு கொள்ள"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Signal-க்கு நன்கொடை அளி"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு"
@@ -2394,7 +2382,7 @@
     "messageformat": "ஸ்டிக்கர்கள் எதுவும் கிடைக்கவில்லை"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "ஸ்டிக்கர் முன்னோட்டம்"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor வழியே GIFகள்"
@@ -2445,31 +2433,40 @@
     "messageformat": "GIFகள் எதுவும் இல்லை"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF முன்னோட்டம்"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "தேடலை நீக்கு"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "ஸ்கின் டோன்"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "எதுவும் இல்லை"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "வெளிர் ஸ்கின் டோன்"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "மிதமான-வெளிர் ஸ்கின் டோன்"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "மிதமான ஸ்கின் டோன்"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "மிதமான-அடர் ஸ்கின் டோன்"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "அடர் ஸ்கின் டோன்"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ரத்துசெய்"
@@ -2799,10 +2796,10 @@
     "messageformat": "உங்களுக்கு தெரியாத நபர்களிடமிருந்து பெறப்படும் மெசேஜ் கோரிக்கைகளை ஏற்கும்போது கவனமாக இருங்கள். கவனமாக இருங்கள்:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "போலியான பெயர்கள் மற்றும் கணக்குகள்"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "உங்கள் பதிவுக் குறியீடு அல்லது பின் போன்றவற்றைக் கெட்டு சிக்னல் உங்களை ஒருபோதும் தொடர்பு கொள்ளாது. மற்றவர்கள் போல் ஆள்மாறாட்டம் செய்யும் கோரிக்கைகளிடமிருந்து எச்சரிக்கையாக இருங்கள். ப்ரொஃபைல் பெயர்களானது கணக்கு வைத்திருப்பவர்களால் தேர்ந்தெடுக்கப்படுகின்றன, அவை இன்னும் சரிபார்க்கப்படவில்லை."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "கிரிப்டோ அல்லது பண மோசடிகள்"
@@ -2937,10 +2934,10 @@
     "messageformat": "ஒப்புக்கொள்"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "கோரிக்கையை ஏற்கவா?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "கோரிக்கைகளைக் கவனமாக மதிப்பாய்வு செய்யவும். ப்ரொஃபைல் பெயர்களானது கணக்கு உரிமையாளர்களால் தேர்ந்தெடுக்கப்படுகின்றன, மேலும் அவை இன்னும் சரிபார்க்கப்படவில்லை."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "தொடர்க"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {1 உறுப்பினர்} other {{count,number} உறுப்பினர்கள்}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "கவனமாக மதிப்பாய்வு செய்க"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>குழுப் பெயர்கள்</clickable> சரிபார்க்கப்படவில்லை"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>ப்ரொஃபைல் பெயர்</clickable> சரிபார்க்கப்படவில்லை"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "இது அதிகாரப்பூர்வமானது மேலும் சிக்னல் சாட்டிலிருந்து மட்டும் பெறப்படுகிறது"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "செய்திகள் மற்றும் ரிலீஸ் குறிப்புகளுடன் புதுப்பித்த நிலையில் இருங்கள்."
   },
   "icu:member-of-1-group": {
     "messageformat": "உறுப்பினர்{group}"
@@ -4035,13 +4032,13 @@
     "messageformat": "எமோஜி, ஸ்டிக்கர், அல்லது GIFஐச் சேர்க்கவும்"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "இணைப்பை மாற்ற வேண்டுமா?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "இந்த GIFஐச் சேர்ப்பது உங்கள் தற்போதைய டிராஃப்ட் மெசேஜில் உள்ள உருப்படியை மாற்றும்."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "மாற்று"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "செய்தியைத் திருத்தவும்"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "வழியாக புதிய உறுப்பினர்களை அனுமதிக்க நிர்வாகி தேவை குழு இணைப்பு"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "கோரிக்கைகளை ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "திருத்தப்பட்டது"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "கூட்டு ஒரு செய்தி"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "அனுப்புக"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "திருத்தங்களின் வரலாறு"
@@ -6163,28 +6163,28 @@
     "messageformat": "இந்த அமைப்பை மாற்ற, \"எனது எண்ணை யார் பார்க்கலாம்\" என்னும் ஆப்ஷனில் \"யாரும் இல்லை\" என அமைக்கவும்."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "சிக்னலில் உள்ள ப்ரொஃபைல் பெயர் அவர்களின் கணக்கு வைத்திருப்பவரால் தேர்ந்தெடுக்கப்படுகிறது:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "ப்ரொஃபைல் பெயர் சரிபார்க்கப்படவில்லை"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "மற்றவர்கள் போல் ஆள்மாறாட்டம் செய்யும் கணக்குகளிடமிருந்து எச்சரிக்கையாக இருங்கள்"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "உங்களுக்குத் தெரியாத நபர்களுடன் தனிப்பட்ட தகவல்களைப் பகிராதீர்கள்"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "குழுப் பெயர்கள் குழுவின் உறுப்பினர்களால் தேர்ந்தெடுக்கப்படுகின்றன."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "நிறுவனங்கள் மற்றும் வணிகங்களாகத் தங்களைக் காட்டிக்கொண்டு ஆள்மாறாட்டம் செய்யும் குழுக்களிடமிருந்து எச்சரிக்கையாக இருங்கள்"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "குழுக்களில் உறுப்பினர்களின் ப்ரொஃபைல் பெயர்கள் சரிபார்க்கப்படவில்லை"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "உங்களுக்குத் தெரியாத நபர்களுடன் தனிப்பட்ட தகவல்களைப் பகிராதீர்கள்"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "புதிதாக என்ன உள்ளது"
@@ -6224,6 +6224,9 @@
     "messageformat": "சிக்னல் குழு அழைப்பின் போது நீங்கள் பேசத் தொடங்கிய பிறகு உயர்த்திய கையை விரைவாக இறக்குவதற்காக எளியவழியைச் சேர்த்துள்ளோம். கையை விரைவாக இறக்குவதற்கான அம்சத்தை இதில் சேர்த்துள்ளோம்."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "நீங்கள் சிக்னல் ஆண்ட்ராய்டில் ஒரு புதிய டெஸ்க்டாப்பை இணைத்து, உங்கள் செய்தி வரலாற்றை மாற்றத் தேர்வுசெய்தால், இப்போது உங்கள் முதன்மை சாதனத்திலிருந்தும் பழைய இணைப்புகளைத் தேர்ந்தெடுத்து மாற்றலாம். காலத்தில் பின்னோக்கிச் சென்று பதிவிறக்க ஐகானைக் கிளிக் செய்வதன் மூலம் கடந்த காலத்தை நிகழ்காலத்திற்குக் கொண்டு வாருங்கள். உங்கள் முதன்மை சாதனத்திலிருந்தும் பழைய இணைப்புகளையும் இடமாற்றத் தேர்ந்தெடுக்கலாம்."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

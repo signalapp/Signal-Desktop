@@ -72,10 +72,10 @@
     "messageformat": "Okänd grupp"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Det går inte att öppna Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "För att lösa problemet, följ återställningsguiden på supportsidan eller kontakta Signal-supporten.\n\nOm du behöver använda Signal på en gång kan du radera dina data och länka om det här skrivbordet. Du kommer att ha möjlighet att överföra meddelandehistorik från din telefon."
   },
   "icu:databaseError": {
     "messageformat": "Databasfel"
@@ -87,10 +87,10 @@
     "messageformat": "Ta bort data och starta om"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Ta bort alla data permanent"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "All din meddelandehistorik och media kommer att tas bort permanent från den här enheten. Detta tar inte bort några data från din telefon.\n\nDu kommer att kunna använda Signal på den här enheten efter att du har länkat om den. Du kommer att ha möjlighet att överföra meddelandehistorik från din telefon."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versionen av din databas matchar inte den här versionen av Signal. Se till att du öppnar den senaste versionen av Signal på din dator."
@@ -1203,13 +1203,13 @@
     "messageformat": "Det går inte att ladda ned tillfällig mediefil. {name} behöver skicka den igen."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Det går inte att ladda ned media"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Kontrollera din dators och telefonens internetanslutning. Öppna Signal på din telefon och försök sedan ladda ner igen."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Den här mediefilen är inte längre tillgänglig på din telefon och kan inte laddas ner."
   },
   "icu:save": {
     "messageformat": "Spara"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "Behöver du hjälp?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "Du kommer att se det här namnet under \"Länkade enheter\" på din telefon"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "Min dator"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonnummer"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "För att ändra namnet på den här enheten öppnar du Signal på din telefon och navigerar till Inställningar > Länkade enheter"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "Välj enhetsnamn"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "Slutför länkning med mobil"
+    "messageformat": "Emoji-hudton"
   },
   "icu:initialSync": {
     "messageformat": "Synkroniserar kontakter och grupper"
@@ -1836,16 +1824,16 @@
     "messageformat": "Meddelande"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Hjälp"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Supportcenter"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Kontakta oss"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Donera till Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Visa säkerhetsnummer"
@@ -2394,7 +2382,7 @@
     "messageformat": "Inga klistermärken hittades"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Förhandsvisning av klistermärke"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Sök GIF-filer via Tenor"
@@ -2445,31 +2433,40 @@
     "messageformat": "Inga GIF-filer hittades"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF-förhandsvisning"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Rensa sökning"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Hudton"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Ingen"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Ljus hudton"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Medelljus hudton"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Medium hudton"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Medelmörk hudton"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Mörk hudton"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Avbryt"
@@ -2799,10 +2796,10 @@
     "messageformat": "Var försiktig när du accepterar meddelandeförfrågningar från personer du inte känner. Se upp för:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Falska namn och konton"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal kommer aldrig att kontakta dig för din registreringskod eller pinkod. Var försiktig med förfrågningar där någon utger sig för att vara en annan person. Profilnamn väljs av deras kontoinnehavare och är inte verifierade."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Krypto- eller penningbedrägerier"
@@ -2937,10 +2934,10 @@
     "messageformat": "Acceptera"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Acceptera förfrågan?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Granska förfrågningar noggrant. Profilnamn väljs av deras kontoinnehavare och verifieras inte."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Fortsätt"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {1 medlem} other {{count,number} medlemmar}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Granska noggrant"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Gruppnamn</clickable> verifieras inte"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Profilnamn</clickable> verifieras inte"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Det här är den officiella och enda chatten från Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Håll dig uppdaterad med nyheter och versionsinformation."
   },
   "icu:member-of-1-group": {
     "messageformat": "Medlem i {group}"
@@ -4035,13 +4032,13 @@
     "messageformat": "Lägg till emoji, klistermärke eller GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Ersätt bilagan?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Om du lägger till den här GIF:en ersätts objektet i ditt aktuella meddelandeutkast."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Ersätt"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Redigera meddelande"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Kräv att en administratör ska godkänna nya medlemmar som går med via grupplänken"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Förfrågningar ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "Redigerad"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Lägg till ett meddelande"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Skicka"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Avbryt"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redigeringshistorik"
@@ -6163,28 +6163,28 @@
     "messageformat": "Om du vill ändra den här inställningen ställer du in Vem kan se mitt nummer till Ingen."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Profilnamn på Signal väljs av kontoinnehavaren:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Profilnamn verifieras inte"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Var försiktig med konton där någon utger sig för att vara en annan person"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Dela inte personlig information med personer du inte känner"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Gruppnamn väljs av medlemmar i gruppen."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Var försiktig med grupper som utger sig för att vara organisationer och företag"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Profilnamn på medlemmar i grupper verifieras inte"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Dela inte personlig information med personer du inte känner"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Vad är nytt"
@@ -6224,6 +6224,9 @@
     "messageformat": "Vi har lagt till en praktisk genväg för att snabbt sänka handen när du börjar prata i ett Signal-gruppsamtal."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "Om du länkar ett nytt skrivbord på Signal Android och väljer att överföra din meddelandehistorik kan du nu också selektivt överföra gamla bilagor från din primära enhet. Överföringsprocessen är totalsträckskrypterad och säker."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

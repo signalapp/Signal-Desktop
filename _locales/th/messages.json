@@ -72,10 +72,10 @@
     "messageformat": "กลุ่มที่ไม่รู้จัก"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "ไม่สามารถเปิด Signal ได้"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "โปรดลองทำตามขั้นตอนในหน้าการสนับสนุนหรือติดต่อฝ่ายสนับสนุนของ Signal ให้ช่วยแก้ไขปัญหาดังกล่าว\n\nในกรณีที่คุณต้องการใช้ Signal ทันที คุณสามารถลบข้อมูลและเชื่อมโยงอุปกรณ์เดสก์ท็อปนี้ใหม่อีกครั้ง โดยคุณจะสามารถเลือกถ่ายโอนประวัติการส่งข้อความจากโทรศัพท์ได้"
   },
   "icu:databaseError": {
     "messageformat": "ฐานข้อมูลผิดพลาด"
@@ -87,10 +87,10 @@
     "messageformat": "ลบข้อมูลและรีสตาร์ท"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "ลบข้อมูลทั้งหมดอย่างถาวร"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "ประวัติการส่งข้อความและสื่อทั้งหมดของคุณจะถูกลบออกจากอุปกรณ์นี้อย่างถาวร โดยการดำเนินการนี้จะไม่ลบข้อมูลออกจากโทรศัพท์ของคุณ\n\nคุณจะสามารถใช้ Signal บนอุปกรณ์นี้ได้หลังจากเชื่อมโยงอุปกรณ์อีกครั้ง โดยคุณจะสามารถเลือกถ่ายโอนประวัติการส่งข้อความจากโทรศัพท์ได้"
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "เวอร์ชันฐานข้อมูลของคุณไม่ตรงกับ Signal เวอร์ชันนี้ ตรวจสอบให้แน่ใจว่า Signal ที่คุณเปิดอยู่บนคอมพิวเตอร์เป็นเวอร์ชันล่าสุด"
@@ -1203,13 +1203,13 @@
     "messageformat": "ไม่สามารถดาวน์โหลดไฟล์สื่อแบบที่ดูได้ครั้งเดียว {name} จะต้องส่งใหม่อีกครั้ง"
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "ไม่สามารถดาวน์โหลดสื่อ"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของเดสก์ท็อปและโทรศัพท์คุณ จากนั้นเปิด Signal บนโทรศัพท์ แล้วลองดาวน์โหลดอีกครั้ง"
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "ไม่สามารถดาวน์โหลดไฟล์สื่อได้เนื่องจากไม่พบไฟล์นี้บนโทรศัพท์ของคุณ"
   },
   "icu:save": {
     "messageformat": "บันทึก"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "ต้องการความช่วยเหลือหรือไม่?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "คุณจะเห็นชื่อนี้ภายใต้ \"อุปกรณ์ที่เชื่อมโยงอยู่\" บนโทรศัพท์ของคุณ"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "คอมพิวเตอร์ของฉัน"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "หมายเลขโทรศัพท์"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "หากต้องการเปลี่ยนชื่ออุปกรณ์นี้ ให้เปิดแอป Signal บนโทรศัพท์ แล้วไปที่การตั้งค่า > อุปกรณ์ที่เชื่อมโยงอยู่"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "เลือกชื่อของอุปกรณ์นี้"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "เชื่อมโยงโทรศัพท์เสร็จสิ้น"
+    "messageformat": "โทนสีผิวของอีโมจิ"
   },
   "icu:initialSync": {
     "messageformat": "กำลังปรับประสานรายชื่อผู้ติดต่อและกลุ่ม"
@@ -1836,16 +1824,16 @@
     "messageformat": "ส่งข้อความ"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "ช่วยเหลือ"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "ศูนย์ความช่วยเหลือ"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "ติดต่อเรา"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "บริจาคให้ Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "ดูหมายเลขความปลอดภัย"
@@ -2394,7 +2382,7 @@
     "messageformat": "ไม่พบสติกเกอร์"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "ตัวอย่างสติกเกอร์"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "ค้นหาไฟล์ GIF จากใน Tenor"
@@ -2445,31 +2433,40 @@
     "messageformat": "ไม่พบไฟล์ GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "ตัวอย่าง GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "ล้างการค้นหา"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "โทนสีผิว"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "ไม่มี"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "สีผิวโทนอ่อน"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "สีผิวโทนอ่อน-กลาง"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "สีผิวโทนกลาง"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "สีผิวโทนกลาง-เข้ม"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "สีผิวโทนเข้ม"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ยกเลิก"
@@ -2799,10 +2796,10 @@
     "messageformat": "โปรดใช้ความระมัดระวังในการตอบรับคำขอส่งข้อความจากคนที่คุณไม่รู้จัก ลองตรวจสอบตามข้อสังเกตนี้:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "ชื่อและบัญชีปลอม"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal ไม่มีนโยบายในการติดต่อคุณเพื่อขอรหัสสำหรับลงทะเบียนหรือ PIN โปรดระวังคำขอที่แอบอ้างเป็นบุคคลอื่น และโปรดทราบว่าชื่อโปรไฟล์ที่แสดงเป็นชื่อที่เจ้าของบัญชีนั้นตั้งเองและไม่ได้ผ่านการตรวจยืนยัน"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "การหลอกลวงทางการเงินหรือคริปโต"
@@ -2937,10 +2934,10 @@
     "messageformat": "ตอบรับ"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "ตอบรับคำขอใช่หรือไม่"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "โปรดตรวจสอบคำขออย่างถี่ถ้วน และโปรดทราบว่าชื่อโปรไฟล์ที่แสดงเป็นชื่อที่เจ้าของบัญชีนั้นตั้งเองและไม่ได้ผ่านการตรวจยืนยัน"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "ดำเนินการต่อ"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, other {สมาชิก {count,number} คน}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "โปรดตรวจสอบอย่างถี่ถ้วน"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>ชื่อกลุ่ม</clickable>ไม่ได้ผ่านการตรวจยืนยัน"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>ชื่อโปรไฟล์</clickable>ไม่ได้ผ่านการตรวจยืนยัน"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "นี่คือแชทอย่างเป็นทางการและแชทเดียวจาก Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "ติดตามข่าวสารและบันทึกรุ่นอัปเดตล่าสุด"
   },
   "icu:member-of-1-group": {
     "messageformat": "สมาชิกของ {group}"
@@ -4035,13 +4032,13 @@
     "messageformat": "เพิ่มอีโมจิ สติกเกอร์ หรือไฟล์ GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "แทนที่ไฟล์แนบใช่หรือไม่"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "ไฟล์ GIF นี้จะถูกเพิ่มเข้าไปแทนที่ไฟล์เดิมในข้อความที่คุณร่างไว้"
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "แทนที่"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "แก้ไขข้อความ"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "กําหนดให้ผู้ดูแลอนุมัติให้สมาชิกใหม่เข้าร่วมกลุ่มผ่านลิงก์กลุ่ม"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "คำขอ ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "แก้ไข"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "เพิ่มข้อความ"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "ส่ง"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "ยกเลิก"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ประวัติการแก้ไข"
@@ -6163,28 +6163,28 @@
     "messageformat": "หากต้องการเปลี่ยนการตั้งค่านี้ ให้ไปที่หัวข้อ “คนที่สามารถเห็นหมายเลขโทรศัพท์ของฉัน” แล้วเลือก “ไม่อนุญาตให้ใครเห็น”"
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "ชื่อโปรไฟล์บน Signal เป็นชื่อที่เจ้าของบัญชีนั้นตั้งเอง:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "ชื่อโปรไฟล์ไม่ได้ผ่านการตรวจยืนยัน"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "โปรดระวังบัญชีที่แอบอ้างเป็นบุคคลอื่น"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "อย่าให้ข้อมูลส่วนตัวกับบุคคลที่คุณไม่รู้จัก"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "ชื่อกลุ่มเป็นชื่อที่สมาชิกกลุ่มนั้นตั้งเอง"
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "โปรดระวังกลุ่มที่แอบอ้างเป็นองค์กรหรือหน่วยงานอื่น"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "ชื่อโปรไฟล์ของสมาชิกในกลุ่มไม่ได้ผ่านการตรวจยืนยัน"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "อย่าให้ข้อมูลส่วนตัวกับบุคคลที่คุณไม่รู้จัก"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ฟีเจอร์และบริการใหม่ๆ"
@@ -6224,6 +6224,9 @@
     "messageformat": "เราเพิ่มฟีเจอร์ทางลัดที่จะทำให้คุณสามารถเอามือลงได้อย่างสะดวกและทันใจเมื่อถึงคิวได้พูดในสายโทรกลุ่มของ Signal"
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "ผู้ใช้ที่เชื่อมโยง Signal Android กับเดสก์ท็อปแล้วเลือกถ่ายโอนประวัติการส่งข้อความ จะมีตัวเลือกเพิ่มในการถ่ายโอนไฟล์แนบแต่ละไฟล์มาจากอุปกรณ์หลักด้วย ทั้งยังอุ่นใจได้เหมือนเคยเพราะขั้นตอนการถ่ายโอนทั้งหมดถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทางและปลอดภัยเสมอ"
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

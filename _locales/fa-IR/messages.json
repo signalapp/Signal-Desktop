@@ -72,10 +72,10 @@
     "messageformat": "گروه ناشناخته"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "سیگنال باز نمی‌شود"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "برای کمک به رفع مشکل، راهنمای بازیابی را در صفحه پشتیبانی دنبال کنید یا با پشتیبانی سیگنال تماس بگیرید تا در رفع مشکل کمکتان کنند.\n\nاگر می‌خواهید فوراً از سیگنال استفاده کنید، می‌توانید داده‌های خود را حذف و این دسک‌تاپ را مجدداً پیوند دهید. شما می‌توانید تاریخچه پیام را از تلفن خود منتقل کنید."
   },
   "icu:databaseError": {
     "messageformat": "خطای پایگاه داده"
@@ -87,10 +87,10 @@
     "messageformat": "حذف داده‌ها و راه‌اندازی مجدد"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "حذف دائمی تمام داده‌ها"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "کل تاریخچه پیام و رسانه شما به‌طور دائم از این دستگاه حذف خواهد شد. این کار موجب حذف داده‌ها از تلفن شما نمی‌شود.\n\nپس از پیوند دادن مجدد سیگنال، قادر به استفاده از آن در این دستگاه خواهید بود. شما می‌توانید تاریخچه پیام را از تلفن خود منتقل کنید."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "نسخه پایگاه داده شما با این نسخه سیگنال مطابقت ندارد. مطمئن شوید که جدیدترین نسخه سیگنال را در رایانه‌تان باز می‌کنید."
@@ -1203,13 +1203,13 @@
     "messageformat": "فایل رسانه با قابلیت یک‌بار مشاهده دانلود نمی‌شود. {name} باید دوباره آن را ارسال کند."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "رسانه دانلود نمی‌شود"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "اتصال اینترنت دسک‌تاپ و تلفن خود را بررسی کنید. سیگنال را در تلفن خود باز کنید، سپس دوباره دانلود کنید."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "این رسانه دیگر در تلفن شما در دسترس نیست و دانلود نمی‌شود."
   },
   "icu:save": {
     "messageformat": "ذخیره"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "به راهنمایی نیاز دارید؟"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "این نام را زیر \"دستگاه های متصل\" روی گوشی خود خواهید دید."
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "کامپیوتر من"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "شماره تلفن"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "برای تغییر نام این دستگاه، سیگنال را در گوشی خود باز کنید و به «تنظیمات > دستگاه‌های متصل‌شده» بروید"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "نام این دستگاه را انتخاب کنید"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "پایان لینک کردن گوشی"
+    "messageformat": "رنگ پوست ایموجی"
   },
   "icu:initialSync": {
     "messageformat": "هماهنگ سازی مخاطبین و گروه ها"
@@ -1836,16 +1824,16 @@
     "messageformat": "پیام"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "راهنمایی"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "مرکز پشتیبانی"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "تماس با ما"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "حمایت از سیگنال"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "دیدن شمارهٔ ایمنی"
@@ -2394,7 +2382,7 @@
     "messageformat": "هیچ استیکری یافت نشد"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "پیش‌نمایش استیکر"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "جستجوی گیف‌ها در Tenor"
@@ -2445,31 +2433,40 @@
     "messageformat": "گیف پیدا نشد"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "پیش‌نمایش گیف"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "پاک کردن جستجو"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "رنگ پوست"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "هیچ"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "رنگ پوست روشن"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "رنگ پوست متوسط مایل به روشن"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "رنگ پوست متوسط"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "رنگ پوست متوسط مایل به تیره"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "رنگ پوست تیره"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "لغو"
@@ -2799,10 +2796,10 @@
     "messageformat": "هنگام پذیرفتن درخواست پیام از افراد ناشناس احتیاط کنید. در موارد زیر احتیاط کنید:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "نام‌ها و حساب‌های جعلی"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "سیگنال هرگز برای دریافت کد ثبت‌نام یا پین با شما تماس نمی‌گیرد. مراقب درخواست‌هایی باشید که خود را به جای دیگران جا می‌زنند. نام نمایه توسط دارنده حساب انتخاب می‌شود و نیاز به تأیید ندارد."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "کلاه‌برداری‌های پولی یا رمزارز"
@@ -2937,10 +2934,10 @@
     "messageformat": "پذیرفتن"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "درخواست پذیرفته شود؟"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "درخواست‌ها را با دقت بازنگری کنید. نام نمایه توسط دارنده حساب انتخاب می‌شود و نیاز به تأیید ندارد."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "ادامه"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {۱ عضو} other {{count,number} عضو}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "با دقت بازنگری کنید"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>نام‌های گروه</clickable> نیاز به تأیید ندارند"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>نام‌های نمایه</clickable> نیاز به تأیید ندارند"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "این گفتگوی رسمی و انحصاری سیگنال است"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "از اخبار و تغییرات جدید با خبر شوید."
   },
   "icu:member-of-1-group": {
     "messageformat": "عضو {group}"
@@ -4035,13 +4032,13 @@
     "messageformat": "افزودن ایموجی، استیکر یا گیف"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "پیوست جایگزین شود؟"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "افزودن این گیف جایگزین پیوست مندرج در پیام پیش‌نویس فعلی شما می‌شود."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "جایگزینی"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "ویرایش پیام"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "نیاز به یک مدیر برای تأیید اعضای جدیدی که از طریق پیوند گروه می‌پیوندند"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "درخواست‌ها ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "ویرایش‌شده"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "افزودن یک پیام"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "ارسال"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "لغو"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "تاریخچه ویرایش‌ها"
@@ -6163,28 +6163,28 @@
     "messageformat": "برای تغییر این تنظیمات، «چه‌کسی می‌تواند شمارۀ من را ببیند» را روی «هیچ‌کس» تنظیم کنید."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "نام نمایه در سیگنال توسط دارنده حساب انتخاب می‌شود:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "نام‌های نمایه نیاز به تأیید ندارند"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "مراقب حساب‌هایی باشید که خود را به جای دیگران جا می‌زنند"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "اطلاعات شخصی خود را با افرادی که نمی‌شناسید به اشتراک نگذارید"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "نام گروه توسط اعضای گروه انتخاب می‌شود."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "مراقب گروه‌هایی باشید که خود را به جای سازمان‌ها و کسب‌وکارها جا می‌زنند"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "نام‌های نمایه اعضای گروه‌ها نیاز به تأیید ندارد"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "اطلاعات شخصی خود را با افرادی که نمی‌شناسید به اشتراک نگذارید"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "تازه‌ها"
@@ -6224,6 +6224,9 @@
     "messageformat": "ما یک میان‌بُر آسان اضافه کردیم تا بعد از شروع صحبت در طول تماس گروهی سیگنال فوراً دست خود را پایین بیاورید."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "اگر یک دسک‌تاپ جدید را در سیگنال اندروید پیوند دهید و انتقال تاریخچه پیام‌های خود را انتخاب کنید، می‌توانید پیوست‌های قدیمی را نیز به‌صورت گزینشی از دستگاه اصلی خود منتقل کنید. مثل همیشه، فرایند انتقال سرتاسر رمزگذاری‌شده و امن است."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

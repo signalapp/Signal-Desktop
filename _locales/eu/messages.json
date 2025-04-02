@@ -72,10 +72,10 @@
     "messageformat": "Talde ezezaguna"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Ezin da ireki Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Arazoa konpontzen laguntzeko, jarraitu laguntza-orriko berreskuratze-gidari, edo jarri harremanetan Signal-en laguntza-zerbitzuarekin.\n\nSignal lehenbailehen erabili behar baduzu, datuak ezabatu eta ordenagailu hau berriro lotzeko aukera duzu. Telefonoko mezu-historia transferitu ahalko duzu."
   },
   "icu:databaseError": {
     "messageformat": "Datubasearen Errorea"
@@ -87,10 +87,10 @@
     "messageformat": "Ezabatu datuak eta berrabiarazi"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Ezabatu datu guztiak betiko"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Zure mezu-historia eta multimedia-eduki guztiak betiko ezabatuko dira gailu honetatik. Horrek ez du daturik ezabatuko telefonotik.\n\nGailu honetan Signal erabili ahal izateko, berriro lotu beharko duzu. Telefonoko mezu-historia transferitu ahalko duzu."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Zure datu-basearen bertsioa ez dator bat Signal-en bertsio honekin. Ziurtatu Signal-en bertsio berriena erabiltzen ari zarela ordenagailuan."
@@ -1203,13 +1203,13 @@
     "messageformat": "Ezin da deskargatu behin ikusteko multimedia-elementua. {name}(e)k berriro bidali beharko du."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Ezin da deskargatu multimedia-edukia"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Egiaztatu ordenagailua eta telefonoa Internetera konektatuta daudela. Ireki Signal telefonoan eta saiatu berriro deskargatzen."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "Multimedia-edukia jada ez dago erabilgarri telefonoan, eta ezin da deskargatu."
   },
   "icu:save": {
     "messageformat": "Gorde"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "Laguntza behar duzu?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "Izen hau telefonoko \"Lotutako gailuak\" atalean ikusiko duzu"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "Nire ordenagailua"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefono-zenbakia"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "Gailu honen izena aldatzeko, ireki Signal telefonoan eta joan Ezarpenak > Lotutako gailuak atalera"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "Aukeratu gailu honen izena"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "Bukatu telefonoa lotzen"
+    "messageformat": "Emojiaren azal-tonua"
   },
   "icu:initialSync": {
     "messageformat": "Kontaktuak eta taldeak sinkronizatzen"
@@ -1836,16 +1824,16 @@
     "messageformat": "Mezua"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Laguntza"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Laguntzarako Zentroa"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Harremanetan jarri gurekin"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Egin dohaintza Signal-i"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Erakutsi segurtasun-zenbakia"
@@ -2394,7 +2382,7 @@
     "messageformat": "Ez da eranskailurik aurkitu"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Eranskailuaren aurrebista"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Bilatu GIFak Tenor bidez"
@@ -2445,31 +2433,40 @@
     "messageformat": "Ez da aurkitu GIFik"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIFaren aurrebista"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Garbitu Bilaketa"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Azal-tonua"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Bat ere ez"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Azal-tonu argia"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Azal-tonu argixka"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Tarteko azal-tonua"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Azal-tonu ilunxka"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Azal-tonu iluna"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Utzi"
@@ -2799,10 +2796,10 @@
     "messageformat": "Kontuz ibili ezagutzen ez duzun jendearen mezu-eskaerak onartzean. Adi ibili hauekin:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Gezurrezko izenak eta kontuak"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal ez da inoiz zurekin harremanetan jarriko erregistro-kodea edo PINa eskatzeko. Kontuz besteren identitatea ordeztuz egiten dizkizuten eskaerekin. Profileko izenak kontuen jabeek aukeratzen dituzte eta ez dira egiaztatzen."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Kriptodiru- edo diru-iruzurrak"
@@ -2937,10 +2934,10 @@
     "messageformat": "Onartu"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Eskaera onartu nahi duzu?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Berrikusi eskaerak kontu handiz. Profileko izenak kontuen jabeek aukeratzen dituzte eta ez dira egiaztatzen."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Jarraitu"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {{count,number} kide} other {{count,number} kide}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Berrikusi kontu handiz"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Taldeen izenak</clickable> ez dira egiaztatzen"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Profileko izenak</clickable> ez dira egiaztatzen"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "Signal-en txat ofiziala eta bakarra da hau"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Jaso azken albiste eta kaleratze-oharrak."
   },
   "icu:member-of-1-group": {
     "messageformat": "{group} taldeko kidea"
@@ -4035,13 +4032,13 @@
     "messageformat": "Gehitu emoji, eranskailu edo GIF bat"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Eranskina ordeztu nahi duzu?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "GIF hau gehitzen baduzu, oraingo zirriborroko elementua ordeztuko da."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Ordeztu"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Editatu mezua"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Kideak talde esteka bidez sartzen badira taldean, derrigorrezkotzat jo administratzaile batek onartzea."
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Eskaerak ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "Editatua"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Gehitu mezu bat"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Bidali"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Utzi"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Edizio-historia"
@@ -6163,28 +6163,28 @@
     "messageformat": "Ezarpen hori aldatzeko, joan \"Nork ikus dezake nire zenbakia?\" atalera eta aukeratu \"Inork ez\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal-eko profileko izenak kontuen jabeek aukeratzen dituzte:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Profileko izenak ez dira egiaztatzen"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Kontuz besteren identitatea ordezten duten kontuekin"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ez partekatu informazio pertsonala ezagutzen ez dituzun pertsonekin"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Taldeen izenak taldeko kideek aukeratzen dituzte."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Kontuz ibili erakunde eta enpresen identitatea ordezten duten taldeekin"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Taldeetako kideen profileko izenak ez dira egiaztatzen"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ez partekatu informazio pertsonala ezagutzen ez dituzun pertsonekin"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Zer berri"
@@ -6224,6 +6224,9 @@
     "messageformat": "Lasterbide eroso bat gehitu dugu, Signal-eko taldeko deietan hitz egiten hasten zarenean eskua bizkor jaisteko."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "Orain, Android-erako Signal-en beste ordenagailu bat lotzen baduzu eta mezu-historia transferitzea aukeratzen baduzu, gailu nagusiko eranskin zahar jakinak ere transferi ditzakezu. Transferentzia-prozesua muturretik muturrera enkriptatuta dago eta segurua da."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

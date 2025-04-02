@@ -72,10 +72,10 @@
     "messageformat": "Tundmatu grupp"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signalit ei saa avada"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "Selle probleemi lahendamiseks järgi kasutajatoe lehel toodud juhiseid või võta Signaliga ühendust abi saamiseks.\n\nKui sul on vaja Signalit kohe kasutada, saad oma andmed kustutada ja selle arvuti uuesti siduda. Sul on võimalik oma telefonist sõnumiajalugu üle kopeerida."
   },
   "icu:databaseError": {
     "messageformat": "Andmebaasi tõrge"
@@ -87,10 +87,10 @@
     "messageformat": "Kustuta andmed ja taaskäivita"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "Kustuta jäädavalt kõik andmed"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "Kogu sinu sõnumiajalugu ja meedia kustutatakse sellest seadmest jäädavalt. Selle käigus ei kustutata andmeid sinu telefonist.\n\nSaad Signalit selles seadmes kasutada, kui selle taasühendad. Sul on võimalik oma telefonist sõnumiajalugu üle kopeerida."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "Sinu andmebaasi versioon ei klapi selle Signali versiooniga. Veendu, et avasid oma arvutis uusima Signali versiooni."
@@ -1203,13 +1203,13 @@
     "messageformat": "Ühekordselt vaadatavat meediat ei saa alla laadida. {name} peab selle uuesti saatma."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "Meediat ei saa alla laadida"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "Kontrolli oma arvuti ja telefoni internetiühendust. Ava Signal oma telefonis ja proovi see uuesti alla laadida."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "See meedia ei ole enam su telefonis saadaval ning seda ei saa alla laadida."
   },
   "icu:save": {
     "messageformat": "Salvesta"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "Kas vajad abi?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "Näed seda nime oma telefonis \"Ühendatud seadmete\" all"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "Minu arvuti"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefoninumber"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "Selle seadme nime muutmiseks ava Signal oma telefonis ja vali Sätted > Lingitud seadmed"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "Vali selle seadme nimi"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "Lõpeta telefoni ühendamine"
+    "messageformat": "Emoji nahatoon"
   },
   "icu:initialSync": {
     "messageformat": "Kontaktide ja gruppide sünkimine"
@@ -1836,16 +1824,16 @@
     "messageformat": "Sõnum"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "Abi"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "Kasutajatugi"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "Võta meiega ühendust"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Anneta Signalile"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Näita turvanumbrit"
@@ -2394,7 +2382,7 @@
     "messageformat": "Kleebiseid ei leitud"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "Kleebise eelvaade"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Otsi GIFe Tenori kaudu"
@@ -2445,31 +2433,40 @@
     "messageformat": "Ühtegi GIFi ei leitud"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIFi eelvaade"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "Tühjenda otsing"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "Nahatoon"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "Puudub"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "Hele nahatoon"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "Keskmisest heledam nahatoon"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "Keskmine nahatoon"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "Keskmisest tumedam nahatoon"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "Tume nahatoon"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Loobu"
@@ -2799,10 +2796,10 @@
     "messageformat": "Ole ettevaatlik, kui võtad vastu sõnumitaotlusi inimestelt, keda sa ei tunne. Ettevaatlikult tuleb suhtuda järgmisse:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "Valenimed ja -kontod"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal ei võta sinuga kunagi ühendust registreerimiskoodi või PIN-koodi küsimiseks. Ole ettevaatlik taotluste suhtes, kus esinetakse kellegi teisena. Profiilinimed valib iga konto omanik ise ja need ei ole kinnitatud."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Krüpto- või rahapettused"
@@ -2937,10 +2934,10 @@
     "messageformat": "Nõustun"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "Kas võtta taotlus vastu?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "Vaata taotlused tähelepanelikult üle. Profiilinimed valib iga konto omanik ise ja need ei ole kinnitatud."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Jätka"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {1 liige} other {{count,number} liiget}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "Vaata hoolega üle"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>Grupinimesid</clickable> ei kinnitata"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>Profiilinimesid</clickable> ei kinnitata"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "See on üks ja ainus ametlik vestlus Signaliga"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "Hoia end kursis uudiste ja väljalaskeinfoga."
   },
   "icu:member-of-1-group": {
     "messageformat": "Grupi {group} liige"
@@ -4035,13 +4032,13 @@
     "messageformat": "Lisa emoji, kleebis või GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "Kas asendada manus?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "Selle GIFi lisamine asendab sinu praeguse sõnumi mustandi."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "Asenda"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Muuda sõnumit"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Nõua grupilingi kaudu liituvate uute liikmete kinnitamist administraatori poolt"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Taotlused ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "Muudetud"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "Lisa sõnum"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "Saada"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "Loobu"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Muutmiste ajalugu"
@@ -6163,28 +6163,28 @@
     "messageformat": "Selle sätte muutmiseks vali „Kes mu numbrit näevad“ alt „Mitte keegi“."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signalis valib iga konto omanik omale ise profiilinime."
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "Profiilinimesid ei kinnitata"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Ole ettevaatlik kontode suhtes, kus esinetakse kellegi teisena"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ära jaga võõraste inimestega oma isikuandmeid"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "Grupinimed valivad grupi liikmed ise."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "Ole ettevaatlik gruppide suhtes, kus esinetakse mõne organisatsiooni või ettevõttena"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "Gruppides olevate liikmete profiilinimed ei ole kinnitatud"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ära jaga võõraste inimestega oma isikuandmeid"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Mis on uut"
@@ -6224,6 +6224,9 @@
     "messageformat": "Lisasime mugava otsetee tõstetud käe kiireks langetamiseks, kui oled Signali rühmakõne ajal rääkimist alustanud."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "Kui seod Signal Androidiga uue arvuti ja soovid oma sõnumiajalugu üle kopeerida, saad nüüd ka valikuliselt vanu lisatud faile oma põhiseadmest üle kopeerida. Edastusprotsess on otspunktkrüptitud ja turvaline."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

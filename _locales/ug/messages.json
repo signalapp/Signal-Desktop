@@ -72,10 +72,10 @@
     "messageformat": "نامەلۇم گۇرۇپپا"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal ئېچىلمىدى"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "مەسىلىنى ھەل قىلىشقا ياردەم بېرىش ئۈچۈن ، قوللاش بېتىدىكى ئەسلىگە كەلتۈرۈش قوللانمىسىغا ئەگىشىڭ ياكى Signal ياردەم مەركىزى بىلەن ئالاقىلىشىپ مەسىلىنى ھەل قىلىڭ.\n\nئەگەر Signal نى دەرھال ئىشلەتمەكچى بولسىڭىز ، سانلىق مەلۇماتلىرىڭىزنى ئۆچۈرۈپ بۇ ئۈستەلۈستىنى قايتا ئۇلىسىڭىز بولىدۇ. تېلېفونىڭىزدىن ئۇچۇر تارىخىنى يۆتكەشنى تاللاش ئىمكانىيىتىڭىز بار."
   },
   "icu:databaseError": {
     "messageformat": "ساندان خاتالىقى"
@@ -87,10 +87,10 @@
     "messageformat": "سانلىق مەلۇماتلارنى ئۆچۈرۈپ، قايتا قوزغىتىش"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "بارلىق سانلىق مەلۇماتلارنى مەڭگۈلۈك ئۆچۈرۈش"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "بارلىق ئۇچۇرلىشىش تارىخىىڭىز ۋە مېديا بۇ ئۈسكۈنىدىن مەڭگۈلۈك ئۆچۈرىۋېتىلىدۇ. بۇ سىزنىڭ تېلېفونىڭىزدىكى ھېچقانداق سانلىق مەلۇماتنى ئۆچۈرمەيدۇ.\n\nئۇنى قايتا ئۇلىغاندىن كېيىن Signal نى بۇ ئۈسكۈنىدە ئىشلىتەلەيسىز. تېلېفونىڭىزدىن ئۇچۇر تارىخىنى يۆتكەشنى تاللاش ئىمكانىيىتىڭىز بار."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "سىزنىڭ ساندانىڭىزنىڭ نەشرى Signalنىڭ بۇ نەشرىگە ماس كەلمەيدۇ. كومپيۇتېرىڭىزدا Signalنىڭ ئەڭ يېڭى نەشىرىنى ئېچىۋاتقانلىقىڭىزنى جەزملەشتۈرۈڭ."
@@ -1203,13 +1203,13 @@
     "messageformat": "بىر قېتىملا كۆرۈلىدىغان مېدىيانى چۈشۈرگىلى بولمايدۇ. {name} ئۇنى قايتا يوللىشى كېرەك."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "مېدىيانى چۈشۈرگىلى بولمايدۇ"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "ئۈستەلۈستى ۋە تېلېفوننىڭ تور ئۇلىنىشىنى تەكشۈرۈڭ. تېلېفونىڭىزدا Signal نى ئېچىڭ ، ئاندىن قايتا چۈشۈرۈپ سىناپ بېقىڭ."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "بۇ مېدىيانى تېلېفونىڭىزدا ئىشلەتكىلى ۋە چۈشۈرگىلى بولمايدۇ."
   },
   "icu:save": {
     "messageformat": "ساقلا"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "ياردەم كېرەكمۇ؟"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "تېلېفونىڭىزدىكى «ئۇلانغان ئۈسكۈنىلەر» تىزىملىكىدە بۇ ئىسىمنى كۆرىسىز"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "كومپيۇتېرىم"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "تېلېفون نومۇرى"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "بۇ ئۈسكۈنىنىڭ نامىنى ئۆزگەرتىش ئۈچۈن تېلېفونىڭىزدا Signal نى ئېچىڭ ۋە «تەڭشەك»> «ئۇلانغان ئۈسكۈنىلەر» گە يۆتكىڭ"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "بۇ ئۈسكۈنىنىڭ نامىنى تاللاڭ"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "تېلېفوننى ئۇلاشنى تاماملاش"
+    "messageformat": "Emoji تېرە رەڭگى"
   },
   "icu:initialSync": {
     "messageformat": "ئالاقىداش ۋە گۇرۇپپىلارنى ماسقەدەملەۋاتىدۇ"
@@ -1836,16 +1824,16 @@
     "messageformat": "ئۇچۇر"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "ياردەم"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "قوللاش مەركىزى"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "بىز بىلەن ئالاقىلىشىڭ"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "‫Signal غا ئىئانە قىلىڭ"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "بىخەتەرلىك نومۇرىنى كۆرۈڭ"
@@ -2394,7 +2382,7 @@
     "messageformat": "چاپلاق تېپىلمىدى"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "چىراي ئىپادىسىنى ئالدىن كۆرۈش"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor ئارقىلىق GIF لارنى ئىزدەڭ"
@@ -2445,31 +2433,40 @@
     "messageformat": "GIF لار تېپىلمىدى"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF نى ئالدىن كۆرۈش"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "ئىزدەشنى تازىلاش"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "تېرە رەڭگى"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "ھېچنېمە"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "ئاقپىشماق تېرە رەڭگى"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "ئاقپىشماق بۇغداي ئۆڭ تېرە رەڭگى"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "بۇغداي ئۆڭ تېرە رەڭگى"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "قارامتۇل بۇغداي ئۆڭ تېرە رەڭگى"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "قارىماتاق تېرە رەڭگى"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "بىكار قىلىش"
@@ -2799,10 +2796,10 @@
     "messageformat": "سىز تونۇمايدىغان كىشىلەرنىڭ ئۇچۇر تەلىپىنى قوبۇل قىلغاندا ئېھتىياتچان بولۇڭ. تۆۋەندىكى نۇقتىلارغا دىققەت قىلىڭ:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "ساختا ئىسىملار ۋە ھېساباتلار"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal ھەرگىز سىزنىڭ تىزىملاش كودىڭىز ياكى PIN نومۇرىڭىز ئۈچۈن سىز بىلەن ئالاقىلاشمايدۇ. باشقىلارنىڭ قىياپىتىگە كىرىۋالغانلارنىڭ تەلەپلىرىدىن ئېھتىيات قىلىڭ. ئارخىپ ناملىرى ئۇلارنىڭ ھېسابات ئىگىسى تەرىپىدىن تاللانغان بولۇپ ، ئۇلار دەلىللەنمىگەن."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Crypto ياكى پۇل ئالدامچىلىقى"
@@ -2937,10 +2934,10 @@
     "messageformat": "قوبۇل قىل"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "تەلەپنى قوبۇل قىلامسىز؟"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "ئىلتىماسلارنى ئەستايىدىللىق بىلەن تەكشۈرۈڭ. ئارخىپ ناملىرى ئۇلارنىڭ ھېسابات ئېگىسى تەرىپىدىن تاللانغان بولۇپ ، ئۇلار دەلىللەنمىگەن."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "داۋاملاشتۇرۇش"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, other {{count,number} ئەزا}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "ئەستايىدىللىق بىلەن تەكشۈرۈڭ"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>گۇرۇپپا ناملىرى</clickable> دەلىللەنمىدى"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>ئارخىپ ناملىرى</clickable> دەلىللەنمىدى"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "بۇ رەسمىي ۋە پەقەت Signal دىن كەلگەن سۆھبەت"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "خەۋەر ۋە ئېلان خاتىرىلىرىنى يېڭىلاپ تۇرىدۇ."
   },
   "icu:member-of-1-group": {
     "messageformat": "{group} ئەزاسى"
@@ -4035,13 +4032,13 @@
     "messageformat": "Emoji ، چىراي ئىپادە ياكى GIF نى قوشۇڭ"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "قوشۇمچە ھۆججەتنى ئالماشتۇرامسىز؟"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "بۇ GIF نى قوشسىڭىز نۆۋەتتىكى لايىھە ئۇچۇرىڭىزدىكى بىر مەزمۇننىڭ ئورنىنى ئالىدۇ."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "ئالماشتۇرۇش"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "ئۇچۇر تەھرىرلەش"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "بىر باشقۇرغۇچىدىن يېڭى ئەزالارنىڭ گۇرۇپپا ئۇلانمىسى ئارقىلىق گۇرۇپپىغا قوشۇلۇشىنى تەستىقلاشنى تەلەپ قىلىڭ"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "تەلەپ ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "تەھرىرلەنگەن"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "بىز ئۇچۇر قوش"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "يوللاش"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "تەھرىرلەش تارىخى"
@@ -6163,28 +6163,28 @@
     "messageformat": "بۇ تەڭشەكنى ئۆزگەرتىش ئۈچۈن «تېلېفون نومۇرۇمنى كۆرەلەيدىغانلار» نى «ھېچكىم» گە تەڭشەڭ."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal دىكى ئارخىپ ناملىرى ئۇلارنىڭ ھېسابات ئېگىسى تەرىپىدىن تاللىنىدۇ:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "ئارخىپ ناملىرى دەلىللەنمىدى"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "باشقىلارنىڭ قىياپىتىگە كىرىۋالغان ھېساباتلاردىن ئېھتىيات قىلىڭ"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "شەخسىي ئۇچۇرلىرىڭىزنى تونۇمايدىغان كىشىلەر بىلەن ئورتاقلاشماڭ"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "گۇرۇپپا ناملىرى گۇرۇپپا ئەزالىرى تەرىپىدىن تاللىنىدۇ."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "تەشكىلاتلار ۋە كارخانىلارنىڭ قىياپىتىگە كىرىۋالغان گۇرۇپپىلاردىن ئېھتىيات قىلىڭ"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "گۇرۇپپىلاردىكى ئەزالارنىڭ ئارخىپ ناملىرى دەلىللەنمىگەن"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "شەخسىي ئۇچۇرلىرىڭىزنى تونۇمايدىغان كىشىلەر بىلەن ئورتاقلاشماڭ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "يېڭىلىقلار"
@@ -6224,6 +6224,9 @@
     "messageformat": "Signal گۇرۇپپا چاقىرىقى جەريانىدا سۆزلەشكە باشلىغاندىن كېيىنلا قولىڭىزنى تېزلىكتە قۇيۇپ بېرىش ئۈچۈن قۇلايلىق تېزلەتمە قوشتۇق. بۇ بىز بۇ قېتىملىق نەشىردىكى ئەڭ ياقتۇرىدىغان ئىقتىدار."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "ئەگەر سىز Signal ئاندىروئىدقا يېڭى ئۈستەلئۈستىنى ئۇلىسىڭىز ھەمدە ئۇچۇر تارىخىڭىزنى يۆتكەشنى تاللىسىڭىز ، ھازىر ئاساسلىق ئۈسكۈنىڭىزدىن بەزى كونا قوشۇمچە ھۆججەتلەرنىمۇ تاللاپ يۆتكىيەلەيسىز. بۇ يۆتكەش جەريانى ئاخىرىغىچە مەخپىيەتلەشتۈرۈلگەن ۋە بىخەتەر. ئېكراننى سېرىپ كەينىگە يېنىڭ ۋە چۈشۈرۈش سىنبەلگىسىنى چېكىپ ئۆتمۈشنى ھازىرغا قايتۇرۇپ ئەكىلىڭ. بۇرۇنقىدەكلا ، يۆتكەش جەريانى ئاخىرىغىچە مەخپىيەتلەشتۈرۈلگەن ۋە بىخەتەر."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

@@ -72,10 +72,10 @@
     "messageformat": "קבוצה לא ידועה"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "לא ניתן לפתוח את Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "כדי לעזור לפתור את הבעיה, יש לעקוב אחר מדריך השחזור בדף התמיכה או ליצור קשר עם התמיכה של Signal.\n\nאם יש לך צורך מידי להשתמש ב–Signal, באפשרותך למחוק את הנתונים שלך ולקשר מחדש את שולחן עבודה זה. תהיה לך את האפשרות להעביר היסטוריית הודעות מהטלפון שלך."
   },
   "icu:databaseError": {
     "messageformat": "שגיאת מסד נתונים"
@@ -87,10 +87,10 @@
     "messageformat": "מחיקת נתונים והפעלה מחדש"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "מחיקת כל הנתונים לצמיתות"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "כל היסטוריית ההודעות והמדיה שלך יימחקו לצמיתות מהמכשיר הזה. זה לא ימחק נתונים מהטלפון שלך.\n\nתהיה לך אפשרות להשתמש ב–Signal במכשיר הזה לאחר קישורו מחדש. תהיה לך את האפשרות להעביר היסטוריית הודעות מהטלפון שלך."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "הגרסה של מסד הנתונים שלך לא תואמת לגרסה זו של Signal. יש לוודא שפתחת את הגרסה החדשה ביותר של Signal במחשב שלך."
@@ -1203,13 +1203,13 @@
     "messageformat": "לא ניתן להוריד מדיה לצפייה חד-פעמית. אפשר לבקש מ{name} לשלוח אותה שוב."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "לא ניתן להוריד מדיה"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "יש לבדוק את חיבור האינטרנט של שולחן העבודה והטלפון שלך. יש לפתוח את Signal בטלפון שלך ולאחר מכן לנסות להוריד שוב."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "המדיה הזו כבר לא זמינה בטלפון שלך ולא ניתנת להורדה."
   },
   "icu:save": {
     "messageformat": "שמור"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "צריך עזרה?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "תראה שם זה תחת \"מכשירים מקושרים\" בטלפון שלך"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "המחשב שלי"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "מספר טלפון"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "כדי לשנות את שם המכשיר הזה, יש לפתוח את Signal בטלפון ולנווט אל הגדרות > מכשירים מקושרים"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "בחר שם של מכשיר זה"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "סיים קישור טלפון"
+    "messageformat": "גוון עור של אמוג'י"
   },
   "icu:initialSync": {
     "messageformat": "מסנכרן אנשי קשר וקבוצות"
@@ -1836,16 +1824,16 @@
     "messageformat": "שליחת הודעה"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "עזרה"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "מרכז תמיכה"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "צור קשר"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "תרום אל Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "הצגת מספר בטיחות"
@@ -2394,7 +2382,7 @@
     "messageformat": "לא נמצאו מדבקות"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "תצוגה מקדימה של סטיקר"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "חיפוש קובצי GIF באמצעות Tenor"
@@ -2445,31 +2433,40 @@
     "messageformat": "לא נמצאו קובצי GIF"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "תצוגה מקדימה של GIF"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "נקה חיפוש"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "גוון עור"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "ללא"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "גוון עור בהיר"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "גוון עור בינוני–בהיר"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "גוון עור בינוני"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "גוון עור בינוני–כהה"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "גוון עור כהה"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ביטול"
@@ -2799,10 +2796,10 @@
     "messageformat": "חשוב להיזהר כשמקבלים בקשת הודעה מאנשים שלא מכירים. כדאי להיזהר מ:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "שמות וחשבונות מזויפים"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "Signal לעולם לא תיצור איתך קשר עבור קוד הרישום או ה–PIN שלך. יש להיזהר מבקשות שנשלחות על ידי מתחזים. שמות פרופילים נבחרים על ידי בעל/ת החשבון ואינם מאומתים."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "הונאות קריפטו או הונאות כספיות"
@@ -2937,10 +2934,10 @@
     "messageformat": "אשר"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "לאשר את הבקשה?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "בדוק בקפידה את הבקשות. שמות פרופילים נבחרים על ידי בעל/ת החשבון ואינם מאומתים."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "המשך"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {חבר/ה 1} two {{count,number} חברים} many {{count,number} חברים} other {{count,number} חברים}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "יש לסקור בזהירות"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>שמות קבוצות</clickable> אינם מאומתים"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>שמות פרופילים</clickable> אינם מאומתים"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "זה הצ׳אט הרשמי והיחיד של Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "להתעדכן בחדשות והערות עדכון גרסה."
   },
   "icu:member-of-1-group": {
     "messageformat": "חבר קבוצה של {group}"
@@ -4035,13 +4032,13 @@
     "messageformat": "הוספת אימוג׳י, סטיקר או GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "להחליף קובץ מצורף?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "הוספת GIF זה תחליף את הפריט בהודעת הטיוטה הנוכחית שלך."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "החלפה"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "עריכת הודעה"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "דרוש מנהלן כדי לאשר הצטרפות של חברי קבוצה חדשים באמצעות קישור הקבוצה"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "בקשות ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "נערך"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "הוסף הודעה"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "שליחה"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "ביטול"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "היסטוריית עריכות"
@@ -6163,28 +6163,28 @@
     "messageformat": "כדי לשנות את ההגדרה הזו, יש להגדיר את \"מי יכול לראות את המספר שלי\" כ\"אף אחד\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "שמות פרופילים ב–Signal נבחרים על ידי בעל/ת החשבון:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "שמות פרופילים אינם מאומתים"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "יש להיזהר מחשבונות שמתחזים לאחרים"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "אין לשתף מידע אישי עם אנשים שלא מוכרים לך"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "שמות קבוצות נבחרים על ידי חברי הקבוצה."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "יש להיזהר מקבוצות שמתחזות לארגונים ועסקים"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "שמות פרופילים של חברי קבוצות אינם מאומתים"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "אין לשתף מידע אישי עם אנשים שלא מוכרים לך"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "מה חדש"
@@ -6224,6 +6224,9 @@
     "messageformat": "הוספנו קיצור דרך נוח כדי להורדת היד במהירות אחרי שהתחלת לדבר במהלך שיחת Signal קבוצתית."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "בעת קישור שולחן עבודה חדש אל Signal Android ובחירה להעביר את היסטוריית ההודעות שלך, עכשיו אפשר גם להעביר באופן סלקטיבי קבצים מצורפים ישנים מהמכשיר הראשי שלך. תהליך ההעברה מאובטח ומוצפן מקצה לקצה."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }

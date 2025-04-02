@@ -72,10 +72,10 @@
     "messageformat": "ತಿಳಿದಿಲ್ಲದ ಗುಂಪು"
   },
   "icu:cantOpenSignalError": {
-    "messageformat": "Can’t Open Signal"
+    "messageformat": "Signal ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "To help fix the issue, follow the recovery guide on the support page or contact Signal support to help fix the issue.\n\nIf you need to use Signal right away, you can delete your data and relink this desktop. You will have the option to transfer message history from your phone."
+    "messageformat": "ಸಮಸ್ಯೆಯನ್ನು ಸರಿಪಡಿಸುವುದಕ್ಕೆ ಸಹಾಯ ಮಾಡಲು, ಬೆಂಬಲ ಪುಟದಲ್ಲಿರುವ ರಿಕವರಿ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ಅನುಸರಿಸಿ ಅಥವಾ ಸಮಸ್ಯೆಯನ್ನು ಸರಿಪಡಿಸಲು ಸಹಾಯ ಮಾಡಲು Signal ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ.\n\nನೀವು ಈಗಿನಿಂದಲೇ Signal ಬಳಸಬೇಕಾದರೆ, ನಿಮ್ಮ ಡೇಟಾವನ್ನು ಅಳಿಸಬಹುದು ಮತ್ತು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಮರುಲಿಂಕ್ ಮಾಡಬಹುದು. ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸುವ ಆಯ್ಕೆಯನ್ನು ನೀವು ಹೊಂದಿರುತ್ತೀರಿ."
   },
   "icu:databaseError": {
     "messageformat": "ಡೇಟಾಬೇಸಿನಲ್ಲಿ ದೋಷ"
@@ -87,10 +87,10 @@
     "messageformat": "ಡೇಟಾವನ್ನು ಅಳಿಸಿ ಮತ್ತು ಮರುಪ್ರಾರಂಭಿಸಿ"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Permanently Delete All Data"
+    "messageformat": "ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಿ"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "All of your message history and media will be permanently deleted from this device. This will not delete any data from your phone.\n\nYou will be able to use Signal on this device after relinking it. You will have the option to transfer message history from your phone."
+    "messageformat": "ನಿಮ್ಮ ಎಲ್ಲಾ ಸಂದೇಶ ಇತಿಹಾಸ ಮತ್ತು ಮೀಡಿಯಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಈ ಸಾಧನದಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ. ಇದು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಯಾವುದೇ ಡೇಟಾವನ್ನು ಅಳಿಸುವುದಿಲ್ಲ.\n\nಸಾಧನವನ್ನು ಮರುಲಿಂಕ್ ಮಾಡಿದ ನಂತರ ನಿಮಗೆ Signal ಅನ್ನು ಈ ಸಾಧನದಲ್ಲಿ ಬಳಸಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ. ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸುವ ಆಯ್ಕೆಯನ್ನು ನೀವು ಹೊಂದಿರುತ್ತೀರಿ."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "ನಿಮ್ಮ ಡೇಟಾಬೇಸ್‌ನ ಈ ಆವೃತ್ತಿಯು Signal ನ ಈ ಆವೃತ್ತಿಗೆ ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ. ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal ನ ಹೊಚ್ಚಹೊಸ ಆವೃತ್ತಿಯನ್ನು ತೆರೆಯುತ್ತಿರುವುದನ್ನು ಖಾತ್ರಿಗೊಳಿಸಿ."
@@ -1203,13 +1203,13 @@
     "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. {name} ಅವರು ಇದನ್ನು ಮತ್ತೆ ಕಳುಹಿಸಬೇಕಾಗಿದೆ."
   },
   "icu:BackfillFailureModal__title": {
-    "messageformat": "Can’t download media"
+    "messageformat": "ಮೀಡಿಯಾವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Check your desktop and phone’s internet connection. Open Signal on your phone, then try downloading again."
+    "messageformat": "ನಿಮ್ಮ ಡೆಸ್ಕ್‌ಟಾಪ್ ಮತ್ತು ಫೋನ್‌ನ ಇಂಟರ್‌ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ. ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ Signal ತೆರೆಯಿರಿ, ನಂತರ ಪುನಃ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "This media is no longer available on your phone and can’t be downloaded."
+    "messageformat": "ಈ ಮೀಡಿಯಾ ಇನ್ನು ಮುಂದೆ ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಲಭ್ಯವಿರುವುದಿಲ್ಲ ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
   },
   "icu:save": {
     "messageformat": "ಉಳಿಸಿ"
@@ -1262,12 +1262,6 @@
   "icu:Install__support-link": {
     "messageformat": "ಸಹಾಯ ಅಗತ್ಯವಿದೆಯೇ?"
   },
-  "icu:Install__choose-device-name__description": {
-    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ \"ಲಿಂಕ್ ಮಾಡಿದ ಸಾಧನಗಳು\" ಅಡಿಯಲ್ಲಿ ಈ ಹೆಸರನ್ನು ನೀವು ಕಾಣುತ್ತೀರಿ"
-  },
-  "icu:Install__choose-device-name__placeholder": {
-    "messageformat": "ಮೈ ಕಂಪ್ಯೂಟರ್"
-  },
   "icu:Preferences--phone-number": {
     "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆ"
   },
@@ -1278,13 +1272,7 @@
     "messageformat": "ಈ ಸಾಧನದ ಹೆಸರನ್ನು ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ Signal ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಲಿಂಕ್ ಮಾಡಲಾದ ಸಾಧನಗಳು ಎಂಬಲ್ಲಿಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Emoji skin tone"
-  },
-  "icu:chooseDeviceName": {
-    "messageformat": "ಈ ಸಾಧನದ ಹೆಸರು ಆಯ್ಕೆ ಮಾಡಿ"
-  },
-  "icu:finishLinkingPhone": {
-    "messageformat": "ಫೋನ್ ಲಿಂಕ್ ಮಾಡುವುದನ್ನು ಮುಕ್ತಾಯ ಮಾಡಿ"
+    "messageformat": "ಎಮೋಜಿ ಸ್ಕಿನ್ ಟೋನ್"
   },
   "icu:initialSync": {
     "messageformat": "ಸಂಪರ್ಕಗಳು ಮತ್ತು ಗ್ರೂಪ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
@@ -1836,16 +1824,16 @@
     "messageformat": "ಮೆಸೇಜ್"
   },
   "icu:ConversationDetails--help-section": {
-    "messageformat": "Help"
+    "messageformat": "ಸಹಾಯ"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "Support Center"
+    "messageformat": "ಬೆಂಬಲ ಕೇಂದ್ರ"
   },
   "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us"
+    "messageformat": "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ"
   },
   "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal"
+    "messageformat": "Signal ಗೆ ದಾನ ಮಾಡಿ"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ವೀಕ್ಷಿಸಿ"
@@ -2394,7 +2382,7 @@
     "messageformat": "ಯಾವುದೇ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Sticker Preview"
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ರಿವ್ಯೂ"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor ಮೂಲಕ GIF ಗಳನ್ನು ಹುಡುಕಿ"
@@ -2445,31 +2433,40 @@
     "messageformat": "ಯಾವುದೇ GIF ಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
-    "messageformat": "GIF Preview"
+    "messageformat": "GIF ಪ್ರಿವ್ಯೂ"
   },
   "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search"
+    "messageformat": "ಶೋಧ ತೆರವುಗೊಳಿಸಿ"
   },
   "icu:FunSkinTones__List": {
-    "messageformat": "Skin tone"
+    "messageformat": "ಸ್ಕಿನ್ ಟೋನ್"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "None"
+    "messageformat": "ಯಾವುದೂ ಇಲ್ಲ"
   },
   "icu:FunSkinTones__ListItem--Light": {
-    "messageformat": "Light skin tone"
+    "messageformat": "ಲೈಟ್ ಸ್ಕಿನ್ ಟೋನ್"
   },
   "icu:FunSkinTones__ListItem--MediumLight": {
-    "messageformat": "Medium-light skin tone"
+    "messageformat": "ಮೀಡಿಯಂ-ಲೈಟ್ ಸ್ಕಿನ್ ಟೋನ್"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Medium skin tone"
+    "messageformat": "ಮೀಡಿಯಂ ಸ್ಕಿನ್ ಟೋನ್"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
-    "messageformat": "Medium-dark skin tone"
+    "messageformat": "ಮೀಡಿಯಂ-ಡಾರ್ಕ್ ಸ್ಕಿನ್ ಟೋನ್"
   },
   "icu:FunSkinTones__ListItem--Dark": {
-    "messageformat": "Dark skin tone"
+    "messageformat": "ಡಾರ್ಕ್ ಸ್ಕಿನ್ ಟೋನ್"
+  },
+  "icu:FunButton__Label--FunPicker": {
+    "messageformat": "Add an Emoji, Sticker, or GIF"
+  },
+  "icu:FunButton__Label--EmojiPicker": {
+    "messageformat": "Add an Emoji"
+  },
+  "icu:FunButton__Label--StickerPicker": {
+    "messageformat": "Add a Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ರದ್ದುಮಾಡಿ"
@@ -2799,10 +2796,10 @@
     "messageformat": "ನಿಮಗೆ ಪರಿಚಯವಿಲ್ಲದವರಿಂದ ಮೆಸೇಜ್ ವಿನಂತಿಗಳನ್ನು ಸ್ವೀಕರಿಸುವಾಗ ಎಚ್ಚರವಹಿಸಿ. ಇವುಗಳ ಬಗ್ಗೆ ಎಚ್ಚರವಹಿಸಿ:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Fake names and accounts"
+    "messageformat": "ನಕಲಿ ಹೆಸರುಗಳು ಮತ್ತು ಖಾತೆಗಳು"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified."
+    "messageformat": "ನಿಮ್ಮ ನೋಂದಣಿ ಕೋಡ್ ಅಥವಾ PIN ಗಾಗಿ Signal ನಿಮ್ಮನ್ನು ಎಂದಿಗೂ ಸಂಪರ್ಕಿಸುವುದಿಲ್ಲ. ಇತರರಂತೆ ಸೋಗುಹಾಕುವ ವಿನಂತಿಗಳ ಬಗ್ಗೆ ಜಾಗರೂಕರಾಗಿರಿ. ಪ್ರೊಫೈಲ್ ಹೆಸರುಗಳನ್ನು ಅವುಗಳ ಖಾತೆದಾರರು ಆಯ್ಕೆಮಾಡುತ್ತಾರೆ ಮತ್ತು ಅವುಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "ಕ್ರಿಪ್ಟೊ ಅಥವಾ ಹಣದ ಹಗರಣಗಳು"
@@ -2937,10 +2934,10 @@
     "messageformat": "ಒಪ್ಪಿಕೊಳ್ಳಿ"
   },
   "icu:MessageRequests--accept-confirm-title": {
-    "messageformat": "Accept Request?"
+    "messageformat": "ವಿನಂತಿಯನ್ನು ಸ್ವೀಕರಿಸುವುದೇ?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified."
+    "messageformat": "ವಿನಂತಿಗಳನ್ನು ಎಚ್ಚರಿಕೆಯಿಂದ ಪರಿಶೀಲಿಸಿ. ಪ್ರೊಫೈಲ್ ಹೆಸರುಗಳನ್ನು ಅವುಗಳ ಖಾತೆ ಮಾಲೀಕರು ಆಯ್ಕೆಮಾಡುತ್ತಾರೆ ಮತ್ತು ಅವುಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗುವುದಿಲ್ಲ."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "ಮುಂದುವರಿಸಿ"
@@ -2955,19 +2952,19 @@
     "messageformat": "{count, plural, one {1 ಸದಸ್ಯ} other {{count,number} ಸದಸ್ಯರು}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "Review carefully"
+    "messageformat": "ಎಚ್ಚರಿಕೆಯಿಂದ ಪರಿಶೀಲಿಸಿ"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Group names</clickable> are not verified"
+    "messageformat": "<clickable>ಗುಂಪಿನ ಹೆಸರುಗಳನ್ನು</clickable> ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Profile names</clickable> are not verified"
+    "messageformat": "<clickable>ಪ್ರೊಫೈಲ್ ಹೆಸರುಗಳನ್ನು</clickable> ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "This is the official and only chat from Signal"
+    "messageformat": "ಇದು Signal ನ ಅಧಿಕೃತ ಮತ್ತು ಏಕೈಕ ಚಾಟ್ ಆಗಿದೆ"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Keep up to date with news and release notes."
+    "messageformat": "ಸುದ್ದಿ ಮತ್ತು ಆವೃತ್ತಿ ಟಿಪ್ಪಣಿಗಳೊಂದಿಗೆ ಅಪ್ ಟು ಡೇಟ್ ಆಗಿರಿ."
   },
   "icu:member-of-1-group": {
     "messageformat": "{group} ರ ಸದಸ್ಯ"
@@ -4035,13 +4032,13 @@
     "messageformat": "ಎಮೋಜಿ, ಸ್ಟಿಕ್ಕರ್ ಅಥವಾ GIF ಅನ್ನು ಸೇರಿಸಿ"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Replace attachment?"
+    "messageformat": "ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಅನ್ನು ಬದಲಾಯಿಸಬೇಕೇ?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Adding this GIF will replace the item in your current draft message."
+    "messageformat": "ಈ GIF ಅನ್ನು ಸೇರಿಸುವುದರಿಂದ ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಡ್ರಾಫ್ಟ್ ಮೆಸೇಜ್‌ನಲ್ಲಿರುವ ಐಟಂ ಬದಲಾಗುತ್ತದೆ."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
-    "messageformat": "Replace"
+    "messageformat": "ಬದಲಾಯಿಸಿ"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "ಮೆಸೇಜ್ ಎಡಿಟ್ ಮಾಡಿ"
@@ -4258,6 +4255,9 @@
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "ಗುಂಪಿನ ಲಿಂಕ್ ಮೂಲಕ ಹೊಸ ಸದಸ್ಯರು ಸೇರುವುದನ್ನು ಅನುಮೋದಿಸಲು ಅಡ್ಮಿನ್ ಅಗತ್ಯವಿರುತ್ತದೆ"
+  },
+  "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
+    "messageformat": "Copy signal.group link to keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "ವಿನಂತಿಗಳು ({count,number})"
@@ -5935,13 +5935,13 @@
     "messageformat": "ಎಡಿಟ್ ಮಾಡಲಾಗಿದೆ"
   },
   "icu:DraftGifMessageSendModal__Title": {
-    "messageformat": "Add a message"
+    "messageformat": "ಮೆಸೇಜ್ ಸೇರಿಸಿ"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "Send"
+    "messageformat": "ಕಳುಹಿಸಿ"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel"
+    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ಎಡಿಟ್‌ನ ಇತಿಹಾಸ"
@@ -6163,28 +6163,28 @@
     "messageformat": "ಈ ಸೆಟ್ಟಿಂಗ್ ಅನ್ನು ಬದಲಾಯಿಸಲು, ”ನನ್ನ ಸಂಖ್ಯೆಯನ್ನು ಯಾರು ನೋಡಬಹುದು“ ಎಂಬುದನ್ನು “ಯಾರೂ ಇಲ್ಲ” ಎಂಬುದಾಗಿ ಹೊಂದಿಸಿ."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Profile names on Signal are chosen by their account holder:"
+    "messageformat": "Signal ನಲ್ಲಿರುವ ಪ್ರೊಫೈಲ್ ಹೆಸರುಗಳನ್ನು ಅವುಗಳ ಖಾತೆದಾರರು ಆಯ್ಕೆಮಾಡುತ್ತಾರೆ:"
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profile names aren't verified"
+    "messageformat": "ಪ್ರೊಫೈಲ್ ಹೆಸರುಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "ಇತರರಂತೆ ಸೋಗುಹಾಕುವ ಖಾತೆಗಳ ಬಗ್ಗೆ ಜಾಗರೂಕರಾಗಿರಿ"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "ನಿಮಗೆ ಪರಿಚಯವಿಲ್ಲದ ಜನರೊಂದಿಗೆ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಹಂಚಿಕೊಳ್ಳಬೇಡಿ"
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Group names are chosen by members of the group."
+    "messageformat": "ಗುಂಪಿನ ಹೆಸರುಗಳನ್ನು ಗುಂಪಿನ ಸದಸ್ಯರು ಆಯ್ಕೆ ಮಾಡುತ್ತಾರೆ."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
-    "messageformat": "Be cautious of groups that impersonate organizations and businesses"
+    "messageformat": "ಸಂಸ್ಥೆಗಳು ಮತ್ತು ವ್ಯವಹಾರಗಳಂತೆ ಸೋಗುಹಾಕುವ ಗುಂಪುಗಳ ಬಗ್ಗೆ ಜಾಗರೂಕರಾಗಿರಿ"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "Profile names of members in groups are not verified"
+    "messageformat": "ಗುಂಪುಗಳಲ್ಲಿರುವ ಸದಸ್ಯರ ಪ್ರೊಫೈಲ್ ಹೆಸರುಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ"
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "ನಿಮಗೆ ಪರಿಚಯವಿಲ್ಲದ ಜನರೊಂದಿಗೆ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಹಂಚಿಕೊಳ್ಳಬೇಡಿ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ಹೊಸತೇನಿದೆ"
@@ -6224,6 +6224,9 @@
     "messageformat": "Signal ಗುಂಪು ಕರೆಯ ಸಮಯದಲ್ಲಿ ನೀವು ಮಾತನಾಡಲು ಪ್ರಾರಂಭಿಸಿದ ನಂತರ ನಿಮ್ಮ ಕೈಯನ್ನು ತ್ವರಿತವಾಗಿ ಕೆಳಕ್ಕೆ ಇಳಿಸಲು ನಾವು ಅನುಕೂಲಕರ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಸೇರಿಸಿದ್ದೇವೆ. ಇದರ ಕೈಕೆಳಗಿಳಿಸುವ ಫೀಚರ್ ಈ ಆವೃತ್ತಿಯಲ್ಲಿ ನಮ್ಮ ನೆಚ್ಚಿನದ್ದಾಗಿದೆ."
   },
   "icu:WhatsNew__v7.49--0": {
+    "messageformat": "ನೀವು Signal Android ನಲ್ಲಿ ಹೊಸ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಲಿಂಕ್ ಮಾಡಿ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ಈಗ ನೀವು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಿಂದ ಹಳೆಯ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಸಹ ಆಯ್ದವುಗಳಾಗಿ ವರ್ಗಾಯಿಸಬಹುದು. ಆ ಸಮಯದಲ್ಲಿ ಹಿಂದಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡುವ ಮೂಲಕ ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ಭೂತಕಾಲವನ್ನು ವರ್ತಮಾನಕ್ಕೆ ತನ್ನಿ. ಯಾವಾಗಲೂ ಇದ್ದಂತೆಯೇ, ವರ್ಗಾಯಿಸುವ ಪ್ರಕ್ರಿಯೆಯು ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುತ್ತದೆ ಮತ್ತು ಸುರಕ್ಷಿತವಾಗಿದೆ."
+  },
+  "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
   }
 }
