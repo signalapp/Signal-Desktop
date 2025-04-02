@@ -144,9 +144,10 @@ export function Avatar({
   }, [avatarUrl]);
 
   const initials = getInitials(title);
-  const hasImage = !noteToSelf && avatarUrl && !imageBroken;
+  const hasLocalImage = !noteToSelf && avatarUrl && avatarUrl.length > 0;
+  const hasValidImage = hasLocalImage && !imageBroken;
   const shouldUseInitials =
-    !hasImage &&
+    !hasValidImage &&
     conversationType === 'direct' &&
     Boolean(initials) &&
     title !== i18n('icu:unknownContact');
@@ -163,7 +164,7 @@ export function Avatar({
         />
       </div>
     );
-  } else if (hasImage) {
+  } else if (hasValidImage) {
     assertDev(avatarUrl, 'avatarUrl should be defined here');
 
     assertDev(
@@ -207,7 +208,7 @@ export function Avatar({
         )}
       />
     );
-  } else if (hasAvatar && !hasImage) {
+  } else if (hasAvatar && !hasLocalImage) {
     contentsChildren = (
       <>
         <div

@@ -64,7 +64,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   blur: overrideProps.blur,
   color: overrideProps.color || AvatarColors[0],
   conversationType: overrideProps.conversationType || 'direct',
-  hasAvatar: Boolean(overrideProps.hasAvatar),
+  hasAvatar:
+    Boolean(overrideProps.hasAvatar) ||
+    (overrideProps.avatarUrl != null && overrideProps.avatarUrl.length > 0),
   i18n,
   loading: Boolean(overrideProps.loading),
   noteToSelf: Boolean(overrideProps.noteToSelf),
